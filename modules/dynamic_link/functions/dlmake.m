@@ -62,10 +62,20 @@ function msgout = cleanup(msgin)
   msgout = replace(msgout, ['setActiveInputCodepage failed!', char(10)], '');
 end
 %=============================================================================
+function r = isDebug(destinationdir)
+  cmakelistsFile = [destinationdir, '/CMakeLists.txt'];
+  content = fileread(cmakelistsFile);
+  r = contains(content, 'set(CMAKE_BUILD_TYPE Debug)');
+end
+%=============================================================================
 function r = getExistingIntermediateFiles(destinationdir)
   r = {};
   if ispc()
-    extensions = {'*.ilk', '*.pdb', '*.exp', '*.manifest'};
+    if isDebug(destinationdir)
+      extensions = {'*.ilk', '*.exp', '*.manifest'};
+    else
+      extensions = {'*.ilk', '*.pdb', '*.exp', '*.manifest'};
+    end
     for ext = extensions(:)'
       files = dir([destinationdir, '/', ext{1}]);
       for f = files'
