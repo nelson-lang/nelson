@@ -9,6 +9,7 @@
 %=============================================================================
 addgateway(modulepath(nelsonroot(), 'slicot', 'builtin'));
 if ~SLICOTWrapper('load')
+  warning('Nelson:slicot:loadingFails', _('library slicot not loaded.'))
   removemodule('slicot');
 end
 %=============================================================================
