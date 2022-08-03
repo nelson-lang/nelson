@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.8 (UNRELEASED)
 
+### Added
+
+- [#573](http://github.com/Nelson-numerical-software/nelson/issues/574): `diff` differences and discret derivatives. 
+
 ### Changed
 
 - `system` builtin:
