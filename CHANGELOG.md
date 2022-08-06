@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `bartlett`: Bartlett window.
   - `blackman`: Blackman window.
   - `sinc`: sinc function.
+  - `filter2`: 2-D digital filter.
 
 ### Changed
 
