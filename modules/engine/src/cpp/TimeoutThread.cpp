@@ -34,7 +34,7 @@ createTimeoutThread(uint64 _timeoutseconds)
         timeout_thread = new boost::thread(timeout, _timeoutseconds);
     } catch (const std::bad_alloc&) {
         timeout_thread = nullptr;
-    } catch (const boost::thread_resource_error&) { 
+    } catch (const boost::thread_resource_error&) {
         timeout_thread = nullptr;
     }
 
