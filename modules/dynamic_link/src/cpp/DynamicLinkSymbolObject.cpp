@@ -136,7 +136,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        Error(_W("error memory allocation."));
+        Error(ERROR_MEMORY_ALLOCATION);
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {

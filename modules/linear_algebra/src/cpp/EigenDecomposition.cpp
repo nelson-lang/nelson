@@ -27,12 +27,6 @@ checkSupportedType(const ArrayOf& M)
 }
 //=============================================================================
 static bool
-checkSupportedType(const ArrayOf& M1, const ArrayOf& M2)
-{
-    return checkSupportedType(M1) && checkSupportedType(M2);
-}
-//=============================================================================
-static bool
 checkSize(const ArrayOf& M, std::wstring& errorMessage)
 {
     errorMessage.clear();
@@ -45,58 +39,6 @@ checkSize(const ArrayOf& M, std::wstring& errorMessage)
         return false;
     }
     return true;
-}
-//=============================================================================
-static bool
-checkSize(const ArrayOf& M1, const ArrayOf& M2, std::wstring& errorMessage)
-{
-    errorMessage.clear();
-    if (!checkSize(M1, errorMessage)) {
-        return false;
-    }
-    if (!checkSize(M2, errorMessage)) {
-        return false;
-    }
-    if (M1.getRows() != M2.getRows()) {
-        errorMessage = _W("input matrices must be the same size.");
-        return false;
-    }
-    return true;
-}
-//=============================================================================
-static void
-promoteSameType(const ArrayOf& M1_IN, const ArrayOf& M2_IN, ArrayOf& M1_OUT, ArrayOf& M2_OUT)
-{
-    if (M1_IN.getDataClass() == M2_IN.getDataClass()) {
-        M1_OUT = M1_IN;
-        M2_OUT = M2_IN;
-        return;
-    }
-    bool asSingle = false;
-    M1_OUT = M1_IN;
-    M2_OUT = M2_IN;
-    if (M1_IN.isSingleClass() || M2_IN.isSingleClass()) {
-        asSingle = true;
-    }
-    bool asComplex = false;
-    if (M1_IN.isComplex() || M2_IN.isComplex()) {
-        asComplex = true;
-    }
-    if (asComplex && asSingle) {
-        M1_OUT.promoteType(NLS_SCOMPLEX);
-        M2_OUT.promoteType(NLS_SCOMPLEX);
-        return;
-    }
-    if (asComplex) {
-        M1_OUT.promoteType(NLS_DCOMPLEX);
-        M2_OUT.promoteType(NLS_DCOMPLEX);
-        return;
-    }
-    if (asSingle) {
-        M1_OUT.promoteType(NLS_SINGLE);
-        M2_OUT.promoteType(NLS_SINGLE);
-        return;
-    }
 }
 //=============================================================================
 bool

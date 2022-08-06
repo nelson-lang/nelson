@@ -83,8 +83,6 @@
 #endif
 namespace Nelson {
 //=============================================================================
-static size_t counterIDs = 0;
-//=============================================================================
 /**
  * Stores the current array for which to apply the "end" expression to.
  */
