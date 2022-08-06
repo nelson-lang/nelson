@@ -214,10 +214,10 @@ BackgroundPoolObject::fieldnames()
 void
 BackgroundPoolObject::resetThreadPool()
 {
-    threadPool->paused = true;
+    threadPool->pause();
     FevalQueueObject::getInstance()->reset();
     threadPool->reset(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
-    threadPool->paused = false;
+    threadPool->unpause();
 }
 //=============================================================================
 } // namespace Nelson
