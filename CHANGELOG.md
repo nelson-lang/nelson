@@ -8,11 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- [#573](http://github.com/Nelson-numerical-software/nelson/issues/574): `diff` differences and discret derivatives. 
+- [#573](http://github.com/Nelson-numerical-software/nelson/issues/574): `diff` differences and discret derivatives.
 
 ### Changed
 
 - `system` builtin:
+
   - returns time execution
   - timeout input argument can be set to kill process after n seconds.
 
@@ -20,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Windows 32 bits threads support: due to threading limitations with MKL, openMP and others threads
   computation threads are limited to 4 threads on Windows 32 bits.
+
+- [#683](http://github.com/Nelson-numerical-software/nelson/issues/683): MacOS Catalina removed on Github CI (no more officially supported).
 
 ### Fixed
 
