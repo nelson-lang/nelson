@@ -80,7 +80,8 @@ list(
   statistics
   validators
   polynomial_functions
-  parallel)
+  parallel
+  signal_processing)
 list(APPEND moduleslist main)
 # ==============================================================================
 if (NOT LGPL21_ONLY)

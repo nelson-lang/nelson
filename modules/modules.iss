@@ -81,4 +81,5 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "validators/module.iss"
 #include "polynomial_functions/module.iss"
 #include "parallel/module.iss"
+#include "signal_processing/module.iss"
 ;==============================================================================
