@@ -70,7 +70,8 @@ modules_list = [
 "statistics";
 "validators";
 "polynomial_functions";
-"parallel"
+"parallel";
+"signal_processing"
 ];
 % ============================================================================
 % optional modules
@@ -146,6 +147,7 @@ modules_help_list = [
 "statistics";
 "validators";
 "polynomial_functions";
-"parallel"
+"parallel";
+"signal_processing"
 ];
 % ============================================================================
