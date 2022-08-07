@@ -9,10 +9,7 @@
 %=============================================================================
 function buildhelpweb(varargin)
   % buildhelpweb(destdir, [currentlang])
-
-  if ~(nargin() == 1 || nargin() == 2)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 2);
 
   if nargin() == 2
     lang = varargin{2};

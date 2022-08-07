@@ -11,10 +11,7 @@ function Y = fftn(varargin)
   % N-D fast Fourier transform
   % Y = fftn(X)
   % Y = fftn(X, dims)
-
-  if ~(nargin() == 1 || nargin() == 2)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 2)
   X = varargin{1};
   if nargin() == 2
     dims = varargin{2};
