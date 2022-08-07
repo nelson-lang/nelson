@@ -11,12 +11,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#573](http://github.com/Nelson-numerical-software/nelson/issues/574): `diff` differences and discret derivatives.
 
 - signal processing module:
+
   - `hann`: Hann window.
   - `hamming`: Hamming window.
   - `bartlett`: Bartlett window.
   - `blackman`: Blackman window.
   - `sinc`: sinc function.
   - `filter2`: 2-D digital filter.
+  - `fft2`: Two-dimensional discrete Fourier Transform.
+
+- `peaks`: peaks function.
 
 ### Changed
 
