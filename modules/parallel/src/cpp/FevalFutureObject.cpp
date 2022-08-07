@@ -43,15 +43,10 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     this->propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime",
         L"FinishDateTime", L"RunningDuration", L"State", L"Error", L"Diary" };
     this->functionName = functionName;
-    this->state = THREAD_STATE::UNAVAILABLE;
+    this->state = THREAD_STATE::QUEUED;
     this->wasReaded = false;
-    this->content = std::make_tuple<ArrayOfVector, Exception>(ArrayOfVector(), Exception());
-}
-//=============================================================================
-void
-FevalFutureObject::setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f)
-{
-    this->future = std::move(f);
+    this->_exception = Exception();
+    this->_result.clear();
 }
 //=============================================================================
 void
@@ -71,11 +66,11 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
         if (this->getEpochEndDateTime() > 0) {
             finishedDateTime = epochToDateString(this->getEpochEndDateTime());
         }
-        std::wstring errorString = L"";
+        std::wstring errorString = L"none";
         if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
-            readContent();
-            Exception e = std::get<1>(content);
-            errorString = e.getMessage();
+            if (!_exception.getMessage().empty()) {
+                errorString = _exception.getMessage();
+            }
         }
         std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
             index, this->getID(), this->getStateAsString(), finishedDateTime,
@@ -97,9 +92,9 @@ FevalFutureObject::display(Interface* io)
             stateString = wasReaded ? stateString + L" (read)" : stateString + L" (unread)";
         }
         if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
-            readContent();
-            Exception e = std::get<1>(content);
-            errorString = e.getMessage();
+            if (!_exception.getMessage().empty()) {
+                errorString = _exception.getMessage();
+            }
         }
         io->outputMessage(
             BLANKS_AT_BOL + L"CreateDateTime: " + epochToDateString(creationDateTime) + L"\n");
@@ -133,34 +128,10 @@ FevalFutureObject::~FevalFutureObject()
     wasReaded = false;
 }
 //=============================================================================
-std::tuple<ArrayOfVector, Exception>
-FevalFutureObject::get(bool& valid)
-{
-    valid = false;
-    if (state == THREAD_STATE::FINISHED) {
-        valid = true;
-        if (!wasReaded) {
-            valid = readContent();
-        }
-    }
-    return content;
-}
-//=============================================================================
 size_t
 FevalFutureObject::getID()
 {
     return this->ID;
-}
-//=============================================================================
-bool
-FevalFutureObject::readContent()
-{
-    if (future.valid()) {
-        content = future.get();
-        wasReaded = true;
-        return true;
-    }
-    return false;
 }
 //=============================================================================
 uint64
@@ -280,9 +251,7 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         switch (this->state) {
         case THREAD_STATE::FINISHED:
         case THREAD_STATE::FAILED: {
-            readContent();
-            Exception e = std::get<1>(content);
-            result = ExceptionToArrayOf(e);
+            result = ExceptionToArrayOf(_exception);
         } break;
         case THREAD_STATE::RUNNING:
         case THREAD_STATE::QUEUED:
@@ -302,17 +271,6 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
     return false;
 }
 //=============================================================================
-template <typename T>
-std::future<T>
-make_future(T&& t)
-{
-    auto fun = [val = std::forward<T>(t)]() { return val; };
-    std::packaged_task<T()> task(std::move(fun));
-    auto future = task.get_future();
-    task();
-    return future;
-}
-//=============================================================================
 bool
 FevalFutureObject::cancel(size_t timeoutSeconds)
 {
@@ -320,11 +278,9 @@ FevalFutureObject::cancel(size_t timeoutSeconds)
     this->endDateTime = getEpoch();
     if (this->state == THREAD_STATE::QUEUED) {
         this->state = THREAD_STATE::FINISHED;
-        ArrayOfVector retValues;
-        Exception retException = Exception(_W("Execution of the future was cancelled."),
+        _result.clear();
+        _exception = Exception(_W("Execution of the future was cancelled."),
             L"parallel:fevalqueue:ExecutionCancelled");
-        setFuture(make_future<std::tuple<ArrayOfVector, Exception>>(
-            std::make_tuple(retValues, retException)));
         return true;
     }
 
@@ -341,6 +297,64 @@ FevalFutureObject::cancel(size_t timeoutSeconds)
         }
     }
     return true;
+}
+//=============================================================================
+void
+FevalFutureObject::evaluateFunction(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
+{
+    this->_nLhs = nLhs;
+    try {
+        evaluateInterface = new EvaluateInterface();
+    } catch (std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    state = THREAD_STATE::RUNNING;
+
+    Evaluator* evaluator = createParallelEvaluator(evaluateInterface, ID);
+    if (evaluator == nullptr) {
+        state = THREAD_STATE::FINISHED;
+        _exception = Exception("Cannot create evaluator.");
+        endDateTime = (uint64)getEpoch();
+        return;
+    }
+
+    if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+        evaluator = deleteParallelEvaluator(evaluator, true);
+        _exception = Exception("Interrupted");
+        state = THREAD_STATE::FINISHED;
+        endDateTime = (uint64)getEpoch();
+        return;
+    }
+    startDateTime = getEpoch();
+    endDateTime = (uint64)0;
+    try {
+        _result = fptr->evaluateFunction(evaluator, argIn, nLhs);
+        state = THREAD_STATE::FINISHED;
+    } catch (Exception& e) {
+        _exception = e;
+        state = THREAD_STATE::FAILED;
+    }
+    if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+        state = THREAD_STATE::FINISHED;
+        _exception = Exception(_W("Execution of the future was cancelled."),
+            L"parallel:fevalqueue:ExecutionCancelled");
+    }
+    evaluator = deleteParallelEvaluator(evaluator, true);
+    endDateTime = (uint64)getEpoch();
+}
+//=============================================================================
+ArrayOfVector
+FevalFutureObject::getResult()
+{
+    wasReaded = true;
+    return _result;
+}
+//=============================================================================
+Exception
+FevalFutureObject::getException()
+{
+    wasReaded = true;
+    return _exception;
 }
 //=============================================================================
 } // namespace Nelson
