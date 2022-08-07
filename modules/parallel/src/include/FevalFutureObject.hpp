@@ -15,9 +15,10 @@
 #include "HandleGenericObject.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
+#include "Exception.hpp"
 #include "Interface.hpp"
 #include "EvaluateInterface.hpp"
-#include "Exception.hpp"
+#include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +31,6 @@ enum THREAD_STATE
     FINISHED,
     FAILED,
     UNAVAILABLE,
-
 };
 //=============================================================================
 class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject
@@ -43,18 +43,12 @@ public:
     isMethod(const std::wstring& methodName) override;
 
     void
-    setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f);
-
-    void
     display(Interface* io);
     void
     displayOnOneLine(Interface* io, size_t index);
 
     static void
     displayOnOneLineEmpty(Interface* io, size_t index);
-
-    std::tuple<ArrayOfVector, Exception>
-    get(bool& valid);
 
     size_t
     getID();
@@ -92,15 +86,23 @@ public:
     bool
     cancel(size_t timeoutSeconds = 5);
 
+    void
+    evaluateFunction(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
+
+    ArrayOfVector
+    getResult();
+
+    Exception
+    getException();
+
 private:
     size_t ID;
-    bool
-    readContent();
     wstringVector propertiesNames;
-    std::future<std::tuple<ArrayOfVector, Exception>> future;
     std::wstring functionName;
     bool wasReaded;
-    std::tuple<ArrayOfVector, Exception> content;
+    Exception _exception;
+    ArrayOfVector _result;
+    int _nLhs;
 };
 //=============================================================================
 } // namespace Nelson
