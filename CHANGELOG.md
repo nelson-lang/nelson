@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `cot`: Cotangent of argument in radians.
   - `cotd`: Cotangent of argument in degrees.
   - `atand`: Inverse tangent in degrees.
+  - `atan2d`: Four-quadrant inverse tangent in degrees.
 
 ### Changed
 
