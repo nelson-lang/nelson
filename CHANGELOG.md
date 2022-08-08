@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - trigonometric functions:
 
   - `rad2deg`: Convert angle from radians to degrees.
+  - `deg2rad`: Convert angle from degrees to radians.
   - `sech`: Hyperbolic secant.
   - `secd`: Secant of argument in degrees.
   - `sec`: Secant of angle in radians.
