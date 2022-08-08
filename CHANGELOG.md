@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#573](http://github.com/Nelson-numerical-software/nelson/issues/574): `diff` differences and discret derivatives.
 
+- `peaks`: peaks function.
+
 - signal processing module:
 
   - `hann`: Hann window.
@@ -20,7 +22,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `filter2`: 2-D digital filter.
   - `fft2`: Two-dimensional discrete Fourier Transform.
 
-- `peaks`: peaks function.
+- trigonometric functions:
+
+  - `sech`: Hyperbolic secant.
 
 ### Changed
 
