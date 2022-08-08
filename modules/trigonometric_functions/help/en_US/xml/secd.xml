@@ -3,11 +3,11 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>sech</keyword>
-	<short_description>Hyperbolic secant.</short_description>
+	<keyword>secd</keyword>
+	<short_description>Secant of argument in degrees.</short_description>
 
 	<syntax>
-		<syntax_item>res = sech(x)</syntax_item>
+		<syntax_item>res = secd(x)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -24,7 +24,7 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>sech</b> computes the Hyperbolic secant for each element of <b>x</b>.</description>
+	<description><b>secd</b> computes the secant of argument in degrees for each element of x.</description>
 
 	<used_function></used_function>
 	<bibliography></bibliography>
@@ -33,8 +33,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[X = [3*pi, 2*pi, pi, 0];
-R = sech(X)]]>
+		<example_item_data><![CDATA[R = secd([1, 10+3i, 15+2i, 35+i])]]>
 		</example_item_data>
 	</example_item>
 
@@ -42,7 +41,7 @@ R = sech(X)]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${trigonometric}cosh">cosh</link>
+			<link linkend="${trigonometric}sec">sec</link>
 		</see_also_item>
 	</see_also>
 
