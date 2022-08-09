@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `cospi`: Computes cos(X\*pi) accurately.
   - `asind`: Inverse sine in degrees.
   - `asinh`: Symbolic inverse hyperbolic sine function.
+  - `acosh`: Inverse hyperbolic cosine.
 
 ### Changed
 
