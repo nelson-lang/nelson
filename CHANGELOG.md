@@ -26,6 +26,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
   - `rad2deg`: Convert angle from radians to degrees.
   - `deg2rad`: Convert angle from degrees to radians.
+  - `cart2pol`: Transforms Cartesian coordinates to polar or cylindrical.
+  - `pol2cart`: Transforms polar or cylindrical coordinates to Cartesian.
+  - `cart2sph`: Transforms Cartesian to spherical coordinates.
+  - `sph2cart`: Transform spherical coordinates to Cartesian.
   - `sech`: Hyperbolic secant.
   - `secd`: Secant of argument in degrees.
   - `sec`: Secant of angle in radians.
@@ -39,9 +43,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `atan2d`: Four-quadrant inverse tangent in degrees.
   - `sinpi`: Computes sin(X*pi) accurately.
   - `cospi`: Computes cos(X*pi) accurately.  
-  - `cart2pol`: Transforms Cartesian coordinates to polar or cylindrical.
-  - `pol2cart`: Transforms polar or cylindrical coordinates to Cartesian.
-  - `cart2sph`: Transforms Cartesian to spherical coordinates.
 
 ### Changed
 
