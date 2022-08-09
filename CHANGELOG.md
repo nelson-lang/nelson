@@ -47,6 +47,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `asinh`: Symbolic inverse hyperbolic sine function.
   - `acosh`: Inverse hyperbolic cosine.
   - `acosd`: Inverse cosine in degrees.
+  - `acoth`: Inverse hyperbolic cotangent.
+
 
 ### Changed
 
