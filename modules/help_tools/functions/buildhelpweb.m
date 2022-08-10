@@ -10,18 +10,18 @@
 function buildhelpweb(varargin)
   % buildhelpweb(destdir, [currentlang])
   narginchk(1, 2);
-
+  
   if nargin() == 2
     lang = varargin{2};
   else
     lang = getdefaultlanguage();
   end
-
+  
   dirdest = varargin{1};
   if ~isdir(dirdest)
     error(_('Existing directory expected.'));
   end
-
+  
   srclist = {};
   run([nelsonroot() '/modules/' 'modules.m']);
   for module = modules_help_list(:)'
@@ -33,6 +33,6 @@ function buildhelpweb(varargin)
   vervec = version('-number');
   title = ['Nelson', ' ', int2str(vervec(1)), '.', int2str(vervec(2)), '.', int2str(vervec(3)), '.', int2str(vervec(4))];
   xmldoctohtml(srclist, dirdest, title);
-
+  
 end
 %=============================================================================

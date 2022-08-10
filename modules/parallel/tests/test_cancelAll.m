@@ -13,7 +13,7 @@ p = str2func('pause');
 pool = backgroundPool();
 NumWorkers = pool.NumWorkers;
 for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(pool, p, 0, 5);
+  f(k) = parfeval(pool, p, 0, 5);
 end
 assert_isequal(f(end).State, 'queued')
 fevalqueue = pool.FevalQueue;

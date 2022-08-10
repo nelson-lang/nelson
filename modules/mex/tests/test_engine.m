@@ -10,7 +10,7 @@
 % <--C/C++ COMPILER REQUIRED-->
 destinationdir = [tempdir(), 'test_engine/'];
 if isdir(destinationdir)
-    rmdir(destinationdir, 's');
+  rmdir(destinationdir, 's');
 end
 mkdir(destinationdir);
 destination = [destinationdir, 'test_engine.c'];
@@ -18,9 +18,9 @@ status = copyfile('test_engine.c', destinationdir);
 cd(destinationdir);
 mex('-client', 'engine', 'test_engine.c');
 if ispc()
-    generated_executable = [destinationdir, 'test_engine.exe'];
+  generated_executable = [destinationdir, 'test_engine.exe'];
 else
-    generated_executable = [destinationdir, 'test_engine'];
+  generated_executable = [destinationdir, 'test_engine'];
 end
 assert_istrue(isfile(generated_executable));
 %=============================================================================

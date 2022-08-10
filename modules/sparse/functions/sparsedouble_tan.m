@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_tan(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, tan(V), size(a, 1), size(a, 2));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, tan(V), size(a, 1), size(a, 2));
 end

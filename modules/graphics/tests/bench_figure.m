@@ -10,7 +10,7 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 for i=1:250
-    figure(i);
+  figure(i);
 end
 g = groot;
 delete(g.Children)

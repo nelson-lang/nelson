@@ -8,19 +8,19 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function EE = fun_MException_3(n)
-    try
-        test1(n);
-    catch ME
-        EE = ME;
-    end
+  try
+    test1(n);
+  catch ME
+    EE = ME;
+  end
 end
 %=============================================================================
 function ME = test1(n);
-    ME = MException('sayHello:inputError','Input must be char.');
-    if (n == true)
-        throwAsCaller(ME)
-    else
-        throw(ME)
-    end
+  ME = MException('sayHello:inputError','Input must be char.');
+  if (n == true)
+    throwAsCaller(ME)
+  else
+    throw(ME)
+  end
 end
 %=============================================================================

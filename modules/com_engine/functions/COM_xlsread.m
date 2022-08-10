@@ -8,19 +8,19 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
-
+  
   numeric_data = [];
   text_data = {};
   raw_data = {};
   nRhs = nargin;
-
+  
   sheet = 1;
   range = '';
-
+  
   if nRhs < 1 || nRhs > 3
     error(_('Wrong number of input arguments.'));
   end
-
+  
   if nRhs == 3
     filename = varargin{1};
     sheet = varargin{2};
@@ -30,7 +30,7 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
       error(_('A valid range expected.'));
     end
   end
-
+  
   if nRhs == 2
     filename = varargin{1};
     sheet_or_range = varargin{2};
@@ -48,11 +48,11 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
       end
     end
   end
-
+  
   if nRhs == 1
     filename = varargin{1};
   end
-
+  
   if ~ischar(filename)
     error(_('Valid filename expected.'));
   else
@@ -69,23 +69,23 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
       error(_('A valid filename expected.'));
     end
   end
-
+  
   try
     excelApplication = actxserver('Excel.Application');
   catch
     error(_('Excel application expected.'));
   end
-
+  
   excelApplication.DisplayAlerts = false;
   workbooks = excelApplication.Workbooks;
   r = invoke(workbooks, 'Open', filename);
   workSheets = excelApplication.ActiveWorkbook.Sheets;
   nbSheets = double(workSheets.Count);
-
+  
   if isnumeric(sheet)
-   wsheet = get(workSheets,'item', sheet);
+    wsheet = get(workSheets,'item', sheet);
   end
-
+  
   if ischar(sheet)
     wsheet = [];
     for idx = 1:nbSheets
@@ -100,29 +100,29 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
       error(_('sheet name not found.'));
     end
   end
-
+  
   if isempty(range)
     eRange =  wsheet.UsedRange;
   else
     eRange = get(excelApplication.Activesheet,'Range', range);
   end
   data = eRange.value;
-
+  
   excelApplication.Quit;
   delete(excelApplication);
   clear excelApplication
-
+  
   if isempty(data)
     raw_data = [];
     text_data = {};
     numeric_data = [];
     return
   end
-
+  
   text_data = cell(size(data));
   text_data(:) = {''};
   is_char = cellfun('isclass', data, 'char');
-
+  
   any_text = any(is_char(:));
   if ~any_text
     text_data = {};
@@ -131,10 +131,10 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     data(is_char)={NaN};
   end
   clear is_char
-
+  
   is_empty = cellfun('isempty', data);
   data(is_empty) = {NaN};
-
+  
   numeric_data = cellfun('double', data,'UniformOutput', true);
   clear temp_cell
   is_nan = isnan(numeric_data);
@@ -143,14 +143,14 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     raw_data = data
     return;
   end
-
+  
   if all(cellfun('islogical', data))
     numeric_data = logical(numeric_data);
   end
-
+  
   if isempty(numeric_data)
     numeric_data = [];
   end
   raw_data = data;
-  end
+end
 %=============================================================================

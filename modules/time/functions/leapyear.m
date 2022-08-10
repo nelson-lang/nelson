@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = leapyear(year)
-    mustBeNumeric(year, 1)
-    mustBeReal(year, 1)
-    year = floor(year);
-    tf = ((mod(year, 4) == 0 & mod(year, 100) ~= 0) | mod(year, 400) == 0);
+  mustBeNumeric(year, 1)
+  mustBeReal(year, 1)
+  year = floor(year);
+  tf = ((mod(year, 4) == 0 & mod(year, 100) ~= 0) | mod(year, 400) == 0);
 end
 %=============================================================================

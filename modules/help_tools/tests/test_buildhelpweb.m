@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml'])
-    destination = [tempdir(), 'test_buildhelpweb'];
-    if isdir(destination)
-        rmdir(destination, 's');
-    end
-    mkdir(destination);
-    buildhelpweb(destination);
-    r = dir([destination, '/*.html'], '-s');
-    assert_istrue(length(r) > 600);
+  destination = [tempdir(), 'test_buildhelpweb'];
+  if isdir(destination)
+    rmdir(destination, 's');
+  end
+  mkdir(destination);
+  buildhelpweb(destination);
+  r = dir([destination, '/*.html'], '-s');
+  assert_istrue(length(r) > 600);
 end
 %=============================================================================

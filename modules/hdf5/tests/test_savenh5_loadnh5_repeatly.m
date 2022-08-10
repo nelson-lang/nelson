@@ -13,8 +13,8 @@ if isfile(test_nh5_file)
 end
 %=============================================================================
 for i = [1:10]
-    savenh5(test_nh5_file);
-    loadnh5(test_nh5_file);
+  savenh5(test_nh5_file);
+  loadnh5(test_nh5_file);
 end
 AA = 3;
 savenh5(test_nh5_file,'-append','AA');

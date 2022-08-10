@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if (strcmp(getnelsonmode(), 'GUI') == true || ...
-    strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-    strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-    addmodule([nelsonroot() '/modules/' 'graphics'], 'graphics');
-  end
+  strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
+  strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+  addmodule([nelsonroot() '/modules/' 'graphics'], 'graphics');
+end
 %=============================================================================

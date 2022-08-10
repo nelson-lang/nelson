@@ -17,10 +17,10 @@ assert_isequal(names, {'ext'; 'arch'});
 assert_isequal(size(st), [7, 1]);
 %=============================================================================
 if strcmp(computer('arch') , 'win64')
-    assert_isequal(mexext(), 'nexw64') 
+  assert_isequal(mexext(), 'nexw64') 
 end
 %=============================================================================
 if strcmp(computer('arch') , 'win32')
-    assert_isequal(mexext(), 'nexw32') 
+  assert_isequal(mexext(), 'nexw32') 
 end
 %=============================================================================

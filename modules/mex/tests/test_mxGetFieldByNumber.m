@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxGetFieldByNumber') == 0
-    test_dir = [tempdir(), 'mxGetFieldByNumber'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxGetFieldByNumber.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxGetFieldByNumber.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxGetFieldByNumber'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxGetFieldByNumber.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxGetFieldByNumber.c');
+  addpath(pwd())
 end
 %=============================================================================
 C(1).A = 1;

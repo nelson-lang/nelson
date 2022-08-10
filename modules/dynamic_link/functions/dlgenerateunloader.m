@@ -17,7 +17,7 @@ function dlgenerateunloader(destinationdir, libraryname, ismexfunction)
   if ~ischar(libraryname) && ~iscellstr(libraryname)
     error(_('#2 input argument: A string or cell of strings expected.'));
   end
-
+  
   mexFunctionsListFilename = [destinationdir, '/mexFunctionsList.json'];
   mexFunctionsList = struct();
   if isfile(mexFunctionsListFilename)

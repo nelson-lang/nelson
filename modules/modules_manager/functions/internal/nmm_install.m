@@ -16,11 +16,11 @@ function nmm_install(varargin)
     otherwise
       error(_('Wrong number of input arguments.'));
     end
-end
-%=============================================================================
-% nmm('install', module_name)
-% nmm('install', local_module_directory)
-% nmm('install', http_git_repository)
+  end
+  %=============================================================================
+  % nmm('install', module_name)
+  % nmm('install', local_module_directory)
+  % nmm('install', http_git_repository)
 function nmm_install_one_rhs(param1)
   if isfile(param1)
     nmm_install_file(param1);
@@ -109,7 +109,7 @@ function nmm_install_directory(directory)
     end
   end
   destination_dir = copyModule(directory, module_description.module, module_description.version);
-
+  
   try
     run([destination_dir, 'builder.m']);
     createModuleLockJson(destination_dir);

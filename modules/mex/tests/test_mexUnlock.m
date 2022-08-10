@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mexUnlock') == 0
-    test_dir = [tempdir(), 'mexUnlock'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexUnlock.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexUnlock.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexUnlock'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexUnlock.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexUnlock.c');
+  addpath(pwd())
 end
 %=============================================================================
 mexUnlock();

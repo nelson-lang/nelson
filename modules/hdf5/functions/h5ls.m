@@ -16,10 +16,10 @@ function varargout = h5ls(varargin)
   end
   h5filename = string(varargin{1});
   if nargin == 2
-   h5path = string(varargin{2});
-   if ~startsWith(h5path, '/')
-    error(_('Second argument must start with ''/''.'));
-   end
+    h5path = string(varargin{2});
+    if ~startsWith(h5path, '/')
+      error(_('Second argument must start with ''/''.'));
+    end
   else
     h5path = "";
   end

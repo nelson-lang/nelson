@@ -9,7 +9,7 @@
 %=============================================================================
 function txt = nig_get_local_variables_definition(NIG_FUNCTION)
   txt = {'    // LOCAL VARIABLES';
-         ''};
+  ''};
   for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'local')
       if strcmp(k.TYPE, 'double_array')
@@ -31,10 +31,10 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
         else
           DIMENSION_N_str = '1';
         end
-
+        
         txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleMatrix2dConstructor(', DIMENSION_M_str, ' , ', DIMENSION_N_str ,');'];
         txt{end + 1} = ['    double * ', k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];
-
+        
       end
       if strcmp(k.TYPE, 'integer_array')
         if isfield(k, 'DIMENSION_M') && ~isempty(k.DIMENSION_M)
@@ -57,7 +57,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
         end
         txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32Matrix2dConstructor(', DIMENSION_M_str, ' , ', DIMENSION_N_str ,');'];
         txt{end + 1} = ['    int* ', k.NAME, '_ptr = (int*)', k.NAME, '.getDataPointer();'];
-
+        
       end
       if strcmp(k.TYPE, 'double')
         if isfield(k, 'VALUE') && ~isempty(k.VALUE)
@@ -81,6 +81,6 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
       end
     end
   end
-
+  
 end
 %=============================================================================

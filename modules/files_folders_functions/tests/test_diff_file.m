@@ -28,7 +28,7 @@ assert_isequal(replace(R, char([10 32]), char(10)) , replace(REF, char([10 32]),
 R = diff_file(fileB, fileA, false);
 double(R)
 REF = '@@ -1,2 +1,2 @@
- hello
+hello
 -world B
 +world A
 ';

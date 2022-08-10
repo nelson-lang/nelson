@@ -142,16 +142,16 @@ function displayFilenameAndLine(msg)
     pos = 1;
     if (msg.stack(1).line == 0)
       pos = 2;
-    if ~((length(msg.stack) > 1) && (msg.stack(pos).line ~= 0))
-      pos = -1;
+      if ~((length(msg.stack) > 1) && (msg.stack(pos).line ~= 0))
+        pos = -1;
+      end
+    end
+    if pos > 0
+      disp(['      ', _('File:'), ' ', msg.stack(pos).file]);
+      disp(['      ', _('Line:'), ' ', num2str(msg.stack(pos).line)]);
     end
   end
-  if pos > 0
-    disp(['      ', _('File:'), ' ', msg.stack(pos).file]);
-    disp(['      ', _('Line:'), ' ', num2str(msg.stack(pos).line)]);
-  end
-end
-%=============================================================================
+  %=============================================================================
 function displayTestCaseFail(test_case)
   if strcmp(test_case.status, 'Fail') == true
     disp(['    run(''', test_case.filename, ''')']);
@@ -331,7 +331,7 @@ function test_case = create_test_case(filename)
   test_case.filename = filename;
   test_case.options = test_parsetags(filename);
   test_case.msg = '';
-
+  
   [p, f, e] = fileparts(filename);
   test_case.name = f;
   test_case.classname = '';
@@ -339,7 +339,7 @@ function test_case = create_test_case(filename)
   test_case.time = 0;
   test_case.isbench = isbench(filename);
   test_case.skip = false;
-
+  
   if (test_case.options.mpi_mode && ~have_mpi())
     test_case.status = 'Skip';
     test_case.skip = true;
@@ -399,7 +399,7 @@ function test_case = create_test_case(filename)
       redirect_err = [tempdir(), '' , f, '.err'];
       r = rmfile(redirect_err);
       cmd = '';
-
+      
       command_filename = [tempdir(), 'test_', createGUID(), '.m'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case.options.mpi_mode),');'];
       ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
@@ -409,7 +409,7 @@ function test_case = create_test_case(filename)
         content = [content; 'exit(double(res_struct.r));'];
       end
       filewrite(command_filename, content);
-
+      
       if test_case.options.english_imposed
         cmd = [' --language', ' ', 'en_US'];
       end
@@ -420,7 +420,7 @@ function test_case = create_test_case(filename)
         cmd = [cmd, ' ', '--noipc'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-
+      
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
         test_case.command = build_command_nelson_gui(cmd, test_case.options.mpi_mode);
@@ -506,21 +506,21 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         unitary_tests = string({});
       end
-
+      
       nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
       else
         nonreg_tests = string({});
       end
-
+      
       bench_tests = dir([tests_dir, 'bench_*.m']);
       if ~isempty(bench_tests)
         bench_tests = sort(string(strcat(tests_dir, {bench_tests.name})));
       else
         bench_tests = string({});
       end
-
+      
       all_tests = [unitary_tests, nonreg_tests, bench_tests];
       if ~isempty(all_tests)
         all_tests(all_tests == "") = [];
@@ -528,7 +528,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         tests_list = {};
       end
-
+      
     case 'all_tests'
       unitary_tests = dir([tests_dir, 'test_*.m']);
       if ~isempty(unitary_tests)
@@ -536,14 +536,14 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         unitary_tests = string({});
       end
-
+      
       nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
       else
         nonreg_tests = string({});
       end
-
+      
       all_tests = [unitary_tests, nonreg_tests];
       if ~isempty(all_tests)
         all_tests(all_tests == "") = [];
@@ -551,7 +551,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         tests_list = {};
       end
-
+      
     case 'unitary_tests'
       unitary_tests = dir([tests_dir, 'test_*.m']);
       if ~isempty(unitary_tests)
@@ -561,7 +561,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         tests_list = {};
       end
-
+      
     case 'nonreg_tests'
       nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
@@ -571,7 +571,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         tests_list = {};
       end
-
+      
     case 'benchs'
       bench_tests = dir([tests_dir, 'bench_*.m']);
       if ~isempty(bench_tests)
@@ -581,7 +581,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       else
         tests_list = {};
       end
-
+      
     otherwise
       error(_('Argument not managed.'));
     end
@@ -623,7 +623,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           error(_('[] expected.'));
         end
       end
-
+      
       modules_list = getModulesToTest(param1);
       files_to_test = getFilesToTest(param1);
       if ~isempty(modules_list) || ~isempty(files_to_test)
@@ -674,7 +674,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           end
         end
       end
-
+      
     case 3
       % status = test_run(modules, option, output_file)
       % status = test_run(modules, '-stoponfail', output_file)
@@ -714,7 +714,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       else
         error(_('filename expected.'));
       end
-
+      
     case 4
       % status = test_run(modules, option, output_file, '-stoponfail')
       % status = test_run(modules, option, output_file, [])
@@ -754,7 +754,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           error(_('#4 argument: ''-stoponfail'' or [] expected'));
         end
       end
-
+      
     otherwise
       error(_('Wrong number of input arguments.'));
     end
@@ -1048,13 +1048,13 @@ function res = save_as_xml(test_suites, xmlFileDestination)
   if fp ~= -1
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
-
+    
     for test_suite = test_suites.tests_list'
       fprintf(fp, ['  <testsuite name="', test_suite.name, '" id="', test_suite.id, '" time="', mat2str(test_suite.time, 2), '" tests="', int2str(test_suite.tests), '" skipped="', int2str(test_suite.disabled),'" errors="', int2str(test_suite.errors), '" hostname="', test_suite.hostname, '" timestamp="', test_suite.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', test_suite.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
-
+      
       for tc = test_suite.test_cases_list
         for t = tc'
           if t.isbench && strcmp(t.status, 'Fail') == false

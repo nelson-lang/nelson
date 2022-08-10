@@ -9,7 +9,7 @@
 %=============================================================================
 destinationdir = [tempdir(), 'mex_engine_demo_2/'];
 if isdir(destinationdir)
-    rmdir(destinationdir, 's');
+  rmdir(destinationdir, 's');
 end
 mkdir(destinationdir);
 destination = [destinationdir, 'mex_engine_demo_2.c'];

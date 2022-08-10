@@ -32,6 +32,6 @@ function r = sparselogical_prod(varargin)
       r = sparse(prod(full(X)), dim, typ, n);
     otherwise
       error(_('Wrong number of input arguments.'));
+    end
   end
-end
-%=============================================================================
+  %=============================================================================

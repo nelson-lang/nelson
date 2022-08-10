@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-    try
-      js = vswhere();
-      assert_istrue(isstruct(js))
-    catch
-      err = lasterror();
-      assert_isequal(err.message, _('vswhere not found.'));
-    end
+  try
+    js = vswhere();
+    assert_istrue(isstruct(js))
+  catch
+    err = lasterror();
+    assert_isequal(err.message, _('vswhere not found.'));
+  end
 else
   assert_checkerror('vswhere', _('Not implemented on this platform.'));
 end

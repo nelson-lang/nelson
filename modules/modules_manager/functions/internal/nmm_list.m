@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function st = nmm_list()
-    p = usermodulesdir();
-    modules_json_path = [p, 'modules.json'];
-    if isfile(modules_json_path)
-        txt = fileread(modules_json_path);
-        st = jsondecode(txt);
-        if isempty(st) && isdouble(st)
-            st = struct([]);
-        end
-    else
-        st = struct([]);
+  p = usermodulesdir();
+  modules_json_path = [p, 'modules.json'];
+  if isfile(modules_json_path)
+    txt = fileread(modules_json_path);
+    st = jsondecode(txt);
+    if isempty(st) && isdouble(st)
+      st = struct([]);
     end
- end
+  else
+    st = struct([]);
+  end
+end
 %=============================================================================

@@ -17,8 +17,8 @@ assert_isequal(R, REF);
 A = {'Smith','Burns'; 'Jones','Matthews'; 'Peterson','Adams'};
 [R, I] = sort(A);
 REF = [2     3;
-     3     1;
-     1     2];
+3     1;
+1     2];
 assert_isequal(I, REF);
 %=============================================================================
 A = {'Smith';'Burns'; 'Jones';'Matthews'; 'Peterson';'Adams'};

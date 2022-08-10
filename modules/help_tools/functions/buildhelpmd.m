@@ -8,10 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function buildhelpmd(varargin)
-% build Nelson help files as markdown
-% buildhelpmd(destdir) build help of Nelson
-% buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
-%
+  % build Nelson help files as markdown
+  % buildhelpmd(destdir) build help of Nelson
+  % buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
+  %
   if (nargin() > 2 || nargin() < 1)
     error(_('Wrong number of input arguments.'));
   end
@@ -109,7 +109,7 @@ function helpForNelsonOnly(destinationdir)
     for k = 1:length(changelogs)
       copyfile([nelsonroot(), '/', changelogs{k}], [changelogs_dir, '/', changelogs{k}]);
     end
-
+    
     licenses = {'gpl-3.0.md', 'lgpl-3.0.md', 'license.md'};
     licenses_dir = [dir_dst, '/license'];
     mkdir(licenses_dir);

@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxDuplicateArrayInterleavedComplex') == 0
-    test_dir = [tempdir(), 'mxDuplicateArray_interleaved'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxDuplicateArray.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxDuplicateArray_interleaved'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxDuplicateArray.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );
+  addpath(pwd())
 end
 %=============================================================================
 % interleaved complex representation

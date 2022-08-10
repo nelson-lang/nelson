@@ -40,41 +40,41 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
   txt{end + 1} = ['    nargoutcheck(nLhs, 0, ', int2str(nig_nargout(NIG_FUNCTION)) ,')'];
   txt{end + 1} = ['    nargincheck(argIn, ', int2str(nig_nargin(NIG_FUNCTION)), ', ', int2str(nig_nargin(NIG_FUNCTION)), ')'];
   txt{end + 1} = '';
-
+  
   % INPUT VARIABLES DEFINITION
   res = nig_get_input_variables_definition(NIG_FUNCTION);
   txt = [txt; res];
   txt{end + 1} = '';
-
+  
   % INPUT/OUTPUT VARIABLES DEFINITION
   [res] = nig_get_in_out_variables_definition(NIG_FUNCTION);
   txt = [txt; res];
   txt{end + 1} = '';
-
+  
   % LOCAL VARIABLES DEFINITION
   txt = [txt; nig_get_local_variables_definition(NIG_FUNCTION)];
   txt{end + 1} = '';
-
+  
   % OUTPUT VARIABLES DEFINITION
   txt = [txt; nig_get_output_variables_definition(NIG_FUNCTION)];
   txt{end + 1} = '';
-
+  
   % CHECK INPUT VARIABLES DIMENSIONS
   [res] = nig_check_dimensions_input_variables_definition(NIG_FUNCTION);
   txt = [txt; res];
   txt{end + 1} = '';
-
+  
   % CALL EXTERN FUNCTION
   txt = [txt ; nig_call_function(NIG_FUNCTION)];
   txt{end + 1} = '';
-
+  
   % ASSIGN OUTPUT
   txt = [txt ; nig_assign_output_variables(NIG_FUNCTION)];
   txt{end + 1} = '';
-
+  
   txt{end + 1} = '    return retval;';
   txt{end + 1} = '}';
   txt{end + 1} = '//=============================================================================';
-
+  
 end
 %=============================================================================

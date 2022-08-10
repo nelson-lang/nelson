@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_int2str(a)
-	r = int2str(full(a));
+  r = int2str(full(a));
 end

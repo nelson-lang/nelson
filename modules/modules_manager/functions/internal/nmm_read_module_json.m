@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function st = nmm_read_module_json(directory)
-    module_json_path = [directory, 'module.json'];
-    txt = fileread(module_json_path);
-    st = jsondecode(txt);
+  module_json_path = [directory, 'module.json'];
+  txt = fileread(module_json_path);
+  st = jsondecode(txt);
 end
 %=============================================================================

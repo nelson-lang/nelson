@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = dllib_horzcat_dllib(A, B)
-    R = handle_horzcat_handle(A, B);
+  R = handle_horzcat_handle(A, B);
 end
 %=============================================================================

@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = MPI_Comm_vertcat_MPI_Comm(A, B)
-    R = handle_vertcat_handle(A, B);
+  R = handle_vertcat_handle(A, B);
 end
 %=============================================================================

@@ -17,7 +17,7 @@ i = 0;
 while ~feof(fid)
   tline = fgets(fid);
   if (~isnumeric(tline))
-%    disp(tline)
+    %    disp(tline)
     i = i + 1;
   end
 end
@@ -29,10 +29,10 @@ i = 0;
 while ~feof(fid)
   tline = fgets(fid, 5);
   if (~isnumeric(tline))
-%    disp(tline)
+    %    disp(tline)
     i = i + 1;
   end
 end
 fclose(fid);
 assert_isequal(i, 201);
- %=============================================================================
+%=============================================================================

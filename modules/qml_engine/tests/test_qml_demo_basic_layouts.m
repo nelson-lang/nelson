@@ -11,9 +11,9 @@
 % <--WITH DISPLAY-->
 %=============================================================================
 if semver(qt_version(), '>=6.0')
-    qml_file = [modulepath('qml_engine'), '/examples/basic_layouts/main_qt6.qml'];
+  qml_file = [modulepath('qml_engine'), '/examples/basic_layouts/main_qt6.qml'];
 else
-    qml_file = [modulepath('qml_engine'), '/examples/basic_layouts/main_qt5.qml'];
+  qml_file = [modulepath('qml_engine'), '/examples/basic_layouts/main_qt5.qml'];
 end 
 qobj = qml_loadfile(qml_file);
 %=============================================================================

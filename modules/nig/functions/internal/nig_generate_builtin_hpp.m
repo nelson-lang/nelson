@@ -25,8 +25,8 @@ function txt = nig_generate_builtin_hpp(NIG_FUNCTION)
     txt{end + 1} = ['    ', '}'];
     txt{end + 1} = '}';
   else
-   txt{end + 1} = ['    ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(int nLhs, const ArrayOfVector& argIn);'];
-   txt{end + 1} = '}';
+    txt{end + 1} = ['    ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(int nLhs, const ArrayOfVector& argIn);'];
+    txt{end + 1} = '}';
   end
   txt{end + 1} = '//=============================================================================';
 end

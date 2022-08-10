@@ -22,6 +22,6 @@ function varargout = sparsedouble_datevec(M)
     varargout{4} = reshape(R(:, 4), 1, []);
     varargout{5} = reshape(R(:, 5), 1, []);
     varargout{6} = reshape(R(:, 6), 1, []);
- end
+  end
 end
 %=============================================================================

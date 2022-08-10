@@ -8,27 +8,27 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function qhelpgenerator(varargin)
-% internal function not documented
+  % internal function not documented
   narginchk(3, 3);
-
+  
   src_in = varargin{1};
   dir_out = varargin{2};
   destination_file = varargin{3};
   file_generated =  [dir_out, destination_file];
-
+  
   if ~isfile([src_in, '/helpproject.qhp'])
     error(_('helpproject.qhp is missing.'))
   end
-
+  
   if isfile(file_generated)
     [res, msg] = rmfile(file_generated);
     if res
       error(msg)
     end
   end
-
+  
   qhelpgenerator_filename = get_help_generator_filename();
-
+  
   cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
   [res, msg] = unix(cmd);
   if res

@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_conj(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, conj(V));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, conj(V));
 end

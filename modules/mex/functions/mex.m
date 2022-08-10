@@ -18,7 +18,7 @@ function mex(varargin)
   else
     isengine = false;
   end
-
+  
   filenames = getFilenames(params);
   definesParams = getDefines(params);
   includesParams = getIncludes(params);
@@ -49,7 +49,7 @@ function mex(varargin)
     defines = { nelsonIdentified, interleavedComplex };
   end
   defines = [defines, definesParams];
-
+  
   destinationPath = fileparts(filenames{1}, 'path');
   if isempty(destinationPath)
     destinationPath = pwd();
@@ -61,13 +61,13 @@ function mex(varargin)
     c_flags = '';
     cxx_flags = '';
   end
-
+  
   includes = [{destinationPath}; includesParams'; getMexIncludes()];
   libraries = [librariesParams'; getMexLibraries()];
   c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams),  ' ', concateToChar(undefinesParams)];
   c_flags = strtrim(c_flags);
   build_configuration = buildConfigParam;
-
+  
   if ~isengine
     dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
     filenames = [filenames, 'mexGateway.c'];
@@ -148,9 +148,9 @@ function filenames = getFilenames(params)
   for p = params
     if ischar(p{1}) && isfile(p{1})
       isSupportedExtensions = endsWith(p{1}, '.c', 'IgnoreCase', true) || ...
-        endsWith(p{1}, '.cc', 'IgnoreCase', true) || ...
+      endsWith(p{1}, '.cc', 'IgnoreCase', true) || ...
       endsWith(p{1}, '.cxx', 'IgnoreCase', true) || ...
-        endsWith(p{1}, '.cpp', 'IgnoreCase', true);
+      endsWith(p{1}, '.cpp', 'IgnoreCase', true);
       if isSupportedExtensions
         filenames{end + 1} = strtrim(strrep(p{1}, '\', '/'));
       end
@@ -297,7 +297,7 @@ end
 %=============================================================================
 function includes = getMexIncludes()
   includes = {[modulepath('mex'), '/src/include']};
-
+  
 end
 %=============================================================================
 function libraries = getMexLibraries()

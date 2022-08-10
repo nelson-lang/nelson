@@ -10,16 +10,16 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 if exist('mexGetVariable') == 0
-    test_dir = [tempdir(), 'mexGetVariable'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexGetVariable.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexGetVariable.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexGetVariable'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexGetVariable.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexGetVariable.c');
+  addpath(pwd())
 end
 %=============================================================================
 assignin('global', 'BB', 44);

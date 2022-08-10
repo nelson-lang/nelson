@@ -14,12 +14,12 @@ N = 220;
 for i = 1:runs
   b = zeros(N, N);
   tic();
-    for j = 1:N
-      for k = 1:N
-        b(k,j) = abs(j - k) + 1;
-      end
+  for j = 1:N
+    for k = 1:N
+      b(k,j) = abs(j - k) + 1;
     end
-    timing = toc();
+  end
+  timing = toc();
   cumulate = [cumulate, timing];
 end
 timing = mean(cumulate);

@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = complexObj(a,b)
- s.r = a;
- s.i = b;
- r = class(s, 'complexObj');
+  s.r = a;
+  s.i = b;
+  r = class(s, 'complexObj');
 end
 

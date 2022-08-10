@@ -9,7 +9,7 @@
 %=============================================================================
 FFTWwrapper('free');
 if contains(path(), modulepath(nelsonroot(), 'fftw', 'functions'))
-    rmpath(modulepath(nelsonroot(), 'fftw', 'functions'));
+  rmpath(modulepath(nelsonroot(), 'fftw', 'functions'));
 end
 removegateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
 %=============================================================================

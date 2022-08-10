@@ -45,28 +45,28 @@ function varargout = f2c(varargin)
     index = strfind(txt, txt_to_replace);
     if ~isempty(index)
       txt = [txt(1:index(1) - 1), 'EXPORTSYMBOL ', txt_to_replace, txt(index(1) + length(txt_to_replace): end)];
-      fw = fopen(fname_c, 'w');
-      fwrite(fw, txt);
-      fclose(fw);
-    end
+    fw = fopen(fname_c, 'w');
+    fwrite(fw, txt);
+    fclose(fw);
   end
-  if nargout > 0
-    if res ~= 0
-      varargout{1} = false;
-      if nargout > 1
-        varargout{2} = msg;
-      end
-    else
-      varargout{1} = true;
-      if nargout > 1
-        varargout{2} = '';
-      end
+end
+if nargout > 0
+  if res ~= 0
+    varargout{1} = false;
+    if nargout > 1
+      varargout{2} = msg;
     end
   else
-    if res ~= 0
-      error(msg);
+    varargout{1} = true;
+    if nargout > 1
+      varargout{2} = '';
     end
   end
+else
+  if res ~= 0
+    error(msg);
+  end
+end
 end
 %=============================================================================
 

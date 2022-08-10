@@ -52,8 +52,8 @@ loadmat([mat_dir, 'test_complex_7.4_GLNX86.mat']);
 assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
 %=============================================================================
 testmatrix_ref = [1     2     3     4     5;
-     2     0     0     0     0;
-     3     0     0     0     0];
+2     0     0     0     0;
+3     0     0     0     0];
 clear testmatrix
 loadmat([mat_dir, 'test_matrix_4.2c_SOL2.mat']);
 assert_isequal(testmatrix, testmatrix_ref)

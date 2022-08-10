@@ -16,7 +16,7 @@ function varargout = h5dump(varargin)
   end
   h5filename = string(varargin{1});
   if nargin == 2
-   h5path = string(varargin{2});
+    h5path = string(varargin{2});
   else
     h5path = "";
   end

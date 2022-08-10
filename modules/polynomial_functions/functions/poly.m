@@ -12,11 +12,11 @@ function p = poly(r)
   nargoutchk(0, 1);
   [m, n] = size(r);
   if m == n
-     e = eig(r);
+    e = eig(r);
   elseif ((m==1) || (n==1))
-     e = r;
+    e = r;
   else
-     error('Nelson:poly:InputSize', _('Argument must be a vector or a square matrix.'))
+    error('Nelson:poly:InputSize', _('Argument must be a vector or a square matrix.'))
   end
   e = e( isfinite(e) );
   n = length(e);

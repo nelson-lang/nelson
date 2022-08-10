@@ -33,7 +33,7 @@ function file_generated = xmldoctohelp(varargin)
     destination_file = ['org.nelson.modules.', module_name, '.help', '.qch'];
   end
   file_generated =  [dir_output, destination_file];
-
+  
   qhelpgenerator(dir_output_tmp, dir_output, destination_file);
   file_generated =  [dir_output, destination_file];
   if ~isfile(file_generated)

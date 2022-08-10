@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_fix(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, fix(V));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, fix(V));
 end

@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = MPI_Comm_horzcat_MPI_Comm(A, B)
-    R = handle_horzcat_handle(A, B);
+  R = handle_horzcat_handle(A, B);
 end
 %=============================================================================

@@ -8,11 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = test_persistent_function()
- persistent calls;
- if isempty(calls)
+  persistent calls;
+  if isempty(calls)
     calls = 0;
- end
- disp(['nb calls to test_persistent_function: ', int2str(calls)]);
- r= calls;
- calls = calls + 1;
+  end
+  disp(['nb calls to test_persistent_function: ', int2str(calls)]);
+  r= calls;
+  calls = calls + 1;
 end

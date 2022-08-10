@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparselogical_minus_sparselogical(a, b)
-	% internal function (overload)
-	A = double(a);
-	B = double(b);
-	r = A - B;
+  % internal function (overload)
+  A = double(a);
+  B = double(b);
+  r = A - B;
 end

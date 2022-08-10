@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function test_assignin1()
-    assignin('caller','b',3);
-    assignin('base','c',33);
-
+  assignin('caller','b',3);
+  assignin('base','c',33);
+  
 end

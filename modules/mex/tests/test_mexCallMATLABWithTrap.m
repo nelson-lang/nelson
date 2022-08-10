@@ -10,16 +10,16 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 if exist('mexCallMATLABWithTrap') == 0
-    test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexCallMATLABWithTrap.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexCallMATLABWithTrap.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexCallMATLABWithTrap.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexCallMATLABWithTrap.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mexCallMATLABWithTrap(pi);

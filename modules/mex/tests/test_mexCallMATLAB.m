@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mexCallMATLAB') == 0
-    test_dir = [tempdir(), 'mexCallMATLAB'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexCallMATLAB.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexCallMATLAB.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexCallMATLAB'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexCallMATLAB.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexCallMATLAB.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mexCallMATLAB(pi);

@@ -23,7 +23,7 @@ C = sparse(complex(A, B));
 TAG= 1;
 if (my_rank != 0)
   rankvect = 0;
-
+  
   MPI_Send(C, rankvect, TAG)
 else
   for source = 1:num_ranks - 1

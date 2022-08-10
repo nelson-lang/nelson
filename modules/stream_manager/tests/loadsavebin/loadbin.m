@@ -19,19 +19,19 @@ function loadbin(varargin)
   fr = fopen(filename,'rb');
   version_nlbfile_expected = 1;
   tag_nlbfile_expected = 96;
-
+  
   tag_nlbfile_currentfile = fread(fr, 1, 'int','l');
   if (tag_nlbfile_currentfile ~= tag_nlbfile_expected)
     fclose(fr);
     error(_('file format not a supported file.'));
   end
-
+  
   version_nlbfile_currentfile = fread(fr, 1, 'int','l');
   if (version_nlbfile_currentfile ~= version_nlbfile_expected)
     fclose(fr);
     error(_('version not a supported file.'));
   end
-
+  
   nbVariables = fread(fr, 1, 'int');
   varname = {};
   for k = 1:nbVariables
@@ -39,7 +39,7 @@ function loadbin(varargin)
     ichars = fread(fr, nbChars, 'double');
     varname{k} = reshape(char(ichars), 1, []);
   end
-
+  
   if nargin == 1
     for k = 1:nbVariables
       RES = load_data(fr);
@@ -65,9 +65,9 @@ function loadbin(varargin)
       end
     end
   end
-
+  
   fclose(fr);
-
+  
 end
 %=============================================================================
 function res = complex_load_data(fr, typestr)

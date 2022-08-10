@@ -12,9 +12,9 @@
 % <--INTERACTIVE TEST-->
 %=============================================================================
 if semver(qt_version(), '>=6.0')
-    qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery_qt6.qml'];
+  qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery_qt6.qml'];
 else
-    qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery_qt5.qml'];
+  qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery_qt5.qml'];
 end
 qobj = qml_createqquickview(qml_file);
 qobj.title = 'Nelson <--> qcharts demo';

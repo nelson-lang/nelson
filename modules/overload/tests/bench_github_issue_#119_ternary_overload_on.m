@@ -11,6 +11,6 @@ M = 1:1e5;
 overloadbasictypes(true);
 tic;
 for i=M;
-    1:10:100;
+  1:10:100;
 end;
 toc()

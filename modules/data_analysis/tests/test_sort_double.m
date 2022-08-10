@@ -49,8 +49,8 @@ assert_isequal(A, REF);
 A = [NaN 60 50; 70 NaN 40; 10 00 NaN];
 R = sort(A, 2);
 REF = [50     60    NaN;
-     40     70    NaN;
-      0     10    NaN];
+40     70    NaN;
+0     10    NaN];
 assert_isequal(R, REF);
 %=============================================================================
 A = [NaN 60 50; 70 NaN 40; 10 00 NaN];

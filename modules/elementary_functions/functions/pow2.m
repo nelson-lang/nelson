@@ -25,7 +25,7 @@ function R = pow2 (varargin)
     end
     R = X .* (2 .^ E);
     if doComplexWarning
-        warning('Nelson:pow2:ignoredImagPart', _('Imaginary part is ignored.'));
+      warning('Nelson:pow2:ignoredImagPart', _('Imaginary part is ignored.'));
     end
   else
     Y = varargin{1};

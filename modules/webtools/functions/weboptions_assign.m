@@ -8,33 +8,33 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = weboptions_assign(cl, key, value)
-    if ~isSupportedFieldNames(key)
-      error(sprintf(_('"%s" is not a recognized parameter.'), key));
-    end
-    [r, fieldname, fieldvalue] = checkArgument(key, value);
-    if ~r
-      error(sprintf(_('invalid value for "%s" field.'), fieldname));
-    end
-    s = struct(cl);
-    s.(fieldname) = fieldvalue;
-    r = class(s, 'weboptions');
+  if ~isSupportedFieldNames(key)
+    error(sprintf(_('"%s" is not a recognized parameter.'), key));
+  end
+  [r, fieldname, fieldvalue] = checkArgument(key, value);
+  if ~r
+    error(sprintf(_('invalid value for "%s" field.'), fieldname));
+  end
+  s = struct(cl);
+  s.(fieldname) = fieldvalue;
+  r = class(s, 'weboptions');
 end
 %=============================================================================
 function res = isSupportedFieldNames(argName)
   supportedOptions = {'CharacterEncoding';
-    'UserAgent';
-    'Timeout';
-    'Username';
-    'Password';
-    'KeyName';
-    'KeyValue';
-    'HeaderFields';
-    'ContentType';
-    'ContentReader';
-    'MediaType';
-    'RequestMethod';
-    'Arrayformat';
-    'CertificateFilename'};
+  'UserAgent';
+  'Timeout';
+  'Username';
+  'Password';
+  'KeyName';
+  'KeyValue';
+  'HeaderFields';
+  'ContentType';
+  'ContentReader';
+  'MediaType';
+  'RequestMethod';
+  'Arrayformat';
+  'CertificateFilename'};
   res = any(contains(upper(supportedOptions), upper(argName)));
 end
 %=============================================================================
@@ -43,48 +43,48 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
     error(_('String or characters expected.'));
   end
   switch(upper(argName))
-      case 'CHARACTERENCODING'
-        [res, fieldname, fieldvalue] = checkCharacterencoding(argValue);
-      case 'USERAGENT'
-        [res, fieldname, fieldvalue] = checkUserAgent(argValue);
-      case 'TIMEOUT'
-        [res, fieldname, fieldvalue] = checkTimeOut(argValue);
-      case 'USERNAME'
-        [res, fieldname, fieldvalue] = checkUserName(argValue);
-      case 'PASSWORD'
-        [res, fieldname, fieldvalue] = checkPassword(argValue);
-      case 'KEYNAME'
-        [res, fieldname, fieldvalue] = checkKeyName(argValue);
-      case 'KEYVALUE'
-        [res, fieldname, fieldvalue] = checkKeyValue(argValue);
-      case 'CONTENTTYPE'
-        [res, fieldname, fieldvalue] = checkContentType(argValue);
-      case 'CONTENTREADER'
-        [res, fieldname, fieldvalue] = checkContentReader(argValue);
-      case 'MEDIATYPE'
-        [res, fieldname, fieldvalue] = checkMediaType(argValue);
-      case 'REQUESTMETHOD'
-        [res, fieldname, fieldvalue] = checkRequestMethod(argValue);
-      case 'ARRAYFORMAT'
-        [res, fieldname, fieldvalue] = checkArrayFormat(argValue);
-      case 'HEADERFIELDS'
-        [res, fieldname, fieldvalue] = checkHeaderFields(argValue);
-      case 'CERTIFICATEFILENAME'
-        [res, fieldname, fieldvalue] = checkCertificateFilename(argValue);
-      otherwise
-         res = false;
-         fieldname = argName;
-         fieldvalue = argValue;
-      end
-end
-%=============================================================================
+    case 'CHARACTERENCODING'
+      [res, fieldname, fieldvalue] = checkCharacterencoding(argValue);
+    case 'USERAGENT'
+      [res, fieldname, fieldvalue] = checkUserAgent(argValue);
+    case 'TIMEOUT'
+      [res, fieldname, fieldvalue] = checkTimeOut(argValue);
+    case 'USERNAME'
+      [res, fieldname, fieldvalue] = checkUserName(argValue);
+    case 'PASSWORD'
+      [res, fieldname, fieldvalue] = checkPassword(argValue);
+    case 'KEYNAME'
+      [res, fieldname, fieldvalue] = checkKeyName(argValue);
+    case 'KEYVALUE'
+      [res, fieldname, fieldvalue] = checkKeyValue(argValue);
+    case 'CONTENTTYPE'
+      [res, fieldname, fieldvalue] = checkContentType(argValue);
+    case 'CONTENTREADER'
+      [res, fieldname, fieldvalue] = checkContentReader(argValue);
+    case 'MEDIATYPE'
+      [res, fieldname, fieldvalue] = checkMediaType(argValue);
+    case 'REQUESTMETHOD'
+      [res, fieldname, fieldvalue] = checkRequestMethod(argValue);
+    case 'ARRAYFORMAT'
+      [res, fieldname, fieldvalue] = checkArrayFormat(argValue);
+    case 'HEADERFIELDS'
+      [res, fieldname, fieldvalue] = checkHeaderFields(argValue);
+    case 'CERTIFICATEFILENAME'
+      [res, fieldname, fieldvalue] = checkCertificateFilename(argValue);
+    otherwise
+      res = false;
+      fieldname = argName;
+      fieldvalue = argValue;
+    end
+  end
+  %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValue)
   supportedOptions = {'auto';
-    'US-ASCII';
-    'UTF-8';
-    'latin1';
-    'Shift_JIS';
-    'ISO-8859-1'};
+  'US-ASCII';
+  'UTF-8';
+  'latin1';
+  'Shift_JIS';
+  'ISO-8859-1'};
   nameNormalized = 'CharacterEncoding';
   valueNormalized = convertStringsToChars(argValue);
   idx = contains(upper(supportedOptions), upper(valueNormalized));
@@ -92,7 +92,7 @@ function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValu
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
 end
 %=============================================================================
@@ -140,18 +140,18 @@ function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   nameNormalized = 'ContentType';
   value = convertStringsToChars(argValue);
   supportedOptions = {'text';
-    'binary';
-    'audio';
-    'json';
-    'raw';
-    'auto'};
+  'binary';
+  'audio';
+  'json';
+  'raw';
+  'auto'};
   valueNormalized = convertStringsToChars(argValue);
   idx = contains(upper(supportedOptions), upper(valueNormalized));
   res = any(idx);
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
 end
 %=============================================================================
@@ -170,17 +170,17 @@ end
 function [res, nameNormalized, valueNormalized] = checkRequestMethod(argValue)
   value = convertStringsToChars(argValue);
   supportedOptions = {'get';
-    'post';
-    'put'
-    'delete';
-    'patch';
-    'auto'};
+  'post';
+  'put'
+  'delete';
+  'patch';
+  'auto'};
   idx = contains(upper(supportedOptions), upper(value));
   res = any(idx);
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
   nameNormalized = 'RequestMethod';
 end
@@ -188,17 +188,17 @@ end
 function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
   value = convertStringsToChars(argValue);
   supportedOptions = {'csv';
-    'json';
-    'repeating';
-    'php'};
+  'json';
+  'repeating';
+  'php'};
   idx = contains(upper(supportedOptions), upper(value));
   res = any(idx);
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
-   nameNormalized = 'ArrayFormat';
+  nameNormalized = 'ArrayFormat';
 end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkHeaderFields(argValue)
@@ -223,5 +223,5 @@ function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argVa
       res = isempty(valueNormalized) || isfile(valueNormalized);
     end
   end
- end
+end
 %=============================================================================

@@ -10,16 +10,16 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 if exist('mxDuplicateArray') == 0
-    test_dir = [tempdir(), 'mxDuplicateArray_sparse'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxDuplicateArray.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxDuplicateArray.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxDuplicateArray_sparse'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxDuplicateArray.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxDuplicateArray.c');
+  addpath(pwd())
 end
 %=============================================================================
 i = [800 1100 20];

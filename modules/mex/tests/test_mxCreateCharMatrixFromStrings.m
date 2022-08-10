@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxCreateCharMatrixFromStrings') == 0
-    test_dir = [tempdir(), 'mxCreateCharMatrixFromStrings'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxCreateCharMatrixFromStrings.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxCreateCharMatrixFromStrings.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxCreateCharMatrixFromStrings'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxCreateCharMatrixFromStrings.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxCreateCharMatrixFromStrings.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mxCreateCharMatrixFromStrings();

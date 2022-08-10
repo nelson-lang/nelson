@@ -25,7 +25,7 @@ function [status, message] = configuremsvc()
     message = e.message;
     return
   end
-
+  
   if startsWith(vsjon.installationVersion, '17.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2022.json'];
   elseif startsWith(vsjon.installationVersion, '16.')
@@ -39,7 +39,7 @@ function [status, message] = configuremsvc()
   end
   txt = fileread(vsconfig);
   msvc201X = jsondecode(txt);
-
+  
   vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');
   vcvarsbatpath = [vsjon.installationPath,'/VC/Auxiliary/Build'];
@@ -80,7 +80,7 @@ function [status, message] = configuremsvc()
     % ack to remove '\n' at the end
     m(m == 10) = '';
     if strcmp(k{1}, 'PATH') == true
-       m = replace(m, current_PATH, '');
+      m = replace(m, current_PATH, '');
     end
     names = [names, k{1}];
     values = [values; m];

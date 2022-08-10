@@ -9,7 +9,7 @@
 %=============================================================================
 function txt = nig_check_dimensions_input_variables_definition(NIG_FUNCTION)
   txt = {'    // CHECK INPUT VARIABLES DIMENSIONS';
-         ''};
+  ''};
   n = 0;
   for k = NIG_FUNCTION.VARIABLES(:)'
     NO_DIMENSIONS_CHECK = false;

@@ -22,7 +22,7 @@ function c = hann(varargin)
   else
     opt = 'symetric';
   end
-
+  
   isPeriodic = strcmp(opt, 'periodic');
   if isPeriodic
     N = m;
@@ -32,7 +32,7 @@ function c = hann(varargin)
       error (_('''periodic'' or ''symmetric'' expected.'));
     end
   end
-
+  
   if isempty(m)
     c = zeros(0, 1);
   elseif (m ~= 1)

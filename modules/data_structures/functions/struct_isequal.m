@@ -8,24 +8,24 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = struct_isequal(a, b)
-	r = false;
-	if isstruct(b)
-		fieldA = fieldnames(a);
-		fieldB = fieldnames(b);
-		if isequalto(fieldA, fieldB)
-			if isequalto(size(a), size(b))
-				r = true;
-				for f = fieldA(:)'
-					for l = 1:length(a)
-						valueA = getfield(a(l), f{:});
-						valueB = getfield(b(l), f{:});
-						if ~isequal(valueA, valueB)
-							r = false;
-							break;
-						end
-					end
-				end
-			end
-		end
-	end
+  r = false;
+  if isstruct(b)
+    fieldA = fieldnames(a);
+    fieldB = fieldnames(b);
+    if isequalto(fieldA, fieldB)
+      if isequalto(size(a), size(b))
+        r = true;
+        for f = fieldA(:)'
+          for l = 1:length(a)
+            valueA = getfield(a(l), f{:});
+            valueB = getfield(b(l), f{:});
+            if ~isequal(valueA, valueB)
+              r = false;
+              break;
+            end
+          end
+        end
+      end
+    end
+  end
 end

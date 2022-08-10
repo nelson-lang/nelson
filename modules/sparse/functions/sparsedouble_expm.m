@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_expm(a)
- r = expm(full(a));
+  r = expm(full(a));
 end

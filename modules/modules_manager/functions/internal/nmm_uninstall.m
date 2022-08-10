@@ -22,7 +22,7 @@ function nmm_uninstall(varargin)
   if ismodule(module_name)
     removemodule(module_name);
   end
-
+  
   modified_modules = rmfield(nmm_list(), module_name);
   p = usermodulesdir();
   modules_json_path = [p, 'modules.json'];

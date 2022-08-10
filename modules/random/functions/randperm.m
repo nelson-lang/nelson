@@ -11,7 +11,7 @@ function p = randperm(n)
   if (n <= 0)
     p = zeros(1, 0);
   else
-   [dummy, p] = sort(rand(1, n));
+    [dummy, p] = sort(rand(1, n));
   end
 end
 %=============================================================================

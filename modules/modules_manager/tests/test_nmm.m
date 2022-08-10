@@ -11,10 +11,10 @@ r = nmm('list');
 assert_isequal(class(r), 'struct');
 needToRestore = any(contains(fieldnames(r), 'module_skeleton_basic'));
 if isempty(needToRestore)
-    needToRestore = false;
+  needToRestore = false;
 end
 if needToRestore
-    nmm('uninstall', 'module_skeleton_basic')
+  nmm('uninstall', 'module_skeleton_basic')
 end
 %=============================================================================
 nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v3.0.0');

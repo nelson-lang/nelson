@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function fd = stdin()
-
-% return the numeric value corresponding to the standard input stream.
-% see also stdout, stderr
-	fd = 0;
+  
+  % return the numeric value corresponding to the standard input stream.
+  % see also stdout, stderr
+  fd = 0;
 end

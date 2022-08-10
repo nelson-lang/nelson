@@ -20,21 +20,21 @@ R = webread('http://httpbin.org/get', o);
 assert_istrue(ischar(R));
 %=============================================================================
 if ismodule('audio')
-    o = weboptions('ContentType', 'audio');
-    o.Timeout = 60;
-    [y, fs] = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
-    assert_isequal(size(y), [137095           2]);
-    assert_isapprox(y(1), -0.00854492, 1e-6);
-    assert_isequal(fs, 44100);
+  o = weboptions('ContentType', 'audio');
+  o.Timeout = 60;
+  [y, fs] = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
+  assert_isequal(size(y), [137095           2]);
+  assert_isapprox(y(1), -0.00854492, 1e-6);
+  assert_isequal(fs, 44100);
 end
 %=============================================================================
 if ismodule('audio')
-    o = weboptions('ContentType', 'binary');
-    o.Timeout = 60;
-    R = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
-    assert_isequal(size(R), [548512           1]);
-    REF = uint8([82   73   70   70   152   94   8   0   87   65]);
-    assert_isequal(R(1:10), REF(1:10));
+  o = weboptions('ContentType', 'binary');
+  o.Timeout = 60;
+  R = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
+  assert_isequal(size(R), [548512           1]);
+  REF = uint8([82   73   70   70   152   94   8   0   87   65]);
+  assert_isequal(R(1:10), REF(1:10));
 end
 %=============================================================================
 o = weboptions('ContentType', 'raw');
@@ -45,10 +45,10 @@ REF = uint8([ 82   73   70   70   152   94   8   0   87   65]);
 assert_isequal(R(1:10), REF(1:10));
 %=============================================================================
 if ismodule('audio')
-    o = weboptions('ContentType', 'binary', 'ContentReader', str2func('audioread'));
-    o.Timeout = 60;
-    R = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
-    assert_isequal(size(y), [137095           2]);
-    assert_isapprox(y(5), 0.1467, 1e-3);
+  o = weboptions('ContentType', 'binary', 'ContentReader', str2func('audioread'));
+  o.Timeout = 60;
+  R = webread('https://freewavesamples.com/files/Ensoniq-ZR-76-01-Dope-77.wav', o);
+  assert_isequal(size(y), [137095           2]);
+  assert_isapprox(y(5), 0.1467, 1e-3);
 end
 %=============================================================================

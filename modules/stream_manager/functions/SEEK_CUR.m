@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function id = SEEK_CUR()
-% Return the numerical value to pass to fseek to perform action position file relative to the current position.
+  % Return the numerical value to pass to fseek to perform action position file relative to the current position.
   id = 0;
 end

@@ -16,7 +16,7 @@ assert_checkerror('a.reshape(4, 4)', _('Only numericPtr can be reshaped.'));
 a = libpointer('doublePtr', eye(2, 2));
 a.reshape(3, 3);
 REF = [1     1     0;
-     0     0     0;
-     0     0     0];
+0     0     0;
+0     0     0];
 assert_isequal(get(a, 'Value'), REF);
 %=============================================================================

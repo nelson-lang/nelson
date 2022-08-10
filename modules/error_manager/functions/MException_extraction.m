@@ -8,25 +8,25 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = MException_extraction(exception, varargin)
-    n = numel(varargin);
-    switch (n)
-     case 1
-        name = varargin{1};
-        s = struct(exception);
-        r = s.(name);
+  n = numel(varargin);
+  switch (n)
+    case 1
+      name = varargin{1};
+      s = struct(exception);
+      r = s.(name);
     case 2
-        s = struct(exception);
-        name = varargin{1};
-        rows = varargin{2};
-        r = s.(name)(rows);
+      s = struct(exception);
+      name = varargin{1};
+      rows = varargin{2};
+      r = s.(name)(rows);
     case 3
-        s = struct(exception);
-        name = varargin{1};
-        rows = varargin{2};
-        cols = varargin{3};
-        r = s.(name)(rows, cols);
+      s = struct(exception);
+      name = varargin{1};
+      rows = varargin{2};
+      cols = varargin{3};
+      r = s.(name)(rows, cols);
     otherwise
-        error('not managed.');
+      error('not managed.');
     end
-end
-%=============================================================================
+  end
+  %=============================================================================
