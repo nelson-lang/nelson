@@ -41,14 +41,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `cotd`: Cotangent of argument in degrees.
   - `atand`: Inverse tangent in degrees.
   - `atan2d`: Four-quadrant inverse tangent in degrees.
-  - `sinpi`: Computes sin(X\*pi) accurately.
-  - `cospi`: Computes cos(X\*pi) accurately.
+  - `sinpi`: Computes sin(X \* pi) accurately.
+  - `cospi`: Computes cos(X \* pi) accurately.
   - `asind`: Inverse sine in degrees.
-  - `asinh`: Symbolic inverse hyperbolic sine function.
+  - `asinh`: Inverse hyperbolic sine.
   - `acosh`: Inverse hyperbolic cosine.
   - `acosd`: Inverse cosine in degrees.
   - `acoth`: Inverse hyperbolic cotangent.
-
+  - `acsc`: Inverse cosecant in radians.
+  - `acscd`: Inverse cosecant in degrees.
+  - `acsch`: Inverse hyperbolic cosecant.
+  - `asec`: Inverse secant in radians.
+  - `asecd`: Inverse secant in degrees.
+  - `asech`: Inverse hyperbolic secant.
+  - `acot`: Inverse cotangent in radians.
+  - `acotd`: Inverse cotangent in degrees.
 
 ### Changed
 

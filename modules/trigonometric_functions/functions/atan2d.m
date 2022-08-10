@@ -8,11 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = atan2d(varargin)
-    narginchk(2, 2);
-    nargoutchk(0, 1);
-    y = varargin{1};
-    x = varargin{2};
-    r = 180 ./ pi .* atan2 (y, x);
+  narginchk(2, 2);
+  nargoutchk(0, 1);
+  y = varargin{1};
+  x = varargin{2};
+  r = 180 ./ pi .* atan2 (y, x);
 end
 %=============================================================================
-  

@@ -14,11 +14,13 @@ _Features_:
 - JSON File I/O module (DONE v0.2.1),
 - Inter-process communication between Nelson's process (DONE v0.4.9),
 - MPI interface module (DONE v0.1.11),
+- Parallel module,
 - editor (DONE v0.1.11),
 - SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
 - linear algebra module,
+- trigonometric functions (DONE v0.6.8)
 - Computer Aided Control Systems Design module,
 - HDF5 high-level functions I/O (DONE v0.2.12),
 - MAT File I/O module (DONE v0.3.3),

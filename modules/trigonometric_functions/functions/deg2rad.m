@@ -8,14 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function y = deg2rad(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-    x = varargin{1};
-    if isfloat(x)
-        y = (pi/180) * x;
-    else
-        error('Nelson:deg2rad:nonFloatInput', _('Input must be single or double.'));
-    end
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  x = varargin{1};
+  if isfloat(x)
+    y = (pi/180) * x;
+  else
+    error('Nelson:deg2rad:nonFloatInput', _('Input must be single or double.'));
+  end
 end
 %=============================================================================
-    

@@ -3,11 +3,11 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>csc</keyword>
-	<short_description>Cosecant of input angle in radians.</short_description>
+	<keyword>asech</keyword>
+	<short_description>Inverse hyperbolic secant of angle in radians.</short_description>
 
 	<syntax>
-		<syntax_item>res = csc(x)</syntax_item>
+		<syntax_item>res = asech(x)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -24,7 +24,7 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>csc</b> computes the cosecant of argument in radians for each element of <b>x</b>.</description>
+	<description><b>asech</b> computes the inverse hyperbolic secant of argument in radians for each element of <b>x</b>.</description>
 
 	<used_function></used_function>
 	<bibliography></bibliography>
@@ -33,7 +33,8 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[R = csc(-pi+0.01:0.01:-0.01)]]>
+		<example_item_data><![CDATA[x = -pi:0.75:pi;
+R = asech(x)]]>
 		</example_item_data>
 	</example_item>
 
@@ -41,8 +42,12 @@
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${trigonometric}cscd">cscd</link>
+			<link linkend="${trigonometric}secd">secd</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${trigonometric}sec">sec</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>
@@ -56,3 +61,5 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
+
+
