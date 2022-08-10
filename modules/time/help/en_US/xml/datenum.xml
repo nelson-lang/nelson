@@ -21,7 +21,8 @@
     
     <param_input_item>
       <param_name>datevec</param_name>
-      <param_description>a vector: [Y, M, D, H, MN, S].</param_description>
+      <param_description
+      >a vector: [Y, M, D, H, MN, S] or matrix N x 6.</param_description>
     </param_input_item>
     
     <param_input_item>
@@ -31,13 +32,14 @@
 
     <param_input_item>
       <param_name>datestr</param_name>
-      <param_description>a string: text representing a date.</param_description>
+      <param_description
+      >a string, cell of string or string array: text representing a date.</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>Y, M, D, H, MN, S</param_name>
       <param_description
-      >double: Year, Month, Day, Hours, Minutes, Secondes.</param_description>
+      >double: Year, Month, Day, Hours, Minutes, Secondes (scalar or vector).</param_description>
     </param_input_item>
     
   </param_input>
@@ -87,6 +89,7 @@
 d = datenum([1973,8,4,12,1,18])
 datevec(d)
 d = datenum('04–Aug-1973 12:01:18')
+d = datenum(["04–Aug-1973 12:01:18"; "04–Aug-1974 11:01:18"])
 ]]>
     </example_item_data>
   </example_item>

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string>
+#include "nlsConfig.h"
 #include "datevecBuiltin.hpp"
 #include "Error.hpp"
 #include "DateVector.hpp"
@@ -38,7 +39,11 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             if (nLhs < 2) {
                 double* res = static_cast<double*>(
                     ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len, stringVector(), false));
-                for (indexType k = 0; k < len; k++) {
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                     double DT, Y, M, D, H, MN, S;
                     DT = ptd[k];
                     DateVector(DT, Y, M, D, H, MN, S);
@@ -79,7 +84,11 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     S = static_cast<double*>(
                         ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 }
-                for (indexType k = 0; k < len; k++) {
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                     double DT = ptd[k];
                     double V1, V2, V3, V4, V5, V6;
                     DateVector(DT, V1, V2, V3, V4, V5, V6);

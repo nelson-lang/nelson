@@ -267,7 +267,7 @@ Dimensions::simplify()
 }
 //=============================================================================
 bool
-Dimensions::equals(const Dimensions& alt)
+Dimensions::equals(const Dimensions& alt) const
 {
     bool retval;
     retval = (length == alt.length);

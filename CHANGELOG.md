@@ -22,6 +22,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `filter2`: 2-D digital filter.
   - `fft2`: Two-dimensional discrete Fourier Transform.
 
+- time functions:
+
+  - `weekday`: Day of week.
+
 - trigonometric functions:
 
   - `rad2deg`: Convert angle from radians to degrees.
@@ -78,8 +82,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.
-
 - [#691](http://github.com/Nelson-numerical-software/nelson/issues/691): help generation crashs if copyright tag is empty.
+- [#35](http://github.com/Nelson-numerical-software/nelson/issues/35): datenum does not support vectorization.
 
 ## 0.6.7 (2022-07-27)
 
