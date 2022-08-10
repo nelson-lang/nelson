@@ -8,9 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function x = asind(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-    x = asin (varargin{1}) .* 180 ./ pi;
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  x = asin (varargin{1}) .* 180 ./ pi;
 end
 %=============================================================================
-  

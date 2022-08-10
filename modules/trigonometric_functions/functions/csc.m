@@ -8,10 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function x = csc(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-    x = sin(varargin{1});
-    x = ones('like', x) ./ x;
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  x = sin(varargin{1});
+  x = ones('like', x) ./ x;
 end
 %=============================================================================
-  

@@ -8,22 +8,21 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function y = acosh(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-
-    x = varargin{1};
-    if isreal(x)
-        if min(x) < 1
-            u = acos(x);
-            y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
-        else
-            y = imag(acos(z));
-            y(isnan(z)) = NaN;
-        end
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  
+  x = varargin{1};
+  if isreal(x)
+    if min(x) < 1
+      u = acos(x);
+      y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
     else
-        u = acos(x);
-        y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
+      y = imag(acos(z));
+      y(isnan(z)) = NaN;
     end
+  else
+    u = acos(x);
+    y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
+  end
 end
 %=============================================================================
-  

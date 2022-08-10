@@ -8,15 +8,14 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function y = asinh(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-
-    x = varargin{1};
-    if isreal(x)
-        y = imag(asin(x * i));
-    else
-        y = -i * (asin(x * i));
-    end
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  
+  x = varargin{1};
+  if isreal(x)
+    y = imag(asin(x * i));
+  else
+    y = -i * (asin(x * i));
+  end
 end
 %=============================================================================
-  

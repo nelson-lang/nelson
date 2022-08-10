@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>asinh</keyword>
-	<short_description>Symbolic inverse hyperbolic sine function</short_description>
+	<short_description>Inverse hyperbolic sine function</short_description>
 
 	<syntax>
 		<syntax_item>res = asinh(x)</syntax_item>
