@@ -55,6 +55,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${TIME_BUILTIN})
@@ -70,6 +71,7 @@ target_link_libraries(
   nlsApi_nelson
   nlsI18n
   nlsString
+  nlsData_structures
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

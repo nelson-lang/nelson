@@ -192,7 +192,7 @@ public:
      * Returns true if we match the argument (exactly).
      */
     bool
-    equals(const Dimensions& alt);
+    equals(const Dimensions& alt) const;
     //=============================================================================
     /**
      * This member function trims any excess singleton (length 1) dimensions

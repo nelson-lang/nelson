@@ -7,161 +7,419 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "datenumBuiltin.hpp"
 #include "DateNumber.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "Now.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinNoRhs(int nLhs);
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinOneRhs(int nLhs, const ArrayOf &param1);
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinTwoRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2);
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinThreeRhs(
+    int nLhs, const ArrayOf& param1, const ArrayOf& param2, const ArrayOf& param3);
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinSixRhs(
+    int nLhs, const ArrayOf& param1, const ArrayOf& param2, const ArrayOf& param3,
+    const ArrayOf& param4, const ArrayOf& param5, const ArrayOf& param6);
+//=============================================================================
+static Dimensions
+findCommonDimensions(const Dimensions& dims1, const Dimensions& dims2, bool& isValid);
+//=============================================================================
+static Dimensions
+findCommonDimensions(
+    const Dimensions& dims1, const Dimensions& dims2, const Dimensions& dims3, bool& isValid);
+//=============================================================================
+static Dimensions
+findCommonDimensions(const Dimensions& dims1, const Dimensions& dims2,
+    const Dimensions& dims3,
+    const Dimensions& dims4, const Dimensions& dims5, const Dimensions& dims6,
+  bool& isValid);
 //=============================================================================
 ArrayOfVector
 Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
+    // DateNumber = datenum()
+    // DateNumber = datenum(t)
+    // DateNumber = datenum(DateString)
+    // DateNumber = datenum(DateVector) 
+    // DateNumber = datenum(DateString, formatIn)
+    // DateNumber = datenum(Y, M, D)
+    // DateNumber = datenum(Y, M, D, H, MN, S)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    double year = 0.;
-    double month = 0.;
-    double day = 0.;
+    switch (argIn.size()) {
+    case 0: {
+        retval = datanumBuiltinNoRhs(nLhs);
+    } break;
+    case 1: {
+        retval = datanumBuiltinOneRhs(nLhs, argIn[0]);
+    } break;
+    case 2: {
+        retval = datanumBuiltinTwoRhs(nLhs, argIn[0], argIn[1]);
+    } break;
+    case 3: {
+        retval = datanumBuiltinThreeRhs(nLhs, argIn[0], argIn[1], argIn[2]);
+    } break;
+    case 6: {
+        retval = datanumBuiltinSixRhs(
+            nLhs, argIn[0], argIn[1], argIn[2], argIn[3], argIn[4], argIn[5]);
+    } break;
+    default: {
+      Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    } break;
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+datanumBuiltinNoRhs(int nLhs)
+{
+    ArrayOfVector retval;
+    retval << ArrayOf::doubleConstructor(Now());
+    return retval;
+}
+//=============================================================================
+static ArrayOfVector
+datanumBuiltinOneRhs(int nLhs, const ArrayOf& param1)
+{
+    ArrayOfVector retval;
+    if (param1.isNumeric()) { 
+      if (param1.getElementCount() < 2) {
+        retval << param1;
+      } else if (param1.getElementCount() == 3 && param1.isRowVector()) {
+          ArrayOf asDoubleArrayOf(param1);
+          asDoubleArrayOf.promoteType(NLS_DOUBLE);
+          double* v = (double*)asDoubleArrayOf.getDataPointer();
+          double year = v[0];
+          double month = v[1];
+          double day = v[2];
+          double hour = 0.;
+          double min = 0.;
+          double sec = 0.;
+          retval << ArrayOf::doubleConstructor(DateNumber(year, month, day, hour, min, sec));
+      } else if (param1.getElementCount() == 6 && param1.isRowVector()) {
+          ArrayOf asDoubleArrayOf(param1);
+          asDoubleArrayOf.promoteType(NLS_DOUBLE);
+          double* v = (double*)asDoubleArrayOf.getDataPointer();
+          double year = v[0];
+          double month = v[1];
+          double day = v[2];
+          double hour = v[3];
+          double min = v[4];
+          double sec = v[5];
+          retval << ArrayOf::doubleConstructor(DateNumber(year, month, day, hour, min, sec));
+      } else if (param1.is2D() && param1.getColumns() == 3) {
+          ArrayOf asDoubleArrayOf(param1);
+          asDoubleArrayOf.promoteType(NLS_DOUBLE);
+          double* v = (double*)asDoubleArrayOf.getDataPointer();
+          indexType lenghResultVector = param1.getElementCount() / 3;
+          Dimensions dimsRes(1, lenghResultVector);
+          double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
+          ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+          for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
+              double year = v[lenghResultVector * k];
+              double month = v[(lenghResultVector * k) + 1];
+              double day = v[(lenghResultVector * k) + 2];
+              double hour = 0;
+              double min = 0;
+              double sec = 0;
+              pRes[k] = DateNumber(year, month, day, hour, min, sec);
+          }
+          retval << res;
+
+      } else if (param1.is2D() && param1.getColumns() == 6) {
+          ArrayOf asDoubleArrayOf(param1);
+          asDoubleArrayOf.promoteType(NLS_DOUBLE);
+          double* v = (double*)asDoubleArrayOf.getDataPointer();
+          indexType lenghResultVector = param1.getElementCount() / 6;
+          Dimensions dimsRes(1, lenghResultVector);
+          double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
+          ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+          for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
+              double year = v[lenghResultVector * k];
+              double month = v[(lenghResultVector * k) + 1];
+              double day = v[(lenghResultVector * k) + 2];
+              double hour = v[(lenghResultVector * k) + 3];
+              double min = v[(lenghResultVector * k) + 4];
+              double sec = v[(lenghResultVector * k) + 5];
+              pRes[k] = DateNumber(year, month, day, hour, min, sec);
+          }
+          retval << res;
+
+      } else {
+          retval << param1;
+      }
+    } else {
+        if (param1.isRowVectorCharacterArray()) { 
+          std::wstring strdate = param1.getContentAsWideString();
+          bool bParsed;
+          double res = DateNumber(strdate, bParsed);
+          if (!bParsed) {
+              Error(L"None of the standard formats match the DATE string.");
+          }
+          retval << ArrayOf::doubleConstructor(res);
+        } else if (param1.isStringArray()) {
+            ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
+            Dimensions dimsRes = param1.getDimensions();
+            double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+            ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+            for (indexType k = 0; k < dimsRes.getElementCount(); ++k) {
+                if (pArrayStr[k].isRowVectorCharacterArray()) {
+                    std::wstring strdate = pArrayStr[k].getContentAsWideString();
+                    bool bParsed;
+                    pRes[k] = DateNumber(strdate, bParsed);
+                    if (!bParsed) {
+                        Error(L"None of the standard formats match the DATE string.");
+                    }
+                } else {
+                    Error(_W("Failed to convert text to date number."));
+                }
+            }
+            retval << res;
+        } else if (IsCellOfString(param1)) {
+            ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
+            Dimensions dimsRes = param1.getDimensions();
+            double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+            ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+            for (indexType k = 0; k < dimsRes.getElementCount(); ++k) {
+                std::wstring strdate = pArrayStr[k].getContentAsWideString();
+                    bool bParsed;
+                    pRes[k] = DateNumber(strdate, bParsed);
+                    if (!bParsed) {
+                        Error(L"None of the standard formats match the DATE string.");
+                    }
+            }
+            retval << res;
+        } else {
+            Error(_W("vector double, character vector or string array expected."));
+        }
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+datanumBuiltinTwoRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2)
+{
+    ArrayOfVector retval;
+    if (param1.isNumeric()) {
+        Warning(_W("a date vector or string expected, all subsequent arguments are ignored."));
+        retval << param1;
+    } else if (param1.isStringArray()) {
+      std::wstring dateformat = param2.getContentAsWideString();
+      ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
+      Dimensions dimsRes = param1.getDimensions();
+      double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+      ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+      for (indexType k = 0; k < dimsRes.getElementCount(); ++k) {
+          if (pArrayStr[k].isRowVectorCharacterArray()) {
+              std::wstring strdate = pArrayStr[k].getContentAsWideString();
+              bool bParsed;
+              pRes[k] = DateNumber(strdate, dateformat, bParsed);
+              if (!bParsed) {
+                  Error(L"None of the standard formats match the DATE string.");
+              }
+          } else {
+              Error(_W("Failed to convert text to date number."));
+          }
+      }
+      retval << res;
+    } else if (IsCellOfString(param1)) {
+        std::wstring dateformat = param2.getContentAsWideString();
+        ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
+        Dimensions dimsRes = param1.getDimensions();
+        double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+        ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+        for (indexType k = 0; k < dimsRes.getElementCount(); ++k) {
+            std::wstring strdate = pArrayStr[k].getContentAsWideString();
+            bool bParsed;
+            pRes[k] = DateNumber(strdate, dateformat, bParsed);
+            if (!bParsed) {
+                Error(L"None of the standard formats match the DATE string.");
+            }
+        }
+        retval << res;
+    } else {
+        Error(_W("vector double, character vector or string array expected."));
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+datanumBuiltinThreeRhs(
+    int nLhs, const ArrayOf& param1, const ArrayOf& param2, const ArrayOf& param3)
+{
+    ArrayOfVector retval;
+    bool isValid;
+    Dimensions dimsRes = findCommonDimensions(
+        param1.getDimensions(), param2.getDimensions(), param3.getDimensions(), isValid);
+    if (!isValid) {
+        Error(_W("Invalid vector size must be compatible"));
+    }
+    ArrayOf param1AsDouble(param1);
+    param1AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param2AsDouble(param2);
+    param2AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param3AsDouble(param3);
+    param3AsDouble.promoteType(NLS_DOUBLE);
+
+    double* ptrParam1 = (double*)param1AsDouble.getDataPointer();
+    double* ptrParam2 = (double*)param2AsDouble.getDataPointer();
+    double* ptrParam3 = (double*)param3AsDouble.getDataPointer();
     double hour = 0.;
     double min = 0.;
     double sec = 0.;
-    double res = 0.;
-    switch (argIn.size()) {
-    case 0: {
-        res = Now();
-    } break;
-    case 1: {
-        ArrayOf param1 = argIn[0];
-        if (param1.isNumeric()) {
-            if (param1.isScalar()) {
-                year = param1.getContentAsDoubleScalar();
-            } else if (param1.isEmpty()) {
-                Dimensions dims = param1.getDimensions();
-                retval << ArrayOf::emptyConstructor(dims);
-                return retval;
-            } else if (param1.isRowVector()) {
-                indexType len = param1.getElementCount();
-                if (len == 3) {
-                    param1.promoteType(NLS_DOUBLE);
-                    auto* ptrDouble = (double*)param1.getDataPointer();
-                    year = ptrDouble[0];
-                    month = ptrDouble[1];
-                    day = ptrDouble[2];
-                    res = DateNumber(year, month, day, hour, min, sec);
-                } else if (len == 6) {
-                    param1.promoteType(NLS_DOUBLE);
-                    auto* ptrDouble = (double*)param1.getDataPointer();
-                    year = ptrDouble[0];
-                    month = ptrDouble[1];
-                    day = ptrDouble[2];
-                    hour = ptrDouble[3];
-                    min = ptrDouble[4];
-                    sec = ptrDouble[5];
-                    res = DateNumber(year, month, day, hour, min, sec);
-                } else {
-                    retval << param1;
-                    return retval;
-                }
-            } else if (param1.isColumnVector()) {
-                retval << param1;
-                return retval;
-            } else if (param1.is2D()) {
-                if (param1.getColumns() == 3) {
-                    // OK
-                } else if (param1.getColumns() == 6) {
-                    // OK
-                } else {
-                    retval << param1;
-                    return retval;
-                }
-            } else {
-                retval << param1;
-                return retval;
-            }
-        } else {
-            if (param1.isRowVectorCharacterArray()) {
-                std::wstring strdate = param1.getContentAsWideString();
-                bool bParsed;
-                res = DateNumber(strdate, bParsed);
-                if (!bParsed) {
-                    Error(L"None of the standard formats match the DATE string.");
-                }
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-            }
-        }
-    } break;
-    case 2: {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param1.isRowVectorCharacterArray() && param2.isRowVectorCharacterArray()) {
-            std::wstring datestr = param1.getContentAsWideString();
-            std::wstring dateformat = param2.getContentAsWideString();
-            bool bParsed = false;
-            res = DateNumber(datestr, dateformat, bParsed);
-            if (!bParsed) {
-                Error(L"format does not match the DATE string.");
-            }
-        } else {
-            Error(ERROR_WRONG_ARGUMENTS_TYPE);
-        }
-    } break;
-    case 3: {
-        ArrayOf param1 = argIn[0];
-        if (!param1.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-        }
-        year = param1.getContentAsDoubleScalar();
-        ArrayOf param2 = argIn[1];
-        if (!param2.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
-        }
-        month = param2.getContentAsDoubleScalar();
-        ArrayOf param3 = argIn[2];
-        if (!param3.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED);
-        }
-        day = param3.getContentAsDoubleScalar();
-        res = DateNumber(year, month, day, hour, min, sec);
-    } break;
-    case 6: {
-        ArrayOf param1 = argIn[0];
-        if (!param1.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-        }
-        year = param1.getContentAsDoubleScalar();
-        ArrayOf param2 = argIn[1];
-        if (!param2.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
-        }
-        month = param2.getContentAsDoubleScalar();
-        ArrayOf param3 = argIn[2];
-        if (!param3.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED);
-        }
-        day = param3.getContentAsDoubleScalar();
-        ArrayOf param4 = argIn[3];
-        if (!param4.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_4_TYPE_DOUBLE_EXPECTED);
-        }
-        hour = param4.getContentAsDoubleScalar();
-        ArrayOf param5 = argIn[4];
-        if (!param5.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_5_TYPE_DOUBLE_EXPECTED);
-        }
-        min = param5.getContentAsDoubleScalar();
-        ArrayOf param6 = argIn[5];
-        if (!param6.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_6_TYPE_DOUBLE_EXPECTED);
-        }
-        sec = param6.getContentAsDoubleScalar();
-        res = DateNumber(year, month, day, hour, min, sec);
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    } break;
+
+    bool param1IsScalar = param1AsDouble.isScalar();
+    bool param2IsScalar = param2AsDouble.isScalar();
+    bool param3IsScalar = param3AsDouble.isScalar();
+ 
+    double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+    ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {
+        double year = param1IsScalar ? ptrParam1[0] : ptrParam1[k];
+        double month = param2IsScalar ? ptrParam2[0] : ptrParam2[k];
+        double day = param3IsScalar ? ptrParam3[0] : ptrParam3[k];
+        pRes[k] = DateNumber(year, month, day, hour, min, sec);
     }
-    retval << ArrayOf::doubleConstructor(res);
+    retval << res;
     return retval;
+}
+//=============================================================================
+ArrayOfVector
+datanumBuiltinSixRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2, const ArrayOf& param3,
+    const ArrayOf& param4, const ArrayOf& param5, const ArrayOf& param6)
+{
+    ArrayOfVector retval;
+    bool isValid;
+    Dimensions dimsRes = findCommonDimensions(
+        param1.getDimensions(), param2.getDimensions(), param3.getDimensions(), param4.getDimensions(), param5.getDimensions(),
+        param6.getDimensions(), isValid);
+    if (!isValid) {
+        Error(_W("Invalid vector size must be compatible"));
+    }
+
+    ArrayOf param1AsDouble(param1);
+    param1AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param2AsDouble(param2);
+    param2AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param3AsDouble(param3);
+    param3AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param4AsDouble(param4);
+    param4AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param5AsDouble(param5);
+    param5AsDouble.promoteType(NLS_DOUBLE);
+    ArrayOf param6AsDouble(param6);
+    param6AsDouble.promoteType(NLS_DOUBLE);
+
+    double* ptrParam1 = (double*)param1AsDouble.getDataPointer();
+    double* ptrParam2 = (double*)param2AsDouble.getDataPointer();
+    double* ptrParam3 = (double*)param3AsDouble.getDataPointer();
+    double* ptrParam4 = (double*)param4AsDouble.getDataPointer();
+    double* ptrParam5 = (double*)param5AsDouble.getDataPointer();
+    double* ptrParam6 = (double*)param6AsDouble.getDataPointer();
+
+    bool param1IsScalar = param1AsDouble.isScalar();
+    bool param2IsScalar = param2AsDouble.isScalar();
+    bool param3IsScalar = param3AsDouble.isScalar();
+    bool param4IsScalar = param4AsDouble.isScalar();
+    bool param5IsScalar = param5AsDouble.isScalar();
+    bool param6IsScalar = param6AsDouble.isScalar();
+
+    double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+    ArrayOf res = ArrayOf::ArrayOf(NLS_DOUBLE, dimsRes, pRes);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {
+        double year = param1IsScalar ? ptrParam1[0] : ptrParam1[k];
+        double month = param2IsScalar ? ptrParam2[0] : ptrParam2[k];
+        double day = param3IsScalar ? ptrParam3[0] : ptrParam3[k];
+        double hour = param4IsScalar ? ptrParam4[0] : ptrParam4[k];
+        double min = param5IsScalar ? ptrParam5[0] : ptrParam5[k];
+        double sec = param6IsScalar ? ptrParam6[0] : ptrParam6[k];
+        pRes[k] = DateNumber(year, month, day, hour, min, sec);
+    }
+    retval << res;
+    return retval;
+}
+//=============================================================================
+Dimensions
+findCommonDimensions(const Dimensions& dims1, const Dimensions& dims2, bool& isValid)
+{ 
+    Dimensions dimsRes;
+    isValid = false;
+    if (dims1.isScalar()) {
+        dimsRes = dims2;
+        isValid = true;
+    } else if (dims2.isScalar()) {
+        dimsRes = dims1;
+        isValid = true;
+    } else if (dims1.equals(dims2)) {
+        dimsRes = dims1;
+        isValid = true;
+    } else {
+        isValid = false;
+    }
+    return dimsRes;
+}
+//=============================================================================
+Dimensions
+findCommonDimensions(
+    const Dimensions& dims1, const Dimensions& dims2, const Dimensions& dims3, bool& isValid)
+{ 
+    Dimensions dimsRes = findCommonDimensions(dims1, dims2, isValid);
+    if (!isValid) {
+        return dimsRes;
+    }
+    return findCommonDimensions(dimsRes, dims3, isValid);
+}
+//=============================================================================
+Dimensions
+findCommonDimensions(const Dimensions& dims1, const Dimensions& dims2, const Dimensions& dims3,
+    const Dimensions& dims4, const Dimensions& dims5, const Dimensions& dims6, bool& isValid)
+{ 
+    Dimensions dimsRes = findCommonDimensions(dims1, dims2, isValid);
+    if (!isValid) {
+        return dimsRes;
+    }
+    dimsRes = findCommonDimensions(dimsRes, dims3, isValid);
+    if (!isValid) { 
+        return dimsRes;
+    }
+    dimsRes = findCommonDimensions(dimsRes, dims4, isValid);
+    if (!isValid) {
+        return dimsRes;
+    }
+    dimsRes = findCommonDimensions(dimsRes, dims5, isValid);
+    if (!isValid) {
+        return dimsRes;
+    }
+    return findCommonDimensions(dimsRes, dims6, isValid);
 }
 //=============================================================================
