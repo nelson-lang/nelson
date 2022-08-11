@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 # ==============================================================================
 # Copyright (c) 2016-present Allan CORNET (Nelson)
@@ -16,7 +16,9 @@
   <project_license>GPL-3.0</project_license>
   <name>Nelson</name>
   <summary>Expendable and Modern numerical computing environment</summary>
-  <summary xml:lang="fr">Environnement informatique numérique extensible et moderne</summary>
+  <summary
+    xml:lang="fr"
+  >Environnement informatique numérique extensible et moderne</summary>
   <description>
     <p>
       Nelson is an matrix/array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
@@ -34,7 +36,8 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/desktop/images/screenshot-linux.png</image>
+      <image
+      >https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/desktop/images/screenshot-linux.png</image>
     </screenshot>
   </screenshots>
 
@@ -43,12 +46,20 @@
     <binary>nelson</binary>
   </provides>
 
-  <url type="homepage">https://nelson-numerical-software.github.io/nelson-website/</url>
-  <url type="bugtracker">https://github.com/Nelson-numerical-software/nelson/issues/</url>
-  <url type="donation">https://github.com/Nelson-numerical-software/nelson/</url>
-  <url type="faq">https://nelson-numerical-software.github.io/nelson-website/</url>
+  <url
+    type="homepage"
+  >https://nelson-numerical-software.github.io/nelson-website/</url>
+  <url
+    type="bugtracker"
+  >https://github.com/Nelson-numerical-software/nelson/issues/</url>
+  <url
+    type="donation"
+  >https://github.com/Nelson-numerical-software/nelson/</url>
+  <url
+    type="faq"
+  >https://nelson-numerical-software.github.io/nelson-website/</url>
   <update_contact>nelson.numerical.computation@gmail.com</update_contact>
   <project_group>Nelson</project_group>
   <developer_name>Allan CORNET and others</developer_name>
-  <content_rating type="oars-1.0"/>
+  <content_rating type="oars-1.0" />
 </component>
