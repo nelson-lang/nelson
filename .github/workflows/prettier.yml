@@ -3,7 +3,7 @@ name: prettier
 on: [push]
 
 jobs:
-  Prettier_check:
+  prettier_check:
     name: Ubuntu-22.04 Jammy
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -21,3 +21,5 @@ jobs:
         run: |
           npm install
       - name: npm run prettier:check
+        run: |
+          npm run prettier:check
