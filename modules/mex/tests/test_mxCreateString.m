@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxCreateString') == 0
-    test_dir = [tempdir(), 'mxCreateString'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxCreateString.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxCreateString.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxCreateString'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxCreateString.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxCreateString.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mxCreateString();

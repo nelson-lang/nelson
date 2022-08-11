@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = nmm_is_installed(module_name)
-    modules = nmm_list();
-    for n = fieldnames(modules)'
-        if strcmp(n{1}, module_name)
-            r = true;
-            return;
-        end
+  modules = nmm_list();
+  for n = fieldnames(modules)'
+    if strcmp(n{1}, module_name)
+      r = true;
+      return;
     end
-    r = false;
+  end
+  r = false;
 end
 %=============================================================================

@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = logical_plus_logical(A, B)
-	% internal function (overload)
-	R = double(A) + double(B);
+  % internal function (overload)
+  R = double(A) + double(B);
 end

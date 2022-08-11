@@ -11,7 +11,7 @@
 %=============================================================================
 fptr = str2func('pause');
 for i = 1:15
- f(i) = parfeval(backgroundPool, fptr, 0, 1);
+  f(i) = parfeval(backgroundPool, fptr, 0, 1);
 end
 tic()
 R = wait(f, 'running');

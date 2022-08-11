@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_cos(a)
- r = sparse(cos(full(a)));
+  r = sparse(cos(full(a)));
 end

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function fd = stderr()
-% return the numeric value corresponding to the standard error stream.
-% see also stdin, stdout
-	fd = 2;
+  % return the numeric value corresponding to the standard error stream.
+  % see also stdin, stdout
+  fd = 2;
 end

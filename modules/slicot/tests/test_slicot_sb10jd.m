@@ -38,7 +38,7 @@ assert_isapprox(D_OUT, D_OUT_REF, 1e-4);
 E_OUT_REF_1 = [-3.1623      0.4743;
 -0.7208      0.1581];
 E_OUT_REF_MKL_2019 = [     3.1977      0.0000;
-     -0.0000      0.1564];
+-0.0000      0.1564];
 if isapprox(E_OUT(1), E_OUT_REF_1(1), 1e-4)
   assert_isapprox(E_OUT, E_OUT_REF_1, 1e-4);
 else

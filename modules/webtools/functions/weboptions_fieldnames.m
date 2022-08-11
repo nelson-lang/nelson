@@ -9,17 +9,17 @@
 %=============================================================================
 function names = weboptions_fieldnames(options)
   names = {'CharacterEncoding';
-    'UserAgent';
-    'Timeout';
-    'Username';
-    'Password';
-    'KeyName';
-    'KeyValue';
-    'HeaderFields';
-    'ContentType';
-    'ContentReader';
-    'MediaType';
-    'RequestMethod';
-    'Arrayformat';
-    'CertificateFilename'};
+  'UserAgent';
+  'Timeout';
+  'Username';
+  'Password';
+  'KeyName';
+  'KeyValue';
+  'HeaderFields';
+  'ContentType';
+  'ContentReader';
+  'MediaType';
+  'RequestMethod';
+  'Arrayformat';
+  'CertificateFilename'};
 end

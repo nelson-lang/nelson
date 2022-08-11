@@ -59,7 +59,7 @@ function txt = templatecleanerpart1(destinationdir)
   txt = [txt; '  rmfile(''unloader.m'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
- end
+end
 %=============================================================================
 function txt = templatecleanerpart2(files)
   txt = {};
@@ -69,7 +69,7 @@ function txt = templatecleanerpart2(files)
     txt = [txt; 'end'];
     txt = [txt; {'%============================================================================='}];
   end
- end
+end
 %=============================================================================
 function txt = templatecleanerpart3(files)
   txt = {};
@@ -129,5 +129,5 @@ function txt = templatecleanerpart5()
   txt = [txt; {'cd(current_directory);'}];
   txt = [txt; {'clear(''current_directory'');'}];
   txt = [txt; {'%============================================================================='}];
- end
+end
 %=============================================================================

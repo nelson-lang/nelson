@@ -12,14 +12,14 @@
 run([modulepath('mex'), '/examples/mex_engine_demo_1.m'])
 filename = [tempdir(), 'mex_engine_demo_1/mex_engine_demo_1'];
 if ispc()
-    filename = [filename, '.exe'];
+  filename = [filename, '.exe'];
 end
 assert_istrue(isfile(filename));
 %=============================================================================
 run([modulepath('mex'), '/examples/mex_engine_demo_2.m']);
 filename = [tempdir(), 'mex_engine_demo_2/mex_engine_demo_2'];
 if ispc()
-    filename = [filename, '.exe'];
+  filename = [filename, '.exe'];
 end
 assert_istrue(isfile(filename));
 %=============================================================================

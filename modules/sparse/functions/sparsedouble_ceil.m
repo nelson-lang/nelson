@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_ceil(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, ceil(V));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, ceil(V));
 end

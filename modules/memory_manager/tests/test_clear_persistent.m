@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = test_clear_persistent()
-    persistent val;
-    if isempty(val)
-        val = 0;
-        r = val;
-    else
-        val = val + 1;
-        r = val;
-    end
+  persistent val;
+  if isempty(val)
+    val = 0;
+    r = val;
+  else
+    val = val + 1;
+    r = val;
+  end
 end
 %=============================================================================

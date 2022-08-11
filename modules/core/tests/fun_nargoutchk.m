@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = fun_nargoutchk(varargin)
-    nargoutchk(2, 3)
-    for n = 1:nargout
-        varargout{n} = n;
-    end
+  nargoutchk(2, 3)
+  for n = 1:nargout
+    varargout{n} = n;
+  end
 end
 %=============================================================================

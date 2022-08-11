@@ -15,10 +15,10 @@ assert_isequal(ME.cause, {})
 assert_isequal(class(ME.stack), 'struct')
 n = numel(ME.stack);
 if n == 3 || n == 6
-    assert_isequal(ME.stack(1).name, 'fun_MException_3')
-    assert_isequal(ME.stack(1).line, 12)
-    assert_isequal(ME.Correction, {})
+  assert_isequal(ME.stack(1).name, 'fun_MException_3')
+  assert_isequal(ME.stack(1).line, 12)
+  assert_isequal(ME.Correction, {})
 else
-    error('wrong ME.stack size.')
+  error('wrong ME.stack size.')
 end
 %=============================================================================

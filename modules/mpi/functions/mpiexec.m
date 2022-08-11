@@ -14,7 +14,7 @@ function varargout = mpiexec(varargin)
   if nargout > 2
     error(_('Wrong number of output arguments.'));
   end
-
+  
   if nargin > 1
     nb_process = int32(varargin{2});
     if ~isscalar(nb_process)
@@ -50,6 +50,6 @@ function varargout = mpiexec(varargin)
     varargout{1} = res;
     varargout{2} = msg;
   end
-
+  
 end
 %=============================================================================

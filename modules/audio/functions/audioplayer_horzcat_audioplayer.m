@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = audioplayer_horzcat_audioplayer(A, B)
-    R = handle_horzcat_handle(A, B);
+  R = handle_horzcat_handle(A, B);
 end
 %=============================================================================

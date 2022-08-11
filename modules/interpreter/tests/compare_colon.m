@@ -27,5 +27,5 @@ function R = compare_colon(nb_test, varargin)
       R = isequal(varargin, REF);
     otherwise
       R = false;
+    end
   end
-end

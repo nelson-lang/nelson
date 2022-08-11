@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxCreateDoubleScalar') == 0
-    test_dir = [tempdir(), 'mxCreateDoubleScalar'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxCreateDoubleScalar.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxCreateDoubleScalar.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxCreateDoubleScalar'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxCreateDoubleScalar.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxCreateDoubleScalar.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mxCreateDoubleScalar();

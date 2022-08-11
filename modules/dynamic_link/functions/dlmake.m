@@ -81,14 +81,14 @@ function r = getExistingIntermediateFiles(destinationdir)
       for f = files'
         r = [r; [destinationdir, '/', f(1).name]];
       end    
+    end
   end
-end
-%=============================================================================
+  %=============================================================================
 function removeIntermediateFiles(destinationdir, existingFiles)
   directory = 'CMakeFiles';
   files = {'cmake_install.cmake';
-    'CMakeCache.txt';
-    'Makefile'};
+  'CMakeCache.txt';
+  'Makefile'};
   try
     [res, msg] = rmdir([destinationdir, '/', directory], 's');
     for f = files'

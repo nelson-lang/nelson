@@ -22,8 +22,8 @@ A = 'abcdefghifklmnopqr';
 B = reshape(A, 3, 2, 3);
 R = string(B);
 REF = ["ad",    "gf",    "mp";
-    "be",    "hk",    "nq";
-    "cf",    "il",    "or"];
+"be",    "hk",    "nq";
+"cf",    "il",    "or"];
 assert_isequal(R, REF);
 %=============================================================================
 R = string({'Jan','Feb'});
@@ -33,9 +33,9 @@ assert_isequal(R, REF);
 %=============================================================================
 R(5,5) = 'May';
 REF = ["Jan" ,"Feb", string(NaN), string(NaN), "Jun";
- string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
- string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
- string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
- string(NaN), string(NaN), string(NaN), string(NaN), "May"];
- assert_isequal(R, REF);
+string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
+string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
+string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
+string(NaN), string(NaN), string(NaN), string(NaN), "May"];
+assert_isequal(R, REF);
 %=============================================================================

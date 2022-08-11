@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = libpointer_vertcat_libpointer(A, B)
-    R = handle_vertcat_handle(A, B);
+  R = handle_vertcat_handle(A, B);
 end
 %=============================================================================

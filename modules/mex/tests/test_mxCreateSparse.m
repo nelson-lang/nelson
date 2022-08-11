@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxCreateSparse') == 0
-    test_dir = [tempdir(), 'mxCreateSparse'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxCreateSparse.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxCreateSparse.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxCreateSparse'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxCreateSparse.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxCreateSparse.c');
+  addpath(pwd())
 end
 %=============================================================================
 REF = sparse(eye(10, 10));

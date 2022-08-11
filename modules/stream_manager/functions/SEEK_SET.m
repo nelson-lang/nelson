@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function id = SEEK_SET()
-% Return the numerical value to pass to fseek to perform action position file relative to the beginning.
+  % Return the numerical value to pass to fseek to perform action position file relative to the beginning.
   id = -1;
 end

@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxRemoveField') == 0
-    test_dir = [tempdir(), 'mxRemoveField'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxRemoveField.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxRemoveField.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxRemoveField'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxRemoveField.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxRemoveField.c');
+  addpath(pwd())
 end
 %=============================================================================
 S.f1 = 1;

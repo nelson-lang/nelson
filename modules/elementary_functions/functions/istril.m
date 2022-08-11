@@ -8,10 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = istril(M)
-    R = (islogical(M) || isnumeric(M)) && (ndims(M) == 2);
-    if (R)
-      [I, J] = find(M);
-      R = all (I >= J);
-    end
+  R = (islogical(M) || isnumeric(M)) && (ndims(M) == 2);
+  if (R)
+    [I, J] = find(M);
+    R = all (I >= J);
+  end
 end
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = weboptions_getfield(obj, fieldname)
-    s = struct(obj);
-    r = getfield(s, fieldname);
+  s = struct(obj);
+  r = getfield(s, fieldname);
 end
 %=============================================================================

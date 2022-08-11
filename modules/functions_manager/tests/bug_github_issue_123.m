@@ -17,5 +17,5 @@ addpath([nelsonroot(), '/modules/core/tests/']);
 addpath([nelsonroot(), '/modules/core/tests/']);
 
 for k = 1:1000
- addpath(fileparts(nfilename('fullpathext')))
+  addpath(fileparts(nfilename('fullpathext')))
 end

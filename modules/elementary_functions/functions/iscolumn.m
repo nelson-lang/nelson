@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = iscolumn(M)
-    narginchk(1, 1)
-    nargoutchk(0, 1)
-    sz = size (M);
-    tf = (ndims (M) == 2 && (sz(2) == 1));
+  narginchk(1, 1)
+  nargoutchk(0, 1)
+  sz = size (M);
+  tf = (ndims (M) == 2 && (sz(2) == 1));
 end
 %=============================================================================

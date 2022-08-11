@@ -10,16 +10,16 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 if exist('mexPutVariable') == 0
-    test_dir = [tempdir(), 'mexPutVariable'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexPutVariable.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexPutVariable.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexPutVariable'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexPutVariable.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexPutVariable.c');
+  addpath(pwd())
 end
 %=============================================================================
 mexPutVariable('base', 'AA', 33);

@@ -11,8 +11,8 @@ mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
 %=============================================================================
 clear testsparse
 M = [     1     2     3     4     5;
-     2     0     0     0     0;
-     3     0     0     0     0];
+2     0     0     0     0;
+3     0     0     0     0];
 testsparse_ref = sparse(M);
 loadmat([mat_dir, 'test_sparse_4.2c_SOL2.mat']);
 assert_isequal(testsparse, testsparse_ref);
@@ -35,8 +35,8 @@ assert_isequal(testsparse, testsparse_ref);
 %=============================================================================
 clear testsparse
 M = [1.0000 + 1.0000i   2.0000 + 0.0000i   3.0000 + 0.0000i   4.0000 + 0.0000i   5.0000 + 0.0000i;
-   2.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i;
-   3.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i];
+2.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i;
+3.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i];
 testsparsecomplex_ref = sparse(M);
 clear testsparsecomplex
 loadmat([mat_dir, 'test_sparsecomplex_4.2c_SOL2.mat']);

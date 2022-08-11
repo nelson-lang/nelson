@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_sin(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, sin(V), size(a, 1), size(a, 2));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, sin(V), size(a, 1), size(a, 2));
 end

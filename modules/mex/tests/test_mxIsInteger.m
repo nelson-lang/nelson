@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxIsInteger') == 0
-    test_dir = [tempdir(), 'mxIsInteger'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxIsInteger.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxIsInteger.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxIsInteger'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxIsInteger.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxIsInteger.c');
+  addpath(pwd())
 end
 %=============================================================================
 assert_isequal(mxIsInteger(int8(3)), 'int8');

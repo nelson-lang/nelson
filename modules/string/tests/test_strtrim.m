@@ -21,10 +21,10 @@ REF = 'AbCd   EfGg hijkl ...';
 assert_isequal(R, REF);
 %=============================================================================
 C = {'     A string with whitespace';
-       ' Remove trailing whitespace ...       '};
+' Remove trailing whitespace ...       '};
 R = strtrim(C);
 REF = {'A string with whitespace';
-       'Remove trailing whitespace ...'};
+'Remove trailing whitespace ...'};
 assert_isequal(R, REF);
 %=============================================================================
 TXT = '     Test significant whitespace';
@@ -37,9 +37,9 @@ C = {'f ', 1};
 assert_checkerror('R = strtrim(C);', _('cell of strings expected.'));
 %=============================================================================
 C = ["     A string with whitespace";
-       " Remove trailing whitespace ...       "];
+" Remove trailing whitespace ...       "];
 R = strtrim(C);
 REF = ["A string with whitespace";
-       "Remove trailing whitespace ..."];
+"Remove trailing whitespace ..."];
 assert_isequal(R, REF);
 %=============================================================================

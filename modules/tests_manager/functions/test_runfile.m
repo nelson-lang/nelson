@@ -18,24 +18,24 @@ function struct_res = test_runfile(varargin)
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end
-
+  
   r = false;
   msg = '';
   timing = 0;
   test_run_options = test_parsetags(filename);
-
+  
   if (test_run_options.check_ref)
     [p, f, e] = fileparts(filename);
     dia_ref = [p, '/', f, '.ref'];
     if ~isfile(dia_ref)
       error(_('reference diary expected.'));
     end
-
+    
     [p, f, e] = fileparts(filename);
     dia_res = [tempdir(), '', f, '.res'];
     rm = rmfile(dia_res);
   end
-
+  
   current_path_test_runfile = path();
   % 'test_run_options' variable protected of clear('all') in test files
   varlock('local', 'test_run_options')
@@ -49,13 +49,13 @@ function struct_res = test_runfile(varargin)
   varunlock('local','test_run_options');
   varunlock('local', 'current_path_test_runfile')
   path(current_path_test_runfile);
-
+  
   if ~r
     msg = lasterror();
   else
     msg = '';
   end
-
+  
   if (test_run_options.check_ref)
     fileID = fopen(dia_res, 'wt');
     output_test = replace(output_test(:)', char([13 10]), char(10));

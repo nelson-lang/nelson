@@ -25,39 +25,39 @@ function [a, b] = polyder(varargin)
   else
     up = 0;
   end
-
+  
   if nv >= 2
     vp = v(1:nv-1) .* (nv-1:-1:1);
   else
     vp = 0;
   end
-
+  
   av = conv(up, v);
   au = conv(u, vp);
-
+  
   i = length(av);
   j = length(au);
-
+  
   z = zeros(1, abs(i - j));
   if i > j
     au = [z, au];
   elseif i < j
     av = [z, av];
   end
-
+  
   if nargout < 2
     a = av + au;
   else
     a = av - au;
   end
-
+  
   a = polyder_trim_a(a, u, v);
   b = polyder_trim_b(v);
-
+  
   if length(a) > max(nu + nv - 2,1)
     a = a(2:end);
   end
-
+  
 end
 %=============================================================================
 function c = superiorclass(a, b)
@@ -71,12 +71,12 @@ function c = superiorclass(a, b)
 end
 %=============================================================================
 function a = polyder_trim_a(a, u, v)
-   f = find(a ~= 0);
-   if isempty(f)
-     a = zeros(superiorclass(u, v));
-   else 
-     a = a(f(1):end);
-   end
+  f = find(a ~= 0);
+  if isempty(f)
+    a = zeros(superiorclass(u, v));
+  else 
+    a = a(f(1):end);
+end
 end
 %=============================================================================
 function b = polyder_trim_b(v)
@@ -86,6 +86,6 @@ function b = polyder_trim_b(v)
     b = zeros(class(v));
   else
     b = b(f(1):end);
-  end
+end
 end
 %=============================================================================

@@ -8,23 +8,23 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nmm_build_dependencies(MODULE_PATH)
-    module_json = [MODULE_PATH, '/module.json'];
-    if ~isfile(module_json)
-        error(_('module.json is missing.'));
+  module_json = [MODULE_PATH, '/module.json'];
+  if ~isfile(module_json)
+    error(_('module.json is missing.'));
+  end
+  content = fileread(module_json);
+  data = jsondecode(content);
+  if any(contains(fieldnames(data), 'dependencies'))
+    dependencies = data.dependencies;
+    names = fieldnames(dependencies);
+    for n = names'
+      r = nmm_is_http_repository(dependencies.(n{1}));
+      if r || isdir(dependencies.(n{1}))
+        nmm('install', dependencies.(n{1}))
+      else
+        nmm('install', n, dependencies.(n{1}))
+      end
     end
-    content = fileread(module_json);
-    data = jsondecode(content);
-    if any(contains(fieldnames(data), 'dependencies'))
-        dependencies = data.dependencies;
-        names = fieldnames(dependencies);
-        for n = names'
-            r = nmm_is_http_repository(dependencies.(n{1}));
-            if r || isdir(dependencies.(n{1}))
-                nmm('install', dependencies.(n{1}))
-            else
-                nmm('install', n, dependencies.(n{1}))
-            end
-        end
-    end
+  end
 end
 %=============================================================================

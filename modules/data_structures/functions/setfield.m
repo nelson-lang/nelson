@@ -8,23 +8,23 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function f = setfield(s, varargin)
-    if ~(isstruct(s) || (iscell(s) && isempty(s)) || isempty(s))
-        error(_('Invalid Input struct expected.'));
+  if ~(isstruct(s) || (iscell(s) && isempty(s)) || isempty(s))
+    error(_('Invalid Input struct expected.'));
+  end
+  if isempty(varargin)
+    error(_('Wrong numbers of input arguments.'));
+  end
+  f = s;
+  for i = 1:2:length(varargin)
+    fieldname = varargin{i};
+    if isstring(fieldname) && isscalar(fieldname)
+      fieldname = convertStringsToChars(fieldname);
     end
-    if isempty(varargin)
-        error(_('Wrong numbers of input arguments.'));
+    if ~ischar(fieldname)
+      error(_('Input should be a string or character array.'));
     end
-    f = s;
-    for i = 1:2:length(varargin)
-        fieldname = varargin{i};
-        if isstring(fieldname) && isscalar(fieldname)
-            fieldname = convertStringsToChars(fieldname);
-        end
-        if ~ischar(fieldname)
-            error(_('Input should be a string or character array.'));
-        end
-        fieldvalue = varargin{i + 1};
-        f.(fieldname) = fieldvalue;
-    end
+    fieldvalue = varargin{i + 1};
+    f.(fieldname) = fieldvalue;
+  end
 end
 %=============================================================================

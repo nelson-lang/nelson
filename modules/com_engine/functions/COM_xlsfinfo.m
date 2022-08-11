@@ -14,7 +14,7 @@ function varargout = COM_xlsfinfo(filename)
   if ~isfile(filename)
     error(_('Valid filename expected.'));
   end
-
+  
   try
     excelApplication = actxserver('Excel.Application');
   catch
@@ -26,11 +26,11 @@ function varargout = COM_xlsfinfo(filename)
   for i = 1:500
     format = workBook.FileFormat;
   end
-
+  
   if isempty(format)
     format = workBook.FileFormat;
   end
-
+  
   workSheets = workBook.Worksheets;
   nbSheets = double(workSheets.Count);
   sheets = cell(1, nbSheets);
@@ -38,15 +38,15 @@ function varargout = COM_xlsfinfo(filename)
     sheet = get(workSheets, 'item', idx);
     sheets{idx} = sheet.Name;
   end
-
+  
   excelApplication.Quit;
   delete(excelApplication);
   clear excelApplication
-
+  
   format = COM_xlsformat(format);
   varargout{1} = status;
   varargout{2} = sheets;
   varargout{3} = format;
-
+  
 end
 %=============================================================================

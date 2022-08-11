@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mexEvalString') == 0
-    test_dir = [tempdir(), 'mexEvalString'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mexEvalString.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mexEvalString.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mexEvalString'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mexEvalString.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mexEvalString.c');
+  addpath(pwd())
 end
 %=============================================================================
 mexEvalString();

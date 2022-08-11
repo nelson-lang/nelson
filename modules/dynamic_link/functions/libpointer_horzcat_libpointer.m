@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = libpointer_horzcat_libpointer(A, B)
-    R = handle_horzcat_handle(A, B);
+  R = handle_horzcat_handle(A, B);
 end
 %=============================================================================

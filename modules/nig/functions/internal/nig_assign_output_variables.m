@@ -9,7 +9,7 @@
 %=============================================================================
 function txt = nig_assign_output_variables(NIG_FUNCTION)
   txt = {'    // ASSIGN OUTPUT VARIABLES';
-         ''};
+  ''};
   n = 0;
   for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'output') || strcmp(k.MODE, 'in_out')
@@ -20,6 +20,6 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
       n = n + 1;
     end
   end
-
+  
 end
 %=============================================================================

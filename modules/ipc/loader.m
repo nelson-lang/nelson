@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ~any(contains(argv(),'--noipc')) && ~strcmp(getenv('NELSON_WITHOUT_IPC'), 'TRUE')
-        addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
+  addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
 end
 %=============================================================================

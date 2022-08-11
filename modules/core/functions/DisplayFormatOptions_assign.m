@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = DisplayFormatOptions_assign(cl, key, value)
-    if ~isSupportedFieldNames(key)
-      error(sprintf(_('"%s" is not a recognized parameter.'), key));
-    end
-    [r, fieldname, fieldvalue] = checkArgument(key, value);
-    if ~r
-      error(sprintf(_('invalid value for "%s" field.'), fieldname));
-    end
-    s = struct(cl);
-    s.(fieldname) = string(fieldvalue);
-    r = class(s, 'DisplayFormatOptions');
+  if ~isSupportedFieldNames(key)
+    error(sprintf(_('"%s" is not a recognized parameter.'), key));
+  end
+  [r, fieldname, fieldvalue] = checkArgument(key, value);
+  if ~r
+    error(sprintf(_('invalid value for "%s" field.'), fieldname));
+  end
+  s = struct(cl);
+  s.(fieldname) = string(fieldvalue);
+  r = class(s, 'DisplayFormatOptions');
 end
 %=============================================================================
 function res = isSupportedFieldNames(argName)
@@ -30,30 +30,30 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
     error(_('String or characters expected.'));
   end
   switch(upper(argName))
-      case 'NUMERICFORMAT'
-        [res, fieldname, fieldvalue] = checkNumericFormat(argValue);
-      case 'LINESPACING'
-        [res, fieldname, fieldvalue] = checkLineSpacing(argValue);
-      otherwise
-         res = false;
-         fieldname = argName;
-         fieldvalue = argValue;
-      end
-end
-%=============================================================================
+    case 'NUMERICFORMAT'
+      [res, fieldname, fieldvalue] = checkNumericFormat(argValue);
+    case 'LINESPACING'
+      [res, fieldname, fieldvalue] = checkLineSpacing(argValue);
+    otherwise
+      res = false;
+      fieldname = argName;
+      fieldvalue = argValue;
+    end
+  end
+  %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkNumericFormat(argValue)
   supportedOptions = {'short';	
-    'long';
-    'shortE';
-    'longE';
-    'shortG';
-    'longG';
-    'shortEng';
-    'longEng';
-    '+';
-    'bank';
-    'hex';
-    'rational'}; 
+  'long';
+  'shortE';
+  'longE';
+  'shortG';
+  'longG';
+  'shortEng';
+  'longEng';
+  '+';
+  'bank';
+  'hex';
+  'rational'}; 
   nameNormalized = 'NumericFormat';
   valueNormalized = convertStringsToChars(argValue);
   idx = contains(upper(supportedOptions), upper(valueNormalized));
@@ -61,7 +61,7 @@ function [res, nameNormalized, valueNormalized] = checkNumericFormat(argValue)
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
 end
 %=============================================================================
@@ -74,7 +74,7 @@ function [res, nameNormalized, valueNormalized] = checkLineSpacing(argValue)
   if res
     valueNormalized = supportedOptions(idx){1};
   else
-   valueNormalized = [];
+    valueNormalized = [];
   end
 end
 %=============================================================================

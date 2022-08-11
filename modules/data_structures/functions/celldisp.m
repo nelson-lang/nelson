@@ -18,10 +18,10 @@ function celldisp(c, s)
   else
     s = inputname(1);
   end
-
+  
   fmt = format();
   isloose = (fmt.LineSpacing == "loose");
-
+  
   if isempty(s)
     s = 'ans';
   end
@@ -54,7 +54,7 @@ end
 %=============================================================================
 function blankLine(isloose)
   if (isloose)
-      disp(' ')
+    disp(' ')
   end 
 end 
 %=============================================================================

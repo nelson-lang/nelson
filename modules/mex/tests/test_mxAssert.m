@@ -10,25 +10,25 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 if exist('mxAssert') == 0
-   test_dir = [tempdir(), 'mxAssert'];
-   if isdir(test_dir)
-      rmdir(test_dir,'s');
-   end
-   mkdir(test_dir);
-   status = copyfile('mxAssert.c', test_dir);
-   assert_istrue(status);
-   cd(test_dir);
-   mex('mxAssert.c');
-   addpath(pwd())
+  test_dir = [tempdir(), 'mxAssert'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxAssert.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxAssert.c');
+  addpath(pwd())
 end
 %=============================================================================
 R = mxAssert(1);
 %=============================================================================
 M = [];
 try
-   mxAssert(0);
+  mxAssert(0);
 catch
-   M = lasterror();
+  M = lasterror();
 end
 assert_isequal(M.identifier, 'Nelson:MEX');
 assert_istrue(contains(M.message, 'Assertion failed: (int)expr'));

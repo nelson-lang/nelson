@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_isapprox(a, b, precision)
-	if nargin() == 2
-		precision = 0;
-	end
-	r = false;
-	b = sparse(b);
-	if ~isequal(size(a), size(b))
-		r = false;
-	else
-		[IA, JA, VA] = IJV(a);
-		[IB, JB, VB] = IJV(b);
-		r = isequal(IA, IB) && isequal(JA, JB) && isapprox(VA, VB, precision);
-	end
+  if nargin() == 2
+    precision = 0;
+  end
+  r = false;
+  b = sparse(b);
+  if ~isequal(size(a), size(b))
+    r = false;
+  else
+    [IA, JA, VA] = IJV(a);
+    [IB, JB, VB] = IJV(b);
+    r = isequal(IA, IB) && isequal(JA, JB) && isapprox(VA, VB, precision);
+  end
 end

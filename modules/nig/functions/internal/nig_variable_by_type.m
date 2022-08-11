@@ -9,26 +9,26 @@
 %=============================================================================
 function txt = nig_variable_by_type(VARIABLE, withLocal)
   txt = '';
-
+  
   if strcmp(VARIABLE.TYPE, 'character')
     txt = nig_variable_character(VARIABLE, withLocal);
   end
-
+  
   if strcmp(VARIABLE.TYPE, 'double_array')
     txt = nig_variable_double_array(VARIABLE, withLocal);
   end
-
+  
   if strcmp(VARIABLE.TYPE, 'integer_array')
     txt = nig_variable_integer_array(VARIABLE, withLocal);
   end
-
+  
   if strcmp(VARIABLE.TYPE, 'double')
     txt = nig_variable_double(VARIABLE, withLocal);
   end
-
+  
   if strcmp(VARIABLE.TYPE, 'integer')
     txt = nig_variable_integer(VARIABLE, withLocal);
   end
-
+  
 end
 %=============================================================================

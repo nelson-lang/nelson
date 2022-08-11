@@ -8,12 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function savebin(varargin)
-% savebin(filename, 'var1','varN')
-% savebin(filename)
-
+  % savebin(filename, 'var1','varN')
+  % savebin(filename)
+  
   version_nlbfile = 1;
   tag_nlbfile = 96;
-
+  
   if (nargin == 0)
     error(_('Wrong number of input arguments.'))
   end
@@ -37,21 +37,21 @@ function savebin(varargin)
   if (fw == -1)
     error([_('Impossible to open: '), filename]);
   end
-
+  
   fwrite(fw, tag_nlbfile, 'int', 'l');
   fwrite(fw, version_nlbfile, 'int', 'l');
-
+  
   nbVariables = length(names);
   fwrite(fw, nbVariables, 'int', 'l');
   for k = 1:nbVariables
     fwrite(fw, length(names{k}), 'int', 'l')
     fwrite(fw, names{k}, 'double', 'l');
   end
-
+  
   for k = 1:nbVariables
     save_data(fw, mtx{k});
   end
-
+  
   fclose(fw);
 end
 %=============================================================================
@@ -90,7 +90,7 @@ function ndarraygeneric_save_data(fd, data)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
   if ~isempty(data)
     d = reshape(data, 1, []);
     save_data(fd, d);
@@ -151,7 +151,7 @@ function generic_cell_save_data(fd, data)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
   if ~isempty(data)
     prod = 1;
     for k = 1:len
@@ -177,7 +177,7 @@ function string_save_data(fd, data)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
   if ~isempty(data)
     prod = 1;
     for k = 1:len
@@ -207,7 +207,7 @@ function generic_notcomplex_save_data(fd, data, typestr)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
   if ~isempty(data)
     fwrite(fd, data, typestr, 'l');
   end
@@ -251,7 +251,7 @@ function generic_complex_save_data(fd, data, typestr)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
   fwrite(fd, isreal(data), 'logical', 'l');
   if ~isempty(data)
     if (isreal(data))
@@ -293,7 +293,7 @@ function handle_save_data(fd, data)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
 end
 %=============================================================================
 function generic_save_data(fd, data)
@@ -303,7 +303,7 @@ function generic_save_data(fd, data)
   len = length(dim);
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
-
+  
 end
 %=============================================================================
 function class_save_data(fd, data)

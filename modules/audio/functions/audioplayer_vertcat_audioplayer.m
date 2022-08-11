@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = audioplayer_vertcat_audioplayer(A, B)
-    R = handle_vertcat_handle(A, B);
+  R = handle_vertcat_handle(A, B);
 end
 %=============================================================================

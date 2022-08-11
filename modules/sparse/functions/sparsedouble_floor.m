@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_floor(a)
- [I, J, V] = IJV(a);
- r = sparse(I, J, floor(V));
+  [I, J, V] = IJV(a);
+  r = sparse(I, J, floor(V));
 end

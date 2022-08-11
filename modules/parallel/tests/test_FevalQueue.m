@@ -14,7 +14,7 @@ b = backgroundPool();
 NumWorkers = b.NumWorkers;
 totalWorkers = (NumWorkers*2) + 2
 for k = 1:totalWorkers
-    f(k) = parfeval(b, p, 0, 50);
+  f(k) = parfeval(b, p, 0, 50);
 end
 %=============================================================================
 assert_isequal(class(f), 'FevalFuture')

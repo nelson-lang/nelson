@@ -9,7 +9,7 @@
 %=============================================================================
 function [name, description, value] = COM_xlsformat(formatAsInt)
   searchValue = double(formatAsInt);
-
+  
   formats = { ...
   {'xlAddIn', 18, 'Microsoft Excel 97-2003 Add-In'}, ...
   {'xlAddIn8', 18, 'Microsoft Excel 97-2003 Add-In'}, ...
@@ -66,10 +66,10 @@ function [name, description, value] = COM_xlsformat(formatAsInt)
   {'xlWorks2FarEast', 28, 'Works2 FarEast'}, ...
   {'xlWQ1', 34, 'WQ1'}, ...
   {'xlXMLSpreadsheet', 46, 'XML Spreadsheet'}};
-
+  
   found = {};
   for c = formats(:)'
-
+    
     if c{1}{2} == searchValue
       found = c{1};
       break;
@@ -78,7 +78,7 @@ function [name, description, value] = COM_xlsformat(formatAsInt)
   if isempty(found)
     error(_('format not found.'));
   end
-
+  
   name = found{1};
   value = found{2};
   description = found{3};

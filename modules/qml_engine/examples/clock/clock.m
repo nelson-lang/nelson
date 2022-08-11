@@ -19,7 +19,7 @@ if isempty(qobj)
   else
     qml_file = [modulepath('qml_engine'), '/examples/clock/clocks_qt5.qml'];
   end
-    addpath([modulepath('qml_engine'), '/examples/clock/']);
+  addpath([modulepath('qml_engine'), '/examples/clock/']);
   qobj = qml_loadfile(qml_file);
 end
 qobj.visible = true;

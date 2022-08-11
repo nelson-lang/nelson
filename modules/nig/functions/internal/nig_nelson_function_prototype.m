@@ -53,7 +53,7 @@ function txt = nig_nelson_function_prototype(NIG_FUNCTION)
       output = output(1:end - 2);
     end
   end
-
+  
   txt = ['[', output, '] = ', NIG_FUNCTION.NELSON_NAME, '(', input, ')'];
 end
 %=============================================================================

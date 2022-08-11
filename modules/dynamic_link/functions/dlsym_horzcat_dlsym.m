@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = dlsym_horzcat_dlsym(A, B)
-    R = handle_horzcat_handle(A, B);
+  R = handle_horzcat_handle(A, B);
 end
 %=============================================================================

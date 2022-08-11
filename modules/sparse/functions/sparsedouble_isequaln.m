@@ -8,15 +8,15 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_isequaln(a, b)
-	if issparse(b)
-		if ~isequal(size(a), size(b))
-			r = false;
-		else
-			[IA, JA, VA] = IJV(a);
-			[IB, JB, VB] = IJV(b);
-			r = isequal(IA, IB) && isequal(JA, JB) && isequaln(VA, VB);
-		end
-	else
-		r = false;
-	end
+  if issparse(b)
+    if ~isequal(size(a), size(b))
+      r = false;
+    else
+      [IA, JA, VA] = IJV(a);
+      [IB, JB, VB] = IJV(b);
+      r = isequal(IA, IB) && isequal(JA, JB) && isequaln(VA, VB);
+    end
+  else
+    r = false;
+  end
 end

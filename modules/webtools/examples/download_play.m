@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function playerObj = download_play(filename)
-    [y, fs] = audioread(filename);
-    playerObj = audioplayer(y, fs);
-    play(playerObj)
+  [y, fs] = audioread(filename);
+  playerObj = audioplayer(y, fs);
+  play(playerObj)
 end
 %=============================================================================

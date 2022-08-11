@@ -15,7 +15,7 @@ function r = roots(c)
     r = c;
     return 
   end
-
+  
   if ~isvector(c)
     error('Nelson:roots:NonVectorInput', _('Input must be a vector.'))
   end
@@ -24,7 +24,7 @@ function r = roots(c)
     error('Nelson:roots:NonFiniteInput', _('Input to roots function must not contain NaN or Inf.'));
   end
   
-
+  
   c = c(:).';
   r = zeros(0, 1, class(c));  
   
@@ -32,7 +32,7 @@ function r = roots(c)
   if isempty(inz)
     return
   end
-
+  
   nnz = length(inz);
   c = c(inz(1):inz(nnz));
   n = size(c, 2);

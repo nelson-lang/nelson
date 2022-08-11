@@ -43,25 +43,25 @@ function res = exist(varargin)
           end
         end
       otherwise
-         res = 0;
-    end
-  else
-    res = exist(varname, 'file');
-    if res ~= 0
-      return;
-    end
-    res = exist(varname, 'dir');
-    if res ~= 0
-      return;
-    end
-    if isvar('caller', varname)
-      res = 1;
-      return;
-    end
-    res = exist(varname, 'builtin');
-    if res ~= 0
-      return;
+        res = 0;
+      end
+    else
+      res = exist(varname, 'file');
+      if res ~= 0
+        return;
+      end
+      res = exist(varname, 'dir');
+      if res ~= 0
+        return;
+      end
+      if isvar('caller', varname)
+        res = 1;
+        return;
+      end
+      res = exist(varname, 'builtin');
+      if res ~= 0
+        return;
+      end
     end
   end
-end
-%=============================================================================
+  %=============================================================================

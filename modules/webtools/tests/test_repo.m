@@ -13,7 +13,7 @@ assert_isequal(nargout('repo'), 1);
 GIT_REPOSITORY = 'https://github.com/Nelson-numerical-software/repo_builtin_tests.git';
 LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
 if isdir(LOCAL_DIRECTORY)
-    rmdir(LOCAL_DIRECTORY, 's');
+  rmdir(LOCAL_DIRECTORY, 's');
 end
 mkdir(LOCAL_DIRECTORY);
 repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY)
@@ -21,7 +21,7 @@ R = dir(LOCAL_DIRECTORY);
 assert_isequal(length(R), 6);
 REF_NAMES = {'.', '..', '.git', 'LICENSE', 'README.md', 'repo_test.nlf'};
 for k = 1:length(R)
-    assert_isequal(R(k).name, REF_NAMES{k});
+  assert_isequal(R(k).name, REF_NAMES{k});
 end
 %=============================================================================
 TAGS = repo('tag', LOCAL_DIRECTORY);
@@ -62,13 +62,13 @@ REF_BRANCHES = {'branch_dev'; 'master'; 'origin/branch_dev'; 'origin/master'};
 assert_istrue(any(contains(BRANCHES, REF_BRANCHES)));
 %=============================================================================
 if isdir(LOCAL_DIRECTORY)
-    rmdir(LOCAL_DIRECTORY, 's');
+  rmdir(LOCAL_DIRECTORY, 's');
 end
 %=============================================================================
 GIT_REPOSITORY = 'https://github.com/Nelson-numerical-software/repo_builtin_tests.git';
 LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
 if isdir(LOCAL_DIRECTORY)
-    rmdir(LOCAL_DIRECTORY, 's');
+  rmdir(LOCAL_DIRECTORY, 's');
 end
 mkdir(LOCAL_DIRECTORY);
 repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY, "", "")
@@ -76,10 +76,10 @@ R = dir(LOCAL_DIRECTORY);
 assert_isequal(length(R), 6);
 REF_NAMES = {'.', '..', '.git', 'LICENSE', 'README.md', 'repo_test.nlf'};
 for k = 1:length(R)
-    assert_isequal(R(k).name, REF_NAMES{k});
+  assert_isequal(R(k).name, REF_NAMES{k});
 end
 %=============================================================================
 if isdir(LOCAL_DIRECTORY)
-    rmdir(LOCAL_DIRECTORY, 's');
+  rmdir(LOCAL_DIRECTORY, 's');
 end
 %=============================================================================

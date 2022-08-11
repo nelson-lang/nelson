@@ -22,15 +22,15 @@ function Y = fftn(varargin)
   if (numel(dims) < ndims(X))
     points = size(X);
     dims = [dims, points((numel(dims) + 1):end)];
+end
+Y = X;
+if ~issingle(Y)
+  Y = double(Y);
+end
+if (numel(Y) ~= 0)
+  for n=1:numel(dims)
+    Y = fft(Y, dims(n), n);
   end
-  Y = X;
-  if ~issingle(Y)
-    Y = double(Y);
-   end
-   if (numel(Y) ~= 0)
-     for n=1:numel(dims)
-       Y = fft(Y, dims(n), n);
-     end
-    end
+end
 end
 %=============================================================================

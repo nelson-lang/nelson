@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_cosh(a)
- r = sparse(cosh(full(a)));
+  r = sparse(cosh(full(a)));
 end

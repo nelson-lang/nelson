@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparselogical_isnan(a)
- [I, J, V, m, n] = IJV(a);
- r = sparse(m, n);
+  [I, J, V, m, n] = IJV(a);
+  r = sparse(m, n);
 end

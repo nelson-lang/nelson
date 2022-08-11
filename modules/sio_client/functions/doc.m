@@ -29,7 +29,7 @@ function doc(varargin)
       end
     end
   else
-   sioemit('help', url_help);
+    sioemit('help', url_help);
   end
 end
 %=============================================================================

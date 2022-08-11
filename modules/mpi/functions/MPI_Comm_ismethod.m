@@ -12,7 +12,7 @@ function r = MPI_Comm_ismethod(H, methodName)
     error(_('Wrong size for argument #1: scalar expected.'));
   end
   if (strcmp(class(H), 'MPI_Comm') == false)
-      error(_('Wrong type for argument #1: MPI_Comm expected.'));
+    error(_('Wrong type for argument #1: MPI_Comm expected.'));
   end
   if ~ischar(methodName)
     error(_('Wrong type for argument #2: string expected.'));

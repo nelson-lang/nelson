@@ -25,7 +25,7 @@ function buildhelp(varargin)
   if nargin() == 0
     helpForNelsonOnly()
     run([nelsonroot() '/modules/' 'modules.m']);
-
+    
     for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
@@ -74,11 +74,11 @@ end
 %=============================================================================
 function helpForNelsonOnly()
   changes_md = {[nelsonroot(), '/CHANGELOG.md'];
-                [nelsonroot(), '/CHANGELOG-0.5.x.md'];
-                [nelsonroot(), '/CHANGELOG-0.4.x.md'];
-                [nelsonroot(), '/CHANGELOG-0.3.x.md'];
-                [nelsonroot(), '/CHANGELOG-0.2.x.md'];
-                [nelsonroot(), '/CHANGELOG-0.1.x.md']};
+  [nelsonroot(), '/CHANGELOG-0.5.x.md'];
+  [nelsonroot(), '/CHANGELOG-0.4.x.md'];
+  [nelsonroot(), '/CHANGELOG-0.3.x.md'];
+  [nelsonroot(), '/CHANGELOG-0.2.x.md'];
+  [nelsonroot(), '/CHANGELOG-0.1.x.md']};
   for k = getavailablelanguages()(:)'
     dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
     dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/html/'];

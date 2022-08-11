@@ -12,10 +12,10 @@ assert_isequal(nargout('usermodulesdir'), 1);
 %=============================================================================
 P = getenv('NELSON_EXTERNAL_MODULES_PATH');
 if isdir(P)
-    REF = p;
+  REF = p;
 else
-    V = version('-number');
-    REF = [userdir(), 'nelson/', sprintf('%d.%d.%d',V(1), V(2), V(3)), '/'];
+  V = version('-number');
+  REF = [userdir(), 'nelson/', sprintf('%d.%d.%d',V(1), V(2), V(3)), '/'];
 end
 R = usermodulesdir();
 assert_isequal(R, REF);

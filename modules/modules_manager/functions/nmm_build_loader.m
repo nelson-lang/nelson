@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nmm_build_loader(MODULE_NAME, MODULE_PATH)
-    filewrite([MODULE_PATH, '/loader.m'], content(MODULE_NAME));
+  filewrite([MODULE_PATH, '/loader.m'], content(MODULE_NAME));
 end
 %=============================================================================
 function txt = content(MODULE_NAME)
-    txt = ["%=============================================================================";
-    "% Copyright (c) 2018-present Allan CORNET (Nelson)";
-    "%";
-    "% This file is released under the 3-clause BSD license. See COPYING-BSD.";
-    "%=============================================================================";
-    "% generated file by nmm_build_loader";
-    "%=============================================================================";
-    "addmodule(fileparts(nfilename('fullpath')), '" + MODULE_NAME + "');";
-    "%============================================================================="];
+  txt = ["%=============================================================================";
+  "% Copyright (c) 2018-present Allan CORNET (Nelson)";
+  "%";
+  "% This file is released under the 3-clause BSD license. See COPYING-BSD.";
+  "%=============================================================================";
+  "% generated file by nmm_build_loader";
+  "%=============================================================================";
+  "addmodule(fileparts(nfilename('fullpath')), '" + MODULE_NAME + "');";
+  "%============================================================================="];
 end

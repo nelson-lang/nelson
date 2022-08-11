@@ -15,39 +15,39 @@ function varargout = license(varargin)
   end
   if ispc()
     if ismodule('fftw')
-        fft_file_info = dir([modulepath(nelsonroot(),'core','bin'), '/libfftw3-3.dll']);
-        % fftw mkl wrapper > 20 Mo dll
-        isFFTMKLWRAPPER = (fft_file_info.bytes > 20000000);
-        isLGPL = ~ismodule('slicot') && isFFTMKLWRAPPER;
+      fft_file_info = dir([modulepath(nelsonroot(),'core','bin'), '/libfftw3-3.dll']);
+      % fftw mkl wrapper > 20 Mo dll
+      isFFTMKLWRAPPER = (fft_file_info.bytes > 20000000);
+      isLGPL = ~ismodule('slicot') && isFFTMKLWRAPPER;
     else
-        isLGPL = ~ismodule('slicot');
+      isLGPL = ~ismodule('slicot');
     end
   else
     isLGPL = ~ismodule('slicot') && ~ismodule('fftw');
   end
+  if isLGPL
+    inUse = 'GNU Lesser General Public License v3.0';
+    txt = fileread([nelsonroot(), '/lgpl-3.0.md']);
+  else
+    inUse = 'GNU General Public License v3.0';
+    txt = fileread([nelsonroot(), '/gpl-3.0.md']);
+  end
+  if nLhs > 1
     if isLGPL
-      inUse = 'GNU Lesser General Public License v3.0';
       txt = fileread([nelsonroot(), '/lgpl-3.0.md']);
     else
-      inUse = 'GNU General Public License v3.0';
       txt = fileread([nelsonroot(), '/gpl-3.0.md']);
     end
-    if nLhs > 1
-      if isLGPL
-        txt = fileread([nelsonroot(), '/lgpl-3.0.md']);
-      else
-        txt = fileread([nelsonroot(), '/gpl-3.0.md']);
-      end
-    end
-    if nLhs == 0
-      disp(txt);
+  end
+  if nLhs == 0
+    disp(txt);
+  else
+    if nLhs == 1
+      varargout{1} = inUse;
     else
-      if nLhs == 1
-        varargout{1} = inUse;
-      else
-        varargout{1} = inUse;
-        varargout{2} = txt;
-      end
+      varargout{1} = inUse;
+      varargout{2} = txt;
     end
+  end
 end
 %=============================================================================

@@ -10,20 +10,20 @@
 function varargout = COM_xlswrite(filename, value_to_save, varargin)
   status = false;
   message = '';
-
+  
   nRhs = nargin;
   nLhs = nargout;
-
+  
   if nRhs < 2 || nRhs > 4
     error(_('Wrong number of input arguments.'));
   end
   if nLhs > 2
     error(_('Wrong number of output arguments.'));
   end
-
+  
   sheet = 1;
   range = '';
-
+  
   if nRhs == 3
     sheet_or_range = varargin{1};
     if isnumeric(sheet_or_range)
@@ -49,7 +49,7 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
       end
     end
   end
-
+  
   if nRhs == 4
     sheet = varargin{1};
     range = varargin{2};
@@ -66,7 +66,7 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
       end
     end
   end
-
+  
   if ~ischar(filename)
     status = false;
     message = _('Valid filename expected.');
@@ -110,16 +110,16 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
       error(message);
     end
   end
-
+  
   if isempty(range)
     [m, n] = size(value_to_save);
     range = ['A1', ':', COM_range(m, n)];
   end
-
+  
   if ~COM_range(range)
     error(_('A valid range expected.'));
   end
-
+  
   try
     excelApplication = actxserver('Excel.Application');
   catch
@@ -133,16 +133,16 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
       error(message);
     end
   end
-
+  
   try
     excelApplication.DisplayAlerts = false;
     eWorkbook = excelApplication.Workbooks.Add;
     eSheets = excelApplication.ActiveWorkbook.Sheets;
-
+    
     if isnumeric(sheet)
       while double(eSheets.Count) < sheet
-          lastsheet = invoke(eSheets, 'Item', eSheets.Count);
-          newsheet = invoke(eSheets, 'Add', [], lastsheet);
+        lastsheet = invoke(eSheets, 'Item', eSheets.Count);
+        newsheet = invoke(eSheets, 'Add', [], lastsheet);
       end
     else
       lastsheet = invoke(eSheets, 'Item', eSheets.Count);
@@ -151,22 +151,22 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
     if ischar(sheet)
       newsheet.Name = sheet;
     end
-
+    
     eActivesheetRange = get(excelApplication.Activesheet,'Range', range);
     eActivesheetRange.Value = value_to_save;
-
+    
     r = invoke(eWorkbook, 'SaveAs', filename);
     eWorkbook.Saved = 1;
-
+    
   catch
     l = lasterror();
     status = false;
     message = l.message;
-
+    
     excelApplication.Quit;
     delete(excelApplication);
     clear excelApplication
-
+    
     if nLhs > 0
       varargout{1} = status;
       varargout{2} = message;
@@ -175,16 +175,16 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
       error(message);
     end
   end
-
+  
   excelApplication.Quit;
   delete(excelApplication);
   clear excelApplication
-
+  
   status = true;
   message = '';
   if nLhs > 0
-   varargout{1} = status;
-   varargout{2} = message;
+    varargout{1} = status;
+    varargout{2} = message;
   end
 end
 %=============================================================================

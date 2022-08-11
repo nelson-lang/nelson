@@ -8,12 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function result = errorfun(S, varargin)
-	disp(nargin())
-	disp(S)
-	disp(class(varargin))
-	disp(size(varargin))
-	disp(varargin{1})
-	disp(varargin{2})
-	result = false;
+  disp(nargin())
+  disp(S)
+  disp(class(varargin))
+  disp(size(varargin))
+  disp(varargin{1})
+  disp(varargin{2})
+  result = false;
 end
 

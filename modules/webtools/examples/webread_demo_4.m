@@ -14,10 +14,10 @@ minimum_age = 35;
 gender = 'female';
 %=============================================================================
 for i = 1:1000
-    info = webread('https://fakeface.rest/face/json', 'gender', gender, 'minimum_age', minimum_age)
-    result_filename = websave([tempdir(), info.filename], info.image_url);
-    html_line = ['<img src="', result_filename, '" width="', int2str(width), '" height="', int2str(height), '">'];
-    clc
-    inserthtml(html_line)
+  info = webread('https://fakeface.rest/face/json', 'gender', gender, 'minimum_age', minimum_age)
+  result_filename = websave([tempdir(), info.filename], info.image_url);
+  html_line = ['<img src="', result_filename, '" width="', int2str(width), '" height="', int2str(height), '">'];
+  clc
+  inserthtml(html_line)
 end
 

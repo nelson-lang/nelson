@@ -33,8 +33,8 @@ url = [api, '/photon1'];
 input = struct('data','on');
 userInfo = webwrite(url, input, options);
 if contains(fieldnames(userInfo), 'data')
-    assert_isequal(userInfo, input);
+  assert_isequal(userInfo, input);
 else
-    assert_istrue(contains(userInfo.errorMessage, 'Task timed out after'));
+  assert_istrue(contains(userInfo.errorMessage, 'Task timed out after'));
 end
 %=============================================================================

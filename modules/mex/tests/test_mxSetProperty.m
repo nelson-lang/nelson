@@ -10,16 +10,16 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 if exist('mxSetProperty') == 0
-    test_dir = [tempdir(), 'mxSetProperty'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxSetProperty.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxSetProperty.c');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxSetProperty'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxSetProperty.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxSetProperty.c');
+  addpath(pwd())
 end
 %=============================================================================
 F = figure(44);

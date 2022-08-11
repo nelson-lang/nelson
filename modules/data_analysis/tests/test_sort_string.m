@@ -88,57 +88,57 @@ assert_isequal(B, REF);
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'ascend');
 REF = ["A", "E", "C";
-    "B", NaN,  "D";
-    "F", NaN, NaN];
+"B", NaN,  "D";
+"F", NaN, NaN];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'ascend', 'MissingPlacement', 'last');
 REF = ["A", "E", "C";
-    "B", NaN, "D";
-    "F", NaN, NaN];
+"B", NaN, "D";
+"F", NaN, NaN];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'descend');
 REF = ["F", NaN, NaN;
-    "B", NaN, "D";
-    "A", "E", "C"  ];
+"B", NaN, "D";
+"A", "E", "C"  ];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'MissingPlacement', 'first');
 REF = ["A", NaN, NaN;
-    "B", NaN, "C";
-    "F", "E", "D"  ];
+"B", NaN, "C";
+"F", "E", "D"  ];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'MissingPlacement', 'last');
 REF = ["A", "E", "C"
-    "B", NaN, "D"
-    "F", NaN, NaN ];
+"B", NaN, "D"
+"F", NaN, NaN ];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 B = sort(A, 'ascend','MissingPlacement', 'last');
 REF = ["A", "E", "C"
-    "B", NaN, "D"
-    "F", NaN, NaN ];
+"B", NaN, "D"
+"F", NaN, NaN ];
 assert_isequal(B, REF);
 %=============================================================================
 A = string({'Smith','Burns'; 'Jones','Matthews'; 'Peterson','Adams'});
 B = sort(A, 'ascend');
 REF = [  "Jones","Adams";
-    "Peterson","Burns";
-    "Smith","Matthews"];
+"Peterson","Burns";
+"Smith","Matthews"];
 assert_isequal(B, REF);
 %=============================================================================
 A = string({'Smith','Burns'; 'Jones','Matthews'; 'Peterson','Adams'});
 B = sort(A, 'descend');
 REF = ["Smith", "Matthews";
-    "Peterson", "Burns";
-    "Jones", "Adams" ];
+"Peterson", "Burns";
+"Jones", "Adams" ];
 assert_isequal(B, REF);
 %=============================================================================
 A = ["A", "C", NaN, "E", "D"];
@@ -149,8 +149,8 @@ assert_isequal(I, REF);
 A = ["A", NaN , "D" ;"B", NaN, "C"; "F", "E", NaN];
 [B, I] = sort(A, 'ascend','MissingPlacement', 'last');
 REF = [     1     3     2;
-     2     1     1;
-     3     2     3 ];
+2     1     1;
+3     2     3 ];
 assert_isequal(I, REF);
 %=============================================================================
 A = ["A", "C", NaN, "E", NaN, "D"];
@@ -181,14 +181,14 @@ assert_isequal(I, REF);
 A = ["A", "C"; NaN, "E"; NaN, "D"];
 [B, I] = sort(A, 'descend','MissingPlacement', 'first');
 REF = [     2     2;
-     3     3;
-     1     1];
+3     3;
+1     1];
 assert_isequal(I, REF);
 %=============================================================================
 A = ["A", "C"; NaN, "E"; NaN, "D"];
 [B, I] = sort(A, 'descend','MissingPlacement', 'last');
 REF = [     1     2;
-     2     3;
-     3     1];
+2     3;
+3     1];
 assert_isequal(I, REF);
 %=============================================================================

@@ -45,10 +45,10 @@ function Y = circshift(varargin)
           IDX{i} = [D - B + 1 : D, 1 : D - B];
         end
       end
-   end
-   Y = X(IDX{:});
+    end
+    Y = X(IDX{:});
   else
-   Y = X;
+    Y = X;
   end
 end
 %=============================================================================

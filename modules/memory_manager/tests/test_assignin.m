@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function test_assignin()
-test_assignin1()
-disp(b)
+  test_assignin1()
+  disp(b)
 end

@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if exist('mxSetComplexDoubles') == 0
-    test_dir = [tempdir(), 'mxSetComplexDoubles'];
-    if isdir(test_dir)
-        rmdir(test_dir,'s');
-    end
-    mkdir(test_dir);
-    status = copyfile('mxSetComplexDoubles.c', test_dir);
-    assert_istrue(status);
-    cd(test_dir);
-    mex('mxSetComplexDoubles.c', '-R2018a');
-    addpath(pwd())
+  test_dir = [tempdir(), 'mxSetComplexDoubles'];
+  if isdir(test_dir)
+    rmdir(test_dir,'s');
+  end
+  mkdir(test_dir);
+  status = copyfile('mxSetComplexDoubles.c', test_dir);
+  assert_istrue(status);
+  cd(test_dir);
+  mex('mxSetComplexDoubles.c', '-R2018a');
+  addpath(pwd())
 end
 %=============================================================================
 R = mxSetComplexDoubles();

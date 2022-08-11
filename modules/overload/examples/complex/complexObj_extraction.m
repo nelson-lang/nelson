@@ -42,5 +42,5 @@ function r = complexObj_extraction(obj, varargin)
     otherwise
       error(_('not managed.'));
     end
-end
-
+  end
+  

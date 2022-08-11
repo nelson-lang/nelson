@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_acos(a)
- r = sparse(acos(full(a)));
+  r = sparse(acos(full(a)));
 end

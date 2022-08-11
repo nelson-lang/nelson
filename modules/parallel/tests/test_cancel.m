@@ -13,7 +13,7 @@ p = str2func('pause');
 b = backgroundPool();
 NumWorkers = b.NumWorkers;
 for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(b, p, 0, 5);
+  f(k) = parfeval(b, p, 0, 5);
 end
 fToStop = f(NumWorkers + 2); 
 assert_isequal(fToStop.State, 'queued');

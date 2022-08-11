@@ -110,7 +110,7 @@ for l = langs(:)'
     mkdir(dirdest)
   end
   pofiledest = [dirdest, DOMAIN, '.po'];
-
+  
   if isfile(pofiledest)
     MSGCAT_OPTIONS = ' --force-po --no-location --unique --use-first';
     CMD = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', pofiledest, ' ', potfile, ' -o ', pofiledest];

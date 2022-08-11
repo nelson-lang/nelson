@@ -16,17 +16,17 @@ addpath([modulepath('core'), '/tests']);
 %=============================================================================
 PATH_REF_1 = [modulepath('core'), '/tests/run_file1.m'];
 if length(PATH_REF_1) > 50
-    PATH_REF_1 = 'run_file1.m';
+  PATH_REF_1 = 'run_file1.m';
 end
 %=============================================================================
 PATH_REF_2 = [modulepath('core'), '/tests/run_file2.m'];
 if length(PATH_REF_2) > 50
-    PATH_REF_2 = 'run_file2.m';
+  PATH_REF_2 = 'run_file2.m';
 end
 %=============================================================================
 PATH_REF_3 = [modulepath('core'), '/tests/test_run.m'];
 if length(PATH_REF_3) > 50
-    PATH_REF_3 = 'test_run.m';
+  PATH_REF_3 = 'test_run.m';
 end
 %=============================================================================
 try
