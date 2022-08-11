@@ -57,7 +57,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `acot`: Inverse cotangent in radians.
   - `acotd`: Inverse cotangent in degrees.
 
-- prettier used to format .xml, .md files.
+- prettier is used to format .xml, .md files.
+
+- Code format checker added to Github CI.
 
 ### Changed
 

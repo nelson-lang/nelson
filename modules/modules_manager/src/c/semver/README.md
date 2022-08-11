@@ -106,7 +106,7 @@ $ clib install h2non/semver.c
 
 ## API
 
-#### struct semver_t { int major, int minor, int patch, char _ prerelease, char _ metadata }
+#### struct semver*t { int major, int minor, int patch, char * prerelease, char \_ metadata }
 
 semver base struct.
 
