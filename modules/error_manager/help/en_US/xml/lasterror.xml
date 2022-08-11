@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,22 +21,24 @@
   </param_output>
 
   <description>
-    <p><b>l = lasterror()</b> returns a structure containing the last error message and information as an struct.</p>
+    <p><b
+      >l = lasterror()</b> returns a structure containing the last error message and information as an struct.</p>
     <p><b>lasterror('reset')</b> clears last error.</p>
     <p><b>lasterror(error_struct)</b> set last error.</p>
 
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[state = execstr('xxxxxx', 'errcatch')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[state = execstr('xxxxxx', 'errcatch')
 if ~state
   l = lasterror()
 end]]>
@@ -46,8 +48,9 @@ end]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[state = execstr('xxxxxx', 'errcatch')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[state = execstr('xxxxxx', 'errcatch')
 l = lasterror();
 lasterror('reset');
 lasterror()
@@ -79,5 +82,3 @@ lasterror()]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

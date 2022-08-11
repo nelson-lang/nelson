@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -17,18 +17,21 @@
 	<param_output>
 		<param_output_item>
 			<param_name>usermem</param_name>
-			<param_description>Get information about user memory (an struct).</param_description>
+			<param_description
+      >Get information about user memory (an struct).</param_description>
 		</param_output_item>
 		
 		<param_output_item>
 			<param_name>systemmem</param_name>
-			<param_description>Get information about system memory (an struct)</param_description>
+			<param_description
+      >Get information about system memory (an struct)</param_description>
 		</param_output_item>
 		
 	</param_output>
 
 	<description><p><b>memory</b> get memory information.</p>
-	<p><b>User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p> 
+	<p><b
+      >User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p> 
 	<p><b>System Memory</b>:</p>
   <p>VirtualAddressSpace.Available: available swap file space</p>
   <p>VirtualAddressSpace.Total: total swap file space</p>
@@ -37,13 +40,13 @@
   <p>PhysicalMemory.Total: total physical memory</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[memory()
 A = ones(1000);
 memory()]]>
@@ -52,8 +55,9 @@ memory()]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[clear('A');
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[clear('A');
 [u1, s1] = memory();
 A = ones(1000);
 [u2, s2] = memory();
@@ -66,7 +70,7 @@ disp(u3.MemUsedNelson - u2.MemUsedNelson);]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[[u1, s1] = memory()]]>
 		</example_item_data>
 	</example_item>	
@@ -93,5 +97,3 @@ disp(u3.MemUsedNelson - u2.MemUsedNelson);]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

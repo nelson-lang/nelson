@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,22 +25,24 @@
 		</param_output_item>
 	</param_output>
 
-	<description><p>Read string from a file, stopping after a newline or EOF have been read.</p>
+	<description><p
+    >Read string from a file, stopping after a newline or EOF have been read.</p>
 <p>If there is no more character to read, fgets will return -1.</p>
 <p>newline character removed of the string returned</p>
 <p>characters encoding uses <b>fopen</b> parameter.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
 
 tline = fgetl(fid);
 while ischar(tline)
@@ -78,5 +80,3 @@ fclose(fid);]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

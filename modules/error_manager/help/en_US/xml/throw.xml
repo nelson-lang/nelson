@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,19 +18,22 @@
   </param_input>
 
   <description>
-    <p><b>throw(MException)</b> throws an exception based on the information contained in the <b>MException</b> object, exception.</p> 
+    <p><b
+      >throw(MException)</b> throws an exception based on the information contained in the <b
+      >MException</b> object, exception.</p> 
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 ME = MException('nelson:errorId', 'my error')
 throw(ME)]]>
     </example_item_data>
@@ -62,5 +65,3 @@ throw(ME)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

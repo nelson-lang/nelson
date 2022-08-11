@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,15 +24,16 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>sech</b> computes the Hyperbolic secant for each element of <b>x</b>.</description>
+	<description><b>sech</b> computes the Hyperbolic secant for each element of <b
+    >x</b>.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[X = [3*pi, 2*pi, pi, 0];
 R = sech(X)]]>
 		</example_item_data>
@@ -57,5 +58,3 @@ R = sech(X)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

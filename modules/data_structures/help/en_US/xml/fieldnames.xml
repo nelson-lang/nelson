@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>fieldnames</keyword>
-	<short_description>Returns field names of a structure or an handle.</short_description>
+	<short_description
+  >Returns field names of a structure or an handle.</short_description>
 
 	<syntax>
 		<syntax_item>names = fieldnames(st)</syntax_item>
@@ -33,20 +34,23 @@
 	</param_output>
 
 	<description>
-		<p><b>names = fieldnames(st)</b> returns a cell of strings with the names of the fields in the input structure.</p>
-		<p><b>names = fieldnames(h)</b> returns a cell of strings with the names of the properties in the handle (without hidden).</p>
-		<p><b>names = fieldnames(h, '-full')</b> returns a cell of strings with the names of the all properties in the handle.</p>
+		<p><b
+      >names = fieldnames(st)</b> returns a cell of strings with the names of the fields in the input structure.</p>
+		<p><b
+      >names = fieldnames(h)</b> returns a cell of strings with the names of the properties in the handle (without hidden).</p>
+		<p><b
+      >names = fieldnames(h, '-full')</b> returns a cell of strings with the names of the all properties in the handle.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[fieldnames(dir())]]>
 		</example_item_data>
 	</example_item>
@@ -70,4 +74,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-

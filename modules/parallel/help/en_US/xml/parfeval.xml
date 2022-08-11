@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,7 +13,8 @@
   <param_input>
     <param_input_item>
       <param_name>bPool</param_name>
-      <param_description>backgroundPool object returned by backgroundPool().</param_description>
+      <param_description
+      >backgroundPool object returned by backgroundPool().</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -28,7 +29,8 @@
 
     <param_input_item>
       <param_name>x1, ..., xm</param_name>
-      <param_description>Input arguments, specified as a comma-separated list of variables or expressions.</param_description>
+      <param_description
+      >Input arguments, specified as a comma-separated list of variables or expressions.</param_description>
     </param_input_item>
   </param_input>
 
@@ -41,19 +43,22 @@
   </param_output>
 
   <description>
-    <p><b>f = parfeval(bPool, fptr, n, x1, ..., xm)</b> starts the function fptr to run in the background.</p>
-    <p>backgroundPool has <b>NumWorkers</b> available. If there are more functions scheduled, functions wait than one entry is available in pool.</p>
+    <p><b
+      >f = parfeval(bPool, fptr, n, x1, ..., xm)</b> starts the function fptr to run in the background.</p>
+    <p>backgroundPool has <b
+      >NumWorkers</b> available. If there are more functions scheduled, functions wait than one entry is available in pool.</p>
     <p><b>parfeval</b> runs the function <b>fptr</b> on a background worker.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[b = backgroundPool()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[b = backgroundPool()
 fptr = str2func('cos');
 f = parfeval(b, fptr, 1, 5);
 r = fetchOutputs(f)]]>
@@ -84,5 +89,3 @@ r = fetchOutputs(f)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

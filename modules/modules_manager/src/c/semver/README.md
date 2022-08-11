@@ -24,6 +24,7 @@
 ## Usage
 
 Basic comparison:
+
 ```c
 #include <stdio.h>
 #include <semver.h>
@@ -105,7 +106,7 @@ $ clib install h2non/semver.c
 
 ## API
 
-#### struct semver_t { int major, int minor, int patch, char * prerelease, char * metadata }
+#### struct semver*t { int major, int minor, int patch, char * prerelease, char \_ metadata }
 
 semver base struct.
 
@@ -123,24 +124,25 @@ Parses a string as semver expression.
 Compare versions `a` with `b`.
 
 Returns:
+
 - `-1` in case of lower version.
 - `0` in case of equal versions.
 - `1` in case of higher version.
 
-#### semver_satisfies(semver_t a, semver_t b, char *operator) => int
+#### semver_satisfies(semver_t a, semver_t b, char \*operator) => int
 
 Checks if both versions can be satisfied
 based on the given comparison operator.
 
 **Allowed operators**:
 
-- `=`  - Equality
+- `=` - Equality
 - `>=` - Higher or equal to
 - `<=` - Lower or equal to
-- `<`  - Lower than
-- `>`  - Higher than
-- `^`  - Caret operator comparison ([more info](https://docs.npmjs.com/misc/semver#caret-ranges-1-2-3-0-2-5-0-0-4))
-- `~`  - Tilde operator comparison ([more info](https://docs.npmjs.com/misc/semver#tilde-ranges-1-2-3-1-2-1))
+- `<` - Lower than
+- `>` - Higher than
+- `^` - Caret operator comparison ([more info](https://docs.npmjs.com/misc/semver#caret-ranges-1-2-3-0-2-5-0-0-4))
+- `~` - Tilde operator comparison ([more info](https://docs.npmjs.com/misc/semver#tilde-ranges-1-2-3-1-2-1))
 
 **Returns**:
 
@@ -171,7 +173,6 @@ See: https://docs.npmjs.com/misc/semver#tilde-ranges-1-2-3-1-2-1
 - `1` - Can be satisfied
 - `0` - Cannot be satisfied
 
-
 #### semver_eq(semver_t a, semver_t b) => int
 
 Equality comparison.
@@ -200,31 +201,31 @@ Lower than or equal comparison.
 
 Render as string.
 
-#### semver_numeric(semver_t *v) => int
+#### semver_numeric(semver_t \*v) => int
 
 Render as numeric value. Useful for ordering and filtering.
 
-#### semver_bump(semver_t *a) => void
+#### semver_bump(semver_t \*a) => void
 
 Bump major version.
 
-#### semver_bump_minor(semver_t *a) => void
+#### semver_bump_minor(semver_t \*a) => void
 
 Bump minor version.
 
-#### semver_bump_patch(semver_t *a) => void
+#### semver_bump_patch(semver_t \*a) => void
 
 Bump patch version.
 
-#### semver_free(semver_t *a) => void
+#### semver_free(semver_t \*a) => void
 
 Helper to free allocated memory from heap.
 
-#### semver_is_valid(char *str) => int
+#### semver_is_valid(char \*str) => int
 
 Checks if the given string is a valid semver expression.
 
-#### semver_clean(char *str) => int
+#### semver_clean(char \*str) => int
 
 Removes invalid semver characters in a given string.
 

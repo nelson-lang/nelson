@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,18 +27,19 @@
 	</param_output>
 
 	<description><p><b>uint8</b> converts value to 8-bit unsigned integer type.</p>
-<p>The value is rounded to the nearest uint8 value on conversion. A value that is above or below the range for an uint8 class is mapped to one of the endpoints of the range [0, 255].</p>
+<p
+    >The value is rounded to the nearest uint8 value on conversion. A value that is above or below the range for an uint8 class is mapped to one of the endpoints of the range [0, 255].</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = [1 256 -120 127 -1 215]
 B = uint8(A)]]>
 		</example_item_data>
@@ -67,5 +68,3 @@ B = uint8(A)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

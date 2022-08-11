@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -17,7 +17,8 @@
   <param_input>
     <param_input_item>
       <param_name>timer_value</param_name>
-      <param_description>a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
+      <param_description
+      >a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
     </param_input_item>
   </param_input>
 
@@ -25,22 +26,26 @@
   <param_output>
     <param_output_item>
       <param_name>t</param_name>
-      <param_description>a double: number of seconds since last call to tic function (Precision in order of millisecond).</param_description>
+      <param_description
+      >a double: number of seconds since last call to tic function (Precision in order of millisecond).</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-   <p>The sequence of commands <b>tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
-     <p>Consecutive calls to the toc function with no input return the elapsed since the most recent tic.</p>
-     <p>Consecutive calls to the toc function with the same timerVal input return the elapsed time since the tic function call that corresponds to that input.</p>
+   <p>The sequence of commands <b
+      >tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
+     <p
+    >Consecutive calls to the toc function with no input return the elapsed since the most recent tic.</p>
+     <p
+    >Consecutive calls to the toc function with the same timerVal input return the elapsed time since the tic function call that corresponds to that input.</p>
    </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[tic()
 sleep(10)
 toc()
@@ -74,5 +79,3 @@ toc()
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

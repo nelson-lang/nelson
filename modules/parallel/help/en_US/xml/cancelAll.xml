@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>cancelAll</keyword>
-  <short_description>Stop all functions running in the background.</short_description>
+  <short_description
+  >Stop all functions running in the background.</short_description>
 
   <syntax>
     <syntax_item>cancel(fevalQueue)</syntax_item>
@@ -18,17 +19,19 @@
   </param_input>
 
   <description>
-    <p><b>cancelAll(fevalQueue)</b> stops all running or queued elements of the background pool.</p>
+    <p><b
+      >cancelAll(fevalQueue)</b> stops all running or queued elements of the background pool.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[fptr = str2func('pause');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[fptr = str2func('pause');
 pool = backgroundPool;
 pool.FevalQueue
 f = parfeval(pool, fptr, 0, Inf);
@@ -65,5 +68,3 @@ f]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

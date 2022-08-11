@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,13 +14,13 @@
   <p><b>qml_demos</b> shows QML -- Nelson demos.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[qml_demos()]]>
     </example_item_data>
   </example_item>
@@ -38,5 +38,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

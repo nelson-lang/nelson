@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>isclass</keyword>
-  <short_description>Return true if variable var is a class object.</short_description>
+  <short_description
+  >Return true if variable var is a class object.</short_description>
 
   <syntax>
     <syntax_item>res = isclass(var)</syntax_item>
@@ -24,16 +25,18 @@
     </param_output_item>
   </param_output>
 
-  <description><b>isclass</b> returns a logical 1 if the argument is a class object and a logical 0 otherwise.</description>
+  <description><b
+    >isclass</b> returns a logical 1 if the argument is a class object and a logical 0 otherwise.</description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[A = 3;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = 3;
 res = isclass(A)
 addpath([nelsonroot(), '/modules/overload/examples/complex']);
 c = complexObj(3,4);
@@ -63,5 +66,3 @@ res = isclass(c)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

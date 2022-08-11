@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>MPI_Comm_rank</keyword>
-  <short_description>Determines the rank of the calling process in the communicator.</short_description>
+  <short_description
+  >Determines the rank of the calling process in the communicator.</short_description>
 
   <syntax>
     <syntax_item>r = MPI_Comm_rank(Comm)</syntax_item>
@@ -21,7 +22,8 @@
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
-      <param_description>an integer value: rank of the calling process in the group of Comm.</param_description>
+      <param_description
+      >an integer value: rank of the calling process in the group of Comm.</param_description>
     </param_output_item>
   </param_output>
 
@@ -29,8 +31,8 @@
   <p>Return the rank of the calling process in the specified communicator.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -43,8 +45,10 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
-    <example_item_data><![CDATA[if ~MPI_Initialized()
+    <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+    <example_item_data
+      ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object()

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -31,7 +31,8 @@
 
 		<param_output_item>
 			<param_name>res</param_name>
-			<param_description>a struct with fields: name, date, bytes, isdir, datenum.</param_description>
+			<param_description
+      >a struct with fields: name, date, bytes, isdir, datenum.</param_description>
 		</param_output_item>
 
 	</param_output>
@@ -43,15 +44,16 @@
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[res = dir(nelsonroot())
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[res = dir(nelsonroot())
 res = dir(nelsonroot(), '-s')]]>
 res = dir([nelsonroot(),'/*.m'], '-s')
 		</example_item_data>
@@ -84,5 +86,3 @@ res = dir([nelsonroot(),'/*.m'], '-s')
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

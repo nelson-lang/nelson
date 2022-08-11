@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>isdir</keyword>
-	<short_description>Returns true is the input argument is an directory.</short_description>
+	<short_description
+  >Returns true is the input argument is an directory.</short_description>
 
 	<syntax>
 		<syntax_item>r = isdir(dirname)</syntax_item>
@@ -27,20 +28,22 @@
 	</param_output>
 
 	<description>
-<p><b>isdir(dirname)</b> returns <b>true</b> if <b>dirname</b> is a directory.</p>
+<p><b>isdir(dirname)</b> returns <b>true</b> if <b
+      >dirname</b> is a directory.</p>
 <p><b>isdir</b> and <b>isfolder</b> are same.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[isdir(nelsonroot())
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[isdir(nelsonroot())
 isdir([nelsonroot(), '/not_exist_dir'])]]>
 		</example_item_data>
 	
@@ -72,5 +75,3 @@ isdir([nelsonroot(), '/not_exist_dir'])]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

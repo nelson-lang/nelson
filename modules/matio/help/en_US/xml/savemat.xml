@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,7 +20,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
-			<param_description>string: Names of variables to save from Nelson's workspace.</param_description>
+			<param_description
+      >string: Names of variables to save from Nelson's workspace.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-v7.3'</param_name>
@@ -32,11 +33,13 @@
 		</param_input_item>	
 		<param_input_item>
 			<param_name>'-v6', '-v4'</param_name>
-			<param_description>mat file version 6 or 4 used as output format.</param_description>
+			<param_description
+      >mat file version 6 or 4 used as output format.</param_description>
 		</param_input_item>	
 		<param_input_item>
 			<param_name>'-append'</param_name>
-			<param_description>append variables to an existing .mat file (-v7.3 only).</param_description>
+			<param_description
+      >append variables to an existing .mat file (-v7.3 only).</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-nocompression'</param_name>
@@ -52,15 +55,17 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography>Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
+	<used_function />
+	<bibliography
+  >Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = ones(3, 4);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
 savemat([tempdir(), 'example_loadmat.mat'], 'A', 'B')
 clear;
@@ -81,7 +86,8 @@ B
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>append variables</example_item_description>
-		<example_item_data><![CDATA[C = eye(3, 4);
+		<example_item_data
+      ><![CDATA[C = eye(3, 4);
 savemat([tempdir(), 'example_loadmat.mat'], 'C', '-append')
 clear;
 st = loadmat([tempdir(), 'example_loadmat.mat']);
@@ -103,7 +109,8 @@ C
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>compression</example_item_description>
-		<example_item_data><![CDATA[C = eye(1000, 1000);
+		<example_item_data
+      ><![CDATA[C = eye(1000, 1000);
 savemat([tempdir(), 'example_savemat_with_compression.mat'], 'C')
 savemat([tempdir(), 'example_savemat_no_compression.mat'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_savemat_with_compression.mat'])
@@ -137,5 +144,3 @@ no_compression = dir([tempdir(), 'example_savemat_no_compression.mat'])]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

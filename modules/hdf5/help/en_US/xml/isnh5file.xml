@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,15 +21,18 @@
 	<param_output>
 		<param_output_item>
 			<param_name>tf</param_name>
-			<param_description>a logical: true if it is a valid .nh5 file.</param_description>
+			<param_description
+      >a logical: true if it is a valid .nh5 file.</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>version</param_name>
-			<param_description>a string array: "-v1" or "" if it is undefined.</param_description>
+			<param_description
+      >a string array: "-v1" or "" if it is undefined.</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>header</param_name>
-			<param_description>a string array: header of nh5 file (date created).</param_description>
+			<param_description
+      >a string array: header of nh5 file (date created).</param_description>
 		</param_output_item>
 
 	</param_output>
@@ -40,15 +43,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = ones(3, 4);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = ones(3, 4);
 savemat([tempdir(), 'example_isnh5.mat'], 'A')
 R = isnh5file([tempdir(), 'example_isnh5.mat'])
 h5save([tempdir(), 'example_isnh5.nh5'], 'A')
@@ -75,5 +79,3 @@ h5save([tempdir(), 'example_isnh5.nh5'], 'A')
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

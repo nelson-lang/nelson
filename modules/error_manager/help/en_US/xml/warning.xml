@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -28,7 +28,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>state</param_name>
-			<param_description>a string: 'on', 'off', 'aserror', 'all' or 'query'.</param_description>
+			<param_description
+      >a string: 'on', 'off', 'aserror', 'all' or 'query'.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>st</param_name>
@@ -50,22 +51,23 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[warning('your warning message.')]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[warning('on', 'myModule:identifier');
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[warning('on', 'myModule:identifier');
 warning('myModule:identifier', 'my message 1 on');
 warning('off', 'myModule:identifier');
 warning('myModule:identifier', 'my message 2 off');
@@ -103,5 +105,3 @@ warning('myModule:identifier', 'my message 3 as error');
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

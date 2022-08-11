@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,15 +21,18 @@
   <param_input>
     <param_input_item>
       <param_name>M</param_name>
-      <param_description>a scalar, vector, matrix, or multidimensional array.</param_description>
+      <param_description
+      >a scalar, vector, matrix, or multidimensional array.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>positive integer scalar value: number of nonzeros to find.</param_description>
+      <param_description
+      >positive integer scalar value: number of nonzeros to find.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>D</param_name>
-      <param_description>direction: 'first' (default) or 'last'.</param_description>
+      <param_description
+      >direction: 'first' (default) or 'last'.</param_description>
     </param_input_item>
   </param_input>
 
@@ -37,7 +40,8 @@
 
     <param_output_item>
       <param_name>K</param_name>
-      <param_description>indices to nonzero elements (vector).</param_description>
+      <param_description
+      >indices to nonzero elements (vector).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>R</param_name>
@@ -55,18 +59,20 @@
   </param_output>
 
   <description>
-    <p><b>K = find(M)</b> returns a vector with the linear indices of each nonzero element of <b>M</b>.</p>
+    <p><b
+      >K = find(M)</b> returns a vector with the linear indices of each nonzero element of <b
+      >M</b>.</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[M = rand(4, 3, 5);
 [R, C, V] = find(M > 0.9)
@@ -94,5 +100,3 @@ M(R(1),C(1),V(1))]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

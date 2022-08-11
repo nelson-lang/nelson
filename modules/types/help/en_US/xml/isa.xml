@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>isa</keyword>
-  <short_description>Return true if var is an object from the class str.</short_description>
+  <short_description
+  >Return true if var is an object from the class str.</short_description>
 
   <syntax>
     <syntax_item>res = isa(var, str)</syntax_item>
@@ -28,21 +29,25 @@
     </param_output_item>
   </param_output>
 
-  <description><p><b>isa</b> returns a logical 1 if the argument is a cell array and a logical 0 otherwise.</p>
+  <description><p><b
+      >isa</b> returns a logical 1 if the argument is a cell array and a logical 0 otherwise.</p>
 <p>str can also be 'numeric', 'float', or 'integer':</p>
-<p>numeric: floating point or integer array: double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
+<p
+    >numeric: floating point or integer array: double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
 <p>float: single or double precision floating-point array: double, single</p>
-<p>integer: unsigned or signed integer array: int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-<p>If <b>var</b> is a handle object, str can be 'handle' or type name of the handle.</p>
+<p
+    >integer: unsigned or signed integer array: int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
+<p>If <b
+      >var</b> is a handle object, str can be 'handle' or type name of the handle.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[A = 3;
 res = isa(A, 'double')]]>
     </example_item_data>
@@ -50,7 +55,7 @@ res = isa(A, 'double')]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[B = {'NelSon', 3, true};
 res = isa(B, 'cell')]]>
     </example_item_data>
@@ -58,7 +63,7 @@ res = isa(B, 'cell')]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[B = {'NelSon', 3, true};
 res = isa(B, 'cell')]]>
     </example_item_data>
@@ -89,5 +94,3 @@ res = isa(B, 'cell')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

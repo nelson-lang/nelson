@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -15,7 +15,8 @@
 	<param_output>
 		<param_output_item>
 			<param_name>r</param_name>
-			<param_description>a string: minimal string description about license</param_description>
+			<param_description
+      >a string: minimal string description about license</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>txt</param_name>
@@ -29,15 +30,15 @@
 		<p><b>license</b> get license information for Nelson.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 	
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[license()
 r = license()
 [r,txt] = license()]]>

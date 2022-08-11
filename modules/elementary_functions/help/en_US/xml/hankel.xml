@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,11 +14,13 @@
   <param_input>
     <param_input_item>
       <param_name>c</param_name>
-      <param_description>First column of Hankel matrix: vector or scalar.</param_description>
+      <param_description
+      >First column of Hankel matrix: vector or scalar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>r</param_name>
-      <param_description>Last row of Hankel matrix: vector or scalar.</param_description>
+      <param_description
+      >Last row of Hankel matrix: vector or scalar.</param_description>
     </param_input_item>
 
   </param_input>
@@ -32,19 +34,23 @@
   </param_output>
 
   <description>
-  <p><b>H = hankel(c)</b> returns a square Hankel Matrix with <b>c</b> the first column of the matrix and the elements are zero below the main anti-diagonal.</p>
-  <p><b>H = hankel(c, r)</b> returns a Hankel matrix with <b>c</b> as its first column and <b>r</b> as its last row.</p>
-  <p>If last element of <b>c</b> differs from the first element of <b>r</b>, then Hankel issues a warning and uses the last element of <b>c</b> for the anti-diagonal.</p>
+  <p><b>H = hankel(c)</b> returns a square Hankel Matrix with <b
+      >c</b> the first column of the matrix and the elements are zero below the main anti-diagonal.</p>
+  <p><b>H = hankel(c, r)</b> returns a Hankel matrix with <b
+      >c</b> as its first column and <b>r</b> as its last row.</p>
+  <p>If last element of <b>c</b> differs from the first element of <b
+      >r</b>, then Hankel issues a warning and uses the last element of <b
+      >c</b> for the anti-diagonal.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[c = [1 2 3 4 5];
 hankel(c)]]>

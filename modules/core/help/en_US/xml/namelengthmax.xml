@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,23 +14,27 @@
 
 		<param_output_item>
 			<param_name>R</param_name>
-			<param_description>a double: the maximum variable name length</param_description>
+			<param_description
+      >a double: the maximum variable name length</param_description>
 		</param_output_item>
 	</param_output>
 
-	<description><p><b>namelengthmax</b>: Nelson allows 4096 as maximum length for variables and structures field names.</p>
+	<description><p><b
+      >namelengthmax</b>: Nelson allows 4096 as maximum length for variables and structures field names.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Working: identifier length 4096 characters</example_item_description>
-		<example_item_data><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax -1 ))];
+		<example_item_description
+      >Working: identifier length 4096 characters</example_item_description>
+		<example_item_data
+      ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax -1 ))];
 length(ID)
 STR = [ID, ' = 3'];
 execstr(STR)
@@ -40,8 +44,10 @@ execstr(STR)
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Not Working: identifier length 4097 characters</example_item_description>
-		<example_item_data><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax))];
+		<example_item_description
+      >Not Working: identifier length 4097 characters</example_item_description>
+		<example_item_data
+      ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax))];
 length(ID)
 STR = [ID, ' = 3'];
 execstr(STR)
@@ -68,5 +74,3 @@ execstr(STR)
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

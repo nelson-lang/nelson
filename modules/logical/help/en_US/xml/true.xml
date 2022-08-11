@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -29,7 +29,8 @@
 
     <param_input_item>
       <param_name>n, m, ..., k</param_name>
-      <param_description>a n -by- m - ... -by- k array to indicate size.</param_description>
+      <param_description
+      >a n -by- m - ... -by- k array to indicate size.</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -52,15 +53,16 @@
 </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[true
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[true
 true(4)
 true(4, 1, 4)
 L = logical(sparse(1, 2))
@@ -88,5 +90,3 @@ L2 = true(3,'like', L);]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

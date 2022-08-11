@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>nmm_build_loader</keyword>
-  <short_description>helper's function to build main loader.m of an external module</short_description>
+  <short_description
+  >helper's function to build main loader.m of an external module</short_description>
 
   <syntax>
-    <syntax_item>nmm_build_loader(module_short_name, module_root_path)</syntax_item>
+    <syntax_item
+    >nmm_build_loader(module_short_name, module_root_path)</syntax_item>
   </syntax>
 
 
@@ -18,7 +20,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>module_root_path</param_name>
-      <param_description>a string: path of the module named 'module_short_name'.</param_description>
+      <param_description
+      >a string: path of the module named 'module_short_name'.</param_description>
     </param_input_item>
 
   </param_input>
@@ -27,13 +30,14 @@
   <p><b>nmm_build_loader</b> generates main loader.m of an external module.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>See module skeleton for example</example_item_description>
+    <example_item_description
+      >See module skeleton for example</example_item_description>
     <example_item_data><![CDATA[% see builder.m]]>
     </example_item_data>
   </example_item>
@@ -57,5 +61,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

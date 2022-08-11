@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>diag</keyword>
-	<short_description>Get diagonal elements of matrix or create diagonal matrix.</short_description>
+	<short_description
+  >Get diagonal elements of matrix or create diagonal matrix.</short_description>
 
 	<syntax>
 		<syntax_item>D = diag(V)</syntax_item>
@@ -37,18 +38,19 @@
 
 	</param_output>
 
-	<description><p><b>diag</b> returns diagonal elements of matrix or create diagonal matrix.</p>
+	<description><p><b
+      >diag</b> returns diagonal elements of matrix or create diagonal matrix.</p>
 </description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 	
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[diag(eye(3))
 diag(diag(eye(3)))]]>
 		</example_item_data>
@@ -73,5 +75,3 @@ diag(diag(eye(3)))]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

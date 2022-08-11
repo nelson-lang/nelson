@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>QObject_iswindowtype</keyword>
-  <short_description>Returns true if the QObject is a window.</short_description>
+  <short_description
+  >Returns true if the QObject is a window.</short_description>
 
   <syntax>
     <syntax_item>R = QObject_iswindowtype(h)</syntax_item>
@@ -29,8 +30,8 @@
     <p>Returns true if the QObject is a window; otherwise returns false.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -43,7 +44,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[h = errordlg()
 r = QObject_iswindowtype(h)]]>
     </example_item_data>
@@ -63,5 +64,3 @@ r = QObject_iswindowtype(h)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

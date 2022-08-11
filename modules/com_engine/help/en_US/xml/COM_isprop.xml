@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>COM_isprop</keyword>
-  <short_description>Determines if input is an existing COM object property.</short_description>
+  <short_description
+  >Determines if input is an existing COM object property.</short_description>
 
   <syntax>
     <syntax_item>r = COM_isprop(h, propertyname)</syntax_item>
@@ -18,7 +19,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyname</param_name>
-      <param_description>a string: property name tested as valid property for the COM object.</param_description>
+      <param_description
+      >a string: property name tested as valid property for the COM object.</param_description>
     </param_input_item>
 
   </param_input>
@@ -32,19 +34,21 @@
 
 
   <description>
-  <description><b>r = isprop(h, propertyname)</b> returns true if the specified name is a property of the COM object h. Otherwise, it returns false.</description>
+  <description><b
+      >r = isprop(h, propertyname)</b> returns true if the specified name is a property of the COM object h. Otherwise, it returns false.</description>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[e = actxserver('Excel.Application');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[e = actxserver('Excel.Application');
 isprop(e, 'Window')
 delete(e)
 clear e]]>
@@ -70,5 +74,3 @@ clear e]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

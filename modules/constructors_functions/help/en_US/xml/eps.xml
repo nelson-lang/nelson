@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,34 +27,35 @@
 	</param_input>
 
 
-	<description><p><b>eps</b> returns the machine precision 2^(-52) for double and 2^(-23) for single.</p>
+	<description><p><b
+      >eps</b> returns the machine precision 2^(-52) for double and 2^(-23) for single.</p>
 <p>eps(Inf), eps(-Inf) and eps(NaN) return NaN.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 	
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[eps]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[eps('double')]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[eps('single')]]>
 		</example_item_data>
 	</example_item>
@@ -83,5 +84,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

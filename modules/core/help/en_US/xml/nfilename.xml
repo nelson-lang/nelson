@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -6,7 +6,8 @@
 	<keyword>nfilename</keyword>
 	<keyword>mfilename</keyword>
 
-	<short_description>Returns the name of the currently executing file.</short_description>
+	<short_description
+  >Returns the name of the currently executing file.</short_description>
 
 	<syntax>
 		<syntax_item>R = nfilename()</syntax_item>
@@ -25,15 +26,19 @@
 
 	<description>
 		<p><b>R = nfilename()</b> returns the name of the currently executing file.</p>
-		<p><b>nfilename()</b> called from outside an nlf file returns an empty string.</p>
-		<p>With the input argument 'fullpathext', the string includes the directory part of the macro filename, and the filename extension.</p>
-		<p>With the input argument 'fullpath', the string includes the directory part of the macro filename, but not the extension.</p>
-		<p><b>mfilename</b> is an alias on <b>nfilename</b> added for basic script compatibility.</p> 
+		<p><b
+      >nfilename()</b> called from outside an nlf file returns an empty string.</p>
+		<p
+    >With the input argument 'fullpathext', the string includes the directory part of the macro filename, and the filename extension.</p>
+		<p
+    >With the input argument 'fullpath', the string includes the directory part of the macro filename, but not the extension.</p>
+		<p><b>mfilename</b> is an alias on <b
+      >nfilename</b> added for basic script compatibility.</p> 
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 	<see_also>
 		<see_also_item>
@@ -56,5 +61,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

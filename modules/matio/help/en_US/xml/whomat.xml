@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -39,15 +39,17 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography>Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
+	<used_function />
+	<bibliography
+  >Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = ones(3, 4);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
@@ -79,5 +81,3 @@ ce = whomat([tempdir(), 'example_whomat-v7.3.mat'])]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

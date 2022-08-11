@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,11 +14,13 @@
   <param_input>
     <param_input_item>
       <param_name>progid</param_name>
-      <param_description>a string:  the name of a COM server.</param_description>
+      <param_description
+      >a string:  the name of a COM server.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>machineName</param_name>
-      <param_description>a string: the name of the machine on which to start the server.</param_description>
+      <param_description
+      >a string: the name of the machine on which to start the server.</param_description>
     </param_input_item>
 
   </param_input>
@@ -33,26 +35,28 @@
 
 
   <description>
-  <p><b>h = actxserver(progid)</b> creates a COM server using the progid identifier.</p>
+  <p><b
+      >h = actxserver(progid)</b> creates a COM server using the progid identifier.</p>
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[h = actxserver('Excel.application')]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
 for i = 0:5
   invoke(pTextToSpeech, 'Speak', int2str(5 - i));
 end
@@ -81,5 +85,3 @@ clear pTextToSpeech]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

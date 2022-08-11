@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,14 +13,16 @@
 	<param_input>
 		<param_input_item>
 			<param_name>part1, ... , partN</param_name>
-			<param_description>a string or cell of string: filename to concat.</param_description>
+			<param_description
+      >a string or cell of string: filename to concat.</param_description>
 		</param_input_item>
 	</param_input>
 
 	<param_output>
 		<param_output_item>
 			<param_name>R</param_name>
-			<param_description>a character array or string array or cell array of character vectors.</param_description>
+			<param_description
+      >a character array or string array or cell array of character vectors.</param_description>
 		</param_output_item>
 	</param_output>
 
@@ -29,14 +31,14 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[fullfile([nelsonroot(), '/./toto'])]]>
 		</example_item_data>
 

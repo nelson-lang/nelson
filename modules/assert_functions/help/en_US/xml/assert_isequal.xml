@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>assert_isequal</keyword>
-	<short_description>Check that computed and expected values are equal.</short_description>
+	<short_description
+  >Check that computed and expected values are equal.</short_description>
 
 	<syntax>
 		<syntax_item>assert_isequal(computed, expected)</syntax_item>
@@ -33,19 +34,22 @@
 
 		<param_output_item>
 			<param_name>msg</param_name>
-			<param_description>a string value, the error message. If res == true, then errormsg == ''. If res == false, then msg contains the error message.</param_description>
+			<param_description
+      >a string value, the error message. If res == true, then errormsg == ''. If res == false, then msg contains the error message.</param_description>
 		</param_output_item>
 	</param_output>
 
-	<description><b>assert_isequal</b> raises an error if computed value is not equal to expected value (same type, same dimensions, same values comparaisons).</description>
+	<description><b
+    >assert_isequal</b> raises an error if computed value is not equal to expected value (same type, same dimensions, same values comparaisons).</description>
 
 	<used_function>isequaln</used_function>
-	<bibliography>"Automated Software Testing for Matlab", Steven Eddins, 2009</bibliography>
+	<bibliography
+  >"Automated Software Testing for Matlab", Steven Eddins, 2009</bibliography>
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = eye(3, 3);
 assert_isequal(A, A)]]>
 		</example_item_data>
@@ -53,7 +57,7 @@ assert_isequal(A, A)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = eye(3, 3);
 B = single(A);
 assert_isequal(A, B)]]>
@@ -63,7 +67,7 @@ assert_isequal(A, B)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = NaN;
 B = A;
 assert_isequal(A, B)]]>
@@ -89,5 +93,3 @@ assert_isequal(A, B)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

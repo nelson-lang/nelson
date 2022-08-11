@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>websave</keyword>
-  <short_description>Save data from RESTful web service to file</short_description>
+  <short_description
+  >Save data from RESTful web service to file</short_description>
 
   <syntax>
     <syntax_item>result_filename = websave(filename, url)</syntax_item>
-    <syntax_item>result_filename = websave(filename, url, name1, value1, ... , nameN, valueN)</syntax_item>
-    <syntax_item>result_filename = websave(filename, url, name1, value1, ... , nameN, valueN, options)</syntax_item>
+    <syntax_item
+    >result_filename = websave(filename, url, name1, value1, ... , nameN, valueN)</syntax_item>
+    <syntax_item
+    >result_filename = websave(filename, url, name1, value1, ... , nameN, valueN, options)</syntax_item>
   </syntax>
   
 
@@ -17,7 +20,8 @@
 
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>a string: name of file to save content to.</param_description>
+      <param_description
+      >a string: name of file to save content to.</param_description>
     </param_input_item>
     
     <param_input_item>
@@ -48,14 +52,15 @@
     <p><b>websave()</b> saves content from the web to filename.</p>
     <p>websave function returns the full filename path as result_filename.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[url ='https://httpbin.org/get';
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[url ='https://httpbin.org/get';
 filename = [tempdir(), 'test.txt'];
 destination_filename = websave(filename, url, weboptions('ContentType','json'));
 txt = fileread(filename)]]>
@@ -85,5 +90,3 @@ txt = fileread(filename)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

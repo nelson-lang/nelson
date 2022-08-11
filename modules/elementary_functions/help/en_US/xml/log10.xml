@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,17 +27,18 @@
 
   <description>
     <p><b>log10</b> computes common logarithm (base 10).</p>
-    <p>For negative real and complex values of M, <b>log10</b> function returns complex values.</p>
+    <p>For negative real and complex values of M, <b
+      >log10</b> function returns complex values.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = [1+i,-i;i,2i];
 r = log10(x)]]>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,7 +26,9 @@
   </param_output>
 
   <description>
-    <p><b>ismissing</b> returns a logical array which is true where elements of M are <b>missing</b> values.</p>
+    <p><b
+      >ismissing</b> returns a logical array which is true where elements of M are <b
+      >missing</b> values.</p>
     <p>missing data are defined as:</p>
     <p><b>NaN</b> for double or single</p> 
     <p><b>missing</b> for string array</p> 
@@ -35,14 +37,14 @@
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[A = ["Nel", NaN, "son"];
 ismissing(A)
@@ -76,4 +78,3 @@ ismissing(D)
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-

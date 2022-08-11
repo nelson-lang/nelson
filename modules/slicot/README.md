@@ -11,6 +11,7 @@ if SLICOT library is available on platform, and user chooses to use it, distribu
 On Windows and others platforms use of SLICOT is optional:
 
 On linux and macos, you can build Nelson without SLICOT wrapper
+
 ```bash
 cmake -DLGPL_V21_ONLY=ON .
 ```

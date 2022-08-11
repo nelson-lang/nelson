@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>webread</keyword>
-  <short_description>Read data from RESTful web service to Nelson's variable</short_description>
+  <short_description
+  >Read data from RESTful web service to Nelson's variable</short_description>
 
   <syntax>
     <syntax_item>var = webread(url)</syntax_item>
-    <syntax_item>var = webread(url, name1, value1, ... , nameN, valueN)</syntax_item>
-    <syntax_item>var = webread(url, name1, value1, ... , nameN, valueN, options)</syntax_item>
+    <syntax_item
+    >var = webread(url, name1, value1, ... , nameN, valueN)</syntax_item>
+    <syntax_item
+    >var = webread(url, name1, value1, ... , nameN, valueN, options)</syntax_item>
   </syntax>
   
 
@@ -42,14 +45,15 @@
   <description>
     <p><b>webread()</b> reads content from the web to nelson's variable.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[url = 'https://httpbin.org/get';
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[url = 'https://httpbin.org/get';
 res = webread(url,weboptions('ContentType','json'));
 ]]>
     </example_item_data>
@@ -58,23 +62,28 @@ res = webread(url,weboptions('ContentType','json'));
  <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>More demos</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_1.m'])
+    <example_item_data
+      ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_1.m'])
 ]]>
     </example_item_data>
   </example_item>
 
 <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>Use function_handle with weboptions and webread</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_2.m'])
+    <example_item_description
+      >Use function_handle with weboptions and webread</example_item_description>
+    <example_item_data
+      ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_2.m'])
 ]]>
     </example_item_data>
   </example_item>
 
 <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>Read data from National Agricultural Statistics Service</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_3.m'])
+    <example_item_description
+      >Read data from National Agricultural Statistics Service</example_item_description>
+    <example_item_data
+      ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_3.m'])
 ]]>
     </example_item_data>
   </example_item>
@@ -104,5 +113,3 @@ res = webread(url,weboptions('ContentType','json'));
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

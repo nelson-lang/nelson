@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,7 +13,8 @@
   <param_input>
     <param_input_item>
       <param_name>M</param_name>
-      <param_description>a matrix: double or logical, sparse or not.</param_description>
+      <param_description
+      >a matrix: double or logical, sparse or not.</param_description>
     </param_input_item>
   </param_input>
 
@@ -30,14 +31,15 @@
 </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[I = [1 2 3];
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
 sp = sparse(I, J, V, 5, 4, 10)

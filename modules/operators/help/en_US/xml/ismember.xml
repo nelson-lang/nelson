@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>ismember</keyword>
-	<short_description>Array elements that are members of another array.</short_description>
+	<short_description
+  >Array elements that are members of another array.</short_description>
 
 	<syntax>
 		<syntax_item>T = ismember(A, B)</syntax_item>
@@ -31,18 +32,19 @@
 	</param_output>
 
 	<description>
-		<p><b>T = ismember(A, B)</b> returns an array of logical where the data in <b>A</b> is found in <b>B</b>.</p>
+		<p><b>T = ismember(A, B)</b> returns an array of logical where the data in <b
+      >A</b> is found in <b>B</b>.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data>
 			<![CDATA[A = [50 30 40 20];
 B = [20 40 40 40 60 80];
@@ -74,5 +76,3 @@ T = ismember(["a","b","f"], ["b", "f", "c"])
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

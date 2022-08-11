@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -31,19 +31,21 @@
 	</param_output>
 
 	<description>
-		<p><b>C = shortcutand(A, B)</b> performs a logical <b>AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
+		<p><b>C = shortcutand(A, B)</b> performs a logical <b
+      >AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = [6 8 0; 0 3 89; 15 0 0]
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = [6 8 0; 0 3 89; 15 0 0]
 B = [66 56 0; 11 33 55; -11 0 0]
 C = A && B
 D = shortcutand(B, A)
@@ -70,5 +72,3 @@ C == D]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,22 +14,25 @@
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>a double: duration of the sleep in seconds (decimal number).</param_description>
+      <param_description
+      >a double: duration of the sleep in seconds (decimal number).</param_description>
     </param_input_item>
   </param_input>
 
   <description>
-   <p><b>sleep</b> stops Nelson processing any instruction for a speficied number of seconds.</p>
+   <p><b
+      >sleep</b> stops Nelson processing any instruction for a speficied number of seconds.</p>
    <p> CTRL-C interruption stops <b>sleep</b>.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[tic();sleep(1);toc()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[tic();sleep(1);toc()
 tic();sleep(0.1);toc()
 tic();sleep(0.01);toc()]]>
     </example_item_data>
@@ -58,5 +61,3 @@ tic();sleep(0.01);toc()]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

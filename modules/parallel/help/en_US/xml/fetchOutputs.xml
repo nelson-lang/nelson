@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>fetchOutputs</keyword>
-  <short_description>Retrieve results from function running in the background pool.</short_description>
+  <short_description
+  >Retrieve results from function running in the background pool.</short_description>
 
   <syntax>
     <syntax_item>[y1, ... , ym] = fetchOutputs(f)</syntax_item>
@@ -25,20 +26,24 @@
   </param_output>
 
   <description>
-    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> retrieves m results from a <b>Future</b> array <b>f</b>.</p>
-    <p></p>
-    <p><b>fetchOutputs</b> waits for the function associated to <b>f</b> to finish before retrieving results.</p>
-    <p>If <b>fetchOutputs</b> is called, Read property of each element in <b>f</b> is set to true.</p>
+    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> retrieves m results from a <b
+      >Future</b> array <b>f</b>.</p>
+    <p />
+    <p><b>fetchOutputs</b> waits for the function associated to <b
+      >f</b> to finish before retrieving results.</p>
+    <p>If <b>fetchOutputs</b> is called, Read property of each element in <b
+      >f</b> is set to true.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>Sequential version</example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_data
+      ><![CDATA[
 tic()
 R1 = magic(5000);
 R2 = magic(5000);
@@ -51,7 +56,8 @@ size(R1)
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>Parallel version</example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_data
+      ><![CDATA[
 b = backgroundPool()
 tic()
 fptr = str2func('magic');
@@ -88,5 +94,3 @@ f2]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

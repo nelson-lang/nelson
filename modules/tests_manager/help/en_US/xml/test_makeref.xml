@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,7 +20,8 @@
   <param_output>
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>a logical: true if .ref was generated.</param_description>
+      <param_description
+      >a logical: true if .ref was generated.</param_description>
     </param_output_item>
   </param_output>
 
@@ -29,8 +30,8 @@
   <p>test file must have &lt;--CHECK REF--&gt; tag.</p>
 
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
   <see_also>
@@ -51,5 +52,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

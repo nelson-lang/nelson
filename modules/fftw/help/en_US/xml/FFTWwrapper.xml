@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -8,7 +8,8 @@
 
   <syntax>
     <syntax_item>r = FFTWwrapper('load')</syntax_item>
-    <syntax_item>r = FFTWwrapper('load', fftwlibraryname, fftwflibraryname)</syntax_item>
+    <syntax_item
+    >r = FFTWwrapper('load', fftwlibraryname, fftwflibraryname)</syntax_item>
     <syntax_item>r = FFTWwrapper('free')</syntax_item>
   </syntax>
   
@@ -42,12 +43,13 @@
   </param_output>
 
   <description>
-    <p><b>FFTWwrapper</b> is an internal builtin used to load FFTW library dynamically.</p>
+    <p><b
+      >FFTWwrapper</b> is an internal builtin used to load FFTW library dynamically.</p>
 </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
   <see_also>
@@ -67,5 +69,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>qml_setofflinestoragepath</keyword>
-  <short_description>Set the Property contains the directory to store offline user data.</short_description>
+  <short_description
+  >Set the Property contains the directory to store offline user data.</short_description>
 
   <syntax>
     <syntax_item>qml_setofflinestoragepath(path_data)</syntax_item>
@@ -22,12 +23,14 @@
     <p>Set the Property contains the directory to store offline user data.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
-      <link linkend="${qml_engine}qml_offlinestoragepath">qml_offlinestoragepath</link>
+      <link
+        linkend="${qml_engine}qml_offlinestoragepath"
+      >qml_offlinestoragepath</link>
     </see_also_item>
   </see_also>
 
@@ -36,7 +39,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[qml_setofflinestoragepath(tmpdir())
  ]]>
     </example_item_data>

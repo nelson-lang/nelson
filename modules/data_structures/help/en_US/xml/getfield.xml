@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -30,19 +30,21 @@
 	</param_output>
 
 	<description>
-		<p><b>value = getfield(st, field)</b> returns the value of the field named <b>field</b> from a structure.</p>
+		<p><b>value = getfield(st, field)</b> returns the value of the field named <b
+      >field</b> from a structure.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[example.a = 1
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[example.a = 1
 example.b = 'nelson'
 example.c = []
 getfield(example, 'b')]]>
@@ -72,5 +74,3 @@ getfield(example, 'b')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

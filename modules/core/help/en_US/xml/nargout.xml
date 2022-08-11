@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -28,18 +28,20 @@
 
 		<param_output_item>
 			<param_name>R</param_name>
-			<param_description>an integer value: number of output argument</param_description>
+			<param_description
+      >an integer value: number of output argument</param_description>
 		</param_output_item>
 	</param_output>
 
 	<description>
 		<p><b>nargout</b> returns the number of output arguments of an function.</p>
-		<p>If the last output argument of the function  is <b>varargout</b> the returned value is negative.</p>
+		<p>If the last output argument of the function  is <b
+      >varargout</b> the returned value is negative.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
@@ -76,5 +78,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,29 +13,34 @@
 	<param_input>
 		<param_input_item>
 			<param_name>dyn_lib_path</param_name>
-			<param_description>a string: path of a dynamic library prepared for Nelson.</param_description>
+			<param_description
+      >a string: path of a dynamic library prepared for Nelson.</param_description>
 		</param_input_item>
 	</param_input>
 
 
 
 	<description>
-		<p><b>removegateway(dyn_lib_path)</b> removes dynamically builtin at runtime.</p>
-		<p>The dynamic library loaded must have at least an C entry point <b>RemoveGateway</b>.</p>
-		<p>If gateway was not loaded, no error or warning will be raised. If file does not exist an error is raised.</p>
+		<p><b
+      >removegateway(dyn_lib_path)</b> removes dynamically builtin at runtime.</p>
+		<p>The dynamic library loaded must have at least an C entry point <b
+      >RemoveGateway</b>.</p>
+		<p
+    >If gateway was not loaded, no error or warning will be raised. If file does not exist an error is raised.</p>
 	</description>
 
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>removes time builtin</example_item_description>
-		<example_item_data><![CDATA[calendar
+		<example_item_data
+      ><![CDATA[calendar
 removegateway(modulepath(nelsonroot(), 'time', 'builtin'))
 calendar]]>
 		</example_item_data>

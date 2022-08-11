@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>IJV</keyword>
-  <short_description>Returns I,J,V triplets from a sparse matrix.</short_description>
+  <short_description
+  >Returns I,J,V triplets from a sparse matrix.</short_description>
 
   <syntax>
     <syntax_item>[iv, jv, vv, m, n, nzmax] = IJV(sp)</syntax_item>
@@ -20,31 +21,37 @@
   <param_output>
     <param_output_item>
       <param_name>iv</param_name>
-      <param_description>a vector: row indices of the nonzero elements.</param_description>
+      <param_description
+      >a vector: row indices of the nonzero elements.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>jv</param_name>
-      <param_description>a vector: column indices of the nonzero elements.</param_description>
+      <param_description
+      >a vector: column indices of the nonzero elements.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>vv</param_name>
-      <param_description>a vector: values of the nonzero elements.</param_description>
+      <param_description
+      >a vector: values of the nonzero elements.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>m</param_name>
-      <param_description>an integer value: number of rows in the matrix.</param_description>
+      <param_description
+      >an integer value: number of rows in the matrix.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>n</param_name>
-      <param_description>an integer value: number of columns in the matrix.</param_description>
+      <param_description
+      >an integer value: number of columns in the matrix.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>nzmax</param_name>
-      <param_description>an integer value: reserved size for nonzero elements..</param_description>
+      <param_description
+      >an integer value: reserved size for nonzero elements..</param_description>
     </param_output_item>
     
   </param_output>
@@ -54,15 +61,16 @@
 </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[sp = sparse(eye(3,3))
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[sp = sparse(eye(3,3))
 [IV, JV, VV, m, n, nzmax] = IJV(sp)]]>
     </example_item_data>
   </example_item>
@@ -86,5 +94,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

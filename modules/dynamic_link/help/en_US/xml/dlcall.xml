@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -7,7 +7,8 @@
 	<short_description>C or Fortran Foreign function call.</short_description>
 
 	<syntax>
-		<syntax_item>[x1, ... , xN] = dlcall(dlsym_handle, arg1, ..., argN)</syntax_item>
+		<syntax_item
+    >[x1, ... , xN] = dlcall(dlsym_handle, arg1, ..., argN)</syntax_item>
 
 	</syntax>
 
@@ -30,20 +31,23 @@
 	</param_output>
 
 	<description>
-		<p><b>dlcall</b> calls an external C or Fortran function loaded from an shared library.</p>
-		<p><b>dlcall</b> validates input argument types before calling based on dlsym handle definition.</p>
+		<p><b
+      >dlcall</b> calls an external C or Fortran function loaded from an shared library.</p>
+		<p><b
+      >dlcall</b> validates input argument types before calling based on dlsym handle definition.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
 V = double([1 2;3 4]);
 % C prototype:
 % int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
@@ -59,7 +63,8 @@ delete(lib);
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>Call C getpid function</example_item_description>
-		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
+		<example_item_data
+      ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
 ]]>
 	</example_item_data>
 
@@ -67,8 +72,10 @@ delete(lib);
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Call fortran DASUM (blas) function</example_item_description>
-		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]>
+		<example_item_description
+      >Call fortran DASUM (blas) function</example_item_description>
+		<example_item_data
+      ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]>
 	</example_item_data>
 
 	</example_item>
@@ -96,5 +103,3 @@ delete(lib);
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

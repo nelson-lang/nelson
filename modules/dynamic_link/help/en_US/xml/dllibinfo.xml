@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>dllibinfo</keyword>
-	<short_description>Returns list of available symbols in an shared library.</short_description>
+	<short_description
+  >Returns list of available symbols in an shared library.</short_description>
 
 	<syntax>
 		<syntax_item>c = dllibinfo(lib)</syntax_item>
@@ -29,15 +30,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()])
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()])
 c = dllibinfo(lib)]]>
 	</example_item_data>
 	
@@ -62,5 +64,3 @@ c = dllibinfo(lib)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

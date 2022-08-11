@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -29,12 +29,13 @@
 
   <description>
     <p>Evaluates a js file.</p>
-    <p>If returned value cannot be converted to a basic type, it will converted to string.</p>
+    <p
+    >If returned value cannot be converted to a basic type, it will converted to string.</p>
 
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -47,8 +48,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[test_file = [tempdir() , '/example_qml_evaluatefile.js'];
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[test_file = [tempdir() , '/example_qml_evaluatefile.js'];
 f = fopen(test_file, 'wt');
 fwrite(f, 'a = 2 + 4');
 fclose(f);

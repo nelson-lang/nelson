@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -19,12 +19,13 @@
 
 
 	<description>
-		<p>If <b>O</b> is an object then <b>subsindex</b> is the overloading method that allows to convert this object to a valid indexing vector.</p>
+		<p>If <b>O</b> is an object then <b
+      >subsindex</b> is the overloading method that allows to convert this object to a valid indexing vector.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 	<history>
 		<history_item>
@@ -37,5 +38,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

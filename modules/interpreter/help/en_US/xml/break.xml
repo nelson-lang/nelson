@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,20 +13,22 @@
 
   <description>
   <p><b>break</b> statement is used to exit a loop prematurely.</p>
-  <p><b>break</b> statement can be used inside a <b>for</b> or a <b>while</b> loop.</p>
+  <p><b>break</b> statement can be used inside a <b>for</b> or a <b
+      >while</b> loop.</p>
 
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 for i = 1:10
   if i == 5
    disp('i == 5');

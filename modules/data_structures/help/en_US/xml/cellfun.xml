@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -9,8 +9,10 @@
 	<syntax>
 		<syntax_item>R = cellfun(function_name, ce)</syntax_item>
 		<syntax_item>R = cellfun(function_handle, ce)</syntax_item>
-<syntax_item>[R1, ... , Rp] = cellfun(function_handle, ce1, ..., cep)</syntax_item>
-<syntax_item>[R1, ... , Rp] = cellfun(function_handle, ce1, ..., cep, name, value)</syntax_item>
+<syntax_item
+    >[R1, ... , Rp] = cellfun(function_handle, ce1, ..., cep)</syntax_item>
+<syntax_item
+    >[R1, ... , Rp] = cellfun(function_handle, ce1, ..., cep, name, value)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -20,12 +22,14 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>ce1, ... , cep</param_name>
-			<param_description>cells with p inputs required for function_handle.</param_description>
+			<param_description
+      >cells with p inputs required for function_handle.</param_description>
 		</param_input_item>
 
 		<param_input_item>
 			<param_name>name, value pair</param_name>
-			<param_description>'UniformOutput': true or false, 'ErrorHandler': a error function.</param_description>
+			<param_description
+      >'UniformOutput': true or false, 'ErrorHandler': a error function.</param_description>
 		</param_input_item>
 		
 	</param_input>
@@ -43,15 +47,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[greetings = {'Hello', 'Guten Tag', 'Sawadee', 'Bonjour', 'Namaste', ''};
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[greetings = {'Hello', 'Guten Tag', 'Sawadee', 'Bonjour', 'Namaste', ''};
 R = cellfun('size', greetings, 1)
 R1 = cellfun('size', greetings, 2)]]>
 		</example_item_data>
@@ -59,8 +64,9 @@ R1 = cellfun('size', greetings, 2)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[C = {1:10, eye(3,4), eye(5,6)};
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[C = {1:10, eye(3,4), eye(5,6)};
 f = str2func('size');
 [nrows_1, ncols_1] = cellfun(f, C,'UniformOutput', false)
 [nrows_2, ncols_2] = cellfun(f, C,'UniformOutput', true)]]>
@@ -70,8 +76,10 @@ f = str2func('size');
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>functions to define for next example:</example_item_description>
-		<example_item_data><![CDATA[function r = fun1(x, y)
+		<example_item_description
+      >functions to define for next example:</example_item_description>
+		<example_item_data
+      ><![CDATA[function r = fun1(x, y)
 r = x > y;
 endfunction
 
@@ -89,8 +97,9 @@ endfunction]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[R = str2func('fun1');
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[R = str2func('fun1');
 H =  str2func('errorfun');
 A = {rand(3)};
 B = {rand(5)};
@@ -119,5 +128,3 @@ AgtB = cellfun(R, A, B, 'ErrorHandler', H, 'UniformOutput', false)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

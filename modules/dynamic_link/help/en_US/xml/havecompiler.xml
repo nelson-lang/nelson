@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,18 +24,19 @@
 
 	<description>
 		<p><b>havecompiler</b> detects if C/C++ compiler is configured for Nelson.</p>
-		<p>On Unix platforms (linux, MacOs), <b>havecompiler</b> returns always <b>true</b> as status and <b>unix</b> as compiler.</p>
+		<p>On Unix platforms (linux, MacOs), <b>havecompiler</b> returns always <b
+      >true</b> as status and <b>unix</b> as compiler.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[[status, message] = havecompiler()]]>
 	</example_item_data>
 	
@@ -63,5 +64,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

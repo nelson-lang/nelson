@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -19,16 +19,17 @@
 
 	<description><b>resume</b> resumes an audioplayer object.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16)
 play(playObj)
 pause(playObj)
@@ -63,5 +64,3 @@ playObj]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

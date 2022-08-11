@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,7 +21,8 @@
 
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>an integer value: 1 if file is closed or 0 if not.</param_description>
+      <param_description
+      >an integer value: 1 if file is closed or 0 if not.</param_description>
     </param_output_item>
   </param_output>
 
@@ -29,15 +30,16 @@
     <p><b>feof</b> checks if end of file has been reached.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m'], 'rt');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m'], 'rt');
 feof(fid)
 while ~feof(fid)
   tline = fgetl(fid);
@@ -72,5 +74,3 @@ fclose(fid);]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

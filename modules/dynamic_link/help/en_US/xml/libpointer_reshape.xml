@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -30,8 +30,8 @@
     <p>Set dimensions from libpointer object.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -44,8 +44,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[a = libpointer('doublePtr', eye(2, 2));
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[a = libpointer('doublePtr', eye(2, 2));
 a.reshape(3, 3);
 a.Value]]>
     </example_item_data>

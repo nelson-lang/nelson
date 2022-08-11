@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -9,27 +9,33 @@
 
   <syntax>
     <syntax_item>try, statements_1, catch, statements_2, end</syntax_item>
-    <syntax_item>try, statements_1, catch exception, statements_2, end</syntax_item>
+    <syntax_item
+    >try, statements_1, catch exception, statements_2, end</syntax_item>
 
   </syntax>
   
 
   <description>
-  <p><b>try</b> and <b>catch</b> statements are used for error handling and control in files.</p>
-  <p><b>exception</b> is an <b>MException</b> object that allows you to identify the error.</p>
-  <p>The catch block assigns the current exception object to the variable in exception.</p>
+  <p><b>try</b> and <b
+      >catch</b> statements are used for error handling and control in files.</p>
+  <p><b>exception</b> is an <b
+      >MException</b> object that allows you to identify the error.</p>
+  <p
+    >The catch block assigns the current exception object to the variable in exception.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>try/catch in a script file</example_item_description>
-    <example_item_data><![CDATA[try 
+    <example_item_description
+      >try/catch in a script file</example_item_description>
+    <example_item_data
+      ><![CDATA[try 
 error('an error')
 catch
   disp('error catched')
@@ -39,7 +45,8 @@ end]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>try/catch in a script file</example_item_description>
+    <example_item_description
+      >try/catch in a script file</example_item_description>
     <example_item_data><![CDATA[try 
 error('an error')
 catch ME

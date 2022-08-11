@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>unicode2native</keyword>
-	<short_description>Converts unicode characters representation to bytes</short_description>
+	<short_description
+  >Converts unicode characters representation to bytes</short_description>
 
 	<syntax>
 		<syntax_item>bytes = unicode2native(str, charset)</syntax_item>
@@ -13,11 +14,13 @@
 	<param_input>
 		<param_input_item>
 			<param_name>str</param_name>
-			<param_description>an scalar string or vector characters array.</param_description>
+			<param_description
+      >an scalar string or vector characters array.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>charset</param_name>
-			<param_description>an scalar string or vector characters array.</param_description>
+			<param_description
+      >an scalar string or vector characters array.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -30,17 +33,21 @@
 
 	<description>
 	<p><b>unicode2native</b> converts unicode characters to an numeric array.</p>
-	<p><b>bytes = unicode2native(str)</b> converts unicode characters to an numeric array (the native character set of the machine).</p>
-	<p><b>bytes = unicode2native(str, charset)</b> converts unicode characters to an numeric array (character set <b>charset</b> instead of the native character set).</p>
-	<p>List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
+	<p><b
+      >bytes = unicode2native(str)</b> converts unicode characters to an numeric array (the native character set of the machine).</p>
+	<p><b
+      >bytes = unicode2native(str, charset)</b> converts unicode characters to an numeric array (character set <b
+      >charset</b> instead of the native character set).</p>
+	<p
+    >List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
 	</description>
-	<used_function></used_function>
+	<used_function />
 	<bibliography>ICU library</bibliography>
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[R = unicode2native('片仮名', 'SHIFT_JIS')]]>
 		</example_item_data>
 	</example_item>
@@ -66,5 +73,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

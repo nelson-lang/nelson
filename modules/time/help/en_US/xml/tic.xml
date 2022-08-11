@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -15,21 +15,23 @@
   <param_output>
     <param_output_item>
       <param_name>t</param_name>
-      <param_description>a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
+      <param_description
+      >a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-   <p>The sequence of commands <b>tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
+   <p>The sequence of commands <b
+      >tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
    <p>Consecutive <b>tic</b> commands overwrite the tic timer.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[tic()
 sleep(10)
 toc()
@@ -67,5 +69,3 @@ t = toc()
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

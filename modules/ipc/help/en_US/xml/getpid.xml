@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,26 +25,31 @@
 		</param_output_item>
 		<param_output_item>
 			<param_name>v</param_name>
-			<param_description>a vector of double: list of nelson Processes Identification (with same arch) currently running for current user.</param_description>
+			<param_description
+      >a vector of double: list of nelson Processes Identification (with same arch) currently running for current user.</param_description>
 		</param_output_item>
 
 	</param_output>
 
 	<description>
-		<p><b>p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
-		<p><b>v = getpid('available')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
-		<p>win64 and win32 are two differents architecture but they can run in same time.</p>
+		<p><b
+      >p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
+		<p><b
+      >v = getpid('available')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
+		<p
+    >win64 and win32 are two differents architecture but they can run in same time.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[p = getpid()
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[p = getpid()
 getpid('available')
 unix('nelson-gui &')
 sleep(5) % detached process need to wait to see available
@@ -81,5 +86,3 @@ getpid('available')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

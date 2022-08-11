@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>isstruct</keyword>
-	<short_description>Return true if variable var is a structure.</short_description>
+	<short_description
+  >Return true if variable var is a structure.</short_description>
 
 	<syntax>
 		<syntax_item>res = isstruct(var)</syntax_item>
@@ -24,15 +25,16 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>isstruct</b> returns a logical 1 if the argument is a struct (structure) and a logical 0 otherwise.</description>
+	<description><b
+    >isstruct</b> returns a logical 1 if the argument is a struct (structure) and a logical 0 otherwise.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = 1;
 res = isstruct(A)]]>
 		</example_item_data>
@@ -40,7 +42,7 @@ res = isstruct(A)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[B = struct();
 res = isstruct(B)]]>
 		</example_item_data>
@@ -48,7 +50,7 @@ res = isstruct(B)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[C.a = 1;
 C.B = 'hello';
 res = isstruct(C)]]>
@@ -78,5 +80,3 @@ res = isstruct(C)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

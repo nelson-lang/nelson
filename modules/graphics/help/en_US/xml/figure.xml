@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -15,11 +15,13 @@
 	<param_input>
 		<param_input_item>
 			<param_name>ID</param_name>
-			<param_description>a scalar integer value: find or creates with ID.</param_description>
+			<param_description
+      >a scalar integer value: find or creates with ID.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>H</param_name>
-			<param_description>a scalar graphic object on an existing figure.</param_description>
+			<param_description
+      >a scalar graphic object on an existing figure.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -34,10 +36,12 @@
 <p><b>figure</b> creates figure.</p>
 <p>Properties:</p>
 <p><b>Color</b>:  Background color [R, G, B] or string (example: 'blue').</p>
-<p><b>InnerPosition</b>: Location and size of drawable area (similar to 'Position').</p>
+<p><b
+      >InnerPosition</b>: Location and size of drawable area (similar to 'Position').</p>
 <p><b>Name</b>: Name (default '').</p>
 <p><b>Number</b>: Figure indentifer (integer).</p>
-<p><b>OuterPosition</b>: Location and size of outer bounds (vector [X Y W H]).</p>
+<p><b
+      >OuterPosition</b>: Location and size of outer bounds (vector [X Y W H]).</p>
 <p><b>Position</b>: Location and size of drawable area.</p>
 <p><b>Tag</b>: String identifier.</p>
 <p><b>Type</b>: Type 'figure'.</p>
@@ -46,15 +50,16 @@
 </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[f = figure(1)
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[f = figure(1)
 g = figure(2)
 h = figure(3)
 figure(g)

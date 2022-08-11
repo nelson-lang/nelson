@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -15,27 +15,29 @@
   
 
   <description>
-  <p><b>for</b> loop executes a set of statements with an index variable looping through each element in a vector.</p>
+  <p><b
+      >for</b> loop executes a set of statements with an index variable looping through each element in a vector.</p>
   <p><b>parfor</b> is currently an alias on <b>for</b> keyword.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[for i = 1:10, disp(i), end]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[for i = [1, 2; 3 4], disp(i), disp('next'), end]]>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[for i = [1, 2; 3 4], disp(i), disp('next'), end]]>
     </example_item_data>
   </example_item>
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -46,26 +46,32 @@
 	</param_output>
 
 	<description>
-		<p><b>diary</b> creates a log of keyboard input and the resulting text output.</p>
+		<p><b
+      >diary</b> creates a log of keyboard input and the resulting text output.</p>
 		<p><b>diary</b> toggles diary mode on and off.</p>
 		<p><b>diary('off')</b> stops recording the session in the diary file.</p>
-		<p><b>diary('on')</b> starts recording a session in a file called 'diary' in the current working directory.</p>
+		<p><b
+      >diary('on')</b> starts recording a session in a file called 'diary' in the current working directory.</p>
 		<p><b>diary('set', 'Diary', onoff)</b> allows to start or stop the diary.</p>
-		<p><b>onoff = diary('get', 'Diary')</b> returns the state 'on' or 'off' of the diary.</p>
+		<p><b
+      >onoff = diary('get', 'Diary')</b> returns the state 'on' or 'off' of the diary.</p>
 		<p><b>diary(filename)</b> records the session in the file named filename.</p>
-		<p><b>filename = diary('get', 'DiaryFile')</b> returns filename used as diary.</p>
-		<p><b>diary('set', 'DiaryFile', filename))</b> set the filename for the diary.</p>
+		<p><b
+      >filename = diary('get', 'DiaryFile')</b> returns filename used as diary.</p>
+		<p><b
+      >diary('set', 'DiaryFile', filename))</b> set the filename for the diary.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[filename = diary('get', 'DiaryFile')
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[filename = diary('get', 'DiaryFile')
 onoff = diary('get', 'Diary')]]>
 		</example_item_data>
 	
@@ -90,5 +96,3 @@ onoff = diary('get', 'Diary')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

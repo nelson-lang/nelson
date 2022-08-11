@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -15,7 +15,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>y</param_name>
-			<param_description>a vector or matrix array: int8,uint8, int16, single or double.</param_description>
+			<param_description
+      >a vector or matrix array: int8,uint8, int16, single or double.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>fs</param_name>
@@ -23,11 +24,13 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>nbits</param_name>
-			<param_description>a double value: bits per sample (16 by default).</param_description>
+			<param_description
+      >a double value: bits per sample (16 by default).</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>id</param_name>
-			<param_description>a double value: device identifier (-1 by default).</param_description>
+			<param_description
+      >a double value: device identifier (-1 by default).</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -41,21 +44,24 @@
 	</param_output>
 
 	<description>
-		<p><b>audioplayer</b> returns an audioplayer object to play data on an output device.</p>
+		<p><b
+      >audioplayer</b> returns an audioplayer object to play data on an output device.</p>
     <p>audioplayer object uses global scope and need to be deleted by user.</p>
-    <p><b>audioplayer</b> can play multichannels data if your sound card supports it.</p>
+    <p><b
+      >audioplayer</b> can play multichannels data if your sound card supports it.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16)
 play(playObj)
 sleep(2)
@@ -97,5 +103,3 @@ playObj]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

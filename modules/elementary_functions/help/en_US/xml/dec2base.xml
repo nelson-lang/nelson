@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>D</param_name>
-      <param_description>a nonnegative integer smaller than the value returned by flintmax.</param_description>
+      <param_description
+      >a nonnegative integer smaller than the value returned by flintmax.</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -39,17 +40,18 @@
 
   <description>
     <p><b>dec2base</b> converts decimal number to another base.</p>
-    <p>values are cached to speed up next computation <b>dec2base([], 2)</b> to clear cache.</p>
+    <p>values are cached to speed up next computation <b
+      >dec2base([], 2)</b> to clear cache.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[X = [65535 128; 1 0]
 Y = dec2base(X, 2)
@@ -78,5 +80,3 @@ Y = dec2base(X, 2, 26)
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

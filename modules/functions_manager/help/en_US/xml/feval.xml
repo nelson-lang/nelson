@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -37,15 +37,16 @@
 		</param_output_item>
 	</param_output>
 
-	<description><p><b>function</b> calls the base function or built-in described by its name or function handle and input arguments.</p>
+	<description><p><b
+      >function</b> calls the base function or built-in described by its name or function handle and input arguments.</p>
 </description>
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[a = feval('cos', 0)
 b = feval(str2func('cos'), 0)]]>
 		</example_item_data>
@@ -74,5 +75,3 @@ b = feval(str2func('cos'), 0)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

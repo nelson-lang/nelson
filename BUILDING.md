@@ -22,3 +22,15 @@ Qt 5.15 or more required.
 You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files to help you to see dependencies.
 
 [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.
+
+## Code formatter
+
+[prettier](https://prettier.io) is used to format `.xml`, `.json`, `.md` files.
+Continuous integration checks that theses files are correctly formatted.
+To fix format, it requires to have nodejs available on your pc.
+
+```batch
+npm install
+npm run prettier:check
+npm run prettier
+```

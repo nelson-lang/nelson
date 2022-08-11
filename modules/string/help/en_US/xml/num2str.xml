@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,12 +20,14 @@
 
    <param_input_item>
       <param_name>precision</param_name>
-      <param_description>an positive integer value: Maximum number of significant digits.</param_description>
+      <param_description
+      >an positive integer value: Maximum number of significant digits.</param_description>
     </param_input_item>
 
    <param_input_item>
       <param_name>formatSpec</param_name>
-      <param_description>a character array: Format of output fields.</param_description>
+      <param_description
+      >a character array: Format of output fields.</param_description>
     </param_input_item>
 
   </param_input>
@@ -33,23 +35,26 @@
   <param_output>
     <param_output_item>
       <param_name>S</param_name>
-      <param_description>a character array: text representation of input array.</param_description>
+      <param_description
+      >a character array: text representation of input array.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
     <p><b>num2str</b> converts numbers to character array.</p>
-    <p><b>num2str</b> trims any leading spaces from a character array. For better control over the results, use <b>sprintf</b>.</p>
+    <p><b
+      >num2str</b> trims any leading spaces from a character array. For better control over the results, use <b
+      >sprintf</b>.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[R = num2str(pi, 4)
 R = num2str(magic(3))]]>
     </example_item_data>
@@ -81,5 +86,3 @@ R = num2str(magic(3))]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

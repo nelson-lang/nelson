@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,17 +20,20 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
+      <param_description
+      >a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
+      <param_description
+      >a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>balanceOption</param_name>
-      <param_description>a string: 'nobalance' (disable preliminary balancing) or 'balance' (default).</param_description>
+      <param_description
+      >a string: 'nobalance' (disable preliminary balancing) or 'balance' (default).</param_description>
     </param_input_item>
 
   </param_input>
@@ -38,15 +41,18 @@
   <param_output>
     <param_output_item>
       <param_name>e</param_name>
-      <param_description>real or complex number (double or single), Eigenvalues (returned as column vector).</param_description>
+      <param_description
+      >real or complex number (double or single), Eigenvalues (returned as column vector).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>V</param_name>
-      <param_description>real or complex number (double or single), square right eigenvectors.</param_description>
+      <param_description
+      >real or complex number (double or single), square right eigenvectors.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>D</param_name>
-      <param_description>real or complex number (double or single), Eigenvalues (returned as diagonal matrix).</param_description>
+      <param_description
+      >real or complex number (double or single), Eigenvalues (returned as diagonal matrix).</param_description>
     </param_output_item>
 
   </param_output>
@@ -57,14 +63,16 @@
 
   </description>
 
-  <used_function></used_function>
-  <bibliography>[1]  Anderson, E., Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen, LAPACK User's Guide (http://www.netlib.org/lapack/lug/ lapack_lug.html), Third Edition, SIAM, Philadelphia, 1999.</bibliography>
+  <used_function />
+  <bibliography
+  >[1]  Anderson, E., Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen, LAPACK User's Guide (http://www.netlib.org/lapack/lug/ lapack_lug.html), Third Edition, SIAM, Philadelphia, 1999.</bibliography>
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[A = [10 -20 40; -50 20 0; 10 0 30]
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = [10 -20 40; -50 20 0; 10 0 30]
 e = eig(A)
 [V, D] = eig(A)
 ]]>
@@ -72,8 +80,9 @@ e = eig(A)
   </example_item>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[A = [1/sqrt(2) 0; 0 1];
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = [1/sqrt(2) 0; 0 1];
 B = [0 1; -1/sqrt(2) 0];
 [V, D] = eig(A, B)
 ]]>

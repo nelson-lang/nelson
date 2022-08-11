@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>getenv</keyword>
-  <short_description>Get the value of an environment variable.</short_description>
+  <short_description
+  >Get the value of an environment variable.</short_description>
 
   <syntax>
     <syntax_item>s = getenv(env_name)</syntax_item>
@@ -13,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>env_name</param_name>
-      <param_description>a string: environment variable name.</param_description>
+      <param_description
+      >a string: environment variable name.</param_description>
     </param_input_item>
   </param_input>
 
@@ -21,23 +23,25 @@
   	
     <param_output_item>
       <param_name>s</param_name>
-      <param_description>a string: the environment variable value.</param_description>
+      <param_description
+      >a string: the environment variable value.</param_description>
     </param_output_item>
 
   </param_output>
 
 
-  <description><p><b>getenv</b> returns the value of an environment variable if it exists.</p>
+  <description><p><b
+      >getenv</b> returns the value of an environment variable if it exists.</p>
 <p>If the environment variable does not exist, it will return ''.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[getenv('OS')
 getenv('myenvvar')]]>
     </example_item_data>
@@ -66,5 +70,3 @@ getenv('myenvvar')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>func2str</keyword>
-	<short_description>Return a function handle constructed from a string.</short_description>
+	<short_description
+  >Return a function handle constructed from a string.</short_description>
 
 	<syntax>
 		<syntax_item>func_handle = str2func(str)</syntax_item>
@@ -27,18 +28,20 @@
 	</param_output>
 
 	<description>
-<p><b>func_handle = str2func(str)</b> returns a function handle constructed from the string <b>str</b>.</p>
+<p><b
+      >func_handle = str2func(str)</b> returns a function handle constructed from the string <b
+      >str</b>.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[fh = str2func('cos')
 class(fh)]]>
 		</example_item_data>
@@ -68,5 +71,3 @@ class(fh)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

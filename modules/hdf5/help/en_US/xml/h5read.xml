@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -17,7 +17,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>location</param_name>
-			<param_description>a string: full path identifying a data set.</param_description>
+			<param_description
+      >a string: full path identifying a data set.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -33,15 +34,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[h5_directory = [modulepath('hdf5'), '/tests/h5'];
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[h5_directory = [modulepath('hdf5'), '/tests/h5'];
 double_data = [h5_directory, '/h5ex_t_float.h5'];
 R = h5read(double_data,'/DS1')]]>
 		</example_item_data>
@@ -66,5 +68,3 @@ R = h5read(double_data,'/DS1')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

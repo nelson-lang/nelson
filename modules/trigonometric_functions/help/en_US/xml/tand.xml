@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>tand</keyword>
-  <short_description>Computes the tangent in degree for each element of x.</short_description>
+  <short_description
+  >Computes the tangent in degree for each element of x.</short_description>
 
   <syntax>
     <syntax_item>res = tand(x)</syntax_item>
@@ -24,15 +25,16 @@
     </param_output_item>
   </param_output>
 
-  <description><b>tand</b> computes the tangent in degree for each element of <b>x</b>.</description>
+  <description><b>tand</b> computes the tangent in degree for each element of <b
+    >x</b>.</description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[A = [0 30 45 60 90 360];
 res = tand(A)]]>
     </example_item_data>
@@ -57,5 +59,3 @@ res = tand(A)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

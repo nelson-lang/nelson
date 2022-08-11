@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,18 +26,20 @@
   </param_output>
 
   <description>
-    <p><b>isrow(V)</b> returns logical <b>true</b> if size(V) returns [1, n] with a nonnegative integer value n, and logical <b>false</b> otherwise.</p>
+    <p><b>isrow(V)</b> returns logical <b
+      >true</b> if size(V) returns [1, n] with a nonnegative integer value n, and logical <b
+      >false</b> otherwise.</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[isrow([1:4])
 isrow([1:4]')]]>
@@ -64,5 +66,3 @@ isrow([1:4]')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

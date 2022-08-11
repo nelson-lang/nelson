@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -8,17 +8,20 @@
 
 	<syntax>
 		<syntax_item>S = convertCharsToStrings(C)</syntax_item>
-		<syntax_item>[B1, B2, ..., BN] = convertCharsToStrings(A1, A2, ..., AN)</syntax_item>
+		<syntax_item
+    >[B1, B2, ..., BN] = convertCharsToStrings(A1, A2, ..., AN)</syntax_item>
 	</syntax>
 	
 	<param_input>
 		<param_input_item>
 			<param_name>C</param_name>
-			<param_description>if C is a char array, output S will be converted to an string array.</param_description>
+			<param_description
+      >if C is a char array, output S will be converted to an string array.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>A1, A2, ..., AN</param_name>
-			<param_description>variables to convert to string array if it is a char array.</param_description>
+			<param_description
+      >variables to convert to string array if it is a char array.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -30,7 +33,8 @@
 		</param_output_item>
 		<param_output_item>
 			<param_name>B1, B2, ..., BN</param_name>
-			<param_description>variables converted to string array if it is a char array or cell of char array.</param_description>
+			<param_description
+      >variables converted to string array if it is a char array or cell of char array.</param_description>
 		</param_output_item>
 
 	</param_output>
@@ -40,15 +44,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'NaN' ;'five'})
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'NaN' ;'five'})
 R = convertCharsToStrings(['Nelson' ; '  is  '; '  good'])]]>
 		</example_item_data>
 	
@@ -83,5 +88,3 @@ R = convertCharsToStrings(['Nelson' ; '  is  '; '  good'])]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

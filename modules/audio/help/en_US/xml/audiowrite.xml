@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -8,7 +8,8 @@
 
 	<syntax>
     <syntax_item>audiowrite(filename, y, fs)</syntax_item>
-    <syntax_item>audiowrite(filename, y, fs, fieldname, fieldvalue, ...)</syntax_item>
+    <syntax_item
+    >audiowrite(filename, y, fs, fieldname, fieldvalue, ...)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -26,7 +27,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>fieldname</param_name>
-			<param_description>a string: 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' or 'Comment' .</param_description>
+			<param_description
+      >a string: 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' or 'Comment' .</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>fieldvalue</param_name>
@@ -38,20 +40,22 @@
 
 	<description>
 		<p><b>audiorwrite</b> writes an audio file.</p>
-    <p>More 26 files format supported. See <b>audiosupportedformats</b> function to have all supported formats.</p>
+    <p>More 26 files format supported. See <b
+      >audiosupportedformats</b> function to have all supported formats.</p>
 
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
 [y, fs] = audioread(wav_audio);
 dest_ogg = [tempdir(), 'haha.ogg'];
 audiowrite(dest_ogg, y, fs);
@@ -87,5 +91,3 @@ audiowrite(dest_caf, y, fs);
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

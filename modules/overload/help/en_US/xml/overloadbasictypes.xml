@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,32 +22,39 @@
 
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>a logical: current value of overloading behavior.</param_description>
+      <param_description
+      >a logical: current value of overloading behavior.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>tf_previous</param_name>
-      <param_description>a logical: previous value of overloading behavior.</param_description>
+      <param_description
+      >a logical: previous value of overloading behavior.</param_description>
     </param_output_item>
 
   </param_output>
 
   <description>
-    <p><b>overloadbasictypes(true)</b> modify behavior of overloading in Nelson.</p>
-    <p>By default, operators and functions call internal functions with predefined types and if function or operator does not find a valid type then nelson calls overloading.
+    <p><b
+      >overloadbasictypes(true)</b> modify behavior of overloading in Nelson.</p>
+    <p
+    >By default, operators and functions call internal functions with predefined types and if function or operator does not find a valid type then nelson calls overloading.
 With overloadbasictypes(true), interpreter searchs first an overloaded function.</p>
-    <p>This step is more time consuming and concerns all loaded functions but it allows to overload easily double, single, char, integers, logical types.</p>
-    <p>Beware, to change default behavior can modify nelson's computation results (reserved to advanced users).</p>
+    <p
+    >This step is more time consuming and concerns all loaded functions but it allows to overload easily double, single, char, integers, logical types.</p>
+    <p
+    >Beware, to change default behavior can modify nelson's computation results (reserved to advanced users).</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>By default, overload on basic types is disabled (fast)</example_item_description>
+    <example_item_description
+      >By default, overload on basic types is disabled (fast)</example_item_description>
     <example_item_data>
       <![CDATA[overloadbasictypes()
 %overloadbasictypes(false);
@@ -57,7 +64,8 @@ tic;for i=1:1e5;3 == 3;end;toc()]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>With overload on basic types enabled (slow)</example_item_description>
+    <example_item_description
+      >With overload on basic types enabled (slow)</example_item_description>
     <example_item_data>
       <![CDATA[overloadbasictypes(true);
 tic;for i=1:1e5;3 == 3;end;toc()]]>
@@ -84,5 +92,3 @@ tic;for i=1:1e5;3 == 3;end;toc()]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

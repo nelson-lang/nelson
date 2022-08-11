@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -33,21 +33,23 @@
 
 	<description>
 <p>Changes the current working directory to dirname.</p>
-<p><b>a = cd()</b> without input argument returns the current working directory.</p>
-<p><b>cd()</b> without input argument displays the current working directory.</p>
+<p><b
+      >a = cd()</b> without input argument returns the current working directory.</p>
+<p><b
+      >cd()</b> without input argument displays the current working directory.</p>
 
-<p></p>
+<p />
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[previous = cd(tempdir())
 cd
 cd ..
@@ -79,5 +81,3 @@ cd ..
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

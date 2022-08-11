@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,20 +26,23 @@
 
 	</param_output>
 
-	<description><p><b>uint32</b> converts value to 32-bit unsigned integer type.</p>
-<p>The value is rounded to the nearest uint32 value on conversion. A value that is above or below the range for an uint32 class is mapped to one of the endpoints of the range [0, 4294967295].</p>
+	<description><p><b
+      >uint32</b> converts value to 32-bit unsigned integer type.</p>
+<p
+    >The value is rounded to the nearest uint32 value on conversion. A value that is above or below the range for an uint32 class is mapped to one of the endpoints of the range [0, 4294967295].</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = [1 -2147483649 -120 127 2147483647 2147483648]
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = [1 -2147483649 -120 127 2147483647 2147483648]
 B = uint32(A)]]>
 		</example_item_data>
 	</example_item>
@@ -67,5 +70,3 @@ B = uint32(A)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

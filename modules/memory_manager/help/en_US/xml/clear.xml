@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -37,39 +37,45 @@
     </param_input_item>
     <param_input_item>
       <param_name>mex</param_name>
-      <param_description>clears all mex functions in all scopes</param_description>
+      <param_description
+      >clears all mex functions in all scopes</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>variables</param_name>
-      <param_description>clears all variables in current scope.</param_description>
+      <param_description
+      >clears all variables in current scope.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>functions</param_name>
-      <param_description>clears cache of macros functions and associated persistent variables.</param_description>
+      <param_description
+      >clears cache of macros functions and associated persistent variables.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>function_name</param_name>
-      <param_description>clears persistent variables of a function.</param_description>
+      <param_description
+      >clears persistent variables of a function.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mexfunction_name</param_name>
-      <param_description>clears mex function (see mexAtExit).</param_description>
+      <param_description
+      >clears mex function (see mexAtExit).</param_description>
     </param_input_item>
 
   </param_input>
 
   <description>
     <p><b>clear</b> is used to remove variable given by its name.</p>
-    <p><b>clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
+    <p><b
+      >clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[A = 3;
 who
 clear A
@@ -97,5 +103,3 @@ A]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

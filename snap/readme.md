@@ -12,6 +12,7 @@ sudo snap install nelson_0.6.7.0_amd64.snap --dangerous
 ```
 
 Debug:
+
 ```
 snap run --shell nelson.nelson
 ```
@@ -29,6 +30,3 @@ sudo snap connect nelson:jack
 sudo snap connect nelson:home
 sudo snap connect nelson:removable-media
 ```
-
-
-

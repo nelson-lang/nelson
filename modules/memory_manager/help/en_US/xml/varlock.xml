@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,7 +14,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>scope</param_name>
-			<param_description>a string: 'global', 'base', 'caller', 'local'.</param_description>
+			<param_description
+      >a string: 'global', 'base', 'caller', 'local'.</param_description>
 		</param_input_item>
 
 		<param_input_item>
@@ -28,14 +29,15 @@
 	<p><b>ans</b> variable cannot be locked.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[y = 3;
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[y = 3;
 varislock('local', 'y')
 varlock('local', 'y')
 varislock('local', 'y')
@@ -72,5 +74,3 @@ varislock('local', 'ans')
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

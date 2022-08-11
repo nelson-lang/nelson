@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>who</keyword>
-	<short_description>List variables in memory or in .nh5 or in .mat file.</short_description>
+	<short_description
+  >List variables in memory or in .nh5 or in .mat file.</short_description>
 
 	<syntax>
 		<syntax_item>who</syntax_item>
@@ -21,11 +22,13 @@
 	<param_input>
 		<param_input_item>
 			<param_name>scope</param_name>
-			<param_description>a string: 'global', 'base', 'caller', 'local' or '-file'.</param_description>
+			<param_description
+      >a string: 'global', 'base', 'caller', 'local' or '-file'.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>filename</param_name>
-			<param_description>string: an existing filename .nh5 or .mat file.</param_description>
+			<param_description
+      >string: an existing filename .nh5 or .mat file.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
@@ -36,7 +39,8 @@
 	<param_output>
 		<param_output_item>
 			<param_name>s</param_name>
-			<param_description>a cell of strings: list of variable's name.</param_description>
+			<param_description
+      >a cell of strings: list of variable's name.</param_description>
 		</param_output_item>
 	</param_output>
 
@@ -44,13 +48,13 @@
 	<description><p><b>who</b> displays current variable names.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[clear
 who
 A = 3
@@ -86,5 +90,3 @@ s = who()]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,7 +21,8 @@
 
     <param_input_item>
       <param_name>propertyname</param_name>
-      <param_description>a string: the property's name of COM object.</param_description>
+      <param_description
+      >a string: the property's name of COM object.</param_description>
     </param_input_item>
   </param_input>
 
@@ -34,19 +35,21 @@
 
 
   <description>
-    <p>The function returns the value of the property specified in the string, propertyname.</p>
+    <p
+    >The function returns the value of the property specified in the string, propertyname.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[e = actxserver('Excel.Application');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[e = actxserver('Excel.Application');
 get(e, 'Path')
 e.Path]]>
     </example_item_data>
@@ -71,5 +74,3 @@ e.Path]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

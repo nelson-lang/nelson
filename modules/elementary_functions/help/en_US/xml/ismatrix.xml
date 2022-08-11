@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>ismatrix</keyword>
-  <short_description>determines whether input is matrix or not</short_description>
+  <short_description
+  >determines whether input is matrix or not</short_description>
 
   <syntax>
     <syntax_item>TF = ismatrix(A)</syntax_item>
@@ -13,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>input array as a scalar, vector, matrix, or multidimensional array.</param_description>
+      <param_description
+      >input array as a scalar, vector, matrix, or multidimensional array.</param_description>
     </param_input_item>
   </param_input>
 
@@ -27,17 +29,18 @@
 
   <description>
     <p><b>TF = ismatrix(A)</b> returns true if A is a matrix.</p>
-    <p>A matrix is a two-dimensional array that has a size of m-by-n, where m and n are nonnegative integers.</p>
+    <p
+    >A matrix is a two-dimensional array that has a size of m-by-n, where m and n are nonnegative integers.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = [1+i,-i;i,2i];
 ismatrix(x)

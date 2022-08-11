@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>userpath</keyword>
-	<short_description>Displays or modify default user functions directory.</short_description>
+	<short_description
+  >Displays or modify default user functions directory.</short_description>
 
 	<syntax>
 		<syntax_item>p = userpath()</syntax_item>
@@ -21,11 +22,13 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>'clear'</param_name>
-			<param_description>removes the first directory for current and next sessions of Nelson.</param_description>
+			<param_description
+      >removes the first directory for current and next sessions of Nelson.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'reset'</param_name>
-			<param_description>resets the first directory to the default for your platform.</param_description>
+			<param_description
+      >resets the first directory to the default for your platform.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -41,15 +44,16 @@
 <p>By default, <b>userpath</b> directory is platform-dependant:</p>
 <p>Windows platforms: %USERPROFILE%/Documents/Nelson</p>
 <p>Others platforms: $home/Documents/Nelson</p>
-<p>It is possible to force userpath by define an environment variable: NELSON_USERPATH with an existing path.</p></description>
+<p
+    >It is possible to force userpath by define an environment variable: NELSON_USERPATH with an existing path.</p></description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[path
 userpath
 ]]>
@@ -82,5 +86,3 @@ userpath
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

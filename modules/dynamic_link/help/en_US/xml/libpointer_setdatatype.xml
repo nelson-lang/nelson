@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,15 +25,17 @@
     <p>Set data type from libpointer object.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
       <link linkend="${dynamic_link}libpointer">libpointer</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${dynamic_link}C_datatype">C/Nelson equivalent data types</link>
+      <link
+        linkend="${dynamic_link}C_datatype"
+      >C/Nelson equivalent data types</link>
     </see_also_item>
   </see_also>
 
@@ -42,8 +44,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[a = libpointer();
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[a = libpointer();
 a.isNull()
 a.setdatatype('doublePtr');
 a.reshape(1, 1)

@@ -1,6 +1,19 @@
 {
-    "name": "nelson",
-    "version": "0.6.8",
-    "description": "Nelson, an array programming language",
-    "copyright": "Copyright 2018-present Allan CORNET"
+  "name": "nelson",
+  "version": "0.6.8",
+  "description": "Nelson, an array programming language",
+  "copyright": "Copyright 2018-present Allan CORNET",
+  "scripts": {
+    "prettier": "run-s prettier:standard prettier:xmldoc",
+    "prettier:standard": "prettier --write **/*.{js,json,yml,md}",
+    "prettier:xmldoc": "prettier --write modules/*/help/*/xml/*.xml",
+    "prettier:check": "run-s prettier:check:standard prettier:check:xmldoc",
+    "prettier:check:standard": "prettier --check **/*.{js,json,yml,md}",
+    "prettier:check:xmldoc": "prettier --check modules/*/help/*/xml/*.xml"
+  },
+  "devDependencies": {
+    "@prettier/plugin-xml": "2.2.0",
+    "prettier": "2.7.1",
+    "npm-run-all": "4.1.5"
+  }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,7 +18,8 @@
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>a variable: n-by-n matrix will be generated.</param_description>
+      <param_description
+      >a variable: n-by-n matrix will be generated.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>x1, x2, ... , xN</param_name>
@@ -46,19 +47,21 @@
 
 
   <description>
-  <p><b>randn</b> returns a matrix with normally distributed random elements having zero mean and variance one.</p>
-  <p>By default, <b>randn</b> uses the ziggurat algorithm implemented by Boost.</p>
+  <p><b
+      >randn</b> returns a matrix with normally distributed random elements having zero mean and variance one.</p>
+  <p>By default, <b
+      >randn</b> uses the ziggurat algorithm implemented by Boost.</p>
   <p>seed can be modified using <b>rng</b>.</p>
 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[rng('default');
 randn
 rng('default');
@@ -69,7 +72,7 @@ randn
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[rng('default');
 randn(6)
 ]]>
@@ -78,7 +81,7 @@ randn(6)
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[rng('default');
 randn(3, 2, 3)
 ]]>
@@ -88,7 +91,7 @@ randn(3, 2, 3)
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[rng('default');
 randn(3, 2, 'single')
 ]]>
@@ -98,8 +101,9 @@ randn(3, 2, 'single')
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[rng('default');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[rng('default');
 v = single([3, 3]);
 randn(3, 2, 'like', v)
 ]]>
@@ -135,5 +139,3 @@ randn(3, 2, 'like', v)
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

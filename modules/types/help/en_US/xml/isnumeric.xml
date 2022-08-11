@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>isnumeric</keyword>
-	<short_description>Return true if variable var is a numeric array.</short_description>
+	<short_description
+  >Return true if variable var is a numeric array.</short_description>
 
 	<syntax>
 		<syntax_item>res = isnumeric(var)</syntax_item>
@@ -24,7 +25,8 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>isnumeric</b> returns a logical 1 if the argument is a numeric array and a logical 0 otherwise.
+	<description><b
+    >isnumeric</b> returns a logical 1 if the argument is a numeric array and a logical 0 otherwise.
 <p>List of numeric types:</p>
 <p><b>single</b> : single precision</p>
 <p><b>double</b> : double precision</p>
@@ -39,13 +41,13 @@
 
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = 1;
 res = isnumeric(A)]]>
 		</example_item_data>
@@ -53,7 +55,7 @@ res = isnumeric(A)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[B = single(1+i);
 res = isnumeric(B)]]>
 		</example_item_data>
@@ -61,7 +63,7 @@ res = isnumeric(B)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[C = logical(1);
 res = isnumeric(C)]]>
 		</example_item_data>
@@ -96,5 +98,3 @@ res = isnumeric(C)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

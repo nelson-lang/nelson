@@ -203,3 +203,6 @@ locale/en_US/LC_MESSAGES/nelson.po
 modules/main/help/*/md/lgpl-3.0.md
 modules/main/help/*/md/gpl-3.0.md
 ################################################################################
+package-lock.json
+node_modules/
+################################################################################

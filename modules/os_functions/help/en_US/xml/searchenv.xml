@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>searchenv</keyword>
-  <short_description>Searches for a file using environment paths.</short_description>
+  <short_description
+  >Searches for a file using environment paths.</short_description>
 
   <syntax>
     <syntax_item>c = searchenv(filename, env_name)</syntax_item>
@@ -13,11 +14,13 @@
   <param_input>
     <param_input_item>
       <param_name>env_name</param_name>
-      <param_description>a string: environment variable name.</param_description>
+      <param_description
+      >a string: environment variable name.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>a string: filename searched in environment variable.</param_description>
+      <param_description
+      >a string: filename searched in environment variable.</param_description>
     </param_input_item>
   </param_input>
 
@@ -25,22 +28,25 @@
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
-      <param_description>a cell of strings: full paths found in environment variable.</param_description>
+      <param_description
+      >a cell of strings: full paths found in environment variable.</param_description>
     </param_output_item>
   </param_output>
 
 
-  <description><p><b>searchenv</b> Searches for a file using environment paths.</p>
+  <description><p><b
+      >searchenv</b> Searches for a file using environment paths.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[[modules, paths] = getmodules();
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[[modules, paths] = getmodules();
 env_value = '';
 for p = paths
  env_value = [env_value, pathsep, p];
@@ -74,5 +80,3 @@ c = searchenv('loader.m', 'MY_PATH_ENV')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

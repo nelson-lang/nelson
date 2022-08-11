@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,7 +22,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>with_eol</param_name>
-			<param_description>a logical: with end of line considered or not (true by default).</param_description>
+			<param_description
+      >a logical: with end of line considered or not (true by default).</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -47,15 +48,16 @@
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/startup.m'])
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/startup.m'])
 res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/finish.m'])]]>
 		</example_item_data>
 	
@@ -84,5 +86,3 @@ res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/finish.m'
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>libpointer</keyword>
-	<short_description>Creates an C pointer object usuable in Nelson.</short_description>
+	<short_description
+  >Creates an C pointer object usuable in Nelson.</short_description>
 
 	<syntax>
 		<syntax_item>ptr = libpointer()</syntax_item>
@@ -19,7 +20,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>value</param_name>
-			<param_description>a nelson variable compatible with datatype.</param_description>
+			<param_description
+      >a nelson variable compatible with datatype.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -37,15 +39,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[p = libpointer('int8Ptr', int8([3 4]));
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[p = libpointer('int8Ptr', int8([3 4]));
 p.isNull()
 p.DataType
 p.Value]]>
@@ -56,8 +59,9 @@ p.Value]]>
 
 	<example_item>
 		<example_item_type>C</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[NLSDYNAMIC_LINK_IMPEXP double *multiplicationDoubleByReference(double *x)
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[NLSDYNAMIC_LINK_IMPEXP double *multiplicationDoubleByReference(double *x)
 {
     *x *= 2;
     return x;
@@ -68,8 +72,9 @@ p.Value]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[x = 133.3;
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[x = 133.3;
 xPtr = libpointer('doublePtr', x);
 path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
@@ -100,7 +105,9 @@ get(r1)
 			<link linkend="${dynamic_link}libpointer_reshape">libpointer.reshape</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${dynamic_link}libpointer_setdatatype">libpointer.setdatatype</link>
+			<link
+        linkend="${dynamic_link}libpointer_setdatatype"
+      >libpointer.setdatatype</link>
 		</see_also_item>
 
 	</see_also>
@@ -116,5 +123,3 @@ get(r1)
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

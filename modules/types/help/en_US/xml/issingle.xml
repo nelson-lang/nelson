@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>issingle</keyword>
-	<short_description>Return true if variable var is a single matrix.</short_description>
+	<short_description
+  >Return true if variable var is a single matrix.</short_description>
 
 	<syntax>
 		<syntax_item>res = issingle(var)</syntax_item>
@@ -24,15 +25,16 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>issingle</b> returns a logical 1 if the argument is a single matrix and a logical 0 otherwise.</description>
+	<description><b
+    >issingle</b> returns a logical 1 if the argument is a single matrix and a logical 0 otherwise.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = 3.6;
 res = issingle(A)]]>
 		</example_item_data>
@@ -40,7 +42,7 @@ res = issingle(A)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[B = single([1 ; 3]);
 res = issingle(B)]]>
 		</example_item_data>
@@ -68,5 +70,3 @@ res = issingle(B)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

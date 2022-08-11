@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>qml_pluginpathlist</keyword>
-  <short_description>Returns the list of directories where the engine searches for native plugins for imported modules.</short_description>
+  <short_description
+  >Returns the list of directories where the engine searches for native plugins for imported modules.</short_description>
 
   <syntax>
     <syntax_item>p = qml_pluginpathlist()</syntax_item>
@@ -19,11 +20,12 @@
   </param_output>
 
   <description>
-    <p>Returns the list of directories where the engine searches for native plugins for imported modules.</p>
+    <p
+    >Returns the list of directories where the engine searches for native plugins for imported modules.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -36,7 +38,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[qml_pluginpathlist()]]>
     </example_item_data>
   </example_item>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,7 +18,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>version_range</param_name>
-      <param_description>a string: version to compare or range.</param_description>
+      <param_description
+      >a string: version to compare or range.</param_description>
     </param_input_item>
 
   </param_input>
@@ -32,9 +33,12 @@
 
 
   <description>
-  <p><b>semver</b> compares a version string to an version or an range version.</p>
-  <p>if an range version is used, <b>r</b> return 0 (not satisfied) or 1 (satisfied).</p>
-  <p>if an simple version is used, an comparaison value <b>r</b> is returned -1 (inferior), 0 (equal) or 1 (superior).</p>
+  <p><b
+      >semver</b> compares a version string to an version or an range version.</p>
+  <p>if an range version is used, <b
+      >r</b> return 0 (not satisfied) or 1 (satisfied).</p>
+  <p>if an simple version is used, an comparaison value <b
+      >r</b> is returned -1 (inferior), 0 (equal) or 1 (superior).</p>
 
   <p>supported range operators:</p>
   <p><b>=</b> - Equality</p>
@@ -53,8 +57,9 @@
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 semver('1.5.10', '2.3.0')
 semver('2.3.0', '1.5.10');
 semver('1.5.10', '1.5.10')
@@ -94,5 +99,3 @@ semver('2.0.1', '^1.2.3')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,17 +20,20 @@
 
   <description>
   <p><b>removemodule</b> remove a module designed by his short name.</p>
-  <p>all core's modules are protected and cannot removed during an nelson's session.</p>
+  <p
+    >all core's modules are protected and cannot removed during an nelson's session.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>See module skeleton for example</example_item_description>
-    <example_item_data><![CDATA[ismodule('module_skeleton')
+    <example_item_description
+      >See module skeleton for example</example_item_description>
+    <example_item_data
+      ><![CDATA[ismodule('module_skeleton')
 addmodule([nelsonroot(), '/module_skeleton'], 'module_skeleton')
 ismodule('module_skeleton')
 removemodule('module_skeleton')
@@ -64,5 +67,3 @@ ismodule('module_skeleton')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-
