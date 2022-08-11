@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,15 +24,16 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>islogical</b> returns a logical 1 if the argument is a logical array and a logical 0 otherwise.</description>
+	<description><b
+    >islogical</b> returns a logical 1 if the argument is a logical array and a logical 0 otherwise.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = 1;
 res = islogical(A)]]>
 		</example_item_data>
@@ -40,7 +41,7 @@ res = islogical(A)]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[B = logical(1);
 res = islogical(B)]]>
 		</example_item_data>
@@ -65,5 +66,3 @@ res = islogical(B)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

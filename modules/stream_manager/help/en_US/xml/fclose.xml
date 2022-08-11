@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,7 +25,8 @@
 
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>an integer value: 0 if file is closed or -1 if not.</param_description>
+      <param_description
+      >an integer value: 0 if file is closed or -1 if not.</param_description>
     </param_output_item>
   </param_output>
 
@@ -35,15 +36,16 @@
 
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 
 fd = fopen([tempdir(), filesep(), 'fclose_tst'],'wt');
 status = fclose(fd)
@@ -81,5 +83,3 @@ status = fclose(fd)
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

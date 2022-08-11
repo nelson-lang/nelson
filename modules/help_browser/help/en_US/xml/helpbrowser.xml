@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -6,11 +6,12 @@
 	<keyword>helpbrowser</keyword>
 	<short_description>internal function used by 'doc'.</short_description>
 
-	<description><p><b>helpbrowser</b> function used by <b>doc</b> (not documented).</p>
+	<description><p><b>helpbrowser</b> function used by <b
+      >doc</b> (not documented).</p>
 </description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 	
 
 	<see_also>

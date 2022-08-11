@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>actxGetRunningSrv</keyword>
-  <short_description>Handle to running instance of Automation server.</short_description>
+  <short_description
+  >Handle to running instance of Automation server.</short_description>
 
   <syntax>
     <syntax_item>h = actxGetRunningSrv(progid)</syntax_item>
@@ -13,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>progid</param_name>
-      <param_description>a string:  the name of a COM server.</param_description>
+      <param_description
+      >a string:  the name of a COM server.</param_description>
     </param_input_item>
   </param_input>
 
@@ -27,21 +29,26 @@
 
 
   <description>
-  <p><b>h = actxGetRunningSrv(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
-  <p><b>progid</b> is the programmatic identifier of the Automation server object and <b>h</b> is the handle to the default interface of the server object.</p>
-  <p>The function returns an error if the server specified by progid is not currently running or if the server object is not registered.</p>
-  <p>When multiple instances of the Automation server are running, the operating system controls the behavior of this function.</p>
+  <p><b
+      >h = actxGetRunningSrv(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
+  <p><b
+      >progid</b> is the programmatic identifier of the Automation server object and <b
+      >h</b> is the handle to the default interface of the server object.</p>
+  <p
+    >The function returns an error if the server specified by progid is not currently running or if the server object is not registered.</p>
+  <p
+    >When multiple instances of the Automation server are running, the operating system controls the behavior of this function.</p>
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[h = actxGetRunningServer('Excel.application')]]>
     </example_item_data>
   </example_item>
@@ -65,5 +72,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

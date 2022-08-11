@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,17 +18,20 @@
     
     <param_input_item>
       <param_name>d</param_name>
-      <param_description>an integer value: a serial date number.</param_description>
+      <param_description
+      >an integer value: a serial date number.</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>y</param_name>
-      <param_description>an integer value: 'year' desired [1400, 9999].</param_description>
+      <param_description
+      >an integer value: 'year' desired [1400, 9999].</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>an integer value: 'month' desired [1, 12].</param_description>
+      <param_description
+      >an integer value: 'month' desired [1, 12].</param_description>
     </param_input_item>
     
   </param_input>
@@ -42,16 +45,18 @@
 
   <description>
    <p><b>calendar()</b> returns the currently monthly calendar.</p>
-   <p>If no output arguments are specified,the calendar is displayed on the screen instead of returning a matrix 6x7.</p>
+   <p
+    >If no output arguments are specified,the calendar is displayed on the screen instead of returning a matrix 6x7.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[calendar()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[calendar()
 c = calendar(1973, 8)
 c = calendar(datenum(1973, 8, 4))]]>
     </example_item_data>
@@ -76,5 +81,3 @@ c = calendar(datenum(1973, 8, 4))]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

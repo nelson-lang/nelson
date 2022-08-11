@@ -1,24 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>jsonencode</keyword>
-  <short_description>encodes a Nelson object into a JSON string.</short_description>
+  <short_description
+  >encodes a Nelson object into a JSON string.</short_description>
 
   <syntax>
     <syntax_item>res = jsonencode(obj)</syntax_item>
-    <syntax_item>res = jsonencode(obj, 'ConvertInfAndNaN', true_or_false)</syntax_item>
+    <syntax_item
+    >res = jsonencode(obj, 'ConvertInfAndNaN', true_or_false)</syntax_item>
   </syntax>
   
   <param_input>
     <param_input_item>
       <param_name>obj</param_name>
-      <param_description>a Nelson object: struct, cell, matrix.</param_description>
+      <param_description
+      >a Nelson object: struct, cell, matrix.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>true_or_false</param_name>
-      <param_description>a logical: if true, Inf, NaN are converted to 'Inf' or 'Nan'.</param_description>
+      <param_description
+      >a logical: if true, Inf, NaN are converted to 'Inf' or 'Nan'.</param_description>
     </param_input_item>
 
   </param_input>
@@ -32,20 +36,23 @@
 
   <description>
   <p><b>jsonencode</b> converts a Nelson variable to JSON text.</p>
-  <p><b>jsonencode</b> does not support complex numbers, sparse arrays, function handle, and others handle.</p>
+  <p><b
+      >jsonencode</b> does not support complex numbers, sparse arrays, function handle, and others handle.</p>
   <p><b>jsonencode</b> can be overloaded to manage your own type.</p>
-  <p>By default <b>jsonencode</b> Inf values are converted to the string "Inf", NaN values are converted to 'null'.</p>
+  <p>By default <b
+      >jsonencode</b> Inf values are converted to the string "Inf", NaN values are converted to 'null'.</p>
   <p>Warning: The shape of a matrix and data type are not always preserved.</p>
   </description>
-  <used_function></used_function>
+  <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
 field2 = 'f2';  value2 = {'a', 'b'};
 field3 = 'f3';  value3 = {pi, pi*pi};
 field4 = 'f4';  value4 = {'fourth'};
@@ -75,5 +82,3 @@ filewrite([tempdir(), 'example.json'], r);
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

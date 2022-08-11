@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,18 +27,20 @@
 
   <description>
     <p><b>sqrt</b> computes the square root.</p>
-    <p>If input argument is a complex number or negative, <b>sqrt(z)</b> computes: sqrt(r) * (cos(phi/2) + sin(phi/2) * i) with</p>
-    <p>r = sqrt((real(z) * real(z)) + (imag(z) * imag(z))) and phi = atan2(imag(z), real(z))</p>
+    <p>If input argument is a complex number or negative, <b
+      >sqrt(z)</b> computes: sqrt(r) * (cos(phi/2) + sin(phi/2) * i) with</p>
+    <p
+    >r = sqrt((real(z) * real(z)) + (imag(z) * imag(z))) and phi = atan2(imag(z), real(z))</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = -3:3;
 r = sqrt(x)]]>
@@ -71,5 +73,3 @@ r = sqrt(x)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

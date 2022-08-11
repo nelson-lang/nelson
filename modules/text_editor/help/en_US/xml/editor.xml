@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,8 +24,8 @@
     <p><b>editor</b> must be considered as internal.</p>
   </description>
   
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -44,5 +44,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,19 +26,21 @@
 
 	</param_output>
 
-	<description><p><b>uint64</b> converts value to 64-bit unsigned integer type.</p>
-<p>The value is rounded to the nearest uint64 value on conversion. A value that is above or below the range for an uint64 class is mapped to one of the endpoints of the range [0, 18446744073709551616].</p>
+	<description><p><b
+      >uint64</b> converts value to 64-bit unsigned integer type.</p>
+<p
+    >The value is rounded to the nearest uint64 value on conversion. A value that is above or below the range for an uint64 class is mapped to one of the endpoints of the range [0, 18446744073709551616].</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = [1 12 -120 127 -9e24 9e23]
 B = uint64(A)]]>
 		</example_item_data>
@@ -67,5 +69,3 @@ B = uint64(A)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

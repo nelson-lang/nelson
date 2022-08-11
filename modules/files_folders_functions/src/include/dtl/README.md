@@ -6,38 +6,38 @@
 
 # Table of contents
 
- * [Features](#features)
- * [Getting started](#getting-started)
-  * [Compare two strings](#compare-two-strings)
-  * [Compare two data has arbitrary type](#compare-two-data-has-arbitrary-type)
-  * [Merge three sequences](#merge-three-sequences)
-  * [Patch function](#patch-function)
-  * [Difference as Unified Format](#difference-as-unified-format)
-  * [Compare large sequences](#compare-large-sequences)
-  * [Unserious difference](#unserious-difference)
-  * [Calculate only Edit Distance](#calculate-only-edit-distance)
- * [Algorithm](#algorithm)
-  * [Computational complexity](#computational-complexity)
-  * [Comparison when difference between two sequences is very large](#comparison-when-difference-between-two-sequences-is-very-large)
-  * [Implementations with various programming languages](#implementations-with-various-programming-languages)
- * [Examples](#examples)
-  * [strdiff](#strdiff)
-  * [intdiff](#intdiff)
-  * [unidiff](#unidiff)
-  * [unistrdiff](#unistrdiff)
-  * [strdiff3](#strdiff3)
-  * [intdiff3](#intdiff3)
-  * [patch](#patch)
-  * [fpatch](#fpatch)
- * [Running tests](#running-tests)
-  * [Building test programs](#building-test-programs)
-  * [Running test programs](#running-test-programs)
- * [Old commit histories](#old-commit-histories)
- * [License](#license)
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Compare two strings](#compare-two-strings)
+- [Compare two data has arbitrary type](#compare-two-data-has-arbitrary-type)
+- [Merge three sequences](#merge-three-sequences)
+- [Patch function](#patch-function)
+- [Difference as Unified Format](#difference-as-unified-format)
+- [Compare large sequences](#compare-large-sequences)
+- [Unserious difference](#unserious-difference)
+- [Calculate only Edit Distance](#calculate-only-edit-distance)
+- [Algorithm](#algorithm)
+- [Computational complexity](#computational-complexity)
+- [Comparison when difference between two sequences is very large](#comparison-when-difference-between-two-sequences-is-very-large)
+- [Implementations with various programming languages](#implementations-with-various-programming-languages)
+- [Examples](#examples)
+- [strdiff](#strdiff)
+- [intdiff](#intdiff)
+- [unidiff](#unidiff)
+- [unistrdiff](#unistrdiff)
+- [strdiff3](#strdiff3)
+- [intdiff3](#intdiff3)
+- [patch](#patch)
+- [fpatch](#fpatch)
+- [Running tests](#running-tests)
+- [Building test programs](#building-test-programs)
+- [Running test programs](#running-test-programs)
+- [Old commit histories](#old-commit-histories)
+- [License](#license)
 
 # Features
 
-`dtl` provides the functions for comparing two sequences have arbitrary type. But sequences must support random access\_iterator.
+`dtl` provides the functions for comparing two sequences have arbitrary type. But sequences must support random access_iterator.
 
 # Getting started
 
@@ -64,21 +64,21 @@ When the above code is run, `dtl` calculates the difference between A and B as E
 
 The meaning of these three terms is below.
 
-| Edit Distance | Edit Distance is numerical value for declaring a difference between two sequences. |
-|:--------------|:-----------------------------------------------------------------------------------|
-| LCS           | LCS stands for Longest Common Subsequence.                                         |
-| SES           | SES stands for Shortest Edit Script. I mean SES is the shortest course of action for tranlating one sequence into another sequence.|
+| Edit Distance | Edit Distance is numerical value for declaring a difference between two sequences.                                                  |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------- |
+| LCS           | LCS stands for Longest Common Subsequence.                                                                                          |
+| SES           | SES stands for Shortest Edit Script. I mean SES is the shortest course of action for tranlating one sequence into another sequence. |
 
 If one sequence is "abc" and another sequence is "abd", Edit Distance and LCS and SES is below.
 
 | Edit Distance | 2               |
-|:--------------|:----------------|
+| :------------ | :-------------- |
 | LCS           | ab              |
 | SES           | C a C b D c A d |
 
- * 「C」：Common
- * 「D」：Delete
- * 「A」：ADD
+- 「C」：Common
+- 「D」：Delete
+- 「A」：ADD
 
 If you want to know in more detail, please see [examples/strdiff.cpp](https://github.com/cubicdaiya/dtl/blob/master/examples/strdiff.cpp).
 
@@ -102,7 +102,7 @@ $
 
 `dtl` can compare data has aribtrary type because of the C++'s template.
 
-But the compared data type must support the random access\_iterator.
+But the compared data type must support the random access_iterator.
 
 In the previous example, the string data compared,
 
@@ -431,10 +431,10 @@ $
 $ cd dtl/examples
 $ scons intdiff
 $ ./intdiff # There are data in intdiff.cpp
-1 2 3 4 5 6 7 8 9 10 
-3 5 1 4 5 1 7 9 6 10 
+1 2 3 4 5 6 7 8 9 10
+3 5 1 4 5 1 7 9 6 10
 editDistance:8
-LCS: 3 4 5 7 9 10 
+LCS: 3 4 5 7 9 10
 SES
 - 1
 - 2

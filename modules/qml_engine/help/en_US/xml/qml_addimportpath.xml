@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>qml_addimportpath</keyword>
-  <short_description>Adds path as directory where the qml engine searches for installed modules.</short_description>
+  <short_description
+  >Adds path as directory where the qml engine searches for installed modules.</short_description>
 
   <syntax>
   <syntax_item>qml_addimportpath(path)</syntax_item>
@@ -19,19 +20,21 @@
 
 
   <description>
-  <p><b>qml_addimportpath</b> adds <b>path</b> as a directory where the engine searches for installed modules in a URL-based directory structure.</p>
+  <p><b>qml_addimportpath</b> adds <b
+      >path</b> as a directory where the engine searches for installed modules in a URL-based directory structure.</p>
   <p>The newly added path will be first in <b>qml_importpathlist</b>.</p>
 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[qml_importpathlist()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[qml_importpathlist()
 qml_addimportpath(tempdir)
 qml_importpathlist()
 ]]>
@@ -58,5 +61,3 @@ qml_importpathlist()
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

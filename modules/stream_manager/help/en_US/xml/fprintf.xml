@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,11 +21,13 @@
     
     <param_input_item>
       <param_name>format</param_name>
-      <param_description>a string describing the format to used_function.</param_description>
+      <param_description
+      >a string describing the format to used_function.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v1, ... , vn</param_name>
-      <param_description>data to convert and print according to the previous format parameter.</param_description>
+      <param_description
+      >data to convert and print according to the previous format parameter.</param_description>
     </param_input_item>
 
 
@@ -34,14 +36,16 @@
   <param_output>
   <param_output_item>
       <param_name>R</param_name>
-      <param_description>an integer value: number of bytes that fprintf write.</param_description>
+      <param_description
+      >an integer value: number of bytes that fprintf write.</param_description>
     </param_output_item>
   </param_output>
 
   
 
   <description>
-  <p>Write data in text form to the file specified by the file descriptor fid.</p>
+  <p
+    >Write data in text form to the file specified by the file descriptor fid.</p>
   <p>characters encoding uses <b>fopen</b> parameter.</p>
   <p>If fid equals 1 redirection in stdout.</p>
   <p>If fid equals 2 redirection in stderr.</p>
@@ -134,15 +138,16 @@
 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 fileID = fopen([tempdir(), 'fprintf.txt'],'wt');
 fprintf(fileID, 'an example of %s.', 'text');
 fclose(fileID);
@@ -154,8 +159,9 @@ R = fileread([tempdir(), 'fprintf.txt'])]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[fprintf(1, 'an value %g.', pi);
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[fprintf(1, 'an value %g.', pi);
 fprintf(2, "an value %g.", pi);]]>
     </example_item_data>
   </example_item>
@@ -164,7 +170,8 @@ fprintf(2, "an value %g.", pi);]]>
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>How to use backspace</example_item_description>
-    <example_item_data><![CDATA[reverseStr = '';
+    <example_item_data
+      ><![CDATA[reverseStr = '';
 for idx = 1 : 100
  percentDone = idx;
  msg = sprintf('Percent done: %3.1f', percentDone);
@@ -204,5 +211,3 @@ end
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

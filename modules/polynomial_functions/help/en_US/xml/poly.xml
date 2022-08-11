@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>poly</keyword>
-  <short_description>Polynomial with specified roots or characteristic polynomial.</short_description>
+  <short_description
+  >Polynomial with specified roots or characteristic polynomial.</short_description>
 
   <syntax>
     <syntax_item>p = poly(r)</syntax_item>
@@ -32,15 +33,19 @@
 
 
   <description>
-    <p>If <b>A</b> is a square matrix, <b>p = poly(A)</b> computes an n+1 element row vector. This result is composed the coefficients of the characteristic polynomial.</p>
-    <p>If <b>r</b> is a vector, <b>p = poly(r)</b> computes a row vector. This result is composed the coefficients of the polynomial roots of which are the elements of <b>r</b>.</p>
+    <p>If <b>A</b> is a square matrix, <b
+      >p = poly(A)</b> computes an n+1 element row vector. This result is composed the coefficients of the characteristic polynomial.</p>
+    <p>If <b>r</b> is a vector, <b
+      >p = poly(r)</b> computes a row vector. This result is composed the coefficients of the polynomial roots of which are the elements of <b
+      >r</b>.</p>
   </description>
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 A = [1    2    3;
 4    5    6;
 7    8    1];
@@ -71,5 +76,3 @@ p = poly(A)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

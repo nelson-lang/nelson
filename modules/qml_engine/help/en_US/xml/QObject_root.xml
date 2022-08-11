@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,8 +22,8 @@
     <p>Returns QObject handle of Nelson gui.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -40,8 +40,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h1 = QObject_root()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[h1 = QObject_root()
 h1.windowTitle
 h1.windowTitle = 'Your title']]>
     </example_item_data>

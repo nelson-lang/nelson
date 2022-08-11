@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,7 +22,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>parentdir</param_name>
-			<param_description>a string: a directory in which the dirname directory will be created</param_description>
+			<param_description
+      >a string: a directory in which the dirname directory will be created</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -42,20 +43,23 @@
 
 	<description>
 <p>Creates a directory named dirname in the directory parent.</p>
-<p>If no parent directory is specified the present working directory is used.</p>
-<p>If directory is created or already existing, status is true, otherwise it will be false.</p>
+<p
+    >If no parent directory is specified the present working directory is used.</p>
+<p
+    >If directory is created or already existing, status is true, otherwise it will be false.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[mkdir(tempdir(), 'subdir_example')
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[mkdir(tempdir(), 'subdir_example')
 if isdir([tempdir(), 'subdir_example'])
 	disp('OK')
 else
@@ -85,5 +89,3 @@ end
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

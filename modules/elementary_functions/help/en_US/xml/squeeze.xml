@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,17 +26,18 @@
   </param_output>
 
   <description>
-    <p><b>B = squeeze(A)</b> returns an array with the same elements as the input array A, but with dimensions of length 1 removed.</p>
+    <p><b
+      >B = squeeze(A)</b> returns an array with the same elements as the input array A, but with dimensions of length 1 removed.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[ A = zeros(1, 1, 3);
 A(:, :, 1:3) = [1 20 3];
@@ -64,5 +65,3 @@ R = squeeze(A)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,27 +13,31 @@
 	<param_input>
 		<param_input_item>
 			<param_name>dyn_lib_path</param_name>
-			<param_description>a string: path of a dynamic library prepared for Nelson.</param_description>
+			<param_description
+      >a string: path of a dynamic library prepared for Nelson.</param_description>
 		</param_input_item>
 	</param_input>
 
 
 	<description>
 		<p><b>addgateway(dyn_lib_path)</b> adds dynamically builtin at runtime.</p>
-		<p>The dynamic library loaded must have at least an C entry point <b>AddGateway</b>.</p>
+		<p>The dynamic library loaded must have at least an C entry point <b
+      >AddGateway</b>.</p>
 		<p>If gateway was already loaded, no error or warning will be raised.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Add gateway for string module:</example_item_description>
-		<example_item_data><![CDATA[addgateway(modulepath(nelsonroot(), 'time', 'builtin'))]]>
+		<example_item_description
+      >Add gateway for string module:</example_item_description>
+		<example_item_data
+      ><![CDATA[addgateway(modulepath(nelsonroot(), 'time', 'builtin'))]]>
 		</example_item_data>
 	</example_item>
 
@@ -60,4 +64,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-

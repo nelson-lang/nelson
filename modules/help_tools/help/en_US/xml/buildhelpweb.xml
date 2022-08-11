@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>buildhelpweb</keyword>
-  <short_description>Build help of Nelson's modules for website.</short_description>
+  <short_description
+  >Build help of Nelson's modules for website.</short_description>
 
   <syntax>
     <syntax_item>buildhelpweb(destination_dir)</syntax_item>
@@ -18,7 +19,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>language</param_name>
-      <param_description>a string: language. if it is missing, current default language used.</param_description>
+      <param_description
+      >a string: language. if it is missing, current default language used.</param_description>
     </param_input_item>
 
   </param_input>
@@ -26,8 +28,8 @@
   <description><p><b>buildhelpweb</b> generates help files for website.</p>
 <p>internal function</p>
 </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -46,5 +48,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

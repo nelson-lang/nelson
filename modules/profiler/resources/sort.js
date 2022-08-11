@@ -13,35 +13,32 @@ const TableIDvalue = "indextable";
 var TableLastSortedColumn = -1;
 //=============================================================================
 function SortTable() {
-	const sortColumn = parseInt(arguments[0]);
-  	const type = arguments[1].toUpperCase();
-  	const table = document.getElementById(TableIDvalue);
-  	const tbody = table.getElementsByTagName("tbody")[0];
-  	const rows = tbody.getElementsByTagName("tr");
-  	var arrayOfRows = new Array();
+  const sortColumn = parseInt(arguments[0]);
+  const type = arguments[1].toUpperCase();
+  const table = document.getElementById(TableIDvalue);
+  const tbody = table.getElementsByTagName("tbody")[0];
+  const rows = tbody.getElementsByTagName("tr");
+  var arrayOfRows = new Array();
 
-	for (var i = 0, len = rows.length; i < len; i++) {
+  for (var i = 0, len = rows.length; i < len; i++) {
     arrayOfRows[i] = new Object();
     arrayOfRows[i].oldIndex = i;
     var celltext = rows[i]
       .getElementsByTagName("td")
       [sortColumn].innerHTML.replace(/<[^>]*>/g, "");
     var re = type == "N" ? /[^\.\-\+\d]/g : /[^a-zA-Z0-9]/g;
-    arrayOfRows[i].value = celltext
-      .replace(re, "")
-      .substr(0, 25)
-      .toLowerCase();
+    arrayOfRows[i].value = celltext.replace(re, "").substr(0, 25).toLowerCase();
   }
 
   if (sortColumn == TableLastSortedColumn) {
     arrayOfRows.reverse();
   } else {
     TableLastSortedColumn = sortColumn;
-	if (type === 'N') {
-		arrayOfRows.sort(CompareRowOfNumbers);
-	} else {
-		arrayOfRows.sort(CompareRowOfText);
-	}
+    if (type === "N") {
+      arrayOfRows.sort(CompareRowOfNumbers);
+    } else {
+      arrayOfRows.sort(CompareRowOfText);
+    }
   }
 
   var newTableBody = document.createElement("tbody");
@@ -53,15 +50,15 @@ function SortTable() {
   table.replaceChild(newTableBody, tbody);
 
   function CompareRowOfText(a, b) {
-	var aval = a.value;
-	var bval = b.value;
-	return aval == bval ? 0 : aval > bval ? 1 : -1;
+    var aval = a.value;
+    var bval = b.value;
+    return aval == bval ? 0 : aval > bval ? 1 : -1;
   }
 
   function CompareRowOfNumbers(a, b) {
-	var aval = /\d/.test(a.value) ? parseFloat(a.value) : 0;
-	var bval = /\d/.test(b.value) ? parseFloat(b.value) : 0;
-	return aval == bval ? 0 : aval > bval ? 1 : -1;
-  } 
-} 
+    var aval = /\d/.test(a.value) ? parseFloat(a.value) : 0;
+    var bval = /\d/.test(b.value) ? parseFloat(b.value) : 0;
+    return aval == bval ? 0 : aval > bval ? 1 : -1;
+  }
+}
 //=============================================================================

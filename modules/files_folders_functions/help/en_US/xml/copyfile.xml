@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -23,7 +23,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>'f' or 'F'</param_name>
-			<param_description>force copy even destination is not writable.</param_description>
+			<param_description
+      >force copy even destination is not writable.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -43,21 +44,24 @@
 	</param_output>
 
 	<description>
-<p><b>copyfile(source , destination)</b> copies the file or directory , <b>source</b> (and subdirectories) to the file or directory, <b>destination</b>.</p>
+<p><b>copyfile(source , destination)</b> copies the file or directory , <b
+      >source</b> (and subdirectories) to the file or directory, <b
+      >destination</b>.</p>
 <p>If <b>source</b> is a directory, <b>destination</b> can not be a file.</p>
 <p><b>copyfile</b> replaces existing files without warning.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])
 [status, msg] = copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])]]>
 		</example_item_data>
 	
@@ -86,5 +90,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -37,19 +37,21 @@
 	</param_output>
 
 	<description>
-		<p><b>R = vertcat(M1, M2, ... , MN)</b> returns the vertical concatenation of M1, M2, ... , MN along the dimension 1.</p>
+		<p><b
+      >R = vertcat(M1, M2, ... , MN)</b> returns the vertical concatenation of M1, M2, ... , MN along the dimension 1.</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = eye(2, 2);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = eye(2, 2);
 B = ones(2, 2);
 C = vertcat(A, B)
 D = [A; B]]]>
@@ -59,7 +61,7 @@ D = [A; B]]]>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = 'nel';
 B = 'son';
 C = vertcat(A, B)]]>
@@ -88,5 +90,3 @@ C = vertcat(A, B)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

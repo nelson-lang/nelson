@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,7 +18,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>k</param_name>
-      <param_description>Diagonals to include: integer real value</param_description>
+      <param_description
+      >Diagonals to include: integer real value</param_description>
     </param_input_item>
   </param_input>
 
@@ -32,18 +33,19 @@
 
   <description>
     <p><b>triu</b> computes Upper Triangular Portions of Matrix.</p>
-    <p><b>R = triu(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
+    <p><b
+      >R = triu(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = [1+i,-i;i,2i];
 r = triu(x)]]>

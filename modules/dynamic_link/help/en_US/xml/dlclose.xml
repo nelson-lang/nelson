@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,15 +24,16 @@
   <p>Do not forget to clear h afterward.</p> 
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref)
 isvalid(lib)
 dlclose(lib); // or delete(lib)
@@ -59,5 +60,3 @@ isvalid(lib)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

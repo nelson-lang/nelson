@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -34,24 +34,28 @@
 
 		<param_output_item>
 			<param_name>bsuccess</param_name>
-			<param_description>a logical: true if no error detected during script execution</param_description>
+			<param_description
+      >a logical: true if no error detected during script execution</param_description>
 		</param_output_item>
 	</param_output>
 
 	<description>
-		<p><b>run(script_file)</b> executes a Nelson's script file (.m file extension).</p>
+		<p><b
+      >run(script_file)</b> executes a Nelson's script file (.m file extension).</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Creates two .m in temp directory to use as example:</example_item_description>
-		<example_item_data><![CDATA[fd = fopen([tempdir(), 'example_run_ok.m'], 'wt');
+		<example_item_description
+      >Creates two .m in temp directory to use as example:</example_item_description>
+		<example_item_data
+      ><![CDATA[fd = fopen([tempdir(), 'example_run_ok.m'], 'wt');
 fprintf(fd, ['A = 1;', char(10)]);
 fprintf(fd, ['B = 2;', char(10)]);
 fprintf(fd, ['C = A + B', char(10)]);
@@ -74,23 +78,29 @@ fclose(fd);
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>run a script and catch error (no error).</example_item_description>
-		<example_item_data><![CDATA[bsuccess = run([tempdir(), 'example_run_ok.m'], 'errcatch')]]>
+		<example_item_description
+      >run a script and catch error (no error).</example_item_description>
+		<example_item_data
+      ><![CDATA[bsuccess = run([tempdir(), 'example_run_ok.m'], 'errcatch')]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>run a script and catch error (with error).</example_item_description>
-		<example_item_data><![CDATA[bsuccess = run([tempdir(), 'example_run_not_ok.m'], 'errcatch')]]>
+		<example_item_description
+      >run a script and catch error (with error).</example_item_description>
+		<example_item_data
+      ><![CDATA[bsuccess = run([tempdir(), 'example_run_not_ok.m'], 'errcatch')]]>
 		</example_item_data>
 	</example_item>
 
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>run a script and no catch error.</example_item_description>
-		<example_item_data><![CDATA[run([tempdir(), 'example_run_not_ok.m'], 'nocatch');]]>
+		<example_item_description
+      >run a script and no catch error.</example_item_description>
+		<example_item_data
+      ><![CDATA[run([tempdir(), 'example_run_not_ok.m'], 'nocatch');]]>
 		</example_item_data>
 	</example_item>
 
@@ -113,5 +123,3 @@ fclose(fd);
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

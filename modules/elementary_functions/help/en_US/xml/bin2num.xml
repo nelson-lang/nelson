@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>bin2num</keyword>
-  <short_description>Convert two's complement binary string to number.</short_description>
+  <short_description
+  >Convert two's complement binary string to number.</short_description>
 
   <syntax>
     <syntax_item>R = bin2num(M)</syntax_item>
@@ -21,14 +22,16 @@
 
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>result of num2bin: logical, single or double.</param_description>
+      <param_description
+      >result of num2bin: logical, single or double.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
     <p><b>bin2num</b> converts binary character arry to a numeric array.</p>
     <p>Note:</p>
-    <p> - <b>num2bin</b> always returns the binary representations in a column</p>
+    <p> - <b
+      >num2bin</b> always returns the binary representations in a column</p>
     <p> - <b>bin2num</b> and <b>num2bin</b> are inverses of one another.</p> 
   </description>
 
@@ -39,7 +42,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[X = [65535 128; 1 0]
 Y = num2bin(X)
@@ -66,5 +69,3 @@ bin2num(Y)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

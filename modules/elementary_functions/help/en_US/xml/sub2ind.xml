@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>size of array: vector of positive integers.</param_description>
+      <param_description
+      >size of array: vector of positive integers.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>row</param_name>
@@ -38,14 +39,14 @@
   <description>
     <p><b>ind2sub</b> converts subscripts to linear indices. .</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[row = [2 3 4 2];
 col = [2 2 2 3];
@@ -74,5 +75,3 @@ ind = sub2ind(sz, row, col)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

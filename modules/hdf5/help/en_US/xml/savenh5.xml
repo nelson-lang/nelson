@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,11 +20,13 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
-			<param_description>string: Names of variables to save from Nelson's workspace.</param_description>
+			<param_description
+      >string: Names of variables to save from Nelson's workspace.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-append'</param_name>
-			<param_description>append variables to an existing .nh5 file.</param_description>
+			<param_description
+      >append variables to an existing .nh5 file.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-nocompression'</param_name>
@@ -40,15 +42,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = ones(3, 4);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
 savenh5([tempdir(), 'example_h5load.nh5'], 'A', 'B')
 clear;
@@ -68,7 +71,8 @@ B]]>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>append variables</example_item_description>
-		<example_item_data><![CDATA[C = eye(3, 4);
+		<example_item_data
+      ><![CDATA[C = eye(3, 4);
 savenh5([tempdir(), 'example_h5load.nh5'], 'C', '-append')
 clear;
 st = loadnh5([tempdir(), 'example_h5load.nh5']);
@@ -89,7 +93,8 @@ C]]>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>compression</example_item_description>
-		<example_item_data><![CDATA[C = eye(1000, 1000);
+		<example_item_data
+      ><![CDATA[C = eye(1000, 1000);
 savenh5([tempdir(), 'example_h5save_with_compression.nh5'], 'C')
 savenh5([tempdir(), 'example_h5save_no_compression.nh5'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_h5save_with_compression.nh5'])
@@ -120,5 +125,3 @@ no_compression = dir([tempdir(), 'example_h5save_no_compression.nh5'])]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

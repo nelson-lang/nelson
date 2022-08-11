@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>prefdir</keyword>
-	<short_description>Return the preferences directory used by Nelson.</short_description>
+	<short_description
+  >Return the preferences directory used by Nelson.</short_description>
 
 	<syntax>
 		<syntax_item>pref_path = prefdir</syntax_item>
@@ -20,12 +21,13 @@
 	</param_output>
 
 	<description>
-		<p><b>pref_path = prefdir()</b> returns the preferences directory used by Nelson.</p>
+		<p><b
+      >pref_path = prefdir()</b> returns the preferences directory used by Nelson.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
@@ -56,5 +58,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

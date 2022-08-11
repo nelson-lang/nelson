@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,7 +25,8 @@
 
     <param_output_item>
       <param_name>D</param_name>
-      <param_description>result of base2dec: an integer value.</param_description>
+      <param_description
+      >result of base2dec: an integer value.</param_description>
     </param_output_item>
   </param_output>
 
@@ -33,17 +34,18 @@
     <p><b>base2dec</b> converts number in a base to decimal.</p>
     <p>Note:</p>
     <p> - <b>dec2base</b> and <b>base2dec</b> are inverses of one another.</p> 
-    <p> - values are cached to speed up next computation <b>base2dec('', 2) to clear cache.</b></p> 
+    <p> - values are cached to speed up next computation <b
+      >base2dec('', 2) to clear cache.</b></p> 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[base2dec('313', 3)]]>
     </example_item_data>
@@ -68,5 +70,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

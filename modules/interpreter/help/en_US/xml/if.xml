@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -7,24 +7,27 @@
   <short_description>conditional statement.</short_description>
 
   <syntax>
-    <syntax_item>if conditional_expression_1, statements_1, elseif conditional_expression_2, statements_2, else statements_N end</syntax_item>
+    <syntax_item
+    >if conditional_expression_1, statements_1, elseif conditional_expression_2, statements_2, else statements_N end</syntax_item>
   </syntax>
   
 
   <description>
-    <p><b>if</b> and <b>else</b> statements form a control structure for conditional execution.</p>
+    <p><b>if</b> and <b
+      >else</b> statements form a control structure for conditional execution.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[i = 0;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[i = 0;
 if i == 0
   disp('ok')
 elseif i == 1

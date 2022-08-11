@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>whos</keyword>
-	<short_description>List variables in memory or in .nh5 or in .mat file with sizes and types.</short_description>
+	<short_description
+  >List variables in memory or in .nh5 or in .mat file with sizes and types.</short_description>
 
 	<syntax>
 		<syntax_item>whos</syntax_item>
@@ -21,7 +22,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>scope</param_name>
-			<param_description>a string: 'global', 'base', 'caller', 'local'.</param_description>
+			<param_description
+      >a string: 'global', 'base', 'caller', 'local'.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
@@ -29,7 +31,8 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>filename</param_name>
-			<param_description>string: an existing filename .nh5 or .mat file.</param_description>
+			<param_description
+      >string: an existing filename .nh5 or .mat file.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -37,21 +40,24 @@
 	<param_output>
 		<param_output_item>
 			<param_name>st</param_name>
-			<param_description>stores information about the variables in the structure array s.</param_description>
+			<param_description
+      >stores information about the variables in the structure array s.</param_description>
 		</param_output_item>
 	</param_output>
 
-	<description><p><b>whos</b> displays current variable names in memory or in .nh5 or .mat file.</p>
+	<description><p><b
+      >whos</b> displays current variable names in memory or in .nh5 or .mat file.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[clear
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[clear
 whos
 A = 3
 b= 3

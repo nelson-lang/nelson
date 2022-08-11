@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,11 +25,12 @@
 
   <description>
     <p>plus operator on libpointer handle.</p>
-    <p>ouptut libpointer is valid only as long as the original input libpointer exists.</p>
+    <p
+    >ouptut libpointer is valid only as long as the original input libpointer exists.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -42,8 +43,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[x = [1 2 3 4 5];
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[x = [1 2 3 4 5];
 xPtr = libpointer('doublePtr', x);
 y = xPtr + 2;
 y.reshape(1, 3);

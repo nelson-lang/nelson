@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,14 +27,16 @@
 
 
   <description>
-    <p><b>r = roots(c)</b> finds the roots of the polynomial <b>c</b>. <b>r</b> is a column vector.</p>
-    <p>This function uses the companion matrix of the polynomial to find the roots.</p>
+    <p><b>r = roots(c)</b> finds the roots of the polynomial <b>c</b>. <b
+      >r</b> is a column vector.</p>
+    <p
+    >This function uses the companion matrix of the polynomial to find the roots.</p>
   </description>
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[
 p = [1 0 0 0 -1];
 r = roots(p)]]>
@@ -61,5 +63,3 @@ r = roots(p)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

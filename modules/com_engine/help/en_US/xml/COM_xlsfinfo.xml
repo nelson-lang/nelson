@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>COM_xlsfinfo</keyword>
-  <short_description>Determines if file contains Microsoft Excel spreadsheet.</short_description>
+  <short_description
+  >Determines if file contains Microsoft Excel spreadsheet.</short_description>
 
   <syntax>
     <syntax_item>status = xlsfinfo(filename)</syntax_item>
@@ -39,19 +40,21 @@
 
 
   <description>
-    <p>Query Excel spreadsheet file filename for some information about its contents.</p>
+    <p
+    >Query Excel spreadsheet file filename for some information about its contents.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[[status, sheets, xlsformat] =COM_xlsfinfo([modulepath('com_engine'), '/examples/sample_xslx.xlsx'])]]>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[[status, sheets, xlsformat] =COM_xlsfinfo([modulepath('com_engine'), '/examples/sample_xslx.xlsx'])]]>
     </example_item_data>
   </example_item>
 
@@ -78,5 +81,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

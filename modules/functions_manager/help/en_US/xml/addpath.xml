@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,11 +25,13 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-end' or '-begin'</param_name>
-			<param_description>append dirname at the end or begin of the list.</param_description>
+			<param_description
+      >append dirname at the end or begin of the list.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>'-frozen'</param_name>
-			<param_description> disables folder change detection for the folders being added or modified.</param_description>
+			<param_description
+      > disables folder change detection for the folders being added or modified.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -46,13 +48,13 @@
 <p>files watchers is disabled for internal modules.</p>
 </description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[path()
 addpath(tempdir())
 path
@@ -86,5 +88,3 @@ path]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -24,16 +24,19 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>d = deg2rad(r)</b> converts angle units from degrees to radians for each element of <b>r</b>.</description>
+	<description><b
+    >d = deg2rad(r)</b> converts angle units from degrees to radians for each element of <b
+    >r</b>.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[D = 64.7;
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[D = 64.7;
 R = deg2rad(D);
 radEarth = 6371;
 dist = radEarth * R]]>

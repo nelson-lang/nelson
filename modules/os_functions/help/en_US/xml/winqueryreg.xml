@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>winqueryreg</keyword>
-  <short_description>Read the Windows registry (Windows only).</short_description>
+  <short_description
+  >Read the Windows registry (Windows only).</short_description>
 
   <syntax>
     <syntax_item>c = winqueryreg ('name', rootkey, subkey)</syntax_item>
@@ -42,10 +43,14 @@
 
 
   <description>
-    <p><b>c = winqueryreg ('name', rootkey, subkey)</b> returns a cell of strings with key names in rootkey\subkey.</p>
-    <p><b>v = winqueryreg (rootkey, subkey, value_name)</b> returns the value associated to value_name in rootkey\subkey.</p>
-    <p>If the value is a 32-bit integer, <b>winqueryreg</b> returns the value as int32. If this value is a string, it is a string.</p> 
-    <p><b>v = winqueryreg (rootkey, subkey)</b> returns value in rootkey\subkey that has no value name property.</p>
+    <p><b
+      >c = winqueryreg ('name', rootkey, subkey)</b> returns a cell of strings with key names in rootkey\subkey.</p>
+    <p><b
+      >v = winqueryreg (rootkey, subkey, value_name)</b> returns the value associated to value_name in rootkey\subkey.</p>
+    <p>If the value is a 32-bit integer, <b
+      >winqueryreg</b> returns the value as int32. If this value is a string, it is a string.</p> 
+    <p><b
+      >v = winqueryreg (rootkey, subkey)</b> returns value in rootkey\subkey that has no value name property.</p>
     <p>Supported root keys:</p>
     <p>'HKEY_CLASSES_ROOT', 'HKCR',</p>
     <p>'HKEY_CURRENT_USER', 'HKCU',</p>
@@ -55,14 +60,15 @@
 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[winqueryreg('name', 'HKEY_LOCAL_MACHINE', 'HARDWARE\DESCRIPTION\System')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[winqueryreg('name', 'HKEY_LOCAL_MACHINE', 'HARDWARE\DESCRIPTION\System')
 winqueryreg('HKLM', 'HARDWARE\DESCRIPTION\System\CentralProcessor\1\', 'ProcessorNameString')]]>
     </example_item_data>
   </example_item>
@@ -90,5 +96,3 @@ winqueryreg('HKLM', 'HARDWARE\DESCRIPTION\System\CentralProcessor\1\', 'Processo
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

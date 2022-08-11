@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>isfield</keyword>
-  <short_description>Checks if a fieldname exists in a struct.</short_description>
+  <short_description
+  >Checks if a fieldname exists in a struct.</short_description>
 
   <syntax>
     <syntax_item>res = isfield(S, name)</syntax_item>
@@ -36,20 +37,21 @@
     </param_output_item>
   </param_output>
 
-  <description
-    ><p><b>isfield(A)</b> returns true if <b>name</b> is a fieldname of <b>S</b>.</p>
+  <description><p><b>isfield(A)</b> returns true if <b
+      >name</b> is a fieldname of <b>S</b>.</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[S.Nelson = 1;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[S.Nelson = 1;
 isfield(S, 'Nel')
 isfield(S, 'Nelson')]]>
     </example_item_data>
@@ -57,8 +59,9 @@ isfield(S, 'Nelson')]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[S.nel = 1;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[S.nel = 1;
 S.son = 2;
 isfield(S,{ 1, 'nel'; 2, 'son'})]]>
     </example_item_data>
@@ -83,4 +86,3 @@ isfield(S,{ 1, 'nel'; 2, 'son'})]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-

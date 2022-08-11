@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>gettext</keyword>
 	<keyword>_</keyword>
-	<short_description>Get text translated into the current locale.</short_description>
+	<short_description
+  >Get text translated into the current locale.</short_description>
 
 	<syntax>
 		<syntax_item>translated_string = gettext(your_string)</syntax_item>
@@ -29,19 +30,21 @@
 	</param_output>
 
 	<description>
-		<p><b>translated_string = gettext(your_string)</b> gets the translation of a string <b>your_string</b> to the current locale in the Nelson domain.</p>
+		<p><b
+      >translated_string = gettext(your_string)</b> gets the translation of a string <b
+      >your_string</b> to the current locale in the Nelson domain.</p>
 		<p><b>_(your_string)</b> is an alias of <b>gettext(your_string)</b>.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[disp(_('function not found.'))]]>
 		</example_item_data>
 	</example_item>
@@ -69,5 +72,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

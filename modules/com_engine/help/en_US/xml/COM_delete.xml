@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -19,20 +19,23 @@
   </param_input>
 
   <description>
-  <p><b>delete(h)</b> releases all the interfaces derived from the specified COM server or control, and then deletes the server or control itself.</p>
-  <p> This is different from releasing an interface, which releases and invalidates only the particular interface.</p>
+  <p><b
+      >delete(h)</b> releases all the interfaces derived from the specified COM server or control, and then deletes the server or control itself.</p>
+  <p
+    > This is different from releasing an interface, which releases and invalidates only the particular interface.</p>
   <p>Do not forget to clear h afterward.</p> 
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
 delete(pTextToSpeech)
 clear pTextToSpeech]]>
     </example_item_data>
@@ -57,5 +60,3 @@ clear pTextToSpeech]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

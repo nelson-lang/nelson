@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>isempty</keyword>
-  <short_description>Return true if variable var is an empty matrix.</short_description>
+  <short_description
+  >Return true if variable var is an empty matrix.</short_description>
 
   <syntax>
     <syntax_item>res = isempty(var)</syntax_item>
@@ -25,19 +26,21 @@
   </param_output>
 
   <description>
-    <p><b>isempty</b> returns a logical true if the argument is an empty matrix.</p>
+    <p><b
+      >isempty</b> returns a logical true if the argument is an empty matrix.</p>
     <p>Any one of its dimensions is zero.</p>
 
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[A = rand(3, 3, 3);
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = rand(3, 3, 3);
 res = isempty(A)
 A(:, :, :) = [];
 res = isempty(A)
@@ -47,8 +50,9 @@ res = isempty(A)
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[B = {};
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[B = {};
 res = isempty(B)
 C = struct()
 res = isempty(C)
@@ -79,5 +83,3 @@ res = isempty(C)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

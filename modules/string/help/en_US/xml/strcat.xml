@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,34 +13,42 @@
   <param_input>
     <param_input_item>
       <param_name>s1, s2, ..., sN</param_name>
-      <param_description>a string, string array or cell of strings.</param_description>
+      <param_description
+      >a string, string array or cell of strings.</param_description>
     </param_input_item>
   </param_input>
 
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string, string array or cell of strings.</param_description>
+      <param_description
+      >a string, string array or cell of strings.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
     <p><b>strcat</b> concatenate strings horizontally.</p>
-    <p>If all inputs are character arrays, then <b>res</b> is a character array.</p>
-    <p>If any input is a string array, then the <b>res</b> is a string array.</p>
-    <p>If any input is a cell array, and none are string arrays, then <b>res</b> is a cell array of character vectors.</p>
-    <p>For cell and string array inputs, <b>strcat</b> does not remove trailing white space.</p>
-    <p>For character array inputs, <b>strcat</b> removes trailing ASCII white-space characters.</p>
+    <p>If all inputs are character arrays, then <b
+      >res</b> is a character array.</p>
+    <p>If any input is a string array, then the <b
+      >res</b> is a string array.</p>
+    <p>If any input is a cell array, and none are string arrays, then <b
+      >res</b> is a cell array of character vectors.</p>
+    <p>For cell and string array inputs, <b
+      >strcat</b> does not remove trailing white space.</p>
+    <p>For character array inputs, <b
+      >strcat</b> removes trailing ASCII white-space characters.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[strcat("Nelson", 'nelSon')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[strcat("Nelson", 'nelSon')
 A = {'abcde','fghi'};
 B = {'jkl','mn'};
 C = strcat(A, B)]]>

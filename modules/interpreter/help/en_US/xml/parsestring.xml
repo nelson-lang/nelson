@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,25 +21,28 @@
 
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>a string: 'script', 'function', 'error'.</param_description>
+      <param_description
+      >a string: 'script', 'function', 'error'.</param_description>
     </param_output_item>
 
   </param_output>
 
   <description>
-  <p><b>parsestring</b> parse a string and returns if it is a valid script, a valid function or an error.</p>
+  <p><b
+      >parsestring</b> parse a string and returns if it is a valid script, a valid function or an error.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[parsestring('1 + 1')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[parsestring('1 + 1')
 parsestring('1 +++ 1')
 parsestring('1 +*+ 1')]]>
     </example_item_data>

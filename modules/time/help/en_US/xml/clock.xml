@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>clock</keyword>
-  <short_description>Return the current local date and time as a date vector.</short_description>
+  <short_description
+  >Return the current local date and time as a date vector.</short_description>
 
   <syntax>
     <syntax_item>v = clock()</syntax_item>
@@ -14,7 +15,8 @@
   <param_output>
     <param_output_item>
       <param_name>v</param_name>
-      <param_description>a vector: [year, month, day, hours, minutes, seconds].</param_description>
+      <param_description
+      >a vector: [year, month, day, hours, minutes, seconds].</param_description>
     </param_output_item>
   </param_output>
 
@@ -27,18 +29,21 @@
    <p>hours [0, 23]</p>
    <p>minutes [0, 59]</p>
    <p>seconds [0, 61]</p>
-   <p>seconds: field has a fractional part after the decimal point for extended accuracy.</p>
+   <p
+    >seconds: field has a fractional part after the decimal point for extended accuracy.</p>
    
-<p>To time the duration of an event, use tic and toc functions instead of clock.</p>
-<p>The clock function is based on the system time and thus might not be reliable for time comparison operations.</p>
+<p
+    >To time the duration of an event, use tic and toc functions instead of clock.</p>
+<p
+    >The clock function is based on the system time and thus might not be reliable for time comparison operations.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[c = clock()
 fix(c)]]>
     </example_item_data>
@@ -67,5 +72,3 @@ fix(c)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -14,7 +14,8 @@
   <param_input>
     <param_input_item>
       <param_name>numbers_of_GUID</param_name>
-      <param_description>an integer value: numbers of GUID to create.</param_description>
+      <param_description
+      >an integer value: numbers of GUID to create.</param_description>
     </param_input_item>
   </param_input>
 
@@ -33,16 +34,17 @@
   </param_output>
 
 
-  <description><p><b>createGUID</b> creates a Globally Unique IDentifier (GUID), , a unique 128-bit integer used for CLSIDs and interface identifiers.</p>
+  <description><p><b
+      >createGUID</b> creates a Globally Unique IDentifier (GUID), , a unique 128-bit integer used for CLSIDs and interface identifiers.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[createGUID()
 createGUID(10)]]>
     </example_item_data>
@@ -61,5 +63,3 @@ createGUID(10)]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

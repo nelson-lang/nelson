@@ -1,41 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>mustBeValidVariableName</keyword>
-  <short_description>Checks that value is valid variable name or raise an error.</short_description>
+  <short_description
+  >Checks that value is valid variable name or raise an error.</short_description>
 
   <syntax>
     <syntax_item>mustBeValidVariableName(var)</syntax_item>
     <syntax_item>mustBeValidVariableName(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeValidVariableName(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
+    <syntax_item
+    >C++: void mustBeValidVariableName(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
-      <param_description>a variable: string or characters array.</param_description>
+      <param_description
+      >a variable: string or characters array.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>argPosition</param_name>
-      <param_description>a positive integer value: Position of input argument.</param_description>
+      <param_description
+      >a positive integer value: Position of input argument.</param_description>
     </param_input_item>
   </param_input>
 
 
   <description>
-  <p><b>mustBeValidVariableName</b> checks that value is valid variable name or raise an error.</p>
+  <p><b
+      >mustBeValidVariableName</b> checks that value is valid variable name or raise an error.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[mustBeValidVariableName('8t')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[mustBeValidVariableName('8t')
 mustBeValidVariableName('t8')
 mustBeValidVariableName("t8")]]>
     </example_item_data>
@@ -59,5 +65,3 @@ mustBeValidVariableName("t8")]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

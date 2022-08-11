@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,7 +13,8 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a cell of strings, string array or a string.</param_description>
+      <param_description
+      >a cell of strings, string array or a string.</param_description>
     </param_input_item>
 
   </param_input>
@@ -26,17 +27,20 @@
   </param_output>
 
   <description>
-  <p><b>str2double</b> converts any complex number as a whole into a complex numeric field, converting the real and imaginary parts to the specified numeric type.</p>
-  <p>If <b>str2double</b> cannot convert string to a number, then it returns a Not An Number value.</p></description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <p><b
+      >str2double</b> converts any complex number as a whole into a complex numeric field, converting the real and imaginary parts to the specified numeric type.</p>
+  <p>If <b
+      >str2double</b> cannot convert string to a number, then it returns a Not An Number value.</p></description>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[R = str2double('2.6 + 3j')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[R = str2double('2.6 + 3j')
 R = str2double('+NaNi')
 R = str2double({'2.71' '3.1415'})
 R = str2double(["2.71" "3.1415"])
@@ -63,5 +67,3 @@ R = str2double(["2.71" "3.1415"])
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

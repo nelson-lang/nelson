@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -31,19 +31,21 @@
   <description>
     <p><b>error</b> stops the current script execution.</p>
     <p><b>error('')</b> will be ignored and the script will continue to run.</p>
-    <p>identifier includes one or more component fields and a mnemonic field (example: 'nelson:matrix:empty')</p>
+    <p
+    >identifier includes one or more component fields and a mnemonic field (example: 'nelson:matrix:empty')</p>
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[error('your error message.')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[error('your error message.')
 error('nelson:identifier', 'your error message.')
   
 error('')]]>
@@ -52,8 +54,9 @@ error('')]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[ 1 / [1 2 3]
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[ 1 / [1 2 3]
 a = lasterror()
 lasterror('reset')
 b = lasterror()
@@ -89,5 +92,3 @@ c = lasterror()]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>nativecharset</keyword>
-	<short_description>Find all charset matches that appear to be consistent with the input</short_description>
+	<short_description
+  >Find all charset matches that appear to be consistent with the input</short_description>
 
 	<syntax>
 		<syntax_item>ce = nativecharset(bytes)</syntax_item>
@@ -13,7 +14,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>bytes</param_name>
-			<param_description>a uint8 vector, or string or row characters array</param_description>
+			<param_description
+      >a uint8 vector, or string or row characters array</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -25,18 +27,21 @@
 	</param_output>
 
 	<description>
-	<p><b>nativecharset</b> find all charset matches that appear to be consistent with the input, returning a cell of string with results.</p>
+	<p><b
+      >nativecharset</b> find all charset matches that appear to be consistent with the input, returning a cell of string with results.</p>
 	<p>The results are ordered with the best quality match first.</p>
-	<p>List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
+	<p
+    >List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
 	</description>
-	<used_function></used_function>
+	<used_function />
 	<bibliography>ICU library</bibliography>
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[C = uint8([194   232   240   242   243   224   235   252   237   224   255]);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[C = uint8([194   232   240   242   243   224   235   252   237   224   255]);
 nativecharset(R)]]>
 		</example_item_data>
 	</example_item>
@@ -62,5 +67,3 @@ nativecharset(R)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

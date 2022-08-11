@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>dllib_used</keyword>
-  <short_description>Returns list of current used dllib handle.</short_description>
+  <short_description
+  >Returns list of current used dllib handle.</short_description>
 
   <syntax>
     <syntax_item>r = dllib_used()</syntax_item>
@@ -22,8 +23,8 @@
     <p>Returns list of current used dllib handle.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
      <see_also_item>
@@ -36,7 +37,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[dllib_used(),delete(dllib_used())]]>
     </example_item_data>
   </example_item>

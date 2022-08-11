@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,17 +26,20 @@
   </param_output>
 
   <description>
-    <p><b>R = corrcoef(M)</b> returns the matrix of correlation coefficients for <b>M</b>, where the columns of <b>M</b> represent random variables and the rows represent observations.</p>
+    <p><b
+      >R = corrcoef(M)</b> returns the matrix of correlation coefficients for <b
+      >M</b>, where the columns of <b
+      >M</b> represent random variables and the rows represent observations.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[M = [4 -7 3; 1 4 -2; 10 7 9];
 R = corrcoef(M)]]>

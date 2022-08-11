@@ -9,15 +9,14 @@
 #==============================================================================
 component_depth: 6
 languages:
-- cpp
+  - cpp
 exclude:
-- /modules/slicot/src/c/.*
-- /modules/slicot/builtin/cpp/.*
-- /modules/f2c/src/c/.*
-- /modules/types/src/include/.*
-- /modules/types/src/cpp/.*
-- /modules/random/src/include/.*
-- /modules/sio_client/src/socket_io/.*
-- /modules/file_archiver/src/c/minizip/.*
-- /modules/help_tools/src/c/hoedown/.*
-
+  - /modules/slicot/src/c/.*
+  - /modules/slicot/builtin/cpp/.*
+  - /modules/f2c/src/c/.*
+  - /modules/types/src/include/.*
+  - /modules/types/src/cpp/.*
+  - /modules/random/src/include/.*
+  - /modules/sio_client/src/socket_io/.*
+  - /modules/file_archiver/src/c/minizip/.*
+  - /modules/help_tools/src/c/hoedown/.*

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,25 +25,29 @@
   <param_output>
     <param_output_item>
       <param_name>F</param_name>
-      <param_description> cell array of character vectors containing the names of the macros that are loaded.</param_description>
+      <param_description
+      > cell array of character vectors containing the names of the macros that are loaded.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>M</param_name>
-      <param_description> cell array of character vectors containing the names of the mex that are loaded.</param_description>
+      <param_description
+      > cell array of character vectors containing the names of the mex that are loaded.</param_description>
     </param_output_item>
 
   </param_output>
 
-  <description><p><b>inmem</b> returns cells array of names of functions and mex currently loaded.</p>
+  <description><p><b
+      >inmem</b> returns cells array of names of functions and mex currently loaded.</p>
 </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[clear all
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[clear all
 tand(3)
 inmem()
 inmem('-completenames')

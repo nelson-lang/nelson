@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -37,14 +37,15 @@
     <p><b>hilb</b> computes the Hilbert matrix.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography>https://en.wikipedia.org/wiki/David_Hilbert, and Thanks to https://nhigham.com/2020/06/30/what-is-the-hilbert-matrix/</bibliography>
+  <used_function />
+  <bibliography
+  >https://en.wikipedia.org/wiki/David_Hilbert, and Thanks to https://nhigham.com/2020/06/30/what-is-the-hilbert-matrix/</bibliography>
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[h = hilb(5)]]>
     </example_item_data>
@@ -70,5 +71,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

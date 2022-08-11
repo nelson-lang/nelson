@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,8 +13,10 @@
     <syntax_item>lastwarn(new_message)</syntax_item>
     <syntax_item>lastwarn(new_message, new_identifier)</syntax_item>
     <syntax_item>[last_message, last_identifier] = lastwarn('')</syntax_item>
-    <syntax_item>[last_message, last_identifier] = lastwarn(new_message)</syntax_item>
-    <syntax_item>[last_message, last_identifier] = lastwarn(new_message, new_identifier)</syntax_item>
+    <syntax_item
+    >[last_message, last_identifier] = lastwarn(new_message)</syntax_item>
+    <syntax_item
+    >[last_message, last_identifier] = lastwarn(new_message, new_identifier)</syntax_item>
 
   </syntax>
 
@@ -31,21 +33,23 @@
   </param_output>
 
   <description>
-    <p><b>last_message = lastwarn()</b> returns a string containing the last warning message.</p>
+    <p><b
+      >last_message = lastwarn()</b> returns a string containing the last warning message.</p>
     <p><b>lastwarn('')</b> clears last warning.</p>
 
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
     [1:3]:3
     lastwarn
     [msg, id] = lastwarn()
@@ -79,5 +83,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

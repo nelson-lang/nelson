@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>COM_fieldnames</keyword>
-  <short_description>Returns the properties name of an COM object.</short_description>
+  <short_description
+  >Returns the properties name of an COM object.</short_description>
 
   <syntax>
     <syntax_item>l = COM_fieldnames(h)</syntax_item>
@@ -28,19 +29,21 @@
 
 
   <description>
-  <description><b>fieldnames</b> returns a cell of strings with properties name.</description>
+  <description><b
+      >fieldnames</b> returns a cell of strings with properties name.</description>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[e = actxserver('Excel.Application');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[e = actxserver('Excel.Application');
 fieldnames(e)
 delete(e)
 clear e]]>
@@ -66,5 +69,3 @@ clear e]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

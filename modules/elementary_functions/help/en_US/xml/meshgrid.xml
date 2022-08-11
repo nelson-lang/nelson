@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -33,11 +33,13 @@
 
 		<param_output_item>
 			<param_name>X</param_name>
-			<param_description>x-coordinates over grid: 2-D or 3-D array.</param_description>
+			<param_description
+      >x-coordinates over grid: 2-D or 3-D array.</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>Y</param_name>
-			<param_description>y-coordinates over grid: 2-D or 3-D array.</param_description>
+			<param_description
+      >y-coordinates over grid: 2-D or 3-D array.</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>Z</param_name>
@@ -51,14 +53,14 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data>
 			<![CDATA[x = -1:0.4:1;
 y = -1:0.4:1;
@@ -85,5 +87,3 @@ z = 0:3:6;
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

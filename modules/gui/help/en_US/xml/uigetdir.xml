@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,23 +27,26 @@
 
 		<param_output_item>
 			<param_name>dir_ans</param_name>
-			<param_description>a string (returned path) or 0 if dialogbox is canceled</param_description>
+			<param_description
+      >a string (returned path) or 0 if dialogbox is canceled</param_description>
 		</param_output_item>
 	</param_output>
 
-	<description><p><b>uigetdir</b> opens a dialog box for selecting a directory.</p>
-	<p>If path is wrong or not given, the current working directory will be used.</p>
+	<description><p><b
+      >uigetdir</b> opens a dialog box for selecting a directory.</p>
+	<p
+    >If path is wrong or not given, the current working directory will be used.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 	
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = uigetdir();]]>
 		</example_item_data>
 	</example_item>
@@ -67,5 +70,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

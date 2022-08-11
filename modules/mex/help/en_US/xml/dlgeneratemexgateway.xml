@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>dlgeneratemexgateway</keyword>
-	<short_description>Generates C MEX gateway (internal function).</short_description>
+	<short_description
+  >Generates C MEX gateway (internal function).</short_description>
 
 	<syntax>
 		<syntax_item>dlgeneratemexgateway(destinationdir, function_name)</syntax_item>
@@ -14,26 +15,30 @@
 	<param_input>
 		<param_input_item>
 			<param_name>destinationdir</param_name>
-			<param_description>a string: destination directory where is generated the gateway file.</param_description>
+			<param_description
+      >a string: destination directory where is generated the gateway file.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>function_name</param_name>
-			<param_description>a string: function name exposed in Nelson.</param_description>
+			<param_description
+      >a string: function name exposed in Nelson.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>interleavedcomplex</param_name>
-			<param_description>a logical: use interleaved complex representation.</param_description>
+			<param_description
+      >a logical: use interleaved complex representation.</param_description>
 		</param_input_item>
 
 	</param_input>
 
 	<description>
-		<p><b>dlgeneratemexgateway</b> generates a C MEX gateway used by <b>mex</b> (internal function).</p>
+		<p><b>dlgeneratemexgateway</b> generates a C MEX gateway used by <b
+      >mex</b> (internal function).</p>
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 
 	<see_also>

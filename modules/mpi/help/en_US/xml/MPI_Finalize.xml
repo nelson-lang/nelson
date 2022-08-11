@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>MPI_Finalize</keyword>
-  <short_description>Terminate the MPI execution environment.</short_description>
+  <short_description
+  >Terminate the MPI execution environment.</short_description>
 
   <syntax>
     <syntax_item>MPI_Finalize()</syntax_item>
@@ -25,8 +26,8 @@
   <p>MPI process are launched in CLI mode (no gui, no plot).</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -42,8 +43,9 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[if ~MPI_Initialized()
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end
 if MPI_Initialized()

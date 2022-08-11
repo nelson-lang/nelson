@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,7 +13,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>argNumber</param_name>
-			<param_description>a scalar, real, positive integer value: Number of function input argument</param_description>
+			<param_description
+      >a scalar, real, positive integer value: Number of function input argument</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -30,15 +31,16 @@
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[function R = getinputname(varargin)
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[function R = getinputname(varargin)
     R = string([]);
     for i = 1:nargin
         R = [R, string(inputname(i))];
@@ -66,5 +68,3 @@ end]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

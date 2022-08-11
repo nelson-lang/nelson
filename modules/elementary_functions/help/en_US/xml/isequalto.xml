@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>isequalto</keyword>
-	<short_description>Return true if all arguments x1, x2, ... , xn are equal (same type, same dimensions, same values or NaNs).</short_description>
+	<short_description
+  >Return true if all arguments x1, x2, ... , xn are equal (same type, same dimensions, same values or NaNs).</short_description>
 
 	<syntax>
 		<syntax_item>res = isequalto(x1, x2)</syntax_item>
@@ -37,16 +38,18 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>isequalto</b> returns true if x1 and x2 are the same type, same size and same values; otherwise, it returns false.</description>
+	<description><b
+    >isequalto</b> returns true if x1 and x2 are the same type, same size and same values; otherwise, it returns false.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = eye(3, 3);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = eye(3, 3);
 res = isequal(A, single(A))
 res = isequalto(A, single(A))
 ]]>
@@ -76,5 +79,3 @@ res = isequalto(A, single(A))
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

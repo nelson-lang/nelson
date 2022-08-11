@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -32,17 +32,20 @@
   <param_output>
     <param_output_item>
       <param_name>flag</param_name>
-      <param_description>an integer value: 1 if the message is ready to be received, 0 if it is not.</param_description>
+      <param_description
+      >an integer value: 1 if the message is ready to be received, 0 if it is not.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>stat</param_name>
-      <param_description>a struct: source rank, message tag, error, count, cancelled for the accepted message.</param_description>
+      <param_description
+      >a struct: source rank, message tag, error, count, cancelled for the accepted message.</param_description>
     </param_output_item>
 
     <param_output_item>
       <param_name>info</param_name>
-      <param_description>an integer value:  0 (MPI_SUCCESS) other value is an error.</param_description>
+      <param_description
+      >an integer value:  0 (MPI_SUCCESS) other value is an error.</param_description>
     </param_output_item>
   </param_output>
 
@@ -51,8 +54,8 @@
   <p>Nonblocking test for a message.</p> 
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -65,8 +68,10 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Iprobe.m'], 4)</example_item_description>
-    <example_item_data><![CDATA[if ~MPI_Initialized()
+    <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Iprobe.m'], 4)</example_item_description>
+    <example_item_data
+      ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object();

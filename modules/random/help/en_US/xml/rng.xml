@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -25,11 +25,13 @@
   <param_input>
     <param_input_item>
       <param_name>seed</param_name>
-      <param_description>an integer value: new seed for random generator</param_description>
+      <param_description
+      >an integer value: new seed for random generator</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>generator</param_name>
-      <param_description>a string: 'twister', 'twister64', 'laggedfibonacci607'</param_description>
+      <param_description
+      >a string: 'twister', 'twister64', 'laggedfibonacci607'</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>s</param_name>
@@ -54,29 +56,43 @@
 
 
   <description>
-  <p><b>lst = rng('enginelist')</b> returns the list of available random number generator.</p>
-  <p><b>rng('default')</b> puts the settings of the random number generator to default values.</p>
-  <p><b>s = rng('default')</b> puts the settings of the random number generator to default values.</p>
-  <p><b>rng('shuffle')</b> puts the settings of the random number generator to default values and returns previous generator as an struct.</p>
-  <p><b>s = rng('shuffle')</b> seeds the random number generator based on the current time.</p>
-  <p><b>rng(seed)</b> seeds the random number generator using the nonnegative integer.</p>
-  <p><b>s = rng(seed)</b> seeds the random number generator using the nonnegative integer and returns previous generator as an struct.</p>
-  <p><b>rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used.</p>
-  <p><b>s = rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used and returns previous generator as an struct.</p>
-  <p><b>rng('shuffle', generator)</b> seeds the random number generator based on the current time and specify also the type of generator used.</p>
-  <p><b>s = rng('shuffle', generator)</b> seeds the random number generator based on the current time,specify also the type of generator used and returns previous generator as an struct.</p>
+  <p><b
+      >lst = rng('enginelist')</b> returns the list of available random number generator.</p>
+  <p><b
+      >rng('default')</b> puts the settings of the random number generator to default values.</p>
+  <p><b
+      >s = rng('default')</b> puts the settings of the random number generator to default values.</p>
+  <p><b
+      >rng('shuffle')</b> puts the settings of the random number generator to default values and returns previous generator as an struct.</p>
+  <p><b
+      >s = rng('shuffle')</b> seeds the random number generator based on the current time.</p>
+  <p><b
+      >rng(seed)</b> seeds the random number generator using the nonnegative integer.</p>
+  <p><b
+      >s = rng(seed)</b> seeds the random number generator using the nonnegative integer and returns previous generator as an struct.</p>
+  <p><b
+      >rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used.</p>
+  <p><b
+      >s = rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used and returns previous generator as an struct.</p>
+  <p><b
+      >rng('shuffle', generator)</b> seeds the random number generator based on the current time and specify also the type of generator used.</p>
+  <p><b
+      >s = rng('shuffle', generator)</b> seeds the random number generator based on the current time,specify also the type of generator used and returns previous generator as an struct.</p>
   <p><b>s = rng</b> returns current generator as an struct.</p>
-  <p><b>rng(s)</b> restores the settings of the random number generator using a previous struct returned by <b>s = rng</b>.</p>
+  <p><b
+      >rng(s)</b> restores the settings of the random number generator using a previous struct returned by <b
+      >s = rng</b>.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[rng('default');
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[rng('default');
 r = rng()
 lst = rng('enginelist')]]>
     </example_item_data>
@@ -106,5 +122,3 @@ lst = rng('enginelist')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

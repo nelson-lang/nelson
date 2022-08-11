@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -8,12 +8,13 @@
 
 
 	<description>
-<p><b>startup.m</b> in the preference directory is automatically loaded at startup of NelSon.</p>
+<p><b
+      >startup.m</b> in the preference directory is automatically loaded at startup of NelSon.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 	<see_also>
 		<see_also_item>

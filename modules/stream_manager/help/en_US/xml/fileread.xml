@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,17 +22,20 @@
 
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>a string: 'char', 'cell' or 'string'. 'cell' will converts text file to a cell of string. 'string' will converts text file to a string array. 'char' by default.</param_description>
+      <param_description
+      >a string: 'char', 'cell' or 'string'. 'cell' will converts text file to a cell of string. 'string' will converts text file to a string array. 'char' by default.</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>eol</param_name>
-      <param_description>a string: 'native', 'pc' or 'unix'. Set end of line. 'unix' by default.</param_description>
+      <param_description
+      >a string: 'native', 'pc' or 'unix'. Set end of line. 'unix' by default.</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>encoding</param_name>
-      <param_description>a string: 'UTF-8' (default), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+      <param_description
+      >a string: 'UTF-8' (default), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
     </param_input_item>
 
   </param_input>
@@ -41,25 +44,28 @@
 
     <param_output_item>
       <param_name>str</param_name>
-      <param_description>a string, cell of strings or string array.</param_description>
+      <param_description
+      >a string, cell of strings or string array.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
     <p><b>fileread</b> read contents of file as text.</p>
-    <p>if encoding is 'auto', nelson will try to detect best encoding to read contents of file as text.</p>
+    <p
+    >if encoding is 'auto', nelson will try to detect best encoding to read contents of file as text.</p>
 
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'char')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'cell')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
@@ -69,8 +75,9 @@ str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[str = 'живете зело, земля, и иже и како люди';
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[str = 'живете зело, земля, и иже и како люди';
 filewrite([tempdir(), 'example_fileread.txt'], str, 'native', 'windows-1251')
 T1 = fileread([tempdir(), 'example_fileread.txt'], 'char', 'native', 'windows-1251')
 T2 = fileread([tempdir(), 'example_fileread.txt'], 'string', 'native', 'auto')

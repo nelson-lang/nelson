@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -37,13 +37,15 @@
 
 
   <description>
-  <p>This function sends an array to a destination node on a given communicator with a specific message tag.</p> 
-  <p>Note that there has to be a matching receive issued by the destination node.</p>
+  <p
+    >This function sends an array to a destination node on a given communicator with a specific message tag.</p> 
+  <p
+    >Note that there has to be a matching receive issued by the destination node.</p>
   <p>Throws an exception if there is an error.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
   <see_also>
     <see_also_item>
@@ -56,8 +58,10 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
-    <example_item_data><![CDATA[if ~MPI_Initialized()
+    <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+    <example_item_data
+      ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object()

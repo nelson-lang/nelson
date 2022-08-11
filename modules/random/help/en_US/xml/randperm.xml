@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -13,7 +13,8 @@
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>Number of integers in sample interval (positive integer).</param_description>
+      <param_description
+      >Number of integers in sample interval (positive integer).</param_description>
     </param_input_item>
   </param_input>
 
@@ -26,16 +27,18 @@
 
 
   <description>
-    <p><b>p = randperm(n)</b> returns a row vector containing a random permutation of <b>1:n</b>.</p>
+    <p><b
+      >p = randperm(n)</b> returns a row vector containing a random permutation of <b
+      >1:n</b>.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[randperm(7)]]>
     </example_item_data>
   </example_item>
@@ -61,5 +64,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>fileparts</keyword>
-	<short_description>Returns the path, filename and extension of a file path.</short_description>
+	<short_description
+  >Returns the path, filename and extension of a file path.</short_description>
 
 	<syntax>
 		<syntax_item>[p, f, e] = fileparts(fullpath)</syntax_item>
@@ -30,7 +31,8 @@
 
 		<param_output_item>
 			<param_name>f</param_name>
-			<param_description>a string: file name without extension of fullpath.</param_description>
+			<param_description
+      >a string: file name without extension of fullpath.</param_description>
 		</param_output_item>
 
 		<param_output_item>
@@ -41,19 +43,21 @@
 	</param_output>
 
 	<description>
-<p><b>[p ,f, e] = fileparts(fullpath)</b> splits in its three parts: path, filename, extension including the dot.</p>
+<p><b
+      >[p ,f, e] = fileparts(fullpath)</b> splits in its three parts: path, filename, extension including the dot.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[[p, f, e] = fileparts([nelsonroot(), '/etc/finish.m'])
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[[p, f, e] = fileparts([nelsonroot(), '/etc/finish.m'])
 p = fileparts([nelsonroot(), '/etc/finish.m'], 'path')
 f = fileparts([nelsonroot(), '/etc/finish.m'], 'filename')
 e = fileparts([nelsonroot(), '/etc/finish.m'], 'extension')]]>
@@ -90,5 +94,3 @@ e = fileparts([nelsonroot(), '/etc/finish.m'], 'extension')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

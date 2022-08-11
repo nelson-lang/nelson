@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>fgets</keyword>
-	<short_description>Read string from a file, stopping after a newline, or EOF, or n characters have been read.</short_description>
+	<short_description
+  >Read string from a file, stopping after a newline, or EOF, or n characters have been read.</short_description>
 
 	<syntax>
 		<syntax_item>res = fgets(f)</syntax_item>
@@ -32,22 +33,24 @@
 		</param_output_item>
 	</param_output>
 
-	<description><p>Read string from a file, stopping after a newline, or EOF, or n characters have been read.</p>
+	<description><p
+    >Read string from a file, stopping after a newline, or EOF, or n characters have been read.</p>
 <p>If there is no more character to read, fgets will return -1.</p>
 <p>If n is omitted, fgets reads until the next newline.</p>
 <p>characters encoding uses <b>fopen</b> parameter.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[  fid = fopen([nelsonroot(), '/etc/startup.m']);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[  fid = fopen([nelsonroot(), '/etc/startup.m']);
   tline = fgets(fid);
   while ischar(tline)
   disp(tline)
@@ -61,8 +64,9 @@
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
 
   tline = fgets(fid, 5);
   while ischar(tline)
@@ -101,5 +105,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

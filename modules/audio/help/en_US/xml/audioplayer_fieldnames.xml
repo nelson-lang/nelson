@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>audioplayer_fieldnames</keyword>
-  <short_description>Returns the properties name of an audioplayer object.</short_description>
+  <short_description
+  >Returns the properties name of an audioplayer object.</short_description>
 
   <syntax>
     <syntax_item>l = audioplayer_fieldnames(h)</syntax_item>
@@ -28,19 +29,21 @@
 
 
   <description>
-  <description><b>fieldnames</b> returns a cell of strings with properties name.</description>
+  <description><b
+      >fieldnames</b> returns a cell of strings with properties name.</description>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
   
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16)
 fieldnames(playObj)
 delete(playObj)
@@ -67,5 +70,3 @@ clear playObj]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

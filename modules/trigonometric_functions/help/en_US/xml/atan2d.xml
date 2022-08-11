@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -30,16 +30,18 @@
 	</param_output>
 
 	<description>
-		<p><b>d = atan2d(y, x)</b> returns the four-quadrant inverse tangent (tan-1) of <b>y</b> and <b>x</b>, which must be real.</p>
+		<p><b
+      >d = atan2d(y, x)</b> returns the four-quadrant inverse tangent (tan-1) of <b
+      >y</b> and <b>x</b>, which must be real.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[x = [1 0 -1 0];
 y = [0 1 0 -1];
 d = atan2d(y, x)]]>
@@ -65,5 +67,3 @@ d = atan2d(y, x)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

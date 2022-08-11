@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>mustBeMember</keyword>
-  <short_description>Checks that value is member of specified array or issue error.</short_description>
+  <short_description
+  >Checks that value is member of specified array or issue error.</short_description>
 
   <syntax>
     <syntax_item>mustBeMember(var, c)</syntax_item>
     <syntax_item>mustBeMember(var, c, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeMember(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
+    <syntax_item
+    >C++: void mustBeMember(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
   </syntax>
 
   <param_input>
@@ -25,23 +27,26 @@
 
      <param_input_item>
       <param_name>argPosition</param_name>
-      <param_description>a positive integer value: Position of input argument.</param_description>
+      <param_description
+      >a positive integer value: Position of input argument.</param_description>
     </param_input_item>
   </param_input>
 
 
   <description>
-  <p><b>mustBeMember</b> checks that value is member of an array or issue error.</p>
+  <p><b
+      >mustBeMember</b> checks that value is member of an array or issue error.</p>
 </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[A = "red";
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = "red";
 B = ["yellow","red","blue"];
 mustBeMember(A,B)
 ]]>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -21,17 +21,19 @@
 		</param_input_item>
 	</param_input>
 
-	<description><p><b>global</b> make variable in global assign value to a variable in a specified variables scope.</p>
+	<description><p><b
+      >global</b> make variable in global assign value to a variable in a specified variables scope.</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[function myfun()
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[function myfun()
 global y;
 y = 1;
 endfunction
@@ -69,5 +71,3 @@ disp(y)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

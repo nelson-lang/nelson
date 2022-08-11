@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>sph2cart</keyword>
-	<short_description>Transform spherical coordinates to Cartesian.</short_description>
+	<short_description
+  >Transform spherical coordinates to Cartesian.</short_description>
 
 	<syntax>
 		<syntax_item>[x, y, z] = sph2cart(azimuth, elevation, r)</syntax_item>
@@ -28,30 +29,35 @@
 	<param_output>
 		<param_output_item>
 			<param_name>x</param_name>
-			<param_description>a numeric value (double or single real): Cartesian coordinates</param_description>
+			<param_description
+      >a numeric value (double or single real): Cartesian coordinates</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>y</param_name>
-			<param_description>a numeric value (double or single real): Cartesian coordinates</param_description>
+			<param_description
+      >a numeric value (double or single real): Cartesian coordinates</param_description>
 		</param_output_item>
 		<param_output_item>
 			<param_name>z</param_name>
-			<param_description>a numeric value (double or single real): Cartesian coordinates</param_description>
+			<param_description
+      >a numeric value (double or single real): Cartesian coordinates</param_description>
 
 		</param_output_item>
 
 	</param_output>
 
-	<description><b>sph2cart</b> transforms Cartesian to spherical coordinates.</description>
+	<description><b
+    >sph2cart</b> transforms Cartesian to spherical coordinates.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[azimut = [0.7854, 0.7854, -0.7854, -0.7854; 2.3562, 2.3562, -2.3562, -2.3562];
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[azimut = [0.7854, 0.7854, -0.7854, -0.7854; 2.3562, 2.3562, -2.3562, -2.3562];
 elevation = [0.6155, -0.6155, 0.6155, -0.6155; 0.6155, -0.6155, 0.6155, -0.6155];
 radius = 1.7321 * ones(2, 4);
 [x, y, z] = sph2cart(azimut, elevation, radius)]]>

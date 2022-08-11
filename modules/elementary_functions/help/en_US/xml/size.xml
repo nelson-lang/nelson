@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,18 +22,21 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>dim</param_name>
-			<param_description>a variable: a positive integer to get the dimth dimension.</param_description>
+			<param_description
+      >a variable: a positive integer to get the dimth dimension.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>dims</param_name>
-			<param_description>a variable: a vector of  positive integer to get the dimth dimensions.</param_description>
+			<param_description
+      >a variable: a vector of  positive integer to get the dimth dimensions.</param_description>
 		</param_input_item>
 	</param_input>
 
 	<param_output>
 		<param_output_item>
 			<param_name>s</param_name>
-			<param_description> a row vector whose elements contain the length of the corresponding dimension of X.</param_description>
+			<param_description
+      > a row vector whose elements contain the length of the corresponding dimension of X.</param_description>
 		</param_output_item>
 		
 		<param_output_item>
@@ -60,18 +63,18 @@
 	</param_output>
 
 	<description>
-		<p></p>
+		<p />
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data>
 			<![CDATA[X = rand(3, 4, 5, 6);
 size(X)
@@ -84,7 +87,7 @@ size(X, [2 4])
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data>
 			<![CDATA[size(cell(4,3))]]>
 		</example_item_data>
@@ -114,5 +117,3 @@ size(X, [2 4])
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

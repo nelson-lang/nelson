@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -19,7 +19,8 @@
 	<param_input>
 		<param_input_item>
 			<param_name>omit</param_name>
-			<param_description>an integer value: Number of frames to omit (must be positive).</param_description>
+			<param_description
+      >an integer value: Number of frames to omit (must be positive).</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -30,16 +31,18 @@
 		</param_output_item>
 	</param_output>
 
-	<description><p><b>dbstack</b> displays the file names and line numbers of the function calls.</p>
+	<description><p><b
+      >dbstack</b> displays the file names and line numbers of the function calls.</p>
 	<p><b>dbstack('-completenames')</b> displays the full file names.</p>
     </description>
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>Creates a myfun.m and calls it.</example_item_description>
+		<example_item_description
+      >Creates a myfun.m and calls it.</example_item_description>
 		<example_item_data><![CDATA[function myfun(x)
 dbstack();
 end]]>
@@ -66,5 +69,3 @@ end]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

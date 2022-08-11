@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -26,19 +26,21 @@
 
 	</param_output>
 
-	<description><p><b>uint16</b> converts value to 16-bit unsigned integer type.</p>
-<p>The value is rounded to the nearest uint16 value on conversion. A value that is above or below the range for an uint16 class is mapped to one of the endpoints of the range [0, 65535].</p>
+	<description><p><b
+      >uint16</b> converts value to 16-bit unsigned integer type.</p>
+<p
+    >The value is rounded to the nearest uint16 value on conversion. A value that is above or below the range for an uint16 class is mapped to one of the endpoints of the range [0, 65535].</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = [1 -32769 -120 127 32767 32768]
 B = uint16(A)]]>
 		</example_item_data>
@@ -67,5 +69,3 @@ B = uint16(A)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

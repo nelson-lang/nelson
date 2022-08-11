@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -22,7 +22,8 @@
 
 		<param_input_item>
 			<param_name>catch_str</param_name>
-			<param_description>a string: Nelson instruction to execute if an error is detected.</param_description>
+			<param_description
+      >a string: Nelson instruction to execute if an error is detected.</param_description>
 		</param_input_item>
 		
 	</param_input>
@@ -36,25 +37,27 @@
 	</param_output>
 
 	<description><p><b>eval</b> executes Nelson instructions given in a string.</p>
-	<p>Please use <b>try catch end</b> block instead than <b>eval</b>, if you need to capture an error message for higher performance.</p>
+	<p>Please use <b>try catch end</b> block instead than <b
+      >eval</b>, if you need to capture an error message for higher performance.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[eval('B=4')]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>This example will fail and returns an error message.</example_item_description>
+		<example_item_description
+      >This example will fail and returns an error message.</example_item_description>
 		<example_item_data><![CDATA[C = eval('B=4')]]>
 		</example_item_data>
 	</example_item>
@@ -62,15 +65,17 @@
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[D = eval(4)]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description>This example will not fail and return false.</example_item_description>
-		<example_item_data><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]>
+		<example_item_description
+      >This example will not fail and return false.</example_item_description>
+		<example_item_data
+      ><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]>
 		</example_item_data>
 	</example_item>
 
@@ -100,5 +105,3 @@
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -7,24 +7,27 @@
   <short_description>switch statement.</short_description>
 
   <syntax>
-    <syntax_item>switch(expression), case test_expression_1, statements, case test_expression_2, statements, otherwise statements, end</syntax_item>
+    <syntax_item
+    >switch(expression), case test_expression_1, statements, case test_expression_2, statements, otherwise statements, end</syntax_item>
   </syntax>
 
 
   <description>
-    <p><b>switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
+    <p><b
+      >switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
     <p><b>otherwise</b> clause is optional.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>demo_switch.m</example_item_description>
-    <example_item_data><![CDATA[function c = demo_switch(a)
+    <example_item_data
+      ><![CDATA[function c = demo_switch(a)
  switch(a)
     case {'hello', 'world'}
       c = 'message';
@@ -40,8 +43,9 @@ endfunction
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[demo_switch('hello')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[demo_switch('hello')
 demo_switch('red')
 demo_switch('?')
 ]]>

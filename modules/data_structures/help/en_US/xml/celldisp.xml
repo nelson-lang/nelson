@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,15 +27,16 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[C = {2, 22, 'ff', {331, 332}};
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[C = {2, 22, 'ff', {331, 332}};
 celldisp(C)
 celldisp(C, 'var_name')]]>
 		</example_item_data>
@@ -60,5 +61,3 @@ celldisp(C, 'var_name')]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

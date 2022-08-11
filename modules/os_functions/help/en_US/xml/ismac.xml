@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>ismac</keyword>
-  <short_description>Checks if version is for MacOS platform.</short_description>
+  <short_description
+  >Checks if version is for MacOS platform.</short_description>
 
   <syntax>
     <syntax_item>s = ismac()</syntax_item>
@@ -14,7 +15,8 @@
   <param_output>
     <param_output_item>
       <param_name>s</param_name>
-      <param_description>a logical: true if it is a MacOS platform.</param_description>
+      <param_description
+      >a logical: true if it is a MacOS platform.</param_description>
     </param_output_item>
   </param_output>
 
@@ -22,14 +24,15 @@
   <description><p><b>ismac</b> checks if it is a MacOs platform.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[if ismac
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[if ismac
   disp('Your platform is MacOs')
 else
   disp('Your platform is not MacOs')
@@ -60,5 +63,3 @@ end]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -27,19 +27,21 @@
 	</param_output>
 
 	<description>
-<p><b>l = isfunction_handle(func_handle)</b> checks if <b>func_handle</b> is a function handle. Returning <b>true</b> if it is.</p>
+<p><b>l = isfunction_handle(func_handle)</b> checks if <b
+      >func_handle</b> is a function handle. Returning <b>true</b> if it is.</p>
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[fh = str2func('cos')
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[fh = str2func('cos')
 isfunction_handle(fh)
 fh = 3
 isfunction_handle(fh)]]>
@@ -70,5 +72,3 @@ isfunction_handle(fh)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

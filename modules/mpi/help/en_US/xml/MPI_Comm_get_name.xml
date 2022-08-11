@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>MPI_Comm_get_name</keyword>
-  <short_description>Return the print name from the communicator.</short_description>
+  <short_description
+  >Return the print name from the communicator.</short_description>
 
   <syntax>
     <syntax_item>MPI_Comm_get_name(comm)</syntax_item>
@@ -18,18 +19,20 @@
   </param_input>
 
   <description>
-  <p><b>MPI_Comm_get_name(comm)</b> returns the print name from the communicator.</p>
+  <p><b
+      >MPI_Comm_get_name(comm)</b> returns the print name from the communicator.</p>
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>CLI required</example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_data
+      ><![CDATA[
 if ~MPI_Initialized()
   MPI_Init();
 end
@@ -62,5 +65,3 @@ end
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

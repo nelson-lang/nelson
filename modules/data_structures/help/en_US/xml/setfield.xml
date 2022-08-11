@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -8,7 +8,8 @@
 
 	<syntax>
 		<syntax_item>stOut = setfield(stIn, fieldname, fieldvalue)</syntax_item>
-		<syntax_item>stOut = setfield(stIn, fieldname1, fieldvalue1, ..., fieldnameN, fieldvalueN)</syntax_item>
+		<syntax_item
+    >stOut = setfield(stIn, fieldname1, fieldvalue1, ..., fieldnameN, fieldvalueN)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -42,14 +43,14 @@
 	</description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[A = {};
 setfield(A, 'vv', 3)]]>
 		</example_item_data>
@@ -78,5 +79,3 @@ setfield(A, 'vv', 3)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

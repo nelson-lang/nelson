@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -43,20 +43,24 @@
 
 	<description>
 		<p><b>audioread</b> reads an audio file.</p>
-    <p>Supported format: 'wav', 'ogg', 'flac', 'mp3', 'caf', 'au', 'aiff'. See <b>audiosupportedformats</b> function to have all supported formats.</p>
-    <p>If <b>type</b> is 'native' then audio data depends on the file format (single, double, integers).</p>
+    <p
+    >Supported format: 'wav', 'ogg', 'flac', 'mp3', 'caf', 'au', 'aiff'. See <b
+      >audiosupportedformats</b> function to have all supported formats.</p>
+    <p>If <b
+      >type</b> is 'native' then audio data depends on the file format (single, double, integers).</p>
 	</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
 [y, fs] = audioread(wav_audio);
 playObj = audioplayer(y, fs);
 playblocking(playObj)
@@ -95,5 +99,3 @@ clear playObj]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

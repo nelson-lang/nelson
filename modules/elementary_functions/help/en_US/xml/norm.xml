@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -47,14 +47,14 @@
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[M = [1 2; 3 4];
 norm(M)
@@ -73,7 +73,7 @@ norm(V, 'fro')]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = ones(3000, 3000);
 tic();R = norm(x);toc]]>
@@ -100,5 +100,3 @@ tic();R = norm(x);toc]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -23,15 +23,16 @@
   <p>Do not forget to clear variable afterward.</p> 
  </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>CLI required</example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_data
+      ><![CDATA[
 if ~MPI_Initialized()
   MPI_Init();
 end
@@ -65,5 +66,3 @@ end
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

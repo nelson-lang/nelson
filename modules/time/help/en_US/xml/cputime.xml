@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>cputime</keyword>
-  <short_description>Return the CPU time used by your Nelon session.</short_description>
+  <short_description
+  >Return the CPU time used by your Nelon session.</short_description>
 
   <syntax>
     <syntax_item>t = cputime()</syntax_item>
@@ -22,14 +23,15 @@
    <p><b>cputime()</b> returns the CPU time used by Nelson session.</p>
    <p>To measure performance, it is better to use tic and toc functions.</p>
   </description>
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[t1 = cputime;
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[t1 = cputime;
 sleep(10);
 t2 = cputime;
 t2 - t1
@@ -64,5 +66,3 @@ toc()]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

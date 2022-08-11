@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
   <keyword>getLastReport</keyword>
-  <short_description>Returns last recorded formatted error message.</short_description>
+  <short_description
+  >Returns last recorded formatted error message.</short_description>
 
   <syntax>
     <syntax_item>messageText = getLastReport()</syntax_item>
@@ -14,7 +15,8 @@
   <param_output>
     <param_output_item>
       <param_name>messageText</param_name>
-      <param_description>a character vector: formatted error message.</param_description>
+      <param_description
+      >a character vector: formatted error message.</param_description>
     </param_output_item>
   </param_output>
 
@@ -23,14 +25,14 @@
   </description>
 
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[lasterror('reset')
 getLastReport()]]>
     </example_item_data>
@@ -39,8 +41,9 @@ getLastReport()]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[state = execstr('xxxxxx', 'errcatch')
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[state = execstr('xxxxxx', 'errcatch')
 l = lasterror()
 getLastReport
 ]]>
@@ -70,5 +73,3 @@ getLastReport
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

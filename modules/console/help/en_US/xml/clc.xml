@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -11,18 +11,19 @@
 	</syntax>
 	
 
-	<description><p><b>clc()</b> clears the console and move the cursor to the upper left corner.</p>
+	<description><p><b
+      >clc()</b> clears the console and move the cursor to the upper left corner.</p>
 </description>
 
 
-	<bibliography></bibliography>
+	<bibliography />
 	
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[disp('Hello');
 clc()
 ]]>

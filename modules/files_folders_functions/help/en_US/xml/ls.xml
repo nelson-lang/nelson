@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -29,26 +29,29 @@
 
 		<param_output_item>
 			<param_name>res</param_name>
-			<param_description>On Windows, res is an m-by-n character array of names. m is the number of names and n is the number of characters in the longest name. On Unix plaftorms is a character vector of names separated by tab and space characters.</param_description>
+			<param_description
+      >On Windows, res is an m-by-n character array of names. m is the number of names and n is the number of characters in the longest name. On Unix plaftorms is a character vector of names separated by tab and space characters.</param_description>
 		</param_output_item>
 
 	</param_output>
 
 	<description>
-<p><b>ls</b> is implemented by calling the native operating system's directory listing command—available options will vary from system to system.</p>
+<p><b
+      >ls</b> is implemented by calling the native operating system's directory listing command—available options will vary from system to system.</p>
 
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[res = ls(nelsonroot())
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[res = ls(nelsonroot())
 if ~ispc()
   res = ls(nelsonroot(), '-l')
 end]]>
@@ -82,5 +85,3 @@ end]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

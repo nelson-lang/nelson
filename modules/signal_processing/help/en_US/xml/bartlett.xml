@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -31,13 +31,14 @@
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[c = bartlett(8)]]>
     </example_item_data>
   </example_item>
 </examples>
 
-<bibliography>Oppenheim, Alan V., Ronald W. Schafer, and John R. Buck. Discrete-Time Signal Processing. Upper Saddle River, NJ: Prentice Hall, 1999, pp. 468–471.</bibliography>
+<bibliography
+  >Oppenheim, Alan V., Ronald W. Schafer, and John R. Buck. Discrete-Time Signal Processing. Upper Saddle River, NJ: Prentice Hall, 1999, pp. 468–471.</bibliography>
 
   <see_also>
     <see_also_item>
@@ -59,5 +60,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

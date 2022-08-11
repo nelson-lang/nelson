@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -20,22 +20,25 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a nelson variable converted from JSON.</param_description>
+      <param_description
+      >a nelson variable converted from JSON.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-  <p><b>jsondecode</b> converts JSON object field names to Nelson structure field names</p>
+  <p><b
+      >jsondecode</b> converts JSON object field names to Nelson structure field names</p>
   </description>
-  <used_function></used_function>
+  <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
 field2 = 'f2';  value2 = {'a', 'b'};
 field3 = 'f3';  value3 = {pi, pi*pi};
 field4 = 'f4';  value4 = {'fourth'};
@@ -47,8 +50,9 @@ r2 = jsondecode(r)]]>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
 jsondecode(fileread([modulepath('json'), '/examples/patient.json']))
     ]]>
     </example_item_data>
@@ -77,5 +81,3 @@ jsondecode(fileread([modulepath('json'), '/examples/patient.json']))
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

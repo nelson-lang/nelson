@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>fwrite</keyword>
-	<short_description>Write data in binary form to the file specified by the file descriptor fid.</short_description>
+	<short_description
+  >Write data in binary form to the file specified by the file descriptor fid.</short_description>
 
 	<syntax>
 		<syntax_item>count = fwrite(fid, data)</syntax_item>
@@ -38,7 +39,8 @@
 
 		<param_input_item>
 			<param_name>arch</param_name>
-			<param_description>a string specifying the data format for the file.</param_description>
+			<param_description
+      >a string specifying the data format for the file.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -51,7 +53,8 @@
 		</param_output_item>
 	</param_output>
 
-	<description><p>Write data in binary form to the file specified by the file descriptor fid.</p>
+	<description><p
+    >Write data in binary form to the file specified by the file descriptor fid.</p>
 <p>characters encoding uses <b>fopen</b> parameter.</p>
 <p>supported architecture:</p>
 <p><b>native</b> , <b>n</b>: format of the current machine.</p>
@@ -59,15 +62,16 @@
 <p><b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
 </description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[
 A = rand(3,1)
 
 fileID = fopen([tempdir(), 'doubledata.bin'],'w');
@@ -109,5 +113,3 @@ fclose(fileID);
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

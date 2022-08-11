@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -18,7 +18,8 @@
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>Value representing 2-D grid: scalar or vector.</param_description>
+      <param_description
+      >Value representing 2-D grid: scalar or vector.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Xi</param_name>
@@ -47,17 +48,18 @@
 
   <description>
     <p><b>peaks</b> function has the form:</p>
-    <p><b>f(x, y) = 3*(1-x)^2*exp(-x^2 - (y+1)^2) - 10*(x/5 - x^3 - y^5)*exp(-x^2-y^2) - 1/3*exp(-(x+1)^2 - y^2)</b></p>
+    <p><b
+      >f(x, y) = 3*(1-x)^2*exp(-x^2 - (y+1)^2) - 10*(x/5 - x^3 - y^5)*exp(-x^2-y^2) - 1/3*exp(-(x+1)^2 - y^2)</b></p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data>
       <![CDATA[x = -2:0.5:2;
 y = 1:0.2:2;
@@ -87,5 +89,3 @@ Z = peaks(X, Y)
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

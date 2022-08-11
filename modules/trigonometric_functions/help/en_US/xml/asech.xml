@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
 	<keyword>asech</keyword>
-	<short_description>Inverse hyperbolic secant of angle in radians.</short_description>
+	<short_description
+  >Inverse hyperbolic secant of angle in radians.</short_description>
 
 	<syntax>
 		<syntax_item>res = asech(x)</syntax_item>
@@ -24,15 +25,17 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>asech</b> computes the inverse hyperbolic secant of argument in radians for each element of <b>x</b>.</description>
+	<description><b
+    >asech</b> computes the inverse hyperbolic secant of argument in radians for each element of <b
+    >x</b>.</description>
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+	<used_function />
+	<bibliography />
 
 <examples>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
+		<example_item_description />
 		<example_item_data><![CDATA[x = -pi:0.75:pi;
 R = asech(x)]]>
 		</example_item_data>
@@ -61,5 +64,3 @@ R = asech(x)]]>
 		<author_item>Allan CORNET</author_item>
 	</authors>
 </xmldoc>
-
-

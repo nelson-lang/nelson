@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -36,27 +36,27 @@
 
   <description><b>repmat</b> repeats matrix or N-D array.</description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function />
+  <bibliography />
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[repmat(1:5, 2)]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[repmat(1:5, [2 3])]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[repmat(1:5, [2 3 4])]]>
     </example_item_data>
   </example_item>
@@ -80,5 +80,3 @@
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
@@ -31,7 +31,8 @@
  <param_output>
     <param_output_item>
       <param_name>k</param_name>
-      <param_description>row vector: differentiated polynomial coefficients</param_description>
+      <param_description
+      >row vector: differentiated polynomial coefficients</param_description>
     </param_output_item>
 
     <param_output_item>
@@ -46,15 +47,21 @@
   </param_output>
 
   <description>
-    <p><b>k = polyder(p)</b> return the coefficients of the derivative of the polynomial whose coefficients are given by the vector <b>p</b>.</p> 
-    <p><b>k = polyder(a, b) </b>  returns the derivative of the product of the polynomials <b>a</b> and <b>b</b>.</p> 
-    <p><b>[q, d] = polyder(a, b)</b> returns the derivative of the quotient of the polynomials <b>a</b> and <b>b</b>.</p> 
+    <p><b
+      >k = polyder(p)</b> return the coefficients of the derivative of the polynomial whose coefficients are given by the vector <b
+      >p</b>.</p> 
+    <p><b
+      >k = polyder(a, b) </b>  returns the derivative of the product of the polynomials <b
+      >a</b> and <b>b</b>.</p> 
+    <p><b
+      >[q, d] = polyder(a, b)</b> returns the derivative of the quotient of the polynomials <b
+      >a</b> and <b>b</b>.</p> 
   </description>
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
+    <example_item_description />
     <example_item_data><![CDATA[
 p = [30 0 -20 0 10 50];
 q = polyder(p)]]>
