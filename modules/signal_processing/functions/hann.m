@@ -29,7 +29,8 @@ function c = hann(varargin)
   else
     isSymetric = strcmp(opt, 'symetric');
     if ~isSymetric
-      error (_('''periodic'' or ''symmetric'' expected.'));
+      msg = _('"periodic" or "symmetric" expected.');
+      error (msg);
     end
   end
   

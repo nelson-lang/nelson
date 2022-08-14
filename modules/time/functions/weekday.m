@@ -10,11 +10,11 @@
 function varargout = weekday(varargin)
   narginchk(1, 3);
   nargoutchk(0, 2);
-
+  
   D = varargin{1};
   format = 'short';
   language = 'en_US';
-
+  
   if (nargin == 2)
     option = varargin{2};
     supportedFormat= strcmpi(option, 'long') ||  strcmpi(option, 'short') 
@@ -29,21 +29,21 @@ function varargout = weekday(varargin)
       language = option;
     end
   end
-
+  
   if (nargin == 3)
     format = varargin{2};
     supportedFormat= strcmpi(format, 'long') ||  strcmpi(format, 'short') 
     if ~supportedFormat
       error('Nelson:weekday:InvalidOption', _('"long" or "short" option expected.'));
     end
-
+    
     language = varargin{3};
     supportedLanguage = strcmpi(language, 'local') || strcmpi(language, 'en_US');
     if ~supportedLanguage
       error('Nelson:weekday:InvalidOption', _('"local" or "en_US" option expected.'));
     end
   end
- 
+  
   if (isstring(D) || iscellstr(D) || isnumeric(D))
     endsize = size(D);
   elseif (ischar(D))
