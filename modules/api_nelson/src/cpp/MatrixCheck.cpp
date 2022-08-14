@@ -104,8 +104,11 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
     A.promoteType(NLS_LOGICAL);
     B.promoteType(NLS_LOGICAL);
+
+    bool haveScalar = A.isScalar() || B.isScalar();
+
     if (A.isVector() && B.isVector()) {
-        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+        if ((A.isRowVector() && B.isRowVector()) && !haveScalar) {
             if (A.getElementCount() != B.getElementCount()) {
                 Error(std::string(_("Size mismatch on arguments to ")) + opname);
             }
@@ -113,7 +116,7 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     } else {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+        if (!(SameSizeCheck(dimsA, dimsB) || haveScalar)) {
             Error(std::string(_("Size mismatch on arguments to ")) + opname);
         }
     }
