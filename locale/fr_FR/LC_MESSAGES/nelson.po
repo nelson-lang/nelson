@@ -2681,3 +2681,39 @@ msgstr "Durée des tests :"
 
 msgid "Total time:"
 msgstr "Durée totale :"
+
+msgid "Sunday"
+msgstr "Dimanche"
+
+msgid "Monday"
+msgstr "Lundi"
+
+msgid "Tuesday"
+msgstr "Mardi"
+
+msgid "Wednesday"
+msgstr "Mercredi"
+
+msgid "Thursday"
+msgstr "Jeudi"
+
+msgid "Friday"
+msgstr "Vendredi"
+
+msgid "Saturday"
+msgstr "Samedi"
+
+msgid "Mon"
+msgstr "Lun."
+
+msgid "Tue"
+msgstr "Mar."
+
+msgid "Wed"
+msgstr "Mer."
+
+msgid "Thu"
+msgstr "Jeu."
+
+msgid "Fri"
+msgstr "Ven."

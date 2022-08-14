@@ -590,9 +590,6 @@ msgstr ""
 msgid "'void' not allowed as input type."
 msgstr ""
 
-msgid "error memory allocation."
-msgstr ""
-
 msgid "Unable to import function through FFI."
 msgstr ""
 
@@ -1108,6 +1105,9 @@ msgid "' is not a builtin."
 msgstr ""
 
 msgid "' is not a function."
+msgstr ""
+
+msgid "Invalid anonymous function."
 msgstr ""
 
 msgid "function macro name not found."
@@ -1765,6 +1765,13 @@ msgstr ""
 msgid "Argument #1: valid value expected."
 msgstr ""
 
+#, c-format
+msgid "Function : '%s'."
+msgstr ""
+
+msgid "a valid function definition expected."
+msgstr ""
+
 msgid "Complex cannot be converted to logical."
 msgstr ""
 
@@ -1820,6 +1827,9 @@ msgstr ""
 msgid ""
 "\n"
 "%d of %d:\n"
+msgstr ""
+
+msgid "Execution of the future was cancelled."
 msgstr ""
 
 msgid "Invalid LHS."
@@ -1906,10 +1916,6 @@ msgstr ""
 msgid "Conversion not possible."
 msgstr ""
 
-#, c-format
-msgid "Function : '%s'."
-msgstr ""
-
 msgid "The special variable 'varargout' was not defined as a cell-array."
 msgstr ""
 
@@ -1931,9 +1937,6 @@ msgid "Error opening file: %s"
 msgstr ""
 
 msgid "Cannot open:"
-msgstr ""
-
-msgid "a valid function definition expected."
 msgstr ""
 
 #, c-format
@@ -2212,6 +2215,9 @@ msgstr ""
 msgid "#2 parameter invalid: 'put' parameter expected."
 msgstr ""
 
+msgid "IPC resources not available."
+msgstr ""
+
 msgid "Impossible to initialize IPC."
 msgstr ""
 
@@ -2284,10 +2290,10 @@ msgstr ""
 msgid "Input(s) array must be 2 - dimensional."
 msgstr ""
 
-msgid "input matrices must be the same size."
+msgid "Undefined function 'expm' for input arguments of type"
 msgstr ""
 
-msgid "Undefined function 'expm' for input arguments of type"
+msgid "input matrices must be the same size."
 msgstr ""
 
 #, c-format
@@ -2721,13 +2727,19 @@ msgstr ""
 msgid "Cannot set environment variable."
 msgstr ""
 
-msgid "Unrecognized option. \"-echo\" or \"-parallel\" expected."
+msgid "Unrecognized option. \"-echo\" or timeout value expected."
+msgstr ""
+
+msgid "same size expected."
 msgstr ""
 
 msgid "Filename not associated to an application."
 msgstr ""
 
 msgid "'name' argument requires 3 input arguments."
+msgstr ""
+
+msgid "system does not return result."
 msgstr ""
 
 msgid "Invalid ROOTKEY value."
@@ -2749,6 +2761,15 @@ msgid "FevalFuture handle expected."
 msgstr ""
 
 msgid "FevalFuture not available"
+msgstr ""
+
+msgid "Valid states to wait for are: 'running' or 'finished'."
+msgstr ""
+
+msgid "Expected timeout to be non-negative real numerical scalar."
+msgstr ""
+
+msgid "Cannot wait for completion of Futures that are in state 'unavailable'."
 msgstr ""
 
 msgid "FevalQueue handle expected."
@@ -3662,6 +3683,18 @@ msgid "Year value is wrong [1400, 9999] expected."
 msgstr ""
 
 msgid "Month value is wrong [1, 12] expected."
+msgstr ""
+
+msgid "Failed to convert text to date number."
+msgstr ""
+
+msgid "vector double, character vector or string array expected."
+msgstr ""
+
+msgid "a date vector or string expected, all subsequent arguments are ignored."
+msgstr ""
+
+msgid "Invalid vector size must be compatible"
 msgstr ""
 
 msgid "Argument #2: 'ns' or 's' expected."
@@ -5170,6 +5203,9 @@ msgstr ""
 msgid "Input argument #2: existing directory expected."
 msgstr ""
 
+msgid "library fftw not loaded."
+msgstr ""
+
 msgid "X must be a vector or matrix."
 msgstr ""
 
@@ -5233,6 +5269,9 @@ msgid "Function %s has already been declared within this scope."
 msgstr ""
 
 msgid "Input must be square."
+msgstr ""
+
+msgid "Difference order N must be a positive integer scalar."
 msgstr ""
 
 #, python-format
@@ -5355,6 +5394,15 @@ msgstr ""
 msgid "Input to roots function must not contain NaN or Inf."
 msgstr ""
 
+msgid "M must be a positive integer."
+msgstr ""
+
+msgid "\"periodic\" or \"symmetric\" expected."
+msgstr ""
+
+msgid "library slicot not loaded."
+msgstr ""
+
 msgid "Please use speye(n), speye(m, n) or speye([m, n])."
 msgstr ""
 
@@ -5368,6 +5416,10 @@ msgid "Wrong value for input argument #1: a nonnegative integer expected."
 msgstr ""
 
 msgid "Wrong value for input argument #1: maximum value of n allowed is 2^32."
+msgstr ""
+
+#, python-format
+msgid "%s not yet implemented."
 msgstr ""
 
 msgid "Wrong value for #3 argument: 0 or 1 expected."
@@ -5426,6 +5478,63 @@ msgid "output res and ref are not equal."
 msgstr ""
 
 msgid "Cannot edit the directory: "
+msgstr ""
+
+msgid "M must be a month number from 1 to 12."
+msgstr ""
+
+msgid "Y must be an integer year number."
+msgstr ""
+
+msgid "Numeric input data must be real."
+msgstr ""
+
+msgid "\"long\" or \"short\" option expected."
+msgstr ""
+
+msgid "\"local\" or \"en_US\" option expected."
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+msgid "Three input arguments expected to return three ouput arguments."
+msgstr ""
+
+msgid "Input must be single or double."
 msgstr ""
 
 msgid "Undefined function acos for input arguments of type "
