@@ -10,14 +10,13 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    if(nrhs != 1)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
+    if (nrhs != 1) {
+        mexErrMsgTxt("Wrong number or type of input argument");
     }
     double expr = mxGetScalar(prhs[0]);
-    mxAssertS((int)expr , "ERROR");
+    mxAssertS((int)expr, "ERROR");
     plhs[0] = mxCreateString("OK");
 }
 //=============================================================================

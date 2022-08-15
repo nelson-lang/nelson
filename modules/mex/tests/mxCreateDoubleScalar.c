@@ -10,11 +10,10 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    if(nrhs != 0)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
+    if (nrhs != 0) {
+        mexErrMsgTxt("Wrong number or type of input argument");
     }
     plhs[0] = mxCreateDoubleScalar(33.);
 }

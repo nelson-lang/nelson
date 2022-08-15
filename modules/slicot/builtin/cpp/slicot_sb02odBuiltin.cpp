@@ -125,7 +125,8 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* LDT_ptr = (int*)LDT.getDataPointer();
     LDT_ptr[0] = (JOBB.getContentAsCString().compare("B") == 0)
         ? std::max(1, 2 * (int)A.getRows() + (int)B.getColumns())
-        : (DICO.getContentAsCString().compare("D") == 0) ? std::max(1, 2 * (int)A.getRows()) : 1;
+        : (DICO.getContentAsCString().compare("D") == 0) ? std::max(1, 2 * (int)A.getRows())
+                                                         : 1;
     ArrayOf LDU = ArrayOf::int32VectorConstructor(1);
     int* LDU_ptr = (int*)LDU.getDataPointer();
     LDU_ptr[0] = std::max(1, 2 * (int)A.getRows());

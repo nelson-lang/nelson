@@ -173,7 +173,8 @@ DisplayInteger(
 void
 DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{}
+{
+}
 //=============================================================================
 void
 Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,

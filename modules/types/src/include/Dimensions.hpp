@@ -50,7 +50,7 @@ private:
     /**
      * The number of dimensions currently allocated.
      */
-    indexType length{ 0 };
+    indexType length { 0 };
     //=============================================================================
 public:
     //=============================================================================
@@ -88,7 +88,8 @@ public:
      * our contents to $$[2,3,1]$$.
      * Throws an exception if the argument is bigger tha maxIndex.
      */
-    indexType& operator[](indexType i);
+    indexType&
+    operator[](indexType i);
     //=============================================================================
     /**
      * Return a reference to the ith dimension.

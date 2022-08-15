@@ -23,11 +23,13 @@ static bool audioInitialized = false;
 #if !defined(__APPLE__) && !defined(__MACH__) && !defined(_MSC_VER)
 void
 alsa_error_handler(const char* file, int line, const char* function, int err, const char* fmt, ...)
-{}
+{
+}
 //=============================================================================
 void
 jack_error_handler(const char* text)
-{}
+{
+}
 //=============================================================================
 static void
 disableAlsaError()

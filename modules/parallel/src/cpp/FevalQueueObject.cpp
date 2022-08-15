@@ -65,7 +65,7 @@ FevalQueueObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalQueueObject::~FevalQueueObject() {}
+FevalQueueObject::~FevalQueueObject() { }
 //=============================================================================
 void
 FevalQueueObject::add(FevalFutureObject* fevalFutureObject)

@@ -56,9 +56,9 @@ Calendar::~Calendar()
 std::wstring
 Calendar::getAsFormatedText()
 {
-    boost::gregorian::date d1{ (boost::gregorian::gregorian_calendar::year_type)(unsigned short)y,
+    boost::gregorian::date d1 { (boost::gregorian::gregorian_calendar::year_type)(unsigned short)y,
         (boost::gregorian::gregorian_calendar::month_type)m, 1 };
-    boost::gregorian::date d2{ d1.end_of_month() };
+    boost::gregorian::date d2 { d1.end_of_month() };
     boost::gregorian::date_period month_period(d1, d2);
     wstringVector names = getNameOfDays();
     std::wstring msg = getMonthName() + L" " + std::to_wstring(getYear()) + L"\n";
@@ -105,9 +105,9 @@ Calendar::getAsFormatedText()
 ArrayOf
 Calendar::get()
 {
-    boost::gregorian::date d1{ (boost::gregorian::gregorian_calendar::year_type)(unsigned short)y,
+    boost::gregorian::date d1 { (boost::gregorian::gregorian_calendar::year_type)(unsigned short)y,
         (boost::gregorian::gregorian_calendar::month_type)m, 1 };
-    boost::gregorian::date d2{ d1.end_of_month() };
+    boost::gregorian::date d2 { d1.end_of_month() };
     boost::gregorian::date_period month_period(d1, d2);
     double* Month = static_cast<double*>(ArrayOf::allocateArrayOf(
         NLS_DOUBLE, NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX, stringVector(), true));

@@ -56,7 +56,9 @@ dataInterProcessToExchange::isFullySerialized()
     case SET_MINIMIZE: {
         return true;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return false;
 }
 //=============================================================================

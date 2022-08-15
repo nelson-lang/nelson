@@ -10,20 +10,17 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    if (nrhs !=1) {
-        mexErrMsgIdAndTxt( "Nelson:minrhs",
-                "No input arguments required.");
-    } 
-    if(nlhs > 1){
-        mexErrMsgIdAndTxt( "Nelson:maxrhs",
-                "Too many output arguments.");
+    if (nrhs != 1) {
+        mexErrMsgIdAndTxt("Nelson:minrhs", "No input arguments required.");
+    }
+    if (nlhs > 1) {
+        mexErrMsgIdAndTxt("Nelson:maxrhs", "Too many output arguments.");
     }
 
     if (mexCallMATLAB(1, plhs, 1, prhs, "sin") != 0) {
-        mexErrMsgTxt( "error");
+        mexErrMsgTxt("error");
     }
-
 }
 //=============================================================================

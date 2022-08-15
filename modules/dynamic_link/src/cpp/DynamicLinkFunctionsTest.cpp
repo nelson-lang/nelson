@@ -21,7 +21,8 @@ extern "C"
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP void
     dynlibTestReturnTypeVoid(void)
-    {}
+    {
+    }
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP uint8_t
     dynlibTestReturnTypeScalarUInt8(void)

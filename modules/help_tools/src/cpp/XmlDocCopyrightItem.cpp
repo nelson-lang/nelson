@@ -17,7 +17,8 @@
 namespace Nelson {
 //=============================================================================
 XmlDocCopyrightItem::XmlDocCopyrightItem(std::wstring copyright) : _copyright(std::move(copyright))
-{}
+{
+}
 //=============================================================================
 XmlDocCopyrightItem::~XmlDocCopyrightItem() { this->_copyright.clear(); }
 //=============================================================================

@@ -25,7 +25,7 @@ private:
     MPI_Comm comm;
 
 public:
-    MPI_CommObject(MPI_Comm _comm) : comm(_comm) {}
+    MPI_CommObject(MPI_Comm _comm) : comm(_comm) { }
     ~MPI_CommObject() = default;
     MPI_Comm
     getComm()

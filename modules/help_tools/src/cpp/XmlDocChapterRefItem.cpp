@@ -21,7 +21,8 @@ XmlDocChapterRefItem::XmlDocChapterRefItem(
     : _description(std::move(description))
     , _linkname(std::move(linkname))
     , _linkurl(std::move(linkurl))
-{}
+{
+}
 //=============================================================================
 XmlDocChapterRefItem::~XmlDocChapterRefItem()
 {

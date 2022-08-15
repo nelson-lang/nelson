@@ -63,7 +63,9 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     case NLS_UINT64: {
         type_id = H5Tcopy(H5T_NATIVE_UINT64);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     Dimensions dimsValue = VariableValue.getDimensions();
     hsize_t* dimsAsHsize_t = nullptr;
     indexType nbElementsSizeData;

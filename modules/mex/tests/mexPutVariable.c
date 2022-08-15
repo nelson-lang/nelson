@@ -10,18 +10,18 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     if (nlhs > 1) {
-       mexErrMsgTxt("Wrong number of output argument.");
+        mexErrMsgTxt("Wrong number of output argument.");
     }
     if (nrhs != 3) {
         mexErrMsgTxt("Wrong number of input argument.");
     }
     int ret = 1;
-    char *workspace = mxArrayToString(prhs[0]);
-    char *name = mxArrayToString(prhs[1]);
-    mxArray *var = prhs[2];
+    char* workspace = mxArrayToString(prhs[0]);
+    char* name = mxArrayToString(prhs[1]);
+    mxArray* var = prhs[2];
     ret = mexPutVariable(workspace, name, var);
     plhs[0] = ret == 0 ? mxCreateString("OK") : mxCreateString("KO");
 }

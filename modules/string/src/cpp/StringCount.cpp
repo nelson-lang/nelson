@@ -84,7 +84,7 @@ StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
                 for (size_t l = 0; l < nbPattern; l++) {
                     result[k] = result[k]
                         + countString(cellA[k].getContentAsWideString(),
-                              cellPattern[l].getContentAsWideString(), bCaseSensitive);
+                            cellPattern[l].getContentAsWideString(), bCaseSensitive);
                 }
             }
             res = ArrayOf(NLS_DOUBLE, dimA, result);

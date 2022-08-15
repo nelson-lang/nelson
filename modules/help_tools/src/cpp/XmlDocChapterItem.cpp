@@ -16,7 +16,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocChapterItem::XmlDocChapterItem(std::wstring chapter) : _chapter(std::move(chapter)) {}
+XmlDocChapterItem::XmlDocChapterItem(std::wstring chapter) : _chapter(std::move(chapter)) { }
 //=============================================================================
 XmlDocChapterItem::~XmlDocChapterItem() { this->_chapter.clear(); }
 //=============================================================================

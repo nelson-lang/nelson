@@ -59,7 +59,8 @@ static std::wstring* errorBuffer = nullptr;
 //=============================================================================
 static void
 errorFunctionWithoutOutput(void* ctx, const char* msg, ...)
-{}
+{
+}
 //=============================================================================
 void
 errorFunction(void* ctx, const char* msg, ...)

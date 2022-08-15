@@ -94,7 +94,9 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         case NLS_STRING_ARRAY:
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     if (classPrecision == NLS_CHAR) {
         std::string encoding = wstring_to_utf8(fp->getEncoding());

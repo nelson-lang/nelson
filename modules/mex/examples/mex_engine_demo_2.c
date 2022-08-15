@@ -12,28 +12,29 @@
 #include <string.h>
 #include "engine.h"
 //=============================================================================
-int main(int argc, char *argv[])
+int
+main(int argc, char* argv[])
 {
- 	Engine *ep = NULL;
-	char buffer[256], cmd[256];
-	if (!(ep = engOpen(""))) {
-		fprintf(stderr, "\nCan't start Nelson engine.\n");
-		exit(-1);
-	}
+    Engine* ep = NULL;
+    char buffer[256], cmd[256];
+    if (!(ep = engOpen(""))) {
+        fprintf(stderr, "\nCan't start Nelson engine.\n");
+        exit(-1);
+    }
 
-	engOutputBuffer(ep, buffer, 256);
-	
-	while (strcmp(cmd, "exit\n") != 0) {
-		printf("\nEnter a Nelson command to evaluate.\n");
-		printf("For example: X = 1:5\n");
-		printf("To finish: exit\n");
-		printf(">> ");
-		fgets(cmd, 255, stdin);
-	
-		engEvalString(ep, cmd);
-		printf("%s", buffer);
-	}
-	engClose(ep);
-	return EXIT_SUCCESS;
+    engOutputBuffer(ep, buffer, 256);
+
+    while (strcmp(cmd, "exit\n") != 0) {
+        printf("\nEnter a Nelson command to evaluate.\n");
+        printf("For example: X = 1:5\n");
+        printf("To finish: exit\n");
+        printf(">> ");
+        fgets(cmd, 255, stdin);
+
+        engEvalString(ep, cmd);
+        printf("%s", buffer);
+    }
+    engClose(ep);
+    return EXIT_SUCCESS;
 }
 //=============================================================================

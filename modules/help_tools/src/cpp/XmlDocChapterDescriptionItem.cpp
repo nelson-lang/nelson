@@ -18,7 +18,8 @@ namespace Nelson {
 //=============================================================================
 XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(std::wstring description)
     : _description(std::move(description))
-{}
+{
+}
 //=============================================================================
 XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_description.clear(); }
 //=============================================================================

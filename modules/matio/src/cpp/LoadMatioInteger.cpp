@@ -81,7 +81,9 @@ LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& Va
             case NLS_UINT64: {
                 complexIntegerTocomplexDouble<uint64>(cplx, dims.getElementCount(), ptrDouble);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
             VariableValue = ArrayOf(NLS_DCOMPLEX, dims, ptr);
             bSuccess = true;
         } else {

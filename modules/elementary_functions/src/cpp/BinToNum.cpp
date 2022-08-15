@@ -26,7 +26,9 @@ isValidLength(size_t len)
     case 32:
     case 64:
         return true;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return false;
 }
 //=============================================================================
@@ -138,7 +140,9 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
                 values[k] = bin2double(strs[k]);
             }
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return res;
 }

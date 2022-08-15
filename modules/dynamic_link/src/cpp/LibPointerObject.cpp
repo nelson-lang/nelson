@@ -122,7 +122,8 @@ LibPointerObject::~LibPointerObject()
 //=============================================================================
 void
 LibPointerObject::disp(Interface* io)
-{}
+{
+}
 //=============================================================================
 void*
 LibPointerObject::getPointer()

@@ -33,7 +33,7 @@ changeToDarkTheme()
     QFile file(darkThemeFullFilename);
     if (file.exists()) {
         file.open(QFile::ReadOnly);
-        QString styleSheet{ file.readAll() };
+        QString styleSheet { file.readAll() };
         qApp->setStyleSheet(styleSheet);
     }
 }

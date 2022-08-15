@@ -84,7 +84,9 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
         case NLS_CHAR: {
             Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
@@ -154,7 +156,9 @@ scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
         case NLS_CHAR: {
             Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
@@ -224,7 +228,9 @@ matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
         case NLS_CHAR: {
             Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
@@ -295,7 +301,9 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
             m++;
         }
     }
@@ -368,7 +376,9 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
             m++;
         }
     }
@@ -440,7 +450,9 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         q++;
     }
@@ -512,7 +524,9 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         q++;
     }
@@ -584,7 +598,9 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
@@ -654,7 +670,9 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
             case NLS_CHAR: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);

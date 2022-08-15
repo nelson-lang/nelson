@@ -81,7 +81,9 @@ getNominalWidth(const FormatDisplayInformation& formatInfo)
         } break;
         case NLS_NUMERIC_FORMAT_PLUS:
             nominalWidth = 1;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return nominalWidth;
 }
@@ -364,7 +366,9 @@ formatElementComplex(double realPart, double ImagPart, const FormatDisplayInform
         result.append(L"i");
 
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
@@ -500,7 +504,9 @@ formatElementComplex(single realPart, single ImagPart, const FormatDisplayInform
             formatRational(fabs(ImagPart), formatInfo.widthImag, formatInfo.widthImag - 1, true));
         result.append(L"i");
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================

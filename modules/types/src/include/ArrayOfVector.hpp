@@ -30,7 +30,7 @@ public:
     //=============================================================================
     inline ListVector(const T& val) { vector.push_back(val); }
     //=============================================================================
-    inline ListVector(const ListVector& copy) : vector(copy.vector) {}
+    inline ListVector(const ListVector& copy) : vector(copy.vector) { }
     //=============================================================================
     inline ~ListVector() = default;
     //=============================================================================
@@ -123,9 +123,17 @@ public:
         return vector.back();
     }
     //=============================================================================
-    inline T& operator[](size_t i) { return vector[i]; }
+    inline T&
+    operator[](size_t i)
+    {
+        return vector[i];
+    }
     //=============================================================================
-    inline const T& operator[](size_t i) const { return vector[i]; }
+    inline const T&
+    operator[](size_t i) const
+    {
+        return vector[i];
+    }
     //=============================================================================
     [[nodiscard]] inline const T&
     at(size_t i) const

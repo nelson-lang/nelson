@@ -10,13 +10,12 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     int fieldnumber = -1;
     mxArray* ptr = NULL;
-    if(nrhs != 1)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument.");
+    if (nrhs != 1) {
+        mexErrMsgTxt("Wrong number or type of input argument.");
     }
     ptr = mxDuplicateArray(prhs[0]);
     fieldnumber = mxAddField(ptr, "field_added");

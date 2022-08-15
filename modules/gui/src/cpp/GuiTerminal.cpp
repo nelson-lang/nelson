@@ -210,7 +210,8 @@ GuiTerminal::getBufferScreenLine()
 //=============================================================================
 void
 GuiTerminal::setBufferScreenLine(int newMax)
-{}
+{
+}
 //=============================================================================
 bool
 GuiTerminal::isAtPrompt()

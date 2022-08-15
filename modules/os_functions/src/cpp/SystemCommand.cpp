@@ -132,8 +132,8 @@ public:
                 if ((timeout != 0)
                     && (std::chrono::duration_cast<std::chrono::seconds>(
                             _currentTimePoint - _beginTimePoint)
-                               .count()
-                           >= (long long)timeout)) {
+                            .count()
+                        >= (long long)timeout)) {
                     _terminate = true;
                 }
                 if (_terminate) {

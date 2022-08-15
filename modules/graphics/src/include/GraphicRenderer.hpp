@@ -19,9 +19,7 @@ public:
     GraphicRenderer() = default;
     ;
     virtual ~GraphicRenderer() = default;
-    virtual void
-    clear(std::vector<double>)
-        = 0;
+    virtual void clear(std::vector<double>) = 0;
     ;
 };
 //=============================================================================

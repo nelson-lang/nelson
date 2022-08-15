@@ -10,11 +10,12 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    mxArray* pOut = NULL;;
-    if(nrhs != 1) {
-       mexErrMsgTxt("Wrong number or type of input argument");
+    mxArray* pOut = NULL;
+    ;
+    if (nrhs != 1) {
+        mexErrMsgTxt("Wrong number or type of input argument");
     }
     plhs[0] = mxDuplicateArray(prhs[0]);
 }

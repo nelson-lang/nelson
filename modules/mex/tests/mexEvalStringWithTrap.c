@@ -10,18 +10,18 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     if (nlhs != 1) {
         mexErrMsgIdAndTxt("Nelson:mexevalstring:nOutput", "One output arguments required.");
-    } 
-    mxArray *MException;
-    if(nrhs ==1){
+    }
+    mxArray* MException;
+    if (nrhs == 1) {
         MException = mexEvalStringWithTrap("B = 100");
     } else {
         MException = mexEvalStringWithTrap("NOT_EXIST");
     }
-    if (MException == NULL){
+    if (MException == NULL) {
         plhs[0] = mxCreateString("It works !!!");
     } else {
         plhs[0] = MException;

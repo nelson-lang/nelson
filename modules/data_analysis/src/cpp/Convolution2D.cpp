@@ -187,7 +187,9 @@ Conv2dDispatch(const ArrayOf& X, const ArrayOf& Y, indexType Cm, indexType Cn, i
         Conv2Complex<single>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(), Y.getRows(),
             Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================

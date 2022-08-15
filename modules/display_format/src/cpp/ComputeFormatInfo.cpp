@@ -226,7 +226,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         if (allInteger) {
             switch (currentNumericFormat) {
@@ -329,7 +331,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             case NLS_NUMERIC_FORMAT_HEX: {
                 formatInfo.scaleFactor = 1;
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         } else {
             formatInfo.floatAsInteger = false;
             switch (currentNumericFormat) {
@@ -404,7 +408,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             } break;
             case NLS_NUMERIC_FORMAT_HEX: {
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
     }
     return formatInfo;
@@ -637,7 +643,9 @@ getArrayOfFormatInfo(bool asSingle, bool asComplex, NumericFormatDisplay current
         formatInfo.decimalsImag = 0;
         formatInfo.formatImag = L"%*s";
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return formatInfo;
 }
 //=============================================================================
@@ -956,7 +964,9 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
             formatInfo.trim = true;
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return formatInfo;
 }
 //=============================================================================

@@ -194,7 +194,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isMinimizedAnswerAvailable = true;
         res = true;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================

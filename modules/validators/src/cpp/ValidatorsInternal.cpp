@@ -557,7 +557,9 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
         double value = ArrayOf(c).getContentAsDoubleScalar();
         valueAsString = fmt::to_wstring(value);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     std::wstring msg;
     if (valueAsString.empty()) {
         msg = defaultMessage;
@@ -624,7 +626,7 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
     if (!mustBeGreaterThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than %s."),
-                  _W("Value must be greater than compared value."));
+                _W("Value must be greater than compared value."));
         std::wstring id = L"Nelson:validators:mustBeGreaterThan";
         Error(msg, id, asCaller);
     }
@@ -687,7 +689,7 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
     if (!mustBeLessThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than %s."),
-                  _W("Value must be less than compared value."));
+                _W("Value must be less than compared value."));
         std::wstring id = L"Nelson:validators:mustBeLessThan";
         Error(msg, id, asCaller);
     }
@@ -752,7 +754,7 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     if (!mustBeGreaterThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than or equal to %s."),
-                  _W("Value must be greater than or equal to compared value."));
+                _W("Value must be greater than or equal to compared value."));
         std::wstring id = L"Nelson:validators:mustBeGreaterThanOrEqual";
         Error(msg, id, asCaller);
     }
@@ -816,7 +818,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     if (!mustBeLessThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than or equal to %s."),
-                  _W("Value must be less than or equal to compared value."));
+                _W("Value must be less than or equal to compared value."));
         std::wstring id = L"Nelson:validators:mustBeLessThanOrEqual";
         Error(msg, id, asCaller);
     }

@@ -32,7 +32,7 @@ private:
         key_type key;
         value_type val;
         Entry* next;
-        Entry(key_type k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) {}
+        Entry(key_type k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) { }
     };
     //=============================================================================
     Entry* hashTable[SYMTAB];

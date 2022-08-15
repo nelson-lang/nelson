@@ -77,7 +77,9 @@ realComparatorNotEquals(
         auto* ptrB = static_cast<charType*>(vptrB);
         return static_cast<Nelson::logical>(ptrA[idxA] != ptrB[idxB]);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -98,7 +100,9 @@ complexComparatorNotEquals(
         return static_cast<Nelson::logical>(
             (ptrA[2 * idxA] != ptrB[2 * idxB]) || (ptrA[2 * idxA + 1] != ptrB[2 * idxB + 1]));
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================

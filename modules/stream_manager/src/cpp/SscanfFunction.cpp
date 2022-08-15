@@ -625,7 +625,9 @@ endLoopWscanf:
                     v.push_back(ptr[k]);
                 }
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         ArrayOfVector promoted;
         double* ptr
@@ -638,7 +640,9 @@ endLoopWscanf:
     } break;
     case AS_NONE: {
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return value;
 }
 //=============================================================================

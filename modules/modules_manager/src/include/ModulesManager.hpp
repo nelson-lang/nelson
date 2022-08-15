@@ -57,7 +57,7 @@ public:
 
 private:
     ModulesManager();
-    ModulesManager(ModulesManager const& /*unused*/){};
+    ModulesManager(ModulesManager const& /*unused*/) {};
     static ModulesManager m_pInstance;
     std::vector<mapElement> modulesMap;
     versionElement

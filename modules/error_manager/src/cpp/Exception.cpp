@@ -39,12 +39,14 @@ Exception::Exception(const std::string& msg_in, std::vector<PositionScript> posi
     : backtrace(std::move(positions))
     , identifier(utf8_to_wstring(identifier_in))
     , msg(utf8_to_wstring(msg_in))
-{}
+{
+}
 //=============================================================================
 Exception::Exception(
     std::wstring msg_in, std::vector<PositionScript> positions, std::wstring identifier_in)
     : backtrace(std::move(positions)), identifier(std::move(identifier_in)), msg(std::move(msg_in))
-{}
+{
+}
 //=============================================================================
 Exception::Exception(
     const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)
@@ -226,7 +228,7 @@ Exception::getFormattedErrorMessage() const
                 }
                 message = message
                     + str(boost::wformat(_W("at line %5d of \'%s\'\n")) % traces[pos].getLine()
-                          % filename);
+                        % filename);
             }
         }
     }

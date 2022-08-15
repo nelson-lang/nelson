@@ -148,7 +148,9 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
         case NLS_UINT64: {
             buffer = &uint64_scalar;
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         if (data.isCharacterArray()) {
             std::wstring value = data.getContentAsWideString();

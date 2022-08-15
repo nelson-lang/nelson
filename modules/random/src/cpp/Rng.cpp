@@ -57,7 +57,9 @@ RngSetSeed(double seed)
         auto s = static_cast<uint32>(seed);
         randEngine->setSeed(s);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 ArrayOf
@@ -86,7 +88,9 @@ RngGetSeed()
             NelsonConfiguration::getInstance()->getRandomEngine());
         res = ArrayOf::uint32Constructor(randEngine->getSeed());
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================
@@ -143,7 +147,9 @@ RngGetState()
         dims[1] = 1;
         state = ArrayOf(NLS_UINT32, dims, mat, false);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return state;
 }
 //=============================================================================
@@ -194,7 +200,9 @@ RngShuffle()
             NelsonConfiguration::getInstance()->getRandomEngine());
         randEngine->setSeed(newseed);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 bool
@@ -219,7 +227,9 @@ RngSetEngine(double seed, const std::wstring& engineName)
             RandomLaggedFibonacci607* tmp = new RandomLaggedFibonacci607();
             NelsonConfiguration::getInstance()->setRandomEngine((void*)tmp);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
             Error(_W("random engine not initialized."));
         }
@@ -319,7 +329,9 @@ RngSetState(const ArrayOf& st)
             Error(_W("type of state must be uint32."));
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return false;
 }
 //=============================================================================

@@ -241,7 +241,8 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
 //=============================================================================
 void
 Context::printMe()
-{}
+{
+}
 //=============================================================================
 void
 Context::enterLoop()

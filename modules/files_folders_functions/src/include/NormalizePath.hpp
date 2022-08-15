@@ -23,9 +23,9 @@ isDrive(const std::wstring& pathname)
     return boost::algorithm::ends_with(pathname, L":/")
         || boost::algorithm::ends_with(pathname, L":\\")
         || (boost::algorithm::ends_with(pathname, L":")
-               && (!boost::algorithm::contains(pathname, L".")
-                      && !boost::algorithm::contains(pathname, L"/")
-                      && !boost::algorithm::contains(pathname, L"\\")));
+            && (!boost::algorithm::contains(pathname, L".")
+                && !boost::algorithm::contains(pathname, L"/")
+                && !boost::algorithm::contains(pathname, L"\\")));
 #else
     return false;
 #endif

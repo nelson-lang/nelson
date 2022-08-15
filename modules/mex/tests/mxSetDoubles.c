@@ -10,21 +10,21 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-#if defined (MX_HAS_INTERLEAVED_COMPLEX)
-  mxArray *pa = mxCreateDoubleMatrix (2, 1, mxREAL);
-  mxDouble *pd  = mxGetDoubles(pa);
-  mxDouble *dt = mxMalloc(2 * sizeof(mxDouble));
-  dt[0] = 33;
-  dt[1] = 44;
-  mxFree(pd);  
-  mxSetDoubles(pa, dt);
-  plhs[0] = pa;
-  int i;
-  for (i = 1; i < nlhs; i++) {
-      plhs[i] = mxCreateDoubleMatrix (0, 0, mxREAL);
-  }
+#if defined(MX_HAS_INTERLEAVED_COMPLEX)
+    mxArray* pa = mxCreateDoubleMatrix(2, 1, mxREAL);
+    mxDouble* pd = mxGetDoubles(pa);
+    mxDouble* dt = mxMalloc(2 * sizeof(mxDouble));
+    dt[0] = 33;
+    dt[1] = 44;
+    mxFree(pd);
+    mxSetDoubles(pa, dt);
+    plhs[0] = pa;
+    int i;
+    for (i = 1; i < nlhs; i++) {
+        plhs[i] = mxCreateDoubleMatrix(0, 0, mxREAL);
+    }
 #endif
 }
 //=============================================================================

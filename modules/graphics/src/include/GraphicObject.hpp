@@ -47,9 +47,9 @@ public:
     unsigned
     referenceCount();
     virtual void
-    registerProperties(){};
+    registerProperties() {};
     virtual void
-    refreshProperties(){};
+    refreshProperties() {};
     void
     setType(const std::string& objectType);
     bool
