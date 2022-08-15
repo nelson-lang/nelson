@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `etime`: Time elapsed between date vectors.
   - `date`: Current date as character vector.
   - `timeit`: Measure time required to run function.
+  - `addtodate`: Modify date number by field.
 
 - trigonometric functions:
 
