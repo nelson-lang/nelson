@@ -20,16 +20,18 @@ see [BUILDING.md](https://github.com/Nelson-numerical-software/nelson/blob/maste
 
 ## Indent C/C++ code
 
+- easy way, available on all platforms:
+
+```
+nvm use
+npm i
+npm run prettier:clang-format
+```
+
 - on Macos X and Linux, you need to install clang-format > 3.8. On root directory:
 
 ```
 make clang-format
-```
-
-- on Windows, go to /tools/clang_format directory
-
-```
-clang_format.bat
 ```
 
 Indentation uses webkit coding style see .clang-format
