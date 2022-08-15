@@ -129,6 +129,7 @@ evaluateFunctionWithTimerRaw(
             }
         }
     }
+    std::sort(runtime.begin(), runtime.end());
     double median = runtime[runtime.size() / 2];
     return (double)median;
 }
