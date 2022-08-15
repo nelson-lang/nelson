@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   prettier_check:
-    name: Ubuntu-22.04 Jammy
+    name: "Prettier - Ubuntu"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -15,7 +15,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v2
         with:
-          node-version: "14.18"
+          node-version: "16.16"
 
       - name: npm install
         run: |
