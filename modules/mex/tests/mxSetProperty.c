@@ -15,18 +15,19 @@
 #else
 #define GRAPHIC_OBJECT_TYPE "graphics"
 #endif
-#define BLUE_INDEX  2
+#define BLUE_INDEX 2
 #define GREEN_INDEX 1
-#define RED_INDEX   0
+#define RED_INDEX 0
 //=============================================================================
-void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+void
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    const char *objectClassName;
-    mxArray *color_ptr = NULL;
-    mxArray *value = NULL;
-    double *color = NULL; 
+    const char* objectClassName;
+    mxArray* color_ptr = NULL;
+    mxArray* value = NULL;
+    double* color = NULL;
     const char* colorProperty = "Color";
-    
+
     if (nlhs > 1) {
         mexErrMsgTxt("Too many output arguments.");
     }
@@ -42,16 +43,16 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
     color_ptr = mxGetProperty(prhs[0], 0, colorProperty);
     if (color_ptr == NULL) {
-      mexErrMsgTxt("Cannot get property.");
+        mexErrMsgTxt("Cannot get property.");
     }
-    
+
     value = mxDuplicateArray(color_ptr);
     color = mxGetPr(value);
-    
+
     color[RED_INDEX] = color[RED_INDEX] / 4;
     color[GREEN_INDEX] = color[GREEN_INDEX] / 4;
     color[BLUE_INDEX] = color[BLUE_INDEX] / 4;
-    
+
     plhs[0] = mxDuplicateArray(prhs[0]);
     mxSetProperty(plhs[0], 0, colorProperty, value);
 }

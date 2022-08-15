@@ -68,7 +68,8 @@ DisplaySingle(
 void
 DisplayEmptySingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{}
+{
+}
 //=============================================================================
 void
 DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,

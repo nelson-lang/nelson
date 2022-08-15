@@ -11,20 +11,18 @@
 #include <string.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    const char *str = "It works !!!";
-    mxArray *ma = mxCreateString(str);
+    const char* str = "It works !!!";
+    mxArray* ma = mxCreateString(str);
 
     if (nrhs != 0) {
-        mexErrMsgIdAndTxt( "Nelson:minrhs",
-                "No input arguments required.");
-    } 
-    if(nlhs > 1){
-        mexErrMsgIdAndTxt( "Nelson:maxrhs",
-                "Too many output arguments.");
+        mexErrMsgIdAndTxt("Nelson:minrhs", "No input arguments required.");
     }
-    char *tmp = (char*) mxMalloc(strlen(str) * sizeof(char));
+    if (nlhs > 1) {
+        mexErrMsgIdAndTxt("Nelson:maxrhs", "Too many output arguments.");
+    }
+    char* tmp = (char*)mxMalloc(strlen(str) * sizeof(char));
     mxGetNChars(ma, tmp, 2);
     plhs[0] = mxCreateString(tmp);
 }

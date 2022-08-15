@@ -281,7 +281,9 @@ Find(const ArrayOfVector& argIn, int nLhs, bool& needToOverload)
     case 3: {
         return FindTrim(RCVFindModeFull(x), k, first_flag);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return retval;
 }
 //=============================================================================

@@ -176,7 +176,9 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
             CallMexBuiltin(fptr, inputs, nargout, outputs, interleavedComplex);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         std::string error_message = "";
         switch (error_code) {

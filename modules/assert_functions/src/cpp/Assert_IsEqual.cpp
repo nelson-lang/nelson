@@ -24,8 +24,8 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
     if ((computedArray.isCharacterArray()
             && (computedArray.isRowVector() || computedArray.isScalar() || computedArray.isEmpty()))
         && (expectedArray.isCharacterArray()
-               && (expectedArray.isRowVector() || expectedArray.isScalar()
-                      || expectedArray.isEmpty()))) {
+            && (expectedArray.isRowVector() || expectedArray.isScalar()
+                || expectedArray.isEmpty()))) {
         std::wstring computed = computedArray.getContentAsWideString();
         std::wstring expected = expectedArray.getContentAsWideString();
         message = fmt::sprintf(

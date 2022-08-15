@@ -13,20 +13,21 @@
 #define FULLNAME "fullname"
 #define DATE "date"
 //=============================================================================
-struct agenda {
+struct agenda
+{
     const char* fullname;
     double date;
 };
 //=============================================================================
-void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
-    const char* field_names[] = {FULLNAME, DATE};
-    struct agenda contacts[] = {{"Michael B.", 11122016},
-                                  {"Pierre P.",  11122017},
-                                  {"Nicolas M.", 11122018},
-                                  {"Manu T.",   11122019}};
+void
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
+{
+    const char* field_names[] = { FULLNAME, DATE };
+    struct agenda contacts[] = { { "Michael B.", 11122016 }, { "Pierre P.", 11122017 },
+        { "Nicolas M.", 11122018 }, { "Manu T.", 11122019 } };
     mwIndex i = 0;
     mwIndex numberOfStructs = sizeof(contacts) / sizeof(struct agenda);
-    mwSize dims[2] = {numberOfStructs, 1};
+    mwSize dims[2] = { numberOfStructs, 1 };
     int fullnameIndex = 0;
     int dateIndex = 0;
 

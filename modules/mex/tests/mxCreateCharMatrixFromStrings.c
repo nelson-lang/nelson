@@ -13,13 +13,13 @@
 #define TOTAL_ELEMENTS 4
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    char *strings[3];
+    char* strings[3];
     strings[0] = "value";
     strings[1] = "another value";
     strings[2] = "another value longest";
-    mxArray *pOut = mxCreateCharMatrixFromStrings(3, strings);
+    mxArray* pOut = mxCreateCharMatrixFromStrings(3, strings);
     plhs[0] = pOut;
 }
 //=============================================================================

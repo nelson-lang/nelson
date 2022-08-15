@@ -18,7 +18,7 @@ StackEntry::StackEntry(const std::string& cntxt, const std::string& det, int id)
     tokid = id;
 }
 //=============================================================================
-StackEntry::StackEntry() : cname("base"), detail("base") {}
+StackEntry::StackEntry() : cname("base"), detail("base") { }
 //=============================================================================
 StackEntry::~StackEntry() = default;
 //=============================================================================

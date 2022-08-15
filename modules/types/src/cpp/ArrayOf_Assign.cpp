@@ -734,7 +734,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, dp->fieldNames.size(), advance);
             break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         delete[] indx;
         dp->dimensions.simplify();
     } catch (const Exception& e) {

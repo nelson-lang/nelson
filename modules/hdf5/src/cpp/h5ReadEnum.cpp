@@ -184,7 +184,9 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
                 status = H5Tenum_nameof(type_id, &ptrAsINT64[i], name, LENGTH_NAME_MAX);
             }
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         elements[i] = ArrayOf::characterArrayConstructor(name);
     }
     if (ptrAsUINT8) {

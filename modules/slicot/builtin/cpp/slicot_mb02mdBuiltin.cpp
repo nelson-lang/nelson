@@ -81,34 +81,33 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn
         (int)M.getContentAsInteger32Scalar()
                 * ((int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())
             + std::max(3
-                          * std::min((int)M.getContentAsInteger32Scalar(),
+                        * std::min((int)M.getContentAsInteger32Scalar(),
+                            (int)N.getContentAsInteger32Scalar()
+                                + (int)L.getContentAsInteger32Scalar())
+                    + std::max(std::max((int)M.getContentAsInteger32Scalar(),
+                                   (int)N.getContentAsInteger32Scalar()
+                                       + (int)L.getContentAsInteger32Scalar()),
+                        5
+                            * std::min((int)M.getContentAsInteger32Scalar(),
                                 (int)N.getContentAsInteger32Scalar()
-                                    + (int)L.getContentAsInteger32Scalar())
-                      + std::max(std::max((int)M.getContentAsInteger32Scalar(),
-                                     (int)N.getContentAsInteger32Scalar()
-                                         + (int)L.getContentAsInteger32Scalar()),
-                            5
-                                * std::min((int)M.getContentAsInteger32Scalar(),
-                                      (int)N.getContentAsInteger32Scalar()
-                                          + (int)L.getContentAsInteger32Scalar())),
-                  3 * (int)L.getContentAsInteger32Scalar()));
+                                    + (int)L.getContentAsInteger32Scalar())),
+                3 * (int)L.getContentAsInteger32Scalar()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = (int)M.getContentAsInteger32Scalar()
             * ((int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())
         + std::max(3
-                      * std::min((int)M.getContentAsInteger32Scalar(),
+                    * std::min((int)M.getContentAsInteger32Scalar(),
+                        (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())
+                + std::max(std::max((int)M.getContentAsInteger32Scalar(),
+                               (int)N.getContentAsInteger32Scalar()
+                                   + (int)L.getContentAsInteger32Scalar()),
+                    5
+                        * std::min((int)M.getContentAsInteger32Scalar(),
                             (int)N.getContentAsInteger32Scalar()
-                                + (int)L.getContentAsInteger32Scalar())
-                  + std::max(std::max((int)M.getContentAsInteger32Scalar(),
-                                 (int)N.getContentAsInteger32Scalar()
-                                     + (int)L.getContentAsInteger32Scalar()),
-                        5
-                            * std::min((int)M.getContentAsInteger32Scalar(),
-                                  (int)N.getContentAsInteger32Scalar()
-                                      + (int)L.getContentAsInteger32Scalar())),
-              3 * (int)L.getContentAsInteger32Scalar());
+                                + (int)L.getContentAsInteger32Scalar())),
+            3 * (int)L.getContentAsInteger32Scalar());
     // OUTPUT VARIABLES
     ArrayOf S_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::min((int)M.getContentAsInteger32Scalar(),

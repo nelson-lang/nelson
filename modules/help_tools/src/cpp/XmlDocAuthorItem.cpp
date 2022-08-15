@@ -16,7 +16,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author) : _author(std::move(author)){};
+XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author) : _author(std::move(author)) {};
 //=============================================================================
 XmlDocAuthorItem::~XmlDocAuthorItem() { this->_author = L""; }
 //=============================================================================

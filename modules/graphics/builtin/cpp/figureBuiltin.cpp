@@ -52,7 +52,9 @@ Nelson::GraphicsGateway::figureBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = ArrayOf::graphicObjectConstructor(goPtr);
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     ArrayOfVector retval(1);
     retval << res;
     return retval;

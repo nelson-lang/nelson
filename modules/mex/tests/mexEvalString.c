@@ -10,17 +10,17 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    (void) plhs;
-    (void) prhs;
+    (void)plhs;
+    (void)prhs;
 
     if (nrhs != 0) {
         mexErrMsgIdAndTxt("Nelson:mexevalstring:nInput", "No input arguments required.");
-    } 
-    if(nlhs !=0){
+    }
+    if (nlhs != 0) {
         mexErrMsgIdAndTxt("Nelson:mexevalstring:nOutput", "Too many output arguments.");
-    } 
+    }
 
     mexEvalString("A = 'Hello World'");
     mexEvalString("B = 100");

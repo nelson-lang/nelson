@@ -121,11 +121,11 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = STAGES.getContentAsCString().compare("B") != 0
         ? std::max(1,
-              std::max((int)A.getRows(), (int)B.getColumns())
-                  + std::max((int)A.getRows(), 3 * (int)B.getColumns()))
+            std::max((int)A.getRows(), (int)B.getColumns())
+                + std::max((int)A.getRows(), 3 * (int)B.getColumns()))
         : std::max(1,
-              std::max((int)A.getRows(), (int)B.getColumns())
-                  + std::max((int)A.getRows(), (int)B.getColumns()));
+            std::max((int)A.getRows(), (int)B.getColumns())
+                + std::max((int)A.getRows(), (int)B.getColumns()));
     // OUTPUT VARIABLES
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::max(1, (int)B.getColumns()), (indexType)(int)B.getColumns());

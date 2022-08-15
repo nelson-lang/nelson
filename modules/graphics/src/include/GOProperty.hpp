@@ -51,7 +51,11 @@ public:
     get()
         = 0;
     //=============================================================================
-    virtual void set(ArrayOf /*unused*/) { wasModified = true; }
+    virtual void
+    set(ArrayOf /*unused*/)
+    {
+        wasModified = true;
+    }
     //=============================================================================
     virtual std::string
     print(const std::string& propertyName)

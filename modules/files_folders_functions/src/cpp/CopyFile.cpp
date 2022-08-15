@@ -73,7 +73,7 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
     }
 
     std::wstring rootSrc = sourceDir.generic_wstring();
-    for (const auto& dirEnt : boost::filesystem::recursive_directory_iterator{ sourceDir }) {
+    for (const auto& dirEnt : boost::filesystem::recursive_directory_iterator { sourceDir }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");

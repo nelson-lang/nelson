@@ -144,7 +144,9 @@ SparseConstructor(
             Error(_W("Index exceeds matrix dimensions."));
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================

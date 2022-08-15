@@ -88,7 +88,9 @@ formatInteger(const void* ptrScalar, NelsonType integerType, indexType index,
     case NLS_INT64: {
         return formatSignedInteger<int64>(ptrScalar, index, currentNumericFormat);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return L"";
 }
 //=============================================================================

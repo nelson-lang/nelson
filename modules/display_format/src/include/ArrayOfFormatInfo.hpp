@@ -31,7 +31,7 @@ public:
         , widthImag(9)
         , decimalsImag(4)
         , scaleFactor(1.0)
-        , trim(false){};
+        , trim(false) {};
     //=============================================================================
     bool isComplex;
     bool floatAsInteger;

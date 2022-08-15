@@ -86,7 +86,9 @@ SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue,
     case NLS_CHAR: {
         matVariable = SaveMatioCharacterArray(variableName, variableValue, matVersion);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return matVariable;
 }
 //=============================================================================

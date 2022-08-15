@@ -62,7 +62,8 @@ DisplaySparseDoubleComplex(
 void
 DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{}
+{
+}
 //=============================================================================
 void
 DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,

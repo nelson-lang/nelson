@@ -100,11 +100,9 @@ Nelson::SlicotGateway::slicot_ab08ndBuiltin(int nLhs, const ArrayOfVector& argIn
         std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()),
             N.getContentAsInteger32Scalar())
             + std::max(
-                  3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())
-                      - 1,
-                  N.getContentAsInteger32Scalar()
-                      + std::max(
-                            N.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())));
+                3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1,
+                N.getContentAsInteger32Scalar()
+                    + std::max(N.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
@@ -112,9 +110,9 @@ Nelson::SlicotGateway::slicot_ab08ndBuiltin(int nLhs, const ArrayOfVector& argIn
         = std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()),
               N.getContentAsInteger32Scalar())
         + std::max(
-              3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1,
-              N.getContentAsInteger32Scalar()
-                  + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
+            3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1,
+            N.getContentAsInteger32Scalar()
+                + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
     // OUTPUT VARIABLES
     ArrayOf NU_output = ArrayOf::int32VectorConstructor(1);
     int* NU_output_ptr = (int*)NU_output.getDataPointer();

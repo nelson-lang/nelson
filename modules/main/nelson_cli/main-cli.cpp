@@ -12,16 +12,18 @@
 #endif
 #include "StartNelson.h"
 //=============================================================================
-int main(int argc, char *argv[])
+int
+main(int argc, char* argv[])
 {
 #ifdef _MSC_VER
 #ifndef _DEBUG
     /* catch system errors msgbox (release mode only) */
     /* http://msdn.microsoft.com/en-us/library/ms680621(VS.85).aspx */
-    UINT LastErrorMode = SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOALIGNMENTFAULTEXCEPT | SEM_NOGPFAULTERRORBOX);
+    UINT LastErrorMode
+        = SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOALIGNMENTFAULTEXCEPT | SEM_NOGPFAULTERRORBOX);
 #endif
     int argCount = 0;
-    LPWSTR *szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
+    LPWSTR* szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
     int ierr = StartNelson(argCount, szArgList, NELSON_ENGINE_MODE::BASIC_TERMINAL);
     LocalFree(szArgList);
     return ierr;

@@ -84,7 +84,8 @@ GOWindow::getClick(int& x, int& y)
 //=============================================================================
 void
 GOWindow::closeEvent(QCloseEvent* e)
-{}
+{
+}
 //=============================================================================
 void
 GOWindow::mousePressEvent(QMouseEvent* e)

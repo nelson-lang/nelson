@@ -110,7 +110,8 @@ public:
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
     [[nodiscard]] virtual FunctionType
-    type() const = 0;
+    type() const
+        = 0;
     //=============================================================================
     /**
      * The number of inputs required by this function (-1 if variable).

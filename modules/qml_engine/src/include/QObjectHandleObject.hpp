@@ -25,7 +25,8 @@ class QObjectHandleObject : public HandleGenericObject
 public:
     QObjectHandleObject(void* _ptr)
         : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr, false)
-    {}
+    {
+    }
     ~QObjectHandleObject() = default;
 };
 //=============================================================================

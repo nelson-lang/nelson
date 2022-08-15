@@ -10,18 +10,16 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-  if(nrhs != 2)
-   {
-       mexErrMsgTxt("Wrong number or type of input argument");
-   }
-   if (!mxIsStruct(prhs[0]))
-   {
-     mexErrMsgTxt("Struct expected");
-   }
-   int fieldnumber = (int)mxGetScalar(prhs[1]);
-   const char *name = mxGetFieldNameByNumber(prhs[0], fieldnumber);
-   plhs[0] = mxCreateString(name);
+    if (nrhs != 2) {
+        mexErrMsgTxt("Wrong number or type of input argument");
+    }
+    if (!mxIsStruct(prhs[0])) {
+        mexErrMsgTxt("Struct expected");
+    }
+    int fieldnumber = (int)mxGetScalar(prhs[1]);
+    const char* name = mxGetFieldNameByNumber(prhs[0], fieldnumber);
+    plhs[0] = mxCreateString(name);
 }
 //=============================================================================

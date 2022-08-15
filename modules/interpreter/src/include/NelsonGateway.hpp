@@ -54,7 +54,10 @@ typedef struct nlsGatewayStructType
 #define NLSGATEWAYFUNC(gateway) NLSGATEWAYFUNCEXTENDED(gateway, NULL)
 //=============================================================================
 #define NLSGATEWAYNAME()                                                                           \
-    EXTERN_AS_C EXPORTSYMBOL const wchar_t* GetGatewayName() { return gatewayName.c_str(); }
+    EXTERN_AS_C EXPORTSYMBOL const wchar_t* GetGatewayName()                                       \
+    {                                                                                              \
+        return gatewayName.c_str();                                                                \
+    }
 //=============================================================================
 #define NLSGATEWAYINFO(gateway)                                                                    \
     EXTERN_AS_C EXPORTSYMBOL Nelson::stringVector GetGatewayInfo()                                 \

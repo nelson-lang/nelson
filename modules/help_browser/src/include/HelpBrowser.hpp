@@ -51,7 +51,7 @@ public:
 
 private:
     HelpBrowser();
-    HelpBrowser(HelpBrowser const&){};
+    HelpBrowser(HelpBrowser const&) {};
     static HelpBrowser* m_pInstance;
 };
 //=============================================================================

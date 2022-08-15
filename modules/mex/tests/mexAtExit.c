@@ -9,18 +9,18 @@
 //=============================================================================
 #include <mex.h>
 //=============================================================================
-static void CallAtExit(void)   
-{   
-    mexPrintf ("Call at Exit");
-}   
-//=============================================================================   
-void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+static void
+CallAtExit(void)
 {
-    if(nrhs != 0)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
+    mexPrintf("Call at Exit");
+}
+//=============================================================================
+void
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
+{
+    if (nrhs != 0) {
+        mexErrMsgTxt("Wrong number or type of input argument");
     }
-    mexAtExit(CallAtExit); 
+    mexAtExit(CallAtExit);
 }
 //=============================================================================

@@ -116,7 +116,8 @@ SioClientInterface::isAtPrompt()
 //=============================================================================
 void
 SioClientInterface::interruptGetLineByEvent()
-{}
+{
+}
 //=============================================================================
 std::wstring
 SioClientInterface::getTextLine(const std::wstring& prompt, bool bIsInput)

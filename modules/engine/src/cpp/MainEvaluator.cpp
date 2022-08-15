@@ -169,7 +169,9 @@ destroyMainEvaluator()
                 nlsTerm = nullptr;
                 DestroyMainGuiObjectDynamic(nullptr);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         BuiltInFunctionDefManager::getInstance()->destroy();
         Localization::Instance()->destroy();

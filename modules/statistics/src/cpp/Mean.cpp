@@ -231,7 +231,9 @@ getOutPutClass(const ArrayOf& A, MEAN_OUT_TYPE outType)
         case NLS_CHAR: {
             Error(_("Native accumulation on char array is not supported."));
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     }
     return outClass;
@@ -271,7 +273,9 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
                 outClass = NLS_DOUBLE;
             }
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         res.promoteType(outClass);
         return res;
     }
@@ -357,7 +361,9 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
             outClass = NLS_DOUBLE;
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     res.promoteType(outClass);
 
     return res;
@@ -395,7 +401,9 @@ Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool&
                 outClass = NLS_DOUBLE;
             }
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         res.promoteType(outClass);
         return res;
     }
@@ -632,7 +640,9 @@ Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool&
             outClass = NLS_DOUBLE;
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     res.promoteType(outClass);
     return res;
 }

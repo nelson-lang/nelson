@@ -38,7 +38,7 @@ public:
 
 private:
     Localization();
-    Localization(Localization const& /*unused*/){};
+    Localization(Localization const& /*unused*/) {};
     static Localization* m_pInstance;
 
     std::wstring currentLanguage;

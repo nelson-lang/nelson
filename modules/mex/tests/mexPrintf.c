@@ -10,11 +10,11 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     size_t i = 0;
-    for (i = 0; i < 2; ++i){
-        mexPrintf ("Result %d\n", i);
+    for (i = 0; i < 2; ++i) {
+        mexPrintf("Result %d\n", i);
     }
 }
 //=============================================================================

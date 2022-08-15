@@ -10,37 +10,30 @@
 #include <mex.h>
 //=============================================================================
 void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    mxArray *res = NULL;
+    mxArray* res = NULL;
     if (nlhs > 1) {
-       mexErrMsgTxt("Wrong number of output argument.");
+        mexErrMsgTxt("Wrong number of output argument.");
     }
     if (nrhs != 1) {
         mexErrMsgTxt("Wrong number of input argument.");
     }
-    if (mxIsInt8(prhs[0])){
+    if (mxIsInt8(prhs[0])) {
         res = mxCreateString("int8");
-    } else
-    if (mxIsInt16(prhs[0])){
+    } else if (mxIsInt16(prhs[0])) {
         res = mxCreateString("int16");
-    } else
-    if (mxIsInt32(prhs[0])){
+    } else if (mxIsInt32(prhs[0])) {
         res = mxCreateString("int32");
-    } else
-    if (mxIsInt64(prhs[0])){
+    } else if (mxIsInt64(prhs[0])) {
         res = mxCreateString("int64");
-    } else 
-    if (mxIsUint8(prhs[0])){
+    } else if (mxIsUint8(prhs[0])) {
         res = mxCreateString("uint8");
-    } else 
-    if (mxIsUint16(prhs[0])){
+    } else if (mxIsUint16(prhs[0])) {
         res = mxCreateString("uint16");
-    } else 
-    if (mxIsUint32(prhs[0])){
+    } else if (mxIsUint32(prhs[0])) {
         res = mxCreateString("uint32");
-    } else
-    if (mxIsUint64(prhs[0])){
+    } else if (mxIsUint64(prhs[0])) {
         res = mxCreateString("uint64");
     } else {
         res = mxCreateString("not integer");

@@ -182,7 +182,9 @@ FunctionsInMemory::find(
     case FIND_FUNCTION_TYPE::BUILTIN: {
         return findBuiltin(functionName, function);
     }
-    default: { } break; }
+    default: {
+    } break;
+    }
     return false;
 }
 //=============================================================================

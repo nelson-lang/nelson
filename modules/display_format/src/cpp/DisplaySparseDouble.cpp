@@ -60,7 +60,8 @@ DisplaySparseDouble(
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{}
+{
+}
 //=============================================================================
 void
 DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,

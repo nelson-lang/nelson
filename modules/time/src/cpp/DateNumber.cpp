@@ -45,7 +45,7 @@ DateNumber(double year, double month, double day, double hour, double minutes, d
     // we remove again 1 if month is more februar and it is not a leap year
     integer_part = (integer_part
         + ((static_cast<int>(month < 3) | static_cast<int>(IsLeapYear(static_cast<int>(year))))
-              - 1));
+            - 1));
     if (IsLeapYear(static_cast<int>(year))) {
         double leap_year_case = year * 365 + (year / 4) - floor(year / 100) + floor(year / 400);
         integer_part = static_cast<int>(integer_part + leap_year_case);
@@ -143,7 +143,7 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
     }
     bool is_without_date = (count_time_separator > 0)
         && ((count_date_separator_1 != 3) || (count_date_separator_2 != 3)
-               || (count_date_separator_3 != 3));
+            || (count_date_separator_3 != 3));
     bool is_without_time = (count_time_separator == 0);
     bool is_with_date_time = count_time_separator > 0;
     boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);

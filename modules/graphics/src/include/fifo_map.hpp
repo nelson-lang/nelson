@@ -44,7 +44,8 @@ public:
     /// constructor given a pointer to a key storage
     fifo_map_compare(std::unordered_map<Key, std::size_t>* keys, std::size_t timestamp = 1)
         : m_timestamp(timestamp), m_keys(keys)
-    {}
+    {
+    }
 
     /*!
     This function compares two keys with respect to the order in which they
@@ -122,14 +123,15 @@ public:
 
 public:
     /// default constructor
-    fifo_map() : m_keys(), m_compare(&m_keys), m_map(m_compare) {}
+    fifo_map() : m_keys(), m_compare(&m_keys), m_map(m_compare) { }
 
     /// copy constructor
     fifo_map(const fifo_map& f)
         : m_keys(f.m_keys)
         , m_compare(&m_keys, f.m_compare.m_timestamp)
         , m_map(f.m_map.begin(), f.m_map.end(), m_compare)
-    {}
+    {
+    }
 
     /// constructor for a range of elements
     template <class InputIterator>
@@ -168,14 +170,16 @@ public:
     }
 
     /// access specified element
-    T& operator[](const Key& key)
+    T&
+    operator[](const Key& key)
     {
         m_compare.add_key(key);
         return m_map[key];
     }
 
     /// access specified element
-    T& operator[](Key&& key)
+    T&
+    operator[](Key&& key)
     {
         m_compare.add_key(key);
         return m_map[key];

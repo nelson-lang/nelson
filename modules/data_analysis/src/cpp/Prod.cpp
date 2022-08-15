@@ -271,7 +271,9 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             res.promoteType(NLS_DOUBLE);
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================
