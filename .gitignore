@@ -161,7 +161,6 @@ bin/macos/*-exec
 /tools/buildhelp/win32/Debug
 /tools/buildhelp/Release
 /tools/buildhelp/Debug
-/tools/clang_format/clang-format.exe
 ################################################################################
 /modules/core/src/include/Nelson_VERSION.h
 /modules/*/src/c/*/x64
