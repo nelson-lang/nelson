@@ -218,6 +218,7 @@
     <ClCompile Include="..\cpp\FutureFetchOutputs.cpp" />
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
     <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
+    <ClCompile Include="..\cpp\FutureObject.cpp" />
     <ClCompile Include="..\cpp\ParallelEvaluator.cpp" />
     <ClCompile Include="..\cpp\TimeHelpers.cpp" />
     <ClCompile Include="..\cpp\WaitFutures.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="..\include\FutureFetchOutputs.hpp" />
     <ClInclude Include="..\include\FevalFutureObject.hpp" />
     <ClInclude Include="..\include\FevalQueueObject.hpp" />
+    <ClInclude Include="..\include\FutureObject.hpp" />
     <ClInclude Include="..\include\nlsParallel_exports.h" />
     <ClInclude Include="..\include\BS_thread_pool.hpp" />
     <ClInclude Include="..\include\WaitFutures.hpp" />
