@@ -9,6 +9,25 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+p = str2func('error');
+pool = backgroundPool();
+f = parfeval(pool, p, 0, 'test');
+wait(f);
+assert_isequal(f.State, 'finished');
+%=============================================================================
+p = str2func('error');
+pool = backgroundPool();
+f = parfeval(pool, p, 0, 1);
+wait(f);
+assert_isequal(f.State, 'finished');
+assert_isequal(f.Error.message, _('Wrong type for argument #1: string expected.'));
+%=============================================================================
+p = str2func('@(x) x +1');
+pool = backgroundPool();
+f = parfeval(pool, p, 1, 1);
+wait(f);
+assert_isequal(f.State, 'finished');
+%=============================================================================
 p = str2func('pause');
 b = backgroundPool();
 NumWorkers = b.NumWorkers;
@@ -18,4 +37,7 @@ end
 R = {f.State};
 assert_istrue(iscellstr(R));
 assert_isequal(length(R), (NumWorkers*2) + 2);
+%=============================================================================
+fevalqueue = b.FevalQueue;
+cancelAll(fevalqueue);
 %=============================================================================

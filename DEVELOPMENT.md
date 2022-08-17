@@ -35,3 +35,7 @@ make clang-format
 ```
 
 Indentation uses webkit coding style see .clang-format
+
+- How to debug on macOs and Linux
+
+Edit line 58 of main `CMakeLists.txt` and replaces `Release` by `Debug`. Build nelson and launch with gdb.

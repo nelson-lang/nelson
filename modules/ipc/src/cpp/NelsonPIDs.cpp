@@ -229,7 +229,6 @@ getNelsonPIDModes()
 int
 getLatestPidInSharedMemory()
 {
-    int pid = 0;
     try {
         boost::interprocess::managed_shared_memory managed_shm {
             boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
@@ -250,7 +249,6 @@ getLatestPidInSharedMemory()
 int
 getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
 {
-    int pid = 0;
     try {
         boost::interprocess::managed_shared_memory managed_shm {
             boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()

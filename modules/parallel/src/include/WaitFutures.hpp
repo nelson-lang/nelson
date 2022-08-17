@@ -12,18 +12,14 @@
 #include <vector>
 #include "nlsParallel_exports.h"
 #include "Evaluator.hpp"
-#include "FevalFutureObject.hpp"
+#include "FutureObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSPARALLEL_IMPEXP
 bool
-WaitFutures(Evaluator* eval, const std::vector<FevalFutureObject*>& fevalFutures,
-    THREAD_STATE expectedState, double timeoutSeconds);
-//=============================================================================
-NLSPARALLEL_IMPEXP
-void
-WaitFinishedOrFailedFuture(Evaluator* eval, FevalFutureObject* fevalFuture);
+WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_STATE expectedState,
+    double timeoutSeconds);
 //=============================================================================
 }
 //=============================================================================

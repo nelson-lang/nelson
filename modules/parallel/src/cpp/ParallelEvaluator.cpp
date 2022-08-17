@@ -36,17 +36,16 @@ createParallelEvaluator(EvaluateInterface* evaluatorInterface, size_t ID)
 Evaluator*
 deleteParallelEvaluator(Evaluator* evaluator, bool evaluatorWasCanceled)
 {
-    if (evaluator && evaluatorWasCanceled) {
-        Context* context = evaluator->getContext();
-        delete evaluator;
-        evaluator = nullptr;
-        if (context) {
-            delete context;
-            context = nullptr;
+    if (evaluator) {
+        evaluator->setState(NLS_STATE_QUIT);
+        evaluator->resetState();
+
+        if (!evaluatorWasCanceled) {
+            delete evaluator;
+            evaluator = nullptr;
         }
-        return evaluator;
     }
-    return nullptr;
+    return evaluator;
 }
 //=============================================================================
 }

@@ -7,19 +7,22 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "AfterEachFuture_deleteBuiltin.hpp"
+#include "DeleteGenericObject.hpp"
+#include "AfterEachFutureObject.hpp"
 //=============================================================================
-#include <vector>
-#include "nlsParallel_exports.h"
-#include "Evaluator.hpp"
-#include "FutureObject.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSPARALLEL_IMPEXP
 ArrayOfVector
-FutureFetchOutputs(
-    Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput = false);
-//=============================================================================
+Nelson::ParallelGateway::AfterEachFuture_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle()) {
+        DeleteGenericObject(param1, AFTEREACHFUTURE_CATEGORY_STR);
+    }
+    ArrayOfVector retval;
+    return retval;
 }
 //=============================================================================

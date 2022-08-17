@@ -10,35 +10,53 @@
 #include "FutureFetchOutputs.hpp"
 #include "Error.hpp"
 #include "WaitFutures.hpp"
+#include "VertCatOperator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOfVector
-FutureFetchOutputs(Evaluator* eval, FevalFutureObject* fevalFutureObject)
+FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput)
 {
-    WaitFinishedOrFailedFuture(eval, fevalFutureObject);
+    constexpr double noTimeout = std::numeric_limits<double>::infinity();
+    bool allFinish = WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
 
-    ArrayOfVector _result;
+    ArrayOfVector _results(futures.size());
     Exception _exception;
 
-    switch (fevalFutureObject->state) {
-    case THREAD_STATE::FINISHED: {
-        _result = fevalFutureObject->getResult();
-        _exception = fevalFutureObject->getException();
-    } break;
-    case THREAD_STATE::FAILED: {
-        _exception = fevalFutureObject->getException();
-    } break;
-    default: {
-        Error(_W("Not managed."));
-    } break;
+    size_t nLhs = 0;
+    bool once = true;
+    for (auto future : futures) {
+        if (future) {
+            ArrayOfVector _result = future->getResult();
+            _exception = future->getException();
+            if (!_exception.getMessage().empty()) {
+                std::wstring errorMessage = _W("One or more futures resulted in an error.")
+                    + L"\n\n" + _exception.getMessage();
+                Error(errorMessage, L"Nelson:parallel:future:ExecutionError");
+            }
+            if (once) {
+                nLhs = _result.size();
+                once = false;
+            } else {
+                if (nLhs != _result.size()) {
+                    std::wstring errorMessage = _W("Unable to concatenate outputs.");
+                    Error(errorMessage, L"Nelson:parallel:future:ConcatenateOutputs");
+                }
+            }
+        }
     }
-    if (!_exception.getMessage().empty()) {
-        std::wstring errorMessage
-            = _W("One or more futures resulted in an error.") + L"\n\n" + _exception.getMessage();
-        Error(errorMessage, L"Nelson:parallel:future:ExecutionError");
+
+    ArrayOfVector argsToConcate;
+    for (size_t k = 0; k < nLhs; ++k) {
+        for (size_t q = 0; q < futures.size(); ++q) {
+            if (futures[q]) {
+                argsToConcate << futures[q]->getResult()[k];
+            }
+        }
+        _results.push_back(VertCatOperator(eval, argsToConcate));
+        argsToConcate.clear();
     }
-    return _result;
+    return _results;
 }
 //=============================================================================
 }

@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "fetchOutputsBuiltin.hpp"
+#include "fetchNextBuiltin.hpp"
 #include "Error.hpp"
-#include "FutureFetchOutputs.hpp"
-#include "FutureObject.hpp"
+#include "FevalFutureFetchNext.hpp"
 #include "FevalFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
@@ -19,22 +18,32 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::fetchOutputsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    nargincheck(argIn, 1, 2);
+
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
         Error(_W("FevalFuture handle expected."));
     }
-    bool isSupportedType = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR);
+    bool isSupportedType = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
-        Error(_W("Future handle expected."));
+        Error(_W("FevalFuture handle expected."));
     }
 
+    double timeout = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        bool isReal = param2.getDataClass() == NLS_DOUBLE || param2.getDataClass() == NLS_SINGLE;
+        if (!isReal) {
+            Error(_W("a numeric scalar value expected."));
+        }
+        timeout = param2.getContentAsDoubleScalar();
+        if (timeout < 0) {
+            Error(_W("non negative value expected."));
+        }
+    }
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);
-    retval = FutureFetchOutputs(eval, futures, false);
-    return retval;
+    return FevalFutureFetchNext(eval, futures, nLhs, timeout);
 }
 //=============================================================================

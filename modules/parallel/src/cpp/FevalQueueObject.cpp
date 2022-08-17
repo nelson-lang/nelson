@@ -86,6 +86,7 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
             handles.push_back(nh);
         }
     }
+    refreshQueue();
     return handles;
 }
 //=============================================================================
@@ -139,7 +140,6 @@ FevalQueueObject::isMethod(const std::wstring& methodName)
 void
 FevalQueueObject::refreshQueue()
 {
-    std::this_thread::sleep_for(std::chrono::nanoseconds(10));
     std::vector<FevalFutureObject*> newQueue;
     for (auto f : fEvalQueue) {
         THREAD_STATE state = f->state;
@@ -153,10 +153,10 @@ FevalQueueObject::refreshQueue()
 void
 FevalQueueObject::reset()
 {
-    std::vector<nelson_handle> handles;
     for (size_t k = 0; k < fEvalQueue.size(); k++) {
         fEvalQueue[k]->cancel();
     }
+    refreshQueue();
 }
 //=============================================================================
 void

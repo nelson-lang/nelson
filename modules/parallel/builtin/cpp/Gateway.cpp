@@ -17,18 +17,25 @@
 #include "backgroundPool_fieldnamesBuiltin.hpp"
 #include "backgroundPool_structBuiltin.hpp"
 #include "parfevalBuiltin.hpp"
-#include "FevalFuture_displayBuiltin.hpp"
-#include "FevalFuture_getBuiltin.hpp"
 #include "FevalFuture_usedBuiltin.hpp"
+#include "AfterEachFuture_usedBuiltin.hpp"
+#include "AfterAllFuture_usedBuiltin.hpp"
 #include "FevalFuture_deleteBuiltin.hpp"
-#include "FevalFuture_waitBuiltin.hpp"
-#include "FevalFuture_cancelBuiltin.hpp"
+#include "AfterEachFuture_deleteBuiltin.hpp"
+#include "AfterAllFuture_deleteBuiltin.hpp"
+#include "Future_displayBuiltin.hpp"
+#include "Future_waitBuiltin.hpp"
+#include "Future_cancelBuiltin.hpp"
+#include "Future_getBuiltin.hpp"
 #include "FevalQueue_displayBuiltin.hpp"
 #include "FevalQueue_getBuiltin.hpp"
 #include "FevalQueue_usedBuiltin.hpp"
 #include "FevalQueue_deleteBuiltin.hpp"
 #include "FevalQueue_cancelAllBuiltin.hpp"
 #include "fetchOutputsBuiltin.hpp"
+#include "afterAllBuiltin.hpp"
+#include "afterEachBuiltin.hpp"
+#include "fetchNextBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,15 +59,22 @@ static const nlsGateway gateway[] = {
         1 },
     { "parfeval", (ptrBuiltin)Nelson::ParallelGateway::parfevalBuiltin, 1, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "FevalFuture_display", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "FevalFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "FevalFuture_used", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_usedBuiltin, 1, 0 },
-    { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_getBuiltin, 1, 2 },
+    { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2 },
+    { "AfterAllFuture_get", (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2 },
+    { "AfterEachFuture_get", (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2 },
     { "FevalFuture_delete", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_deleteBuiltin, 0, 1 },
-    { "cancel", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_cancelBuiltin, 0, 1 },
-    { "wait", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_waitBuiltin, 1, 1,
+    { "AfterAllFuture_delete", (ptrBuiltin)Nelson::ParallelGateway::AfterAllFuture_deleteBuiltin, 0,
+        1 },
+    { "AfterEachFuture_delete", (ptrBuiltin)Nelson::ParallelGateway::AfterEachFuture_deleteBuiltin,
+        0, 1 },
+    { "FevalFuture_used", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_usedBuiltin, 1, 0 },
+    { "AfterEachFuture_used", (ptrBuiltin)Nelson::ParallelGateway::AfterEachFuture_usedBuiltin, 1,
+        0 },
+    { "AfterAllFuture_used", (ptrBuiltin)Nelson::ParallelGateway::AfterAllFuture_usedBuiltin, 1,
+        0 },
+    { "FevalFuture_used", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_usedBuiltin, 1, 0 },
+    { "cancel", (ptrBuiltin)Nelson::ParallelGateway::Future_cancelBuiltin, 0, 1 },
+    { "wait", (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
@@ -72,6 +86,24 @@ static const nlsGateway gateway[] = {
     { "FevalQueue_get", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_getBuiltin, 1, 2 },
     { "FevalQueue_delete", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_deleteBuiltin, 0, 1 },
     { "cancelAll", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_cancelAllBuiltin, 0, 1 },
+    { "afterAll", (ptrBuiltin)Nelson::ParallelGateway::afterAllBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "FevalFuture_display", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "AfterAllFuture_display", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "AfterEachFuture_display", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "FevalFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "AfterAllFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "AfterEachFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::Future_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "fetchNext", (ptrBuiltin)Nelson::ParallelGateway::fetchNextBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "afterEach", (ptrBuiltin)Nelson::ParallelGateway::afterEachBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
 
 };
 //=============================================================================

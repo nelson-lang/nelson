@@ -13,6 +13,7 @@
 #include "FevalQueueObject.hpp"
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -128,12 +129,17 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
 {
     FevalFutureObject* retFuture = nullptr;
     try {
-        retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
+        if (fptr->type() == NLS_ANONYMOUS_MACRO_FUNCTION) {
+            AnonymousMacroFunctionDef* afptr = (AnonymousMacroFunctionDef*)fptr;
+            retFuture = new FevalFutureObject(utf8_to_wstring(afptr->getDefinition()));
+        } else {
+            retFuture = new FevalFutureObject(L"@" + utf8_to_wstring(fptr->getName()));
+        }
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
 
-    threadPool->push_task(&FevalFutureObject::evaluateFunction, retFuture, fptr, nLhs, argIn);
+    threadPool->push_task(&FevalFutureObject::evaluateFunction, retFuture, fptr, nLhs, argIn, true);
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
     nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
@@ -152,8 +158,8 @@ BackgroundPoolObject::resetThreadPool()
 {
     threadPool->pause();
     FevalQueueObject::getInstance()->reset();
-    threadPool->reset(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
     threadPool->unpause();
+    threadPool->reset(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
 }
 //=============================================================================
 } // namespace Nelson

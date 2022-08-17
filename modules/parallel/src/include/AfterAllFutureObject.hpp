@@ -9,16 +9,24 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include "nlsParallel_exports.h"
+#include "HandleGenericObject.hpp"
+#include "FutureObject.hpp"
+#include "FevalFutureObject.hpp"
+#include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ParallelGateway {
-    //=============================================================================
-    ArrayOfVector
-    FevalFuture_getBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+#define AFTERALLFUTURE_CATEGORY_STR L"AfterAllFuture"
+//=============================================================================
+class NLSPARALLEL_IMPEXP AfterAllFutureObject : public HandleGenericObject, public FutureObject
+{
+public:
+    AfterAllFutureObject(
+        const std::wstring& functionName, const std::vector<FutureObject*>& predecessors);
+    void
+    afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutput = false);
+};
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -17,6 +17,8 @@
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ParallelEvaluator.hpp"
+#include "HandleManager.hpp"
+#include "FutureObjectHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,13 +41,16 @@ FutureObject::FutureObject(const std::wstring& functionName)
     this->ID = counterIDs;
     this->evaluateInterface = nullptr;
     this->creationDateTime = getEpoch();
-    this->propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime",
-        L"FinishDateTime", L"RunningDuration", L"State", L"Error", L"Diary" };
+    this->propertiesNames
+        = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"FinishDateTime",
+              L"RunningDuration", L"State", L"Error", L"Diary", L"Read", L"Predecessors" };
     this->functionName = functionName;
     this->state = THREAD_STATE::QUEUED;
-    this->wasReaded = false;
+    this->_wasRead = false;
     this->_exception = Exception();
     this->_result.clear();
+    this->_predecessors.clear();
+    this->_type = L"Future";
 }
 //=============================================================================
 void
@@ -66,14 +71,14 @@ FutureObject::displayOnOneLine(Interface* io, size_t index)
             finishedDateTime = epochToDateString(this->getEpochEndDateTime());
         }
         std::wstring errorString = L"none";
-        if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
+        if (this->state == THREAD_STATE::FINISHED) {
             if (!_exception.getMessage().empty()) {
                 errorString = _exception.getMessage();
             }
         }
         std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
-            index, this->getID(), this->getStateAsString(), finishedDateTime,
-            L"@" + this->functionName, errorString);
+            index, this->getID(), this->getStateAsString(), finishedDateTime, this->functionName,
+            errorString);
         io->outputMessage(message);
     }
 }
@@ -84,13 +89,13 @@ FutureObject::display(Interface* io)
 #define BLANKS_AT_BOL std::wstring(L"   ")
     if (io) {
         io->outputMessage(BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->getID()) + L"\n");
-        io->outputMessage(BLANKS_AT_BOL + L"Function: " + L"@" + this->functionName + L"\n");
+        io->outputMessage(BLANKS_AT_BOL + L"Function: " + this->functionName + L"\n");
         std::wstring stateString = getStateAsString();
         std::wstring errorString = L"none";
         if (state == THREAD_STATE::FINISHED) {
-            stateString = wasReaded ? stateString + L" (read)" : stateString + L" (unread)";
+            stateString = _wasRead ? stateString + L" (read)" : stateString + L" (unread)";
         }
-        if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
+        if (this->state == THREAD_STATE::FINISHED) {
             if (!_exception.getMessage().empty()) {
                 errorString = _exception.getMessage();
             }
@@ -124,7 +129,7 @@ FutureObject::~FutureObject()
     runningDuration = 0;
     asNelsonHandle = 0;
     functionName.clear();
-    wasReaded = false;
+    _wasRead = false;
 }
 //=============================================================================
 size_t
@@ -157,7 +162,6 @@ FutureObject::getRunningDuration()
     switch (this->state) {
     case THREAD_STATE::UNAVAILABLE:
     case THREAD_STATE::FINISHED:
-    case THREAD_STATE::FAILED:
     default: {
         if (startDateTime < endDateTime) {
             return endDateTime - startDateTime;
@@ -185,9 +189,6 @@ FutureObject::getStateAsString()
     switch (this->state) {
     case THREAD_STATE::FINISHED: {
         result = L"finished";
-    } break;
-    case THREAD_STATE::FAILED: {
-        result = L"failed";
     } break;
     case THREAD_STATE::RUNNING: {
         result = L"running";
@@ -245,11 +246,9 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         result = ArrayOf::characterArrayConstructor(getStateAsString());
         return true;
     }
-
     if (propertyName == L"Error") {
         switch (this->state) {
-        case THREAD_STATE::FINISHED:
-        case THREAD_STATE::FAILED: {
+        case THREAD_STATE::FINISHED: {
             result = ExceptionToArrayOf(_exception);
         } break;
         case THREAD_STATE::RUNNING:
@@ -261,9 +260,16 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         }
         return true;
     }
-
     if (propertyName == L"Diary") {
         result = ArrayOf::characterArrayConstructor(getDiary());
+        return true;
+    }
+    if (propertyName == L"Read") {
+        result = ArrayOf::logicalConstructor(wasRead());
+        return true;
+    }
+    if (propertyName == L"Predecessors") {
+        result = FuturesToArrayOf(_predecessors);
         return true;
     }
 
@@ -271,47 +277,43 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 bool
-FutureObject::cancel(size_t timeoutSeconds)
+FutureObject::cancel()
 {
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
     this->endDateTime = getEpoch();
-    if (this->state == THREAD_STATE::QUEUED) {
-        this->state = THREAD_STATE::FINISHED;
-        _result.clear();
-        _exception = Exception(_W("Execution of the future was cancelled."),
-            L"parallel:fevalqueue:ExecutionCancelled");
-        return true;
-    }
-
-    std::chrono::nanoseconds begin_time
-        = std::chrono::high_resolution_clock::now().time_since_epoch();
-
-    while (this->state == THREAD_STATE::RUNNING) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-        std::chrono::nanoseconds current_time
-            = std::chrono::high_resolution_clock::now().time_since_epoch();
-        std::chrono::nanoseconds difftime = (current_time - begin_time);
-        if (difftime.count() > int64(timeoutSeconds * 1e9)) {
-            return false;
-        }
-    }
+    this->state = THREAD_STATE::FINISHED;
+    _result.clear();
+    _exception = Exception(
+        _W("Execution of the future was cancelled."), L"parallel:fevalqueue:ExecutionCancelled");
     return true;
 }
 //=============================================================================
 void
-FutureObject::evaluateFunction(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
+FutureObject::evaluateFunction(
+    FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
     this->_nLhs = nLhs;
+    if (this->state == THREAD_STATE::FINISHED
+        || (NelsonConfiguration::getInstance()->getInterruptPending(ID))) {
+        state = THREAD_STATE::FINISHED;
+        endDateTime = (uint64)getEpoch();
+        return;
+    }
     try {
         evaluateInterface = new EvaluateInterface();
     } catch (std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        state = THREAD_STATE::FINISHED;
+        _exception = ERROR_MEMORY_ALLOCATION;
+        endDateTime = (uint64)getEpoch();
+        return;
     }
     state = THREAD_STATE::RUNNING;
 
     Evaluator* evaluator = createParallelEvaluator(evaluateInterface, ID);
     if (evaluator == nullptr) {
-        state = THREAD_STATE::FINISHED;
+        if (changeState) {
+            state = THREAD_STATE::FINISHED;
+        }
         _exception = Exception("Cannot create evaluator.");
         endDateTime = (uint64)getEpoch();
         return;
@@ -328,32 +330,85 @@ FutureObject::evaluateFunction(FunctionDef* fptr, int nLhs, const ArrayOfVector&
     endDateTime = (uint64)0;
     try {
         _result = fptr->evaluateFunction(evaluator, argIn, nLhs);
-        state = THREAD_STATE::FINISHED;
     } catch (Exception& e) {
         _exception = e;
-        state = THREAD_STATE::FAILED;
+    }
+    if (changeState) {
+        state = THREAD_STATE::FINISHED;
     }
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
         state = THREAD_STATE::FINISHED;
         _exception = Exception(_W("Execution of the future was cancelled."),
             L"parallel:fevalqueue:ExecutionCancelled");
     }
-    evaluator = deleteParallelEvaluator(evaluator, true);
+    evaluator = deleteParallelEvaluator(evaluator, false);
     endDateTime = (uint64)getEpoch();
 }
 //=============================================================================
-ArrayOfVector
-FutureObject::getResult()
+int
+FutureObject::getNumberOfLhs()
 {
-    wasReaded = true;
+    return this->_nLhs;
+}
+//=============================================================================
+ArrayOfVector
+FutureObject::getResult(bool changeReadState)
+{
+    if (changeReadState) {
+        _wasRead = true;
+    }
     return _result;
 }
 //=============================================================================
-Exception
-FutureObject::getException()
+void
+FutureObject::setResult(const ArrayOfVector& result)
 {
-    wasReaded = true;
+    _result = result;
+}
+//=============================================================================
+Exception
+FutureObject::getException(bool changeReadState)
+{
+    if (changeReadState) {
+        _wasRead = true;
+    }
     return _exception;
+}
+//=============================================================================
+void
+FutureObject::setException(const Exception& e)
+{
+    _exception = e;
+}
+//=============================================================================
+bool
+FutureObject::wasRead()
+{
+    return _wasRead;
+}
+//=============================================================================
+void
+FutureObject::setPredecessors(const std::vector<FutureObject*>& futures)
+{
+    _predecessors = futures;
+}
+//=============================================================================
+std::vector<FutureObject*>
+FutureObject::getPredecessors()
+{
+    return _predecessors;
+}
+//=============================================================================
+std::wstring
+FutureObject::getType()
+{
+    return _type;
+}
+//=============================================================================
+void
+FutureObject::setType(const std::wstring& futureType)
+{
+    _type = futureType;
 }
 //=============================================================================
 } // namespace Nelson

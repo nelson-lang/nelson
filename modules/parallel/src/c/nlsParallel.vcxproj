@@ -213,12 +213,16 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\AfterAllFutureObject.cpp" />
+    <ClCompile Include="..\cpp\AfterEachFutureObject.cpp" />
     <ClCompile Include="..\cpp\BackgroundPoolObject.cpp" />
     <ClCompile Include="..\cpp\DeleteGenericObject.cpp" />
+    <ClCompile Include="..\cpp\FevalFutureFetchNext.cpp" />
     <ClCompile Include="..\cpp\FutureFetchOutputs.cpp" />
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
     <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
     <ClCompile Include="..\cpp\FutureObject.cpp" />
+    <ClCompile Include="..\cpp\FutureObjectHelpers.cpp" />
     <ClCompile Include="..\cpp\ParallelEvaluator.cpp" />
     <ClCompile Include="..\cpp\TimeHelpers.cpp" />
     <ClCompile Include="..\cpp\WaitFutures.cpp" />
@@ -227,12 +231,16 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\ParallelEvaluator.hpp" />
     <ClInclude Include="..\cpp\TimeHelpers.hpp" />
+    <ClInclude Include="..\include\AfterAllFutureObject.hpp" />
+    <ClInclude Include="..\include\AfterEachFutureObject.hpp" />
     <ClInclude Include="..\include\BackgroundPoolObject.hpp" />
     <ClInclude Include="..\include\DeleteGenericObject.hpp" />
+    <ClInclude Include="..\include\FevalFutureFetchNext.hpp" />
     <ClInclude Include="..\include\FutureFetchOutputs.hpp" />
     <ClInclude Include="..\include\FevalFutureObject.hpp" />
     <ClInclude Include="..\include\FevalQueueObject.hpp" />
     <ClInclude Include="..\include\FutureObject.hpp" />
+    <ClInclude Include="..\include\FutureObjectHelpers.hpp" />
     <ClInclude Include="..\include\nlsParallel_exports.h" />
     <ClInclude Include="..\include\BS_thread_pool.hpp" />
     <ClInclude Include="..\include\WaitFutures.hpp" />

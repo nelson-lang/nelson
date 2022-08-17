@@ -15,9 +15,10 @@ NumWorkers = pool.NumWorkers;
 for k = [1:(NumWorkers*2) + 2]
   f(k) = parfeval(pool, p, 0, 5);
 end
+assert_isequal(length(f), (NumWorkers*2) + 2);
 assert_isequal(f(end).State, 'queued')
 fevalqueue = pool.FevalQueue;
-cancelAll(fevalqueue)
+cancelAll(fevalqueue);
 assert_isequal(f(end).State, 'finished')
 assert_istrue(isempty(fevalqueue.QueuedFutures))
 assert_istrue(isempty(fevalqueue.RunningFutures))

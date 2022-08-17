@@ -9,17 +9,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <vector>
+#include "nlsParallel_exports.h"
 #include "Evaluator.hpp"
+#include "FutureObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ParallelGateway {
-    //=============================================================================
-    ArrayOfVector
-    FevalFuture_waitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSPARALLEL_IMPEXP
+ArrayOfVector
+FevalFutureFetchNext(
+    Evaluator* eval, const std::vector<FutureObject*>& futures, int nLhs, double timeout);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

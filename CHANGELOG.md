@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `peaks`: peaks function.
 
+- parallel module:
+
+  - `fetchNext`: Retrieve next unread outputs from FevalFuture array.
+  - `afterAll`: Run function after all functions finish running in the background.
+  - `afterEach`: Run function after each functions finish running in the background.
+
 - signal processing module:
 
   - `hann`: Hann window.

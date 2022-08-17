@@ -9,12 +9,22 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-p1 = str2func('cos');
-p2 = str2func('sin');
-b = backgroundPool();
-A1 = parfeval(b, p1, 1, pi);
-A2 = parfeval(b, p2, 1, pi);
-A = [A1, A2];
-R = fetchOutputs(A);
-assert_isapprox(R, [-1; 0],1e-7);
+pool = backgroundPool();
 %=============================================================================
+clear f
+f1 = str2func('@(x) x * 10');
+f2 = str2func('@(x) x / 10');
+for idx = 1:100
+    f(idx) = parfeval(pool, f1, 1, idx);
+end
+c = afterAll(f, f2, 1);
+R = fetchOutputs(c);
+REF = [1:100]';
+assert_isequal(R, REF)
+%=============================================================================
+fevalqueue = pool.FevalQueue;
+cancelAll(fevalqueue);
+%=============================================================================
+
+
+
