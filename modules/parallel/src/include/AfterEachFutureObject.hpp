@@ -9,17 +9,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
 #include "nlsParallel_exports.h"
-#include "Evaluator.hpp"
+#include "HandleGenericObject.hpp"
 #include "FutureObject.hpp"
+#include "FevalFutureObject.hpp"
+#include "FunctionDef.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSPARALLEL_IMPEXP
-ArrayOfVector
-FutureFetchOutputs(
-    Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput = false);
+#define AFTEREACHFUTURE_CATEGORY_STR L"AfterEachFuture"
 //=============================================================================
-}
+class NLSPARALLEL_IMPEXP AfterEachFutureObject : public HandleGenericObject, public FutureObject
+{
+public:
+    AfterEachFutureObject(
+        const std::wstring& functionName, const std::vector<FutureObject*>& predecessors);
+    void
+    afterEach(FunctionDef* funcDef, int nLhs, bool uniformOutput = false);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

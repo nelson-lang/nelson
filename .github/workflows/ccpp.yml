@@ -186,6 +186,7 @@ jobs:
         run: |
           sudo apt update;
           sudo apt upgrade;
+          sudo apt -y install build-essential;
           sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
           sudo apt -y install ninja-build;
           sudo apt -y install xvfb;

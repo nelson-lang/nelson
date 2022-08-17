@@ -9,29 +9,52 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-totalWorkers = (NumWorkers*2) + 2
-for k = 1:totalWorkers
-  f(k) = parfeval(b, p, 0, Inf);
+pool = backgroundPool();
+%=============================================================================
+clear f
+f1 = str2func('@(x) x * 10');
+f2 = str2func('@(x) x / 10');
+for idx = 1:100
+    f(idx) = parfeval(pool, f1, 1, idx);
 end
+c = afterEach(f, f2, 1);
+R = fetchOutputs(c);
+REF = [1:100]';
+assert_isequal(length(R), length(REF));
+assert_isequal(R, REF)
 %=============================================================================
-assert_isequal(class(f), 'FevalFuture')
+fevalqueue = pool.FevalQueue;
+cancelAll(fevalqueue);
 %=============================================================================
-wait(f(1), 'running');
-K =  b.FevalQueue;
-R1 = K.RunningFutures;
-LEN_R1 = length(R1);
-R2 = K.QueuedFutures;
-LEN_R2 = length(R2);
+clear f
+fn1 = str2func('@(x) [x:-1:1]''');
+fn2 = str2func('max');
+for idx= 1:10
+    f(idx) = parfeval(pool, fn1, 1, 1000);
+end
+C = afterEach(f, fn2, 2);
+[R, I] = fetchOutputs(C);
+REF = [ones(10, 1) * 1000];
+assert_isequal(length(R), length(REF));
+assert_isequal(R, REF);
+assert_isequal(I, ones(10, 1));
 %=============================================================================
-assert_isequal(length(f), totalWorkers);
-assert_isequal(LEN_R1 + LEN_R2, totalWorkers);
+fevalqueue = pool.FevalQueue;
+cancelAll(fevalqueue);
 %=============================================================================
-assert_isequal(size(K), [1 1]);
+clear f
+fn1 = str2func('@(x) [x:-1:1]');
+fn2 = str2func('max');
+for idx= 1:10
+    f(idx) = parfeval(pool, fn1, 1, 1000);
+end
+C = afterEach(f, fn2, 2);
+[R, I] = fetchOutputs(C);
+REF = [ones(10, 1) * 1000];
+assert_isequal(length(R), length(REF));
+assert_isequal(R, REF);
+assert_isequal(I, ones(10, 1));
 %=============================================================================
-assert_isequal(LEN_R1, NumWorkers);
-%=============================================================================
-assert_isequal(LEN_R2, NumWorkers + 2);
+fevalqueue = pool.FevalQueue;
+cancelAll(fevalqueue);
 %=============================================================================

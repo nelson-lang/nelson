@@ -7,19 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "AfterAllFuture_usedBuiltin.hpp"
+#include "AfterAllFutureObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
-#include <vector>
-#include "nlsParallel_exports.h"
-#include "Evaluator.hpp"
-#include "FutureObject.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSPARALLEL_IMPEXP
 ArrayOfVector
-FutureFetchOutputs(
-    Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput = false);
-//=============================================================================
+Nelson::ParallelGateway::AfterAllFuture_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(1);
+    retval << usedHandle(AFTERALLFUTURE_CATEGORY_STR);
+    return retval;
 }
 //=============================================================================

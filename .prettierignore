@@ -4,3 +4,4 @@ modules/sio_client/src/socket_io/lib
 modules/stream_manager/tests/bench_fileread.json
 modules/json/tests/bench_jsonencode.json
 bin/
+**/CMakeFiles/

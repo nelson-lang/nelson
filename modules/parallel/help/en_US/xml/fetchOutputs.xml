@@ -26,8 +26,8 @@
   </param_output>
 
   <description>
-    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> retrieves m results from a <b
-      >Future</b> array <b>f</b>.</p>
+    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> retrieves <b
+      >m</b> results from a <b>Future</b> array <b>f</b>.</p>
     <p />
     <p><b>fetchOutputs</b> waits for the function associated to <b
       >f</b> to finish before retrieving results.</p>
@@ -81,6 +81,10 @@ f2]]>
     <see_also_item>
       <link linkend="${parallel}backgroundPool">backgroundPool</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchNext">fetchNext</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

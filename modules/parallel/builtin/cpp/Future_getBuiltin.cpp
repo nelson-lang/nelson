@@ -7,37 +7,42 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FevalFuture_cancelBuiltin.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
-#include "Error.hpp"
+#include "Future_getBuiltin.hpp"
 #include "FevalFutureObject.hpp"
+#include "AfterAllFutureObject.hpp"
+#include "AfterEachFutureObject.hpp"
+#include "Error.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::FevalFuture_cancelBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::Future_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (!param1.isHandle()) {
-        Error(_W("FevalFuture handle expected."));
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    ArrayOfVector retval(1);
+    bool isSupportedFuture = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR);
+    if (!isSupportedFuture) {
+        Error(_W("Future handle expected."));
     }
-    if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-        Error(_W("FevalFuture handle expected."));
-    }
-    indexType nbElements = param1.getElementCount();
 
+    auto* ptr = (nelson_handle*)param1.getDataPointer();
+    indexType nbElements = param1.getElementCount();
     if (nbElements > 0) {
-        auto* ptr = (nelson_handle*)param1.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
             auto* objFevalFuture = (FevalFutureObject*)hlObj;
-            if (objFevalFuture != nullptr) {
-                objFevalFuture->cancel();
+            ArrayOf res;
+            if (!objFevalFuture->get(propertyName, res)) {
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
             }
+            retval << res;
         }
     }
     return retval;

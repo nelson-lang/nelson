@@ -7,17 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FevalFuture_displayBuiltin.hpp"
+#include "Future_displayBuiltin.hpp"
 #include "FevalFutureObject.hpp"
+#include "AfterAllFutureObject.hpp"
+#include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "FutureObjectHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::FevalFuture_displayBuiltin(
+Nelson::ParallelGateway::Future_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
@@ -31,37 +34,21 @@ Nelson::ParallelGateway::FevalFuture_displayBuiltin(
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
-        if (param1.isScalar()) {
-            if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-                Error(_W("FevalFuture handle expected."));
-            }
-            auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
-            fevalFutureObject->display(io);
+        std::vector<FutureObject*> futures = ArrayOfToFutures(param1);
+        if (futures.size() == 1) {
+            futures[0]->display(io);
         } else {
-            Dimensions dims = param1.getDimensions();
-            nelson_handle* qp = (nelson_handle*)(param1.getDataPointer());
-            size_t elementCount = static_cast<size_t>(dims.getElementCount());
-            if (elementCount) {
-                io->outputMessage(L"\n");
-            }
-            size_t idx = 1;
-            for (size_t k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
-                    if (hlObj->getCategory() == FEVALFUTURE_CATEGORY_STR) {
-                        auto* fevalFutureObject = (FevalFutureObject*)hlObj;
-                        fevalFutureObject->displayOnOneLine(io, idx);
-                    }
+            for (size_t k = 0; k < futures.size(); ++k) {
+                if (futures[k]) {
+                    futures[k]->displayOnOneLine(io, k + 1);
                 } else {
-                    FevalFutureObject::displayOnOneLineEmpty(io, idx);
+                    FutureObject::displayOnOneLineEmpty(io, k + 1);
                 }
-                idx++;
             }
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("FevalFuture handle expected."));
+        Error(_W("Future handle expected."));
     }
     return retval;
 }

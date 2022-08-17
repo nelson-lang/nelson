@@ -16,7 +16,7 @@ namespace Nelson {
 namespace ParallelGateway {
     //=============================================================================
     ArrayOfVector
-    FevalFuture_cancelBuiltin(int nLhs, const ArrayOfVector& argIn);
+    Future_getBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

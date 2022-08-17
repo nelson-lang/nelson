@@ -9,8 +9,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <future>
-#include <tuple>
+#include <vector>
+#include <atomic>
 #include "nlsParallel_exports.h"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
@@ -26,7 +26,6 @@ enum THREAD_STATE
     QUEUED,
     RUNNING,
     FINISHED,
-    FAILED,
     UNAVAILABLE,
 };
 //=============================================================================
@@ -81,25 +80,52 @@ public:
     getDiary();
 
     bool
-    cancel(size_t timeoutSeconds = 5);
+    cancel();
 
     void
-    evaluateFunction(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
+    evaluateFunction(
+        FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState = true);
 
     ArrayOfVector
-    getResult();
+    getResult(bool changeReadState = true);
+
+    void
+    setResult(const ArrayOfVector& result);
 
     Exception
-    getException();
+    getException(bool changeReadState = true);
+
+    void
+    setException(const Exception& e);
+
+    int
+    getNumberOfLhs();
+
+    bool
+    wasRead();
+
+    void
+    setPredecessors(const std::vector<FutureObject*>& futures);
+
+    std::vector<FutureObject*>
+    getPredecessors();
+
+    std::wstring
+    getType();
+
+    void
+    setType(const std::wstring& futureType);
 
 private:
     size_t ID;
     wstringVector propertiesNames;
     std::wstring functionName;
-    bool wasReaded;
+    bool _wasRead;
     Exception _exception;
     ArrayOfVector _result;
     int _nLhs;
+    std::wstring _type;
+    std::vector<FutureObject*> _predecessors;
 };
 //=============================================================================
 } // namespace Nelson

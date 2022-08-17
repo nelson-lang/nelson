@@ -8,18 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <limits>
-#include "FevalFuture_waitBuiltin.hpp"
+#include "Future_waitBuiltin.hpp"
 #include "FevalFutureObject.hpp"
+#include "AfterAllFutureObject.hpp"
+#include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
 #include "WaitFutures.hpp"
+#include "FutureObjectHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::FevalFuture_waitBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::Future_waitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     // wait(F)
     // wait(F,state)
@@ -32,13 +32,16 @@ Nelson::ParallelGateway::FevalFuture_waitBuiltin(
     if (!param1.isHandle()) {
         Error(_W("FevalFuture handle expected."));
     }
-    if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-        Error(_W("FevalFuture handle expected."));
+    bool isSupportedType = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR);
+
+    if (!isSupportedType) {
+        Error(_W("Future handle expected."));
     }
     indexType nbElements = param1.getElementCount();
     double timeout = std::numeric_limits<double>::infinity();
     THREAD_STATE expectedState = THREAD_STATE::FINISHED;
-    std::vector<Nelson::FevalFutureObject*> futures;
 
     if (argIn.size() > 1) {
         std::wstring stateStr = argIn[1].getContentAsWideString();
@@ -56,23 +59,18 @@ Nelson::ParallelGateway::FevalFuture_waitBuiltin(
             Error(_W("Expected timeout to be non-negative real numerical scalar."));
         }
     }
-    if (nbElements > 0) {
-        auto* ptr = (nelson_handle*)param1.getDataPointer();
-        futures.reserve(nbElements);
-        for (indexType k = 0; k < nbElements; k++) {
-            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
-            auto* objFevalFuture = (FevalFutureObject*)hlObj;
-            if (objFevalFuture == nullptr) {
-                Error(_W("Cannot wait for completion of Futures that are in state 'unavailable'."));
-            }
-            THREAD_STATE state = objFevalFuture->state;
+
+    std::vector<FutureObject*> futures = ArrayOfToFutures(param1);
+    for (auto f : futures) {
+        if (f) {
+            THREAD_STATE state = f->state;
             if (state == THREAD_STATE::UNAVAILABLE) {
                 Error(_W("Cannot wait for completion of Futures that are in state 'unavailable'."));
             }
-            futures.push_back(objFevalFuture);
+        } else {
+            Error(_W("Cannot wait for completion of Futures that are in state 'unavailable'."));
         }
     }
-
     bool res = WaitFutures(eval, futures, expectedState, timeout);
     if (nLhs == 1) {
         retval << ArrayOf::logicalConstructor(res);

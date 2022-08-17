@@ -84,7 +84,9 @@ Eigen_DeleteSparseMatrix(void** cp)
 {
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)*cp;
-    delete spMat;
+    if (spMat) {
+        delete spMat;
+    }
     spMat = nullptr;
     *cp = nullptr;
 }
@@ -102,8 +104,8 @@ Eigen_DeleteSparseMatrix(NelsonType dclass, indexType rows, indexType cols, void
     case NLS_DCOMPLEX: {
         Eigen_DeleteSparseMatrix<doublecomplex>(cp);
     } break;
-    default:
-        Error(_W("Unsupported type in MakeSparseArrayOf."));
+    default: {
+    } break;
     }
 }
 //=============================================================================

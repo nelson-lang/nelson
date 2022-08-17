@@ -9,29 +9,26 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-totalWorkers = (NumWorkers*2) + 2
-for k = 1:totalWorkers
-  f(k) = parfeval(b, p, 0, Inf);
+assert_isequal(nargin('fetchNext'), 1);
+assert_isequal(nargout('fetchNext'), 1);
+%=============================================================================
+pool = backgroundPool();
+N = pool.NumWorkers;
+%=============================================================================
+for idx = 1:N
+    f(idx) = parfeval(backgroundPool, str2func('pause'), 0, idx); 
 end
 %=============================================================================
-assert_isequal(class(f), 'FevalFuture')
+for idx = 1:N
+    tic(), dd = fetchNext(f), t = toc();
+    assert_istrue(t > 0 && t <= 3);
+    assert_isequal(dd, idx);
+end
 %=============================================================================
-wait(f(1), 'running');
-K =  b.FevalQueue;
-R1 = K.RunningFutures;
-LEN_R1 = length(R1);
-R2 = K.QueuedFutures;
-LEN_R2 = length(R2);
+assert_checkerror('dd = fetchNext(f)', _('There are no unread Futures to fetch.'));
 %=============================================================================
-assert_isequal(length(f), totalWorkers);
-assert_isequal(LEN_R1 + LEN_R2, totalWorkers);
-%=============================================================================
-assert_isequal(size(K), [1 1]);
-%=============================================================================
-assert_isequal(LEN_R1, NumWorkers);
-%=============================================================================
-assert_isequal(LEN_R2, NumWorkers + 2);
+l = parfeval(backgroundPool, str2func('pause'), 0, inf); 
+tic(); dd = fetchNext(l, 5); t = toc();
+assert_istrue(t > 0 && t <= 6);
+assert_isequal(dd, []);
 %=============================================================================

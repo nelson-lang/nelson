@@ -13,5 +13,6 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : FutureObject(functionName)
     , HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
+    setType(FEVALFUTURE_CATEGORY_STR);
 }
 //=============================================================================

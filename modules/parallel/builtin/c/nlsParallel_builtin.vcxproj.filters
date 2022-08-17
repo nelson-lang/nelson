@@ -36,7 +36,7 @@
     <ClCompile Include="..\cpp\parfevalBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FevalFuture_displayBuiltin.cpp">
+    <ClCompile Include="..\cpp\Future_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\fetchOutputsBuiltin.cpp">
@@ -48,7 +48,7 @@
     <ClCompile Include="..\cpp\FevalQueue_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FevalFuture_getBuiltin.cpp">
+    <ClCompile Include="..\cpp\Future_getBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\backgroundPool_fieldnamesBuiltin.cpp">
@@ -72,13 +72,34 @@
     <ClCompile Include="..\cpp\FevalQueue_usedBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FevalFuture_waitBuiltin.cpp">
+    <ClCompile Include="..\cpp\Future_waitBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FevalFuture_cancelBuiltin.cpp">
+    <ClCompile Include="..\cpp\Future_cancelBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FevalQueue_cancelAllBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\afterAllBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\fetchNextBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\afterEachBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\AfterAllFuture_deleteBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\AfterAllFuture_usedBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\AfterEachFuture_deleteBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\AfterEachFuture_usedBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,7 +131,7 @@
     <ClInclude Include="..\include\parfevalBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FevalFuture_displayBuiltin.hpp">
+    <ClInclude Include="..\include\Future_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\fetchOutputsBuiltin.hpp">
@@ -122,7 +143,7 @@
     <ClInclude Include="..\include\FevalQueue_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FevalFuture_getBuiltin.hpp">
+    <ClInclude Include="..\include\Future_getBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\backgroundPool_fieldnamesBuiltin.hpp">
@@ -146,13 +167,34 @@
     <ClInclude Include="..\include\FevalQueue_usedBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FevalFuture_waitBuiltin.hpp">
+    <ClInclude Include="..\include\Future_waitBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FevalFuture_cancelBuiltin.hpp">
+    <ClInclude Include="..\include\Future_cancelBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FevalQueue_cancelAllBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\afterAllBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fetchNextBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\afterEachBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AfterAllFuture_usedBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AfterEachFuture_usedBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AfterAllFuture_deleteBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AfterEachFuture_deleteBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

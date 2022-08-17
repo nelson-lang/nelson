@@ -38,11 +38,6 @@ static std::map<int, int> mapoutputBufferLength;
 //=============================================================================
 static int countEngine = 0;
 //=============================================================================
-static void
-exit_handler(boost::process::child& process, int e, std::error_code ec)
-{
-}
-//=============================================================================
 static boost::process::child*
 attach_child(int pid)
 {

@@ -1,4 +1,4 @@
-# Roadmap
+    # Roadmap
 
 The roadmap is a living document, and it is likely that priorities will change, but the list below should give some indication of our plans for the next major release, and for the future.
 
@@ -6,7 +6,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ## Nelson 1.0
 
-_Features_:
+_Main Features_:
 
 - String array type (DONE v0.2.10),
 - Foreign Function Interface (DONE v0.2.4),
@@ -14,26 +14,26 @@ _Features_:
 - JSON File I/O module (DONE v0.2.1),
 - Inter-process communication between Nelson's process (DONE v0.4.9),
 - MPI interface module (DONE v0.1.11),
-- Parallel module,
+- Parallel module (DONE v0.6.8),
 - editor (DONE v0.1.11),
 - SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
-- linear algebra module,
 - trigonometric functions (DONE v0.6.8)
-- Computer Aided Control Systems Design module,
 - HDF5 high-level functions I/O (DONE v0.2.12),
 - MAT File I/O module (DONE v0.3.3),
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
 - Mex module (Done v0.4.7),
 - Nelson Engine API for C (compatible with MEX Engine) (DONE v0.4.11),
-- completion,
-- graphics output (Graphic objects introduced in v0.4.5),
-- some basic openCV functions,
 - dynamic link functions (Nelson external modules) (DONE v0.2.6),
 - Nelson on cloud (DONE v0.2.11),
-- RESTful API web service (DONE v0.3.9).
+- RESTful API web service (DONE v0.3.9),
+- linear algebra module,
+- Computer Aided Control Systems Design module,
+- completion,
+- graphics output (Graphic objects introduced in v0.4.5),
+- some basic openCV functions.
 
 ## How can I help ?
 

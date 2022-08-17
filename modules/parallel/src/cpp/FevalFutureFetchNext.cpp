@@ -7,69 +7,88 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <limits>
 #include <thread>
 #include <chrono>
-#include "WaitFutures.hpp"
+#include "FevalFutureFetchNext.hpp"
+#include "Error.hpp"
+#include "HandleManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-allAreFinished(const std::vector<FutureObject*>& futures)
+inline ArrayOfVector
+emptyResultFetchNext()
 {
-    return std::all_of(futures.begin(), futures.end(),
-        [](FutureObject* f) { return (f->state == THREAD_STATE::FINISHED); });
+    ArrayOfVector _result;
+    _result << ArrayOf::emptyConstructor();
+    _result << ArrayOf::emptyConstructor();
+    return _result;
 }
 //=============================================================================
-static bool
-allAreRunningOrFinished(const std::vector<FutureObject*>& futures)
+ArrayOfVector
+FevalFutureFetchNext(
+    Evaluator* eval, const std::vector<FutureObject*>& futures, int nLhs, double timeout)
 {
-    return std::all_of(futures.begin(), futures.end(), [](FutureObject* f) {
-        return (f->state == THREAD_STATE::RUNNING) || (f->state == THREAD_STATE::FINISHED);
-    });
-}
-//=============================================================================
-bool
-WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_STATE expectedState,
-    double timeoutSeconds)
-{
+    ArrayOfVector _result;
+
     if (futures.empty()) {
-        return true;
+        return emptyResultFetchNext();
     }
+
     std::chrono::nanoseconds begin_time
         = std::chrono::high_resolution_clock::now().time_since_epoch();
 
     while (true) {
-        if (expectedState == THREAD_STATE::FINISHED) {
-            if (allAreFinished(futures)) {
-                return true;
-            }
-        } else {
-            if (allAreRunningOrFinished(futures)) {
-                return true;
+        bool haveRunnnings = false;
+
+        for (size_t k = 0; k < futures.size(); k++) {
+            if (futures[k]) {
+                switch (futures[k]->state) {
+                case THREAD_STATE::FINISHED: {
+                    if (!futures[k]->wasRead()) {
+                        Exception e = futures[k]->getException();
+                        if (!e.isEmpty()) {
+                            throw e;
+                        }
+                        _result << ArrayOf::doubleConstructor((double)k + 1);
+                        _result += futures[k]->getResult();
+                        return _result;
+                    }
+                } break;
+                case THREAD_STATE::RUNNING:
+                case THREAD_STATE::QUEUED: {
+                    haveRunnnings = true;
+                } break;
+                default: {
+                    haveRunnnings = false;
+                } break;
+                }
             }
         }
+        if (!haveRunnnings) {
+            Error(_W("There are no unread Futures to fetch."));
+        }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
         std::chrono::nanoseconds current_time
             = std::chrono::high_resolution_clock::now().time_since_epoch();
         std::chrono::nanoseconds difftime = (current_time - begin_time);
-        if (!std::isinf(timeoutSeconds) && (difftime.count() > int64(timeoutSeconds * 1e9))) {
-            return false;
+        if ((timeout >= 0) && (difftime.count() > int64(timeout * 1e9))) {
+            return emptyResultFetchNext();
         }
         if (eval != nullptr) {
             bool isInterrupted
                 = NelsonConfiguration::getInstance()->getInterruptPending(eval->getID());
             if (isInterrupted) {
-                return false;
+                return emptyResultFetchNext();
             }
         }
         if (eval != nullptr && eval->haveEventsLoop()) {
             ProcessEventsDynamicFunctionWithoutWait();
         }
     }
-    return false;
+    return _result;
 }
 //=============================================================================
 }
