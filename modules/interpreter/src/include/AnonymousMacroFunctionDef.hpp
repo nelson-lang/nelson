@@ -36,7 +36,7 @@ public:
     ~AnonymousMacroFunctionDef() override;
     /** The type of the function
      */
-    FunctionType
+    [[nodiscard]] FunctionType
     type() const override
     {
         return Nelson::FunctionType::NLS_ANONYMOUS_MACRO_FUNCTION;

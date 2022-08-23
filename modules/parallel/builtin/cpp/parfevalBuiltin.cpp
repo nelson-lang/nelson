@@ -33,7 +33,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("function handle handle expected."));
     }
     function_handle fh = param2.getContentAsFunctionHandle();
-    if (fh.anonymousHandle == 0 && fh.name.empty()) {
+    if (fh.anonymousHandle == nullptr && fh.name.empty()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     std::string fname = fh.name;
@@ -45,7 +45,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     if (!fh.name.empty()) {
         context->lookupFunction(fname, funcDef);
-    } else if (fh.anonymousHandle != 0) {
+    } else if (fh.anonymousHandle != nullptr) {
         funcDef = (FunctionDef*)fh.anonymousHandle;
     }
     if (!funcDef) {
