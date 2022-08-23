@@ -18,7 +18,7 @@ ArrayOfVector
 FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput)
 {
     constexpr double noTimeout = std::numeric_limits<double>::infinity();
-    bool allFinish = WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
+    WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
 
     ArrayOfVector _results(futures.size());
     Exception _exception;

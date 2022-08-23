@@ -24,7 +24,7 @@ AfterEachFutureObject::AfterEachFutureObject(
     setPredecessors(predecessors);
 }
 //=============================================================================
-static bool
+static inline bool
 allDoOnce(const std::vector<bool>& doOnce)
 {
     for (size_t k = 0; k < doOnce.size(); ++k) {
@@ -38,10 +38,7 @@ allDoOnce(const std::vector<bool>& doOnce)
 void
 AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOutput)
 {
-
-    bool haveOinished = false;
     std::vector<FutureObject*> futures = getPredecessors();
-
     std::vector<bool> doAfterEach(futures.size(), false);
 
     bool isFirst = true;

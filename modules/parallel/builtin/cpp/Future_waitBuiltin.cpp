@@ -39,7 +39,6 @@ Nelson::ParallelGateway::Future_waitBuiltin(Evaluator* eval, int nLhs, const Arr
     if (!isSupportedType) {
         Error(_W("Future handle expected."));
     }
-    indexType nbElements = param1.getElementCount();
     double timeout = std::numeric_limits<double>::infinity();
     THREAD_STATE expectedState = THREAD_STATE::FINISHED;
 
