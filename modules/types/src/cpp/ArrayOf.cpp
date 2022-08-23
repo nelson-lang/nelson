@@ -536,7 +536,7 @@ ArrayOf::getDimensions() const
     if (dp) {
         return dp->dimensions;
     }
-    return Dimensions();
+    return {};
 }
 //=============================================================================
 indexType

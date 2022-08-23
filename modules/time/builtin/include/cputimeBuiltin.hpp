@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace TimeGateway {
-    ArrayOfVector
-    cputimeBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::TimeGateway {
+ArrayOfVector
+cputimeBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

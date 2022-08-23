@@ -12,15 +12,11 @@
 #include "ArrayOf.hpp"
 #include "nlsTypes_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::TypeGateway {
 //=============================================================================
-namespace TypeGateway {
-    //=============================================================================
-    NLSTYPES_BUILTIN_IMPEXP
-    ArrayOfVector
-    isvarnameBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSTYPES_BUILTIN_IMPEXP
+ArrayOfVector
+isvarnameBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

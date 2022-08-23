@@ -131,6 +131,7 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
     try {
         if (fptr->type() == NLS_ANONYMOUS_MACRO_FUNCTION) {
             AnonymousMacroFunctionDef* afptr = (AnonymousMacroFunctionDef*)fptr;
+            afptr->updateCode(nLhs);
             retFuture = new FevalFutureObject(utf8_to_wstring(afptr->getDefinition()));
         } else {
             retFuture = new FevalFutureObject(L"@" + utf8_to_wstring(fptr->getName()));

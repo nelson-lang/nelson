@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 #include <functional>
+#include <mutex>
 #include "Types.hpp"
 //=============================================================================
 using key_type = std::string;
@@ -24,6 +25,7 @@ namespace Nelson {
 template <class T> class GenericTable
 {
 private:
+    std::mutex m_mutex;
     //=============================================================================
     using value_type = T;
     //=============================================================================
@@ -66,6 +68,7 @@ public:
     value_type*
     findSymbol(const key_type& key)
     {
+        std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB; // Hash
         Entry* ptr = hashTable[i];
         while (ptr) {
@@ -80,6 +83,7 @@ public:
     void
     deleteSymbol(const key_type& key)
     {
+        std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB; // Hash
         Entry* ptr = hashTable[i];
         if (!ptr) {
@@ -110,6 +114,7 @@ public:
     void
     insertSymbol(const key_type& key, const value_type& val)
     {
+        std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB;
         Entry* ptr = hashTable[i];
         if (!ptr) {
@@ -129,6 +134,7 @@ public:
     stringVector
     getAllSymbols()
     {
+        std::scoped_lock<std::mutex> lock { m_mutex };
         stringVector retlist;
         for (auto& i : hashTable) {
             if (i != nullptr) {
