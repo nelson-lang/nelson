@@ -15,7 +15,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef void* ptrBuiltin;
+using ptrBuiltin = void*;
 //=============================================================================
 enum BUILTIN_PROTOTYPE
 {
@@ -24,14 +24,14 @@ enum BUILTIN_PROTOTYPE
     C_MEX_BUILTIN = 2
 };
 //=============================================================================
-typedef struct nlsGatewayStructType
+using nlsGateway = struct nlsGatewayStructType
 {
     std::string functionName;
     ptrBuiltin fptr;
     int nLhs;
     int nRhs;
     BUILTIN_PROTOTYPE builtinPrototype;
-} nlsGateway;
+};
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -27,7 +27,7 @@ static size_t counterIDs = 0;
 bool
 FutureObject::isMethod(const std::wstring& methodName)
 {
-    for (auto name : propertiesNames) {
+    for (const auto& name : propertiesNames) {
         if (name == methodName) {
             return true;
         }

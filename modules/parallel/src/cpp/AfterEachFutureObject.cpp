@@ -27,8 +27,8 @@ AfterEachFutureObject::AfterEachFutureObject(
 static inline bool
 allDoOnce(const std::vector<bool>& doOnce)
 {
-    for (size_t k = 0; k < doOnce.size(); ++k) {
-        if (!doOnce[k]) {
+    for (bool k : doOnce) {
+        if (!k) {
             return false;
         }
     }

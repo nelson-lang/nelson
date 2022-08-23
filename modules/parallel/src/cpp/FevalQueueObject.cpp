@@ -65,7 +65,7 @@ FevalQueueObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalQueueObject::~FevalQueueObject() { }
+FevalQueueObject::~FevalQueueObject() = default;
 //=============================================================================
 void
 FevalQueueObject::add(FevalFutureObject* fevalFutureObject)
@@ -79,9 +79,9 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 {
     refreshQueue();
     std::vector<nelson_handle> handles;
-    for (size_t k = 0; k < fEvalQueue.size(); k++) {
-        if (fEvalQueue[k]->state == stateDesired) {
-            nelson_handle asNelsonHandle = fEvalQueue[k]->asNelsonHandle;
+    for (auto& k : fEvalQueue) {
+        if (k->state == stateDesired) {
+            nelson_handle asNelsonHandle = k->asNelsonHandle;
             nelson_handle nh = asNelsonHandle;
             handles.push_back(nh);
         }
@@ -129,7 +129,7 @@ FevalQueueObject::get(const std::wstring& propertyName, ArrayOf& result)
 bool
 FevalQueueObject::isMethod(const std::wstring& methodName)
 {
-    for (auto name : propertiesNames) {
+    for (const auto& name : propertiesNames) {
         if (name == methodName) {
             return true;
         }
@@ -153,8 +153,8 @@ FevalQueueObject::refreshQueue()
 void
 FevalQueueObject::reset()
 {
-    for (size_t k = 0; k < fEvalQueue.size(); k++) {
-        fEvalQueue[k]->cancel();
+    for (auto& k : fEvalQueue) {
+        k->cancel();
     }
     refreshQueue();
 }
