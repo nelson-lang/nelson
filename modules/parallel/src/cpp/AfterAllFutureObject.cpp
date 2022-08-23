@@ -28,8 +28,8 @@ AfterAllFutureObject::AfterAllFutureObject(
 static bool
 allFinish(const std::vector<FutureObject*>& objs)
 {
-    for (size_t k = 0; k < objs.size(); ++k) {
-        if (objs[k]->state != THREAD_STATE::FINISHED) {
+    for (auto obj : objs) {
+        if (obj->state != THREAD_STATE::FINISHED) {
             return false;
         }
     }
@@ -46,8 +46,8 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
     } while (!allFinished);
 
     ArrayOfVector argsToConcate;
-    for (size_t k = 0; k < fevalFutures.size(); ++k) {
-        argsToConcate << fevalFutures[k]->getResult(false)[0];
+    for (auto& fevalFuture : fevalFutures) {
+        argsToConcate << fevalFuture->getResult(false)[0];
     }
     ArrayOf concated;
     Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);

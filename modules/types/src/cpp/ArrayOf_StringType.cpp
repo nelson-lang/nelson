@@ -298,7 +298,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     }
     if (m.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     Dimensions dimsM = m.getDimensions();
     if (m.isEmpty()) {
@@ -354,7 +354,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
             if (over) {
                 delete[] elementsOutput;
                 needToOverload = true;
-                return ArrayOf();
+                return {};
             }
             if (el.isEmpty()) {
                 elementsOutput[k] = ArrayOf::characterArrayConstructor("");
@@ -432,7 +432,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         needToOverload = true;
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

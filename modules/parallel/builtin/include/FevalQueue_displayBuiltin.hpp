@@ -12,14 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::ParallelGateway {
 //=============================================================================
-namespace ParallelGateway {
-    //=============================================================================
-    ArrayOfVector
-    FevalQueue_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+ArrayOfVector
+FevalQueue_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

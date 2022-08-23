@@ -12,14 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::ParallelGateway {
 //=============================================================================
-namespace ParallelGateway {
-    //=============================================================================
-    ArrayOfVector
-    fetchOutputsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+ArrayOfVector
+fetchOutputsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

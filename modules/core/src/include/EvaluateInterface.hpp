@@ -50,7 +50,7 @@ public:
     std::wstring
     getOutputBuffer();
     void
-    interruptGetLineByEvent();
+    interruptGetLineByEvent() override;
 
 private:
     std::wstring outputBuffer;

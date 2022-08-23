@@ -27,7 +27,7 @@ static size_t counterIDs = 0;
 bool
 FutureObject::isMethod(const std::wstring& methodName)
 {
-    for (auto name : propertiesNames) {
+    for (const auto& name : propertiesNames) {
         if (name == methodName) {
             return true;
         }
@@ -123,6 +123,8 @@ FutureObject::~FutureObject()
         evaluateInterface = nullptr;
     }
     state = THREAD_STATE::UNAVAILABLE;
+    _result.clear();
+    _predecessors.clear();
     creationDateTime = 0;
     startDateTime = 0;
     endDateTime = 0;
@@ -282,7 +284,6 @@ FutureObject::cancel()
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
     this->endDateTime = getEpoch();
     this->state = THREAD_STATE::FINISHED;
-    _result.clear();
     _exception = Exception(
         _W("Execution of the future was cancelled."), L"parallel:fevalqueue:ExecutionCancelled");
     return true;
@@ -292,6 +293,7 @@ void
 FutureObject::evaluateFunction(
     FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
+    _result = ArrayOfVector();
     this->_nLhs = nLhs;
     if (this->state == THREAD_STATE::FINISHED
         || (NelsonConfiguration::getInstance()->getInterruptPending(ID))) {
@@ -320,7 +322,7 @@ FutureObject::evaluateFunction(
     }
 
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
-        evaluator = deleteParallelEvaluator(evaluator, true);
+        deleteParallelEvaluator(evaluator, true);
         _exception = Exception("Interrupted");
         state = THREAD_STATE::FINISHED;
         endDateTime = (uint64)getEpoch();

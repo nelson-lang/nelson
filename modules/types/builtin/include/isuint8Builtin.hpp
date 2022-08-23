@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace TypeGateway {
-    ArrayOfVector
-    isuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::TypeGateway {
+ArrayOfVector
+isuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

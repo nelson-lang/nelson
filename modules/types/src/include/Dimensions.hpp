@@ -192,7 +192,7 @@ public:
     /**
      * Returns true if we match the argument (exactly).
      */
-    bool
+    [[nodiscard]] bool
     equals(const Dimensions& alt) const;
     //=============================================================================
     /**

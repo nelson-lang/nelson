@@ -18,7 +18,7 @@ ArrayOfVector
 FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput)
 {
     constexpr double noTimeout = std::numeric_limits<double>::infinity();
-    bool allFinish = WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
+    WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
 
     ArrayOfVector _results(futures.size());
     Exception _exception;
@@ -48,9 +48,9 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
 
     ArrayOfVector argsToConcate;
     for (size_t k = 0; k < nLhs; ++k) {
-        for (size_t q = 0; q < futures.size(); ++q) {
-            if (futures[q]) {
-                argsToConcate << futures[q]->getResult()[k];
+        for (auto future : futures) {
+            if (future) {
+                argsToConcate << future->getResult()[k];
             }
         }
         _results.push_back(VertCatOperator(eval, argsToConcate));

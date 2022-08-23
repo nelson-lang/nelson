@@ -27,7 +27,7 @@ Nelson::ParallelGateway::backgroundPool_structBuiltin(int nLhs, const ArrayOfVec
     wstringVector fieldnames = backgroundPool->getInstance()->fieldnames();
     ArrayOfVector fieldvalues;
     fieldvalues.reserve(fieldnames.size());
-    for (auto name : fieldnames) {
+    for (const auto& name : fieldnames) {
         ArrayOf value;
         if (backgroundPool->getInstance()->get(name, value)) {
             fieldvalues.push_back(value);
