@@ -320,7 +320,7 @@ FutureObject::evaluateFunction(
     }
 
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
-        evaluator = deleteParallelEvaluator(evaluator, true);
+        deleteParallelEvaluator(evaluator, true);
         _exception = Exception("Interrupted");
         state = THREAD_STATE::FINISHED;
         endDateTime = (uint64)getEpoch();
