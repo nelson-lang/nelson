@@ -3,7 +3,7 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 	<language>en_US</language>
 	<module_name>integer</module_name>
-	<chapter>integers type</chapter>
+	<chapter>Integers type</chapter>
 	<chapter_description>
 		These functions convert and store data to 1, 2 or 4 bytes integers.
 		These data types are especially useful to store big objects such as images.
