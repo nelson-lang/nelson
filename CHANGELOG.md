@@ -90,6 +90,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#683](http://github.com/Nelson-numerical-software/nelson/issues/683): MacOS Catalina removed on Github CI (no more officially supported).
 
+- Help chapter titles all start with a capital letter.
+
 ### Fixed
 
 - [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.

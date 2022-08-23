@@ -3,7 +3,7 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 	<language>en_US</language>
 	<module_name>assert_functions</module_name>
-	<chapter>assertion functions</chapter>
+	<chapter>Assertion functions</chapter>
 	<chapter_description
   >The aim of these functions is to provide tools to test some other functions.</chapter_description>
 	
