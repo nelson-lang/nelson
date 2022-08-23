@@ -65,14 +65,14 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
     }
     size_t nbElements = args1.size();
     ArrayOfVector result;
-    result.reserve(nbElements);
+    result.resize(nbElements);
     Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);
     for (size_t k = 0; k < nbElements; ++k) {
         ArrayOfVector args;
         args << args1[k];
         args << args2[k];
         try {
-            result.push_back(VertCatOperator(localEvaluator, args));
+            result[k] = VertCatOperator(localEvaluator, args);
         } catch (Exception& ex) {
             e = ex;
             if (localEvaluator) {

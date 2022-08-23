@@ -47,13 +47,13 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     FunctionDef* funcDef = nullptr;
     std::string fname;
     function_handle fh = argIn[0].getContentAsFunctionHandle();
-    if (fh.anonymousHandle == 0 && fh.name.empty()) {
+    if (fh.anonymousHandle == nullptr && fh.name.empty()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     if (!fh.name.empty()) {
         fname = fh.name;
         context->lookupFunction(fname, funcDef);
-    } else if (fh.anonymousHandle != 0) {
+    } else if (fh.anonymousHandle != nullptr) {
         funcDef = (FunctionDef*)fh.anonymousHandle;
     }
     if (funcDef == nullptr) {
@@ -124,9 +124,8 @@ evaluateFunctionWithTimerRaw(
         if (iterationCount == 1) {
             if (seconds > timeThreshold) {
                 break;
-            } else {
-                runtime.clear();
             }
+            runtime.clear();
         }
     }
     std::sort(runtime.begin(), runtime.end());

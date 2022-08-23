@@ -123,6 +123,8 @@ FutureObject::~FutureObject()
         evaluateInterface = nullptr;
     }
     state = THREAD_STATE::UNAVAILABLE;
+    _result.clear();
+    _predecessors.clear();
     creationDateTime = 0;
     startDateTime = 0;
     endDateTime = 0;
@@ -282,7 +284,6 @@ FutureObject::cancel()
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
     this->endDateTime = getEpoch();
     this->state = THREAD_STATE::FINISHED;
-    _result.clear();
     _exception = Exception(
         _W("Execution of the future was cancelled."), L"parallel:fevalqueue:ExecutionCancelled");
     return true;
@@ -292,6 +293,7 @@ void
 FutureObject::evaluateFunction(
     FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
+    _result = ArrayOfVector();
     this->_nLhs = nLhs;
     if (this->state == THREAD_STATE::FINISHED
         || (NelsonConfiguration::getInstance()->getInterruptPending(ID))) {

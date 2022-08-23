@@ -334,6 +334,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 ArrayOfVector
 MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    lock();
     updateCode();
     if (isScript) {
         return evaluateMScript(eval, inputs, nargout);

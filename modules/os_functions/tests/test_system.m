@@ -39,9 +39,9 @@ if (maxNumCompThreads() > 3)
 else
   assert_istrue(t >= 9 && t < 14)
 end
-assert_istrue(d(1) >= 4000 && d(1) <= 4500)
-assert_istrue(d(2) >= 6000 && d(2) <= 6500)
-assert_istrue(d(3) >= 9000 && d(2) <= 9500)
+assert_istrue(d(1) >= 4000 && d(1) <= 5000)
+assert_istrue(d(2) >= 6000 && d(2) <= 7000)
+assert_istrue(d(3) >= 9000 && d(2) <= 10000)
 assert_isequal(s, zeros(1, 3))
 %=============================================================================
 if ispc()
@@ -54,9 +54,9 @@ else
   t = toc();
 end
 assert_istrue(t >= 5 && t < 7)
-assert_istrue(d(1) >= 1000 && d(1) <= 4500)
-assert_istrue(d(2) >= 5000 && d(2) <= 6500)
-assert_istrue(d(3) >= 3000 && d(2) <= 9500)
+assert_istrue(d(1) >= 1000 && d(1) <= 5000)
+assert_istrue(d(2) >= 5000 && d(2) <= 7000)
+assert_istrue(d(3) >= 3000 && d(2) <= 10000)
 assert_isequal(s, [130, 130, 130])
 assert_isequal(w, ["ABORTED", "ABORTED", "ABORTED"])
 %=============================================================================

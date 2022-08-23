@@ -41,7 +41,9 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
     std::vector<FutureObject*> futures = getPredecessors();
     std::vector<bool> doAfterEach(futures.size(), false);
 
-    bool isFirst = true;
+    ArrayOfMatrix allFutureResults;
+    allFutureResults.resize(futures.size());
+
     while (!allDoOnce(doAfterEach)) {
         for (size_t k = 0; k < futures.size(); ++k) {
             if (futures[k] && (futures[k]->state == THREAD_STATE::FINISHED)
@@ -52,23 +54,25 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
                     return;
                 }
                 ArrayOfVector args = futures[k]->getResult(false);
-                ArrayOfVector previous = this->getResult(false);
+                this->setResult(ArrayOfVector());
                 this->evaluateFunction(funcDef, nLhs, args, false);
-                if (isFirst) {
-                    isFirst = false;
-                } else {
-                    Exception e;
-                    this->setResult(vertCatArrayOfVector(previous, this->getResult(false), e));
-                    if (!e.isEmpty()) {
-                        this->setException(e);
-                        this->state = THREAD_STATE::FINISHED;
-                        return;
-                    }
-                }
+                allFutureResults[k] = this->getResult(false);
+                this->setResult(ArrayOfVector());
                 doAfterEach[k] = true;
             }
         }
     }
+    ArrayOfVector concat = allFutureResults[0];
+    for (size_t k = 1; k < futures.size(); ++k) {
+        Exception e;
+        concat = vertCatArrayOfVector(concat, allFutureResults[k], e);
+        if (!e.isEmpty()) {
+            this->setException(e);
+            this->state = THREAD_STATE::FINISHED;
+            return;
+        }
+    }
+    this->setResult(concat);
     this->state = THREAD_STATE::FINISHED;
 }
 //=============================================================================
