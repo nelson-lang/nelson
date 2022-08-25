@@ -8,7 +8,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 
-FROM fedora:35
+FROM fedora:36
 LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
@@ -39,10 +39,13 @@ RUN dnf install -y libsndfile-devel
 RUN dnf install -y jack-audio-connection-kit-devel
 # RUN dnf install -y pipewire-jack-audio-connection-kit-devel 
 RUN dnf install -y taglib-devel
-RUN dnf install -y qt5-qtbase-devel
-RUN dnf install -y qt5-qtdeclarative-devel
-RUN dnf install -y qt5-doctools
-RUN dnf install -y qt5-qtquickcontrols
+RUN dnf install -y qt6-qtbase-devel
+RUN dnf install -y qt6-qtdeclarative-devel
+RUN dnf install -y qt6-doctools
+RUN dnf install -y qt6-qtquickcontrols2
+RUN dnf install -y qt6-qttools
+RUN dnf install -y qt6-qttools-libs-help
+RUN dnf install -y qt6-qttools-devel
 RUN dnf install -y boost-devel
 RUN dnf install -y zlib-devel
 RUN dnf install -y curl-devel

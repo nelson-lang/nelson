@@ -555,7 +555,7 @@ jobs:
 
   Fedora:
     runs-on: ubuntu-latest
-    container: fedora:35
+    container: fedora:36
     timeout-minutes: 120
 
     steps:
@@ -585,11 +585,13 @@ jobs:
           dnf install -y libsndfile-devel
           dnf install -y jack-audio-connection-kit-devel
           dnf install -y taglib-devel
-          dnf install -y qt5-qtbase-devel
-          dnf install -y qt5-qtdeclarative-devel
-          dnf install -y qt5-doctools
-          dnf install -y qt5-qttools-devel
-          dnf install -y qt5-qtquickcontrols
+          dnf install -y qt6-qtbase-devel
+          dnf install -y qt6-qtdeclarative-devel
+          dnf install -y qt6-doctools
+          dnf install -y qt6-qtquickcontrols2
+          dnf install -y qt6-qttools
+          dnf install -y qt6-qttools-libs-help
+          dnf install -y qt6-qttools-devel
           dnf install -y boost-devel
           dnf install -y zlib-devel
           dnf install -y curl-devel
@@ -610,7 +612,9 @@ jobs:
           export PATH=/usr/lib64/openmpi/bin:$PATH      
           cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
       - name: Make
-        run: cmake --build . -- -j $(nproc)
+        run: |
+          export QTDIR_BINARIES="/usr/lib64/qt6/bin/" 
+          cmake --build . -- -j $(nproc)
       - name: Download module skeleton
         run: cmake --build . -- get_module_skeleton
       - name: Build help

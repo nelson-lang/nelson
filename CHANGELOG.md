@@ -92,6 +92,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Help chapter titles all start with a capital letter.
 
+- [#771](http://github.com/Nelson-numerical-software/nelson/issues/771): Fedora 36 Github CI replaces Fedora 35 Github CI.
+
 ### Fixed
 
 - [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.
