@@ -11,6 +11,8 @@
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+% Gnome and some others platforms do not have 'minimize' concept
+%=============================================================================
 ipc(getpid, 'minimize', true);
 R = ipc(getpid, 'minimize');
 assert_isequal(R, true)

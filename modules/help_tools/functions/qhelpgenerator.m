@@ -95,6 +95,18 @@ function qhelpgenerator_filename = get_help_generator_filename_linux()
   if isfile(qhelpgenerator_filename)
     return
   end 
+  [status, msg] = unix('qtpaths --query QT_HOST_LIBEXECS');
+  msg = strtrim(msg);
+  if status == 0 && isdir(msg)
+    qhelpgenerator_filename = [msg, '/qhelpgenerator'];
+    return
+  end
+  [status, msg] = unix('qtpaths-qt6 --query QT_HOST_LIBEXECS');
+  msg = strtrim(msg);
+  if status == 0 && isdir(msg)
+    qhelpgenerator_filename = [msg, '/qhelpgenerator'];
+    return
+  end
   [status, msg] = unix('which qhelpgenerator-qt6');
   if status == 0
     qhelpgenerator_filename = [replace(msg, char(10), '')];
