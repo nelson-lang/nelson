@@ -40,12 +40,9 @@ function qhelpgenerator_filename = get_help_generator_filename()
   if ispc()
     qhelpgenerator_filename = get_help_generator_filename_windows();
     return
+  else
+    qhelpgenerator_filename = get_help_generator_filename_macos_linux();
   end
-  if ismac()
-    qhelpgenerator_filename = get_help_generator_filename_macos();
-    return
-  end
-  qhelpgenerator_filename = get_help_generator_filename_linux();
 end
 %=============================================================================
 function qhelpgenerator_filename = get_help_generator_filename_windows()
@@ -62,66 +59,79 @@ function QTDIR_BINARIES = get_qtdir_binaries()
   end
 end
 %=============================================================================
-function qhelpgenerator_filename = get_help_generator_filename_macos()
-  if isfile('/usr/local/share/qt/libexec/qhelpgenerator')
-    qhelpgenerator_filename = '/usr/local/share/qt/libexec/qhelpgenerator';
-    return
-  end 
-  if isfile('/usr/local/opt/qt6/bin/qhelpgenerator')
-    qhelpgenerator_filename = '/usr/local/opt/qt6/bin/qhelpgenerator';
-    return
-  end 
-  if isfile('/usr/local/opt/qt5/bin/qhelpgenerator')
-    qhelpgenerator_filename = '/usr/local/opt/qt5/bin/qhelpgenerator';
-    return
-  end 
+function qhelpgenerator_filename = get_help_generator_filename_qtpaths()
+  possible_qhelpgeneration_unix_cmd = {'qtpaths --query QT_HOST_LIBEXECS', ...
+  'qtpaths-qt6 --query QT_HOST_LIBEXECS'};
+  for cmd = possible_qhelpgeneration_unix_cmd
+    [status, msg] = unix(cmd{1});
+    if status == 0
+      qhelpgenerator_filename = [replace(strtrim(msg), char(10), ''), '/qhelpgenerator'];
+      if isfile(qhelpgenerator_filename)
+        return
+      end
+    end
+  end
+  qhelpgenerator_filename = '';
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_qtdir_binaries()
   QTDIR_BINARIES = get_qtdir_binaries();
   qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
   if isfile(qhelpgenerator_filename)
     return
   end 
-  [status, msg] = unix('which qhelpgenerator');
-  if status == 0
-    qhelpgenerator_filename = [replace(msg, char(10), '')];
+  qhelpgenerator_filename = '';
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_which()
+  possible_qhelpgeneration_unix_cmd = {'which qhelpgenerator-qt6', ...
+  'which qhelpgenerator-qt5', ...
+  'which qhelpgenerator'};
+  for cmd = possible_qhelpgeneration_unix_cmd
+    [status, msg] = unix(cmd{1});
+    if status == 0
+      qhelpgenerator_filename = replace(strtrim(msg), char(10), '');
+      if isfile(qhelpgenerator_filename)
+        return
+      end
+    end
+  end
+  qhelpgenerator_filename = '';
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_by_hardcoded_path()
+  possible_qhelpgeneration_filenames = {'/opt/homebrew/share/qt/libexec/qhelpgenerator', ...
+  '/usr/local/share/qt/libexec/qhelpgenerator', ...
+  '/usr/local/opt/qt6/bin/qhelpgenerator', ...
+  '/usr/local/opt/qt5/bin/qhelpgenerator', ...
+  '/usr/lib/qt6/bin/qhelpgenerator'};
+  for filename = possible_qhelpgeneration_filenames
+    if isfile(filename{1})
+      qhelpgenerator_filename = filename{1};
+      return
+    end
+  end 
+  qhelpgenerator_filename = '';
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_macos_linux()
+  qhelpgenerator_filename = get_help_generator_filename_by_hardcoded_path();
+  if ~isempty(qhelpgenerator_filename)
+    return
+  end
+  qhelpgenerator_filename = get_help_generator_filename_qtdir_binaries();
+  if ~isempty(qhelpgenerator_filename)
+    return
+  end
+  qhelpgenerator_filename = get_help_generator_filename_qtpaths();
+  if ~isempty(qhelpgenerator_filename)
+    return
+  end
+  qhelpgenerator_filename = get_help_generator_filename_which();
+  if ~isempty(qhelpgenerator_filename)
     return
   end
   % not found :(
-  qhelpgenerator_filename = 'qhelpgenerator';
-end
-%=============================================================================
-function qhelpgenerator_filename = get_help_generator_filename_linux()
-  QTDIR_BINARIES = get_qtdir_binaries();
-  qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
-  if isfile(qhelpgenerator_filename)
-    return
-  end 
-  [status, msg] = unix('qtpaths --query QT_HOST_LIBEXECS');
-  msg = strtrim(msg);
-  if status == 0 && isdir(msg)
-    qhelpgenerator_filename = [msg, '/qhelpgenerator'];
-    return
-  end
-  [status, msg] = unix('qtpaths-qt6 --query QT_HOST_LIBEXECS');
-  msg = strtrim(msg);
-  if status == 0 && isdir(msg)
-    qhelpgenerator_filename = [msg, '/qhelpgenerator'];
-    return
-  end
-  [status, msg] = unix('which qhelpgenerator-qt6');
-  if status == 0
-    qhelpgenerator_filename = [replace(msg, char(10), '')];
-    return
-  end
-  [status, msg] = unix('which qhelpgenerator-qt5');
-  if status == 0
-    qhelpgenerator_filename = [replace(msg, char(10), '')];
-    return
-  end
-  [status, msg] = unix('which qhelpgenerator');
-  if status == 0
-    qhelpgenerator_filename = [replace(msg, char(10), '')];
-    return
-  end
   qhelpgenerator_filename = 'qhelpgenerator';
 end
 %=============================================================================
