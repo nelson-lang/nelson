@@ -2754,25 +2754,10 @@ msgstr ""
 msgid "Cannot convert RegQueryValueEx."
 msgstr ""
 
-msgid "backgroundPool handle expected."
+msgid "Future handle expected."
 msgstr ""
 
 msgid "FevalFuture handle expected."
-msgstr ""
-
-msgid "FevalFuture not available"
-msgstr ""
-
-msgid "Valid states to wait for are: 'running' or 'finished'."
-msgstr ""
-
-msgid "Expected timeout to be non-negative real numerical scalar."
-msgstr ""
-
-msgid "Cannot wait for completion of Futures that are in state 'unavailable'."
-msgstr ""
-
-msgid "FevalQueue handle expected."
 msgstr ""
 
 msgid "function handle handle expected."
@@ -2782,6 +2767,24 @@ msgid "integer value expected."
 msgstr ""
 
 msgid "non negative value expected."
+msgstr ""
+
+msgid "backgroundPool handle expected."
+msgstr ""
+
+msgid "a numeric scalar value expected."
+msgstr ""
+
+msgid "FevalQueue handle expected."
+msgstr ""
+
+msgid "Valid states to wait for are: 'running' or 'finished'."
+msgstr ""
+
+msgid "Expected timeout to be non-negative real numerical scalar."
+msgstr ""
+
+msgid "Cannot wait for completion of Futures that are in state 'unavailable'."
 msgstr ""
 
 msgid "Invalid backgroundPool handle."
@@ -2801,11 +2804,20 @@ msgstr ""
 msgid "%s valid handle expected."
 msgstr ""
 
+msgid "There are no unread Futures to fetch."
+msgstr ""
+
+msgid "One or more futures resulted in an error."
+msgstr ""
+
+msgid "Unable to concatenate outputs."
+msgstr ""
+
 #, c-format
 msgid "   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"
 msgstr ""
 
-msgid "One or more futures resulted in an error."
+msgid "Same size"
 msgstr ""
 
 msgid "option not managed."
@@ -3164,9 +3176,6 @@ msgid "Cannot do real with current type '"
 msgstr ""
 
 msgid "Unsupported type in EyeSparseMatrixConstructor."
-msgstr ""
-
-msgid "Unsupported type in MakeSparseArrayOf."
 msgstr ""
 
 msgid "Unsupported type in MakeDenseArrayOf."
@@ -3698,6 +3707,12 @@ msgid "Invalid vector size must be compatible"
 msgstr ""
 
 msgid "Argument #2: 'ns' or 's' expected."
+msgstr ""
+
+msgid "First argument must be a function handle that takes no input argument."
+msgstr ""
+
+msgid "evaluator is not defined."
 msgstr ""
 
 #, c-format
@@ -5478,6 +5493,13 @@ msgid "output res and ref are not equal."
 msgstr ""
 
 msgid "Cannot edit the directory: "
+msgstr ""
+
+msgid "Date field must be a character vector or string scalar."
+msgstr ""
+
+#, python-format
+msgid "Date field \"%s\" is invalid."
 msgstr ""
 
 msgid "M must be a month number from 1 to 12."
