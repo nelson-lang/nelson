@@ -18,13 +18,19 @@
 #include <unicode/ustring.h>
 #include <algorithm>
 #include "characters_encoding.hpp"
-//=============================================================================
-#ifdef _MSC_VER
-#pragma comment(lib, "icuuc.lib")
-#pragma comment(lib, "icuin.lib")
+#include "nlsConfig.h"
+#ifdef USE_SIMDUTF
+#include "simdutf.h"
 #endif
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+std::string
+getSystemEncoding()
+{
+    std::string res = ucnv_getDefaultName();
+    return res;
+}
 //=============================================================================
 bool
 isSupportedEncoding(const std::string& encoding)
@@ -127,57 +133,6 @@ charsetToUtf8Converter(const std::string& data, const std::string& codeIn, std::
     return true;
 }
 //=============================================================================
-static std::wstring wcacheRes;
-static std::string wcacheSrc;
-//=============================================================================
-bool
-utf8_to_wstring(const std::string& str, std::wstring& wstr)
-{
-    // Boost.Locale slower than direct ICU4C here
-    std::wstring result;
-    if (str.empty()) {
-        wstr.clear();
-        return true;
-    }
-    if (wcacheSrc == str) {
-        wstr = wcacheRes;
-        return true;
-    }
-    boost::container::vector<UChar> buffer;
-    result.resize(str.size());
-    buffer.resize(str.size());
-    UErrorCode status = U_ZERO_ERROR;
-    int32_t len = 0;
-    u_strFromUTF8(&buffer[0], (int32_t)buffer.size(), &len, &str[0], (int32_t)str.size(), &status);
-    if (U_FAILURE(status)) {
-#ifdef _MSC_VER
-        int size = MultiByteToWideChar(
-            CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
-        if (size > 0) {
-            std::wstring utf16_str(size, '\0');
-            int res = MultiByteToWideChar(CP_ACP, MB_COMPOSITE, str.c_str(),
-                static_cast<int>(str.length()), &utf16_str[0], size);
-            if (res > 0) {
-                wstr = utf16_str;
-                return true;
-            }
-        }
-#endif
-        return false;
-    }
-    buffer.resize(len);
-    u_strToWCS(
-        &result[0], (int32_t)result.size(), &len, &buffer[0], (int32_t)buffer.size(), &status);
-    if (U_FAILURE(status)) {
-        return false;
-    }
-    result.resize((size_t)len);
-    wcacheSrc = str;
-    wcacheRes = result;
-    wstr = result;
-    return true;
-}
-//=============================================================================
 // convert UTF-8 string to wstring
 std::wstring
 utf8_to_wstring(const std::string& str)
@@ -187,46 +142,6 @@ utf8_to_wstring(const std::string& str)
         return std::wstring(L"!!!ERROR CHARACTER SET CONVERSION!!!");
     }
     return result;
-}
-//=============================================================================
-static std::wstring ucacheSrc;
-static std::string ucacheRes;
-//=============================================================================
-bool
-wstring_to_utf8(const std::wstring& wstr, std::string& asUft8)
-{
-    if (wstr.empty()) {
-        asUft8.clear();
-        return true;
-    }
-    if (ucacheSrc == wstr) {
-        asUft8 = ucacheRes;
-        return true;
-    }
-    // Boost.Locale slower than direct ICU4C here
-    boost::container::vector<UChar> buffer;
-    std::string result;
-    result.resize(wstr.size() * 4); // UTF-8 uses max 4 bytes per char
-    buffer.resize(wstr.size() * 2); // UTF-16 uses 2 code-points per char
-    UErrorCode status = U_ZERO_ERROR;
-    int32_t len = 0;
-    u_strFromWCS(&buffer[0], (int32_t)buffer.size(), &len, &wstr[0], (int32_t)wstr.size(), &status);
-    if (U_FAILURE(status)) {
-        asUft8.clear();
-        return false;
-    }
-    buffer.resize(len);
-    u_strToUTF8(
-        &result[0], (int32_t)result.size(), &len, &buffer[0], (int32_t)buffer.size(), &status);
-    if (U_FAILURE(status)) {
-        asUft8.clear();
-        return false;
-    }
-    result.resize(static_cast<size_t>(len));
-    ucacheSrc = wstr;
-    ucacheRes = result;
-    asUft8 = result;
-    return true;
 }
 //=============================================================================
 // convert wstring to UTF-8 string
@@ -280,11 +195,207 @@ wstring_to_utf8(const std::vector<std::wstring>& strs)
     return utf8Vector;
 }
 //=============================================================================
-std::string
-getSystemEncoding()
+static inline bool
+utf8_to_wstring_ICU(const std::string& str, std::wstring& wstr)
 {
-    std::string res = ucnv_getDefaultName();
-    return res;
+    // Boost.Locale slower than direct ICU4C here
+    std::wstring result;
+    if (str.empty()) {
+        wstr.clear();
+        return true;
+    }
+    boost::container::vector<UChar> buffer;
+    result.resize(str.size());
+    buffer.resize(str.size());
+    UErrorCode status = U_ZERO_ERROR;
+    int32_t len = 0;
+    u_strFromUTF8(&buffer[0], (int32_t)buffer.size(), &len, &str[0], (int32_t)str.size(), &status);
+    if (U_FAILURE(status)) {
+#ifdef _MSC_VER
+        int size = MultiByteToWideChar(
+            CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
+        if (size > 0) {
+            std::wstring utf16_str(size, '\0');
+            int res = MultiByteToWideChar(CP_ACP, MB_COMPOSITE, str.c_str(),
+                static_cast<int>(str.length()), &utf16_str[0], size);
+            if (res > 0) {
+                wstr = utf16_str;
+                return true;
+            }
+        }
+#endif
+        return false;
+    }
+    buffer.resize(len);
+    u_strToWCS(
+        &result[0], (int32_t)result.size(), &len, &buffer[0], (int32_t)buffer.size(), &status);
+    if (U_FAILURE(status)) {
+        return false;
+    }
+    result.resize((size_t)len);
+    wstr = result;
+    return true;
+}
+//=============================================================================
+static inline bool
+wstring_to_utf8_ICU(const std::wstring& wstr, std::string& asUft8)
+{
+    if (wstr.empty()) {
+        asUft8.clear();
+        return true;
+    }
+    // Boost.Locale slower than direct ICU4C here
+    boost::container::vector<UChar> buffer;
+    std::string result;
+    result.resize(wstr.size() * 4); // UTF-8 uses max 4 bytes per char
+    buffer.resize(wstr.size() * 2); // UTF-16 uses 2 code-points per char
+    UErrorCode status = U_ZERO_ERROR;
+    int32_t len = 0;
+    u_strFromWCS(&buffer[0], (int32_t)buffer.size(), &len, &wstr[0], (int32_t)wstr.size(), &status);
+    if (U_FAILURE(status)) {
+        asUft8.clear();
+        return false;
+    }
+    buffer.resize(len);
+    u_strToUTF8(
+        &result[0], (int32_t)result.size(), &len, &buffer[0], (int32_t)buffer.size(), &status);
+    if (U_FAILURE(status)) {
+        asUft8.clear();
+        return false;
+    }
+    result.resize(static_cast<size_t>(len));
+    asUft8 = result;
+    return true;
+}
+//=============================================================================
+static inline bool
+wstring_utf16le_to_utf8_SIMD(const std::wstring& wstr, std::string& asUft8)
+{
+    if (wstr.empty()) {
+        asUft8.clear();
+        return true;
+    }
+    asUft8.clear();
+    asUft8.resize(wstr.size() * 4);
+    size_t validSize = simdutf::convert_valid_utf16le_to_utf8(
+        (char16_t*)wstr.c_str(), wstr.length(), (char*)asUft8.data());
+    if (validSize > 0) {
+        asUft8.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+static inline bool
+wstring_utf16be_to_utf8_SIMD(const std::wstring& wstr, std::string& asUft8)
+{
+    if (wstr.empty()) {
+        asUft8.clear();
+        return true;
+    }
+    asUft8.clear();
+    asUft8.resize(wstr.size() * 4);
+    size_t validSize = simdutf::convert_valid_utf16be_to_utf8(
+        (char16_t*)wstr.c_str(), wstr.length(), (char*)asUft8.data());
+    if (validSize > 0) {
+        asUft8.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+static inline bool
+wstring_utf32_to_utf8_SIMD(const std::wstring& wstr, std::string& asUft8)
+{
+    if (wstr.empty()) {
+        asUft8.clear();
+        return true;
+    }
+    asUft8.clear();
+    asUft8.resize(wstr.size() * 4);
+    size_t validSize = simdutf::convert_valid_utf32_to_utf8(
+        (char32_t*)wstr.c_str(), wstr.length(), (char*)asUft8.data());
+    if (validSize > 0) {
+        asUft8.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+static inline bool
+utf8_to_wstring_utf16le_SIMD(const std::string& str, std::wstring& wstr)
+{
+    if (str.empty()) {
+        wstr.clear();
+        return true;
+    }
+    wstr.clear();
+    wstr.resize(str.size());
+    size_t validSize
+        = simdutf::convert_valid_utf8_to_utf16le(str.c_str(), str.length(), (char16_t*)wstr.data());
+    if (validSize > 0) {
+        wstr.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+static inline bool
+utf8_to_wstring_utf16be_SIMD(const std::string& str, std::wstring& wstr)
+{
+    if (str.empty()) {
+        wstr.clear();
+        return true;
+    }
+    wstr.clear();
+    wstr.resize(str.size());
+    size_t validSize
+        = simdutf::convert_valid_utf8_to_utf16be(str.c_str(), str.length(), (char16_t*)wstr.data());
+    if (validSize > 0) {
+        wstr.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+static inline bool
+utf8_to_wstring_utf32_SIMD(const std::string& str, std::wstring& wstr)
+{
+    if (str.empty()) {
+        wstr.clear();
+        return true;
+    }
+    wstr.clear();
+    wstr.resize(str.size());
+    size_t validSize
+        = simdutf::convert_valid_utf8_to_utf32(str.c_str(), str.length(), (char32_t*)wstr.data());
+    if (validSize > 0) {
+        wstr.resize(validSize);
+    }
+    return validSize > 0;
+}
+//=============================================================================
+bool
+utf8_to_wstring(const std::string& str, std::wstring& wstr)
+{
+#ifdef USE_SIMDUTF
+#ifdef _MSC_VER
+    return utf8_to_wstring_utf16le_SIMD(str, wstr);
+#else
+    return utf8_to_wstring_utf32_SIMD(str, wstr);
+#endif
+#else
+    return utf8_to_wstring_ICU(str, wstr);
+#endif
+}
+//=============================================================================
+bool
+wstring_to_utf8(const std::wstring& wstr, std::string& asUft8)
+{
+#ifdef USE_SIMDUTF
+#ifdef _MSC_VER
+    return wstring_utf16le_to_utf8_SIMD(wstr, asUft8);
+#else
+    return wstring_utf32_to_utf8_SIMD(wstr, asUft8);
+#endif
+#else
+    return wstring_to_utf8_ICU(wstr, asUft8);
+#endif
 }
 //=============================================================================
 } // namespace Nelson

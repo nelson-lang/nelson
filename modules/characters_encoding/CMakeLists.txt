@@ -11,10 +11,13 @@ set(module_name characters_encoding)
 set(module_library_name nlsCharacters_encoding)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/include ${ICU_INCLUDE_DIRS}
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
+                    ${ICU_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS})
 # ==============================================================================
-file(GLOB CHARACTERS_ENCODING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB CHARACTERS_ENCODING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${CHARACTERS_ENCODING_SRC})
 # ==============================================================================
