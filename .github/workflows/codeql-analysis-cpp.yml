@@ -32,7 +32,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          tools: https://github.com/github/codeql-action/releases/download/codeql-bundle-20220728/codeql-bundle-linux64.tar.gz        
+          tools: https://github.com/github/codeql-action/releases/download/codeql-bundle-20220825/codeql-bundle-linux64.tar.gz        
           languages: ${{ matrix.language }}
           queries: security-extended,security-and-quality
 
