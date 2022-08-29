@@ -476,9 +476,6 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 {
     constIndexPtr* indx = nullptr;
     if (rightData.isEmpty()) {
-        if (!rightData.isEmpty(true)) {
-            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
-        }
         bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {

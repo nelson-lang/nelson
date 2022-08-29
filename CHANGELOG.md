@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - audio module:
+
   - `sound`: Convert matrix of signal data to sound and play it.
   - `soundsc`: Scale data and play as sound.
   - `mu2lin`: Convert audio data from mu-law to linear signal.
@@ -21,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
 
 - shorcuts `&&` and `||` reworked.
+
+- assign behavior with empty matrix.
 
 ## 0.6.8 (2022-08-27)
 
