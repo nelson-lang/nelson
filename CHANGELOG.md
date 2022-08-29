@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.9 (UNRELEASED)
 
+### Added
+
+- audio module:
+  - `sound`: Convert matrix of signal data to sound and play it.
+  - `soundsc`: Scale data and play as sound.
+  - `mu2lin`: Convert audio data from mu-law to linear signal.
+  - `lin2mu`: Convert audio data from linear singal to mu-law.
+
 ### Changed
 
 - [#715](http://github.com/Nelson-numerical-software/nelson/issues/715): update `{fmt}` to 9.1.0.
 
 - Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
+
+- shorcuts `&&` and `||` reworked.
 
 ## 0.6.8 (2022-08-27)
 
