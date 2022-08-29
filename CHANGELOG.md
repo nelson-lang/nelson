@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- [#715](http://github.com/Nelson-numerical-software/nelson/issues/715): update `{fmt}` to 9.1.0.
+
 - Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
 
 ## 0.6.8 (2022-08-27)
