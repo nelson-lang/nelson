@@ -112,7 +112,8 @@ msgstr ""
 "Erreur : nous ne pouvons pas trouver le chemin d'accès racine de NelSon."
 
 msgid "Error: we cannot create preferences path."
-msgstr "Erreur : nous ne pouvons pas créér le chemin des preferences de NelSon."
+msgstr ""
+"Erreur : nous ne pouvons pas créér le chemin des preferences de NelSon."
 
 msgid "Error: we cannot find Nelson preferences path."
 msgstr ""
@@ -1452,7 +1453,8 @@ msgid "Empty expression!"
 msgstr "Expression vide !"
 
 msgid "Illegal use of the ':' keyword in indexing expression"
-msgstr "L'utilisation illégale de la ':' mot-clé dans l'expression d'indexation"
+msgstr ""
+"L'utilisation illégale de la ':' mot-clé dans l'expression d'indexation"
 
 msgid "endfunction cannot used here."
 msgstr "endfunction ne peut pas utilisée ici."
@@ -1685,7 +1687,8 @@ msgid "type reserved."
 msgstr "type réservé."
 
 msgid "Wrong size for input arguments: full matrix expected."
-msgstr "Taille incorrect pour les arguments d'entrées : matrice pleine attendu."
+msgstr ""
+"Taille incorrect pour les arguments d'entrées : matrice pleine attendu."
 
 msgid "Wrong size for input arguments: 2D matrix expected."
 msgstr "Taille incorrect pour les arguments d'entrées : matrice 2D attendu."
@@ -1929,7 +1932,8 @@ msgstr "Nom de symbole non valide : %ls"
 
 #, c-format
 msgid "import type %ls not defined in FFI type table."
-msgstr "Le type d'importation %ls n'est pas défini dans la table des types FFI."
+msgstr ""
+"Le type d'importation %ls n'est pas défini dans la table des types FFI."
 
 #, c-format
 msgid "Invalid type for #%zu input argument: %ls expected."
