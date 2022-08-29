@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.6.9 (UNRELEASED)
+
+### Changed
+
+- Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
+
 ## 0.6.8 (2022-08-27)
 
 ### Added

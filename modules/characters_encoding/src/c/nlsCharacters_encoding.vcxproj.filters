@@ -21,9 +21,18 @@
     <ClInclude Include="..\..\src\include\nlsCharacters_encoding_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\simdutf\simdutf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\characters_encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\simdutf\simdutf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

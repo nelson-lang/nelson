@@ -328,3 +328,11 @@ A C++17 Thread Pool for High-Performance Scientific Computing
 > <https://github.com/bshoshany/thread-pool>
 
 > <https://github.com/bshoshany/thread-pool/blob/master/LICENSE.txt> MIT license
+
+- simdutf
+
+Unicode routines (UTF8, UTF16, UTF32): billions of characters per second using SSE2, AVX2, NEON, AVX-512.
+
+> <https://github.com/simdutf/simdutf>
+
+> <https://github.com/simdutf/simdutf/blob/master/LICENSE-MIT> MIT license
