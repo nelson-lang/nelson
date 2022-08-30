@@ -8,12 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- linear algebra module:
+
+  - `rref`: Gauss-Jordan elimination.
+  - `orth`: Range space of a matrix.
+  - `subspace`: Angle between two subspaces.
+
 - audio module:
 
   - `sound`: Convert matrix of signal data to sound and play it.
   - `soundsc`: Scale data and play as sound.
   - `mu2lin`: Convert audio data from mu-law to linear signal.
   - `lin2mu`: Convert audio data from linear singal to mu-law.
+
+- `toeplitz`: Toeplitz matrix.
 
 ### Changed
 
