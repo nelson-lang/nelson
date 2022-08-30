@@ -104,9 +104,13 @@ ArrayOf::getBinaryMap(indexType maxD)
         if (n < 0 || n >= maxD)
 #endif
         {
-            delete[] map;
-            map = nullptr;
-            Error(_W("Matrix index is out of range."));
+            if (map) {
+                delete[] map;
+                map = nullptr;
+            }
+            if (n != 0) {
+                Error(_W("Matrix index is out of range."));
+            }
         }
         if (map) {
             map[n] = true;
