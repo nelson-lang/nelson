@@ -157,7 +157,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 |   MacOS BigSur   | x86-64 (64-bit) |  ✓  |          |
 |   Ubuntu 22.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|   Ubuntu 18.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
+|   Ubuntu 18.04   | x86-64 (64-bit) |     | ✓ (snap) |
 |    ArchLinux     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |    Fedora 36     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |     Raspbian     | ARM v8 (64-bit) |     |          |
