@@ -7,13 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-M = [1 0 1; 0 1 0; 1 0 1];
-R = orth(M);
-REF = [0.7071, 0;0, 1.0000;0.7071, 0];
-assert_isapprox(R, REF, 1e-4)
-%=============================================================================
-M = [1 0 1; 0 1 0; 1 0 1];
-R = orth(M, 1);
-REF = [0.7071; 0; 0.7071];
-assert_isapprox(R, REF, 1e-4)
+function A = vander(V)
+  % https://en.wikipedia.org/wiki/Vandermonde_matrix
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  
+  V = V(:);
+  N = length(V);
+  if N > 0
+    A = zeros(length(V), N, class(V));
+    D = 1;
+    V = V(:);
+    for i = N:-1:1
+      A(:, i) = D;
+      D = D .* V;
+    end
+  else
+    A = reshape(V, N, N);
+  end
+end
 %=============================================================================
