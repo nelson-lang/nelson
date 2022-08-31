@@ -7,24 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = planerot(varargin)
-  narginchk(1, 1);
-  nargoutchk(0, 2);
-  X = varargin{1};
-  if (size(X, 1) ~= 2) || ~iscolumn(X)
-    error(_('First input must be a column vector of length 2.'));
-  end
-  if X(2) == 0
-    G = eye(2, class(X));
-  else
-    R = norm(X);
-    G = [X'; [-X(2), X(1)]] ./ R;
-    X = [R; 0];
-  end
-  
-  varargout{1} = G;
-  if nargout() > 1
-    varargout{2} = X;
-  end
-end
+assert_isequal(nargin('dot'), -1);
+assert_isequal(nargout('dot'), -1);
+%=============================================================================
+A = [4 -1 2];
+B = [2 -2 -1];
+R = dot(A, B);
+REF = 8;
+assert_isequal(R, REF);
+%=============================================================================
+A = [1 2 3;4 5 6;7 8 9];
+B = [9 8 7;6 5 4;3 2 1];
+R1 = dot(A, B, 2);
+R2 = dot(A, B, 1);
+R1_REF = [46; 73; 46];
+R2_REF = [54, 57, 54];
+assert_isequal(R1, R1_REF);
+assert_isequal(R2, R2_REF);
 %=============================================================================
