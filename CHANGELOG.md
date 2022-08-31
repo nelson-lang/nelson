@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `rref`: Gauss-Jordan elimination.
   - `orth`: Range space of a matrix.
   - `subspace`: Angle between two subspaces.
+  - `planerot`: Givens plane rotation.
 
 - audio module:
 
@@ -21,7 +22,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `mu2lin`: Convert audio data from mu-law to linear signal.
   - `lin2mu`: Convert audio data from linear singal to mu-law.
 
-- `toeplitz`: Toeplitz matrix.
+- elementary functions module:
+
+  - `toeplitz`: Toeplitz matrix.
+  - `hadamard`: Hadamard matrix.
+  - `wilkinson`: Wilkinson's eigenvalue test matrix.
+  - `vander`: Vandermonde matrix.
+  - `rosser`: Classic symmetric eigenvalue test problem.
 
 ### Changed
 

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>mustBeNonnegative</keyword>
+  <keyword>mustBeNegative</keyword>
   <short_description
   >Checks that value is negative or raise an error.</short_description>
 
