@@ -1,3 +1,12 @@
+%=============================================================================
+% Copyright (c) 2019-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
 function t = toeplitz(varargin)
   narginchk(1, 2)
   nargoutchk(0, 1)
@@ -17,7 +26,7 @@ function t = toeplitz(varargin)
     error(_('Input arguments must be numeric.'));
   end
   if ~isempty(c) && ~isempty(r) && ~isequaln(r(1),c(1))
-    warning(_('Column wins diagonal conflict.'))
+    warning(_('Column wins diagonal conflict.'));
   end
   c = c(:);
   m = length(c);    
@@ -30,3 +39,4 @@ function t = toeplitz(varargin)
     t = t.';
   end
 end
+%=============================================================================
