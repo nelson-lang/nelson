@@ -36,6 +36,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
   - `dot`: Dot product.
 
+- string module:
+
+  - `isletter`: Determine which characters are letters.
+
 ### Changed
 
 - [#715](http://github.com/Nelson-numerical-software/nelson/issues/715): update `{fmt}` to 9.1.0.

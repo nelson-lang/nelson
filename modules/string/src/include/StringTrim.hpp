@@ -10,7 +10,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {

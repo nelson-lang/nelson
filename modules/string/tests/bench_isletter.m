@@ -7,16 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('date'), 0);
-assert_isequal(nargout('date'), 1);
-%=============================================================================
-d = date();
-assert_isequal(count(d, '-'), 2);
-V = datevec(datenum(d));
-if V(3) > 9
-  assert_istrue(startsWith(d, num2str(V(3))));
-else
-  assert_istrue(startsWith(d, '0' + num2str(V(3))));
-end
-assert_istrue(endsWith(d, num2str(V(1))));
-%=============================================================================
+r = blanks(1e8);
+r(5) = 't';
+tic();R = isletter(r);toc()
+assert_isequal(R(5), true);
+assert_isequal(R(4), false);

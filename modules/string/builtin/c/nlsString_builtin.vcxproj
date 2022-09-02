@@ -191,6 +191,7 @@
     <ClCompile Include="..\cpp\endsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isletterBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\matchesBuiltin.cpp" />
     <ClCompile Include="..\cpp\num2strBuiltin.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\include\deblankBuiltin.hpp" />
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
+    <ClInclude Include="..\include\isletterBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
     <ClInclude Include="..\include\matchesBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />

@@ -7,15 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "isletterBuiltin.hpp"
+#include "IsLetter.hpp"
+#include "Error.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsString_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSSTRING_IMPEXP ArrayOf
-StringDeblank(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::StringGateway::isletterBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 1);
+    retval << IsLetter(argIn[0]);
+    return retval;
+}
 //=============================================================================

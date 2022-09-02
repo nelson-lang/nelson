@@ -180,6 +180,7 @@
     <ClCompile Include="..\cpp\ConvertCharsToStrings.cpp" />
     <ClCompile Include="..\cpp\ConvertStringsToChars.cpp" />
     <ClCompile Include="..\cpp\IntegerToString.cpp" />
+    <ClCompile Include="..\cpp\IsLetter.cpp" />
     <ClCompile Include="..\cpp\MatrixToString.cpp" />
     <ClCompile Include="..\cpp\NumberToString.cpp" />
     <ClCompile Include="..\cpp\StringCompare.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\include\ConvertCharsToStrings.hpp" />
     <ClInclude Include="..\include\ConvertStringsToChars.hpp" />
     <ClInclude Include="..\include\IntegerToString.hpp" />
+    <ClInclude Include="..\include\IsLetter.hpp" />
     <ClInclude Include="..\include\MatrixToString.hpp" />
     <ClInclude Include="..\include\NumberToString.hpp" />
     <ClInclude Include="..\include\StringCompare.hpp" />
