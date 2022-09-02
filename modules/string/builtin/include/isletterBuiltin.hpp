@@ -10,12 +10,14 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsString_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTRING_IMPEXP ArrayOf
-StringDeblank(const ArrayOf& A, bool& needToOverload);
+namespace StringGateway {
+    ArrayOfVector
+    isletterBuiltin(int nLhs, const ArrayOfVector& argIn);
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

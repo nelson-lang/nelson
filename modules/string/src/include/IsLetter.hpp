@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSSTRING_IMPEXP ArrayOf
-StringDeblank(const ArrayOf& A, bool& needToOverload);
+IsLetter(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

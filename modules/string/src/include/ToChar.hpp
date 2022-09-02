@@ -13,15 +13,18 @@
 #include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSSTRING_IMPEXP std::wstring
 ToChar(const ArrayOf& A, Dimensions& dims);
+//=============================================================================
 NLSSTRING_IMPEXP std::wstring
 ToChar(const ArrayOfVector& A, Dimensions& dims);
-
+//=============================================================================
 NLSSTRING_IMPEXP ArrayOf
 ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+//=============================================================================
 NLSSTRING_IMPEXP ArrayOf
 ToChar(const ArrayOf& A, bool& needToOverload);
-
+//=============================================================================
 } // namespace Nelson
   //=============================================================================

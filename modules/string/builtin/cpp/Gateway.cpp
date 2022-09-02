@@ -36,6 +36,7 @@
 #include "matchesBuiltin.hpp"
 #include "strcatBuiltin.hpp"
 #include "appendBuiltin.hpp"
+#include "isletterBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -102,6 +103,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "strcat", (ptrBuiltin)Nelson::StringGateway::strcatBuiltin, 1, -1, CPP_BUILTIN },
     { "append", (ptrBuiltin)Nelson::StringGateway::appendBuiltin, 1, -1, CPP_BUILTIN },
+    { "isletter", (ptrBuiltin)Nelson::StringGateway::isletterBuiltin, 1, 1, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

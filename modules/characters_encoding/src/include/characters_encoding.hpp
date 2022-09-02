@@ -65,5 +65,8 @@ wstring_to_utf8(const wchar_t* str);
 NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::string>
 wstring_to_utf8(const std::vector<std::wstring>& strs);
 //=============================================================================
+NLSCHARACTERS_ENCODING_IMPEXP bool
+isUnicodeLetter(wchar_t character);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

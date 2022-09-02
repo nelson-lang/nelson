@@ -13,6 +13,7 @@
 #include <unicode/unistr.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
+#include <unicode/uchar.h>
 #include <boost/container/vector.hpp>
 #include <boost/locale.hpp>
 #include <unicode/ustring.h>
@@ -398,5 +399,12 @@ wstring_to_utf8(const std::wstring& wstr, std::string& asUft8)
 #endif
 }
 //=============================================================================
+bool
+isUnicodeLetter(wchar_t character)
+{
+    return (bool)u_isalpha((UChar32)(character));
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================
