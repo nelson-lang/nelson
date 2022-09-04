@@ -1257,6 +1257,35 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero) const
     return idx;
 }
 //=============================================================================
+std::vector<indexType>
+ArrayOf::getContentAsIndexVector()
+{
+    std::vector<indexType> index;
+    promoteType(NLS_DOUBLE);
+    double* qp = (double*)dp->getData();
+    size_t nbElements = dp->getDimensions().getElementCount();
+    constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
+    for (size_t k = 0; k < nbElements; k++) {
+        if ((floor(qp[k]) == qp[k]) && IsFinite((qp[k]))) {
+            if ((qp[k]) > maxIndexType) {
+                index.push_back(static_cast<indexType>(maxIndexType));
+            } else if (qp[k] < 0) {
+                index.push_back(0);
+            } else {
+                double dVal = qp[k];
+                index.push_back(static_cast<indexType>(dVal));
+            }
+        } else {
+            if (IsFinite(qp[k])) {
+                Error(_W("Expected integer index."));
+            } else {
+                Error(_W("NaN and Inf not allowed."));
+            }
+        }
+    }
+    return index;
+}
+//=============================================================================
 indexType*
 ArrayOf::getContentAsIndexPointer()
 {
@@ -1264,7 +1293,7 @@ ArrayOf::getContentAsIndexPointer()
     double* qp = (double*)dp->getData();
     size_t nbElements = dp->getDimensions().getElementCount();
     indexType* pIndex = new_with_exception<indexType>(nbElements, false);
-    double maxIndexType = (double)std::numeric_limits<indexType>::max();
+    constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
         if ((floor(qp[k]) == qp[k]) && IsFinite((qp[k]))) {
             if ((qp[k]) > maxIndexType) {

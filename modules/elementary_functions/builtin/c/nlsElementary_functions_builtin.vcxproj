@@ -217,6 +217,7 @@
     <ClCompile Include="..\cpp\normBuiltin.cpp" />
     <ClCompile Include="..\cpp\num2binBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
+    <ClCompile Include="..\cpp\permuteBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
     <ClCompile Include="..\cpp\remBuiltin.cpp" />
     <ClCompile Include="..\cpp\repmatBuiltin.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="..\include\normBuiltin.hpp" />
     <ClInclude Include="..\include\num2binBuiltin.hpp" />
     <ClInclude Include="..\include\numelBuiltin.hpp" />
+    <ClInclude Include="..\include\permuteBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
     <ClInclude Include="..\include\remBuiltin.hpp" />
     <ClInclude Include="..\include\repmatBuiltin.hpp" />

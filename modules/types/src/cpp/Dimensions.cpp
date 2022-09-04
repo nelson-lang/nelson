@@ -414,5 +414,19 @@ Dimensions::isEmpty(bool allDimensionsIsZero) const
     return (getElementCount() == 0);
 }
 //=============================================================================
+Dimensions
+Dimensions::permute(const std::vector<indexType>& permutationVector, bool emptyDimensions) const
+{
+    Dimensions out(permutationVector.size());
+    for (ompIndexType i = 0; i < (ompIndexType)permutationVector.size(); i++) {
+        if (emptyDimensions) {
+            out.data[i] = data[permutationVector[i] - 1];
+        } else {
+            out.data[i] = data[permutationVector[i] - 1] ? data[permutationVector[i] - 1] : 1;
+        }
+    }
+    return out;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

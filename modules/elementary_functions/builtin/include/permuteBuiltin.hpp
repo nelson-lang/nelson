@@ -13,7 +13,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::ElementaryFunctionsGateway {
+//=============================================================================
 ArrayOfVector
-linspaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+permuteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

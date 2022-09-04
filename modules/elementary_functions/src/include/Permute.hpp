@@ -9,11 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <vector>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-namespace Nelson::ElementaryFunctionsGateway {
-ArrayOfVector
-linspaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-} // namespace Nelson
+namespace Nelson {
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Permute(
+    const ArrayOf& arrayIn, const std::vector<indexType>& permutationVector, bool& needToOverload);
+//=============================================================================
+}
 //=============================================================================
