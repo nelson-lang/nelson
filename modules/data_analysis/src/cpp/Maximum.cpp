@@ -458,7 +458,7 @@ Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     }
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     Dimensions ASize(A.getDimensions());
     Dimensions BSize(B.getDimensions());

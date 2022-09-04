@@ -202,7 +202,7 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         indexType workDim;
         if (d == 0) {
             indexType l = 0;
-            while (dimsA[l] == 1) {
+            while (dimsA.getAt(l) == 1) {
                 l++;
             }
             workDim = l;

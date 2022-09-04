@@ -216,6 +216,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\conv2Builtin.cpp" />
+    <ClCompile Include="..\cpp\cumprodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\cumsumBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxBuiltin.cpp" />
@@ -227,6 +229,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\conv2Builtin.hpp" />
+    <ClInclude Include="..\include\cumprodBuiltin.hpp" />
+    <ClInclude Include="..\include\cumsumBuiltin.hpp" />
     <ClInclude Include="..\include\ismissingBuiltin.hpp" />
     <ClInclude Include="..\include\maxBuiltin.hpp" />
     <ClInclude Include="..\include\minBuiltin.hpp" />

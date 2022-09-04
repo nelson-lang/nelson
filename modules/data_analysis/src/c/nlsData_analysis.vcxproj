@@ -196,6 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Convolution2D.cpp" />
+    <ClCompile Include="..\cpp\CumProd.cpp" />
+    <ClCompile Include="..\cpp\CumSum.cpp" />
     <ClCompile Include="..\cpp\IsMissing.cpp" />
     <ClCompile Include="..\cpp\Maximum.cpp" />
     <ClCompile Include="..\cpp\Minimum.cpp" />
@@ -214,6 +216,8 @@
     <ClInclude Include="..\cpp\SortRealHelpers.hpp" />
     <ClInclude Include="..\cpp\SortStringHelpers.hpp" />
     <ClInclude Include="..\include\Convolution2D.hpp" />
+    <ClInclude Include="..\include\CumProd.hpp" />
+    <ClInclude Include="..\include\CumSum.hpp" />
     <ClInclude Include="..\include\IsMissing.hpp" />
     <ClInclude Include="..\include\Maximum.hpp" />
     <ClInclude Include="..\include\Minimum.hpp" />

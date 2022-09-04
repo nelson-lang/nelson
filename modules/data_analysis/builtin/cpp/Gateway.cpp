@@ -15,6 +15,8 @@
 #include "maxBuiltin.hpp"
 #include "minBuiltin.hpp"
 #include "conv2Builtin.hpp"
+#include "cumsumBuiltin.hpp"
+#include "cumprodBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,6 +26,10 @@ static const nlsGateway gateway[] = {
     { "prod", (ptrBuiltin)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sum", (ptrBuiltin)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "cumprod", (ptrBuiltin)Nelson::DataAnalysisGateway::cumprodBuiltin, 1, 4,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
