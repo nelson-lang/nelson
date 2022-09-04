@@ -120,7 +120,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     return ArrayOf(NLS_LOGICAL, dimsA, resultAslogical);

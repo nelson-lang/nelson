@@ -15,7 +15,7 @@
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
 ArrayOfVector
-minBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+cumprodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

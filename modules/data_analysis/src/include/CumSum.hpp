@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
-namespace Nelson::DataAnalysisGateway {
-//=============================================================================
-ArrayOfVector
-minBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+namespace Nelson {
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+CumSum(const ArrayOf& A, indexType n, bool withNaN, bool reverse, bool& needOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

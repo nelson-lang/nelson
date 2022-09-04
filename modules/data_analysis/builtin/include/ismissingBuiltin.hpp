@@ -13,15 +13,11 @@
 #include "Evaluator.hpp"
 #include "nlsData_analysis_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::DataAnalysisGateway {
 //=============================================================================
-namespace DataAnalysisGateway {
-    //=============================================================================
-    NLSDATA_ANALYSIS_BUILTIN_IMPEXP
-    ArrayOfVector
-    ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSDATA_ANALYSIS_BUILTIN_IMPEXP
+ArrayOfVector
+ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

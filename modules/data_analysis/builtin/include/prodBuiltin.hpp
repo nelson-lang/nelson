@@ -12,13 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace DataAnalysisGateway {
-    //=============================================================================
-    ArrayOfVector
-    prodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+namespace Nelson::DataAnalysisGateway {
+//=============================================================================
+ArrayOfVector
+prodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

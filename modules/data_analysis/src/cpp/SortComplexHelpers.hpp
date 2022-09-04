@@ -73,12 +73,11 @@ struct
                 return true;
             }
             return b.imag() < a.imag();
-        } else {
-            if (std::isnan(a.real()) && !std::isnan(b.real())) {
-                return true;
-            }
-            return b.real() < a.real();
         }
+        if (std::isnan(a.real()) && !std::isnan(b.real())) {
+            return true;
+        }
+        return b.real() < a.real();
     }
 } comparisonComplexGreater;
 //=============================================================================
