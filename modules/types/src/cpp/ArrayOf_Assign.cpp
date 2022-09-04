@@ -485,9 +485,10 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         return;
     }
     bool haveColonOperator = false;
+
     if (isEmpty()) {
-        if (rightData.isVector()) {
-            bool firstcolon = true;
+        if (rightData.isVector()
+            && (index.size() < 3 || index[0].getElementCount() == rightData.getElementCount())) {
             for (size_t i = 0; i < index.size(); i++) {
                 if (isColonOperator(index[i])) {
                     haveColonOperator = true;
@@ -500,12 +501,16 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 }
             }
         } else {
+            size_t colonDim = 0;
             for (size_t i = 0; i < index.size(); i++) {
                 if (isColonOperator(index[i])) {
                     haveColonOperator = true;
                     index[i] = ArrayOf::integerRangeConstructor(
-                        1, 1, rightData.getDimensionLength(static_cast<int>(i)), true);
+                        1, 1, rightData.getDimensionLength((int)(colonDim++)), true);
                 }
+            }
+            if ((colonDim > 0) && (colonDim < rightData.getDimensions().getLength())) {
+                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
             }
         }
     }
@@ -736,6 +741,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         delete[] indx;
         dp->dimensions.simplify();
+        dp->refreshDimensionCache();
     } catch (const Exception& e) {
         delete[] indx;
         throw e;

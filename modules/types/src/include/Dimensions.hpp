@@ -283,6 +283,13 @@ public:
     [[nodiscard]] bool
     isEmpty(bool allDimensionsIsZero) const;
     //=============================================================================
+    /**
+     * Apply a permutation to this dimension vector, and returns the permuted
+     * vector
+     */
+    [[nodiscard]] Dimensions
+    permute(const std::vector<indexType>& permutationVector, bool emptyDimensions) const;
+    //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson

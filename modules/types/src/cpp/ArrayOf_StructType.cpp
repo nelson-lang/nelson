@@ -281,6 +281,7 @@ ArrayOf::setField(const std::string& fieldName, ArrayOf& data)
     ArrayOf* sp = (ArrayOf*)getReadWriteDataPointer();
     sp[(indexType)field_ndx] = data;
     dp->dimensions.simplify();
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -330,6 +331,7 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
         data.pop_front();
     }
     dp->dimensions.simplify();
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**

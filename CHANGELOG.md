@@ -31,6 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `vander`: Vandermonde matrix.
   - `rosser`: Classic symmetric eigenvalue test problem.
   - `nextpow2`: Next higher power of 2.
+  - `permute`: Permute array dimensions.
+  - `ipermute`: Inverse permute array dimensions.
 
 - special functions module:
 

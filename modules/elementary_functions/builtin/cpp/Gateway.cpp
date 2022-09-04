@@ -55,6 +55,7 @@
 #include "trilBuiltin.hpp"
 #include "signBuiltin.hpp"
 #include "hypotBuiltin.hpp"
+#include "permuteBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -163,7 +164,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "hypot", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::hypotBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-
+    { "permute", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::permuteBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

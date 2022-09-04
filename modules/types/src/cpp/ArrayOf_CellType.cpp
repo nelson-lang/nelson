@@ -303,6 +303,7 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
     auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     qp[ndx] = data;
     dp->dimensions.simplify();
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -336,6 +337,7 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
     auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     qp[j] = data;
     dp->dimensions.simplify();
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -398,6 +400,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
         }
     }
     dp->dimensions.simplify();
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -475,6 +478,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         delete[] indx;
         indx = nullptr;
         dp->dimensions.simplify();
+        dp->refreshDimensionCache();
     } catch (const Exception&) {
         delete[] indx;
         indx = nullptr;

@@ -1074,6 +1074,9 @@ public:
     indexType*
     getContentAsIndexPointer();
 
+    [[nodiscard]] std::vector<indexType>
+    getContentAsIndexVector();
+
     /**
      * Get our contents as a double complex scalar.
      * Throws an exception if we are not scalar or cannot meaningfully

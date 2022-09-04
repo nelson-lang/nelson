@@ -200,6 +200,7 @@
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Logarithm2.cpp" />
     <ClCompile Include="..\cpp\LowerTrianglePart.cpp" />
+    <ClCompile Include="..\cpp\Permute.cpp" />
     <ClCompile Include="..\cpp\Sign.cpp" />
     <ClCompile Include="..\cpp\SwapBytes.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="..\include\nlsElementary_functions_exports.h" />
     <ClInclude Include="..\include\Norm.hpp" />
     <ClInclude Include="..\include\NumToBin.hpp" />
+    <ClInclude Include="..\include\Permute.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\Sign.hpp" />
