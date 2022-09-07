@@ -24,7 +24,7 @@ function varargout = ind2sub (dims, ind)
           dims(vlen+1:nd) = [];
         end
         nd = length (dims);
-        scale = [1, vector_cumprod(dims(:))];
+        scale = [1, cumprod(dims(:))'];
         for i = nd:-1:2
           k = (ind >= scale(i));
           r = ones (size (ind));
@@ -48,13 +48,4 @@ function varargout = ind2sub (dims, ind)
     error(_('dimensions must be an integer vector.'));
   end
 end 
-%=============================================================================
-function r = vector_cumprod(x)
-  len = length(x);
-  r = zeros(1, len);
-  r(1) = x(1);
-  for k = 2:len
-    r(k) = r(k-1) * x(k);
-  end
-end
 %=============================================================================
