@@ -27,6 +27,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#702](http://github.com/Nelson-numerical-software/nelson/issues/702): Ubuntu 18.04 CI removed on Github.
 
+### Fixed
+
+- [#722](http://github.com/Nelson-numerical-software/nelson/issues/722): MS MPI runtime v10.1.2.
+
 ## 0.6.8 (2022-08-27)
 
 ### Added
