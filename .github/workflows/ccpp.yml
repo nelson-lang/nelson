@@ -15,14 +15,8 @@ jobs:
           brew install zlib
           brew install libtool
           brew install automake
-          brew unlink libffi
           brew install libffi
-          brew unlink libffi
-          brew link libffi --force
-          brew uninstall --ignore-dependencies icu4c
           brew install icu4c
-          brew unlink icu4c
-          brew link icu4c --force
           brew info open-mpi
           brew install openmpi
           brew install pkg-config
@@ -104,20 +98,13 @@ jobs:
           brew install zlib
           brew install libtool
           brew install automake
-          brew unlink libffi
           brew install libffi
-          brew unlink libffi
-          brew link libffi --force
-          brew uninstall --ignore-dependencies icu4c
           brew install icu4c
-          brew unlink icu4c
-          brew link icu4c --force
           brew info open-mpi
           brew install openmpi
           brew install pkg-config
           brew install pkgconfig
           brew install gettext
-          brew link gettext --force
           echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
           source ~/.zshrc
           brew install boost
@@ -137,7 +124,6 @@ jobs:
           export BUILD_ROOT=$(pwd);
           cd /Users/runner/work/nelson;
           git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -147,7 +133,6 @@ jobs:
       - name: Update version
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-
       - name: CMake
         run: |
           export PATH=/usr/local/opt/qt5/bin:$PATH
