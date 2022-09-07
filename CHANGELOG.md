@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `subspace`: Angle between two subspaces.
   - `planerot`: Givens plane rotation.
   - `condeig`: Condition number with respect to eigenvalues.
+  - `bandwidth`: Lower and upper matrix bandwidth.
+  - `isbanded`: Determine if matrix is within specific bandwidth.
 
 - audio module:
 
@@ -33,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `nextpow2`: Next higher power of 2.
   - `permute`: Permute array dimensions.
   - `ipermute`: Inverse permute array dimensions.
+  - `rot90`: Rotate array 90 degrees.
 
 - special functions module:
 
