@@ -7,23 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-with_dl_mpi = true;
-if ispc()
-  try
-    dlh = dlopen('msmpi.dll');
-    dlclose(dlh);
-    with_dl_mpi = true;
-  catch
-    with_dl_mpi = false;
-  end
+if strcmp(getnelsonmode(), 'BASIC_TERMINAL') == true
+  addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
 end
-if with_dl_mpi == true
-  if strcmp(getnelsonmode(), 'BASIC_TERMINAL') == true
-    addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
-  end
-  addpath(modulepath(nelsonroot(), 'mpi', 'functions'), '-frozen');
-else
-  fprintf(stderr, _('MPI dependency not loaded.'));
-  removemodule('mpi');
-end
+addpath(modulepath(nelsonroot(), 'mpi', 'functions'), '-frozen');
 %=============================================================================
