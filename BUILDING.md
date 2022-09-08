@@ -19,9 +19,7 @@ Qt 5.15 or more required.
 
 ### [Windows](BUILDING_Windows.md)
 
-You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files to help you to see dependencies.
-
-[ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.
+You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is always the most up-to-date than this help.
 
 ## Code formatter
 
