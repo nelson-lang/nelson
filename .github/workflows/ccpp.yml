@@ -536,7 +536,7 @@ jobs:
       - name: Install MS-MPI
         run: |
           $null = mkdir c:/install
-          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
+          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
 
@@ -659,7 +659,7 @@ jobs:
       - name: Install MS-MPI
         run: |
           $null = mkdir c:/install
-          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
+          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
 

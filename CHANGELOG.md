@@ -29,6 +29,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- [#722](http://github.com/Nelson-numerical-software/nelson/issues/722): MS MPI runtime v10.1.2.
+
 - [#723](http://github.com/Nelson-numerical-software/nelson/issues/723): MacOS CI was broken.
 
 ## 0.6.8 (2022-08-27)
