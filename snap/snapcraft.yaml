@@ -79,6 +79,7 @@ parts:
     build-packages:
       - build-essential
       - locales-all
+      - libglvnd-dev
       - libasound2-data
       - libopenmpi-dev
       - autotools-dev
