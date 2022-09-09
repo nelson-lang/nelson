@@ -235,7 +235,7 @@ ModulesManager::findModuleNameByPath(const std::wstring& filename)
             }
         }
     }
-    return std::wstring();
+    return {};
 }
 //=============================================================================
 bool

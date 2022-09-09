@@ -160,7 +160,7 @@ std::wstring
 utf8_to_wstring(const char* str)
 {
     if (str == nullptr) {
-        return std::wstring();
+        return {};
     }
     return utf8_to_wstring(std::string(str));
 }
@@ -180,7 +180,7 @@ std::string
 wstring_to_utf8(const wchar_t* str)
 {
     if (str == nullptr) {
-        return std::string();
+        return {};
     }
     return wstring_to_utf8(std::wstring(str));
 }

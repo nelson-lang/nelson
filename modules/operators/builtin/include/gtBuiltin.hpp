@@ -13,15 +13,11 @@
 #include "Evaluator.hpp"
 #include "nlsOperators_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::OperatorsGateway {
 //=============================================================================
-namespace OperatorsGateway {
-    //=============================================================================
-    NLSOPERATORS_BUILTIN_IMPEXP
-    ArrayOfVector
-    gtBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSOPERATORS_BUILTIN_IMPEXP
+ArrayOfVector
+gtBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

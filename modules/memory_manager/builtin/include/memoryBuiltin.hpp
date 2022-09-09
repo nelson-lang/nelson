@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace MemoryGateway {
-    ArrayOfVector
-    memoryBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::MemoryGateway {
+ArrayOfVector
+memoryBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

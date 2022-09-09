@@ -165,7 +165,7 @@
 
   ```bash
   cd nelson
-  cmake -ENABLE_CLANG_TIDY_FIX=ON -G "Unix Makefiles" .
+  cmake -DENABLE_CLANG_TIDY_FIX=ON -G "Unix Makefiles" .
   ```
 
 - Start the build:

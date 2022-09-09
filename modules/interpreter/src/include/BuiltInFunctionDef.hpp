@@ -64,7 +64,7 @@ public:
     /**
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
-    FunctionType
+    [[nodiscard]] FunctionType
     type() const override
     {
         return NLS_BUILT_IN_FUNCTION;

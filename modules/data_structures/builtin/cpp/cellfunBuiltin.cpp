@@ -441,7 +441,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             function_handle fh = param1.getContentAsFunctionHandle();
             if (!fh.name.empty()) {
                 eval->getContext()->lookupFunction(fh.name, funcDef);
-            } else if (fh.anonymousHandle != 0) {
+            } else if (fh.anonymousHandle != nullptr) {
                 funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {

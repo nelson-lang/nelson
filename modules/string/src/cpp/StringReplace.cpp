@@ -34,7 +34,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         wnew = NEW.getContentAsWideStringVector(false);
     } catch (const Exception&) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     size_t nbOutput;
     Dimensions outputDims;

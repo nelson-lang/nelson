@@ -191,8 +191,8 @@ QVariantToArrayOf(QVariant Q)
     case QMetaType::Type::QStringList: {
         QStringList stringlist = qvariant_cast<QStringList>(Q);
         wstringVector wvector;
-        for (int k = 0; k < stringlist.size(); k++) {
-            wvector.push_back(QStringTowstring(stringlist[k]));
+        for (auto& k : stringlist) {
+            wvector.push_back(QStringTowstring(k));
         }
         return ToCellStringAsRow(wvector);
     } break;

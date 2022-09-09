@@ -17,7 +17,7 @@ std::wstring
 gettextw(const std::wstring& S)
 {
     if (S.empty()) {
-        return std::wstring();
+        return {};
     }
     return boost::locale::translate<wchar_t>(S.c_str());
 }
@@ -26,7 +26,7 @@ std::wstring
 gettextw(const std::string& S)
 {
     if (S.empty()) {
-        return std::wstring();
+        return {};
     }
     return utf8_to_wstring(boost::locale::translate(S).str());
 }
@@ -35,7 +35,7 @@ std::string
 gettext(const std::string& S)
 {
     if (S.empty()) {
-        return std::string();
+        return {};
     }
     return boost::locale::translate(S).str();
 }

@@ -40,7 +40,7 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     case NLS_STRING_ARRAY: {
         Dimensions dimsA = A.getDimensions();
@@ -76,11 +76,11 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_CELL_ARRAY: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     case NLS_STRUCT_ARRAY: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
@@ -123,7 +123,7 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         if (A.isSparse()) {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
         double* pDouble = (double*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.getElementCount() * 2, stringVector(), false);
@@ -140,7 +140,7 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         if (A.isSparse()) {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
         return ToDouble<single>(A);
     } break;
@@ -149,10 +149,10 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

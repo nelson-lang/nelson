@@ -108,7 +108,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     if (res.size()) {
         return res[0];
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf

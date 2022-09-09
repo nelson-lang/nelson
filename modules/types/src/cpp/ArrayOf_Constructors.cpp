@@ -116,7 +116,7 @@ ArrayOf::emptyCell(const Dimensions& dim)
         return ArrayOf(NLS_CELL_ARRAY, dim, nullptr, false);
     }
     Error(_W("Invalid dimensions."));
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf
@@ -127,7 +127,7 @@ ArrayOf::emptyConstructor(const Dimensions& dim, bool bIsSparse)
     }
     Error(_W("Invalid dimensions."));
 
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf
@@ -139,7 +139,7 @@ ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
     }
     Error(_W("Invalid dimensions."));
 
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

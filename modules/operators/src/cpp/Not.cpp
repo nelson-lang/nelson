@@ -38,7 +38,7 @@ Not(const ArrayOf& A, bool& needToOverload)
         AA.promoteType(NLS_LOGICAL);
     } catch (Exception&) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     logical* Cp = static_cast<logical*>(
         ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));

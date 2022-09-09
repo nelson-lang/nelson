@@ -26,7 +26,7 @@ compressString(const std::string& str, bool& failed)
     memset(&zs, 0, sizeof(zs));
     if (deflateInit(&zs, Z_BEST_SPEED) != Z_OK) {
         failed = true;
-        return std::string();
+        return {};
     }
 
     zs.next_in = (Bytef*)str.data();
@@ -49,7 +49,7 @@ compressString(const std::string& str, bool& failed)
 
     if (ret != Z_STREAM_END) {
         failed = true;
-        return std::string();
+        return {};
     }
     failed = false;
     return outstring;
@@ -64,7 +64,7 @@ decompressString(const std::string& str, bool& failed)
 
     if (inflateInit(&zs) != Z_OK) {
         failed = true;
-        return std::string();
+        return {};
     }
 
     zs.next_in = (Bytef*)str.data();
@@ -90,7 +90,7 @@ decompressString(const std::string& str, bool& failed)
 
     if (ret != Z_STREAM_END) {
         failed = true;
-        return std::string();
+        return {};
     }
     failed = false;
     return outstring;

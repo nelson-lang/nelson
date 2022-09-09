@@ -12,11 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SparseGateway {
-    ArrayOfVector
-    sparselogical_horzcat_sparselogicalBuiltin(
-        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::SparseGateway {
+ArrayOfVector
+sparselogical_horzcat_sparselogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

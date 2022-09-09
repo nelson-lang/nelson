@@ -23,13 +23,13 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     ArrayOf param1 = argIn[0];
     if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
-        if (fh.anonymousHandle == 0 && fh.name.empty()) {
+        if (fh.anonymousHandle == nullptr && fh.name.empty()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
         if (!fh.name.empty()) {
             fname = fh.name;
             context->lookupFunction(fname, funcDef);
-        } else if (fh.anonymousHandle != 0) {
+        } else if (fh.anonymousHandle != nullptr) {
             funcDef = (FunctionDef*)fh.anonymousHandle;
         }
     } else {

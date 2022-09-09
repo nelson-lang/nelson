@@ -33,7 +33,7 @@ extensionToFormat(const std::wstring& extension, int& format)
     static std::map<std::wstring, int> tableFormat;
     if (!tableFormatInitialized) {
         int majorCount = 0;
-        sf_command(NULL, SFC_GET_FORMAT_MAJOR_COUNT, &majorCount, sizeof(int));
+        sf_command(nullptr, SFC_GET_FORMAT_MAJOR_COUNT, &majorCount, sizeof(int));
         bool haveOgg = false;
         bool haveFlac = false;
         bool haveMpg = false;
@@ -41,7 +41,7 @@ extensionToFormat(const std::wstring& extension, int& format)
         for (int m = 0; m < majorCount; m++) {
             SF_FORMAT_INFO info;
             info.format = m;
-            sf_command(NULL, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
+            sf_command(nullptr, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
             haveFlac = info.format == SF_FORMAT_FLAC ? true : haveFlac;
             haveOgg = info.format == SF_FORMAT_OGG ? true : haveOgg;
             haveMpg = info.format == SF_FORMAT_MPEG ? true : haveMpg;

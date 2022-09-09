@@ -334,7 +334,7 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
             buff = new wchar_t[format.size() + 1];
         } catch (std::bad_alloc&) {
             errorMessage = ERROR_MEMORY_ALLOCATION;
-            return ArrayOf();
+            return {};
         }
         wcscpy(buff, format.c_str());
         wchar_t* dp = buff;

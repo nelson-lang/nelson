@@ -71,7 +71,7 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     if (!ptr) {
         stringVector symbolNames = getPossibleSymbolNames(utf8Symbol);
         stringVector symbolsFound;
-        for (auto name : symbolNames) {
+        for (const auto& name : symbolNames) {
             void* ptrSymbolName = obj->getFunctionPointer(name);
             if (ptrSymbolName) {
                 ptr = ptrSymbolName;

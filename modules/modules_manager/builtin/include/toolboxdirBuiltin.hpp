@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ModulesManagerGateway {
-    ArrayOfVector
-    toolboxdirBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ModulesManagerGateway {
+ArrayOfVector
+toolboxdirBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

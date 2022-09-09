@@ -182,8 +182,8 @@ QmlEngine::importPathList()
         Error(_W("QML engine not initialized."));
     } else {
         QStringList list = qmlengine->importPathList();
-        for (int k = 0; k < list.size(); k++) {
-            res.push_back(QStringTowstring(list[k]));
+        for (auto& k : list) {
+            res.push_back(QStringTowstring(k));
         }
     }
     return res;
@@ -198,8 +198,8 @@ QmlEngine::pluginPathList()
     }
     if (qmlengine) {
         QStringList list = qmlengine->pluginPathList();
-        for (int k = 0; k < list.size(); k++) {
-            res.push_back(QStringTowstring(list[k]));
+        for (auto& k : list) {
+            res.push_back(QStringTowstring(k));
         }
     }
     return res;
@@ -303,7 +303,7 @@ QmlEngine::evaluateString(const std::wstring& program, bool& withOuput)
     if (withOuput) {
         return QVariantToArrayOf(QJsValueToQVariant(evaluationResult));
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf
@@ -326,7 +326,7 @@ QmlEngine::evaluateFile(const std::wstring& filename, bool& withOuput)
     if (withOuput) {
         return QVariantToArrayOf(QJsValueToQVariant(evaluationResult));
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 }

@@ -52,7 +52,7 @@ public:
     refreshProperties() {};
     void
     setType(const std::string& objectType);
-    bool
+    [[nodiscard]] bool
     isType(const std::string& name) const;
     std::string
     getType();

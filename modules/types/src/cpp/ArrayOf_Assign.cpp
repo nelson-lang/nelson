@@ -502,10 +502,10 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             }
         } else {
             size_t colonDim = 0;
-            for (size_t i = 0; i < index.size(); i++) {
-                if (isColonOperator(index[i])) {
+            for (auto& i : index) {
+                if (isColonOperator(i)) {
                     haveColonOperator = true;
-                    index[i] = ArrayOf::integerRangeConstructor(
+                    i = ArrayOf::integerRangeConstructor(
                         1, 1, rightData.getDimensionLength((int)(colonDim++)), true);
                 }
             }

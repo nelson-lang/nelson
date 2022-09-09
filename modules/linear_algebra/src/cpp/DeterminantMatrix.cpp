@@ -59,7 +59,7 @@ DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
     bool isSupportedTypes = A.isDoubleClass() || (A.isSingleClass() && !A.isSparse());
     if (!isSupportedTypes) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));

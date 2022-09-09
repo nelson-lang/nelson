@@ -91,7 +91,7 @@
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
-extern int yylex(void);
+extern int yylex();
 extern int yydebug;
 //=============================================================================
 static std::mutex parseMutex;
@@ -193,7 +193,7 @@ extern int yydebug;
     NEG = 302,                     /* NEG  */
     NOT = 303                      /* NOT  */
   };
-  typedef enum yytokentype yytoken_kind_t;
+  using yytoken_kind_t = enum yytokentype;
 #endif
 
 /* Value type.  */
@@ -207,7 +207,7 @@ typedef int YYSTYPE;
 extern YYSTYPE yylval;
 
 
-int yyparse (void);
+int yyparse ();
 
 
 
@@ -335,7 +335,7 @@ enum yysymbol_kind_t
   YYSYMBOL_columnSep = 117,                /* columnSep  */
   YYSYMBOL_rowDef = 118                    /* rowDef  */
 };
-typedef enum yysymbol_kind_t yysymbol_kind_t;
+using yysymbol_kind_t = enum yysymbol_kind_t;
 
 
 
@@ -362,7 +362,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
    helps avoid bugs in integer arithmetic.  */
 
 #ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
+using yytype_int8 = signed char;
 #elif defined YY_STDINT_H
 typedef int_least8_t yytype_int8;
 #else
@@ -370,7 +370,7 @@ typedef signed char yytype_int8;
 #endif
 
 #ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
+using yytype_int16 = short;
 #elif defined YY_STDINT_H
 typedef int_least16_t yytype_int16;
 #else
@@ -390,7 +390,7 @@ typedef short yytype_int16;
 #endif
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
+using yytype_uint8 = unsigned char;
 #elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST8_MAX <= INT_MAX)
 typedef uint_least8_t yytype_uint8;
@@ -401,7 +401,7 @@ typedef short yytype_uint8;
 #endif
 
 #if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
+using yytype_uint16 = unsigned short;
 #elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST16_MAX <= INT_MAX)
 typedef uint_least16_t yytype_uint16;
@@ -450,10 +450,10 @@ typedef int yytype_uint16;
 
 
 /* Stored state numbers (used for stacks). */
-typedef yytype_int16 yy_state_t;
+using yy_state_t = yytype_int16;
 
 /* State numbers in computations.  */
-typedef int yy_state_fast_t;
+using yy_state_fast_t = int;
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -1841,7 +1841,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse ()
 {
     yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
@@ -2298,7 +2298,7 @@ yyreduce:
   case 35: /* statement: statementType ENDQSTMNT  */
 #line 169 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {
-        yyval.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,yyvsp[0].v.i);
+        yyval.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,nullptr,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2305 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2307,7 +2307,7 @@ yyreduce:
   case 36: /* statement: statementType ENDSTMNT  */
 #line 173 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                             {
-      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,nullptr,yyvsp[0].v.i);
             yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2314 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2316,7 +2316,7 @@ yyreduce:
   case 37: /* statement: statementType ','  */
 #line 177 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {
-      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,nullptr,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2323 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2733,7 +2733,7 @@ yyreduce:
   case 125: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT  */
 #line 405 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                  {
-    yyvsp[0].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,NULL,-1));
+    yyvsp[0].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,nullptr,-1));
     yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-3].v.p,yyvsp[0].v.p,yyvsp[-4].v.i);
   }
 #line 2740 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -3119,7 +3119,7 @@ yyreduce:
 
   case 194: /* terminal: '[' ']'  */
 #line 483 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,nullptr,yyvsp[-1].v.i);}
 #line 3124 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3149,7 +3149,7 @@ yyreduce:
 
   case 199: /* terminal: '{' '}'  */
 #line 488 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,nullptr,yyvsp[-1].v.i);}
 #line 3154 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3173,7 +3173,7 @@ yyreduce:
 
   case 204: /* symbRef: '(' ')'  */
 #line 497 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,NULL,yyvsp[-1].v.i); }
+            {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,nullptr,yyvsp[-1].v.i); }
 #line 3178 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3209,7 +3209,7 @@ yyreduce:
 
   case 211: /* indexElement: ':'  */
 #line 506 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-        {yyval.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,yyvsp[0].v.i);}
+        {yyval.v.p = AbstractSyntaxTree::createNode(OP_ALL,nullptr,yyvsp[0].v.i);}
 #line 3214 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3360,7 +3360,7 @@ yyerrlab:
 yyerrorlab:
   /* Pacify compilers when the user code never invokes YYERROR and the
      label yyerrorlab therefore never appears in user code.  */
-  if (0)
+  if (false)
     YYERROR;
   ++yynerrs;
 

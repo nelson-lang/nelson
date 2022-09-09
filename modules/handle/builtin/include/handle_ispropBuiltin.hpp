@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace HandleGateway {
-    ArrayOfVector
-    handle_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::HandleGateway {
+ArrayOfVector
+handle_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

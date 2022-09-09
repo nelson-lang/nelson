@@ -61,13 +61,13 @@ std::wstring
 getPartialLineAsPath(const std::wstring& line)
 {
     if (line.empty()) {
-        return std::wstring();
+        return {};
     }
     std::wstring symbols = std::wstring(L";,'");
     std::wstring lineWithoutSpaceAtBeginning = line;
     boost::trim_left(lineWithoutSpaceAtBeginning);
     if (lineWithoutSpaceAtBeginning.empty()) {
-        return std::wstring();
+        return {};
     }
     size_t lengthLine = line.size();
     std::wstring returnedLine;

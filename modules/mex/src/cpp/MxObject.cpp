@@ -48,7 +48,8 @@ mxIsClass(const mxArray* pm, const char* classname)
     }
     if (strcmp(classname, "int32") == 0) {
         return (pm->classID == mxINT32_CLASS);
-    } else if (strcmp(classname, "int64") == 0) {
+    }
+    if (strcmp(classname, "int64") == 0) {
         return (pm->classID == mxINT64_CLASS);
     } else if (strcmp(classname, "logical") == 0) {
         return (pm->classID == mxLOGICAL_CLASS);

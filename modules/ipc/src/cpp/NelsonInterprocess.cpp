@@ -699,7 +699,7 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     errorMessage.clear();
     if (isMessageQueueFails) {
         errorMessage = _W("Impossible to initialize IPC.");
-        return ArrayOf();
+        return {};
     }
     waitMessageQueueUntilReady(withEventsLoop);
 
@@ -715,15 +715,15 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     std::string serialized_compressed_string = compressString(oss.str(), failed);
     if (failed) {
         errorMessage = _W("Cannot serialize data.");
-        return ArrayOf();
+        return {};
     }
     if (serialized_compressed_string.size() >= MAX_MSG_SIZE) {
         errorMessage = _W("Serialized data too big.");
-        return ArrayOf();
+        return {};
     }
     if (!sendMessage(pidDestination, serialized_compressed_string)) {
         errorMessage = _W("Cannot send serialized data.");
-        return ArrayOf();
+        return {};
     }
     int l = 0;
     if (withEventsLoop) {
@@ -750,7 +750,7 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     ArrayOf result;
     if (l >= 20) {
         errorMessage = _W("Impossible to get value (Timeout).");
-        return ArrayOf();
+        return {};
     }
     result = getVarAnswer;
     getVarAnswerAvailable = false;

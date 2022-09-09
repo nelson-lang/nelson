@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ConstructorsGateway {
-    ArrayOfVector
-    zerosBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ConstructorsGateway {
+ArrayOfVector
+zerosBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

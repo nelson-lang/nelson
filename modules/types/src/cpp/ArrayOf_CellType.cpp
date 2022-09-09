@@ -135,7 +135,7 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
         // Make a source of whatever is in that index, and return it.
         return srcPart[ndx];
     }
-    return ArrayOf(); // never here
+    return {}; // never here
 }
 //=============================================================================
 /**
@@ -183,10 +183,10 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
         Error(_W("getVectorContentsAsList not supported for sparse arrays."));
     }
     if (index.isEmpty()) {
-        return ArrayOfVector();
+        return {};
     }
     if (isEmpty()) {
-        return ArrayOfVector();
+        return {};
     }
     if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();

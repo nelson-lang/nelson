@@ -12,13 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace IpcGateway {
-    //=============================================================================
-    ArrayOfVector
-    ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+namespace Nelson::IpcGateway {
+//=============================================================================
+ArrayOfVector
+ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

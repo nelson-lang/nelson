@@ -38,7 +38,7 @@ ArrayOf::getFieldNames() const
     if (dp) {
         return dp->fieldNames;
     }
-    return stringVector();
+    return {};
 }
 //=============================================================================
 std::string
@@ -70,7 +70,7 @@ ArrayOf::structScalarConstructor(const wstringVector& fNames, const ArrayOfVecto
 {
     stringVector fieldnames;
     fieldnames.reserve(fNames.size());
-    for (auto name : fNames) {
+    for (const auto& name : fNames) {
         fieldnames.push_back(wstring_to_utf8(name));
     }
     return structScalarConstructor(fieldnames, values);

@@ -453,7 +453,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
         Error(getNotSupportedTypeMessage(arrayIn, level));
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf

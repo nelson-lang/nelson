@@ -19,6 +19,6 @@ Nelson::ConsoleGateway::clcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 0);
     ClearConsole(eval);
-    return ArrayOfVector();
+    return {};
 }
 //=============================================================================

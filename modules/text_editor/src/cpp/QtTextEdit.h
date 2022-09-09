@@ -23,11 +23,11 @@ class QtTextEdit : public QTextEdit
     Q_OBJECT
 public:
     QtTextEdit();
-    virtual ~QtTextEdit();
+    ~QtTextEdit() override;
     void
-    keyPressEvent(QKeyEvent* event);
+    keyPressEvent(QKeyEvent* event) override;
     void
-    contextMenuEvent(QContextMenuEvent* event);
+    contextMenuEvent(QContextMenuEvent* event) override;
     void
     focusInEvent(QFocusEvent* e) override;
     void
@@ -37,13 +37,13 @@ public:
     void
     uncomment();
     bool
-    canInsertFromMimeData(const QMimeData* source) const;
+    canInsertFromMimeData(const QMimeData* source) const override;
     void
-    insertFromMimeData(const QMimeData* source);
+    insertFromMimeData(const QMimeData* source) override;
 
 private:
     QCompleter* qCompleter;
-    QString
+    [[nodiscard]] QString
     textUnderCursor() const;
     QAbstractItemModel*
     modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,

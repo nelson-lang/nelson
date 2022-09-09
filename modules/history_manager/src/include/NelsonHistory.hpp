@@ -12,19 +12,15 @@
 #include "nlsHistory_manager_exports.h"
 #include <string>
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace History {
-    NLSHISTORY_MANAGER_IMPEXP bool
-    addLine(const std::wstring& line);
-    NLSHISTORY_MANAGER_IMPEXP bool
-    setToken(const std::wstring& line);
-    NLSHISTORY_MANAGER_IMPEXP std::wstring
-    getNextLine();
-    NLSHISTORY_MANAGER_IMPEXP std::wstring
-    getPreviousLine();
-    //=============================================================================
-} // namespace History
+namespace Nelson::History {
+NLSHISTORY_MANAGER_IMPEXP bool
+addLine(const std::wstring& line);
+NLSHISTORY_MANAGER_IMPEXP bool
+setToken(const std::wstring& line);
+NLSHISTORY_MANAGER_IMPEXP std::wstring
+getNextLine();
+NLSHISTORY_MANAGER_IMPEXP std::wstring
+getPreviousLine();
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

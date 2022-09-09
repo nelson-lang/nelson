@@ -115,7 +115,7 @@ stringVector
 VariablesTable::getVariablesList(bool withPersistent)
 {
     if (variablesTable == nullptr) {
-        return stringVector();
+        return {};
     }
     auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
     stringVector list = genericTable->getAllSymbols();

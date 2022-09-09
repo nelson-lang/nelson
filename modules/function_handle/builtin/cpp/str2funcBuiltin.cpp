@@ -27,7 +27,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     function_handle fptr = StringToFunctionHandle(eval, wfunctionname);
-    if (fptr.name.empty() && fptr.anonymousHandle == 0) {
+    if (fptr.name.empty() && fptr.anonymousHandle == nullptr) {
         Error(_W("A valid function name expected."));
     }
     retval << ArrayOf::functionHandleConstructor(fptr);

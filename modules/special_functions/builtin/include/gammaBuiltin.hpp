@@ -12,9 +12,7 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SpecialFunctionsGateway {
-    ArrayOfVector
-    gammaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::SpecialFunctionsGateway {
+ArrayOfVector
+gammaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson

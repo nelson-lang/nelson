@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace FunctionHandleGateway {
-    ArrayOfVector
-    isfunction_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::FunctionHandleGateway {
+ArrayOfVector
+isfunction_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

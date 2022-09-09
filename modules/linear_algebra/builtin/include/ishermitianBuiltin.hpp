@@ -12,13 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace LinearAlgebraGateway {
-    //=============================================================================
-    ArrayOfVector
-    ishermitianBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+namespace Nelson::LinearAlgebraGateway {
+//=============================================================================
+ArrayOfVector
+ishermitianBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

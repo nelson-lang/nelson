@@ -56,7 +56,7 @@ sparsedouble_uminus(const ArrayOf& a)
         Error(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf

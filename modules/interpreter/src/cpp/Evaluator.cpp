@@ -3152,7 +3152,7 @@ Evaluator::functionExpression(
                                 argTypeMap = nullptr;
                             }
                             Error(ERROR_MUST_HAVE_LVALUE);
-                            return ArrayOfVector();
+                            return {};
                         }
                         if (!(p->type == non_terminal && p->opNum == OP_RHS)) {
                             if (argTypeMap != nullptr) {
@@ -3160,7 +3160,7 @@ Evaluator::functionExpression(
                                 argTypeMap = nullptr;
                             }
                             Error(ERROR_MUST_HAVE_LVALUE);
-                            return ArrayOfVector();
+                            return {};
                         }
                         std::string variableName = p->down->text;
                         ArrayOf c;
@@ -3183,7 +3183,7 @@ Evaluator::functionExpression(
                                     Error(_W("Redefining permanent variable."));
                                 }
                                 Error(_W("Valid variable name expected."));
-                                return ArrayOfVector();
+                                return {};
                             }
                         }
                     }
@@ -4019,7 +4019,7 @@ Evaluator::getCallerFunctionName()
     if (ipos >= 0) {
         return callstack.getContext(ipos);
     }
-    return std::string();
+    return {};
 }
 //=============================================================================
 std::wstring
@@ -4046,7 +4046,7 @@ Evaluator::getCurrentFunctionName()
         }
         return fullname;
     }
-    return std::string();
+    return {};
 }
 //=============================================================================
 int
@@ -4332,7 +4332,7 @@ Evaluator::extractClass(
         callstack = backupCallStack;
         return rv;
     }
-    return ArrayOfVector();
+    return {};
 }
 //=============================================================================
 void

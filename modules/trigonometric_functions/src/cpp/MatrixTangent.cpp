@@ -57,7 +57,7 @@ MatrixTan(const ArrayOf& A, bool& needToOverload)
     }
     if (A.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     switch (A.getDataClass()) {
     default: {
@@ -92,7 +92,7 @@ MatrixTan(const ArrayOf& A, bool& needToOverload)
         return R;
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

@@ -36,7 +36,7 @@ static bool DEFAULT_EOF_ISPC = true;
 static bool DEFAULT_EOF_ISPC = false;
 #endif
 //=============================================================================
-typedef struct
+using dlmOptions = struct
 {
     std::wstring delimiter;
     std::wstring fmt;
@@ -44,7 +44,7 @@ typedef struct
     int64 colsOffset;
     bool isPcEOL;
     bool isAppend;
-} dlmOptions;
+};
 //=============================================================================
 static dlmOptions
 dlmwriteBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)

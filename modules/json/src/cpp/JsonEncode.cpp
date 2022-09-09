@@ -410,7 +410,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
 {
     if (!isSupportedType(ValueToEncode)) {
         errorMessage = _W("Unsupported type to convert as JSON.");
-        return ArrayOf();
+        return {};
     }
     if (ValueToEncode.isEmpty()) {
         if (ValueToEncode.getDataClass() == NLS_CHAR) {
@@ -426,7 +426,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         case NLS_GO_HANDLE:
         case NLS_HANDLE: {
             errorMessage = _W("Unsupported type to convert as JSON.");
-            return ArrayOf();
+            return {};
         } break;
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {
@@ -495,7 +495,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         } break;
         default: {
             errorMessage = _W("Unsupported type to convert as JSON.");
-            return ArrayOf();
+            return {};
         } break;
         }
         if (boost::algorithm::ends_with(jsonString, L",")) {

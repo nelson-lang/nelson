@@ -33,7 +33,7 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
         elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     NelsonType outputClass;
     switch (sizeType) {
@@ -80,7 +80,7 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     } catch (Exception& e) {
         delete[] elements;
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
@@ -95,7 +95,7 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
         } else {
             error = _W("Cannot read data set.");
         }
-        return ArrayOf();
+        return {};
     }
     indexType pos = 0;
 #define LENGTH_NAME_MAX 1024
@@ -137,7 +137,7 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     default: {
         delete[] elements;
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     } break;
     }
     indexType k = 0;

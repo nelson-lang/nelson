@@ -24,7 +24,7 @@ All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload)
         A.promoteType(NLS_LOGICAL);
     } catch (Exception&) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     if (A.isEmpty()) {
         Dimensions dimsA = A.getDimensions();

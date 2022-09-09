@@ -106,7 +106,7 @@ MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     bool isReference = A.isReferenceType() || B.isReferenceType();
     if (isReference) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
 
     if (A.isEmpty() || B.isEmpty()) {
@@ -142,7 +142,7 @@ MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         && (B.isSingleClass() || B.isDoubleClass()) && !A.isSparse() && !B.isSparse();
     if (!isSupportedType) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
 
     if (A.getDataClass() != B.getDataClass()) {

@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace FunctionsGateway {
-    ArrayOfVector
-    restoredefaultpathBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::FunctionsGateway {
+ArrayOfVector
+restoredefaultpathBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

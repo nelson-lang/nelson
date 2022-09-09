@@ -104,7 +104,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
             elements = new_with_exception<ArrayOf>(nbElements, false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
     }
     char* temp = nullptr;
@@ -138,7 +138,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
             H5Tclose(memtype);
             error = _W("Cannot read data set.");
         }
-        return ArrayOf();
+        return {};
     }
     std::string str;
     str.reserve((size_t)sizeType);

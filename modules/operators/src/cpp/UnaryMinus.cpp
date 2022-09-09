@@ -59,7 +59,7 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     ArrayOf res;
     switch (A.getDataClass()) {
@@ -104,7 +104,7 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     return res;

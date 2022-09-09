@@ -855,7 +855,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
         MAPOP(9, NLS_SINGLE, NLS_INT64, NLS_SINGLE, (vvfun)fifpower);
         MAPOP(10, NLS_SINGLE, NLS_SINGLE, NLS_SINGLE, (vvfun)fffpower);
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf
@@ -864,7 +864,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     needToOverload = false;
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     bool AsSingle = A.isSingleClass() || B.isSingleClass();
     if (A.isCharacterArray()) {
@@ -908,7 +908,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             }
         } else {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
     }
     switch (A.getDataClass()) {
@@ -956,7 +956,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

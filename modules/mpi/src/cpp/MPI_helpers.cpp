@@ -294,7 +294,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 AnonymousMacroFunctionDef* cp
                     = new AnonymousMacroFunctionDef(anonymousArray.getContentAsCString());
                 fptr.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
-                if (fptr.anonymousHandle == 0 && fptr.name.empty()) {
+                if (fptr.anonymousHandle == nullptr && fptr.name.empty()) {
                     Error(_W("A valid function name expected."));
                 }
                 return ArrayOf::functionHandleConstructor(fptr);

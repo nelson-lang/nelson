@@ -273,7 +273,7 @@ ArrayOf::getContentAsWideString(size_t lengthMax) const
                 return element[0].getContentAsWideString();
             }
             if (isEmpty()) {
-                return std::wstring();
+                return {};
             }
         } else {
             if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
