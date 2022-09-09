@@ -62,6 +62,9 @@
     <ClCompile Include="..\cpp\cumprodBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\cumulativeFunctionBuiltinHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ismissingBuiltin.hpp">
@@ -92,6 +95,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\cumprodBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\cumulativeFunctionBuiltinHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

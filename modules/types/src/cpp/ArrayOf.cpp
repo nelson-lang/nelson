@@ -1266,9 +1266,10 @@ ArrayOf::getContentAsIndexVector()
     size_t nbElements = dp->getDimensions().getElementCount();
     constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
-        if ((floor(qp[k]) == qp[k]) && IsFinite((qp[k]))) {
+        if ((fabs(floor(qp[k]) - qp[k]) < std::numeric_limits<double>::epsilon())
+            && IsFinite((qp[k]))) {
             if ((qp[k]) > maxIndexType) {
-                index.push_back(static_cast<indexType>(maxIndexType));
+                index.push_back(std::numeric_limits<indexType>::max());
             } else if (qp[k] < 0) {
                 index.push_back(0);
             } else {
@@ -1295,9 +1296,10 @@ ArrayOf::getContentAsIndexPointer()
     indexType* pIndex = new_with_exception<indexType>(nbElements, false);
     constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
-        if ((floor(qp[k]) == qp[k]) && IsFinite((qp[k]))) {
+        if ((fabs(floor(qp[k]) - qp[k]) < std::numeric_limits<double>::epsilon())
+            && IsFinite((qp[k]))) {
             if ((qp[k]) > maxIndexType) {
-                pIndex[k] = static_cast<indexType>(maxIndexType);
+                pIndex[k] = std::numeric_limits<indexType>::max();
             } else if (qp[k] < 0) {
                 pIndex[k] = 0;
             } else {
