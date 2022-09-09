@@ -1,4 +1,4 @@
-//=============================================================================
+
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
@@ -7,18 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "cumsumBuiltin.hpp"
-#include "cumulativeFunctionBuiltinHelpers.hpp"
-#include "CumSum.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include <string>
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson::DataAnalysisGateway {
+//=============================================================================
+using callback_cumulative_function = ArrayOf (*)(const ArrayOf&, indexType, bool, bool, bool&);
 //=============================================================================
 ArrayOfVector
-Nelson::DataAnalysisGateway::cumsumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    // B = cumsum(A)
-    // B = cumsum(A, dim)
-    // B = cumsum(A, [dim], nanflag)
-    return cumulativeFunctionBuiltin(eval, nLhs, argIn, "cumsum", CumSum);
+cumulativeFunctionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
+    std::string cumulativeFunctionName, callback_cumulative_function pFunction);
+//=============================================================================
 }
 //=============================================================================

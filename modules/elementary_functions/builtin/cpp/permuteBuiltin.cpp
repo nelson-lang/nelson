@@ -35,9 +35,6 @@ Nelson::ElementaryFunctionsGateway::permuteBuiltin(
         }
         const auto [minPermutationIndex, maxPermutationIndex]
             = std::minmax_element(begin(permutationVector), end(permutationVector));
-        std::vector<indexType>::iterator it
-            = std::unique(permutationVector.begin(), permutationVector.end());
-        bool wasUnique = (it == permutationVector.end());
         if ((*maxPermutationIndex != permutationVector.size()) || (*minPermutationIndex != 1)) {
             Error(_W("Second argument is not a valid permutation."));
         }

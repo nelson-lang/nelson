@@ -216,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\conv2Builtin.cpp" />
+    <ClCompile Include="..\cpp\cumulativeFunctionBuiltinHelpers.cpp" />
     <ClCompile Include="..\cpp\cumprodBuiltin.cpp" />
     <ClCompile Include="..\cpp\cumsumBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\cumulativeFunctionBuiltinHelpers.hpp" />
     <ClInclude Include="..\include\conv2Builtin.hpp" />
     <ClInclude Include="..\include\cumprodBuiltin.hpp" />
     <ClInclude Include="..\include\cumsumBuiltin.hpp" />

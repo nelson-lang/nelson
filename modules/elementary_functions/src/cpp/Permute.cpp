@@ -89,9 +89,9 @@ Permute(
     for (indexType srcIndex = 0; srcIndex < newdims.getElementCount(); srcIndex++) {
         indexType dstIndex = newdims.mapPoint(curPos.permute(permutationVector, true));
         if (arrayIn.isCell() || arrayIn.isStringArray() || arrayIn.isStruct()) {
-            const ArrayOf* sp = (const ArrayOf*)arrayIn.getDataPointer();
-            ArrayOf* qp = (ArrayOf*)dst_data;
-            qp[dstIndex] = sp[srcIndex];
+            const ArrayOf* pSrc = (const ArrayOf*)arrayIn.getDataPointer();
+            ArrayOf* pDest = (ArrayOf*)dst_data;
+            pDest[dstIndex] = pSrc[srcIndex];
         } else {
             ::memcpy(qp + dstIndex * elSize, sp + srcIndex * elSize, 1 * elSize);
         }
