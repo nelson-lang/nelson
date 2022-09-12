@@ -1214,7 +1214,7 @@ isDoubleOrSingleClass(NelsonType classIn)
 #undef caseMacro
 //=============================================================================
 indexType
-ArrayOf::getContentAsScalarIndex(bool bWithZero) const
+ArrayOf::getContentAsScalarIndex(bool bWithZero, bool checkIsIntegerValue) const
 {
     indexType idx = 0;
     if (getElementCount() != 1) {

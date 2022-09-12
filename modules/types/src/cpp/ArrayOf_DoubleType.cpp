@@ -86,20 +86,29 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 }
 //=============================================================================
 double
-ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar) const
+ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
     if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real value scalar."));
     }
+    double value = 0;
     if (getDataClass() != NLS_DOUBLE) {
         ArrayOf P(*this);
         P.promoteType(NLS_DOUBLE);
         auto* qp = (double*)P.getDataPointer();
-        return (*qp);
+        value = *qp;
+    } else {
+        auto* qp = (double*)dp->getData();
+        value = *qp;
     }
-    auto* qp = (double*)dp->getData();
-    return (*qp);
+    if (checkIsIntegerValue) {
+        double f = std::floor(value);
+        if (f != value) {
+            Error(_W("A real integer value scalar expected."));
+        }
+    }
+    return value;
 }
 //=============================================================================
 doublecomplex

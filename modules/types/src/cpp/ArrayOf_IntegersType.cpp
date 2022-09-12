@@ -201,7 +201,8 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 //=============================================================================
 template <class T>
 T
-getContentAsScalar(const ArrayOf& M, NelsonType destinationClass, bool arrayAsScalar)
+getContentAsScalar(
+    const ArrayOf& M, NelsonType destinationClass, bool arrayAsScalar, bool checkIsIntegerValue)
 {
     T value;
     if (M.getDataClass() != destinationClass && !M.isSparse()) {
@@ -213,6 +214,9 @@ getContentAsScalar(const ArrayOf& M, NelsonType destinationClass, bool arrayAsSc
         P.promoteType(destinationClass);
         T* ptr = (T*)P.getDataPointer();
         value = ptr[0];
+        if (checkIsIntegerValue) {
+            double v = M.getContentAsDoubleScalar(arrayAsScalar, checkIsIntegerValue);
+        }
     } else {
         T* ptr = (T*)M.getDataPointer();
         value = ptr[0];
@@ -221,51 +225,51 @@ getContentAsScalar(const ArrayOf& M, NelsonType destinationClass, bool arrayAsSc
 }
 //=============================================================================
 uint8
-ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<uint8>(*this, NLS_UINT8, arrayAsScalar);
+    return getContentAsScalar<uint8>(*this, NLS_UINT8, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 int8
-ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<int8>(*this, NLS_INT8, arrayAsScalar);
+    return getContentAsScalar<int8>(*this, NLS_INT8, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 int16
-ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<int16>(*this, NLS_INT16, arrayAsScalar);
+    return getContentAsScalar<int16>(*this, NLS_INT16, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 uint16
-ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<uint16>(*this, NLS_UINT16, arrayAsScalar);
+    return getContentAsScalar<uint16>(*this, NLS_UINT16, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 int32
-ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<int32>(*this, NLS_INT32, arrayAsScalar);
+    return getContentAsScalar<int32>(*this, NLS_INT32, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 uint32
-ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<uint32>(*this, NLS_UINT32, arrayAsScalar);
+    return getContentAsScalar<uint32>(*this, NLS_UINT32, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 int64
-ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<int64>(*this, NLS_INT64, arrayAsScalar);
+    return getContentAsScalar<int64>(*this, NLS_INT64, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 uint64
-ArrayOf::getContentAsUnsignedInteger64Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsUnsignedInteger64Scalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
-    return getContentAsScalar<uint64>(*this, NLS_UINT64, arrayAsScalar);
+    return getContentAsScalar<uint64>(*this, NLS_UINT64, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
 bool

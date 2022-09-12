@@ -1004,42 +1004,45 @@ public:
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] int8
-    getContentAsInteger8Scalar(bool arrayAsScalar = false) const;
+    getContentAsInteger8Scalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an unsigned integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] uint8
-    getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false) const;
+    getContentAsUnsignedInteger8Scalar(
+        bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] int16
-    getContentAsInteger16Scalar(bool arrayAsScalar = false) const;
+    getContentAsInteger16Scalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] uint16
-    getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false) const;
+    getContentAsUnsignedInteger16Scalar(
+        bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] int32
-    getContentAsInteger32Scalar(bool arrayAsScalar = false) const;
+    getContentAsInteger32Scalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] uint32
-    getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false) const;
+    getContentAsUnsignedInteger32Scalar(
+        bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as a double scalar.
@@ -1047,21 +1050,22 @@ public:
      * be converted to a double precision value.
      */
     [[nodiscard]] double
-    getContentAsDoubleScalar(bool arrayAsScalar = false) const;
+    getContentAsDoubleScalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] uint64
-    getContentAsUnsignedInteger64Scalar(bool arrayAsScalar = false) const;
+    getContentAsUnsignedInteger64Scalar(
+        bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as an integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     [[nodiscard]] int64
-    getContentAsInteger64Scalar(bool arrayAsScalar = false) const;
+    getContentAsInteger64Scalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as a index type scalar.
@@ -1069,7 +1073,7 @@ public:
      * be converted to a index typevalue.
      */
     [[nodiscard]] indexType
-    getContentAsScalarIndex(bool bWithZero = true) const;
+    getContentAsScalarIndex(bool bWithZero = true, bool checkIsIntegerValue = false) const;
 
     indexType*
     getContentAsIndexPointer();
@@ -1091,7 +1095,7 @@ public:
      * be converted to a double precision value.
      */
     [[nodiscard]] single
-    getContentAsSingleScalar(bool arrayAsScalar = false) const;
+    getContentAsSingleScalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
      * Get our contents as a single complex scalar.
