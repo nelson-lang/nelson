@@ -104,7 +104,7 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     }
     if (checkIsIntegerValue) {
         double f = std::floor(value);
-        if (f != value) {
+        if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
             Error(_W("A real integer value scalar expected."));
         }
     }

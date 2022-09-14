@@ -215,7 +215,10 @@ getContentAsScalar(
         T* ptr = (T*)P.getDataPointer();
         value = ptr[0];
         if (checkIsIntegerValue) {
-            double v = M.getContentAsDoubleScalar(arrayAsScalar, checkIsIntegerValue);
+            double f = M.getContentAsDoubleScalar(arrayAsScalar, false);
+            if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
+                Error(_W("A real integer value scalar expected."));
+            }
         }
     } else {
         T* ptr = (T*)M.getDataPointer();

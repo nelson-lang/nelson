@@ -32,15 +32,6 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (context->getCurrentScope()->getName() == "base") {
             Error(_W("You can only call 'nargoutchk' from within a Nelson function."));
         }
-        /*
-        mustBeScalarOrEmpty(argIn, 0);
-        mustBeNonempty(argIn, 0);
-        mustBeInteger(argIn, 0);
-
-        mustBeScalarOrEmpty(argIn, 1);
-        mustBeNonempty(argIn, 1);
-        mustBeInteger(argIn, 1);
-        */
         int minArgs = argIn[0].getContentAsInteger32Scalar();
         int maxArgs = argIn[1].getContentAsInteger32Scalar();
 
