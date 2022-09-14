@@ -85,20 +85,30 @@ ArrayOf::complexConstructor(float aval, float bval)
 }
 //=============================================================================
 single
-ArrayOf::getContentAsSingleScalar(bool arrayAsScalar) const
+ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
     single* qp;
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse() || isEmpty()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real value scalar."));
     }
+    single value = 0;
     if (getDataClass() != NLS_SINGLE) {
         ArrayOf P(*this);
         P.promoteType(NLS_SINGLE);
         qp = (single*)P.getDataPointer();
-        return (*qp);
+        value = *qp;
+    } else {
+        qp = (single*)dp->getData();
+        value = *qp;
     }
-    qp = (single*)dp->getData();
+    if (checkIsIntegerValue) {
+        single f = std::floor(value);
+        if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
+            Error(_W("A real integer value scalar expected."));
+        }
+    }
+
     return (*qp);
 }
 //=============================================================================

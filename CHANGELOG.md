@@ -64,6 +64,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Remove definitively Appveyor CI.
 
+- C++ API: `getContentAsDoubleScalar`, `getContentAsSingleScalar`, `getContentAsInteger8Scalar`, ... , `getContentAsInteger64Scalar` can check if it is an integer value.
+
 ### Fixed
 
 - [#722](http://github.com/Nelson-numerical-software/nelson/issues/722): MS MPI runtime v10.1.2.

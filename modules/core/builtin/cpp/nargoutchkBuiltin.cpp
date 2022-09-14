@@ -9,8 +9,6 @@
 //=============================================================================
 #include "nargoutchkBuiltin.hpp"
 #include "Error.hpp"
-#include "NargOut.hpp"
-#include "Validators.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,15 +32,6 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (context->getCurrentScope()->getName() == "base") {
             Error(_W("You can only call 'nargoutchk' from within a Nelson function."));
         }
-
-        mustBeScalarOrEmpty(argIn, 0);
-        mustBeNonempty(argIn, 0);
-        mustBeInteger(argIn, 0);
-
-        mustBeScalarOrEmpty(argIn, 1);
-        mustBeNonempty(argIn, 1);
-        mustBeInteger(argIn, 1);
-
         int minArgs = argIn[0].getContentAsInteger32Scalar();
         int maxArgs = argIn[1].getContentAsInteger32Scalar();
 
@@ -67,21 +56,19 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 Error(_W("#4 input must be either 'struct' or 'string'."));
             }
         }
-        mustBeScalarOrEmpty(argIn, 0);
-        mustBeNonempty(argIn, 0);
-        mustBeInteger(argIn, 0);
+        if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
+            Error(_("Scalar integer value required for #1 argument."));
+        }
+        if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
+            Error(_("Scalar integer value required for #2 argument."));
+        }
+        if (!argIn[2].isScalar() || !argIn[2].isNumeric()) {
+            Error(_("Scalar integer value required for #3 argument."));
+        }
 
-        mustBeScalarOrEmpty(argIn, 1);
-        mustBeNonempty(argIn, 1);
-        mustBeInteger(argIn, 1);
-
-        mustBeScalarOrEmpty(argIn, 2);
-        mustBeNonempty(argIn, 2);
-        mustBeInteger(argIn, 2);
-
-        int minArgs = argIn[0].getContentAsInteger32Scalar();
-        int maxArgs = argIn[1].getContentAsInteger32Scalar();
-        int numArgs = argIn[2].getContentAsInteger32Scalar();
+        int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
+        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+        int numArgs = argIn[2].getContentAsInteger32Scalar(false, true);
 
         std::wstring msg = L"";
         std::wstring id = L"";
