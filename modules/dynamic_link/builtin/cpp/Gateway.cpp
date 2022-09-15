@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "addgatewayBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
 #include "dlcloseBuiltin.hpp"
 #include "dllib_displayBuiltin.hpp"
@@ -29,7 +28,6 @@
 #include "dlsym_ispropBuiltin.hpp"
 #include "dlsym_isvalidBuiltin.hpp"
 #include "dlsym_usedBuiltin.hpp"
-#include "gatewayinfoBuiltin.hpp"
 #include "getdynlibextBuiltin.hpp"
 #include "isNullBuiltin.hpp"
 #include "libpointerBuiltin.hpp"
@@ -45,18 +43,13 @@
 #include "libpointer_reshapeBuiltin.hpp"
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "libpointer_usedBuiltin.hpp"
-#include "removegatewayBuiltin.hpp"
 #include "dllibisloadedBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"dynamic_link";
 //=============================================================================
-static const nlsGateway gateway[] = { { "addgateway",
-                                          (ptrBuiltin)Nelson::DynamicLinkGateway::addgatewayBuiltin,
-                                          0, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "removegateway", (ptrBuiltin)Nelson::DynamicLinkGateway::removegatewayBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+static const nlsGateway gateway[] = {
     { "dlsym_display", (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dlsym_disp", (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 1,
@@ -77,7 +70,6 @@ static const nlsGateway gateway[] = { { "addgateway",
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isNull", (ptrBuiltin)Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "gatewayinfo", (ptrBuiltin)Nelson::DynamicLinkGateway::gatewayinfoBuiltin, 2, 1 },
     { "dlopen", (ptrBuiltin)Nelson::DynamicLinkGateway::dlopenBuiltin, 1, 1 },
     { "dlclose", (ptrBuiltin)Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
     { "dlsym", (ptrBuiltin)Nelson::DynamicLinkGateway::dlsymBuiltin, -1, 4 },
@@ -112,7 +104,8 @@ static const nlsGateway gateway[] = { { "addgateway",
     { "libpointer_isvalid", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin, 1,
         1 },
     { "getdynlibext", (ptrBuiltin)Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 },
-    { "dllibisloaded", (ptrBuiltin)Nelson::DynamicLinkGateway::dllibisloadedBuiltin, 1, 1 } };
+    { "dllibisloaded", (ptrBuiltin)Nelson::DynamicLinkGateway::dllibisloadedBuiltin, 1, 1 }
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

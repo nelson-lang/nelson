@@ -10,11 +10,11 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsDynamic_link_exports.h"
+#include "nlsModules_manager_exports.h"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-class NLSDYNAMIC_LINK_IMPEXP GatewaysManager
+class NLSMODULES_MANAGER_IMPEXP GatewaysManager
 {
     //=============================================================================
 public:

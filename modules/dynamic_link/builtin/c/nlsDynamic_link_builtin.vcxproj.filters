@@ -21,15 +21,6 @@
     <ClCompile Include="..\cpp\Gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\addgatewayBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\gatewayinfoBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\removegatewayBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\dlcloseBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,15 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsDynamic_link_builtin_exports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\addgatewayBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gatewayinfoBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\removegatewayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\dlcloseBuiltin.hpp">

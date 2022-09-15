@@ -7,20 +7,25 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "addgatewayBuiltin.hpp"
 #include "AddGateway.hpp"
 #include "Error.hpp"
-#include "GatewaysManager.hpp"
 //=============================================================================
-namespace Nelson {
-void
-AddGateway(Evaluator* eval, const std::wstring& dynlibname)
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ModulesManagerGateway::addgatewayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    std::wstring errorMessage;
-    GatewaysManager::getInstance()->addGateway(eval, dynlibname, errorMessage);
-    if (!errorMessage.empty()) {
-        Error(errorMessage);
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    if (argIn[0].isRowVectorCharacterArray()) {
+        std::wstring dynlibName = argIn[0].getContentAsWideString();
+        AddGateway(eval, dynlibName);
+    } else {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
+    return retval;
 }
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

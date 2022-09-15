@@ -7,15 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "AddGateway.hpp"
+#include "Error.hpp"
+#include "GatewaysManager.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DynamicLinkGateway {
-    ArrayOfVector
-    removegatewayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+void
+AddGateway(Evaluator* eval, const std::wstring& dynlibname)
+{
+    std::wstring errorMessage;
+    GatewaysManager::getInstance()->addGateway(eval, dynlibname, errorMessage);
+    if (!errorMessage.empty()) {
+        Error(errorMessage);
+    }
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

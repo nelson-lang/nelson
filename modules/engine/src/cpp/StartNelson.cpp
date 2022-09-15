@@ -401,8 +401,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"core"));
             AddGateway(
                 eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"modules_manager"));
-            AddGateway(
-                eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"dynamic_link"));
             AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"string"));
         } catch (const Exception& e) {
             Interface* io = eval->getInterface();

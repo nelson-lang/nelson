@@ -15,7 +15,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ModulesManagerGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);

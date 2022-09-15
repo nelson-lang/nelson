@@ -48,7 +48,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${MEMORY_MANAGER_BUILTIN})

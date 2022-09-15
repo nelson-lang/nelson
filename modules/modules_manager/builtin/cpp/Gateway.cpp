@@ -18,6 +18,9 @@
 #include "toolboxdirBuiltin.hpp"
 #include "usermodulesdirBuiltin.hpp"
 #include "semverBuiltin.hpp"
+#include "addgatewayBuiltin.hpp"
+#include "removegatewayBuiltin.hpp"
+#include "gatewayinfoBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,7 +37,12 @@ static const nlsGateway gateway[] = {
     { "toolboxdir", (ptrBuiltin)Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
     { "usermodulesdir", (ptrBuiltin)Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
     { "requiremodule", (ptrBuiltin)Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
-    { "semver", (ptrBuiltin)Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 }
+    { "semver", (ptrBuiltin)Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 },
+    { "addgateway", (ptrBuiltin)Nelson::ModulesManagerGateway::addgatewayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "removegateway", (ptrBuiltin)Nelson::ModulesManagerGateway::removegatewayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "gatewayinfo", (ptrBuiltin)Nelson::ModulesManagerGateway::gatewayinfoBuiltin, 2, 1 },
 };
 //=============================================================================
 NLSGATEWAYNAME()
