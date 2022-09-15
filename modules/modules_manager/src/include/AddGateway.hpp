@@ -10,12 +10,12 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
-#include "nlsDynamic_link_exports.h"
+#include "nlsModules_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSDYNAMIC_LINK_IMPEXP void
-RemoveGateway(Evaluator* eval, const std::wstring& dynlibname);
+NLSMODULES_MANAGER_IMPEXP void
+AddGateway(Evaluator* eval, const std::wstring& dynlibname);
 //=============================================================================
 }
 //=============================================================================

@@ -12,9 +12,11 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DynamicLinkGateway {
+//=============================================================================
+namespace ModulesManagerGateway {
     ArrayOfVector
     gatewayinfoBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

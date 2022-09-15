@@ -176,13 +176,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\AddGateway.cpp" />
     <ClCompile Include="..\cpp\AddModule.cpp" />
     <ClCompile Include="..\cpp\CompareVersions.cpp" />
+    <ClCompile Include="..\cpp\GatewayInfo.cpp" />
+    <ClCompile Include="..\cpp\GatewaysManager.cpp" />
     <ClCompile Include="..\cpp\GetExternaModulesPath.cpp" />
     <ClCompile Include="..\cpp\ModulePath.cpp" />
     <ClCompile Include="..\cpp\ModulesHelpers.cpp" />
     <ClCompile Include="..\cpp\ModulesManager.cpp" />
     <ClCompile Include="..\cpp\ReadUserModules.cpp" />
+    <ClCompile Include="..\cpp\RemoveGateway.cpp" />
     <ClCompile Include="..\cpp\RemoveModule.cpp" />
     <ClCompile Include="dllMain.c" />
     <ClCompile Include="semver\semver.c" />
@@ -193,9 +197,13 @@
     <ClInclude Include="..\..\src\include\ModulesHelpers.hpp" />
     <ClInclude Include="..\..\src\include\ModulesManager.hpp" />
     <ClInclude Include="..\..\src\include\nlsModules_manager_exports.h" />
+    <ClInclude Include="..\include\AddGateway.hpp" />
     <ClInclude Include="..\include\CompareVersions.hpp" />
+    <ClInclude Include="..\include\GatewayInfo.hpp" />
+    <ClInclude Include="..\include\GatewaysManager.hpp" />
     <ClInclude Include="..\include\GetExternalModulesPath.hpp" />
     <ClInclude Include="..\include\ReadUserModules.hpp" />
+    <ClInclude Include="..\include\RemoveGateway.hpp" />
     <ClInclude Include="..\include\RemoveModule.hpp" />
     <ClInclude Include="semver\semver.h" />
   </ItemGroup>

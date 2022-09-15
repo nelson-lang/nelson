@@ -180,11 +180,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\addgatewayBuiltin.cpp" />
     <ClCompile Include="..\cpp\addmoduleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gatewayinfoBuiltin.cpp" />
     <ClCompile Include="..\cpp\getmodulesBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ismoduleBuiltin.cpp" />
     <ClCompile Include="..\cpp\modulepathBuiltin.cpp" />
+    <ClCompile Include="..\cpp\removegatewayBuiltin.cpp" />
     <ClCompile Include="..\cpp\removemoduleBuiltin.cpp" />
     <ClCompile Include="..\cpp\requiremoduleBuiltin.cpp" />
     <ClCompile Include="..\cpp\semverBuiltin.cpp" />
@@ -219,11 +222,14 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\addgatewayBuiltin.hpp" />
     <ClInclude Include="..\include\addmoduleBuiltin.hpp" />
+    <ClInclude Include="..\include\gatewayinfoBuiltin.hpp" />
     <ClInclude Include="..\include\getmodulesBuiltin.hpp" />
     <ClInclude Include="..\include\ismoduleBuiltin.hpp" />
     <ClInclude Include="..\include\modulepathBuiltin.hpp" />
     <ClInclude Include="..\include\nlsModules_manager_builtin_exports.h" />
+    <ClInclude Include="..\include\removegatewayBuiltin.hpp" />
     <ClInclude Include="..\include\removemoduleBuiltin.hpp" />
     <ClInclude Include="..\include\requiremoduleBuiltin.hpp" />
     <ClInclude Include="..\include\semverBuiltin.hpp" />

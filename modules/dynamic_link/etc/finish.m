@@ -8,3 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 rmpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'));
+removegateway(modulepath(nelsonroot(), 'dynamic_link', 'builtin'))
+%=============================================================================
