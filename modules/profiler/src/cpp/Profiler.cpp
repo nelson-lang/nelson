@@ -520,6 +520,9 @@ Profiler::computeBasicFileStats(
     } else {
         int start = findFunctionDefinitonLine(functionContent);
         int stop = findEndfunctionDefinitonLine(functionContent, start);
+        if (stop == -1) {
+            stop = (int)functionContent.size();
+        }
         bool first = true;
         for (size_t k = start + 1; k < stop; ++k) {
             double t;
