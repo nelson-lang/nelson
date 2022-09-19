@@ -1880,7 +1880,12 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
                 m = rhsExpression(t->down, 0);
             } else {
-                m = rhsExpression(t->down);
+                if (b.isCell()) {
+                    m = rhsExpression(t->down, 0);
+
+                } else {
+                    m = rhsExpression(t->down);
+                }
             }
             if (m.size() == 0) {
                 b = ArrayOf::emptyConstructor();
@@ -3743,7 +3748,10 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 rv = ArrayOfVector();
             } else if (rv.size() == 0) {
                 r = ArrayOf::emptyConstructor();
-                Error(ERROR_EMPTY_EXPRESSION);
+
+                if (nLhs == 1) {
+                    Error(ERROR_EMPTY_EXPRESSION);
+                }
             }
         }
         if (t->opNum == (OP_DOT)) {
@@ -3817,7 +3825,9 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
         t = t->right;
     }
     if (rv.empty()) {
-        rv.push_back(r);
+        if (nLhs != 0) {
+            rv.push_back(r);
+        }
     }
     callstack.popID();
     return rv;
