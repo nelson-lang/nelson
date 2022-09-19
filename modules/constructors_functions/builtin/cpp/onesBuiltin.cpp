@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "Ones.hpp"
 #include "nlsConfig.h"
+#include "StringToClass.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -88,37 +89,9 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf lastArg = argIn[argIn.size() - 1];
         if (lastArg.isRowVectorCharacterArray() && bCheckClassName) {
             std::wstring paramstr = lastArg.getContentAsWideString();
-            if (paramstr == L"int8") {
-                cl = NLS_INT8;
-                nRhs--;
-            } else if (paramstr == L"uint8") {
-                cl = NLS_UINT8;
-                nRhs--;
-            } else if (paramstr == L"int16") {
-                cl = NLS_INT16;
-                nRhs--;
-            } else if (paramstr == L"uint16") {
-                cl = NLS_UINT16;
-                nRhs--;
-            } else if (paramstr == L"int32") {
-                cl = NLS_INT32;
-                nRhs--;
-            } else if (paramstr == L"uint32") {
-                cl = NLS_UINT32;
-                nRhs--;
-            } else if (paramstr == L"int64") {
-                cl = NLS_INT64;
-                nRhs--;
-            } else if (paramstr == L"uint64") {
-                cl = NLS_UINT64;
-                nRhs--;
-            } else if (paramstr == L"double") {
-                cl = NLS_DOUBLE;
-                nRhs--;
-            } else if (paramstr == L"single") {
-                cl = NLS_SINGLE;
-                nRhs--;
-            } else {
+            cl = StringToClass(paramstr);
+            nRhs--;
+            if (cl < NLS_LOGICAL || cl > NLS_DOUBLE) {
                 Error(_W("A supported type expected at last argument."));
             }
         }
