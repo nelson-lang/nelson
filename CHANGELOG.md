@@ -74,7 +74,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#723](http://github.com/Nelson-numerical-software/nelson/issues/723): MacOS CI was broken.
 
-- [#737](http://github.com/Nelson-numerical-software/nelson/issues/737): profiler failed with 'sind' example..
+- [#737](http://github.com/Nelson-numerical-software/nelson/issues/737): profiler failed with 'sind' example.
+
+- [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.
 
 ## 0.6.8 (2022-08-27)
 
