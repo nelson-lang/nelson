@@ -128,32 +128,28 @@ ArrayOf
 ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vert)
 {
     Dimensions Cdim;
+    NelsonType classC;
+#ifdef NLS_INDEX_TYPE_64
+    classC = NLS_INT64;
+#else
+    classC = NLS_INT32;
+#endif
     if (stepsize == 0) {
         Cdim[0] = 1;
         Cdim[1] = 0;
-#ifdef NLS_INDEX_TYPE_64
-        return ArrayOf(NLS_INT32, Cdim, nullptr, false);
-#else
-        return ArrayOf(NLS_INT64, Cdim, nullptr, false);
-#endif
+        return ArrayOf(classC, Cdim, nullptr, false);
     }
     if (minval < maxval) {
-#ifndef NLS_INDEX_TYPE_64
         if (stepsize < 0) {
             Cdim[0] = 1;
             Cdim[1] = 0;
-            return ArrayOf(NLS_INT32, Cdim, nullptr, false);
+            return ArrayOf(classC, Cdim, nullptr, false);
         }
-#endif
     }
     if (minval > maxval) {
-        Cdim[0] = 1;
-        Cdim[1] = 0;
-#ifdef NLS_INDEX_TYPE_64
-        return ArrayOf(NLS_INT64, Cdim, nullptr, false);
-#else
-        return ArrayOf(NLS_INT32, Cdim, nullptr, false);
-#endif
+        Cdim[0] = 0;
+        Cdim[1] = 1;
+        return ArrayOf(classC, Cdim, nullptr, false);
     }
     auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
 #ifdef NLS_INDEX_TYPE_64
@@ -192,11 +188,7 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
             i++;
         }
     }
-#ifdef NLS_INDEX_TYPE_64
-    return ArrayOf(NLS_INT64, Cdim, rp);
-#else
-    return ArrayOf(NLS_INT32, Cdim, rp);
-#endif
+    return ArrayOf(classC, Cdim, rp);
 }
 //=============================================================================
 template <class T>

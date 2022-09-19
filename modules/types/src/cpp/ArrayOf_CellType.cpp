@@ -185,6 +185,9 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     if (index.isEmpty()) {
         return ArrayOfVector();
     }
+    if (isEmpty()) {
+        return ArrayOfVector();
+    }
     if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
