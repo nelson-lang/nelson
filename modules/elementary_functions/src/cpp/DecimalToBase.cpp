@@ -229,7 +229,7 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     return ArrayOf::characterVectorToCharacterArray(vs);

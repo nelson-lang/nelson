@@ -24,7 +24,7 @@ h5ReadVlenOpaque(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     indexType elementCount = dims.getElementCount();
@@ -36,7 +36,7 @@ h5ReadVlenOpaque(
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
     }
@@ -59,7 +59,7 @@ h5ReadVlenFloat(
     } break;
     default: {
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     } break;
     }
     try {
@@ -67,7 +67,7 @@ h5ReadVlenFloat(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     indexType elementCount = dims.getElementCount();
@@ -79,7 +79,7 @@ h5ReadVlenFloat(
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
     }
@@ -124,7 +124,7 @@ h5ReadVlenInteger(
     } break;
     default: {
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     } break;
     }
     try {
@@ -132,7 +132,7 @@ h5ReadVlenInteger(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     indexType elementCount = dims.getElementCount();
@@ -144,7 +144,7 @@ h5ReadVlenInteger(
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
     }
@@ -178,7 +178,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
         rdata = (hvl_t*)new_with_exception<hvl_t>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     hid_t memspace = H5I_INVALID_HID;
     if (!asAttribute) {
@@ -188,20 +188,20 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
             h5_dims = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         try {
             h5_maxdims
                 = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
             Error("Impossible to read dimensions and maximum size of data set.");
-            return ArrayOf();
+            return {};
         }
         memspace = H5Screate_simple(rank, h5_dims, nullptr);
         delete[] h5_dims;
@@ -222,7 +222,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
             H5Sclose(memspace);
             error = _W("Cannot read data set.");
         }
-        return ArrayOf();
+        return {};
     }
 
     hid_t stype = H5Tget_super(type);
@@ -247,7 +247,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
         H5Sclose(memspace);
     }
     H5Tclose(stype);
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

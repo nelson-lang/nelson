@@ -74,6 +74,6 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!res) {
         Error(errorMessage);
     }
-    return ArrayOfVector();
+    return {};
 }
 //=============================================================================

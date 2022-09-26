@@ -63,7 +63,7 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
                 outputClass, dims.getElementCount(), stringVector(), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         hid_t memspace = H5I_INVALID_HID;
         herr_t status = H5I_INVALID_HID;
@@ -89,7 +89,7 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
                 delete[] h5_dims;
                 delete[] h5_maxdims;
                 Error("Impossible to read dimensions and maximum size of data set.");
-                return ArrayOf();
+                return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);
             delete[] h5_dims;

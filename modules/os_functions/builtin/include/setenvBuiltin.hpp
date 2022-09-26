@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace OsFunctionsGateway {
-    ArrayOfVector
-    setenvBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::OsFunctionsGateway {
+ArrayOfVector
+setenvBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

@@ -12,12 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace DataStructuresGateway {
-    ArrayOfVector
-    getfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::DataStructuresGateway {
+ArrayOfVector
+getfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

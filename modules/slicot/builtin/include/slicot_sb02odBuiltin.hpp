@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SlicotGateway {
-    ArrayOfVector
-    slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::SlicotGateway {
+ArrayOfVector
+slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

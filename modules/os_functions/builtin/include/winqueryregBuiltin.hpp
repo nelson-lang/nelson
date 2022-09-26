@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace OsFunctionsGateway {
-    ArrayOfVector
-    winqueryregBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::OsFunctionsGateway {
+ArrayOfVector
+winqueryregBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

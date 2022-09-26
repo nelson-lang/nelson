@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace HandleGateway {
-    ArrayOfVector
-    generic_eq_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::HandleGateway {
+ArrayOfVector
+generic_eq_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

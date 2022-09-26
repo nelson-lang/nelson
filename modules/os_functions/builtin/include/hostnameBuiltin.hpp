@@ -11,12 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace OsFunctionsGateway {
-    ArrayOfVector
-    hostnameBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::OsFunctionsGateway {
+ArrayOfVector
+hostnameBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

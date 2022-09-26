@@ -42,7 +42,7 @@ FileDiff(const std::wstring& filename1, const std::wstring& filename2, logical e
 {
     using elem = std::string;
     using sequence = std::vector<elem>;
-    typedef std::pair<elem, elemInfo> sesElem;
+    using sesElem = std::pair<elem, elemInfo>;
 #ifdef _MSC_VER
     std::ifstream Aifs(filename1.c_str(), std::ios::in | std::ios::binary);
     std::ifstream Bifs(filename2.c_str(), std::ios::in | std::ios::binary);

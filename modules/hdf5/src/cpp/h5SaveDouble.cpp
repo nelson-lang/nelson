@@ -146,11 +146,11 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
 
     void* buffer = const_cast<void*>(VariableValue.getDataPointer());
     if (VariableValue.isComplex()) {
-        typedef struct complex_type
+        using complex_type = struct complex_type
         {
             double r;
             double i;
-        } complex_type;
+        };
         hid_t compoundId = H5Tcreate(H5T_COMPOUND, sizeof(doublecomplex));
         H5Tinsert(compoundId, "real", HOFFSET(complex_type, r), H5T_NATIVE_DOUBLE);
         H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_DOUBLE);

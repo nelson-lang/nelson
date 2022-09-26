@@ -27,7 +27,7 @@ getInputColor()
 QColor
 getErrorColor()
 {
-    return QColor(Qt::red);
+    return { Qt::red };
 }
 //===================================================================================
 QColor

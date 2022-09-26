@@ -12,9 +12,7 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace OperatorsGateway {
-    ArrayOfVector
-    ctransposeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::OperatorsGateway {
+ArrayOfVector
+ctransposeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson

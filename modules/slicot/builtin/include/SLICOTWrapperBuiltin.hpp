@@ -11,11 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SlicotGateway {
-    ArrayOfVector
-    SLICOTWrapperBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::SlicotGateway {
+ArrayOfVector
+SLICOTWrapperBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

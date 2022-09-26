@@ -197,13 +197,13 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                 _J.promoteType(_I.getDataClass());
             } catch (const Exception&) {
                 needToOverload = true;
-                return ArrayOf();
+                return {};
             }
             try {
                 _K.promoteType(_I.getDataClass());
             } catch (const Exception&) {
                 needToOverload = true;
-                return ArrayOf();
+                return {};
             }
         } else if ((_J.getDataClass() != _K.getDataClass())) {
             if (_J.isDoubleType() || _K.isDoubleType()) {
@@ -218,7 +218,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                                 _K.promoteType(static_cast<NelsonType>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
-                                return ArrayOf();
+                                return {};
                             }
                         }
                     }
@@ -226,7 +226,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         _J.promoteType(_K.getDataClass());
                     } catch (const Exception&) {
                         needToOverload = true;
-                        return ArrayOf();
+                        return {};
                     }
                 } else {
                     if (_J.isIntegerType()) {
@@ -239,7 +239,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                                 _K.promoteType(static_cast<NelsonType>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
-                                return ArrayOf();
+                                return {};
                             }
                         }
                     }
@@ -247,7 +247,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         _K.promoteType(_J.getDataClass());
                     } catch (const Exception&) {
                         needToOverload = true;
-                        return ArrayOf();
+                        return {};
                     }
                 }
             } else {
@@ -260,7 +260,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                     _I.promoteType(_J.getDataClass());
                 } catch (const Exception&) {
                     needToOverload = true;
-                    return ArrayOf();
+                    return {};
                 }
             } else {
                 Error(_W("Colon input arguments must have same type."));
@@ -639,7 +639,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
         } break;
         }
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

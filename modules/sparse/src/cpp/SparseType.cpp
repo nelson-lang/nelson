@@ -370,7 +370,7 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
 {
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMatsrc
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)src;
-    typedef Eigen::Triplet<T, signedIndexType> Triplet;
+    using Triplet = Eigen::Triplet<T, signedIndexType>;
     std::vector<Triplet> tripletList;
     tripletList.reserve(irows * icols);
     indexType X = 0;

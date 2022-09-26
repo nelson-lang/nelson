@@ -27,7 +27,7 @@ public:
         : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr, false)
     {
     }
-    ~QObjectHandleObject() = default;
+    ~QObjectHandleObject() override = default;
 };
 //=============================================================================
 } // namespace Nelson

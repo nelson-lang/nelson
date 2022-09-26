@@ -24,8 +24,8 @@ typedef struct
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef std::tuple<double, double, double> versionElement;
-typedef std::tuple<std::wstring, std::wstring, bool, versionElement> mapElement;
+using versionElement = std::tuple<double, double, double>;
+using mapElement = std::tuple<std::wstring, std::wstring, bool, versionElement>;
 //=============================================================================
 class NLSMODULES_MANAGER_IMPEXP ModulesManager //-V690
 {

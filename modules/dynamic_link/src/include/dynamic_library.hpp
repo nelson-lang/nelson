@@ -75,7 +75,7 @@ get_dynamic_library_error()
 {
     DWORD errorMessageID = ::GetLastError();
     if (errorMessageID == 0) {
-        return std::string();
+        return {};
     }
     LPSTR messageBuffer = nullptr;
     size_t size = FormatMessageA(

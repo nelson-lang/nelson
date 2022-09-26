@@ -12,12 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace CharactersEncodingGateway {
-    ArrayOfVector
-    unicode2nativeBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::CharactersEncodingGateway {
+ArrayOfVector
+unicode2nativeBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

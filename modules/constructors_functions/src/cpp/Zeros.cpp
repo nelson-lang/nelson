@@ -148,7 +148,7 @@ Zeros(Dimensions& dims, NelsonType cl)
     default:
         Error(ERROR_TYPE_NOT_SUPPORTED);
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

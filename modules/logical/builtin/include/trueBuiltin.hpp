@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace LogicalGateway {
-    ArrayOfVector
-    trueBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::LogicalGateway {
+ArrayOfVector
+trueBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

@@ -71,7 +71,7 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
         res = LowerTrianglePartReal<logical>(A, offset);
 
@@ -109,7 +109,7 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     case NLS_DOUBLE: {
         if (A.isSparse()) {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
         res = LowerTrianglePartReal<double>(A, offset);
 
@@ -120,13 +120,13 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         }
         res = LowerTrianglePartComplex<double>(A, offset);
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     return res;

@@ -31,7 +31,7 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
     } break;
     default: {
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     } break;
     }
     hssize_t npoints = H5Sget_select_npoints(space2);
@@ -44,7 +44,7 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
     H5Sclose(memspace);
     if (status < 0) {
         error = _W("Cannot read attribute.");
-        return ArrayOf();
+        return {};
     }
     return element;
 }
@@ -96,7 +96,7 @@ h5ReadReferenceInteger(
     } break;
     default: {
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     } break;
     }
     hssize_t npoints = H5Sget_select_npoints(space2);
@@ -109,7 +109,7 @@ h5ReadReferenceInteger(
     H5Sclose(memspace);
     if (status < 0) {
         error = _W("Cannot read attribute.");
-        return ArrayOf();
+        return {};
     }
     return element;
 }
@@ -135,7 +135,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
 
     hdset_reg_ref_t* rdata = nullptr;
@@ -143,7 +143,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         rdata = new_with_exception<hdset_reg_ref_t>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
@@ -177,7 +177,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         H5Dclose(dset2);
         if (!error.empty()) {
             delete[] rdata;
-            return ArrayOf();
+            return {};
         }
     }
     delete[] rdata;

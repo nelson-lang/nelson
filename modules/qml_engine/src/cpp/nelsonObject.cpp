@@ -104,7 +104,7 @@ nelsonObject::call(const QString& functionName, const QVariant& arg1, const QVar
     const QVariant& arg3, const QVariant& arg4, const QVariant& arg5, const QVariant& arg6)
 {
     qCritical() << "Too many input arguments.";
-    return QVariant();
+    return {};
 }
 //=============================================================================
 QVariant
@@ -135,7 +135,7 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
                     resVector = funcDef->evaluateFunction(eval, argIn, nLhs);
                 } catch (const Exception&) {
                     qCritical() << "error function.";
-                    return QVariant();
+                    return {};
                 }
                 if (resVector.size() == 0) {
                     res = QVariant();
@@ -150,11 +150,11 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
                 }
             } else {
                 qCritical() << "function not found.";
-                return QVariant();
+                return {};
             }
         } else {
             qCritical() << "function not found.";
-            return QVariant();
+            return {};
         }
     }
     return res;

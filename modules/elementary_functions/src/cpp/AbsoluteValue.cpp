@@ -49,7 +49,7 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     needToOverload = false;
     if (arrayIn.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     switch (arrayIn.getDataClass()) {
     case NLS_HANDLE:
@@ -59,7 +59,7 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     case NLS_STRUCT_ARRAY:
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     case NLS_UINT8:
     case NLS_UINT16:

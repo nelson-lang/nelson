@@ -28,11 +28,11 @@ public:
     XmlDocImageItem(const std::wstring& tag);
     ~XmlDocImageItem();
     std::wstring
-    getItemType();
+    getItemType() override;
     bool
-    writeAsHtml(std::string& utf8stream);
+    writeAsHtml(std::string& utf8stream) override;
     bool
-    writeAsMarkdown(std::string& utf8stream);
+    writeAsMarkdown(std::string& utf8stream) override;
     void
     setDirectories(const std::wstring& srcDirectory, const std::wstring& destDirectory);
     void

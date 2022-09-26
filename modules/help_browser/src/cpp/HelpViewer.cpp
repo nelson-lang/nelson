@@ -77,7 +77,7 @@ HelpViewer::wheelEvent(QWheelEvent* wheelEvent)
 }
 //=============================================================================
 void
-HelpViewer::setZoomIn(void)
+HelpViewer::setZoomIn()
 {
     if (zoomLevel < MAX_ZOOM) {
         zoomIn();
@@ -86,7 +86,7 @@ HelpViewer::setZoomIn(void)
 }
 //=============================================================================
 void
-HelpViewer::setZoomOut(void)
+HelpViewer::setZoomOut()
 {
     if (zoomLevel > MIN_ZOOM) {
         zoomOut();
@@ -95,14 +95,14 @@ HelpViewer::setZoomOut(void)
 }
 //=============================================================================
 void
-HelpViewer::setZoomDefault(void)
+HelpViewer::setZoomDefault()
 {
     zoomIn(-zoomLevel);
     zoomLevel = 0;
 }
 //=============================================================================
 void
-HelpViewer::printCurrent(void)
+HelpViewer::printCurrent()
 {
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog* dlg = new QPrintDialog(&printer, this);

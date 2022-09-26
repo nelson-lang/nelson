@@ -19,9 +19,9 @@ class HelpViewer : public QTextBrowser
     Q_OBJECT
 
 public:
-    HelpViewer(QHelpEngine* helpEngine, const QUrl& homepageUrl, QWidget* parent = 0);
-    virtual QVariant
-    loadResource(int type, const QUrl& url);
+    HelpViewer(QHelpEngine* helpEngine, const QUrl& homepageUrl, QWidget* parent = nullptr);
+    QVariant
+    loadResource(int type, const QUrl& url) override;
 
 public slots:
     void
@@ -35,14 +35,14 @@ public slots:
     indexesActivated(const QList<QHelpLink>& documents, const QString& keyword);
 
     void
-    setZoomIn(void);
+    setZoomIn();
     void
-    setZoomOut(void);
+    setZoomOut();
     void
-    setZoomDefault(void);
+    setZoomDefault();
 
     void
-    printCurrent(void);
+    printCurrent();
 
 private:
     QUrl homepage;
@@ -56,6 +56,6 @@ private:
 
 protected:
     void
-    wheelEvent(QWheelEvent* we);
+    wheelEvent(QWheelEvent* we) override;
 };
 //=============================================================================

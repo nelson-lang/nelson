@@ -30,7 +30,8 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
             ArrayOfVector retval;
             retval << ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes());
             return retval;
-        } else if (param1 == L"-close") {
+        }
+        if (param1 == L"-close") {
             nargoutcheck(nLhs, 0, 0);
             HelpBrowser::getInstance()->closeBrowser();
 

@@ -59,7 +59,7 @@ Transpose(const ArrayOf& A, bool& needToOverload)
     if ((classA < NLS_LOGICAL || A.isSparse())
         && !(A.isCell() || A.isStruct() || A.isStringArray())) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
@@ -179,7 +179,7 @@ Transpose(const ArrayOf& A, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     Res.reshape(dimsRes);

@@ -71,7 +71,7 @@ HelpCollection::registerHelpFiles(const wstringVector& filenames)
 {
     bool result = false;
     if (cachedCollection) {
-        for (auto filename : filenames) {
+        for (const auto& filename : filenames) {
             bool reg = cachedCollection->registerDocumentation(wstringToQString(filename));
             if (!reg) {
                 result = false;
@@ -88,7 +88,7 @@ bool
 HelpCollection::unregisterHelpFiles(const wstringVector& filenames)
 {
     if (cachedCollection) {
-        for (auto filename : filenames) {
+        for (const auto& filename : filenames) {
             const QString& namespaceName
                 = QHelpEngineCore::namespaceName(wstringToQString(filename));
             bool unreg = cachedCollection->unregisterDocumentation(namespaceName);
@@ -141,7 +141,7 @@ HelpCollection::clearCache()
 {
     if (cachedCollection) {
         QStringList qStringListRegisteredDocumention = cachedCollection->registeredDocumentations();
-        for (auto element : qStringListRegisteredDocumention) {
+        for (const auto& element : qStringListRegisteredDocumention) {
             QString filename = cachedCollection->documentationFileName(element);
             const QString& namespaceName = QHelpEngineCore::namespaceName(filename);
             cachedCollection->unregisterDocumentation(namespaceName);

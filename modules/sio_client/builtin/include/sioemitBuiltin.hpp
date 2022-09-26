@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SioClientGateway {
-    ArrayOfVector
-    sioemitBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::SioClientGateway {
+ArrayOfVector
+sioemitBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

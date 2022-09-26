@@ -20,7 +20,7 @@ StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
 {
     function_handle functionHandle;
     functionHandle.name.clear();
-    functionHandle.anonymousHandle = 0;
+    functionHandle.anonymousHandle = nullptr;
 
     if (IsValidVariableName(functionName)) {
         functionHandle.name = wstring_to_utf8(functionName);

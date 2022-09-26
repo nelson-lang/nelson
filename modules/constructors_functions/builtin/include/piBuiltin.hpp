@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ConstructorsGateway {
-    ArrayOfVector
-    piBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ConstructorsGateway {
+ArrayOfVector
+piBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

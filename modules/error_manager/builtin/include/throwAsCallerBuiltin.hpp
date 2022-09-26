@@ -12,12 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ErrorManagerGateway {
-    ArrayOfVector
-    throwAsCallerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::ErrorManagerGateway {
+ArrayOfVector
+throwAsCallerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

@@ -36,7 +36,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
@@ -96,7 +96,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

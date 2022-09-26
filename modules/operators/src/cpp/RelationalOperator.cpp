@@ -693,14 +693,14 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
     needToOverload = false;
     if (_A.isSparse() || _B.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     bool asStringArray = (_A.isStringArray() && _B.isStringArray())
         || (_A.isStringArray() && _B.isRowVectorCharacterArray())
         || (_B.isStringArray() && _A.isRowVectorCharacterArray());
     if ((_A.isReferenceType() || _B.isReferenceType()) && !asStringArray) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     NelsonType classCommon = FindCommonType(_A, _B);
     if (asStringArray) {
@@ -787,7 +787,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
         Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + operatorName);
     }
     needToOverload = true;
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

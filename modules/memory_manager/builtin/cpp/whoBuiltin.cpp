@@ -175,7 +175,7 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     if (res.size()) {
         return res[0];
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

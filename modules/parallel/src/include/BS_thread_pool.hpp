@@ -601,12 +601,11 @@ private:
     {
         if (thread_count_ > 0)
             return thread_count_;
-        else {
-            if (std::thread::hardware_concurrency() > 0)
-                return std::thread::hardware_concurrency();
-            else
-                return 1;
-        }
+
+        if (std::thread::hardware_concurrency() > 0)
+            return std::thread::hardware_concurrency();
+
+        return 1;
     }
 
     /**

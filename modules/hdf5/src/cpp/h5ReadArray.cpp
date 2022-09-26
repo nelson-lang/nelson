@@ -25,7 +25,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsO
         outputClass = NLS_DOUBLE;
     } else {
         error = _W("Type not managed.");
-        return ArrayOf();
+        return {};
     }
     if (dimsOutput.isEmpty(false)) {
         res = ArrayOf::emptyConstructor(dimsOutput);

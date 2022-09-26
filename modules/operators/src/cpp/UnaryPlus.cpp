@@ -18,7 +18,7 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
@@ -44,7 +44,7 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
     } break;
     default: {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     } break;
     }
     return res;

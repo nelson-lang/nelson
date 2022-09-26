@@ -28,7 +28,7 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         function_handle fh;
         fh.name = nameStr.getContentAsCString();
         if (!fh.name.empty()) {
-            fh.anonymousHandle = 0;
+            fh.anonymousHandle = nullptr;
         } else {
             fh.anonymousHandle
                 = (nelson_handle*)new AnonymousMacroFunctionDef(anonymousStr.getContentAsCString());

@@ -19,10 +19,10 @@ class QtTextIndent : public QObject
 
 public:
     QtTextIndent();
-    virtual ~QtTextIndent();
+    ~QtTextIndent() override;
     void
     setDocument(QtTextEdit* te);
-    QtTextEdit*
+    [[nodiscard]] QtTextEdit*
     document() const;
 private slots:
     void

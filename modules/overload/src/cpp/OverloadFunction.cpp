@@ -32,7 +32,7 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
         }
     }
     bSuccess = false;
-    return ArrayOfVector();
+    return {};
 }
 //=============================================================================
 ArrayOfVector

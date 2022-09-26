@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace FilesFoldersGateway {
-    ArrayOfVector
-    pwdBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::FilesFoldersGateway {
+ArrayOfVector
+pwdBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

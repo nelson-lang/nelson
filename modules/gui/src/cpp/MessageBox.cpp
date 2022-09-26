@@ -38,7 +38,8 @@ getIconCode(const std::wstring& iconName)
 {
     if (iconName == L"none" || iconName.empty()) {
         return QMessageBox::NoIcon;
-    } else if (iconName == L"help") {
+    }
+    if (iconName == L"help") {
         return QMessageBox::Information;
     } else if (iconName == L"warn") {
         return QMessageBox::Warning;

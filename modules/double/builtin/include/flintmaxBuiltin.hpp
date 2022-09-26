@@ -11,11 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace DoubleGateway {
-    ArrayOfVector
-    flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::DoubleGateway {
+ArrayOfVector
+flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

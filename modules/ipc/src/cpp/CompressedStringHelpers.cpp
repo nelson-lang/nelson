@@ -27,7 +27,7 @@ ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized)
     std::string serialized_compressed_string = compressString(oss.str(), failed);
     if (failed) {
         fullySerialized = false;
-        return std::string();
+        return {};
     }
     return serialized_compressed_string;
 }

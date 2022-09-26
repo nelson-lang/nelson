@@ -140,7 +140,7 @@ HelpBrowser::closeBrowser()
     }
 }
 //=============================================================================
-HelpBrowser::HelpBrowser() { }
+HelpBrowser::HelpBrowser() = default;
 //=============================================================================
 void
 HelpBrowser::registerHelpFiles(const wstringVector& filenames)

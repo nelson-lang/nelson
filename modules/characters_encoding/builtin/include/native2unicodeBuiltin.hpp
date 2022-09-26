@@ -11,12 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace CharactersEncodingGateway {
-    ArrayOfVector
-    native2unicodeBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::CharactersEncodingGateway {
+ArrayOfVector
+native2unicodeBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

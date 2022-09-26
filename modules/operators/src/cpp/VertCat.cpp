@@ -71,7 +71,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             Error(_("function") + " " + overload + " " + _("undefined."));
         } else {
             bSuccess = false;
-            return ArrayOf();
+            return {};
         }
     }
 
@@ -182,7 +182,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             throw;
         }
         bSuccess = false;
-        return ArrayOf();
+        return {};
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();

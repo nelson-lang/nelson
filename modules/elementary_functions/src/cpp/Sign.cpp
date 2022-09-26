@@ -101,7 +101,7 @@ Sign(const ArrayOf& A, bool& needToOverload)
 {
     if (A.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     needToOverload = false;
     switch (A.getDataClass()) {
@@ -171,7 +171,7 @@ Sign(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 }

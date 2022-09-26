@@ -40,10 +40,10 @@ ErrorToStruct(const Exception& e)
     ArrayOfVector files(trace.size());
     ArrayOfVector names(trace.size());
     ArrayOfVector lines(trace.size());
-    for (indexType k = 0; k < trace.size(); ++k) {
-        files.push_back(ArrayOf::characterArrayConstructor(trace[k].getFilename()));
-        names.push_back(ArrayOf::characterArrayConstructor(trace[k].getFunctionName()));
-        lines.push_back(ArrayOf::doubleConstructor(trace[k].getLine()));
+    for (auto& k : trace) {
+        files.push_back(ArrayOf::characterArrayConstructor(k.getFilename()));
+        names.push_back(ArrayOf::characterArrayConstructor(k.getFunctionName()));
+        lines.push_back(ArrayOf::doubleConstructor(k.getLine()));
     }
     if (!trace.empty()) {
         stack.setFieldAsList(traceFieldnames[0], files);

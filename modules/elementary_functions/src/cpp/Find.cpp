@@ -196,7 +196,7 @@ RCVFindModeFull(const ArrayOf& x)
     case NLS_CHAR:
         return RCVFindModeFullReal<charType>(x);
     }
-    return ArrayOfVector();
+    return {};
 }
 //=============================================================================
 ArrayOfVector

@@ -343,7 +343,7 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
         if (mA == nA) {
             if (B.isScalar()) {
                 // [] * X returns []
-                return ArrayOf(B.getDataClass());
+                return { B.getDataClass() };
             }
             Error(_W("using operator '*' \n Matrix dimensions must agree."));
         }
@@ -419,7 +419,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
         if (mA == nA) {
             if (B.isScalar()) {
                 // [] * X returns []
-                return ArrayOf(B.getDataClass());
+                return { B.getDataClass() };
             }
             Error(_W("using operator '*' \n Matrix dimensions must agree."));
         }
@@ -432,7 +432,7 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_mtimes_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
@@ -494,7 +494,7 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             needToOverload = true;
         }
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

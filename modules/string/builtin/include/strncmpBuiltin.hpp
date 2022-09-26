@@ -12,12 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace StringGateway {
-    ArrayOfVector
-    strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    ArrayOfVector
-    strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-} // namespace StringGateway
+namespace Nelson::StringGateway {
+ArrayOfVector
+strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

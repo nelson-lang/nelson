@@ -426,7 +426,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
         return ArrayOf(classDestination, dimsC, Cp, false);
     }
 
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 template <class T>
@@ -568,7 +568,7 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
         Error(_W("Integer type not managed."));
         break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 ArrayOf

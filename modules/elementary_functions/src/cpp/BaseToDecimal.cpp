@@ -104,7 +104,7 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
         } break;
         default: {
             needToOverload = true;
-            return ArrayOf();
+            return {};
         } break;
         }
         Dimensions dims(elements.size(), 1);

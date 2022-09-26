@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ComEngineGateway {
-    ArrayOfVector
-    actxserverlistBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ComEngineGateway {
+ArrayOfVector
+actxserverlistBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

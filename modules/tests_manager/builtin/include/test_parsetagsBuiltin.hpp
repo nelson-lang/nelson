@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace TestsManagerGateway {
-    ArrayOfVector
-    test_parsetagsBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::TestsManagerGateway {
+ArrayOfVector
+test_parsetagsBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

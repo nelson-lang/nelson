@@ -12,11 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace SpecialFunctionsGateway {
-    ArrayOfVector
-    betaincBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::SpecialFunctionsGateway {
+ArrayOfVector
+betaincBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

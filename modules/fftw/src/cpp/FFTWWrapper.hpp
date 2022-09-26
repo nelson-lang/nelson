@@ -23,10 +23,10 @@ void
 dyn_fftw_destroy_plan(fftw_plan plan);
 //=============================================================================
 void
-dyn_fftw_forget_wisdom(void);
+dyn_fftw_forget_wisdom();
 //=============================================================================
 char*
-dyn_fftw_export_wisdom_to_string(void);
+dyn_fftw_export_wisdom_to_string();
 //=============================================================================
 int
 dyn_fftw_import_wisdom_from_string(const char* input_string);
@@ -53,10 +53,10 @@ int
 dyn_fftwf_import_wisdom_from_string(const char* input_string);
 //=============================================================================
 char*
-dyn_fftwf_export_wisdom_to_string(void);
+dyn_fftwf_export_wisdom_to_string();
 //=============================================================================
 void
-dyn_fftwf_forget_wisdom(void);
+dyn_fftwf_forget_wisdom();
 //=============================================================================
 fftwf_plan
 dyn_fftwf_plan_dft_1d(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags);

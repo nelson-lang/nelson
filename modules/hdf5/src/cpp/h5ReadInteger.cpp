@@ -83,7 +83,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
                 outputClass, dims.getElementCount(), stringVector(), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         herr_t status = H5I_INVALID_HID;
         hid_t memspace = H5I_INVALID_HID;
@@ -97,7 +97,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
                     = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
             } catch (Exception& e) {
                 error = e.getMessage();
-                return ArrayOf();
+                return {};
             }
             try {
                 h5_maxdims
@@ -105,13 +105,13 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
             } catch (Exception& e) {
                 delete[] h5_dims;
                 error = e.getMessage();
-                return ArrayOf();
+                return {};
             }
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
                 error = _W("Impossible to read dimensions and maximum size of data set.");
-                return ArrayOf();
+                return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);
             delete[] h5_dims;

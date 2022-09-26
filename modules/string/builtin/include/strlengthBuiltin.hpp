@@ -13,15 +13,11 @@
 #include "Evaluator.hpp"
 #include "nlsString_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::StringGateway {
 //=============================================================================
-namespace StringGateway {
-    //=============================================================================
-    NLSSTRING_BUILTIN_IMPEXP
-    ArrayOfVector
-    strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSSTRING_BUILTIN_IMPEXP
+ArrayOfVector
+strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

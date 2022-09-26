@@ -690,8 +690,8 @@ QtTextEditor::open()
 
         QStringList fileNames = QFileDialog::getOpenFileNames(
             this, TR("Open file ..."), QDir::currentPath(), filesSupported);
-        for (int k = 0; k < fileNames.size(); k++) {
-            loadFile(fileNames[k]);
+        for (auto& fileName : fileNames) {
+            loadFile(fileName);
         }
     }
 }

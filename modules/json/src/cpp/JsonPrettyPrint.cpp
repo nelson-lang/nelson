@@ -62,7 +62,7 @@ namespace implementation {
         if (l > 0) {
             return std::wstring(l * 4, ' ');
         }
-        return std::wstring();
+        return {};
     }
     //=============================================================================
     long

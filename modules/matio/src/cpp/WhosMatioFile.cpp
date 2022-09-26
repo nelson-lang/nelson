@@ -168,7 +168,7 @@ WhosMatioFile(
             Mat_Close(matfile);
             std::string msg = _("Cannot read variable:") + std::string(" ") + name;
             Error(msg);
-            return ArrayOf();
+            return {};
         }
         _names.push_back(name);
         nbSpaceName = std::max(nbSpaceName, name.size());

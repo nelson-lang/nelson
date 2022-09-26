@@ -12,12 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace StatisticsGateway {
-    ArrayOfVector
-    meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::StatisticsGateway {
+ArrayOfVector
+meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

@@ -105,7 +105,7 @@ responseCodeToMessage(long response_code)
         }
     } break;
     }
-    return std::wstring();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

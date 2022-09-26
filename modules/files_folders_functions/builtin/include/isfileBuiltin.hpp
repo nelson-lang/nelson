@@ -12,15 +12,11 @@
 #include "ArrayOf.hpp"
 #include "nlsFiles_folders_functions_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::FilesFoldersGateway {
 //=============================================================================
-namespace FilesFoldersGateway {
-    //=============================================================================
-    NLSFILES_FOLDERS_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    isfileBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSFILES_FOLDERS_FUNCTIONS_BUILTIN_IMPEXP
+ArrayOfVector
+isfileBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

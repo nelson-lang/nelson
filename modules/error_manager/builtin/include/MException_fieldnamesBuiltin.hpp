@@ -12,14 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::ErrorManagerGateway {
 //=============================================================================
-namespace ErrorManagerGateway {
-    //=============================================================================
-    ArrayOfVector
-    MException_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+ArrayOfVector
+MException_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

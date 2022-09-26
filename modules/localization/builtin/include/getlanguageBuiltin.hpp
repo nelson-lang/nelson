@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace LocalizationGateway {
-    ArrayOfVector
-    getlanguageBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::LocalizationGateway {
+ArrayOfVector
+getlanguageBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

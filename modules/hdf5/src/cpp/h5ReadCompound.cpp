@@ -31,7 +31,7 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
             NLS_UINT8, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf fieldvalue = ArrayOf(NLS_UINT8, dims, ptrUINT8);
     ompIndexType elementCount = dims.getElementCount();
@@ -93,7 +93,7 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
             = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     ompIndexType elementCount = dims.getElementCount();
@@ -158,7 +158,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     ArrayOf fieldvalue = ArrayOf(NLS_CELL_ARRAY, dims, ptrArrayOf);
     ompIndexType elementCount = dims.getElementCount();
@@ -210,7 +210,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
             = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return ArrayOf();
+        return {};
     }
     fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     auto* ptrDouble = static_cast<double*>(ptrVoid);
@@ -252,7 +252,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
         } else {
             error = _W("Cannot read data set.");
         }
-        return ArrayOf();
+        return {};
     }
     hid_t memspace = H5I_INVALID_HID;
     if (!asAttribute) {
@@ -262,20 +262,20 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             h5_dims = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         try {
             h5_maxdims
                 = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
         } catch (Exception& e) {
             error = e.getMessage();
-            return ArrayOf();
+            return {};
         }
         if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
             Error("Impossible to read dimensions and maximum size of data set.");
-            return ArrayOf();
+            return {};
         }
         memspace = H5Screate_simple(rank, h5_dims, nullptr);
         delete[] h5_dims;
@@ -296,7 +296,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             H5Sclose(memspace);
             error = _W("Cannot read data set.");
         }
-        return ArrayOf();
+        return {};
     }
 
     if (!asAttribute) {

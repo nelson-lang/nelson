@@ -33,11 +33,11 @@ h5LoadSingle(hid_t fid, const std::string& location, const std::string& variable
             h5path = location + "/" + variableName;
         }
         if (isComplex) {
-            typedef struct complex_type
+            using complex_type = struct complex_type
             {
                 single r;
                 single i;
-            } complex_type;
+            };
             hid_t dset_id = H5Dopen(fid, h5path.c_str(), H5P_DEFAULT);
             if (dset_id < 0) {
                 return false;

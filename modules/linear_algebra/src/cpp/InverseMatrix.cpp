@@ -229,7 +229,7 @@ InverseMatrix(ArrayOf& A, bool& needToOverload)
         && !A.isSparse();
     if (!isSupportedTypes) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));

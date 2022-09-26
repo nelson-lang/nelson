@@ -63,7 +63,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-        return ArrayOf();
+        return {};
     }
 
     if (A.isScalar()) {

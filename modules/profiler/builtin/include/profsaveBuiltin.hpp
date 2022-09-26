@@ -11,12 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ProfilerGateway {
-    ArrayOfVector
-    profsaveBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::ProfilerGateway {
+ArrayOfVector
+profsaveBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

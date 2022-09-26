@@ -21,8 +21,8 @@ GetLookAndFeelAvailable()
 {
     wstringVector lfs;
     QStringList qtLfs = QStyleFactory::keys();
-    for (int k = 0; k < qtLfs.size(); k++) {
-        lfs.push_back(QStringTowstring(qtLfs[k]));
+    for (auto& qtLf : qtLfs) {
+        lfs.push_back(QStringTowstring(qtLf));
     }
     return lfs;
 }

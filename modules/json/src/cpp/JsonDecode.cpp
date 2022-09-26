@@ -365,7 +365,7 @@ jsonVariableToNelson(JsonVariable& jsVar)
         return jsonVariableToNelsonStructType(jsVar);
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 static JSON_TO_NELSON_Type
@@ -757,7 +757,7 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
             return ArrayOf::emptyConstructor();
         }
         errorMessage = _W("valid JSON Object expected.");
-        return ArrayOf();
+        return {};
     }
     if (nbTokensOrError > 0) {
         // init again the parser required.
@@ -768,7 +768,7 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
         if (nbTokensUsed == 0) {
             delete[] tokens;
             errorMessage = _W("valid JSON Object expected.");
-            return ArrayOf();
+            return {};
         }
         tokens_offset = 0;
         JsonVariable jsVar;
@@ -776,7 +776,7 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
         delete[] tokens;
         if (!converted) {
             errorMessage = _W("valid JSON Object expected.");
-            return ArrayOf();
+            return {};
         }
         return jsonVariableToNelson(jsVar);
     }

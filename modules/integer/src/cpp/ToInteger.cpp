@@ -66,7 +66,7 @@ ToInteger(NelsonType destinationClass, const ArrayOf& A)
         Error(_W("Invalid conversion."));
     } break;
     }
-    return ArrayOf();
+    return {};
 }
 //=============================================================================
 } // namespace Nelson
