@@ -313,6 +313,10 @@ A typeface designed for source code
 
 > <https://github.com/source-foundry/Hack/blob/master/LICENSE.md> MIT license
 
+> Nerds font
+
+> <https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip>
+
 - Combinear Theme
 
 A typeface designed for source code
