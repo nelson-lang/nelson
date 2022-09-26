@@ -44,7 +44,7 @@ jobs:
           git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
@@ -125,7 +125,7 @@ jobs:
           cd /Users/runner/work/nelson;
           git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
@@ -219,7 +219,7 @@ jobs:
           sudo apt -y install qt6-tools-dev;
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
@@ -335,7 +335,7 @@ jobs:
           sudo make install;
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
@@ -415,7 +415,7 @@ jobs:
       - name: Trust repo directory
         run: git config --global --add safe.directory /__w/nelson/nelson
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get package version
         uses: nyaascii/package-version@v1
       - name: Update version
@@ -486,7 +486,7 @@ jobs:
           dnf install -y hdf5-devel
           dnf install -y eigen3-devel
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get package version
         uses: nyaascii/package-version@v1
       - name: Update version
@@ -541,7 +541,7 @@ jobs:
         shell: powershell
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
@@ -664,7 +664,7 @@ jobs:
         shell: powershell
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get package version
         uses: nyaascii/package-version@v1
