@@ -40,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - special functions module:
 
   - `dot`: Dot product.
+  - `cross`: Cross product.
 
 - string module:
 
