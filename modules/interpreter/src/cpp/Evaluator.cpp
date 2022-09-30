@@ -1881,8 +1881,13 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 m = rhsExpression(t->down, 0);
             } else {
                 if (b.isCell()) {
-                    m = rhsExpression(t->down, 0);
-
+                    try {
+                        m = rhsExpression(t->down);
+                    } catch (Exception& e) {
+                        if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
+                            throw;
+                        }
+                    }
                 } else {
                     m = rhsExpression(t->down);
                 }

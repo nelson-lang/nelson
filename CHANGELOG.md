@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.6.10 (UNRELEASED)
+
+### Fixed
+
+- [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.
+
 ## 0.6.9 (2022-09-28)
 
 ### Added
