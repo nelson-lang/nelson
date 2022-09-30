@@ -782,8 +782,17 @@ function modules = getModulesToTest(param)
   end
 end
 %=============================================================================
-function modules_list = getAllModulesList()
+function list = readAvailableModulesFromFile()
   run([nelsonroot(), '/modules/modules.m']);
+  funcList = str2func('@(x) x{1}');
+  list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
+  funcAvailable = str2func('@(x) x{2}');
+  available = cellfun(funcAvailable, modules_list, 'UniformOutput', true);
+  list(~available) = [];
+end
+%=============================================================================
+function modules_list = getAllModulesList()
+  modules_list = readAvailableModulesFromFile()
   current_modules = getmodules();
   if isempty(modules_list)
     modules_list = current_modules;

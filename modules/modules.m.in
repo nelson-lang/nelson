@@ -7,77 +7,75 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 % ============================================================================
-modules_list = [
-"functions_manager";
-"modules_manager";
-"engine";
-"core";
-"localization";
-"i18n";
-"string";
-"debugger";
-"error_manager";
-"overload";
-"function_handle";
-"constructors_functions";
-"logical";
-"types";
-"single";
-"double";
-"data_structures";
-"integer";
-"operators";
-"elementary_functions";
-"data_analysis";
-"special_functions";
-"trigonometric_functions";
-"sparse";
-"files_folders_functions";
-"os_functions";
-"json";
-"stream_manager";
-"display_format";
-"file_archiver";
-"dynamic_link";
-"memory_manager";
-"console";
-"interpreter";
-"time";
-"random";
-"history_manager";
-"help_tools";
-"gui";
-"help_browser";
-"assert_functions";
-"tests_manager";
-"linear_algebra";
-"handle";
-"qml_engine";
-"f2c";
-"nig";
-"text_editor";
-"mpi";
-"audio";
-"sio_client";
-"hdf5";
-"matio";
-"profiler";
-"characters_encoding";
-"webtools";
-"graphics";
-"mex";
-"ipc";
-"statistics";
-"validators";
-"polynomial_functions";
-"parallel";
-"signal_processing"
-];
-% ============================================================================
-% optional modules
-% ============================================================================
-@WITH_SLICOT_MODULE@
-@WITH_FFTW_MODULE@
+modules_list = {
+{'functions_manager', true};
+{'modules_manager', true};
+{'engine', true};
+{'core', true};
+{'localization', true};
+{'i18n', true};
+{'string', true};
+{'debugger', true};
+{'error_manager', true};
+{'overload', true};
+{'function_handle', true};
+{'constructors_functions', true};
+{'logical', true};
+{'types', true};
+{'single', true};
+{'double', true};
+{'data_structures', true};
+{'integer', true};
+{'operators', true};
+{'elementary_functions', true};
+{'data_analysis', true};
+{'special_functions', true};
+{'trigonometric_functions', true};
+{'sparse', true};
+{'files_folders_functions', true};
+{'os_functions', true};
+{'json', true};
+{'stream_manager', true};
+{'display_format', true};
+{'file_archiver', true};
+{'dynamic_link', true};
+{'memory_manager', true};
+{'console', true};
+{'interpreter', true};
+{'time', true};
+{'random', true};
+{'history_manager', true};
+{'help_tools', true};
+{'gui', true};
+{'help_browser', true};
+{'assert_functions', true};
+{'tests_manager', true};
+{'linear_algebra', true};
+{'handle', true};
+{'qml_engine', true};
+{'f2c', true};
+{'nig', true};
+{'text_editor', true};
+{'mpi', true};
+{'audio', true};
+{'sio_client', true};
+{'hdf5', true};
+{'matio', true};
+{'profiler', true};
+{'characters_encoding', true};
+{'webtools', true};
+{'graphics', true};
+{'mex', true};
+{'ipc', true};
+{'statistics', true};
+{'validators', true};
+{'polynomial_functions', true};
+{'parallel', true};
+{'signal_processing', true};
+{'com_engine', false};
+{'slicot', @WITH_SLICOT_MODULE@};
+{'fftw', @WITH_FFTW_MODULE@}
+};
 % ============================================================================
 % modules sorted for help
 % ============================================================================
