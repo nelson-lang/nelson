@@ -37,7 +37,7 @@ modules_list = {
 {'json', true};
 {'stream_manager', true};
 {'display_format', true};
-{'file_archiver', true};
+{'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'dynamic_link', true};
 {'memory_manager', true};
 {'console', true};
@@ -63,7 +63,7 @@ modules_list = {
 {'matio', true};
 {'profiler', true};
 {'characters_encoding', true};
-{'webtools', true};
+{'webtools', @WITH_WEBTOOLS_MODULE@};
 {'graphics', true};
 {'mex', @WITH_MEX_MODULE@};
 {'ipc', true};

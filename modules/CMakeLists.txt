@@ -69,8 +69,6 @@ list(
   hdf5
   matio
   profiler
-  file_archiver
-  webtools
   graphics
   ipc
   statistics
@@ -104,6 +102,14 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_AUDIO_MODULE)
 list(APPEND moduleslist audio)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_WEBTOOLS_MODULE)
+list(APPEND moduleslist webtools)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
+list(APPEND moduleslist file_archiver)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})
