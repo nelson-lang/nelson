@@ -65,7 +65,6 @@ list(
   engine
   assert_functions
   tests_manager
-  audio
   json
   hdf5
   matio
@@ -90,14 +89,21 @@ endif()
 if (NOT WITHOUT_FFTW_MODULE)
 list(APPEND moduleslist fftw)
 endif()
+# ==============================================================================
 if(NOT WITHOUT_SLICOT_MODULE)
 list(APPEND moduleslist slicot)
 endif()
+# ==============================================================================
 if(NOT WITHOUT_F2C_MODULE)
 list(APPEND moduleslist f2c)
 endif()
+# ==============================================================================
 if(NOT WITHOUT_MPI_MODULE)
 list(APPEND moduleslist mpi)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_AUDIO_MODULE)
+list(APPEND moduleslist audio)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})
