@@ -70,7 +70,7 @@ modules_list = {
 {'statistics', true};
 {'validators', true};
 {'polynomial_functions', true};
-{'parallel', true};
+{'parallel', @WITH_PARALLEL_MODULE@};
 {'signal_processing', true};
 {'com_engine', false};
 {'slicot', @WITH_SLICOT_MODULE@};

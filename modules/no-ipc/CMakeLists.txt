@@ -11,7 +11,10 @@ set(module_name ipc)
 set(module_library_name nlsIpc)
 # ==============================================================================
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+)
 # ==============================================================================
 file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================

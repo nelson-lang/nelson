@@ -7,28 +7,30 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsIpc_exports.h"
-#include "Types.hpp"
-#include "NelSon_engine_mode.h"
+#include "FilesAssociation.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSIPC_IMPEXP
 bool
 OpenFilesAssociated(
-    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
+{
+    return false;
+}
 //=============================================================================
-NLSIPC_IMPEXP
 bool
 LoadFilesAssociated(
-    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
+{
+    return false;
+}
 //=============================================================================
-NLSIPC_IMPEXP
 bool
 ExecuteFilesAssociated(
-    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
-//=============================================================================
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
+{
+    return false;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

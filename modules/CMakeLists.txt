@@ -70,11 +70,9 @@ list(
   matio
   profiler
   graphics
-  ipc
   statistics
   validators
   polynomial_functions
-  parallel
   signal_processing)
 list(APPEND moduleslist main)
 # ==============================================================================
@@ -118,6 +116,10 @@ if (WITHOUT_IPC_MODULE)
 list(APPEND moduleslist no-ipc)
 else()
 list(APPEND moduleslist ipc)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_PARALLEL_MODULE)
+list(APPEND moduleslist parallel)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})
