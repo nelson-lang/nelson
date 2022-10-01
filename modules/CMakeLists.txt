@@ -53,7 +53,6 @@ list(
   text_completion
   text_editor
   handle
-  qml_engine
   com_engine
   nig
   help_browser
@@ -61,7 +60,6 @@ list(
   help_tools
   localization
   modules_manager
-  sio_client
   engine
   assert_functions
   tests_manager
@@ -125,6 +123,17 @@ if(NOT WITHOUT_GRAPHICS_MODULE)
 list(APPEND moduleslist graphics)
 endif()
 # ==============================================================================
+if(NOT WITHOUT_QML_ENGINE_MODULE)
+list(APPEND moduleslist   qml_engine)
+endif()
+# ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+list(APPEND moduleslist no-sio_client)
+else()
+list(APPEND moduleslist sio_client)
+endif()
+# ==============================================================================
+
 foreach(mod ${moduleslist})
   include_directories("../build/modules/${mod}/includes")
   include_directories("${mod}/src/c")

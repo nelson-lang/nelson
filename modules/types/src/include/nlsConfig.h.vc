@@ -21,6 +21,7 @@
 #define WITH_PARALLEL_MODULE 1
 #define WITH_GRAPHICS_MODULE 1
 #define WITH_QML_ENGINE_MODULE 1
+#define WITH_SIO_CLIENT_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

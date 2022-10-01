@@ -57,7 +57,7 @@ modules_list = {
 {'text_editor', true};
 {'mpi', @WITH_MPI_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};
-{'sio_client', true};
+{'sio_client', @WITH_SIO_CLIENT_MODULE@};
 {'hdf5', true};
 {'matio', true};
 {'profiler', true};
