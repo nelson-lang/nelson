@@ -45,6 +45,11 @@ else()
   else()
     set(WITH_WEBTOOLS_MODULE "true")
   endif()
+  if (WITHOUT_FILE_ARCHIVER_MODULE)
+    set(WITH_FILE_ARCHIVER_MODULE "false")
+  else()
+    set(WITH_FILE_ARCHIVER_MODULE "true")
+  endif()
 
   configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
                  "${CMAKE_SOURCE_DIR}/modules/modules.m")

@@ -37,7 +37,6 @@ modules_list = {
 {'json', true};
 {'stream_manager', true};
 {'display_format', true};
-{'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'dynamic_link', true};
 {'memory_manager', true};
 {'console', true};
@@ -66,6 +65,7 @@ modules_list = {
 {'webtools', @WITH_WEBTOOLS_MODULE@};
 {'graphics', true};
 {'mex', @WITH_MEX_MODULE@};
+{'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'ipc', true};
 {'statistics', true};
 {'validators', true};

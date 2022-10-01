@@ -43,6 +43,7 @@ option(WITHOUT_WEBTOOLS_MODULE "Disable WEBTOOLS module" OFF)
 option(WITHOUT_FILE_ARCHIVER_MODULE "Disable FILE_ARCHIVER module" OFF)
 # ==============================================================================
 if (MINIMAL_BUILD)
+  set(WITHOUT_MEX_MODULE ON)
   set(WITHOUT_FFTW_MODULE ON)
   set(WITHOUT_SLICOT_MODULE ON)
   set(WITHOUT_F2C_MODULE ON)

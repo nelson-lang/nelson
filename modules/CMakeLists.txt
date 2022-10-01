@@ -108,7 +108,9 @@ if(NOT WITHOUT_WEBTOOLS_MODULE)
 list(APPEND moduleslist webtools)
 endif()
 # ==============================================================================
-if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+list(APPEND moduleslist no-file_archiver)
+else()
 list(APPEND moduleslist file_archiver)
 endif()
 # ==============================================================================

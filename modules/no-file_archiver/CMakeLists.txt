@@ -7,18 +7,18 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-set(module_name nelson_manager)
-set(module_library_name nlsNelson_manager)
+set(module_name file_archiver)
+set(module_library_name nlsFile_archiver)
 # ==============================================================================
-include_directories(${Boost_INCLUDE_DIRS}
-                    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 # ==============================================================================
-file(GLOB NELSON_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB FILE_ARCHIVER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${NELSON_MANAGER_SRC})
+add_library(${module_library_name} SHARED ${FILE_ARCHIVER_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCharacters_encoding)
+target_link_libraries(
+  ${module_library_name})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
