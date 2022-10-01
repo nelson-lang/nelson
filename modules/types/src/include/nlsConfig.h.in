@@ -12,6 +12,8 @@
 #define WITH_MEX_MODULE @WITH_MEX_MODULE@
 #define WITH_FFTW_MODULE @WITH_FFTW_MODULE@
 #define WITH_SLICOT_MODULE @WITH_SLICOT_MODULE@
+#define WITH_MPI_MODULE @WITH_MPI_MODULE@
+#define WITH_F2C_MODULE @WITH_F2C_MODULE@
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

@@ -32,8 +32,20 @@ message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 # ==============================================================================
 option(LGPL_ONLY "Build Nelson under LGPL v3.x only" OFF)
 # ==============================================================================
+option(MINIMAL_BUILD "Build mininal Nelson " OFF)
+# ==============================================================================
 option(WITHOUT_MEX_MODULE "Disable Mex module." OFF)
 option(WITHOUT_FFTW_MODULE "Disable FFTW module" OFF)
+option(WITHOUT_F2C_MODULE "Disable F2C module" OFF)
+option(WITHOUT_MPI_MODULE "Disable MPI module" OFF)
+# ==============================================================================
+if (MINIMAL_BUILD)
+  set(WITHOUT_FFTW_MODULE ON)
+  set(WITHOUT_SLICOT_MODULE ON)
+  set(WITHOUT_F2C_MODULE ON)
+  set(WITHOUT_MPI_MODULE ON)
+endif()
+# ==============================================================================
 if (LGPL_ONLY)
   set(WITHOUT_FFTW_MODULE ON)
   set(WITHOUT_SLICOT_MODULE ON)
@@ -47,6 +59,10 @@ option(ENABLE_CLANG_TIDY_FIX  "Analyze code with clang-tidy and fix errors." OFF
 option(ENABLE_PACKAGING "Build Nelson for packaging" OFF)
 # ==============================================================================
 message(STATUS "Build Nelson for packaging: ${ENABLE_PACKAGING}")
+# ==============================================================================
+if (MINIMAL_BUILD)
+message(STATUS "Minimal build.")
+endif()
 if (WITHOUT_MEX_MODULE)
 message(STATUS "Mex module disabled.")
 endif()
@@ -56,8 +72,14 @@ endif()
 if (WITHOUT_SLICOT_MODULE)
 message(STATUS "SLICOT module disabled.")
 endif()
-if (LGPL_ONLY)
-  message(STATUS "LGPL v3.x: ${LGPL_ONLY}")
+if (WITHOUT_F2C_MODULE)
+message(STATUS "F2C module disabled.")
+endif()
+if (WITHOUT_MPI_MODULE)
+message(STATUS "MPI module disabled.")
+endif()
+if (LGPL_ONLY OR (WITHOUT_FFTW_MODULE AND WITHOUT_SLICOT_MODULE))
+  message(STATUS "LGPL v3.x: enabled.")
 endif()
 # ==============================================================================
 if(POLICY CMP0068)
@@ -97,7 +119,9 @@ include(Eigen3Config)
 # ==============================================================================
 include(QtConfig)
 # ==============================================================================
+if (NOT WITHOUT_MPI_MODULE)
 include(MpiConfig)
+endif()
 # ==============================================================================
 include(IcuConfig)
 # ==============================================================================
@@ -149,7 +173,6 @@ endif()
 # ==============================================================================
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
-add_definitions(-DOMPI_SKIP_MPICXX)
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux)

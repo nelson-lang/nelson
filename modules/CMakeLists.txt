@@ -56,7 +56,6 @@ list(
   qml_engine
   com_engine
   nig
-  f2c
   help_browser
   dynamic_link
   help_tools
@@ -67,7 +66,6 @@ list(
   assert_functions
   tests_manager
   audio
-  mpi
   json
   hdf5
   matio
@@ -94,6 +92,12 @@ list(APPEND moduleslist fftw)
 endif()
 if(NOT WITHOUT_SLICOT_MODULE)
 list(APPEND moduleslist slicot)
+endif()
+if(NOT WITHOUT_F2C_MODULE)
+list(APPEND moduleslist f2c)
+endif()
+if(NOT WITHOUT_MPI_MODULE)
+list(APPEND moduleslist mpi)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})

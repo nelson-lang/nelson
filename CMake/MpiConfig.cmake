@@ -17,3 +17,5 @@ endif(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
 check_symbol_exists("MPI_Get_library_version" "mpi.h"
                     HAVE_MPI_GET_LIBRARY_VERSION)
 # ==============================================================================
+add_definitions(-DOMPI_SKIP_MPICXX)
+# ==============================================================================

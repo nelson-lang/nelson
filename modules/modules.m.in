@@ -53,10 +53,10 @@ modules_list = {
 {'linear_algebra', true};
 {'handle', true};
 {'qml_engine', true};
-{'f2c', true};
+{'f2c', @WITH_F2C_MODULE@};
 {'nig', true};
 {'text_editor', true};
-{'mpi', true};
+{'mpi', @WITH_MPI_MODULE@};
 {'audio', true};
 {'sio_client', true};
 {'hdf5', true};
