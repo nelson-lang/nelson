@@ -792,7 +792,7 @@ function list = readAvailableModulesFromFile()
 end
 %=============================================================================
 function modules_list = getAllModulesList()
-  modules_list = readAvailableModulesFromFile()
+  modules_list = readAvailableModulesFromFile();
   current_modules = getmodules();
   if isempty(modules_list)
     modules_list = current_modules;
