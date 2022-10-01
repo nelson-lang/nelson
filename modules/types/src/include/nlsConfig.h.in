@@ -17,6 +17,7 @@
 #define WITH_AUDIO_MODULE @WITH_AUDIO_MODULE@
 #define WITH_WEBTOOLS_MODULE @WITH_WEBTOOLS_MODULE@
 #define WITH_FILE_ARCHIVER_MODULE @WITH_FILE_ARCHIVER_MODULE@
+#define WITH_IPC_MODULE @WITH_IPC_MODULE@
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

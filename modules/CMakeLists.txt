@@ -114,6 +114,12 @@ else()
 list(APPEND moduleslist file_archiver)
 endif()
 # ==============================================================================
+if (WITHOUT_IPC_MODULE)
+list(APPEND moduleslist no-ipc)
+else()
+list(APPEND moduleslist ipc)
+endif()
+# ==============================================================================
 foreach(mod ${moduleslist})
   include_directories("../build/modules/${mod}/includes")
   include_directories("${mod}/src/c")
