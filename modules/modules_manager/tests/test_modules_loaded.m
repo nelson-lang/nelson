@@ -10,8 +10,15 @@
 % <--GUI MODE-->
 % <--NO USER MODULES-->
 %=============================================================================
-modules_loaded = getmodules();
 run([nelsonroot(), '/modules/modules.m']);
+funcList = str2func('@(x) x{1}');
+list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
+funcAvailable = str2func('@(x) x{2}');
+available = cellfun(funcAvailable, modules_list, 'UniformOutput', true);
+list(~available) = [];
+modules_list = list;
+modules_loaded = getmodules();
+%=============================================================================
 if ~ispc()
   modules_list(strcmp(modules_list,'com_engine')) = [];
 end

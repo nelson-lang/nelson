@@ -7,9 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+true = 1; false = 0;
 run([nelsonroot() '/modules/' 'modules.m']);
-for k = modules_list'
-  run([nelsonroot() '/modules/' k{1} '/loader.m']);
+for module_state = modules_list'
+  if (module_state{1}{2})
+    run([nelsonroot(), '/modules/', module_state{1}{1}, '/loader.m']);
+  end
 end
 %==============================================================================
 if (isquietmode() == false)
