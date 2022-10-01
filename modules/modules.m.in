@@ -51,7 +51,7 @@ modules_list = {
 {'tests_manager', true};
 {'linear_algebra', true};
 {'handle', true};
-{'qml_engine', true};
+{'qml_engine', @WITH_QML_ENGINE_MODULE@};
 {'f2c', @WITH_F2C_MODULE@};
 {'nig', true};
 {'text_editor', true};
@@ -63,7 +63,7 @@ modules_list = {
 {'profiler', true};
 {'characters_encoding', true};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
-{'graphics', true};
+{'graphics', @WITH_GRAPHICS_MODULE@};
 {'mex', @WITH_MEX_MODULE@};
 {'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'ipc', @WITH_IPC_MODULE@};

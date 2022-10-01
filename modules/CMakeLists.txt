@@ -69,7 +69,6 @@ list(
   hdf5
   matio
   profiler
-  graphics
   statistics
   validators
   polynomial_functions
@@ -120,6 +119,10 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_PARALLEL_MODULE)
 list(APPEND moduleslist parallel)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_GRAPHICS_MODULE)
+list(APPEND moduleslist graphics)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})

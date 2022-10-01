@@ -19,6 +19,8 @@
 #define WITH_FILE_ARCHIVER_MODULE 1
 #define WITH_IPC_MODULE 1
 #define WITH_PARALLEL_MODULE 1
+#define WITH_GRAPHICS_MODULE 1
+#define WITH_QML_ENGINE_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
