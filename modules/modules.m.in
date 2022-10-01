@@ -65,7 +65,7 @@ modules_list = {
 {'characters_encoding', true};
 {'webtools', true};
 {'graphics', true};
-{'mex', true};
+{'mex', @WITH_MEX_MODULE@};
 {'ipc', true};
 {'statistics', true};
 {'validators', true};

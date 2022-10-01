@@ -9,6 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#define WITH_MEX_MODULE 1
+#define WITH_FFTW_MODULE 1
+#define WITH_SLICOT_MODULE 1
+//=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
 #define EIGEN_USE_MKL_VML

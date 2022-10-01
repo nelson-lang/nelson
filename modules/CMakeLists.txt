@@ -75,7 +75,6 @@ list(
   file_archiver
   webtools
   graphics
-  mex
   ipc
   statistics
   validators
@@ -84,13 +83,17 @@ list(
   signal_processing)
 list(APPEND moduleslist main)
 # ==============================================================================
-if (NOT LGPL21_ONLY)
-  if(WITH_FFTW)
-    list(APPEND moduleslist fftw)
-  endif()
-  if(WITH_SLICOT)
-    list(APPEND moduleslist slicot)
-  endif()
+if (WITHOUT_MEX_MODULE)
+list(APPEND moduleslist no-mex)
+else()
+list(APPEND moduleslist mex)
+endif()
+# ==============================================================================
+if (NOT WITHOUT_FFTW_MODULE)
+list(APPEND moduleslist fftw)
+endif()
+if(NOT WITHOUT_SLICOT_MODULE)
+list(APPEND moduleslist slicot)
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})

@@ -30,6 +30,15 @@ if(NOT DEFINED CMAKE_INSTALL_PREFIX)
 endif()
 message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 # ==============================================================================
+option(LGPL_ONLY "Build Nelson under LGPL v3.x only" OFF)
+# ==============================================================================
+option(WITHOUT_MEX_MODULE "Disable Mex module." OFF)
+option(WITHOUT_FFTW_MODULE "Disable FFTW module" OFF)
+if (LGPL_ONLY)
+  set(WITHOUT_FFTW_MODULE ON)
+  set(WITHOUT_SLICOT_MODULE ON)
+endif()
+# ==============================================================================
 option(FORCE_QT5 "Force to use Qt5." OFF)
 # ==============================================================================
 option(ENABLE_CLANG_TIDY "Analyze code with clang-tidy." OFF)
@@ -37,19 +46,19 @@ option(ENABLE_CLANG_TIDY_FIX  "Analyze code with clang-tidy and fix errors." OFF
 # ==============================================================================
 option(ENABLE_PACKAGING "Build Nelson for packaging" OFF)
 # ==============================================================================
-option(WITH_FFTW "Build Nelson without FFTW module" ON)
-option(WITH_SLICOT "Build Nelson without SLICOT module" ON)
-option(LGPL21_ONLY "Build Nelson under LGPL v2.1 only" OFF)
-# ==============================================================================
-if (LGPL21_ONLY)
-  set(WITH_FFTW OFF)
-  set(WITH_SLICOT OFF)
-  message(STATUS "LGPL v2.1: ${LGPL21_ONLY}")
-endif()
-# ==============================================================================
 message(STATUS "Build Nelson for packaging: ${ENABLE_PACKAGING}")
-message(STATUS "FFTW module: ${WITH_FFTW}")
-message(STATUS "SLICOT module: ${WITH_SLICOT}")
+if (WITHOUT_MEX_MODULE)
+message(STATUS "Mex module disabled.")
+endif()
+if (WITHOUT_FFTW_MODULE)
+message(STATUS "FFTW module disabled.")
+endif()
+if (WITHOUT_SLICOT_MODULE)
+message(STATUS "SLICOT module disabled.")
+endif()
+if (LGPL_ONLY)
+  message(STATUS "LGPL v3.x: ${LGPL_ONLY}")
+endif()
 # ==============================================================================
 if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
