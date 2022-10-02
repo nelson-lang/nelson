@@ -27,6 +27,8 @@
 #define WITH_HDF5_MODULE 1
 #define WITH_MATIO_MODULE 1
 #define WITH_HELP_TOOLS_MODULE 1
+#define WITH_HELP_BROWSER_MODULE 1
+#define WITH_TEXT_EDITOR_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

@@ -1,4 +1,4 @@
-name: Minimal Build 
+name: Minimal Build
 
 on: [push]
 
@@ -32,15 +32,6 @@ jobs:
           sudo apt -y install qt6-base-dev;
           sudo apt -y install libqt6svg6-dev;
           sudo apt -y install qt6-declarative-dev;
-          sudo apt -y install qt6-documentation-tools;
-          sudo apt -y install qml6-module-qtquick;
-          sudo apt -y install qml6-module-qtquick-templates;
-          sudo apt -y install qml6-module-qtquick-controls;
-          sudo apt -y install qml6-module-qtquick-window;
-          sudo apt -y install qml6-module-qtquick-dialogs;
-          sudo apt -y install qml6-module-qtqml-workerscript;
-          sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install qt6-tools-dev;
 
       - name: Checkout
         uses: actions/checkout@v3

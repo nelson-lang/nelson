@@ -46,7 +46,7 @@ modules_list = {
 {'history_manager', true};
 {'help_tools', @WITH_HELP_TOOLS_MODULE@};
 {'gui', true};
-{'help_browser', true};
+{'help_browser', @WITH_HELP_BROWSER_MODULE@};
 {'assert_functions', true};
 {'tests_manager', true};
 {'linear_algebra', true};
@@ -54,7 +54,7 @@ modules_list = {
 {'qml_engine', @WITH_QML_ENGINE_MODULE@};
 {'f2c', @WITH_F2C_MODULE@};
 {'nig', true};
-{'text_editor', true};
+{'text_editor', @WITH_TEXT_EDITOR_MODULE@};
 {'mpi', @WITH_MPI_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};
 {'sio_client', @WITH_SIO_CLIENT_MODULE@};

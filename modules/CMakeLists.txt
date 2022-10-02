@@ -51,11 +51,9 @@ list(
   terminal
   gui
   text_completion
-  text_editor
   handle
   com_engine
   nig
-  help_browser
   dynamic_link
   localization
   modules_manager
@@ -145,6 +143,14 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
 list(APPEND moduleslist help_tools)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_HELP_BROWSER_MODULE)
+list(APPEND moduleslist help_browser)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_TEXT_EDITOR_MODULE)
+list(APPEND moduleslist text_editor)
 endif()
 # ==============================================================================
 list(APPEND moduleslist main)
