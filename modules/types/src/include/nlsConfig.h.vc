@@ -29,6 +29,7 @@
 #define WITH_HELP_TOOLS_MODULE 1
 #define WITH_HELP_BROWSER_MODULE 1
 #define WITH_TEXT_EDITOR_MODULE 1
+#define WITH_OPENMP 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
@@ -36,7 +37,7 @@
 #define _NLS_WITH_VML
 #endif
 //=============================================================================
-#if defined(_OPENMP)
+#if defined(WITH_OPENMP)
 #define _NLS_WITH_OPENMP
 #endif
 //=============================================================================

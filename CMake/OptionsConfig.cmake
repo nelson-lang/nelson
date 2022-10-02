@@ -217,6 +217,11 @@ else()
   else()
     set(WITH_TEXT_EDITOR_MODULE 1)
   endif()
+  if (WITHOUT_OPENMP)
+    set(WITH_OPENMP 0)
+  else()
+    set(WITH_OPENMP 1)
+  endif()
 
   configure_file("${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h.in"
                  "${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h")
