@@ -71,7 +71,7 @@ modules_list = {
 {'validators', true};
 {'polynomial_functions', true};
 {'parallel', @WITH_PARALLEL_MODULE@};
-{'signal_processing', true};
+{'signal_processing', @WITH_SIGNAL_PROCESSING_MODULE@};
 {'com_engine', false};
 {'slicot', @WITH_SLICOT_MODULE@};
 {'fftw', @WITH_FFTW_MODULE@}

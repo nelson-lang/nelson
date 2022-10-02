@@ -68,15 +68,32 @@ list(
   matio
   profiler
   statistics
-  validators
-  polynomial_functions
-  signal_processing)
+  polynomial_functions)
+# ==============================================================================
 list(APPEND moduleslist main)
 # ==============================================================================
 if (WITHOUT_MEX_MODULE)
 list(APPEND moduleslist no-mex)
 else()
 list(APPEND moduleslist mex)
+endif()
+# ==============================================================================
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+list(APPEND moduleslist no-file_archiver)
+else()
+list(APPEND moduleslist file_archiver)
+endif()
+# ==============================================================================
+if (WITHOUT_IPC_MODULE)
+list(APPEND moduleslist no-ipc)
+else()
+list(APPEND moduleslist ipc)
+endif()
+# ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+list(APPEND moduleslist no-sio_client)
+else()
+list(APPEND moduleslist sio_client)
 endif()
 # ==============================================================================
 if (NOT WITHOUT_FFTW_MODULE)
@@ -103,18 +120,6 @@ if(NOT WITHOUT_WEBTOOLS_MODULE)
 list(APPEND moduleslist webtools)
 endif()
 # ==============================================================================
-if (WITHOUT_FILE_ARCHIVER_MODULE)
-list(APPEND moduleslist no-file_archiver)
-else()
-list(APPEND moduleslist file_archiver)
-endif()
-# ==============================================================================
-if (WITHOUT_IPC_MODULE)
-list(APPEND moduleslist no-ipc)
-else()
-list(APPEND moduleslist ipc)
-endif()
-# ==============================================================================
 if(NOT WITHOUT_PARALLEL_MODULE)
 list(APPEND moduleslist parallel)
 endif()
@@ -127,13 +132,14 @@ if(NOT WITHOUT_QML_ENGINE_MODULE)
 list(APPEND moduleslist   qml_engine)
 endif()
 # ==============================================================================
-if (WITHOUT_SIO_CLIENT_MODULE)
-list(APPEND moduleslist no-sio_client)
-else()
-list(APPEND moduleslist sio_client)
+if(NOT WITHOUT_SIGNAL_PROCESSING_MODULE)
+list(APPEND moduleslist signal_processing)
 endif()
 # ==============================================================================
-
+if(NOT WITHOUT_VALIDATORS_MODULE)
+list(APPEND moduleslist validators)
+endif()
+# ==============================================================================
 foreach(mod ${moduleslist})
   include_directories("../build/modules/${mod}/includes")
   include_directories("${mod}/src/c")
