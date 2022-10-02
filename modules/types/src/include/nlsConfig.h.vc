@@ -24,6 +24,9 @@
 #define WITH_SIO_CLIENT_MODULE 1
 #define WITH_SIGNAL_PROCESSING_MODULE 1
 #define WITH_VALIDATORS_MODULE 1
+#define WITH_HDF5_MODULE 1
+#define WITH_MATIO_MODULE 1
+#define WITH_HELP_TOOLS_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

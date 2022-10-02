@@ -17,6 +17,10 @@ add_executable(nelson-cli-exec ${MAINCLI_SRC})
 # ==============================================================================
 # force some dependencies here, to force build order
 # ==============================================================================
+if (NOT WITHOUT_HELP_TOOLS_MODULE)
+set (HELP_TOOLS_LIBRARIES nlsHelp_tools nlsHelp_tools_builtin)
+endif()
+# ==============================================================================
 target_link_libraries(
   nelson-cli-exec
   nlsEngine
@@ -24,8 +28,7 @@ target_link_libraries(
   nlsModules_manager_builtin
   nlsMemory_manager
   nlsMemory_manager_builtin
-  nlsHelp_tools
-  nlsHelp_tools_builtin)
+  ${HELP_TOOLS_LIBRARIES})
 # ==============================================================================
 file(GLOB MAINADVCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp")
 # ==============================================================================
@@ -58,12 +61,14 @@ set(GET_MODULE_SKELETON_ACTION
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m")
 set(BUILD_ALL_GET_MODULE_SKELETON_ACTION ${GET_MODULE_SKELETON_ACTION})
 # ==============================================================================
+if (NOT WITHOUT_HELP_TOOLS_MODULE)
 set (BUILDHELP_ACTION
   COMMAND 
   ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.m")
 set(BUILD_ALL_BUILDHELP_ACTION ${BUILDHELP_ACTION})
+endif()
 # ==============================================================================
 set (TESTS_MINIMAL_ACTION
   COMMAND

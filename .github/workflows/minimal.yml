@@ -1,0 +1,65 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  Jammy:
+    name: Minimal build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+
+    steps:
+      - name: install dependencies
+        run: |
+          sudo apt update;
+          sudo apt upgrade;
+          sudo apt -y install build-essential;
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+          sudo apt -y install ninja-build;
+          sudo apt -y install autotools-dev;
+          sudo apt -y install libtool;
+          sudo apt -y install automake;
+          sudo apt -y install openmpi-bin;
+          sudo apt -y install gettext;
+          sudo apt -y install pkg-config;
+          sudo apt -y install libffi-dev;
+          sudo apt -y install libicu-dev;
+          sudo apt -y install liblapack-dev;
+          sudo apt -y install liblapacke-dev;
+          sudo apt -y install libgl-dev;
+          sudo apt -y install libboost-all-dev;
+          sudo apt -y install libeigen3-dev;
+          sudo apt -y install qt6-base-dev;
+          sudo apt -y install libqt6svg6-dev;
+          sudo apt -y install qt6-declarative-dev;
+          sudo apt -y install qt6-documentation-tools;
+          sudo apt -y install qml6-module-qtquick;
+          sudo apt -y install qml6-module-qtquick-templates;
+          sudo apt -y install qml6-module-qtquick-controls;
+          sudo apt -y install qml6-module-qtquick-window;
+          sudo apt -y install qml6-module-qtquick-dialogs;
+          sudo apt -y install qml6-module-qtqml-workerscript;
+          sudo apt -y install qml6-module-qtquick-layouts;
+          sudo apt -y install qt6-tools-dev;
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get package version
+        uses: nyaascii/package-version@v1
+
+      - name: Update version
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+      - name: make with Ninja
+        run: cmake --build . -- -j $(nproc)
+      - name: package
+        run: cmake --build . -- package
+      - name: Copy artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+      - uses: actions/upload-artifact@v1
+        with:
+          name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
+          path: artifacts/

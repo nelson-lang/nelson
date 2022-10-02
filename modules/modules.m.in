@@ -44,7 +44,7 @@ modules_list = {
 {'time', true};
 {'random', true};
 {'history_manager', true};
-{'help_tools', true};
+{'help_tools', @WITH_HELP_TOOLS_MODULE@};
 {'gui', true};
 {'help_browser', true};
 {'assert_functions', true};
@@ -58,8 +58,8 @@ modules_list = {
 {'mpi', @WITH_MPI_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};
 {'sio_client', @WITH_SIO_CLIENT_MODULE@};
-{'hdf5', true};
-{'matio', true};
+{'hdf5', @WITH_HDF5_MODULE@};
+{'matio', @WITH_MATIO_MODULE@};
 {'profiler', true};
 {'characters_encoding', true};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
@@ -68,7 +68,7 @@ modules_list = {
 {'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'ipc', @WITH_IPC_MODULE@};
 {'statistics', true};
-{'validators', true};
+{'validators', @WITH_VALIDATORS_MODULE@};
 {'polynomial_functions', true};
 {'parallel', @WITH_PARALLEL_MODULE@};
 {'signal_processing', @WITH_SIGNAL_PROCESSING_MODULE@};

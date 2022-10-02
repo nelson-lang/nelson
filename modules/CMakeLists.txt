@@ -57,20 +57,15 @@ list(
   nig
   help_browser
   dynamic_link
-  help_tools
   localization
   modules_manager
   engine
   assert_functions
   tests_manager
   json
-  hdf5
-  matio
   profiler
   statistics
   polynomial_functions)
-# ==============================================================================
-list(APPEND moduleslist main)
 # ==============================================================================
 if (WITHOUT_MEX_MODULE)
 list(APPEND moduleslist no-mex)
@@ -129,7 +124,7 @@ list(APPEND moduleslist graphics)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_QML_ENGINE_MODULE)
-list(APPEND moduleslist   qml_engine)
+list(APPEND moduleslist qml_engine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_SIGNAL_PROCESSING_MODULE)
@@ -140,10 +135,21 @@ if(NOT WITHOUT_VALIDATORS_MODULE)
 list(APPEND moduleslist validators)
 endif()
 # ==============================================================================
+if(NOT WITHOUT_HDF5_MODULE)
+list(APPEND moduleslist hdf5)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_MATIO_MODULE)
+list(APPEND moduleslist matio)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_HELP_TOOLS_MODULE)
+list(APPEND moduleslist help_tools)
+endif()
+# ==============================================================================
+list(APPEND moduleslist main)
+# ==============================================================================
 foreach(mod ${moduleslist})
-  include_directories("../build/modules/${mod}/includes")
-  include_directories("${mod}/src/c")
-  include_directories("${mod}/src/cpp")
   add_subdirectory(${mod})
 endforeach(mod)
 # ==============================================================================
