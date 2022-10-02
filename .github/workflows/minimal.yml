@@ -1,10 +1,10 @@
-name: C/C++ CI
+name: Minimal Build 
 
 on: [push]
 
 jobs:
   Jammy:
-    name: Minimal build
+    name: Ubuntu 22.04
     runs-on: ubuntu-22.04
     timeout-minutes: 120
 
@@ -58,7 +58,7 @@ jobs:
       - name: package
         run: cmake --build . -- package
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+        run: mkdir artifacts && mv Nelson-*.tar.Z artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
