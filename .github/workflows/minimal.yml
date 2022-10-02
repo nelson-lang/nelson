@@ -19,7 +19,6 @@ jobs:
           sudo apt -y install autotools-dev;
           sudo apt -y install libtool;
           sudo apt -y install automake;
-          sudo apt -y install openmpi-bin;
           sudo apt -y install gettext;
           sudo apt -y install pkg-config;
           sudo apt -y install libffi-dev;
