@@ -19,17 +19,13 @@ jobs:
           sudo apt -y install autotools-dev;
           sudo apt -y install libtool;
           sudo apt -y install automake;
+          sudo apt -y install pkg-config;          
           sudo apt -y install gettext;
-          sudo apt -y install pkg-config;
-          sudo apt -y install libffi-dev;
+          sudo apt -y install libeigen3-dev;
           sudo apt -y install libicu-dev;
           sudo apt -y install liblapack-dev;
           sudo apt -y install liblapacke-dev;
-          sudo apt -y install libgl-dev;
           sudo apt -y install libboost-all-dev;
-          sudo apt -y install libeigen3-dev;
-          sudo apt -y install qt6-base-dev;
-          sudo apt -y install qt6-declarative-dev;
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -41,7 +37,7 @@ jobs:
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Ninja" .
       - name: make with Ninja
         run: cmake --build . -- -j $(nproc)
       - name: package
@@ -50,5 +46,5 @@ jobs:
         run: mkdir artifacts && mv Nelson-*.tar.Z artifacts
       - uses: actions/upload-artifact@v1
         with:
-          name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
           path: artifacts/

@@ -28,7 +28,7 @@ modules_list = {
 {'integer', true};
 {'operators', true};
 {'elementary_functions', true};
-{'data_analysis', true};
+{'data_analysis', @WITH_DATA_ANALYSIS_MODULE@};
 {'special_functions', true};
 {'trigonometric_functions', true};
 {'sparse', true};
@@ -37,7 +37,7 @@ modules_list = {
 {'json', true};
 {'stream_manager', true};
 {'display_format', true};
-{'dynamic_link', true};
+{'dynamic_link', @WITH_DYNAMIC_LINK_MODULE@};
 {'memory_manager', true};
 {'console', true};
 {'interpreter', true};
@@ -45,10 +45,10 @@ modules_list = {
 {'random', true};
 {'history_manager', true};
 {'help_tools', @WITH_HELP_TOOLS_MODULE@};
-{'gui', true};
+{'gui', @WITH_GUI_MODULE@};
 {'help_browser', @WITH_HELP_BROWSER_MODULE@};
 {'assert_functions', true};
-{'tests_manager', true};
+{'tests_manager', @WITH_TESTS_MANAGER_MODULE@};
 {'linear_algebra', true};
 {'handle', true};
 {'qml_engine', @WITH_QML_ENGINE_MODULE@};

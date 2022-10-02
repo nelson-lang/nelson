@@ -49,7 +49,6 @@ endif()
 target_link_libraries(
   ${module_library_name}
   nlsCore
-  nlsDynamic_link
   nlsInterpreter
   nlsModules_manager
   nlsTerminal

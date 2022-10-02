@@ -30,23 +30,23 @@ target_link_libraries(
   nlsMemory_manager_builtin
   ${HELP_TOOLS_LIBRARIES})
 # ==============================================================================
+if (NOT WITHOUT_GUI_MODULE)
 file(GLOB MAINADVCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp")
-# ==============================================================================
 add_executable(nelson-adv-cli-exec ${MAINADVCLI_SRC})
-# ==============================================================================
 target_link_libraries(nelson-adv-cli-exec nlsEngine)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_GUI_MODULE)
 file(GLOB MAINGUI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp")
-# ==============================================================================
 add_executable(nelson-gui-exec ${MAINGUI_SRC})
-# ==============================================================================
 target_link_libraries(nelson-gui-exec nlsEngine)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_SIO_CLIENT_MODULE)
 file(GLOB MAINSIOCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp")
-# ==============================================================================
 add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
-# ==============================================================================
 target_link_libraries(nelson-sio-cli-exec nlsEngine)
+endif()
 # ==============================================================================
 set(LOCALIZATION_ACTION 
   COMMAND 
@@ -55,11 +55,13 @@ set(LOCALIZATION_ACTION
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.m")
 set(BUILD_ALL_LOCALIZATION_ACTION ${LOCALIZATION_ACTION})
 # ==============================================================================
+if (NOT WITHOUT_WEBTOOLS_MODULE)
 set(GET_MODULE_SKELETON_ACTION
   COMMAND 
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m")
 set(BUILD_ALL_GET_MODULE_SKELETON_ACTION ${GET_MODULE_SKELETON_ACTION})
+endif()
 # ==============================================================================
 if (NOT WITHOUT_HELP_TOOLS_MODULE)
 set (BUILDHELP_ACTION
@@ -70,18 +72,27 @@ set (BUILDHELP_ACTION
 set(BUILD_ALL_BUILDHELP_ACTION ${BUILDHELP_ACTION})
 endif()
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 set (TESTS_MINIMAL_ACTION
   COMMAND
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
   --file
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m")
 set(BUILD_ALL_TESTS_MINIMAL_ACTION ${TESTS_MINIMAL_ACTION})
+endif()
 # ==============================================================================
+list (
+  APPEND
+  executableList
+  nelson-cli-exec)
+if (NOT WITHOUT_GUI_MODULE)
+list(APPEND executableList nelson-gui-exec nelson-adv-cli-exec)
+endif()
 add_custom_target(
   Name ALL
   COMMAND
   ${BUILD_ALL_LOCALIZATION_ACTION}
-  DEPENDS nelson-cli-exec nelson-adv-cli-exec nelson-gui-exec)
+  DEPENDS ${executableList})
 # ==============================================================================
 add_custom_target(
   localization
@@ -103,12 +114,15 @@ add_custom_target(
   ${GET_MODULE_SKELETON_ACTION}
   DEPENDS nelson-cli-exec)
 # ==============================================================================
+if (NOT WITHOUT_HELP_TOOLS_MODULE)
 add_custom_target(
   buildhelp
   COMMAND
   ${BUILDHELP_ACTION}
   DEPENDS nelson-cli-exec)
+endif()  
 # ==============================================================================
+if (NOT WITHOUT_HELP_TOOLS_MODULE)
 add_custom_target(
   missing_help
   COMMAND
@@ -116,35 +130,45 @@ add_custom_target(
     --quiet --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.m"
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 add_custom_target(
   tests_all
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --noipc --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.m"
   DEPENDS nelson-cli-exec)
+endif()  
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 add_custom_target(
   benchs_all
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --noipc --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
   DEPENDS nelson-cli-exec)
+endif()  
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 add_custom_target(
   tests_all_no_display
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --noipc --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.m"
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 add_custom_target(
   benchs_all_no_display
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --noipc --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_TESTS_MANAGER_MODULE)
 add_custom_target(
   tests_minimal
   COMMAND
@@ -152,36 +176,47 @@ add_custom_target(
     --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m"
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
 install(FILES ${BIN_DIRECTORY}/nelson DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS 
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
   OWNER_EXECUTE OWNER_READ OWNER_WRITE)
 
+if (NOT WITHOUT_GUI_MODULE)
 install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS 
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
   OWNER_EXECUTE OWNER_READ OWNER_WRITE)
+endif()
 
 install(FILES ${BIN_DIRECTORY}/nelson-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
   OWNER_EXECUTE OWNER_READ OWNER_WRITE)
 
+if (NOT WITHOUT_GUI_MODULE)
 install(FILES ${BIN_DIRECTORY}/nelson-gui DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
   OWNER_EXECUTE OWNER_READ OWNER_WRITE)
+endif()
 
+if (NOT WITHOUT_SIO_CLIENT_MODULE)
 install(FILES ${BIN_DIRECTORY}/nelson-sio-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
   OWNER_EXECUTE OWNER_READ OWNER_WRITE)
+endif()
 # ==============================================================================
-install(TARGETS nelson-adv-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+if (NOT WITHOUT_GUI_MODULE)
+install(TARGETS nelson-adv-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-gui-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+endif()
+if (NOT WITHOUT_SIO_CLIENT_MODULE)
 install(TARGETS nelson-sio-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+endif()
 # ==============================================================================
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help

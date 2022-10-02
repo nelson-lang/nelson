@@ -34,48 +34,56 @@ option(LGPL_ONLY "Build Nelson under LGPL v3.x only" OFF)
 # ==============================================================================
 option(MINIMAL_BUILD "Build mininal Nelson " OFF)
 # ==============================================================================
-option(WITHOUT_MEX_MODULE "Disable Mex module." OFF)
-option(WITHOUT_FFTW_MODULE "Disable FFTW module" OFF)
-option(WITHOUT_F2C_MODULE "Disable F2C module" OFF)
-option(WITHOUT_MPI_MODULE "Disable MPI module" OFF)
-option(WITHOUT_AUDIO_MODULE "Disable AUDIO module" OFF)
-option(WITHOUT_WEBTOOLS_MODULE "Disable WEBTOOLS module" OFF)
-option(WITHOUT_FILE_ARCHIVER_MODULE "Disable FILE_ARCHIVER module" OFF)
-option(WITHOUT_IPC_MODULE "Disable IPC module" OFF)
-option(WITHOUT_PARALLEL_MODULE "Disable PARALLEL module" OFF)
-option(WITHOUT_GRAPHICS_MODULE "Disable GRAPHICS module" OFF)
-option(WITHOUT_QML_ENGINE_MODULE "Disable QML_ENGINE module" OFF)
-option(WITHOUT_SIGNAL_PROCESSING_MODULE "Disable SIGNAL_PROCESSING module" OFF)
-option(WITHOUT_VALIDATORS_MODULE "Disable VALIDATORS module" OFF)
-option(WITHOUT_HDF5_MODULE "Disable HDF5 module" OFF)
-option(WITHOUT_MATIO_MODULE "Disable MATIO module" OFF)
-option(WITHOUT_HELP_TOOLS_MODULE "Disable HELP_TOOLS module" OFF)
-option(WITHOUT_HELP_BROWSER_MODULE "Disable HELP_BROWSER module" OFF)
-option(WITHOUT_TEXT_EDITOR_MODULE "Disable TEXT_EDITOR module" OFF)
 option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
-if (MINIMAL_BUILD)
-  set(WITHOUT_MEX_MODULE ON)
-  set(WITHOUT_FFTW_MODULE ON)
-  set(WITHOUT_SLICOT_MODULE ON)
-  set(WITHOUT_F2C_MODULE ON)
-  set(WITHOUT_MPI_MODULE ON)
-  set(WITHOUT_AUDIO_MODULE ON)
-  set(WITHOUT_WEBTOOLS_MODULE ON)
-  set(WITHOUT_FILE_ARCHIVER_MODULE ON)
-  set(WITHOUT_IPC_MODULE ON)
-  set(WITHOUT_PARALLEL_MODULE ON)
+list (APPEND
+      CAN_BE_DISABLED_MODULES
+      MEX
+      FFTW
+      F2C
+      MPI
+      AUDIO
+      WEBTOOLS
+      FILE_ARCHIVER
+      IPC
+      SIO_CLIENT
+      PARALLEL
+      GRAPHICS
+      QML_ENGINE
+      SIGNAL_PROCESSING
+      VALIDATORS
+      HDF5
+      MATIO
+      SLICOT
+      HELP_TOOLS
+      HELP_BROWSER
+      TEXT_EDITOR
+      DATA_ANALYSIS
+      DYNAMIC_LINK
+      TESTS_MANAGER
+      GUI
+      )
+foreach(mod ${CAN_BE_DISABLED_MODULES})
+  option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
+endforeach(mod)
+# ==============================================================================
+if (WITHOUT_GUI_MODULE)
   set(WITHOUT_GRAPHICS_MODULE ON)
   set(WITHOUT_QML_ENGINE_MODULE ON)  
-  set(WITHOUT_SIO_CLIENT_MODULE ON)  
-  set(WITHOUT_SIGNAL_PROCESSING_MODULE ON)  
-  set(WITHOUT_VALIDATORS_MODULE ON)  
-  set(WITHOUT_MATIO_MODULE ON)  
-  set(WITHOUT_HDF5_MODULE ON)  
-  set(WITHOUT_HELP_TOOLS_MODULE ON)  
   set(WITHOUT_HELP_BROWSER_MODULE ON)  
   set(WITHOUT_TEXT_EDITOR_MODULE ON)  
-  set(WITHOUT_OPENMP ON)  
+endif()
+# ==============================================================================
+if (WITHOUT_DATA_ANALYSIS_MODULE)
+  set(WITHOUT_VALIDATORS_MODULE ON)  
+  set(WITHOUT_TESTS_MANAGER_MODULE ON)
+endif()
+# ==============================================================================
+if (MINIMAL_BUILD)
+  set(WITHOUT_OPENMP ON)
+  foreach(mod ${CAN_BE_DISABLED_MODULES})
+    set(WITHOUT_${mod}_MODULE ON)
+  endforeach(mod)
 endif()
 # ==============================================================================
 if (LGPL_ONLY)
@@ -92,72 +100,19 @@ option(ENABLE_PACKAGING "Build Nelson for packaging" OFF)
 # ==============================================================================
 message(STATUS "Build Nelson for packaging: ${ENABLE_PACKAGING}")
 # ==============================================================================
-if (MINIMAL_BUILD)
-message(STATUS "Minimal build.")
-endif()
-if (WITHOUT_MEX_MODULE)
-message(STATUS "Mex module disabled.")
-endif()
-if (WITHOUT_FFTW_MODULE)
-message(STATUS "FFTW module disabled.")
-endif()
-if (WITHOUT_SLICOT_MODULE)
-message(STATUS "SLICOT module disabled.")
-endif()
-if (WITHOUT_F2C_MODULE)
-message(STATUS "F2C module disabled.")
-endif()
-if (WITHOUT_MPI_MODULE)
-message(STATUS "MPI module disabled.")
-endif()
-if (WITHOUT_AUDIO_MODULE)
-message(STATUS "AUDIO module disabled.")
-endif()
-if (WITHOUT_WEBTOOLS_MODULE)
-message(STATUS "WEBTOOLS module disabled.")
-endif()
-if (WITHOUT_FILE_ARCHIVER_MODULE)
-message(STATUS "FILE_ARCHIVER module disabled.")
-endif()
-if (WITHOUT_IPC_MODULE)
-message(STATUS "IPC module disabled.")
-endif()
-if (WITHOUT_PARALLEL_MODULE)
-message(STATUS "PARALLEL module disabled.")
-endif()
-if (WITHOUT_GRAPHICS_MODULE)
-message(STATUS "GRAPHICS module disabled.")
-endif()
-if (WITHOUT_QML_ENGINE_MODULE)
-message(STATUS "QML_ENGINE module disabled.")
-endif()
-if (WITHOUT_SIO_CLIENT_MODULE)
-message(STATUS "SIO_CLIENT module disabled.")
-endif()
-if (WITHOUT_SIGNAL_PROCESSING_MODULE)
-message(STATUS "SIGNAL_PROCESSING module disabled.")
-endif()
-if (WITHOUT_VALIDATORS_MODULE)
-message(STATUS "VALIDATORS module disabled.")
-endif()
-if (WITHOUT_HDF5_MODULE)
-message(STATUS "HDF5 module disabled.")
-endif()
-if (WITHOUT_MATIO_MODULE)
-message(STATUS "MATIO module disabled.")
-endif()
-if (WITHOUT_HELP_TOOLS_MODULE)
-message(STATUS "HELP_TOOLS module disabled.")
-endif()
-if (WITHOUT_HELP_BROWSER_MODULE)
-message(STATUS "HELP_BROWSER module disabled.")
-endif()
-if (WITHOUT_TEXT_EDITOR_MODULE)
-message(STATUS "TEXT_EDITOR module disabled.")
-endif()
 if (WITHOUT_OPENMP)
 message(STATUS "OpenMP disabled.")
 endif()
+# ==============================================================================
+if (MINIMAL_BUILD)
+message(STATUS "Minimal build.")
+endif()
+# ==============================================================================
+foreach(mod ${CAN_BE_DISABLED_MODULES})
+  if (WITHOUT_${mod}_MODULE)
+    message(STATUS "${mod} module disabled.")
+  endif()
+endforeach(mod)
 # ==============================================================================
 if (LGPL_ONLY OR (WITHOUT_FFTW_MODULE AND WITHOUT_SLICOT_MODULE))
   message(STATUS "LGPL v3.x: enabled.")
@@ -198,7 +153,9 @@ endif()
 # ==============================================================================
 include(Eigen3Config)
 # ==============================================================================
+if (NOT WITHOUT_GUI_MODULE)
 include(QtConfig)
+endif()
 # ==============================================================================
 if (NOT WITHOUT_MPI_MODULE)
 include(MpiConfig)
@@ -206,7 +163,9 @@ endif()
 # ==============================================================================
 include(IcuConfig)
 # ==============================================================================
+if (NOT WITHOUT_DYNAMIC_LINK_MODULE)
 include(FfiConfig)
+endif()
 # ==============================================================================
 find_package(PkgConfig REQUIRED)
 find_package(

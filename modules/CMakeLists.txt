@@ -23,7 +23,6 @@ list(
   display_format
   operators
   elementary_functions
-  data_analysis
   special_functions
   interpreter
   debugger
@@ -32,7 +31,6 @@ list(
   sparse
   functions_manager
   constructors_functions
-  linear_algebra
   console
   logical
   time
@@ -40,6 +38,7 @@ list(
   string
   integer
   random
+  linear_algebra
   files_folders_functions
   os_functions
   core
@@ -49,109 +48,65 @@ list(
   data_structures
   history_manager
   terminal
-  gui
   text_completion
   handle
   com_engine
   nig
-  dynamic_link
   localization
   modules_manager
   engine
   assert_functions
-  tests_manager
   json
   profiler
   statistics
   polynomial_functions)
 # ==============================================================================
-if (WITHOUT_MEX_MODULE)
-list(APPEND moduleslist no-mex)
-else()
-list(APPEND moduleslist mex)
-endif()
+list (APPEND
+      modules_partial_disable
+      MEX
+      FILE_ARCHIVER
+      IPC
+      SIO_CLIENT
+      )
+
+foreach(mod ${modules_partial_disable})
+  string(TOLOWER ${mod} lower_name)
+  if(WITHOUT_${mod}_MODULE)
+    list(APPEND moduleslist no-${lower_name})
+  else()
+    list(APPEND moduleslist ${lower_name})
+  endif()
+endforeach(mod)      
 # ==============================================================================
-if (WITHOUT_FILE_ARCHIVER_MODULE)
-list(APPEND moduleslist no-file_archiver)
-else()
-list(APPEND moduleslist file_archiver)
-endif()
-# ==============================================================================
-if (WITHOUT_IPC_MODULE)
-list(APPEND moduleslist no-ipc)
-else()
-list(APPEND moduleslist ipc)
-endif()
-# ==============================================================================
-if (WITHOUT_SIO_CLIENT_MODULE)
-list(APPEND moduleslist no-sio_client)
-else()
-list(APPEND moduleslist sio_client)
-endif()
-# ==============================================================================
-if (NOT WITHOUT_FFTW_MODULE)
-list(APPEND moduleslist fftw)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_SLICOT_MODULE)
-list(APPEND moduleslist slicot)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_F2C_MODULE)
-list(APPEND moduleslist f2c)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_MPI_MODULE)
-list(APPEND moduleslist mpi)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_AUDIO_MODULE)
-list(APPEND moduleslist audio)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_WEBTOOLS_MODULE)
-list(APPEND moduleslist webtools)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_PARALLEL_MODULE)
-list(APPEND moduleslist parallel)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_GRAPHICS_MODULE)
-list(APPEND moduleslist graphics)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_QML_ENGINE_MODULE)
-list(APPEND moduleslist qml_engine)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_SIGNAL_PROCESSING_MODULE)
-list(APPEND moduleslist signal_processing)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_VALIDATORS_MODULE)
-list(APPEND moduleslist validators)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_HDF5_MODULE)
-list(APPEND moduleslist hdf5)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_MATIO_MODULE)
-list(APPEND moduleslist matio)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_HELP_TOOLS_MODULE)
-list(APPEND moduleslist help_tools)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_HELP_BROWSER_MODULE)
-list(APPEND moduleslist help_browser)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_TEXT_EDITOR_MODULE)
-list(APPEND moduleslist text_editor)
-endif()
+list (APPEND
+      modules_easy_to_disable
+      GUI
+      FFTW
+      SLICOT
+      F2C
+      MPI
+      AUDIO
+      WEBTOOLS
+      PARALLEL
+      GRAPHICS
+      QML_ENGINE
+      SIGNAL_PROCESSING
+      VALIDATORS
+      HDF5
+      MATIO
+      HELP_TOOLS
+      HELP_BROWSER
+      TEXT_EDITOR
+      DYNAMIC_LINK
+      TESTS_MANAGER
+      )
+
+foreach(mod ${modules_easy_to_disable})
+  if(NOT WITHOUT_${mod}_MODULE)
+    string(TOLOWER ${mod} mod)
+    list(APPEND moduleslist ${mod})
+  endif()
+endforeach(mod)      
 # ==============================================================================
 list(APPEND moduleslist main)
 # ==============================================================================
