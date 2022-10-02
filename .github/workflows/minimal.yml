@@ -29,7 +29,6 @@ jobs:
           sudo apt -y install libboost-all-dev;
           sudo apt -y install libeigen3-dev;
           sudo apt -y install qt6-base-dev;
-          sudo apt -y install libqt6svg6-dev;
           sudo apt -y install qt6-declarative-dev;
 
       - name: Checkout
