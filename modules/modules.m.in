@@ -34,7 +34,7 @@ modules_list = {
 {'sparse', true};
 {'files_folders_functions', true};
 {'os_functions', true};
-{'json', true};
+{'json', @WITH_JSON_MODULE@};
 {'stream_manager', true};
 {'display_format', true};
 {'dynamic_link', @WITH_DYNAMIC_LINK_MODULE@};
@@ -53,7 +53,7 @@ modules_list = {
 {'handle', true};
 {'qml_engine', @WITH_QML_ENGINE_MODULE@};
 {'f2c', @WITH_F2C_MODULE@};
-{'nig', true};
+{'nig', @WITH_NIG_MODULE@};
 {'text_editor', @WITH_TEXT_EDITOR_MODULE@};
 {'mpi', @WITH_MPI_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};

@@ -62,6 +62,8 @@ list (APPEND
       DYNAMIC_LINK
       TESTS_MANAGER
       GUI
+      JSON
+      NIG
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)

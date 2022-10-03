@@ -32,7 +32,9 @@ list(APPEND
   DATA_ANALYSIS
   DYNAMIC_LINK
   TESTS_MANAGER
-  GUI)
+  JSON
+  GUI
+  NIG)
 
 if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
 

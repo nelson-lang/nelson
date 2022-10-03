@@ -34,6 +34,7 @@
 #define WITH_DYNAMIC_LINK_MODULE @WITH_DYNAMIC_LINK_MODULE@
 #define WITH_TESTS_MANAGER_MODULE @WITH_TESTS_MANAGER_MODULE@
 #define WITH_GUI_MODULE @WITH_GUI_MODULE@
+#define WITH_JSON_MODULE @WITH_JSON_MODULE@
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

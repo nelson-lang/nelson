@@ -99,6 +99,8 @@ list (APPEND
       TEXT_EDITOR
       DYNAMIC_LINK
       TESTS_MANAGER
+      JSON
+      NIG
       )
 
 foreach(mod ${modules_easy_to_disable})
