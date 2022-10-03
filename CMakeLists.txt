@@ -65,6 +65,7 @@ list (APPEND
       JSON
       NIG
       ASSERT_FUNCTIONS
+      STATISTICS
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)

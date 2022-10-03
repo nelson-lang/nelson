@@ -67,7 +67,7 @@ modules_list = {
 {'mex', @WITH_MEX_MODULE@};
 {'file_archiver', @WITH_FILE_ARCHIVER_MODULE@};
 {'ipc', @WITH_IPC_MODULE@};
-{'statistics', true};
+{'statistics', @WITH_STATISTICS_MODULE@};
 {'validators', @WITH_VALIDATORS_MODULE@};
 {'polynomial_functions', true};
 {'parallel', @WITH_PARALLEL_MODULE@};

@@ -55,10 +55,7 @@ list(
   localization
   modules_manager
   engine
-  assert_functions
-  json
   profiler
-  statistics
   polynomial_functions)
 # ==============================================================================
 list (APPEND
@@ -102,6 +99,7 @@ list (APPEND
       JSON
       NIG
       ASSERT_FUNCTIONS
+      STATISTICS
       )
 
 foreach(mod ${modules_easy_to_disable})
