@@ -13,8 +13,17 @@ list(
   APPEND
   moduleslist
   characters_encoding
-  nelson_manager
-  i18n
+  nelson_manager)
+# ==============================================================================
+if(WITHOUT_I18N_MODULE)
+  list(APPEND moduleslist no-i18n)
+else()
+  list(APPEND moduleslist i18n)
+endif()
+# ==============================================================================
+  list(
+  APPEND
+  moduleslist
   elementary_mathematics
   error_manager
   types
@@ -34,7 +43,6 @@ list(
   console
   logical
   time
-  trigonometric_functions
   string
   integer
   random
@@ -51,12 +59,9 @@ list(
   text_completion
   handle
   com_engine
-  nig
-  localization
   modules_manager
   engine
-  profiler
-  polynomial_functions)
+  profiler)
 # ==============================================================================
 list (APPEND
       modules_partial_disable
@@ -64,6 +69,7 @@ list (APPEND
       FILE_ARCHIVER
       IPC
       SIO_CLIENT
+      LOCALIZATION
       )
 
 foreach(mod ${modules_partial_disable})

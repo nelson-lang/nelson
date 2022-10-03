@@ -20,7 +20,6 @@ jobs:
           sudo apt -y install libtool;
           sudo apt -y install automake;
           sudo apt -y install pkg-config;          
-          sudo apt -y install gettext;
           sudo apt -y install libeigen3-dev;
           sudo apt -y install libicu-dev;
           sudo apt -y install liblapack-dev;

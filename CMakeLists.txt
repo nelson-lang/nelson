@@ -68,10 +68,16 @@ list (APPEND
       STATISTICS
       TRIGONOMETRIC_FUNCTIONS
       POLYNOMIAL_FUNCTIONS
+      LOCALIZATION
+      I18N
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
 endforeach(mod)
+# ==============================================================================
+if (WITHOUT_LOCALIZATION_MODULE)
+  set(WITHOUT_I18N_MODULE ON)
+endif()
 # ==============================================================================
 if (WITHOUT_GUI_MODULE)
   set(WITHOUT_GRAPHICS_MODULE ON)
@@ -174,18 +180,26 @@ include(FfiConfig)
 endif()
 # ==============================================================================
 find_package(PkgConfig REQUIRED)
+# ==============================================================================
+list (APPEND
+  boost_components
+  serialization
+  system
+  filesystem
+  thread
+  chrono
+  regex
+  date_time
+  iostreams)
+if (NOT WITHOUT_LOCALIZATION_MODULE)
+  list (APPEND
+  boost_components
+  locale)
+endif()
 find_package(
   Boost 1.64.0
-  COMPONENTS serialization
-             system
-             filesystem
-             locale
-             thread
-             chrono
-             regex
-             date_time
-             iostreams
-  REQUIRED)
+  COMPONENTS ${boost_components} REQUIRED)
+# ==============================================================================
 find_package(MKL) 
 # ==============================================================================
 if (NOT WITHOUT_HELP_TOOLS_MODULE)

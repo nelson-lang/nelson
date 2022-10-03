@@ -48,12 +48,14 @@ add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
 target_link_libraries(nelson-sio-cli-exec nlsEngine)
 endif()
 # ==============================================================================
+if (NOT WITHOUT_LOCALIZATION_MODULE)
 set(LOCALIZATION_ACTION 
   COMMAND 
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
   --file
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.m")
 set(BUILD_ALL_LOCALIZATION_ACTION ${LOCALIZATION_ACTION})
+endif()
 # ==============================================================================
 if (NOT WITHOUT_WEBTOOLS_MODULE)
 set(GET_MODULE_SKELETON_ACTION
@@ -94,12 +96,15 @@ add_custom_target(
   ${BUILD_ALL_LOCALIZATION_ACTION}
   DEPENDS ${executableList})
 # ==============================================================================
+if (NOT WITHOUT_LOCALIZATION_MODULE)
 add_custom_target(
   localization
   COMMAND
   ${LOCALIZATION_ACTION}
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_LOCALIZATION_MODULE)
 add_custom_target(
   updatelocalization
   COMMAND
@@ -107,12 +112,15 @@ add_custom_target(
     --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.m"
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_WEBTOOLS_MODULE)
 add_custom_target(
   get_module_skeleton
   COMMAND
   ${GET_MODULE_SKELETON_ACTION}
   DEPENDS nelson-cli-exec)
+endif()
 # ==============================================================================
 if (NOT WITHOUT_HELP_TOOLS_MODULE)
 add_custom_target(

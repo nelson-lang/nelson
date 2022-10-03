@@ -12,8 +12,8 @@ modules_list = {
 {'modules_manager', true};
 {'engine', true};
 {'core', true};
-{'localization', true};
-{'i18n', true};
+{'localization', @WITH_LOCALIZATION_MODULE@};
+{'i18n', @WITH_I18N_MODULE@};
 {'string', true};
 {'debugger', true};
 {'error_manager', true};

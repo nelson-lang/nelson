@@ -40,6 +40,8 @@
 #define WITH_STATISTICS_MODULE 1
 #define WITH_TRIGONOMETRIC_FUNCTIONS_MODULE 1
 #define WITH_POLYNOMIAL_FUNCTIONS_MODULE 1
+#define WITH_LOCALIZATION_MODULE 1
+#define WITH_I18N_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
