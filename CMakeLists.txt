@@ -64,6 +64,7 @@ list (APPEND
       GUI
       JSON
       NIG
+      ASSERT_FUNCTIONS
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)

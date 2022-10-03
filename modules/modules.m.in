@@ -47,7 +47,7 @@ modules_list = {
 {'help_tools', @WITH_HELP_TOOLS_MODULE@};
 {'gui', @WITH_GUI_MODULE@};
 {'help_browser', @WITH_HELP_BROWSER_MODULE@};
-{'assert_functions', true};
+{'assert_functions', @WITH_ASSERT_FUNCTIONS_MODULE@};
 {'tests_manager', @WITH_TESTS_MANAGER_MODULE@};
 {'linear_algebra', true};
 {'handle', true};

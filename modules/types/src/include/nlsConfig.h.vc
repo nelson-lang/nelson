@@ -36,6 +36,7 @@
 #define WITH_GUI_MODULE 1
 #define WITH_JSON_MODULE 1
 #define WITH_NIG_MODULE 1
+#define WITH_ASSERT_FUNCTIONS_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL

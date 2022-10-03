@@ -34,7 +34,8 @@ list(APPEND
   TESTS_MANAGER
   JSON
   GUI
-  NIG)
+  NIG
+  ASSERT_FUNCTIONS)
 
 if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
 

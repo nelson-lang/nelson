@@ -101,6 +101,7 @@ list (APPEND
       TESTS_MANAGER
       JSON
       NIG
+      ASSERT_FUNCTIONS
       )
 
 foreach(mod ${modules_easy_to_disable})

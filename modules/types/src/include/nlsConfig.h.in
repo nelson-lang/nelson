@@ -35,6 +35,8 @@
 #define WITH_TESTS_MANAGER_MODULE @WITH_TESTS_MANAGER_MODULE@
 #define WITH_GUI_MODULE @WITH_GUI_MODULE@
 #define WITH_JSON_MODULE @WITH_JSON_MODULE@
+#define WITH_NIG_MODULE @WITH_NIG_MODULE@
+#define WITH_ASSERT_FUNCTIONS_MODULE @WITH_ASSERT_FUNCTIONS_MODULE@
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
