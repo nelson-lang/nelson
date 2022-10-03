@@ -42,7 +42,7 @@ modules_list = {
 {'console', true};
 {'interpreter', true};
 {'time', true};
-{'random', true};
+{'random', @WITH_RANDOM_MODULE@};
 {'history_manager', true};
 {'help_tools', @WITH_HELP_TOOLS_MODULE@};
 {'gui', @WITH_GUI_MODULE@};

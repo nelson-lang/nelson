@@ -45,7 +45,6 @@ endif()
   time
   string
   integer
-  random
   linear_algebra
   files_folders_functions
   os_functions
@@ -108,6 +107,7 @@ list (APPEND
       STATISTICS
       TRIGONOMETRIC_FUNCTIONS
       POLYNOMIAL_FUNCTIONS
+      RANDOM
       )
 
 foreach(mod ${modules_easy_to_disable})
