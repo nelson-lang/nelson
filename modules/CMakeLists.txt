@@ -32,7 +32,6 @@ endif()
   display_format
   operators
   elementary_functions
-  special_functions
   interpreter
   debugger
   double
@@ -55,7 +54,6 @@ endif()
   data_structures
   history_manager
   terminal
-  text_completion
   handle
   com_engine
   modules_manager
@@ -108,6 +106,8 @@ list (APPEND
       TRIGONOMETRIC_FUNCTIONS
       POLYNOMIAL_FUNCTIONS
       RANDOM
+      SPECIAL_FUNCTIONS
+      TEXT_COMPLETION
       )
 
 foreach(mod ${modules_easy_to_disable})

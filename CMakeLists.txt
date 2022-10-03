@@ -71,6 +71,8 @@ list (APPEND
       LOCALIZATION
       I18N
       RANDOM
+      SPECIAL_FUNCTIONS
+      TEXT_COMPLETION
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)

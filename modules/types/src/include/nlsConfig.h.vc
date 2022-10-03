@@ -43,6 +43,8 @@
 #define WITH_LOCALIZATION_MODULE 1
 #define WITH_I18N_MODULE 1
 #define WITH_RANDOM_MODULE 1
+#define WITH_SPECIAL_FUNCTIONS_MODULE 1
+#define WITH_TEXT_COMPLETION_MODULE 1
 //=============================================================================
 #if defined(_MSC_VER)
 #define EIGEN_USE_MKL
