@@ -100,6 +100,8 @@ list (APPEND
       NIG
       ASSERT_FUNCTIONS
       STATISTICS
+      TRIGONOMETRIC_FUNCTIONS
+      POLYNOMIAL_FUNCTIONS
       )
 
 foreach(mod ${modules_easy_to_disable})

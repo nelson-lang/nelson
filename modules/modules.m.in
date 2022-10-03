@@ -30,7 +30,7 @@ modules_list = {
 {'elementary_functions', true};
 {'data_analysis', @WITH_DATA_ANALYSIS_MODULE@};
 {'special_functions', true};
-{'trigonometric_functions', true};
+{'trigonometric_functions', @WITH_TRIGONOMETRIC_FUNCTIONS_MODULE@};
 {'sparse', true};
 {'files_folders_functions', true};
 {'os_functions', true};
@@ -69,7 +69,7 @@ modules_list = {
 {'ipc', @WITH_IPC_MODULE@};
 {'statistics', @WITH_STATISTICS_MODULE@};
 {'validators', @WITH_VALIDATORS_MODULE@};
-{'polynomial_functions', true};
+{'polynomial_functions', @WITH_POLYNOMIAL_FUNCTIONS_MODULE@};
 {'parallel', @WITH_PARALLEL_MODULE@};
 {'signal_processing', @WITH_SIGNAL_PROCESSING_MODULE@};
 {'com_engine', false};
