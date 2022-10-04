@@ -12,7 +12,6 @@ include_directories(${EIGEN_INCLUDE_DIR})
 list(
   APPEND
   moduleslist
-  characters_encoding
   nelson_manager)
 # ==============================================================================
 if(WITHOUT_I18N_MODULE)
@@ -66,6 +65,7 @@ list (APPEND
       FILE_ARCHIVER
       IPC
       SIO_CLIENT
+      CHARACTERS_ENCODING
       LOCALIZATION
       )
 

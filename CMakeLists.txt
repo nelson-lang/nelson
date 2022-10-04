@@ -73,6 +73,7 @@ list (APPEND
       RANDOM
       SPECIAL_FUNCTIONS
       TEXT_COMPLETION
+      CHARACTERS_ENCODING
       )
 foreach(mod ${CAN_BE_DISABLED_MODULES})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
@@ -176,7 +177,9 @@ if (NOT WITHOUT_MPI_MODULE)
 include(MpiConfig)
 endif()
 # ==============================================================================
+if (NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
 include(IcuConfig)
+endif()
 # ==============================================================================
 if (NOT WITHOUT_DYNAMIC_LINK_MODULE)
 include(FfiConfig)

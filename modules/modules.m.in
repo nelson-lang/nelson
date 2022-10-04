@@ -61,7 +61,7 @@ modules_list = {
 {'hdf5', @WITH_HDF5_MODULE@};
 {'matio', @WITH_MATIO_MODULE@};
 {'profiler', true};
-{'characters_encoding', true};
+{'characters_encoding', @WITH_CHARACTERS_ENCODING_MODULE@};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
 {'graphics', @WITH_GRAPHICS_MODULE@};
 {'mex', @WITH_MEX_MODULE@};
