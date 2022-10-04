@@ -44,5 +44,5 @@ jobs:
         run: mkdir artifacts && mv Nelson-*.tar.Z artifacts
       - uses: actions/upload-artifact@v1
         with:
-          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.sha }}
           path: artifacts/
