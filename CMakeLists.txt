@@ -37,7 +37,7 @@ option(MINIMAL_BUILD "Build mininal Nelson " OFF)
 option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
 list (APPEND
-      CAN_BE_DISABLED_MODULES
+      optional_modules
       MEX
       FFTW
       F2C
@@ -75,7 +75,7 @@ list (APPEND
       TEXT_COMPLETION
       CHARACTERS_ENCODING
       )
-foreach(mod ${CAN_BE_DISABLED_MODULES})
+foreach(mod ${optional_modules})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
 endforeach(mod)
 # ==============================================================================
@@ -97,7 +97,7 @@ endif()
 # ==============================================================================
 if (MINIMAL_BUILD)
   set(WITHOUT_OPENMP ON)
-  foreach(mod ${CAN_BE_DISABLED_MODULES})
+  foreach(mod ${optional_modules})
     set(WITHOUT_${mod}_MODULE ON)
   endforeach(mod)
 endif()
@@ -124,7 +124,7 @@ if (MINIMAL_BUILD)
 message(STATUS "Minimal build.")
 endif()
 # ==============================================================================
-foreach(mod ${CAN_BE_DISABLED_MODULES})
+foreach(mod ${optional_modules})
   if (WITHOUT_${mod}_MODULE)
     message(STATUS "${mod} module disabled.")
   endif()
@@ -206,7 +206,9 @@ find_package(
   Boost 1.64.0
   COMPONENTS ${boost_components} REQUIRED)
 # ==============================================================================
+if (NOT MINIMAL_BUILD)
 find_package(MKL) 
+endif()
 # ==============================================================================
 if (NOT WITHOUT_HELP_TOOLS_MODULE)
 find_package(LibXml2 REQUIRED)
@@ -261,7 +263,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux)
 endif()
 # =============================================================================
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 include(MacOsConfig)
+endif()
 # ==============================================================================
 set(INSTALL_DIRECTORY
     "${CMAKE_INSTALL_PREFIX}Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}"

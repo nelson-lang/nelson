@@ -46,9 +46,7 @@ list(APPEND
   TEXT_COMPLETION
   CHARACTERS_ENCODING)
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
-
-else()
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
   foreach(mod ${without_module})
     if (WITHOUT_${mod}_MODULE)
       set(WITH_${mod}_MODULE "false")
@@ -61,10 +59,7 @@ else()
                  "${CMAKE_SOURCE_DIR}/modules/modules.m")
 endif()
 # ==============================================================================
-if(EXISTS ${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h)
-
-else()
-
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h)
   if (WITHOUT_OPENMP)
     set(WITH_OPENMP 0)
   else()

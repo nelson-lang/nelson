@@ -12,17 +12,7 @@ include_directories(${EIGEN_INCLUDE_DIR})
 list(
   APPEND
   moduleslist
-  nelson_manager)
-# ==============================================================================
-if(WITHOUT_I18N_MODULE)
-  list(APPEND moduleslist no-i18n)
-else()
-  list(APPEND moduleslist i18n)
-endif()
-# ==============================================================================
-  list(
-  APPEND
-  moduleslist
+  nelson_manager
   elementary_mathematics
   error_manager
   types
@@ -54,22 +44,22 @@ endif()
   history_manager
   terminal
   handle
-  com_engine
   modules_manager
   engine
-  profiler)
+  profiler
+  mex)
 # ==============================================================================
 list (APPEND
-      modules_partial_disable
-      MEX
+      modules_partially_disabled
       FILE_ARCHIVER
       IPC
       SIO_CLIENT
       CHARACTERS_ENCODING
       LOCALIZATION
+      I18N
       )
 
-foreach(mod ${modules_partial_disable})
+foreach(mod ${modules_partially_disabled})
   string(TOLOWER ${mod} lower_name)
   if(WITHOUT_${mod}_MODULE)
     list(APPEND moduleslist no-${lower_name})
@@ -79,7 +69,7 @@ foreach(mod ${modules_partial_disable})
 endforeach(mod)      
 # ==============================================================================
 list (APPEND
-      modules_easy_to_disable
+      modules_fully_disabled
       GUI
       FFTW
       SLICOT
@@ -110,7 +100,7 @@ list (APPEND
       TEXT_COMPLETION
       )
 
-foreach(mod ${modules_easy_to_disable})
+foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)
     string(TOLOWER ${mod} mod)
     list(APPEND moduleslist ${mod})
