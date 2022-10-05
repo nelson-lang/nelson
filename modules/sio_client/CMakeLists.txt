@@ -11,8 +11,12 @@ set(module_name sio_client)
 set(module_library_name nlsSio_client)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-set(CMAKE_CXX_CLANG_TIDY "")
-# ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include)
+else()
 include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
@@ -27,13 +31,22 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/websocketpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/asio/asio/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/rapidjson/include)
+endif()  
 # ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+file(GLOB SIO_CLIENT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(GLOB SIO_CLIENT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/internal/*.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} SHARED ${SIO_CLIENT_SRC})
 # ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+target_link_libraries(
+  ${module_library_name})
+else()
 target_link_libraries(
   ${module_library_name}
   nlsError_manager
@@ -42,6 +55,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsCharacters_encoding
   nlsI18n)
+endif()
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -50,6 +64,8 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 file(GLOB SIO_CLIENT_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+# ==============================================================================
+if (NOT WITHOUT_SIO_CLIENT_MODULE)
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -79,7 +95,12 @@ set_target_properties(
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================    
+endif()
 # ==============================================================================
+if (WITHOUT_SIO_CLIENT_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -101,4 +122,5 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.m")
+endif()
 # ==============================================================================

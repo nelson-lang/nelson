@@ -69,7 +69,6 @@ list (APPEND
       TRIGONOMETRIC_FUNCTIONS
       POLYNOMIAL_FUNCTIONS
       LOCALIZATION
-      I18N
       RANDOM
       SPECIAL_FUNCTIONS
       TEXT_COMPLETION
@@ -78,6 +77,13 @@ list (APPEND
 foreach(mod ${optional_modules})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
 endforeach(mod)
+# ==============================================================================
+if (MINIMAL_BUILD)
+  set(WITHOUT_OPENMP ON)
+  foreach(mod ${optional_modules})
+    set(WITHOUT_${mod}_MODULE ON)
+  endforeach(mod)
+endif()
 # ==============================================================================
 if (WITHOUT_LOCALIZATION_MODULE)
   set(WITHOUT_I18N_MODULE ON)
@@ -93,13 +99,6 @@ endif()
 if (WITHOUT_DATA_ANALYSIS_MODULE)
   set(WITHOUT_VALIDATORS_MODULE ON)  
   set(WITHOUT_TESTS_MANAGER_MODULE ON)
-endif()
-# ==============================================================================
-if (MINIMAL_BUILD)
-  set(WITHOUT_OPENMP ON)
-  foreach(mod ${optional_modules})
-    set(WITHOUT_${mod}_MODULE ON)
-  endforeach(mod)
 endif()
 # ==============================================================================
 if (LGPL_ONLY)

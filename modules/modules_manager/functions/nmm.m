@@ -11,6 +11,12 @@ function varargout = nmm(varargin)
   if nargin == 0
     error(_('Wrong number of input arguments.'));
   end
+  if ~ismodule('webtools')
+    error(_('nmm required webtools module.'));
+  end
+  if ~ismodule('file_manager')
+    error(_('nmm required file_manager module.'));
+  end
   varargout = {};
   firstParameter = varargin{1};
   if ~isSupportedFirstParameter(firstParameter)

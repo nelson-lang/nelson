@@ -11,9 +11,12 @@ set(module_name file_archiver)
 set(module_library_name nlsFile_archiver)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+if (NOT WITHOUT_FILE_ARCHIVER_MODULE)
 check_include_file(stdint.h HAVE_STDINT_H)
 check_include_file(inttypes.h HAVE_INTTYPES_H)
+endif()
 # ==============================================================================
+if (NOT WITHOUT_FILE_ARCHIVER_MODULE)
 add_definitions(-DMZ_ZIP_NO_ENCRYPTION)
 add_definitions(-DZLIB_COMPAT)
 add_definitions(-DHAVE_ZLIB)
@@ -23,7 +26,12 @@ endif()
 if(HAVE_INTTYPES_H)
   add_definitions(-DHAVE_INTTYPES_H)
 endif()
+endif()
 # ==============================================================================
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
+else()
 include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
@@ -37,7 +45,14 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip)
+endif()
 # ==============================================================================
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+file(
+  GLOB
+  FILE_ARCHIVER_SRC
+  "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(
   GLOB
   FILE_ARCHIVER_SRC
@@ -53,9 +68,14 @@ file(
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_split.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_zlib.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_zip.c")
+endif()  
 # ==============================================================================
 add_library(${module_library_name} SHARED ${FILE_ARCHIVER_SRC})
 # ==============================================================================
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+target_link_libraries(
+  ${module_library_name})
+else()
 target_link_libraries(
   ${module_library_name}
   nlsInterpreter
@@ -67,6 +87,7 @@ target_link_libraries(
   nlsI18n
   ${BOOST_LIBRARIES}
   ${ZLIB_LIBRARIES})
+endif()
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -74,6 +95,8 @@ set_target_properties(
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================
+if (NOT WITHOUT_FILE_ARCHIVER_MODULE)
 # ==============================================================================
 file(GLOB FILE_ARCHIVER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
@@ -106,6 +129,11 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+endif()
+# ==============================================================================
+if (WITHOUT_FILE_ARCHIVER_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -137,4 +165,5 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.zip")
+endif()
 # ==============================================================================

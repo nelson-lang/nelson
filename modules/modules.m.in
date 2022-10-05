@@ -13,7 +13,7 @@ modules_list = {
 {'engine', true};
 {'core', true};
 {'localization', @WITH_LOCALIZATION_MODULE@};
-{'i18n', @WITH_I18N_MODULE@};
+{'i18n', true};
 {'string', true};
 {'debugger', true};
 {'error_manager', true};

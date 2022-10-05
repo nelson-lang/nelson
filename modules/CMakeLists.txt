@@ -13,6 +13,9 @@ list(
   APPEND
   moduleslist
   nelson_manager
+  characters_encoding
+  i18n
+  localization
   elementary_mathematics
   error_manager
   types
@@ -47,26 +50,10 @@ list(
   modules_manager
   engine
   profiler
-  mex)
-# ==============================================================================
-list (APPEND
-      modules_partially_disabled
-      FILE_ARCHIVER
-      IPC
-      SIO_CLIENT
-      CHARACTERS_ENCODING
-      LOCALIZATION
-      I18N
-      )
-
-foreach(mod ${modules_partially_disabled})
-  string(TOLOWER ${mod} lower_name)
-  if(WITHOUT_${mod}_MODULE)
-    list(APPEND moduleslist no-${lower_name})
-  else()
-    list(APPEND moduleslist ${lower_name})
-  endif()
-endforeach(mod)      
+  mex
+  ipc
+  sio_client
+  file_archiver)
 # ==============================================================================
 list (APPEND
       modules_fully_disabled
