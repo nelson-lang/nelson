@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "engine"
-            VALUE "InternalName", "engine"
-            VALUE "OriginalFilename", "libnlsengine.dll"
-            VALUE "ProductName", "Nelson (engine)"
+            VALUE "FileDescription", "no-ipc"
+            VALUE "InternalName", "no-ipc"
+            VALUE "OriginalFilename", "libno-nlsipc.dll"
+            VALUE "ProductName", "Nelson (no-ipc)"
             VALUE "ProductVersion", "0,6,9,0"
             VALUE "FileVersion", "0,6,9,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"

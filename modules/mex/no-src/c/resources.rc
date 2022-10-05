@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "mex"
-            VALUE "InternalName", "mex"
-            VALUE "OriginalFilename", "libnlmex.dll"
-            VALUE "ProductName", "Nelson (mex)"
+            VALUE "FileDescription", "no-mex"
+            VALUE "InternalName", "no-mex"
+            VALUE "OriginalFilename", "libno-nlsmex.dll"
+            VALUE "ProductName", "Nelson (no-mex)"
             VALUE "ProductVersion", "0,6,9,0"
             VALUE "FileVersion", "0,6,9,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"

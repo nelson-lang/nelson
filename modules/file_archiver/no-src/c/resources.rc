@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "file_archiver"
-            VALUE "InternalName", "file_archiver"
-            VALUE "OriginalFilename", "libnlsfile_archiver.dll"
-            VALUE "ProductName", "Nelson (file_archiver)"
+            VALUE "FileDescription", "no-file_archiver"
+            VALUE "InternalName", "no-file_archiver"
+            VALUE "OriginalFilename", "libno-nlsfile_archiver.dll"
+            VALUE "ProductName", "Nelson (no-file_archiver)"
             VALUE "ProductVersion", "0,6,9,0"
             VALUE "FileVersion", "0,6,9,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"

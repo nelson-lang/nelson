@@ -9,9 +9,6 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
-#pragma comment(lib, "icuuc.lib")
-#pragma comment(lib, "icuin.lib")
-//=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

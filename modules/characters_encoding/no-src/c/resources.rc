@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "characters_encoding"
-            VALUE "InternalName", "characters_encoding"
-            VALUE "OriginalFilename", "libnlscharacters_encoding.dll"
-            VALUE "ProductName", "Nelson (characters_encoding)"
+            VALUE "FileDescription", "no-characters_encoding"
+            VALUE "InternalName", "no-characters_encoding"
+            VALUE "OriginalFilename", "libno-nlscharacters_encoding.dll"
+            VALUE "ProductName", "Nelson (no-characters_encoding)"
             VALUE "ProductVersion", "0,6,9,0"
             VALUE "FileVersion", "0,6,9,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"

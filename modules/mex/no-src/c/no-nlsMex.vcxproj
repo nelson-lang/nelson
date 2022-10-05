@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A3EEB626-83DB-426D-B483-37A478EE8166}</ProjectGuid>
+    <ProjectGuid>{F274199D-43E9-4606-889D-426D5A01D188}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsMex</RootNamespace>
+    <RootNamespace>no-nlsMex</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSMEX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/no-src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -113,7 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSMEX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/no-src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -134,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSMEX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/no-src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSMEX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/mex/no-src/include;$(SolutionDir)modules/mex/src/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -172,29 +172,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\Engine.cpp" />
-    <ClCompile Include="..\cpp\Mex.cpp" />
-    <ClCompile Include="..\cpp\MxArrayOf.cpp" />
-    <ClCompile Include="..\cpp\MxAsserts.cpp" />
-    <ClCompile Include="..\cpp\MxAttributes.cpp" />
     <ClCompile Include="..\cpp\MxCall.cpp" />
-    <ClCompile Include="..\cpp\MxCallBuitin.cpp" />
-    <ClCompile Include="..\cpp\MxCell.cpp" />
-    <ClCompile Include="..\cpp\MxCharacter.cpp" />
-    <ClCompile Include="..\cpp\MxComplexFloat.cpp" />
-    <ClCompile Include="..\cpp\MxConstants.cpp" />
-    <ClCompile Include="..\cpp\MxHelpers.cpp" />
-    <ClCompile Include="..\cpp\MxInteger.cpp" />
-    <ClCompile Include="..\cpp\MxInterleavedComplex.cpp" />
-    <ClCompile Include="..\cpp\MxLogical.cpp" />
     <ClCompile Include="..\cpp\MxMemory.cpp" />
-    <ClCompile Include="..\cpp\MxNonComplexFloat.cpp" />
-    <ClCompile Include="..\cpp\MxNonNumericTypes.cpp" />
-    <ClCompile Include="..\cpp\MxNumericTypes.cpp" />
-    <ClCompile Include="..\cpp\MxObject.cpp" />
-    <ClCompile Include="..\cpp\MxSparse.cpp" />
-    <ClCompile Include="..\cpp\MxStruct.cpp" />
-    <ClCompile Include="..\cpp\MxVariables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -238,33 +217,8 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\MxHelpers.hpp" />
-    <ClInclude Include="..\include\engine.h" />
-    <ClInclude Include="..\include\matrix.h" />
-    <ClInclude Include="..\include\MxArrayOf.hpp" />
-    <ClInclude Include="..\include\MxAsserts.h" />
-    <ClInclude Include="..\include\MxAttributes.h" />
     <ClInclude Include="..\include\MxCall.h" />
-    <ClInclude Include="..\include\MxCallBuiltin.hpp" />
-    <ClInclude Include="..\include\MxCell.h" />
-    <ClInclude Include="..\include\MxCharacter.h" />
-    <ClInclude Include="..\include\MxComplexFloat.h" />
-    <ClInclude Include="..\include\MxConstants.h" />
-    <ClInclude Include="..\include\MxGetExtension.hpp" />
-    <ClInclude Include="..\include\MxInteger.h" />
-    <ClInclude Include="..\include\MxInterleavedComplex.h" />
-    <ClInclude Include="..\include\MxLogical.h" />
-    <ClInclude Include="..\include\MxMemory.h" />
-    <ClInclude Include="..\include\MxNonComplexFloat.h" />
-    <ClInclude Include="..\include\MxNonNumericTypes.h" />
-    <ClInclude Include="..\include\MxNumericTypes.h" />
-    <ClInclude Include="..\include\MxObject.h" />
-    <ClInclude Include="..\include\MxSparse.h" />
-    <ClInclude Include="..\include\MxStruct.h" />
-    <ClInclude Include="..\include\MxTypes.h" />
-    <ClInclude Include="..\include\MxVariables.h" />
     <ClInclude Include="..\include\NLSMEX_EXPORTS.h" />
-    <ClInclude Include="..\include\mex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

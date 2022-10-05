@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 include_directories(${EIGEN_INCLUDE_DIR})
@@ -55,44 +54,44 @@ list(
   sio_client
   file_archiver)
 # ==============================================================================
-list (APPEND
-      modules_fully_disabled
-      GUI
-      FFTW
-      SLICOT
-      F2C
-      MPI
-      AUDIO
-      WEBTOOLS
-      PARALLEL
-      GRAPHICS
-      QML_ENGINE
-      SIGNAL_PROCESSING
-      VALIDATORS
-      HDF5
-      MATIO
-      HELP_TOOLS
-      HELP_BROWSER
-      TEXT_EDITOR
-      DYNAMIC_LINK
-      TESTS_MANAGER
-      JSON
-      NIG
-      ASSERT_FUNCTIONS
-      STATISTICS
-      TRIGONOMETRIC_FUNCTIONS
-      POLYNOMIAL_FUNCTIONS
-      RANDOM
-      SPECIAL_FUNCTIONS
-      TEXT_COMPLETION
-      )
+list(
+  APPEND
+  modules_fully_disabled
+  GUI
+  FFTW
+  SLICOT
+  F2C
+  MPI
+  AUDIO
+  WEBTOOLS
+  PARALLEL
+  GRAPHICS
+  QML_ENGINE
+  SIGNAL_PROCESSING
+  VALIDATORS
+  HDF5
+  MATIO
+  HELP_TOOLS
+  HELP_BROWSER
+  TEXT_EDITOR
+  DYNAMIC_LINK
+  TESTS_MANAGER
+  JSON
+  NIG
+  ASSERT_FUNCTIONS
+  STATISTICS
+  TRIGONOMETRIC_FUNCTIONS
+  POLYNOMIAL_FUNCTIONS
+  RANDOM
+  SPECIAL_FUNCTIONS
+  TEXT_COMPLETION)
 
 foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)
     string(TOLOWER ${mod} mod)
     list(APPEND moduleslist ${mod})
   endif()
-endforeach(mod)      
+endforeach(mod)
 # ==============================================================================
 list(APPEND moduleslist main)
 # ==============================================================================

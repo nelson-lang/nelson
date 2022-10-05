@@ -66,6 +66,10 @@ checks.json
 /modules/*/builtin/c/Release
 /modules/*/builtin/c/Intel_SSA
 /modules/*/builtin/c/r000sc
+/modules/*/no-src/c/x64
+/modules/*/no-src/c/Debug
+/modules/*/no-src/c/Release
+
 /modules/*/src/c/x64
 /modules/*/src/c/Debug
 /modules/*/src/c/Release
