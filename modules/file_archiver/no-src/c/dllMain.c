@@ -9,15 +9,6 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
-#include "nlsConfig.h"
-//=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_chrono-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_date_time-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, "zlib.lib")
-//=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
