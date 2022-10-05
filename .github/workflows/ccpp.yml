@@ -762,4 +762,3 @@ jobs:
         with:
           name: nelson-github-action-artifacts-windows-amd64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
           path: artifacts/
-
