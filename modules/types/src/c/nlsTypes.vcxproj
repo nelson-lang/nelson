@@ -285,6 +285,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
+    <CustomBuild Include="..\include\nlsConfig.h.vc">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

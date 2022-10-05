@@ -18,9 +18,6 @@
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FindDynamicLibraryName.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\DynamicLinkLibraryObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\include\nlsDynamic_link_exports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\FindDynamicLibraryName.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\DynamicLinkLibraryObject.hpp">

@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\AddGateway.cpp" />
     <ClCompile Include="..\cpp\AddModule.cpp" />
     <ClCompile Include="..\cpp\CompareVersions.cpp" />
+    <ClCompile Include="..\cpp\FindDynamicLibraryName.cpp" />
     <ClCompile Include="..\cpp\GatewayInfo.cpp" />
     <ClCompile Include="..\cpp\GatewaysManager.cpp" />
     <ClCompile Include="..\cpp\GetExternaModulesPath.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="..\..\src\include\nlsModules_manager_exports.h" />
     <ClInclude Include="..\include\AddGateway.hpp" />
     <ClInclude Include="..\include\CompareVersions.hpp" />
+    <ClInclude Include="..\include\FindDynamicLibraryName.hpp" />
     <ClInclude Include="..\include\GatewayInfo.hpp" />
     <ClInclude Include="..\include\GatewaysManager.hpp" />
     <ClInclude Include="..\include\GetExternalModulesPath.hpp" />
