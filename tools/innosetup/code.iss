@@ -76,14 +76,34 @@ begin
   end;
 end;
 //=============================================================================
-procedure updateModulesList();
-	begin;
-    if not WizardIsComponentSelected('slicot') then
-      begin;
+function configureSlicot() : boolean;
+begin
+    result := false;
+    if not WizardIsComponentSelected('SLICOT') then
+      begin
         FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
         '{''slicot'', true};', 
         '{''slicot'', false};');
-      end;
+        result := true;
+      end
+end;
+//=============================================================================
+function configureSioClient() : boolean;
+begin
+    result := false;
+    if not WizardIsComponentSelected('SIO_CLIENT') then
+      begin
+        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
+        '{''sio_client'', true};', 
+        '{''sio_client'', false};');
+        result := true;
+      end
+end;
+//=============================================================================
+procedure updateModulesList();
+	begin;
+    configureSlicot();
+    configureSioClient();
 	end;
 //=============================================================================
 procedure AfterNelsonInstall();

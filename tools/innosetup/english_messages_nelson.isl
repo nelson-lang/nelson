@@ -12,6 +12,8 @@ english.LANGUAGE = English
 ;==============================================================================
 english.SLICOT_MODULE = SLICOT Library v5.0.0 (GPL v2 license)
 ;==============================================================================
+english.SIO_CLIENT_MODULE = Nelson in the cloud (server)
+;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
 english.ASSOCIATE_M_FILE = Associate .m files with Nelson

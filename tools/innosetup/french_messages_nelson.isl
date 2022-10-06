@@ -11,6 +11,7 @@ french.LANGUAGE = Français
 ;
 ;==============================================================================
 french.SLICOT_MODULE = Bibliotheque SLICOT v5.0.0 (licence GPL v2)
+french.SIO_CLIENT_MODULE = Nelson dans le Cloud (serveur)
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

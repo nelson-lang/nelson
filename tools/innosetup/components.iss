@@ -16,4 +16,7 @@ Name: {#COMPONENT_CPU_OPTIMIZATION}; Description:{cm:CPU_OPTIMIZATION_FOR_NELSON
 #define COMPONENT_SLICOT 'SLICOT'
 Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full;
 ;==============================================================================
+#define COMPONENT_SIO_CLIENT 'SIO_CLIENT'
+Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full compact;
+;==============================================================================
 
