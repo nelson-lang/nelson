@@ -13,10 +13,13 @@ Name: {#COMPONENT_NELSON}; Description: Nelson {#APPLICATION_VERSION}; Types: fu
 #define COMPONENT_CPU_OPTIMIZATION 'CPU_OPTIMIZATION'
 Name: {#COMPONENT_CPU_OPTIMIZATION}; Description:{cm:CPU_OPTIMIZATION_FOR_NELSON}; Types: full compact custom; Flags: fixed;
 ;==============================================================================
+#define COMPONENT_FFTW 'FFTW'
+Name: {#COMPONENT_FFTW}; Description:{cm:FFTW_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_SLICOT 'SLICOT'
-Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full;
+Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full custom;
 ;==============================================================================
 #define COMPONENT_SIO_CLIENT 'SIO_CLIENT'
-Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full compact;
+Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full custom;
 ;==============================================================================
 

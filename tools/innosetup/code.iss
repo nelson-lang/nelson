@@ -76,6 +76,18 @@ begin
   end;
 end;
 //=============================================================================
+function configureFftw() : boolean;
+begin
+    result := false;
+    if not WizardIsComponentSelected('FFTW') then
+      begin
+        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
+        '{''fftw'', true}', 
+        '{''fftw'', false}');
+        result := true;
+      end
+end;
+//=============================================================================
 function configureSlicot() : boolean;
 begin
     result := false;
@@ -104,6 +116,7 @@ procedure updateModulesList();
 	begin;
     configureSlicot();
     configureSioClient();
+    configureFftw();
 	end;
 //=============================================================================
 procedure AfterNelsonInstall();

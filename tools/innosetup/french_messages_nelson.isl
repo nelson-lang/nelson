@@ -8,10 +8,10 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 french.LANGUAGE = Français
-;
 ;==============================================================================
-french.SLICOT_MODULE = Bibliotheque SLICOT v5.0.0 (licence GPL v2)
+french.SLICOT_MODULE = SLICOT(GPL v2 license)
 french.SIO_CLIENT_MODULE = Nelson dans le Cloud (serveur)
+english.FFTW_MODULE = FFTW (GPL v2 license)
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

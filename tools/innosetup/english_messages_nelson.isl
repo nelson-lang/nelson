@@ -8,9 +8,10 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 english.LANGUAGE = English
-;
 ;==============================================================================
-english.SLICOT_MODULE = SLICOT Library v5.0.0 (GPL v2 license)
+english.FFTW_MODULE = Fastest Fourier Transform in the West (GPL v2 license)
+;==============================================================================
+english.SLICOT_MODULE = Subroutine Library in Systems and Control Theory (GPL v2 license)
 ;==============================================================================
 english.SIO_CLIENT_MODULE = Nelson in the cloud (server)
 ;==============================================================================
