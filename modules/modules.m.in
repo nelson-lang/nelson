@@ -74,7 +74,7 @@ modules_list = {
 {'signal_processing', @WITH_SIGNAL_PROCESSING_MODULE@};
 {'com_engine', false};
 {'slicot', @WITH_SLICOT_MODULE@};
-{'fftw', @WITH_FFTW_MODULE@}
+{'fftw', @WITH_FFTW_MODULE@};
 };
 % ============================================================================
 % modules sorted for help

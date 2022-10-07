@@ -14,7 +14,13 @@ english.SLICOT_MODULE = Subroutine Library in Systems and Control Theory (GPL v2
 english.SIO_CLIENT_MODULE = Nelson in the cloud (server)
 english.UNIT_TESTS = Unit testing
 english.HELP_FILES = Help files
-english.MODULE_SKELETON=Module template
+english.MODULE_SKELETON=Module template (to extend Nelson)
+english.MEX_MODULE=MEX Library API Compatibility
+english.GRAPHICS_MODULE=Plotting 2D/3D module
+english.MPI_MODULE=Message Passing Interface Module
+english.PARALLEL_MODULE=Parallel Computing Module
+english.TEXT_EDITOR_MODULE=Integrate Text editor
+;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
 english.ASSOCIATE_M_FILE = Associate .m files with Nelson

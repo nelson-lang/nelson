@@ -14,6 +14,12 @@ french.SIO_CLIENT_MODULE = Nelson dans le Cloud (serveur)
 french.FFTW_MODULE = Transformée de Fourier module (FFTW)
 french.UNIT_TESTS = Tests unitaires
 french.HELP_FILES = Fichiers d'aide
+french.MODULE_SKELETON = Modèle de boite à outils (pour étendre Nelson)
+french.MEX_MODULE=Bibliothéque MEX API Compatible
+french.GRAPHICS_MODULE=Tracés - courbes 2D/3D module
+french.MPI_MODULE=Message Passing Interface Module
+french.PARALLEL_MODULE=Module de calcul parallèle
+french.TEXT_EDITOR_MODULE=Editeur de texte intégré
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

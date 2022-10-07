@@ -74,7 +74,7 @@ modules_list = {
 {'signal_processing', true};
 {'com_engine', true};
 {'slicot', true};
-{'fftw', true}
+{'fftw', true};
 };
 % ============================================================================
 % modules sorted for help

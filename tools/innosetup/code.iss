@@ -76,47 +76,38 @@ begin
   end;
 end;
 //=============================================================================
-function configureFftw() : boolean;
+function configureModule(const COMPONENT_NAME, MODULE_NAME: string) : boolean;
 begin
     result := false;
-    if not WizardIsComponentSelected('FFTW') then
+    if not WizardIsComponentSelected(COMPONENT_NAME) then
       begin
         FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''fftw'', true}', 
-        '{''fftw'', false}');
-        result := true;
-      end
-end;
-//=============================================================================
-function configureSlicot() : boolean;
-begin
-    result := false;
-    if not WizardIsComponentSelected('SLICOT') then
-      begin
-        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''slicot'', true};', 
-        '{''slicot'', false};');
-        result := true;
-      end
-end;
-//=============================================================================
-function configureSioClient() : boolean;
-begin
-    result := false;
-    if not WizardIsComponentSelected('SIO_CLIENT') then
-      begin
-        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''sio_client'', true};', 
-        '{''sio_client'', false};');
+        '{''' + MODULE_NAME + ''', true};', 
+        '{''' + MODULE_NAME + ''', false};');
         result := true;
       end
 end;
 //=============================================================================
 procedure updateModulesList();
+var
+    ModulesList: TStringList;
+	  I : Integer;
+
 	begin;
-    configureSlicot();
-    configureSioClient();
-    configureFftw();
+    ModulesList := TStringList.Create;
+    ModulesList.Add('TEXT_EDITOR');
+    ModulesList.Add('PARALLEL');
+    ModulesList.Add('MPI');
+    ModulesList.Add('GRAPHICS');
+    ModulesList.Add('SIO_CLIENT');
+    ModulesList.Add('SLICOT');
+    ModulesList.Add('FFTW');
+
+    for I := 0 to ModulesList.Count - 1 do
+      begin;
+         configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
+      end;
+    ModulesList.Free;
 	end;
 //=============================================================================
 procedure AfterNelsonInstall();

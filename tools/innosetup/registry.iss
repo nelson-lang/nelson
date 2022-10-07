@@ -27,7 +27,7 @@ Root: HKCR; Subkey: {#M_ENTRY}; ValueType: string; ValueData: {#APPLICATION_EXTE
 Root: HKCR; Subkey: {#M_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: string; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_M}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_M})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_M}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_M_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;
-Root: HKCR; Subkey: {#APPLICATION_EXTENSION_M}\shell\open\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_M}\shell\open\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;Components: {#COMPONENT_TEXT_EDITOR};
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_M}\shell\{cm:RegKeyRunWith} Nelson\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_EXECUTE} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMFiles;
 ;==============================================================================
 ;*.nh5
