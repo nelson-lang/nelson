@@ -22,4 +22,12 @@ Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full custom;
 #define COMPONENT_SIO_CLIENT 'SIO_CLIENT'
 Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full custom;
 ;==============================================================================
-
+#define COMPONENT_UNIT_TESTS 'UNIT_TESTS'
+Name: {#COMPONENT_UNIT_TESTS}; Description:{cm:UNIT_TESTS}; Types: full custom;
+;==============================================================================
+#define COMPONENT_HELP_FILES 'HELP_FILES'
+Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
+;==============================================================================
+#define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
+Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full custom;
+;==============================================================================

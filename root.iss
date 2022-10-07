@@ -22,20 +22,20 @@ Source: {#RootPath}CLA.md; DestDir: {app}\
 ;==============================================================================
 #define MODULE_NAME "module_skeleton"
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\loader.m; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}\{#MODULE_NAME}\builder.m; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\loader.m; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
+Source: {#RootPath}\{#MODULE_NAME}\builder.m; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
+Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
+Source: {#RootPath}\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\functions\*.m; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\functions\*.m; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
+Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\src\*.*; DestDir: {app}\{#MODULE_NAME}\src\; Flags: recursesubdirs skipifsourcedoesntexist
-Source: {#RootPath}\{#MODULE_NAME}\builtin\*.*; DestDir: {app}\{#MODULE_NAME}\builtin\; Flags: recursesubdirs skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\src\*.*; DestDir: {app}\{#MODULE_NAME}\src\; Flags: recursesubdirs skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
+Source: {#RootPath}\{#MODULE_NAME}\builtin\*.*; DestDir: {app}\{#MODULE_NAME}\builtin\; Flags: recursesubdirs skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\tests\*.m; DestDir: {app}\{#MODULE_NAME}\tests\; Flags: recursesubdirs skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\tests\*.m; DestDir: {app}\{#MODULE_NAME}\tests\; Flags: recursesubdirs skipifsourcedoesntexist;Components: {#COMPONENT_MODULE_SKELETON};
 ;==============================================================================

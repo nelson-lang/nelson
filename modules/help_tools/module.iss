@@ -30,9 +30,9 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\style.css; DestDir: {app}\mo
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_FILES};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml; Flags: recursesubdirs;Components: {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
