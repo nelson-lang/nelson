@@ -9,17 +9,18 @@
 ;==============================================================================
 french.LANGUAGE = Français
 ;==============================================================================
-french.SLICOT_MODULE = SLICOT module (GPL v2 license)
-french.SIO_CLIENT_MODULE = Nelson dans le Cloud (serveur)
-french.FFTW_MODULE = Transformée de Fourier module (FFTW)
-french.UNIT_TESTS = Tests unitaires
-french.HELP_FILES = Fichiers d'aide
-french.MODULE_SKELETON = Modèle de boite à outils (pour étendre Nelson)
+french.SLICOT_MODULE=SLICOT module (GPL v2 license)
+french.SIO_CLIENT_MODULE=Nelson dans le Cloud (serveur)
+french.FFTW_MODULE=Transformée de Fourier module (FFTW)
+french.UNIT_TESTS=Tests unitaires
+french.MODULE_SKELETON=Modèle de boite à outils (pour étendre Nelson)
 french.MEX_MODULE=Bibliothéque MEX API Compatible
 french.GRAPHICS_MODULE=Tracés - courbes 2D/3D module
-french.MPI_MODULE=Message Passing Interface Module
+french.MPI_MODULE=Module de calcul distribué
 french.PARALLEL_MODULE=Module de calcul parallèle
 french.TEXT_EDITOR_MODULE=Editeur de texte intégré
+french.HELP_BROWSER_MODULE=Visualiseur des fichiers d'aide
+french.HELP_FILES=Fichiers d'aide
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

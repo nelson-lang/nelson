@@ -25,9 +25,6 @@ Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full  
 #define COMPONENT_UNIT_TESTS 'UNIT_TESTS'
 Name: {#COMPONENT_UNIT_TESTS}; Description:{cm:UNIT_TESTS}; Types: full  compact custom;
 ;==============================================================================
-#define COMPONENT_HELP_FILES 'HELP_FILES'
-Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full  compact custom;
-;==============================================================================
 #define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
 Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full  compact custom;
 ;==============================================================================
@@ -45,4 +42,10 @@ Name: {#COMPONENT_PARALLEL}; Description:{cm:PARALLEL_MODULE}; Types: full  comp
 ;==============================================================================
 #define COMPONENT_TEXT_EDITOR 'TEXT_EDITOR'
 Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full  compact custom;
+;==============================================================================
+#define COMPONENT_HELP_BROWSER 'HELP_BROWSER'
+Name: {#COMPONENT_HELP_BROWSER}; Description:{cm:HELP_BROWSER_MODULE}; Types: full  compact custom;
+;==============================================================================
+#define COMPONENT_HELP_FILES 'HELP_FILES'
+Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full  compact custom;
 ;==============================================================================

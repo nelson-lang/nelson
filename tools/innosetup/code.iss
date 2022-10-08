@@ -82,8 +82,8 @@ begin
     if not WizardIsComponentSelected(COMPONENT_NAME) then
       begin
         FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''' + MODULE_NAME + ''', true};', 
-        '{''' + MODULE_NAME + ''', false};');
+        '{''' + MODULE_NAME + ''', true', 
+        '{''' + MODULE_NAME + ''', false');
         result := true;
       end
 end;
@@ -102,6 +102,7 @@ var
     ModulesList.Add('SIO_CLIENT');
     ModulesList.Add('SLICOT');
     ModulesList.Add('FFTW');
+    ModulesList.Add('HELP_BROWSER');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;
