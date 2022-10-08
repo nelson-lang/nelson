@@ -25,7 +25,8 @@ function buildhelp(varargin)
   if nargin() == 0
     helpForNelsonOnly()
     run([nelsonroot() '/modules/' 'modules.m']);
-    
+    funcList = str2func('@(x) x{1}');
+    modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
     for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
