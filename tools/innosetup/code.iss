@@ -95,15 +95,18 @@ var
 
 	begin;
     ModulesList := TStringList.Create;
-    ModulesList.Add('TEXT_EDITOR');
     ModulesList.Add('PARALLEL');
     ModulesList.Add('MPI');
-    ModulesList.Add('GRAPHICS');
+    ModulesList.Add('DYNAMIC_LINK');
+    ModulesList.Add('MEX');
     ModulesList.Add('SIO_CLIENT');
     ModulesList.Add('SLICOT');
     ModulesList.Add('FFTW');
+    ModulesList.Add('GUI');
     ModulesList.Add('HELP_BROWSER');
     ModulesList.Add('QML_ENGINE');
+    ModulesList.Add('GRAPHICS');
+    ModulesList.Add('TEXT_EDITOR');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;

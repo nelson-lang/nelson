@@ -28,17 +28,26 @@ Name: {#COMPONENT_UNIT_TESTS}; Description:{cm:UNIT_TESTS}; Types: full custom;
 #define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
 Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_DYNAMIC_LINK 'DYNAMIC_LINK'
+Name: {#COMPONENT_DYNAMIC_LINK}; Description:{cm:DYNAMIC_LINK_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_MEX 'MEX'
 Name: {#COMPONENT_MEX}; Description:{cm:MEX_MODULE}; Types: full custom;
-;==============================================================================
-#define COMPONENT_GRAPHICS 'GRAPHICS'
-Name: {#COMPONENT_GRAPHICS}; Description:{cm:GRAPHICS_MODULE}; Types: full custom;
 ;==============================================================================
 #define COMPONENT_MPI 'MPI'
 Name: {#COMPONENT_MPI}; Description:{cm:MPI_MODULE}; Types: full custom;
 ;==============================================================================
 #define COMPONENT_PARALLEL 'PARALLEL'
 Name: {#COMPONENT_PARALLEL}; Description:{cm:PARALLEL_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_GUI 'GUI'
+Name: {#COMPONENT_GUI}; Description:{cm:GUI_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_QML_ENGINE 'QML_ENGINE'
+Name: {#COMPONENT_QML_ENGINE}; Description:{cm:QML_ENGINE_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_GRAPHICS 'GRAPHICS'
+Name: {#COMPONENT_GRAPHICS}; Description:{cm:GRAPHICS_MODULE}; Types: full custom;
 ;==============================================================================
 #define COMPONENT_TEXT_EDITOR 'TEXT_EDITOR'
 Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full custom;
@@ -48,7 +57,4 @@ Name: {#COMPONENT_HELP_BROWSER}; Description:{cm:HELP_BROWSER_MODULE}; Types: fu
 ;==============================================================================
 #define COMPONENT_HELP_FILES 'HELP_FILES'
 Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
-;==============================================================================
-#define COMPONENT_QML_ENGINE 'QML_ENGINE'
-Name: {#COMPONENT_QML_ENGINE}; Description:{cm:QML_ENGINE_MODULE}; Types: full custom;
 ;==============================================================================
