@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.10 (UNRELEASED)
 
+### Added
+
+- [#750](http://github.com/Nelson-numerical-software/nelson/issues/750): Qt 6.4.0 support (win64 release embed Qt6.4.0).
+
 ### Fixed
 
 - [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.

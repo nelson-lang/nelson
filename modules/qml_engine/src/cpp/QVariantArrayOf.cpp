@@ -198,7 +198,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QMetaType::Type::QByteArray: {
         QByteArray qbytearray = Q.toByteArray();
-        int count = qbytearray.count();
+        int count = qbytearray.length();
         const char* data = qbytearray.data();
         int8* arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, count, stringVector(), false);
         for (size_t k = 0; k < (size_t)count; k++) {
@@ -629,7 +629,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
         QByteArray qbytearray((int)dimsA.getElementCount(), ' ');
-        int count = qbytearray.count();
+        int count = qbytearray.length();
         char* data = qbytearray.data();
         for (int k = 0; k < count; k++) {
             data[k] = (char)arrayInt8[k];
