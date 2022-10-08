@@ -103,6 +103,7 @@ var
     ModulesList.Add('SLICOT');
     ModulesList.Add('FFTW');
     ModulesList.Add('HELP_BROWSER');
+    ModulesList.Add('QML_ENGINE');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;

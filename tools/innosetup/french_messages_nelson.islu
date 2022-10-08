@@ -7,7 +7,11 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-french.LANGUAGE = Français
+french.LANGUAGE=Français
+;==============================================================================
+french.FULL_INSTALL_TYPE=Installation complete
+french.CUSTOM_INSTALL_TYPE=Installation personalisée
+french.MINIMAL_INSTALL_TYPE=Installation minimal (sans interface graphique)
 ;==============================================================================
 french.SLICOT_MODULE=SLICOT module (GPL v2 license)
 french.SIO_CLIENT_MODULE=Nelson dans le Cloud (serveur)
@@ -21,6 +25,7 @@ french.PARALLEL_MODULE=Module de calcul parallèle
 french.TEXT_EDITOR_MODULE=Editeur de texte intégré
 french.HELP_BROWSER_MODULE=Visualiseur des fichiers d'aide
 french.HELP_FILES=Fichiers d'aide
+french.QML_ENGINE_MODULE=Interface QML pour Nelson
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

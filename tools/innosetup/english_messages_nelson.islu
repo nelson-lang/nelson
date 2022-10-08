@@ -9,6 +9,10 @@
 ;==============================================================================
 english.LANGUAGE = English
 ;==============================================================================
+english.FULL_INSTALL_TYPE=Full install
+english.CUSTOM_INSTALL_TYPE=Custom install
+english.MINIMAL_INSTALL_TYPE=Minimal install (no gui)
+;==============================================================================
 english.FFTW_MODULE=Fastest Fourier Transform module(FFTW)
 english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory (GPL v2 license)
 english.SIO_CLIENT_MODULE=Nelson in the cloud (server)
@@ -21,6 +25,7 @@ english.PARALLEL_MODULE=Parallel Computing Module
 english.TEXT_EDITOR_MODULE=Integrate Text editor
 english.HELP_BROWSER_MODULE=Help viewer
 english.HELP_FILES=Help files
+english.QML_ENGINE_MODULE=QML Interface for Nelson
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
