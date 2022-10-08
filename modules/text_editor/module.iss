@@ -22,8 +22,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.*; DestDir: {app}\modules\
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.ref; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.ref; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 

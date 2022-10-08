@@ -9,13 +9,14 @@
 ;==============================================================================
 french.LANGUAGE=Français
 ;==============================================================================
-french.FULL_INSTALL_TYPE=Installation complete
+french.FULL_INSTALL_TYPE=Installation complète
 french.CUSTOM_INSTALL_TYPE=Installation personalisée
-french.MINIMAL_INSTALL_TYPE=Installation minimal (sans interface graphique)
+french.MINIMAL_INSTALL_TYPE=Installation minimale (sans interface graphique)
 ;==============================================================================
 french.SLICOT_MODULE=SLICOT module (GPL v2 license)
 french.SIO_CLIENT_MODULE=Nelson dans le Cloud (serveur)
 french.FFTW_MODULE=Transformée de Fourier module (FFTW)
+french.TESTS_MANAGER_MODULE=Module de framework de tests
 french.UNIT_TESTS=Tests unitaires
 french.MODULE_SKELETON=Modèle de boite à outils (pour étendre Nelson)
 french.MEX_MODULE=Bibliothéque MEX API Compatible
@@ -28,6 +29,9 @@ french.HELP_BROWSER_MODULE=Visualiseur des fichiers d'aide
 french.HELP_FILES=Fichiers d'aide
 french.QML_ENGINE_MODULE=Interface QML pour Nelson
 french.GUI_MODULE=GUI module
+french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné..
+french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.
+french.MESSAGEBOX_HELP_BROWSER_REQUIRED=Le module help_browser doit être sélectionné.
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

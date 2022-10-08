@@ -107,6 +107,7 @@ var
     ModulesList.Add('QML_ENGINE');
     ModulesList.Add('GRAPHICS');
     ModulesList.Add('TEXT_EDITOR');
+    ModulesList.Add('TESTS_MANAGER');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;
@@ -271,3 +272,46 @@ begin
      end;
 end;
 //=============================================================================
+function NextButtonClick(CurPageID: Integer): Boolean;
+  Var
+    bRes : Boolean;
+
+  begin
+    Result := true;
+
+    if (CurPageId = wpSelectComponents) then
+      begin
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_GUI}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_QML_ENGINE}')) = true) or
+          (IsComponentSelected(ExpandConstant('{#COMPONENT_TEXT_EDITOR}')) = true) or 
+          (IsComponentSelected(ExpandConstant('{#COMPONENT_HELP_BROWSER}')) = true) or  
+          (IsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')) = true) )) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_GUI_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_TESTS_MANAGER}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_UNIT_TESTS}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_TESTS_MANAGER_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_HELP_BROWSER}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_HELP_FILES}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HELP_BROWSER_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+
+      end;
+  end;

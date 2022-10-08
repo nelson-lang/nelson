@@ -16,6 +16,7 @@ english.MINIMAL_INSTALL_TYPE=Minimal install (no gui)
 english.FFTW_MODULE=Fastest Fourier Transform module(FFTW)
 english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory (GPL v2 license)
 english.SIO_CLIENT_MODULE=Nelson in the cloud (server)
+english.TESTS_MANAGER_MODULE=Testing Framework
 english.UNIT_TESTS=Unit testing
 english.MODULE_SKELETON=Module template (to extend Nelson)
 english.DYNAMIC_LINK_MODULE=Nelson native addon build tool module
@@ -28,6 +29,10 @@ english.HELP_BROWSER_MODULE=Help viewer
 english.HELP_FILES=Help files
 english.QML_ENGINE_MODULE=QML Interface for Nelson
 english.GUI_MODULE=GUI module
+english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
+english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager must be selected.
+english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser must be selected.
+
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================

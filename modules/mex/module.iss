@@ -25,8 +25,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.c; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};

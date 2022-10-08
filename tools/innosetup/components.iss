@@ -22,6 +22,9 @@ Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full custom;
 #define COMPONENT_SIO_CLIENT 'SIO_CLIENT'
 Name: {#COMPONENT_SIO_CLIENT}; Description:{cm:SIO_CLIENT_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_TESTS_MANAGER 'TESTS_MANAGER'
+Name: {#COMPONENT_TESTS_MANAGER}; Description:{cm:TESTS_MANAGER_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_UNIT_TESTS 'UNIT_TESTS'
 Name: {#COMPONENT_UNIT_TESTS}; Description:{cm:UNIT_TESTS}; Types: full custom;
 ;==============================================================================
