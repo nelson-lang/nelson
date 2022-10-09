@@ -109,6 +109,8 @@ var
     ModulesList.Add('TEXT_EDITOR');
     ModulesList.Add('TESTS_MANAGER');
     ModulesList.Add('COM_ENGINE');
+    ModulesList.Add('VALIDATORS');
+    ModulesList.Add('DATA_ANALYSIS');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;
@@ -314,6 +316,15 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           ( (IsComponentSelected(ExpandConstant('{#COMPONENT_HELP_FILES}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HELP_BROWSER_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_DATA_ANALYSIS}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_VALIDATORS}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_DATA_ANALYSIS_REQUIRED'),
                 mbError, MB_OK, MB_OK );
             Result := false;
           end;

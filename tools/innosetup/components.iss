@@ -64,6 +64,12 @@ Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
 #define COMPONENT_INTERNATIONALIZATION 'INTERNATIONALIZATION'
 Name: {#COMPONENT_INTERNATIONALIZATION}; Description:{cm:INTERNATIONALIZATION}; Types: full custom;
 ;==============================================================================
-#define COM_ENGINE 'COM_ENGINE'
+#define COMPONENT_COM_ENGINE 'COM_ENGINE'
 Name: {#COMPONENT_COM_ENGINE}; Description:{cm:COM_ENGINE_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_DATA_ANALYSIS 'DATA_ANALYSIS'
+Name: {#COMPONENT_DATA_ANALYSIS}; Description:{cm:DATA_ANALYSIS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_VALIDATORS 'VALIDATORS'
+Name: {#COMPONENT_VALIDATORS}; Description:{cm:VALIDATORS_MODULE}; Types: full custom;
 ;==============================================================================

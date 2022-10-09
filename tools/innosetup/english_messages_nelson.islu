@@ -31,10 +31,13 @@ english.QML_ENGINE_MODULE=QML Interface for Nelson
 english.GUI_MODULE=GUI module
 english.INTERNATIONALIZATION=Localization and Internationalization
 english.COM_ENGINE_MODULE=Component Object Model Interface with Nelson
+english.DATA_ANALYSIS_MODULE=Data analysis module
+english.VALIDATORS_MODULE=Validators module
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
-english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager must be selected.
-english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser must be selected.
+english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.
+english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser module must be selected.
+english.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=data_analysis module must be selected.
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================

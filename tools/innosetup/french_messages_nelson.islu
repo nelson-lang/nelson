@@ -31,10 +31,13 @@ french.QML_ENGINE_MODULE=Interface QML pour Nelson
 french.GUI_MODULE=GUI module
 french.INTERNATIONALIZATION=Localisation et internationalisation
 french.COM_ENGINE_MODULE=Interface COM avec Nelson
+french.DATA_ANALYSIS_MODULE=Module Analyse de données
+french.VALIDATORS_MODULE=Module outils de validation des arguments
 ;==============================================================================
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.
 french.MESSAGEBOX_HELP_BROWSER_REQUIRED=Le module help_browser doit être sélectionné.
+french.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=Le module data_analysis doit être sélectionné.
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================
