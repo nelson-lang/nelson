@@ -114,6 +114,11 @@ var
          configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
       end;
     ModulesList.Free;
+
+    configureModule('INTERNALIZATION', 'localization');
+    configureModule('INTERNALIZATION', 'i18n');
+    configureModule('INTERNALIZATION', 'characters_encoding');
+
 	end;
 //=============================================================================
 procedure AfterNelsonInstall();

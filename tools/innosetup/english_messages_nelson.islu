@@ -29,10 +29,11 @@ english.HELP_BROWSER_MODULE=Help viewer
 english.HELP_FILES=Help files
 english.QML_ENGINE_MODULE=QML Interface for Nelson
 english.GUI_MODULE=GUI module
+english.INTERNATIONALIZATION=Localization and Internationalization
+;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager must be selected.
 english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser must be selected.
-
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================

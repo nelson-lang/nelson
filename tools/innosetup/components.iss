@@ -61,3 +61,6 @@ Name: {#COMPONENT_HELP_BROWSER}; Description:{cm:HELP_BROWSER_MODULE}; Types: fu
 #define COMPONENT_HELP_FILES 'HELP_FILES'
 Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_INTERNATIONALIZATION 'INTERNATIONALIZATION'
+Name: {#COMPONENT_INTERNATIONALIZATION}; Description:{cm:INTERNATIONALIZATION}; Types: full custom;
+;==============================================================================
