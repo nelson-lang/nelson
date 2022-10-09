@@ -111,6 +111,7 @@ var
     ModulesList.Add('COM_ENGINE');
     ModulesList.Add('VALIDATORS');
     ModulesList.Add('DATA_ANALYSIS');
+    ModulesList.Add('IPC');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;

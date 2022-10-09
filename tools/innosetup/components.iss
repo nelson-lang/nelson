@@ -73,3 +73,6 @@ Name: {#COMPONENT_DATA_ANALYSIS}; Description:{cm:DATA_ANALYSIS_MODULE}; Types: 
 #define COMPONENT_VALIDATORS 'VALIDATORS'
 Name: {#COMPONENT_VALIDATORS}; Description:{cm:VALIDATORS_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_IPC 'IPC'
+Name: {#COMPONENT_IPC}; Description:{cm:IPC_MODULE}; Types: full custom;
+;==============================================================================
