@@ -40,11 +40,23 @@ english.TRIGONOMETRIC_FUNCTIONS_MODULE=Trigonometric functions
 english.STATISTICS_MODULE=Statistics functions
 english.POLYNOMIAL_FUNCTIONS_MODULE=Polynomials functions
 english.SIGNAL_PROCESSING_MODULE=Signal processing functions
+english.RANDOM_MODULE=Random functions
+english.HELP_TOOLS_MODULE=Help tools functions
+english.FILE_ARCHIVER_MODULE=File archiver functions
+english.F2C_MODULE=Fortran to C converter
+english.NIG_MODULE=Tools to interface C or Fortran functions with Nelson
+english.JSON_MODULE=JavaScript Object Notation
+english.WEBTOOLS_MODULE=IOT functions
+english.MATIO_MODULE=MAT file I/O module 
+english.HDF5_MODULE=HDF5 module
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.
 english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser module must be selected.
 english.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=data_analysis module must be selected.
+english.MESSAGEBOX_F2C_REQUIRED=f2c module must be selected.
+english.MESSAGEBOX_JSON_REQUIRED=json module must be selected.
+english.MESSAGEBOX_HDF5_REQUIRED=hdf5 module must be selected.
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================

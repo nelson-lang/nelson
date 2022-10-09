@@ -40,11 +40,23 @@ french.TRIGONOMETRIC_FUNCTIONS_MODULE=Fonctions trigonométriques
 french.STATISTICS_MODULE=Fonctions statistiques
 french.POLYNOMIAL_FUNCTIONS_MODULE=Fonctions polynomiales
 french.SIGNAL_PROCESSING_MODULE=Fonctions Traitement du signal
+french.RANDOM_MODULE=Fonctions Aléatoires
+french.HELP_TOOLS_MODULE=Fonctions génération de l'aide
+french.FILE_ARCHIVER_MODULE=Fonctions archivage de fichiers
+french.F2C_MODULE=Convertisseur Fortran vers C
+french.NIG_MODULE=Outils pour interfacer des fonctions C ou Fortran avec Nelson
+french.JSON_MODULE=JavaScript Object Notation
+french.WEBTOOLS_MODULE=Fonctions IOT
+french.MATIO_MODULE=MAT file I/O module 
+french.HDF5_MODULE=HDF5 module
 ;==============================================================================
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.
 french.MESSAGEBOX_HELP_BROWSER_REQUIRED=Le module help_browser doit être sélectionné.
 french.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=Le module data_analysis doit être sélectionné.
+french.MESSAGEBOX_F2C_REQUIRED=Le module f2c doit être sélectionné.
+french.MESSAGEBOX_JSON_REQUIRED=Le module json doit être sélectionné.
+french.MESSAGEBOX_HDF5_REQUIRED=Le module hdf5 doit être sélectionné.
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================

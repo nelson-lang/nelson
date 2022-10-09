@@ -58,6 +58,9 @@ Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full
 #define COMPONENT_HELP_BROWSER 'HELP_BROWSER'
 Name: {#COMPONENT_HELP_BROWSER}; Description:{cm:HELP_BROWSER_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_HELP_TOOLS 'HELP_TOOLS'
+Name: {#COMPONENT_HELP_TOOLS}; Description:{cm:HELP_TOOLS_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_HELP_FILES 'HELP_FILES'
 Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
 ;==============================================================================
@@ -93,4 +96,28 @@ Name: {#COMPONENT_POLYNOMIAL_FUNCTIONS}; Description:{cm:POLYNOMIAL_FUNCTIONS_MO
 ;==============================================================================
 #define COMPONENT_SIGNAL_PROCESSING 'SIGNAL_PROCESSING'
 Name: {#COMPONENT_SIGNAL_PROCESSING}; Description:{cm:SIGNAL_PROCESSING_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_RANDOM 'RANDOM'
+Name: {#COMPONENT_RANDOM}; Description:{cm:RANDOM_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_FILE_ARCHIVER 'FILE_ARCHIVER'
+Name: {#COMPONENT_FILE_ARCHIVER}; Description:{cm:FILE_ARCHIVER_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_F2C 'F2C'
+Name: {#COMPONENT_F2C}; Description:{cm:F2C_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_NIG 'NIG'
+Name: {#COMPONENT_NIG}; Description:{cm:NIG_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_JSON 'JSON'
+Name: {#COMPONENT_JSON}; Description:{cm:JSON_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_WEBTOOLS 'WEBTOOLS'
+Name: {#COMPONENT_WEBTOOLS}; Description:{cm:WEBTOOLS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_MATIO 'MATIO'
+Name: {#COMPONENT_MATIO}; Description:{cm:MATIO_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_HDF5 'HDF5'
+Name: {#COMPONENT_HDF5}; Description:{cm:HDF5_MODULE}; Types: full custom;
 ;==============================================================================

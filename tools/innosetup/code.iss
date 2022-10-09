@@ -118,6 +118,15 @@ var
     ModulesList.Add('STATISTICS');
     ModulesList.Add('POLYNOMIAL_FUNCTIONS');
     ModulesList.Add('SIGNAL_PROCESSING');
+    ModulesList.Add('RANDOM');
+    ModulesList.Add('HELP_TOOLS');
+    ModulesList.Add('FILE_ARCHIVER');
+    ModulesList.Add('F2C');
+    ModulesList.Add('NIG');
+    ModulesList.Add('JSON');
+    ModulesList.Add('WEBTOOLS');
+    ModulesList.Add('MATIO');
+    ModulesList.Add('HDF5');
     
     for I := 0 to ModulesList.Count - 1 do
       begin;
@@ -336,6 +345,32 @@ function NextButtonClick(CurPageID: Integer): Boolean;
             Result := false;
           end;
 
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_F2C}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_SLICOT}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_F2C_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_JSON}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_WEBTOOLS}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_JSON_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (IsComponentSelected( ExpandConstant('{#COMPONENT_HDF5}') ) = false) and 
+          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_MATIO}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HDF5_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
 
       end;
   end;
