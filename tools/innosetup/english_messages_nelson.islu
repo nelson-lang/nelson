@@ -30,6 +30,7 @@ english.HELP_FILES=Help files
 english.QML_ENGINE_MODULE=QML Interface for Nelson
 english.GUI_MODULE=GUI module
 english.INTERNATIONALIZATION=Localization and Internationalization
+english.COM_ENGINE_MODULE=Component Object Model Interface with Nelson
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager must be selected.

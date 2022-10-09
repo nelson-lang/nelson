@@ -30,6 +30,7 @@ french.HELP_FILES=Fichiers d'aide
 french.QML_ENGINE_MODULE=Interface QML pour Nelson
 french.GUI_MODULE=GUI module
 french.INTERNATIONALIZATION=Localisation et internationalisation
+french.COM_ENGINE_MODULE=Interface COM avec Nelson
 ;==============================================================================
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.

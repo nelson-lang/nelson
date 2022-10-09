@@ -64,3 +64,6 @@ Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
 #define COMPONENT_INTERNATIONALIZATION 'INTERNATIONALIZATION'
 Name: {#COMPONENT_INTERNATIONALIZATION}; Description:{cm:INTERNATIONALIZATION}; Types: full custom;
 ;==============================================================================
+#define COM_ENGINE 'COM_ENGINE'
+Name: {#COMPONENT_COM_ENGINE}; Description:{cm:COM_ENGINE_MODULE}; Types: full custom;
+;==============================================================================

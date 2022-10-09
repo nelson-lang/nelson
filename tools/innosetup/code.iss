@@ -108,6 +108,7 @@ var
     ModulesList.Add('GRAPHICS');
     ModulesList.Add('TEXT_EDITOR');
     ModulesList.Add('TESTS_MANAGER');
+    ModulesList.Add('COM_ENGINE');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;
