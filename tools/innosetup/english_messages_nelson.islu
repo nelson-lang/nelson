@@ -36,6 +36,9 @@ english.VALIDATORS_MODULE=Validators module
 english.IPC_MODULE=Interprocessus communication module
 english.SPECIAL_FUNCTIONS_MODULE=Special functions
 english.AUDIO_MODULE=Audio module
+english.TRIGONOMETRIC_FUNCTIONS_MODULE=Trigonometric functions
+english.STATISTICS_MODULE=Statistics functions
+english.POLYNOMIAL_FUNCTIONS=Polynomials functions
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.

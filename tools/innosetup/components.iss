@@ -82,3 +82,11 @@ Name: {#COMPONENT_SPECIAL_FUNCTIONS}; Description:{cm:SPECIAL_FUNCTIONS_MODULE};
 #define COMPONENT_AUDIO 'AUDIO'
 Name: {#COMPONENT_AUDIO}; Description:{cm:AUDIO_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_TRIGONOMETRIC_FUNCTIONS 'TRIGONOMETRIC_FUNCTIONS'
+Name: {#COMPONENT_TRIGONOMETRIC_FUNCTIONS}; Description:{cm:TRIGONOMETRIC_FUNCTIONS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_STATISTICS 'STATISTICS'
+Name: {#COMPONENT_STATISTICS}; Description:{cm:STATISTICS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_POLYNOMIAL_FUNCTIONS 'POLYNOMIAL_FUNCTIONS'
+Name: {#COMPONENT_POLYNOMIAL_FUNCTIONS}; Description:{cm:POLYNOMIAL_FUNCTIONS_MODULE}; Types: full custom;

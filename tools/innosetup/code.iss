@@ -114,7 +114,10 @@ var
     ModulesList.Add('IPC');
     ModulesList.Add('SPECIAL_FUNCTIONS');
     ModulesList.Add('AUDIO');
-
+    ModulesList.Add('TRIGONOMETRIC_FUNCTIONS');
+    ModulesList.Add('STATISTICS');
+    ModulesList.Add('POLYNOMIALS_FUNCTIONS');
+    
     for I := 0 to ModulesList.Count - 1 do
       begin;
          configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
