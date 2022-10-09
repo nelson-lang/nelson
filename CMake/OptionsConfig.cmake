@@ -46,35 +46,31 @@ list(APPEND
   TEXT_COMPLETION
   CHARACTERS_ENCODING)
 
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
-  foreach(mod ${without_module})
-    if (WITHOUT_${mod}_MODULE)
-      set(WITH_${mod}_MODULE "false")
-    else()
-      set(WITH_${mod}_MODULE "true")
-    endif()
-  endforeach(mod)
-
-  configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
-                 "${CMAKE_SOURCE_DIR}/modules/modules.m")
-endif()
-# ==============================================================================
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h)
-  if (WITHOUT_OPENMP)
-    set(WITH_OPENMP 0)
+foreach(mod ${without_module})
+  if (WITHOUT_${mod}_MODULE)
+    set(WITH_${mod}_MODULE "false")
   else()
-    set(WITH_OPENMP 1)
+    set(WITH_${mod}_MODULE "true")
   endif()
+endforeach(mod)
 
-  foreach(mod ${without_module})
-    if (WITHOUT_${mod}_MODULE)
-      set(WITH_${mod}_MODULE 0)
-    else()
-      set(WITH_${mod}_MODULE 1)
-    endif()
-  endforeach(mod)
-
-  configure_file("${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h.in"
-                 "${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h")
+configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
+              "${CMAKE_SOURCE_DIR}/modules/modules.m")
+# ==============================================================================
+if (WITHOUT_OPENMP)
+  set(WITH_OPENMP 0)
+else()
+  set(WITH_OPENMP 1)
 endif()
+
+foreach(mod ${without_module})
+  if (WITHOUT_${mod}_MODULE)
+    set(WITH_${mod}_MODULE 0)
+  else()
+    set(WITH_${mod}_MODULE 1)
+  endif()
+endforeach(mod)
+
+configure_file("${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h.in"
+                 "${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h")
 # ==============================================================================

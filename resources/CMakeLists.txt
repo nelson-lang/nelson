@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
+if (NOT WITHOUT_GUI_MODULE)
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/resources
   DESTINATION ${ROOT_OUTPUT}
@@ -28,4 +29,6 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/LICENSE DESTINATION ${ROOT_OUT
 # ==============================================================================
 install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/Combinear.qss DESTINATION ${ROOT_OUTPUT}/resources/qss)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/License.txt DESTINATION ${ROOT_OUTPUT}/resources/qss)
+# ==============================================================================
+endif()
 # ==============================================================================
