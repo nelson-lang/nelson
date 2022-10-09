@@ -9,9 +9,9 @@
 ;==============================================================================
 #define MODULE_NAME "display_format"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libnlsDisplay_format.lib; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
-Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}bin\{#BinPath}\libnlsDisplay_format.lib; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsDisplay_format.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsDisplay_format_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
