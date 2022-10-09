@@ -116,7 +116,8 @@ var
     ModulesList.Add('AUDIO');
     ModulesList.Add('TRIGONOMETRIC_FUNCTIONS');
     ModulesList.Add('STATISTICS');
-    ModulesList.Add('POLYNOMIALS_FUNCTIONS');
+    ModulesList.Add('POLYNOMIAL_FUNCTIONS');
+    ModulesList.Add('SIGNAL_PROCESSING');
     
     for I := 0 to ModulesList.Count - 1 do
       begin;

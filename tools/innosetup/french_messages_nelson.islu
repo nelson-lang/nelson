@@ -38,7 +38,8 @@ french.SPECIAL_FUNCTIONS_MODULE=Fonctions spéciales
 french.AUDIO_MODULE=Module audio
 french.TRIGONOMETRIC_FUNCTIONS_MODULE=Fonctions trigonométriques
 french.STATISTICS_MODULE=Fonctions statistiques
-french.POLYNOMIAL_FUNCTIONS=Fonctions polynomiales
+french.POLYNOMIAL_FUNCTIONS_MODULE=Fonctions polynomiales
+french.SIGNAL_PROCESSING_MODULE=Fonctions Traitement du signal
 ;==============================================================================
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.

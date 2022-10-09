@@ -90,3 +90,7 @@ Name: {#COMPONENT_STATISTICS}; Description:{cm:STATISTICS_MODULE}; Types: full c
 ;==============================================================================
 #define COMPONENT_POLYNOMIAL_FUNCTIONS 'POLYNOMIAL_FUNCTIONS'
 Name: {#COMPONENT_POLYNOMIAL_FUNCTIONS}; Description:{cm:POLYNOMIAL_FUNCTIONS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_SIGNAL_PROCESSING 'SIGNAL_PROCESSING'
+Name: {#COMPONENT_SIGNAL_PROCESSING}; Description:{cm:SIGNAL_PROCESSING_MODULE}; Types: full custom;
+;==============================================================================
