@@ -34,6 +34,8 @@ english.COM_ENGINE_MODULE=Component Object Model Interface with Nelson
 english.DATA_ANALYSIS_MODULE=Data analysis module
 english.VALIDATORS_MODULE=Validators module
 english.IPC_MODULE=Interprocessus communication module
+english.SPECIAL_FUNCTIONS_MODULE=Special functions
+english.AUDIO_MODULE=Audio module
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.

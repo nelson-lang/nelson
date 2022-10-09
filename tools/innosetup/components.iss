@@ -76,3 +76,9 @@ Name: {#COMPONENT_VALIDATORS}; Description:{cm:VALIDATORS_MODULE}; Types: full c
 #define COMPONENT_IPC 'IPC'
 Name: {#COMPONENT_IPC}; Description:{cm:IPC_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_SPECIAL_FUNCTIONS 'SPECIAL_FUNCTIONS'
+Name: {#COMPONENT_SPECIAL_FUNCTIONS}; Description:{cm:SPECIAL_FUNCTIONS_MODULE}; Types: full custom;
+;==============================================================================
+#define COMPONENT_AUDIO 'AUDIO'
+Name: {#COMPONENT_AUDIO}; Description:{cm:AUDIO_MODULE}; Types: full custom;
+;==============================================================================

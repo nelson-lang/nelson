@@ -112,6 +112,8 @@ var
     ModulesList.Add('VALIDATORS');
     ModulesList.Add('DATA_ANALYSIS');
     ModulesList.Add('IPC');
+    ModulesList.Add('SPECIAL_FUNCTIONS');
+    ModulesList.Add('AUDIO');
 
     for I := 0 to ModulesList.Count - 1 do
       begin;
