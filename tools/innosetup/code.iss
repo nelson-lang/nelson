@@ -135,7 +135,6 @@ var
     ModulesList.Free;
 
     configureModule('INTERNALIZATION', 'localization');
-    configureModule('INTERNALIZATION', 'i18n');
     configureModule('INTERNALIZATION', 'characters_encoding');
 
 	end;
