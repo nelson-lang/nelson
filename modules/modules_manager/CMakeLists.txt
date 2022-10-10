@@ -36,7 +36,6 @@ target_link_libraries(
   ${module_library_name}
   nlsError_manager
   nlsCore
-  nlsDynamic_link
   nlsInterpreter
   nlsNelson_manager
   nlsOs_functions

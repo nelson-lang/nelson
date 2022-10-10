@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "gettextBuiltin.hpp"
-#include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;

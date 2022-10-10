@@ -8,6 +8,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
+
 chocolatey/nelson/*.nupkg
 nelson*.snap
 tests_*.xml
@@ -65,6 +66,12 @@ checks.json
 /modules/*/builtin/c/Release
 /modules/*/builtin/c/Intel_SSA
 /modules/*/builtin/c/r000sc
+/modules/*/no-src/c/x64
+/modules/*/no-src/c/Debug
+/modules/*/no-src/c/Release
+/modules/*/no-builtin/c/x64
+/modules/*/no-builtin/c/Debug
+/modules/*/no-builtin/c/Release
 /modules/*/src/c/x64
 /modules/*/src/c/Debug
 /modules/*/src/c/Release
@@ -163,6 +170,7 @@ bin/macos/*-exec
 /tools/buildhelp/Debug
 ################################################################################
 /modules/core/src/include/Nelson_VERSION.h
+/modules/types/src/include/nlsConfig.h
 /modules/*/src/c/*/x64
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release

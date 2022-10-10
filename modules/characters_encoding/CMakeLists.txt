@@ -11,13 +11,21 @@ set(module_name characters_encoding)
 set(module_library_name nlsCharacters_encoding)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+if (WITHOUT_CHARACTERS_ENCODING_MODULE)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
+else()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
                     ${ICU_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS})
+endif()                    
 # ==============================================================================
+if (WITHOUT_CHARACTERS_ENCODING_MODULE)
+file(GLOB CHARACTERS_ENCODING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(GLOB CHARACTERS_ENCODING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf/*.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} SHARED ${CHARACTERS_ENCODING_SRC})
 # ==============================================================================
@@ -30,6 +38,7 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+if (NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
 file(GLOB CHARACTERS_ENCODING_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
@@ -64,7 +73,12 @@ set_target_properties(
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================    
+endif()
 # ==============================================================================
+if (WITHOUT_CHARACTERS_ENCODING_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -96,4 +110,5 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.txt")
+endif()  
 # ==============================================================================

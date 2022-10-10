@@ -11,6 +11,11 @@ set(module_name mex)
 set(module_library_name nlsMex)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+if (WITHOUT_MEX_MODULE)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
+else()
 include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
@@ -26,11 +31,21 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include)
+endif()
 # ==============================================================================
+if (WITHOUT_MEX_MODULE)
+file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} SHARED ${MEX_SRC})
 # ==============================================================================
+if (WITHOUT_MEX_MODULE)
+target_link_libraries(
+  ${module_library_name}
+)
+else()
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
@@ -44,6 +59,7 @@ target_link_libraries(
   nlsIpc
   nlsOs_functions
   ${BOOST_LIBRARIES})
+endif()
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -52,6 +68,7 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+if (NOT WITHOUT_MEX_MODULE)
 file(GLOB MEX_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
 include_directories(
@@ -81,6 +98,11 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+endif()
+# ==============================================================================
+if (WITHOUT_MEX_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -128,4 +150,5 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.c")
+endif()
 # ==============================================================================

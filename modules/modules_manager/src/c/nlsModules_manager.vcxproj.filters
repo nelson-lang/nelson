@@ -57,6 +57,9 @@
     <ClCompile Include="..\cpp\RemoveGateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\FindDynamicLibraryName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\AddModule.hpp">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\RemoveGateway.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FindDynamicLibraryName.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

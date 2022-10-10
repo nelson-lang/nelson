@@ -7,6 +7,6 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-#include "english_messages_nelson.isl"
-#include "french_messages_nelson.isl"
+#include "english_messages_nelson.islu"
+#include "french_messages_nelson.islu"
 ;==============================================================================

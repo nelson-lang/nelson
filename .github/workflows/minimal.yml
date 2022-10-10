@@ -1,0 +1,48 @@
+name: Minimal Build
+
+on: [push]
+
+jobs:
+  Jammy:
+    name: Ubuntu 22.04
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+
+    steps:
+      - name: install dependencies
+        run: |
+          sudo apt update;
+          sudo apt upgrade;
+          sudo apt -y install build-essential;
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+          sudo apt -y install ninja-build;
+          sudo apt -y install autotools-dev;
+          sudo apt -y install libtool;
+          sudo apt -y install automake;
+          sudo apt -y install pkg-config;          
+          sudo apt -y install libeigen3-dev;
+          sudo apt -y install liblapack-dev;
+          sudo apt -y install liblapacke-dev;
+          sudo apt -y install libboost-all-dev;
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get package version
+        uses: nyaascii/package-version@v1
+
+      - name: Update version
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Ninja" .
+      - name: make with Ninja
+        run: cmake --build . -- -j $(nproc)
+      - name: package
+        run: cmake --build . -- package
+      - name: Copy artifacts
+        run: mkdir artifacts && mv Nelson-*.tar.Z artifacts
+      - uses: actions/upload-artifact@v1
+        with:
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.sha }}
+          path: artifacts/

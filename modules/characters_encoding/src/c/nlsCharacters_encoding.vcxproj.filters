@@ -47,4 +47,7 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\types\src\include\nlsConfig.h.vc" />
+  </ItemGroup>
 </Project>

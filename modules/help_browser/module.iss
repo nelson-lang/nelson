@@ -9,14 +9,14 @@
 ;==============================================================================
 #define MODULE_NAME "help_browser"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;
-Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
-Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================

@@ -47,8 +47,9 @@ function r = indexhelp(varargin)
 end
 %=============================================================================
 function modules_help_list = getModulesHelpList()
-  run([nelsonroot() '/modules/' 'modules.m']);
-  modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
+  run([nelsonroot(), '/modules/modules.m']);
+  funcList = str2func('@(x) x{1}');
+  modules_help_list = [cellfun(funcList, modules_list, 'UniformOutput', false); getExternalModules()];
 end
 %=============================================================================
 function external_modules = getExternalModules()

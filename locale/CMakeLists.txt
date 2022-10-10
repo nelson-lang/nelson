@@ -7,8 +7,10 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
+if (NOT WITHOUT_LOCALIZATION_MODULE)
 install(FILES ${CMAKE_SOURCE_DIR}/locale/en_US/LC_MESSAGES/nelson.mo
         DESTINATION ${ROOT_OUTPUT}/locale/en_US/LC_MESSAGES)
 install(FILES ${CMAKE_SOURCE_DIR}/locale/fr_FR/LC_MESSAGES/nelson.mo
         DESTINATION ${ROOT_OUTPUT}/locale/fr_FR/LC_MESSAGES)
+endif()
 # ==============================================================================

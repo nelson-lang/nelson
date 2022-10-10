@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{31EFFD09-DC10-4163-BC2F-4F285F96A7D6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsSocket_io</RootNamespace>
+    <RootNamespace>nlsSio_client</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

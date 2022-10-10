@@ -10,8 +10,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <iostream>
-#include "Error.hpp"
+#include <string>
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"

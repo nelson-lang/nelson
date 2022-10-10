@@ -24,6 +24,8 @@ function buildhelpweb(varargin)
   
   srclist = {};
   run([nelsonroot() '/modules/' 'modules.m']);
+  funcList = str2func('@(x) x{1}');
+  modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
   for module = modules_help_list(:)'
     src = [nelsonroot(), '/modules/', module{1}, '/help/', lang, '/xml'];
     if isdir(src)

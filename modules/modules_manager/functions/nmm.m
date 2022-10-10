@@ -11,6 +11,16 @@ function varargout = nmm(varargin)
   if nargin == 0
     error(_('Wrong number of input arguments.'));
   end
+  if ~ismodule('webtools')
+    error(_('nmm required webtools module.'));
+  end
+  if ~ismodule('file_archiver')
+    error(_('nmm required file_archiver module.'));
+  end
+  if ~ismodule('json')
+    error(_('nmm required json module.'));
+  end
+
   varargout = {};
   firstParameter = varargin{1};
   if ~isSupportedFirstParameter(firstParameter)

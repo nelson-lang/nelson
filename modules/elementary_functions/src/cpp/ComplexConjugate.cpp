@@ -65,8 +65,8 @@ ComplexConjugate(const ArrayOf& A)
         MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
         vzConj((MKL_INT)A.getElementCount(), ptrAz, ptrCz);
 #else
-#if defined(_NLS_WITH_OPENMP)
         auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

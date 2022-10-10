@@ -11,6 +11,11 @@ set(module_name localization)
 set(module_library_name nlsLocalization)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+if (WITHOUT_LOCALIZATION_MODULE)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
+else()
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -20,11 +25,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${Boost_INCLUDE_DIRS})
+endif()
 # ==============================================================================
+if (WITHOUT_LOCALIZATION_MODULE)
+file(GLOB LOCALIZATION_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(GLOB LOCALIZATION_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} SHARED ${LOCALIZATION_SRC})
 # ==============================================================================
+if (WITHOUT_LOCALIZATION_MODULE)
+target_link_libraries(
+  ${module_library_name})
+else()
 target_link_libraries(
   ${module_library_name}
   nlsError_manager
@@ -34,6 +48,7 @@ target_link_libraries(
   nlsI18n
   ${CMAKE_DL_LIBS}
   ${BOOST_LIBRARIES})
+endif()  
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -41,6 +56,8 @@ set_target_properties(
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================
+if (NOT WITHOUT_LOCALIZATION_MODULE)
 # ==============================================================================
 file(GLOB LOCALIZATION_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
@@ -74,6 +91,11 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+endif()
+# ==============================================================================
+if(WITHOUT_LOCALIZATION_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -100,4 +122,6 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.m")
+# ==============================================================================  
+endif()
 # ==============================================================================

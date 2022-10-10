@@ -64,8 +64,7 @@ target_link_libraries(
   nlsStream_manager
   nlsString
   nlsI18n
-  nlsMex
-  nlsDynamic_link)
+  nlsMex)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

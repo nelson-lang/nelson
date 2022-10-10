@@ -39,7 +39,6 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsModules_manager
-  nlsDynamic_link
   nlsI18n
   nlsFiles_folders_functions
   nlsString)

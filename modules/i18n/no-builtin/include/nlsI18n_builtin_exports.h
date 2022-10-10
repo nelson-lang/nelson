@@ -9,12 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDynamic_link_exports.h"
-#include <string>
-//=============================================================================
-namespace Nelson {
-NLSDYNAMIC_LINK_IMPEXP std::wstring
-FindDynamicLibraryName(const std::wstring& directoryName, const std::wstring& initialLibraryName,
-    bool bCaseSensitive = false);
-}
+#ifdef _MSC_VER
+#ifdef NLSI18N_BUILTIN_EXPORTS
+#define NLSI18N_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSI18N_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSI18N_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

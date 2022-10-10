@@ -14,9 +14,9 @@ include_directories(${Boost_INCLUDE_DIRS}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
-file(GLOB CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB NELSON_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${CORE_SRC})
+add_library(${module_library_name} SHARED ${NELSON_MANAGER_SRC})
 # ==============================================================================
 target_link_libraries(${module_library_name} nlsCharacters_encoding)
 # ==============================================================================

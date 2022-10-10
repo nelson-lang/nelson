@@ -20,7 +20,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
@@ -38,7 +37,6 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsCore
   nlsI18n
-  nlsGui
   nlsModules_manager
   nlsFunctions_manager
   nlsCharacters_encoding

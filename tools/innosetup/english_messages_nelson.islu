@@ -1,0 +1,71 @@
+﻿;==============================================================================
+; Copyright (c) 2016-present Allan CORNET (Nelson)
+;==============================================================================
+; This file is part of the Nelson.
+;==============================================================================
+; LICENCE_BLOCK_BEGIN
+; SPDX-License-Identifier: LGPL-3.0-or-later
+; LICENCE_BLOCK_END
+;==============================================================================
+english.LANGUAGE = English
+;==============================================================================
+english.FULL_INSTALL_TYPE=Full install
+english.CUSTOM_INSTALL_TYPE=Custom install
+english.MINIMAL_INSTALL_TYPE=Minimal install (no gui)
+;==============================================================================
+english.FFTW_MODULE=Fastest Fourier Transform module(FFTW)
+english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory (GPL v2 license)
+english.SIO_CLIENT_MODULE=Nelson in the cloud (server)
+english.TESTS_MANAGER_MODULE=Testing Framework
+english.UNIT_TESTS=Unit testing files
+english.MODULE_SKELETON=Module template (to extend Nelson)
+english.DYNAMIC_LINK_MODULE=Nelson native addon build tools
+english.MEX_MODULE=MEX Library API Compatibility
+english.GRAPHICS_MODULE=Plotting 2D/3D module
+english.MPI_MODULE=Distributed Computing Module
+english.PARALLEL_MODULE=Parallel Computing Module
+english.TEXT_EDITOR_MODULE=Integrate Text editor
+english.HELP_BROWSER_MODULE=Help viewer
+english.HELP_FILES=Help files
+english.QML_ENGINE_MODULE=QML Interface for Nelson
+english.GUI_MODULE=GUI module
+english.INTERNATIONALIZATION=Localization and Internationalization
+english.COM_ENGINE_MODULE=Component Object Model Interface with Nelson
+english.DATA_ANALYSIS_MODULE=Data analysis functions
+english.VALIDATORS_MODULE=Validators module
+english.IPC_MODULE=Interprocessus communication module
+english.SPECIAL_FUNCTIONS_MODULE=Special functions
+english.AUDIO_MODULE=Audio module
+english.TRIGONOMETRIC_FUNCTIONS_MODULE=Trigonometric functions
+english.STATISTICS_MODULE=Statistics functions
+english.POLYNOMIAL_FUNCTIONS_MODULE=Polynomials functions
+english.SIGNAL_PROCESSING_MODULE=Signal processing functions
+english.RANDOM_MODULE=Random functions
+english.HELP_TOOLS_MODULE=Help tools functions
+english.FILE_ARCHIVER_MODULE=File archiver functions
+english.F2C_MODULE=Fortran to C converter
+english.NIG_MODULE=Tools to interface C or Fortran functions with Nelson
+english.JSON_MODULE=JavaScript Object Notation
+english.WEBTOOLS_MODULE=IOT functions
+english.MATIO_MODULE=MAT file I/O module 
+english.HDF5_MODULE=HDF5 module
+;==============================================================================
+english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
+english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.
+english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser module must be selected.
+english.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=data_analysis module must be selected.
+english.MESSAGEBOX_F2C_REQUIRED=f2c module must be selected.
+english.MESSAGEBOX_JSON_REQUIRED=json module must be selected.
+english.MESSAGEBOX_HDF5_REQUIRED=hdf5 module must be selected.
+;==============================================================================
+english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
+;==============================================================================
+english.ASSOCIATE_M_FILE = Associate .m files with Nelson
+english.ASSOCIATE_NH5_FILE = Associate .nh5 files with Nelson
+english.ASSOCIATE_MAT_FILE = Associate .mat files with Nelson
+;==============================================================================
+english.RegKeyLoadWith = Load with
+english.RegKeyRunWith = Run with
+;==============================================================================
+english.FILE_ASSOCIATION = Files associations:
+;==============================================================================

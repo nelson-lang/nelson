@@ -25,7 +25,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
@@ -52,7 +51,6 @@ target_link_libraries(
   nlsData_analysis_builtin
   nlsOperators_builtin
   nlsModules_manager
-  nlsDynamic_link
   nlsI18n
   nlsFiles_folders_functions_builtin
   nlsString_builtin

@@ -9,4 +9,5 @@
 ;==============================================================================
 Type: filesandordirs; Name: {app}\bin
 Type: filesandordirs; Name: {app}\modules
+Type: filesandordirs; Name: {app}\module_skeleton
 ;==============================================================================

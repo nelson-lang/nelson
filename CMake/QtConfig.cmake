@@ -34,6 +34,30 @@ if (FORCE_QT5)
 else()
   find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core) 
 endif()
-find_package(Qt${QT_VERSION_MAJOR} 5.15 REQUIRED COMPONENTS Core Widgets Gui Help Qml Quick PrintSupport)
+# ==============================================================================
+list(
+  APPEND
+  QtPackagesRequired
+  Core
+  Widgets
+  Gui
+  Quick
+  PrintSupport
+)
+# ==============================================================================
+if (NOT WITHOUT_HELP_BROWSER_MODULE)
+list(APPEND QtPackagesRequired Help)
+endif()
+if (NOT WITHOUT_TEXT_EDITOR_MODULE)
+list(APPEND QtPackagesRequired PrintSupport)
+endif()
+if (NOT WITHOUT_GRAPHICS_MODULE)
+list(APPEND QtPackagesRequired Help)
+endif()
+if (NOT WITHOUT_QML_ENGINE_MODULE)
+list(APPEND QtPackagesRequired Qml)
+endif()
+# ==============================================================================
+find_package(Qt${QT_VERSION_MAJOR} 5.15 REQUIRED COMPONENTS ${QtPackagesRequired})
 message(STATUS "Qt${QT_VERSION_MAJOR} detected and used.")
 # ==============================================================================

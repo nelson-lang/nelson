@@ -11,6 +11,12 @@ set(module_name ipc)
 set(module_library_name nlsIpc)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+if (WITHOUT_IPC_MODULE)
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
+else()
 include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
@@ -27,15 +33,26 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../file_archiver/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include)
+endif()
 # ==============================================================================
+if (WITHOUT_IPC_MODULE)
+file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+else()
 file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ENGINE_SRC})
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  find_library(LIBRT rt)
-endif()
+if (NOT WITHOUT_IPC_MODULE)
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_library(LIBRT rt)
+  endif()
+endif()  
 # ==============================================================================
+if (WITHOUT_IPC_MODULE)
+target_link_libraries(
+  ${module_library_name})
+else()
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
@@ -49,6 +66,7 @@ target_link_libraries(
   nlsTypes
   ${BOOST_LIBRARIES}
   ${LIBRT})
+endif()  
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -56,6 +74,8 @@ set_target_properties(
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================
+if (NOT WITHOUT_IPC_MODULE)
 # ==============================================================================
 file(GLOB ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
@@ -89,6 +109,11 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
+endif()
+# ==============================================================================
+if (WITHOUT_IPC_MODULE)
+install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+else()
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
@@ -120,4 +145,5 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.ref")
+endif()
 # ==============================================================================

@@ -56,7 +56,7 @@ jobs:
       - name: CMake
         run: |
           export PATH=/usr/local/opt/qt5/bin:$PATH
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: make
         run: cmake --build . -- -j $(nproc)
       - name: get module skeleton
@@ -136,7 +136,7 @@ jobs:
       - name: CMake
         run: |
           export PATH=/usr/local/opt/qt5/bin:$PATH
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: make
         run: cmake --build . -- -j $(nproc)
       - name: get module skeleton
@@ -421,7 +421,7 @@ jobs:
       - name: Update version
         run: python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j $(nproc)
       - name: Download module skeleton
@@ -496,7 +496,7 @@ jobs:
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH      
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: Make
         run: |
           export QTDIR_BINARIES="/usr/lib64/qt6/bin/" 
