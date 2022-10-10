@@ -134,8 +134,8 @@ var
       end;
     ModulesList.Free;
 
-    configureModule('INTERNALIZATION', 'localization');
-    configureModule('INTERNALIZATION', 'characters_encoding');
+    configureModule('INTERNATIONALIZATION', 'localization');
+    configureModule('INTERNATIONALIZATION', 'characters_encoding');
 
 	end;
 //=============================================================================
