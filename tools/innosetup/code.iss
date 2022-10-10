@@ -95,38 +95,38 @@ var
 
 	begin;
     ModulesList := TStringList.Create;
-    ModulesList.Add('PARALLEL');
-    ModulesList.Add('MPI');
-    ModulesList.Add('DYNAMIC_LINK');
-    ModulesList.Add('MEX');
-    ModulesList.Add('SIO_CLIENT');
-    ModulesList.Add('SLICOT');
-    ModulesList.Add('FFTW');
-    ModulesList.Add('GUI');
-    ModulesList.Add('HELP_BROWSER');
-    ModulesList.Add('QML_ENGINE');
-    ModulesList.Add('GRAPHICS');
-    ModulesList.Add('TEXT_EDITOR');
-    ModulesList.Add('TESTS_MANAGER');
-    ModulesList.Add('COM_ENGINE');
-    ModulesList.Add('VALIDATORS');
-    ModulesList.Add('DATA_ANALYSIS');
-    ModulesList.Add('IPC');
-    ModulesList.Add('SPECIAL_FUNCTIONS');
-    ModulesList.Add('AUDIO');
-    ModulesList.Add('TRIGONOMETRIC_FUNCTIONS');
-    ModulesList.Add('STATISTICS');
-    ModulesList.Add('POLYNOMIAL_FUNCTIONS');
-    ModulesList.Add('SIGNAL_PROCESSING');
-    ModulesList.Add('RANDOM');
-    ModulesList.Add('HELP_TOOLS');
-    ModulesList.Add('FILE_ARCHIVER');
-    ModulesList.Add('F2C');
-    ModulesList.Add('NIG');
-    ModulesList.Add('JSON');
-    ModulesList.Add('WEBTOOLS');
-    ModulesList.Add('MATIO');
-    ModulesList.Add('HDF5');
+    ModulesList.Add(ExpandConstant('{#COMPONENT_PARALLEL}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_MPI}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_DYNAMIC_LINK}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_MEX}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_SIO_CLIENT}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_SLICOT}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_FFTW}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_GUI}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_HELP_BROWSER}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_QML_ENGINE}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_GRAPHICS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_TEXT_EDITOR}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_TESTS_MANAGER}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_COM_ENGINE}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_VALIDATORS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_DATA_ANALYSIS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_IPC}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_SPECIAL_FUNCTIONS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_AUDIO}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_TRIGONOMETRIC_FUNCTIONS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_STATISTICS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_POLYNOMIAL_FUNCTIONS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_SIGNAL_PROCESSING}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_RANDOM}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_HELP_TOOLS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_FILE_ARCHIVER}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_F2C}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_NIG}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_JSON}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_WEBTOOLS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_MATIO}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
     
     for I := 0 to ModulesList.Count - 1 do
       begin;
@@ -134,8 +134,8 @@ var
       end;
     ModulesList.Free;
 
-    configureModule('INTERNATIONALIZATION', 'localization');
-    configureModule('INTERNATIONALIZATION', 'characters_encoding');
+    configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'localization');
+    configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'characters_encoding');
 
 	end;
 //=============================================================================
@@ -296,9 +296,6 @@ begin
 end;
 //=============================================================================
 function NextButtonClick(CurPageID: Integer): Boolean;
-  Var
-    bRes : Boolean;
-
   begin
     Result := true;
 
@@ -306,11 +303,11 @@ function NextButtonClick(CurPageID: Integer): Boolean;
       begin
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_GUI}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_QML_ENGINE}')) = true) or
-          (IsComponentSelected(ExpandConstant('{#COMPONENT_TEXT_EDITOR}')) = true) or 
-          (IsComponentSelected(ExpandConstant('{#COMPONENT_HELP_BROWSER}')) = true) or  
-          (IsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')) = true) )) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_GUI}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_QML_ENGINE}')) = true) or
+          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_TEXT_EDITOR}')) = true) or 
+          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_BROWSER}')) = true) or  
+          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')) = true) )) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_GUI_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -318,8 +315,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_TESTS_MANAGER}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_UNIT_TESTS}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_TESTS_MANAGER}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_UNIT_TESTS}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_TESTS_MANAGER_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -327,8 +324,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_HELP_BROWSER}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_HELP_FILES}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_HELP_BROWSER}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_FILES}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HELP_BROWSER_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -336,8 +333,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_DATA_ANALYSIS}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_VALIDATORS}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_DATA_ANALYSIS}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_VALIDATORS}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_DATA_ANALYSIS_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -345,8 +342,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_F2C}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_SLICOT}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_F2C}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_SLICOT}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_F2C_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -354,8 +351,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_JSON}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_WEBTOOLS}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_JSON}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_WEBTOOLS}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_JSON_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -363,8 +360,8 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           end;
 
         if ( 
-          (IsComponentSelected( ExpandConstant('{#COMPONENT_HDF5}') ) = false) and 
-          ( (IsComponentSelected(ExpandConstant('{#COMPONENT_MATIO}')) = true))) then
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_HDF5}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_MATIO}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HDF5_REQUIRED'),
                 mbError, MB_OK, MB_OK );
@@ -373,3 +370,4 @@ function NextButtonClick(CurPageID: Integer): Boolean;
 
       end;
   end;
+//=============================================================================
