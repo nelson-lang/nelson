@@ -13,7 +13,7 @@
 % sort did not return an wrong error message for struct
 %=============================================================================
 % <--ENGLISH IMPOSED-->
-tests_dir = 'd:\developpements\Github\nelson\modules\mex'
+tests_dir = [nelsonroot(), '/modules/mex'];
 nonreg_tests = dir([tests_dir, 'test_*.m'])
 assert_checkerror('sort(nonreg_tests)', 'function struct_sort undefined.');
 %=============================================================================

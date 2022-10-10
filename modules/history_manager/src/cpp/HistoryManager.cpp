@@ -13,8 +13,7 @@
 #ifndef _MSC_VER
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #endif
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #ifndef _MSC_VER
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #endif
@@ -486,20 +485,19 @@ HistoryManager::setToken(const std::wstring& _token)
 bool
 HistoryManager::copyPreviousFile(const std::wstring& _filename)
 {
-    boost::filesystem::path src(_filename);
-    boost::filesystem::path dst(_filename + L".bak");
+    std::filesystem::path src(_filename);
+    std::filesystem::path dst(_filename + L".bak");
     bool bRes = false;
     try {
-        bRes = boost::filesystem::exists(src) && !boost::filesystem::is_directory(src);
-    } catch (const boost::filesystem::filesystem_error&) {
+        bRes = std::filesystem::exists(src) && !std::filesystem::is_directory(src);
+    } catch (const std::filesystem::filesystem_error&) {
         bRes = false;
     }
     if (bRes) {
         try {
-            boost::filesystem::copy_file(
-                src, dst, boost::filesystem::copy_option::overwrite_if_exists);
+            std::filesystem::copy_file(src, dst, std::filesystem::copy_options::overwrite_existing);
             bRes = true;
-        } catch (const boost::filesystem::filesystem_error&) {
+        } catch (const std::filesystem::filesystem_error&) {
             bRes = false;
         }
     }

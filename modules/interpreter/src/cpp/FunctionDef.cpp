@@ -8,8 +8,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,15 +17,25 @@ FunctionDef::FunctionDef() = default;
 //=============================================================================
 FunctionDef::~FunctionDef() = default;
 //=============================================================================
+template <typename TP>
+std::time_t
+to_time_t(TP tp)
+{
+    using namespace std::chrono;
+    auto sctp
+        = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+    return system_clock::to_time_t(sctp);
+}
+//=============================================================================
 void
 FunctionDef::setFilename(const std::wstring& filename)
 {
     this->filename = filename;
-    boost::filesystem::path path(filename);
+    std::filesystem::path path(filename);
     this->pathname = path.parent_path().generic_wstring();
     try {
-        this->timestamp = boost::filesystem::last_write_time(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
+        this->timestamp = to_time_t(std::filesystem::last_write_time(filename));
+    } catch (const std::filesystem::filesystem_error&) {
         this->timestamp = 0;
     }
 }

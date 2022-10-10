@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/container/vector.hpp>
 #include "whoBuiltin.hpp"
 #include "Error.hpp"

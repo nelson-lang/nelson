@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include "CopyFile.hpp"
@@ -27,19 +27,18 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
     if (!IsFile(srcFile)) {
         Error(_W("File source does not exist."));
     }
-    boost::filesystem::path srcPath = srcFile;
-    boost::filesystem::path destPath = destFileOrDirectory;
+    std::filesystem::path srcPath = srcFile;
+    std::filesystem::path destPath = destFileOrDirectory;
     if (IsDirectory(destFileOrDirectory)) {
         destPath = destPath / srcPath.filename();
     }
     try {
-        boost::filesystem::copy_file(
-            srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
+        std::filesystem::copy_file(
+            srcPath, destPath, std::filesystem::copy_options::overwrite_existing);
         bRes = true;
-    } catch (const boost::filesystem::filesystem_error& e) {
+    } catch (const std::filesystem::filesystem_error& e) {
         bRes = false;
-        boost::system::error_code error_code = e.code();
-        message = utf8_to_wstring(error_code.message());
+        message = utf8_to_wstring(e.what());
     }
     if (bForce) {
         if (!bRes) {
@@ -51,10 +50,10 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 }
 //=============================================================================
 static bool
-copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
-    const boost::filesystem::path& destinationDir, bool bForce, std::wstring& errorMessage)
+copyDirectoryRecursively(const std::filesystem::path& sourceDir,
+    const std::filesystem::path& destinationDir, bool bForce, std::wstring& errorMessage)
 {
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
+    if (!std::filesystem::exists(sourceDir) || !std::filesystem::is_directory(sourceDir)) {
         if (!bForce) {
             errorMessage
                 = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
@@ -62,8 +61,8 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
             return false;
         }
     }
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
-        if (!boost::filesystem::create_directory(destinationDir)) {
+    if (!std::filesystem::exists(sourceDir) || !std::filesystem::is_directory(sourceDir)) {
+        if (!std::filesystem::create_directory(destinationDir)) {
             if (!bForce) {
                 errorMessage = fmt::sprintf(
                     _W("Cannot create destination directory %s"), destinationDir.wstring());
@@ -73,17 +72,17 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
     }
 
     std::wstring rootSrc = sourceDir.generic_wstring();
-    for (const auto& dirEnt : boost::filesystem::recursive_directory_iterator { sourceDir }) {
+    for (const auto& dirEnt : std::filesystem::recursive_directory_iterator { sourceDir }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");
         try {
-            boost::filesystem::path destPath = destinationDir.generic_path() / relativePathStr;
-            boost::filesystem::copy(path, destPath);
-        } catch (const boost::filesystem::filesystem_error& e) {
+            std::filesystem::path destPath
+                = std::filesystem::path(destinationDir.generic_wstring()) / relativePathStr;
+            std::filesystem::copy(path, destPath);
+        } catch (const std::filesystem::filesystem_error& e) {
             if (!bForce) {
-                boost::system::error_code error_code = e.code();
-                errorMessage = utf8_to_wstring(error_code.message());
+                errorMessage = utf8_to_wstring(e.what());
                 return false;
             }
         }
@@ -121,16 +120,15 @@ CopyFiles(
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {
-        boost::filesystem::path srcPath = srcFile;
-        boost::filesystem::path destPath = destDir;
+        std::filesystem::path srcPath = srcFile;
+        std::filesystem::path destPath = destDir;
         destPath = destPath / srcPath.filename();
         try {
-            boost::filesystem::copy_file(srcPath, destPath);
+            std::filesystem::copy_file(srcPath, destPath);
             bRes = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
+        } catch (const std::filesystem::filesystem_error& e) {
             bRes = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+            message = utf8_to_wstring(e.what());
         }
         if (bForce) {
             if (!bRes) {

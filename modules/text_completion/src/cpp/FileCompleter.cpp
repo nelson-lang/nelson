@@ -8,10 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
 #include <boost/regex.hpp>
 #include "FileCompleter.hpp"
 //=============================================================================
@@ -23,12 +21,12 @@ namespace Nelson {
 static bool
 IsDirectory(const std::wstring& str)
 {
-    boost::filesystem::path data_dir(str);
+    std::filesystem::path data_dir(str);
     bool bRes = false;
     try {
-        bRes = boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        bRes = std::filesystem::is_directory(data_dir);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             // ONLY FOR DEBUG
         }
         bRes = false;
@@ -73,9 +71,9 @@ FileCompleter(const std::wstring& prefix)
         splitpath(prefix, pathname, filename);
         if (pathname.empty()) {
             try {
-                boost::filesystem::path pwd = boost::filesystem::current_path();
+                std::filesystem::path pwd = std::filesystem::current_path();
                 path = pwd.generic_wstring();
-            } catch (const boost::filesystem::filesystem_error&) {
+            } catch (const std::filesystem::filesystem_error&) {
             }
         } else {
             path = pathname;
@@ -99,13 +97,13 @@ FileCompleter(const std::wstring& prefix)
         }
         filespec = filename + L"*";
         std::wstring mask = path + filespec;
-        boost::filesystem::path pathfs(mask);
-        boost::filesystem::path branch(pathfs.branch_path());
+        std::filesystem::path pathfs(mask);
+        std::filesystem::path branch(pathfs.parent_path());
         if (branch.empty()) {
-            branch = boost::filesystem::current_path();
+            branch = std::filesystem::current_path();
         }
-        if (boost::filesystem::is_directory(branch)) {
-            mask = pathfs.leaf().wstring();
+        if (std::filesystem::is_directory(branch)) {
+            mask = pathfs.filename().wstring();
             static const std::pair<boost::wregex, const wchar_t*> repl[] = {
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\."), L"\\\\."),
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\?"), L"."),
@@ -117,19 +115,19 @@ FileCompleter(const std::wstring& prefix)
             }
             boost::wregex rmask(mask, boost::wregex::icase);
             {
-                boost::filesystem::path dir = branch;
-                boost::filesystem::path r = dir.root_path();
+                std::filesystem::path dir = branch;
+                std::filesystem::path r = dir.root_path();
                 if (IsDirectory(branch.wstring())) {
                     try {
-                        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
+                        for (std::filesystem::directory_iterator p(branch), end; p != end; ++p) {
+                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            boost::filesystem::path current = file;
+                            std::filesystem::path current = file;
                             std::wstring fname = current.wstring();
                             if (IsDirectory(fname)) {
                                 fname = fname + L"/";
@@ -171,7 +169,7 @@ FileCompleter(const std::wstring& prefix)
                                 res.push_back(complet);
                             }
                         }
-                    } catch (const boost::filesystem::filesystem_error&) {
+                    } catch (const std::filesystem::filesystem_error&) {
                     }
                 }
             }

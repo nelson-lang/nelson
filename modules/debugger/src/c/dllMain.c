@@ -10,8 +10,6 @@
 #include <Windows.h>
 #include "nlsConfig.h"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-//=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

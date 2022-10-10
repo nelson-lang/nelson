@@ -7,12 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
 #include <string>
 #include "GetUserDirectory.hpp"
-//=============================================================================
-using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,10 +37,10 @@ GetUserDirectory()
             free(buf);
             buf = nullptr;
         }
-        path pwd = path(str.c_str());
+        std::filesystem::path pwd = std::filesystem::path(str.c_str());
 #else
         char* home = getenv("HOME");
-        path pwd = path(home);
+        std::filesystem::path pwd = std::filesystem::path(home);
 #endif
         userDir = pwd.generic_wstring();
         if (!boost::algorithm::ends_with(userDir, L"\\")

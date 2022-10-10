@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "MexFunctionDef.hpp"
 #include "dynamic_library.hpp"
 #include "Profiler.hpp"
@@ -30,8 +30,8 @@ using PROC_MexIsLocked = bool (*)();
 //=============================================================================
 MexFunctionDef::MexFunctionDef(const std::wstring& filename, const std::wstring& name)
 {
-    boost::filesystem::path p(filename);
-    p = boost::filesystem::absolute(p);
+    std::filesystem::path p(filename);
+    p = std::filesystem::absolute(p);
 
     this->setName(wstring_to_utf8(name));
     this->setFilename(p.generic_wstring());

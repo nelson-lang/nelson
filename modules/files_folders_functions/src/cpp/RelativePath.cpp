@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "RelativePath.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -16,9 +16,9 @@ std::wstring
 RelativePath(const std::wstring& path1, const std::wstring& path2, bool& bSuccess)
 {
     bSuccess = false;
-    boost::filesystem::path pathOne(path1);
-    boost::filesystem::path pathTwo(path2);
-    boost::filesystem::path relativepath;
+    std::filesystem::path pathOne(path1);
+    std::filesystem::path pathTwo(path2);
+    std::filesystem::path relativepath;
     pathOne = pathOne.lexically_normal();
     pathTwo = pathTwo.lexically_normal();
     relativepath = pathTwo.lexically_relative(pathOne);

@@ -45,7 +45,13 @@ function locales = buildHelpFromPath(destinationdir, module, module_path)
     src = [module_path, '/help/', k{1}, '/xml'];
     if isdir(src)
       dstbuild = [destinationdir, '/', locale, '/', module, '/'];
-      res = mkdir(dstbuild);
+      if isdir(dstbuild)
+        [res, msg] = rmdir(dstbuild, 's');
+        if ~res
+          error('msg');
+        end
+      end
+      [res, msg] = mkdir(dstbuild);
       if ~res
         error(msg);
       end

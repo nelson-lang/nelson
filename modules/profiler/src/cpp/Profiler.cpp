@@ -7,16 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/chrono/chrono.hpp>
-#include <boost/date_time.hpp>
-#include <boost/date_time/gregorian/greg_date.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
+#include <filesystem>
 #include <iomanip>
 #include <tuple>
 #include <iostream>
 #include <fstream>
+#include <boost/chrono/chrono.hpp>
+#include <boost/date_time.hpp>
+#include <boost/date_time/gregorian/greg_date.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/algorithm/string.hpp>
 #include "Profiler.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -309,7 +309,7 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
         profilerLines) {
         if (nbLinesDisplayed < nbLinesToDisplay || nbLinesToDisplay == -1) {
             // filename, line, name, nbcalls, tottime, percall
-            boost::filesystem::path p(std::get<0>(line));
+            std::filesystem::path p(std::get<0>(line));
             std::string filename = p.filename().string();
             uint64 linepos = std::get<1>(line);
             std::string name = std::get<2>(line);
@@ -336,12 +336,12 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
 static bool
 isFile(const std::string& filename)
 {
-    boost::filesystem::path data_dir(utf8_to_wstring(filename));
+    std::filesystem::path data_dir(utf8_to_wstring(filename));
     bool bRes = false;
     try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        bRes = std::filesystem::exists(data_dir) && !std::filesystem::is_directory(data_dir);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             // ONLY FOR DEBUG
         }
         bRes = false;
@@ -406,11 +406,11 @@ Profiler::save(
 {
     std::wstring profileDirectory = destinationDirectory;
     try {
-        if (!boost::filesystem::exists(profileDirectory)) {
-            boost::filesystem::create_directory(profileDirectory);
+        if (!std::filesystem::exists(profileDirectory)) {
+            std::filesystem::create_directory(profileDirectory);
         }
-    } catch (const boost::filesystem::filesystem_error& e) {
-        boost::system::error_code error_code = e.code();
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::error_code error_code = e.code();
         errorMessage = utf8_to_wstring(error_code.message());
         return;
     }

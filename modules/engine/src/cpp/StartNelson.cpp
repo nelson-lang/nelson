@@ -14,7 +14,7 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/program_options.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
@@ -378,8 +378,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
-        boost::filesystem::path p(fileToExecute);
-        boost::filesystem::path full_p = boost::filesystem::complete(p);
+        std::filesystem::path p(fileToExecute);
+        std::filesystem::path full_p = std::filesystem::absolute(p);
         fileToExecute = full_p.generic_wstring();
     }
 

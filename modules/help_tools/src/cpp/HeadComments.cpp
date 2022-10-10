@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
 #include "HeadComments.hpp"
 #include "Comments.hpp"
 #include "Error.hpp"
@@ -70,9 +70,8 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
 {
     wstringVector comments;
     headError = HEADCOMMENTS_ERROR::MACRO_OK;
-    boost::filesystem::path pathFile(filename);
-    bool bIsFile
-        = boost::filesystem::exists(pathFile) && !boost::filesystem::is_directory(pathFile);
+    std::filesystem::path pathFile(filename);
+    bool bIsFile = std::filesystem::exists(pathFile) && !std::filesystem::is_directory(pathFile);
     if (!bIsFile) {
         headError = HEADCOMMENTS_ERROR::FILE_NOT_EXIST;
         return comments;

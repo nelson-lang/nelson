@@ -11,7 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS /* _wfopen */
 #endif
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
@@ -26,8 +26,8 @@ mustBeExistingFile(const std::wstring& filename)
 {
     bool bIsFile;
     try {
-        bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
+        bIsFile = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
+    } catch (const std::filesystem::filesystem_error&) {
         bIsFile = false;
     }
     if (!bIsFile) {
@@ -36,7 +36,7 @@ mustBeExistingFile(const std::wstring& filename)
 }
 //=============================================================================
 static FILE*
-filePointerWithoutShebang(const boost::filesystem::path& absolutePath)
+filePointerWithoutShebang(const std::filesystem::path& absolutePath)
 {
 #ifdef _MSC_BUILD
     FILE* fr = _wfopen(absolutePath.generic_wstring().c_str(), L"rt");
@@ -90,12 +90,13 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     if (IsEmptyScriptFile(filename)) {
         return true;
     }
-    boost::filesystem::path initialDir = boost::filesystem::current_path();
-    boost::filesystem::path fileToEvaluate(filename);
-    boost::filesystem::path absolutePath = boost::filesystem::absolute(fileToEvaluate);
-    if (fileToEvaluate.has_branch_path() && bChangeDirectory) {
+    std::filesystem::path initialDir = std::filesystem::current_path();
+    std::filesystem::path fileToEvaluate(filename);
+    std::filesystem::path absolutePath = std::filesystem::absolute(fileToEvaluate);
+    bool hasBranchPath = !fileToEvaluate.parent_path().empty();
+    if (hasBranchPath && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
-        boost::filesystem::path newDir = fileToEvaluate.parent_path();
+        std::filesystem::path newDir = fileToEvaluate.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);

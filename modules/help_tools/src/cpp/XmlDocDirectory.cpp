@@ -7,15 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
+#include <boost/algorithm/string.hpp>
 #include "XmlDocDirectory.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "Types.hpp"
 #include "XmlDocChapterItem.hpp"
 #include "i18n.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,11 +26,11 @@ XmlDocDirectory::XmlDocDirectory(const std::wstring& _srcDirectory,
     this->srcDirectory.assign(_srcDirectory);
     this->dstDirectory.assign(dstDirectory);
     this->outputTarget = outputTarget;
-    boost::filesystem::directory_iterator end_iter;
+    std::filesystem::directory_iterator end_iter;
     wstringVector listXmlFiles;
-    for (boost::filesystem::directory_iterator dir_iter(this->srcDirectory); dir_iter != end_iter;
+    for (std::filesystem::directory_iterator dir_iter(this->srcDirectory); dir_iter != end_iter;
          ++dir_iter) {
-        boost::filesystem::path current = dir_iter->path();
+        std::filesystem::path current = dir_iter->path();
         if (boost::iequals(current.extension().generic_wstring(), ".xml")) {
             listXmlFiles.push_back(current.generic_wstring());
         }

@@ -24,7 +24,6 @@
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include <boost/filesystem.hpp>
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"

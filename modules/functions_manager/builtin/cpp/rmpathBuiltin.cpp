@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "PathFuncManager.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,12 +25,12 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOf param1 = argIn[0];
     if (param1.isRowVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
-        boost::filesystem::path data_dir(pathToRemove);
+        std::filesystem::path data_dir(pathToRemove);
         bool bRes = false;
         try {
-            bRes = boost::filesystem::is_directory(data_dir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
+            bRes = std::filesystem::is_directory(data_dir);
+        } catch (const std::filesystem::filesystem_error& e) {
+            if (e.code() == std::errc::permission_denied) {
                 // ONLY FOR DEBUG
             }
             bRes = false;

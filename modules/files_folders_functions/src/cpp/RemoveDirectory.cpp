@@ -7,24 +7,25 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "RemoveDirectory.hpp"
 #include "IsDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
 updatePermissions(const std::wstring& folderName)
 {
-    boost::filesystem::path f = folderName;
-    boost::filesystem::permissions(f,
-        boost::filesystem::add_perms | boost::filesystem::owner_write
-            | boost::filesystem::group_write | boost::filesystem::others_write);
+    std::filesystem::path f = folderName;
+    std::filesystem::permissions(f,
+        std::filesystem::perms::owner_write | std::filesystem::perms::group_write
+            | std::filesystem::perms::others_write,
+        std::filesystem::perm_options::add);
     if (IsDirectory(folderName)) {
-        boost::filesystem::path branch(folderName);
-        for (boost::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
+        std::filesystem::path branch(folderName);
+        for (std::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
             updatePermissions(p->path().wstring());
         }
     }
@@ -37,19 +38,20 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
     message = L"";
     if (IsDirectory(folderName)) {
         try {
-            boost::filesystem::path p = folderName;
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
+            std::filesystem::path p = folderName;
+            std::filesystem::permissions(p,
+                std::filesystem::perms::owner_write | std::filesystem::perms::group_write
+                    | std::filesystem::perms::others_write,
+                std::filesystem::perm_options::add);
             if (bSubfolder) {
                 updatePermissions(p.wstring());
-                boost::filesystem::remove_all(p);
+                std::filesystem::remove_all(p);
             }
-            boost::filesystem::remove(p);
+            std::filesystem::remove(p);
             res = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
+        } catch (const std::filesystem::filesystem_error& e) {
             res = false;
-            boost::system::error_code error_code = e.code();
+            std::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());
         }
     } else {

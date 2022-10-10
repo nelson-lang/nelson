@@ -7,12 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
 #include <QtCore/QtGlobal>
 #include <Windows.h>
-//=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
+#include "nlsConfig.h"
 //=============================================================================
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #pragma comment(lib, "Qt6Core.lib")

@@ -9,7 +9,6 @@
 //=============================================================================
 #include <map>
 #include <utility>
-#include <boost/filesystem.hpp>
 #include <boost/dll/library_info.hpp>
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"

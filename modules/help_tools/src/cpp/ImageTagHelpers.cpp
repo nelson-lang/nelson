@@ -8,10 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -46,15 +46,19 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
         boost::xpressive::wsmatch const& what = *cur2;
         oldPath = what[0];
         if (!boost::algorithm::istarts_with(oldPath, L"http")) {
-            boost::filesystem::path absolutePath;
+            std::filesystem::path absolutePath;
             try {
-                absolutePath = boost::filesystem::canonical(oldPath, srcDirectory);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
+                if (boost::ends_with(srcDirectory, L"/") || boost::ends_with(srcDirectory, L"\\")) {
+                    absolutePath = std::filesystem::canonical(srcDirectory + oldPath);
+                } else {
+                    absolutePath = std::filesystem::canonical(srcDirectory + L"/" + oldPath);
+                }
+
+            } catch (const std::filesystem::filesystem_error&) {
             }
             newPath = absolutePath.generic_wstring();
             bool bIsFile
-                = boost::filesystem::exists(newPath) && !boost::filesystem::is_directory(newPath);
+                = std::filesystem::exists(newPath) && !std::filesystem::is_directory(newPath);
             if (!bIsFile) {
                 newPath.clear();
             }
@@ -86,14 +90,13 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
 {
     bool bRes = true;
     for (size_t k = 0; k < srcImages.size(); k++) {
-        bool bIsFile = boost::filesystem::exists(srcImages[k])
-            && !boost::filesystem::is_directory(srcImages[k]);
+        bool bIsFile
+            = std::filesystem::exists(srcImages[k]) && !std::filesystem::is_directory(srcImages[k]);
         if (bIsFile) {
             try {
-                boost::filesystem::copy_file(srcImages[k], dstImages[k],
-                    boost::filesystem::copy_option::overwrite_if_exists);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
+                std::filesystem::copy_file(
+                    srcImages[k], dstImages[k], std::filesystem::copy_options::overwrite_existing);
+            } catch (const std::filesystem::filesystem_error&) {
             }
         } else {
             bRes = false;

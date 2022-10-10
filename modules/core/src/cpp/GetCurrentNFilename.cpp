@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "GetCurrentNFilename.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -18,14 +16,11 @@ namespace Nelson {
 static bool
 isFile(const std::wstring& filename)
 {
-    boost::filesystem::path data_dir(filename);
+    std::filesystem::path data_dir(filename);
     bool bRes = false;
     try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
+        bRes = std::filesystem::exists(data_dir) && !std::filesystem::is_directory(data_dir);
+    } catch (const std::filesystem::filesystem_error&) {
         bRes = false;
     }
     return bRes;
@@ -47,12 +42,11 @@ GetCurrentNFilenameW(Evaluator* eval)
     }
     if (!fileName.empty()) {
         if (isFile(fileName)) {
-            boost::filesystem::path canonicalPath;
+            std::filesystem::path canonicalPath;
             try {
-                canonicalPath
-                    = boost::filesystem::canonical(fileName, boost::filesystem::current_path());
+                canonicalPath = std::filesystem::canonical(fileName);
                 fileName = canonicalPath.generic_wstring();
-            } catch (const boost::filesystem::filesystem_error&) {
+            } catch (const std::filesystem::filesystem_error&) {
             }
         }
     }

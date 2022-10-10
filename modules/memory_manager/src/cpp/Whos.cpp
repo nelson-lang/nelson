@@ -8,8 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <iomanip>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <boost/container/vector.hpp>
 #include "Whos.hpp"
 #include "Error.hpp"
@@ -36,13 +35,13 @@ getNestingEmptyStruct()
 static bool
 isFile(const std::wstring& _filename)
 {
-    boost::filesystem::path filename(_filename);
+    std::filesystem::path filename(_filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously
-            = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+            = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             Error(_W("Permission denied."));
         }
         fileExistPreviously = false;

@@ -18,8 +18,6 @@
 #include <boost/process.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/process/async.hpp>
-#include <boost/filesystem.hpp>
-#include <algorithm>
 #include <map>
 #include "engine.h"
 #include "characters_encoding.hpp"

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "sha256Builtin.hpp"
 #include "NelsonSHA256.hpp"
 #include "Error.hpp"
@@ -28,8 +28,8 @@ isFile(const std::wstring& filename)
 {
     bool bIsFile;
     try {
-        bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
+        bIsFile = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
+    } catch (const std::filesystem::filesystem_error&) {
         bIsFile = false;
     }
     return bIsFile;

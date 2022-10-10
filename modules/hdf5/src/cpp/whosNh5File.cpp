@@ -10,8 +10,7 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include <iomanip>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <boost/container/vector.hpp>
 #include "whosNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"
@@ -37,13 +36,13 @@ ArrayOf
 whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    boost::filesystem::path nh5_filename(filename);
+    std::filesystem::path nh5_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(nh5_filename)
-            && !boost::filesystem::is_directory(nh5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        fileExistPreviously
+            = std::filesystem::exists(nh5_filename) && !std::filesystem::is_directory(nh5_filename);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             Error(_W("Permission denied."));
         }
         fileExistPreviously = false;

@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
+#include <boost/container/vector.hpp>
 #include "SearchVariableEnvironment.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
-#include <boost/container/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,9 +48,9 @@ SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring&
     std::wstring envValue = GetVariableEnvironment(envVarName, L"");
     wstringVector envValuevector = splitEnvironmentPath(envValue);
     for (auto& k : envValuevector) {
-        boost::filesystem::path fullpath(k);
+        std::filesystem::path fullpath(k);
         fullpath /= fileToSearch;
-        if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath)) {
+        if (std::filesystem::exists(fullpath) && !std::filesystem::is_directory(fullpath)) {
             res.push_back(fullpath.generic_wstring());
         }
     }

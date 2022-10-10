@@ -7,12 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_program_options-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
 //=============================================================================
 int WINAPI

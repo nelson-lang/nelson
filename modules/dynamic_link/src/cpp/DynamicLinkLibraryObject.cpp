@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/dll/library_info.hpp>
 #include "DynamicLinkLibraryObject.hpp"
 #include "dynamic_library.hpp"
-#include <boost/dll/library_info.hpp>
-#include <boost/filesystem.hpp>
 #undef GetCurrentDirectory
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
@@ -30,8 +29,7 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
         if (errorCode) {
             Error(_("Cannot load library: ") + errorCode.message());
         }
-        boost::filesystem::path full_path = lib.location();
-        _libraryPath = full_path.generic_wstring();
+        _libraryPath = lib.location().generic_wstring();
         _shared_library = lib;
     } else {
         Error(_W("Cannot load library: ") + libraryPath);

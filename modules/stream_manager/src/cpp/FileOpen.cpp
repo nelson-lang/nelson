@@ -8,10 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "FileOpen.hpp"
 #include "File.hpp"
 #include "characters_encoding.hpp"
@@ -124,11 +123,10 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_IMPOSSIBLE_TO_ADD_FILE;
         return fopenError;
     }
-    boost::filesystem::path canonicalPath;
+    std::filesystem::path canonicalPath;
     try {
-        canonicalPath = boost::filesystem::canonical(filename, boost::filesystem::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+        canonicalPath = std::filesystem::canonical(filename);
+    } catch (const std::filesystem::filesystem_error&) {
         canonicalPath = filename;
     }
 #ifdef _MSC_VER
@@ -144,12 +142,11 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         return fopenError;
     }
     try {
-        canonicalPath = boost::filesystem::canonical(filename, boost::filesystem::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+        canonicalPath = std::filesystem::canonical(filename);
+    } catch (const std::filesystem::filesystem_error&) {
         canonicalPath = filename;
     }
-    file->setFileName(canonicalPath.generic_path().generic_wstring());
+    file->setFileName(canonicalPath.generic_wstring());
     file->setFileMode(_mode);
     file->setFilePointer((void*)fp);
     file->setEncoding(encoding);

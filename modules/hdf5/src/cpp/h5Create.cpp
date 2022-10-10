@@ -9,8 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include "HDF5_helpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
@@ -170,13 +169,13 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     hid_t datatype = nelsonClassToHdf5DataType(dataType);
 
     hid_t fid = H5I_INVALID_HID;
-    boost::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(hdf5_filename)
-            && !boost::filesystem::is_directory(hdf5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        fileExistPreviously = std::filesystem::exists(hdf5_filename)
+            && !std::filesystem::is_directory(hdf5_filename);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             Error(_W("Permission denied."));
         }
         fileExistPreviously = false;
@@ -302,9 +301,9 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         H5Fclose(fid);
         if (!fileExistPreviously) {
             try {
-                boost::filesystem::path p = filename;
-                boost::filesystem::remove(p);
-            } catch (const boost::filesystem::filesystem_error&) {
+                std::filesystem::path p = filename;
+                std::filesystem::remove(p);
+            } catch (const std::filesystem::filesystem_error&) {
             }
         }
         Error(_W("H5Dcreate fails."));

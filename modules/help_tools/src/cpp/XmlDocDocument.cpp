@@ -11,10 +11,10 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
+#include <filesystem>
+#include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
-#include <fstream>
 #include "GetNelsonPath.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
@@ -71,12 +71,12 @@ safegetline(std::ifstream& os, std::string& line)
 static bool
 isDir(const std::wstring& dirname)
 {
-    boost::filesystem::path pathIn(dirname);
+    std::filesystem::path pathIn(dirname);
     bool IsDirIn = false;
     try {
-        IsDirIn = boost::filesystem::exists(pathIn) && boost::filesystem::is_directory(pathIn);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        IsDirIn = std::filesystem::exists(pathIn) && std::filesystem::is_directory(pathIn);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             // ONLY FOR DEBUG
         }
         IsDirIn = false;
@@ -95,21 +95,21 @@ XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstri
     this->items.clear();
     this->bReadOk = false;
     this->xmlDirectory = L"./";
-    boost::filesystem::path pathToSplit = srcfilename;
+    std::filesystem::path pathToSplit = srcfilename;
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
     if (isDir(destfilename)) {
         this->directoryDestination = destfilename;
-        boost::filesystem::path pathname(srcfilename);
+        std::filesystem::path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        boost::filesystem::path pathdest(destfilename);
+        std::filesystem::path pathdest(destfilename);
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
@@ -136,28 +136,28 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     this->items = items;
     this->bReadOk = true;
     this->xmlDirectory = L"./";
-    boost::filesystem::path pathToSplit = srcfilename;
+    std::filesystem::path pathToSplit = srcfilename;
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
     if (isDir(destfilename)) {
         this->directoryDestination = destfilename;
-        boost::filesystem::path pathname(srcfilename);
+        std::filesystem::path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        boost::filesystem::path pathdest(destfilename);
-        pathdest = pathdest.normalize();
+        std::filesystem::path pathdest(destfilename);
+        pathdest = pathdest.lexically_normal();
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
         this->directoryDestination.clear();
-        boost::filesystem::path pathdest(destfilename);
-        pathdest = pathdest.normalize();
+        std::filesystem::path pathdest(destfilename);
+        pathdest = pathdest.lexically_normal();
         this->setDestinationFile(pathdest.generic_wstring());
     }
     this->bOverwriteExistingFile = bOverwriteExistingFile;
@@ -2536,7 +2536,7 @@ XmlDocDocument::setDestinationFile(const std::wstring& _filenameDestination)
 {
     this->filenameDestination = _filenameDestination;
     this->directoryDestination = L"./";
-    boost::filesystem::path pathToSplit = _filenameDestination;
+    std::filesystem::path pathToSplit = _filenameDestination;
     if (pathToSplit.has_parent_path()) {
         this->directoryDestination = pathToSplit.parent_path().generic_wstring();
         if (this->directoryDestination[this->directoryDestination.size() - 1] != '/'
@@ -2563,15 +2563,15 @@ XmlDocDocument::copyHtmlDependencies()
         files.push_back(L"style.css");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            boost::filesystem::path dstFile = this->directoryDestination;
+            std::filesystem::path dstFile = this->directoryDestination;
             dstFile = dstFile / file;
-            if (!boost::filesystem::exists(dstFile)) {
-                boost::filesystem::path srcFile = ressourcesPath;
+            if (!std::filesystem::exists(dstFile)) {
+                std::filesystem::path srcFile = ressourcesPath;
                 srcFile = srcFile / file;
-                bool bIsFile = boost::filesystem::exists(srcFile)
-                    && !boost::filesystem::is_directory(srcFile);
+                bool bIsFile
+                    = std::filesystem::exists(srcFile) && !std::filesystem::is_directory(srcFile);
                 if (bIsFile) {
-                    boost::filesystem::copy_file(srcFile, dstFile);
+                    std::filesystem::copy_file(srcFile, dstFile);
                 }
             }
         }
@@ -2585,9 +2585,10 @@ XmlDocDocument::needToUpdate()
     if (this->bOverwriteExistingFile) {
         return true;
     }
-    if (boost::filesystem::exists(this->filenameDestination)) {
-        std::time_t t1 = boost::filesystem::last_write_time(this->xmlfilename);
-        std::time_t t2 = boost::filesystem::last_write_time(this->filenameDestination);
+    if (std::filesystem::exists(this->filenameDestination)) {
+        std::filesystem::file_time_type t1 = std::filesystem::last_write_time(this->xmlfilename);
+        std::filesystem::file_time_type t2
+            = std::filesystem::last_write_time(this->filenameDestination);
         if (t1 >= t2) {
             return true;
         }

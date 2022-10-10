@@ -7,11 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GetSystemTemporaryDirectory.hpp"
+#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
-//=============================================================================
-using namespace boost::filesystem;
+#include "GetSystemTemporaryDirectory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +25,7 @@ std::wstring
 GetSystemTemporaryDirectory()
 {
     if (tempDir == L"") {
-        path pwd = temp_directory_path();
+        std::filesystem::path pwd = std::filesystem::temp_directory_path();
         tempDir = pwd.generic_wstring();
         if (!boost::algorithm::ends_with(tempDir, L"\\")
             && (!boost::algorithm::ends_with(tempDir, L"/"))) {

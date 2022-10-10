@@ -10,8 +10,6 @@
 #include "nlsConfig.h"
 #include <Windows.h>
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_regex-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_date_time-", BOOST_TARGET, ".lib"))
 //=============================================================================

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "RemoveModule.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
@@ -31,11 +31,10 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
         if (rootpathmodule.empty()) {
             Error(moduleshortname + _W(": This module is registered but it has no path."));
         }
-        if (boost::filesystem::is_directory(rootpathmodule)) {
-            boost::filesystem::path pathfinish(rootpathmodule);
+        if (std::filesystem::is_directory(rootpathmodule)) {
+            std::filesystem::path pathfinish(rootpathmodule);
             pathfinish += L"/etc/finish.m";
-            if (boost::filesystem::exists(pathfinish)
-                && !boost::filesystem::is_directory(pathfinish)) {
+            if (std::filesystem::exists(pathfinish) && !std::filesystem::is_directory(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
                 Error(_W("finish.m does not exist."));

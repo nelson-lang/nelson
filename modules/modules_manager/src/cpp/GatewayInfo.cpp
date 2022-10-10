@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "GatewayInfo.hpp"
 #include "Error.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,14 +25,14 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     moduleName.clear();
     functionsList.clear();
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
-    boost::filesystem::path p;
+    std::filesystem::path p;
     p = dynlibname;
     p = p.generic_wstring();
     std::wstring dirname;
     std::wstring filename;
-    boost::filesystem::path dir = p.parent_path();
+    std::filesystem::path dir = p.parent_path();
     if (dir.generic_wstring().compare(L"") == 0) {
-        dir = boost::filesystem::current_path();
+        dir = std::filesystem::current_path();
     }
     dirname = dir.generic_wstring();
     filename = p.filename().generic_wstring();
@@ -41,8 +41,8 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
         errorMessage = _W("File not found.");
         return false;
     }
-    boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
-    boost::filesystem::current_path(dir);
+    std::filesystem::path currentdirbackup = std::filesystem::current_path();
+    std::filesystem::current_path(dir);
     library_handle nlsModuleHandleDynamicLibrary = nullptr;
 #ifdef _MSC_VER
     nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename);
@@ -56,10 +56,10 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
             get_function(nlsModuleHandleDynamicLibrary, GATEWAY_INFO));
         PROC_InfoModuleName InfoModuleNamePtr = reinterpret_cast<PROC_InfoModuleName>(
             get_function(nlsModuleHandleDynamicLibrary, GATEWAY_NAME));
-        boost::filesystem::current_path(currentdirbackup);
+        std::filesystem::current_path(currentdirbackup);
         if (!InfoModulePtr) {
             errorMessage = _W("Module not loaded: symbol not found.");
-            boost::filesystem::current_path(currentdirbackup);
+            std::filesystem::current_path(currentdirbackup);
             return false;
         }
         functionsList = InfoModulePtr();
@@ -67,11 +67,11 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
             moduleName = InfoModuleNamePtr();
         } else {
             errorMessage = _W("Module not loaded: symbol not found.");
-            boost::filesystem::current_path(currentdirbackup);
+            std::filesystem::current_path(currentdirbackup);
             return false;
         }
     } else {
-        boost::filesystem::current_path(currentdirbackup);
+        std::filesystem::current_path(currentdirbackup);
         errorMessage = _W("Module not loaded: library not loaded.");
     }
     return bRes;

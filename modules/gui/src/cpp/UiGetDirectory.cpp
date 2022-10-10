@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "UiGetDirectory.hpp"
 #include "QStringConverter.hpp"
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,19 +36,19 @@ UiGetDirectory(
     }
     if (fd) {
         if (!pathOrigin.empty()) {
-            boost::filesystem::path data_dir(pathOrigin);
+            std::filesystem::path data_dir(pathOrigin);
             bool bRes = false;
             try {
-                bRes = boost::filesystem::is_directory(data_dir);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                if (e.code() == boost::system::errc::permission_denied) {
+                bRes = std::filesystem::is_directory(data_dir);
+            } catch (const std::filesystem::filesystem_error& e) {
+                if (e.code() == std::errc::permission_denied) {
                     // ONLY FOR DEBUG
                 }
                 bRes = false;
             }
             std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
-                boost::filesystem::path pwd = boost::filesystem::current_path();
+                std::filesystem::path pwd = std::filesystem::current_path();
                 _pathOrigin = pwd.generic_wstring();
             }
             fd->setDirectory(QDir(wstringToQString(_pathOrigin)));

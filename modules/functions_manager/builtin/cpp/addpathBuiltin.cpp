@@ -9,8 +9,7 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -89,12 +88,12 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
-        boost::filesystem::path data_dir(param);
+        std::filesystem::path data_dir(param);
         bool bRes = false;
         try {
-            bRes = boost::filesystem::is_directory(data_dir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
+            bRes = std::filesystem::is_directory(data_dir);
+        } catch (const std::filesystem::filesystem_error& e) {
+            if (e.code() == std::errc::permission_denied) {
                 // ONLY FOR DEBUG
             }
             bRes = false;

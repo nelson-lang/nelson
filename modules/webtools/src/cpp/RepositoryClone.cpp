@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
 #include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
@@ -64,7 +64,7 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
         if (!branchOrTag.empty()) {
             RepositoryCheckout(localPath, branchOrTag, errorMessage);
         }
-        boost::filesystem::path p;
+        std::filesystem::path p;
         if (errorMessage.empty()) {
             if (!boost::algorithm::ends_with(localPath, L"\\")
                 && (!boost::algorithm::ends_with(localPath, L"/"))) {

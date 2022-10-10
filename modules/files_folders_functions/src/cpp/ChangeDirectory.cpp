@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include "ChangeDirectory.hpp"
@@ -33,7 +33,7 @@ removeSimpleQuotesAndTrim(const std::wstring& newpath)
 ArrayOf
 Cd(const std::wstring& newpath)
 {
-    boost::filesystem::path previous_pwd = boost::filesystem::current_path();
+    std::filesystem::path previous_pwd = std::filesystem::current_path();
     ChangeDirectory(newpath, true, true);
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
@@ -52,11 +52,11 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
     try {
-        boost::filesystem::current_path(pathApplied);
+        std::filesystem::current_path(pathApplied);
         PathFuncManager::getInstance()->setCurrentUserPath(
-            boost::filesystem::current_path().generic_wstring());
+            std::filesystem::current_path().generic_wstring());
         return true;
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const std::filesystem::filesystem_error&) {
         if (doException) {
             std::wstring msg
                 = str(boost::wformat(_W("Cannot change directory '%s'.")) % pathApplied);

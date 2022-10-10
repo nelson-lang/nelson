@@ -7,9 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocChapterDescriptionItem.hpp"
@@ -187,7 +186,7 @@ XmlDocListOfFiles::read()
         if (!this->chapterTitle.empty()) {
             bool bRes;
             std::wstring linkUrl = L"";
-            boost::filesystem::path destPath(this->dstDirectory);
+            std::filesystem::path destPath(this->dstDirectory);
             if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                 if (!this->moduleName.empty()) {
                     destPath = destPath / (L"README.md");

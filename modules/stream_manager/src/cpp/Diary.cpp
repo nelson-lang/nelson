@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <fstream>
 #include <iostream>
 #include "Diary.hpp"
@@ -32,8 +32,8 @@ bool
 Diary::SetFilename(const std::wstring& wFilename)
 {
     bool bRes = false;
-    boost::filesystem::path p = wFilename;
-    bool previouslyExist = boost::filesystem::exists(p) && !boost::filesystem::is_directory(p);
+    std::filesystem::path p = wFilename;
+    bool previouslyExist = std::filesystem::exists(p) && !std::filesystem::is_directory(p);
     std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
 #ifdef _MSC_VER
     std::wofstream fileDiary(wFilename, wofstream_mode);
@@ -49,11 +49,11 @@ Diary::SetFilename(const std::wstring& wFilename)
     if (!bState || !previouslyExist) {
         // remove create diary if state is off
         // or if diary did not exist before
-        boost::filesystem::path p = wFilename;
+        std::filesystem::path p = wFilename;
         try {
-            boost::filesystem::remove(p);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
+            std::filesystem::remove(p);
+        } catch (const std::filesystem::filesystem_error& e) {
+            if (e.code() == std::errc::permission_denied) {
                 // ONLY FOR DEBUG
             }
         }

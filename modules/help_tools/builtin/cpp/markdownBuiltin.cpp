@@ -7,13 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,38 +31,38 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         filenameOut = argIn[1].getContentAsWideString();
-        boost::filesystem::path pathIn(filenameIn);
+        std::filesystem::path pathIn(filenameIn);
         bool IsDirIn = false;
         try {
-            IsDirIn = boost::filesystem::is_directory(pathIn);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
+            IsDirIn = std::filesystem::is_directory(pathIn);
+        } catch (const std::filesystem::filesystem_error& e) {
+            if (e.code() == std::errc::permission_denied) {
                 Error(_W("Permission denied."));
             }
         }
-        boost::filesystem::path pathOut(filenameOut);
+        std::filesystem::path pathOut(filenameOut);
         bool IsDirOut = false;
         try {
-            IsDirOut = boost::filesystem::is_directory(pathOut);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
+            IsDirOut = std::filesystem::is_directory(pathOut);
+        } catch (const std::filesystem::filesystem_error& e) {
+            if (e.code() == std::errc::permission_denied) {
                 Error(_W("Permission denied."));
             }
         }
         if (IsDirIn && IsDirOut) {
-            boost::filesystem::directory_iterator end_iter;
+            std::filesystem::directory_iterator end_iter;
             wstringVector filesListIn;
-            for (boost::filesystem::directory_iterator dir_iter(pathIn); dir_iter != end_iter;
+            for (std::filesystem::directory_iterator dir_iter(pathIn); dir_iter != end_iter;
                  ++dir_iter) {
-                boost::filesystem::path current = dir_iter->path();
+                std::filesystem::path current = dir_iter->path();
                 if (boost::iequals(current.extension().generic_wstring(), ".md")) {
                     filesListIn.push_back(current.generic_wstring());
                 }
             }
             bool bRes = true;
             for (auto& k : filesListIn) {
-                boost::filesystem::path st(k);
-                boost::filesystem::path out(pathOut);
+                std::filesystem::path st(k);
+                std::filesystem::path out(pathOut);
                 out /= st.stem();
                 out += L".html";
                 bool bLocal = MarkdownFile(k, out.generic_wstring());

@@ -7,12 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -219,7 +216,7 @@ Exception::getFormattedErrorMessage() const
         if (traces[k].getFunctionName() == L"run") {
             if ((k >= 1) && traces[k - 1].getLine() != 0) {
                 size_t pos = k - 1;
-                boost::filesystem::path pf = boost::filesystem::path(traces[pos].getFilename());
+                std::filesystem::path pf = std::filesystem::path(traces[pos].getFilename());
                 std::wstring filename;
                 if (traces[pos].getFilename().size() > 50) {
                     filename = pf.filename().wstring();

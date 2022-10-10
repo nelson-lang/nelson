@@ -10,7 +10,7 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
 #include "Unzip.hpp"
@@ -27,12 +27,12 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
     if (!isExistingDirectory(rootpath)) {
         try {
 #ifdef _MSC_VER
-            boost::filesystem::path p = rootpath;
+            std::filesystem::path p = rootpath;
 #else
-            boost::filesystem::path p = wstring_to_utf8(rootpath);
+            std::filesystem::path p = wstring_to_utf8(rootpath);
 #endif
-            boost::filesystem::create_directories(p);
-        } catch (const boost::filesystem::filesystem_error&) {
+            std::filesystem::create_directories(p);
+        } catch (const std::filesystem::filesystem_error&) {
             Error(_W("Cannot create directory."));
         }
     }
@@ -63,12 +63,12 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
             if (!isExistingDirectory(completePath)) {
                 try {
 #ifdef _MSC_VER
-                    boost::filesystem::create_directories(completePath);
+                    std::filesystem::create_directories(completePath);
 #else
-                    boost::filesystem::create_directories(wstring_to_utf8(completePath));
+                    std::filesystem::create_directories(wstring_to_utf8(completePath));
 #endif
-                } catch (const boost::filesystem::filesystem_error& e) {
-                    boost::system::error_code error_code = e.code();
+                } catch (const std::filesystem::filesystem_error& e) {
+                    std::error_code error_code = e.code();
                 }
             }
             filenames.push_back(completePath);

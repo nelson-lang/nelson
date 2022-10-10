@@ -12,7 +12,7 @@
 #endif
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <sndfile.h>
 #include <map>
 #include "AudioWrite.hpp"
@@ -191,7 +191,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     rows = audioData.getRows();
     columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
-    boost::filesystem::path pathFilename = filename;
+    std::filesystem::path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
         extension = pathFilename.extension().generic_wstring();

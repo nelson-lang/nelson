@@ -7,6 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include "XmlDocDescriptionItem.hpp"
 #include "Error.hpp"
 #include "HtmlTags.hpp"
@@ -15,9 +18,6 @@
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -111,7 +111,7 @@ XmlDocDescriptionItem::replaceImageTag()
         if (parseImageTag(tag, this->srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            boost::filesystem::path absolutePath = oldPath;
+            std::filesystem::path absolutePath = oldPath;
             if (absolutePath.has_filename()) {
                 filename = absolutePath.stem().generic_wstring();
             }

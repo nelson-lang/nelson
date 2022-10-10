@@ -14,11 +14,9 @@
 #include <utime.h>
 #endif
 #include <ctime>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
 #include <boost/regex.hpp>
 
 #include "Zipper.hpp"
@@ -35,14 +33,14 @@ bool
 isExistingDirectory(const std::wstring& name)
 {
 #ifdef _MSC_VER
-    boost::filesystem::path p = name;
+    std::filesystem::path p = name;
 #else
-    boost::filesystem::path p = wstring_to_utf8(name);
+    std::filesystem::path p = wstring_to_utf8(name);
 #endif
     bool res = false;
     try {
-        res = boost::filesystem::is_directory(p);
-    } catch (const boost::filesystem::filesystem_error&) {
+        res = std::filesystem::is_directory(p);
+    } catch (const std::filesystem::filesystem_error&) {
         res = false;
     }
     return res;
@@ -52,14 +50,14 @@ bool
 isExistingFile(const std::wstring& name)
 {
 #ifdef _MSC_VER
-    boost::filesystem::path p = name;
+    std::filesystem::path p = name;
 #else
-    boost::filesystem::path p = wstring_to_utf8(name);
+    std::filesystem::path p = wstring_to_utf8(name);
 #endif
     bool res = false;
     try {
-        res = boost::filesystem::is_regular_file(p);
-    } catch (const boost::filesystem::filesystem_error&) {
+        res = std::filesystem::is_regular_file(p);
+    } catch (const std::filesystem::filesystem_error&) {
         res = false;
     }
     return res;
@@ -69,11 +67,11 @@ std::wstring
 normalizePath(const std::wstring& path)
 {
 #ifdef _MSC_VER
-    boost::filesystem::path p = path;
+    std::filesystem::path p = path;
 #else
-    boost::filesystem::path p = wstring_to_utf8(path);
+    std::filesystem::path p = wstring_to_utf8(path);
 #endif
-    p = p.generic_path().lexically_normal();
+    p = p.lexically_normal();
     if (boost::algorithm::starts_with(p.wstring(), L"./")) {
         p = p.wstring().substr(2);
     }
@@ -83,9 +81,9 @@ normalizePath(const std::wstring& path)
 std::wstring
 getRootPath(const std::wstring& rootpath)
 {
-    boost::filesystem::path p;
+    std::filesystem::path p;
     if (rootpath == L".") {
-        p = boost::filesystem::current_path();
+        p = std::filesystem::current_path();
     } else {
 #ifdef _MSC_VER
         p = rootpath;

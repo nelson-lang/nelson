@@ -7,9 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include <boost/format.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
@@ -357,6 +356,16 @@ MacroFunctionDef::getCompleteName()
     return this->getName();
 }
 //=============================================================================
+template <typename TP>
+std::time_t
+to_time_t(TP tp)
+{
+    using namespace std::chrono;
+    auto sctp
+        = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+    return system_clock::to_time_t(sctp);
+}
+//=============================================================================
 bool
 MacroFunctionDef::updateCode()
 {
@@ -367,12 +376,13 @@ MacroFunctionDef::updateCode()
         return false;
     }
     try {
-        time_t currentFileTimestamp = boost::filesystem::last_write_time(this->getFilename());
+        time_t currentFileTimestamp
+            = to_time_t(std::filesystem::last_write_time(this->getFilename()));
         if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
             return false;
         }
         this->setTimestamp(currentFileTimestamp);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const std::filesystem::filesystem_error&) {
         return false;
     }
 
@@ -424,7 +434,7 @@ MacroFunctionDef::updateCode()
             MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
             this->setIsScript(false);
             if (macroFunctionDef == nullptr) {
-                boost::filesystem::path pathFunction(this->getFilename());
+                std::filesystem::path pathFunction(this->getFilename());
                 this->setName(pathFunction.stem().generic_string());
             } else {
                 this->code = macroFunctionDef->code;
@@ -444,7 +454,7 @@ MacroFunctionDef::updateCode()
             this->prevFunction = nullptr;
             this->returnVals.clear();
             this->setIsScript(true);
-            boost::filesystem::path pathFunction(this->getFilename());
+            std::filesystem::path pathFunction(this->getFilename());
             this->setName(pathFunction.stem().generic_string());
         }
         this->setWithWatcher(withWatcher);
@@ -473,7 +483,7 @@ MacroFunctionDef::updateCode()
             Error(msg);
         }
 
-        boost::filesystem::path pathFunction(this->getFilename());
+        std::filesystem::path pathFunction(this->getFilename());
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
 
         if (this->getName() != functionNameFromFile) {

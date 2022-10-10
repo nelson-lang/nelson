@@ -11,8 +11,6 @@
 #include <QtCore/QtGlobal>
 #include "nlsConfig.h"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, "shlwapi.lib") // AllocConsole
 //=============================================================================

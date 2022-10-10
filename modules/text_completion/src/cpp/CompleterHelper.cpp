@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "CompleterHelper.hpp"
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include "CompleterHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -129,15 +129,15 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
         }
         if (!filePatternBuf.empty()) {
             std::wstring res;
-            boost::filesystem::path pathToSplit = filePatternBuf;
+            std::filesystem::path pathToSplit = filePatternBuf;
             if (pathToSplit.has_parent_path()) {
                 res = pathToSplit.parent_path().generic_wstring();
             }
             if (res.empty()) {
                 try {
-                    boost::filesystem::path pwd = boost::filesystem::current_path();
+                    std::filesystem::path pwd = std::filesystem::current_path();
                     res = pwd.generic_wstring();
-                } catch (const boost::filesystem::filesystem_error&) {
+                } catch (const std::filesystem::filesystem_error&) {
                 }
                 if (res.empty()) {
                     lineModified = currentLine;
@@ -157,3 +157,4 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================

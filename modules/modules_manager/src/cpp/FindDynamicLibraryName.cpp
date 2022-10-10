@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FindDynamicLibraryName.hpp"
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include "FindDynamicLibraryName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,19 +18,19 @@ FindDynamicLibraryName(
     const std::wstring& directoryName, const std::wstring& initialLibraryName, bool bCaseSensitive)
 {
     std::wstring res;
-    boost::filesystem::directory_iterator end_iter;
-    boost::filesystem::path dir = directoryName;
-    if (!boost::filesystem::is_directory(dir)) {
+    std::filesystem::directory_iterator end_iter;
+    std::filesystem::path dir = directoryName;
+    if (!std::filesystem::is_directory(dir)) {
         return res;
     }
-    boost::filesystem::path fullfilename = directoryName;
+    std::filesystem::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
     bool bRes = false;
     try {
-        bRes = boost::filesystem::exists(fullfilename)
-            && !boost::filesystem::is_directory(fullfilename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        bRes
+            = std::filesystem::exists(fullfilename) && !std::filesystem::is_directory(fullfilename);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             // ONLY FOR DEDUG
         }
         bRes = false;
@@ -39,9 +39,9 @@ FindDynamicLibraryName(
         res = initialLibraryName;
         return res;
     }
-    for (boost::filesystem::directory_iterator dir_iter(dir); dir_iter != end_iter; ++dir_iter) {
-        boost::filesystem::path current = dir_iter->path();
-        if (boost::filesystem::is_regular_file(current)) {
+    for (std::filesystem::directory_iterator dir_iter(dir); dir_iter != end_iter; ++dir_iter) {
+        std::filesystem::path current = dir_iter->path();
+        if (std::filesystem::is_regular_file(current)) {
             if (bCaseSensitive) {
                 if (initialLibraryName.compare(current.generic_wstring()) == 0) {
                     return current.generic_wstring();

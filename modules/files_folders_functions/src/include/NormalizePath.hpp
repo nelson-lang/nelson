@@ -10,8 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
@@ -45,13 +44,13 @@ NormalizePath(const std::wstring& path)
             uniformizedPath = uniformizedPath + L"/";
         }
     } else {
-        boost::filesystem::path absPath = boost::filesystem::absolute(path);
-        boost::filesystem::path::iterator it = absPath.begin();
-        boost::filesystem::path result = *it++;
+        std::filesystem::path absPath = std::filesystem::absolute(path);
+        std::filesystem::path::iterator it = absPath.begin();
+        std::filesystem::path result = *it++;
         for (; exists(result / *it) && it != absPath.end(); ++it) {
             result /= *it;
         }
-        result = boost::filesystem::canonical(result);
+        result = std::filesystem::canonical(result);
         for (; it != absPath.end(); ++it) {
             if (*it == "..") {
                 result = result.parent_path();

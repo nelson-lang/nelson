@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -29,11 +29,11 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
         || (boost::algorithm::ends_with(_modulerootpath, L"/"))) {
         _modulerootpath.pop_back();
     }
-    if (boost::filesystem::is_directory(_modulerootpath)) {
-        boost::filesystem::path pathmainloader(_modulerootpath);
+    if (std::filesystem::is_directory(_modulerootpath)) {
+        std::filesystem::path pathmainloader(_modulerootpath);
         pathmainloader += L"/etc/startup.m";
-        if (boost::filesystem::exists(pathmainloader)
-            && !boost::filesystem::is_directory(pathmainloader)) {
+        if (std::filesystem::exists(pathmainloader)
+            && !std::filesystem::is_directory(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());

@@ -8,14 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include "FileInfo.hpp"
-#include "DateNumber.hpp"
-#include "characters_encoding.hpp"
+#include <filesystem>
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
+#include "FileInfo.hpp"
+#include "DateNumber.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,29 +28,40 @@ local_ptime_from_utc_time_t(std::time_t const t)
     return c_local_adjustor<ptime>::utc_to_local(from_time_t(t));
 }
 //=============================================================================
+template <typename TP>
+std::time_t
+to_time_t(TP tp)
+{
+    using namespace std::chrono;
+    auto sctp
+        = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+    return system_clock::to_time_t(sctp);
+}
+//=============================================================================
 FileInfo::FileInfo(const std::wstring& filename)
 {
-    boost::filesystem::path _path = filename;
+    std::filesystem::path _path = filename;
     // uniformize path separator
     _path = _path.generic_wstring();
     this->folder = _path.parent_path().wstring();
     this->name = _path.filename().wstring();
     try {
-        this->isdir = (bool)boost::filesystem::is_directory(_path);
-    } catch (const boost::filesystem::filesystem_error&) {
+        this->isdir = (bool)std::filesystem::is_directory(_path);
+    } catch (const std::filesystem::filesystem_error&) {
         this->isdir = false;
     }
     if (this->isdir) {
         this->bytes = 0;
     } else {
         try {
-            this->bytes = (double)boost::filesystem::file_size(_path);
-        } catch (const boost::filesystem::filesystem_error&) {
+            this->bytes = (double)std::filesystem::file_size(_path);
+        } catch (const std::filesystem::filesystem_error&) {
             this->bytes = -1;
         }
     }
     try {
-        std::time_t t = boost::filesystem::last_write_time(_path);
+        std::filesystem::file_time_type tt = std::filesystem::last_write_time(_path);
+        std::time_t t = to_time_t(tt);
         boost::posix_time::ptime pt = local_ptime_from_utc_time_t(t);
         int day = pt.date().day();
         int month = pt.date().month();
@@ -61,7 +72,7 @@ FileInfo::FileInfo(const std::wstring& filename)
         int s = (int)hms.seconds();
         this->date = boost::posix_time::to_simple_wstring(pt);
         this->datenum = DateNumber(year, month, day, h, m, s);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const std::filesystem::filesystem_error&) {
         this->date = std::wstring();
         this->datenum = -1;
     }

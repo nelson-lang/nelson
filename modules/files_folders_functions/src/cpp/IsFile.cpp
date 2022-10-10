@@ -7,24 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <filesystem>
 #include "IsFile.hpp"
 #include "Error.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-//=============================================================================
-using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 IsFile(const std::wstring& str)
 {
-    boost::filesystem::path data_dir(str);
+    std::filesystem::path data_dir(str);
     bool bRes = false;
     try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+        bRes = std::filesystem::exists(data_dir) && !std::filesystem::is_directory(data_dir);
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             Error(_W("Permission denied."));
         }
         bRes = false;

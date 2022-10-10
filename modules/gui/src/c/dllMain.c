@@ -12,8 +12,6 @@
 #include "nlsConfig.h"
 //=============================================================================
 #pragma comment(lib, "shlwapi.lib") // AllocConsole
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 //=============================================================================
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #pragma comment(lib, "Qt6Core.lib")
