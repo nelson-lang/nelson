@@ -45,10 +45,15 @@ NormalizePath(const std::wstring& path)
         }
     } else {
         std::filesystem::path absPath = std::filesystem::absolute(path);
+        std::filesystem::path result;
         std::filesystem::path::iterator it = absPath.begin();
-        std::filesystem::path result = *it++;
-        for (; exists(result / *it) && it != absPath.end(); ++it) {
-            result /= *it;
+
+        for (; it != absPath.end(); ++it) {
+            if (exists(result / *it)) {
+                result /= *it;
+            } else {
+                break;
+            }
         }
         result = std::filesystem::canonical(result);
         for (; it != absPath.end(); ++it) {

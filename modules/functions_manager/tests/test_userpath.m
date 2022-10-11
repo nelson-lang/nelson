@@ -16,7 +16,7 @@ if ismac()
 else    
   R = replace(tempdir(), ['/', pathsep], pathsep);
 end
-assert_isequal(R, [up2, '/']);
+assert_isequal(R, up2);
 userpath('clear');
 up3 = userpath();
 assert_isequal('', up3);
