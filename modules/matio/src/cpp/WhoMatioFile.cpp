@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <filesystem>
 #include <boost/container/vector.hpp>
+#include "FileSystemHelpers.hpp"
 #include "WhoMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -20,7 +20,7 @@ ArrayOf
 WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector& names, bool asCell)
 {
     ArrayOf res;
-    std::filesystem::path mat_filename(filename);
+    std::filesystem::path mat_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously

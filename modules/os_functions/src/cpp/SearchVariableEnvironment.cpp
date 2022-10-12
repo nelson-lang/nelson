@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/container/vector.hpp>
+#include "FileSystemHelpers.hpp"
 #include "SearchVariableEnvironment.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
@@ -48,10 +48,10 @@ SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring&
     std::wstring envValue = GetVariableEnvironment(envVarName, L"");
     wstringVector envValuevector = splitEnvironmentPath(envValue);
     for (auto& k : envValuevector) {
-        std::filesystem::path fullpath(k);
+        std::filesystem::path fullpath = createFileSystemPath(k);
         fullpath /= fileToSearch;
         if (std::filesystem::exists(fullpath) && !std::filesystem::is_directory(fullpath)) {
-            res.push_back(fullpath.generic_wstring());
+            res.push_back(convertFileSytemPathToGenericWString(fullpath));
         }
     }
     return res;

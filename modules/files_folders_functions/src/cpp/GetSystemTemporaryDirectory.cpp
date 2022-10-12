@@ -7,8 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#if _MSC_VER
+#include <Windows.h>
+#endif
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "GetSystemTemporaryDirectory.hpp"
 //=============================================================================
 namespace Nelson {
@@ -26,9 +29,29 @@ GetSystemTemporaryDirectory()
 {
     if (tempDir == L"") {
         std::filesystem::path pwd = std::filesystem::temp_directory_path();
-        tempDir = pwd.generic_wstring();
+#if _MSC_VER
+        std::wstring tempDirTemp = convertFileSytemPathToGenericWString(pwd);
+        DWORD length = GetLongPathNameW(tempDirTemp.c_str(), NULL, 0);
+        if (length <= 0) {
+#ifndef MAX_PATH_LONG
+#define MAX_PATH_LONG 32767
+#endif
+            length = MAX_PATH_LONG;
+        }
+        std::wstring longPathName;
+        longPathName.resize(length + 1);
+        length = GetLongPathNameW(tempDirTemp.c_str(), (wchar_t*)longPathName.c_str(), length);
+        if (length <= 0) {
+            tempDir = convertFileSytemPathToGenericWString(pwd);
+        } else {
+            tempDir = std::wstring(longPathName);
+            tempDir.resize(length);
+        }
+#else
+        tempDir = convertFileSytemPathToGenericWString(pwd);
+#endif
         if (!boost::algorithm::ends_with(tempDir, L"\\")
-            && (!boost::algorithm::ends_with(tempDir, L"/"))) {
+            && !boost::algorithm::ends_with(tempDir, L"/")) {
             tempDir.append(L"/");
         }
     }

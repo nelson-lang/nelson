@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <iomanip>
-#include <filesystem>
 #include <boost/container/vector.hpp>
+#include "FileSystemHelpers.hpp"
 #include "Whos.hpp"
 #include "Error.hpp"
 #include "Who.hpp"
@@ -30,23 +30,6 @@ getNestingEmptyStruct()
     values.push_back(ArrayOf::characterArrayConstructor(""));
     values.push_back(ArrayOf::doubleConstructor(0));
     return ArrayOf::structConstructor(fieldnames, values);
-}
-//=============================================================================
-static bool
-isFile(const std::wstring& _filename)
-{
-    std::filesystem::path filename(_filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously
-            = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
-    } catch (const std::filesystem::filesystem_error& e) {
-        if (e.code() == std::errc::permission_denied) {
-            Error(_W("Permission denied."));
-        }
-        fileExistPreviously = false;
-    }
-    return fileExistPreviously;
 }
 //=============================================================================
 static ArrayOf

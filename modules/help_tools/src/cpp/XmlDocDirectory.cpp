@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "XmlDocDirectory.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
@@ -31,8 +31,8 @@ XmlDocDirectory::XmlDocDirectory(const std::wstring& _srcDirectory,
     for (std::filesystem::directory_iterator dir_iter(this->srcDirectory); dir_iter != end_iter;
          ++dir_iter) {
         std::filesystem::path current = dir_iter->path();
-        if (boost::iequals(current.extension().generic_wstring(), ".xml")) {
-            listXmlFiles.push_back(current.generic_wstring());
+        if (boost::iequals(convertFileSytemPathToGenericWString(current.extension()), ".xml")) {
+            listXmlFiles.push_back(convertFileSytemPathToGenericWString(current));
         }
     }
     if (!listXmlFiles.empty()) {

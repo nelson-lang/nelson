@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "LoadMatioFile.hpp"
 #include "LoadMatioVariable.hpp"
 #include "characters_encoding.hpp"
@@ -21,7 +21,7 @@ LoadMatioFile(
     Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    std::filesystem::path mat_filename(filename);
+    std::filesystem::path mat_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously

@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
@@ -15,6 +14,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <utility>
+#include "FileSystemHelpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -216,12 +216,12 @@ Exception::getFormattedErrorMessage() const
         if (traces[k].getFunctionName() == L"run") {
             if ((k >= 1) && traces[k - 1].getLine() != 0) {
                 size_t pos = k - 1;
-                std::filesystem::path pf = std::filesystem::path(traces[pos].getFilename());
+                std::filesystem::path pf = createFileSystemPath(traces[pos].getFilename());
                 std::wstring filename;
                 if (traces[pos].getFilename().size() > 50) {
-                    filename = pf.filename().wstring();
+                    filename = convertFileSytemPathToWString(pf.filename());
                 } else {
-                    filename = pf.wstring();
+                    filename = convertFileSytemPathToWString(pf);
                 }
                 message = message
                     + str(boost::wformat(_W("at line %5d of \'%s\'\n")) % traces[pos].getLine()

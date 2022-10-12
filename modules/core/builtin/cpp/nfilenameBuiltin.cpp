@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "nfilenameBuiltin.hpp"
 #include "Error.hpp"
 #include "GetCurrentNFilename.hpp"
@@ -39,7 +39,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
-    std::filesystem::path path(GetCurrentNFilenameW(eval));
+    std::filesystem::path path = createFileSystemPath(GetCurrentNFilenameW(eval));
     switch (iExt) {
     case 0:
         path = path.stem();
@@ -50,7 +50,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     case 2:
         break;
     }
-    retval << ArrayOf::characterArrayConstructor(path.generic_wstring());
+    retval << ArrayOf::characterArrayConstructor(convertFileSytemPathToGenericWString(path));
     return retval;
 }
 //=============================================================================

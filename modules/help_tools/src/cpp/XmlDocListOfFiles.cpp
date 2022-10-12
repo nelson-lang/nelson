@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocChapterDescriptionItem.hpp"
@@ -186,7 +186,7 @@ XmlDocListOfFiles::read()
         if (!this->chapterTitle.empty()) {
             bool bRes;
             std::wstring linkUrl = L"";
-            std::filesystem::path destPath(this->dstDirectory);
+            std::filesystem::path destPath = createFileSystemPath(this->dstDirectory);
             if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                 if (!this->moduleName.empty()) {
                     destPath = destPath / (L"README.md");
@@ -200,7 +200,8 @@ XmlDocListOfFiles::read()
                     destPath = destPath / L"chapter.html";
                 }
             }
-            linkUrl = RelativePath(dstDirectory, destPath.generic_wstring(), bRes);
+            linkUrl
+                = RelativePath(dstDirectory, convertFileSytemPathToGenericWString(destPath), bRes);
             xmlItems[k]->setIndexPageLink(this->chapterTitle, linkUrl);
         }
         if (k < xmlItems.size() - 1) {

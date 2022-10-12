@@ -7,11 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
+#include "IsFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,17 +26,7 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
-        std::filesystem::path pathIn(fileOrDirName);
-        bool IsFileIn = false;
-        try {
-            IsFileIn = std::filesystem::exists(pathIn) && !std::filesystem::is_directory(pathIn);
-        } catch (const std::filesystem::filesystem_error& e) {
-            if (e.code() == std::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
-            IsFileIn = false;
-        }
-        if (IsFileIn) {
+        if (IsFile(fileOrDirName)) {
             wstringVector errorRes;
             wstringVector warningRes;
             XmlDocDocument* xmlDoc = new XmlDocDocument(fileOrDirName, L"", L"", true);

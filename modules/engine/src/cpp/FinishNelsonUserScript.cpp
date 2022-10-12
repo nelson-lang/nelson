@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "FinishNelsonUserScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -22,11 +22,10 @@ FinishNelsonUserScript(Evaluator* eval)
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
         std::wstring prefPath = GetPreferencesPath();
-        std::filesystem::path path(prefPath);
+        std::filesystem::path path = createFileSystemPath(prefPath);
         path += L"/finish.m";
-        bool bIsFile = std::filesystem::exists(path) && !std::filesystem::is_directory(path);
-        if (bIsFile) {
-            std::wstring wstr = path.generic_wstring();
+        if (isFile(path)) {
+            std::wstring wstr = convertFileSytemPathToGenericWString(path);
             try {
                 EvaluateScriptFile(eval, wstr);
             } catch (const Exception& e) {

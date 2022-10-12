@@ -9,8 +9,8 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
 #include <boost/container/vector.hpp>
+#include "FileSystemHelpers.hpp"
 #include "whoNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5LoadVariable.hpp"
@@ -23,7 +23,7 @@ ArrayOf
 whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asCell)
 {
     ArrayOf res;
-    std::filesystem::path nh5_filename(filename);
+    std::filesystem::path nh5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously
@@ -38,8 +38,8 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
         Error(_W("File does not exist."));
     }
 
-    hid_t fid
-        = H5Fopen(wstring_to_utf8(nh5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+    hid_t fid = H5Fopen(wstring_to_utf8(convertFileSytemPathToWString(nh5_filename)).c_str(),
+        H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
         Error(_W("Open file failed."));
     }

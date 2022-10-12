@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
-#include "UiGetDirectory.hpp"
-#include "QStringConverter.hpp"
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
+#include "FileSystemHelpers.hpp"
+#include "UiGetDirectory.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +36,7 @@ UiGetDirectory(
     }
     if (fd) {
         if (!pathOrigin.empty()) {
-            std::filesystem::path data_dir(pathOrigin);
+            std::filesystem::path data_dir = createFileSystemPath(pathOrigin);
             bool bRes = false;
             try {
                 bRes = std::filesystem::is_directory(data_dir);
@@ -49,7 +49,7 @@ UiGetDirectory(
             std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
                 std::filesystem::path pwd = std::filesystem::current_path();
-                _pathOrigin = pwd.generic_wstring();
+                _pathOrigin = convertFileSytemPathToGenericWString(pwd);
             }
             fd->setDirectory(QDir(wstringToQString(_pathOrigin)));
         }

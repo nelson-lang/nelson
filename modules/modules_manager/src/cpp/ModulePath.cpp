@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "ModulePath.hpp"
 #include "Error.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -30,47 +30,48 @@ ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortna
     std::filesystem::path p;
     switch (option) {
     case GET_BINARY_PATH: {
-        p = ConstructBinariesPath(modulerootpath);
-        p = p.generic_wstring();
+        p = createFileSystemPath(ConstructBinariesPath(modulerootpath));
+        p = p.generic_string();
         if (!std::filesystem::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + convertFileSytemPathToGenericWString(p));
         }
     } break;
     case GET_ROOT_PATH: {
-        p = ConstructRootName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
+        p = createFileSystemPath(ConstructRootName(modulerootpath, moduleshortname));
+        p = p.generic_string();
         if (!std::filesystem::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + convertFileSytemPathToGenericWString(p));
         }
     } break;
     case GET_ETC_PATH: {
-        p = ConstructEtcName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
+        p = createFileSystemPath(ConstructEtcName(modulerootpath, moduleshortname));
+        p = p.generic_string();
         if (!std::filesystem::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + convertFileSytemPathToGenericWString(p));
         }
     } break;
     case GET_DYNLIB_FULLPATH: {
-        p = ConstructDynamicLibraryFullname(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
-        std::wstring filename = FindDynamicLibraryName(
-            p.parent_path().generic_wstring(), p.filename().generic_wstring(), false);
+        p = createFileSystemPath(ConstructDynamicLibraryFullname(modulerootpath, moduleshortname));
+        p = p.generic_string();
+        std::wstring filename
+            = FindDynamicLibraryName(convertFileSytemPathToGenericWString(p.parent_path()),
+                convertFileSytemPathToGenericWString(p.filename()), false);
         if (filename.empty()) {
-            Error(_W("File does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("File does not exist:") + L"\n" + convertFileSytemPathToGenericWString(p));
         }
     } break;
     case GET_SCRIPT_PATH: {
-        p = ConstructScriptName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
+        p = createFileSystemPath(ConstructScriptName(modulerootpath, moduleshortname));
+        p = p.generic_string();
         if (!std::filesystem::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + convertFileSytemPathToGenericWString(p));
         }
     } break;
     default: {
         Error(_W("Wrong option."));
     } break;
     }
-    return p.generic_wstring();
+    return convertFileSytemPathToGenericWString(p);
 }
 //=============================================================================
 } // namespace Nelson

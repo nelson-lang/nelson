@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "usermodulesdirBuiltin.hpp"
 #include "Error.hpp"
 #include "GetExternalModulesPath.hpp"

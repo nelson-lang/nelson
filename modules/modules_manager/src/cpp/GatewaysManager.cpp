@@ -11,6 +11,7 @@
 #include <utility>
 #include <boost/dll/library_info.hpp>
 #include "GatewaysManager.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "dynamic_library.hpp"
@@ -62,22 +63,22 @@ GatewaysManager::addGateway(
     Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage)
 {
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
-    boost::filesystem::path p = libraryFullName;
-    p = p.generic_wstring();
+    std::filesystem::path p = createFileSystemPath(libraryFullName);
+    p = p.generic_string();
     std::wstring filename;
-    boost::filesystem::path dir = p.parent_path();
-    if (dir.generic_wstring().compare(L"") == 0) {
-        dir = boost::filesystem::current_path();
+    std::filesystem::path dir = p.parent_path();
+    if (convertFileSytemPathToGenericWString(dir).compare(L"") == 0) {
+        dir = std::filesystem::current_path();
     }
-    const std::wstring dirname = dir.generic_wstring();
-    filename = p.filename().generic_wstring();
+    const std::wstring dirname = convertFileSytemPathToGenericWString(dir);
+    filename = convertFileSytemPathToGenericWString(p.filename());
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
         errorMessage = _W("File not found.");
         return false;
     } else {
-        boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
-        boost::filesystem::current_path(dir);
+        std::filesystem::path currentdirbackup = std::filesystem::current_path();
+        std::filesystem::current_path(dir);
 
         bool needToAdd = false;
         library_handle nlsModuleHandleDynamicLibrary = nullptr;
@@ -97,14 +98,19 @@ GatewaysManager::addGateway(
             using PROC_AddGateway = bool (*)(const void*, const wchar_t*);
             PROC_AddGateway AddGatewayPtr = reinterpret_cast<PROC_AddGateway>(
                 get_function(nlsModuleHandleDynamicLibrary, GATEWAY_ENTRY));
+            if (!AddGatewayPtr) {
+                std::filesystem::current_path(currentdirbackup);
+                errorMessage = _W("Module not loaded: Gateway not available.\n");
+                return false;
+            }
             if (needToAdd) {
                 libraryMap.emplace(libraryFullName, nlsModuleHandleDynamicLibrary);
             }
-            boost::filesystem::current_path(currentdirbackup);
+            std::filesystem::current_path(currentdirbackup);
             return AddGatewayPtr((void*)eval, libraryFullName.c_str());
         }
         std::string error_msg = get_dynamic_library_error();
-        boost::filesystem::current_path(currentdirbackup);
+        std::filesystem::current_path(currentdirbackup);
         errorMessage = _W("Module not loaded: library not loaded.\n") + libraryFullName + L"\n"
             + utf8_to_wstring(error_msg) + L"\n";
     }
@@ -116,24 +122,23 @@ GatewaysManager::removeGateway(
     Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage)
 {
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
-    boost::filesystem::path p;
-    p = libraryFullName;
-    p = p.generic_wstring();
+    std::filesystem::path p = createFileSystemPath(libraryFullName);
+    p = p.generic_string();
     std::wstring dirname;
     std::wstring filename;
-    boost::filesystem::path dir = p.parent_path();
-    if (dir.generic_wstring().compare(L"") == 0) {
-        dir = boost::filesystem::current_path();
+    std::filesystem::path dir = p.parent_path();
+    if (convertFileSytemPathToGenericWString(dir).compare(L"") == 0) {
+        dir = std::filesystem::current_path();
     }
-    dirname = dir.generic_wstring();
-    filename = p.filename().generic_wstring();
+    dirname = convertFileSytemPathToGenericWString(dir);
+    filename = convertFileSytemPathToGenericWString(p.filename());
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
         errorMessage = _W("File not found.");
         return false;
     }
-    boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
-    boost::filesystem::current_path(dir);
+    std::filesystem::path currentdirbackup = std::filesystem::current_path();
+    std::filesystem::current_path(dir);
 
     std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
     if (found != libraryMap.end()) {
@@ -142,7 +147,7 @@ GatewaysManager::removeGateway(
             using PROC_RemoveGateway = bool (*)(void*, const wchar_t*);
             PROC_RemoveGateway RemoveGatewayPtr = reinterpret_cast<PROC_RemoveGateway>(
                 get_function(nlsModuleHandleDynamicLibrary, REMOVEGATEWAY_ENTRY));
-            boost::filesystem::current_path(currentdirbackup);
+            std::filesystem::current_path(currentdirbackup);
             if (RemoveGatewayPtr != nullptr) {
                 bool res = RemoveGatewayPtr((void*)eval, libraryFullName.c_str());
                 libraryMap.erase(libraryFullName);

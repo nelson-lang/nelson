@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
@@ -19,6 +18,7 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -56,10 +56,9 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
 
             } catch (const std::filesystem::filesystem_error&) {
             }
-            newPath = absolutePath.generic_wstring();
-            bool bIsFile
-                = std::filesystem::exists(newPath) && !std::filesystem::is_directory(newPath);
-            if (!bIsFile) {
+            newPath = convertFileSytemPathToGenericWString(absolutePath);
+            bool bIsFile = isFile(newPath);
+            if (!isFile(newPath)) {
                 newPath.clear();
             }
             return bIsFile;

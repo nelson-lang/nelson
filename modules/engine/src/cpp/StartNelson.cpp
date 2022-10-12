@@ -14,11 +14,11 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <filesystem>
 #include <boost/program_options.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>
+#include "FileSystemHelpers.hpp"
 #include "StartNelson.h"
 #include "StartNelsonMainScript.hpp"
 #include "StartNelsonUserScript.hpp"
@@ -378,9 +378,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
-        std::filesystem::path p(fileToExecute);
+        std::filesystem::path p = createFileSystemPath(fileToExecute);
         std::filesystem::path full_p = std::filesystem::absolute(p);
-        fileToExecute = full_p.generic_wstring();
+        fileToExecute = convertFileSytemPathToGenericWString(full_p);
     }
 
     Evaluator* eval = createMainEvaluator(_mode, lang, po.haveOptionsMinimize());

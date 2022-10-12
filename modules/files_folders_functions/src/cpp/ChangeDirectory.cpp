@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include "FileSystemHelpers.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
@@ -35,7 +35,7 @@ Cd(const std::wstring& newpath)
 {
     std::filesystem::path previous_pwd = std::filesystem::current_path();
     ChangeDirectory(newpath, true, true);
-    return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
+    return ArrayOf::characterArrayConstructor(convertFileSytemPathToGenericWString(previous_pwd));
 }
 //=============================================================================
 ArrayOf
@@ -52,9 +52,10 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
     try {
-        std::filesystem::current_path(pathApplied);
+        std::filesystem::path newCurrentPath = createFileSystemPath(pathApplied);
+        std::filesystem::current_path(newCurrentPath);
         PathFuncManager::getInstance()->setCurrentUserPath(
-            std::filesystem::current_path().generic_wstring());
+            convertFileSytemPathToGenericWString(newCurrentPath));
         return true;
     } catch (const std::filesystem::filesystem_error&) {
         if (doException) {

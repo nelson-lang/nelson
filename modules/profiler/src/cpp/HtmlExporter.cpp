@@ -9,12 +9,12 @@
 //=============================================================================
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "FileSystemHelpers.hpp"
 #include "HtmlExporter.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -50,14 +50,12 @@ copyHtmlDependencies(
         files.push_back(L"sort.js");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            std::filesystem::path dstFile = directoryDestination;
+            std::filesystem::path dstFile = createFileSystemPath(directoryDestination);
             dstFile = dstFile / file;
             if (!std::filesystem::exists(dstFile)) {
-                std::filesystem::path srcFile = ressourcesPath;
+                std::filesystem::path srcFile = createFileSystemPath(ressourcesPath);
                 srcFile = srcFile / file;
-                bool bIsFile
-                    = std::filesystem::exists(srcFile) && !std::filesystem::is_directory(srcFile);
-                if (bIsFile) {
+                if (isFile(srcFile)) {
                     std::filesystem::copy_file(srcFile, dstFile);
                 }
             }
@@ -108,10 +106,10 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
         double totalTime = std::get<3>(element);
         int nbCalls = std::get<2>(element);
         double coverage = std::get<4>(element);
-        std::filesystem::path p1(std::get<1>(element));
-        std::string file_x_html = wstring_to_utf8(p1.filename().wstring());
-        std::filesystem::path p2(std::get<0>(element));
-        std::string filename = wstring_to_utf8(p2.wstring());
+        std::filesystem::path p1 = createFileSystemPath(std::get<1>(element));
+        std::string file_x_html = wstring_to_utf8(convertFileSytemPathToWString(p1.filename()));
+        std::filesystem::path p2 = createFileSystemPath(std::get<0>(element));
+        std::string filename = wstring_to_utf8(convertFileSytemPathToWString(p2));
 
         file << "<tr>" << std::endl;
         file << "<td><a href = \"" << file_x_html << "\">" << filename

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "isNh5File.hpp"
 #include "characters_encoding.hpp"
 #include "h5SaveLoadHelpers.hpp"
@@ -37,7 +37,7 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
 
     for (size_t k = 0; k < filenames.size(); ++k) {
         std::wstring filename = filenames[k];
-        std::filesystem::path mat_filename(filename);
+        std::filesystem::path mat_filename = createFileSystemPath(filename);
         bool fileExistPreviously = false;
         try {
             fileExistPreviously = std::filesystem::exists(mat_filename)

@@ -8,13 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string/replace.hpp>
-#include <filesystem>
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include "FileSystemHelpers.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
 #include "IsDirectory.hpp"
-#include "IsFile.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,11 +23,11 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 {
     bool bRes = false;
     message = L"";
-    if (!IsFile(srcFile)) {
+    if (!isFile(srcFile)) {
         Error(_W("File source does not exist."));
     }
-    std::filesystem::path srcPath = srcFile;
-    std::filesystem::path destPath = destFileOrDirectory;
+    std::filesystem::path srcPath = createFileSystemPath(srcFile);
+    std::filesystem::path destPath = createFileSystemPath(destFileOrDirectory);
     if (IsDirectory(destFileOrDirectory)) {
         destPath = destPath / srcPath.filename();
     }
@@ -57,28 +56,30 @@ copyDirectoryRecursively(const std::filesystem::path& sourceDir,
         if (!bForce) {
             errorMessage
                 = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
-                    sourceDir.wstring());
+                    convertFileSytemPathToGenericWString(sourceDir));
             return false;
         }
     }
     if (!std::filesystem::exists(sourceDir) || !std::filesystem::is_directory(sourceDir)) {
         if (!std::filesystem::create_directory(destinationDir)) {
             if (!bForce) {
-                errorMessage = fmt::sprintf(
-                    _W("Cannot create destination directory %s"), destinationDir.wstring());
+                errorMessage = fmt::sprintf(_W("Cannot create destination directory %s"),
+                    convertFileSytemPathToGenericWString(destinationDir));
                 return false;
             }
         }
     }
 
-    std::wstring rootSrc = sourceDir.generic_wstring();
+    std::wstring rootSrc = convertFileSytemPathToGenericWString(sourceDir);
     for (const auto& dirEnt : std::filesystem::recursive_directory_iterator { sourceDir }) {
         const auto& path = dirEnt.path();
-        std::wstring relativePathStr = path.generic_wstring();
+        std::wstring relativePathStr = convertFileSytemPathToGenericWString(path);
         boost::replace_first(relativePathStr, rootSrc, L"");
         try {
             std::filesystem::path destPath
-                = std::filesystem::path(destinationDir.generic_wstring()) / relativePathStr;
+                = std::filesystem::path(
+                      createFileSystemPath(convertFileSytemPathToGenericWString(destinationDir)))
+                / relativePathStr;
             std::filesystem::copy(path, destPath);
         } catch (const std::filesystem::filesystem_error& e) {
             if (!bForce) {
@@ -112,7 +113,7 @@ CopyFiles(
     bool bRes = false;
     message = L"";
     for (const auto& srcFile : srcFiles) {
-        if (!IsFile(srcFile)) {
+        if (!isFile(srcFile)) {
             Error(_W("A cell of existing filenames expected."));
         }
     }
@@ -120,8 +121,8 @@ CopyFiles(
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {
-        std::filesystem::path srcPath = srcFile;
-        std::filesystem::path destPath = destDir;
+        std::filesystem::path srcPath = createFileSystemPath(srcFile);
+        std::filesystem::path destPath = createFileSystemPath(destDir);
         destPath = destPath / srcPath.filename();
         try {
             std::filesystem::copy_file(srcPath, destPath);

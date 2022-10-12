@@ -12,9 +12,9 @@
 #endif
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <filesystem>
 #include <sndfile.h>
 #include <map>
+#include "FileSystemHelpers.hpp"
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
@@ -191,10 +191,10 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     rows = audioData.getRows();
     columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
-    std::filesystem::path pathFilename = filename;
+    std::filesystem::path pathFilename = createFileSystemPath(filename);
     std::wstring extension;
     if (pathFilename.has_extension()) {
-        extension = pathFilename.extension().generic_wstring();
+        extension = convertFileSytemPathToGenericWString(pathFilename.extension());
         int format;
         if (!extensionToFormat(extension, format)) {
             errorMessage = _W("Invalid file extension.");

@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
+#include "FileSystemHelpers.hpp"
 #include "FileCompleter.hpp"
 //=============================================================================
 namespace Nelson {
@@ -21,7 +21,7 @@ namespace Nelson {
 static bool
 IsDirectory(const std::wstring& str)
 {
-    std::filesystem::path data_dir(str);
+    std::filesystem::path data_dir = createFileSystemPath(str);
     bool bRes = false;
     try {
         bRes = std::filesystem::is_directory(data_dir);
@@ -72,7 +72,7 @@ FileCompleter(const std::wstring& prefix)
         if (pathname.empty()) {
             try {
                 std::filesystem::path pwd = std::filesystem::current_path();
-                path = pwd.generic_wstring();
+                path = convertFileSytemPathToGenericWString(pwd);
             } catch (const std::filesystem::filesystem_error&) {
             }
         } else {
@@ -97,13 +97,13 @@ FileCompleter(const std::wstring& prefix)
         }
         filespec = filename + L"*";
         std::wstring mask = path + filespec;
-        std::filesystem::path pathfs(mask);
+        std::filesystem::path pathfs = createFileSystemPath(mask);
         std::filesystem::path branch(pathfs.parent_path());
         if (branch.empty()) {
             branch = std::filesystem::current_path();
         }
         if (std::filesystem::is_directory(branch)) {
-            mask = pathfs.filename().wstring();
+            mask = convertFileSytemPathToWString(pathfs.filename());
             static const std::pair<boost::wregex, const wchar_t*> repl[] = {
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\."), L"\\\\."),
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\?"), L"."),
@@ -117,19 +117,20 @@ FileCompleter(const std::wstring& prefix)
             {
                 std::filesystem::path dir = branch;
                 std::filesystem::path r = dir.root_path();
-                if (IsDirectory(branch.wstring())) {
+                if (isDirectory(branch)) {
                     try {
                         for (std::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!boost::regex_match(
+                                    convertFileSytemPathToWString(p->path().filename()), rmask)) {
                                 continue;
                             }
-                            std::wstring file(p->path().wstring());
+                            std::wstring file(convertFileSytemPathToWString(p->path()));
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            std::filesystem::path current = file;
-                            std::wstring fname = current.wstring();
-                            if (IsDirectory(fname)) {
+                            std::filesystem::path current = createFileSystemPath(file);
+                            std::wstring fname = convertFileSytemPathToWString(current);
+                            if (isDirectory(fname)) {
                                 fname = fname + L"/";
                             }
                             std::wstring complet;

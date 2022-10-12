@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "RelativePath.hpp"
 //=============================================================================
 namespace Nelson {
@@ -16,15 +16,15 @@ std::wstring
 RelativePath(const std::wstring& path1, const std::wstring& path2, bool& bSuccess)
 {
     bSuccess = false;
-    std::filesystem::path pathOne(path1);
-    std::filesystem::path pathTwo(path2);
+    std::filesystem::path pathOne = createFileSystemPath(path1);
+    std::filesystem::path pathTwo = createFileSystemPath(path2);
     std::filesystem::path relativepath;
     pathOne = pathOne.lexically_normal();
     pathTwo = pathTwo.lexically_normal();
     relativepath = pathTwo.lexically_relative(pathOne);
-    std::wstring result = relativepath.generic_wstring();
+    std::wstring result = convertFileSytemPathToGenericWString(relativepath);
     if (result.empty()) {
-        result = pathTwo.generic_wstring();
+        result = convertFileSytemPathToGenericWString(pathTwo);
         bSuccess = false;
     } else {
         bSuccess = true;

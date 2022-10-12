@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <iomanip>
 #include <tuple>
 #include <iostream>
@@ -17,6 +16,7 @@
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "Profiler.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -331,22 +331,6 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
             nbLinesDisplayed++;
         }
     }
-}
-//=============================================================================
-static bool
-isFile(const std::string& filename)
-{
-    std::filesystem::path data_dir(utf8_to_wstring(filename));
-    bool bRes = false;
-    try {
-        bRes = std::filesystem::exists(data_dir) && !std::filesystem::is_directory(data_dir);
-    } catch (const std::filesystem::filesystem_error& e) {
-        if (e.code() == std::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
 }
 //=============================================================================
 std::vector<std::tuple<int, double>>

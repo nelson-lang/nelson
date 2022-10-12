@@ -9,7 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
@@ -37,7 +37,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         Error(_W("Valid data set name expected."));
     }
     hid_t fid = H5I_INVALID_HID;
-    std::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously = std::filesystem::exists(hdf5_filename)
@@ -51,11 +51,11 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     if (!fileExistPreviously) {
         Error(_W("file does not exist."));
     }
-    if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str()))
+    if (!H5Fis_hdf5(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str()))
         Error(_W("HDF5 format file expected."));
     else {
-        fid = H5Fopen(
-            wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+        fid = H5Fopen(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str(),
+            H5F_ACC_RDONLY, H5P_DEFAULT);
     }
     if (fid == H5I_INVALID_HID) {
         Error(_W("Impossible to open hdf5 file."));

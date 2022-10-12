@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "FileSystemHelpers.hpp"
 #include "filereadBuiltin.hpp"
 #include "Error.hpp"
 #include "MapFileRead.hpp"
@@ -46,9 +46,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 1, 4); //-V112
     nargoutcheck(nLhs, 0, 1);
     std::wstring fileToRead = argIn[0].getContentAsWideString();
-    bool bIsFile
-        = std::filesystem::exists(fileToRead) && !std::filesystem::is_directory(fileToRead);
-    if (!bIsFile) {
+    if (!isFile(fileToRead)) {
         Error(_W("A valid filename expected."));
     }
     std::wstring outputClass = L"char";

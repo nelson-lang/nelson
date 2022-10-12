@@ -9,7 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "HDF5_helpers.hpp"
 #include "h5WriteDataset.hpp"
 #include "Exception.hpp"
@@ -28,7 +28,7 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     if (location.empty()) {
         Error(_W("Valid location expected."));
     }
-    std::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously = std::filesystem::exists(hdf5_filename)
@@ -44,7 +44,7 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
         h5obj
             = H5Fcreate(wstring_to_utf8(filename).c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     } else {
-        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
+        if (!H5Fis_hdf5(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str())) {
             Error(_W("HDF5 format file expected."));
         }
         h5obj = H5Fopen(wstring_to_utf8(filename).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);

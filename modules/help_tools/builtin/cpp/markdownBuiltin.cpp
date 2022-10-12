@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
-#include <boost/algorithm/string.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,7 +31,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         filenameOut = argIn[1].getContentAsWideString();
-        std::filesystem::path pathIn(filenameIn);
+        std::filesystem::path pathIn = createFileSystemPath(filenameIn);
         bool IsDirIn = false;
         try {
             IsDirIn = std::filesystem::is_directory(pathIn);
@@ -40,7 +40,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(_W("Permission denied."));
             }
         }
-        std::filesystem::path pathOut(filenameOut);
+        std::filesystem::path pathOut = createFileSystemPath(filenameOut);
         bool IsDirOut = false;
         try {
             IsDirOut = std::filesystem::is_directory(pathOut);
@@ -55,8 +55,9 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (std::filesystem::directory_iterator dir_iter(pathIn); dir_iter != end_iter;
                  ++dir_iter) {
                 std::filesystem::path current = dir_iter->path();
-                if (boost::iequals(current.extension().generic_wstring(), ".md")) {
-                    filesListIn.push_back(current.generic_wstring());
+                if (boost::iequals(
+                        convertFileSytemPathToGenericWString(current.extension()), L".md")) {
+                    filesListIn.push_back(convertFileSytemPathToGenericWString(current));
                 }
             }
             bool bRes = true;
@@ -65,7 +66,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
                 std::filesystem::path out(pathOut);
                 out /= st.stem();
                 out += L".html";
-                bool bLocal = MarkdownFile(k, out.generic_wstring());
+                bool bLocal = MarkdownFile(k, convertFileSytemPathToGenericWString(out));
                 if (!bLocal) {
                     bRes = bLocal;
                 }

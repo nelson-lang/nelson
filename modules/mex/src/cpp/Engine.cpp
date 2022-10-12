@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #if _MSC_VER
-#define _WIN32_WINNT 0x0550
+#define _WIN32_WINNT 0x0601
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
@@ -27,6 +27,7 @@
 #include "IpcReadyReceiverNamedMutex.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "SystemCommand.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 #define NELSON_EXECUTABLE L"nelson-gui"
 #define TIMEOUT_SECONDS 20
@@ -68,8 +69,8 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
         + boost::process::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
         + arguments;
 #else
-    std::wstring command
-        = boost::process::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
+    boost::filesystem::path path_exec = boost::process::search_path(executable_name);
+    std::wstring command = path_exec.generic_wstring() + L" " + arguments + L" &";
 #endif
     size_t mainEvaluatorID = 0;
     std::tuple<int, std::wstring, Nelson::uint64> res

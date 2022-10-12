@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #ifdef _MSC_VER
 #include <Shlobj.h>
 #include <Windows.h>
@@ -16,6 +15,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
+#include "FileSystemHelpers.hpp"
 #include "GetPreferencesPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "Nelson_VERSION.h"
@@ -35,10 +35,10 @@ buildPreferencesPath()
     std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
     bool bSet = false;
     if (penv != L"") {
-        std::filesystem::path path(penv);
+        std::filesystem::path path = createFileSystemPath(penv);
         try {
             if (std::filesystem::is_directory(path)) {
-                prefPath = path.generic_wstring();
+                prefPath = convertFileSytemPathToGenericWString(path);
                 bSet = true;
             }
         } catch (const std::filesystem::filesystem_error&) {
@@ -56,10 +56,10 @@ buildPreferencesPath()
         }
         CoTaskMemFree(static_cast<void*>(wszPath));
         if (bOK) {
-            std::filesystem::path path_1(strPath);
+            std::filesystem::path path_1 = createFileSystemPath(strPath);
             std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\")
                 + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
-            std::filesystem::path path_2(NelSonDir);
+            std::filesystem::path path_2 = createFileSystemPath(NelSonDir);
             std::filesystem::path path = path_1;
             path /= path_2;
             prefPath = path.generic_wstring();
@@ -87,13 +87,13 @@ buildPreferencesPath()
         if (homedir != nullptr) {
             std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME)
                 + std::string("/") + std::string(NELSON_SEMANTIC_VERSION_STRING);
-            std::filesystem::path path_1(homedir);
+            std::filesystem::path path_1 = std::string(homedir);
             try {
                 if (std::filesystem::is_directory(path_1)) {
-                    std::filesystem::path path_2(NelSonDir);
+                    std::filesystem::path path_2 = NelSonDir;
                     std::filesystem::path path = path_1;
                     path /= path_2;
-                    prefPath = utf8_to_wstring(path.generic_string());
+                    prefPath = convertFileSytemPathToGenericWString(path);
                     try {
                         if (!std::filesystem::is_directory(path)) {
                             try {

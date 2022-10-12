@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 #include <cstring>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "FileTell.hpp"
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"
@@ -650,8 +650,7 @@ ArrayOf
 SscanF(const std::wstring& content, const std::wstring& format, double m, double n,
     bool haveThirdArgument, indexType& count, indexType& nextIndex, std::wstring& errorMessage)
 {
-    std::filesystem::path tempFilePath = std::filesystem::temp_directory_path();
-    tempFilePath /= std::tmpnam(nullptr);
+    std::filesystem::path tempFilePath = uniquePath();
 #ifdef _MSC_VER
     const std::wstring filenameTemp = tempFilePath.wstring();
 #else

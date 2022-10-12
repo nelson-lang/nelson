@@ -9,8 +9,8 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "h5Load.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -24,7 +24,7 @@ ArrayOf
 h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    std::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously = std::filesystem::exists(hdf5_filename)
@@ -42,14 +42,15 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     int16 nh5Version;
     int16 nh5Endian;
     std::wstring header;
-    bool haveHeader = haveNh5Header(hdf5_filename.wstring(), header, nh5Version, nh5Endian);
+    bool haveHeader = haveNh5Header(
+        convertFileSytemPathToWString(hdf5_filename), header, nh5Version, nh5Endian);
     if (haveHeader) {
         if (nh5Version != NELSON_HEADER_VERSION) {
             Error(_W("Invalid file format."));
         }
     }
-    hid_t fid
-        = H5Fopen(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+    hid_t fid = H5Fopen(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str(),
+        H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
         Error(_W("Open file failed."));
     }

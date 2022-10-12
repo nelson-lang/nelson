@@ -14,6 +14,7 @@
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -118,16 +119,16 @@ DynamicLinkLibraryObject::searchLibrary(
     const std::wstring& libraryPath, std::wstring& fullLibraryPath)
 {
     fullLibraryPath.clear();
-    boost::filesystem::path pathToSplit = libraryPath;
+    std::filesystem::path pathToSplit = createFileSystemPath(libraryPath);
     std::wstring parentPath;
     if (pathToSplit.has_parent_path()) {
-        parentPath = pathToSplit.parent_path().generic_wstring();
+        parentPath = convertFileSytemPathToGenericWString(pathToSplit.parent_path());
     }
     wstringVector paths;
 
     if (!parentPath.empty()) {
         paths.push_back(parentPath);
-        std::wstring filename = pathToSplit.filename().generic_wstring();
+        std::wstring filename = convertFileSytemPathToGenericWString(pathToSplit.filename());
         if (findLibrary(paths, filename, fullLibraryPath)) {
             return true;
         }
@@ -161,8 +162,8 @@ DynamicLinkLibraryObject::searchLibrary(
         return true;
     }
 #endif
-    boost::filesystem::path asPath(libraryPath);
-    fullLibraryPath = asPath.generic_wstring();
+    std::filesystem::path asPath = createFileSystemPath(libraryPath);
+    fullLibraryPath = convertFileSytemPathToGenericWString(asPath);
     return false;
 }
 //=============================================================================

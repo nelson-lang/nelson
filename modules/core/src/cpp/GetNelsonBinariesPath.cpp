@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
 #include <cstdio>
+#include "FileSystemHelpers.hpp"
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
@@ -25,13 +25,13 @@ GetNelsonBinariesPath()
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
     if (penv != L"") {
-        std::filesystem::path path(penv);
+        std::filesystem::path path = createFileSystemPath(penv);
         if (std::filesystem::is_directory(path)) {
-            return path.generic_wstring();
+            return convertFileSytemPathToGenericWString(path);
         }
     }
     std::wstring nelsonPath = GetNelsonPath();
-    std::filesystem::path binpath(nelsonPath);
+    std::filesystem::path binpath = createFileSystemPath(nelsonPath);
 #ifdef _MSC_VER
 #ifdef _WIN64
     binpath += L"/bin/x64";
@@ -42,11 +42,11 @@ GetNelsonBinariesPath()
 #if defined(__APPLE__) || defined(__MACH__)
     binpath += L"/bin/macOS";
 #else
-    binpath += L"/bin/linux";
+    binpath = createFileSystemPath(convertFileSytemPathToGenericWString(binpath) + L"/bin/linux");
 #endif
 #endif
     if (std::filesystem::is_directory(binpath)) {
-        return binpath.generic_wstring();
+        return convertFileSytemPathToGenericWString(binpath);
     }
     fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());
     return {};

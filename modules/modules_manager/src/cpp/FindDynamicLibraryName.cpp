@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include <boost/algorithm/string.hpp>
 #include "FindDynamicLibraryName.hpp"
 //=============================================================================
@@ -19,7 +19,7 @@ FindDynamicLibraryName(
 {
     std::wstring res;
     std::filesystem::directory_iterator end_iter;
-    std::filesystem::path dir = directoryName;
+    std::filesystem::path dir = createFileSystemPath(directoryName);
     if (!std::filesystem::is_directory(dir)) {
         return res;
     }
@@ -43,11 +43,13 @@ FindDynamicLibraryName(
         std::filesystem::path current = dir_iter->path();
         if (std::filesystem::is_regular_file(current)) {
             if (bCaseSensitive) {
-                if (initialLibraryName.compare(current.generic_wstring()) == 0) {
-                    return current.generic_wstring();
+                if (initialLibraryName.compare(convertFileSytemPathToGenericWString(current))
+                    == 0) {
+                    return convertFileSytemPathToGenericWString(current);
                 }
             } else {
-                std::wstring currentfilename = current.filename().generic_wstring();
+                std::wstring currentfilename
+                    = convertFileSytemPathToGenericWString(current.filename());
                 if (boost::iequals(initialLibraryName, currentfilename)) {
                     return currentfilename;
                 }

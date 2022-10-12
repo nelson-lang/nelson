@@ -10,7 +10,6 @@
 #include "diff_fileBuiltin.hpp"
 #include "Error.hpp"
 #include "FileDiff.hpp"
-#include "IsFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

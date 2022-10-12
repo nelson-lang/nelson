@@ -15,8 +15,8 @@
 #include <fmt/format.h>
 #include <curl/curl.h>
 #include <unordered_map>
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "WebREST.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
@@ -76,12 +76,12 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (fw == nullptr) {
         Error(_W("Cannot create destination file."));
     }
-    std::filesystem::path p(filename);
+    std::filesystem::path p = createFileSystemPath(filename);
     try {
         p = std::filesystem::absolute(p);
-        fullFilename = p.generic_wstring();
+        fullFilename = convertFileSytemPathToGenericWString(p);
     } catch (const std::filesystem::filesystem_error&) {
-        fullFilename = p.generic_wstring();
+        fullFilename = convertFileSytemPathToGenericWString(p);
     }
     CURL* curlObject = curl_easy_init();
     if (curlObject == nullptr) {
@@ -276,7 +276,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (!msg.empty()) {
         // remove file if error detected.
         try {
-            std::filesystem::path p = filename;
+            std::filesystem::path p = createFileSystemPath(filename);
             std::filesystem::remove(p);
         } catch (const std::filesystem::filesystem_error&) {
         }

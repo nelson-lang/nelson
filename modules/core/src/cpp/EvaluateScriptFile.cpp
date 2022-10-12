@@ -11,7 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS /* _wfopen */
 #endif
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
@@ -24,13 +24,7 @@ namespace Nelson {
 static void
 mustBeExistingFile(const std::wstring& filename)
 {
-    bool bIsFile;
-    try {
-        bIsFile = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
-    } catch (const std::filesystem::filesystem_error&) {
-        bIsFile = false;
-    }
-    if (!bIsFile) {
+    if (!isFile(filename)) {
         Error(_W("File does not exist.") + L"\n" + filename);
     }
 }
@@ -91,22 +85,22 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         return true;
     }
     std::filesystem::path initialDir = std::filesystem::current_path();
-    std::filesystem::path fileToEvaluate(filename);
+    std::filesystem::path fileToEvaluate = createFileSystemPath(filename);
     std::filesystem::path absolutePath = std::filesystem::absolute(fileToEvaluate);
     bool hasBranchPath = !fileToEvaluate.parent_path().empty();
     if (hasBranchPath && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
         std::filesystem::path newDir = fileToEvaluate.parent_path();
-        ChangeDirectory(newDir.generic_wstring(), false);
+        ChangeDirectory(convertFileSytemPathToGenericWString(newDir), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);
     if (fr == nullptr) {
         if (bNeedToRestoreDirectory) {
-            ChangeDirectory(initialDir.generic_wstring(), false);
+            ChangeDirectory(convertFileSytemPathToGenericWString(initialDir), false);
         }
         return false;
     }
-    eval->pushEvaluateFilenameList(absolutePath.generic_wstring());
+    eval->pushEvaluateFilenameList(convertFileSytemPathToGenericWString(absolutePath));
     ParserState pstate = ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector pt;
@@ -119,7 +113,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         AbstractSyntaxTree::deleteReferences();
         fclose(fr);
         if (bNeedToRestoreDirectory) {
-            ChangeDirectory(initialDir.generic_wstring(), false);
+            ChangeDirectory(convertFileSytemPathToGenericWString(initialDir), false);
         }
         throw; //-V565
     }
@@ -128,7 +122,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     bool needThrowException = false;
     MacroFunctionDef* fptr = nullptr;
     try {
-        fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true);
+        fptr = new MacroFunctionDef(convertFileSytemPathToGenericWString(absolutePath), true);
         try {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);
@@ -155,7 +149,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     }
 
     if (bNeedToRestoreDirectory) {
-        ChangeDirectory(initialDir.generic_wstring(), false);
+        ChangeDirectory(convertFileSytemPathToGenericWString(initialDir), false);
     }
 
     if (needThrowException) {

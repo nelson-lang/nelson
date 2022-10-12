@@ -9,7 +9,7 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -88,17 +88,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
-        std::filesystem::path data_dir(param);
-        bool bRes = false;
-        try {
-            bRes = std::filesystem::is_directory(data_dir);
-        } catch (const std::filesystem::filesystem_error& e) {
-            if (e.code() == std::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-            bRes = false;
-        }
-        if (bRes) {
+        std::filesystem::path data_dir = createFileSystemPath(param);
+        if (isDirectory(data_dir)) {
             PathFuncManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");

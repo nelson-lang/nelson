@@ -13,7 +13,6 @@
 #ifndef _MSC_VER
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #endif
-#include <filesystem>
 #ifndef _MSC_VER
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #endif
@@ -23,6 +22,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include "FileSystemHelpers.hpp"
 #include "GetPreferencesPath.hpp"
 #include "HistoryManager.hpp"
 #include "characters_encoding.hpp"
@@ -485,8 +485,8 @@ HistoryManager::setToken(const std::wstring& _token)
 bool
 HistoryManager::copyPreviousFile(const std::wstring& _filename)
 {
-    std::filesystem::path src(_filename);
-    std::filesystem::path dst(_filename + L".bak");
+    std::filesystem::path src = createFileSystemPath(_filename);
+    std::filesystem::path dst = createFileSystemPath(_filename + L".bak");
     bool bRes = false;
     try {
         bRes = std::filesystem::exists(src) && !std::filesystem::is_directory(src);

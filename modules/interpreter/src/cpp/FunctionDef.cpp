@@ -8,7 +8,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
@@ -31,8 +31,8 @@ void
 FunctionDef::setFilename(const std::wstring& filename)
 {
     this->filename = filename;
-    std::filesystem::path path(filename);
-    this->pathname = path.parent_path().generic_wstring();
+    std::filesystem::path path = createFileSystemPath(filename);
+    this->pathname = convertFileSytemPathToGenericWString(path.parent_path());
     try {
         this->timestamp = to_time_t(std::filesystem::last_write_time(filename));
     } catch (const std::filesystem::filesystem_error&) {

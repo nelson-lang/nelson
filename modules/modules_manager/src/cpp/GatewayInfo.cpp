@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "GatewayInfo.hpp"
 #include "Error.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -27,15 +27,15 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
     std::filesystem::path p;
     p = dynlibname;
-    p = p.generic_wstring();
+    p = p.generic_string();
     std::wstring dirname;
     std::wstring filename;
     std::filesystem::path dir = p.parent_path();
-    if (dir.generic_wstring().compare(L"") == 0) {
+    if (convertFileSytemPathToGenericWString(dir).compare(L"") == 0) {
         dir = std::filesystem::current_path();
     }
-    dirname = dir.generic_wstring();
-    filename = p.filename().generic_wstring();
+    dirname = convertFileSytemPathToGenericWString(dir);
+    filename = convertFileSytemPathToGenericWString(p.filename());
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
         errorMessage = _W("File not found.");

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "profsaveBuiltin.hpp"
 #include "Error.hpp"
 #include "Profiler.hpp"
@@ -22,10 +22,10 @@ using namespace Nelson;
 static std::wstring
 filePartPath(const std::wstring& dirname)
 {
-    std::filesystem::path pathToSplit = dirname;
+    std::filesystem::path pathToSplit = createFileSystemPath(dirname);
     std::wstring path;
     if (pathToSplit.has_parent_path()) {
-        path = pathToSplit.parent_path().generic_wstring();
+        path = convertFileSytemPathToGenericWString(pathToSplit.parent_path());
     }
     return path;
 }
@@ -39,15 +39,17 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring fullDirname;
     if (argIn.size() == 2) {
         std::wstring dirname = argIn[1].getContentAsWideString();
-        std::filesystem::path pathToSplit = dirname;
+        std::filesystem::path pathToSplit = createFileSystemPath(dirname);
         if (filePartPath(dirname).empty()) {
-            std::wstring currentDirname = std::filesystem::current_path().generic_wstring();
+            std::wstring currentDirname
+                = convertFileSytemPathToGenericWString(std::filesystem::current_path());
             fullDirname = currentDirname + L"/" + dirname;
         } else {
             fullDirname = dirname;
         }
     } else {
-        std::wstring currentDirname = std::filesystem::current_path().generic_wstring();
+        std::wstring currentDirname
+            = convertFileSytemPathToGenericWString(std::filesystem::current_path());
         fullDirname = currentDirname + L"/profile_result";
     }
 

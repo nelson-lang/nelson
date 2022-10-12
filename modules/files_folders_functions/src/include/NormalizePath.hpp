@@ -10,27 +10,12 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isDrive(const std::wstring& pathname)
-{
-#ifdef _MSC_VER
-    return boost::algorithm::ends_with(pathname, L":/")
-        || boost::algorithm::ends_with(pathname, L":\\")
-        || (boost::algorithm::ends_with(pathname, L":")
-            && (!boost::algorithm::contains(pathname, L".")
-                && !boost::algorithm::contains(pathname, L"/")
-                && !boost::algorithm::contains(pathname, L"\\")));
-#else
-    return false;
-#endif
-}
-//=============================================================================
-std::wstring
+inline std::wstring
 NormalizePath(const std::wstring& path)
 {
     std::wstring uniformizedPath;
@@ -38,33 +23,23 @@ NormalizePath(const std::wstring& path)
         return uniformizedPath;
     }
     uniformizedPath = path;
-    if (isDrive(uniformizedPath)) {
-        boost::replace_all(uniformizedPath, L"\\", L"/");
-        if (uniformizedPath.back() != L'/') {
-            uniformizedPath = uniformizedPath + L"/";
-        }
-    } else {
-        std::filesystem::path absPath = std::filesystem::absolute(path);
-        std::filesystem::path result;
-        std::filesystem::path::iterator it = absPath.begin();
-
-        for (; it != absPath.end(); ++it) {
-            if (exists(result / *it)) {
-                result /= *it;
-            } else {
-                break;
-            }
-        }
-        result = std::filesystem::canonical(result);
-        for (; it != absPath.end(); ++it) {
-            if (*it == "..") {
-                result = result.parent_path();
-            } else if (*it != ".") {
-                result /= *it;
-            }
-        }
-        uniformizedPath = result.generic_wstring();
+    std::filesystem::path result = createFileSystemPath(uniformizedPath);
+    if (isDirectory(result) || isFile(result)) {
+        result = std::filesystem::absolute(result);
     }
+
+    result = result.lexically_normal();
+    uniformizedPath = convertFileSytemPathToGenericWString(result);
+    if (isDirectory(uniformizedPath)) {
+        if (uniformizedPath.back() != L'/') {
+            uniformizedPath += L"/";
+        }
+    }
+    if (boost::algorithm::starts_with(uniformizedPath, L"./")) {
+        uniformizedPath
+            = convertFileSytemPathToGenericWString(createFileSystemPath(uniformizedPath.substr(2)));
+    }
+
     return uniformizedPath;
 }
 //=============================================================================

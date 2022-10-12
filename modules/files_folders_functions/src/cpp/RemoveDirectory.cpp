@@ -7,29 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "RemoveDirectory.hpp"
 #include "IsDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static void
-updatePermissions(const std::wstring& folderName)
-{
-    std::filesystem::path f = folderName;
-    std::filesystem::permissions(f,
-        std::filesystem::perms::owner_write | std::filesystem::perms::group_write
-            | std::filesystem::perms::others_write,
-        std::filesystem::perm_options::add);
-    if (IsDirectory(folderName)) {
-        std::filesystem::path branch(folderName);
-        for (std::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
-            updatePermissions(p->path().wstring());
-        }
-    }
-}
 //=============================================================================
 bool
 RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& message)
@@ -38,13 +22,9 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
     message = L"";
     if (IsDirectory(folderName)) {
         try {
-            std::filesystem::path p = folderName;
-            std::filesystem::permissions(p,
-                std::filesystem::perms::owner_write | std::filesystem::perms::group_write
-                    | std::filesystem::perms::others_write,
-                std::filesystem::perm_options::add);
+            std::filesystem::path p = createFileSystemPath(folderName);
+            updateFilePermissionsToWrite(folderName);
             if (bSubfolder) {
-                updatePermissions(p.wstring());
                 std::filesystem::remove_all(p);
             }
             std::filesystem::remove(p);

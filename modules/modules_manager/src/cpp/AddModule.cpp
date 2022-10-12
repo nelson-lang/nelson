@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -30,14 +30,13 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
         _modulerootpath.pop_back();
     }
     if (std::filesystem::is_directory(_modulerootpath)) {
-        std::filesystem::path pathmainloader(_modulerootpath);
+        std::filesystem::path pathmainloader = createFileSystemPath(_modulerootpath);
         pathmainloader += L"/etc/startup.m";
-        if (std::filesystem::exists(pathmainloader)
-            && !std::filesystem::is_directory(pathmainloader)) {
+        if (isFile(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());
-                EvaluateScriptFile(eval, pathmainloader.generic_wstring());
+                EvaluateScriptFile(eval, convertFileSytemPathToGenericWString(pathmainloader));
             } else {
                 if ((IsExistingModuleName(moduleshortname)
                         && IsExistingModulePath(_modulerootpath))) {

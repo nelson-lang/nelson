@@ -8,7 +8,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
@@ -16,6 +15,7 @@
 #include <cerrno>
 #include <iostream>
 #include <cmath>
+#include "FileSystemHelpers.hpp"
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"

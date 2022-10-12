@@ -9,7 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "HDF5_helpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
@@ -169,7 +169,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     hid_t datatype = nelsonClassToHdf5DataType(dataType);
 
     hid_t fid = H5I_INVALID_HID;
-    std::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously = std::filesystem::exists(hdf5_filename)
@@ -181,14 +181,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         fileExistPreviously = false;
     }
     if (!fileExistPreviously) {
-        fid = H5Fcreate(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_TRUNC,
-            H5P_DEFAULT, H5P_DEFAULT);
+        fid = H5Fcreate(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str(),
+            H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     } else {
-        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str()))
+        if (!H5Fis_hdf5(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str()))
             Error(_W("HDF5 format file expected."));
         else {
-            fid = H5Fopen(
-                wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
+            fid = H5Fopen(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str(),
+                H5F_ACC_RDWR, H5P_DEFAULT);
         }
     }
     if (fid == H5I_INVALID_HID) {
@@ -301,7 +301,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         H5Fclose(fid);
         if (!fileExistPreviously) {
             try {
-                std::filesystem::path p = filename;
+                std::filesystem::path p = createFileSystemPath(filename);
                 std::filesystem::remove(p);
             } catch (const std::filesystem::filesystem_error&) {
             }

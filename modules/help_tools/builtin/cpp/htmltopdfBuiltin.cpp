@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"
@@ -37,7 +37,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:
         case GUI: {
-            std::filesystem::path pdfname(param2);
+            std::filesystem::path pdfname = createFileSystemPath(param2);
             if (pdfname.extension().string() != ".pdf") {
                 pdfname.replace_extension(".pdf");
             }

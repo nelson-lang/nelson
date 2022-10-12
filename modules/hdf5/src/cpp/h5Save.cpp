@@ -10,8 +10,8 @@
 #include <ctime>
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -152,7 +152,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     }
 
     hid_t fid = H5I_INVALID_HID;
-    std::filesystem::path hdf5_filename(filename);
+    std::filesystem::path hdf5_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously = std::filesystem::exists(hdf5_filename)
@@ -164,14 +164,14 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         fileExistPreviously = false;
     }
     if (!fileExistPreviously) {
-        fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
+        fid = createNh5FileWithHeader(convertFileSytemPathToWString(hdf5_filename), createHeader());
     } else {
-        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
+        if (!H5Fis_hdf5(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str())) {
             Error(_W("HDF5 format file expected."));
         } else {
             if (append) {
-                fid = H5Fopen(
-                    wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
+                fid = H5Fopen(wstring_to_utf8(convertFileSytemPathToWString(hdf5_filename)).c_str(),
+                    H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
                 try {
                     std::filesystem::path p = hdf5_filename;
@@ -179,7 +179,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 } catch (const std::filesystem::filesystem_error&) {
                     Error(_W("Cannot replace file"));
                 }
-                fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
+                fid = createNh5FileWithHeader(
+                    convertFileSytemPathToWString(hdf5_filename), createHeader());
                 updateNelsonH5Header(fid);
             }
         }

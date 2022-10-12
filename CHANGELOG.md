@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#733](http://github.com/Nelson-numerical-software/nelson/issues/733): minimal build and optional installation on Linux and Windows.
 
+### Changed
+
+- [#753](http://github.com/Nelson-numerical-software/nelson/issues/753): move from boost::filesystem to std::filesystem. (It should have no impact for users.)
+
 ### Fixed
 
 - [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.

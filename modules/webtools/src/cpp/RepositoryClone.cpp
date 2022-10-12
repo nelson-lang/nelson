@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
-#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
 #include "characters_encoding.hpp"
@@ -68,14 +68,14 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
         if (errorMessage.empty()) {
             if (!boost::algorithm::ends_with(localPath, L"\\")
                 && (!boost::algorithm::ends_with(localPath, L"/"))) {
-                p = localPath + std::wstring(L"/.git");
+                p = createFileSystemPath(localPath + std::wstring(L"/.git"));
             } else {
-                p = localPath + std::wstring(L".git");
+                p = createFileSystemPath(localPath + std::wstring(L".git"));
             }
         } else {
-            p = localPath;
+            p = createFileSystemPath(localPath);
         }
-        RemoveDirectory(p.generic_wstring(), true, errorMessage);
+        RemoveDirectory(convertFileSytemPathToGenericWString(p), true, errorMessage);
     }
 }
 //=============================================================================

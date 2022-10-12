@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
+#include "FileSystemHelpers.hpp"
 #include "Diary.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -32,8 +32,7 @@ bool
 Diary::SetFilename(const std::wstring& wFilename)
 {
     bool bRes = false;
-    std::filesystem::path p = wFilename;
-    bool previouslyExist = std::filesystem::exists(p) && !std::filesystem::is_directory(p);
+    bool previouslyExist = isFile(wFilename);
     std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
 #ifdef _MSC_VER
     std::wofstream fileDiary(wFilename, wofstream_mode);
@@ -49,7 +48,7 @@ Diary::SetFilename(const std::wstring& wFilename)
     if (!bState || !previouslyExist) {
         // remove create diary if state is off
         // or if diary did not exist before
-        std::filesystem::path p = wFilename;
+        std::filesystem::path p = createFileSystemPath(wFilename);
         try {
             std::filesystem::remove(p);
         } catch (const std::filesystem::filesystem_error& e) {

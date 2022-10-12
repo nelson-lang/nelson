@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "IsFile.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -16,7 +16,7 @@ namespace Nelson {
 bool
 IsFile(const std::wstring& str)
 {
-    std::filesystem::path data_dir(str);
+    std::filesystem::path data_dir = createFileSystemPath(str);
     bool bRes = false;
     try {
         bRes = std::filesystem::exists(data_dir) && !std::filesystem::is_directory(data_dir);

@@ -11,10 +11,10 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <filesystem>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "GetNelsonPath.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
@@ -68,22 +68,6 @@ safegetline(std::ifstream& os, std::string& line)
     return os;
 }
 //=============================================================================
-static bool
-isDir(const std::wstring& dirname)
-{
-    std::filesystem::path pathIn(dirname);
-    bool IsDirIn = false;
-    try {
-        IsDirIn = std::filesystem::exists(pathIn) && std::filesystem::is_directory(pathIn);
-    } catch (const std::filesystem::filesystem_error& e) {
-        if (e.code() == std::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        IsDirIn = false;
-    }
-    return IsDirIn;
-}
-//=============================================================================
 XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstring& sectionname,
     const std::wstring& destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
 {
@@ -95,23 +79,23 @@ XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstri
     this->items.clear();
     this->bReadOk = false;
     this->xmlDirectory = L"./";
-    std::filesystem::path pathToSplit = srcfilename;
+    std::filesystem::path pathToSplit = createFileSystemPath(srcfilename);
     if (pathToSplit.has_parent_path()) {
-        this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
+        this->xmlDirectory = convertFileSytemPathToGenericWString(pathToSplit.parent_path());
     }
     this->filenameDestination.clear();
-    if (isDir(destfilename)) {
+    if (isDirectory(destfilename)) {
         this->directoryDestination = destfilename;
-        std::filesystem::path pathname(srcfilename);
+        std::filesystem::path pathname = createFileSystemPath(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-            nfilename = pathname.stem().generic_wstring() + L".md";
+            nfilename = convertFileSytemPathToGenericWString(pathname.stem()) + L".md";
         } else {
-            nfilename = pathname.stem().generic_wstring() + L".html";
+            nfilename = convertFileSytemPathToGenericWString(pathname.stem()) + L".html";
         }
-        std::filesystem::path pathdest(destfilename);
+        std::filesystem::path pathdest = createFileSystemPath(destfilename);
         pathdest = pathdest / nfilename;
-        this->filenameDestination = pathdest.generic_wstring();
+        this->filenameDestination = convertFileSytemPathToGenericWString(pathdest);
     } else {
         this->directoryDestination.clear();
         this->setDestinationFile(destfilename);
@@ -136,29 +120,29 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     this->items = items;
     this->bReadOk = true;
     this->xmlDirectory = L"./";
-    std::filesystem::path pathToSplit = srcfilename;
+    std::filesystem::path pathToSplit = createFileSystemPath(srcfilename);
     if (pathToSplit.has_parent_path()) {
-        this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
+        this->xmlDirectory = convertFileSytemPathToGenericWString(pathToSplit.parent_path());
     }
     this->filenameDestination.clear();
-    if (isDir(destfilename)) {
+    if (isDirectory(destfilename)) {
         this->directoryDestination = destfilename;
-        std::filesystem::path pathname(srcfilename);
+        std::filesystem::path pathname = createFileSystemPath(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-            nfilename = pathname.stem().generic_wstring() + L".md";
+            nfilename = convertFileSytemPathToGenericWString(pathname.stem()) + L".md";
         } else {
-            nfilename = pathname.stem().generic_wstring() + L".html";
+            nfilename = convertFileSytemPathToGenericWString(pathname.stem()) + L".html";
         }
-        std::filesystem::path pathdest(destfilename);
+        std::filesystem::path pathdest = createFileSystemPath(destfilename);
         pathdest = pathdest.lexically_normal();
         pathdest = pathdest / nfilename;
-        this->filenameDestination = pathdest.generic_wstring();
+        this->filenameDestination = convertFileSytemPathToGenericWString(pathdest);
     } else {
         this->directoryDestination.clear();
-        std::filesystem::path pathdest(destfilename);
+        std::filesystem::path pathdest = createFileSystemPath(destfilename);
         pathdest = pathdest.lexically_normal();
-        this->setDestinationFile(pathdest.generic_wstring());
+        this->setDestinationFile(convertFileSytemPathToGenericWString(pathdest));
     }
     this->bOverwriteExistingFile = bOverwriteExistingFile;
     this->previousLinkName.clear();
@@ -2536,9 +2520,10 @@ XmlDocDocument::setDestinationFile(const std::wstring& _filenameDestination)
 {
     this->filenameDestination = _filenameDestination;
     this->directoryDestination = L"./";
-    std::filesystem::path pathToSplit = _filenameDestination;
+    std::filesystem::path pathToSplit = createFileSystemPath(_filenameDestination);
     if (pathToSplit.has_parent_path()) {
-        this->directoryDestination = pathToSplit.parent_path().generic_wstring();
+        this->directoryDestination
+            = convertFileSytemPathToGenericWString(pathToSplit.parent_path());
         if (this->directoryDestination[this->directoryDestination.size() - 1] != '/'
             && this->directoryDestination[this->directoryDestination.size() - 1] != '\\') {
             this->directoryDestination.push_back('/');
@@ -2563,14 +2548,12 @@ XmlDocDocument::copyHtmlDependencies()
         files.push_back(L"style.css");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            std::filesystem::path dstFile = this->directoryDestination;
+            std::filesystem::path dstFile = createFileSystemPath(this->directoryDestination);
             dstFile = dstFile / file;
             if (!std::filesystem::exists(dstFile)) {
-                std::filesystem::path srcFile = ressourcesPath;
+                std::filesystem::path srcFile = createFileSystemPath(ressourcesPath);
                 srcFile = srcFile / file;
-                bool bIsFile
-                    = std::filesystem::exists(srcFile) && !std::filesystem::is_directory(srcFile);
-                if (bIsFile) {
+                if (isFile(srcFile)) {
                     std::filesystem::copy_file(srcFile, dstFile);
                 }
             }

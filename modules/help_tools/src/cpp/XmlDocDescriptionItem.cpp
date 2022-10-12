@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "XmlDocDescriptionItem.hpp"
 #include "Error.hpp"
 #include "HtmlTags.hpp"
@@ -111,12 +111,12 @@ XmlDocDescriptionItem::replaceImageTag()
         if (parseImageTag(tag, this->srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            std::filesystem::path absolutePath = oldPath;
+            std::filesystem::path absolutePath = createFileSystemPath(oldPath);
             if (absolutePath.has_filename()) {
-                filename = absolutePath.stem().generic_wstring();
+                filename = convertFileSytemPathToGenericWString(absolutePath.stem());
             }
             if (absolutePath.has_extension()) {
-                extension = absolutePath.extension().generic_wstring();
+                extension = convertFileSytemPathToGenericWString(absolutePath.extension());
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "RemoveModule.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
@@ -32,10 +32,10 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
             Error(moduleshortname + _W(": This module is registered but it has no path."));
         }
         if (std::filesystem::is_directory(rootpathmodule)) {
-            std::filesystem::path pathfinish(rootpathmodule);
-            pathfinish += L"/etc/finish.m";
-            if (std::filesystem::exists(pathfinish) && !std::filesystem::is_directory(pathfinish)) {
-                EvaluateScriptFile(eval, pathfinish.generic_wstring());
+            std::filesystem::path pathfinish
+                = createFileSystemPath(rootpathmodule + L"/etc/finish.m");
+            if (isFile(pathfinish)) {
+                EvaluateScriptFile(eval, convertFileSytemPathToGenericWString(pathfinish));
             } else {
                 Error(_W("finish.m does not exist."));
             }

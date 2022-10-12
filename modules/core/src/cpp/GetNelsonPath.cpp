@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
@@ -102,9 +102,9 @@ GetRootPath()
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
         if (penv != L"") {
-            std::filesystem::path _path(penv);
+            std::filesystem::path _path = createFileSystemPath(penv);
             if (std::filesystem::is_directory(_path)) {
-                NelsonPath = _path.generic_wstring();
+                NelsonPath = convertFileSytemPathToGenericWString(_path);
                 NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
                 return NelsonPath;
             }
@@ -114,7 +114,7 @@ GetRootPath()
 #else
         p = utf8_to_wstring(get_basepathU());
 #endif
-        std::filesystem::path path(p);
+        std::filesystem::path path = createFileSystemPath(p);
         std::filesystem::path nelsonpath;
 #ifdef _MSC_VER
         nelsonpath = path.parent_path().parent_path().parent_path();
@@ -122,7 +122,7 @@ GetRootPath()
         nelsonpath = path.parent_path().parent_path();
 #endif
         if (std::filesystem::is_directory(nelsonpath)) {
-            NelsonPath = nelsonpath.generic_wstring();
+            NelsonPath = convertFileSytemPathToGenericWString(nelsonpath);
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
             return NelsonPath;
         }

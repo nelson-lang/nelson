@@ -9,8 +9,8 @@
 //=============================================================================
 #include <matio.h>
 #include <iomanip>
-#include <filesystem>
 #include <boost/container/vector.hpp>
+#include "FileSystemHelpers.hpp"
 #include "WhosMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -100,7 +100,7 @@ WhosMatioFile(
     Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    std::filesystem::path mat_filename(filename);
+    std::filesystem::path mat_filename = createFileSystemPath(filename);
     bool fileExistPreviously = false;
     try {
         fileExistPreviously

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "restoredefaultpathBuiltin.hpp"
 #include "Error.hpp"
 #include "ModulesManager.hpp"
@@ -27,7 +27,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVecto
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
     for (const auto& path : paths) {
         std::wstring _path = path + L"/functions";
-        std::filesystem::path data_dir(_path);
+        std::filesystem::path data_dir = createFileSystemPath(_path);
         bool bRes = false;
         try {
             bRes = std::filesystem::is_directory(data_dir);

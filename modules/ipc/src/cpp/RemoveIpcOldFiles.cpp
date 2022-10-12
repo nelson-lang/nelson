@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
@@ -33,7 +33,7 @@ RemoveIpcOldFiles()
     if (isDirectory) {
         for (std::filesystem::directory_iterator p(branch), end; p != end; ++p) {
             std::filesystem::path filepath = p->path();
-            std::wstring filename = filepath.filename().wstring();
+            std::wstring filename = convertFileSytemPathToWString(filepath.filename());
             if (boost::algorithm::starts_with(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
                 std::wstring pidStr = boost::replace_all_copy(

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "loadBuiltin.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
@@ -24,23 +24,6 @@ static bool
 isOption(const std::wstring& param)
 {
     return param.size() > 2 && param[0] == L'-';
-}
-//=============================================================================
-static bool
-isFile(const std::wstring& _filename)
-{
-    std::filesystem::path filename(_filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously
-            = std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
-    } catch (const std::filesystem::filesystem_error& e) {
-        if (e.code() == std::errc::permission_denied) {
-            Error(_W("Permission denied."));
-        }
-        fileExistPreviously = false;
-    }
-    return fileExistPreviously;
 }
 //=============================================================================
 ArrayOfVector
@@ -76,7 +59,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     bool fileExistPreviously = isFile(paramFilename);
     if (!fileExistPreviously) {
-        std::string extension = std::filesystem::path(paramFilename).extension().string();
+        std::string extension = createFileSystemPath(paramFilename).extension().string();
         if (extension.empty()) {
             paramFilename = paramFilename + L".nh5";
             fileExistPreviously = isFile(paramFilename);

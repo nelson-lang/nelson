@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/format.hpp>
+#include "FileSystemHelpers.hpp"
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
@@ -434,7 +434,7 @@ MacroFunctionDef::updateCode()
             MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
             this->setIsScript(false);
             if (macroFunctionDef == nullptr) {
-                std::filesystem::path pathFunction(this->getFilename());
+                std::filesystem::path pathFunction = createFileSystemPath(this->getFilename());
                 this->setName(pathFunction.stem().generic_string());
             } else {
                 this->code = macroFunctionDef->code;
@@ -454,7 +454,7 @@ MacroFunctionDef::updateCode()
             this->prevFunction = nullptr;
             this->returnVals.clear();
             this->setIsScript(true);
-            std::filesystem::path pathFunction(this->getFilename());
+            std::filesystem::path pathFunction = createFileSystemPath(this->getFilename());
             this->setName(pathFunction.stem().generic_string());
         }
         this->setWithWatcher(withWatcher);

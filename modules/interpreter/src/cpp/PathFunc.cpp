@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "PathFunc.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
@@ -17,45 +17,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-PathFunc::isdir(const std::wstring& path)
-{
-    std::filesystem::path data_dir(path);
-    bool bRes = false;
-    try {
-        bRes = std::filesystem::is_directory(data_dir);
-    } catch (const std::filesystem::filesystem_error& e) {
-        if (e.code() == std::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
 PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
-    if (isdir(path)) {
+    if (isDirectory(path)) {
         _path = path;
     } else {
         _path.clear();
     }
     rehash();
-}
-//=============================================================================
-bool
-PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
-{
-    std::filesystem::path p1(path1);
-    std::filesystem::path p2(path2);
-    bool res = false;
-    try {
-        res = std::filesystem::equivalent(p1, p2);
-    } catch (const std::filesystem::filesystem_error&) {
-        res = (p1 == p2);
-    }
-    return res;
 }
 //=============================================================================
 PathFunc::~PathFunc()
@@ -128,14 +98,14 @@ PathFunc::rehash()
         mapRecentFiles.clear();
         try {
             std::filesystem::directory_iterator end_iter;
-            for (std::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter;
-                 ++dir_iter) {
+            for (std::filesystem::directory_iterator dir_iter(createFileSystemPath(_path));
+                 dir_iter != end_iter; ++dir_iter) {
                 std::filesystem::path current = dir_iter->path();
-                std::wstring ext = current.extension().generic_wstring();
+                std::wstring ext = convertFileSytemPathToGenericWString(current.extension());
                 bool isMacro = ext == L".m";
                 bool isMex = ext == L"." + getMexExtension();
                 if (isMacro || isMex) {
-                    std::wstring name = current.stem().generic_wstring();
+                    std::wstring name = convertFileSytemPathToGenericWString(current.stem());
                     if (isSupportedFuncFilename(name)) {
                         FileFunction* ff = nullptr;
                         try {
@@ -158,7 +128,8 @@ static bool
 isfile(const std::wstring& filename)
 {
     try {
-        return std::filesystem::exists(filename) && !std::filesystem::is_directory(filename);
+        std::filesystem::path fp = createFileSystemPath(filename);
+        return std::filesystem::exists(fp) && !std::filesystem::is_directory(fp);
 
     } catch (const std::filesystem::filesystem_error&) {
     }

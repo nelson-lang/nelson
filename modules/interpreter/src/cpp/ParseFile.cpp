@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "ParseFile.hpp"
 #include "Error.hpp"
 #include "ParserInterface.hpp"
@@ -20,10 +20,7 @@ ParserState
 ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
 {
     ParserState ps = ParserState::ParseError;
-    std::filesystem::path pathFunction(filename);
-    bool bIsFile
-        = std::filesystem::exists(pathFunction) && !std::filesystem::is_directory(pathFunction);
-    if (!bIsFile) {
+    if (!isFile(filename)) {
         return ParserState::ParseError;
     }
     FILE* fr;
@@ -48,6 +45,7 @@ ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
     if (ps == ParserState::FuncDef) {
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp != nullptr) {
+            std::filesystem::path pathFunction = createFileSystemPath(filename);
             std::string functionNameFromFile = pathFunction.stem().generic_string();
             if (boost::iequals(functionNameFromFile, cp->getName())) {
                 ps = ParserState::FuncDef;

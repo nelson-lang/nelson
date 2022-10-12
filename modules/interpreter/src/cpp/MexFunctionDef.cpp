@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "MexFunctionDef.hpp"
 #include "dynamic_library.hpp"
 #include "Profiler.hpp"
@@ -30,11 +30,11 @@ using PROC_MexIsLocked = bool (*)();
 //=============================================================================
 MexFunctionDef::MexFunctionDef(const std::wstring& filename, const std::wstring& name)
 {
-    std::filesystem::path p(filename);
+    std::filesystem::path p = createFileSystemPath(filename);
     p = std::filesystem::absolute(p);
 
     this->setName(wstring_to_utf8(name));
-    this->setFilename(p.generic_wstring());
+    this->setFilename(convertFileSytemPathToGenericWString(p));
     interleavedComplex = false;
     loaded = false;
     libraryPtr = nullptr;

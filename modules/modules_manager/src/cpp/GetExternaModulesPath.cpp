@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemHelpers.hpp"
 #include "GetExternalModulesPath.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
@@ -27,8 +27,8 @@ getUserDir()
 #else
     envValue = GetVariableEnvironment(L"HOME");
 #endif
-    std::filesystem::path pwd = std::filesystem::path(envValue);
-    std::wstring userDir = pwd.generic_wstring();
+    std::filesystem::path pwd = createFileSystemPath(envValue);
+    std::wstring userDir = convertFileSytemPathToGenericWString(pwd);
     if (!boost::algorithm::ends_with(userDir, L"\\")
         && (!boost::algorithm::ends_with(userDir, L"/"))) {
         userDir.append(L"/");
@@ -43,8 +43,8 @@ CreateIfRequiredExternalModulesPath()
         = getUserDir() + std::wstring(L"nelson/") + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
     externalModulesPath
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
-    std::filesystem::path modulesPath = std::filesystem::path(externalModulesPath);
-    externalModulesPath = modulesPath.generic_wstring();
+    std::filesystem::path modulesPath = createFileSystemPath(externalModulesPath);
+    externalModulesPath = convertFileSytemPathToGenericWString(modulesPath);
     if (!boost::algorithm::ends_with(externalModulesPath, L"\\")
         && (!boost::algorithm::ends_with(externalModulesPath, L"/"))) {
         externalModulesPath = externalModulesPath + L"/";
@@ -52,9 +52,9 @@ CreateIfRequiredExternalModulesPath()
 
     bool bOK = false;
     try {
-        bool bIsDir = std::filesystem::is_directory(externalModulesPath);
+        bool bIsDir = std::filesystem::is_directory(createFileSystemPath(externalModulesPath));
         if (!bIsDir) {
-            bOK = std::filesystem::create_directories(externalModulesPath);
+            bOK = std::filesystem::create_directories(createFileSystemPath(externalModulesPath));
         } else {
             bOK = true;
         }

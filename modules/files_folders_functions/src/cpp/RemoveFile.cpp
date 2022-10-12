@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
 #include "RemoveFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "IsFile.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -21,7 +21,7 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     bool res = false;
     message = L"";
     if (IsFile(filename)) {
-        std::filesystem::path p = filename;
+        std::filesystem::path p = createFileSystemPath(filename);
         try {
             std::filesystem::remove(p);
             res = !IsFile(filename);
@@ -29,10 +29,7 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
             std::error_code error_code = e.code();
             if (e.code() == std::errc::permission_denied) {
                 try {
-                    std::filesystem::permissions(p,
-                        std::filesystem::perms::owner_write | std::filesystem::perms::group_write
-                            | std::filesystem::perms::others_write,
-                        std::filesystem::perm_options::add);
+                    updateFilePermissionsToWrite(p);
                     std::filesystem::remove(p);
                     res = !IsFile(filename);
                 } catch (const std::filesystem::filesystem_error& e) {

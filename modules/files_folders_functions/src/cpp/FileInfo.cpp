@@ -8,13 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include <filesystem>
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "FileInfo.hpp"
 #include "DateNumber.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,11 +40,10 @@ to_time_t(TP tp)
 //=============================================================================
 FileInfo::FileInfo(const std::wstring& filename)
 {
-    std::filesystem::path _path = filename;
+    std::filesystem::path _path = createFileSystemPath(filename);
     // uniformize path separator
-    _path = _path.generic_wstring();
-    this->folder = _path.parent_path().wstring();
-    this->name = _path.filename().wstring();
+    this->folder = convertFileSytemPathToWString(_path.parent_path());
+    this->name = convertFileSytemPathToWString(_path.filename());
     try {
         this->isdir = (bool)std::filesystem::is_directory(_path);
     } catch (const std::filesystem::filesystem_error&) {

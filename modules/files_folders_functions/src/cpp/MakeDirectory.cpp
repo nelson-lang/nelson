@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "MakeDirectory.hpp"
 #include "IsDirectory.hpp"
 #include "characters_encoding.hpp"
@@ -18,9 +18,9 @@ namespace Nelson {
 bool
 MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message)
 {
-    std::filesystem::path fullpath = parentDir;
+    std::filesystem::path fullpath = createFileSystemPath(parentDir);
     fullpath /= newDir;
-    return MakeDirectory(fullpath.wstring(), message);
+    return MakeDirectory(convertFileSytemPathToWString(fullpath), message);
 }
 //=============================================================================
 bool
@@ -33,7 +33,8 @@ MakeDirectory(const std::wstring& newDir, std::wstring& message)
         message = _W("Directory already exists.");
     } else {
         try {
-            bOK = std::filesystem::create_directories(newDir);
+            std::filesystem::path newDirPath = createFileSystemPath(newDir);
+            bOK = std::filesystem::create_directories(newDirPath);
         } catch (const std::filesystem::filesystem_error& e) {
             std::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());

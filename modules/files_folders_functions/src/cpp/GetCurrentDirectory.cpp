@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "GetCurrentDirectory.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,7 +18,7 @@ GetCurrentDirectory()
     std::wstring currentdir;
     try {
         std::filesystem::path pwd = std::filesystem::current_path();
-        currentdir = pwd.generic_wstring();
+        currentdir = convertFileSytemPathToGenericWString(pwd);
     } catch (const std::filesystem::filesystem_error&) {
     }
     return currentdir;

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -28,7 +28,7 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (paramstr == L"reset") {
                 PathFuncManager::getInstance()->resetUserPath();
             } else {
-                std::filesystem::path data_dir(paramstr);
+                std::filesystem::path data_dir = createFileSystemPath(paramstr);
                 bool bRes = false;
                 try {
                     bRes = std::filesystem::is_directory(data_dir);

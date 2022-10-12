@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include <boost/algorithm/string.hpp>
 #include "IsMatioFile.hpp"
 #include "characters_encoding.hpp"
@@ -38,7 +38,7 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
 
     for (size_t k = 0; k < filenames.size(); ++k) {
         std::wstring filename = filenames[k];
-        std::filesystem::path mat_filename(filename);
+        std::filesystem::path mat_filename = createFileSystemPath(filename);
         bool fileExistPreviously = false;
         try {
             fileExistPreviously = std::filesystem::exists(mat_filename)

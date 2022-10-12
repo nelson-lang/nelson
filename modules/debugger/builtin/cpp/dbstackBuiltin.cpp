@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <filesystem>
+#include "FileSystemHelpers.hpp"
 #include "dbstackBuiltin.hpp"
 #include "DebugStack.hpp"
 #include "Error.hpp"
@@ -60,8 +60,8 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
 static std::wstring
 shortName(const std::wstring& filename)
 {
-    std::filesystem::path p(filename);
-    return p.filename().generic_wstring();
+    std::filesystem::path p = createFileSystemPath(filename);
+    return convertFileSytemPathToGenericWString(p.filename());
 }
 //=============================================================================
 static ArrayOf

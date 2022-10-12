@@ -10,8 +10,8 @@
 #if _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemHelpers.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocExampleItem.hpp"
@@ -102,12 +102,12 @@ XmlDocExampleItem::writeAsMarkdown(std::string& utf8stream)
         if (parseImageTag(this->_imageTag, this->_srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            std::filesystem::path absolutePath = oldPath;
+            std::filesystem::path absolutePath = createFileSystemPath(oldPath);
             if (absolutePath.has_filename()) {
-                filename = absolutePath.stem().generic_wstring();
+                filename = convertFileSytemPathToGenericWString(absolutePath.stem());
             }
             if (absolutePath.has_extension()) {
-                extension = absolutePath.extension().generic_wstring();
+                extension = convertFileSytemPathToGenericWString(absolutePath.extension());
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;
@@ -144,12 +144,12 @@ XmlDocExampleItem::writeAsHtml(std::string& utf8stream)
         if (parseImageTag(this->_imageTag, this->_srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            std::filesystem::path absolutePath = oldPath;
+            std::filesystem::path absolutePath = createFileSystemPath(oldPath);
             if (absolutePath.has_filename()) {
-                filename = absolutePath.stem().generic_wstring();
+                filename = convertFileSytemPathToGenericWString(absolutePath.stem());
             }
             if (absolutePath.has_extension()) {
-                extension = absolutePath.extension().generic_wstring();
+                extension = convertFileSytemPathToGenericWString(absolutePath.extension());
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;
