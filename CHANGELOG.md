@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.
 
+- buildhelp did not return some errors.
+
 ### Changed
 
 - [#755](http://github.com/Nelson-numerical-software/nelson/issues/755): Boost 1.80 support (default on Windows)
