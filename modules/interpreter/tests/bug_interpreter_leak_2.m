@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+ver_comp = version('-compiler');
+is_release_version = startsWith(ver_comp{2}, 'release');
 clear('functions');
 [builtin_list, macro_list] = what();
 [u1, s1] = memory();
@@ -39,9 +41,18 @@ end
 [u2, s2] = memory();
 clear('functions');
 [u3, s3] = memory();
-disp(u3.MemUsedNelson - u2.MemUsedNelson)
-assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 340000)
-disp(u2.MemUsedNelson - u1.MemUsedNelson)
-assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 15000000)
-disp(u3.MemUsedNelson - u1.MemUsedNelson)
-assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 15000000)
+if is_release_version
+  disp(u3.MemUsedNelson - u2.MemUsedNelson)
+  assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 340000)
+  disp(u2.MemUsedNelson - u1.MemUsedNelson)
+  assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 15000000)
+  disp(u3.MemUsedNelson - u1.MemUsedNelson)
+  assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 15000000)
+else
+  disp(u3.MemUsedNelson - u2.MemUsedNelson)
+  assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 380000)
+  disp(u2.MemUsedNelson - u1.MemUsedNelson)
+  assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 20000000)
+  disp(u3.MemUsedNelson - u1.MemUsedNelson)
+  assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 22000000)
+end

@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--RELEASE ONLY-->
+%=============================================================================
 wav_file = [modulepath('audio'), '/tests/6_Channel_ID.wav'];
 info = audioinfo(wav_file);
 assert_isequal(info.CompressionMethod, 'WAVX')
