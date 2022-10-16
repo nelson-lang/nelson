@@ -20,7 +20,7 @@ bool
 isExistingFile(const std::wstring& name);
 //=============================================================================
 std::wstring
-normalizePath(const std::wstring& path);
+normalizeZipPath(const std::wstring& path);
 //=============================================================================
 std::wstring
 getRootPath(const std::wstring& rootpath);

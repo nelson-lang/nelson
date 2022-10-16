@@ -66,7 +66,7 @@ isExistingFile(const std::wstring& name)
 }
 //=============================================================================
 std::wstring
-normalizePath(const std::wstring& path)
+normalizeZipPath(const std::wstring& path)
 {
 #ifdef _MSC_VER
     boost::filesystem::path p = path;
@@ -93,7 +93,7 @@ getRootPath(const std::wstring& rootpath)
         p = wstring_to_utf8(rootpath);
 #endif
     }
-    return normalizePath(p.wstring());
+    return normalizeZipPath(p.wstring());
 }
 //=============================================================================
 } // namespace Nelson

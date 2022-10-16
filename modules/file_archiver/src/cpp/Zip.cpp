@@ -187,14 +187,14 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
     for (const std::wstring& f : filteredNames) {
         boost::filesystem::path p = f;
         if (p.is_absolute()) {
-            filenames.emplace_back(normalizePath(p.filename().generic_wstring()));
-            paths.emplace_back(normalizePath(p.parent_path().generic_path().generic_wstring()));
+            filenames.emplace_back(normalizeZipPath(p.filename().generic_wstring()));
+            paths.emplace_back(normalizeZipPath(p.parent_path().generic_path().generic_wstring()));
 
         } else {
             boost::filesystem::path rp = rootpath;
-            paths.emplace_back(normalizePath(rp.generic_path().generic_wstring()));
+            paths.emplace_back(normalizeZipPath(rp.generic_path().generic_wstring()));
             boost::filesystem::path fp = f;
-            filenames.emplace_back(normalizePath(fp.generic_path().generic_wstring()));
+            filenames.emplace_back(normalizeZipPath(fp.generic_path().generic_wstring()));
         }
     }
     for (size_t k = 0; k < filenames.size(); ++k) {
@@ -227,12 +227,12 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
             pathwstr = rootPath.generic_wstring();
         }
         for (const auto& name : res) {
-            localFiles.emplace_back(normalizePath(name));
+            localFiles.emplace_back(normalizeZipPath(name));
             std::wstring entry;
             if (boost::algorithm::starts_with(name, pathwstr)) {
                 entry = name.substr(pathwstr.size());
             }
-            filesInZip.emplace_back(normalizePath(entry));
+            filesInZip.emplace_back(normalizeZipPath(entry));
         }
     }
 }

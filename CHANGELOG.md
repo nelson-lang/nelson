@@ -26,6 +26,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - fileparts builtin updated to be more compatible.
 
+- normalizePath internal function reworked.
+
+- internal files functions reworked and factorized.
+
 ## 0.6.9 (2022-09-28)
 
 ### Added

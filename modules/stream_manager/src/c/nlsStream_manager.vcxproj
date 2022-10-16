@@ -202,6 +202,7 @@
     <ClInclude Include="..\include\FileSize.hpp" />
     <ClInclude Include="..\include\FilesManager.hpp" />
     <ClInclude Include="..\include\FileStream.hpp" />
+    <ClInclude Include="..\include\FileSystemHelpers.hpp" />
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\FscanFunction.hpp" />
