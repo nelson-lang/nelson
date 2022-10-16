@@ -24,10 +24,7 @@ NormalizePath(const std::wstring& path)
     }
     uniformizedPath = path;
     std::filesystem::path result = createFileSystemPath(uniformizedPath);
-    if (isDirectory(result) || isFile(result)) {
-        result = std::filesystem::absolute(result);
-    }
-
+    result = std::filesystem::absolute(result);
     result = result.lexically_normal();
     uniformizedPath = convertFileSytemPathToGenericWString(result);
     if (isDirectory(uniformizedPath)) {
