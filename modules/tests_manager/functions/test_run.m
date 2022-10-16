@@ -282,6 +282,12 @@ function test_case_cleaned = post_run_test_case(test_case_res)
         else
           test_case_res.msg = s.msg;
         end
+      else
+        if isfile(test_case_res.redirect_err)
+          test_case_res.msg = fileread(test_case_res.outputfile);
+        else 
+          test_case_res.msg = 'No error catched.'
+        end
       end
     else
       if isfile(test_case_res.outputfile)
