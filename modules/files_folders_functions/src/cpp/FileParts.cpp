@@ -7,64 +7,132 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string>
 #include "FileParts.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 FilePartsPath(const std::wstring& fullpath)
 {
-    std::wstring res;
-    boost::filesystem::path pathToSplit = fullpath;
-    if (pathToSplit.has_parent_path()) {
-        res = pathToSplit.parent_path().generic_wstring();
-    }
-    if (res.length() > 1 && res.back() == L':') {
-        res = res + L"/";
-    }
-    return res;
+    std::wstring path = L"";
+    std::wstring filename = L"";
+    std::wstring extension = L"";
+    FileParts(fullpath, path, filename, extension);
+    return path;
 }
 //=============================================================================
 std::wstring
 FilePartsFilename(const std::wstring& fullpath)
 {
-    std::wstring res;
-    boost::filesystem::path pathToSplit = fullpath;
-    if (pathToSplit.has_filename()) {
-        res = pathToSplit.stem().generic_wstring();
-    }
-    if (res == L".") {
-        res = L"";
-    }
-    if (res == L"/" || res == L"\\") {
-        res = L"";
-    }
-    return res;
-}
-//=============================================================================
+    std::wstring path = L"";
+    std::wstring filename = L"";
+    std::wstring extension = L"";
+    FileParts(fullpath, path, filename, extension);
+    return filename;
+} //=============================================================================
 std::wstring
 FilePartsExtension(const std::wstring& fullpath)
 {
-    std::wstring res;
-    boost::filesystem::path pathToSplit = fullpath;
-    if (pathToSplit.has_extension()) {
-        res = pathToSplit.extension().generic_wstring();
+    std::wstring path = L"";
+    std::wstring filename = L"";
+    std::wstring extension = L"";
+    FileParts(fullpath, path, filename, extension);
+    return extension;
+}
+//=============================================================================
+static inline size_t
+findLastFileSeparator(const std::wstring& fullpath)
+{
+    size_t indexSlash = fullpath.rfind(L'/');
+    size_t indexBackslash = fullpath.rfind(L'\\');
+    size_t indexFileSeparator = std::wstring::npos;
+
+    if (indexSlash != std::wstring::npos && indexBackslash != std::wstring::npos) {
+        indexFileSeparator = std::max(indexSlash, indexBackslash);
+    } else {
+        if (indexSlash != std::wstring::npos) {
+            indexFileSeparator = indexSlash;
+
+        } else {
+            indexFileSeparator = indexBackslash;
+        }
     }
-    return res;
+    return indexFileSeparator;
 }
 //=============================================================================
 void
 FileParts(const std::wstring& fullpath, std::wstring& path, std::wstring& filename,
     std::wstring& extension)
 {
-    path = FilePartsPath(fullpath);
-    filename = FilePartsFilename(fullpath);
-    if (path == L"" && (filename.size() > 1 && filename[1] == L':')) {
+    path = L"";
+    filename = L"";
+    extension = L"";
+
+    size_t indexFileSeparator = findLastFileSeparator(fullpath);
+    size_t indexDot = fullpath.rfind(L'.');
+
+    std::wstring fullpathWithoutExtension;
+    if (indexDot != std::wstring::npos) {
+        if (indexFileSeparator != std::wstring::npos) {
+            if (indexDot > indexFileSeparator) {
+                fullpathWithoutExtension = L"";
+                extension.append(fullpath.begin() + indexDot, fullpath.end());
+                fullpathWithoutExtension.append(fullpath.begin(), fullpath.begin() + indexDot);
+            } else {
+                extension = L"";
+                fullpathWithoutExtension = fullpath;
+            }
+        } else {
+            path = L"";
+            extension.append(fullpath.begin() + indexDot, fullpath.end());
+            filename.append(fullpath.begin(), fullpath.begin() + indexDot);
+            return;
+        }
+    } else {
+        extension = L"";
+        if (indexFileSeparator != std::wstring::npos) {
+            path.append(fullpath.begin(), fullpath.begin() + indexFileSeparator);
+            filename.append(fullpath.begin() + indexFileSeparator + 1, fullpath.end());
+#ifdef _MSC_VER
+            if (filename.empty() && path.length() > 1 && (path.back() == L':')) {
+                path = fullpath;
+                filename = L"";
+            }
+#endif
+        } else {
+            path = L"";
+            filename = fullpath;
+#ifdef _MSC_VER
+            if (filename.length() > 1 && (filename.back() == L':')) {
+                path = fullpath;
+                filename = L"";
+            }
+#endif
+        }
+        return;
+    }
+    if (indexFileSeparator != std::wstring::npos) {
+        if (indexFileSeparator == 0) {
+            path.append(fullpathWithoutExtension.begin(), fullpathWithoutExtension.begin() + 1);
+            filename.append(fullpathWithoutExtension.begin() + 1, fullpathWithoutExtension.end());
+        } else {
+            path.append(fullpathWithoutExtension.begin(),
+                fullpathWithoutExtension.begin() + indexFileSeparator);
+            filename.append(fullpathWithoutExtension.begin() + indexFileSeparator + 1,
+                fullpathWithoutExtension.end());
+        }
+    } else {
+        path = L"";
+        filename = fullpathWithoutExtension;
+    }
+#ifdef _MSC_VER
+    if (path.empty() && extension.empty() && (filename.length() > 1) && (filename.back() == L':')) {
         path = filename;
         filename = L"";
+        extension = L"";
     }
-    extension = FilePartsExtension(fullpath);
+#endif
 }
 //=============================================================================
 } // namespace Nelson
