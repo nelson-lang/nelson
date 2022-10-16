@@ -137,7 +137,7 @@ if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
 endif()
 # ==============================================================================
-set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 set(BUILD_SHARED_LIBS "true")
 # ==============================================================================
