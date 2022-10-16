@@ -251,7 +251,6 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
     if (!rootpath.empty() && !isDirectory(rootpath)) {
         Error(_W("Invalid root path."));
     }
-    std::filesystem::path p = createFileSystemPath(rootpath);
     wstringVector localFiles;
     wstringVector filesInZip;
     prepareFilesToZip(names, rootpath, localFiles, filesInZip);

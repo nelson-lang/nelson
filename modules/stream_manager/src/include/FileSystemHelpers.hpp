@@ -80,7 +80,7 @@ uniquePath()
     FILE* uid_file;
     std::string template_name = tempFilePath.string() + "/NELSON_XXXXXX";
     char template_char[FILENAME_MAX * 2];
-    strncpy(template_char, template_name.c_str(), FILENAME_MAX * 2);
+    strncpy(template_char, template_name.c_str(), template_name.length());
     int temp_fd = mkstemp(template_char);
     uid_file = fdopen(temp_fd, "w");
     if (uid_file) {

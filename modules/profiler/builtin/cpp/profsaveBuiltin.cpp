@@ -39,7 +39,6 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring fullDirname;
     if (argIn.size() == 2) {
         std::wstring dirname = argIn[1].getContentAsWideString();
-        std::filesystem::path pathToSplit = createFileSystemPath(dirname);
         if (filePartPath(dirname).empty()) {
             std::wstring currentDirname
                 = convertFileSytemPathToGenericWString(std::filesystem::current_path());
