@@ -333,22 +333,6 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
     }
 }
 //=============================================================================
-static bool
-isFile(const std::string& filename)
-{
-    boost::filesystem::path data_dir(utf8_to_wstring(filename));
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
 std::vector<std::tuple<int, double>>
 Profiler::getInfoForContent(
     const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,

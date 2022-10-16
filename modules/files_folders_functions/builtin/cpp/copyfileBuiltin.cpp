@@ -10,7 +10,7 @@
 #include "copyfileBuiltin.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,7 +35,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         ArrayOf arg1 = argIn[0];
         if (arg1.isRowVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
-            if (IsFile(src)) {
+            if (isFile(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
             } else {
                 bRes = CopyDirectory(src, dest, bForce, errorMessage);

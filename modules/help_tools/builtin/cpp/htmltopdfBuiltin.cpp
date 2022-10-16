@@ -13,7 +13,7 @@
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -30,7 +30,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
-        if (!IsFile(param1)) {
+        if (!isFile(param1)) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();

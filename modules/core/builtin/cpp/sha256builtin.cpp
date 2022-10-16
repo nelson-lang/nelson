@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 #include "sha256Builtin.hpp"
 #include "NelsonSHA256.hpp"
 #include "Error.hpp"
@@ -22,18 +22,6 @@ enum SHA256_CONVERSION_TYPE
     STRING,
     AUTO
 };
-//=============================================================================
-static bool
-isFile(const std::wstring& filename)
-{
-    bool bIsFile;
-    try {
-        bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
-        bIsFile = false;
-    }
-    return bIsFile;
-}
 //=============================================================================
 static ArrayOf
 sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)

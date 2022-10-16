@@ -11,7 +11,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -19,6 +18,7 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -86,8 +86,7 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
 {
     bool bRes = true;
     for (size_t k = 0; k < srcImages.size(); k++) {
-        bool bIsFile = boost::filesystem::exists(srcImages[k])
-            && !boost::filesystem::is_directory(srcImages[k]);
+        bool bIsFile = isFile(srcImages[k]);
         if (bIsFile) {
             try {
                 boost::filesystem::copy_file(srcImages[k], dstImages[k],

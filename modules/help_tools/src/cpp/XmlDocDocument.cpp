@@ -13,8 +13,8 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "GetNelsonPath.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
@@ -2568,8 +2568,7 @@ XmlDocDocument::copyHtmlDependencies()
             if (!boost::filesystem::exists(dstFile)) {
                 boost::filesystem::path srcFile = ressourcesPath;
                 srcFile = srcFile / file;
-                bool bIsFile = boost::filesystem::exists(srcFile)
-                    && !boost::filesystem::is_directory(srcFile);
+                bool bIsFile = isFile(srcFile);
                 if (bIsFile) {
                     boost::filesystem::copy_file(srcFile, dstFile);
                 }

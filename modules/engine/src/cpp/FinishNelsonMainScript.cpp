@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 #include "FinishNelsonMainScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -24,8 +24,7 @@ FinishNelsonMainScript(Evaluator* eval)
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
         path += L"/etc/finish.m";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
+        if (isFile(path)) {
             NelsonConfiguration::getInstance()->disableModulesProtection();
             std::wstring wstr = path.generic_wstring();
             try {

@@ -9,7 +9,7 @@
 //=============================================================================
 #include "isfileBuiltin.hpp"
 #include "Error.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -23,10 +23,20 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(false);
     } else if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
-        retval << ArrayOf::logicalConstructor(IsFile(wpath));
+        bool permissionDenied;
+        bool bIsFile = isFile(wpath, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
+        retval << ArrayOf::logicalConstructor(bIsFile);
     } else if (argIn[0].isStringArray() && argIn[0].isScalar()) {
+        bool permissionDenied;
         std::wstring wpath = argIn[0].getContentAsWideString();
-        retval << ArrayOf::logicalConstructor(IsFile(wpath));
+        bool bIsFile = isFile(wpath, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
+        retval << ArrayOf::logicalConstructor(bIsFile);
     } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY) {
         Dimensions dim = argIn[0].getDimensions();
         if (argIn[0].isEmpty()) {
@@ -40,7 +50,12 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ArrayOf cell(argIn[0]);
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
                 if (arg[k].isRowVectorCharacterArray()) {
-                    bmat[k] = static_cast<Nelson::logical>(IsFile(arg[k].getContentAsWideString()));
+                    bool permissionDenied;
+                    bool bIsFile = isFile(arg[k].getContentAsWideString(), permissionDenied);
+                    if (permissionDenied) {
+                        Error(_W("Permission denied."));
+                    }
+                    bmat[k] = static_cast<Nelson::logical>(bIsFile);
                 } else {
                     delete[] bmat;
                     Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);

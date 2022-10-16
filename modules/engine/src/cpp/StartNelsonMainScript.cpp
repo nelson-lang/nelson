@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "StartNelsonMainScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "GetNelsonPath.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 bool
 StartNelsonMainScript(Evaluator* eval)
@@ -23,7 +23,7 @@ StartNelsonMainScript(Evaluator* eval)
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
         path += L"/etc/startup.m";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
+        bool bIsFile = isFile(path);
         if (bIsFile) {
             NelsonConfiguration::getInstance()->disableModulesProtection();
             std::wstring wstr = path.generic_wstring();

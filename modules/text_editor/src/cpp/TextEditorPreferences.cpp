@@ -7,13 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <fstream>
+#include "FileSystemHelpers.hpp"
 #include "TextEditorPreferences.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "QStringConverter.hpp"
@@ -98,8 +96,7 @@ TextEditorLoadPreferences(
     std::wstring prefDir = getPreferencesPath();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
-    bool bIsFile = boost::filesystem::exists(editorConfFile)
-        && !boost::filesystem::is_directory(editorConfFile);
+    bool bIsFile = isFile(editorConfFile);
     if (bIsFile) {
         std::string tmpline;
 #ifdef _MSC_VER

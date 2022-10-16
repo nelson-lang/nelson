@@ -14,7 +14,7 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 #include "HtmlExporter.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -55,8 +55,7 @@ copyHtmlDependencies(
             if (!boost::filesystem::exists(dstFile)) {
                 boost::filesystem::path srcFile = ressourcesPath;
                 srcFile = srcFile / file;
-                bool bIsFile = boost::filesystem::exists(srcFile)
-                    && !boost::filesystem::is_directory(srcFile);
+                bool bIsFile = isFile(srcFile);
                 if (bIsFile) {
                     boost::filesystem::copy_file(srcFile, dstFile);
                 }

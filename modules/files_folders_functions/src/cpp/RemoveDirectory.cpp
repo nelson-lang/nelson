@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RemoveDirectory.hpp"
-#include "IsDirectory.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include <boost/filesystem.hpp>
@@ -22,7 +22,7 @@ updatePermissions(const std::wstring& folderName)
     boost::filesystem::permissions(f,
         boost::filesystem::add_perms | boost::filesystem::owner_write
             | boost::filesystem::group_write | boost::filesystem::others_write);
-    if (IsDirectory(folderName)) {
+    if (isDirectory(folderName)) {
         boost::filesystem::path branch(folderName);
         for (boost::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
             updatePermissions(p->path().wstring());
@@ -35,7 +35,8 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
 {
     bool res = false;
     message = L"";
-    if (IsDirectory(folderName)) {
+    bool permissionDenied;
+    if (isDirectory(folderName, permissionDenied)) {
         try {
             boost::filesystem::path p = folderName;
             boost::filesystem::permissions(p,
@@ -53,8 +54,12 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
             message = utf8_to_wstring(error_code.message());
         }
     } else {
+        if (permissionDenied) {
+            message = _W("Permission denied.");
+        } else {
+            message = _W("an existing directory expected.");
+        }
         res = false;
-        message = _W("an existing directory expected.");
     }
     return res;
 }

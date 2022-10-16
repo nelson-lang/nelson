@@ -14,27 +14,12 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/regex.hpp>
 #include "FileCompleter.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 #define DIR_SEPARATOR_WINDOWS L'\\'
 #define DIR_SEPARATOR_OTHERS L'/'
-//=============================================================================
-static bool
-IsDirectory(const std::wstring& str)
-{
-    boost::filesystem::path data_dir(str);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
 //=============================================================================
 static void
 splitpath(const std::wstring& prefix, std::wstring& path, std::wstring& fname)
@@ -119,7 +104,7 @@ FileCompleter(const std::wstring& prefix)
             {
                 boost::filesystem::path dir = branch;
                 boost::filesystem::path r = dir.root_path();
-                if (IsDirectory(branch.wstring())) {
+                if (isDirectory(branch.wstring())) {
                     try {
                         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
@@ -131,7 +116,7 @@ FileCompleter(const std::wstring& prefix)
                             }
                             boost::filesystem::path current = file;
                             std::wstring fname = current.wstring();
-                            if (IsDirectory(fname)) {
+                            if (isDirectory(fname)) {
                                 fname = fname + L"/";
                             }
                             std::wstring complet;

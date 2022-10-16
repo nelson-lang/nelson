@@ -11,7 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS /* _wfopen */
 #endif
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
@@ -24,11 +24,10 @@ namespace Nelson {
 static void
 mustBeExistingFile(const std::wstring& filename)
 {
-    bool bIsFile;
-    try {
-        bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
-        bIsFile = false;
+    bool permissionDenied;
+    bool bIsFile = isFile(filename, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
     }
     if (!bIsFile) {
         Error(_W("File does not exist.") + L"\n" + filename);

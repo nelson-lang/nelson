@@ -13,8 +13,7 @@
 #include <fmt/format.h>
 #include "CopyFile.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,12 +23,21 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 {
     bool bRes = false;
     message = L"";
-    if (!IsFile(srcFile)) {
+    bool permissionDenied;
+    if (!isFile(srcFile, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("File source does not exist."));
     }
     boost::filesystem::path srcPath = srcFile;
     boost::filesystem::path destPath = destFileOrDirectory;
-    if (IsDirectory(destFileOrDirectory)) {
+
+    bool isDir = isDirectory(destFileOrDirectory, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
+    }
+    if (isDir) {
         destPath = destPath / srcPath.filename();
     }
     try {
@@ -96,10 +104,17 @@ CopyDirectory(
     const std::wstring& srcDir, const std::wstring& destDir, bool bForce, std::wstring& message)
 {
     message = L"";
-    if (!IsDirectory(srcDir)) {
+    bool permissionDenied;
+    if (!isDirectory(srcDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory source does not exist."));
     }
-    if (!IsDirectory(destDir)) {
+    if (!isDirectory(destDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory destination does not exist."));
     }
 
@@ -112,12 +127,20 @@ CopyFiles(
 {
     bool bRes = false;
     message = L"";
+    bool permissionDenied;
     for (const auto& srcFile : srcFiles) {
-        if (!IsFile(srcFile)) {
+        if (!isFile(srcFile, permissionDenied)) {
+            if (permissionDenied) {
+                Error(_W("Permission denied."));
+            }
             Error(_W("A cell of existing filenames expected."));
         }
     }
-    if (!IsDirectory(destDir)) {
+
+    if (!isDirectory(destDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {

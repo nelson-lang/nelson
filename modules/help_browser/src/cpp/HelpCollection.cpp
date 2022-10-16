@@ -16,7 +16,7 @@
 #include "QStringConverter.hpp"
 #include "HelpCollection.hpp"
 #include "GetNelsonPath.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "RemoveDirectory.hpp"
 //=============================================================================
 namespace Nelson {
@@ -49,7 +49,7 @@ HelpCollection::destroy()
 HelpCollection::HelpCollection()
 {
     std::wstring cachedCollectionFile = getNelsonCachedCollectionFullFilename();
-    if (!IsFile(cachedCollectionFile)) {
+    if (!isFile(cachedCollectionFile)) {
         std::wstring collectionFile = getNelsonCollectionFullFilename();
         QHelpEngineCore* collection = nullptr;
         try {
@@ -153,7 +153,7 @@ HelpCollection::clearCache()
         RemoveDirectory(collectionPath, true, msgError);
 
         std::wstring cachedCollectionFile = getNelsonCachedCollectionFullFilename();
-        if (!IsFile(cachedCollectionFile)) {
+        if (!isFile(cachedCollectionFile)) {
             std::wstring collectionFile = getNelsonCollectionFullFilename();
             QHelpEngineCore* collection = nullptr;
             try {

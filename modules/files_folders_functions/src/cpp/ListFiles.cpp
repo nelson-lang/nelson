@@ -9,8 +9,7 @@
 //=============================================================================
 #include "ListFiles.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/convenience.hpp>
@@ -38,7 +37,8 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
             _mask = boost::regex_replace(_mask, boost::wregex(L"\\*"), L".*");
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
-                if (IsDirectory(branch.wstring())) {
+                bool permissionDenied = false;
+                if (isDirectory(branch.wstring()), permissionDenied) {
                     try {
                         for (boost::filesystem::recursive_directory_iterator p(branch), end;
                              p != end; ++p) {
@@ -56,6 +56,10 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                         boost::system::error_code error_code = e.code();
                         Error(error_code.message());
                     }
+                } else {
+                    if (permissionDenied) {
+                        Error(_W("Permission denied."));
+                    }
                 }
             } else {
                 boost::filesystem::path dir = branch;
@@ -67,7 +71,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                     res.push_back(FileInfo(branch.wstring() + L"/..", bSubdirectories));
                 }
                 */
-                if (IsDirectory(branch.wstring())) {
+                if (isDirectory(branch.wstring())) {
                     try {
                         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
@@ -108,7 +112,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             res = ListFilesWithWildcard(directory, bSubdirectories);
         }
     } else {
-        if (IsFile(directory)) {
+        if (isFile(directory)) {
             res.push_back(FileInfo(directory));
         } else {
             if (directory.empty()) {
@@ -136,7 +140,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return res;
             }
             if (bSubdirectories) {
-                if (IsDirectory(branch.wstring())) {
+                if (isDirectory(branch.wstring())) {
                     try {
                         for (boost::filesystem::recursive_directory_iterator dir_iter(branch), end;
                              dir_iter != end; ++dir_iter) {
@@ -153,7 +157,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             } else {
                 boost::filesystem::path dir = branch;
                 boost::filesystem::path r = dir.root_path();
-                if (IsDirectory(directory)) {
+                if (isDirectory(directory)) {
                     if (dir != r) {
                         res.push_back(FileInfo(directory + L"/."));
                         res.push_back(FileInfo(directory + L"/.."));

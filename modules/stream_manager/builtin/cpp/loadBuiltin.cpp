@@ -7,13 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "loadBuiltin.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,23 +24,6 @@ static bool
 isOption(const std::wstring& param)
 {
     return param.size() > 2 && param[0] == L'-';
-}
-//=============================================================================
-static bool
-isFile(const std::wstring& _filename)
-{
-    boost::filesystem::path filename(_filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously
-            = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            Error(_W("Permission denied."));
-        }
-        fileExistPreviously = false;
-    }
-    return fileExistPreviously;
 }
 //=============================================================================
 ArrayOfVector

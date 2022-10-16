@@ -12,7 +12,7 @@
 #include "EvaluateScriptFile.hpp"
 #include "GetPreferencesPath.hpp"
 #include "Interface.hpp"
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +24,7 @@ StartNelsonUserScript(Evaluator* eval)
         std::wstring prefPath = GetPreferencesPath();
         boost::filesystem::path path(prefPath);
         path += L"/startup.m";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
+        bool bIsFile = isFile(path);
         if (bIsFile) {
             std::wstring wstr = path.generic_wstring();
             try {

@@ -14,7 +14,7 @@
 #include <boost/regex.hpp>
 #include "ModulesManager.hpp"
 #include "XmlDocCheckIfLinkExists.hpp"
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -43,13 +43,13 @@ XmlDocCheckIfLinkExists(
                 boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
                 filepath = module.modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
                     + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
-                if (IsFile(filepath)) {
+                if (isFile(filepath)) {
                     return true;
                 }
                 if (language != L"en_US") {
                     filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
                         + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-                    if (IsFile(filepath)) {
+                    if (isFile(filepath)) {
                         return true;
                     }
                 }
@@ -58,10 +58,10 @@ XmlDocCheckIfLinkExists(
         return false;
     }
     filepath = directorysource + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-    if (IsFile(filepath)) {
+    if (isFile(filepath)) {
         return true;
     }
-    if (IsFile(linkname)) {
+    if (isFile(linkname)) {
         return true;
     }
     return false;

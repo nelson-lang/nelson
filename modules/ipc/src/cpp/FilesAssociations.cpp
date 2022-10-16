@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include <cstdlib>
 #include <string>
+#include "FileSystemHelpers.hpp"
 #include "FilesAssociation.hpp"
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
@@ -78,8 +78,7 @@ commonFilesAssociated(
             try {
                 for (const auto& k : filesToOpen) {
                     boost::filesystem::path pathFileToOpen(k);
-                    bool bIsFile = boost::filesystem::exists(pathFileToOpen)
-                        && !boost::filesystem::is_directory(pathFileToOpen);
+                    bool bIsFile = isFile(pathFileToOpen);
                     if (bIsFile) {
                         std::wstring commandToExecute = command + std::wstring(L"('" + k + L"');");
                         bool r = PostCommandDynamicFunction(commandToExecute);

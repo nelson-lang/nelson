@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MakeDirectory.hpp"
-#include "IsDirectory.hpp"
+#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include <boost/filesystem.hpp>
@@ -28,7 +28,7 @@ MakeDirectory(const std::wstring& newDir, std::wstring& message)
 {
     bool bOK = false;
     message = L"";
-    if (IsDirectory(newDir)) {
+    if (isDirectory(newDir)) {
         bOK = true;
         message = _W("Directory already exists.");
     } else {

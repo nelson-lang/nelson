@@ -39,15 +39,26 @@ convertFileSytemPathToGenericWString(const boost::filesystem::path& path)
 }
 //=============================================================================
 inline bool
-isFile(const boost::filesystem::path& filePath)
+isFile(const boost::filesystem::path& filePath, bool& permissionDenied)
 {
     bool bIsFile;
+    permissionDenied = false;
     try {
         bIsFile = boost::filesystem::exists(filePath) && !boost::filesystem::is_directory(filePath);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const boost::filesystem::filesystem_error& e) {
+        if (e.code() == boost::system::errc::permission_denied) {
+            permissionDenied = true;
+        }
         bIsFile = false;
     }
     return bIsFile;
+}
+//=============================================================================
+inline bool
+isFile(const boost::filesystem::path& filePath)
+{
+    bool permissionDenied;
+    return isFile(filePath, permissionDenied);
 }
 //=============================================================================
 inline bool
@@ -58,15 +69,27 @@ isFile(const std::wstring& filename)
 }
 //=============================================================================
 inline bool
-isDirectory(const boost::filesystem::path& filePath)
+isDirectory(const boost::filesystem::path& filePath, bool& permissionDenied)
 {
     bool bIsDirectory;
+    permissionDenied = false;
     try {
-        bIsDirectory = boost::filesystem::exists(filePath) && boost::filesystem::is_directory(filePath);
-    } catch (const boost::filesystem::filesystem_error&) {
+        bIsDirectory
+            = boost::filesystem::exists(filePath) && boost::filesystem::is_directory(filePath);
+    } catch (const boost::filesystem::filesystem_error& e) {
+        if (e.code() == boost::system::errc::permission_denied) {
+            permissionDenied = true;
+        }
         bIsDirectory = false;
     }
     return bIsDirectory;
+}
+//=============================================================================
+inline bool
+isDirectory(const boost::filesystem::path& filePath)
+{
+    bool permissionDenied;
+    return isDirectory(filePath, permissionDenied);
 }
 //=============================================================================
 inline bool
@@ -82,8 +105,7 @@ updateFilePermissionsToWrite(const boost::filesystem::path& filePath)
     try {
         boost::filesystem::permissions(filePath,
             boost::filesystem::perms::owner_write | boost::filesystem::perms::group_write
-                | boost::filesystem::perms::others_write
-                | boost::filesystem::add_perms);
+                | boost::filesystem::perms::others_write | boost::filesystem::add_perms);
         if (isDirectory(filePath)) {
             for (boost::filesystem::recursive_directory_iterator p(filePath), end; p != end; ++p) {
                 updateFilePermissionsToWrite(p->path());

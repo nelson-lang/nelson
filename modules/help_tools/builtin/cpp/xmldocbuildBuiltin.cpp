@@ -9,7 +9,7 @@
 //=============================================================================
 #include "xmldocbuildBuiltin.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
+#include "FileSystemHelpers.hpp"
 #include "XmlDocDirectory.hpp"
 #include "XmlDocDocument.hpp"
 #include "XmlDocListOfDirectories.hpp"
@@ -38,14 +38,21 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
+    bool permissionDenied;
     for (const auto& listOfDirectorie : listOfDirectories) {
-        if (!IsDirectory(listOfDirectorie)) {
+        if (!isDirectory(listOfDirectorie, permissionDenied)) {
+            if (permissionDenied) {
+                Error(_W("Permission denied."));
+            }
             Error(_W("Existing directory expected."));
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
-    if (!IsDirectory(dstDirectory)) {
+    if (!isDirectory(dstDirectory, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];

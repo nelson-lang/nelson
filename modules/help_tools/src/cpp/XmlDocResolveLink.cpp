@@ -9,8 +9,7 @@
 //=============================================================================
 #include "XmlDocResolveLink.hpp"
 #include "RelativePath.hpp"
-
-#include "IsFile.hpp"
+#include "FileSystemHelpers.hpp"
 #include "ModulesManager.hpp"
 #include "XmlDocumentTags.hpp"
 #include "XmlTarget.hpp"
@@ -56,7 +55,7 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                 }
                 filepath = module.modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
                     + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
-                if (IsFile(filepath)) {
+                if (isFile(filepath)) {
                     if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                         if (currentModuleName != module.modulename) {
                             resolvedlink = L"../" + module.modulename + L"/" + name + L".md";
@@ -72,7 +71,7 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                 if (language != L"en_US") {
                     filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
                         + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-                    if (IsFile(filepath)) {
+                    if (isFile(filepath)) {
                         if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                             if (currentModuleName != module.modulename) {
                                 resolvedlink = L"../" + module.modulename + L"/" + name + L".md";
@@ -97,12 +96,12 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
         return false;
     }
     filepath = directorysource + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-    if (IsFile(filepath)) {
+    if (isFile(filepath)) {
         bool bRes = false;
         resolvedlink = RelativePath(directorysource, filepath, bRes);
         return true;
     }
-    if (IsFile(linkname)) {
+    if (isFile(linkname)) {
         bool bRes = false;
         resolvedlink = RelativePath(directorysource, linkname, bRes);
         return true;

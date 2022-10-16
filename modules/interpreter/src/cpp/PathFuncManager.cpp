@@ -8,9 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cerrno>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -28,6 +25,7 @@
 #include "NelsonConfiguration.hpp"
 #include "FunctionsInMemory.hpp"
 #include "NormalizePath.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -528,38 +526,6 @@ PathFuncManager::clearCache(const stringVector& exceptedFunctions)
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
 //=============================================================================
-bool
-PathFuncManager::isDir(const std::wstring& pathname)
-{
-    boost::filesystem::path data_dir(pathname);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
-bool
-PathFuncManager::isFile(const std::wstring& filename)
-{
-    boost::filesystem::path data_dir(filename);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
 void
 PathFuncManager::userpathCompute()
 {
@@ -567,7 +533,7 @@ PathFuncManager::userpathCompute()
     std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
     bool bSet = false;
     if (!userpathEnv.empty()) {
-        if (isDir(userpathEnv)) {
+        if (isDirectory(userpathEnv)) {
             setUserPath(userpathEnv);
             bSet = true;
         }
@@ -587,7 +553,7 @@ PathFuncManager::userpathCompute()
             if (bIsFile) {
                 std::wstring preferedUserPath = loadUserPathFromFile();
                 if (!preferedUserPath.empty()) {
-                    if (isDir(preferedUserPath)) {
+                    if (isDirectory(preferedUserPath)) {
                         setUserPath(preferedUserPath);
                         bSet = true;
                     }
@@ -603,13 +569,13 @@ PathFuncManager::userpathCompute()
         std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
         if (!userprofileEnv.empty()) {
             std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
-            if (!isDir(userpathDir)) {
+            if (!isDirectory(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
                 } catch (const boost::filesystem::filesystem_error&) {
                 } //-V565
             }
-            if (isDir(userpathDir)) {
+            if (isDirectory(userpathDir)) {
                 setUserPath(userpathDir);
             }
         }
@@ -617,13 +583,13 @@ PathFuncManager::userpathCompute()
         std::wstring homeEnv = GetVariableEnvironment(L"HOME", L"");
         if (homeEnv != L"") {
             std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
-            if (!isDir(userpathDir)) {
+            if (!isDirectory(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
                 } catch (const boost::filesystem::filesystem_error&) {
                 }
             }
-            if (isDir(userpathDir)) {
+            if (isDirectory(userpathDir)) {
                 setUserPath(userpathDir);
             }
         }

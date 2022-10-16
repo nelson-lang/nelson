@@ -7,29 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 #include "GetCurrentNFilename.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static bool
-isFile(const std::wstring& filename)
-{
-    boost::filesystem::path data_dir(filename);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
 //=============================================================================
 std::wstring
 GetCurrentNFilenameW(Evaluator* eval)
