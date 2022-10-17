@@ -22,7 +22,8 @@ NormalizePath(const std::wstring& path)
         return uniformizedPath;
     }
     uniformizedPath = path;
-    boost::filesystem::path absPath = boost::filesystem::absolute(createFileSystemPath(path));
+
+    boost::filesystem::path absPath = boost::filesystem::absolute(boost::filesystem::path(path));
     boost::filesystem::path::iterator it = absPath.begin();
     boost::filesystem::path result = *it++;
     for (; boost::filesystem::exists(result / *it) && it != absPath.end(); ++it) {
@@ -43,7 +44,8 @@ NormalizePath(const std::wstring& path)
             result /= *it;
         }
     }
-    uniformizedPath = convertFileSytemPathToGenericWString(result);
+
+    uniformizedPath = result.generic_wstring();
     return uniformizedPath;
 }
 //=============================================================================

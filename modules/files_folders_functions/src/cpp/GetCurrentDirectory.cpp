@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GetCurrentDirectory.hpp"
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -17,7 +17,7 @@ GetCurrentDirectory()
 {
     std::wstring currentdir;
     try {
-        boost::filesystem::path pwd = boost::filesystem::current_path();
+        Nelson::FileSystemWrapper::Path pwd = Nelson::FileSystemWrapper::Path::current_path();
         currentdir = pwd.generic_wstring();
     } catch (const boost::filesystem::filesystem_error&) {
     }

@@ -22,7 +22,7 @@ StartNelsonUserScript(Evaluator* eval)
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
         std::wstring prefPath = GetPreferencesPath();
-        boost::filesystem::path path(prefPath);
+        Nelson::FileSystemWrapper::Path path(prefPath);
         path += L"/startup.m";
         bool bIsFile = isFile(path);
         if (bIsFile) {

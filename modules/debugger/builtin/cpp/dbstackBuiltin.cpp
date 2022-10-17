@@ -8,15 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include "dbstackBuiltin.hpp"
 #include "DebugStack.hpp"
 #include "Error.hpp"
 #include "PositionScript.hpp"
 #include "CallStack.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,7 +60,7 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
 static std::wstring
 shortName(const std::wstring& filename)
 {
-    boost::filesystem::path p(filename);
+    Nelson::FileSystemWrapper::Path p(filename);
     return p.filename().generic_wstring();
 }
 //=============================================================================

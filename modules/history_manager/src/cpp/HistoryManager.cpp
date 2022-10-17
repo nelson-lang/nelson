@@ -10,14 +10,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#ifndef _MSC_VER
-#define BOOST_NO_CXX11_SCOPED_ENUMS
-#endif
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#ifndef _MSC_VER
-#undef BOOST_NO_CXX11_SCOPED_ENUMS
-#endif
 #include <boost/algorithm/string.hpp>
 #include <ctime>
 #include <fstream>
@@ -27,6 +19,7 @@
 #include "GetPreferencesPath.hpp"
 #include "HistoryManager.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -486,18 +479,12 @@ HistoryManager::setToken(const std::wstring& _token)
 bool
 HistoryManager::copyPreviousFile(const std::wstring& _filename)
 {
-    boost::filesystem::path src(_filename);
-    boost::filesystem::path dst(_filename + L".bak");
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(src) && !boost::filesystem::is_directory(src);
-    } catch (const boost::filesystem::filesystem_error&) {
-        bRes = false;
-    }
+    Nelson::FileSystemWrapper::Path src(_filename);
+    Nelson::FileSystemWrapper::Path dst(_filename + L".bak");
+    bool bRes = isFile(src);
     if (bRes) {
         try {
-            boost::filesystem::copy_file(
-                src, dst, boost::filesystem::copy_option::overwrite_if_exists);
+            Nelson::FileSystemWrapper::Path::copy_file(src, dst);
             bRes = true;
         } catch (const boost::filesystem::filesystem_error&) {
             bRes = false;

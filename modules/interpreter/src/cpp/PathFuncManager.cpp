@@ -31,20 +31,6 @@ namespace Nelson {
 //=============================================================================
 PathFuncManager* PathFuncManager::m_pInstance = nullptr;
 //=============================================================================
-static bool
-isSamePath(const std::wstring& p1, const std::wstring& p2)
-{
-    if (p1.compare(p2) == 0) {
-        return true;
-    }
-    boost::filesystem::path _path1 = p1;
-    boost::filesystem::path _path2 = p2;
-    if (boost::filesystem::equivalent(p1, p2)) {
-        return true;
-    }
-    return false;
-}
-//=============================================================================
 static std::ifstream&
 safegetline(std::ifstream& os, std::string& line)
 {
@@ -236,8 +222,10 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
 
-    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+    boost::container::vector<PathFunc*>::iterator it
+        = std::find_if(_pathFuncVector.begin(), _pathFuncVector.end(), [path](PathFunc* x) {
+              return Nelson::FileSystemWrapper::Path::equivalent(x->getPath(), path);
+          });
     if (it != _pathFuncVector.end()) {
         return false;
     }
@@ -264,8 +252,10 @@ bool
 PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+    boost::container::vector<PathFunc*>::iterator it
+        = std::find_if(_pathFuncVector.begin(), _pathFuncVector.end(), [path](PathFunc* x) {
+              return Nelson::FileSystemWrapper::Path::equivalent(x->getPath(), path);
+          });
 
     if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
@@ -310,7 +300,7 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
 {
     const std::wstring normalizedPath = NormalizePath(path);
     if (_currentPath != nullptr) {
-        if (isSamePath(normalizedPath, _currentPath->getPath())) {
+        if (Nelson::FileSystemWrapper::Path::equivalent(normalizedPath, _currentPath->getPath())) {
             return true;
         }
         delete _currentPath;
@@ -356,8 +346,8 @@ PathFuncManager::resetUserPath()
     std::wstring prefDir = getPreferencesPath();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
     try {
-        boost::filesystem::path p = userPathFile;
-        boost::filesystem::remove(p);
+        Nelson::FileSystemWrapper::Path p(userPathFile);
+        Nelson::FileSystemWrapper::Path::remove(p);
     } catch (const boost::filesystem::filesystem_error&) {
     } //-V565
     userpathCompute();
@@ -386,8 +376,8 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _currentPath->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
+            Nelson::FileSystemWrapper::Path p1 { _currentPath->getPath() }, p2 { path };
+            if (Nelson::FileSystemWrapper::Path::equivalent(p1, p2)) {
                 _currentPath->rehash();
                 return;
             }
@@ -396,8 +386,8 @@ PathFuncManager::rehash(const std::wstring& path)
     }
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
+            Nelson::FileSystemWrapper::Path p1 { _userPath->getPath() }, p2 { path };
+            if (Nelson::FileSystemWrapper::Path::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
@@ -409,8 +399,8 @@ PathFuncManager::rehash(const std::wstring& path)
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
-                if (boost::filesystem::equivalent(p1, p2)) {
+                Nelson::FileSystemWrapper::Path p1 { pf->getPath() }, p2 { path };
+                if (Nelson::FileSystemWrapper::Path::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
@@ -548,8 +538,7 @@ PathFuncManager::userpathCompute()
         }
         try {
             userPathFile = prefDir + L"/userpath.conf";
-            bool bIsFile = boost::filesystem::exists(userPathFile)
-                && !boost::filesystem::is_directory(userPathFile);
+            bool bIsFile = isFile(userPathFile);
             if (bIsFile) {
                 std::wstring preferedUserPath = loadUserPathFromFile();
                 if (!preferedUserPath.empty()) {
@@ -571,7 +560,7 @@ PathFuncManager::userpathCompute()
             std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
             if (!isDirectory(userpathDir)) {
                 try {
-                    boost::filesystem::create_directories(userpathDir);
+                    Nelson::FileSystemWrapper::Path::create_directories(userpathDir);
                 } catch (const boost::filesystem::filesystem_error&) {
                 } //-V565
             }
@@ -585,7 +574,7 @@ PathFuncManager::userpathCompute()
             std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
             if (!isDirectory(userpathDir)) {
                 try {
-                    boost::filesystem::create_directories(userpathDir);
+                    Nelson::FileSystemWrapper::Path::create_directories(userpathDir);
                 } catch (const boost::filesystem::filesystem_error&) {
                 }
             }
@@ -611,8 +600,7 @@ PathFuncManager::loadUserPathFromFile()
     std::wstring preferedUserPath = L"";
     std::wstring prefDir = getPreferencesPath();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
-    bool bIsFile
-        = boost::filesystem::exists(userPathFile) && !boost::filesystem::is_directory(userPathFile);
+    bool bIsFile = isFile(userPathFile);
     if (bIsFile) {
         std::string tmpline;
 #ifdef _MSC_VER

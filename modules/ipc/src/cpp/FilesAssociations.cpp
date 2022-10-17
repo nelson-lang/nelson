@@ -77,7 +77,7 @@ commonFilesAssociated(
         if (!filesToOpen.empty()) {
             try {
                 for (const auto& k : filesToOpen) {
-                    boost::filesystem::path pathFileToOpen(k);
+                    Nelson::FileSystemWrapper::Path pathFileToOpen(k);
                     bool bIsFile = isFile(pathFileToOpen);
                     if (bIsFile) {
                         std::wstring commandToExecute = command + std::wstring(L"('" + k + L"');");

@@ -9,10 +9,6 @@
 //=============================================================================
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -20,6 +16,7 @@
 #include <utility>
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -219,7 +216,7 @@ Exception::getFormattedErrorMessage() const
         if (traces[k].getFunctionName() == L"run") {
             if ((k >= 1) && traces[k - 1].getLine() != 0) {
                 size_t pos = k - 1;
-                boost::filesystem::path pf = boost::filesystem::path(traces[pos].getFilename());
+                Nelson::FileSystemWrapper::Path pf(traces[pos].getFilename());
                 std::wstring filename;
                 if (traces[pos].getFilename().size() > 50) {
                     filename = pf.filename().wstring();

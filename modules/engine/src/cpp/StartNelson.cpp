@@ -50,6 +50,7 @@
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
 #include "NelsonReadyNamedMutex.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -378,8 +379,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
-        boost::filesystem::path p(fileToExecute);
-        boost::filesystem::path full_p = boost::filesystem::complete(p);
+        Nelson::FileSystemWrapper::Path p(fileToExecute);
+        Nelson::FileSystemWrapper::Path full_p = Nelson::FileSystemWrapper::Path::absolute(p);
         fileToExecute = full_p.generic_wstring();
     }
 

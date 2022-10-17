@@ -29,10 +29,10 @@ GetCurrentNFilenameW(Evaluator* eval)
     }
     if (!fileName.empty()) {
         if (isFile(fileName)) {
-            boost::filesystem::path canonicalPath;
+            Nelson::FileSystemWrapper::Path canonicalPath;
             try {
-                canonicalPath
-                    = boost::filesystem::canonical(fileName, boost::filesystem::current_path());
+                canonicalPath = Nelson::FileSystemWrapper::Path::canonical(
+                    fileName, Nelson::FileSystemWrapper::Path::current_path());
                 fileName = canonicalPath.generic_wstring();
             } catch (const boost::filesystem::filesystem_error&) {
             }

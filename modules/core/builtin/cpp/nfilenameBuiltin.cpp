@@ -10,7 +10,7 @@
 #include "nfilenameBuiltin.hpp"
 #include "Error.hpp"
 #include "GetCurrentNFilename.hpp"
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +39,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
-    boost::filesystem::path path(GetCurrentNFilenameW(eval));
+    Nelson::FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));
     switch (iExt) {
     case 0:
         path = path.stem();

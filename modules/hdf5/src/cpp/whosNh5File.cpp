@@ -10,14 +10,13 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include <iomanip>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/container/vector.hpp>
 #include "whosNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5LoadVariable.hpp"
 #include "characters_encoding.hpp"
 #include "ClassName.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,11 +36,11 @@ ArrayOf
 whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    boost::filesystem::path nh5_filename(filename);
+    Nelson::FileSystemWrapper::Path nh5_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(nh5_filename)
-            && !boost::filesystem::is_directory(nh5_filename);
+        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(nh5_filename)
+            && !Nelson::FileSystemWrapper::Path::is_directory(nh5_filename);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
             Error(_W("Permission denied."));

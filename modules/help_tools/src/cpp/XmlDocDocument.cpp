@@ -68,22 +68,6 @@ safegetline(std::ifstream& os, std::string& line)
     return os;
 }
 //=============================================================================
-static bool
-isDir(const std::wstring& dirname)
-{
-    boost::filesystem::path pathIn(dirname);
-    bool IsDirIn = false;
-    try {
-        IsDirIn = boost::filesystem::exists(pathIn) && boost::filesystem::is_directory(pathIn);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        IsDirIn = false;
-    }
-    return IsDirIn;
-}
-//=============================================================================
 XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstring& sectionname,
     const std::wstring& destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
 {
@@ -95,21 +79,21 @@ XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstri
     this->items.clear();
     this->bReadOk = false;
     this->xmlDirectory = L"./";
-    boost::filesystem::path pathToSplit = srcfilename;
+    Nelson::FileSystemWrapper::Path pathToSplit(srcfilename);
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
-    if (isDir(destfilename)) {
+    if (isDirectory(destfilename)) {
         this->directoryDestination = destfilename;
-        boost::filesystem::path pathname(srcfilename);
+        Nelson::FileSystemWrapper::Path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        boost::filesystem::path pathdest(destfilename);
+        Nelson::FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
@@ -136,27 +120,27 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     this->items = items;
     this->bReadOk = true;
     this->xmlDirectory = L"./";
-    boost::filesystem::path pathToSplit = srcfilename;
+    Nelson::FileSystemWrapper::Path pathToSplit = srcfilename;
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
-    if (isDir(destfilename)) {
+    if (isDirectory(destfilename)) {
         this->directoryDestination = destfilename;
-        boost::filesystem::path pathname(srcfilename);
+        Nelson::FileSystemWrapper::Path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        boost::filesystem::path pathdest(destfilename);
+        Nelson::FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest.normalize();
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
         this->directoryDestination.clear();
-        boost::filesystem::path pathdest(destfilename);
+        Nelson::FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest.normalize();
         this->setDestinationFile(pathdest.generic_wstring());
     }
@@ -2536,7 +2520,7 @@ XmlDocDocument::setDestinationFile(const std::wstring& _filenameDestination)
 {
     this->filenameDestination = _filenameDestination;
     this->directoryDestination = L"./";
-    boost::filesystem::path pathToSplit = _filenameDestination;
+    Nelson::FileSystemWrapper::Path pathToSplit(_filenameDestination);
     if (pathToSplit.has_parent_path()) {
         this->directoryDestination = pathToSplit.parent_path().generic_wstring();
         if (this->directoryDestination[this->directoryDestination.size() - 1] != '/'
@@ -2563,14 +2547,14 @@ XmlDocDocument::copyHtmlDependencies()
         files.push_back(L"style.css");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            boost::filesystem::path dstFile = this->directoryDestination;
+            Nelson::FileSystemWrapper::Path dstFile = this->directoryDestination;
             dstFile = dstFile / file;
-            if (!boost::filesystem::exists(dstFile)) {
-                boost::filesystem::path srcFile = ressourcesPath;
+            if (!Nelson::FileSystemWrapper::Path::exists(dstFile)) {
+                Nelson::FileSystemWrapper::Path srcFile = ressourcesPath;
                 srcFile = srcFile / file;
                 bool bIsFile = isFile(srcFile);
                 if (bIsFile) {
-                    boost::filesystem::copy_file(srcFile, dstFile);
+                    Nelson::FileSystemWrapper::Path::copy_file(srcFile, dstFile);
                 }
             }
         }
@@ -2584,9 +2568,10 @@ XmlDocDocument::needToUpdate()
     if (this->bOverwriteExistingFile) {
         return true;
     }
-    if (boost::filesystem::exists(this->filenameDestination)) {
-        std::time_t t1 = boost::filesystem::last_write_time(this->xmlfilename);
-        std::time_t t2 = boost::filesystem::last_write_time(this->filenameDestination);
+    if (Nelson::FileSystemWrapper::Path::exists(this->filenameDestination)) {
+        std::time_t t1 = Nelson::FileSystemWrapper::Path::last_write_time(this->xmlfilename);
+        std::time_t t2
+            = Nelson::FileSystemWrapper::Path::last_write_time(this->filenameDestination);
         if (t1 >= t2) {
             return true;
         }

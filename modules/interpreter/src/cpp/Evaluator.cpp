@@ -10,7 +10,6 @@
 //=============================================================================
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <cstdio>
 #include <cerrno>
@@ -77,6 +76,7 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "AsciiToDouble.hpp"
 #include "MException.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -3346,7 +3346,7 @@ Evaluator::getCallers(bool includeCurrent)
             } else if (boost::algorithm::starts_with(functionname, "filename ")) {
                 boost::algorithm::replace_all(functionname, "filename ", "");
                 if (boost::algorithm::ends_with(functionname, ".m")) {
-                    boost::filesystem::path p(functionname);
+                    Nelson::FileSystemWrapper::Path p(functionname);
                     functionname = p.stem().generic_string();
                 }
             } else {
@@ -4046,7 +4046,7 @@ Evaluator::getCurrentFunctionName()
     if (ipos >= 0) {
         std::string fullname = callstack.getLastContext();
         if (boost::algorithm::ends_with(fullname, ".m")) {
-            boost::filesystem::path pathForStem(fullname);
+            Nelson::FileSystemWrapper::Path pathForStem(fullname);
             return pathForStem.stem().string();
         }
         return fullname;

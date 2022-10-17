@@ -15,8 +15,6 @@
 #include <fmt/format.h>
 #include <curl/curl.h>
 #include <unordered_map>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include "WebREST.hpp"
 #include "characters_encoding.hpp"
@@ -24,6 +22,7 @@
 #include "ResponseCodeToMessage.hpp"
 #include "i18n.hpp"
 #include "ProcessEventsDynamic.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -77,9 +76,9 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (fw == nullptr) {
         Error(_W("Cannot create destination file."));
     }
-    boost::filesystem::path p(filename);
+    Nelson::FileSystemWrapper::Path p(filename);
     try {
-        p = boost::filesystem::absolute(p);
+        p = Nelson::FileSystemWrapper::Path::absolute(p);
         fullFilename = p.generic_wstring();
     } catch (const boost::filesystem::filesystem_error&) {
         fullFilename = p.generic_wstring();
@@ -277,8 +276,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (!msg.empty()) {
         // remove file if error detected.
         try {
-            boost::filesystem::path p = filename;
-            boost::filesystem::remove(p);
+            Nelson::FileSystemWrapper::Path p = filename;
+            Nelson::FileSystemWrapper::Path::remove(p);
         } catch (const boost::filesystem::filesystem_error&) {
         }
         Error(msg);

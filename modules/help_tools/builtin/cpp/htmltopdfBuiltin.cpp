@@ -7,8 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <fstream>
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
@@ -38,9 +36,9 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:
         case GUI: {
-            boost::filesystem::path pdfname(param2);
+            Nelson::FileSystemWrapper::Path pdfname(param2);
             if (pdfname.extension().string() != ".pdf") {
-                pdfname.replace_extension(".pdf");
+                pdfname.replace_extension(Nelson::FileSystemWrapper::Path(".pdf"));
             }
             std::ofstream pdffile;
 #if _MSC_VER

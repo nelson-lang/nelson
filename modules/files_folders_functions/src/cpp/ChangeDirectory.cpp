@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +33,7 @@ removeSimpleQuotesAndTrim(const std::wstring& newpath)
 ArrayOf
 Cd(const std::wstring& newpath)
 {
-    boost::filesystem::path previous_pwd = boost::filesystem::current_path();
+    Nelson::FileSystemWrapper::Path previous_pwd = Nelson::FileSystemWrapper::Path::current_path();
     ChangeDirectory(newpath, true, true);
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
@@ -52,9 +52,9 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
     try {
-        boost::filesystem::current_path(pathApplied);
+        Nelson::FileSystemWrapper::Path::current_path(pathApplied);
         PathFuncManager::getInstance()->setCurrentUserPath(
-            boost::filesystem::current_path().generic_wstring());
+            Nelson::FileSystemWrapper::Path::current_path().generic_wstring());
         return true;
     } catch (const boost::filesystem::filesystem_error&) {
         if (doException) {

@@ -8,12 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "LoadMatioFile.hpp"
 #include "LoadMatioVariable.hpp"
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,11 +21,11 @@ LoadMatioFile(
     Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    boost::filesystem::path mat_filename(filename);
+    Nelson::FileSystemWrapper::Path mat_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(mat_filename)
-            && !boost::filesystem::is_directory(mat_filename);
+        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(mat_filename)
+            && !Nelson::FileSystemWrapper::Path::is_directory(mat_filename);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
             Error(_W("Permission denied."));

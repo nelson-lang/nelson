@@ -7,8 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "FileSystemWrapper.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -29,10 +28,10 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (paramstr == L"reset") {
                 PathFuncManager::getInstance()->resetUserPath();
             } else {
-                boost::filesystem::path data_dir(paramstr);
+                Nelson::FileSystemWrapper::Path data_dir(paramstr);
                 bool bRes = false;
                 try {
-                    bRes = boost::filesystem::is_directory(data_dir);
+                    bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     if (e.code() == boost::system::errc::permission_denied) {
                         // ONLY FOR DEBUG

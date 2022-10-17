@@ -15,10 +15,6 @@
 #endif
 #include <ctime>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
 #include <boost/regex.hpp>
 
 #include "Zipper.hpp"
@@ -28,51 +24,14 @@
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-bool
-isExistingDirectory(const std::wstring& name)
-{
-#ifdef _MSC_VER
-    boost::filesystem::path p = name;
-#else
-    boost::filesystem::path p = wstring_to_utf8(name);
-#endif
-    bool res = false;
-    try {
-        res = boost::filesystem::is_directory(p);
-    } catch (const boost::filesystem::filesystem_error&) {
-        res = false;
-    }
-    return res;
-}
-//=============================================================================
-bool
-isExistingFile(const std::wstring& name)
-{
-#ifdef _MSC_VER
-    boost::filesystem::path p = name;
-#else
-    boost::filesystem::path p = wstring_to_utf8(name);
-#endif
-    bool res = false;
-    try {
-        res = boost::filesystem::is_regular_file(p);
-    } catch (const boost::filesystem::filesystem_error&) {
-        res = false;
-    }
-    return res;
-}
 //=============================================================================
 std::wstring
 normalizeZipPath(const std::wstring& path)
 {
-#ifdef _MSC_VER
-    boost::filesystem::path p = path;
-#else
-    boost::filesystem::path p = wstring_to_utf8(path);
-#endif
+    Nelson::FileSystemWrapper::Path p(path);
     p = p.generic_path().lexically_normal();
     if (boost::algorithm::starts_with(p.wstring(), L"./")) {
         p = p.wstring().substr(2);
@@ -83,15 +42,11 @@ normalizeZipPath(const std::wstring& path)
 std::wstring
 getRootPath(const std::wstring& rootpath)
 {
-    boost::filesystem::path p;
+    Nelson::FileSystemWrapper::Path p;
     if (rootpath == L".") {
-        p = boost::filesystem::current_path();
+        p = Nelson::FileSystemWrapper::Path::current_path();
     } else {
-#ifdef _MSC_VER
-        p = rootpath;
-#else
-        p = wstring_to_utf8(rootpath);
-#endif
+        p = Nelson::FileSystemWrapper::Path(rootpath);
     }
     return normalizeZipPath(p.wstring());
 }

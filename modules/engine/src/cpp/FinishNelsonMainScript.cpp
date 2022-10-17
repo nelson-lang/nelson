@@ -22,7 +22,7 @@ FinishNelsonMainScript(Evaluator* eval)
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
         std::wstring rootPath = Nelson::GetRootPath();
-        boost::filesystem::path path(rootPath);
+        Nelson::FileSystemWrapper::Path path(rootPath);
         path += L"/etc/finish.m";
         if (isFile(path)) {
             NelsonConfiguration::getInstance()->disableModulesProtection();

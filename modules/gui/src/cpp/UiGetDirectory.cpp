@@ -11,8 +11,7 @@
 #include "QStringConverter.hpp"
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,10 +36,10 @@ UiGetDirectory(
     }
     if (fd) {
         if (!pathOrigin.empty()) {
-            boost::filesystem::path data_dir(pathOrigin);
+            Nelson::FileSystemWrapper::Path data_dir(pathOrigin);
             bool bRes = false;
             try {
-                bRes = boost::filesystem::is_directory(data_dir);
+                bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
             } catch (const boost::filesystem::filesystem_error& e) {
                 if (e.code() == boost::system::errc::permission_denied) {
                     // ONLY FOR DEBUG
@@ -49,7 +48,8 @@ UiGetDirectory(
             }
             std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
-                boost::filesystem::path pwd = boost::filesystem::current_path();
+                Nelson::FileSystemWrapper::Path pwd
+                    = Nelson::FileSystemWrapper::Path::current_path();
                 _pathOrigin = pwd.generic_wstring();
             }
             fd->setDirectory(QDir(wstringToQString(_pathOrigin)));

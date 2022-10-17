@@ -10,7 +10,6 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
 #include "Unzip.hpp"
@@ -18,20 +17,18 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& filenames)
 {
-    if (!isExistingDirectory(rootpath)) {
+    if (!isDirectory(rootpath)) {
         try {
-#ifdef _MSC_VER
-            boost::filesystem::path p = rootpath;
-#else
-            boost::filesystem::path p = wstring_to_utf8(rootpath);
-#endif
-            boost::filesystem::create_directories(p);
+            Nelson::FileSystemWrapper::Path p(rootpath);
+            Nelson::FileSystemWrapper::Path::create_directories(p);
         } catch (const boost::filesystem::filesystem_error&) {
             Error(_W("Cannot create directory."));
         }
@@ -60,13 +57,9 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
             std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
-            if (!isExistingDirectory(completePath)) {
+            if (!isDirectory(completePath)) {
                 try {
-#ifdef _MSC_VER
-                    boost::filesystem::create_directories(completePath);
-#else
-                    boost::filesystem::create_directories(wstring_to_utf8(completePath));
-#endif
+                    Nelson::FileSystemWrapper::Path::create_directories(completePath);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     boost::system::error_code error_code = e.code();
                 }

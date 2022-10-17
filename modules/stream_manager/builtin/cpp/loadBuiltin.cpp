@@ -59,7 +59,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     bool fileExistPreviously = isFile(paramFilename);
     if (!fileExistPreviously) {
-        std::string extension = boost::filesystem::extension(paramFilename);
+        std::string extension = Nelson::FileSystemWrapper::Path(paramFilename).extension().string();
         if (extension.empty()) {
             paramFilename = paramFilename + L".nh5";
             fileExistPreviously = isFile(paramFilename);

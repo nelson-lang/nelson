@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 #include <cstring>
@@ -16,6 +15,7 @@
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -650,8 +650,9 @@ ArrayOf
 SscanF(const std::wstring& content, const std::wstring& format, double m, double n,
     bool haveThirdArgument, indexType& count, indexType& nextIndex, std::wstring& errorMessage)
 {
-    boost::filesystem::path tempFilePath = boost::filesystem::temp_directory_path();
-    tempFilePath /= boost::filesystem::unique_path();
+    Nelson::FileSystemWrapper::Path tempFilePath
+        = Nelson::FileSystemWrapper::Path::temp_directory_path();
+    tempFilePath /= Nelson::FileSystemWrapper::Path::unique_path();
 #ifdef _MSC_VER
     const std::wstring filenameTemp = tempFilePath.wstring();
 #else

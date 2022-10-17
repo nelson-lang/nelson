@@ -9,13 +9,11 @@
 //=============================================================================
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,16 +23,16 @@ RemoveIpcOldFiles()
     bool result = false;
     std::string ipcDirectory;
     boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
-    boost::filesystem::path branch(ipcDirectory);
+    Nelson::FileSystemWrapper::Path branch(ipcDirectory);
     bool isDirectory;
     try {
-        isDirectory = boost::filesystem::is_directory(branch);
+        isDirectory = Nelson::FileSystemWrapper::Path::is_directory(branch);
     } catch (const boost::filesystem::filesystem_error&) {
         isDirectory = false;
     }
     if (isDirectory) {
-        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-            boost::filesystem::path filepath = p->path();
+        for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
+            Nelson::FileSystemWrapper::Path filepath(p->path().native());
             std::wstring filename = filepath.leaf().wstring();
             if (boost::algorithm::starts_with(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
@@ -51,7 +49,7 @@ RemoveIpcOldFiles()
                 try {
                     result = true;
                     if (!usedPid) {
-                        boost::filesystem::remove(filepath);
+                        Nelson::FileSystemWrapper::Path::remove(filepath);
                     }
                 } catch (const boost::filesystem::filesystem_error&) {
                     result = false;

@@ -7,14 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "saveBuiltin.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -75,7 +74,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
 
     if (!forceAsMat && !forceAsNh5) {
-        std::string extension = boost::filesystem::extension(paramFilename);
+        std::string extension = Nelson::FileSystemWrapper::Path(paramFilename).extension().string();
         if (extension == ".nh5") {
             forceAsNh5 = true;
         } else if (extension == ".mat") {

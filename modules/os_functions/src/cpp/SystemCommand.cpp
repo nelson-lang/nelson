@@ -24,12 +24,12 @@
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include <boost/filesystem.hpp>
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,7 +40,7 @@ static void
 ProcessEventsDynamicFunction();
 //=============================================================================
 static void
-deleteFile(boost::filesystem::path p);
+deleteFile(const Nelson::FileSystemWrapper::Path& p);
 //=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
@@ -52,7 +52,7 @@ static void
 initGuiDynamicLibrary();
 //=============================================================================
 static std::wstring
-readFile(const boost::filesystem::path& filePath);
+readFile(const Nelson::FileSystemWrapper::Path& filePath);
 //=============================================================================
 class systemTask
 {
@@ -102,11 +102,12 @@ public:
 
         _terminate = false;
         _running = true;
-        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
-        boost::filesystem::path tempOutputFile = pwd;
-        boost::filesystem::path tempErrorFile = pwd;
-        tempOutputFile /= boost::filesystem::unique_path();
-        tempErrorFile /= boost::filesystem::unique_path();
+        Nelson::FileSystemWrapper::Path pwd
+            = Nelson::FileSystemWrapper::Path::temp_directory_path();
+        Nelson::FileSystemWrapper::Path tempOutputFile = pwd;
+        Nelson::FileSystemWrapper::Path tempErrorFile = pwd;
+        tempOutputFile /= Nelson::FileSystemWrapper::Path::unique_path();
+        tempErrorFile /= Nelson::FileSystemWrapper::Path::unique_path();
         bool mustDetach = false;
         std::wstring _command = DetectDetachProcess(command, mustDetach);
         std::wstring argsShell;
@@ -339,9 +340,9 @@ ProcessEventsDynamicFunction()
 }
 //=============================================================================
 void
-deleteFile(boost::filesystem::path p)
+deleteFile(const Nelson::FileSystemWrapper::Path& p)
 {
-    if (boost::filesystem::exists(p)) {
+    if (Nelson::FileSystemWrapper::Path::exists(p)) {
 
 #ifdef _MSC_VER
         int res = _wremove(p.generic_wstring().c_str());
@@ -352,7 +353,7 @@ deleteFile(boost::filesystem::path p)
 }
 //=============================================================================
 std::wstring
-readFile(const boost::filesystem::path& filePath)
+readFile(const Nelson::FileSystemWrapper::Path& filePath)
 {
     std::string result;
     FILE* pFile;

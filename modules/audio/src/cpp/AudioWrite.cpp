@@ -12,13 +12,13 @@
 #endif
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <sndfile.h>
 #include <map>
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -191,7 +191,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     rows = audioData.getRows();
     columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
-    boost::filesystem::path pathFilename = filename;
+    Nelson::FileSystemWrapper::Path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
         extension = pathFilename.extension().generic_wstring();

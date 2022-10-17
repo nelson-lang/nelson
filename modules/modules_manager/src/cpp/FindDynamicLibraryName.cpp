@@ -10,6 +10,7 @@
 #include "FindDynamicLibraryName.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,21 +26,13 @@ FindDynamicLibraryName(
     }
     boost::filesystem::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(fullfilename)
-            && !boost::filesystem::is_directory(fullfilename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEDUG
-        }
-        bRes = false;
-    }
+    bool bRes = isFile(fullfilename.native());
     if (bRes) {
         res = initialLibraryName;
         return res;
     }
-    for (boost::filesystem::directory_iterator dir_iter(dir); dir_iter != end_iter; ++dir_iter) {
+    for (boost::filesystem::directory_iterator dir_iter(dir.native()); dir_iter != end_iter;
+         ++dir_iter) {
         boost::filesystem::path current = dir_iter->path();
         if (boost::filesystem::is_regular_file(current)) {
             if (bCaseSensitive) {

@@ -15,7 +15,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <MacTypes.h>
 #endif
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
@@ -100,8 +100,8 @@ GetRootPath()
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
         if (penv != L"") {
-            boost::filesystem::path path(penv);
-            if (boost::filesystem::is_directory(path)) {
+            Nelson::FileSystemWrapper::Path path(penv);
+            if (Nelson::FileSystemWrapper::Path::is_directory(path)) {
                 NelsonPath = path.generic_path().generic_wstring();
                 NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
                 return NelsonPath;
@@ -112,14 +112,14 @@ GetRootPath()
 #else
         p = utf8_to_wstring(get_basepathU());
 #endif
-        boost::filesystem::path path(p);
-        boost::filesystem::path nelsonpath;
+        Nelson::FileSystemWrapper::Path path(p);
+        Nelson::FileSystemWrapper::Path nelsonpath;
 #ifdef _MSC_VER
         nelsonpath = path.parent_path().parent_path().parent_path();
 #else
         nelsonpath = path.parent_path().parent_path();
 #endif
-        if (boost::filesystem::is_directory(nelsonpath)) {
+        if (Nelson::FileSystemWrapper::Path::is_directory(nelsonpath)) {
             NelsonPath = nelsonpath.generic_path().generic_wstring();
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
             return NelsonPath;

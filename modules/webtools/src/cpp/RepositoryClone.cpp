@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
@@ -16,6 +15,7 @@
 #include "RepositoryClone.hpp"
 #include "RepositoryHelpers.hpp"
 #include "RepositoryCheckout.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -64,7 +64,7 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
         if (!branchOrTag.empty()) {
             RepositoryCheckout(localPath, branchOrTag, errorMessage);
         }
-        boost::filesystem::path p;
+        Nelson::FileSystemWrapper::Path p;
         if (errorMessage.empty()) {
             if (!boost::algorithm::ends_with(localPath, L"\\")
                 && (!boost::algorithm::ends_with(localPath, L"/"))) {

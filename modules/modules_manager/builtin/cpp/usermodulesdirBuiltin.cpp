@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "usermodulesdirBuiltin.hpp"
 #include "Error.hpp"
 #include "GetExternalModulesPath.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,13 +21,7 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(int nLhs, const ArrayOfVect
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     std::wstring externalModulesPath = GetExternalModulesPath();
-    bool haveError = false;
-    try {
-        haveError = !boost::filesystem::is_directory(externalModulesPath);
-    } catch (const boost::filesystem::filesystem_error&) {
-        haveError = true;
-    }
-    if (haveError) {
+    if (!isDirectory(externalModulesPath)) {
         Error(_W("Impossible to get external modules directory."));
     }
     retval << ArrayOf::characterArrayConstructor(externalModulesPath);

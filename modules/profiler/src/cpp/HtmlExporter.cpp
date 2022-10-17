@@ -50,14 +50,16 @@ copyHtmlDependencies(
         files.push_back(L"sort.js");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            boost::filesystem::path dstFile = directoryDestination;
+            Nelson::FileSystemWrapper::Path dstFile
+                = Nelson::FileSystemWrapper::Path(directoryDestination);
             dstFile = dstFile / file;
-            if (!boost::filesystem::exists(dstFile)) {
-                boost::filesystem::path srcFile = ressourcesPath;
+            if (!dstFile.exists()) {
+                Nelson::FileSystemWrapper::Path srcFile
+                    = Nelson::FileSystemWrapper::Path(ressourcesPath);
                 srcFile = srcFile / file;
                 bool bIsFile = isFile(srcFile);
                 if (bIsFile) {
-                    boost::filesystem::copy_file(srcFile, dstFile);
+                    Nelson::FileSystemWrapper::Path::copy_file(srcFile, dstFile);
                 }
             }
         }
@@ -107,9 +109,9 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
         double totalTime = std::get<3>(element);
         int nbCalls = std::get<2>(element);
         double coverage = std::get<4>(element);
-        boost::filesystem::path p1(std::get<1>(element));
+        Nelson::FileSystemWrapper::Path p1(std::get<1>(element));
         std::string file_x_html = wstring_to_utf8(p1.filename().wstring());
-        boost::filesystem::path p2(std::get<0>(element));
+        Nelson::FileSystemWrapper::Path p2(std::get<0>(element));
         std::string filename = wstring_to_utf8(p2.wstring());
 
         file << "<tr>" << std::endl;

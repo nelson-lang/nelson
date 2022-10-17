@@ -38,9 +38,11 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
                 bool permissionDenied = false;
-                if (isDirectory(branch.wstring()), permissionDenied) {
+                bool isDir = isDirectory(branch.wstring(), permissionDenied);
+                if (isDir) {
                     try {
-                        for (boost::filesystem::recursive_directory_iterator p(branch), end;
+                        for (boost::filesystem::recursive_directory_iterator p(branch.native()),
+                             end;
                              p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
@@ -142,7 +144,9 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             if (bSubdirectories) {
                 if (isDirectory(branch.wstring())) {
                     try {
-                        for (boost::filesystem::recursive_directory_iterator dir_iter(branch), end;
+                        for (boost::filesystem::recursive_directory_iterator
+                                 dir_iter(branch.native()),
+                             end;
                              dir_iter != end; ++dir_iter) {
                             boost::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring()));

@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,11 +25,11 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
-        boost::filesystem::path pathIn(fileOrDirName);
+        Nelson::FileSystemWrapper::Path pathIn(fileOrDirName);
         bool IsFileIn = false;
         try {
-            IsFileIn
-                = boost::filesystem::exists(pathIn) && !boost::filesystem::is_directory(pathIn);
+            IsFileIn = Nelson::FileSystemWrapper::Path::exists(pathIn)
+                && !Nelson::FileSystemWrapper::Path::is_directory(pathIn);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
                 Error(_W("Permission denied."));

@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "RemoveFile.hpp"
 #include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -23,12 +22,10 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     bool permissionDenied;
     bool bIsFile = isFile(filename, permissionDenied);
     if (permissionDenied) {
-        boost::filesystem::path p = createFileSystemPath(filename);
+        Nelson::FileSystemWrapper::Path p = (filename);
         try {
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
-            boost::filesystem::remove(p);
+            updateFilePermissionsToWrite(p);
+            Nelson::FileSystemWrapper::Path::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             boost::system::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());
@@ -36,9 +33,9 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
         }
     }
     if (bIsFile) {
-        boost::filesystem::path p = createFileSystemPath(filename);
+        Nelson::FileSystemWrapper::Path p(filename);
         try {
-            boost::filesystem::remove(p);
+            Nelson::FileSystemWrapper::Path::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             boost::system::error_code error_code = e.code();
             res = false;

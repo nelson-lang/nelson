@@ -8,11 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <fstream>
 #include <iostream>
 #include "Diary.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,8 +32,8 @@ bool
 Diary::SetFilename(const std::wstring& wFilename)
 {
     bool bRes = false;
-    boost::filesystem::path p = wFilename;
-    bool previouslyExist = boost::filesystem::exists(p) && !boost::filesystem::is_directory(p);
+    Nelson::FileSystemWrapper::Path p(wFilename);
+    bool previouslyExist = isFile(p);
     std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
 #ifdef _MSC_VER
     std::wofstream fileDiary(wFilename, wofstream_mode);
@@ -49,9 +49,9 @@ Diary::SetFilename(const std::wstring& wFilename)
     if (!bState || !previouslyExist) {
         // remove create diary if state is off
         // or if diary did not exist before
-        boost::filesystem::path p = wFilename;
+        Nelson::FileSystemWrapper::Path p(wFilename);
         try {
-            boost::filesystem::remove(p);
+            Nelson::FileSystemWrapper::Path::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
                 // ONLY FOR DEBUG

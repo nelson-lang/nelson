@@ -21,7 +21,7 @@ StartNelsonMainScript(Evaluator* eval)
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
         std::wstring rootPath = Nelson::GetRootPath();
-        boost::filesystem::path path(rootPath);
+        Nelson::FileSystemWrapper::Path path(rootPath);
         path += L"/etc/startup.m";
         bool bIsFile = isFile(path);
         if (bIsFile) {

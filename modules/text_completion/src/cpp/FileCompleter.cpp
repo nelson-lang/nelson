@@ -58,7 +58,8 @@ FileCompleter(const std::wstring& prefix)
         splitpath(prefix, pathname, filename);
         if (pathname.empty()) {
             try {
-                boost::filesystem::path pwd = boost::filesystem::current_path();
+                Nelson::FileSystemWrapper::Path pwd
+                    = Nelson::FileSystemWrapper::Path::current_path();
                 path = pwd.generic_wstring();
             } catch (const boost::filesystem::filesystem_error&) {
             }

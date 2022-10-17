@@ -30,8 +30,8 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
         }
         Error(_W("File source does not exist."));
     }
-    boost::filesystem::path srcPath = srcFile;
-    boost::filesystem::path destPath = destFileOrDirectory;
+    Nelson::FileSystemWrapper::Path srcPath = srcFile;
+    Nelson::FileSystemWrapper::Path destPath = destFileOrDirectory;
 
     bool isDir = isDirectory(destFileOrDirectory, permissionDenied);
     if (permissionDenied) {
@@ -41,8 +41,7 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
         destPath = destPath / srcPath.filename();
     }
     try {
-        boost::filesystem::copy_file(
-            srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
+        Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath);
         bRes = true;
     } catch (const boost::filesystem::filesystem_error& e) {
         bRes = false;
@@ -59,10 +58,10 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 }
 //=============================================================================
 static bool
-copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
-    const boost::filesystem::path& destinationDir, bool bForce, std::wstring& errorMessage)
+copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
+    const Nelson::FileSystemWrapper::Path& destinationDir, bool bForce, std::wstring& errorMessage)
 {
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
+    if (!isDirectory(sourceDir)) {
         if (!bForce) {
             errorMessage
                 = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
@@ -70,8 +69,8 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
             return false;
         }
     }
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
-        if (!boost::filesystem::create_directory(destinationDir)) {
+    if (!isDirectory(sourceDir)) {
+        if (!Nelson::FileSystemWrapper::Path::create_directory(destinationDir)) {
             if (!bForce) {
                 errorMessage = fmt::sprintf(
                     _W("Cannot create destination directory %s"), destinationDir.wstring());
@@ -81,13 +80,16 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
     }
 
     std::wstring rootSrc = sourceDir.generic_wstring();
-    for (const auto& dirEnt : boost::filesystem::recursive_directory_iterator { sourceDir }) {
+    for (const auto& dirEnt :
+        boost::filesystem::recursive_directory_iterator { sourceDir.native() }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");
         try {
-            boost::filesystem::path destPath = destinationDir.generic_path() / relativePathStr;
-            boost::filesystem::copy(path, destPath);
+            Nelson::FileSystemWrapper::Path destPath
+                = destinationDir.generic_path() / relativePathStr;
+            Nelson::FileSystemWrapper::Path::copy(
+                Nelson::FileSystemWrapper::Path(path.wstring()), destPath);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (!bForce) {
                 boost::system::error_code error_code = e.code();
@@ -144,11 +146,11 @@ CopyFiles(
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {
-        boost::filesystem::path srcPath = srcFile;
-        boost::filesystem::path destPath = destDir;
+        Nelson::FileSystemWrapper::Path srcPath = srcFile;
+        Nelson::FileSystemWrapper::Path destPath = destDir;
         destPath = destPath / srcPath.filename();
         try {
-            boost::filesystem::copy_file(srcPath, destPath);
+            Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath);
             bRes = true;
         } catch (const boost::filesystem::filesystem_error& e) {
             bRes = false;

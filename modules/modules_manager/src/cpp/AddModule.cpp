@@ -29,11 +29,10 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
         || (boost::algorithm::ends_with(_modulerootpath, L"/"))) {
         _modulerootpath.pop_back();
     }
-    if (boost::filesystem::is_directory(_modulerootpath)) {
-        boost::filesystem::path pathmainloader(_modulerootpath);
+    if (Nelson::FileSystemWrapper::Path::is_directory(_modulerootpath)) {
+        Nelson::FileSystemWrapper::Path pathmainloader(_modulerootpath);
         pathmainloader += L"/etc/startup.m";
-        if (boost::filesystem::exists(pathmainloader)
-            && !boost::filesystem::is_directory(pathmainloader)) {
+        if (isFile(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());

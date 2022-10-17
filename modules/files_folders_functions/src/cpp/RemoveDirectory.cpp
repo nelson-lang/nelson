@@ -11,24 +11,8 @@
 #include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static void
-updatePermissions(const std::wstring& folderName)
-{
-    boost::filesystem::path f = folderName;
-    boost::filesystem::permissions(f,
-        boost::filesystem::add_perms | boost::filesystem::owner_write
-            | boost::filesystem::group_write | boost::filesystem::others_write);
-    if (isDirectory(folderName)) {
-        boost::filesystem::path branch(folderName);
-        for (boost::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
-            updatePermissions(p->path().wstring());
-        }
-    }
-}
 //=============================================================================
 bool
 RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& message)
@@ -38,15 +22,12 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
     bool permissionDenied;
     if (isDirectory(folderName, permissionDenied)) {
         try {
-            boost::filesystem::path p = folderName;
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
+            updateFilePermissionsToWrite(folderName);
+            Nelson::FileSystemWrapper::Path p(folderName);
             if (bSubfolder) {
-                updatePermissions(p.wstring());
-                boost::filesystem::remove_all(p);
+                Nelson::FileSystemWrapper::Path::remove_all(p);
             }
-            boost::filesystem::remove(p);
+            Nelson::FileSystemWrapper::Path::remove(p);
             res = true;
         } catch (const boost::filesystem::filesystem_error& e) {
             res = false;

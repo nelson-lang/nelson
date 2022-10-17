@@ -46,15 +46,13 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
         boost::xpressive::wsmatch const& what = *cur2;
         oldPath = what[0];
         if (!boost::algorithm::istarts_with(oldPath, L"http")) {
-            boost::filesystem::path absolutePath;
+            Nelson::FileSystemWrapper::Path absolutePath;
             try {
-                absolutePath = boost::filesystem::canonical(oldPath, srcDirectory);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
+                absolutePath = Nelson::FileSystemWrapper::Path::canonical(oldPath, srcDirectory);
+            } catch (const boost::filesystem::filesystem_error&) {
             }
             newPath = absolutePath.generic_wstring();
-            bool bIsFile
-                = boost::filesystem::exists(newPath) && !boost::filesystem::is_directory(newPath);
+            bool bIsFile = isFile(newPath);
             if (!bIsFile) {
                 newPath.clear();
             }
@@ -89,8 +87,7 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
         bool bIsFile = isFile(srcImages[k]);
         if (bIsFile) {
             try {
-                boost::filesystem::copy_file(srcImages[k], dstImages[k],
-                    boost::filesystem::copy_option::overwrite_if_exists);
+                Nelson::FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
             } catch (const boost::filesystem::filesystem_error& e) {
                 e.what();
             }

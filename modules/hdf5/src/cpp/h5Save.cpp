@@ -10,9 +10,8 @@
 #include <ctime>
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string.hpp>
+#include "FileSystemWrapper.hpp"
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -153,11 +152,11 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     }
 
     hid_t fid = H5I_INVALID_HID;
-    boost::filesystem::path hdf5_filename(filename);
+    Nelson::FileSystemWrapper::Path hdf5_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(hdf5_filename)
-            && !boost::filesystem::is_directory(hdf5_filename);
+        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(hdf5_filename)
+            && !Nelson::FileSystemWrapper::Path::is_directory(hdf5_filename);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
             Error(_W("Permission denied."));
@@ -175,8 +174,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                     wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
                 try {
-                    boost::filesystem::path p = hdf5_filename;
-                    boost::filesystem::remove(p);
+                    Nelson::FileSystemWrapper::Path p(hdf5_filename);
+                    Nelson::FileSystemWrapper::Path::remove(p);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     Error(_W("Cannot replace file"));
                     boost::system::error_code error_code = e.code();

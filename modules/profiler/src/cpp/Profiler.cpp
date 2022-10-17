@@ -11,7 +11,6 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 #include <tuple>
@@ -21,6 +20,7 @@
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "HtmlExporter.hpp"
+#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -309,7 +309,7 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
         profilerLines) {
         if (nbLinesDisplayed < nbLinesToDisplay || nbLinesToDisplay == -1) {
             // filename, line, name, nbcalls, tottime, percall
-            boost::filesystem::path p(std::get<0>(line));
+            Nelson::FileSystemWrapper::Path p(std::get<0>(line));
             std::string filename = p.filename().string();
             uint64 linepos = std::get<1>(line);
             std::string name = std::get<2>(line);
@@ -390,8 +390,8 @@ Profiler::save(
 {
     std::wstring profileDirectory = destinationDirectory;
     try {
-        if (!boost::filesystem::exists(profileDirectory)) {
-            boost::filesystem::create_directory(profileDirectory);
+        if (!Nelson::FileSystemWrapper::Path::exists(profileDirectory)) {
+            Nelson::FileSystemWrapper::Path::create_directory(profileDirectory);
         }
     } catch (const boost::filesystem::filesystem_error& e) {
         boost::system::error_code error_code = e.code();
