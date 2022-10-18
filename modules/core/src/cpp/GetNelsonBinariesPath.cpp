@@ -11,11 +11,11 @@
 #include <Windows.h>
 #endif
 #include <cstdio>
+#include "FileSystemWrapper.hpp"
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "i18n.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================

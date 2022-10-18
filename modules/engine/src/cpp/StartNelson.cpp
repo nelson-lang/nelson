@@ -14,11 +14,11 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>
+#include "FileSystemWrapper.hpp"
 #include "StartNelson.h"
 #include "StartNelsonMainScript.hpp"
 #include "StartNelsonUserScript.hpp"
@@ -50,7 +50,6 @@
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
 #include "NelsonReadyNamedMutex.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)

@@ -14,9 +14,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <utility>
+#include "FileSystemWrapper.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup

@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "UiGetDirectory.hpp"
-#include "QStringConverter.hpp"
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
 #include "FileSystemWrapper.hpp"
+#include "UiGetDirectory.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

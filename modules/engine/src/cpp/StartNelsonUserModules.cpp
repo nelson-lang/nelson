@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "StartNelsonUserModules.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"

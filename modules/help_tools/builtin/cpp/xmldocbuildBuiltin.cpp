@@ -16,8 +16,6 @@
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

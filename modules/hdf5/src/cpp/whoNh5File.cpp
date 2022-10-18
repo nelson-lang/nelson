@@ -11,6 +11,7 @@
 #include <hdf5.h>
 #include <boost/container/vector.hpp>
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "whoNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5LoadVariable.hpp"
@@ -24,15 +25,12 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
 {
     ArrayOf res;
     Nelson::FileSystemWrapper::Path nh5_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(nh5_filename)
-            && !Nelson::FileSystemWrapper::Path::is_directory(nh5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    bool permissionDenied;
+    bool fileExistPreviously = isFile(nh5_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
     }
     if (!fileExistPreviously) {
         Error(_W("File does not exist."));

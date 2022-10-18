@@ -16,15 +16,14 @@
 #include <ctime>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
-
 #include "Zipper.hpp"
 #include <mz_os.h>
 #include <fstream>
+#include "FileSystemWrapper.hpp"
 #include "ZipHelpers.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

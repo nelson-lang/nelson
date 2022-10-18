@@ -22,15 +22,15 @@ LoadMatioFile(
 {
     ArrayOf res;
     Nelson::FileSystemWrapper::Path mat_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(mat_filename)
-            && !Nelson::FileSystemWrapper::Path::is_directory(mat_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    bool permissionDenied;
+    bool fileExistPreviously = isFile(mat_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
+    }
+    if (!fileExistPreviously) {
+        Error(_W("File does not exist."));
     }
     if (!fileExistPreviously) {
         Error(_W("File does not exist."));

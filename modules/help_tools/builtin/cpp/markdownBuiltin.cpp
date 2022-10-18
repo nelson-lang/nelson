@@ -7,12 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
-#include <boost/algorithm/string.hpp>
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,23 +32,17 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         filenameOut = argIn[1].getContentAsWideString();
+        bool permissionDenied;
         Nelson::FileSystemWrapper::Path pathIn(filenameIn);
-        bool IsDirIn = false;
-        try {
-            IsDirIn = Nelson::FileSystemWrapper::Path::is_directory(pathIn);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
+        bool IsDirIn = isDirectory(pathIn, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
+
         Nelson::FileSystemWrapper::Path pathOut(filenameOut);
-        bool IsDirOut = false;
-        try {
-            IsDirOut = Nelson::FileSystemWrapper::Path::is_directory(pathOut);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
+        bool IsDirOut = isDirectory(pathOut, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
         if (IsDirIn && IsDirOut) {
             boost::filesystem::directory_iterator end_iter;

@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "FileSystemWrapper.hpp"
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "PathFuncManager.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

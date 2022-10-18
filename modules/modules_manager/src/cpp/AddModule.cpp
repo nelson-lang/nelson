@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"

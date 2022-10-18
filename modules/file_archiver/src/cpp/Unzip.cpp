@@ -12,13 +12,13 @@
 #endif
 #include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
+#include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "Unzip.hpp"
 #include "UnzipHelpers.hpp"
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
-#include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

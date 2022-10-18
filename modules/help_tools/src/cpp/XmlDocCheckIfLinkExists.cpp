@@ -10,7 +10,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/vector.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include "ModulesManager.hpp"
 #include "XmlDocCheckIfLinkExists.hpp"

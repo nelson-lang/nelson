@@ -12,10 +12,10 @@
 #include <boost/date_time/local_time/local_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "FileSystemWrapper.hpp"
 #include "FileInfo.hpp"
 #include "DateNumber.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

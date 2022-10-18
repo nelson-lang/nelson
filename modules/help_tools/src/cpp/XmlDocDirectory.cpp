@@ -7,15 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include "FileSystemWrapper.hpp"
 #include "XmlDocDirectory.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "Types.hpp"
 #include "XmlDocChapterItem.hpp"
 #include "i18n.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

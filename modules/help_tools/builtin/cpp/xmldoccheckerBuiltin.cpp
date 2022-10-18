@@ -26,15 +26,10 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
         Nelson::FileSystemWrapper::Path pathIn(fileOrDirName);
-        bool IsFileIn = false;
-        try {
-            IsFileIn = Nelson::FileSystemWrapper::Path::exists(pathIn)
-                && !Nelson::FileSystemWrapper::Path::is_directory(pathIn);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
-            IsFileIn = false;
+        bool permissionDenied;
+        bool IsFileIn = isFile(pathIn, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
         if (IsFileIn) {
             wstringVector errorRes;

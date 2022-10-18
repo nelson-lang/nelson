@@ -8,12 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/filesystem.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include "FileSystemHelpers.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
-#include "FileSystemHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

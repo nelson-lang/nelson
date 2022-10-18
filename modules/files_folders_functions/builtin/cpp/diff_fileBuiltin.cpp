@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "FileSystemHelpers.hpp"
 #include "diff_fileBuiltin.hpp"
 #include "Error.hpp"
 #include "FileDiff.hpp"
-#include "FileSystemHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

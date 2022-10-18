@@ -12,6 +12,7 @@
 #include <hdf5.h>
 #include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -153,15 +154,12 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
 
     hid_t fid = H5I_INVALID_HID;
     Nelson::FileSystemWrapper::Path hdf5_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(hdf5_filename)
-            && !Nelson::FileSystemWrapper::Path::is_directory(hdf5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    bool permissionDenied;
+    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
     }
     if (!fileExistPreviously) {
         fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());

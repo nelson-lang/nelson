@@ -10,6 +10,7 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "h5ReadAttribute.hpp"
 #include "h5ReadString.hpp"
 #include "h5ReadInteger.hpp"
@@ -43,16 +44,14 @@ h5ReadAttribute(
     }
     hid_t fid = H5I_INVALID_HID;
     Nelson::FileSystemWrapper::Path hdf5_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = Nelson::FileSystemWrapper::Path::exists(hdf5_filename)
-            && !Nelson::FileSystemWrapper::Path::is_directory(hdf5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    bool permissionDenied;
+    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
     }
+
     if (!fileExistPreviously) {
         Error(_W("file does not exist."));
     }

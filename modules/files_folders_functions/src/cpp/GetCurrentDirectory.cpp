@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GetCurrentDirectory.hpp"
 #include "FileSystemWrapper.hpp"
+#include "GetCurrentDirectory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -14,11 +14,11 @@
 #include <boost/algorithm/string.hpp>
 #include <sndfile.h>
 #include <map>
+#include "FileSystemWrapper.hpp"
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

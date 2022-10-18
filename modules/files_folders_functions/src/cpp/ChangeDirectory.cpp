@@ -9,11 +9,11 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -9,8 +9,7 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "FileSystemWrapper.hpp"
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
