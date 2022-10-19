@@ -7,13 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <Propvarutil.h>
+#include "nlsConfig.h"
 #include "VariantConversionHelpers.hpp"
 #include "ClassName.hpp"
 #include "ComHandleObject.hpp"
 #include "HandleManager.hpp"
-#include <Propvarutil.h>
-#include <Windows.h>
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

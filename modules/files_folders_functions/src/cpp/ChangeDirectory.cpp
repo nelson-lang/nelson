@@ -51,12 +51,13 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
     if (trimPath) {
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
-    try {
-        Nelson::FileSystemWrapper::Path::current_path(pathApplied);
+    std::string errorMessage;
+    Nelson::FileSystemWrapper::Path::current_path(pathApplied, errorMessage);
+    if (errorMessage.empty()) {
         PathFuncManager::getInstance()->setCurrentUserPath(
             Nelson::FileSystemWrapper::Path::current_path().generic_wstring());
         return true;
-    } catch (const boost::filesystem::filesystem_error&) {
+    } else {
         if (doException) {
             std::wstring msg
                 = str(boost::wformat(_W("Cannot change directory '%s'.")) % pathApplied);

@@ -15,6 +15,7 @@
 #include "mz_os.h"
 #include "mz_crypt.h"
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <wincrypt.h>
 

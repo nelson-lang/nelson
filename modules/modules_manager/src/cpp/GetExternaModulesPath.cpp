@@ -51,16 +51,11 @@ CreateIfRequiredExternalModulesPath()
     }
 
     bool bOK = false;
-    try {
-        bool bIsDir = Nelson::FileSystemWrapper::Path::is_directory(externalModulesPath);
-        if (!bIsDir) {
-            bOK = Nelson::FileSystemWrapper::Path::create_directories(externalModulesPath);
-        } else {
-            bOK = true;
-        }
-
-    } catch (const boost::filesystem::filesystem_error&) {
-        bOK = false;
+    bool bIsDir = Nelson::FileSystemWrapper::Path::is_directory(externalModulesPath);
+    if (!bIsDir) {
+        bOK = Nelson::FileSystemWrapper::Path::create_directories(externalModulesPath);
+    } else {
+        bOK = true;
     }
     return bOK;
 }

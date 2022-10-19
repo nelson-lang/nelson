@@ -10,6 +10,7 @@
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "UiGetDirectory.hpp"
 #include "QStringConverter.hpp"
 //=============================================================================
@@ -36,16 +37,7 @@ UiGetDirectory(
     }
     if (fd) {
         if (!pathOrigin.empty()) {
-            Nelson::FileSystemWrapper::Path data_dir(pathOrigin);
-            bool bRes = false;
-            try {
-                bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                if (e.code() == boost::system::errc::permission_denied) {
-                    // ONLY FOR DEBUG
-                }
-                bRes = false;
-            }
+            bool bRes = isDirectory(pathOrigin);
             std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
                 Nelson::FileSystemWrapper::Path pwd

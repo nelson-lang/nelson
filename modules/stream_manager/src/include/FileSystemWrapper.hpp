@@ -9,12 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-//=============================================================================
+#include <filesystem>
 #include <string>
+#include <cstring>
+#include <cctype>
 //=============================================================================
-// #include "characters_encoding.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
 //=============================================================================
@@ -22,28 +22,87 @@ class Path
 {
     //=============================================================================
 private:
-    boost::filesystem::path _path;
+#ifdef _MSC_VER
+    std::wstring nativePath;
+#else
+    std::string nativePath;
+#endif
+    //=============================================================================
+    static Path
+    removeLastSeparator(const Path& p)
+    {
+#ifdef _MSC_VER
+        std::wstring nativeString = p.nativePath;
+        if (nativeString.length() > 1
+            && (nativeString.back() == L'/' || nativeString.back() == L'\\')) {
+            nativeString.pop_back();
+        }
+#else
+        std::string nativeString = p.nativePath;
+        if (nativeString.length() > 1
+            && (nativeString.back() == '/' || nativeString.back() == '\\')) {
+            nativeString.pop_back();
+        }
+#endif
+        return Path(nativeString);
+    }
+    //=============================================================================
+    std::wstring
+    uppercaseDriveLetter(const std::wstring& path)
+    {
+        std::wstring _path(path);
+        if (_path.length() > 1 && _path[1] == L':') {
+            _path[0] = ::towupper(_path[0]);
+        }
+        return _path;
+    }
+    //=============================================================================
+    std::string
+    uppercaseDriveLetter(const std::string& path)
+    {
+        std::string _path(path);
+        if (_path.length() > 1 && _path[1] == ':') {
+            _path[0] = ::toupper(_path[0]);
+        }
+        return _path;
+    }
     //=============================================================================
 public:
     //=============================================================================
     Path() { }
-    Path(Path const& p) : _path(p._path) { }
+    Path(Path const& p) : nativePath(p.nativePath) { }
     //=============================================================================
-    Path(const std::wstring& p) { _path = boost::filesystem::path(p); }
+    Path(const std::wstring& p)
+    {
+#ifdef _MSC_VER
+        nativePath = uppercaseDriveLetter(p);
+#else
+        std::string native = wstring_to_utf8(p);
+        nativePath = uppercaseDriveLetter(native);
+#endif
+    }
     //=============================================================================
-    Path(const std::string& p) { _path = boost::filesystem::path(p); }
+    Path(const std::string& p)
+    {
+#ifdef _MSC_VER
+        std::wstring native = utf8_to_wstring(p);
+        nativePath = uppercaseDriveLetter(native);
+#else
+        nativePath = uppercaseDriveLetter(p);
+#endif
+    }
     //=============================================================================
     Path&
     operator=(Path& p)
     {
-        _path = std::move(p._path);
+        nativePath = std::move(p.nativePath);
         return *this;
     }
     //=============================================================================
     Path&
     assign(Path const& p)
     {
-        _path = p._path;
+        nativePath = p.nativePath;
         return *this;
     }
     //=============================================================================
@@ -56,36 +115,43 @@ public:
     Path&
     operator=(const std::wstring& p)
     {
-        _path = Path(p)._path;
+        nativePath = Path(p).nativePath;
         return *this;
     }
     //=============================================================================
     Path
     operator=(const std::string& p)
     {
-        Path p2;
-        p2._path = Path(p)._path;
-        return p2;
+        nativePath = Path(p).nativePath;
+        return *this;
     }
     //=============================================================================
     Path&
     concat(Path const& p)
     {
-        _path += p._path;
+        nativePath += p.nativePath;
         return *this;
     }
     //=============================================================================
     Path&
     concat(const std::wstring& s)
     {
-        _path += s;
+#ifdef _MSC_VER
+        nativePath += s;
+#else
+        nativePath += wstring_to_utf8(s);
+#endif
         return *this;
     }
     //=============================================================================
     Path&
     concat(const std::string& s)
     {
-        _path += s;
+#ifdef _MSC_VER
+        nativePath += utf8_to_wstring(s);
+#else
+        nativePath += s;
+#endif
         return *this;
     }
     //=============================================================================
@@ -104,287 +170,603 @@ public:
     Path
     operator/=(Path const& p)
     {
-        Path p2;
-        p2._path = _path.append(p._path.native());
-        return p2;
+        std::filesystem::path pr(nativePath);
+        std::filesystem::path pa(p.nativePath);
+        pr /= pa;
+        return Path(pr.native());
     }
     //=============================================================================
     Path
     operator/=(const std::wstring& s)
     {
-        Path p;
-        p._path = _path.append(s);
-        return p;
+        std::filesystem::path pr(nativePath);
+#ifdef _MSC_VER
+        std::filesystem::path pa(s);
+#else
+        std::filesystem::path pa(wstring_to_utf8(s));
+#endif
+        pr /= pa;
+        return Path(pr.native());
     }
     //=============================================================================
     Path
     operator/=(const std::string& s)
     {
-        Path p;
-        p._path = _path.append(s);
-        return p;
+        std::filesystem::path pr(nativePath);
+#ifdef _MSC_VER
+        std::filesystem::path pa(utf8_to_wstring(s));
+#else
+        std::filesystem::path pa(s);
+#endif
+        pr /= pa;
+        return Path(pr.native());
     }
     //=============================================================================
     Path
     operator/(const Path& p2)
     {
-        Path p;
-        p._path = _path / p2._path;
-        return p;
+        std::filesystem::path res;
+        std::filesystem::path pr(nativePath);
+        std::filesystem::path pa(p2.nativePath);
+        res = pr / pa;
+        return Path(res.native());
     }
     //=============================================================================
     Path
     operator/(const std::string& p2)
     {
-        return Path(_path.string() + "/" + p2);
+        std::filesystem::path res;
+        std::filesystem::path pr(nativePath);
+#ifdef _MSC_VER
+        std::filesystem::path pa(utf8_to_wstring(p2));
+#else
+        std::filesystem::path pa(p2);
+#endif
+        res = pr / pa;
+        return Path(res.native());
     }
     //=============================================================================
     Path
     operator/(const std::wstring& p2)
     {
-        return Path(_path.wstring() + L"/" + p2);
+        std::filesystem::path res;
+        std::filesystem::path pr(nativePath);
+#ifdef _MSC_VER
+        std::filesystem::path pa(p2);
+#else
+        std::filesystem::path pa(wstring_to_utf8(p2));
+#endif
+        res = pr / pa;
+        return Path(res.native());
     }
     //=============================================================================
-
     auto
     native() const
     {
-        return _path.native();
+        return nativePath;
     }
     //=============================================================================
     auto
     has_filename() const
     {
-        return _path.has_filename();
+        return std::filesystem::path(nativePath).has_filename();
     }
     //=============================================================================
     auto
     has_extension() const
     {
-        return _path.has_extension();
+        return std::filesystem::path(nativePath).has_extension();
     }
     //=============================================================================
     auto
     extension() const
     {
-        return Path(_path.extension().native());
+        return Path(std::filesystem::path(nativePath).extension().native());
     }
     //=============================================================================
     auto
     wstring() const
     {
-        return _path.wstring();
+#ifdef _MSC_VER
+        return nativePath;
+#else
+        return utf8_to_wstring(nativePath);
+#endif
     }
     //=============================================================================
     auto
     string() const
     {
-        return _path.string();
+#ifdef _MSC_VER
+        return wstring_to_utf8(nativePath);
+#else
+        return nativePath;
+#endif
     }
     //=============================================================================
     auto
     generic_wstring() const
     {
-        return _path.generic_wstring();
+#ifdef _MSC_VER
+        return std::filesystem::path(nativePath).generic_wstring();
+#else
+        return utf8_to_wstring(std::filesystem::path(nativePath).generic_string());
+#endif
     }
     //=============================================================================
     auto
     generic_string() const
     {
-        return _path.generic_string();
-    }
-    //=============================================================================
-    auto
-    leaf() const
-    {
-        return Path(_path.leaf().wstring());
+#ifdef _MSC_VER
+        return wstring_to_utf8(std::filesystem::path(nativePath).generic_wstring());
+#else
+        return std::filesystem::path(nativePath).generic_string();
+#endif
     }
     //=============================================================================
     auto
     generic_path() const
     {
-        return Path(_path.generic_path().wstring());
+#ifdef _MSC_VER
+        return Path(std::filesystem::path(nativePath).generic_wstring());
+#else
+        return Path(std::filesystem::path(nativePath).generic_string());
+#endif
     }
     //=============================================================================
     auto
     filename() const
     {
-        return Path(_path.filename().wstring());
+#ifdef _MSC_VER
+        return Path(std::filesystem::path(nativePath).filename().wstring());
+#else
+        return Path(std::filesystem::path(nativePath).filename().string());
+#endif
     }
     //=============================================================================
     auto
-    branch_path() const
+    leaf() const
     {
-        return _path.branch_path();
+        return Path(std::filesystem::path(nativePath)).filename();
+    }
+    //=============================================================================
+    auto
+    parent_path() const
+    {
+        std::filesystem::path p(nativePath);
+        return Path(p.parent_path().native());
     }
     //=============================================================================
     auto
     stem() const
     {
-        return Path(_path.stem().wstring());
+        std::filesystem::path p(nativePath);
+        return Path(p.stem().native());
     }
     //=============================================================================
     auto
     replace_extension(Path const& new_extension = Path())
     {
-        return Path(_path.replace_extension(new_extension._path).wstring());
+        std::filesystem::path p1(nativePath);
+        std::filesystem::path ext(new_extension.native());
+        return Path(p1.replace_extension(ext).native());
     }
     //=============================================================================
     auto
     has_parent_path()
     {
-        return _path.has_parent_path();
-    }
-    //=============================================================================
-    auto
-    has_branch_path()
-    {
-        return _path.has_branch_path();
+        std::filesystem::path p1(nativePath);
+        return p1.has_parent_path();
     }
     //=============================================================================
     bool
     exists() const
     {
-        return boost::filesystem::exists(_path);
+        std::filesystem::path p1(nativePath);
+        return std::filesystem::exists(p1);
     }
     //=============================================================================
     bool
     is_directory() const
     {
-        return boost::filesystem::is_directory(_path);
+        std::filesystem::path p1(nativePath);
+        return std::filesystem::is_directory(p1);
     }
     //=============================================================================
     auto
     normalize()
     {
-        return Path(_path.normalize().wstring());
+        std::filesystem::path p1(nativePath);
+        return Path(p1.lexically_normal().native());
     }
     //=============================================================================
     static bool
     exists(Path const& p)
     {
-        return boost::filesystem::exists(p._path);
+        std::filesystem::path p1(p.nativePath);
+        return std::filesystem::exists(p1);
     }
     //=============================================================================
     static bool
     is_directory(Path const& p)
     {
-        return boost::filesystem::is_directory(p._path);
+        std::filesystem::path p1(p.nativePath);
+        try {
+            return std::filesystem::is_directory(p1);
+        } catch (const std::filesystem::filesystem_error&) {
+        }
+        return false;
     }
     //=============================================================================
     static auto
-    canonical(Path const& p1, Path const& p2)
+    canonical(Path const& p1, std::string& errorMessage)
     {
-        return Path(boost::filesystem::canonical(p1._path, p2._path).wstring());
+        std::filesystem::path p(p1.nativePath);
+        try {
+            return Path(std::filesystem::canonical(p).native());
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        return Path();
+    }
+    //=============================================================================
+    static bool
+    equivalent(Path const& p1, Path const& p2, std::string& errorMessage)
+    {
+        std::filesystem::path _p1(p1.nativePath);
+        std::filesystem::path _p2(p2.nativePath);
+        try {
+            return std::filesystem::equivalent(_p1, _p2);
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        return false;
     }
     //=============================================================================
     static bool
     equivalent(Path const& p1, Path const& p2)
     {
-        return boost::filesystem::equivalent(p1._path, p2._path);
+        std::string errorMessage;
+        return equivalent(p1, p2, errorMessage);
+    }
+    //=============================================================================
+    static bool
+    remove(Path const& p, std::string& errorMessage)
+    {
+        bool bRes = false;
+        try {
+            bRes = std::filesystem::remove(std::filesystem::path(p.nativePath));
+            errorMessage.clear();
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            bRes = false;
+            errorMessage = error_code.message();
+        }
+        return bRes;
     }
     //=============================================================================
     static bool
     remove(Path const& p)
     {
-        return boost::filesystem::remove(p._path);
+        std::string message;
+        return remove(p, message);
+    }
+    //=============================================================================
+    static bool
+    remove_all(Path const& p, std::string& errorMessage)
+    {
+        bool bRes = false;
+        try {
+            bRes = std::filesystem::remove_all(std::filesystem::path(p.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            bRes = false;
+            std::error_code error_code = e.code();
+            bRes = false;
+            errorMessage = error_code.message();
+        }
+        return bRes;
     }
     //=============================================================================
     static bool
     remove_all(Path const& p)
     {
-        return boost::filesystem::remove_all(p._path);
+        std::string message;
+        return remove_all(p, message);
     }
     //=============================================================================
     auto
     is_absolute()
     {
-        return _path.is_absolute();
+        return std::filesystem::path(nativePath).is_absolute();
+    }
+    //=============================================================================
+    static Path
+    absolute(Path const& p, std::string& errorMessage)
+    {
+        Path result;
+        std::filesystem::path _p(p.nativePath);
+        try {
+            result = Path(std::filesystem::absolute(_p).native());
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+            result = p;
+        }
+        return result;
     }
     //=============================================================================
     static Path
     absolute(Path const& p)
     {
-        return Path(boost::filesystem::absolute(p._path).wstring());
+        std::string errorMessage;
+        return absolute(p, errorMessage);
+    }
+    //=============================================================================
+    static auto
+    copy_file(Path const& p1, Path const& p2, std::string& errorMessage)
+    {
+        bool bRes = false;
+        std::filesystem::path _p1(p1.nativePath);
+        std::filesystem::path _p2(p2.nativePath);
+        try {
+            bRes = std::filesystem::copy_file(
+                _p1, _p2, std::filesystem::copy_options::overwrite_existing);
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+            bRes = false;
+        }
+        return bRes;
     }
     //=============================================================================
     static auto
     copy_file(Path const& p1, Path const& p2)
     {
-        return boost::filesystem::copy_file(
-            p1._path, p2._path, boost::filesystem::copy_option::overwrite_if_exists);
+        std::string errorMessage;
+        return copy_file(p1, p2, errorMessage);
+    }
+    //=============================================================================
+    static auto
+    copy(Path const& from, Path const& to, std::string& errorMessage)
+    {
+        bool bRes = false;
+        std::filesystem::path _from(from.nativePath);
+        std::filesystem::path _to(to.nativePath);
+        try {
+            std::filesystem::copy(_from, _to);
+            bRes = true;
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+            bRes = false;
+        }
+        return bRes;
     }
     //=============================================================================
     static auto
     copy(Path const& from, Path const& to)
     {
-        return boost::filesystem::copy(from._path, to._path);
+        std::string errorMessage;
+        return copy(from, to, errorMessage);
+    }
+    //=============================================================================
+    static auto
+    create_directories(const Path& p, std::string& errorMessage)
+    {
+        std::error_code error_code;
+        Path pp = removeLastSeparator(p);
+        bool res
+            = std::filesystem::create_directories(std::filesystem::path(pp.nativePath), error_code);
+        errorMessage = error_code.message();
+        return res;
+    }
+    //=============================================================================
+    static auto
+    create_directories(const Path& p, bool& permissionDenied)
+    {
+        std::error_code error_code;
+        Path pp = removeLastSeparator(p);
+        bool res
+            = std::filesystem::create_directories(std::filesystem::path(pp.nativePath), error_code);
+        if (error_code == std::errc::permission_denied) {
+            permissionDenied = true;
+        }
+        return res;
     }
     //=============================================================================
     static auto
     create_directories(const Path& p)
     {
-        return boost::filesystem::create_directories(p._path);
+        bool permissionDenied;
+        return create_directories(p, permissionDenied);
+    }
+    //=============================================================================
+    static auto
+    create_directories(const std::wstring& wstr)
+    {
+        bool permissionDenied;
+        return create_directories(Path(wstr), permissionDenied);
+    }
+    //=============================================================================
+    static auto
+    create_directory(const Path& p, bool& permissionDenied)
+    {
+        bool res = false;
+        try {
+            Path pp = removeLastSeparator(p);
+            res = std::filesystem::create_directory(std::filesystem::path(pp.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            res = false;
+            if (e.code() == std::errc::permission_denied) {
+                permissionDenied = true;
+            }
+        }
+        return res;
+    }
+    //=============================================================================
+    static bool
+    create_directory(const Path& p, std::string& errorMessage)
+    {
+        bool res = false;
+        try {
+            Path pp = removeLastSeparator(p);
+            res = std::filesystem::create_directory(std::filesystem::path(pp.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            res = false;
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        return res;
     }
     //=============================================================================
     static auto
     create_directory(const Path& p)
     {
-        return boost::filesystem::create_directory(p._path);
+        bool permissionDenied;
+        return create_directory(p, permissionDenied);
+    }
+    //=============================================================================
+    static auto
+    file_size(const Path& p, std::string& errorMessage)
+    {
+        std::uintmax_t value = 0;
+        try {
+            value = std::filesystem::file_size(std::filesystem::path(p.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            value = 0;
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        return value;
     }
     //=============================================================================
     static auto
     file_size(const Path& p)
     {
-        return boost::filesystem::file_size(p._path);
+        std::string errorMessage;
+        return file_size(p, errorMessage);
+    }
+    //=============================================================================
+    template <typename TP>
+    static std::time_t
+    to_time_t(TP tp)
+    {
+        using namespace std::chrono;
+        auto sctp
+            = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+        return system_clock::to_time_t(sctp);
+    }
+    //=============================================================================
+    static auto
+    last_write_time(const Path& p, std::string& errorMessage)
+    {
+        std::filesystem::file_time_type file_time;
+        errorMessage.clear();
+        try {
+            file_time = std::filesystem::last_write_time(std::filesystem::path(p.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        std::time_t result = to_time_t(file_time);
+        return result;
     }
     //=============================================================================
     static auto
     last_write_time(const Path& p)
     {
-        return boost::filesystem::last_write_time(p._path);
+        std::string errorMessage;
+        return last_write_time(p, errorMessage);
     }
     //=============================================================================
     auto
     lexically_normal()
     {
-        return Path(_path.lexically_normal().wstring());
+        std::filesystem::path p(nativePath);
+        return Path(p.lexically_normal().native());
     }
     //=============================================================================
     auto
     lexically_relative(const Path& p)
     {
-        return Path(_path.lexically_relative(p._path).wstring());
+        std::filesystem::path _p1(nativePath);
+        std::filesystem::path _p2(p.nativePath);
+        return Path(_p1.lexically_relative(_p2).native());
     }
     //=============================================================================
     static auto
     current_path()
     {
-        return Path(boost::filesystem::current_path().wstring());
+        try {
+            return Path(std::filesystem::current_path().native());
+        } catch (const std::filesystem::filesystem_error&) {
+        }
+        return Path();
+    }
+    //=============================================================================
+    static void
+    current_path(Path const& p, std::string& errorMessage)
+    {
+        try {
+            std::filesystem::current_path(std::filesystem::path(p.nativePath));
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
     }
     //=============================================================================
     static auto
     current_path(Path const& p)
     {
-        return boost::filesystem::current_path(p.wstring());
+        std::string errorMessage;
+        return current_path(p, errorMessage);
+    }
+    //=============================================================================
+    static auto
+    current_path(const std::wstring& wstr)
+    {
+        std::string errorMessage;
+        return current_path(Path(wstr), errorMessage);
     }
     //=============================================================================
     auto
     parent_path()
     {
-        return Path(_path.parent_path().wstring());
+        std::filesystem::path p(nativePath);
+        return Path(p.parent_path().native());
     }
     //=============================================================================
     static auto
     temp_directory_path()
     {
-        return Path(boost::filesystem::temp_directory_path().wstring());
+        return Path(std::filesystem::temp_directory_path().native());
     }
     //=============================================================================
     static auto
     unique_path()
     {
-        return Path(boost::filesystem::unique_path().wstring());
+        std::filesystem::path tempFilePath = std::filesystem::temp_directory_path();
+#ifdef _MSC_VER
+        char name[L_tmpnam_s];
+        tmpnam_s(name, L_tmpnam_s);
+        tempFilePath /= std::string(name);
+#else
+        FILE* uid_file;
+        std::string template_name = tempFilePath.string() + "/NELSON_XXXXXX";
+        char template_char[FILENAME_MAX * 2];
+        strncpy(template_char, template_name.c_str(), template_name.length());
+        int temp_fd = mkstemp(template_char);
+        uid_file = fdopen(temp_fd, "w");
+        if (uid_file) {
+            tempFilePath = std::string(template_char);
+            fclose(uid_file);
+        } else {
+            tempFilePath /= "/NELSON_XXXXXX";
+        }
+#endif
+        return Path(tempFilePath.native());
     }
     //=============================================================================
 };

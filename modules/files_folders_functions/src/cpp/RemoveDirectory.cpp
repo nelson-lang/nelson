@@ -21,18 +21,19 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
     message = L"";
     bool permissionDenied;
     if (isDirectory(folderName, permissionDenied)) {
-        try {
-            updateFilePermissionsToWrite(folderName);
-            Nelson::FileSystemWrapper::Path p(folderName);
-            if (bSubfolder) {
-                Nelson::FileSystemWrapper::Path::remove_all(p);
+        updateFilePermissionsToWrite(folderName);
+        Nelson::FileSystemWrapper::Path p(folderName);
+        std::string errorMessage;
+        if (bSubfolder) {
+            if (!Nelson::FileSystemWrapper::Path::remove_all(p, errorMessage)) {
+                res = false;
+                message = utf8_to_wstring(errorMessage);
+                return res;
             }
-            Nelson::FileSystemWrapper::Path::remove(p);
-            res = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
-            res = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        }
+        res = Nelson::FileSystemWrapper::Path::remove(p, errorMessage);
+        if (!res) {
+            message = utf8_to_wstring(errorMessage);
         }
     } else {
         if (permissionDenied) {

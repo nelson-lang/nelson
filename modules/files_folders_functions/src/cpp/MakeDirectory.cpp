@@ -31,11 +31,10 @@ MakeDirectory(const std::wstring& newDir, std::wstring& message)
         bOK = true;
         message = _W("Directory already exists.");
     } else {
-        try {
-            bOK = Nelson::FileSystemWrapper::Path::create_directories(newDir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        std::string errorMessage;
+        bOK = Nelson::FileSystemWrapper::Path::create_directories(newDir, errorMessage);
+        if (!bOK) {
+            message = utf8_to_wstring(errorMessage);
         }
     }
     return bOK;

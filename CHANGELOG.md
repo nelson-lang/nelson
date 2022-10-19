@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#755](http://github.com/Nelson-numerical-software/nelson/issues/755): Boost 1.80 support (default on Windows)
 
+- [#753](http://github.com/Nelson-numerical-software/nelson/issues/753): move from boost::filesystem to std::filesystem. (It should have no impact for users ...)
+
 - fileparts builtin updated to be more compatible.
 
 - normalizePath internal function reworked.

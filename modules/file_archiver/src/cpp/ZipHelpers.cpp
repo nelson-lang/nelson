@@ -8,8 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
-#include <sys/utime.h>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <sys/utime.h>
 #else
 #include <utime.h>
 #endif

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 #include <unicode/unistr.h>
@@ -212,19 +213,6 @@ utf8_to_wstring_ICU(const std::string& str, std::wstring& wstr)
     int32_t len = 0;
     u_strFromUTF8(&buffer[0], (int32_t)buffer.size(), &len, &str[0], (int32_t)str.size(), &status);
     if (U_FAILURE(status)) {
-#ifdef _MSC_VER
-        int size = MultiByteToWideChar(
-            CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
-        if (size > 0) {
-            std::wstring utf16_str(size, '\0');
-            int res = MultiByteToWideChar(CP_ACP, MB_COMPOSITE, str.c_str(),
-                static_cast<int>(str.length()), &utf16_str[0], size);
-            if (res > 0) {
-                wstr = utf16_str;
-                return true;
-            }
-        }
-#endif
         return false;
     }
     buffer.resize(len);
@@ -371,18 +359,44 @@ utf8_to_wstring_utf32_SIMD(const std::string& str, std::wstring& wstr)
     return validSize > 0;
 }
 //=============================================================================
+#ifdef _MSC_VER
+bool
+utf8_to_wstring_Windows(const std::string& str, std::wstring& wstr)
+{
+    int size = MultiByteToWideChar(
+        CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
+    if (size > 0) {
+        std::wstring utf16_str(size, '\0');
+        int res = MultiByteToWideChar(
+            CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), &utf16_str[0], size);
+        if (res > 0) {
+            wstr = utf16_str;
+            return true;
+        }
+    }
+    return false;
+}
+#endif
+//=============================================================================
 bool
 utf8_to_wstring(const std::string& str, std::wstring& wstr)
 {
+    bool bResult = false;
 #ifdef USE_SIMDUTF
 #ifdef _MSC_VER
-    return utf8_to_wstring_utf16le_SIMD(str, wstr);
+    bResult = utf8_to_wstring_utf16le_SIMD(str, wstr);
 #else
-    return utf8_to_wstring_utf32_SIMD(str, wstr);
+    bResult = utf8_to_wstring_utf32_SIMD(str, wstr);
 #endif
 #else
-    return utf8_to_wstring_ICU(str, wstr);
+    bResult = utf8_to_wstring_ICU(str, wstr);
 #endif
+#ifdef _MSC_VER
+    if (!bResult) {
+        bResult = utf8_to_wstring_Windows(str, wstr);
+    }
+#endif
+    return bResult;
 }
 //=============================================================================
 bool

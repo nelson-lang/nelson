@@ -9,13 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "FileSystemWrapper.hpp"
-//=============================================================================
 #include <string>
 #include <cstring>
-#ifdef __GNUC__
-#include "characters_encoding.hpp"
-#endif
+//=============================================================================
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,8 +23,8 @@ isFile(const Nelson::FileSystemWrapper::Path& filePath, bool& permissionDenied)
     permissionDenied = false;
     try {
         bIsFile = filePath.exists() && !filePath.is_directory();
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             permissionDenied = true;
         }
         bIsFile = false;
@@ -56,8 +53,8 @@ isDirectory(const Nelson::FileSystemWrapper::Path& filePath, bool& permissionDen
     permissionDenied = false;
     try {
         bIsDirectory = filePath.exists() && filePath.is_directory();
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    } catch (const std::filesystem::filesystem_error& e) {
+        if (e.code() == std::errc::permission_denied) {
             permissionDenied = true;
         }
         bIsDirectory = false;
@@ -83,17 +80,18 @@ inline bool
 updateFilePermissionsToWrite(const Nelson::FileSystemWrapper::Path& filePath)
 {
     try {
-        boost::filesystem::permissions(filePath.native(),
-            boost::filesystem::perms::owner_write | boost::filesystem::perms::group_write
-                | boost::filesystem::perms::others_write | boost::filesystem::add_perms);
+        std::filesystem::permissions(filePath.native(),
+            std::filesystem::perms::owner_write | std::filesystem::perms::group_write
+                | std::filesystem::perms::others_write,
+            std::filesystem::perm_options::add);
         if (isDirectory(filePath)) {
-            for (boost::filesystem::recursive_directory_iterator p(filePath.native()), end;
-                 p != end; ++p) {
-                updateFilePermissionsToWrite(p->path().native());
+            for (std::filesystem::recursive_directory_iterator p(filePath.native()), end; p != end;
+                 ++p) {
+                updateFilePermissionsToWrite(Nelson::FileSystemWrapper::Path(p->path().native()));
             }
         }
         return true;
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const std::filesystem::filesystem_error&) {
     }
     return false;
 }
@@ -113,7 +111,7 @@ isEquivalentPath(const std::wstring& p1, const std::wstring& p2)
     bool res = false;
     try {
         res = Nelson::FileSystemWrapper::Path::equivalent(path1, path2);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } catch (const std::filesystem::filesystem_error&) {
         res = (p1.compare(p2) == 0);
     }
     return res;

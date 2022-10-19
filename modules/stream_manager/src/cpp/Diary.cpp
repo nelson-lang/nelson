@@ -50,13 +50,7 @@ Diary::SetFilename(const std::wstring& wFilename)
         // remove create diary if state is off
         // or if diary did not exist before
         Nelson::FileSystemWrapper::Path p(wFilename);
-        try {
-            Nelson::FileSystemWrapper::Path::remove(p);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-        }
+        Nelson::FileSystemWrapper::Path::remove(p);
     }
     return bRes;
 }

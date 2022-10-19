@@ -483,12 +483,7 @@ HistoryManager::copyPreviousFile(const std::wstring& _filename)
     Nelson::FileSystemWrapper::Path dst(_filename + L".bak");
     bool bRes = isFile(src);
     if (bRes) {
-        try {
-            Nelson::FileSystemWrapper::Path::copy_file(src, dst);
-            bRes = true;
-        } catch (const boost::filesystem::filesystem_error&) {
-            bRes = false;
-        }
+        bRes = Nelson::FileSystemWrapper::Path::copy_file(src, dst);
     }
     return bRes;
 }

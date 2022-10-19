@@ -9,8 +9,9 @@
 //=============================================================================
 #ifdef _MSC_VER
 //=============================================================================
-#include "nlsConfig.h"
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
 #pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))

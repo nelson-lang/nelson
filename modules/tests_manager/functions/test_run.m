@@ -282,6 +282,17 @@ function test_case_cleaned = post_run_test_case(test_case_res)
         else
           test_case_res.msg = s.msg;
         end
+      else
+        if isfile(test_case_res.redirect_err)
+          s = jsondecode(fileread(test_case_res.outputfile));
+          if ~isempty(s)
+            test_case_res.msg = s.msg;
+          else
+            test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
+          end
+        else
+          test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
+        end
       end
     else
       if isfile(test_case_res.outputfile)

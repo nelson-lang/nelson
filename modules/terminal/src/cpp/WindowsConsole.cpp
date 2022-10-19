@@ -7,6 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <boost/algorithm/string/predicate.hpp>
+#include <csignal>
+#include <fcntl.h> // _O_UTF16TEXT
+#include <io.h> // _setmode
 #include "WindowsConsole.hpp"
 #include "ActionMenu.hpp"
 #include "Evaluator.hpp"
@@ -15,11 +21,6 @@
 #include "NelsonHistory.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "characters_encoding.hpp"
-#include <Windows.h>
-#include <boost/algorithm/string/predicate.hpp>
-#include <csignal>
-#include <fcntl.h> // _O_UTF16TEXT
-#include <io.h> // _setmode
 //=============================================================================
 #ifdef CR_1
 #undef CR_1

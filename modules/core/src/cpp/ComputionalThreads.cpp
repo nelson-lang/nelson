@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _WIN32
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef max
 #elif __APPLE__
@@ -16,6 +17,7 @@
 #else
 #include <unistd.h>
 #endif
+#include <omp.h>
 #include <Eigen/Dense>
 #include <boost/lexical_cast.hpp>
 #include <algorithm>

@@ -23,9 +23,9 @@ FunctionDef::setFilename(const std::wstring& filename)
     this->filename = filename;
     Nelson::FileSystemWrapper::Path path(filename);
     this->pathname = path.parent_path().generic_wstring();
-    try {
-        this->timestamp = Nelson::FileSystemWrapper::Path::last_write_time(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
+    std::string errorMessage;
+    this->timestamp = Nelson::FileSystemWrapper::Path::last_write_time(filename, errorMessage);
+    if (!errorMessage.empty()) {
         this->timestamp = 0;
     }
 }

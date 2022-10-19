@@ -94,7 +94,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     Nelson::FileSystemWrapper::Path fileToEvaluate(filename);
     Nelson::FileSystemWrapper::Path absolutePath
         = Nelson::FileSystemWrapper::Path::absolute(fileToEvaluate);
-    if (fileToEvaluate.has_branch_path() && bChangeDirectory) {
+    if (fileToEvaluate.has_parent_path() && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
         Nelson::FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);

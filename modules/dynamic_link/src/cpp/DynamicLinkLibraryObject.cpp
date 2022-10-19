@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/dll/library_info.hpp>
 #include "DynamicLinkLibraryObject.hpp"
 #include "dynamic_library.hpp"
-#include <boost/dll/library_info.hpp>
-#include <boost/filesystem.hpp>
-#undef GetCurrentDirectory
+#include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#undef GetCurrentDirectory
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
@@ -30,8 +30,7 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
         if (errorCode) {
             Error(_("Cannot load library: ") + errorCode.message());
         }
-        boost::filesystem::path full_path = lib.location();
-        _libraryPath = full_path.generic_wstring();
+        _libraryPath = lib.location().generic_wstring();
         _shared_library = lib;
     } else {
         Error(_W("Cannot load library: ") + libraryPath);
@@ -163,7 +162,7 @@ DynamicLinkLibraryObject::searchLibrary(
         return true;
     }
 #endif
-    boost::filesystem::path asPath(libraryPath);
+    Nelson::FileSystemWrapper::Path asPath(libraryPath);
     fullLibraryPath = asPath.generic_wstring();
     return false;
 }
@@ -176,9 +175,9 @@ DynamicLinkLibraryObject::findLibrary(
     if (!paths.empty()) {
         for (const std::wstring& path : paths) {
             boost::system::error_code errorCode;
-            boost::filesystem::path dir(path);
-            boost::filesystem::path file(libraryName);
-            boost::filesystem::path full_path = dir / file;
+            Nelson::FileSystemWrapper::Path dir(path);
+            Nelson::FileSystemWrapper::Path file(libraryName);
+            Nelson::FileSystemWrapper::Path full_path = dir / file;
             std::wstring fullpath = full_path.generic_wstring();
             boost::dll::shared_library lib(fullpath, errorCode);
             if (!errorCode) {

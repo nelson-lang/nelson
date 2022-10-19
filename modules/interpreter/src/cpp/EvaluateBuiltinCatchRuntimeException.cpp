@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #if _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <eh.h>
 #else

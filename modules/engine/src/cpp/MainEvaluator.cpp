@@ -7,14 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "MainEvaluator.hpp"
-#include "BasicTerminal.hpp"
 #ifdef _MSC_VER
 #include "WindowsConsole.hpp"
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #else
 #include "BsdTerminal.hpp"
 #endif
+#include "MainEvaluator.hpp"
+#include "BasicTerminal.hpp"
 #include "SioClientInterface.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Clear.hpp"

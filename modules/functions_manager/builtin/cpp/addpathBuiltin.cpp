@@ -88,17 +88,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
-        Nelson::FileSystemWrapper::Path data_dir(param);
-        bool bRes = false;
-        try {
-            bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-            bRes = false;
-        }
-        if (bRes) {
+        if (isDirectory(param)) {
             PathFuncManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");

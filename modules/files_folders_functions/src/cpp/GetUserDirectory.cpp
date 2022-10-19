@@ -37,10 +37,10 @@ GetUserDirectory()
             free(buf);
             buf = nullptr;
         }
-        Nelson::FileSystemWrapper::Path pwd(str.c_str());
+        Nelson::FileSystemWrapper::Path pwd { str };
 #else
         char* home = getenv("HOME");
-        Nelson::FileSystemWrapper::Path pwd = path(home);
+        Nelson::FileSystemWrapper::Path pwd { std::string(home) };
 #endif
         userDir = pwd.generic_wstring();
         if (!boost::algorithm::ends_with(userDir, L"\\")

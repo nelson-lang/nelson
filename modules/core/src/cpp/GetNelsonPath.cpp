@@ -8,12 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 #include <cstdio>
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
 #include <MacTypes.h>
+#else
+#ifndef _MSC_VER
+#include <sys/types.h>
+#include <unistd.h>
+#endif
 #endif
 #include "FileSystemWrapper.hpp"
 #include "GetNelsonPath.hpp"
@@ -21,8 +27,6 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
-//=============================================================================
-using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================

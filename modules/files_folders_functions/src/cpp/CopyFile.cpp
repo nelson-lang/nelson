@@ -39,13 +39,13 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
     if (isDir) {
         destPath = destPath / srcPath.filename();
     }
-    try {
-        Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath);
+    std::string errorMessage;
+    Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+    if (errorMessage.empty()) {
         bRes = true;
-    } catch (const boost::filesystem::filesystem_error& e) {
+    } else {
         bRes = false;
-        boost::system::error_code error_code = e.code();
-        message = utf8_to_wstring(error_code.message());
+        message = utf8_to_wstring(errorMessage);
     }
     if (bForce) {
         if (!bRes) {
@@ -80,21 +80,17 @@ copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
 
     std::wstring rootSrc = sourceDir.generic_wstring();
     for (const auto& dirEnt :
-        boost::filesystem::recursive_directory_iterator { sourceDir.native() }) {
+        std::filesystem::recursive_directory_iterator { sourceDir.native() }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");
-        try {
-            Nelson::FileSystemWrapper::Path destPath
-                = destinationDir.generic_path() / relativePathStr;
-            Nelson::FileSystemWrapper::Path::copy(
-                Nelson::FileSystemWrapper::Path(path.wstring()), destPath);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (!bForce) {
-                boost::system::error_code error_code = e.code();
-                errorMessage = utf8_to_wstring(error_code.message());
-                return false;
-            }
+        Nelson::FileSystemWrapper::Path destPath = destinationDir.generic_path() / relativePathStr;
+        std::string message;
+        Nelson::FileSystemWrapper::Path::copy(
+            Nelson::FileSystemWrapper::Path(path.wstring()), destPath, message);
+        if (!errorMessage.empty()) {
+            errorMessage = utf8_to_wstring(message);
+            return false;
         }
     }
     return true;
@@ -148,13 +144,10 @@ CopyFiles(
         Nelson::FileSystemWrapper::Path srcPath = srcFile;
         Nelson::FileSystemWrapper::Path destPath = destDir;
         destPath = destPath / srcPath.filename();
-        try {
-            Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath);
-            bRes = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
-            bRes = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        std::string errorMessage;
+        bRes = Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+        if (!bRes) {
+            message = utf8_to_wstring(errorMessage);
         }
         if (bForce) {
             if (!bRes) {

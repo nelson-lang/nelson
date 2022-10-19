@@ -11,6 +11,7 @@
 #include <string>
 #include <stdexcept>
 #ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #pragma comment(lib, "kernel32.lib")
 #else

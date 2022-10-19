@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
-//=============================================================================
 #ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 #include "GetVariableEnvironment.hpp"

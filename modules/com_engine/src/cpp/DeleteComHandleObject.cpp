@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Windows.h>
 #include "DeleteComHandleObject.hpp"
 #include "ComHandleObject.hpp"
 #include "HandleManager.hpp"
-#include <Windows.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

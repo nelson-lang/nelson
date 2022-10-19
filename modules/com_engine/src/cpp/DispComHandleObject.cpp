@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define WIN32_LEAN_AND_MEAN
 #include <Ole2.h>
 #include <Windows.h>
 #include <ocidl.h>

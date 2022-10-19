@@ -8,9 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
-#include "ToCellString.hpp"
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <unordered_map>
+#include "ToCellString.hpp"
 #endif
 #include "WindowsQueryRegistry.hpp"
 //=============================================================================

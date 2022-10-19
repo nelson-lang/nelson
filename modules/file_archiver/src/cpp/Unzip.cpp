@@ -26,10 +26,9 @@ void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& filenames)
 {
     if (!isDirectory(rootpath)) {
-        try {
-            Nelson::FileSystemWrapper::Path p(rootpath);
-            Nelson::FileSystemWrapper::Path::create_directories(p);
-        } catch (const boost::filesystem::filesystem_error&) {
+        Nelson::FileSystemWrapper::Path p(rootpath);
+        std::string errorMessage;
+        if (!Nelson::FileSystemWrapper::Path::create_directories(p, errorMessage)) {
             Error(_W("Cannot create directory."));
         }
     }
@@ -58,11 +57,7 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         if (filename[filename_length - 1] == '/') {
             std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
             if (!isDirectory(completePath)) {
-                try {
-                    Nelson::FileSystemWrapper::Path::create_directories(completePath);
-                } catch (const boost::filesystem::filesystem_error& e) {
-                    boost::system::error_code error_code = e.code();
-                }
+                Nelson::FileSystemWrapper::Path::create_directories(completePath);
             }
             filenames.push_back(completePath);
         } else {

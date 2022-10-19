@@ -171,12 +171,9 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 fid = H5Fopen(
                     wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
-                try {
-                    Nelson::FileSystemWrapper::Path p(hdf5_filename);
-                    Nelson::FileSystemWrapper::Path::remove(p);
-                } catch (const boost::filesystem::filesystem_error& e) {
+                Nelson::FileSystemWrapper::Path p(hdf5_filename);
+                if (!Nelson::FileSystemWrapper::Path::remove(p)) {
                     Error(_W("Cannot replace file"));
-                    boost::system::error_code error_code = e.code();
                 }
                 fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
                 updateNelsonH5Header(fid);

@@ -7,9 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FindDynamicLibraryName.hpp"
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include "FindDynamicLibraryName.hpp"
 #include "FileSystemHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,22 +18,22 @@ FindDynamicLibraryName(
     const std::wstring& directoryName, const std::wstring& initialLibraryName, bool bCaseSensitive)
 {
     std::wstring res;
-    boost::filesystem::directory_iterator end_iter;
-    boost::filesystem::path dir = directoryName;
-    if (!boost::filesystem::is_directory(dir)) {
+    std::filesystem::directory_iterator end_iter;
+    std::filesystem::path dir = directoryName;
+    if (!std::filesystem::is_directory(dir)) {
         return res;
     }
-    boost::filesystem::path fullfilename = directoryName;
+    std::filesystem::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
     bool bRes = isFile(fullfilename.native());
     if (bRes) {
         res = initialLibraryName;
         return res;
     }
-    for (boost::filesystem::directory_iterator dir_iter(dir.native()); dir_iter != end_iter;
+    for (std::filesystem::directory_iterator dir_iter(dir.native()); dir_iter != end_iter;
          ++dir_iter) {
-        boost::filesystem::path current = dir_iter->path();
-        if (boost::filesystem::is_regular_file(current)) {
+        std::filesystem::path current = dir_iter->path();
+        if (std::filesystem::is_regular_file(current)) {
             if (bCaseSensitive) {
                 if (initialLibraryName.compare(current.generic_wstring()) == 0) {
                     return current.generic_wstring();

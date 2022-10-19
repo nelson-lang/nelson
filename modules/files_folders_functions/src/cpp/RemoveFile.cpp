@@ -23,23 +23,22 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     bool bIsFile = isFile(filename, permissionDenied);
     if (permissionDenied) {
         Nelson::FileSystemWrapper::Path p = (filename);
-        try {
-            updateFilePermissionsToWrite(p);
-            Nelson::FileSystemWrapper::Path::remove(p);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        if (!updateFilePermissionsToWrite(p)) {
+            message = _W("Permission denied");
+            return false;
+        }
+        std::string errorMessage;
+        if (!Nelson::FileSystemWrapper::Path::remove(p, errorMessage)) {
+            message = utf8_to_wstring(errorMessage);
             return false;
         }
     }
     if (bIsFile) {
+        std::string errorMessage;
         Nelson::FileSystemWrapper::Path p(filename);
-        try {
-            Nelson::FileSystemWrapper::Path::remove(p);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            boost::system::error_code error_code = e.code();
-            res = false;
-            message = utf8_to_wstring(error_code.message());
+        if (!Nelson::FileSystemWrapper::Path::remove(p, errorMessage)) {
+            message = utf8_to_wstring(errorMessage);
+            return false;
         }
     } else {
         res = false;

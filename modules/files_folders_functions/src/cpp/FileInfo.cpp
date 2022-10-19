@@ -13,6 +13,7 @@
 #include <boost/date_time/local_time_adjustor.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "FileInfo.hpp"
 #include "DateNumber.hpp"
 #include "characters_encoding.hpp"
@@ -35,22 +36,21 @@ FileInfo::FileInfo(const std::wstring& filename)
     _path = _path.generic_wstring();
     this->folder = _path.parent_path().wstring();
     this->name = _path.filename().wstring();
-    try {
-        this->isdir = (bool)Nelson::FileSystemWrapper::Path::is_directory(_path);
-    } catch (const boost::filesystem::filesystem_error&) {
-        this->isdir = false;
-    }
+    this->isdir = isDirectory(_path);
     if (this->isdir) {
         this->bytes = 0;
     } else {
-        try {
-            this->bytes = (double)Nelson::FileSystemWrapper::Path::file_size(_path);
-        } catch (const boost::filesystem::filesystem_error&) {
+        std::string errorMessage;
+        double value = (double)Nelson::FileSystemWrapper::Path::file_size(_path, errorMessage);
+        if (errorMessage.empty()) {
+            this->bytes = value;
+        } else {
             this->bytes = -1;
         }
     }
-    try {
-        std::time_t t = Nelson::FileSystemWrapper::Path::last_write_time(_path);
+    std::string errorMessage;
+    std::time_t t = Nelson::FileSystemWrapper::Path::last_write_time(_path, errorMessage);
+    if (errorMessage.empty()) {
         boost::posix_time::ptime pt = local_ptime_from_utc_time_t(t);
         int day = pt.date().day();
         int month = pt.date().month();
@@ -61,7 +61,7 @@ FileInfo::FileInfo(const std::wstring& filename)
         int s = (int)hms.seconds();
         this->date = boost::posix_time::to_simple_wstring(pt);
         this->datenum = DateNumber(year, month, day, h, m, s);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } else {
         this->date = std::wstring();
         this->datenum = -1;
     }

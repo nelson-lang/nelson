@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileSystemWrapper.hpp"
+#include "FileSystemHelpers.hpp"
 #include "restoredefaultpathBuiltin.hpp"
 #include "Error.hpp"
 #include "ModulesManager.hpp"
@@ -27,17 +28,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVecto
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
     for (const auto& path : paths) {
         std::wstring _path = path + L"/functions";
-        Nelson::FileSystemWrapper::Path data_dir(_path);
-        bool bRes = false;
-        try {
-            bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-            bRes = false;
-        }
-        if (bRes) {
+        if (isDirectory(_path)) {
             PathFuncManager::getInstance()->addPath(_path, true, false);
         }
     }

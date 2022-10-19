@@ -45,9 +45,9 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Permission denied."));
         }
         if (IsDirIn && IsDirOut) {
-            boost::filesystem::directory_iterator end_iter;
+            std::filesystem::directory_iterator end_iter;
             wstringVector filesListIn;
-            for (boost::filesystem::directory_iterator dir_iter(pathIn.native());
+            for (std::filesystem::directory_iterator dir_iter(pathIn.native());
                  dir_iter != end_iter; ++dir_iter) {
                 Nelson::FileSystemWrapper::Path current(dir_iter->path().native());
                 if (boost::iequals(current.extension().generic_wstring(), ".md")) {

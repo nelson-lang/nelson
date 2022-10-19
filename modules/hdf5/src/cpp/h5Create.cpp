@@ -299,11 +299,8 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         H5Sclose(space_id);
         H5Fclose(fid);
         if (!fileExistPreviously) {
-            try {
-                Nelson::FileSystemWrapper::Path p = filename;
-                Nelson::FileSystemWrapper::Path::remove(p);
-            } catch (const boost::filesystem::filesystem_error&) {
-            }
+            Nelson::FileSystemWrapper::Path p = filename;
+            Nelson::FileSystemWrapper::Path::remove(p);
         }
         Error(_W("H5Dcreate fails."));
     }

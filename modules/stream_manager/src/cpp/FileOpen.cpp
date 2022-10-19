@@ -123,12 +123,10 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_IMPOSSIBLE_TO_ADD_FILE;
         return fopenError;
     }
-    Nelson::FileSystemWrapper::Path canonicalPath;
-    try {
-        canonicalPath = Nelson::FileSystemWrapper::Path::canonical(
-            filename, Nelson::FileSystemWrapper::Path::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+    std::string errorMessage;
+    Nelson::FileSystemWrapper::Path canonicalPath
+        = Nelson::FileSystemWrapper::Path::canonical(filename, errorMessage);
+    if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
 #ifdef _MSC_VER
@@ -143,11 +141,8 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_CANNOT_OPEN;
         return fopenError;
     }
-    try {
-        canonicalPath = Nelson::FileSystemWrapper::Path::canonical(
-            filename, Nelson::FileSystemWrapper::Path::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+    canonicalPath = Nelson::FileSystemWrapper::Path::canonical(filename, errorMessage);
+    if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
     file->setFileName(canonicalPath.generic_path().generic_wstring());

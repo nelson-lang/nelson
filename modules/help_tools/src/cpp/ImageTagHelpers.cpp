@@ -45,18 +45,25 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
     if (cur2 != end) {
         boost::xpressive::wsmatch const& what = *cur2;
         oldPath = what[0];
+        std::string errorMessage;
         if (!boost::algorithm::istarts_with(oldPath, L"http")) {
-            Nelson::FileSystemWrapper::Path absolutePath;
-            try {
-                absolutePath = Nelson::FileSystemWrapper::Path::canonical(oldPath, srcDirectory);
-            } catch (const boost::filesystem::filesystem_error&) {
+            if (boost::ends_with(srcDirectory, L"/") || boost::ends_with(srcDirectory, L"\\")) {
+                Nelson::FileSystemWrapper::Path absolutePath
+                    = Nelson::FileSystemWrapper::Path::canonical(
+                        srcDirectory + oldPath, errorMessage);
+                newPath = absolutePath.generic_wstring();
+
+            } else {
+                Nelson::FileSystemWrapper::Path absolutePath
+                    = Nelson::FileSystemWrapper::Path::canonical(
+                        srcDirectory + L"/" + oldPath, errorMessage);
+                newPath = absolutePath.generic_wstring();
             }
-            newPath = absolutePath.generic_wstring();
-            bool bIsFile = isFile(newPath);
-            if (!bIsFile) {
-                newPath.clear();
+
+            if (isFile(newPath)) {
+                return true;
             }
-            return bIsFile;
+            newPath.clear();
         }
     }
     return false;
@@ -86,11 +93,7 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
     for (size_t k = 0; k < srcImages.size(); k++) {
         bool bIsFile = isFile(srcImages[k]);
         if (bIsFile) {
-            try {
-                Nelson::FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
-            }
+            Nelson::FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
         } else {
             bRes = false;
         }

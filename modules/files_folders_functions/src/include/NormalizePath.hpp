@@ -11,41 +11,57 @@
 //=============================================================================
 #include <string>
 #include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
+inline std::wstring
 NormalizePath(const std::wstring& path)
 {
-    std::wstring uniformizedPath;
     if (path.empty()) {
-        return uniformizedPath;
+        return {};
     }
-    uniformizedPath = path;
+#ifdef _MSC_VER
+    std::filesystem::path abs_path = std::filesystem::absolute(path);
+#else
+    std::filesystem::path abs_path = std::filesystem::absolute(wstring_to_utf8(path));
+#endif
+    std::filesystem::path::iterator it = abs_path.begin();
+    std::filesystem::path result = *it++;
 
-    boost::filesystem::path absPath = boost::filesystem::absolute(boost::filesystem::path(path));
-    boost::filesystem::path::iterator it = absPath.begin();
-    boost::filesystem::path result = *it++;
-    for (; boost::filesystem::exists(result / *it) && it != absPath.end(); ++it) {
+    for (; exists(result) && it != abs_path.end(); ++it) {
         result /= *it;
     }
-    result = boost::filesystem::canonical(result);
+
+    result = canonical(result.parent_path());
+
 #ifdef _MSC_VER
-#define DOT_FILE L"."
-#define DOT_DOT_FILE L".."
+#define DOTDOT L".."
+#define DOT L"."
 #else
-#define DOT_FILE "."
-#define DOT_DOT_FILE ".."
+#define DOTDOT ".."
+#define DOT "."
 #endif
-    for (; it != absPath.end(); ++it) {
-        if (*it == DOT_DOT_FILE) {
+    for (--it; it != abs_path.end(); ++it) {
+        if (*it == DOTDOT) {
             result = result.parent_path();
-        } else if (*it != DOT_FILE) {
+        } else if (*it != DOT) {
             result /= *it;
         }
     }
 
-    uniformizedPath = result.generic_wstring();
+#ifdef _MSC_VER
+    std::wstring uniformizedPath = result.generic_wstring();
+#else
+    std::wstring uniformizedPath = utf8_to_wstring(result.generic_string());
+#endif
+    if (uniformizedPath.length() > 1 && uniformizedPath.back() == L'/') {
+        uniformizedPath.pop_back();
+    }
+    if (uniformizedPath.length() == std::wstring(L"c:").length()) {
+        uniformizedPath += L"/";
+    }
     return uniformizedPath;
 }
 //=============================================================================

@@ -77,12 +77,12 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         Error(_W("Cannot create destination file."));
     }
     Nelson::FileSystemWrapper::Path p(filename);
-    try {
-        p = Nelson::FileSystemWrapper::Path::absolute(p);
-        fullFilename = p.generic_wstring();
-    } catch (const boost::filesystem::filesystem_error&) {
-        fullFilename = p.generic_wstring();
+    std::string errorMessage;
+    p = Nelson::FileSystemWrapper::Path::absolute(p, errorMessage);
+    if (!errorMessage.empty()) {
+        p = filename;
     }
+    fullFilename = p.generic_wstring();
     CURL* curlObject = curl_easy_init();
     if (curlObject == nullptr) {
         fclose(fw);
@@ -275,11 +275,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     std::wstring msg = responseCodeToMessage(response_code);
     if (!msg.empty()) {
         // remove file if error detected.
-        try {
-            Nelson::FileSystemWrapper::Path p = filename;
-            Nelson::FileSystemWrapper::Path::remove(p);
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        Nelson::FileSystemWrapper::Path p = filename;
+        Nelson::FileSystemWrapper::Path::remove(p);
         Error(msg);
     }
     return fullFilename;

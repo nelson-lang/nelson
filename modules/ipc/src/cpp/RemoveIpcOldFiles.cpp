@@ -9,6 +9,7 @@
 //=============================================================================
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
@@ -24,12 +25,7 @@ RemoveIpcOldFiles()
     std::string ipcDirectory;
     boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
     Nelson::FileSystemWrapper::Path branch(ipcDirectory);
-    bool isDirectory;
-    try {
-        isDirectory = Nelson::FileSystemWrapper::Path::is_directory(branch);
-    } catch (const boost::filesystem::filesystem_error&) {
-        isDirectory = false;
-    }
+    bool isDirectory = Nelson::FileSystemWrapper::Path::is_directory(branch);
     if (isDirectory) {
         for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
             Nelson::FileSystemWrapper::Path filepath(p->path().native());
@@ -46,13 +42,9 @@ RemoveIpcOldFiles()
                 } catch (const std::exception&) {
                     usedPid = true;
                 }
-                try {
-                    result = true;
-                    if (!usedPid) {
-                        Nelson::FileSystemWrapper::Path::remove(filepath);
-                    }
-                } catch (const boost::filesystem::filesystem_error&) {
-                    result = false;
+                result = true;
+                if (!usedPid) {
+                    result = Nelson::FileSystemWrapper::Path::remove(filepath);
                 }
             }
         }

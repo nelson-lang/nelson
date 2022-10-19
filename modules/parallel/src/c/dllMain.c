@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

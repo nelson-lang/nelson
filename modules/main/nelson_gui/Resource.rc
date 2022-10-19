@@ -7,8 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
-
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 

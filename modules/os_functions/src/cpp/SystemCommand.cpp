@@ -9,8 +9,9 @@
 //=============================================================================
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
-#include <winsock2.h>
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <winsock2.h>
 #undef min
 #else
 #include <fcntl.h>
@@ -102,12 +103,10 @@ public:
 
         _terminate = false;
         _running = true;
-        Nelson::FileSystemWrapper::Path pwd
-            = Nelson::FileSystemWrapper::Path::temp_directory_path();
-        Nelson::FileSystemWrapper::Path tempOutputFile = pwd;
-        Nelson::FileSystemWrapper::Path tempErrorFile = pwd;
-        tempOutputFile /= Nelson::FileSystemWrapper::Path::unique_path();
-        tempErrorFile /= Nelson::FileSystemWrapper::Path::unique_path();
+        Nelson::FileSystemWrapper::Path tempOutputFile
+            = Nelson::FileSystemWrapper::Path::unique_path();
+        Nelson::FileSystemWrapper::Path tempErrorFile
+            = Nelson::FileSystemWrapper::Path::unique_path();
         bool mustDetach = false;
         std::wstring _command = DetectDetachProcess(command, mustDetach);
         std::wstring argsShell;
@@ -384,6 +383,12 @@ readFile(const Nelson::FileSystemWrapper::Path& filePath)
         }
         fclose(pFile);
     }
+#ifdef _MSC_VER
+    std::wstring wresult;
+    if (utf8_to_wstring_Windows(result, wresult)) {
+        return wresult;
+    }
+#endif
     return utf8_to_wstring(result);
 }
 //=============================================================================

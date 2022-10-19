@@ -17,26 +17,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-PathFunc::isdir(const std::wstring& path)
-{
-    Nelson::FileSystemWrapper::Path data_dir(path);
-    bool bRes = false;
-    try {
-        bRes = Nelson::FileSystemWrapper::Path::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
 PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
-    if (isdir(path)) {
+    if (isDirectory(path)) {
         _path = path;
     } else {
         _path.clear();
@@ -122,10 +106,10 @@ PathFunc::rehash()
     if (!_path.empty()) {
         mapRecentFiles.clear();
         try {
-            boost::filesystem::directory_iterator end_iter;
+            std::filesystem::directory_iterator end_iter;
             Nelson::FileSystemWrapper::Path path(_path);
-            for (boost::filesystem::directory_iterator dir_iter(path.native());
-                 dir_iter != end_iter; ++dir_iter) {
+            for (std::filesystem::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
+                 ++dir_iter) {
                 Nelson::FileSystemWrapper::Path current(dir_iter->path().native());
                 std::wstring ext = current.extension().generic_wstring();
                 bool isMacro = ext == L".m";
@@ -145,7 +129,7 @@ PathFunc::rehash()
                     }
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) {
+        } catch (const std::filesystem::filesystem_error&) {
         }
     }
 }

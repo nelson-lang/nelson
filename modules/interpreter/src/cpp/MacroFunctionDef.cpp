@@ -365,17 +365,17 @@ MacroFunctionDef::updateCode()
     if (!doUpdate) {
         return false;
     }
-    try {
-        time_t currentFileTimestamp
-            = Nelson::FileSystemWrapper::Path::last_write_time(this->getFilename());
+    std::string errorMessage;
+    time_t currentFileTimestamp
+        = Nelson::FileSystemWrapper::Path::last_write_time(this->getFilename(), errorMessage);
+    if (errorMessage.empty()) {
         if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
             return false;
         }
         this->setTimestamp(currentFileTimestamp);
-    } catch (const boost::filesystem::filesystem_error&) {
+    } else {
         return false;
     }
-
     if (code != nullptr) {
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;
@@ -473,7 +473,7 @@ MacroFunctionDef::updateCode()
             Error(msg);
         }
 
-        boost::filesystem::path pathFunction(this->getFilename());
+        Nelson::FileSystemWrapper::Path pathFunction(this->getFilename());
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
 
         if (this->getName() != functionNameFromFile) {

@@ -7,10 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#include <Windows.h>
-#endif
-//=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <sndfile.h>
 #include <map>

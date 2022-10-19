@@ -389,16 +389,13 @@ Profiler::save(
     std::wstring& errorMessage)
 {
     std::wstring profileDirectory = destinationDirectory;
-    try {
-        if (!Nelson::FileSystemWrapper::Path::exists(profileDirectory)) {
-            Nelson::FileSystemWrapper::Path::create_directory(profileDirectory);
+    if (!isDirectory(profileDirectory) && !isFile(profileDirectory)) {
+        std::string message;
+        if (!Nelson::FileSystemWrapper::Path::create_directory(profileDirectory, message)) {
+            errorMessage = utf8_to_wstring(message);
+            return;
         }
-    } catch (const boost::filesystem::filesystem_error& e) {
-        boost::system::error_code error_code = e.code();
-        errorMessage = utf8_to_wstring(error_code.message());
-        return;
     }
-
     // filename, line, time, calls
     std::vector<std::tuple<std::string, uint64, uint64, uint64>> flatProfile;
     // filename, line, name, nbcalls, tottime, percall
