@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ~strcmp(getenv('NELSON_WITHOUT_MPI'), 'TRUE')
-  addmodule([nelsonroot() '/modules/' 'mpi'], 'mpi');
+  try
+    addmodule([nelsonroot() '/modules/' 'mpi'], 'mpi');
+  catch
+    warning('MPI not loaded');
+  end
 end
 %=============================================================================
