@@ -232,7 +232,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
     bool withWatch = frozen ? false : true;
     PathFunc* pf = nullptr;
     try {
-        pf = new PathFunc(path, withWatch);
+        pf = new PathFunc(NormalizePath(path), withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }

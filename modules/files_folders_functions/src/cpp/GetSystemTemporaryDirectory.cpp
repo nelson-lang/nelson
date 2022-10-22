@@ -26,7 +26,7 @@ GetSystemTemporaryDirectory()
 {
     if (tempDir == L"") {
         Nelson::FileSystemWrapper::Path pwd(Nelson::FileSystemWrapper::Path::temp_directory_path());
-        tempDir = pwd.generic_wstring();
+        tempDir = pwd.getFinalPathname().generic_wstring();
         if (!boost::algorithm::ends_with(tempDir, L"\\")
             && (!boost::algorithm::ends_with(tempDir, L"/"))) {
             tempDir.append(L"/");

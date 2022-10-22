@@ -9,13 +9,13 @@
 //=============================================================================
 #include <git2.h>
 #include <boost/algorithm/string/predicate.hpp>
+#include "FileSystemWrapper.hpp"
 #include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryClone.hpp"
 #include "RepositoryHelpers.hpp"
 #include "RepositoryCheckout.hpp"
-#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

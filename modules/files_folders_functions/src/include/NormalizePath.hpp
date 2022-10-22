@@ -34,7 +34,7 @@ NormalizePath(const std::wstring& path)
         result /= *it;
     }
 
-    result = canonical(result.parent_path());
+    result = std::filesystem::canonical(result.parent_path());
 
 #ifdef _MSC_VER
 #define DOTDOT L".."
@@ -52,10 +52,13 @@ NormalizePath(const std::wstring& path)
     }
 
 #ifdef _MSC_VER
-    std::wstring uniformizedPath = result.generic_wstring();
+    std::wstring uniformizedPath = result.wstring();
 #else
-    std::wstring uniformizedPath = utf8_to_wstring(result.generic_string());
+    std::wstring uniformizedPath = utf8_to_wstring(result.string());
 #endif
+
+    uniformizedPath = Nelson::FileSystemWrapper::Path::getFinalPathname(uniformizedPath);
+    uniformizedPath = Nelson::FileSystemWrapper::Path(uniformizedPath).generic_wstring();
     if (uniformizedPath.length() > 1 && uniformizedPath.back() == L'/') {
         uniformizedPath.pop_back();
     }

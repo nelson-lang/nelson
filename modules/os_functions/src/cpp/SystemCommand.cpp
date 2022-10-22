@@ -342,12 +342,7 @@ void
 deleteFile(const Nelson::FileSystemWrapper::Path& p)
 {
     if (Nelson::FileSystemWrapper::Path::exists(p)) {
-
-#ifdef _MSC_VER
-        int res = _wremove(p.generic_wstring().c_str());
-#else
-        int res = remove(p.generic_string().c_str());
-#endif
+        Nelson::FileSystemWrapper::Path::remove(p);
     }
 }
 //=============================================================================

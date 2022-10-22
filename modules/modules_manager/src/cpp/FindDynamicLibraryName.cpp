@@ -25,7 +25,7 @@ FindDynamicLibraryName(
     }
     std::filesystem::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
-    bool bRes = isFile(fullfilename.native());
+    bool bRes = std::filesystem::is_regular_file(fullfilename);
     if (bRes) {
         res = initialLibraryName;
         return res;

@@ -60,7 +60,7 @@ buildPreferencesPath()
             std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\")
                 + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
             Nelson::FileSystemWrapper::Path path_2(NelSonDir);
-            Nelson::FileSystemWrapper::Path path = path_1;
+            Nelson::FileSystemWrapper::Path path = Nelson::FileSystemWrapper::Path(path_1);
             path /= path_2;
             prefPath = path.generic_wstring();
             bool permissionDenied;
@@ -84,7 +84,8 @@ buildPreferencesPath()
         if (homedir != nullptr) {
             std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME)
                 + std::string("/") + std::string(NELSON_SEMANTIC_VERSION_STRING);
-            Nelson::FileSystemWrapper::Path path_1 = std::string(homedir);
+            std::string _homedir = std::string(homedir);
+            Nelson::FileSystemWrapper::Path path_1(_homedir);
             if (path_1.is_directory()) {
                 Nelson::FileSystemWrapper::Path path_2(NelSonDir);
                 Nelson::FileSystemWrapper::Path path { path_1 };

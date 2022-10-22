@@ -9,7 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef min
+#undef max
+#endif
 #include <filesystem>
+#include <stdio.h>
 #include <string>
 #include <cstring>
 #include <cctype>
@@ -47,48 +54,26 @@ private:
         return Path(nativeString);
     }
     //=============================================================================
-    std::wstring
-    uppercaseDriveLetter(const std::wstring& path)
-    {
-        std::wstring _path(path);
-        if (_path.length() > 1 && _path[1] == L':') {
-            _path[0] = ::towupper(_path[0]);
-        }
-        return _path;
-    }
-    //=============================================================================
-    std::string
-    uppercaseDriveLetter(const std::string& path)
-    {
-        std::string _path(path);
-        if (_path.length() > 1 && _path[1] == ':') {
-            _path[0] = ::toupper(_path[0]);
-        }
-        return _path;
-    }
-    //=============================================================================
 public:
     //=============================================================================
     Path() = default;
-    Path(Path const& p) = default;
+    explicit Path(Path const& p) = default;
     //=============================================================================
     Path(const std::wstring& p)
     {
 #ifdef _MSC_VER
-        nativePath = uppercaseDriveLetter(p);
+        nativePath = p;
 #else
-        std::string native = wstring_to_utf8(p);
-        nativePath = uppercaseDriveLetter(native);
+        nativePath = wstring_to_utf8(p);
 #endif
     }
     //=============================================================================
-    Path(const std::string& p)
+    explicit Path(const std::string& p)
     {
 #ifdef _MSC_VER
-        std::wstring native = utf8_to_wstring(p);
-        nativePath = uppercaseDriveLetter(native);
+        nativePath = utf8_to_wstring(p);
 #else
-        nativePath = uppercaseDriveLetter(p);
+        nativePath = p;
 #endif
     }
     //=============================================================================
@@ -123,7 +108,7 @@ public:
     operator=(const std::string& p)
     {
         nativePath = Path(p).nativePath;
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path&
@@ -174,7 +159,7 @@ public:
         std::filesystem::path pa(p.nativePath);
         pr /= pa;
         nativePath = pr.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path
@@ -188,7 +173,7 @@ public:
 #endif
         pr /= pa;
         nativePath = pr.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path
@@ -202,7 +187,7 @@ public:
 #endif
         pr /= pa;
         nativePath = pr.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path
@@ -213,7 +198,7 @@ public:
         std::filesystem::path pa(p2.nativePath);
         res = pr / pa;
         nativePath = res.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path
@@ -228,7 +213,7 @@ public:
 #endif
         res = pr / pa;
         nativePath = res.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     Path
@@ -243,7 +228,7 @@ public:
 #endif
         res = pr / pa;
         nativePath = res.native();
-        return *this;
+        return (Path) * this;
     }
     //=============================================================================
     [[nodiscard]] auto
@@ -270,7 +255,7 @@ public:
         return Path(std::filesystem::path(nativePath).extension().native());
     }
     //=============================================================================
-    [[nodiscard]] auto
+    [[nodiscard]] std::wstring
     wstring() const
     {
 #ifdef _MSC_VER
@@ -377,6 +362,13 @@ public:
     {
         std::filesystem::path p1(nativePath);
         return std::filesystem::is_directory(p1);
+    }
+    //=============================================================================
+    [[nodiscard]] bool
+    is_regular_file() const
+    {
+        std::filesystem::path p1(nativePath);
+        return std::filesystem::is_regular_file(p1);
     }
     //=============================================================================
     auto
@@ -500,7 +492,7 @@ public:
             errorMessage = error_code.message();
             result = p;
         }
-        return result;
+        return (Path)result;
     }
     //=============================================================================
     static Path
@@ -753,26 +745,52 @@ public:
     static auto
     unique_path()
     {
-        std::filesystem::path tempFilePath = std::filesystem::temp_directory_path();
+        std::filesystem::path tempFilePath;
+        std::string filetemp;
+        FILE* stream = nullptr;
+        tempFilePath = std::filesystem::temp_directory_path();
+        char buffer[512];
+        static unsigned short index = 0;
+        int rd1 = rand() % 100000;
+        int rd2 = rand() % 100000;
+        int rd3 = rand() % 100000;
+        int rd4 = rand() % 100000;
+#define TMP_NELSON "nelson_%05X%05X%05X%05X.tmp"
 #ifdef _MSC_VER
-        char name[L_tmpnam_s];
-        tmpnam_s(name, L_tmpnam_s);
-        tempFilePath /= std::string(name);
+        sprintf_s(buffer, 512, TMP_NELSON, rd1, rd2, rd3, rd4);
 #else
-        FILE* uid_file;
-        std::string template_name = tempFilePath.string() + "/NELSON_XXXXXX";
-        char template_char[FILENAME_MAX * 2];
-        strncpy(template_char, template_name.c_str(), template_name.length());
-        int temp_fd = mkstemp(template_char);
-        uid_file = fdopen(temp_fd, "w");
-        if (uid_file) {
-            tempFilePath = std::string(template_char);
-            fclose(uid_file);
-        } else {
-            tempFilePath /= "/NELSON_XXXXXX";
-        }
+        sprintf(buffer, TMP_NELSON, rd1, rd2, rd3, rd4);
 #endif
+        tempFilePath /= std::string(buffer);
         return Path(tempFilePath.native());
+    }
+    //=============================================================================
+    static inline std::wstring
+    getFinalPathname(const std::wstring& path)
+    {
+#ifdef _MSC_VER
+#define BUFSIZE MAX_PATH
+        HANDLE hFile = CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
+            NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+        if (hFile == INVALID_HANDLE_VALUE) {
+            return path;
+        }
+        wchar_t Path[BUFSIZE];
+        DWORD dwRet = GetFinalPathNameByHandle(hFile, Path, BUFSIZE, VOLUME_NAME_DOS);
+        CloseHandle(hFile);
+        return std::wstring(Path).substr(4);
+#endif
+        return path;
+    }
+    //=============================================================================
+    Path
+    getFinalPathname()
+    {
+#ifdef _MSC_VER
+        return Path(getFinalPathname(nativePath));
+#endif
+        return Path(nativePath);
     }
     //=============================================================================
 };

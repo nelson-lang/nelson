@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "RemoveDirectory.hpp"
 #include "FileSystemHelpers.hpp"
+#include "RemoveDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================

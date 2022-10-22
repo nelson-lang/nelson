@@ -8,11 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/dll/library_info.hpp>
+#include "FileSystemWrapper.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "dynamic_library.hpp"
-#include "FileSystemWrapper.hpp"
 #include "Error.hpp"
-#undef GetCurrentDirectory
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"

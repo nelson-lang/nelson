@@ -10,7 +10,7 @@
 p = path();
 if ispc()
   r = addpath('c:/', '-end');
-  REF = [r, ';c:/'];
+  REF = [r, ';C:/'];
 else
   r = addpath('/', '-end');
   REF = [r, ':/'];

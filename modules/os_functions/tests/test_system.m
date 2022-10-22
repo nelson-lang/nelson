@@ -31,7 +31,7 @@ if ispc()
   t = toc();
 else
   tic();
-  [s, w, d] = system(["sleep 4s", "sleep 6s", "sleep 9s"]);
+  [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"]);
   t = toc();
 end
 if (maxNumCompThreads() > 3)
@@ -50,7 +50,7 @@ if ispc()
   t = toc();
 else
   tic();
-  [s, w, d] = system(["sleep 4s", "sleep 6s", "sleep 9s"], [1, 5, 3]);
+  [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"], [1, 5, 3]);
   t = toc();
 end
 assert_istrue(t >= 5 && t < 7)
