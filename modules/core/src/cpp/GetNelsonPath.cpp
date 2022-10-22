@@ -124,7 +124,7 @@ GetRootPath()
         nelsonpath = path.parent_path().parent_path();
 #endif
         if (Nelson::FileSystemWrapper::Path::is_directory(nelsonpath)) {
-            NelsonPath = nelsonpath.generic_path().generic_wstring();
+            NelsonPath = nelsonpath.generic_path().getFinalPathname().generic_wstring();
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
             return NelsonPath;
         }

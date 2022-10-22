@@ -341,8 +341,14 @@ ProcessEventsDynamicFunction()
 void
 deleteFile(const Nelson::FileSystemWrapper::Path& p)
 {
-    if (Nelson::FileSystemWrapper::Path::exists(p)) {
-        Nelson::FileSystemWrapper::Path::remove(p);
+    std::string errorMessage;
+    try {
+        if (Nelson::FileSystemWrapper::Path::exists(p)) {
+            Nelson::FileSystemWrapper::Path::remove(p);
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::error_code error_code = e.code();
+        errorMessage = error_code.message();
     }
 }
 //=============================================================================

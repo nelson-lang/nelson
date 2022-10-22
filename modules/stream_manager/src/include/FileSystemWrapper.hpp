@@ -12,8 +12,11 @@
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <process.h>
 #undef min
 #undef max
+#else
+#include <unistd.h>
 #endif
 #include <filesystem>
 #include <stdio.h>
@@ -742,26 +745,41 @@ public:
         return Path(std::filesystem::temp_directory_path().native());
     }
     //=============================================================================
-    static auto
+    static Path
     unique_path()
     {
+        /*
+        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
+        pwd /= boost::filesystem::unique_path();
+        return Path(pwd.native());
+        */
+
         std::filesystem::path tempFilePath;
         std::string filetemp;
-        FILE* stream = nullptr;
         tempFilePath = std::filesystem::temp_directory_path();
-        char buffer[512];
-        static unsigned short index = 0;
+
         int rd1 = rand() % 100000;
+        srand(rd1);
         int rd2 = rand() % 100000;
+        srand(rd2);
         int rd3 = rand() % 100000;
+        srand(rd3);
         int rd4 = rand() % 100000;
-#define TMP_NELSON "nelson_%05X%05X%05X%05X.tmp"
+
 #ifdef _MSC_VER
-        sprintf_s(buffer, 512, TMP_NELSON, rd1, rd2, rd3, rd4);
+#define TMP_NELSON L"%06X-%06X-%06X-%06X-%06X.ntmp"
+        wchar_t buffer[512];
+        swprintf_s(buffer, 512, TMP_NELSON, _getpid(), rd1, rd2, rd3, rd4);
+        tempFilePath /= std::wstring(buffer);
 #else
-        sprintf(buffer, TMP_NELSON, rd1, rd2, rd3, rd4);
-#endif
+#define TMP_NELSON "%06X-%06X-%06X-%06X-%06X.ntmp"
+        char buffer[512];
+        sprintf(buffer, TMP_NELSON, (int)getpid(), rd1, rd2, rd3, rd4);
         tempFilePath /= std::string(buffer);
+#endif
+        if (std::filesystem::exists(tempFilePath)) {
+            return unique_path();
+        }
         return Path(tempFilePath.native());
     }
     //=============================================================================

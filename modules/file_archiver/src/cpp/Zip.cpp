@@ -224,9 +224,17 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
         }
         std::wstring pathwstr;
         if (rootpath == L"." && path.wstring() != L".") {
-            pathwstr = path.generic_wstring();
+            if (path.has_filename()) {
+                pathwstr = path.parent_path().generic_wstring();
+            } else {
+                pathwstr = path.generic_wstring();
+            }
         } else {
-            pathwstr = rootPath.generic_wstring();
+            if (rootpath != L"." && rootPath.has_filename()) {
+                pathwstr = rootPath.parent_path().generic_wstring();
+            } else {
+                pathwstr = rootPath.generic_wstring();
+            }
         }
         for (const auto& name : res) {
             localFiles.emplace_back(normalizeZipPath(name));
