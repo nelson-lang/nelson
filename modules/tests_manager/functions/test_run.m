@@ -155,8 +155,8 @@ function displayFilenameAndLine(msg)
 function displayTestCaseFail(test_case)
   if strcmp(test_case.status, 'Fail') == true
     disp(['    run(''', test_case.filename, ''')']);
-    if strcmp(test_case.msg, '') == false
-      disp(_('    Error:'));
+    disp(_('    Error:'));
+    if ~isempty(test_case.msg)
       if strcmp(class(test_case.msg), 'cell') == 1
         msg = test_case.msg(:)';
         for k = msg(1:3)
@@ -170,6 +170,8 @@ function displayTestCaseFail(test_case)
           disp(['      ', test_case.msg]);
         end
       end
+    else
+      disp(test_case)
     end
     disp(' ');
   end
