@@ -69,8 +69,8 @@ private:
     //=============================================================================
 public:
     //=============================================================================
-    Path() { }
-    Path(Path const& p) : nativePath(p.nativePath) { }
+    Path() = default;
+    Path(Path const& p) = default;
     //=============================================================================
     Path(const std::wstring& p)
     {
@@ -212,7 +212,7 @@ public:
         std::filesystem::path pr(nativePath);
         std::filesystem::path pa(p2.nativePath);
         res = pr / pa;
-        nativePath = pr.native();
+        nativePath = res.native();
         return *this;
     }
     //=============================================================================
@@ -227,7 +227,7 @@ public:
         std::filesystem::path pa(p2);
 #endif
         res = pr / pa;
-        nativePath = pr.native();
+        nativePath = res.native();
         return *this;
     }
     //=============================================================================
@@ -242,35 +242,35 @@ public:
         std::filesystem::path pa(wstring_to_utf8(p2));
 #endif
         res = pr / pa;
-        nativePath = pr.native();
+        nativePath = res.native();
         return *this;
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     native() const
     {
         return nativePath;
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     has_filename() const
     {
         return std::filesystem::path(nativePath).has_filename();
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     has_extension() const
     {
         return std::filesystem::path(nativePath).has_extension();
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     extension() const
     {
         return Path(std::filesystem::path(nativePath).extension().native());
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     wstring() const
     {
 #ifdef _MSC_VER
@@ -280,7 +280,7 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     string() const
     {
 #ifdef _MSC_VER
@@ -290,7 +290,7 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     generic_wstring() const
     {
 #ifdef _MSC_VER
@@ -300,7 +300,7 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     generic_string() const
     {
 #ifdef _MSC_VER
@@ -310,7 +310,7 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     generic_path() const
     {
 #ifdef _MSC_VER
@@ -320,7 +320,7 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     filename() const
     {
 #ifdef _MSC_VER
@@ -330,20 +330,20 @@ public:
 #endif
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     leaf() const
     {
         return Path(std::filesystem::path(nativePath)).filename();
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     parent_path() const
     {
         std::filesystem::path p(nativePath);
         return Path(p.parent_path().native());
     }
     //=============================================================================
-    auto
+    [[nodiscard]] auto
     stem() const
     {
         std::filesystem::path p(nativePath);
@@ -365,14 +365,14 @@ public:
         return p1.has_parent_path();
     }
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     exists() const
     {
         std::filesystem::path p1(nativePath);
         return std::filesystem::exists(p1);
     }
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     is_directory() const
     {
         std::filesystem::path p1(nativePath);
