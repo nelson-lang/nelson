@@ -173,7 +173,8 @@ public:
         std::filesystem::path pr(nativePath);
         std::filesystem::path pa(p.nativePath);
         pr /= pa;
-        return Path(pr.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     Path
@@ -186,7 +187,8 @@ public:
         std::filesystem::path pa(wstring_to_utf8(s));
 #endif
         pr /= pa;
-        return Path(pr.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     Path
@@ -199,7 +201,8 @@ public:
         std::filesystem::path pa(s);
 #endif
         pr /= pa;
-        return Path(pr.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     Path
@@ -209,7 +212,8 @@ public:
         std::filesystem::path pr(nativePath);
         std::filesystem::path pa(p2.nativePath);
         res = pr / pa;
-        return Path(res.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     Path
@@ -223,7 +227,8 @@ public:
         std::filesystem::path pa(p2);
 #endif
         res = pr / pa;
-        return Path(res.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     Path
@@ -237,7 +242,8 @@ public:
         std::filesystem::path pa(wstring_to_utf8(p2));
 #endif
         res = pr / pa;
-        return Path(res.native());
+        nativePath = pr.native();
+        return *this;
     }
     //=============================================================================
     auto
