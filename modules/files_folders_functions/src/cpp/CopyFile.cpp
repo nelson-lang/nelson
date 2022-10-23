@@ -79,8 +79,7 @@ copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
     }
 
     std::wstring rootSrc = sourceDir.generic_wstring();
-    for (const auto& dirEnt :
-        std::filesystem::recursive_directory_iterator { sourceDir.native() }) {
+    for (const auto& dirEnt : nfs::recursive_directory_iterator { sourceDir.native() }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");

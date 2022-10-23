@@ -10,106 +10,84 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/algorithm/string.hpp>
 #include "FileSystemHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isDrive(const std::wstring& pathname)
+static std::wstring
+NormalizeDriveLetter(const std::wstring& path, bool& isDrive)
 {
-#ifdef _MSC_VER
-    return boost::algorithm::ends_with(pathname, L":/")
-        || boost::algorithm::ends_with(pathname, L":\\")
-        || (boost::algorithm::ends_with(pathname, L":")
-            && (!boost::algorithm::contains(pathname, L".")
-                && !boost::algorithm::contains(pathname, L"/")
-                && !boost::algorithm::contains(pathname, L"\\")));
-#else
-    return false;
-#endif
+    std::wstring wresult = path;
+    if (wresult.length() == std::wstring(L"c:").length() && wresult[1] == L':') {
+        wresult[0] = ::towupper(wresult[0]);
+        wresult += L"/";
+        isDrive = true;
+        return wresult;
+    }
+    if (wresult.length() == std::wstring(L"c:/").length() && wresult[1] == L':'
+        && (wresult[2] == L'\\' || wresult[2] == L'/')) {
+        wresult[0] = ::towupper(wresult[0]);
+        if (wresult[2] == L'\\') {
+            wresult[2] = L'/';
+        }
+        isDrive = true;
+        return wresult;
+    }
+    isDrive = false;
+    return wresult;
 }
 //=============================================================================
-std::wstring
-NormalizePath(const std::wstring& path)
-{
-    std::wstring uniformizedPath;
-    if (path.empty()) {
-        return uniformizedPath;
-    }
-    uniformizedPath = path;
-    if (isDrive(uniformizedPath)) {
-        boost::replace_all(uniformizedPath, L"\\", L"/");
-        if (uniformizedPath.back() != L'/') {
-            uniformizedPath = uniformizedPath + L"/";
-        }
-    } else {
-        boost::filesystem::path absPath = boost::filesystem::absolute(path);
-        boost::filesystem::path::iterator it = absPath.begin();
-        boost::filesystem::path result = *it++;
-        for (; exists(result / *it) && it != absPath.end(); ++it) {
-            result /= *it;
-        }
-        result = boost::filesystem::canonical(result);
-        for (; it != absPath.end(); ++it) {
-            if (*it == "..") {
-                result = result.parent_path();
-            } else if (*it != ".") {
-                result /= *it;
-            }
-        }
-        uniformizedPath = result.generic_wstring();
-    }
-    return uniformizedPath;
-}
-
-/*
-  inline std::wstring
+inline std::wstring
 NormalizePath(const std::wstring& path)
 {
     if (path.empty()) {
         return {};
     }
-#ifdef _MSC_VER
-    std::filesystem::path abs_path = std::filesystem::absolute(path);
-#else
-    std::filesystem::path abs_path = std::filesystem::absolute(wstring_to_utf8(path));
-#endif
-    std::filesystem::path::iterator it = abs_path.begin();
-    std::filesystem::path result = *it++;
-
-    for (; exists(result) && it != abs_path.end(); ++it) {
-        result /= *it;
+    bool isDriveLetter;
+    std::wstring wresult = NormalizeDriveLetter(path, isDriveLetter);
+    if (isDriveLetter) {
+        return wresult;
     }
 
-    result = std::filesystem::canonical(result.parent_path());
+    Nelson::FileSystemWrapper::Path _path(path);
+    if (!_path.is_absolute()) {
+        _path = Nelson::FileSystemWrapper::Path::current_path() / _path;
+    }
+    _path = _path.lexically_normal();
 
-#ifdef _MSC_VER
-#define DOTDOT L".."
-#define DOT L"."
-#else
-#define DOTDOT ".."
-#define DOT "."
-#endif
-    for (--it; it != abs_path.end(); ++it) {
-        if (*it == DOTDOT) {
-            result = result.parent_path();
-        } else if (*it != DOT) {
-            result /= *it;
+    nfs::path norm_path = nfs::path(_path.native());
+    nfs::path prePath;
+    nfs::path::iterator it = norm_path.begin();
+
+    for (it; it != norm_path.end(); ++it) {
+        if (nfs::exists(prePath / *it)) {
+            prePath /= *it;
+        } else {
+            break;
         }
     }
+#ifdef _MSC_VER
+    std::wstring uniformizedPath = prePath.wstring();
+#else
+    std::wstring uniformizedPath = utf8_to_wstring(prePath.native());
+#endif
+    uniformizedPath = Nelson::FileSystemWrapper::Path::getFinalPathname(uniformizedPath);
 
 #ifdef _MSC_VER
-    std::wstring uniformizedPath = result.wstring();
+    nfs::path postPath(uniformizedPath);
 #else
-    std::wstring uniformizedPath = utf8_to_wstring(result.string());
+    nfs::path postPath(wstring_to_utf8(uniformizedPath));
 #endif
-
-    uniformizedPath = Nelson::FileSystemWrapper::Path::getFinalPathname(uniformizedPath);
+    for (it; it != norm_path.end(); ++it) {
+        postPath /= *it;
+    }
+#ifdef _MSC_VER
+    uniformizedPath = postPath.wstring();
+#else
+    uniformizedPath = utf8_to_wstring(postPath.native());
+#endif
     uniformizedPath = Nelson::FileSystemWrapper::Path(uniformizedPath).generic_wstring();
     if (uniformizedPath.length() > 1 && uniformizedPath.back() == L'/') {
         uniformizedPath.pop_back();
@@ -118,9 +96,7 @@ NormalizePath(const std::wstring& path)
         uniformizedPath += L"/";
     }
     return uniformizedPath;
-
 }
-*/
 //=============================================================================
 }
 //=============================================================================

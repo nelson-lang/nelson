@@ -18,22 +18,21 @@ FindDynamicLibraryName(
     const std::wstring& directoryName, const std::wstring& initialLibraryName, bool bCaseSensitive)
 {
     std::wstring res;
-    std::filesystem::directory_iterator end_iter;
-    std::filesystem::path dir = directoryName;
-    if (!std::filesystem::is_directory(dir)) {
+    nfs::directory_iterator end_iter;
+    nfs::path dir = directoryName;
+    if (!nfs::is_directory(dir)) {
         return res;
     }
-    std::filesystem::path fullfilename = directoryName;
+    nfs::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
-    bool bRes = std::filesystem::is_regular_file(fullfilename);
+    bool bRes = nfs::is_regular_file(fullfilename);
     if (bRes) {
         res = initialLibraryName;
         return res;
     }
-    for (std::filesystem::directory_iterator dir_iter(dir.native()); dir_iter != end_iter;
-         ++dir_iter) {
-        std::filesystem::path current = dir_iter->path();
-        if (std::filesystem::is_regular_file(current)) {
+    for (nfs::directory_iterator dir_iter(dir.native()); dir_iter != end_iter; ++dir_iter) {
+        nfs::path current = dir_iter->path();
+        if (nfs::is_regular_file(current)) {
             if (bCaseSensitive) {
                 if (initialLibraryName.compare(current.generic_wstring()) == 0) {
                     return current.generic_wstring();

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016present Allan CORNET (Nelson)
+// Copyright (c) 2016 - present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -9,10 +9,8 @@
 //=============================================================================
 #include <algorithm>
 #include <fstream>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
-#include <boost/filesystem/operations.hpp>
 #include <mz_os.h>
 #include "Zip.hpp"
 #include "Zipper.hpp"
@@ -27,16 +25,16 @@ static wstringVector
 ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 {
     wstringVector res;
-    std::filesystem::path path(mask);
-    if (std::filesystem::exists(path)) {
+    nfs::path path(mask);
+    if (nfs::exists(path)) {
         res.push_back(path.generic_wstring());
 
     } else {
-        std::filesystem::path branch(path.parent_path());
+        nfs::path branch(path.parent_path());
         if (branch.empty()) {
-            branch = std::filesystem::current_path();
+            branch = nfs::current_path();
         }
-        if (std::filesystem::is_directory(branch)) {
+        if (nfs::is_directory(branch)) {
             std::wstring _mask = path.filename().wstring();
 
             _mask = boost::regex_replace(_mask, boost::wregex(L"\\."), L"\\\\.");
@@ -47,8 +45,8 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
             if (bSubdirectories) {
                 if (isDirectory(branch.wstring())) {
                     try {
-                        for (std::filesystem::recursive_directory_iterator p(branch.native()), end;
-                             p != end; ++p) {
+                        for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
+                             ++p) {
                             if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
@@ -60,7 +58,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                             res.push_back(current.generic_path().wstring());
                         }
 
-                    } catch (const std::filesystem::filesystem_error&) {
+                    } catch (const nfs::filesystem_error&) {
                     }
                 }
 
@@ -68,7 +66,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 Nelson::FileSystemWrapper::Path dir(branch.wstring());
                 if (isDirectory(branch.wstring())) {
                     try {
-                        for (std::filesystem::directory_iterator p(branch), end; p != end; ++p) {
+                        for (nfs::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
@@ -80,7 +78,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                             res.push_back(current.generic_path().wstring());
                         }
 
-                    } catch (const std::filesystem::filesystem_error&) {
+                    } catch (const nfs::filesystem_error&) {
                     }
                 }
             }
@@ -107,7 +105,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
 
     } else {
         if (isFile(directory)) {
-            std::filesystem::path d = directory;
+            nfs::path d = directory;
             res.push_back(d.generic_wstring());
 
         } else {
@@ -115,50 +113,48 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 res.clear();
                 return res;
             }
-            std::filesystem::path thispath = directory;
+            nfs::path thispath = directory;
             thispath = thispath.generic_wstring();
             if (!boost::algorithm::ends_with(thispath.generic_wstring(), L"/")) {
                 thispath = thispath.generic_wstring() + L"/";
             }
-            std::filesystem::path branch(thispath.parent_path());
+            nfs::path branch(thispath.parent_path());
             if (branch.empty()) {
-                branch = std::filesystem::current_path() / directory;
+                branch = nfs::current_path() / directory;
 
             } else {
                 if (branch.generic_wstring().back() == L':') {
                     branch = branch.generic_wstring() + L"/";
                 }
             }
-            if (!std::filesystem::is_directory(branch)) {
+            if (!nfs::is_directory(branch)) {
                 res.clear();
                 return res;
             }
             if (bSubdirectories) {
                 if (isDirectory(branch.wstring())) {
                     try {
-                        for (std::filesystem::recursive_directory_iterator
-                                 dir_iter(branch.native()),
-                             end;
+                        for (nfs::recursive_directory_iterator dir_iter(branch.native()), end;
                              dir_iter != end; ++dir_iter) {
-                            std::filesystem::path current = dir_iter->path();
+                            nfs::path current = dir_iter->path();
                             res.push_back(current.generic_wstring());
                         }
 
-                    } catch (const std::filesystem::filesystem_error&) {
+                    } catch (const nfs::filesystem_error&) {
                     }
                 }
             } else {
-                std::filesystem::path dir = branch;
-                std::filesystem::path r = dir.root_path();
+                nfs::path dir = branch;
+                nfs::path r = dir.root_path();
                 if (isDirectory(directory)) {
                     try {
-                        for (std::filesystem::directory_iterator dir_iter(directory), end;
-                             dir_iter != end; ++dir_iter) {
-                            std::filesystem::path current = dir_iter->path();
+                        for (nfs::directory_iterator dir_iter(directory), end; dir_iter != end;
+                             ++dir_iter) {
+                            nfs::path current = dir_iter->path();
                             res.push_back(current.generic_wstring());
                         }
 
-                    } catch (const std::filesystem::filesystem_error&) {
+                    } catch (const nfs::filesystem_error&) {
                     }
                 }
             }

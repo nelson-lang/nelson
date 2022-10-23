@@ -40,9 +40,6 @@ static bool bFirstDynamicLibraryCall = true;
 static void
 ProcessEventsDynamicFunction();
 //=============================================================================
-static void
-deleteFile(const Nelson::FileSystemWrapper::Path& p);
-//=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
 //=============================================================================
@@ -53,7 +50,7 @@ static void
 initGuiDynamicLibrary();
 //=============================================================================
 static std::wstring
-readFile(const Nelson::FileSystemWrapper::Path& filePath);
+readFile(FILE* pFile);
 //=============================================================================
 class systemTask
 {
@@ -103,10 +100,18 @@ public:
 
         _terminate = false;
         _running = true;
-        Nelson::FileSystemWrapper::Path tempOutputFile
-            = Nelson::FileSystemWrapper::Path::unique_path();
-        Nelson::FileSystemWrapper::Path tempErrorFile
-            = Nelson::FileSystemWrapper::Path::unique_path();
+        FILE* pFileTempOutput = std::tmpfile();
+        if (!pFileTempOutput) {
+            _exitCode = 1;
+            return;
+        }
+        FILE* pFileTempError = std::tmpfile();
+        if (!pFileTempError) {
+            fclose(pFileTempOutput);
+            _exitCode = 1;
+            return;
+        }
+
         bool mustDetach = false;
         std::wstring _command = DetectDetachProcess(command, mustDetach);
         std::wstring argsShell;
@@ -122,9 +127,8 @@ public:
             childProcess.detach();
             _exitCode = 0;
         } else {
-            boost::process::child childProcess(cmd,
-                boost::process::std_out > tempOutputFile.generic_string().c_str(),
-                boost::process::std_err > tempErrorFile.generic_string().c_str(),
+            boost::process::child childProcess(cmd, boost::process::std_out > pFileTempOutput,
+                boost::process::std_err > pFileTempError,
                 boost::process::std_in < boost::process::null);
             while (childProcess.running()) {
                 std::chrono::steady_clock::time_point _currentTimePoint
@@ -141,8 +145,8 @@ public:
                     _endTimePoint = std::chrono::steady_clock::now();
                     this->_duration = this->getDuration();
                     this->_exitCode = int(SIGINT + 128);
-                    deleteFile(tempOutputFile);
-                    deleteFile(tempErrorFile);
+                    fclose(pFileTempOutput);
+                    fclose(pFileTempError);
                     childProcess.terminate();
                     _running = false;
                     return;
@@ -153,17 +157,17 @@ public:
 
             std::wstring outputResult;
             if (this->_exitCode) {
-                outputResult = readFile(tempErrorFile);
+                outputResult = readFile(pFileTempError);
                 if (outputResult.empty()) {
-                    outputResult = readFile(tempOutputFile);
+                    outputResult = readFile(pFileTempOutput);
                 }
             } else {
-                outputResult = readFile(tempOutputFile);
+                outputResult = readFile(pFileTempOutput);
             }
             _message = outputResult.c_str();
         }
-        deleteFile(tempOutputFile);
-        deleteFile(tempErrorFile);
+        fclose(pFileTempOutput);
+        fclose(pFileTempError);
 
         _running = false;
         _endTimePoint = std::chrono::steady_clock::now();
@@ -338,31 +342,12 @@ ProcessEventsDynamicFunction()
     ProcessEventsDynamicFunction(false);
 }
 //=============================================================================
-void
-deleteFile(const Nelson::FileSystemWrapper::Path& p)
-{
-    std::string errorMessage;
-    try {
-        if (Nelson::FileSystemWrapper::Path::exists(p)) {
-            Nelson::FileSystemWrapper::Path::remove(p);
-        }
-    } catch (const std::filesystem::filesystem_error& e) {
-        std::error_code error_code = e.code();
-        errorMessage = error_code.message();
-    }
-}
-//=============================================================================
 std::wstring
-readFile(const Nelson::FileSystemWrapper::Path& filePath)
+readFile(FILE* pFile)
 {
     std::string result;
-    FILE* pFile;
-#ifdef _MSC_VER
-    pFile = _wfopen(filePath.wstring().c_str(), L"r");
-#else
-    pFile = fopen(filePath.string().c_str(), "r");
-#endif
     if (pFile != nullptr) {
+        rewind(pFile);
 #define bufferSize 4096
 #define bufferSizeMax 4096 * 2
         char buffer[bufferSize];

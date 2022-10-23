@@ -106,9 +106,9 @@ PathFunc::rehash()
     if (!_path.empty()) {
         mapRecentFiles.clear();
         try {
-            std::filesystem::directory_iterator end_iter;
+            nfs::directory_iterator end_iter;
             Nelson::FileSystemWrapper::Path path(_path);
-            for (std::filesystem::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
+            for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
                  ++dir_iter) {
                 Nelson::FileSystemWrapper::Path current(dir_iter->path().native());
                 std::wstring ext = current.extension().generic_wstring();
@@ -129,7 +129,7 @@ PathFunc::rehash()
                     }
                 }
             }
-        } catch (const std::filesystem::filesystem_error&) {
+        } catch (const nfs::filesystem_error&) {
         }
     }
 }

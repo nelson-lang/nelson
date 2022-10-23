@@ -22,8 +22,8 @@ isFile(const Nelson::FileSystemWrapper::Path& filePath, bool& permissionDenied)
     bool bIsFile;
     permissionDenied = false;
     try {
-        bIsFile = filePath.exists() && !filePath.is_directory();
-    } catch (const std::filesystem::filesystem_error& e) {
+        bIsFile = filePath.is_regular_file();
+    } catch (const nfs::filesystem_error& e) {
         if (e.code() == std::errc::permission_denied) {
             permissionDenied = true;
         }
@@ -53,7 +53,7 @@ isDirectory(const Nelson::FileSystemWrapper::Path& filePath, bool& permissionDen
     permissionDenied = false;
     try {
         bIsDirectory = filePath.exists() && filePath.is_directory();
-    } catch (const std::filesystem::filesystem_error& e) {
+    } catch (const nfs::filesystem_error& e) {
         if (e.code() == std::errc::permission_denied) {
             permissionDenied = true;
         }
@@ -80,18 +80,21 @@ inline bool
 updateFilePermissionsToWrite(const Nelson::FileSystemWrapper::Path& filePath)
 {
     try {
-        std::filesystem::permissions(filePath.native(),
-            std::filesystem::perms::owner_write | std::filesystem::perms::group_write
-                | std::filesystem::perms::others_write,
-            std::filesystem::perm_options::add);
+#ifdef _WITH_BOOST_FILESYSTEM_
+        nfs::permissions(filePath.native(),
+            nfs::add_perms | nfs::owner_write | nfs::group_write | nfs::others_write);
+#else
+        nfs::permissions(filePath.native(),
+            nfs::perms::owner_write | nfs::perms::group_write | nfs::perms::others_write,
+            nfs::perm_options::add);
+#endif
         if (isDirectory(filePath)) {
-            for (std::filesystem::recursive_directory_iterator p(filePath.native()), end; p != end;
-                 ++p) {
+            for (nfs::recursive_directory_iterator p(filePath.native()), end; p != end; ++p) {
                 updateFilePermissionsToWrite(Nelson::FileSystemWrapper::Path(p->path().native()));
             }
         }
         return true;
-    } catch (const std::filesystem::filesystem_error&) {
+    } catch (const nfs::filesystem_error&) {
     }
     return false;
 }
@@ -101,20 +104,6 @@ updateFilePermissionsToWrite(const std::wstring& folderName)
 {
     Nelson::FileSystemWrapper::Path filePath(folderName);
     return updateFilePermissionsToWrite(filePath);
-}
-//=============================================================================
-inline bool
-isEquivalentPath(const std::wstring& p1, const std::wstring& p2)
-{
-    Nelson::FileSystemWrapper::Path path1(p1);
-    Nelson::FileSystemWrapper::Path path2(p2);
-    bool res = false;
-    try {
-        res = Nelson::FileSystemWrapper::Path::equivalent(path1, path2);
-    } catch (const std::filesystem::filesystem_error&) {
-        res = (p1.compare(p2) == 0);
-    }
-    return res;
 }
 //=============================================================================
 } // namespace Nelson

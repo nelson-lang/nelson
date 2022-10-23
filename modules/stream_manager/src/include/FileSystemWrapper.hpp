@@ -10,6 +10,23 @@
 #pragma once
 //=============================================================================
 #ifdef _MSC_VER
+#define _WITH_BOOST_FILESYSTEM_
+#else
+#undef _WITH_BOOST_FILESYSTEM_
+#endif
+//=============================================================================
+#ifdef _WITH_BOOST_FILESYSTEM_
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#else
+#include <atomic>
+#include <filesystem>
+#include <stdio.h>
+#include <string>
+#include <cstring>
+#include <cctype>
+#endif
+#ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <process.h>
@@ -18,13 +35,14 @@
 #else
 #include <unistd.h>
 #endif
-#include <filesystem>
-#include <stdio.h>
-#include <string>
-#include <cstring>
-#include <cctype>
 //=============================================================================
 #include "characters_encoding.hpp"
+//=============================================================================
+#ifdef _WITH_BOOST_FILESYSTEM_
+namespace nfs = boost::filesystem;
+#else
+namespace nfs = std::filesystem;
+#endif
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
 //=============================================================================
@@ -32,6 +50,39 @@ class Path
 {
     //=============================================================================
 private:
+    //=============================================================================
+    static int
+    generateUid()
+    {
+        static std::atomic<int> uid { 0 };
+        return ++uid;
+    }
+    //=============================================================================
+    static auto
+    getUniqueID()
+    {
+        int uid = generateUid();
+        srand(uid);
+        int rd1 = rand() % 100000;
+        srand(uid + rd1);
+        int rd2 = rand() % 100000;
+        srand(uid + rd2);
+        int rd3 = rand() % 100000;
+        srand(uid + rd3);
+        int rd4 = rand() % 100000;
+#ifdef _MSC_VER
+#define TMP_NELSON L"%06x-%06x-%06x-%06x-%06x-%06x.tmp"
+        wchar_t buffer[512];
+        swprintf_s(buffer, 512, TMP_NELSON, _getpid(), rd1, rd2, rd3, rd4, uid);
+        return std::wstring(buffer);
+#else
+#define TMP_NELSON "%06x-%06x-%06x-%06x-%06x-%06x.tmp"
+        char buffer[512];
+        sprintf(buffer, TMP_NELSON, (int)getpid(), rd1, rd2, rd3, rd4, uid);
+        return std::string(buffer);
+#endif
+    }
+    //=============================================================================
 #ifdef _MSC_VER
     std::wstring nativePath;
 #else
@@ -158,8 +209,8 @@ public:
     Path
     operator/=(Path const& p)
     {
-        std::filesystem::path pr(nativePath);
-        std::filesystem::path pa(p.nativePath);
+        nfs::path pr(nativePath);
+        nfs::path pa(p.nativePath);
         pr /= pa;
         nativePath = pr.native();
         return (Path) * this;
@@ -168,11 +219,11 @@ public:
     Path
     operator/=(const std::wstring& s)
     {
-        std::filesystem::path pr(nativePath);
+        nfs::path pr(nativePath);
 #ifdef _MSC_VER
-        std::filesystem::path pa(s);
+        nfs::path pa(s);
 #else
-        std::filesystem::path pa(wstring_to_utf8(s));
+        nfs::path pa(wstring_to_utf8(s));
 #endif
         pr /= pa;
         nativePath = pr.native();
@@ -182,11 +233,11 @@ public:
     Path
     operator/=(const std::string& s)
     {
-        std::filesystem::path pr(nativePath);
+        nfs::path pr(nativePath);
 #ifdef _MSC_VER
-        std::filesystem::path pa(utf8_to_wstring(s));
+        nfs::path pa(utf8_to_wstring(s));
 #else
-        std::filesystem::path pa(s);
+        nfs::path pa(s);
 #endif
         pr /= pa;
         nativePath = pr.native();
@@ -196,9 +247,9 @@ public:
     Path
     operator/(const Path& p2)
     {
-        std::filesystem::path res;
-        std::filesystem::path pr(nativePath);
-        std::filesystem::path pa(p2.nativePath);
+        nfs::path res;
+        nfs::path pr(nativePath);
+        nfs::path pa(p2.nativePath);
         res = pr / pa;
         nativePath = res.native();
         return (Path) * this;
@@ -207,12 +258,12 @@ public:
     Path
     operator/(const std::string& p2)
     {
-        std::filesystem::path res;
-        std::filesystem::path pr(nativePath);
+        nfs::path res;
+        nfs::path pr(nativePath);
 #ifdef _MSC_VER
-        std::filesystem::path pa(utf8_to_wstring(p2));
+        nfs::path pa(utf8_to_wstring(p2));
 #else
-        std::filesystem::path pa(p2);
+        nfs::path pa(p2);
 #endif
         res = pr / pa;
         nativePath = res.native();
@@ -222,12 +273,12 @@ public:
     Path
     operator/(const std::wstring& p2)
     {
-        std::filesystem::path res;
-        std::filesystem::path pr(nativePath);
+        nfs::path res;
+        nfs::path pr(nativePath);
 #ifdef _MSC_VER
-        std::filesystem::path pa(p2);
+        nfs::path pa(p2);
 #else
-        std::filesystem::path pa(wstring_to_utf8(p2));
+        nfs::path pa(wstring_to_utf8(p2));
 #endif
         res = pr / pa;
         nativePath = res.native();
@@ -243,19 +294,19 @@ public:
     [[nodiscard]] auto
     has_filename() const
     {
-        return std::filesystem::path(nativePath).has_filename();
+        return nfs::path(nativePath).has_filename();
     }
     //=============================================================================
     [[nodiscard]] auto
     has_extension() const
     {
-        return std::filesystem::path(nativePath).has_extension();
+        return nfs::path(nativePath).has_extension();
     }
     //=============================================================================
     [[nodiscard]] auto
     extension() const
     {
-        return Path(std::filesystem::path(nativePath).extension().native());
+        return Path(nfs::path(nativePath).extension().native());
     }
     //=============================================================================
     [[nodiscard]] std::wstring
@@ -282,9 +333,9 @@ public:
     generic_wstring() const
     {
 #ifdef _MSC_VER
-        return std::filesystem::path(nativePath).generic_wstring();
+        return nfs::path(nativePath).generic_wstring();
 #else
-        return utf8_to_wstring(std::filesystem::path(nativePath).generic_string());
+        return utf8_to_wstring(nfs::path(nativePath).generic_string());
 #endif
     }
     //=============================================================================
@@ -292,9 +343,9 @@ public:
     generic_string() const
     {
 #ifdef _MSC_VER
-        return wstring_to_utf8(std::filesystem::path(nativePath).generic_wstring());
+        return wstring_to_utf8(nfs::path(nativePath).generic_wstring());
 #else
-        return std::filesystem::path(nativePath).generic_string();
+        return nfs::path(nativePath).generic_string();
 #endif
     }
     //=============================================================================
@@ -302,9 +353,9 @@ public:
     generic_path() const
     {
 #ifdef _MSC_VER
-        return Path(std::filesystem::path(nativePath).generic_wstring());
+        return Path(nfs::path(nativePath).generic_wstring());
 #else
-        return Path(std::filesystem::path(nativePath).generic_string());
+        return Path(nfs::path(nativePath).generic_string());
 #endif
     }
     //=============================================================================
@@ -312,89 +363,100 @@ public:
     filename() const
     {
 #ifdef _MSC_VER
-        return Path(std::filesystem::path(nativePath).filename().wstring());
+        return Path(nfs::path(nativePath).filename().wstring());
 #else
-        return Path(std::filesystem::path(nativePath).filename().string());
+        return Path(nfs::path(nativePath).filename().string());
 #endif
     }
     //=============================================================================
     [[nodiscard]] auto
     leaf() const
     {
-        return Path(std::filesystem::path(nativePath)).filename();
+        return Path(nfs::path(nativePath).native()).filename();
     }
     //=============================================================================
     [[nodiscard]] auto
     parent_path() const
     {
-        std::filesystem::path p(nativePath);
+        nfs::path p(nativePath);
         return Path(p.parent_path().native());
     }
     //=============================================================================
     [[nodiscard]] auto
     stem() const
     {
-        std::filesystem::path p(nativePath);
+        nfs::path p(nativePath);
         return Path(p.stem().native());
     }
     //=============================================================================
     auto
     replace_extension(Path const& new_extension = Path())
     {
-        std::filesystem::path p1(nativePath);
-        std::filesystem::path ext(new_extension.native());
+        nfs::path p1(nativePath);
+        nfs::path ext(new_extension.native());
         return Path(p1.replace_extension(ext).native());
     }
     //=============================================================================
     auto
     has_parent_path()
     {
-        std::filesystem::path p1(nativePath);
+        nfs::path p1(nativePath);
         return p1.has_parent_path();
+    }
+    //=============================================================================
+    [[nodiscard]] bool
+    exists(std::string& errorMessage) const
+    {
+        nfs::path p1(nativePath);
+        try {
+            return nfs::exists(p1);
+        } catch (const nfs::filesystem_error& e) {
+            errorMessage = e.what();
+        }
+        return false;
     }
     //=============================================================================
     [[nodiscard]] bool
     exists() const
     {
-        std::filesystem::path p1(nativePath);
-        return std::filesystem::exists(p1);
-    }
-    //=============================================================================
-    [[nodiscard]] bool
-    is_directory() const
-    {
-        std::filesystem::path p1(nativePath);
-        return std::filesystem::is_directory(p1);
-    }
-    //=============================================================================
-    [[nodiscard]] bool
-    is_regular_file() const
-    {
-        std::filesystem::path p1(nativePath);
-        return std::filesystem::is_regular_file(p1);
-    }
-    //=============================================================================
-    auto
-    normalize()
-    {
-        std::filesystem::path p1(nativePath);
-        return Path(p1.lexically_normal().native());
+        std::string errorMessage;
+        return exists(errorMessage);
     }
     //=============================================================================
     static bool
     exists(Path const& p)
     {
-        std::filesystem::path p1(p.nativePath);
-        return std::filesystem::exists(p1);
+        return p.exists();
+    }
+    //=============================================================================
+    [[nodiscard]] bool
+    is_directory() const
+    {
+        nfs::path p1(nativePath);
+        return nfs::is_directory(p1);
+    }
+    //=============================================================================
+    [[nodiscard]] bool
+    is_regular_file() const
+    {
+        nfs::path p1(nativePath);
+        return nfs::is_regular_file(p1);
+    }
+    //=============================================================================
+    auto
+    normalize()
+    {
+        nfs::path p1(nativePath);
+        return Path(p1.lexically_normal().native());
     }
     //=============================================================================
     static bool
     is_directory(Path const& p)
     {
-        std::filesystem::path p1(p.nativePath);
+        nfs::path p1(p.nativePath);
         try {
-            return std::filesystem::is_directory(p1);
-        } catch (const std::filesystem::filesystem_error&) {
+            return nfs::is_directory(p1);
+        } catch (const nfs::filesystem_error&) {
         }
         return false;
     }
@@ -402,10 +464,10 @@ public:
     static auto
     canonical(Path const& p1, std::string& errorMessage)
     {
-        std::filesystem::path p(p1.nativePath);
+        nfs::path p(p1.nativePath);
         try {
-            return Path(std::filesystem::canonical(p).native());
-        } catch (const std::filesystem::filesystem_error& e) {
+            return Path(nfs::canonical(p).native());
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
         }
@@ -415,11 +477,11 @@ public:
     static bool
     equivalent(Path const& p1, Path const& p2, std::string& errorMessage)
     {
-        std::filesystem::path _p1(p1.nativePath);
-        std::filesystem::path _p2(p2.nativePath);
+        nfs::path _p1(p1.nativePath);
+        nfs::path _p2(p2.nativePath);
         try {
-            return std::filesystem::equivalent(_p1, _p2);
-        } catch (const std::filesystem::filesystem_error& e) {
+            return nfs::equivalent(_p1, _p2);
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
         }
@@ -438,9 +500,9 @@ public:
     {
         bool bRes = false;
         try {
-            bRes = std::filesystem::remove(std::filesystem::path(p.nativePath));
+            bRes = nfs::remove(nfs::path(p.nativePath));
             errorMessage.clear();
-        } catch (const std::filesystem::filesystem_error& e) {
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             bRes = false;
             errorMessage = error_code.message();
@@ -460,12 +522,11 @@ public:
     {
         bool bRes = false;
         try {
-            bRes = std::filesystem::remove_all(std::filesystem::path(p.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
-            bRes = false;
+            bRes = nfs::remove_all(nfs::path(p.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
-            bRes = false;
             errorMessage = error_code.message();
+            bRes = false;
         }
         return bRes;
     }
@@ -480,17 +541,17 @@ public:
     auto
     is_absolute()
     {
-        return std::filesystem::path(nativePath).is_absolute();
+        return nfs::path(nativePath).is_absolute();
     }
     //=============================================================================
     static Path
     absolute(Path const& p, std::string& errorMessage)
     {
         Path result;
-        std::filesystem::path _p(p.nativePath);
+        nfs::path _p(p.nativePath);
         try {
-            result = Path(std::filesystem::absolute(_p).native());
-        } catch (const std::filesystem::filesystem_error& e) {
+            result = Path(nfs::absolute(_p).native());
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
             result = p;
@@ -509,12 +570,15 @@ public:
     copy_file(Path const& p1, Path const& p2, std::string& errorMessage)
     {
         bool bRes = false;
-        std::filesystem::path _p1(p1.nativePath);
-        std::filesystem::path _p2(p2.nativePath);
+        nfs::path _p1(p1.nativePath);
+        nfs::path _p2(p2.nativePath);
         try {
-            bRes = std::filesystem::copy_file(
-                _p1, _p2, std::filesystem::copy_options::overwrite_existing);
-        } catch (const std::filesystem::filesystem_error& e) {
+#ifdef _WITH_BOOST_FILESYSTEM_
+            bRes = nfs::copy_file(_p1, _p2, nfs::copy_option::overwrite_if_exists);
+#else
+            bRes = nfs::copy_file(_p1, _p2, nfs::copy_options::overwrite_existing);
+#endif
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
             bRes = false;
@@ -533,12 +597,12 @@ public:
     copy(Path const& from, Path const& to, std::string& errorMessage)
     {
         bool bRes = false;
-        std::filesystem::path _from(from.nativePath);
-        std::filesystem::path _to(to.nativePath);
+        nfs::path _from(from.nativePath);
+        nfs::path _to(to.nativePath);
         try {
-            std::filesystem::copy(_from, _to);
+            nfs::copy(_from, _to);
             bRes = true;
-        } catch (const std::filesystem::filesystem_error& e) {
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
             bRes = false;
@@ -556,10 +620,13 @@ public:
     static auto
     create_directories(const Path& p, std::string& errorMessage)
     {
+#ifdef _WITH_BOOST_FILESYSTEM_
+        boost::system::error_code error_code;
+#else
         std::error_code error_code;
+#endif
         Path pp = removeLastSeparator(p);
-        bool res
-            = std::filesystem::create_directories(std::filesystem::path(pp.nativePath), error_code);
+        bool res = nfs::create_directories(nfs::path(pp.nativePath), error_code);
         errorMessage = error_code.message();
         return res;
     }
@@ -567,10 +634,13 @@ public:
     static auto
     create_directories(const Path& p, bool& permissionDenied)
     {
+#ifdef _WITH_BOOST_FILESYSTEM_
+        boost::system::error_code error_code;
+#else
         std::error_code error_code;
+#endif
         Path pp = removeLastSeparator(p);
-        bool res
-            = std::filesystem::create_directories(std::filesystem::path(pp.nativePath), error_code);
+        bool res = nfs::create_directories(nfs::path(pp.nativePath), error_code);
         if (error_code == std::errc::permission_denied) {
             permissionDenied = true;
         }
@@ -597,8 +667,8 @@ public:
         bool res = false;
         try {
             Path pp = removeLastSeparator(p);
-            res = std::filesystem::create_directory(std::filesystem::path(pp.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
+            res = nfs::create_directory(nfs::path(pp.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             res = false;
             if (e.code() == std::errc::permission_denied) {
                 permissionDenied = true;
@@ -613,8 +683,8 @@ public:
         bool res = false;
         try {
             Path pp = removeLastSeparator(p);
-            res = std::filesystem::create_directory(std::filesystem::path(pp.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
+            res = nfs::create_directory(nfs::path(pp.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             res = false;
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
@@ -634,8 +704,8 @@ public:
     {
         std::uintmax_t value = 0;
         try {
-            value = std::filesystem::file_size(std::filesystem::path(p.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
+            value = nfs::file_size(nfs::path(p.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             value = 0;
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
@@ -650,6 +720,7 @@ public:
         return file_size(p, errorMessage);
     }
     //=============================================================================
+#ifndef _WITH_BOOST_FILESYSTEM_
     template <typename TP>
     static std::time_t
     to_time_t(TP tp)
@@ -659,20 +730,39 @@ public:
             = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
         return system_clock::to_time_t(sctp);
     }
+#endif
     //=============================================================================
     static auto
     last_write_time(const Path& p, std::string& errorMessage)
     {
-        std::filesystem::file_time_type file_time;
+#ifdef _WITH_BOOST_FILESYSTEM_
+        time_t file_time;
         errorMessage.clear();
+        if (p.native().empty()) {
+            file_time = 0;
+            return file_time;
+        }
         try {
-            file_time = std::filesystem::last_write_time(std::filesystem::path(p.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
+            file_time = nfs::last_write_time(nfs::path(p.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
         }
-        std::time_t result = to_time_t(file_time);
-        return result;
+        return file_time;
+#else
+        nfs::file_time_type file_time;
+        errorMessage.clear();
+        if (p.native().empty()) {
+            return (time_t)0;
+        }
+        try {
+            file_time = nfs::last_write_time(nfs::path(p.nativePath));
+        } catch (const nfs::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            errorMessage = error_code.message();
+        }
+        return (time_t)to_time_t(file_time);
+#endif
     }
     //=============================================================================
     static auto
@@ -685,15 +775,15 @@ public:
     auto
     lexically_normal()
     {
-        std::filesystem::path p(nativePath);
+        nfs::path p(nativePath);
         return Path(p.lexically_normal().native());
     }
     //=============================================================================
     auto
     lexically_relative(const Path& p)
     {
-        std::filesystem::path _p1(nativePath);
-        std::filesystem::path _p2(p.nativePath);
+        nfs::path _p1(nativePath);
+        nfs::path _p2(p.nativePath);
         return Path(_p1.lexically_relative(_p2).native());
     }
     //=============================================================================
@@ -701,8 +791,8 @@ public:
     current_path()
     {
         try {
-            return Path(std::filesystem::current_path().native());
-        } catch (const std::filesystem::filesystem_error&) {
+            return Path(nfs::current_path().native());
+        } catch (const nfs::filesystem_error&) {
         }
         return Path();
     }
@@ -711,8 +801,8 @@ public:
     current_path(Path const& p, std::string& errorMessage)
     {
         try {
-            std::filesystem::current_path(std::filesystem::path(p.nativePath));
-        } catch (const std::filesystem::filesystem_error& e) {
+            nfs::current_path(nfs::path(p.nativePath));
+        } catch (const nfs::filesystem_error& e) {
             std::error_code error_code = e.code();
             errorMessage = error_code.message();
         }
@@ -735,52 +825,29 @@ public:
     auto
     parent_path()
     {
-        std::filesystem::path p(nativePath);
+        nfs::path p(nativePath);
         return Path(p.parent_path().native());
     }
     //=============================================================================
     static auto
     temp_directory_path()
     {
-        return Path(std::filesystem::temp_directory_path().native());
+        return Path(nfs::temp_directory_path().native());
     }
     //=============================================================================
     static Path
     unique_path()
     {
-        /*
-        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
-        pwd /= boost::filesystem::unique_path();
-        return Path(pwd.native());
-        */
-
-        std::filesystem::path tempFilePath;
-        std::string filetemp;
-        tempFilePath = std::filesystem::temp_directory_path();
-
-        int rd1 = rand() % 100000;
-        srand(rd1);
-        int rd2 = rand() % 100000;
-        srand(rd2);
-        int rd3 = rand() % 100000;
-        srand(rd3);
-        int rd4 = rand() % 100000;
-
-#ifdef _MSC_VER
-#define TMP_NELSON L"%06X-%06X-%06X-%06X-%06X.ntmp"
-        wchar_t buffer[512];
-        swprintf_s(buffer, 512, TMP_NELSON, _getpid(), rd1, rd2, rd3, rd4);
-        tempFilePath /= std::wstring(buffer);
+        nfs::path pwd = nfs::temp_directory_path();
+#ifdef _WITH_BOOST_FILESYSTEM_
+        pwd /= nfs::unique_path();
 #else
-#define TMP_NELSON "%06X-%06X-%06X-%06X-%06X.ntmp"
-        char buffer[512];
-        sprintf(buffer, TMP_NELSON, (int)getpid(), rd1, rd2, rd3, rd4);
-        tempFilePath /= std::string(buffer);
+        pwd /= getUniqueID();
 #endif
-        if (std::filesystem::exists(tempFilePath)) {
+        if (nfs::exists(pwd)) {
             return unique_path();
         }
-        return Path(tempFilePath.native());
+        return Path(pwd.native());
     }
     //=============================================================================
     static inline std::wstring
