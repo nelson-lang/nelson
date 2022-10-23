@@ -12,6 +12,10 @@ jobs:
       - name: install dependencies
         run: |
           brew --version
+          brew update
+          brew upgrade
+          brew cleanup
+          brew install coreutils
           brew install zlib
           brew install libtool
           brew install automake
@@ -38,6 +42,7 @@ jobs:
           brew install libmatio
           brew install eigen
           brew install libomp
+          brew link libomp --force
           brew install openblas
           export BUILD_ROOT=$(pwd);
           cd /Users/runner/work/nelson;
@@ -58,7 +63,7 @@ jobs:
           export PATH=/usr/local/opt/qt5/bin:$PATH
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: make
-        run: cmake --build . -- -j $(nproc)
+        run: cmake --build . -- -j$(nproc)
       - name: get module skeleton
         run: cmake --build . -- get_module_skeleton
       - name: build help
@@ -95,6 +100,10 @@ jobs:
       - name: install dependencies
         run: |
           brew --version
+          brew update
+          brew upgrade
+          brew cleanup          
+          brew install coreutils
           brew install zlib
           brew install libtool
           brew install automake
@@ -120,6 +129,7 @@ jobs:
           brew install libmatio
           brew install eigen
           brew install libomp
+          brew link libomp --force          
           brew install openblas
           export BUILD_ROOT=$(pwd);
           cd /Users/runner/work/nelson;
