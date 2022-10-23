@@ -221,8 +221,6 @@ endif()
 # ==============================================================================
 if (NOT WITHOUT_OPENMP)
 find_package(OpenMP)
-message(STATUS "OpenMP ${OpenMP_CXX_INCLUDE_DIR}.")
-
 include (OpenMpConfig)
 endif()
 # ==============================================================================

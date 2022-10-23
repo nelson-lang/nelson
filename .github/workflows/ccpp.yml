@@ -14,6 +14,7 @@ jobs:
           brew --version
           brew update
           brew upgrade
+          brew cleanup
           brew install coreutils
           brew install zlib
           brew install libtool
@@ -41,6 +42,7 @@ jobs:
           brew install libmatio
           brew install eigen
           brew install libomp
+          brew link libomp --force
           brew install openblas
           export BUILD_ROOT=$(pwd);
           cd /Users/runner/work/nelson;
@@ -100,6 +102,7 @@ jobs:
           brew --version
           brew update
           brew upgrade
+          brew cleanup          
           brew install coreutils
           brew install zlib
           brew install libtool
@@ -126,6 +129,7 @@ jobs:
           brew install libmatio
           brew install eigen
           brew install libomp
+          brew link libomp --force          
           brew install openblas
           export BUILD_ROOT=$(pwd);
           cd /Users/runner/work/nelson;
