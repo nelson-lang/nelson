@@ -31,6 +31,7 @@ target_link_libraries(
   ${module_library_name}
   nlsApi_nelson
   nlsError_manager
+  nlsStream_manager
   nlsCharacters_encoding
   nlsI18n
   nlsTypes

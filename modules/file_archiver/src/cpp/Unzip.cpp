@@ -13,7 +13,6 @@
 #include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "Unzip.hpp"
 #include "UnzipHelpers.hpp"
 #include "ZipHelpers.hpp"
@@ -25,10 +24,10 @@ namespace Nelson {
 void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& filenames)
 {
-    if (!isDirectory(rootpath)) {
-        Nelson::FileSystemWrapper::Path p(rootpath);
+    if (!FileSystemWrapper::Path::is_directory(rootpath)) {
+        FileSystemWrapper::Path p(rootpath);
         std::string errorMessage;
-        if (!Nelson::FileSystemWrapper::Path::create_directories(p, errorMessage)) {
+        if (!FileSystemWrapper::Path::create_directories(p, errorMessage)) {
             Error(_W("Cannot create directory."));
         }
     }
@@ -56,8 +55,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
             std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
-            if (!isDirectory(completePath)) {
-                Nelson::FileSystemWrapper::Path::create_directories(completePath);
+            if (!FileSystemWrapper::Path::is_directory(completePath)) {
+                FileSystemWrapper::Path::create_directories(completePath);
             }
             filenames.push_back(completePath);
         } else {

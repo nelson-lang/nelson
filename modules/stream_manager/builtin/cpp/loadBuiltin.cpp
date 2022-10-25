@@ -12,7 +12,7 @@
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -57,12 +57,12 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             }
         }
     }
-    bool fileExistPreviously = isFile(paramFilename);
+    bool fileExistPreviously = FileSystemWrapper::Path::is_regular_file(paramFilename);
     if (!fileExistPreviously) {
-        std::string extension = Nelson::FileSystemWrapper::Path(paramFilename).extension().string();
+        std::string extension = FileSystemWrapper::Path(paramFilename).extension().string();
         if (extension.empty()) {
             paramFilename = paramFilename + L".nh5";
-            fileExistPreviously = isFile(paramFilename);
+            fileExistPreviously = FileSystemWrapper::Path::is_regular_file(paramFilename);
         }
     }
     if (!fileExistPreviously) {

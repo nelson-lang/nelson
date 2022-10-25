@@ -39,7 +39,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
-    Nelson::FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));
+    FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));
     switch (iExt) {
     case 0:
         path = path.stem();

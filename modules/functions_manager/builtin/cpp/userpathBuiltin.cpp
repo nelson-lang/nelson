@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -29,7 +28,7 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (paramstr == L"reset") {
                 PathFuncManager::getInstance()->resetUserPath();
             } else {
-                if (isDirectory(paramstr)) {
+                if (FileSystemWrapper::Path::is_directory(paramstr)) {
                     PathFuncManager::getInstance()->setUserPath(paramstr, true);
                 } else {
                     Error(_W("Not an existing directory:") + L" " + paramstr);

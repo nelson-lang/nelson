@@ -10,7 +10,6 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "HDF5_helpers.hpp"
 #include "h5WriteDataset.hpp"
 #include "Exception.hpp"
@@ -29,9 +28,10 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     if (location.empty()) {
         Error(_W("Valid location expected."));
     }
-    Nelson::FileSystemWrapper::Path hdf5_filename(filename);
+    FileSystemWrapper::Path hdf5_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));

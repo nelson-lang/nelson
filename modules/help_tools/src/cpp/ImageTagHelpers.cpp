@@ -18,7 +18,7 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -48,19 +48,17 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
         std::string errorMessage;
         if (!boost::algorithm::istarts_with(oldPath, L"http")) {
             if (boost::ends_with(srcDirectory, L"/") || boost::ends_with(srcDirectory, L"\\")) {
-                Nelson::FileSystemWrapper::Path absolutePath
-                    = Nelson::FileSystemWrapper::Path::canonical(
-                        srcDirectory + oldPath, errorMessage);
+                FileSystemWrapper::Path absolutePath
+                    = FileSystemWrapper::Path::canonical(srcDirectory + oldPath, errorMessage);
                 newPath = absolutePath.generic_wstring();
 
             } else {
-                Nelson::FileSystemWrapper::Path absolutePath
-                    = Nelson::FileSystemWrapper::Path::canonical(
-                        srcDirectory + L"/" + oldPath, errorMessage);
+                FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::canonical(
+                    srcDirectory + L"/" + oldPath, errorMessage);
                 newPath = absolutePath.generic_wstring();
             }
 
-            if (isFile(newPath)) {
+            if (FileSystemWrapper::Path::is_regular_file(newPath)) {
                 return true;
             }
             newPath.clear();
@@ -91,9 +89,9 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
 {
     bool bRes = true;
     for (size_t k = 0; k < srcImages.size(); k++) {
-        bool bIsFile = isFile(srcImages[k]);
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(srcImages[k]);
         if (bIsFile) {
-            Nelson::FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
+            FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
         } else {
             bRes = false;
         }

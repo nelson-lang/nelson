@@ -27,7 +27,7 @@ getUserDir()
 #else
     envValue = GetVariableEnvironment(L"HOME");
 #endif
-    Nelson::FileSystemWrapper::Path pwd(envValue);
+    FileSystemWrapper::Path pwd(envValue);
     std::wstring userDir = pwd.generic_wstring();
     if (!boost::algorithm::ends_with(userDir, L"\\")
         && (!boost::algorithm::ends_with(userDir, L"/"))) {
@@ -43,7 +43,7 @@ CreateIfRequiredExternalModulesPath()
         = getUserDir() + std::wstring(L"nelson/") + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
     externalModulesPath
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
-    Nelson::FileSystemWrapper::Path modulesPath(externalModulesPath);
+    FileSystemWrapper::Path modulesPath(externalModulesPath);
     externalModulesPath = modulesPath.generic_wstring();
     if (!boost::algorithm::ends_with(externalModulesPath, L"\\")
         && (!boost::algorithm::ends_with(externalModulesPath, L"/"))) {
@@ -51,9 +51,9 @@ CreateIfRequiredExternalModulesPath()
     }
 
     bool bOK = false;
-    bool bIsDir = Nelson::FileSystemWrapper::Path::is_directory(externalModulesPath);
+    bool bIsDir = FileSystemWrapper::Path::is_directory(externalModulesPath);
     if (!bIsDir) {
-        bOK = Nelson::FileSystemWrapper::Path::create_directories(externalModulesPath);
+        bOK = FileSystemWrapper::Path::create_directories(externalModulesPath);
     } else {
         bOK = true;
     }

@@ -25,13 +25,13 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     moduleName.clear();
     functionsList.clear();
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
-    Nelson::FileSystemWrapper::Path p(dynlibname);
+    FileSystemWrapper::Path p(dynlibname);
     p = p.generic_wstring();
     std::wstring dirname;
     std::wstring filename;
-    Nelson::FileSystemWrapper::Path dir = p.parent_path();
+    FileSystemWrapper::Path dir = p.parent_path();
     if (dir.generic_wstring().compare(L"") == 0) {
-        dir = Nelson::FileSystemWrapper::Path::current_path();
+        dir = FileSystemWrapper::Path::current_path();
     }
     dirname = dir.generic_wstring();
     filename = p.filename().generic_wstring();
@@ -40,9 +40,8 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
         errorMessage = _W("File not found.");
         return false;
     }
-    Nelson::FileSystemWrapper::Path currentdirbackup
-        = Nelson::FileSystemWrapper::Path::current_path();
-    Nelson::FileSystemWrapper::Path::current_path(dir);
+    FileSystemWrapper::Path currentdirbackup = FileSystemWrapper::Path::current_path();
+    FileSystemWrapper::Path::current_path(dir);
     library_handle nlsModuleHandleDynamicLibrary = nullptr;
 #ifdef _MSC_VER
     nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename);
@@ -56,10 +55,10 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
             get_function(nlsModuleHandleDynamicLibrary, GATEWAY_INFO));
         PROC_InfoModuleName InfoModuleNamePtr = reinterpret_cast<PROC_InfoModuleName>(
             get_function(nlsModuleHandleDynamicLibrary, GATEWAY_NAME));
-        Nelson::FileSystemWrapper::Path::current_path(currentdirbackup);
+        FileSystemWrapper::Path::current_path(currentdirbackup);
         if (!InfoModulePtr) {
             errorMessage = _W("Module not loaded: symbol not found.");
-            Nelson::FileSystemWrapper::Path current_path(currentdirbackup);
+            FileSystemWrapper::Path current_path(currentdirbackup);
             return false;
         }
         functionsList = InfoModulePtr();
@@ -67,11 +66,11 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
             moduleName = InfoModuleNamePtr();
         } else {
             errorMessage = _W("Module not loaded: symbol not found.");
-            Nelson::FileSystemWrapper::Path::current_path(currentdirbackup);
+            FileSystemWrapper::Path::current_path(currentdirbackup);
             return false;
         }
     } else {
-        Nelson::FileSystemWrapper::Path::current_path(currentdirbackup);
+        FileSystemWrapper::Path::current_path(currentdirbackup);
         errorMessage = _W("Module not loaded: library not loaded.");
     }
     return bRes;

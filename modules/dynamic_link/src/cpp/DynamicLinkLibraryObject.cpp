@@ -161,7 +161,7 @@ DynamicLinkLibraryObject::searchLibrary(
         return true;
     }
 #endif
-    Nelson::FileSystemWrapper::Path asPath(libraryPath);
+    FileSystemWrapper::Path asPath(libraryPath);
     fullLibraryPath = asPath.generic_wstring();
     return false;
 }
@@ -174,9 +174,9 @@ DynamicLinkLibraryObject::findLibrary(
     if (!paths.empty()) {
         for (const std::wstring& path : paths) {
             boost::system::error_code errorCode;
-            Nelson::FileSystemWrapper::Path dir(path);
-            Nelson::FileSystemWrapper::Path file(libraryName);
-            Nelson::FileSystemWrapper::Path full_path = dir / file;
+            FileSystemWrapper::Path dir(path);
+            FileSystemWrapper::Path file(libraryName);
+            FileSystemWrapper::Path full_path = dir / file;
             std::wstring fullpath = full_path.generic_wstring();
             boost::dll::shared_library lib(fullpath, errorCode);
             if (!errorCode) {

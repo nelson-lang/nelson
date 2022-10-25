@@ -36,6 +36,7 @@ target_link_libraries(
   nlsI18n
   nlsApi_nelson
   nlsNelson_manager
+  nlsStream_manager
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

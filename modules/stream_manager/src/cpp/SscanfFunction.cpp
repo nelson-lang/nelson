@@ -650,7 +650,7 @@ ArrayOf
 SscanF(const std::wstring& content, const std::wstring& format, double m, double n,
     bool haveThirdArgument, indexType& count, indexType& nextIndex, std::wstring& errorMessage)
 {
-    Nelson::FileSystemWrapper::Path tempFilePath = Nelson::FileSystemWrapper::Path::unique_path();
+    FileSystemWrapper::Path tempFilePath = FileSystemWrapper::Path::unique_path();
 #ifdef _MSC_VER
     const std::wstring filenameTemp = tempFilePath.wstring();
 #else

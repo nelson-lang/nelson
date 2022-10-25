@@ -17,7 +17,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,7 +43,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
-                if (isDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
                              ++p) {
@@ -54,7 +54,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            Nelson::FileSystemWrapper::Path current = file;
+                            FileSystemWrapper::Path current = file;
                             res.push_back(current.generic_path().wstring());
                         }
 
@@ -63,8 +63,8 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 }
 
             } else {
-                Nelson::FileSystemWrapper::Path dir(branch.wstring());
-                if (isDirectory(branch.wstring())) {
+                FileSystemWrapper::Path dir(branch.wstring());
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
@@ -74,7 +74,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            Nelson::FileSystemWrapper::Path current = file;
+                            FileSystemWrapper::Path current = file;
                             res.push_back(current.generic_path().wstring());
                         }
 
@@ -104,7 +104,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
         }
 
     } else {
-        if (isFile(directory)) {
+        if (FileSystemWrapper::Path::is_regular_file(directory)) {
             nfs::path d = directory;
             res.push_back(d.generic_wstring());
 
@@ -132,7 +132,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return res;
             }
             if (bSubdirectories) {
-                if (isDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator dir_iter(branch.native()), end;
                              dir_iter != end; ++dir_iter) {
@@ -146,7 +146,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             } else {
                 nfs::path dir = branch;
                 nfs::path r = dir.root_path();
-                if (isDirectory(directory)) {
+                if (FileSystemWrapper::Path::is_directory(directory)) {
                     try {
                         for (nfs::directory_iterator dir_iter(directory), end; dir_iter != end;
                              ++dir_iter) {
@@ -180,32 +180,32 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
 
     wstringVector filenames;
     wstringVector paths;
-    Nelson::FileSystemWrapper::Path rootPath = getRootPath(rootpath);
+    FileSystemWrapper::Path rootPath = getRootPath(rootpath);
 
     for (const std::wstring& f : filteredNames) {
-        Nelson::FileSystemWrapper::Path p = f;
+        FileSystemWrapper::Path p = f;
         if (p.is_absolute()) {
             filenames.emplace_back(normalizeZipPath(p.filename().generic_wstring()));
             paths.emplace_back(normalizeZipPath(p.parent_path().generic_path().generic_wstring()));
 
         } else {
-            Nelson::FileSystemWrapper::Path rp = rootpath;
+            FileSystemWrapper::Path rp = rootpath;
             paths.emplace_back(normalizeZipPath(rp.generic_path().generic_wstring()));
-            Nelson::FileSystemWrapper::Path fp = f;
+            FileSystemWrapper::Path fp = f;
             filenames.emplace_back(normalizeZipPath(fp.generic_path().generic_wstring()));
         }
     }
     for (size_t k = 0; k < filenames.size(); ++k) {
-        Nelson::FileSystemWrapper::Path fullname;
-        Nelson::FileSystemWrapper::Path path = paths[k];
-        Nelson::FileSystemWrapper::Path file = filenames[k];
+        FileSystemWrapper::Path fullname;
+        FileSystemWrapper::Path path = paths[k];
+        FileSystemWrapper::Path file = filenames[k];
         if (path.wstring() == L".") {
-            fullname = Nelson::FileSystemWrapper::Path::current_path() / file;
+            fullname = FileSystemWrapper::Path::current_path() / file;
         } else {
             fullname = path / file;
         }
-        Nelson::FileSystemWrapper::Path genericPath = fullname.generic_path();
-        bool isDir = isDirectory(genericPath.generic_wstring());
+        FileSystemWrapper::Path genericPath = fullname.generic_path();
+        bool isDir = FileSystemWrapper::Path::is_directory(genericPath.generic_wstring());
         bool hasStar = boost::algorithm::contains(genericPath.generic_wstring(), "*")
             || boost::algorithm::contains(genericPath.generic_wstring(), "?");
         wstringVector res;
@@ -213,7 +213,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
             res = ListFiles(genericPath.generic_wstring(), false);
         } else if (isDir) {
             res = ListFiles(genericPath.generic_wstring(), true);
-        } else if (isFile(fullname.generic_wstring())) {
+        } else if (FileSystemWrapper::Path::is_regular_file(fullname.generic_wstring())) {
             res.emplace_back(fullname.generic_wstring());
         } else {
             Error(_W("Invalid value."));
@@ -248,10 +248,9 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
     wstringVector& entrynames)
 
 {
-    if (!rootpath.empty() && !isDirectory(rootpath)) {
+    if (!rootpath.empty() && !FileSystemWrapper::Path::is_directory(rootpath)) {
         Error(_W("Invalid root path."));
     }
-    Nelson::FileSystemWrapper::Path p = rootpath;
     wstringVector localFiles;
     wstringVector filesInZip;
     prepareFilesToZip(names, rootpath, localFiles, filesInZip);
@@ -259,9 +258,9 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
         Error(_W("Nothing to zip."));
     }
     Nelson::Zipper zipFile;
-    if (isFile(zipFilename)) {
-        Nelson::FileSystemWrapper::Path pathToRemove(zipFilename);
-        Nelson::FileSystemWrapper::Path::remove(pathToRemove);
+    if (FileSystemWrapper::Path::is_regular_file(zipFilename)) {
+        FileSystemWrapper::Path pathToRemove(zipFilename);
+        FileSystemWrapper::Path::remove(pathToRemove);
     }
     zipFile.open(wstring_to_utf8(zipFilename).c_str(), false);
     if (!zipFile.isOpen()) {
@@ -270,7 +269,7 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
     for (size_t k = 0; k < localFiles.size(); ++k) {
         std::wstring filename = localFiles[k];
         std::wstring entry = filesInZip[k];
-        if (isDirectory(filename)) {
+        if (FileSystemWrapper::Path::is_directory(filename)) {
             uint32_t attributes;
             mz_os_get_file_attribs(wstring_to_utf8(filename).c_str(), &attributes);
             if (!boost::algorithm::ends_with(entry, L"/")) {

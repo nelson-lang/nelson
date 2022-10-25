@@ -16,7 +16,7 @@
 #include "Interface.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -99,7 +99,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
 {
     ArrayOf res;
     if (!filename.empty()) {
-        if (!isFile(filename)) {
+        if (!FileSystemWrapper::Path::is_regular_file(filename)) {
             Error(_W("Filename does not exist."));
         }
         res = Whos(eval, filename, names, asStruct);

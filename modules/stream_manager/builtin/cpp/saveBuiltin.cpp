@@ -13,7 +13,7 @@
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -74,7 +74,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
 
     if (!forceAsMat && !forceAsNh5) {
-        std::string extension = Nelson::FileSystemWrapper::Path(paramFilename).extension().string();
+        std::string extension = FileSystemWrapper::Path(paramFilename).extension().string();
         if (extension == ".nh5") {
             forceAsNh5 = true;
         } else if (extension == ".mat") {

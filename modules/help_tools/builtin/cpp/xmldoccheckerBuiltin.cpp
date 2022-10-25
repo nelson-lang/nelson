@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,9 +25,9 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
-        Nelson::FileSystemWrapper::Path pathIn(fileOrDirName);
+        FileSystemWrapper::Path pathIn(fileOrDirName);
         bool permissionDenied;
-        bool IsFileIn = isFile(pathIn, permissionDenied);
+        bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }

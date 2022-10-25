@@ -11,7 +11,7 @@
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -28,7 +28,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
-        if (!isFile(param1)) {
+        if (!FileSystemWrapper::Path::is_regular_file(param1)) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
@@ -36,9 +36,9 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:
         case GUI: {
-            Nelson::FileSystemWrapper::Path pdfname(param2);
+            FileSystemWrapper::Path pdfname(param2);
             if (pdfname.extension().string() != ".pdf") {
-                pdfname.replace_extension(Nelson::FileSystemWrapper::Path(".pdf"));
+                pdfname.replace_extension(FileSystemWrapper::Path(".pdf"));
             }
             std::ofstream pdffile;
 #if _MSC_VER

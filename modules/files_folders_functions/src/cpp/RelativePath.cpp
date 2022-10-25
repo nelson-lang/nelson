@@ -16,9 +16,9 @@ std::wstring
 RelativePath(const std::wstring& path1, const std::wstring& path2, bool& bSuccess)
 {
     bSuccess = false;
-    Nelson::FileSystemWrapper::Path pathOne(path1);
-    Nelson::FileSystemWrapper::Path pathTwo(path2);
-    Nelson::FileSystemWrapper::Path relativepath;
+    FileSystemWrapper::Path pathOne(path1);
+    FileSystemWrapper::Path pathTwo(path2);
+    FileSystemWrapper::Path relativepath;
     pathOne = pathOne.lexically_normal();
     pathTwo = pathTwo.lexically_normal();
     relativepath = pathTwo.lexically_relative(pathOne);

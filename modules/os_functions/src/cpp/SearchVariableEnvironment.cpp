@@ -11,7 +11,7 @@
 #include "SearchVariableEnvironment.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,9 +48,9 @@ SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring&
     std::wstring envValue = GetVariableEnvironment(envVarName, L"");
     wstringVector envValuevector = splitEnvironmentPath(envValue);
     for (auto& k : envValuevector) {
-        Nelson::FileSystemWrapper::Path fullpath(k);
+        FileSystemWrapper::Path fullpath(k);
         fullpath /= fileToSearch;
-        if (isFile(fullpath)) {
+        if (fullpath.is_regular_file()) {
             res.push_back(fullpath.generic_wstring());
         }
     }

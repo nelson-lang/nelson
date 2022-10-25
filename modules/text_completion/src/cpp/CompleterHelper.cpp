@@ -129,13 +129,12 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
         }
         if (!filePatternBuf.empty()) {
             std::wstring res;
-            Nelson::FileSystemWrapper::Path pathToSplit(filePatternBuf);
+            FileSystemWrapper::Path pathToSplit(filePatternBuf);
             if (pathToSplit.has_parent_path()) {
                 res = pathToSplit.parent_path().generic_wstring();
             }
             if (res.empty()) {
-                Nelson::FileSystemWrapper::Path pwd
-                    = Nelson::FileSystemWrapper::Path::current_path();
+                FileSystemWrapper::Path pwd = FileSystemWrapper::Path::current_path();
                 res = pwd.generic_wstring();
                 if (res.empty()) {
                     lineModified = currentLine;

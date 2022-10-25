@@ -9,7 +9,7 @@
 //=============================================================================
 #include <matio.h>
 #include <boost/algorithm/string.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "IsMatioFile.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -38,8 +38,8 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
 
     for (size_t k = 0; k < filenames.size(); ++k) {
         std::wstring filename = filenames[k];
-        Nelson::FileSystemWrapper::Path mat_filename(filename);
-        bool fileExistPreviously = isFile(mat_filename);
+        FileSystemWrapper::Path mat_filename(filename);
+        bool fileExistPreviously = FileSystemWrapper::Path::is_regular_file(mat_filename);
         if (!fileExistPreviously) {
             res[k] = false;
             ArrayOf empty = ArrayOf::emptyConstructor(0, 1);

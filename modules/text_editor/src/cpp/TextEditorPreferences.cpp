@@ -11,7 +11,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <fstream>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "TextEditorPreferences.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "QStringConverter.hpp"
@@ -96,7 +96,7 @@ TextEditorLoadPreferences(
     std::wstring prefDir = getPreferencesPath();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
-    bool bIsFile = isFile(editorConfFile);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(editorConfFile);
     if (bIsFile) {
         std::string tmpline;
 #ifdef _MSC_VER

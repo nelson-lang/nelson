@@ -11,7 +11,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/vector.hpp>
 #include <boost/regex.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "XmlDocResolveLink.hpp"
 #include "RelativePath.hpp"
 #include "ModulesManager.hpp"
@@ -54,7 +54,7 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                 }
                 filepath = module.modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
                     + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
-                if (isFile(filepath)) {
+                if (FileSystemWrapper::Path::is_regular_file(filepath)) {
                     if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                         if (currentModuleName != module.modulename) {
                             resolvedlink = L"../" + module.modulename + L"/" + name + L".md";
@@ -70,7 +70,7 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                 if (language != L"en_US") {
                     filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
                         + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-                    if (isFile(filepath)) {
+                    if (FileSystemWrapper::Path::is_regular_file(filepath)) {
                         if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                             if (currentModuleName != module.modulename) {
                                 resolvedlink = L"../" + module.modulename + L"/" + name + L".md";
@@ -95,12 +95,12 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
         return false;
     }
     filepath = directorysource + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-    if (isFile(filepath)) {
+    if (FileSystemWrapper::Path::is_regular_file(filepath)) {
         bool bRes = false;
         resolvedlink = RelativePath(directorysource, filepath, bRes);
         return true;
     }
-    if (isFile(linkname)) {
+    if (FileSystemWrapper::Path::is_regular_file(linkname)) {
         bool bRes = false;
         resolvedlink = RelativePath(directorysource, linkname, bRes);
         return true;

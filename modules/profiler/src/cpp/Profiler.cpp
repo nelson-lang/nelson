@@ -20,7 +20,7 @@
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "HtmlExporter.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -309,7 +309,7 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
         profilerLines) {
         if (nbLinesDisplayed < nbLinesToDisplay || nbLinesToDisplay == -1) {
             // filename, line, name, nbcalls, tottime, percall
-            Nelson::FileSystemWrapper::Path p(std::get<0>(line));
+            FileSystemWrapper::Path p(std::get<0>(line));
             std::string filename = p.filename().string();
             uint64 linepos = std::get<1>(line);
             std::string name = std::get<2>(line);
@@ -389,9 +389,10 @@ Profiler::save(
     std::wstring& errorMessage)
 {
     std::wstring profileDirectory = destinationDirectory;
-    if (!isDirectory(profileDirectory) && !isFile(profileDirectory)) {
+    if (!FileSystemWrapper::Path::is_directory(profileDirectory)
+        && !FileSystemWrapper::Path::is_regular_file(profileDirectory)) {
         std::string message;
-        if (!Nelson::FileSystemWrapper::Path::create_directory(profileDirectory, message)) {
+        if (!FileSystemWrapper::Path::create_directory(profileDirectory, message)) {
             errorMessage = utf8_to_wstring(message);
             return;
         }

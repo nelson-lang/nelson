@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "restoredefaultpathBuiltin.hpp"
 #include "Error.hpp"
 #include "ModulesManager.hpp"
@@ -28,7 +27,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVecto
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
     for (const auto& path : paths) {
         std::wstring _path = path + L"/functions";
-        if (isDirectory(_path)) {
+        if (FileSystemWrapper::Path::is_directory(_path)) {
             PathFuncManager::getInstance()->addPath(_path, true, false);
         }
     }

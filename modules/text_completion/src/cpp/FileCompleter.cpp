@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "FileCompleter.hpp"
 //=============================================================================
 namespace Nelson {
@@ -55,8 +55,7 @@ FileCompleter(const std::wstring& prefix)
         splitpath(prefix, pathname, filename);
         if (pathname.empty()) {
             try {
-                Nelson::FileSystemWrapper::Path pwd
-                    = Nelson::FileSystemWrapper::Path::current_path();
+                FileSystemWrapper::Path pwd = FileSystemWrapper::Path::current_path();
                 path = pwd.generic_wstring();
             } catch (const nfs::filesystem_error&) {
             }
@@ -102,7 +101,7 @@ FileCompleter(const std::wstring& prefix)
             {
                 nfs::path dir = branch;
                 nfs::path r = dir.root_path();
-                if (isDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
@@ -114,7 +113,7 @@ FileCompleter(const std::wstring& prefix)
                             }
                             nfs::path current = file;
                             std::wstring fname = current.wstring();
-                            if (isDirectory(fname)) {
+                            if (FileSystemWrapper::Path::is_directory(fname)) {
                                 fname = fname + L"/";
                             }
                             std::wstring complet;

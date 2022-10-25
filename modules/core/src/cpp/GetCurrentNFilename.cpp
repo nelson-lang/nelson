@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "GetCurrentNFilename.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -28,10 +28,10 @@ GetCurrentNFilenameW(Evaluator* eval)
         }
     }
     if (!fileName.empty()) {
-        if (isFile(fileName)) {
+        if (FileSystemWrapper::Path::is_regular_file(fileName)) {
             std::string errorMessage;
-            Nelson::FileSystemWrapper::Path canonicalPath
-                = Nelson::FileSystemWrapper::Path::canonical(fileName, errorMessage);
+            FileSystemWrapper::Path canonicalPath
+                = FileSystemWrapper::Path::canonical(fileName, errorMessage);
             fileName = canonicalPath.generic_wstring();
         }
     }

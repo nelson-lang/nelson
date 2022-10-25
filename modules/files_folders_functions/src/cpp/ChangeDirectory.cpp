@@ -33,7 +33,7 @@ removeSimpleQuotesAndTrim(const std::wstring& newpath)
 ArrayOf
 Cd(const std::wstring& newpath)
 {
-    Nelson::FileSystemWrapper::Path previous_pwd = Nelson::FileSystemWrapper::Path::current_path();
+    FileSystemWrapper::Path previous_pwd = FileSystemWrapper::Path::current_path();
     ChangeDirectory(newpath, true, true);
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
@@ -52,10 +52,10 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
     std::string errorMessage;
-    Nelson::FileSystemWrapper::Path::current_path(pathApplied, errorMessage);
+    FileSystemWrapper::Path::current_path(pathApplied, errorMessage);
     if (errorMessage.empty()) {
         PathFuncManager::getInstance()->setCurrentUserPath(
-            Nelson::FileSystemWrapper::Path::current_path().generic_wstring());
+            FileSystemWrapper::Path::current_path().generic_wstring());
         return true;
     } else {
         if (doException) {

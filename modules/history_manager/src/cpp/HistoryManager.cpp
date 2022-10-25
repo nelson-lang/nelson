@@ -19,7 +19,7 @@
 #include "GetPreferencesPath.hpp"
 #include "HistoryManager.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -479,11 +479,11 @@ HistoryManager::setToken(const std::wstring& _token)
 bool
 HistoryManager::copyPreviousFile(const std::wstring& _filename)
 {
-    Nelson::FileSystemWrapper::Path src(_filename);
-    Nelson::FileSystemWrapper::Path dst(_filename + L".bak");
-    bool bRes = isFile(src);
+    FileSystemWrapper::Path src(_filename);
+    FileSystemWrapper::Path dst(_filename + L".bak");
+    bool bRes = FileSystemWrapper::Path::is_regular_file(src);
     if (bRes) {
-        bRes = Nelson::FileSystemWrapper::Path::copy_file(src, dst);
+        bRes = FileSystemWrapper::Path::copy_file(src, dst);
     }
     return bRes;
 }

@@ -9,7 +9,7 @@
 //=============================================================================
 #include "ListFiles.hpp"
 #include "Error.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/convenience.hpp>
@@ -38,7 +38,8 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
                 bool permissionDenied = false;
-                bool isDir = isDirectory(branch.wstring(), permissionDenied);
+                bool isDir
+                    = FileSystemWrapper::Path::is_directory(branch.wstring(), permissionDenied);
                 if (isDir) {
                     try {
                         for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
@@ -72,7 +73,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                     res.push_back(FileInfo(branch.wstring() + L"/..", bSubdirectories));
                 }
                 */
-                if (isDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch.native()), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
@@ -113,7 +114,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             res = ListFilesWithWildcard(directory, bSubdirectories);
         }
     } else {
-        if (isFile(directory)) {
+        if (FileSystemWrapper::Path::is_regular_file(directory)) {
             res.push_back(FileInfo(directory));
         } else {
             if (directory.empty()) {
@@ -141,7 +142,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return res;
             }
             if (bSubdirectories) {
-                if (isDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator dir_iter(branch.native()), end;
                              dir_iter != end; ++dir_iter) {
@@ -158,7 +159,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             } else {
                 nfs::path dir = branch;
                 nfs::path r = dir.root_path();
-                if (isDirectory(directory)) {
+                if (FileSystemWrapper::Path::is_directory(directory)) {
                     if (dir != r) {
                         res.push_back(FileInfo(directory + L"/."));
                         res.push_back(FileInfo(directory + L"/.."));

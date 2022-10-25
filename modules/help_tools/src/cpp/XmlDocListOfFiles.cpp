@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocChapterDescriptionItem.hpp"
@@ -186,7 +186,7 @@ XmlDocListOfFiles::read()
         if (!this->chapterTitle.empty()) {
             bool bRes;
             std::wstring linkUrl = L"";
-            Nelson::FileSystemWrapper::Path destPath(this->dstDirectory);
+            FileSystemWrapper::Path destPath(this->dstDirectory);
             if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                 if (!this->moduleName.empty()) {
                     destPath = destPath.wstring() + L"/README.md";

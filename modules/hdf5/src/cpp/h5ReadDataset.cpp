@@ -10,7 +10,6 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
@@ -38,9 +37,10 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         Error(_W("Valid data set name expected."));
     }
     hid_t fid = H5I_INVALID_HID;
-    Nelson::FileSystemWrapper::Path hdf5_filename(filename);
+    FileSystemWrapper::Path hdf5_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));

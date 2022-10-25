@@ -9,7 +9,7 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include "FindDynamicLibraryName.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

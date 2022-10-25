@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
@@ -26,7 +25,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOf param1 = argIn[0];
     if (param1.isRowVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
-        if (isDirectory(pathToRemove)) {
+        if (FileSystemWrapper::Path::is_directory(pathToRemove)) {
             if (!PathFuncManager::getInstance()->removePath(pathToRemove)) {
                 Warning(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
             }

@@ -13,7 +13,6 @@
 #include <boost/date_time/local_time_adjustor.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "FileInfo.hpp"
 #include "DateNumber.hpp"
 #include "characters_encoding.hpp"
@@ -31,17 +30,17 @@ local_ptime_from_utc_time_t(std::time_t const t)
 //=============================================================================
 FileInfo::FileInfo(const std::wstring& filename)
 {
-    Nelson::FileSystemWrapper::Path _path(filename);
+    FileSystemWrapper::Path _path(filename);
     // uniformize path separator
     _path = _path.generic_wstring();
     this->folder = _path.parent_path().wstring();
     this->name = _path.filename().wstring();
-    this->isdir = isDirectory(_path);
+    this->isdir = FileSystemWrapper::Path::is_directory(_path);
     if (this->isdir) {
         this->bytes = 0;
     } else {
         std::string errorMessage;
-        double value = (double)Nelson::FileSystemWrapper::Path::file_size(_path, errorMessage);
+        double value = (double)FileSystemWrapper::Path::file_size(_path, errorMessage);
         if (errorMessage.empty()) {
             this->bytes = value;
         } else {
@@ -49,7 +48,7 @@ FileInfo::FileInfo(const std::wstring& filename)
         }
     }
     std::string errorMessage;
-    std::time_t t = Nelson::FileSystemWrapper::Path::last_write_time(_path, errorMessage);
+    std::time_t t = FileSystemWrapper::Path::last_write_time(_path, errorMessage);
     if (errorMessage.empty()) {
         boost::posix_time::ptime pt = local_ptime_from_utc_time_t(t);
         int day = pt.date().day();

@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstdlib>
 #include <string>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "FilesAssociation.hpp"
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
@@ -77,8 +77,8 @@ commonFilesAssociated(
         if (!filesToOpen.empty()) {
             try {
                 for (const auto& k : filesToOpen) {
-                    Nelson::FileSystemWrapper::Path pathFileToOpen(k);
-                    bool bIsFile = isFile(pathFileToOpen);
+                    FileSystemWrapper::Path pathFileToOpen(k);
+                    bool bIsFile = FileSystemWrapper::Path::is_regular_file(pathFileToOpen);
                     if (bIsFile) {
                         std::wstring commandToExecute = command + std::wstring(L"('" + k + L"');");
                         bool r = PostCommandDynamicFunction(commandToExecute);

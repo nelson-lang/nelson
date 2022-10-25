@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "copyfileBuiltin.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
@@ -35,7 +35,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         ArrayOf arg1 = argIn[0];
         if (arg1.isRowVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
-            if (isFile(src)) {
+            if (FileSystemWrapper::Path::is_regular_file(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
             } else {
                 bRes = CopyDirectory(src, dest, bForce, errorMessage);

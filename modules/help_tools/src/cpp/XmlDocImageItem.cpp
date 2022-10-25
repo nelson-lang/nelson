@@ -16,7 +16,7 @@
 #include "XmlDocImageItem.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 XmlDocImageItem::XmlDocImageItem(const std::wstring& tag) { this->tag.assign(tag); }
@@ -56,7 +56,7 @@ XmlDocImageItem::findImage()
     if (parseImageTag(tag, srcDirectory, oldPath, newPath)) {
         std::wstring filename = L"";
         std::wstring extension = L"";
-        Nelson::FileSystemWrapper::Path absolutePath(oldPath);
+        FileSystemWrapper::Path absolutePath(oldPath);
         if (absolutePath.has_filename()) {
             filename = absolutePath.stem().generic_wstring();
         }

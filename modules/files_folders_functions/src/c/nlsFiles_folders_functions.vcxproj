@@ -188,7 +188,6 @@
     <ClInclude Include="..\include\FullFile.hpp" />
     <ClInclude Include="..\include\ListFiles.hpp" />
     <ClInclude Include="..\include\MakeDirectory.hpp" />
-    <ClInclude Include="..\include\NormalizePath.hpp" />
     <ClInclude Include="..\include\RelativePath.hpp" />
     <ClInclude Include="..\include\RemoveDirectory.hpp" />
     <ClInclude Include="..\include\RemoveFile.hpp" />

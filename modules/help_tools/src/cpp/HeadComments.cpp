@@ -16,7 +16,7 @@
 #include "Error.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -70,8 +70,8 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
 {
     wstringVector comments;
     headError = HEADCOMMENTS_ERROR::MACRO_OK;
-    Nelson::FileSystemWrapper::Path pathFile(filename);
-    bool bIsFile = isFile(pathFile);
+    FileSystemWrapper::Path pathFile(filename);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(pathFile);
     if (!bIsFile) {
         headError = HEADCOMMENTS_ERROR::FILE_NOT_EXIST;
         return comments;

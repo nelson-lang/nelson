@@ -363,12 +363,12 @@ utf8_to_wstring_utf32_SIMD(const std::string& str, std::wstring& wstr)
 bool
 utf8_to_wstring_Windows(const std::string& str, std::wstring& wstr)
 {
-    int size = MultiByteToWideChar(
-        CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
+    int size
+        = MultiByteToWideChar(CP_ACP, 0, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
     if (size > 0) {
         std::wstring utf16_str(size, '\0');
         int res = MultiByteToWideChar(
-            CP_ACP, MB_COMPOSITE, str.c_str(), static_cast<int>(str.length()), &utf16_str[0], size);
+            CP_ACP, 0, str.c_str(), static_cast<int>(str.length()), &utf16_str[0], size);
         if (res > 0) {
             wstr = utf16_str;
             return true;

@@ -10,7 +10,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
@@ -23,16 +23,16 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
     bool bRes = false;
     message = L"";
     bool permissionDenied;
-    if (!isFile(srcFile, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
         Error(_W("File source does not exist."));
     }
-    Nelson::FileSystemWrapper::Path srcPath = srcFile;
-    Nelson::FileSystemWrapper::Path destPath = destFileOrDirectory;
+    FileSystemWrapper::Path srcPath = srcFile;
+    FileSystemWrapper::Path destPath = destFileOrDirectory;
 
-    bool isDir = isDirectory(destFileOrDirectory, permissionDenied);
+    bool isDir = FileSystemWrapper::Path::is_directory(destFileOrDirectory, permissionDenied);
     if (permissionDenied) {
         Error(_W("Permission denied."));
     }
@@ -40,7 +40,7 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
         destPath = destPath / srcPath.filename();
     }
     std::string errorMessage;
-    Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+    FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
     if (errorMessage.empty()) {
         bRes = true;
     } else {
@@ -57,10 +57,10 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 }
 //=============================================================================
 static bool
-copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
-    const Nelson::FileSystemWrapper::Path& destinationDir, bool bForce, std::wstring& errorMessage)
+copyDirectoryRecursively(const FileSystemWrapper::Path& sourceDir,
+    const FileSystemWrapper::Path& destinationDir, bool bForce, std::wstring& errorMessage)
 {
-    if (!isDirectory(sourceDir)) {
+    if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
         if (!bForce) {
             errorMessage
                 = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
@@ -68,8 +68,8 @@ copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
             return false;
         }
     }
-    if (!isDirectory(sourceDir)) {
-        if (!Nelson::FileSystemWrapper::Path::create_directory(destinationDir)) {
+    if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
+        if (!FileSystemWrapper::Path::create_directory(destinationDir)) {
             if (!bForce) {
                 errorMessage = fmt::sprintf(
                     _W("Cannot create destination directory %s"), destinationDir.wstring());
@@ -83,10 +83,9 @@ copyDirectoryRecursively(const Nelson::FileSystemWrapper::Path& sourceDir,
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");
-        Nelson::FileSystemWrapper::Path destPath = destinationDir.generic_path() / relativePathStr;
+        FileSystemWrapper::Path destPath = destinationDir.generic_path() / relativePathStr;
         std::string message;
-        Nelson::FileSystemWrapper::Path::copy(
-            Nelson::FileSystemWrapper::Path(path.wstring()), destPath, message);
+        FileSystemWrapper::Path::copy(FileSystemWrapper::Path(path.wstring()), destPath, message);
         if (!errorMessage.empty()) {
             errorMessage = utf8_to_wstring(message);
             return false;
@@ -101,13 +100,13 @@ CopyDirectory(
 {
     message = L"";
     bool permissionDenied;
-    if (!isDirectory(srcDir, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_directory(srcDir, permissionDenied)) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
         Error(_W("Directory source does not exist."));
     }
-    if (!isDirectory(destDir, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
@@ -125,7 +124,7 @@ CopyFiles(
     message = L"";
     bool permissionDenied;
     for (const auto& srcFile : srcFiles) {
-        if (!isFile(srcFile, permissionDenied)) {
+        if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
             if (permissionDenied) {
                 Error(_W("Permission denied."));
             }
@@ -133,18 +132,18 @@ CopyFiles(
         }
     }
 
-    if (!isDirectory(destDir, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {
-        Nelson::FileSystemWrapper::Path srcPath = srcFile;
-        Nelson::FileSystemWrapper::Path destPath = destDir;
+        FileSystemWrapper::Path srcPath = srcFile;
+        FileSystemWrapper::Path destPath = destDir;
         destPath = destPath / srcPath.filename();
         std::string errorMessage;
-        bRes = Nelson::FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+        bRes = FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
         if (!bRes) {
             message = utf8_to_wstring(errorMessage);
         }

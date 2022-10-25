@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "RemoveDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -20,18 +20,18 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
     bool res = false;
     message = L"";
     bool permissionDenied;
-    if (isDirectory(folderName, permissionDenied)) {
-        updateFilePermissionsToWrite(folderName);
-        Nelson::FileSystemWrapper::Path p(folderName);
+    if (FileSystemWrapper::Path::is_directory(folderName, permissionDenied)) {
+        FileSystemWrapper::Path::updateFilePermissionsToWrite(folderName);
+        FileSystemWrapper::Path p(folderName);
         std::string errorMessage;
         if (bSubfolder) {
-            if (!Nelson::FileSystemWrapper::Path::remove_all(p, errorMessage)) {
+            if (!FileSystemWrapper::Path::remove_all(p, errorMessage)) {
                 res = false;
                 message = utf8_to_wstring(errorMessage);
                 return res;
             }
         }
-        res = Nelson::FileSystemWrapper::Path::remove(p, errorMessage);
+        res = FileSystemWrapper::Path::remove(p, errorMessage);
         if (!res) {
             message = utf8_to_wstring(errorMessage);
         }

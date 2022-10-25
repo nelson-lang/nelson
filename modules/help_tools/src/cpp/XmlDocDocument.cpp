@@ -14,7 +14,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <fstream>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "GetNelsonPath.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
@@ -79,21 +79,21 @@ XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstri
     this->items.clear();
     this->bReadOk = false;
     this->xmlDirectory = L"./";
-    Nelson::FileSystemWrapper::Path pathToSplit(srcfilename);
+    FileSystemWrapper::Path pathToSplit(srcfilename);
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
-    if (isDirectory(destfilename)) {
+    if (FileSystemWrapper::Path::is_directory(destfilename)) {
         this->directoryDestination = destfilename;
-        Nelson::FileSystemWrapper::Path pathname(srcfilename);
+        FileSystemWrapper::Path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        Nelson::FileSystemWrapper::Path pathdest(destfilename);
+        FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
@@ -120,27 +120,27 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     this->items = items;
     this->bReadOk = true;
     this->xmlDirectory = L"./";
-    Nelson::FileSystemWrapper::Path pathToSplit = srcfilename;
+    FileSystemWrapper::Path pathToSplit = srcfilename;
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
     this->filenameDestination.clear();
-    if (isDirectory(destfilename)) {
+    if (FileSystemWrapper::Path::is_directory(destfilename)) {
         this->directoryDestination = destfilename;
-        Nelson::FileSystemWrapper::Path pathname(srcfilename);
+        FileSystemWrapper::Path pathname(srcfilename);
         std::wstring nfilename;
         if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
             nfilename = pathname.stem().generic_wstring() + L".md";
         } else {
             nfilename = pathname.stem().generic_wstring() + L".html";
         }
-        Nelson::FileSystemWrapper::Path pathdest(destfilename);
+        FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest.normalize();
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
         this->directoryDestination.clear();
-        Nelson::FileSystemWrapper::Path pathdest(destfilename);
+        FileSystemWrapper::Path pathdest(destfilename);
         pathdest = pathdest.normalize();
         this->setDestinationFile(pathdest.generic_wstring());
     }
@@ -2520,7 +2520,7 @@ XmlDocDocument::setDestinationFile(const std::wstring& _filenameDestination)
 {
     this->filenameDestination = _filenameDestination;
     this->directoryDestination = L"./";
-    Nelson::FileSystemWrapper::Path pathToSplit(_filenameDestination);
+    FileSystemWrapper::Path pathToSplit(_filenameDestination);
     if (pathToSplit.has_parent_path()) {
         this->directoryDestination = pathToSplit.parent_path().generic_wstring();
         if (this->directoryDestination[this->directoryDestination.size() - 1] != '/'
@@ -2547,14 +2547,14 @@ XmlDocDocument::copyHtmlDependencies()
         files.push_back(L"style.css");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            Nelson::FileSystemWrapper::Path dstFile = this->directoryDestination;
+            FileSystemWrapper::Path dstFile = this->directoryDestination;
             dstFile = dstFile / file;
-            if (!Nelson::FileSystemWrapper::Path::exists(dstFile)) {
-                Nelson::FileSystemWrapper::Path srcFile = ressourcesPath;
+            if (!FileSystemWrapper::Path::exists(dstFile)) {
+                FileSystemWrapper::Path srcFile = ressourcesPath;
                 srcFile = srcFile / file;
-                bool bIsFile = isFile(srcFile);
+                bool bIsFile = FileSystemWrapper::Path::is_regular_file(srcFile);
                 if (bIsFile) {
-                    Nelson::FileSystemWrapper::Path::copy_file(srcFile, dstFile);
+                    FileSystemWrapper::Path::copy_file(srcFile, dstFile);
                 }
             }
         }
@@ -2568,10 +2568,9 @@ XmlDocDocument::needToUpdate()
     if (this->bOverwriteExistingFile) {
         return true;
     }
-    if (Nelson::FileSystemWrapper::Path::exists(this->filenameDestination)) {
-        std::time_t t1 = Nelson::FileSystemWrapper::Path::last_write_time(this->xmlfilename);
-        std::time_t t2
-            = Nelson::FileSystemWrapper::Path::last_write_time(this->filenameDestination);
+    if (FileSystemWrapper::Path::exists(this->filenameDestination)) {
+        std::time_t t1 = FileSystemWrapper::Path::last_write_time(this->xmlfilename);
+        std::time_t t2 = FileSystemWrapper::Path::last_write_time(this->filenameDestination);
         if (t1 >= t2) {
             return true;
         }

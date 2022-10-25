@@ -10,7 +10,6 @@
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "UiGetDirectory.hpp"
 #include "QStringConverter.hpp"
 //=============================================================================
@@ -37,11 +36,10 @@ UiGetDirectory(
     }
     if (fd) {
         if (!pathOrigin.empty()) {
-            bool bRes = isDirectory(pathOrigin);
+            bool bRes = FileSystemWrapper::Path::is_directory(pathOrigin);
             std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
-                Nelson::FileSystemWrapper::Path pwd
-                    = Nelson::FileSystemWrapper::Path::current_path();
+                FileSystemWrapper::Path pwd = FileSystemWrapper::Path::current_path();
                 _pathOrigin = pwd.generic_wstring();
             }
             fd->setDirectory(QDir(wstringToQString(_pathOrigin)));

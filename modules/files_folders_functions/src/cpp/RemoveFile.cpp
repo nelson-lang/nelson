@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RemoveFile.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -20,23 +20,23 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     bool res = false;
     message = L"";
     bool permissionDenied;
-    bool bIsFile = isFile(filename, permissionDenied);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
     if (permissionDenied) {
-        Nelson::FileSystemWrapper::Path p = (filename);
-        if (!updateFilePermissionsToWrite(p)) {
+        FileSystemWrapper::Path p = (filename);
+        if (!FileSystemWrapper::Path::updateFilePermissionsToWrite(p)) {
             message = _W("Permission denied");
             return false;
         }
         std::string errorMessage;
-        if (!Nelson::FileSystemWrapper::Path::remove(p, errorMessage)) {
+        if (!FileSystemWrapper::Path::remove(p, errorMessage)) {
             message = utf8_to_wstring(errorMessage);
             return false;
         }
     }
     if (bIsFile) {
         std::string errorMessage;
-        Nelson::FileSystemWrapper::Path p(filename);
-        if (!Nelson::FileSystemWrapper::Path::remove(p, errorMessage)) {
+        FileSystemWrapper::Path p(filename);
+        if (!FileSystemWrapper::Path::remove(p, errorMessage)) {
             message = utf8_to_wstring(errorMessage);
             return false;
         }

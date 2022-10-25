@@ -11,7 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include "filereadBuiltin.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "MapFileRead.hpp"
 #include "ToCellString.hpp"
@@ -46,7 +46,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 1, 4); //-V112
     nargoutcheck(nLhs, 0, 1);
     std::wstring fileToRead = argIn[0].getContentAsWideString();
-    bool bIsFile = isFile(fileToRead);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(fileToRead);
     if (!bIsFile) {
         Error(_W("A valid filename expected."));
     }

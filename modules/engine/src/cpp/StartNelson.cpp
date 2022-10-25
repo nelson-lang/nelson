@@ -379,8 +379,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
-        Nelson::FileSystemWrapper::Path p(fileToExecute);
-        Nelson::FileSystemWrapper::Path full_p = Nelson::FileSystemWrapper::Path::absolute(p);
+        FileSystemWrapper::Path p(fileToExecute);
+        FileSystemWrapper::Path full_p = FileSystemWrapper::Path::absolute(p);
         fileToExecute = full_p.generic_wstring();
     }
 

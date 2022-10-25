@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "StartNelsonUserScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -22,9 +22,9 @@ StartNelsonUserScript(Evaluator* eval)
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
         std::wstring prefPath = GetPreferencesPath();
-        Nelson::FileSystemWrapper::Path path(prefPath);
+        FileSystemWrapper::Path path(prefPath);
         path += L"/startup.m";
-        bool bIsFile = isFile(path);
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(path);
         if (bIsFile) {
             std::wstring wstr = path.generic_wstring();
             try {

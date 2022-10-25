@@ -9,7 +9,7 @@
 //=============================================================================
 #include "GetSystemTemporaryDirectory.hpp"
 #include <boost/algorithm/string/predicate.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,7 +25,7 @@ std::wstring
 GetSystemTemporaryDirectory()
 {
     if (tempDir == L"") {
-        Nelson::FileSystemWrapper::Path pwd(Nelson::FileSystemWrapper::Path::temp_directory_path());
+        FileSystemWrapper::Path pwd(FileSystemWrapper::Path::temp_directory_path());
         tempDir = pwd.getFinalPathname().generic_wstring();
         if (!boost::algorithm::ends_with(tempDir, L"\\")
             && (!boost::algorithm::ends_with(tempDir, L"/"))) {

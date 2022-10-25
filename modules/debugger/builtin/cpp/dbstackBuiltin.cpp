@@ -60,7 +60,7 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
 static std::wstring
 shortName(const std::wstring& filename)
 {
-    Nelson::FileSystemWrapper::Path p(filename);
+    FileSystemWrapper::Path p(filename);
     return p.filename().generic_wstring();
 }
 //=============================================================================

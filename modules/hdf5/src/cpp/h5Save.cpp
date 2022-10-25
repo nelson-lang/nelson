@@ -12,7 +12,6 @@
 #include <hdf5.h>
 #include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -153,9 +152,10 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     }
 
     hid_t fid = H5I_INVALID_HID;
-    Nelson::FileSystemWrapper::Path hdf5_filename(filename);
+    FileSystemWrapper::Path hdf5_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
@@ -171,8 +171,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 fid = H5Fopen(
                     wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
-                Nelson::FileSystemWrapper::Path p(hdf5_filename);
-                if (!Nelson::FileSystemWrapper::Path::remove(p)) {
+                FileSystemWrapper::Path p(hdf5_filename);
+                if (!FileSystemWrapper::Path::remove(p)) {
                     Error(_W("Cannot replace file"));
                 }
                 fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());

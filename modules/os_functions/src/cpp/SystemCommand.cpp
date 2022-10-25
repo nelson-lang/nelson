@@ -40,6 +40,9 @@ static bool bFirstDynamicLibraryCall = true;
 static void
 ProcessEventsDynamicFunction();
 //=============================================================================
+static void
+deleteFile(nfs::path p);
+//=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
 //=============================================================================
@@ -50,7 +53,7 @@ static void
 initGuiDynamicLibrary();
 //=============================================================================
 static std::wstring
-readFile(FILE* pFile);
+readFile(const FileSystemWrapper::Path& filePath);
 //=============================================================================
 class systemTask
 {
@@ -100,18 +103,8 @@ public:
 
         _terminate = false;
         _running = true;
-        FILE* pFileTempOutput = std::tmpfile();
-        if (!pFileTempOutput) {
-            _exitCode = 1;
-            return;
-        }
-        FILE* pFileTempError = std::tmpfile();
-        if (!pFileTempError) {
-            fclose(pFileTempOutput);
-            _exitCode = 1;
-            return;
-        }
-
+        FileSystemWrapper::Path tempOutputFile(FileSystemWrapper::Path::unique_path());
+        FileSystemWrapper::Path tempErrorFile(FileSystemWrapper::Path::unique_path());
         bool mustDetach = false;
         std::wstring _command = DetectDetachProcess(command, mustDetach);
         std::wstring argsShell;
@@ -127,8 +120,9 @@ public:
             childProcess.detach();
             _exitCode = 0;
         } else {
-            boost::process::child childProcess(cmd, boost::process::std_out > pFileTempOutput,
-                boost::process::std_err > pFileTempError,
+            boost::process::child childProcess(cmd,
+                boost::process::std_out > tempOutputFile.generic_string().c_str(),
+                boost::process::std_err > tempErrorFile.generic_string().c_str(),
                 boost::process::std_in < boost::process::null);
             while (childProcess.running()) {
                 std::chrono::steady_clock::time_point _currentTimePoint
@@ -145,8 +139,8 @@ public:
                     _endTimePoint = std::chrono::steady_clock::now();
                     this->_duration = this->getDuration();
                     this->_exitCode = int(SIGINT + 128);
-                    fclose(pFileTempOutput);
-                    fclose(pFileTempError);
+                    FileSystemWrapper::Path::remove(tempOutputFile);
+                    FileSystemWrapper::Path::remove(tempErrorFile);
                     childProcess.terminate();
                     _running = false;
                     return;
@@ -157,17 +151,17 @@ public:
 
             std::wstring outputResult;
             if (this->_exitCode) {
-                outputResult = readFile(pFileTempError);
+                outputResult = readFile(tempErrorFile);
                 if (outputResult.empty()) {
-                    outputResult = readFile(pFileTempOutput);
+                    outputResult = readFile(tempOutputFile);
                 }
             } else {
-                outputResult = readFile(pFileTempOutput);
+                outputResult = readFile(tempOutputFile);
             }
             _message = outputResult.c_str();
         }
-        fclose(pFileTempOutput);
-        fclose(pFileTempError);
+        FileSystemWrapper::Path::remove(tempOutputFile);
+        FileSystemWrapper::Path::remove(tempErrorFile);
 
         _running = false;
         _endTimePoint = std::chrono::steady_clock::now();
@@ -342,12 +336,30 @@ ProcessEventsDynamicFunction()
     ProcessEventsDynamicFunction(false);
 }
 //=============================================================================
+void
+deleteFile(nfs::path p)
+{
+    if (nfs::exists(p)) {
+
+#ifdef _MSC_VER
+        int res = _wremove(p.generic_wstring().c_str());
+#else
+        int res = remove(p.generic_string().c_str());
+#endif
+    }
+}
+//=============================================================================
 std::wstring
-readFile(FILE* pFile)
+readFile(const FileSystemWrapper::Path& filePath)
 {
     std::string result;
+    FILE* pFile;
+#ifdef _MSC_VER
+    pFile = _wfopen(filePath.wstring().c_str(), L"r");
+#else
+    pFile = fopen(filePath.string().c_str(), "r");
+#endif
     if (pFile != nullptr) {
-        rewind(pFile);
 #define bufferSize 4096
 #define bufferSizeMax 4096 * 2
         char buffer[bufferSize];

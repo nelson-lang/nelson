@@ -13,14 +13,14 @@
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 #include "Error.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
-    if (isDirectory(path)) {
+    if (FileSystemWrapper::Path::is_directory(path)) {
         _path = path;
     } else {
         _path.clear();
@@ -32,9 +32,9 @@ bool
 PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
 
-    Nelson::FileSystemWrapper::Path p1(path1);
-    Nelson::FileSystemWrapper::Path p2(path2);
-    return Nelson::FileSystemWrapper::Path::equivalent(p1, p2);
+    FileSystemWrapper::Path p1(path1);
+    FileSystemWrapper::Path p2(path2);
+    return FileSystemWrapper::Path::equivalent(p1, p2);
 }
 //=============================================================================
 PathFunc::~PathFunc()
@@ -107,10 +107,10 @@ PathFunc::rehash()
         mapRecentFiles.clear();
         try {
             nfs::directory_iterator end_iter;
-            Nelson::FileSystemWrapper::Path path(_path);
+            FileSystemWrapper::Path path(_path);
             for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
                  ++dir_iter) {
-                Nelson::FileSystemWrapper::Path current(dir_iter->path().native());
+                FileSystemWrapper::Path current(dir_iter->path().native());
                 std::wstring ext = current.extension().generic_wstring();
                 bool isMacro = ext == L".m";
                 bool isMex = ext == L"." + getMexExtension();
@@ -141,18 +141,18 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
-        if (isFile(filename)) {
+        if (FileSystemWrapper::Path::is_regular_file(filename)) {
             return true;
         }
     }
     if (withWatcher) {
         const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
-        if (isFile(mexFullFilename)) {
+        if (FileSystemWrapper::Path::is_regular_file(mexFullFilename)) {
             filename = mexFullFilename;
             return true;
         }
         const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
-        if (isFile(macroFullFilename)) {
+        if (FileSystemWrapper::Path::is_regular_file(macroFullFilename)) {
             filename = macroFullFilename;
             return true;
         }
@@ -167,7 +167,7 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         = mapRecentFiles.find(functionName);
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
-        if (isFile(foundit->second->getFilename())) {
+        if (FileSystemWrapper::Path::is_regular_file(foundit->second->getFilename())) {
             return true;
         }
         if (!withWatcher) {
@@ -181,7 +181,7 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         *ff = found->second;
-        if (isFile(found->second->getFilename())) {
+        if (FileSystemWrapper::Path::is_regular_file(found->second->getFilename())) {
             mapRecentFiles.emplace(functionName, *ff);
             return true;
         }
@@ -196,10 +196,10 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
         bool foundAsMacro = false;
         bool foundAsMex = false;
-        foundAsMex = isFile(mexFullFilename);
+        foundAsMex = FileSystemWrapper::Path::is_regular_file(mexFullFilename);
         if (!foundAsMex) {
             const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
-            foundAsMacro = isFile(macroFullFilename);
+            foundAsMacro = FileSystemWrapper::Path::is_regular_file(macroFullFilename);
         }
         if (foundAsMex || foundAsMacro) {
             try {

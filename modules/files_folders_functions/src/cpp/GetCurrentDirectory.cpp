@@ -15,7 +15,7 @@ namespace Nelson {
 std::wstring
 GetCurrentDirectory()
 {
-    Nelson::FileSystemWrapper::Path pwd = Nelson::FileSystemWrapper::Path::current_path();
+    FileSystemWrapper::Path pwd = FileSystemWrapper::Path::current_path();
     return pwd.getFinalPathname().generic_wstring();
 }
 //=============================================================================

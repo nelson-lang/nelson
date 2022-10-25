@@ -216,7 +216,11 @@ Exception::getFormattedErrorMessage() const
         if (traces[k].getFunctionName() == L"run") {
             if ((k >= 1) && traces[k - 1].getLine() != 0) {
                 size_t pos = k - 1;
-                Nelson::FileSystemWrapper::Path pf(traces[pos].getFilename());
+#ifdef _MSC_VER
+                nfs::path pf(traces[pos].getFilename());
+#else
+                nfs::path pf(wstring_to_utf8(traces[pos].getFilename()));
+#endif
                 std::wstring filename;
                 if (traces[pos].getFilename().size() > 50) {
                     filename = pf.filename().wstring();

@@ -111,7 +111,7 @@ XmlDocDescriptionItem::replaceImageTag()
         if (parseImageTag(tag, this->srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            Nelson::FileSystemWrapper::Path absolutePath = oldPath;
+            FileSystemWrapper::Path absolutePath = oldPath;
             if (absolutePath.has_filename()) {
                 filename = absolutePath.stem().generic_wstring();
             }

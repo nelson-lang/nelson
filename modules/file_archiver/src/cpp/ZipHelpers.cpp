@@ -31,7 +31,7 @@ namespace Nelson {
 std::wstring
 normalizeZipPath(const std::wstring& path)
 {
-    Nelson::FileSystemWrapper::Path p(path);
+    FileSystemWrapper::Path p(path);
     p = p.generic_path().lexically_normal();
     if (boost::algorithm::starts_with(p.wstring(), L"./")) {
         p = p.wstring().substr(2);
@@ -42,11 +42,11 @@ normalizeZipPath(const std::wstring& path)
 std::wstring
 getRootPath(const std::wstring& rootpath)
 {
-    Nelson::FileSystemWrapper::Path p;
+    FileSystemWrapper::Path p;
     if (rootpath == L".") {
-        p = Nelson::FileSystemWrapper::Path::current_path();
+        p = FileSystemWrapper::Path::current_path();
     } else {
-        p = Nelson::FileSystemWrapper::Path(rootpath);
+        p = FileSystemWrapper::Path(rootpath);
     }
     return normalizeZipPath(p.wstring());
 }

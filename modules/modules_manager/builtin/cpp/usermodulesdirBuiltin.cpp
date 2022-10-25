@@ -10,7 +10,7 @@
 #include "usermodulesdirBuiltin.hpp"
 #include "Error.hpp"
 #include "GetExternalModulesPath.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,7 +21,7 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(int nLhs, const ArrayOfVect
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     std::wstring externalModulesPath = GetExternalModulesPath();
-    if (!isDirectory(externalModulesPath)) {
+    if (!FileSystemWrapper::Path::is_directory(externalModulesPath)) {
         Error(_W("Impossible to get external modules directory."));
     }
     retval << ArrayOf::characterArrayConstructor(externalModulesPath);

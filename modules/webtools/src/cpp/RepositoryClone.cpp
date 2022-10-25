@@ -64,7 +64,7 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
         if (!branchOrTag.empty()) {
             RepositoryCheckout(localPath, branchOrTag, errorMessage);
         }
-        Nelson::FileSystemWrapper::Path p;
+        FileSystemWrapper::Path p;
         if (errorMessage.empty()) {
             if (!boost::algorithm::ends_with(localPath, L"\\")
                 && (!boost::algorithm::ends_with(localPath, L"/"))) {

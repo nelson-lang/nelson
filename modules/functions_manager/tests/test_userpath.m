@@ -11,11 +11,7 @@ userpath('reset');
 up1 = userpath();
 userpath(tempdir);
 up2 = userpath();
-if ismac()
-  R = ['/private', replace(tempdir(), ['/', pathsep], pathsep)];
-else    
-  R = replace(tempdir(), ['/', pathsep], pathsep);
-end
+R = replace(tempdir(), ['/', pathsep], pathsep);
 assert_isequal(R, [up2, '/']);
 userpath('clear');
 up3 = userpath();

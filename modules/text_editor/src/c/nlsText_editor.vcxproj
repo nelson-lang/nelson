@@ -160,6 +160,9 @@
     <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
       <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\text_completion\src\c\nlsText_completion.vcxproj">
       <Project>{287a0a7e-6cf4-4ae8-9814-3cf0f9f8d5ab}</Project>
     </ProjectReference>

@@ -17,7 +17,7 @@
 #include "characters_encoding.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -367,7 +367,7 @@ MacroFunctionDef::updateCode()
     }
     std::string errorMessage;
     time_t currentFileTimestamp
-        = Nelson::FileSystemWrapper::Path::last_write_time(this->getFilename(), errorMessage);
+        = FileSystemWrapper::Path::last_write_time(this->getFilename(), errorMessage);
     if (errorMessage.empty()) {
         if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
             return false;
@@ -424,7 +424,7 @@ MacroFunctionDef::updateCode()
             MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
             this->setIsScript(false);
             if (macroFunctionDef == nullptr) {
-                Nelson::FileSystemWrapper::Path pathFunction(this->getFilename());
+                FileSystemWrapper::Path pathFunction(this->getFilename());
                 this->setName(pathFunction.stem().generic_string());
             } else {
                 this->code = macroFunctionDef->code;
@@ -444,7 +444,7 @@ MacroFunctionDef::updateCode()
             this->prevFunction = nullptr;
             this->returnVals.clear();
             this->setIsScript(true);
-            Nelson::FileSystemWrapper::Path pathFunction(this->getFilename());
+            FileSystemWrapper::Path pathFunction(this->getFilename());
             this->setName(pathFunction.stem().generic_string());
         }
         this->setWithWatcher(withWatcher);
@@ -473,7 +473,7 @@ MacroFunctionDef::updateCode()
             Error(msg);
         }
 
-        Nelson::FileSystemWrapper::Path pathFunction(this->getFilename());
+        FileSystemWrapper::Path pathFunction(this->getFilename());
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
 
         if (this->getName() != functionNameFromFile) {

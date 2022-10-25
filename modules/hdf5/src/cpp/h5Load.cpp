@@ -11,7 +11,6 @@
 #include <hdf5.h>
 #include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "h5Load.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -25,9 +24,10 @@ ArrayOf
 h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    Nelson::FileSystemWrapper::Path hdf5_filename(filename);
+    FileSystemWrapper::Path hdf5_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(hdf5_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));

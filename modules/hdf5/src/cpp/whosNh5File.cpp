@@ -12,7 +12,6 @@
 #include <iomanip>
 #include <boost/container/vector.hpp>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "whosNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5LoadVariable.hpp"
@@ -37,9 +36,10 @@ ArrayOf
 whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    Nelson::FileSystemWrapper::Path nh5_filename(filename);
+    FileSystemWrapper::Path nh5_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(nh5_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(nh5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));

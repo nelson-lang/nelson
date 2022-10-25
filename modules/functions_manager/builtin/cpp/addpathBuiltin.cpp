@@ -14,7 +14,6 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "Warning.hpp"
-#include "NormalizePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -88,7 +87,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
-        if (isDirectory(param)) {
+        if (FileSystemWrapper::Path::is_directory(param)) {
             PathFuncManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");

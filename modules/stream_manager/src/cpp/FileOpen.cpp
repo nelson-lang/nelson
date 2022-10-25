@@ -124,8 +124,8 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         return fopenError;
     }
     std::string errorMessage;
-    Nelson::FileSystemWrapper::Path canonicalPath
-        = Nelson::FileSystemWrapper::Path::canonical(filename, errorMessage);
+    FileSystemWrapper::Path canonicalPath
+        = FileSystemWrapper::Path::canonical(filename, errorMessage);
     if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
@@ -141,7 +141,7 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_CANNOT_OPEN;
         return fopenError;
     }
-    canonicalPath = Nelson::FileSystemWrapper::Path::canonical(filename, errorMessage);
+    canonicalPath = FileSystemWrapper::Path::canonical(filename, errorMessage);
     if (!errorMessage.empty()) {
         canonicalPath = filename;
     }

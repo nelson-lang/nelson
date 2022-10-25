@@ -76,9 +76,9 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (fw == nullptr) {
         Error(_W("Cannot create destination file."));
     }
-    Nelson::FileSystemWrapper::Path p(filename);
+    FileSystemWrapper::Path p(filename);
     std::string errorMessage;
-    p = Nelson::FileSystemWrapper::Path::absolute(p, errorMessage);
+    p = FileSystemWrapper::Path::absolute(p, errorMessage);
     if (!errorMessage.empty()) {
         p = filename;
     }
@@ -275,8 +275,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     std::wstring msg = responseCodeToMessage(response_code);
     if (!msg.empty()) {
         // remove file if error detected.
-        Nelson::FileSystemWrapper::Path p = filename;
-        Nelson::FileSystemWrapper::Path::remove(p);
+        FileSystemWrapper::Path p = filename;
+        FileSystemWrapper::Path::remove(p);
         Error(msg);
     }
     return fullFilename;

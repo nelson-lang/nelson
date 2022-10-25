@@ -9,7 +9,6 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
@@ -33,14 +32,14 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         filenameOut = argIn[1].getContentAsWideString();
         bool permissionDenied;
-        Nelson::FileSystemWrapper::Path pathIn(filenameIn);
-        bool IsDirIn = isDirectory(pathIn, permissionDenied);
+        FileSystemWrapper::Path pathIn(filenameIn);
+        bool IsDirIn = FileSystemWrapper::Path::is_directory(pathIn, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
 
-        Nelson::FileSystemWrapper::Path pathOut(filenameOut);
-        bool IsDirOut = isDirectory(pathOut, permissionDenied);
+        FileSystemWrapper::Path pathOut(filenameOut);
+        bool IsDirOut = FileSystemWrapper::Path::is_directory(pathOut, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
@@ -49,15 +48,15 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             wstringVector filesListIn;
             for (nfs::directory_iterator dir_iter(pathIn.native()); dir_iter != end_iter;
                  ++dir_iter) {
-                Nelson::FileSystemWrapper::Path current(dir_iter->path().native());
+                FileSystemWrapper::Path current(dir_iter->path().native());
                 if (boost::iequals(current.extension().generic_wstring(), ".md")) {
                     filesListIn.push_back(current.generic_wstring());
                 }
             }
             bool bRes = true;
             for (auto& k : filesListIn) {
-                Nelson::FileSystemWrapper::Path st(k);
-                Nelson::FileSystemWrapper::Path out(pathOut);
+                FileSystemWrapper::Path st(k);
+                FileSystemWrapper::Path out(pathOut);
                 out /= st.stem();
                 out += L".html";
                 bool bLocal = MarkdownFile(k, out.generic_wstring());

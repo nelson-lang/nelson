@@ -17,7 +17,6 @@
 #include <unistd.h>
 #endif
 #include "FileSystemWrapper.hpp"
-#include "FileSystemHelpers.hpp"
 #include "GetPreferencesPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "Nelson_VERSION.h"
@@ -37,8 +36,8 @@ buildPreferencesPath()
     std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
     bool bSet = false;
     if (penv != L"") {
-        Nelson::FileSystemWrapper::Path path(penv);
-        if (isDirectory(path)) {
+        FileSystemWrapper::Path path(penv);
+        if (FileSystemWrapper::Path::is_directory(path)) {
             prefPath = path.generic_wstring();
             bSet = true;
         } else {
@@ -56,19 +55,19 @@ buildPreferencesPath()
         }
         CoTaskMemFree(static_cast<void*>(wszPath));
         if (bOK) {
-            Nelson::FileSystemWrapper::Path path_1(strPath);
+            FileSystemWrapper::Path path_1(strPath);
             std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\")
                 + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
-            Nelson::FileSystemWrapper::Path path_2(NelSonDir);
-            Nelson::FileSystemWrapper::Path path = Nelson::FileSystemWrapper::Path(path_1);
+            FileSystemWrapper::Path path_2(NelSonDir);
+            FileSystemWrapper::Path path = FileSystemWrapper::Path(path_1);
             path /= path_2;
             prefPath = path.generic_wstring();
             bool permissionDenied;
-            if (!isDirectory(path, permissionDenied)) {
+            if (!FileSystemWrapper::Path::is_directory(path, permissionDenied)) {
                 if (permissionDenied) {
                     prefPath.clear();
                 } else {
-                    if (!Nelson::FileSystemWrapper::Path::create_directories(path)) {
+                    if (!FileSystemWrapper::Path::create_directories(path)) {
                         fprintf(
                             stderr, "%s\n", _("Error: we cannot create preferences path.").c_str());
                         prefPath.clear();
@@ -85,14 +84,14 @@ buildPreferencesPath()
             std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME)
                 + std::string("/") + std::string(NELSON_SEMANTIC_VERSION_STRING);
             std::string _homedir = std::string(homedir);
-            Nelson::FileSystemWrapper::Path path_1(_homedir);
+            FileSystemWrapper::Path path_1(_homedir);
             if (path_1.is_directory()) {
-                Nelson::FileSystemWrapper::Path path_2(NelSonDir);
-                Nelson::FileSystemWrapper::Path path { path_1 };
+                FileSystemWrapper::Path path_2(NelSonDir);
+                FileSystemWrapper::Path path { path_1 };
                 path /= path_2;
                 prefPath = path.generic_wstring();
-                if (!isDirectory(path)) {
-                    if (!Nelson::FileSystemWrapper::Path::create_directories(path)) {
+                if (!FileSystemWrapper::Path::is_directory(path)) {
+                    if (!FileSystemWrapper::Path::create_directories(path)) {
                         fprintf(stderr, "%s\n",
                             _("Error: we cannot find Nelson preferences path.").c_str());
                         prefPath = L"";

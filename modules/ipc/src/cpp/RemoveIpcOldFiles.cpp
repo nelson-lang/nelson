@@ -24,12 +24,12 @@ RemoveIpcOldFiles()
     bool result = false;
     std::string ipcDirectory;
     boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
-    Nelson::FileSystemWrapper::Path branch(ipcDirectory);
-    bool isDirectory = Nelson::FileSystemWrapper::Path::is_directory(branch);
+    FileSystemWrapper::Path branch(ipcDirectory);
+    bool isDirectory = FileSystemWrapper::Path::is_directory(branch);
     if (isDirectory) {
         for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
-            Nelson::FileSystemWrapper::Path filepath(p->path().native());
-            std::wstring filename = filepath.leaf().wstring();
+            FileSystemWrapper::Path filepath(p->path().native());
+            std::wstring filename = filepath.filename().wstring();
             if (boost::algorithm::starts_with(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
                 std::wstring pidStr = boost::replace_all_copy(
@@ -44,7 +44,7 @@ RemoveIpcOldFiles()
                 }
                 result = true;
                 if (!usedPid) {
-                    result = Nelson::FileSystemWrapper::Path::remove(filepath);
+                    result = FileSystemWrapper::Path::remove(filepath);
                 }
             }
         }

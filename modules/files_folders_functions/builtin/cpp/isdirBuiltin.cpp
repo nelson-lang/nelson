@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "isdirBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
@@ -34,8 +34,8 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
                 if (arg[k].isRowVectorCharacterArray()) {
                     bool permissionDenied;
-                    bmat[k] = static_cast<Nelson::logical>(
-                        isDirectory(arg[k].getContentAsWideString(), permissionDenied));
+                    bmat[k] = static_cast<Nelson::logical>(FileSystemWrapper::Path::is_directory(
+                        arg[k].getContentAsWideString(), permissionDenied));
                     if (permissionDenied) {
                         Error(_W("Permission denied."));
                     }
@@ -51,7 +51,8 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         bool permissionDenied;
-        retval << ArrayOf::logicalConstructor(isDirectory(wpath, permissionDenied));
+        retval << ArrayOf::logicalConstructor(
+            FileSystemWrapper::Path::is_directory(wpath, permissionDenied));
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }

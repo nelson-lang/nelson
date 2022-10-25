@@ -12,7 +12,7 @@
 #include <iostream>
 #include "Diary.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,8 +32,8 @@ bool
 Diary::SetFilename(const std::wstring& wFilename)
 {
     bool bRes = false;
-    Nelson::FileSystemWrapper::Path p(wFilename);
-    bool previouslyExist = isFile(p);
+    FileSystemWrapper::Path p(wFilename);
+    bool previouslyExist = p.is_regular_file();
     std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
 #ifdef _MSC_VER
     std::wofstream fileDiary(wFilename, wofstream_mode);
@@ -49,8 +49,8 @@ Diary::SetFilename(const std::wstring& wFilename)
     if (!bState || !previouslyExist) {
         // remove create diary if state is off
         // or if diary did not exist before
-        Nelson::FileSystemWrapper::Path p(wFilename);
-        Nelson::FileSystemWrapper::Path::remove(p);
+        FileSystemWrapper::Path p(wFilename);
+        FileSystemWrapper::Path::remove(p);
     }
     return bRes;
 }

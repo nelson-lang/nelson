@@ -16,22 +16,22 @@
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
-#include "NormalizePath.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstring& moduleshortname)
 {
-    std::wstring _modulerootpath = NormalizePath(modulerootpath);
+    std::wstring _modulerootpath = FileSystemWrapper::Path::normalize(modulerootpath);
     if (boost::algorithm::ends_with(_modulerootpath, L"\\")
         || (boost::algorithm::ends_with(_modulerootpath, L"/"))) {
         _modulerootpath.pop_back();
     }
-    if (Nelson::FileSystemWrapper::Path::is_directory(_modulerootpath)) {
-        Nelson::FileSystemWrapper::Path pathmainloader(_modulerootpath);
+    if (FileSystemWrapper::Path::is_directory(_modulerootpath)) {
+        FileSystemWrapper::Path pathmainloader(_modulerootpath);
         pathmainloader += L"/etc/startup.m";
-        if (isFile(pathmainloader)) {
+        if (FileSystemWrapper::Path::is_regular_file(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());

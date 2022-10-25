@@ -187,7 +187,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     rows = audioData.getRows();
     columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
-    Nelson::FileSystemWrapper::Path pathFilename = filename;
+    FileSystemWrapper::Path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
         extension = pathFilename.extension().generic_wstring();

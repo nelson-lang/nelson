@@ -16,7 +16,7 @@
 #include "ParseTags.hpp"
 #include "Comments.hpp"
 #include "FileParts.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -62,7 +62,7 @@ bool
 ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
 {
     bool permissionDenied;
-    if (!isFile(filename, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_regular_file(filename, permissionDenied)) {
         if (permissionDenied) {
             msg = _W("Permission denied.");
         } else {

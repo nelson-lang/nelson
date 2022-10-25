@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "sha256Builtin.hpp"
 #include "NelsonSHA256.hpp"
 #include "Error.hpp"
@@ -45,7 +45,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
                 } break;
                 default:
                 case SHA256_CONVERSION_TYPE::AUTO: {
-                    if (isFile(str)) {
+                    if (FileSystemWrapper::Path::is_regular_file(str)) {
                         elements[k] = ArrayOf::characterArrayConstructor(computeFileToSHA256(str));
                     } else {
                         elements[k]
@@ -74,7 +74,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
             } break;
             default:
             case SHA256_CONVERSION_TYPE::AUTO: {
-                if (isFile(str)) {
+                if (FileSystemWrapper::Path::is_regular_file(str)) {
                     elements[k] = ArrayOf::characterArrayConstructor(computeFileToSHA256(str));
                 } else {
                     elements[k] = ArrayOf::characterArrayConstructor(computeStringToSHA256(str));
@@ -93,7 +93,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
         } break;
         default:
         case SHA256_CONVERSION_TYPE::AUTO: {
-            if (isFile(content)) {
+            if (FileSystemWrapper::Path::is_regular_file(content)) {
                 res = ArrayOf::characterArrayConstructor(computeFileToSHA256(content));
             } else {
                 res = ArrayOf::characterArrayConstructor(computeStringToSHA256(content));

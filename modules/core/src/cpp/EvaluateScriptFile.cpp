@@ -11,7 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS /* _wfopen */
 #endif
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
@@ -25,7 +25,7 @@ static void
 mustBeExistingFile(const std::wstring& filename)
 {
     bool permissionDenied;
-    bool bIsFile = isFile(filename, permissionDenied);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
     if (permissionDenied) {
         Error(_W("Permission denied."));
     }
@@ -35,7 +35,7 @@ mustBeExistingFile(const std::wstring& filename)
 }
 //=============================================================================
 static FILE*
-filePointerWithoutShebang(const Nelson::FileSystemWrapper::Path& absolutePath)
+filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
 {
 #ifdef _MSC_BUILD
     FILE* fr = _wfopen(absolutePath.generic_wstring().c_str(), L"rt");
@@ -90,13 +90,12 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         return true;
     }
 
-    Nelson::FileSystemWrapper::Path initialDir = Nelson::FileSystemWrapper::Path::current_path();
-    Nelson::FileSystemWrapper::Path fileToEvaluate(filename);
-    Nelson::FileSystemWrapper::Path absolutePath
-        = Nelson::FileSystemWrapper::Path::absolute(fileToEvaluate);
+    FileSystemWrapper::Path initialDir = FileSystemWrapper::Path::current_path();
+    FileSystemWrapper::Path fileToEvaluate(filename);
+    FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::absolute(fileToEvaluate);
     if (fileToEvaluate.has_parent_path() && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
-        Nelson::FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
+        FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);

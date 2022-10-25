@@ -30,8 +30,8 @@ using PROC_MexIsLocked = bool (*)();
 //=============================================================================
 MexFunctionDef::MexFunctionDef(const std::wstring& filename, const std::wstring& name)
 {
-    Nelson::FileSystemWrapper::Path p(filename);
-    p = Nelson::FileSystemWrapper::Path::absolute(p);
+    FileSystemWrapper::Path p(filename);
+    p = FileSystemWrapper::Path::absolute(p);
 
     this->setName(wstring_to_utf8(name));
     this->setFilename(p.generic_wstring());

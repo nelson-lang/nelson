@@ -9,7 +9,7 @@
 //=============================================================================
 #include "xmldocbuildBuiltin.hpp"
 #include "Error.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "XmlDocDirectory.hpp"
 #include "XmlDocDocument.hpp"
 #include "XmlDocListOfDirectories.hpp"
@@ -38,7 +38,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     }
     bool permissionDenied;
     for (const auto& listOfDirectorie : listOfDirectories) {
-        if (!isDirectory(listOfDirectorie, permissionDenied)) {
+        if (!FileSystemWrapper::Path::is_directory(listOfDirectorie, permissionDenied)) {
             if (permissionDenied) {
                 Error(_W("Permission denied."));
             }
@@ -47,7 +47,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
-    if (!isDirectory(dstDirectory, permissionDenied)) {
+    if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }

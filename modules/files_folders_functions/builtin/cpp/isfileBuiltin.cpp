@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "isfileBuiltin.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -24,7 +24,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         bool permissionDenied;
-        bool bIsFile = isFile(wpath, permissionDenied);
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
@@ -32,7 +32,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isStringArray() && argIn[0].isScalar()) {
         bool permissionDenied;
         std::wstring wpath = argIn[0].getContentAsWideString();
-        bool bIsFile = isFile(wpath, permissionDenied);
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
@@ -51,7 +51,8 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
                 if (arg[k].isRowVectorCharacterArray()) {
                     bool permissionDenied;
-                    bool bIsFile = isFile(arg[k].getContentAsWideString(), permissionDenied);
+                    bool bIsFile = FileSystemWrapper::Path::is_regular_file(
+                        arg[k].getContentAsWideString(), permissionDenied);
                     if (permissionDenied) {
                         Error(_W("Permission denied."));
                     }

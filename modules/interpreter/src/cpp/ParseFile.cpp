@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,8 +20,8 @@ ParserState
 ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
 {
     ParserState ps = ParserState::ParseError;
-    Nelson::FileSystemWrapper::Path pathFunction(filename);
-    bool bIsFile = isFile(pathFunction);
+    FileSystemWrapper::Path pathFunction(filename);
+    bool bIsFile = pathFunction.is_regular_file();
     if (!bIsFile) {
         return ParserState::ParseError;
     }

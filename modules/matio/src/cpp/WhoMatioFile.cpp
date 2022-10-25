@@ -9,7 +9,7 @@
 //=============================================================================
 #include <matio.h>
 #include <boost/container/vector.hpp>
-#include "FileSystemHelpers.hpp"
+#include "FileSystemWrapper.hpp"
 #include "WhoMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -20,9 +20,10 @@ ArrayOf
 WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector& names, bool asCell)
 {
     ArrayOf res;
-    Nelson::FileSystemWrapper::Path mat_filename(filename);
+    FileSystemWrapper::Path mat_filename(filename);
     bool permissionDenied;
-    bool fileExistPreviously = isFile(mat_filename, permissionDenied);
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
             Error(_W("Permission denied."));

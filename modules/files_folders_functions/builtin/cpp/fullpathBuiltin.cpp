@@ -9,9 +9,9 @@
 //=============================================================================
 #include "fullpathBuiltin.hpp"
 #include "Error.hpp"
-#include "NormalizePath.hpp"
 #include "IsCellOfStrings.hpp"
 #include "ToCellString.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,7 +28,7 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
         wstringVector normalizedPaths;
         normalizedPaths.reserve(dims.getElementCount());
         for (const std::wstring& s : paths) {
-            normalizedPaths.push_back(NormalizePath(s));
+            normalizedPaths.push_back(FileSystemWrapper::Path::normalize(s));
         }
         if (param1.isStringArray()) {
             retval << ArrayOf::stringArrayConstructor(normalizedPaths, dims);
@@ -37,7 +37,7 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
         }
     } else {
         std::wstring path = argIn[0].getContentAsWideString();
-        retval << ArrayOf::characterArrayConstructor(NormalizePath(path));
+        retval << ArrayOf::characterArrayConstructor(FileSystemWrapper::Path::normalize(path));
     }
     return retval;
 }
