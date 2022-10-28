@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include "DebugStack.hpp"
 #include "characters_encoding.hpp"

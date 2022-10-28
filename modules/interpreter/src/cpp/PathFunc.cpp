@@ -8,37 +8,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/format.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string.hpp>
 #include "PathFunc.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 #include "Error.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-bool
-PathFunc::isdir(const std::wstring& path)
-{
-    boost::filesystem::path data_dir(path);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
 //=============================================================================
 PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
-    if (isdir(path)) {
+    if (FileSystemWrapper::Path::is_directory(path)) {
         _path = path;
     } else {
         _path.clear();
@@ -49,15 +31,10 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 bool
 PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
-    boost::filesystem::path p1(path1);
-    boost::filesystem::path p2(path2);
-    bool res = false;
-    try {
-        boost::filesystem::equivalent(p1, p2);
-    } catch (const boost::filesystem::filesystem_error&) {
-        res = (p1 == p2);
-    }
-    return res;
+
+    FileSystemWrapper::Path p1(path1);
+    FileSystemWrapper::Path p2(path2);
+    return FileSystemWrapper::Path::equivalent(p1, p2);
 }
 //=============================================================================
 PathFunc::~PathFunc()
@@ -129,10 +106,11 @@ PathFunc::rehash()
     if (!_path.empty()) {
         mapRecentFiles.clear();
         try {
-            boost::filesystem::directory_iterator end_iter;
-            for (boost::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter;
+            nfs::directory_iterator end_iter;
+            FileSystemWrapper::Path path(_path);
+            for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
                  ++dir_iter) {
-                boost::filesystem::path current = dir_iter->path();
+                FileSystemWrapper::Path current(dir_iter->path().native());
                 std::wstring ext = current.extension().generic_wstring();
                 bool isMacro = ext == L".m";
                 bool isMex = ext == L"." + getMexExtension();
@@ -151,20 +129,9 @@ PathFunc::rehash()
                     }
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) {
+        } catch (const nfs::filesystem_error&) {
         }
     }
-}
-//=============================================================================
-static bool
-isfile(const std::wstring& filename)
-{
-    try {
-        return boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-
-    } catch (const boost::filesystem::filesystem_error&) {
-    }
-    return false;
 }
 //=============================================================================
 bool
@@ -174,18 +141,18 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
-        if (isfile(filename)) {
+        if (FileSystemWrapper::Path::is_regular_file(filename)) {
             return true;
         }
     }
     if (withWatcher) {
         const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
-        if (isfile(mexFullFilename)) {
+        if (FileSystemWrapper::Path::is_regular_file(mexFullFilename)) {
             filename = mexFullFilename;
             return true;
         }
         const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
-        if (isfile(macroFullFilename)) {
+        if (FileSystemWrapper::Path::is_regular_file(macroFullFilename)) {
             filename = macroFullFilename;
             return true;
         }
@@ -200,7 +167,7 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         = mapRecentFiles.find(functionName);
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
-        if (isfile(foundit->second->getFilename())) {
+        if (FileSystemWrapper::Path::is_regular_file(foundit->second->getFilename())) {
             return true;
         }
         if (!withWatcher) {
@@ -214,7 +181,7 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         *ff = found->second;
-        if (isfile(found->second->getFilename())) {
+        if (FileSystemWrapper::Path::is_regular_file(found->second->getFilename())) {
             mapRecentFiles.emplace(functionName, *ff);
             return true;
         }
@@ -229,10 +196,10 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
         bool foundAsMacro = false;
         bool foundAsMex = false;
-        foundAsMex = isfile(mexFullFilename);
+        foundAsMex = FileSystemWrapper::Path::is_regular_file(mexFullFilename);
         if (!foundAsMex) {
             const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
-            foundAsMacro = isfile(macroFullFilename);
+            foundAsMacro = FileSystemWrapper::Path::is_regular_file(macroFullFilename);
         }
         if (foundAsMex || foundAsMacro) {
             try {

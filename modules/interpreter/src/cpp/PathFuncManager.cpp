@@ -8,9 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cerrno>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -27,25 +24,11 @@
 #include "Exception.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FunctionsInMemory.hpp"
-#include "NormalizePath.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 PathFuncManager* PathFuncManager::m_pInstance = nullptr;
-//=============================================================================
-static bool
-isSamePath(const std::wstring& p1, const std::wstring& p2)
-{
-    if (p1.compare(p2) == 0) {
-        return true;
-    }
-    boost::filesystem::path _path1 = p1;
-    boost::filesystem::path _path2 = p2;
-    if (boost::filesystem::equivalent(p1, p2)) {
-        return true;
-    }
-    return false;
-}
 //=============================================================================
 static std::ifstream&
 safegetline(std::ifstream& os, std::string& line)
@@ -239,14 +222,15 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
     bool res = false;
 
     boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+        _pathFuncVector.end(),
+        [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
     if (it != _pathFuncVector.end()) {
         return false;
     }
     bool withWatch = frozen ? false : true;
     PathFunc* pf = nullptr;
     try {
-        pf = new PathFunc(path, withWatch);
+        pf = new PathFunc(FileSystemWrapper::Path::normalize(path), withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
@@ -267,7 +251,8 @@ PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
     boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+        _pathFuncVector.end(),
+        [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
 
     if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
@@ -310,9 +295,9 @@ PathFuncManager::getUserPath()
 bool
 PathFuncManager::setCurrentUserPath(const std::wstring& path)
 {
-    const std::wstring normalizedPath = NormalizePath(path);
+    const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
     if (_currentPath != nullptr) {
-        if (isSamePath(normalizedPath, _currentPath->getPath())) {
+        if (FileSystemWrapper::Path::equivalent(normalizedPath, _currentPath->getPath())) {
             return true;
         }
         delete _currentPath;
@@ -331,7 +316,7 @@ PathFuncManager::setUserPath(const std::wstring& path, bool saveToFile)
 {
     clearUserPath();
     if (_userPath == nullptr) {
-        const std::wstring normalizedPath = NormalizePath(path);
+        const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
         _userPath = new PathFunc(normalizedPath);
     }
     if (saveToFile) {
@@ -357,11 +342,8 @@ PathFuncManager::resetUserPath()
 {
     std::wstring prefDir = getPreferencesPath();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
-    try {
-        boost::filesystem::path p = userPathFile;
-        boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) {
-    } //-V565
+    FileSystemWrapper::Path p(userPathFile);
+    FileSystemWrapper::Path::remove(p);
     userpathCompute();
 }
 //=============================================================================
@@ -387,37 +369,28 @@ void
 PathFuncManager::rehash(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
-        try {
-            boost::filesystem::path p1 { _currentPath->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                _currentPath->rehash();
-                return;
-            }
-        } catch (const boost::filesystem::filesystem_error&) {
-        } //-V565
+        FileSystemWrapper::Path p1 { _currentPath->getPath() }, p2 { path };
+        if (FileSystemWrapper::Path::equivalent(p1, p2)) {
+            _currentPath->rehash();
+            return;
+        }
     }
     if (_userPath != nullptr) {
-        try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                _userPath->rehash();
-                return;
-            }
-        } catch (const boost::filesystem::filesystem_error&) {
-        } //-V565
+        FileSystemWrapper::Path p1 { _userPath->getPath() }, p2 { path };
+        if (FileSystemWrapper::Path::equivalent(p1, p2)) {
+            _userPath->rehash();
+            return;
+        }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
-            try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
-                if (boost::filesystem::equivalent(p1, p2)) {
-                    pf->rehash();
-                    return;
-                }
-            } catch (const boost::filesystem::filesystem_error&) {
-            } //-V565
+            FileSystemWrapper::Path p1 { pf->getPath() }, p2 { path };
+            if (FileSystemWrapper::Path::equivalent(p1, p2)) {
+                pf->rehash();
+                return;
+            }
         }
     }
 }
@@ -528,38 +501,6 @@ PathFuncManager::clearCache(const stringVector& exceptedFunctions)
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
 //=============================================================================
-bool
-PathFuncManager::isDir(const std::wstring& pathname)
-{
-    boost::filesystem::path data_dir(pathname);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
-bool
-PathFuncManager::isFile(const std::wstring& filename)
-{
-    boost::filesystem::path data_dir(filename);
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
-}
-//=============================================================================
 void
 PathFuncManager::userpathCompute()
 {
@@ -567,7 +508,7 @@ PathFuncManager::userpathCompute()
     std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
     bool bSet = false;
     if (!userpathEnv.empty()) {
-        if (isDir(userpathEnv)) {
+        if (FileSystemWrapper::Path::is_directory(userpathEnv)) {
             setUserPath(userpathEnv);
             bSet = true;
         }
@@ -580,36 +521,30 @@ PathFuncManager::userpathCompute()
         } catch (const Exception&) {
             prefDir.clear();
         }
-        try {
-            userPathFile = prefDir + L"/userpath.conf";
-            bool bIsFile = boost::filesystem::exists(userPathFile)
-                && !boost::filesystem::is_directory(userPathFile);
-            if (bIsFile) {
-                std::wstring preferedUserPath = loadUserPathFromFile();
-                if (!preferedUserPath.empty()) {
-                    if (isDir(preferedUserPath)) {
-                        setUserPath(preferedUserPath);
-                        bSet = true;
-                    }
-                } else {
+
+        userPathFile = prefDir + L"/userpath.conf";
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(userPathFile);
+        if (bIsFile) {
+            std::wstring preferedUserPath = loadUserPathFromFile();
+            if (!preferedUserPath.empty()) {
+                if (FileSystemWrapper::Path::is_directory(preferedUserPath)) {
+                    setUserPath(preferedUserPath);
                     bSet = true;
                 }
+            } else {
+                bSet = true;
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        } //-V565
+        }
     }
     if (!bSet) {
 #ifdef _MSC_VER
         std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
         if (!userprofileEnv.empty()) {
             std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
-            if (!isDir(userpathDir)) {
-                try {
-                    boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                } //-V565
+            if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
+                FileSystemWrapper::Path::create_directories(userpathDir);
             }
-            if (isDir(userpathDir)) {
+            if (FileSystemWrapper::Path::is_directory(userpathDir)) {
                 setUserPath(userpathDir);
             }
         }
@@ -617,13 +552,10 @@ PathFuncManager::userpathCompute()
         std::wstring homeEnv = GetVariableEnvironment(L"HOME", L"");
         if (homeEnv != L"") {
             std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
-            if (!isDir(userpathDir)) {
-                try {
-                    boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                }
+            if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
+                FileSystemWrapper::Path::create_directories(userpathDir);
             }
-            if (isDir(userpathDir)) {
+            if (FileSystemWrapper::Path::is_directory(userpathDir)) {
                 setUserPath(userpathDir);
             }
         }
@@ -645,8 +577,7 @@ PathFuncManager::loadUserPathFromFile()
     std::wstring preferedUserPath = L"";
     std::wstring prefDir = getPreferencesPath();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
-    bool bIsFile
-        = boost::filesystem::exists(userPathFile) && !boost::filesystem::is_directory(userPathFile);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(userPathFile);
     if (bIsFile) {
         std::string tmpline;
 #ifdef _MSC_VER

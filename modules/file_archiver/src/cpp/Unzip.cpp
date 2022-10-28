@@ -10,9 +10,9 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
+#include "FileSystemWrapper.hpp"
 #include "Unzip.hpp"
 #include "UnzipHelpers.hpp"
 #include "ZipHelpers.hpp"
@@ -24,15 +24,10 @@ namespace Nelson {
 void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& filenames)
 {
-    if (!isExistingDirectory(rootpath)) {
-        try {
-#ifdef _MSC_VER
-            boost::filesystem::path p = rootpath;
-#else
-            boost::filesystem::path p = wstring_to_utf8(rootpath);
-#endif
-            boost::filesystem::create_directories(p);
-        } catch (const boost::filesystem::filesystem_error&) {
+    if (!FileSystemWrapper::Path::is_directory(rootpath)) {
+        FileSystemWrapper::Path p(rootpath);
+        std::string errorMessage;
+        if (!FileSystemWrapper::Path::create_directories(p, errorMessage)) {
             Error(_W("Cannot create directory."));
         }
     }
@@ -60,16 +55,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
             std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
-            if (!isExistingDirectory(completePath)) {
-                try {
-#ifdef _MSC_VER
-                    boost::filesystem::create_directories(completePath);
-#else
-                    boost::filesystem::create_directories(wstring_to_utf8(completePath));
-#endif
-                } catch (const boost::filesystem::filesystem_error& e) {
-                    boost::system::error_code error_code = e.code();
-                }
+            if (!FileSystemWrapper::Path::is_directory(completePath)) {
+                FileSystemWrapper::Path::create_directories(completePath);
             }
             filenames.push_back(completePath);
         } else {

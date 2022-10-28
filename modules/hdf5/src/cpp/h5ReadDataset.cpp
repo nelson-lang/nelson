@@ -9,8 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "FileSystemWrapper.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
@@ -38,17 +37,16 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         Error(_W("Valid data set name expected."));
     }
     hid_t fid = H5I_INVALID_HID;
-    boost::filesystem::path hdf5_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = boost::filesystem::exists(hdf5_filename)
-            && !boost::filesystem::is_directory(hdf5_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    FileSystemWrapper::Path hdf5_filename(filename);
+    bool permissionDenied;
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
     }
+
     if (!fileExistPreviously) {
         Error(_W("file does not exist."));
     }

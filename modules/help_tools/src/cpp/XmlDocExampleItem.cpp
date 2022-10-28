@@ -11,14 +11,13 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocExampleItem.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -103,7 +102,7 @@ XmlDocExampleItem::writeAsMarkdown(std::string& utf8stream)
         if (parseImageTag(this->_imageTag, this->_srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            boost::filesystem::path absolutePath = oldPath;
+            FileSystemWrapper::Path absolutePath(oldPath);
             if (absolutePath.has_filename()) {
                 filename = absolutePath.stem().generic_wstring();
             }
@@ -145,7 +144,7 @@ XmlDocExampleItem::writeAsHtml(std::string& utf8stream)
         if (parseImageTag(this->_imageTag, this->_srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            boost::filesystem::path absolutePath = oldPath;
+            FileSystemWrapper::Path absolutePath(oldPath);
             if (absolutePath.has_filename()) {
                 filename = absolutePath.stem().generic_wstring();
             }

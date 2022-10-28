@@ -9,11 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "HDF5_helpers.hpp"
-#include "Exception.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

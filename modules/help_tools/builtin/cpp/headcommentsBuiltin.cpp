@@ -10,7 +10,7 @@
 #include "headcommentsBuiltin.hpp"
 #include "Error.hpp"
 #include "HeadComments.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
@@ -29,7 +29,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
         std::wstring functionName;
         if (arg1.isRowVectorCharacterArray()) {
             functionName = arg1.getContentAsWideString();
-            if (IsFile(functionName)) {
+            if (FileSystemWrapper::Path::is_regular_file(functionName)) {
                 filename = functionName;
             } else {
                 Context* context = eval->getContext();

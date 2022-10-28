@@ -21,9 +21,15 @@ assert_isequal(a, 35);
 assert_isequal(s, [0 0 0]);
 assert_isequal(size(w), [1 3]);
 assert_istrue(isa(w, 'string'));
-assert_istrue(startsWith(w{1}, 'hello'));
-assert_istrue(startsWith(w{2}, 'my'));
-assert_istrue(startsWith(w{3}, 'world'));
+w1 = char(w(1));
+w1 = w1(1:5);
+w2 = char(w(2));
+w2 = w2(1:2);
+w3 = char(w(3));
+w3 = w3(1:5);
+assert_isequal(w1, 'hello')
+assert_isequal(w2, 'my');
+assert_isequal(w3, 'world');
 %=============================================================================
 if ispc()
   tic();
@@ -31,13 +37,13 @@ if ispc()
   t = toc();
 else
   tic();
-  [s, w, d] = system(["sleep 4s", "sleep 6s", "sleep 9s"]);
+  [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"]);
   t = toc();
 end
 if (maxNumCompThreads() > 3)
-  assert_istrue(t >= 9 && t < 11)
+  assert_istrue(t >= 8 && t < 12)
 else
-  assert_istrue(t >= 9 && t < 14)
+  assert_istrue(t >= 8 && t < 15)
 end
 assert_istrue(d(1) >= 4000 && d(1) <= 5000)
 assert_istrue(d(2) >= 6000 && d(2) <= 7000)
@@ -50,7 +56,7 @@ if ispc()
   t = toc();
 else
   tic();
-  [s, w, d] = system(["sleep 4s", "sleep 6s", "sleep 9s"], [1, 5, 3]);
+  [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"], [1, 5, 3]);
   t = toc();
 end
 assert_istrue(t >= 5 && t < 7)

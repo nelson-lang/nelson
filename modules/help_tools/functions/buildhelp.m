@@ -51,7 +51,7 @@ function buildhelp_from_path(module, module_path)
       if isdir(dstbuild)
         [res, msg] = rmdir(dstbuild, 's');
         if ~res
-          error('msg');
+          error(msg);
         end
       end
       [res, msg] = mkdir(dstbuild);

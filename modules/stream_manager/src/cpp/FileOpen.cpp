@@ -10,11 +10,10 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "FileOpen.hpp"
 #include "File.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -124,11 +123,10 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_IMPOSSIBLE_TO_ADD_FILE;
         return fopenError;
     }
-    boost::filesystem::path canonicalPath;
-    try {
-        canonicalPath = boost::filesystem::canonical(filename, boost::filesystem::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+    std::string errorMessage;
+    FileSystemWrapper::Path canonicalPath
+        = FileSystemWrapper::Path::canonical(filename, errorMessage);
+    if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
 #ifdef _MSC_VER
@@ -143,10 +141,8 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
         fopenError = FOPEN_CANNOT_OPEN;
         return fopenError;
     }
-    try {
-        canonicalPath = boost::filesystem::canonical(filename, boost::filesystem::current_path());
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+    canonicalPath = FileSystemWrapper::Path::canonical(filename, errorMessage);
+    if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
     file->setFileName(canonicalPath.generic_path().generic_wstring());

@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
@@ -33,7 +33,7 @@ removeSimpleQuotesAndTrim(const std::wstring& newpath)
 ArrayOf
 Cd(const std::wstring& newpath)
 {
-    boost::filesystem::path previous_pwd = boost::filesystem::current_path();
+    FileSystemWrapper::Path previous_pwd = FileSystemWrapper::Path::current_path();
     ChangeDirectory(newpath, true, true);
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
@@ -51,12 +51,13 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
     if (trimPath) {
         pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
-    try {
-        boost::filesystem::current_path(pathApplied);
+    std::string errorMessage;
+    FileSystemWrapper::Path::current_path(pathApplied, errorMessage);
+    if (errorMessage.empty()) {
         PathFuncManager::getInstance()->setCurrentUserPath(
-            boost::filesystem::current_path().generic_wstring());
+            FileSystemWrapper::Path::current_path().generic_wstring());
         return true;
-    } catch (const boost::filesystem::filesystem_error&) {
+    } else {
         if (doException) {
             std::wstring msg
                 = str(boost::wformat(_W("Cannot change directory '%s'.")) % pathApplied);

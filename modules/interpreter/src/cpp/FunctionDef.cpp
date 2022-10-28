@@ -8,8 +8,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
@@ -22,11 +21,11 @@ void
 FunctionDef::setFilename(const std::wstring& filename)
 {
     this->filename = filename;
-    boost::filesystem::path path(filename);
+    FileSystemWrapper::Path path(filename);
     this->pathname = path.parent_path().generic_wstring();
-    try {
-        this->timestamp = boost::filesystem::last_write_time(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
+    std::string errorMessage;
+    this->timestamp = FileSystemWrapper::Path::last_write_time(filename, errorMessage);
+    if (!errorMessage.empty()) {
         this->timestamp = 0;
     }
 }

@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,16 +25,11 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
-        boost::filesystem::path pathIn(fileOrDirName);
-        bool IsFileIn = false;
-        try {
-            IsFileIn
-                = boost::filesystem::exists(pathIn) && !boost::filesystem::is_directory(pathIn);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
-            IsFileIn = false;
+        FileSystemWrapper::Path pathIn(fileOrDirName);
+        bool permissionDenied;
+        bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
         if (IsFileIn) {
             wstringVector errorRes;

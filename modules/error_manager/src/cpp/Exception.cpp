@@ -9,15 +9,12 @@
 //=============================================================================
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <utility>
+#include "FileSystemWrapper.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -219,7 +216,11 @@ Exception::getFormattedErrorMessage() const
         if (traces[k].getFunctionName() == L"run") {
             if ((k >= 1) && traces[k - 1].getLine() != 0) {
                 size_t pos = k - 1;
-                boost::filesystem::path pf = boost::filesystem::path(traces[pos].getFilename());
+#ifdef _MSC_VER
+                nfs::path pf(traces[pos].getFilename());
+#else
+                nfs::path pf(wstring_to_utf8(traces[pos].getFilename()));
+#endif
                 std::wstring filename;
                 if (traces[pos].getFilename().size() > 50) {
                     filename = pf.filename().wstring();

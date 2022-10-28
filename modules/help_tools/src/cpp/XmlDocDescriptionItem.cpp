@@ -17,7 +17,7 @@
 #include "i18n.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -111,7 +111,7 @@ XmlDocDescriptionItem::replaceImageTag()
         if (parseImageTag(tag, this->srcDirectory, oldPath, newPath)) {
             std::wstring filename = L"";
             std::wstring extension = L"";
-            boost::filesystem::path absolutePath = oldPath;
+            FileSystemWrapper::Path absolutePath = oldPath;
             if (absolutePath.has_filename()) {
                 filename = absolutePath.stem().generic_wstring();
             }

@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "RemoveModule.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,11 +31,10 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
         if (rootpathmodule.empty()) {
             Error(moduleshortname + _W(": This module is registered but it has no path."));
         }
-        if (boost::filesystem::is_directory(rootpathmodule)) {
-            boost::filesystem::path pathfinish(rootpathmodule);
+        if (FileSystemWrapper::Path::is_directory(rootpathmodule)) {
+            FileSystemWrapper::Path pathfinish(rootpathmodule);
             pathfinish += L"/etc/finish.m";
-            if (boost::filesystem::exists(pathfinish)
-                && !boost::filesystem::is_directory(pathfinish)) {
+            if (FileSystemWrapper::Path::is_regular_file(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
                 Error(_W("finish.m does not exist."));

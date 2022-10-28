@@ -9,12 +9,11 @@
 //=============================================================================
 #include <matio.h>
 #include <iomanip>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/container/vector.hpp>
 #include "WhosMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -101,16 +100,14 @@ WhosMatioFile(
     Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
-    boost::filesystem::path mat_filename(filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously = boost::filesystem::exists(mat_filename)
-            && !boost::filesystem::is_directory(mat_filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
+    FileSystemWrapper::Path mat_filename(filename);
+    bool permissionDenied;
+    bool fileExistPreviously
+        = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
+    if (!fileExistPreviously) {
+        if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        fileExistPreviously = false;
     }
     if (!fileExistPreviously) {
         Error(_W("File does not exist."));

@@ -8,11 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
+#include <cstdlib>
 #include "SetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
-#include <cstdlib>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

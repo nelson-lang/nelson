@@ -8,17 +8,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MakeDirectory.hpp"
-#include "IsDirectory.hpp"
+#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message)
 {
-    boost::filesystem::path fullpath = parentDir;
+    FileSystemWrapper::Path fullpath = parentDir;
     fullpath /= newDir;
     return MakeDirectory(fullpath.wstring(), message);
 }
@@ -28,15 +27,14 @@ MakeDirectory(const std::wstring& newDir, std::wstring& message)
 {
     bool bOK = false;
     message = L"";
-    if (IsDirectory(newDir)) {
+    if (FileSystemWrapper::Path::is_directory(newDir)) {
         bOK = true;
         message = _W("Directory already exists.");
     } else {
-        try {
-            bOK = boost::filesystem::create_directories(newDir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        std::string errorMessage;
+        bOK = FileSystemWrapper::Path::create_directories(newDir, errorMessage);
+        if (!bOK) {
+            message = utf8_to_wstring(errorMessage);
         }
     }
     return bOK;

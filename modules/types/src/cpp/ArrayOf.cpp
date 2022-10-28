@@ -14,7 +14,6 @@
 //=============================================================================
 #include <cstring>
 #include "lapack_eigen.hpp"
-#include <Eigen/src/misc/lapacke.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
@@ -38,8 +37,6 @@
 #endif
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static int objectBalance;
 //=============================================================================
 ArrayOfVector
 scalarArrayOfToArrayOfVector(const ArrayOf& a)

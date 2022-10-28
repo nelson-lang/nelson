@@ -9,8 +9,7 @@
 //=============================================================================
 #include "ListFiles.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/convenience.hpp>
@@ -23,43 +22,50 @@ boost::container::vector<FileInfo>
 ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 {
     boost::container::vector<FileInfo> res;
-    boost::filesystem::path path(mask);
-    if (boost::filesystem::exists(path)) {
+    nfs::path path(mask);
+    if (nfs::exists(path)) {
         res.push_back(FileInfo(path.wstring()));
     } else {
-        boost::filesystem::path branch(path.branch_path());
+        nfs::path branch(path.parent_path());
         if (branch.empty()) {
-            branch = boost::filesystem::current_path();
+            branch = nfs::current_path();
         }
-        if (boost::filesystem::is_directory(branch)) {
-            std::wstring _mask = path.leaf().wstring();
+        if (nfs::is_directory(branch)) {
+            std::wstring _mask = path.filename().wstring();
             _mask = boost::regex_replace(_mask, boost::wregex(L"\\."), L"\\\\.");
             _mask = boost::regex_replace(_mask, boost::wregex(L"\\?"), L".");
             _mask = boost::regex_replace(_mask, boost::wregex(L"\\*"), L".*");
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
-                if (IsDirectory(branch.wstring())) {
+                bool permissionDenied = false;
+                bool isDir
+                    = FileSystemWrapper::Path::is_directory(branch.wstring(), permissionDenied);
+                if (isDir) {
                     try {
-                        for (boost::filesystem::recursive_directory_iterator p(branch), end;
-                             p != end; ++p) {
-                            if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
+                        for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
+                             ++p) {
+                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            boost::filesystem::path current = file;
+                            nfs::path current = file;
                             res.push_back(FileInfo(current.wstring()));
                         }
-                    } catch (const boost::filesystem::filesystem_error& e) {
-                        boost::system::error_code error_code = e.code();
+                    } catch (const nfs::filesystem_error& e) {
+                        std::error_code error_code = e.code();
                         Error(error_code.message());
+                    }
+                } else {
+                    if (permissionDenied) {
+                        Error(_W("Permission denied."));
                     }
                 }
             } else {
-                boost::filesystem::path dir = branch;
-                boost::filesystem::path r = dir.root_path();
+                nfs::path dir = branch;
+                nfs::path r = dir.root_path();
                 /*
                 if (dir != r)
                 {
@@ -67,22 +73,22 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                     res.push_back(FileInfo(branch.wstring() + L"/..", bSubdirectories));
                 }
                 */
-                if (IsDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
-                        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
+                        for (nfs::directory_iterator p(branch.native()), end; p != end; ++p) {
+                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
                             if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
                                 file = std::wstring(file.begin() + 2, file.end());
                             }
-                            boost::filesystem::path current = file;
+                            nfs::path current(file);
                             res.push_back(FileInfo(current.wstring()));
                         }
-                    } catch (const boost::filesystem::filesystem_error& e) {
+                    } catch (const nfs::filesystem_error& e) {
                         if (!bSubdirectories) {
-                            boost::system::error_code error_code = e.code();
+                            std::error_code error_code = e.code();
                             Error(error_code.message());
                         }
                     }
@@ -108,7 +114,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             res = ListFilesWithWildcard(directory, bSubdirectories);
         }
     } else {
-        if (IsFile(directory)) {
+        if (FileSystemWrapper::Path::is_regular_file(directory)) {
             res.push_back(FileInfo(directory));
         } else {
             if (directory.empty()) {
@@ -122,51 +128,51 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             } else {
                 directorymodified = directory + L"/";
             }
-            boost::filesystem::path thispath = directorymodified;
-            boost::filesystem::path branch(thispath.branch_path());
+            nfs::path thispath = directorymodified;
+            nfs::path branch(thispath.parent_path());
             if (branch.empty()) {
-                branch = boost::filesystem::current_path() / directory;
+                branch = nfs::current_path() / directory;
             } else {
                 if (branch.generic_wstring().back() == L':') {
                     branch = branch.generic_wstring() + L"/";
                 }
             }
-            if (!boost::filesystem::is_directory(branch)) {
+            if (!nfs::is_directory(branch)) {
                 res.clear();
                 return res;
             }
             if (bSubdirectories) {
-                if (IsDirectory(branch.wstring())) {
+                if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
-                        for (boost::filesystem::recursive_directory_iterator dir_iter(branch), end;
+                        for (nfs::recursive_directory_iterator dir_iter(branch.native()), end;
                              dir_iter != end; ++dir_iter) {
-                            boost::filesystem::path current = dir_iter->path();
+                            nfs::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring()));
                         }
-                    } catch (const boost::filesystem::filesystem_error& e) {
+                    } catch (const nfs::filesystem_error& e) {
                         if (!bSubdirectories) {
-                            boost::system::error_code error_code = e.code();
+                            std::error_code error_code = e.code();
                             Error(error_code.message());
                         }
                     }
                 }
             } else {
-                boost::filesystem::path dir = branch;
-                boost::filesystem::path r = dir.root_path();
-                if (IsDirectory(directory)) {
+                nfs::path dir = branch;
+                nfs::path r = dir.root_path();
+                if (FileSystemWrapper::Path::is_directory(directory)) {
                     if (dir != r) {
                         res.push_back(FileInfo(directory + L"/."));
                         res.push_back(FileInfo(directory + L"/.."));
                     }
                     try {
-                        for (boost::filesystem::directory_iterator dir_iter(directory), end;
-                             dir_iter != end; ++dir_iter) {
-                            boost::filesystem::path current = dir_iter->path();
+                        for (nfs::directory_iterator dir_iter(directory), end; dir_iter != end;
+                             ++dir_iter) {
+                            nfs::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring()));
                         }
-                    } catch (const boost::filesystem::filesystem_error& e) {
+                    } catch (const nfs::filesystem_error& e) {
                         if (!bSubdirectories) {
-                            boost::system::error_code error_code = e.code();
+                            std::error_code error_code = e.code();
                             Error(error_code.message());
                         }
                     }

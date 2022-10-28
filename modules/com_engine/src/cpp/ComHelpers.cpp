@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ComHelpers.hpp"
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <atlconv.h>
 #include <boost/algorithm/string.hpp>
+#include "ComHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

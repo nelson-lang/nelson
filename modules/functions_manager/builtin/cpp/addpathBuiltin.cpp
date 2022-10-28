@@ -9,13 +9,11 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "FileSystemWrapper.hpp"
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "Warning.hpp"
-#include "NormalizePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -89,17 +87,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
-        boost::filesystem::path data_dir(param);
-        bool bRes = false;
-        try {
-            bRes = boost::filesystem::is_directory(data_dir);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-            bRes = false;
-        }
-        if (bRes) {
+        if (FileSystemWrapper::Path::is_directory(param)) {
             PathFuncManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");

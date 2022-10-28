@@ -14,7 +14,7 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 #include "HtmlExporter.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -50,15 +50,14 @@ copyHtmlDependencies(
         files.push_back(L"sort.js");
         files.push_back(L"mono-blue.css");
         for (auto& file : files) {
-            boost::filesystem::path dstFile = directoryDestination;
+            FileSystemWrapper::Path dstFile = FileSystemWrapper::Path(directoryDestination);
             dstFile = dstFile / file;
-            if (!boost::filesystem::exists(dstFile)) {
-                boost::filesystem::path srcFile = ressourcesPath;
+            if (!dstFile.exists()) {
+                FileSystemWrapper::Path srcFile = FileSystemWrapper::Path(ressourcesPath);
                 srcFile = srcFile / file;
-                bool bIsFile = boost::filesystem::exists(srcFile)
-                    && !boost::filesystem::is_directory(srcFile);
+                bool bIsFile = srcFile.is_regular_file();
                 if (bIsFile) {
-                    boost::filesystem::copy_file(srcFile, dstFile);
+                    FileSystemWrapper::Path::copy_file(srcFile, dstFile);
                 }
             }
         }
@@ -108,9 +107,9 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
         double totalTime = std::get<3>(element);
         int nbCalls = std::get<2>(element);
         double coverage = std::get<4>(element);
-        boost::filesystem::path p1(std::get<1>(element));
+        FileSystemWrapper::Path p1(std::get<1>(element));
         std::string file_x_html = wstring_to_utf8(p1.filename().wstring());
-        boost::filesystem::path p2(std::get<0>(element));
+        FileSystemWrapper::Path p2(std::get<0>(element));
         std::string filename = wstring_to_utf8(p2.wstring());
 
         file << "<tr>" << std::endl;

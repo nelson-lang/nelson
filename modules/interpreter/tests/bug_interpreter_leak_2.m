@@ -44,15 +44,11 @@ clear('functions');
 if is_release_version
   disp(u3.MemUsedNelson - u2.MemUsedNelson)
   assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 340000)
-  disp(u2.MemUsedNelson - u1.MemUsedNelson)
-  assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 15000000)
   disp(u3.MemUsedNelson - u1.MemUsedNelson)
   assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 15000000)
 else
   disp(u3.MemUsedNelson - u2.MemUsedNelson)
   assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 380000)
-  disp(u2.MemUsedNelson - u1.MemUsedNelson)
-  assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 20000000)
   disp(u3.MemUsedNelson - u1.MemUsedNelson)
   assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 22000000)
 end

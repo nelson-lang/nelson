@@ -9,10 +9,11 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "LineManager.hpp"
-#include "NelsonHistory.hpp"
+#define WIN32_LEAN_AND_MEAN
 #include <Intsafe.h>
 #include <Windows.h>
+#include "LineManager.hpp"
+#include "NelsonHistory.hpp"
 //=============================================================================
 LineManager::LineManager()
 {

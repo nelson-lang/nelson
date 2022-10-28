@@ -48,10 +48,6 @@ private:
     loadUserPathFromFile();
     bool
     saveUserPathToFile();
-    bool
-    isFile(const std::wstring& filename);
-    bool
-    isDir(const std::wstring& pathname);
 
 public:
     static PathFuncManager*

@@ -11,7 +11,6 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 #include <tuple>
@@ -21,6 +20,7 @@
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "HtmlExporter.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -309,7 +309,7 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
         profilerLines) {
         if (nbLinesDisplayed < nbLinesToDisplay || nbLinesToDisplay == -1) {
             // filename, line, name, nbcalls, tottime, percall
-            boost::filesystem::path p(std::get<0>(line));
+            FileSystemWrapper::Path p(std::get<0>(line));
             std::string filename = p.filename().string();
             uint64 linepos = std::get<1>(line);
             std::string name = std::get<2>(line);
@@ -331,22 +331,6 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLine
             nbLinesDisplayed++;
         }
     }
-}
-//=============================================================================
-static bool
-isFile(const std::string& filename)
-{
-    boost::filesystem::path data_dir(utf8_to_wstring(filename));
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEBUG
-        }
-        bRes = false;
-    }
-    return bRes;
 }
 //=============================================================================
 std::vector<std::tuple<int, double>>
@@ -405,16 +389,14 @@ Profiler::save(
     std::wstring& errorMessage)
 {
     std::wstring profileDirectory = destinationDirectory;
-    try {
-        if (!boost::filesystem::exists(profileDirectory)) {
-            boost::filesystem::create_directory(profileDirectory);
+    if (!FileSystemWrapper::Path::is_directory(profileDirectory)
+        && !FileSystemWrapper::Path::is_regular_file(profileDirectory)) {
+        std::string message;
+        if (!FileSystemWrapper::Path::create_directory(profileDirectory, message)) {
+            errorMessage = utf8_to_wstring(message);
+            return;
         }
-    } catch (const boost::filesystem::filesystem_error& e) {
-        boost::system::error_code error_code = e.code();
-        errorMessage = utf8_to_wstring(error_code.message());
-        return;
     }
-
     // filename, line, time, calls
     std::vector<std::tuple<std::string, uint64, uint64, uint64>> flatProfile;
     // filename, line, name, nbcalls, tottime, percall

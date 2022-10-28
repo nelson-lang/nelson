@@ -8,13 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/filesystem.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include "FileSystemWrapper.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
-#include "IsFile.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,22 +22,30 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 {
     bool bRes = false;
     message = L"";
-    if (!IsFile(srcFile)) {
+    bool permissionDenied;
+    if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("File source does not exist."));
     }
-    boost::filesystem::path srcPath = srcFile;
-    boost::filesystem::path destPath = destFileOrDirectory;
-    if (IsDirectory(destFileOrDirectory)) {
+    FileSystemWrapper::Path srcPath = srcFile;
+    FileSystemWrapper::Path destPath = destFileOrDirectory;
+
+    bool isDir = FileSystemWrapper::Path::is_directory(destFileOrDirectory, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
+    }
+    if (isDir) {
         destPath = destPath / srcPath.filename();
     }
-    try {
-        boost::filesystem::copy_file(
-            srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
+    std::string errorMessage;
+    FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+    if (errorMessage.empty()) {
         bRes = true;
-    } catch (const boost::filesystem::filesystem_error& e) {
+    } else {
         bRes = false;
-        boost::system::error_code error_code = e.code();
-        message = utf8_to_wstring(error_code.message());
+        message = utf8_to_wstring(errorMessage);
     }
     if (bForce) {
         if (!bRes) {
@@ -51,10 +57,10 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 }
 //=============================================================================
 static bool
-copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
-    const boost::filesystem::path& destinationDir, bool bForce, std::wstring& errorMessage)
+copyDirectoryRecursively(const FileSystemWrapper::Path& sourceDir,
+    const FileSystemWrapper::Path& destinationDir, bool bForce, std::wstring& errorMessage)
 {
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
+    if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
         if (!bForce) {
             errorMessage
                 = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
@@ -62,8 +68,8 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
             return false;
         }
     }
-    if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
-        if (!boost::filesystem::create_directory(destinationDir)) {
+    if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
+        if (!FileSystemWrapper::Path::create_directory(destinationDir)) {
             if (!bForce) {
                 errorMessage = fmt::sprintf(
                     _W("Cannot create destination directory %s"), destinationDir.wstring());
@@ -73,19 +79,16 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
     }
 
     std::wstring rootSrc = sourceDir.generic_wstring();
-    for (const auto& dirEnt : boost::filesystem::recursive_directory_iterator { sourceDir }) {
+    for (const auto& dirEnt : nfs::recursive_directory_iterator { sourceDir.native() }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
         boost::replace_first(relativePathStr, rootSrc, L"");
-        try {
-            boost::filesystem::path destPath = destinationDir.generic_path() / relativePathStr;
-            boost::filesystem::copy(path, destPath);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (!bForce) {
-                boost::system::error_code error_code = e.code();
-                errorMessage = utf8_to_wstring(error_code.message());
-                return false;
-            }
+        FileSystemWrapper::Path destPath = destinationDir.generic_path() / relativePathStr;
+        std::string message;
+        FileSystemWrapper::Path::copy(FileSystemWrapper::Path(path.wstring()), destPath, message);
+        if (!errorMessage.empty()) {
+            errorMessage = utf8_to_wstring(message);
+            return false;
         }
     }
     return true;
@@ -96,10 +99,17 @@ CopyDirectory(
     const std::wstring& srcDir, const std::wstring& destDir, bool bForce, std::wstring& message)
 {
     message = L"";
-    if (!IsDirectory(srcDir)) {
+    bool permissionDenied;
+    if (!FileSystemWrapper::Path::is_directory(srcDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory source does not exist."));
     }
-    if (!IsDirectory(destDir)) {
+    if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory destination does not exist."));
     }
 
@@ -112,25 +122,30 @@ CopyFiles(
 {
     bool bRes = false;
     message = L"";
+    bool permissionDenied;
     for (const auto& srcFile : srcFiles) {
-        if (!IsFile(srcFile)) {
+        if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
+            if (permissionDenied) {
+                Error(_W("Permission denied."));
+            }
             Error(_W("A cell of existing filenames expected."));
         }
     }
-    if (!IsDirectory(destDir)) {
+
+    if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Directory destination does not exist."));
     }
     for (const auto& srcFile : srcFiles) {
-        boost::filesystem::path srcPath = srcFile;
-        boost::filesystem::path destPath = destDir;
+        FileSystemWrapper::Path srcPath = srcFile;
+        FileSystemWrapper::Path destPath = destDir;
         destPath = destPath / srcPath.filename();
-        try {
-            boost::filesystem::copy_file(srcPath, destPath);
-            bRes = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
-            bRes = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        std::string errorMessage;
+        bRes = FileSystemWrapper::Path::copy_file(srcPath, destPath, errorMessage);
+        if (!bRes) {
+            message = utf8_to_wstring(errorMessage);
         }
         if (bForce) {
             if (!bRes) {

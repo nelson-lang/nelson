@@ -10,12 +10,11 @@
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,17 +24,12 @@ RemoveIpcOldFiles()
     bool result = false;
     std::string ipcDirectory;
     boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
-    boost::filesystem::path branch(ipcDirectory);
-    bool isDirectory;
-    try {
-        isDirectory = boost::filesystem::is_directory(branch);
-    } catch (const boost::filesystem::filesystem_error&) {
-        isDirectory = false;
-    }
+    FileSystemWrapper::Path branch(ipcDirectory);
+    bool isDirectory = FileSystemWrapper::Path::is_directory(branch);
     if (isDirectory) {
-        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-            boost::filesystem::path filepath = p->path();
-            std::wstring filename = filepath.leaf().wstring();
+        for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
+            FileSystemWrapper::Path filepath(p->path().native());
+            std::wstring filename = filepath.filename().wstring();
             if (boost::algorithm::starts_with(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
                 std::wstring pidStr = boost::replace_all_copy(
@@ -48,13 +42,9 @@ RemoveIpcOldFiles()
                 } catch (const std::exception&) {
                     usedPid = true;
                 }
-                try {
-                    result = true;
-                    if (!usedPid) {
-                        boost::filesystem::remove(filepath);
-                    }
-                } catch (const boost::filesystem::filesystem_error&) {
-                    result = false;
+                result = true;
+                if (!usedPid) {
+                    result = FileSystemWrapper::Path::remove(filepath);
                 }
             }
         }

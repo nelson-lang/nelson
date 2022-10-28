@@ -9,10 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "fieldnamesComHandleObject.hpp"
-#include "HandleManager.hpp"
 #include <Windows.h>
 #include <algorithm>
+#include "fieldnamesComHandleObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

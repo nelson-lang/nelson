@@ -9,9 +9,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "nlsFiles_folders_functions_exports.h"
-#include <string>
+//=============================================================================
+#undef GetCurrentDirectory
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring

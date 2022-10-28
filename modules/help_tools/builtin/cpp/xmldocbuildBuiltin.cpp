@@ -9,15 +9,13 @@
 //=============================================================================
 #include "xmldocbuildBuiltin.hpp"
 #include "Error.hpp"
-#include "IsDirectory.hpp"
+#include "FileSystemWrapper.hpp"
 #include "XmlDocDirectory.hpp"
 #include "XmlDocDocument.hpp"
 #include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,14 +36,21 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
+    bool permissionDenied;
     for (const auto& listOfDirectorie : listOfDirectories) {
-        if (!IsDirectory(listOfDirectorie)) {
+        if (!FileSystemWrapper::Path::is_directory(listOfDirectorie, permissionDenied)) {
+            if (permissionDenied) {
+                Error(_W("Permission denied."));
+            }
             Error(_W("Existing directory expected."));
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
-    if (!IsDirectory(dstDirectory)) {
+    if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
+        }
         Error(_W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];

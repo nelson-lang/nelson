@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include "ParseFile.hpp"
 #include "Error.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,9 +20,8 @@ ParserState
 ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
 {
     ParserState ps = ParserState::ParseError;
-    boost::filesystem::path pathFunction(filename);
-    bool bIsFile
-        = boost::filesystem::exists(pathFunction) && !boost::filesystem::is_directory(pathFunction);
+    FileSystemWrapper::Path pathFunction(filename);
+    bool bIsFile = pathFunction.is_regular_file();
     if (!bIsFile) {
         return ParserState::ParseError;
     }

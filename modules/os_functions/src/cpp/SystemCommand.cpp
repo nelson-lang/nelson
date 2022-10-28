@@ -9,8 +9,9 @@
 //=============================================================================
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
-#include <winsock2.h>
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <winsock2.h>
 #undef min
 #else
 #include <fcntl.h>
@@ -24,12 +25,12 @@
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include <boost/filesystem.hpp>
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,7 +41,7 @@ static void
 ProcessEventsDynamicFunction();
 //=============================================================================
 static void
-deleteFile(boost::filesystem::path p);
+deleteFile(nfs::path p);
 //=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
@@ -52,7 +53,7 @@ static void
 initGuiDynamicLibrary();
 //=============================================================================
 static std::wstring
-readFile(const boost::filesystem::path& filePath);
+readFile(const FileSystemWrapper::Path& filePath);
 //=============================================================================
 class systemTask
 {
@@ -102,11 +103,8 @@ public:
 
         _terminate = false;
         _running = true;
-        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
-        boost::filesystem::path tempOutputFile = pwd;
-        boost::filesystem::path tempErrorFile = pwd;
-        tempOutputFile /= boost::filesystem::unique_path();
-        tempErrorFile /= boost::filesystem::unique_path();
+        FileSystemWrapper::Path tempOutputFile(FileSystemWrapper::Path::unique_path());
+        FileSystemWrapper::Path tempErrorFile(FileSystemWrapper::Path::unique_path());
         bool mustDetach = false;
         std::wstring _command = DetectDetachProcess(command, mustDetach);
         std::wstring argsShell;
@@ -141,8 +139,8 @@ public:
                     _endTimePoint = std::chrono::steady_clock::now();
                     this->_duration = this->getDuration();
                     this->_exitCode = int(SIGINT + 128);
-                    deleteFile(tempOutputFile);
-                    deleteFile(tempErrorFile);
+                    FileSystemWrapper::Path::remove(tempOutputFile);
+                    FileSystemWrapper::Path::remove(tempErrorFile);
                     childProcess.terminate();
                     _running = false;
                     return;
@@ -162,8 +160,8 @@ public:
             }
             _message = outputResult.c_str();
         }
-        deleteFile(tempOutputFile);
-        deleteFile(tempErrorFile);
+        FileSystemWrapper::Path::remove(tempOutputFile);
+        FileSystemWrapper::Path::remove(tempErrorFile);
 
         _running = false;
         _endTimePoint = std::chrono::steady_clock::now();
@@ -339,9 +337,9 @@ ProcessEventsDynamicFunction()
 }
 //=============================================================================
 void
-deleteFile(boost::filesystem::path p)
+deleteFile(nfs::path p)
 {
-    if (boost::filesystem::exists(p)) {
+    if (nfs::exists(p)) {
 
 #ifdef _MSC_VER
         int res = _wremove(p.generic_wstring().c_str());
@@ -352,7 +350,7 @@ deleteFile(boost::filesystem::path p)
 }
 //=============================================================================
 std::wstring
-readFile(const boost::filesystem::path& filePath)
+readFile(const FileSystemWrapper::Path& filePath)
 {
     std::string result;
     FILE* pFile;
@@ -383,6 +381,12 @@ readFile(const boost::filesystem::path& filePath)
         }
         fclose(pFile);
     }
+#ifdef _MSC_VER
+    std::wstring wresult;
+    if (utf8_to_wstring_Windows(result, wresult)) {
+        return wresult;
+    }
+#endif
     return utf8_to_wstring(result);
 }
 //=============================================================================

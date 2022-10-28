@@ -180,8 +180,6 @@
     <ClInclude Include="..\..\src\include\GetCurrentDirectory.hpp" />
     <ClInclude Include="..\..\src\include\GetSystemTemporaryDirectory.hpp" />
     <ClInclude Include="..\..\src\include\GetUserDirectory.hpp" />
-    <ClInclude Include="..\..\src\include\IsDirectory.hpp" />
-    <ClInclude Include="..\..\src\include\IsFile.hpp" />
     <ClInclude Include="..\..\src\include\nlsFiles_folders_functions_exports.h" />
     <ClInclude Include="..\include\CopyFile.hpp" />
     <ClInclude Include="..\include\FileDiff.hpp" />
@@ -190,7 +188,6 @@
     <ClInclude Include="..\include\FullFile.hpp" />
     <ClInclude Include="..\include\ListFiles.hpp" />
     <ClInclude Include="..\include\MakeDirectory.hpp" />
-    <ClInclude Include="..\include\NormalizePath.hpp" />
     <ClInclude Include="..\include\RelativePath.hpp" />
     <ClInclude Include="..\include\RemoveDirectory.hpp" />
     <ClInclude Include="..\include\RemoveFile.hpp" />
@@ -205,8 +202,6 @@
     <ClCompile Include="..\cpp\GetCurrentDirectory.cpp" />
     <ClCompile Include="..\cpp\GetSystemTemporaryDirectory.cpp" />
     <ClCompile Include="..\cpp\GetUserDirectory.cpp" />
-    <ClCompile Include="..\cpp\IsDirectory.cpp" />
-    <ClCompile Include="..\cpp\IsFile.cpp" />
     <ClCompile Include="..\cpp\ListFiles.cpp" />
     <ClCompile Include="..\cpp\MakeDirectory.cpp" />
     <ClCompile Include="..\cpp\RelativePath.cpp" />

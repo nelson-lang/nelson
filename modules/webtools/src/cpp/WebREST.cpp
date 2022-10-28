@@ -15,8 +15,6 @@
 #include <fmt/format.h>
 #include <curl/curl.h>
 #include <unordered_map>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include "WebREST.hpp"
 #include "characters_encoding.hpp"
@@ -24,6 +22,7 @@
 #include "ResponseCodeToMessage.hpp"
 #include "i18n.hpp"
 #include "ProcessEventsDynamic.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -77,13 +76,13 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (fw == nullptr) {
         Error(_W("Cannot create destination file."));
     }
-    boost::filesystem::path p(filename);
-    try {
-        p = boost::filesystem::absolute(p);
-        fullFilename = p.generic_wstring();
-    } catch (const boost::filesystem::filesystem_error&) {
-        fullFilename = p.generic_wstring();
+    FileSystemWrapper::Path p(filename);
+    std::string errorMessage;
+    p = FileSystemWrapper::Path::absolute(p, errorMessage);
+    if (!errorMessage.empty()) {
+        p = filename;
     }
+    fullFilename = p.generic_wstring();
     CURL* curlObject = curl_easy_init();
     if (curlObject == nullptr) {
         fclose(fw);
@@ -276,11 +275,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     std::wstring msg = responseCodeToMessage(response_code);
     if (!msg.empty()) {
         // remove file if error detected.
-        try {
-            boost::filesystem::path p = filename;
-            boost::filesystem::remove(p);
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        FileSystemWrapper::Path p = filename;
+        FileSystemWrapper::Path::remove(p);
         Error(msg);
     }
     return fullFilename;

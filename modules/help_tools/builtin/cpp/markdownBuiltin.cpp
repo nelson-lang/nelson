@@ -7,13 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include "FileSystemWrapper.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,38 +31,32 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         filenameOut = argIn[1].getContentAsWideString();
-        boost::filesystem::path pathIn(filenameIn);
-        bool IsDirIn = false;
-        try {
-            IsDirIn = boost::filesystem::is_directory(pathIn);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
+        bool permissionDenied;
+        FileSystemWrapper::Path pathIn(filenameIn);
+        bool IsDirIn = FileSystemWrapper::Path::is_directory(pathIn, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
-        boost::filesystem::path pathOut(filenameOut);
-        bool IsDirOut = false;
-        try {
-            IsDirOut = boost::filesystem::is_directory(pathOut);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                Error(_W("Permission denied."));
-            }
+
+        FileSystemWrapper::Path pathOut(filenameOut);
+        bool IsDirOut = FileSystemWrapper::Path::is_directory(pathOut, permissionDenied);
+        if (permissionDenied) {
+            Error(_W("Permission denied."));
         }
         if (IsDirIn && IsDirOut) {
-            boost::filesystem::directory_iterator end_iter;
+            nfs::directory_iterator end_iter;
             wstringVector filesListIn;
-            for (boost::filesystem::directory_iterator dir_iter(pathIn); dir_iter != end_iter;
+            for (nfs::directory_iterator dir_iter(pathIn.native()); dir_iter != end_iter;
                  ++dir_iter) {
-                boost::filesystem::path current = dir_iter->path();
+                FileSystemWrapper::Path current(dir_iter->path().native());
                 if (boost::iequals(current.extension().generic_wstring(), ".md")) {
                     filesListIn.push_back(current.generic_wstring());
                 }
             }
             bool bRes = true;
             for (auto& k : filesListIn) {
-                boost::filesystem::path st(k);
-                boost::filesystem::path out(pathOut);
+                FileSystemWrapper::Path st(k);
+                FileSystemWrapper::Path out(pathOut);
                 out /= st.stem();
                 out += L".html";
                 bool bLocal = MarkdownFile(k, out.generic_wstring());

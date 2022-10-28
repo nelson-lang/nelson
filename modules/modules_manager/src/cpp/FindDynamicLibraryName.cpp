@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FindDynamicLibraryName.hpp"
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include "FindDynamicLibraryName.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,30 +18,21 @@ FindDynamicLibraryName(
     const std::wstring& directoryName, const std::wstring& initialLibraryName, bool bCaseSensitive)
 {
     std::wstring res;
-    boost::filesystem::directory_iterator end_iter;
-    boost::filesystem::path dir = directoryName;
-    if (!boost::filesystem::is_directory(dir)) {
+    nfs::directory_iterator end_iter;
+    nfs::path dir = directoryName;
+    if (!nfs::is_directory(dir)) {
         return res;
     }
-    boost::filesystem::path fullfilename = directoryName;
+    nfs::path fullfilename = directoryName;
     fullfilename /= initialLibraryName;
-    bool bRes = false;
-    try {
-        bRes = boost::filesystem::exists(fullfilename)
-            && !boost::filesystem::is_directory(fullfilename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            // ONLY FOR DEDUG
-        }
-        bRes = false;
-    }
+    bool bRes = nfs::is_regular_file(fullfilename);
     if (bRes) {
         res = initialLibraryName;
         return res;
     }
-    for (boost::filesystem::directory_iterator dir_iter(dir); dir_iter != end_iter; ++dir_iter) {
-        boost::filesystem::path current = dir_iter->path();
-        if (boost::filesystem::is_regular_file(current)) {
+    for (nfs::directory_iterator dir_iter(dir.native()); dir_iter != end_iter; ++dir_iter) {
+        nfs::path current = dir_iter->path();
+        if (nfs::is_regular_file(current)) {
             if (bCaseSensitive) {
                 if (initialLibraryName.compare(current.generic_wstring()) == 0) {
                     return current.generic_wstring();

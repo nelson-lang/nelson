@@ -11,7 +11,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -19,6 +18,7 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
+#include "FileSystemWrapper.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -45,20 +45,23 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
     if (cur2 != end) {
         boost::xpressive::wsmatch const& what = *cur2;
         oldPath = what[0];
+        std::string errorMessage;
         if (!boost::algorithm::istarts_with(oldPath, L"http")) {
-            boost::filesystem::path absolutePath;
-            try {
-                absolutePath = boost::filesystem::canonical(oldPath, srcDirectory);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
+            if (boost::ends_with(srcDirectory, L"/") || boost::ends_with(srcDirectory, L"\\")) {
+                FileSystemWrapper::Path absolutePath
+                    = FileSystemWrapper::Path::canonical(srcDirectory + oldPath, errorMessage);
+                newPath = absolutePath.generic_wstring();
+
+            } else {
+                FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::canonical(
+                    srcDirectory + L"/" + oldPath, errorMessage);
+                newPath = absolutePath.generic_wstring();
             }
-            newPath = absolutePath.generic_wstring();
-            bool bIsFile
-                = boost::filesystem::exists(newPath) && !boost::filesystem::is_directory(newPath);
-            if (!bIsFile) {
-                newPath.clear();
+
+            if (FileSystemWrapper::Path::is_regular_file(newPath)) {
+                return true;
             }
-            return bIsFile;
+            newPath.clear();
         }
     }
     return false;
@@ -86,15 +89,9 @@ copyImages(const wstringVector& srcImages, const wstringVector& dstImages)
 {
     bool bRes = true;
     for (size_t k = 0; k < srcImages.size(); k++) {
-        bool bIsFile = boost::filesystem::exists(srcImages[k])
-            && !boost::filesystem::is_directory(srcImages[k]);
+        bool bIsFile = FileSystemWrapper::Path::is_regular_file(srcImages[k]);
         if (bIsFile) {
-            try {
-                boost::filesystem::copy_file(srcImages[k], dstImages[k],
-                    boost::filesystem::copy_option::overwrite_if_exists);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                e.what();
-            }
+            FileSystemWrapper::Path::copy_file(srcImages[k], dstImages[k]);
         } else {
             bRes = false;
         }

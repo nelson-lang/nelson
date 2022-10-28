@@ -9,10 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "methodsComHandleObject.hpp"
-#include "HandleManager.hpp"
 #include <Windows.h>
 #include <algorithm>
+#include "methodsComHandleObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

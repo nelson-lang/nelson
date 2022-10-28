@@ -10,17 +10,14 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
+#include <cstdio>
+#include "FileSystemWrapper.hpp"
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
-#include <cstdio>
-//=============================================================================
-using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-
 //=============================================================================
 std::wstring
 GetNelsonBinariesPath()
@@ -28,13 +25,13 @@ GetNelsonBinariesPath()
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
     if (penv != L"") {
-        boost::filesystem::path path(penv);
-        if (boost::filesystem::is_directory(path)) {
+        FileSystemWrapper::Path path(penv);
+        if (FileSystemWrapper::Path::is_directory(path)) {
             return path.generic_wstring();
         }
     }
     std::wstring nelsonPath = GetNelsonPath();
-    boost::filesystem::path binpath(nelsonPath);
+    FileSystemWrapper::Path binpath(nelsonPath);
 #ifdef _MSC_VER
 #ifdef _WIN64
     binpath += L"/bin/x64";
@@ -48,7 +45,7 @@ GetNelsonBinariesPath()
     binpath += L"/bin/linux";
 #endif
 #endif
-    if (boost::filesystem::is_directory(binpath)) {
+    if (FileSystemWrapper::Path::is_directory(binpath)) {
         return binpath.generic_wstring();
     }
     fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());

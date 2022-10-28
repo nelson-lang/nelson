@@ -11,7 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS /* _wfopen */
 #endif
 //=============================================================================
-#include <boost/filesystem.hpp>
+#include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
@@ -24,11 +24,10 @@ namespace Nelson {
 static void
 mustBeExistingFile(const std::wstring& filename)
 {
-    bool bIsFile;
-    try {
-        bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error&) {
-        bIsFile = false;
+    bool permissionDenied;
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
     }
     if (!bIsFile) {
         Error(_W("File does not exist.") + L"\n" + filename);
@@ -36,7 +35,7 @@ mustBeExistingFile(const std::wstring& filename)
 }
 //=============================================================================
 static FILE*
-filePointerWithoutShebang(const boost::filesystem::path& absolutePath)
+filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
 {
 #ifdef _MSC_BUILD
     FILE* fr = _wfopen(absolutePath.generic_wstring().c_str(), L"rt");
@@ -90,12 +89,13 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     if (IsEmptyScriptFile(filename)) {
         return true;
     }
-    boost::filesystem::path initialDir = boost::filesystem::current_path();
-    boost::filesystem::path fileToEvaluate(filename);
-    boost::filesystem::path absolutePath = boost::filesystem::absolute(fileToEvaluate);
-    if (fileToEvaluate.has_branch_path() && bChangeDirectory) {
+
+    FileSystemWrapper::Path initialDir = FileSystemWrapper::Path::current_path();
+    FileSystemWrapper::Path fileToEvaluate(filename);
+    FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::absolute(fileToEvaluate);
+    if (fileToEvaluate.has_parent_path() && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
-        boost::filesystem::path newDir = fileToEvaluate.parent_path();
+        FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);

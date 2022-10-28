@@ -7,13 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <fstream>
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -30,7 +28,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
-        if (!IsFile(param1)) {
+        if (!FileSystemWrapper::Path::is_regular_file(param1)) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
@@ -38,9 +36,9 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:
         case GUI: {
-            boost::filesystem::path pdfname(param2);
+            FileSystemWrapper::Path pdfname(param2);
             if (pdfname.extension().string() != ".pdf") {
-                pdfname.replace_extension(".pdf");
+                pdfname.replace_extension(FileSystemWrapper::Path(".pdf"));
             }
             std::ofstream pdffile;
 #if _MSC_VER

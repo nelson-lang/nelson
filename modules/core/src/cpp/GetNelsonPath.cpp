@@ -8,21 +8,25 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 #include <cstdio>
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
 #include <MacTypes.h>
+#else
+#ifndef _MSC_VER
+#include <sys/types.h>
+#include <unistd.h>
 #endif
-#include <boost/filesystem.hpp>
+#endif
+#include "FileSystemWrapper.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
-//=============================================================================
-using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -100,8 +104,8 @@ GetRootPath()
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
         if (penv != L"") {
-            boost::filesystem::path path(penv);
-            if (boost::filesystem::is_directory(path)) {
+            FileSystemWrapper::Path path(penv);
+            if (FileSystemWrapper::Path::is_directory(path)) {
                 NelsonPath = path.generic_path().generic_wstring();
                 NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
                 return NelsonPath;
@@ -112,15 +116,15 @@ GetRootPath()
 #else
         p = utf8_to_wstring(get_basepathU());
 #endif
-        boost::filesystem::path path(p);
-        boost::filesystem::path nelsonpath;
+        FileSystemWrapper::Path path(p);
+        FileSystemWrapper::Path nelsonpath;
 #ifdef _MSC_VER
         nelsonpath = path.parent_path().parent_path().parent_path();
 #else
         nelsonpath = path.parent_path().parent_path();
 #endif
-        if (boost::filesystem::is_directory(nelsonpath)) {
-            NelsonPath = nelsonpath.generic_path().generic_wstring();
+        if (FileSystemWrapper::Path::is_directory(nelsonpath)) {
+            NelsonPath = nelsonpath.generic_path().getFinalPathname().generic_wstring();
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
             return NelsonPath;
         }

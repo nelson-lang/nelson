@@ -9,16 +9,17 @@
 //=============================================================================
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
+#define WIN32_LEAN_AND_MEAN
 #endif
 //=============================================================================
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>
+#include "FileSystemWrapper.hpp"
 #include "StartNelson.h"
 #include "StartNelsonMainScript.hpp"
 #include "StartNelsonUserScript.hpp"
@@ -378,8 +379,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
-        boost::filesystem::path p(fileToExecute);
-        boost::filesystem::path full_p = boost::filesystem::complete(p);
+        FileSystemWrapper::Path p(fileToExecute);
+        FileSystemWrapper::Path full_p = FileSystemWrapper::Path::absolute(p);
         fileToExecute = full_p.generic_wstring();
     }
 

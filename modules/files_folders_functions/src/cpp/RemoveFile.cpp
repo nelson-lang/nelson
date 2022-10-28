@@ -8,10 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RemoveFile.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,29 +19,26 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
 {
     bool res = false;
     message = L"";
-    if (IsFile(filename)) {
-        boost::filesystem::path p = filename;
-        try {
-            boost::filesystem::remove(p);
-            res = !IsFile(filename);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            boost::system::error_code error_code = e.code();
-            if (e.code() == boost::system::errc::permission_denied) {
-                try {
-                    boost::filesystem::permissions(p,
-                        boost::filesystem::add_perms | boost::filesystem::owner_write
-                            | boost::filesystem::group_write | boost::filesystem::others_write);
-                    boost::filesystem::remove(p);
-                    res = !IsFile(filename);
-                } catch (const boost::filesystem::filesystem_error& e) {
-                    error_code = e.code();
-                    res = false;
-                    message = utf8_to_wstring(error_code.message());
-                }
-            } else {
-                res = false;
-                message = utf8_to_wstring(error_code.message());
-            }
+    bool permissionDenied;
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
+    if (permissionDenied) {
+        FileSystemWrapper::Path p = (filename);
+        if (!FileSystemWrapper::Path::updateFilePermissionsToWrite(p)) {
+            message = _W("Permission denied");
+            return false;
+        }
+        std::string errorMessage;
+        if (!FileSystemWrapper::Path::remove(p, errorMessage)) {
+            message = utf8_to_wstring(errorMessage);
+            return false;
+        }
+    }
+    if (bIsFile) {
+        std::string errorMessage;
+        FileSystemWrapper::Path p(filename);
+        if (!FileSystemWrapper::Path::remove(p, errorMessage)) {
+            message = utf8_to_wstring(errorMessage);
+            return false;
         }
     } else {
         res = false;

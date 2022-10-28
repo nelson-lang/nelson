@@ -7,14 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#include <Windows.h>
-#endif
-//=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <sndfile.h>
 #include <map>
+#include "FileSystemWrapper.hpp"
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
@@ -191,7 +187,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     rows = audioData.getRows();
     columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
-    boost::filesystem::path pathFilename = filename;
+    FileSystemWrapper::Path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
         extension = pathFilename.extension().generic_wstring();

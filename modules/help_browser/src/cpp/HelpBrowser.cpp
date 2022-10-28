@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <QtCore/QString>
 #include "HelpBrowser.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "QStringConverter.hpp"
 #include "HelpCollection.hpp"
@@ -113,7 +113,7 @@ HelpBrowser::startBrowser(std::wstring& msg)
     if (helpWindow == nullptr) {
         std::wstring cachedCollectionFile
             = HelpCollection::getInstance()->getNelsonCachedCollectionFullFilename();
-        if (!IsFile(cachedCollectionFile)) {
+        if (!FileSystemWrapper::Path::is_regular_file(cachedCollectionFile)) {
             msg = _W("help collection file not found.");
             return false;
         }

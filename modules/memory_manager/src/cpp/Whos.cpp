@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <iomanip>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/container/vector.hpp>
 #include "Whos.hpp"
 #include "Error.hpp"
@@ -18,6 +16,7 @@
 #include "Interface.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,23 +30,6 @@ getNestingEmptyStruct()
     values.push_back(ArrayOf::characterArrayConstructor(""));
     values.push_back(ArrayOf::doubleConstructor(0));
     return ArrayOf::structConstructor(fieldnames, values);
-}
-//=============================================================================
-static bool
-isFile(const std::wstring& _filename)
-{
-    boost::filesystem::path filename(_filename);
-    bool fileExistPreviously = false;
-    try {
-        fileExistPreviously
-            = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            Error(_W("Permission denied."));
-        }
-        fileExistPreviously = false;
-    }
-    return fileExistPreviously;
 }
 //=============================================================================
 static ArrayOf
@@ -117,7 +99,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
 {
     ArrayOf res;
     if (!filename.empty()) {
-        if (!isFile(filename)) {
+        if (!FileSystemWrapper::Path::is_regular_file(filename)) {
             Error(_W("Filename does not exist."));
         }
         res = Whos(eval, filename, names, asStruct);

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -17,6 +16,7 @@
 #include "Error.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -70,9 +70,8 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
 {
     wstringVector comments;
     headError = HEADCOMMENTS_ERROR::MACRO_OK;
-    boost::filesystem::path pathFile(filename);
-    bool bIsFile
-        = boost::filesystem::exists(pathFile) && !boost::filesystem::is_directory(pathFile);
+    FileSystemWrapper::Path pathFile(filename);
+    bool bIsFile = FileSystemWrapper::Path::is_regular_file(pathFile);
     if (!bIsFile) {
         headError = HEADCOMMENTS_ERROR::FILE_NOT_EXIST;
         return comments;

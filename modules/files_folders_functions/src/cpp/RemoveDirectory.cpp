@@ -7,54 +7,41 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "FileSystemWrapper.hpp"
 #include "RemoveDirectory.hpp"
-#include "IsDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static void
-updatePermissions(const std::wstring& folderName)
-{
-    boost::filesystem::path f = folderName;
-    boost::filesystem::permissions(f,
-        boost::filesystem::add_perms | boost::filesystem::owner_write
-            | boost::filesystem::group_write | boost::filesystem::others_write);
-    if (IsDirectory(folderName)) {
-        boost::filesystem::path branch(folderName);
-        for (boost::filesystem::recursive_directory_iterator p(branch), end; p != end; ++p) {
-            updatePermissions(p->path().wstring());
-        }
-    }
-}
 //=============================================================================
 bool
 RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& message)
 {
     bool res = false;
     message = L"";
-    if (IsDirectory(folderName)) {
-        try {
-            boost::filesystem::path p = folderName;
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
-            if (bSubfolder) {
-                updatePermissions(p.wstring());
-                boost::filesystem::remove_all(p);
+    bool permissionDenied;
+    if (FileSystemWrapper::Path::is_directory(folderName, permissionDenied)) {
+        FileSystemWrapper::Path::updateFilePermissionsToWrite(folderName);
+        FileSystemWrapper::Path p(folderName);
+        std::string errorMessage;
+        if (bSubfolder) {
+            if (!FileSystemWrapper::Path::remove_all(p, errorMessage)) {
+                res = false;
+                message = utf8_to_wstring(errorMessage);
+                return res;
             }
-            boost::filesystem::remove(p);
-            res = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
-            res = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+        }
+        res = FileSystemWrapper::Path::remove(p, errorMessage);
+        if (!res) {
+            message = utf8_to_wstring(errorMessage);
         }
     } else {
+        if (permissionDenied) {
+            message = _W("Permission denied.");
+        } else {
+            message = _W("an existing directory expected.");
+        }
         res = false;
-        message = _W("an existing directory expected.");
     }
     return res;
 }

@@ -16,7 +16,7 @@
 #include "ParseTags.hpp"
 #include "Comments.hpp"
 #include "FileParts.hpp"
-#include "IsFile.hpp"
+#include "FileSystemWrapper.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -61,8 +61,13 @@ compareTag(const std::string& line, const std::string& tag)
 bool
 ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
 {
-    if (!IsFile(filename)) {
-        msg = _W("an existing file expected.");
+    bool permissionDenied;
+    if (!FileSystemWrapper::Path::is_regular_file(filename, permissionDenied)) {
+        if (permissionDenied) {
+            msg = _W("Permission denied.");
+        } else {
+            msg = _W("an existing file expected.");
+        }
         return false;
     }
     std::wstring basename = FilePartsFilename(filename);
