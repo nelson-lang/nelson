@@ -198,6 +198,11 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.h")
+install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING

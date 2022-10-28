@@ -12,6 +12,7 @@
 Source: {#RootPath}bin\{#BinPath}\libnlsF2C.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_F2C};
 Source: {#RootPath}bin\{#BinPath}\nelson_f2c.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_F2C};
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nelson_f2c.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_F2C} and {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_F2C};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_F2C};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_F2C};

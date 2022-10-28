@@ -12,7 +12,14 @@ function c = dlgetnelsonincludes()
   [modulepath('types'), '/src/include']; ...
   [modulepath('error_manager'), '/src/include']; ...
   [modulepath('i18n'), '/src/include']; ...
-  [modulepath('stream_manager'), '/src/include']; ...
-  [modulepath('validators'), '/src/include']};
+  [modulepath('stream_manager'), '/src/include']};
+
+  if (ismodule('f2c'))
+    c = [c; [modulepath('f2c'), '/src/include']];
+  end
+  if (ismodule('validators'))
+    c = [c; [modulepath('validators'), '/src/include']];
+  end
+
 end
 %=============================================================================
