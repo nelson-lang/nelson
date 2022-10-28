@@ -9,9 +9,20 @@
 %=============================================================================
 function c = dlgetnelsonlibraries()
   c = {[modulepath(nelsonroot(),'interpreter','bin'), '/libnlsInterpreter']; ...
-  [modulepath(nelsonroot(),'i18n','bin'), '/libnlsI18n']; ...
   [modulepath(nelsonroot(),'error_manager','bin'), '/libnlsError_manager']; ...
-  [modulepath(nelsonroot(),'types','bin'), '/libnlsTypes']; ...
-  [modulepath(nelsonroot(),'validators','bin'), '/libnlsValidators']};
+  [modulepath(nelsonroot(),'i18n','bin'), '/libnlsI18n']; ...
+  [modulepath(nelsonroot(),'types','bin'), '/libnlsTypes']};
+
+  if (ismodule('validators'))
+    c = [c; [modulepath(nelsonroot(),'validators','bin'), '/libnlsValidators']];
+  end
+
+  if (ismodule('f2c'))
+    c = [c; [modulepath(nelsonroot(),'f2c','bin'), '/libnlsf2c']];
+  end
+
+  if (ispc())
+    c = [c; [modulepath(nelsonroot(),'nelson','bin'), '/libnlsblaslapack']];
+  end
 end
 %=============================================================================
