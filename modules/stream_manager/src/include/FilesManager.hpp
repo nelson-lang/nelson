@@ -13,7 +13,7 @@
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsStream_manager_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -21,7 +21,7 @@ namespace Nelson {
 class NLSSTREAM_MANAGER_IMPEXP FilesManager
 {
 private:
-    boost::container::vector<File*> userFiles;
+    std::vector<File*> userFiles;
     int
     getAvailableFileID();
 
@@ -50,7 +50,7 @@ public:
     getFilenames();
     wstringVector
     getMode();
-    boost::container::vector<uint64>
+    std::vector<uint64>
     getIDs();
     File*
     getFile(int no);

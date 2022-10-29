@@ -11,7 +11,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <cstdlib>
 #include "AddPathToEnvironmentVariable.hpp"
 #include "GetVariableEnvironment.hpp"
@@ -20,10 +20,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::container::vector<std::wstring>
+static std::vector<std::wstring>
 splitEnvironmentPath(const std::wstring& envPaths)
 {
-    boost::container::vector<std::wstring> result;
+    std::vector<std::wstring> result;
     size_t previous = 0;
 #ifdef _MSC_VER
     const wchar_t delimiter = L';';
@@ -47,7 +47,7 @@ splitEnvironmentPath(const std::wstring& envPaths)
 }
 //=============================================================================
 std::wstring
-concateEnvironmentPath(boost::container::vector<std::wstring> listPath)
+concateEnvironmentPath(std::vector<std::wstring> listPath)
 {
     std::wstring res = L"";
     for (size_t k = 0; k < listPath.size() - 1; k++) {
@@ -89,8 +89,8 @@ AddPathToEnvironmentVariable(const std::wstring& envVar, const std::wstring& pat
         env = utf8_to_wstring(tmp);
     }
 #endif
-    boost::container::vector<std::wstring> pathVector = splitEnvironmentPath(env);
-    boost::container::vector<std::wstring>::iterator it;
+    std::vector<std::wstring> pathVector = splitEnvironmentPath(env);
+    std::vector<std::wstring>::iterator it;
 #ifdef __GNUC__
     /*bug with GCC 5 */
     it = localfind(pathVector.begin(), pathVector.end(), pathToAdd);

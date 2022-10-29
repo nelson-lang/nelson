@@ -162,11 +162,11 @@ RandomMersenneTwister64::getValuesAsSingle(
     }
 }
 //=============================================================================
-boost::container::vector<uint64>
+std::vector<uint64>
 RandomMersenneTwister64::getState()
 {
     // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
-    boost::container::vector<uint64> state;
+    std::vector<uint64> state;
     std::stringstream line;
     line << random_engine();
     uint64 num = 0;
@@ -177,7 +177,7 @@ RandomMersenneTwister64::getState()
 }
 //=============================================================================
 void
-RandomMersenneTwister64::setState(const boost::container::vector<uint64>& _state)
+RandomMersenneTwister64::setState(const std::vector<uint64>& _state)
 {
     // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;

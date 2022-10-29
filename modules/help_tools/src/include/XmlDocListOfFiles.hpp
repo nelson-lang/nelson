@@ -13,7 +13,7 @@
 #include "XmlDocDocument.hpp"
 #include "XmlTarget.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -29,7 +29,7 @@ private:
     wstringVector srcFiles;
     std::wstring dstDirectory;
     bool bOverwriteExistingFiles;
-    boost::container::vector<XmlDocDocument*> xmlItems;
+    std::vector<XmlDocDocument*> xmlItems;
     void
     clearItems();
     std::wstring chapterResultFilename;

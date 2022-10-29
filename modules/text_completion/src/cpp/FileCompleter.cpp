@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <regex>
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
 #include "FileSystemWrapper.hpp"
 #include "FileCompleter.hpp"
 //=============================================================================
@@ -88,23 +88,17 @@ FileCompleter(const std::wstring& prefix)
         }
         if (nfs::is_directory(branch)) {
             mask = pathfs.filename().wstring();
-            static const std::pair<boost::wregex, const wchar_t*> repl[] = {
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\."), L"\\\\."),
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\?"), L"."),
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\*"), L".*"),
-            };
-            for (const std::pair<boost::wregex, const wchar_t*>* r = repl;
-                 r < repl + sizeof(repl) / sizeof(*repl); ++r) {
-                mask = boost::regex_replace(mask, r->first, r->second);
-            }
-            boost::wregex rmask(mask, boost::wregex::icase);
+            boost::replace_all(mask, L".", L"\\.");
+            boost::replace_all(mask, L"?", L".");
+            boost::replace_all(mask, L"*", L".*");
+            std::wregex rmask(mask, std::wregex::icase);
             {
                 nfs::path dir = branch;
                 nfs::path r = dir.root_path();
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());

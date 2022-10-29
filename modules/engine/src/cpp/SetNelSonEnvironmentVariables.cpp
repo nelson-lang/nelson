@@ -12,7 +12,7 @@
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "SetVariableEnvironment.hpp"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <cstdio>
 #include <cstdlib>
 //=============================================================================

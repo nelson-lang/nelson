@@ -15,7 +15,7 @@
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
 #include <unicode/uchar.h>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <boost/locale.hpp>
 #include <unicode/ustring.h>
 #include <algorithm>
@@ -206,7 +206,7 @@ utf8_to_wstring_ICU(const std::string& str, std::wstring& wstr)
         wstr.clear();
         return true;
     }
-    boost::container::vector<UChar> buffer;
+    std::vector<UChar> buffer;
     result.resize(str.size());
     buffer.resize(str.size());
     UErrorCode status = U_ZERO_ERROR;
@@ -234,7 +234,7 @@ wstring_to_utf8_ICU(const std::wstring& wstr, std::string& asUft8)
         return true;
     }
     // Boost.Locale slower than direct ICU4C here
-    boost::container::vector<UChar> buffer;
+    std::vector<UChar> buffer;
     std::string result;
     result.resize(wstr.size() * 4); // UTF-8 uses max 4 bytes per char
     buffer.resize(wstr.size() * 2); // UTF-16 uses 2 code-points per char

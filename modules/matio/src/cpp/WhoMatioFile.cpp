@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "FileSystemWrapper.hpp"
 #include "WhoMatioFile.hpp"
 #include "matioHelpers.hpp"

@@ -39,7 +39,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error("row vector expected.");
     }
     auto* sizePtr = (double*)param3.getDataPointer();
-    boost::container::vector<double> sizeData;
+    std::vector<double> sizeData;
     indexType nbElements = param3.getElementCount();
     sizeData.reserve(nbElements);
     for (indexType i = 0; i < nbElements; i++) {
@@ -47,7 +47,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     NelsonType dataType = NLS_DOUBLE;
     std::wstring textEncoding = L"system";
-    boost::container::vector<double> chunksize;
+    std::vector<double> chunksize;
     int deflate = 0;
     ArrayOf fillvalue;
     bool fletcher32 = false;

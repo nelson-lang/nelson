@@ -9,7 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "FileOpen.hpp"
 #include "File.hpp"
 #include "characters_encoding.hpp"

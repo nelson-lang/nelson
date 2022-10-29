@@ -14,7 +14,7 @@
 #include "XmlDocumentTags.hpp"
 #include "XmlTarget.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <libxml/xpath.h>
 #include <string>
 //=============================================================================
@@ -31,7 +31,7 @@ private:
     std::wstring xmlDirectory;
     wstringVector errorMessage;
     wstringVector warningMessage;
-    boost::container::vector<XmlDocGenericItem*> items;
+    std::vector<XmlDocGenericItem*> items;
     void
     clearItems();
     bool bReadOk;
@@ -54,9 +54,9 @@ public:
     XmlDocDocument(const std::wstring& srcfilename, const std::wstring& sectionname,
         const std::wstring& destfilename, bool bOverwriteExistingFile = false,
         DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-    XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items,
-        const std::wstring& srcfilename, const std::wstring& destfilename,
-        bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    XmlDocDocument(std::vector<XmlDocGenericItem*> items, const std::wstring& srcfilename,
+        const std::wstring& destfilename, bool bOverwriteExistingFile = false,
+        DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocDocument();
 
     wstringVector
@@ -108,7 +108,7 @@ public:
     std::wstring
     getModuleName();
 
-    boost::container::vector<XmlDocGenericItem*>
+    std::vector<XmlDocGenericItem*>
     getXmlDocGenericItems();
 
 private:

@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
+#include <regex>
 #include <mz_os.h>
 #include "Zip.hpp"
 #include "Zipper.hpp"
@@ -36,18 +36,17 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
         }
         if (nfs::is_directory(branch)) {
             std::wstring _mask = path.filename().wstring();
+            boost::replace_all(_mask, L".", L"\\.");
+            boost::replace_all(_mask, L"?", L".");
+            boost::replace_all(_mask, L"*", L".*");
 
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\."), L"\\\\.");
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\?"), L".");
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\*"), L".*");
-
-            boost::wregex rmask(_mask, boost::wregex::icase);
+            std::wregex rmask(_mask, std::wregex::icase);
             if (bSubdirectories) {
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
                              ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
@@ -67,7 +66,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());

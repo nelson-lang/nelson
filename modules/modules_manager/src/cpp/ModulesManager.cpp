@@ -285,13 +285,13 @@ IsProtectedModuleName(const std::wstring& moduleshortname)
     return ModulesManager::Instance().isProtectedModule(moduleshortname);
 }
 //=============================================================================
-boost::container::vector<module>
+std::vector<module>
 GetModules(bool bReverse)
 {
     wstringVector listPaths = GetModulesPath(bReverse);
     wstringVector listNames = GetModulesName(bReverse);
     std::vector<bool> listProtected = GetModulesProtected(bReverse);
-    boost::container::vector<module> modules;
+    std::vector<module> modules;
     modules.reserve(listNames.size());
     for (size_t k = 0; k < listNames.size(); k++) {
         module m;

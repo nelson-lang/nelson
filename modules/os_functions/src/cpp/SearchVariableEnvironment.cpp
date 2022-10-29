@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "SearchVariableEnvironment.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"

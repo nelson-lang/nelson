@@ -11,7 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include <boost/algorithm/string.hpp>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "StringReplace.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Error.hpp"
@@ -156,7 +156,7 @@ stringReplace(const std::wstring& originStr, const std::wstring& subStr,
         if (subStr.empty()) {
             return originStr;
         }
-        boost::container::vector<size_t> indexSubStr, lengthSubStr;
+        std::vector<size_t> indexSubStr, lengthSubStr;
         start = -1;
         int64 offset = 0;
         int64 offsetIncr = replaceStr.length() - subStr.length();

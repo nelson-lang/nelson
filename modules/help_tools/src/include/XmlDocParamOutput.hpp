@@ -12,7 +12,7 @@
 #include "XmlDocGenericItem.hpp"
 #include "XmlDocParamOutputItem.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -20,7 +20,7 @@ namespace Nelson {
 class NLSHELP_TOOLS_IMPEXP XmlDocParamOutput : public XmlDocGenericItem
 {
 private:
-    boost::container::vector<XmlDocParamOutputItem*> paramOutputItemVector;
+    std::vector<XmlDocParamOutputItem*> paramOutputItemVector;
 
 public:
     XmlDocParamOutput();

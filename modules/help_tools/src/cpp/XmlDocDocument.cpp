@@ -109,7 +109,7 @@ XmlDocDocument::XmlDocDocument(const std::wstring& srcfilename, const std::wstri
     this->indexLinkUrl.clear();
 }
 //=============================================================================
-XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items,
+XmlDocDocument::XmlDocDocument(std::vector<XmlDocGenericItem*> items,
     const std::wstring& srcfilename, const std::wstring& destfilename, bool bOverwriteExistingFile,
     DOCUMENT_OUTPUT outputTarget)
 {
@@ -356,7 +356,7 @@ XmlDocDocument::count(const std::string& tag)
     return nbref;
 }
 //=============================================================================
-boost::container::vector<XmlDocGenericItem*>
+std::vector<XmlDocGenericItem*>
 XmlDocDocument::getXmlDocGenericItems()
 {
     return items;

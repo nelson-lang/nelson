@@ -15,7 +15,7 @@
 #include "XmlDocMainIndex.hpp"
 #include "XmlTarget.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -27,7 +27,7 @@ private:
     wstringVector srcDirectories;
     std::wstring dstDirectory;
     std::wstring mainTitle;
-    boost::container::vector<XmlDocDirectory*> itemsDirectories;
+    std::vector<XmlDocDirectory*> itemsDirectories;
     bool bOverwriteExistingFiles;
     std::wstring lastError;
     void

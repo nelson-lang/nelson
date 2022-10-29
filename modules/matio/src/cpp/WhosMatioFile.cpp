@@ -9,7 +9,7 @@
 //=============================================================================
 #include <matio.h>
 #include <iomanip>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "WhosMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -137,13 +137,13 @@ WhosMatioFile(
         }
     }
     stringVector _names;
-    boost::container::vector<Dimensions> _size;
-    boost::container::vector<double> _bytes;
+    std::vector<Dimensions> _size;
+    std::vector<double> _bytes;
     stringVector _class;
-    boost::container::vector<logical> _global;
-    boost::container::vector<logical> _sparse;
-    boost::container::vector<logical> _complex;
-    boost::container::vector<logical> _persistent;
+    std::vector<logical> _global;
+    std::vector<logical> _sparse;
+    std::vector<logical> _complex;
+    std::vector<logical> _persistent;
     size_t nbSpaceName = _("Name").size();
     size_t nbSpaceSize = _("Size").size();
     size_t nbSpaceBytes = _("Bytes").size();

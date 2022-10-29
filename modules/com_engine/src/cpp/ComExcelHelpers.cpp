@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
-#include "ComExcelHelpers.hpp"
+#include <regex>
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
+#include "ComExcelHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -52,10 +52,10 @@ isValidRange(const std::wstring& range)
     if (splittedStrings.size() == 2) {
         std::wstring R1 = splittedStrings[0];
         std::wstring R2 = splittedStrings[1];
-        boost::wregex expr { L"^(?<column>[A-Z]+)(?<row>[1-9]\\d*)$" };
+        std::wregex expr { L"[A-Z]+[1-9]+" };
         try {
-            return boost::regex_match(R1, expr) && boost::regex_match(R2, expr);
-        } catch (const boost::regex_error&) {
+            return std::regex_match(R1, expr) && std::regex_match(R2, expr);
+        } catch (const std::regex_error&) {
             return false;
         }
     }

@@ -11,7 +11,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsAudio_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <portaudio.h>
 #include <string>
 //=============================================================================
@@ -24,7 +24,7 @@ public:
     const PaDeviceInfo* padeviceInfo;
 };
 //=============================================================================
-boost::container::vector<AudioDeviceInfo>
+std::vector<AudioDeviceInfo>
 getAudioDevices();
 PaDeviceIndex
 getOutputDeviceIndex(int deviceID);
