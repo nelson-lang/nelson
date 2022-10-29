@@ -43,7 +43,7 @@ LineManager::usesColors()
 std::wstring
 LineManager::getCurrentLine()
 {
-    boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
+    std::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(current_line_buffer.begin(), itend);
     return line;
 }
@@ -51,7 +51,7 @@ LineManager::getCurrentLine()
 std::wstring
 LineManager::getLineBeforeCaret()
 {
-    boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
+    std::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(current_line_buffer.begin(), itend);
     if (cur_pos >= current_line_buffer.size()) {
         current_line_buffer.push_back(L'\0');
@@ -63,8 +63,8 @@ LineManager::getLineBeforeCaret()
 std::wstring
 LineManager::getLineAfterCaret()
 {
-    boost::container::vector<wchar_t>::iterator itfirst = current_line_buffer.begin() + cur_pos;
-    boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
+    std::vector<wchar_t>::iterator itfirst = current_line_buffer.begin() + cur_pos;
+    std::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(itfirst, itend);
     if (cur_pos != max_pos) {
         line[(max_pos - cur_pos) + 1] = L'\0';
@@ -84,8 +84,8 @@ LineManager::moveBeginningLine()
 void
 LineManager::moveEndLine()
 {
-    boost::container::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
-    boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
+    std::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
+    std::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(itbegin, itend);
     cur_pos = max_pos;
     printCharacters(line, LineManager::STANDARD_INPUT);
@@ -360,8 +360,8 @@ void
 LineManager::refreshLine()
 {
     /* write tail of string */
-    boost::container::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
-    boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
+    std::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
+    std::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(itbegin, itend);
     printCharacters(line, LineManager::STANDARD_INPUT);
     /* write a space at the end of the line in case we deleted one */
@@ -377,7 +377,7 @@ LineManager::copyLine(const std::wstring& line)
 {
     if (line.size() > 0) {
         printCharacters(line, LineManager::STANDARD_INPUT);
-        current_line_buffer = boost::container::vector<wchar_t>(line.begin(), line.end());
+        current_line_buffer = std::vector<wchar_t>(line.begin(), line.end());
         cur_pos = max_pos = line.size();
     }
 }

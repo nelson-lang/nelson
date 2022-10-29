@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "nlsConfig.h"
 #include "StringFind.hpp"
 //=============================================================================
@@ -17,7 +17,7 @@ ArrayOf
 StringFind(const std::wstring& A, const std::wstring& B)
 {
     ArrayOf res;
-    boost::container::vector<double> vectorRes;
+    std::vector<double> vectorRes;
     std::string::size_type found;
     if (!B.empty()) {
         size_t start = 0;

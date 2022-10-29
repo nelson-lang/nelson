@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Eigen/Dense>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "IsApprox.hpp"
 #include "RealPart.hpp"
 #include "ImagPart.hpp"
@@ -16,10 +16,10 @@
 namespace Nelson {
 //=============================================================================
 template <class T>
-boost::container::vector<indexType>
+std::vector<indexType>
 nanIndices(T* values, indexType nbElements)
 {
-    boost::container::vector<indexType> res;
+    std::vector<indexType> res;
     for (indexType k = 0; k < nbElements; k++) {
         if (std::isnan(values[k])) {
             res.push_back(k);
@@ -29,10 +29,10 @@ nanIndices(T* values, indexType nbElements)
 }
 //=============================================================================
 template <class T>
-boost::container::vector<indexType>
+std::vector<indexType>
 infIndices(T* values, indexType nbElements)
 {
-    boost::container::vector<indexType> res;
+    std::vector<indexType> res;
     for (indexType k = 0; k < nbElements; k++) {
         if (std::isinf(values[k]) && (values[k] > 0)) {
             res.push_back(k);
@@ -42,10 +42,10 @@ infIndices(T* values, indexType nbElements)
 }
 //=============================================================================
 template <class T>
-boost::container::vector<indexType>
+std::vector<indexType>
 ninfIndices(T* values, indexType nbElements)
 {
-    boost::container::vector<indexType> res;
+    std::vector<indexType> res;
     for (indexType k = 0; k < nbElements; k++) {
         if (std::isinf(values[k]) && (values[k] < 0)) {
             res.push_back(k);
@@ -59,8 +59,8 @@ bool
 IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
 {
     bool bRes = false;
-    boost::container::vector<indexType> infA = infIndices<T>(ptrA, dims.getElementCount());
-    boost::container::vector<indexType> infB = infIndices<T>(ptrB, dims.getElementCount());
+    std::vector<indexType> infA = infIndices<T>(ptrA, dims.getElementCount());
+    std::vector<indexType> infB = infIndices<T>(ptrB, dims.getElementCount());
     if (infA.size() != infB.size()) {
         return false;
     }
@@ -73,8 +73,8 @@ IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
     }
     infA.clear();
     infB.clear();
-    boost::container::vector<indexType> ninfA = ninfIndices<T>(ptrA, dims.getElementCount());
-    boost::container::vector<indexType> ninfB = ninfIndices<T>(ptrB, dims.getElementCount());
+    std::vector<indexType> ninfA = ninfIndices<T>(ptrA, dims.getElementCount());
+    std::vector<indexType> ninfB = ninfIndices<T>(ptrB, dims.getElementCount());
     if (ninfA.size() != ninfB.size()) {
         return false;
     }
@@ -87,8 +87,8 @@ IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
     }
     ninfA.clear();
     ninfB.clear();
-    boost::container::vector<indexType> nanA = nanIndices<T>(ptrA, dims.getElementCount());
-    boost::container::vector<indexType> nanB = nanIndices<T>(ptrB, dims.getElementCount());
+    std::vector<indexType> nanA = nanIndices<T>(ptrA, dims.getElementCount());
+    std::vector<indexType> nanB = nanIndices<T>(ptrB, dims.getElementCount());
     if (nanA.size() != nanB.size()) {
         return false;
     }

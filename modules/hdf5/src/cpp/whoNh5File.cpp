@@ -9,7 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "FileSystemWrapper.hpp"
 #include "whoNh5File.hpp"
 #include "h5SaveLoadHelpers.hpp"

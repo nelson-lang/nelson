@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <iomanip>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "Whos.hpp"
 #include "Error.hpp"
 #include "Who.hpp"
@@ -125,13 +125,13 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
         }
 
         stringVector _names;
-        boost::container::vector<Dimensions> _size;
-        boost::container::vector<double> _bytes;
+        std::vector<Dimensions> _size;
+        std::vector<double> _bytes;
         stringVector _class;
-        boost::container::vector<logical> _global;
-        boost::container::vector<logical> _sparse;
-        boost::container::vector<logical> _complex;
-        boost::container::vector<logical> _persistent;
+        std::vector<logical> _global;
+        std::vector<logical> _sparse;
+        std::vector<logical> _complex;
+        std::vector<logical> _persistent;
 
         _names.reserve(variablesNamesToRead.size());
         _size.reserve(variablesNamesToRead.size());

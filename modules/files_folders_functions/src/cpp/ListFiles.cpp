@@ -7,21 +7,18 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <regex>
+#include <boost/algorithm/string.hpp>
 #include "ListFiles.hpp"
 #include "Error.hpp"
 #include "FileSystemWrapper.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/regex.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-boost::container::vector<FileInfo>
+std::vector<FileInfo>
 ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 {
-    boost::container::vector<FileInfo> res;
+    std::vector<FileInfo> res;
     nfs::path path(mask);
     if (nfs::exists(path)) {
         res.push_back(FileInfo(path.wstring()));
@@ -32,10 +29,10 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
         }
         if (nfs::is_directory(branch)) {
             std::wstring _mask = path.filename().wstring();
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\."), L"\\\\.");
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\?"), L".");
-            _mask = boost::regex_replace(_mask, boost::wregex(L"\\*"), L".*");
-            boost::wregex rmask(_mask, boost::wregex::icase);
+            boost::replace_all(_mask, L".", L"\\.");
+            boost::replace_all(_mask, L"?", L".");
+            boost::replace_all(_mask, L"*", L".*");
+            std::wregex rmask(_mask, std::wregex::icase);
             if (bSubdirectories) {
                 bool permissionDenied = false;
                 bool isDir
@@ -44,7 +41,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                     try {
                         for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
                              ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
@@ -76,7 +73,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::directory_iterator p(branch.native()), end; p != end; ++p) {
-                            if (!boost::regex_match(p->path().filename().wstring(), rmask)) {
+                            if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
                             std::wstring file(p->path().wstring());
@@ -99,10 +96,10 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
     return res;
 }
 //=============================================================================
-boost::container::vector<FileInfo>
+std::vector<FileInfo>
 ListFiles(const std::wstring& directory, bool bSubdirectories)
 {
-    boost::container::vector<FileInfo> res;
+    std::vector<FileInfo> res;
     std::size_t foundstar = directory.find_first_of(L'*');
     std::size_t foundInterrogationMark = directory.find_first_of(L'?');
     bool bWithWildCard

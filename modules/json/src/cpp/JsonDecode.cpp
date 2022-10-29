@@ -15,7 +15,7 @@
 #define JSMN_STRICT
 #include <jsmn.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "MakeValidFieldname.hpp"
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
@@ -404,7 +404,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         }
     } break;
     default: {
-        boost::container::vector<std::string> vectTemp;
+        std::vector<std::string> vectTemp;
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(
@@ -452,7 +452,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         }
     } break;
     default: {
-        boost::container::vector<logical> vectTemp;
+        std::vector<logical> vectTemp;
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(
@@ -500,7 +500,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         }
     } break;
     default: {
-        boost::container::vector<double> vectTemp;
+        std::vector<double> vectTemp;
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(

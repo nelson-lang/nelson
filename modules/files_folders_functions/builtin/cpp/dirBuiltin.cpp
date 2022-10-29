@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "dirBuiltin.hpp"
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
@@ -53,7 +53,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
-    boost::container::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);
+    std::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);
     if (nLhs == 0) {
         if (res.empty()) {
             std::wstring msg = std::wstring(L"\'") + wpath + std::wstring(L"\' ")

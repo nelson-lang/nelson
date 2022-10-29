@@ -200,10 +200,10 @@ FilesManager::getNumberOfFiles()
     return userFiles.size();
 }
 //=============================================================================
-boost::container::vector<uint64>
+std::vector<uint64>
 FilesManager::getIDs()
 {
-    boost::container::vector<uint64> IDs;
+    std::vector<uint64> IDs;
     for (size_t i = 0; i < getNumberOfFiles(); i++) {
         if (userFiles[i]) {
             IDs.push_back((uint64)i);

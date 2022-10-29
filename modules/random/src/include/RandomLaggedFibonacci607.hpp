@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
 #include <string>
@@ -109,10 +109,10 @@ public:
     getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
 
-    boost::container::vector<uint32>
+    std::vector<uint32>
     getState();
     void
-    setState(const boost::container::vector<uint32>& _state);
+    setState(const std::vector<uint32>& _state);
     void
     setState(uint32* _state, size_t len);
     size_t

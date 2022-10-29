@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "nlsHdf5_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
@@ -17,9 +17,9 @@ namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP void
 h5Create(const std::wstring& filename, const std::wstring& dataSetName,
-    const boost::container::vector<double>& sizeData, NelsonType dataType,
-    const boost::container::vector<double>& chunksize, int deflate, const ArrayOf& fillvalue,
-    bool fletcher32 = false, bool shuffle = false, const std::wstring& textEncoding = L"system");
+    const std::vector<double>& sizeData, NelsonType dataType, const std::vector<double>& chunksize,
+    int deflate, const ArrayOf& fillvalue, bool fletcher32 = false, bool shuffle = false,
+    const std::wstring& textEncoding = L"system");
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

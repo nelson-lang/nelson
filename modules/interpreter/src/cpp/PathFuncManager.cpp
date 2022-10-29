@@ -87,7 +87,7 @@ PathFuncManager::destroy()
 void
 PathFuncManager::clear()
 {
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
@@ -106,7 +106,7 @@ PathFuncManager::getMacrosList(const std::wstring& prefix)
         wstringVector userMacros = _userPath->getFunctionsName();
         macros.insert(macros.end(), userMacros.begin(), userMacros.end());
     }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
@@ -181,7 +181,7 @@ PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
             return true;
         }
     }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf->findFuncName(functionName, filename)) {
@@ -206,7 +206,7 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
             filesname.push_back(filename);
         }
     }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf->findFuncName(functionName, filename)) {
@@ -221,7 +221,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
 
-    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
         _pathFuncVector.end(),
         [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
     if (it != _pathFuncVector.end()) {
@@ -250,7 +250,7 @@ bool
 PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
         _pathFuncVector.end(),
         [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
 
@@ -356,7 +356,7 @@ PathFuncManager::rehash()
     if (_userPath != nullptr) {
         _userPath->rehash();
     }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
@@ -382,7 +382,7 @@ PathFuncManager::rehash(const std::wstring& path)
             return;
         }
     }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
@@ -442,7 +442,7 @@ PathFuncManager::isAvailablePath(const std::wstring& path)
             return true;
         }
     }
-    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
         _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
     return (it != _pathFuncVector.end());
 }

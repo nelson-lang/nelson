@@ -11,11 +11,11 @@
 //=============================================================================
 #include "FileInfo.hpp"
 #include "nlsFiles_folders_functions_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
-NLSFILES_FOLDERS_FUNCTIONS_IMPEXP boost::container::vector<FileInfo>
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::vector<FileInfo>
 ListFiles(const std::wstring& directory, bool bSubdirectories = false);
 }
 //=============================================================================

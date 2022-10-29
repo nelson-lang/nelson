@@ -130,8 +130,7 @@ XmlDocListOfFiles::read()
         if (xmlDoc->readFile()) {
             if (xmlDoc->isChapterDocument()) {
                 this->moduleName = xmlDoc->getModuleName();
-                boost::container::vector<XmlDocGenericItem*> items
-                    = xmlDoc->getXmlDocGenericItems();
+                std::vector<XmlDocGenericItem*> items = xmlDoc->getXmlDocGenericItems();
                 XmlDocChapterIndexItem* indexItem = new XmlDocChapterIndexItem();
                 for (auto& xmlItem : xmlItems) {
                     bool bSuccess;

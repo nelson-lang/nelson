@@ -13,9 +13,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::container::vector<AudioDeviceInfo> audioDevices;
+static std::vector<AudioDeviceInfo> audioDevices;
 //=============================================================================
-boost::container::vector<AudioDeviceInfo>
+std::vector<AudioDeviceInfo>
 getAudioDevices()
 {
     if (audioDevices.empty()) {
@@ -108,8 +108,8 @@ retrieveAudioDevicesInfo()
 }
 //=============================================================================
 static ArrayOf
-getDevicesInfo(const boost::container::vector<AudioDeviceInfo>& infos, bool input, size_t nbInputs,
-    size_t nbOutputs)
+getDevicesInfo(
+    const std::vector<AudioDeviceInfo>& infos, bool input, size_t nbInputs, size_t nbOutputs)
 {
     Dimensions dimsInOrOutputs;
     if (input) {
@@ -226,7 +226,7 @@ AudioDevInfoDefault(std::wstring& errorMessage)
 {
     errorMessage.clear();
     PaDeviceIndex defaultOutput = Pa_GetDefaultOutputDevice();
-    boost::container::vector<AudioDeviceInfo> infoOutput;
+    std::vector<AudioDeviceInfo> infoOutput;
     if (defaultOutput != paNoDevice) {
         const PaDeviceInfo* pdi_output = Pa_GetDeviceInfo(defaultOutput);
         if (pdi_output) {
@@ -242,7 +242,7 @@ AudioDevInfoDefault(std::wstring& errorMessage)
         }
     }
     PaDeviceIndex defaultInput = Pa_GetDefaultInputDevice();
-    boost::container::vector<AudioDeviceInfo> infoInput;
+    std::vector<AudioDeviceInfo> infoInput;
     if (defaultInput != paNoDevice) {
         const PaDeviceInfo* pdi_input = Pa_GetDeviceInfo(defaultInput);
         if (pdi_input) {
@@ -295,8 +295,7 @@ AudioDevInfo(int io, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoById(
-    const boost::container::vector<AudioDeviceInfo>& infos, int ID, AudioDeviceInfo& info)
+getDeviceInfoById(const std::vector<AudioDeviceInfo>& infos, int ID, AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
         if (element.Id == ID) {
@@ -335,8 +334,8 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoByName(const boost::container::vector<AudioDeviceInfo>& infos, int IO,
-    const std::wstring& name, AudioDeviceInfo& info)
+getDeviceInfoByName(const std::vector<AudioDeviceInfo>& infos, int IO, const std::wstring& name,
+    AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
         if (IO == 1) {
@@ -430,8 +429,8 @@ bitsToFormat(int bits)
 }
 //=============================================================================
 static bool
-searchAudioDevice(const boost::container::vector<AudioDeviceInfo>& infos, int io, int rate,
-    int bits, int chans, AudioDeviceInfo& info)
+searchAudioDevice(const std::vector<AudioDeviceInfo>& infos, int io, int rate, int bits, int chans,
+    AudioDeviceInfo& info)
 {
     if (io == 0 || io == 1) {
         for (auto k : infos) {

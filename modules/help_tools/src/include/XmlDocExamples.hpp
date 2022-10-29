@@ -13,7 +13,7 @@
 #include "XmlDocGenericItem.hpp"
 #include "XmlTarget.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -21,7 +21,7 @@ namespace Nelson {
 class NLSHELP_TOOLS_IMPEXP XmlDocExamples : public XmlDocGenericItem
 {
 private:
-    boost::container::vector<XmlDocExampleItem*> examplesVector;
+    std::vector<XmlDocExampleItem*> examplesVector;
     DOCUMENT_OUTPUT outputTarget;
 
 public:

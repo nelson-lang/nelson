@@ -9,8 +9,8 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/container/vector.hpp>
-#include <boost/regex.hpp>
+#include <vector>
+#include <regex>
 #include "FileSystemWrapper.hpp"
 #include "XmlDocResolveLink.hpp"
 #include "RelativePath.hpp"
@@ -33,14 +33,14 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
         return true;
     }
     std::wstring filepath;
-    boost::wregex exp(L"\\$\\{\\w+\\}");
-    boost::wsregex_iterator it(linkname.begin(), linkname.end(), exp);
-    boost::wsregex_iterator end;
+    std::wregex exp(L"\\$\\{\\w+\\}");
+    std::wsregex_iterator it(linkname.begin(), linkname.end(), exp);
+    std::wsregex_iterator end;
     if (it != end) {
         std::wstring modulename = it->str();
         boost::replace_all(modulename, L"${", L"");
         boost::replace_all(modulename, L"}", L"");
-        boost::container::vector<module> modules = GetModules(true);
+        std::vector<module> modules = GetModules(true);
         bool bFound = false;
         for (auto& module : modules) {
             if (module.modulename == modulename) {

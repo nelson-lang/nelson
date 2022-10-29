@@ -13,7 +13,7 @@
 #include "XmlDocListOfFiles.hpp"
 #include "XmlTarget.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {

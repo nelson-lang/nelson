@@ -69,7 +69,7 @@ FopenAll()
 {
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
-    boost::container::vector<uint64> IDs = fm->getIDs();
+    std::vector<uint64> IDs = fm->getIDs();
     if (IDs.size()) {
         double* dIDs
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, IDs.size(), stringVector(), false);

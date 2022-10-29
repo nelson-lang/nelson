@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 class LineManager
@@ -19,7 +19,7 @@ private:
     size_t cur_pos; /* current position of the cursor */
     size_t max_pos;
 
-    boost::container::vector<wchar_t> current_line_buffer;
+    std::vector<wchar_t> current_line_buffer;
 
     bool bUsesColors;
 

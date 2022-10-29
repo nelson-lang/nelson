@@ -108,7 +108,7 @@ RngGetState()
     case RNG_TWISTER: {
         auto* randEngine = static_cast<RandomMersenneTwister*>(
             NelsonConfiguration::getInstance()->getRandomEngine());
-        boost::container::vector<uint32> uint32State = randEngine->getState();
+        std::vector<uint32> uint32State = randEngine->getState();
         uint32* mat = (uint32*)ArrayOf::allocateArrayOf(
             NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
         for (size_t k = 0; k < uint32State.size(); k++) {
@@ -122,7 +122,7 @@ RngGetState()
     case RNG_TWISTER64: {
         auto* randEngine = static_cast<RandomMersenneTwister64*>(
             NelsonConfiguration::getInstance()->getRandomEngine());
-        boost::container::vector<uint64> uint64State = randEngine->getState();
+        std::vector<uint64> uint64State = randEngine->getState();
         uint64* mat = (uint64*)ArrayOf::allocateArrayOf(
             NLS_UINT64, uint64State.size(), Nelson::stringVector(), false);
         for (size_t k = 0; k < uint64State.size(); k++) {
@@ -136,7 +136,7 @@ RngGetState()
     case RNG_LAGGED_FIBONACCI_607: {
         auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
             NelsonConfiguration::getInstance()->getRandomEngine());
-        boost::container::vector<uint32> uint32State = randEngine->getState();
+        std::vector<uint32> uint32State = randEngine->getState();
         uint32* mat = (uint32*)ArrayOf::allocateArrayOf(
             NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
         for (size_t k = 0; k < uint32State.size(); k++) {

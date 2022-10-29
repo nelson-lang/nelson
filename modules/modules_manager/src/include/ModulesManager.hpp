@@ -11,7 +11,7 @@
 //=============================================================================
 #include <string>
 #include <tuple>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "Evaluator.hpp"
 #include "nlsModules_manager_exports.h"
 //=============================================================================
@@ -75,7 +75,7 @@ NLSMODULES_MANAGER_IMPEXP bool
 IsProtectedModuleName(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
 IsExistingModulePath(const std::wstring& modulerootpath);
-NLSMODULES_MANAGER_IMPEXP boost::container::vector<module>
+NLSMODULES_MANAGER_IMPEXP std::vector<module>
 GetModules(bool bReverse = false);
 NLSMODULES_MANAGER_IMPEXP wstringVector
 GetModulesName(bool bReverse = false);

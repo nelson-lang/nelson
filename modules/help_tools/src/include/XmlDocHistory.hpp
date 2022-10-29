@@ -12,7 +12,7 @@
 #include "XmlDocGenericItem.hpp"
 #include "XmlDocHistoryItem.hpp"
 #include "nlsHelp_tools_exports.h"
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -20,7 +20,7 @@ namespace Nelson {
 class NLSHELP_TOOLS_IMPEXP XmlDocHistory : public XmlDocGenericItem
 {
 private:
-    boost::container::vector<XmlDocHistoryItem*> historyVector;
+    std::vector<XmlDocHistoryItem*> historyVector;
 
 public:
     XmlDocHistory();

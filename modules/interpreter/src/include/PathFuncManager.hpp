@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "FunctionDef.hpp"
 #include "PathFunc.hpp"
 #include "FileFunction.hpp"
@@ -21,7 +21,7 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP PathFuncManager
 {
 private:
-    boost::container::vector<PathFunc*> _pathFuncVector;
+    std::vector<PathFunc*> _pathFuncVector;
     PathFuncManager();
     ~PathFuncManager();
     static PathFuncManager* m_pInstance;
