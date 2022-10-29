@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#762](http://github.com/Nelson-numerical-software/nelson/issues/762): MacOs CI was broken (libomp no more detected).
 
+- [#776](http://github.com/Nelson-numerical-software/nelson/issues/776): CodeQL Analyze was broken.
+
 - [#739](http://github.com/Nelson-numerical-software/nelson/issues/739): special case with empty cell.
 
 - buildhelp did not return some errors.
