@@ -18,7 +18,7 @@ function c = dlgetnelsonlibraries()
   end
 
   if (ismodule('f2c'))
-    c = [c; [modulepath(nelsonroot(),'f2c','bin'), '/libnlsf2c']];
+    c = [c; [modulepath(nelsonroot(),'f2c','bin'), '/libnlsF2C']];
   end
 
   if (ispc())

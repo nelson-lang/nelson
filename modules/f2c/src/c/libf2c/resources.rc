@@ -65,9 +65,9 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "libnlsf2c"
-            VALUE "InternalName", "f2C"
-            VALUE "OriginalFilename", "libnlsf2c.dll"
+            VALUE "FileDescription", "libnlsF2C"
+            VALUE "InternalName", "F2C"
+            VALUE "OriginalFilename", "libnlsF2C.dll"
             VALUE "ProductName", "Nelson (f2c)"
             VALUE "ProductVersion", "0,6,10,0"
             VALUE "FileVersion", "0,6,10,0"
