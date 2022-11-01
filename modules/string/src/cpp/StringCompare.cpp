@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringCompare.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +36,7 @@ compareString(const std::wstring& A, const std::wstring& B, bool bCaseSensitive,
     if (bCaseSensitive) {
         bEq = (A == B);
     } else {
-        bEq = boost::iequals(A, B);
+        bEq = StringHelpers::iequals(A, B);
     }
 
     return bEq;

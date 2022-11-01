@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <cmath>
 #include <cstdio>
 #include <cwchar>
@@ -107,7 +107,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                     singlecomplex complexVal = pComplexValue[x + y * dims.getRows()];
                     res = res + complexToString<singlecomplex>(complexVal, formatNumber) + L" ";
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -121,7 +121,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                     doublecomplex complexVal = pComplexValue[x + y * dims.getRows()];
                     res = res + complexToString<doublecomplex>(complexVal, formatNumber) + L" ";
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -146,7 +146,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                         }
                     }
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -171,7 +171,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                         }
                     }
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -187,7 +187,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                         res = res + L"false" + L" ";
                     }
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -203,7 +203,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
@@ -219,14 +219,14 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
                 }
-                if (boost::algorithm::ends_with(res, L" ")) {
+                if (StringHelpers::ends_with(res, L" ")) {
                     res.pop_back();
                 }
                 res = res + L";";
             }
         } break;
         }
-        if (boost::algorithm::ends_with(res, L";")) {
+        if (StringHelpers::ends_with(res, L";")) {
             res.pop_back();
         }
         if (!A.isScalar()) {

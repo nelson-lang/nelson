@@ -10,7 +10,7 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <vector>
 #include "StringReplace.hpp"
 #include "IsCellOfStrings.hpp"
@@ -429,7 +429,7 @@ Replace(const std::wstring& originStr, const std::wstring& subStr, const std::ws
         return result;
     }
     result = originStr;
-    boost::replace_all(result, subStr, replaceStr);
+    StringHelpers::replace_all(result, subStr, replaceStr);
     return result;
 }
 //=============================================================================

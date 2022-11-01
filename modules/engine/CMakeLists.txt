@@ -35,6 +35,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../ipc/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/socket_io/src)
 # ==============================================================================
@@ -57,6 +58,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsLocalization
   nlsI18n
+  nlsCommons
   nlsMex
   nlsTime
   nlsSparse

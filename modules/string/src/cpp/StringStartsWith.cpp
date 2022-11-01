@@ -10,7 +10,7 @@
 #include "StringStartsWith.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,9 +19,9 @@ startsWithString(const std::wstring& A, const std::wstring& pattern, bool bCaseS
 {
     bool res = false;
     if (bCaseSensitive) {
-        res = boost::algorithm::starts_with(A, pattern);
+        res = StringHelpers::starts_with(A, pattern);
     } else {
-        res = boost::algorithm::istarts_with(A, pattern);
+        res = StringHelpers::istarts_with(A, pattern);
     }
     return res;
 }

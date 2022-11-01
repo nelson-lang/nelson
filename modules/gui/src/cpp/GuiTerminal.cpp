@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string/predicate.hpp>
 #include <QtWidgets/QApplication>
 #include "GuiTerminal.hpp"
 #include "NelsonHistory.hpp"
 #include "QtMainWindow.h"
 #include "QtTerminal.h"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 static QtTerminal* qtterm = nullptr;
 static QtMainWindow* qtMainWindow = nullptr;
@@ -48,7 +48,7 @@ GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
         if (line != L"\n") {
             this->diary.writeMessage(line);
             if (bIsInput) {
-                if (boost::algorithm::ends_with(line, L"\n")) {
+                if (StringHelpers::ends_with(line, L"\n")) {
                     line.pop_back();
                 }
             }

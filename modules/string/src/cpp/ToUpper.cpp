@@ -10,7 +10,7 @@
 #include "ToUpper.hpp"
 #include "Error.hpp"
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <cctype>
 #include <string>
 #include "nlsConfig.h"
@@ -71,7 +71,7 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
 std::wstring
 ToUpper(const std::wstring& A)
 {
-    return boost::to_upper_copy(A);
+    return StringHelpers::to_upper_copy(A);
 }
 //=============================================================================
 } // namespace Nelson

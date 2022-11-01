@@ -11,7 +11,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
 #include <boost/thread/thread.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
@@ -117,7 +117,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
     } break;
     case POST_COMMAND: {
         std::wstring line = utf8_to_wstring(messageData.content);
-        boost::algorithm::replace_all(line, L"'", L"''");
+        StringHelpers::replace_all(line, L"'", L"''");
         std::wstring command
             = L"evalin('" + utf8_to_wstring(messageData.scope) + L"',' " + line + L"');";
         res = PostCommandDynamicFunction(command);
@@ -125,7 +125,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
     case EVAL: {
         std::wstring line = utf8_to_wstring(messageData.content);
         std::wstring pidStr = std::to_wstring(messageData.pid);
-        boost::algorithm::replace_all(line, L"'", L"''");
+        StringHelpers::replace_all(line, L"'", L"''");
         std::wstring command = L"ipc(" + pidStr + L", 'eval_answer', '" + line + L"');";
         res = PostCommandDynamicFunction(command);
     } break;

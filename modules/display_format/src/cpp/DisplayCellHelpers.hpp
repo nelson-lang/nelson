@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
 #include "NelsonConfiguration.hpp"
@@ -56,10 +56,10 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
                 std::wstring numberAsStr = formatScalarNumber(values[k], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     size_t nbCharsLimit = 6;
-                    if (boost::contains(numberAsStr, L"/")) {
+                    if (StringHelpers::contains(numberAsStr, L"/")) {
                         nbCharsLimit++;
                     }
-                    if (boost::contains(numberAsStr, L"-")) {
+                    if (StringHelpers::contains(numberAsStr, L"-")) {
                         nbCharsLimit++;
                     }
                     if (numberAsStr.length() > nbCharsLimit) {
@@ -125,10 +125,10 @@ summarizeCellComplexEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
                     = formatScalarComplexNumber(ap[k], ap[k + 1], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     size_t nbCharsLimit = (8 * 2) + 3;
-                    if (boost::contains(numberAsStr, L"/")) {
+                    if (StringHelpers::contains(numberAsStr, L"/")) {
                         nbCharsLimit++;
                     }
-                    if (boost::contains(numberAsStr, L"-")) {
+                    if (StringHelpers::contains(numberAsStr, L"-")) {
                         nbCharsLimit++;
                     }
                     if (numberAsStr.length() > nbCharsLimit) {

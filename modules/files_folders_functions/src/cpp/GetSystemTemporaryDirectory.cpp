@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GetSystemTemporaryDirectory.hpp"
-#include <boost/algorithm/string/predicate.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,8 +27,8 @@ GetSystemTemporaryDirectory()
     if (tempDir == L"") {
         FileSystemWrapper::Path pwd(FileSystemWrapper::Path::temp_directory_path());
         tempDir = pwd.getFinalPathname().generic_wstring();
-        if (!boost::algorithm::ends_with(tempDir, L"\\")
-            && (!boost::algorithm::ends_with(tempDir, L"/"))) {
+        if (!StringHelpers::ends_with(tempDir, L"\\")
+            && (!StringHelpers::ends_with(tempDir, L"/"))) {
             tempDir.append(L"/");
         }
     }

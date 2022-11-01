@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "nlsConfig.h"
 #include "ArrayOf.hpp"
 #include "Data.hpp"
@@ -439,7 +439,7 @@ ArrayOf::haveValidFieldNames(const stringVector& fieldnames)
         if (fieldname.size() == 0) {
             return false;
         }
-        if (boost::algorithm::contains(fieldname, "\n")) {
+        if (StringHelpers::contains(fieldname, "\n")) {
             return false;
         }
     }

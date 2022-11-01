@@ -10,11 +10,12 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include "StringToDouble.hpp"
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
 #include <cmath>
 #include <limits>
+#include <cwctype>
+#include "StringToDouble.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,18 +61,18 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
             wasConverted = true;
         } else {
             STR = str;
-            if (boost::algorithm::contains(str, L",")) {
-                boost::replace_all(STR, L",", L"");
+            if (StringHelpers::contains(str, L",")) {
+                StringHelpers::replace_all(STR, L",", L"");
             }
-            if (boost::algorithm::contains(STR, L" ")) {
-                boost::algorithm::trim_left(STR);
-                boost::algorithm::trim_right(STR);
+            if (StringHelpers::contains(STR, L" ")) {
+                StringHelpers::trim_left(STR);
+                StringHelpers::trim_right(STR);
             }
-            if (boost::algorithm::contains(STR, L"d")) {
-                boost::replace_all(STR, L"d", L"e");
+            if (StringHelpers::contains(STR, L"d")) {
+                StringHelpers::replace_all(STR, L"d", L"e");
             }
-            if (boost::algorithm::contains(STR, L"D")) {
-                boost::replace_all(STR, L"D", L"e");
+            if (StringHelpers::contains(STR, L"D")) {
+                StringHelpers::replace_all(STR, L"D", L"e");
             }
             double v = nan("");
             int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);

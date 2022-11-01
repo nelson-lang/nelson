@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include <Ole2.h>
 #include <atlconv.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +21,7 @@ ActiveXServer(const std::wstring& progId, const std::wstring& machine)
     IDispatch* pdispApplication = nullptr;
     CLSID clsApplication;
     ComHandleObject* res = nullptr;
-    if (boost::algorithm::starts_with(progId, L"{")) {
+    if (StringHelpers::starts_with(progId, L"{")) {
         if (FAILED(CLSIDFromString(progId.c_str(), &clsApplication))) {
             Error(_W("Error CLSIDFromString."));
         }

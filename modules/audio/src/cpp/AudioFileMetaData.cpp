@@ -10,10 +10,10 @@
 #include <fileref.h>
 #include <tag.h>
 #include <tpropertymap.h>
+#include "StringHelpers.hpp"
 #include "AudioFileMetaData.hpp"
 #include "MakeValidFieldname.hpp"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,13 +21,13 @@ static std::wstring
 revertFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix = L"x")
 {
     std::wstring modifiedFieldname = fieldname;
-    if (boost::algorithm::starts_with(fieldname, defaultPrefix)) {
-        boost::replace_first(modifiedFieldname, defaultPrefix, L"");
+    if (StringHelpers::starts_with(fieldname, defaultPrefix)) {
+        StringHelpers::replace_first(modifiedFieldname, defaultPrefix, L"");
     }
-    if (boost::algorithm::starts_with(modifiedFieldname, L"_")) {
+    if (StringHelpers::starts_with(modifiedFieldname, L"_")) {
         modifiedFieldname = modifiedFieldname.substr(1);
     }
-    boost::replace_all(modifiedFieldname, L"_", L" ");
+    StringHelpers::replace_all(modifiedFieldname, L"_", L" ");
     return modifiedFieldname;
 }
 //=============================================================================

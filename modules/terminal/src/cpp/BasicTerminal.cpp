@@ -12,13 +12,13 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
-#include <boost/algorithm/string/predicate.hpp>
 #include <cstring>
 #include <iostream>
 #include <csignal>
 #include "BasicTerminal.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 static bool bCONTROLC = false;
 //=============================================================================
@@ -76,7 +76,7 @@ BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
     }
     this->diary.writeMessage(retLine);
     if (bIsInput) {
-        if (boost::algorithm::ends_with(retLine, L"\n")) {
+        if (StringHelpers::ends_with(retLine, "\n")) {
             retLine.pop_back();
         }
     }

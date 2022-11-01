@@ -9,10 +9,9 @@
 //=============================================================================
 #include <cstdio>
 #include <fstream>
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
+#include "StringHelpers.hpp"
 #include "MapFileRead.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -55,16 +54,16 @@ MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::ws
                 if (!charsetToUtf8Converter(data, encodingDetected, asUtf8)) {
                     errorMessage = _W("Cannot convert to unicode.");
                 }
-                boost::replace_all(asUtf8, L"\r\n", L"\n");
+                StringHelpers::replace_all(asUtf8, "\r\n", "\n");
                 if (eol != L"\n") {
-                    boost::replace_all(asUtf8, L"\n", eol);
+                    StringHelpers::replace_all(asUtf8, "\n", wstring_to_utf8(eol));
                 }
                 res = true;
                 content = utf8_to_wstring(asUtf8);
             } else if (encoding == L"UTF-8") {
-                boost::replace_all(data, L"\r\n", L"\n");
+                StringHelpers::replace_all(data, "\r\n", "\n");
                 if (eol != L"\n") {
-                    boost::replace_all(data, L"\n", eol);
+                    StringHelpers::replace_all(data, "\n", wstring_to_utf8(eol));
                 }
                 res = true;
                 content = utf8_to_wstring(data);
@@ -73,9 +72,9 @@ MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::ws
                 if (!charsetToUtf8Converter(data, wstring_to_utf8(encoding), asUtf8)) {
                     errorMessage = _W("Cannot convert to unicode.");
                 }
-                boost::replace_all(asUtf8, L"\r\n", L"\n");
+                StringHelpers::replace_all(asUtf8, "\r\n", "\n");
                 if (eol != L"\n") {
-                    boost::replace_all(asUtf8, L"\n", eol);
+                    StringHelpers::replace_all(asUtf8, "\n", wstring_to_utf8(eol));
                 }
                 res = true;
                 content = utf8_to_wstring(asUtf8);

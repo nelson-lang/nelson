@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include <algorithm>
+#include "StringHelpers.hpp"
 #include "DebugStack.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -16,19 +17,19 @@ namespace Nelson {
 static bool
 isM(PositionScript& pos)
 {
-    return boost::algorithm::ends_with(pos.getFilename(), L".m");
+    return StringHelpers::ends_with(pos.getFilename(), L".m");
 }
 //=============================================================================
 static bool
 isEvaluateString(PositionScript& pos)
 {
-    return boost::algorithm::starts_with(pos.getFunctionName(), L"evaluator");
+    return StringHelpers::starts_with(pos.getFunctionName(), L"evaluator");
 }
 //=============================================================================
 static bool
 isBuiltin(PositionScript& pos)
 {
-    return boost::algorithm::starts_with(pos.getFunctionName(), L"built-in");
+    return StringHelpers::starts_with(pos.getFunctionName(), L"built-in");
 }
 //=============================================================================
 static stackTrace

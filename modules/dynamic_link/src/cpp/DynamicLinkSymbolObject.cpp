@@ -10,8 +10,8 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <unordered_map>
-#include <boost/algorithm/string.hpp>
 #include "DynamicLinkSymbolObject.hpp"
+#include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
@@ -128,7 +128,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
         if (param == L"void") {
             Error(_W("'void' not allowed as input type."));
         }
-        if (boost::algorithm::ends_with(param, L"Ptr")) {
+        if (StringHelpers::ends_with(param, L"Ptr")) {
             _nArgOut++;
         }
     }
@@ -178,7 +178,7 @@ DynamicLinkSymbolObject::buildPrototype()
         _paramsOutTypes.push_back(_returnType);
         _prototype = L"[" + _returnType;
         for (const std::wstring& param : _paramsTypes) {
-            if (boost::algorithm::ends_with(param, L"Ptr")) {
+            if (StringHelpers::ends_with(param, L"Ptr")) {
                 _prototype = _prototype + L", " + param;
                 _paramsOutTypes.push_back(param);
             }
@@ -314,7 +314,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     void** refPointers = nullptr;
     size_t nbRefPointers = 0;
     for (size_t i = 0; i < params.size(); i++) {
-        if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
+        if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             nbRefPointers++;
         }
     }
@@ -343,7 +343,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             refPointers[refPtrIndex] = objLibPointer->getPointer();
             values[i] = &refPointers[refPtrIndex];
             refPtrIndex++;
-        } else if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
+        } else if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             refPointers[refPtrIndex] = params[i].getReadWriteDataPointer();
             values[i] = &refPointers[refPtrIndex];
             refPtrIndex++;
@@ -458,7 +458,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     }
     int k = 0;
     for (size_t i = 0; i < _paramsTypes.size(); i++) {
-        if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
+        if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
                     Error(_W("libpointer handle expected."));

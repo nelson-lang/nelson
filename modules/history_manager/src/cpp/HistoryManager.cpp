@@ -10,7 +10,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <ctime>
 #include <fstream>
 #include <iomanip>
@@ -191,7 +191,7 @@ bool
 HistoryManager::appendLine(const std::wstring& line)
 {
     wstringVector strs;
-    boost::split(strs, line, boost::is_any_of(L"\n"));
+    StringHelpers::split(strs, line, L'\n');
     wstringVector lines;
     for (const auto& s : strs) {
         if ((s != L"\n") && (!s.empty())) {
@@ -464,7 +464,7 @@ HistoryManager::setToken(const std::wstring& _token)
     if (!token.empty()) {
         for (auto& command : commands) {
             tokens_found.reserve(commands.size());
-            if (boost::algorithm::starts_with(command, token)) {
+            if (StringHelpers::starts_with(command, token)) {
                 tokens_found.push_back(command);
             }
         }

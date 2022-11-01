@@ -10,7 +10,7 @@
 #include "StringContains.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,9 +19,9 @@ containsString(const std::wstring& A, const std::wstring& pattern, bool bCaseSen
 {
     bool res = false;
     if (bCaseSensitive) {
-        res = boost::algorithm::contains(A, pattern);
+        res = StringHelpers::contains(A, pattern);
     } else {
-        res = boost::algorithm::icontains(A, pattern);
+        res = StringHelpers::icontains(A, pattern);
     }
     return res;
 }

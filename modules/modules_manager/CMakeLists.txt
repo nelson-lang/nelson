@@ -19,6 +19,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
@@ -41,6 +42,7 @@ target_link_libraries(
   nlsOs_functions
   nlsCharacters_encoding
   nlsI18n
+  nlsCommons
   nlsFiles_folders_functions
   ${BOOST_LIBRARIES})
 # ==============================================================================
@@ -59,6 +61,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 # ==============================================================================
@@ -72,6 +75,7 @@ target_link_libraries(
   nlsInterpreter
   nlsApi_nelson
   nlsI18n
+  nlsCommons
   nlsTypes)
 # ==============================================================================
 set_target_properties(

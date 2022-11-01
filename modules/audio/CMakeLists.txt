@@ -22,6 +22,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/c
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -44,6 +45,7 @@ target_link_libraries(
   nlsOperators
   nlsTypes
   nlsI18n
+  nlsCommons
   nlsCharacters_encoding
   nlsApi_nelson
   ${PORTAUDIO_LIBRARIES}

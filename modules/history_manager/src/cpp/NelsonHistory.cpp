@@ -9,12 +9,13 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include <boost/algorithm/string/replace.hpp>
+#include <cstring>
 #include "HistoryManager.hpp"
 #include "NelsonHistory.hpp"
 #include "NelsonHistory.h"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 static char* _line = nullptr;
 //=============================================================================
@@ -26,7 +27,7 @@ Nelson::History::addLine(const std::wstring& line)
     if (hist != nullptr) {
         std::wstring mline;
         mline.assign(line);
-        boost::replace_last(mline, L"\n", L"");
+        StringHelpers::replace_last(mline, L"\n", L"");
         return hist->appendLine(mline);
     }
     return false;

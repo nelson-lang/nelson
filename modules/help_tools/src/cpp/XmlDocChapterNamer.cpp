@@ -10,17 +10,15 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include "XmlDocChapterNamer.hpp"
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
+#include "UuidHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 XmlDocChapterNamer(const std::wstring& dstDirectory)
 {
-    boost::uuids::uuid uuid = boost::uuids::random_generator()();
-    std::wstring guid = boost::uuids::to_wstring(uuid);
+    std::wstring guid;
+    UuidHelpers::generateUuid(guid);
     return dstDirectory + L"chapter-" + guid + L".html";
 }
 //=============================================================================

@@ -15,7 +15,6 @@
 #include <utime.h>
 #endif
 #include <ctime>
-#include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 #include "Zipper.hpp"
 #include <mz_os.h>
@@ -25,6 +24,7 @@
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +33,7 @@ normalizeZipPath(const std::wstring& path)
 {
     FileSystemWrapper::Path p(path);
     p = p.generic_path().lexically_normal();
-    if (boost::algorithm::starts_with(p.wstring(), L"./")) {
+    if (StringHelpers::starts_with(p.wstring(), L"./")) {
         p = p.wstring().substr(2);
     }
     return p.generic_wstring();

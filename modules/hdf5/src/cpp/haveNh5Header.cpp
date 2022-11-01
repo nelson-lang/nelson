@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "haveNh5Header.hpp"
 #include "characters_encoding.hpp"
 #include "h5SaveLoadHelpers.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,8 +53,8 @@ haveNh5Header(const std::wstring& filename, std::wstring& header, int16& version
     bool res = false;
     if (128 == bytesread) {
         header = utf8_to_wstring(header_saturated);
-        boost::algorithm::trim_right(header);
-        if (boost::algorithm::starts_with(header_saturated, NELSON_HEADER)) {
+        StringHelpers::trim_right(header);
+        if (StringHelpers::starts_with(utf8_to_wstring(header_saturated), NELSON_HEADER)) {
             endian = temp1;
             version = temp2;
             res = true;

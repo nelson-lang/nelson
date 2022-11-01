@@ -340,3 +340,11 @@ Unicode routines (UTF8, UTF16, UTF32): billions of characters per second using S
 > <https://github.com/simdutf/simdutf>
 
 > <https://github.com/simdutf/simdutf/blob/master/LICENSE-MIT> MIT license
+
+- stduuid
+
+A C++17 cross-platform implementation for UUIDs
+
+> <https://github.com/mariusbancila/stduuid>
+
+> <https://github.com/mariusbancila/stduuid/blob/master/LICENSE> MIT license

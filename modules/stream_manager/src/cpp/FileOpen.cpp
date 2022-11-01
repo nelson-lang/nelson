@@ -8,12 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
 #include <vector>
 #include "FileOpen.hpp"
 #include "File.hpp"
 #include "characters_encoding.hpp"
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,7 +22,7 @@ getModeOsDependant(const std::wstring& mode)
 {
     std::wstring newmode = mode;
 #ifndef _MSC_VER
-    boost::replace_all(newmode, L"t", L"");
+    StringHelpers::replace_all(newmode, L"t", L"");
 #endif
     return newmode;
 }

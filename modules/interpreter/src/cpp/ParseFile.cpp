@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "ParseFile.hpp"
 #include "Error.hpp"
 #include "ParserInterface.hpp"
@@ -48,7 +48,7 @@ ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp != nullptr) {
             std::string functionNameFromFile = pathFunction.stem().generic_string();
-            if (boost::iequals(functionNameFromFile, cp->getName())) {
+            if (StringHelpers::iequals(functionNameFromFile, cp->getName())) {
                 ps = ParserState::FuncDef;
             } else {
                 ps = ParserState::ParseError;

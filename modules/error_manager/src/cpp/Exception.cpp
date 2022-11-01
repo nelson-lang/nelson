@@ -7,13 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <utility>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
@@ -228,8 +230,7 @@ Exception::getFormattedErrorMessage() const
                     filename = pf.wstring();
                 }
                 message = message
-                    + str(boost::wformat(_W("at line %5d of \'%s\'\n")) % traces[pos].getLine()
-                        % filename);
+                    + fmt::sprintf(_W("at line %5d of \'%s\'\n"), traces[pos].getLine(), filename);
             }
         }
     }

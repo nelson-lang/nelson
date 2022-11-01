@@ -10,7 +10,7 @@
 #if _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocExampleItem.hpp"
@@ -78,7 +78,7 @@ XmlDocExampleItem::getItemType()
 bool
 XmlDocExampleItem::isNelsonExample()
 {
-    return (boost::iequals(this->_type, utf8_to_wstring(NELSON_EXAMPLE_TYPE)));
+    return (StringHelpers::iequals(this->_type, utf8_to_wstring(NELSON_EXAMPLE_TYPE)));
 }
 //=============================================================================
 bool
@@ -116,7 +116,7 @@ XmlDocExampleItem::writeAsMarkdown(std::string& utf8stream)
             } else {
                 newfilename = filename + L"_" + crc + extension;
             }
-            boost::replace_all(this->_imageTag, oldPath, newfilename);
+            StringHelpers::replace_all(this->_imageTag, oldPath, newfilename);
             _imageSource.assign(newPath);
             _imageDestination = this->_dstDirectory + L"/" + newfilename;
             Nelson::copyImage(_imageSource, _imageDestination);
@@ -158,7 +158,7 @@ XmlDocExampleItem::writeAsHtml(std::string& utf8stream)
             } else {
                 newfilename = filename + L"_" + crc + extension;
             }
-            boost::replace_all(this->_imageTag, oldPath, newfilename);
+            StringHelpers::replace_all(this->_imageTag, oldPath, newfilename);
             _imageSource.assign(newPath);
             _imageDestination = this->_dstDirectory + L"/" + newfilename;
             Nelson::copyImage(_imageSource, _imageDestination);

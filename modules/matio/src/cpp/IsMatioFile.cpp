@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "IsMatioFile.hpp"
 #include "characters_encoding.hpp"
@@ -57,7 +57,7 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
 #endif
                 if (headermat) {
                     std::string headertrimleft = std::string(headermat);
-                    boost::algorithm::trim_right(headertrimleft);
+                    StringHelpers::trim_right(headertrimleft);
                     elementHeaders[k] = ArrayOf::characterArrayConstructor(headertrimleft);
                 } else {
                     elementHeaders[k] = ArrayOf::characterArrayConstructor("");

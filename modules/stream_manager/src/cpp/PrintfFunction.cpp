@@ -12,8 +12,9 @@
 #endif
 //=============================================================================
 #include <cstdio>
+#include <cstring>
 #include <vector>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "PrintfFunction.hpp"
 #include "Error.hpp"
 #include "PrintfHelper.hpp"
@@ -127,11 +128,11 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                     if (!isEmpty) {
                         if (*(np - 1) == L'u') {
                             std::wstring f(dp);
-                            boost::replace_all(f, L"u", L"llu");
+                            StringHelpers::replace_all(f, L"u", L"llu");
                             nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
                         } else if (*(np - 1) == L'd') {
                             std::wstring f(dp);
-                            boost::replace_all(f, L"d", L"lld");
+                            StringHelpers::replace_all(f, L"d", L"lld");
                             nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
                         } else {
                             std::wstring fmt = std::wstring(dp);

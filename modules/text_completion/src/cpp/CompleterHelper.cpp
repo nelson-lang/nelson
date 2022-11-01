@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "CompleterHelper.hpp"
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,7 +19,7 @@ searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFi
     // line: cd c:/Program Fi
     // toFind: Program Files (x86)/
     std::wstring toFindCopy = std::wstring(toFind);
-    boost::to_upper(toFindCopy);
+    StringHelpers::to_upper(toFindCopy);
     auto* pointerToFindCopy = const_cast<wchar_t*>(toFindCopy.c_str());
     wchar_t lastChar = towupper(*line.rbegin());
     size_t lineLength = line.size();
@@ -34,7 +34,7 @@ searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFi
             = const_cast<wchar_t*>(line.c_str() + lineLength - wcslen(pointerToFindCopy) - 1);
         std::wstring toFindModified = std::wstring(pointerToFindCopy);
         std::wstring lineModified = std::wstring(pointerOnLine);
-        if (boost::iequals(toFindModified, lineModified.substr(0, toFindModified.size()))) {
+        if (StringHelpers::iequals(toFindModified, lineModified.substr(0, toFindModified.size()))) {
             return (pointerOnLine - line.c_str());
         }
     } while (movingPointerToFindCopy != nullptr);
@@ -65,7 +65,7 @@ getPartialLineAsPath(const std::wstring& line)
     }
     std::wstring symbols = std::wstring(L";,'");
     std::wstring lineWithoutSpaceAtBeginning = line;
-    boost::trim_left(lineWithoutSpaceAtBeginning);
+    StringHelpers::trim_left(lineWithoutSpaceAtBeginning);
     if (lineWithoutSpaceAtBeginning.empty()) {
         return {};
     }

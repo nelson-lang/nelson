@@ -1,0 +1,448 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#include <algorithm>
+#include <sstream>
+#include <algorithm>
+#include <functional>
+#include <cwctype>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
+#include "StringHelpers.hpp"
+//=============================================================================
+namespace Nelson::StringHelpers {
+//=============================================================================
+template <class T>
+bool
+starts_with(const T& mainStr, const T& toMatch)
+{
+    return (mainStr.find(toMatch) == 0);
+}
+//=============================================================================
+bool
+starts_with(const std::wstring& mainStr, const std::wstring& toMatch)
+{
+    return starts_with<std::wstring>(mainStr, toMatch);
+}
+//=============================================================================
+bool
+starts_with(const std::string& mainStr, const std::string& toMatch)
+{
+    return starts_with<std::string>(mainStr, toMatch);
+}
+//=============================================================================
+bool
+istarts_with(const std::wstring& mainStr, const std::wstring& toMatch)
+{
+    std::wstring MAINSTR = StringHelpers::to_upper_copy(mainStr);
+    std::wstring TOMATCH = StringHelpers::to_upper_copy(toMatch);
+    return (MAINSTR.find(TOMATCH) == 0);
+}
+//=============================================================================
+template <class T>
+bool
+ends_with(const T& mainStr, const T& toMatch)
+{
+    if (mainStr.size() < toMatch.size()) {
+        return false;
+    }
+    return (mainStr.rfind(toMatch) == (mainStr.size() - toMatch.size()));
+}
+//=============================================================================
+bool
+iends_with(const std::wstring& mainStr, const std::wstring& toMatch)
+{
+    std::wstring MAINSTR = StringHelpers::to_upper_copy(mainStr);
+    std::wstring TOMATCH = StringHelpers::to_upper_copy(toMatch);
+    return ends_with(MAINSTR, TOMATCH);
+}
+//=============================================================================
+bool
+ends_with(const std::wstring& mainStr, const std::wstring& toMatch)
+{
+    return ends_with<std::wstring>(mainStr, toMatch);
+}
+//=============================================================================
+bool
+ends_with(const std::string& mainStr, const std::string& toMatch)
+{
+    return ends_with<std::string>(mainStr, toMatch);
+}
+//=============================================================================
+void
+to_upper(std::wstring& str)
+{
+    std::transform(str.begin(), str.end(), str.begin(), ::towupper);
+}
+//=============================================================================
+std::wstring
+to_lower_copy(const std::wstring& str)
+{
+    std::wstring copy_str(str);
+    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towlower);
+    return copy_str;
+}
+//=============================================================================
+std::wstring
+to_upper_copy(const std::wstring& str)
+{
+    std::wstring copy_str(str);
+    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towupper);
+    return copy_str;
+}
+//=============================================================================
+std::string
+to_lower_copy(const std::string& str)
+{
+    std::string copy_str(str);
+    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::tolower);
+    return copy_str;
+}
+//=============================================================================
+std::string
+to_upper_copy(const std::string& str)
+{
+    std::string copy_str(str);
+    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::toupper);
+    return copy_str;
+}
+//=============================================================================
+template <class T>
+bool
+replace_first(T& str, const T& from, const T& to, size_t npos)
+{
+    size_t start_pos = str.find(from);
+    if (start_pos == npos) {
+        return false;
+    }
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
+//=============================================================================
+template <class T>
+bool
+replace_last(T& str, const T& from, const T& to, size_t npos)
+{
+    size_t start_pos = str.rfind(from);
+    if (start_pos == npos) {
+        return false;
+    }
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
+//=============================================================================
+template <class T>
+void
+replace_all(T& str, const T& from, const T& to, size_t npos)
+{
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+}
+//=============================================================================
+bool
+replace_first(std::wstring& str, const std::wstring& from, const std::wstring& to)
+{
+    return replace_first<std::wstring>(str, from, to, std::wstring::npos);
+}
+//=============================================================================
+bool
+replace_last(std::wstring& str, const std::wstring& from, const std::wstring& to)
+{
+    return replace_last<std::wstring>(str, from, to, std::wstring::npos);
+}
+//=============================================================================
+void
+replace_all(std::wstring& str, const std::wstring& from, const std::wstring& to)
+{
+    replace_all<std::wstring>(str, from, to, std::wstring::npos);
+}
+//=============================================================================
+std::wstring
+replace_all_copy(const std::wstring& str, const std::wstring& from, const std::wstring& to)
+{
+    std::wstring _copy(str);
+    replace_all<std::wstring>(_copy, from, to, std::wstring::npos);
+    return _copy;
+}
+//=============================================================================
+bool
+replace_first(std::string& str, const std::string& from, const std::string& to)
+{
+    return replace_first<std::string>(str, from, to, std::string::npos);
+}
+//=============================================================================
+bool
+replace_last(std::string& str, const std::string& from, const std::string& to)
+{
+    return replace_last<std::string>(str, from, to, std::string::npos);
+}
+//=============================================================================
+void
+replace_all(std::string& str, const std::string& from, const std::string& to)
+{
+    replace_all<std::string>(str, from, to, std::string::npos);
+}
+//=============================================================================
+void
+split(std::vector<std::wstring>& result, const std::wstring& s, wchar_t separator)
+{
+    std::wstring::size_type prev_pos = 0, pos = 0;
+    while ((pos = s.find(separator, pos)) != std::wstring::npos) {
+        std::wstring substring(s.substr(prev_pos, pos - prev_pos));
+        result.push_back(substring);
+        prev_pos = ++pos;
+    }
+    result.push_back(s.substr(prev_pos, pos - prev_pos));
+}
+//=============================================================================
+bool
+iequals(const std::string& s1, const std::string& s2)
+{
+    if (s1.size() != s2.size()) {
+        return false;
+    }
+    if (s1.empty() != s2.empty()) {
+        return false;
+    }
+    return std::equal(
+        s1.begin(), s1.end(), s2.begin(), [](char a, char b) { return tolower(a) == tolower(b); });
+}
+//=============================================================================
+bool
+iequals(const std::wstring& s1, const std::wstring& s2)
+{
+    if (s1.size() != s2.size()) {
+        return false;
+    }
+    if (s1.empty() != s2.empty()) {
+        return false;
+    }
+    return std::equal(s1.begin(), s1.end(), s2.begin(),
+        [](wchar_t a, wchar_t b) { return tolower(a) == tolower(b); });
+}
+//=============================================================================
+bool
+str2integer(const std::wstring& str, int& value)
+{
+    std::wstringstream ss(str);
+    if ((ss >> value).fail() || !(ss >> std::ws).eof()) {
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+bool
+str2longlong(const std::wstring& str, long long& value)
+{
+    std::wstringstream ss(str);
+    if ((ss >> value).fail() || !(ss >> std::ws).eof()) {
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+bool
+contains(const std::wstring& in, const std::wstring& needle)
+{
+    auto it = std::search(
+        in.begin(), in.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
+    return (it != in.end());
+}
+//=============================================================================
+bool
+contains(const std::string& in, const std::string& needle)
+{
+    auto it = std::search(
+        in.begin(), in.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
+    return (it != in.end());
+}
+//=============================================================================
+bool
+icontains(const std::wstring& in, const std::wstring& needle)
+{
+    std::wstring IN = StringHelpers::to_upper_copy(in);
+    std::wstring NEEDLE = StringHelpers::to_upper_copy(needle);
+    auto it = std::search(
+        IN.begin(), IN.end(), std::boyer_moore_searcher(NEEDLE.begin(), NEEDLE.end()));
+    return (it != IN.end());
+}
+//=============================================================================
+static bool
+isSpace(wchar_t c)
+{
+    return (c == L' ') || (c == L'\f') || (c == L'\n') || (c == L'\r') || (c == L'\t')
+        || (c == L'\v');
+}
+//=============================================================================
+static bool
+isSpace(char c)
+{
+    return (c == ' ') || (c == '\f') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\v');
+}
+//=============================================================================
+void
+trim_left(std::string& in_out)
+{
+    if (in_out.empty()) {
+        return;
+    }
+    in_out.erase(in_out.begin(),
+        std::find_if(in_out.begin(), in_out.end(), [](char ch) { return !isSpace(ch); }));
+}
+//=============================================================================
+void
+trim_right(std::string& in_out)
+{
+    if (in_out.empty()) {
+        return;
+    }
+    in_out.erase(
+        std::find_if(in_out.rbegin(), in_out.rend(), [](char ch) { return !isSpace(ch); }).base(),
+        in_out.end());
+}
+//=============================================================================
+void
+trim(std::string& in_out)
+{
+    trim_right(in_out);
+    trim_left(in_out);
+}
+//=============================================================================
+std::wstring
+trim_copy(const std::wstring& in_out)
+{
+    std::wstring _copy(in_out);
+    trim(_copy);
+    return _copy;
+}
+//=============================================================================
+std::string
+trim_copy(const std::string& in_out)
+{
+    std::string _copy(in_out);
+    trim(_copy);
+    return _copy;
+}
+//=============================================================================
+void
+trim_left(std::wstring& in_out)
+{
+    in_out.erase(in_out.begin(),
+        std::find_if(in_out.begin(), in_out.end(), [](wchar_t ch) { return !isSpace(ch); }));
+}
+//=============================================================================
+void
+trim_right(std::wstring& in_out)
+{
+    in_out.erase(
+        std::find_if(in_out.rbegin(), in_out.rend(), [](wchar_t ch) { return !isSpace(ch); })
+            .base(),
+        in_out.end());
+}
+//=============================================================================
+std::wstring
+trim_right_copy(const std::wstring& in_out)
+{
+    std::wstring _copy(in_out);
+    trim_right(_copy);
+    return _copy;
+}
+//=============================================================================
+std::string
+trim_right_copy(const std::string& in_out)
+{
+    std::string _copy(in_out);
+    trim_right(_copy);
+    return _copy;
+}
+//=============================================================================
+void
+trim(std::wstring& in_out)
+{
+    trim_right(in_out);
+    trim_left(in_out);
+}
+//=============================================================================
+std::wstring
+trim_left_copy(const std::wstring& in_out)
+{
+    std::wstring _copy(in_out);
+    trim_left(_copy);
+    return _copy;
+}
+//=============================================================================
+std::string
+trim_left_copy(const std::string& in_out)
+{
+    std::string _copy(in_out);
+    trim_left(_copy);
+    return _copy;
+}
+//=============================================================================
+void
+erase_all(std::string& input, const std::string& search)
+{
+    size_t pos = std::string::npos;
+    while ((pos = input.find(search)) != std::string::npos) {
+        input.erase(pos, search.length());
+    }
+}
+//=============================================================================
+void
+erase_all(std::wstring& input, const std::wstring& search)
+{
+    size_t pos = std::wstring::npos;
+    while ((pos = input.find(search)) != std::wstring::npos) {
+        input.erase(pos, search.length());
+    }
+}
+//=============================================================================
+std::wstring
+erase_all_copy(const std::wstring& input, const std::wstring& search)
+{
+    std::wstring _copy(input);
+    erase_all(_copy, search);
+    return _copy;
+}
+//=============================================================================
+void
+erase_first(std::string& input, const std::string& search)
+{
+    size_t pos = input.find(search);
+    if (pos != std::string::npos) {
+        input.erase(pos, search.length());
+    }
+}
+//=============================================================================
+void
+erase_first(std::wstring& input, const std::wstring& search)
+{
+    size_t pos = input.find(search);
+    if (pos != std::wstring::npos) {
+        input.erase(pos, search.length());
+    }
+}
+//=============================================================================
+std::string
+join(const std::vector<std::string>& inputs, const std::string& separator)
+{
+    return fmt::format("{}", fmt::join(inputs, separator));
+}
+//=============================================================================
+std::wstring
+join(const std::vector<std::wstring>& inputs, const std::wstring& separator)
+{
+    return fmt::format(L"{}", fmt::join(inputs, separator));
+}
+//=============================================================================
+}
+//=============================================================================

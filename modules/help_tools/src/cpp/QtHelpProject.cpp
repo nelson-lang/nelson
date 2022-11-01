@@ -7,15 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
 #include <fstream>
 #include <utility>
 #include "QtHelpProject.hpp"
 #include "HtmlTags.hpp"
 #include "RelativePath.hpp"
 #include "characters_encoding.hpp"
+#include "UuidHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -121,9 +119,9 @@ QtHelpProject::assembleContent()
 std::string
 QtHelpProject::uuid_module()
 {
-    boost::uuids::random_generator generator;
-    boost::uuids::uuid uuid = generator();
-    return boost::uuids::to_string(uuid);
+    std::string guid;
+    UuidHelpers::generateUuid(guid);
+    return guid;
 }
 //=============================================================================
 bool

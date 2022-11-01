@@ -15,8 +15,9 @@ add_definitions(-DFMT_EXPORT)
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
@@ -39,6 +40,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsElementary_mathematics
   nlsI18n
+  nlsCommons
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -59,6 +61,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${STREAM_MANAGER_BUILTIN})
@@ -74,6 +77,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsNelson_manager
   nlsApi_nelson
+  nlsCommons
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

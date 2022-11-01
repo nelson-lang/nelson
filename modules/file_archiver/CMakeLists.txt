@@ -40,6 +40,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -85,6 +86,7 @@ target_link_libraries(
   nlsElementary_mathematics
   nlsCharacters_encoding
   nlsI18n
+  nlsCommons
   ${BOOST_LIBRARIES}
   ${ZLIB_LIBRARIES})
 endif()

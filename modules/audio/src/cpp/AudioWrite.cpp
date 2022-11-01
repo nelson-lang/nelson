@@ -7,9 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <sndfile.h>
 #include <map>
+#include <cstring>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
@@ -90,7 +91,7 @@ extensionToFormat(const std::wstring& extension, int& format)
 
         tableFormatInitialized = true;
     }
-    std::wstring EXT = boost::to_lower_copy(extension);
+    std::wstring EXT = StringHelpers::to_lower_copy(extension);
     std::map<std::wstring, int>::const_iterator it = tableFormat.find(EXT);
     if (it != tableFormat.end()) {
         format = it->second;

@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
+#include <iostream>
 #include "BsdTerminal.hpp"
+#include "StringHelpers.hpp"
 #include "NelsonHistory.hpp"
 #include "characters_encoding.hpp"
 #include "linenoise.h"
-#include <boost/algorithm/string/predicate.hpp>
-#include <cstring>
-#include <iostream>
 //=============================================================================
 BsdTerminal::BsdTerminal()
 {
@@ -50,7 +50,7 @@ BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
         return retLineW;
     }
     if (bIsInput) {
-        if (boost::algorithm::ends_with(retLineW, L"\n")) {
+        if (StringHelpers::ends_with(retLineW, L"\n")) {
             retLineW.pop_back();
         }
         Nelson::History::setToken(L"");

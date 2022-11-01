@@ -19,9 +19,9 @@
 #endif
 #include <omp.h>
 #include <Eigen/Dense>
-#include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include "nlsConfig.h"
+#include "StringHelpers.hpp"
 #include "ComputionalThreads.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "SetVariableEnvironment.hpp"
@@ -117,9 +117,8 @@ setDefaultMaxNumCompThreads()
     if (omp_env == L"0") {
         nbOfThreadsToUse = getNumberOfPhysicalCores();
     } else {
-        try {
-            nbOfThreadsToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
-        } catch (const boost::bad_lexical_cast&) {
+        int nbOfThreadsToUse {};
+        if (!StringHelpers::str2integer(omp_env, nbOfThreadsToUse)) {
             nbOfThreadsToUse = 0;
         }
         if (nbOfThreadsToUse == 0) {

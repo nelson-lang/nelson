@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <algorithm>
 #include <cstring>
 #include <fstream>
+#include "StringHelpers.hpp"
 #include "FileTell.hpp"
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"
@@ -526,9 +526,9 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                             bool asChar = (*(np - 1) == L'c');
                             fmt = std::wstring(dp);
                             if (asChar) {
-                                boost::algorithm::replace_first(fmt, L"c", "lc");
+                                StringHelpers::replace_first(fmt, L"c", L"lc");
                             } else {
-                                boost::algorithm::replace_first(fmt, L"s", "ls");
+                                StringHelpers::replace_first(fmt, L"s", L"ls");
                             }
                             fmt += fmtPosition;
                             std::wstring value;

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <fstream>
 #include <iostream>
@@ -75,10 +75,10 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
         for (size_t k = 0; k < lines.size(); ++k) {
             std::wstring line = lines[k];
-            boost::replace_all(line, L"\r\n", L"\n");
-            boost::replace_all(line, L"\n", weol);
+            StringHelpers::replace_all(line, L"\r\n", L"\n");
+            StringHelpers::replace_all(line, L"\n", weol);
             wof << line;
-            if (!boost::algorithm::ends_with(line, weol)) {
+            if (!StringHelpers::ends_with(line, weol)) {
                 if (k != lines.size() - 1) {
                     wof << weol;
                 }
@@ -96,12 +96,12 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
         for (size_t k = 0; k < lines.size(); ++k) {
             std::string asUtf8 = wstring_to_utf8(lines[k]);
-            boost::replace_all(asUtf8, "\r\n", "\n");
-            boost::replace_all(asUtf8, "\n", eol);
+            StringHelpers::replace_all(asUtf8, "\r\n", "\n");
+            StringHelpers::replace_all(asUtf8, "\n", eol);
             std::string data;
             if (utf8ToCharsetConverter(asUtf8, data, encoding)) {
                 of << data;
-                if (!boost::algorithm::ends_with(data, eol)) {
+                if (!StringHelpers::ends_with(data, eol)) {
                     if (k != lines.size() - 1) {
                         of << eol;
                     }

@@ -15,7 +15,7 @@
 #include <fmt/format.h>
 #include <curl/curl.h>
 #include <unordered_map>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "WebREST.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
@@ -795,7 +795,7 @@ encodeUrl(CURL* curlObject, const std::wstring& url, const stringVector& names,
     std::string urlEncoded(wstring_to_utf8(url));
     std::string form = formEncode(curlObject, names, values, options);
 
-    if (!boost::algorithm::ends_with(urlEncoded, L"?")) {
+    if (!StringHelpers::ends_with(urlEncoded, "?")) {
         urlEncoded.append("?");
     }
     urlEncoded.append(form);

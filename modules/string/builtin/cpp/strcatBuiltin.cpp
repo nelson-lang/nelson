@@ -8,12 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
-#define BOOST_UUID_RANDOM_GENERATOR_COMPAT // BOOST 1.67
 //=============================================================================
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
+#include "UuidHelpers.hpp"
 #include "strcatBuiltin.hpp"
 #include "Error.hpp"
 #include "ConvertStringsToChars.hpp"
@@ -54,12 +51,12 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring strs;
         for (auto& theInput : theInputs) {
             strs = strs.append(
-                boost::algorithm::trim_right_copy(theInput.getContentAsArrayOfCharacters()));
+                StringHelpers::trim_right_copy(theInput.getContentAsArrayOfCharacters()));
         }
         retval << ArrayOf::characterArrayConstructor(strs);
     } else {
-        boost::uuids::uuid uuid = boost::uuids::random_generator()();
-        std::wstring missing_str = boost::uuids::to_wstring(uuid);
+        std::wstring missing_str;
+        UuidHelpers::generateUuid(missing_str);
 
         Dimensions dimsOutput;
         bool haveDimsOutput = false;
@@ -99,7 +96,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (v.isCharacterArray()) {
                 std::wstring str = v.getContentAsWideString();
                 if (cl == NLS_CHAR) {
-                    boost::algorithm::trim_right(str);
+                    StringHelpers::trim_right(str);
                 }
                 wstringVector vstr;
                 vstr.reserve(nbElements);
@@ -117,7 +114,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
                     if (c.isCharacterArray()) {
                         std::wstring s = c.getContentAsWideString();
                         if (cl == NLS_CHAR) {
-                            boost::algorithm::trim_right(s);
+                            StringHelpers::trim_right(s);
                         }
                         vstr.push_back(s);
                     } else {

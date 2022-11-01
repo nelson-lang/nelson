@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "RepositoryIsBranch.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryHelpers.hpp"
@@ -37,7 +37,7 @@ RepositoryIsBranch(
             git_reference_free(ref);
             errorCode = git_branch_name(&name, ref);
             if (errorCode == 0) {
-                if (boost::ends_with(utf8_to_wstring(name), branchName)) {
+                if (StringHelpers::ends_with(utf8_to_wstring(name), branchName)) {
                     found = true;
                     break;
                 }

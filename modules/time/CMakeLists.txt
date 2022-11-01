@@ -17,6 +17,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
@@ -37,6 +38,7 @@ target_link_libraries(
   nlsElementary_mathematics
   nlsCharacters_encoding
   nlsI18n
+  nlsCommons
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -56,7 +58,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${TIME_BUILTIN})
 # ==============================================================================
@@ -71,6 +73,7 @@ target_link_libraries(
   nlsApi_nelson
   nlsI18n
   nlsString
+  nlsCommons
   nlsData_structures
   ${BOOST_LIBRARIES})
 # ==============================================================================

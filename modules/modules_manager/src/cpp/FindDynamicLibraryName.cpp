@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
@@ -39,7 +39,7 @@ FindDynamicLibraryName(
                 }
             } else {
                 std::wstring currentfilename = current.filename().generic_wstring();
-                if (boost::iequals(initialLibraryName, currentfilename)) {
+                if (StringHelpers::iequals(initialLibraryName, currentfilename)) {
                     return currentfilename;
                 }
             }

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "PrintPropertyHelpers.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -17,7 +17,7 @@ printNumber(double value)
 {
     std::string str = std::to_string(value);
     str.erase(str.find_last_not_of('0') + 1, std::string::npos);
-    if (boost::ends_with(str, ".")) {
+    if (StringHelpers::ends_with(str, ".")) {
         str.erase(str.size() - 1, std::string::npos);
     }
     return str;

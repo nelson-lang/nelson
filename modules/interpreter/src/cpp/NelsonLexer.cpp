@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <cwctype>
 #include <cctype>
 #include <cstdio>
@@ -138,16 +138,16 @@ popVCState()
 inline bool
 isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
 {
-    std::wstring trimmedLine = boost::algorithm::trim_copy(wline);
-    if (boost::algorithm::ends_with(trimmedLine, L"\n")) {
+    std::wstring trimmedLine = StringHelpers::trim_copy(wline);
+    if (StringHelpers::ends_with(trimmedLine, L"\n")) {
         trimmedLine.pop_back();
     }
-    if (boost::algorithm::starts_with(trimmedLine, wcommand + L" ")) {
-        boost::algorithm::replace_first(trimmedLine, wcommand + L" ", L"");
-        boost::algorithm::trim(trimmedLine);
-        bool haveSimpleQuotes = boost::algorithm::starts_with(trimmedLine, L"'")
-            && boost::algorithm::ends_with(trimmedLine, L"'");
-        return (haveSimpleQuotes || !boost::algorithm::starts_with(trimmedLine, L"("));
+    if (StringHelpers::starts_with(trimmedLine, wcommand + L" ")) {
+        StringHelpers::replace_first(trimmedLine, wcommand + L" ", L"");
+        StringHelpers::trim(trimmedLine);
+        bool haveSimpleQuotes = StringHelpers::starts_with(trimmedLine, L"'")
+            && StringHelpers::ends_with(trimmedLine, L"'");
+        return (haveSimpleQuotes || !StringHelpers::starts_with(trimmedLine, L"("));
     }
     return false;
 }

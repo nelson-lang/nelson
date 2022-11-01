@@ -34,7 +34,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "QtTextEditor.h"
 #include "PostCommand.hpp"
 #include "GetNelsonPath.hpp"
@@ -952,7 +952,7 @@ QtTextEditor::helpOnSelection()
     }
     if (!selectedText.isEmpty()) {
         std::wstring text = QStringTowstring(selectedText);
-        boost::algorithm::replace_all(text, "'", "\"");
+        StringHelpers::replace_all(text, L"'", L"\"");
         std::wstring cmd = L"doc('" + text + L"');";
         postCommand(cmd);
     }

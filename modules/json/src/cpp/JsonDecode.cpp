@@ -14,7 +14,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define JSMN_STRICT
 #include <jsmn.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <vector>
 #include "MakeValidFieldname.hpp"
 #include "JsonDecode.hpp"
@@ -745,8 +745,8 @@ static ArrayOf
 jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessage)
 {
     std::wstring _stringToDecode(stringToDecode);
-    boost::algorithm::trim_left(_stringToDecode);
-    boost::algorithm::trim_right(_stringToDecode);
+    StringHelpers::trim_left(_stringToDecode);
+    StringHelpers::trim_right(_stringToDecode);
     jsonString = wstring_to_utf8(_stringToDecode);
     jsmn_parser parserJson;
     jsmn_init(&parserJson);

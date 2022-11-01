@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "StringHelpers.hpp"
 #include "FormatHelpers.hpp"
 #include "FormatPlus.hpp"
 #include "FormatRational.hpp"
@@ -189,13 +189,10 @@ formatComplex(T realPart, T imagPart, const FormatDisplayInformation& formatInfo
             }
         }
     }
-    if (trimImagPart) {
-        //        boost::trim_left(resultImagPart);
-    }
     if (formatInfo.numericFormatDisplay == NLS_NUMERIC_FORMAT_BANK) {
         result = resultRealPart;
         if (formatInfo.trim) {
-            boost::trim_left(result);
+            StringHelpers::trim_left(result);
         }
     } else {
         if (IsImagPartPositive) {
@@ -218,7 +215,7 @@ formatNumber(double val, const FormatDisplayInformation& formatInfo)
         result = formatReal<double>(val, formatInfo);
     }
     if (formatInfo.trim) {
-        boost::trim_left(result);
+        StringHelpers::trim_left(result);
     }
     return result;
 }
@@ -229,7 +226,7 @@ formatNumberComplex(T realPart, T imagPart, const FormatDisplayInformation& form
 {
     std::wstring result = formatComplex<T>(realPart, imagPart, formatInfo);
     if (formatInfo.trim) {
-        boost::trim_left(result);
+        StringHelpers::trim_left(result);
     }
     return result;
 }
@@ -537,7 +534,7 @@ formatScalarNumber(double val, bool asSingle, const FormatDisplayInformation& fo
                 + formatRational(val, formatInfo.widthReal, formatInfo.widthReal - 1, true);
         }
         if (formatInfo.trim) {
-            boost::trim_left(result);
+            StringHelpers::trim_left(result);
         }
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
@@ -552,7 +549,7 @@ formatScalarNumber(double val, bool asSingle, const FormatDisplayInformation& fo
                 = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(val, false));
         }
         if (formatInfo.trim) {
-            boost::trim_left(result);
+            StringHelpers::trim_left(result);
         }
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {

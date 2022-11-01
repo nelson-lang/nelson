@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FormatEngineeringNotation.hpp"
 #include "IEEEFP.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -77,7 +77,7 @@ formatLongEngineering(T number, bool trim, const std::wstring& zero, const std::
         }
     }
     if (trim) {
-        boost::trim_left(str);
+        StringHelpers::trim_left(str);
     }
     return str;
 }
@@ -175,7 +175,7 @@ formatShortEngineer(T x, bool trim, const std::wstring& format, size_t width, si
         str = blanks + str;
     }
     if (trim) {
-        boost::trim_left(str);
+        StringHelpers::trim_left(str);
     }
     return str;
 }

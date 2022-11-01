@@ -19,7 +19,7 @@
 #include "PathFuncManager.hpp"
 #include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -308,7 +308,7 @@ isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         for (indexType k = 0; k < nbElements; k++) {
             std::wstring currentClass;
             ClassName(arg[k], currentClass);
-            if (boost::algorithm::contains(currentClass, classExpected)) {
+            if (StringHelpers::contains(currentClass, classExpected)) {
                 matLogical[k] = true;
             } else {
                 if ((classExpected == L"char") && (currentClass == L"string")) {

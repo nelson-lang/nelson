@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "StringHelpers.hpp"
 #include "IEEEFP.hpp"
 #include "FormatRational.hpp"
 #include "FloatNumberToRational.hpp"
@@ -51,7 +51,7 @@ formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool tri
         str = fmt::sprintf(L"%*s", width, str);
     }
     if (trim) {
-        boost::trim_left(str);
+        StringHelpers::trim_left(str);
     }
     return str;
 }
@@ -66,7 +66,7 @@ formatRational(single number, size_t width, bool trim)
         str = floatNumberToApproxRational<double, int>(number, width);
     }
     if (trim) {
-        boost::trim_left(str);
+        StringHelpers::trim_left(str);
     }
     return str;
 }

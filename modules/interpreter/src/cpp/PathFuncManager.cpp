@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cerrno>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
@@ -418,9 +418,9 @@ PathFuncManager::getPathNameAsString()
         }
     }
 #ifdef _MSC_VER
-    if (boost::algorithm::ends_with(p, L";"))
+    if (StringHelpers::ends_with(p, L";"))
 #else
-    if (boost::algorithm::ends_with(p, L":"))
+    if (StringHelpers::ends_with(p, L":"))
 #endif
     {
         p.pop_back();

@@ -13,6 +13,8 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
@@ -20,7 +22,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${Boost_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR})
@@ -32,6 +33,7 @@ add_library(${module_library_name} SHARED ${DISPLAY_FORMAT_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsTypes
+  nlsCommons
   nlsCharacters_encoding
   nlsError_manager
   nlsNelson_manager
@@ -56,6 +58,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
@@ -71,6 +74,7 @@ target_link_libraries(
   nlsOverload
   nlsTypes
   nlsI18n
+  nlsCommons
   nlsCharacters_encoding
   nlsApi_nelson
   ${BOOST_LIBRARIES})

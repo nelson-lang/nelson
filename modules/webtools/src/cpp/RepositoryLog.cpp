@@ -13,7 +13,7 @@
 //=============================================================================
 #include <git2.h>
 #include <ctime>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "RepositoryLog.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryHelpers.hpp"
@@ -64,7 +64,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         git_oid_tostr(oidstr, 9, &oid);
         sha1s.push_back(ArrayOf::characterArrayConstructor(oidstr));
         std::string message = std::string(git_commit_message(c));
-        if (boost::algorithm::ends_with(message, "\n")) {
+        if (StringHelpers::ends_with(message, "\n")) {
             message.pop_back();
         }
         msgs.push_back(ArrayOf::characterArrayConstructor(message));
@@ -78,7 +78,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         char buffer[128];
         std::string strtime = std::string(ctime_r(&time, buffer));
 #endif
-        if (boost::algorithm::ends_with(strtime, "\n")) {
+        if (StringHelpers::ends_with(strtime, "\n")) {
             strtime.pop_back();
         }
         times.push_back(ArrayOf::characterArrayConstructor(strtime));

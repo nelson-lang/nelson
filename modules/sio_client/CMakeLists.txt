@@ -26,6 +26,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/internal
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/websocketpp
@@ -54,6 +55,7 @@ target_link_libraries(
   nlsInterpreter
   nlsNelson_manager
   nlsCharacters_encoding
+  nlsCommons
   nlsI18n)
 endif()
 # ==============================================================================

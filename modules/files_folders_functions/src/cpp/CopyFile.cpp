@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string/replace.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include "FileSystemWrapper.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 bool
@@ -82,7 +82,7 @@ copyDirectoryRecursively(const FileSystemWrapper::Path& sourceDir,
     for (const auto& dirEnt : nfs::recursive_directory_iterator { sourceDir.native() }) {
         const auto& path = dirEnt.path();
         std::wstring relativePathStr = path.generic_wstring();
-        boost::replace_first(relativePathStr, rootSrc, L"");
+        StringHelpers::replace_first(relativePathStr, rootSrc, L"");
         FileSystemWrapper::Path destPath = destinationDir.generic_path() / relativePathStr;
         std::string message;
         FileSystemWrapper::Path::copy(FileSystemWrapper::Path(path.wstring()), destPath, message);

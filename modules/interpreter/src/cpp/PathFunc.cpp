@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
+#include "StringHelpers.hpp"
 #include "PathFunc.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
@@ -60,7 +62,7 @@ PathFunc::getFunctionsName(const std::wstring& prefix)
                 functionsName.push_back(mapAllFile.second->getName());
             } else {
                 std::wstring name = mapAllFile.second->getName();
-                if (boost::starts_with(name, prefix)) {
+                if (StringHelpers::starts_with(name, prefix)) {
                     functionsName.push_back(name);
                 }
             }
@@ -172,8 +174,8 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         }
         if (!withWatcher) {
             std::wstring msg
-                = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
-                    % foundit->second->getFilename());
+                = fmt::sprintf(_W("Previously accessible file '%s' is now inaccessible."),
+                    foundit->second->getFilename());
             Error(msg);
         }
     }
@@ -187,8 +189,8 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         }
         if (!withWatcher) {
             std::wstring msg
-                = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
-                    % found->second->getFilename());
+                = fmt::sprintf(_W("Previously accessible file '%s' is now inaccessible."),
+                    found->second->getFilename());
             Error(msg);
         }
     }

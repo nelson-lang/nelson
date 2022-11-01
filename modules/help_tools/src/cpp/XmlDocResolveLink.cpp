@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <vector>
 #include <regex>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "XmlDocResolveLink.hpp"
 #include "RelativePath.hpp"
@@ -27,8 +26,8 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
     const std::wstring& destinationDir, const std::wstring& language, std::wstring& resolvedlink)
 {
     bool bRes = false;
-    if (boost::algorithm::starts_with(linkname, "http://")
-        || boost::algorithm::starts_with(linkname, "https://")) {
+    if (StringHelpers::starts_with(linkname, L"http://")
+        || StringHelpers::starts_with(linkname, L"https://")) {
         resolvedlink = linkname;
         return true;
     }
@@ -38,14 +37,14 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
     std::wsregex_iterator end;
     if (it != end) {
         std::wstring modulename = it->str();
-        boost::replace_all(modulename, L"${", L"");
-        boost::replace_all(modulename, L"}", L"");
+        StringHelpers::replace_all(modulename, L"${", L"");
+        StringHelpers::replace_all(modulename, L"}", L"");
         std::vector<module> modules = GetModules(true);
         bool bFound = false;
         for (auto& module : modules) {
             if (module.modulename == modulename) {
                 std::wstring name = linkname;
-                boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
+                StringHelpers::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
                 if (outputTarget == DOCUMENT_OUTPUT::QT_HELP) {
                     resolvedlink = L"qthelp://org.nelson.modules." + modulename
                         + std::wstring(L".help/help/") + name + L".html";
@@ -88,7 +87,7 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
         }
         if (outputTarget != DOCUMENT_OUTPUT::QT_HELP) {
             std::wstring name = linkname;
-            boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
+            StringHelpers::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
             resolvedlink = name + L".html";
             return true;
         }

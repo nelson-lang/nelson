@@ -18,7 +18,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
@@ -38,6 +39,7 @@ target_link_libraries(
   nlsI18n
   nlsTime
   nlsInterpreter
+  nlsCommons
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

@@ -27,7 +27,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QScrollBar>
-#include <boost/algorithm/string.hpp>
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
@@ -42,6 +41,7 @@
 #include "NelsonPalette.hpp"
 #include "NelsonColors.hpp"
 #include "DefaultFont.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -534,7 +534,7 @@ QtTerminal::helpOnSelection()
         QString textSelected = cur.selectedText();
         if (!textSelected.isEmpty()) {
             std::wstring text = QStringTowstring(textSelected);
-            boost::algorithm::replace_all(text, "'", "\"");
+            StringHelpers::replace_all(text, L"'", L"\"");
             std::wstring cmd = L"doc('" + text + L"');";
             postCommand(cmd);
         }

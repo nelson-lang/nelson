@@ -49,7 +49,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
@@ -65,6 +65,7 @@ target_link_libraries(
   nlsOverload
   nlsTypes
   nlsString
+  nlsCommons
   nlsI18n)
 # ==============================================================================
 set_target_properties(

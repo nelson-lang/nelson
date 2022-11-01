@@ -10,7 +10,7 @@
 #include "XmlDocListOfDirectories.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocTitleItem.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,8 +21,8 @@ XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
 {
     this->mainTitle = mainTitle;
     this->outputTarget = outputTarget;
-    if (boost::algorithm::ends_with(dstDirectory, L"/")
-        || boost::algorithm::ends_with(dstDirectory, L"\\")) {
+    if (StringHelpers::ends_with(dstDirectory, L"/")
+        || StringHelpers::ends_with(dstDirectory, L"\\")) {
         this->dstDirectory.pop_back();
     }
     this->bOverwriteExistingFiles = bOverwriteExistingFiles;

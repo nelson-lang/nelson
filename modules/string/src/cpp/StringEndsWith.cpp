@@ -10,7 +10,7 @@
 #include "StringEndsWith.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,9 +19,9 @@ endsWithString(const std::wstring& A, const std::wstring& pattern, bool bCaseSen
 {
     bool res = false;
     if (bCaseSensitive) {
-        res = boost::algorithm::ends_with(A, pattern);
+        res = StringHelpers::ends_with(A, pattern);
     } else {
-        res = boost::algorithm::iends_with(A, pattern);
+        res = StringHelpers::iends_with(A, pattern);
     }
     return res;
 }

@@ -15,9 +15,8 @@
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -70,7 +69,7 @@ XmlDocDescriptionItem::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_H3_IN_TAG + _("Description") + HTML_H3_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
-    if (!boost::algorithm::starts_with(_description, HTML_P_IN_TAG)) {
+    if (!StringHelpers::starts_with(_description, utf8_to_wstring(HTML_P_IN_TAG))) {
         utf8stream = utf8stream + HTML_P_IN_TAG + HTML_P_OUT_TAG + "\n";
     }
     utf8stream = utf8stream + wstring_to_utf8(_description) + "\n";
@@ -125,8 +124,8 @@ XmlDocDescriptionItem::replaceImageTag()
             } else {
                 newfilename = filename + L"_" + crc + extension;
             }
-            boost::replace_all(tag, oldPath, newfilename);
-            boost::replace_all(this->_description, k, tag);
+            StringHelpers::replace_all(tag, oldPath, newfilename);
+            StringHelpers::replace_all(this->_description, k, tag);
             k = tag;
             imagesSource.push_back(newPath);
             imagesDestination.push_back(this->destDirectory + L"/" + newfilename);
@@ -151,14 +150,14 @@ void
 XmlDocDescriptionItem::setDirectories(
     const std::wstring& srcDirectory, const std::wstring& destDirectory)
 {
-    if (boost::algorithm::ends_with(srcDirectory, L"/")
-        || boost::algorithm::ends_with(srcDirectory, L"\\")) {
+    if (StringHelpers::ends_with(srcDirectory, L"/")
+        || StringHelpers::ends_with(srcDirectory, L"\\")) {
         this->srcDirectory = srcDirectory;
     } else {
         this->srcDirectory = srcDirectory + L"/";
     }
-    if (boost::algorithm::ends_with(destDirectory, L"/")
-        || boost::algorithm::ends_with(destDirectory, L"\\")) {
+    if (StringHelpers::ends_with(destDirectory, L"/")
+        || StringHelpers::ends_with(destDirectory, L"\\")) {
         this->destDirectory = destDirectory;
     } else {
         this->destDirectory = destDirectory + L"/";

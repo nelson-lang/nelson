@@ -8,10 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <regex>
-#include <boost/algorithm/string.hpp>
 #include "ListFiles.hpp"
 #include "Error.hpp"
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,9 +29,9 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
         }
         if (nfs::is_directory(branch)) {
             std::wstring _mask = path.filename().wstring();
-            boost::replace_all(_mask, L".", L"\\.");
-            boost::replace_all(_mask, L"?", L".");
-            boost::replace_all(_mask, L"*", L".*");
+            StringHelpers::replace_all(_mask, L".", L"\\.");
+            StringHelpers::replace_all(_mask, L"?", L".");
+            StringHelpers::replace_all(_mask, L"*", L".*");
             std::wregex rmask(_mask, std::wregex::icase);
             if (bSubdirectories) {
                 bool permissionDenied = false;
@@ -119,8 +119,8 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return res;
             }
             std::wstring directorymodified;
-            if (boost::algorithm::ends_with(directory, L"/")
-                || boost::algorithm::ends_with(directory, L"\\")) {
+            if (StringHelpers::ends_with(directory, L"/")
+                || StringHelpers::ends_with(directory, L"\\")) {
                 directorymodified = directory;
             } else {
                 directorymodified = directory + L"/";
