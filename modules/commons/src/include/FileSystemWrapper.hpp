@@ -22,7 +22,7 @@
 #else
 #include <filesystem>
 #endif
-#include "nlsStream_manager_exports.h"
+#include "nlsCommons_exports.h"
 //=============================================================================
 #ifdef _WITH_BOOST_FILESYSTEM_
 namespace nfs = boost::filesystem;
@@ -32,7 +32,7 @@ namespace nfs = std::filesystem;
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
 //=============================================================================
-class NLSSTREAM_MANAGER_IMPEXP Path
+class NLSCOMMONS_IMPEXP Path
 {
     //=============================================================================
 private:

@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
 #include <sstream>
 #include <algorithm>
 #include <functional>
@@ -60,7 +59,7 @@ iends_with(const std::wstring& mainStr, const std::wstring& toMatch)
 {
     std::wstring MAINSTR = StringHelpers::to_upper_copy(mainStr);
     std::wstring TOMATCH = StringHelpers::to_upper_copy(toMatch);
-    return ends_with(MAINSTR, TOMATCH);
+    return ends_with<std::wstring>(MAINSTR, TOMATCH);
 }
 //=============================================================================
 bool
@@ -89,6 +88,14 @@ to_lower_copy(const std::wstring& str)
     return copy_str;
 }
 //=============================================================================
+std::string
+to_upper_copy(const std::string& str)
+{
+    std::string copy_str(str);
+    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::toupper);
+    return copy_str;
+}
+//=============================================================================
 std::wstring
 to_upper_copy(const std::wstring& str)
 {
@@ -102,14 +109,6 @@ to_lower_copy(const std::string& str)
 {
     std::string copy_str(str);
     std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::tolower);
-    return copy_str;
-}
-//=============================================================================
-std::string
-to_upper_copy(const std::string& str)
-{
-    std::string copy_str(str);
-    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::toupper);
     return copy_str;
 }
 //=============================================================================
@@ -250,20 +249,29 @@ str2longlong(const std::wstring& str, long long& value)
     return true;
 }
 //=============================================================================
+template <class T>
 bool
-contains(const std::wstring& in, const std::wstring& needle)
+contains(const T& in, const T& needle, size_t npos)
 {
+#ifdef __APPLE__
+    return (in.find(need) != std::string::npos);
+#else
     auto it = std::search(
         in.begin(), in.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
     return (it != in.end());
+#endif
+}
+//=============================================================================
+bool
+contains(const std::wstring& in, const std::wstring& needle)
+{
+    return contains<std::wstring>(in, needle, std::wstring::npos);
 }
 //=============================================================================
 bool
 contains(const std::string& in, const std::string& needle)
 {
-    auto it = std::search(
-        in.begin(), in.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
-    return (it != in.end());
+    return contains<std::string>(in, needle, std::string::npos);
 }
 //=============================================================================
 bool
@@ -271,9 +279,7 @@ icontains(const std::wstring& in, const std::wstring& needle)
 {
     std::wstring IN = StringHelpers::to_upper_copy(in);
     std::wstring NEEDLE = StringHelpers::to_upper_copy(needle);
-    auto it = std::search(
-        IN.begin(), IN.end(), std::boyer_moore_searcher(NEEDLE.begin(), NEEDLE.end()));
-    return (it != IN.end());
+    return contains<std::wstring>(in, needle, std::wstring::npos);
 }
 //=============================================================================
 static bool
@@ -317,20 +323,25 @@ trim(std::string& in_out)
     trim_left(in_out);
 }
 //=============================================================================
+template <class T>
+T
+trim_copy(const T& in_out)
+{
+    T _copy(in_out);
+    trim(_copy);
+    return _copy;
+}
+//=============================================================================
 std::wstring
 trim_copy(const std::wstring& in_out)
 {
-    std::wstring _copy(in_out);
-    trim(_copy);
-    return _copy;
+    return trim_copy<std::wstring>(in_out);
 }
 //=============================================================================
 std::string
 trim_copy(const std::string& in_out)
 {
-    std::string _copy(in_out);
-    trim(_copy);
-    return _copy;
+    return trim_copy<std::string>(in_out);
 }
 //=============================================================================
 void
@@ -349,20 +360,25 @@ trim_right(std::wstring& in_out)
         in_out.end());
 }
 //=============================================================================
+template <class T>
+T
+trim_right_copy(const T& in_out)
+{
+    T _copy(in_out);
+    trim_right(_copy);
+    return _copy;
+}
+//=============================================================================
 std::wstring
 trim_right_copy(const std::wstring& in_out)
 {
-    std::wstring _copy(in_out);
-    trim_right(_copy);
-    return _copy;
+    return trim_right_copy<std::wstring>(in_out);
 }
 //=============================================================================
 std::string
 trim_right_copy(const std::string& in_out)
 {
-    std::string _copy(in_out);
-    trim_right(_copy);
-    return _copy;
+    return trim_right_copy<std::string>(in_out);
 }
 //=============================================================================
 void
@@ -372,38 +388,47 @@ trim(std::wstring& in_out)
     trim_left(in_out);
 }
 //=============================================================================
+template <class T>
+T
+trim_left_copy(const T& in_out)
+{
+    T _copy(in_out);
+    trim_left(_copy);
+    return _copy;
+}
+//=============================================================================
 std::wstring
 trim_left_copy(const std::wstring& in_out)
 {
-    std::wstring _copy(in_out);
-    trim_left(_copy);
-    return _copy;
+    return trim_left_copy<std::wstring>(in_out);
 }
 //=============================================================================
 std::string
 trim_left_copy(const std::string& in_out)
 {
-    std::string _copy(in_out);
-    trim_left(_copy);
-    return _copy;
+    return trim_left_copy<std::string>(in_out);
 }
 //=============================================================================
+template <class T>
 void
-erase_all(std::string& input, const std::string& search)
+erase_all(T& input, const T& search, size_t npos)
 {
-    size_t pos = std::string::npos;
+    size_t pos = npos;
     while ((pos = input.find(search)) != std::string::npos) {
         input.erase(pos, search.length());
     }
 }
 //=============================================================================
 void
+erase_all(std::string& input, const std::string& search)
+{
+    return erase_all<std::string>(input, search, std::string::npos);
+}
+//=============================================================================
+void
 erase_all(std::wstring& input, const std::wstring& search)
 {
-    size_t pos = std::wstring::npos;
-    while ((pos = input.find(search)) != std::wstring::npos) {
-        input.erase(pos, search.length());
-    }
+    return erase_all<std::wstring>(input, search, std::wstring::npos);
 }
 //=============================================================================
 std::wstring
@@ -414,22 +439,26 @@ erase_all_copy(const std::wstring& input, const std::wstring& search)
     return _copy;
 }
 //=============================================================================
+template <class T>
 void
-erase_first(std::string& input, const std::string& search)
+erase_first(T& input, const T& search, size_t npos)
 {
     size_t pos = input.find(search);
-    if (pos != std::string::npos) {
+    if (pos != npos) {
         input.erase(pos, search.length());
     }
 }
 //=============================================================================
 void
+erase_first(std::string& input, const std::string& search)
+{
+    erase_first<std::string>(input, search, std::string::npos);
+}
+//=============================================================================
+void
 erase_first(std::wstring& input, const std::wstring& search)
 {
-    size_t pos = input.find(search);
-    if (pos != std::wstring::npos) {
-        input.erase(pos, search.length());
-    }
+    erase_first<std::wstring>(input, search, std::string::npos);
 }
 //=============================================================================
 std::string

@@ -41,6 +41,9 @@
     <ClCompile Include="..\cpp\UuidHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\FileSystemWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsCommons_exports.h">
@@ -50,6 +53,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\UuidHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FileSystemWrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
