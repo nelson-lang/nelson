@@ -9,12 +9,12 @@
 //=============================================================================
 #include <iostream>
 #include <fstream>
-#include <boost/algorithm/string/trim.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 #include "HtmlExporter.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -167,7 +167,7 @@ sectionMostTimeWasSpent(std::ofstream& file,
         if (content.empty()) {
             content = "&nbsp;";
         }
-        file << "<td><pre><code class = \"nelson\">" << boost::trim_left_copy(content)
+        file << "<td><pre><code class = \"nelson\">" << StringHelpers::trim_left_copy(content)
              << "</code></pre></td>";
 
         file << "<td style = \"padding-left:10px;padding-right:10px;\">"

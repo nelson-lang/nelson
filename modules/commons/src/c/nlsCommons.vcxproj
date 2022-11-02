@@ -190,6 +190,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\FileSystemWrapper.cpp" />
     <ClCompile Include="..\cpp\StringHelpers.cpp" />
     <ClCompile Include="..\cpp\UuidHelpers.cpp" />
     <ClCompile Include="..\fmt\src\format.cc" />
@@ -197,6 +198,7 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\FileSystemWrapper.hpp" />
     <ClInclude Include="..\include\nlsCommons_exports.h" />
     <ClInclude Include="..\include\StringHelpers.hpp" />
     <ClInclude Include="..\include\UuidHelpers.hpp" />

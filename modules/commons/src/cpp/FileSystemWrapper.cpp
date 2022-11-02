@@ -41,7 +41,7 @@ Path::getUniqueID()
     std::wstring uuid;
     UuidHelpers::generateUuid(uuid);
 #define TMP_NELSON L"%06x"
-    std::wstring result = fmt::sprintf(TMP_NELSON, getpid()) + L"-" + uuid + L".tmp";
+    std::wstring result = fmt::sprintf(TMP_NELSON, _getpid()) + L"-" + uuid + L".tmp";
     return result;
 #else
 #define TMP_NELSON "%06x"

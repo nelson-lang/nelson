@@ -202,7 +202,6 @@
     <ClInclude Include="..\include\FileSize.hpp" />
     <ClInclude Include="..\include\FilesManager.hpp" />
     <ClInclude Include="..\include\FileStream.hpp" />
-    <ClInclude Include="..\include\FileSystemWrapper.hpp" />
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\FscanFunction.hpp" />
@@ -228,7 +227,6 @@
     <ClCompile Include="..\cpp\FileSize.cpp" />
     <ClCompile Include="..\cpp\FilesManager.cpp" />
     <ClCompile Include="..\cpp\FileStream.cpp" />
-    <ClCompile Include="..\cpp\FileSystemWrapper.cpp" />
     <ClCompile Include="..\cpp\FileTell.cpp" />
     <ClCompile Include="..\cpp\FileWrite.cpp" />
     <ClCompile Include="..\cpp\FscanFunction.cpp" />
