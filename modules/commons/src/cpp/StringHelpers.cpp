@@ -254,7 +254,7 @@ bool
 contains(const T& in, const T& needle, size_t npos)
 {
 #ifdef __APPLE__
-    return (in.find(need) != std::string::npos);
+    return (in.find(needle) != npos);
 #else
     auto it = std::search(
         in.begin(), in.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
@@ -279,7 +279,7 @@ icontains(const std::wstring& in, const std::wstring& needle)
 {
     std::wstring IN = StringHelpers::to_upper_copy(in);
     std::wstring NEEDLE = StringHelpers::to_upper_copy(needle);
-    return contains<std::wstring>(in, needle, std::wstring::npos);
+    return contains<std::wstring>(IN, NEEDLE, std::wstring::npos);
 }
 //=============================================================================
 static bool
