@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringHelpers.hpp"
-#include <boost/lexical_cast.hpp>
 #include "ProgramOptions.hpp"
 //=============================================================================
 namespace Nelson {

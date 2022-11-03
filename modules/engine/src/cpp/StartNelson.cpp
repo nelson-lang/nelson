@@ -15,7 +15,6 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <boost/program_options.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>

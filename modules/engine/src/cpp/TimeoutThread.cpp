@@ -7,35 +7,76 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/thread/thread.hpp>
+#include <cstdlib>
+#include <thread>
 #include "TimeoutThread.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::thread* timeout_thread = nullptr;
-//=============================================================================
-void
-timeout(uint64 _timeout_seconds)
+class WaitTimeout
 {
-    try {
-        boost::this_thread::sleep(boost::posix_time::seconds(_timeout_seconds));
-    } catch (boost::thread_interrupted&) {
-        return;
+    //=============================================================================
+private:
+    //=============================================================================
+    bool _running = false;
+    bool _stop = false;
+    //=============================================================================
+    void
+    exitWithCode()
+    {
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
+        // WAIT_TIMEOUT (258)
+        exit(258);
     }
-    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
-    // WAIT_TIMEOUT (258)
-    exit(258);
-}
+    //=============================================================================
+public:
+    //=============================================================================
+    bool
+    isRunning()
+    {
+        return _running;
+    }
+    //=============================================================================
+    void
+    start(uint64 _timeout_seconds)
+    {
+        _running = true;
+        std::chrono::nanoseconds begin_time
+            = std::chrono::high_resolution_clock::now().time_since_epoch();
+        bool bContinue = true;
+        do {
+            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+            std::chrono::nanoseconds current_time
+                = std::chrono::high_resolution_clock::now().time_since_epoch();
+            std::chrono::nanoseconds difftime = (current_time - begin_time);
+            bContinue = (difftime.count() <= int64(_timeout_seconds * 1e9));
+        } while (bContinue && !_stop);
+        if (!_stop) {
+            exitWithCode();
+        }
+        _running = false;
+    }
+    //=============================================================================
+    void
+    stop()
+    {
+        _stop = true;
+    }
+    //=============================================================================
+};
+//=============================================================================
+static std::thread* timeout_thread = nullptr;
+static WaitTimeout* waitTask = nullptr;
 //=============================================================================
 bool
 createTimeoutThread(uint64 _timeoutseconds)
 {
     try {
-        timeout_thread = new boost::thread(timeout, _timeoutseconds);
+        waitTask = new WaitTimeout();
+        timeout_thread = new std::thread(&WaitTimeout::start, waitTask, _timeoutseconds);
     } catch (const std::bad_alloc&) {
         timeout_thread = nullptr;
-    } catch (const boost::thread_resource_error&) {
-        timeout_thread = nullptr;
+        waitTask = nullptr;
     }
 
     if (timeout_thread) {
@@ -49,8 +90,13 @@ bool
 destroyTimeoutThread()
 {
     if (timeout_thread) {
-        timeout_thread->interrupt();
+        waitTask->stop();
+        while (waitTask->isRunning()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+        }
         delete timeout_thread;
+        delete waitTask;
+        waitTask = nullptr;
         timeout_thread = nullptr;
         return true;
     }

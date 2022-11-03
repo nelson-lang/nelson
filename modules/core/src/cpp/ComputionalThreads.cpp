@@ -117,7 +117,6 @@ setDefaultMaxNumCompThreads()
     if (omp_env == L"0") {
         nbOfThreadsToUse = getNumberOfPhysicalCores();
     } else {
-        int nbOfThreadsToUse {};
         if (!StringHelpers::str2integer(omp_env, nbOfThreadsToUse)) {
             nbOfThreadsToUse = 0;
         }

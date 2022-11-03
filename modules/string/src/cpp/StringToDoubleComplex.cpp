@@ -8,13 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <boost/lexical_cast.hpp>
-#include "StringHelpers.hpp"
 #include <locale>
 #include <cmath>
+#include <cwctype>
+#include "StringHelpers.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "StringToDouble.hpp"
-#include <cwctype>
 //=============================================================================
 namespace Nelson {
 #define ComplexCharI L'i'
