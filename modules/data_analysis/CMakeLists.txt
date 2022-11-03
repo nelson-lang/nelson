@@ -57,6 +57,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include)

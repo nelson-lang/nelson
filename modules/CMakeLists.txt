@@ -11,8 +11,9 @@ include_directories(${EIGEN_INCLUDE_DIR})
 list(
   APPEND
   moduleslist
-  nelson_manager
   characters_encoding
+  commons
+  nelson_manager
   i18n
   localization
   elementary_mathematics

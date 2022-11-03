@@ -17,7 +17,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <cinttypes>
 #include <cmath>
 #include <cstdio>

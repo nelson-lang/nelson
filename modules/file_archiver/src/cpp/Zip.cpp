@@ -9,7 +9,6 @@
 //=============================================================================
 #include <algorithm>
 #include <fstream>
-#include <boost/algorithm/string.hpp>
 #include <regex>
 #include <mz_os.h>
 #include "Zip.hpp"
@@ -18,6 +17,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,9 +36,9 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
         }
         if (nfs::is_directory(branch)) {
             std::wstring _mask = path.filename().wstring();
-            boost::replace_all(_mask, L".", L"\\.");
-            boost::replace_all(_mask, L"?", L".");
-            boost::replace_all(_mask, L"*", L".*");
+            StringHelpers::replace_all(_mask, L".", L"\\.");
+            StringHelpers::replace_all(_mask, L"?", L".");
+            StringHelpers::replace_all(_mask, L"*", L".*");
 
             std::wregex rmask(_mask, std::wregex::icase);
             if (bSubdirectories) {
@@ -114,7 +114,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             }
             nfs::path thispath = directory;
             thispath = thispath.generic_wstring();
-            if (!boost::algorithm::ends_with(thispath.generic_wstring(), L"/")) {
+            if (!StringHelpers::ends_with(thispath.generic_wstring(), L"/")) {
                 thispath = thispath.generic_wstring() + L"/";
             }
             nfs::path branch(thispath.parent_path());
@@ -205,8 +205,8 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
         }
         FileSystemWrapper::Path genericPath = fullname.generic_path();
         bool isDir = FileSystemWrapper::Path::is_directory(genericPath.generic_wstring());
-        bool hasStar = boost::algorithm::contains(genericPath.generic_wstring(), "*")
-            || boost::algorithm::contains(genericPath.generic_wstring(), "?");
+        bool hasStar = StringHelpers::contains(genericPath.generic_wstring(), L"*")
+            || StringHelpers::contains(genericPath.generic_wstring(), L"?");
         wstringVector res;
         if (hasStar) {
             res = ListFiles(genericPath.generic_wstring(), false);
@@ -234,7 +234,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
         for (const auto& name : res) {
             localFiles.emplace_back(normalizeZipPath(name));
             std::wstring entry;
-            if (boost::algorithm::starts_with(name, pathwstr)) {
+            if (StringHelpers::starts_with(name, pathwstr)) {
                 entry = name.substr(pathwstr.size());
             }
             filesInZip.emplace_back(normalizeZipPath(entry));
@@ -271,10 +271,10 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
         if (FileSystemWrapper::Path::is_directory(filename)) {
             uint32_t attributes;
             mz_os_get_file_attribs(wstring_to_utf8(filename).c_str(), &attributes);
-            if (!boost::algorithm::ends_with(entry, L"/")) {
+            if (!StringHelpers::ends_with(entry, L"/")) {
                 entry = entry + L"/";
             }
-            if (boost::algorithm::starts_with(entry, L"/")) {
+            if (StringHelpers::starts_with(entry, L"/")) {
                 entry = entry.substr(1);
             }
             zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes);
@@ -293,7 +293,7 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
             }
             uint32_t attributes;
             mz_os_get_file_attribs(wstring_to_utf8(filename).c_str(), &attributes);
-            if (boost::algorithm::starts_with(entry, L"/")) {
+            if (StringHelpers::starts_with(entry, L"/")) {
                 entry = entry.substr(1);
             }
             if (zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes)) {

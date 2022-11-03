@@ -9,7 +9,6 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -20,37 +19,38 @@
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool
 isEmptyLine(const std::string& line)
 {
-    std::string str = boost::algorithm::trim_left_copy(line);
+    std::string str = StringHelpers::trim_left_copy(line);
     return str.empty();
 }
 //=============================================================================
 static bool
 compareTag(const std::string& line, const std::string& tag)
 {
-    std::string modifiedLine = boost::algorithm::trim_left_copy(line);
+    std::string modifiedLine = StringHelpers::trim_left_copy(line);
     bool wasComment = false;
-    if (boost::algorithm::starts_with(modifiedLine, "%")) {
-        boost::algorithm::replace_first(modifiedLine, "%", "");
+    if (StringHelpers::starts_with(modifiedLine, "%")) {
+        StringHelpers::replace_first(modifiedLine, "%", "");
         wasComment = true;
     }
     if (wasComment) {
-        boost::algorithm::trim(modifiedLine);
+        StringHelpers::trim(modifiedLine);
         if (!modifiedLine.empty()) {
-            if (boost::algorithm::starts_with(modifiedLine, PREFIX_TAG)
-                && boost::algorithm::ends_with(modifiedLine, POSTFIX_TAG)) {
-                boost::algorithm::replace_first(modifiedLine, PREFIX_TAG, "");
-                boost::algorithm::replace_last(modifiedLine, POSTFIX_TAG, "");
-                boost::algorithm::trim(modifiedLine);
-                std::string cleanedTag = boost::algorithm::trim_copy(tag);
-                boost::algorithm::replace_first(cleanedTag, PREFIX_TAG, "");
-                boost::algorithm::replace_last(cleanedTag, POSTFIX_TAG, "");
-                boost::algorithm::trim(cleanedTag);
+            if (StringHelpers::starts_with(modifiedLine, PREFIX_TAG)
+                && StringHelpers::ends_with(modifiedLine, POSTFIX_TAG)) {
+                StringHelpers::replace_first(modifiedLine, PREFIX_TAG, "");
+                StringHelpers::replace_last(modifiedLine, POSTFIX_TAG, "");
+                StringHelpers::trim(modifiedLine);
+                std::string cleanedTag = StringHelpers::trim_copy(tag);
+                StringHelpers::replace_first(cleanedTag, PREFIX_TAG, "");
+                StringHelpers::replace_last(cleanedTag, POSTFIX_TAG, "");
+                StringHelpers::trim(cleanedTag);
                 return (modifiedLine.compare(cleanedTag) == 0);
             }
         }
@@ -72,9 +72,9 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
     }
     std::wstring basename = FilePartsFilename(filename);
     std::wstring ext = FilePartsExtension(filename);
-    bool isValidFilename = (boost::algorithm::starts_with(basename, L"test_")
-                               || boost::algorithm::starts_with(basename, L"bench_")
-                               || boost::algorithm::starts_with(basename, L"bug_"))
+    bool isValidFilename = (StringHelpers::starts_with(basename, L"test_")
+                               || StringHelpers::starts_with(basename, L"bench_")
+                               || StringHelpers::starts_with(basename, L"bug_"))
         && (ext == L".m");
     if (!isValidFilename) {
         bool isSupportedFileExtension = (ext == L".m");

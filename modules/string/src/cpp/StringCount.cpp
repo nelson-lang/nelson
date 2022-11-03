@@ -10,7 +10,7 @@
 #include "StringCount.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,8 +27,8 @@ countString(const std::wstring& str, const std::wstring& pattern, bool caseSensi
             ++count;
         }
     } else {
-        std::wstring upperStr = boost::to_upper_copy(str);
-        std::wstring upperPattern = boost::to_upper_copy(pattern);
+        std::wstring upperStr = StringHelpers::to_upper_copy(str);
+        std::wstring upperPattern = StringHelpers::to_upper_copy(pattern);
         for (size_t offset = upperStr.find(upperPattern); offset != std::wstring::npos;
              offset = upperStr.find(upperPattern, offset + upperPattern.length())) {
             ++count;

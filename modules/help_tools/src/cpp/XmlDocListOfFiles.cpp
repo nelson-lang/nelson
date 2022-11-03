@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 #include "Messages.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocChapterDescriptionItem.hpp"
@@ -29,8 +29,8 @@ XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, const std::wstring&
     this->srcFiles = std::move(srcFiles);
     this->sectionUpName.clear();
     this->sectionUpUrl.clear();
-    if (boost::algorithm::ends_with(dstDirectory, L"\\")
-        || boost::algorithm::ends_with(dstDirectory, L"/")) {
+    if (StringHelpers::ends_with(dstDirectory, L"\\")
+        || StringHelpers::ends_with(dstDirectory, L"/")) {
         std::wstring modifiedPath = dstDirectory;
         modifiedPath.pop_back();
         this->dstDirectory = modifiedPath;
@@ -76,7 +76,7 @@ XmlDocListOfFiles::read()
     bool haveChapterFile = false;
     std::wstring chapterFilename = L"";
     for (auto& srcFile : this->srcFiles) {
-        bool b = boost::algorithm::ends_with(srcFile, L"chapter.xml");
+        bool b = StringHelpers::ends_with(srcFile, L"chapter.xml");
         if (b) {
             if (!chapterFilename.empty()) {
                 this->lastError = _W("multiple chapter.xml definition.");
@@ -87,7 +87,7 @@ XmlDocListOfFiles::read()
         }
     }
     for (auto& srcFile : this->srcFiles) {
-        bool b = boost::algorithm::ends_with(srcFile, L"chapter.xml");
+        bool b = StringHelpers::ends_with(srcFile, L"chapter.xml");
         if (!b) {
             XmlDocDocument* xmlDoc = nullptr;
             try {

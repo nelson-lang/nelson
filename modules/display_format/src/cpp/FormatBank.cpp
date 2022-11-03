@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FormatBank.hpp"
 #include "IEEEFP.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +39,7 @@ formatBank(double number, bool trim)
         result = L" " + result;
     }
     if (trim) {
-        boost::trim_left(result);
+        StringHelpers::trim_left(result);
     }
     return result;
 }

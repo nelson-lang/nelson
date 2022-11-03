@@ -10,7 +10,7 @@
 #include "dlmwriteBuiltin.hpp"
 #include "DelimitedFile.hpp"
 #include "Error.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -77,9 +77,9 @@ dlmwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr == L"-append") {
         res.isAppend = true;
     } else {
-        boost::replace_all(paramStr, L"\\t", L"\t");
-        boost::replace_all(paramStr, L"\\n", L"\n");
-        boost::replace_all(paramStr, L"\\r", L"\r");
+        StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+        StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+        StringHelpers::replace_all(paramStr, L"\\r", L"\r");
         res.delimiter = paramStr; //-V820
     }
     return res;
@@ -105,9 +105,9 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     }
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
-    boost::replace_all(paramStr, L"\\t", L"\t");
-    boost::replace_all(paramStr, L"\\n", L"\n");
-    boost::replace_all(paramStr, L"\\r", L"\r");
+    StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+    StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+    StringHelpers::replace_all(paramStr, L"\\r", L"\r");
     res.delimiter = paramStr; //-V519 //-V820
     return res;
 }
@@ -128,9 +128,9 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr == L"-append") {
         Error(_W("a valid delimiter expected."));
     }
-    boost::replace_all(paramStr, L"\\t", L"\t");
-    boost::replace_all(paramStr, L"\\n", L"\n");
-    boost::replace_all(paramStr, L"\\r", L"\r");
+    StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+    StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+    StringHelpers::replace_all(paramStr, L"\\r", L"\r");
     res.delimiter = paramStr; //-V519 //-V820
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
@@ -156,9 +156,9 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         res.isAppend = true;
         ArrayOf param4 = argIn[3];
         paramStr = param4.getContentAsWideString();
-        boost::replace_all(paramStr, L"\\t", L"\t");
-        boost::replace_all(paramStr, L"\\n", L"\n");
-        boost::replace_all(paramStr, L"\\r", L"\r");
+        StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+        StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+        StringHelpers::replace_all(paramStr, L"\\r", L"\r");
         res.delimiter = paramStr;
         ArrayOf param5 = argIn[4];
         ArrayOf param6 = argIn[5];
@@ -166,9 +166,9 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         res.colsOffset = param6.getContentAsInteger64Scalar();
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol) rhs == 6
-        boost::replace_all(paramStr, L"\\t", L"\t");
-        boost::replace_all(paramStr, L"\\n", L"\n");
-        boost::replace_all(paramStr, L"\\r", L"\r");
+        StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+        StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+        StringHelpers::replace_all(paramStr, L"\\r", L"\r");
         res.delimiter = paramStr; //-V820
         ArrayOf param4 = argIn[3];
         ArrayOf param5 = argIn[4];
@@ -231,9 +231,9 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isAppend = true; //-V519
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
-    boost::replace_all(paramStr, L"\\t", L"\t");
-    boost::replace_all(paramStr, L"\\n", L"\n");
-    boost::replace_all(paramStr, L"\\r", L"\r");
+    StringHelpers::replace_all(paramStr, L"\\t", L"\t");
+    StringHelpers::replace_all(paramStr, L"\\n", L"\n");
+    StringHelpers::replace_all(paramStr, L"\\r", L"\r");
     res.delimiter = paramStr; //-V519 //-V820
     ArrayOf param5 = argIn[4];
     ArrayOf param6 = argIn[5];

@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <map>
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <semver.h>
@@ -117,7 +117,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
 {
     std::vector<double> version;
     std::wstring moduleJsonFilename;
-    if (boost::algorithm::ends_with(path, L"\\") || boost::algorithm::ends_with(path, L"/")) {
+    if (StringHelpers::ends_with(path, L"\\") || StringHelpers::ends_with(path, L"/")) {
         moduleJsonFilename = path + L"module.json";
     } else {
         moduleJsonFilename = path + L"/module.json";
@@ -230,7 +230,7 @@ ModulesManager::findModuleNameByPath(const std::wstring& filename)
     if (!modulesMap.empty()) {
         for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
             mapElement elem = modulesMap[i];
-            if (boost::algorithm::starts_with(filename, std::get<1>(elem))) {
+            if (StringHelpers::starts_with(filename, std::get<1>(elem))) {
                 return std::get<0>(elem);
             }
         }

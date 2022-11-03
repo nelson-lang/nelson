@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string/predicate.hpp>
 #include "FileSystemWrapper.hpp"
 #include "GetExternalModulesPath.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,8 +29,7 @@ getUserDir()
 #endif
     FileSystemWrapper::Path pwd(envValue);
     std::wstring userDir = pwd.generic_wstring();
-    if (!boost::algorithm::ends_with(userDir, L"\\")
-        && (!boost::algorithm::ends_with(userDir, L"/"))) {
+    if (!StringHelpers::ends_with(userDir, L"\\") && (!StringHelpers::ends_with(userDir, L"/"))) {
         userDir.append(L"/");
     }
     return userDir;
@@ -45,8 +44,8 @@ CreateIfRequiredExternalModulesPath()
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
     FileSystemWrapper::Path modulesPath(externalModulesPath);
     externalModulesPath = modulesPath.generic_wstring();
-    if (!boost::algorithm::ends_with(externalModulesPath, L"\\")
-        && (!boost::algorithm::ends_with(externalModulesPath, L"/"))) {
+    if (!StringHelpers::ends_with(externalModulesPath, L"\\")
+        && (!StringHelpers::ends_with(externalModulesPath, L"/"))) {
         externalModulesPath = externalModulesPath + L"/";
     }
 

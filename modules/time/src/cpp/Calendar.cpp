@@ -7,13 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Calendar.hpp"
-#include "DateVector.hpp"
-#include "Transpose.hpp"
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/format.hpp>
+#include "Calendar.hpp"
+#include "DateVector.hpp"
+#include "Transpose.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -62,8 +64,8 @@ Calendar::getAsFormatedText()
     boost::gregorian::date_period month_period(d1, d2);
     wstringVector names = getNameOfDays();
     std::wstring msg = getMonthName() + L" " + std::to_wstring(getYear()) + L"\n";
-    std::wstring msg1 = str(boost::wformat(L"%5s %5s %5s %5s %5s %5s %5s\n") % names[0] % names[1]
-        % names[2] % names[3] % names[4] % names[5] % names[6]);
+    std::wstring msg1 = fmt::sprintf(L"%5s %5s %5s %5s %5s %5s %5s\n", names[0], names[1], names[2],
+        names[3], names[4], names[5], names[6]);
     size_t nbBlanks = msg1.size() / 2 - msg.size() / 2;
     msg.insert(0, nbBlanks, L' ');
     msg = msg + msg1;
@@ -72,7 +74,7 @@ Calendar::getAsFormatedText()
     uint8 lastdate = (uint8)(month_period.length().days() + firstdate);
     uint8 k = 0;
     for (uint8 j = 0; j < firstdate; j++) {
-        msg = msg + str(boost::wformat(L"%5d") % 0.) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", 0.) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -81,7 +83,7 @@ Calendar::getAsFormatedText()
         }
     }
     for (uint8 j = firstdate; j <= lastdate; j++) {
-        msg = msg + str(boost::wformat(L"%5d") % v) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", v) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -91,7 +93,7 @@ Calendar::getAsFormatedText()
         v++;
     }
     for (uint8 j = lastdate + 1; j < (NBR_DAY_IN_A_WEEK * (NBR_DAY_IN_A_WEEK - 1)); j++) {
-        msg = msg + str(boost::wformat(L"%5d") % 0.) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", 0.) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;

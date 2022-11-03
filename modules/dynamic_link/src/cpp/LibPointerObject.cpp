@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "IsValidHandle.hpp"
 #include "ToCellString.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,7 +38,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
     }
     this->_DataType = DataType;
     _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
-    if (boost::algorithm::ends_with(DataType, L"Ptr")) {
+    if (StringHelpers::ends_with(DataType, L"Ptr")) {
         _initialDimX = -1;
         _initialDimY = -1;
         _dimX = _initialDimX;
@@ -69,12 +69,12 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
     _initialDimY = static_cast<long int>(Value.getElementCount()) / _initialDimX;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
-    if (!boost::algorithm::ends_with(DataType, L"Ptr")) {
+    if (!StringHelpers::ends_with(DataType, L"Ptr")) {
         if (_currentType != Value.getDataClass()) {
             Error(_W("Invalid #2 argument type expected:") + DataType);
         }
     }
-    if (!boost::algorithm::ends_with(DataType, L"Ptr")
+    if (!StringHelpers::ends_with(DataType, L"Ptr")
         && (Value.getElementCount() > 1 || Value.getElementCount() == 0)) {
         Error(_W("Invalid #2 argument scalar expected."));
     }
@@ -300,7 +300,7 @@ LibPointerObject::setDataType(const std::wstring& dataType)
 void
 LibPointerObject::reshape(indexType dimX, indexType dimY)
 {
-    if (!boost::algorithm::ends_with(_DataType, L"Ptr")) {
+    if (!StringHelpers::ends_with(_DataType, L"Ptr")) {
         Error(_W("Only numericPtr can be reshaped."));
     }
     _dimX = static_cast<long int>(dimX);

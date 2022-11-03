@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "NargIn.hpp"
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
@@ -25,9 +27,8 @@ NargIn(Evaluator* eval, const std::wstring& functionName)
             return ((MacroFunctionDef*)(fptr))->nargin();
         }
         if (fptr->type() == NLS_MEX_FUNCTION) {
-            std::string msg
-                = str(boost::format(_("'%s' does not know how to answer nargin/nargout."))
-                    % fptr->getName());
+            std::string msg = fmt::sprintf(
+                _("'%s' does not know how to answer nargin/nargout."), fptr->getName());
             Error(msg);
         }
         return fptr->inputArgCount();

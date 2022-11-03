@@ -8,7 +8,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "Context.hpp"
 #include "ArrayOf.hpp"
 #include "RecursionStack.hpp"
@@ -230,9 +232,9 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
     }
     bool res = scopestack.front()->lookupFunction(funcName, val);
     if (!res && functionDefInMem != nullptr) { //-V560
-        std::string utf8msg = str(boost::format(_("'%s' is not found in the current folder or on "
-                                                  "the Nelson path, but exists in:"))
-            % funcName);
+        std::string utf8msg = fmt::sprintf(_("'%s' is not found in the current folder or on "
+                                             "the Nelson path, but exists in:"),
+            funcName);
         std::wstring msg = utf8_to_wstring(utf8msg) + L"\n" + functionDefInMem->getPath();
         Error(msg);
     }

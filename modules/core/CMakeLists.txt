@@ -16,6 +16,8 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -23,7 +25,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
 # ==============================================================================
@@ -39,6 +41,7 @@ target_link_libraries(
   nlsTypes
   nlsError_manager
   nlsStream_manager
+  nlsCommons
   nlsCharacters_encoding
   nlsFiles_folders_functions
   nlsI18n
@@ -62,6 +65,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${CORE_BUILTIN})
@@ -75,6 +79,7 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsI18n
+  nlsCommons
   nlsApi_nelson
   nlsData_structures
   nlsOverload)

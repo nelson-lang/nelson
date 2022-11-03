@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileSystemWrapper.hpp"
-//=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #ifndef _WITH_BOOST_FILESYSTEM_
 #include <atomic>
 #include <filesystem>
@@ -27,39 +28,27 @@
 #include <unistd.h>
 #endif
 //=============================================================================
+#include "FileSystemWrapper.hpp"
+#include "UuidHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
 //=============================================================================
-int
-Path::generateUid()
-{
-    static std::atomic<int> uid { 0 };
-    return ++uid;
-}
-//=============================================================================
 auto
 Path::getUniqueID()
 {
-    int uid = generateUid();
-    srand(uid);
-    int rd1 = rand() % 100000;
-    srand(uid + rd1);
-    int rd2 = rand() % 100000;
-    srand(uid + rd2);
-    int rd3 = rand() % 100000;
-    srand(uid + rd3);
-    int rd4 = rand() % 100000;
 #ifdef _MSC_VER
-#define TMP_NELSON L"%06x-%06x-%06x-%06x-%06x-%06x.tmp"
-    wchar_t buffer[512];
-    swprintf_s(buffer, 512, TMP_NELSON, _getpid(), rd1, rd2, rd3, rd4, uid);
-    return std::wstring(buffer);
+    std::wstring uuid;
+    UuidHelpers::generateUuid(uuid);
+#define TMP_NELSON L"%06x"
+    std::wstring result = fmt::sprintf(TMP_NELSON, _getpid()) + L"-" + uuid + L".tmp";
+    return result;
 #else
-#define TMP_NELSON "%06x-%06x-%06x-%06x-%06x-%06x.tmp"
-    char buffer[512];
-    sprintf(buffer, TMP_NELSON, (int)getpid(), rd1, rd2, rd3, rd4, uid);
-    return std::string(buffer);
+#define TMP_NELSON "%06x"
+    std::string uuid;
+    UuidHelpers::generateUuid(uuid);
+    std::string result = fmt::sprintf(TMP_NELSON, (int)getpid()) + "-" + uuid + ".tmp";
+    return result;
 #endif
 }
 //=============================================================================

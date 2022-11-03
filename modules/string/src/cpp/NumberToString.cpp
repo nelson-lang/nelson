@@ -15,9 +15,7 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
+#include "StringHelpers.hpp"
 #include "NumberToString.hpp"
 #include "nlsConfig.h"
 #include "characters_encoding.hpp"
@@ -39,7 +37,7 @@ NumberToStringHelperLogical(const ArrayOf& A, NUM2STR_ENUM formatType, const std
     std::string uformat;
     if (formatType == NUM2STR_ENUM::FORMAT) {
         uformat = wstring_to_utf8(format);
-        boost::replace_all(uformat, "%%", "%");
+        StringHelpers::replace_all(uformat, "%%", "%");
     } else if (formatType == NUM2STR_ENUM::PRECISION) {
         uformat = wstring_to_utf8(format);
     } else if (formatType == NUM2STR_ENUM::AUTO) {
@@ -55,14 +53,18 @@ NumberToStringHelperLogical(const ArrayOf& A, NUM2STR_ENUM formatType, const std
     for (indexType i = 0; i < m; i++) {
         std::string row;
         for (indexType j = 0; j < n; j++) {
-            s = fmt::sprintf(uformat, (int)dp[j * m + i]);
+            try {
+                s = fmt::sprintf(uformat, (int)dp[j * m + i]);
+            } catch (fmt::format_error&) {
+                Error(_W("Wrong format string."));
+            }
             if (formatType == NUM2STR_ENUM::AUTO) {
                 int l = (int)(maxlen - s.length() + 2);
                 row += std::string(l > 0 ? l : 2, ' ');
             }
             row += s;
         }
-        boost::trim_left(row);
+        StringHelpers::trim_left(row);
         rows.push_back(row);
     }
     return ArrayOf::characterVectorToCharacterArray(rows);
@@ -92,7 +94,7 @@ NumberToStringHelperInteger(const ArrayOf& A)
             row += std::string(l > 0 ? l : 2, ' ');
             row += s;
         }
-        boost::trim_left(row);
+        StringHelpers::trim_left(row);
         rows.push_back(row);
     }
     return ArrayOf::characterVectorToCharacterArray(rows);
@@ -156,16 +158,21 @@ NumberToStringHelperComplex(
             uformat = "%" + fmt::to_string(ndigit) + ".0f";
         }
         std::string s;
-        if (allint) {
-            s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
-        } else {
-            s = fmt::sprintf(uformat, maxAbsValue);
+        try {
+            if (allint) {
+                s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
+            } else {
+                s = fmt::sprintf(uformat, maxAbsValue);
+            }
+        } catch (fmt::format_error&) {
+            Error(_W("Wrong format string."));
         }
+
         precision = ndigit;
         maxlen = s.size();
     } else if (formatType == NUM2STR_ENUM::FORMAT) {
         uformat = wstring_to_utf8(format);
-        boost::replace_all(uformat, "%%", "%");
+        StringHelpers::replace_all(uformat, "%%", "%");
     } else if (formatType == NUM2STR_ENUM::PRECISION) {
         uformat = wstring_to_utf8(format);
     }
@@ -176,28 +183,36 @@ NumberToStringHelperComplex(
         std::string row;
         for (indexType j = 0; j < n; j++) {
             std::string strRealPart;
-            if (allint) {
-                strRealPart
-                    = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].real()));
-            } else {
-                strRealPart = fmt::sprintf(uformat, dpz[j * m + i].real());
+            try {
+                if (allint) {
+                    strRealPart
+                        = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].real()));
+                } else {
+                    strRealPart = fmt::sprintf(uformat, dpz[j * m + i].real());
+                }
+            } catch (fmt::format_error&) {
+                Error(_W("Wrong format string."));
             }
             std::string strImagPart;
-            if (allint) {
-                strImagPart
-                    = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].imag()));
-            } else {
-                strImagPart = fmt::sprintf(uformat, dpz[j * m + i].imag());
+            try {
+                if (allint) {
+                    strImagPart
+                        = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].imag()));
+                } else {
+                    strImagPart = fmt::sprintf(uformat, dpz[j * m + i].imag());
+                }
+            } catch (fmt::format_error&) {
+                Error(_W("Wrong format string."));
             }
-            boost::algorithm::erase_all(strImagPart, " ");
+            StringHelpers::erase_all(strImagPart, " ");
             std::string s;
             if (dpz[j * m + i].imag() < 0) {
                 s = strRealPart + strImagPart + "i";
             } else {
                 s = strRealPart + "+" + strImagPart + "i";
             }
-            boost::replace_all(s, "inf", "Inf");
-            boost::replace_all(s, "nan", "NaN");
+            StringHelpers::replace_all(s, "inf", "Inf");
+            StringHelpers::replace_all(s, "nan", "NaN");
             size_t nbSpace = 0;
             if (formatType == NUM2STR_ENUM::FORMAT) {
                 nbSpace = 0;
@@ -213,7 +228,7 @@ NumberToStringHelperComplex(
             row += std::string(nbSpace, ' ');
             row += s;
         }
-        boost::trim_left(row);
+        StringHelpers::trim_left(row);
         rows.push_back(row);
     }
     return ArrayOf::characterVectorToCharacterArray(rows);
@@ -268,16 +283,20 @@ NumberToStringHelperReal(
             uformat = "%" + fmt::to_string(ndigit) + ".0f";
         }
         std::string s;
-        if (allint) {
-            s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
-        } else {
-            s = fmt::sprintf(uformat, maxAbsValue);
+        try {
+            if (allint) {
+                s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
+            } else {
+                s = fmt::sprintf(uformat, maxAbsValue);
+            }
+        } catch (fmt::format_error&) {
+            Error(_W("Wrong format string."));
         }
         precision = ndigit;
         maxlen = s.size();
     } else if (formatType == NUM2STR_ENUM::FORMAT) {
         uformat = wstring_to_utf8(format);
-        boost::replace_all(uformat, "%%", "%");
+        StringHelpers::replace_all(uformat, "%%", "%");
     } else if (formatType == NUM2STR_ENUM::PRECISION) {
         uformat = wstring_to_utf8(format);
     }
@@ -288,16 +307,20 @@ NumberToStringHelperReal(
         std::string row;
         for (indexType j = 0; j < n; j++) {
             std::string s;
-            if (allint) {
-                s = fmt::sprintf(uformat, static_cast<long double>(dp[j * m + i]));
-            } else {
-                s = fmt::sprintf(uformat, dp[j * m + i]);
+            try {
+                if (allint) {
+                    s = fmt::sprintf(uformat, static_cast<long double>(dp[j * m + i]));
+                } else {
+                    s = fmt::sprintf(uformat, dp[j * m + i]);
+                }
+            } catch (fmt::format_error&) {
+                Error(_W("Wrong format string."));
             }
-            boost::replace_all(s, "inf", "Inf");
-            boost::replace_all(s, "nan", "NaN");
+            StringHelpers::replace_all(s, "inf", "Inf");
+            StringHelpers::replace_all(s, "nan", "NaN");
             row += s;
         }
-        boost::trim_left(row);
+        StringHelpers::trim_left(row);
         rows.push_back(row);
     }
     return ArrayOf::characterVectorToCharacterArray(rows);
@@ -394,12 +417,6 @@ NumberToString(const ArrayOf& A, bool& needToOverload)
 ArrayOf
 NumberToString(const ArrayOf& A, const std::wstring& format, bool& needToOverload)
 {
-    boost::format bformat;
-    try {
-        bformat = bformat.parse(wstring_to_utf8(format));
-    } catch (boost::io::bad_format_string&) {
-        Error(_W("Wrong format string."));
-    }
     return NumberToString(A, NUM2STR_ENUM::FORMAT, format, 0, needToOverload);
 }
 //=============================================================================

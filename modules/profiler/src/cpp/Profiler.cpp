@@ -11,7 +11,7 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <iomanip>
 #include <tuple>
 #include <iostream>
@@ -460,8 +460,8 @@ static int
 findFunctionDefinitonLine(const stringVector& functionContent)
 {
     for (size_t k = 0; k < functionContent.size(); ++k) {
-        std::string line = boost::algorithm::trim_copy(functionContent[k]);
-        if (boost::algorithm::starts_with(line, "function ")) {
+        std::string line = StringHelpers::trim_copy(functionContent[k]);
+        if (StringHelpers::starts_with(line, "function ")) {
             return (int)k;
         }
     }
@@ -472,9 +472,9 @@ static int
 findEndfunctionDefinitonLine(const stringVector& functionContent, int start)
 {
     for (size_t k = (size_t)start + 1; k < functionContent.size(); ++k) {
-        std::string line = boost::algorithm::trim_copy(functionContent[k]);
-        if (boost::algorithm::starts_with(line, "endfunction")
-            || boost::algorithm::starts_with(line, "function")) {
+        std::string line = StringHelpers::trim_copy(functionContent[k]);
+        if (StringHelpers::starts_with(line, "endfunction")
+            || StringHelpers::starts_with(line, "function")) {
             return (int)k;
         }
     }
@@ -563,10 +563,10 @@ isKeyWordWithMaybeComments(std::string key)
     }
     return cleanKey == "endfunction" || cleanKey == "try" || cleanKey == "catch"
         || cleanKey == "else" || cleanKey == "end"
-        || boost::algorithm::starts_with(cleanKey, "function ")
-        || boost::algorithm::starts_with(cleanKey, "case ")
-        || boost::algorithm::starts_with(cleanKey, "otherwise ")
-        || boost::algorithm::starts_with(cleanKey, "break");
+        || StringHelpers::starts_with(cleanKey, "function ")
+        || StringHelpers::starts_with(cleanKey, "case ")
+        || StringHelpers::starts_with(cleanKey, "otherwise ")
+        || StringHelpers::starts_with(cleanKey, "break");
 }
 //=============================================================================
 std::tuple<int, int, int, int, int, double>
@@ -585,8 +585,8 @@ Profiler::coverageAnalyzer(
 
     size_t res = 0;
     for (const std::string& line : functionContent) {
-        std::string temp = boost::algorithm::trim_copy(line);
-        if (temp.empty() || boost::algorithm::starts_with(temp, "%")) {
+        std::string temp = StringHelpers::trim_copy(line);
+        if (temp.empty() || StringHelpers::starts_with(temp, "%")) {
             nonCodeLines++;
         } else if (isKeyWordWithMaybeComments(temp)) {
             keywords++;

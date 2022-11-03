@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FMT_EXPORT;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDISPLAY_FORMAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290;4244</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -116,7 +116,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FMT_EXPORT;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDISPLAY_FORMAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290;4244</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -140,7 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>FMT_EXPORT;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDISPLAY_FORMAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290;4244</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -166,7 +166,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>FMT_EXPORT;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDISPLAY_FORMAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/stream_manager/src/fmt/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290;4244</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -186,6 +186,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_mathematics\src\c\nlsElementary_mathematics.vcxproj">
       <Project>{84bdbee5-b19d-4529-b616-01456e6c7768}</Project>

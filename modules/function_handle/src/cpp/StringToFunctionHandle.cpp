@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
 #include "IsValidVariableName.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,8 +26,8 @@ StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
         functionHandle.name = wstring_to_utf8(functionName);
     } else {
         std::string trimmed = wstring_to_utf8(functionName);
-        boost::algorithm::trim_left(trimmed);
-        boost::algorithm::trim_right(trimmed);
+        StringHelpers::trim_left(trimmed);
+        StringHelpers::trim_right(trimmed);
         if (trimmed[0] == L'@') {
             std::string withoutArobase = trimmed;
             withoutArobase.erase(0, 1);

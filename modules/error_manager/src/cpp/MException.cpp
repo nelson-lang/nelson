@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <algorithm>
 #include "MException.hpp"
 #include "Types.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +25,7 @@ bool
 isValidMExceptionIdentifier(std::wstring identifier)
 {
     wstringVector splittedComponents;
-    boost::split(splittedComponents, identifier, boost::is_any_of(L":"));
+    StringHelpers::split(splittedComponents, identifier, L':');
     if (splittedComponents.size() < 2) {
         return false;
     }

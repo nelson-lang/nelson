@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ClassName.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,7 +38,7 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
         if ((argIn[0].isScalar() && argIn[0].isStringArray())
             || argIn[0].isRowVectorCharacterArray()) {
             std::wstring param = argIn[0].getContentAsWideString();
-            boost::to_upper(param);
+            StringHelpers::to_upper(param);
             if (!setDisplayOption(param, L"")) {
                 Error(_W("unexpected format."));
             }
@@ -47,12 +47,12 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
                 ArrayOf numericFormat = argIn[0].getField("NumericFormat");
                 ArrayOf lineSpacing = argIn[0].getField("LineSpacing");
                 std::wstring numericFormatAsString = numericFormat.getContentAsWideString();
-                boost::to_upper(numericFormatAsString);
+                StringHelpers::to_upper(numericFormatAsString);
                 if (!setDisplayOption(numericFormatAsString, L"")) {
                     Error(_W("unexpected Numeric Format."));
                 }
                 std::wstring lineSpacingAsString = lineSpacing.getContentAsWideString();
-                boost::to_upper(lineSpacingAsString);
+                StringHelpers::to_upper(lineSpacingAsString);
                 if (!setDisplayOption(lineSpacingAsString, L"")) {
                     Error(_W("unexpected Line Spacing."));
                 }
@@ -69,14 +69,14 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
         if ((argIn[0].isScalar() && argIn[0].isStringArray())
             || argIn[0].isRowVectorCharacterArray()) {
             param1 = argIn[0].getContentAsWideString();
-            boost::to_upper(param1);
+            StringHelpers::to_upper(param1);
         } else {
             Error(_W("Wrong type for argument #1. 'scalar string or row char vector expected"));
         }
         if ((argIn[1].isScalar() && argIn[1].isStringArray())
             || argIn[1].isRowVectorCharacterArray()) {
             param2 = argIn[1].getContentAsWideString();
-            boost::to_upper(param2);
+            StringHelpers::to_upper(param2);
         } else {
             Error(_W("Wrong type for argument #2. 'scalar string or row char vector expected"));
         }

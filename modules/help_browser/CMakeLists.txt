@@ -28,6 +28,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
@@ -43,6 +44,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsI18n
   nlsGui
+  nlsCommons
   nlsCore
   nlsFiles_folders_functions
   ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}

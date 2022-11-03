@@ -11,8 +11,8 @@
 #include "SioClientCommand.hpp"
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 SioClientInterface::SioClientInterface() { atPrompt = false; }
@@ -143,7 +143,7 @@ SioClientInterface::getTextLine(const std::string& prompt, bool bIsInput)
     SioClientCommand::getInstance()->unavailable();
     this->diary.writeMessage(command);
     if (bIsInput) {
-        if (boost::algorithm::ends_with(command, L"\n")) {
+        if (StringHelpers::ends_with(command, "\n")) {
             command.pop_back();
         }
     }

@@ -7,10 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <regex>
 #include "AnonymousMacroFunctionDef.hpp"
+#include "StringHelpers.hpp"
 #include "Context.hpp"
 #include "ParserInterface.hpp"
 #include "Warning.hpp"
@@ -175,8 +177,8 @@ AnonymousMacroFunctionDef::evaluateFunction(
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        std::wstring message = str(boost::wformat(_W("Function : '%s'."))
-                            % utf8_to_wstring(this->getName()));
+                        std::wstring message = fmt::sprintf(
+                            _W("Function : '%s'."), utf8_to_wstring(this->getName()));
                         message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         Warning(message);
                         warningIssued = true;
@@ -224,7 +226,7 @@ AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
     std::regex rx("@\\s*\\(");
     std::string replaceBy = "function " + outputVariablesList + "anonymousFunction(";
     modified = std::regex_replace(modified, rx, replaceBy, std::regex_constants::format_first_only);
-    boost::replace_first(modified, ")", ")\n" + outputVariablesList);
+    StringHelpers::replace_first(modified, ")", ")\n" + outputVariablesList);
     modified = modified + "\n";
     return modified;
 }

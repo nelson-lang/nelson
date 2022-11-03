@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E467B14F-0D56-4237-B649-EB5572B5E731}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsCore</RootNamespace>
+    <RootNamespace>nlsNelson_manager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

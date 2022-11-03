@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "cumulativeFunctionBuiltinHelpers.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
@@ -28,7 +30,7 @@ getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& 
     } else if (wstr == L"forward") {
         reverse = false;
     } else {
-        std::string msg = str(boost::format(_("Wrong value for #%d argument.")) % pos);
+        std::string msg = fmt::sprintf(_("Wrong value for #%d argument."), pos);
         Error(msg);
     }
 }

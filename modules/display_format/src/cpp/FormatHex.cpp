@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FormatHex.hpp"
 #include "IEEEFP.hpp"
 #include "Hexify.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,7 +23,7 @@ formatHex(double number, bool trim)
     std::wstring result;
     result = double2hexastr(number);
     if (trim) {
-        boost::trim_left(result);
+        StringHelpers::trim_left(result);
     }
     return result;
 }
@@ -34,7 +34,7 @@ formatHex(single number, bool trim)
     std::wstring result;
     result = single2hexastr(number);
     if (trim) {
-        boost::trim_left(result);
+        StringHelpers::trim_left(result);
     }
     return result;
 }

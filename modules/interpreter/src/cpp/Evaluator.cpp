@@ -9,7 +9,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <cstdio>
 #include <cerrno>
@@ -3341,23 +3341,23 @@ Evaluator::getCallers(bool includeCurrent)
                 j++;
             }
             std::string functionname = callstack.getDetail(j - 1);
-            if (boost::algorithm::starts_with(functionname, "built-in ")) {
-                boost::algorithm::replace_all(functionname, "built-in ", "");
-            } else if (boost::algorithm::starts_with(functionname, "filename ")) {
-                boost::algorithm::replace_all(functionname, "filename ", "");
-                if (boost::algorithm::ends_with(functionname, ".m")) {
+            if (StringHelpers::starts_with(functionname, "built-in ")) {
+                StringHelpers::replace_all(functionname, "built-in ", "");
+            } else if (StringHelpers::starts_with(functionname, "filename ")) {
+                StringHelpers::replace_all(functionname, "filename ", "");
+                if (StringHelpers::ends_with(functionname, ".m")) {
                     FileSystemWrapper::Path p(functionname);
                     functionname = p.stem().generic_string();
                 }
             } else {
                 // remove all that is not functions
-                bool bOK = !boost::algorithm::contains(functionname, "(")
-                    && !boost::algorithm::contains(functionname, ")")
-                    && !boost::algorithm::contains(functionname, "'")
-                    && !boost::algorithm::contains(functionname, "/")
-                    && !boost::algorithm::contains(functionname, "\\")
-                    && !boost::algorithm::contains(functionname, " ")
-                    && !boost::algorithm::contains(functionname, ",");
+                bool bOK = !StringHelpers::contains(functionname, "(")
+                    && !StringHelpers::contains(functionname, ")")
+                    && !StringHelpers::contains(functionname, "'")
+                    && !StringHelpers::contains(functionname, "/")
+                    && !StringHelpers::contains(functionname, "\\")
+                    && !StringHelpers::contains(functionname, " ")
+                    && !StringHelpers::contains(functionname, ",");
                 if (bOK) {
                     callersName.push_back(functionname);
                 }
@@ -4045,7 +4045,7 @@ Evaluator::getCurrentFunctionName()
     int ipos = (int)callstack.size() - 1;
     if (ipos >= 0) {
         std::string fullname = callstack.getLastContext();
-        if (boost::algorithm::ends_with(fullname, ".m")) {
+        if (StringHelpers::ends_with(fullname, ".m")) {
             FileSystemWrapper::Path pathForStem(fullname);
             return pathForStem.stem().string();
         }

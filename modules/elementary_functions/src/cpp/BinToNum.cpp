@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include <bitset>
 #include <stdexcept>
 #include "Error.hpp"
@@ -15,6 +14,7 @@
 #include "BinToNum.hpp"
 #include "characters_encoding.hpp"
 #include "Transpose.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -84,7 +84,7 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
         indexType commonLength;
         if (A.isRowVector()) {
             std::string s = A.getContentAsCString();
-            boost::algorithm::trim(s);
+            StringHelpers::trim(s);
             commonLength = s.size();
             if (!isValidLength(commonLength)) {
                 Error(_W("Invalid string length: 1, 32, 64 expected."));
@@ -97,7 +97,7 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
             bool dummy;
             ArrayOf Transposed = Transpose(A, dummy);
             std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
-            boost::algorithm::trim(wstr);
+            StringHelpers::trim(wstr);
 
             commonLength = dims.getColumns();
             if (!isValidLength(commonLength)) {

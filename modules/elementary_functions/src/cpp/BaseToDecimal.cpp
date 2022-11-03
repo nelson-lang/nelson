@@ -9,14 +9,14 @@
 //=============================================================================
 #include <algorithm>
 #include <cwchar>
-#include <boost/algorithm/string/erase.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <unordered_map>
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "BaseToDecimal.hpp"
 #include "characters_encoding.hpp"
 #include "Transpose.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,7 +45,7 @@ BaseToDecimal(const std::wstring& element, int base)
     if (element.empty()) {
         res = 0;
     } else {
-        std::wstring upperCase = boost::algorithm::erase_all_copy(element, L" ");
+        std::wstring upperCase = StringHelpers::erase_all_copy(element, L" ");
         std::transform(upperCase.begin(), upperCase.end(), upperCase.begin(), towupper);
         res = (double)base2dec(upperCase, base);
     }

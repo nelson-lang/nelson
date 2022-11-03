@@ -10,7 +10,6 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <boost/algorithm/string.hpp>
 #include <mz_compat.h>
 #include "FileSystemWrapper.hpp"
 #include "Unzip.hpp"
@@ -18,6 +17,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

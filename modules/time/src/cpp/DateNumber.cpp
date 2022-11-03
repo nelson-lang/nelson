@@ -12,7 +12,7 @@
 #include "IsLeapYear.hpp"
 #include "characters_encoding.hpp"
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time.hpp>
 #include <boost/date_time/gregorian/greg_date.hpp>
@@ -61,13 +61,13 @@ double
 DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool& bParsed)
 {
     std::wstring _formatIn(formatIn);
-    boost::algorithm::replace_all(_formatIn, L"yyyy", L"%Y");
-    boost::algorithm::replace_all(_formatIn, L"yy", L"%y");
-    boost::algorithm::replace_all(_formatIn, L"mmm", L"%b");
-    boost::algorithm::replace_all(_formatIn, L"dd", L"%d");
-    boost::algorithm::replace_all(_formatIn, L"HH", L"%H");
-    boost::algorithm::replace_all(_formatIn, L"MM", L"%M");
-    boost::algorithm::replace_all(_formatIn, L"SS", L"%ls");
+    StringHelpers::replace_all(_formatIn, L"yyyy", L"%Y");
+    StringHelpers::replace_all(_formatIn, L"yy", L"%y");
+    StringHelpers::replace_all(_formatIn, L"mmm", L"%b");
+    StringHelpers::replace_all(_formatIn, L"dd", L"%d");
+    StringHelpers::replace_all(_formatIn, L"HH", L"%H");
+    StringHelpers::replace_all(_formatIn, L"MM", L"%M");
+    StringHelpers::replace_all(_formatIn, L"SS", L"%ls");
     double res = nan("");
     bParsed = false;
     boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
@@ -120,10 +120,10 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
         std::locale(
             std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y-%m-%d %H:%M:%S")),
     };
-    // bool haveAMPM = boost::algorithm::contains(datestring, L" AM") ||
-    // boost::algorithm::contains(datestring, L" PM");
-    bool haveAM = boost::algorithm::contains(datestring, L" AM");
-    bool havePM = boost::algorithm::contains(datestring, L" PM");
+    // bool haveAMPM = StringHelpers::contains(datestring, L" AM") ||
+    // StringHelpers::contains(datestring, L" PM");
+    bool haveAM = StringHelpers::contains(datestring, L" AM");
+    bool havePM = StringHelpers::contains(datestring, L" PM");
     std::wstring _datestring(datestring);
     if (haveAM) {
         boost::replace_all(_datestring, L" AM", "");

@@ -11,10 +11,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
-#include <boost/algorithm/string.hpp>
 #include <fileref.h>
 #include <sndfile.h>
 #include <tag.h>
+#include <cstring>
+#include "StringHelpers.hpp"
 #include "AudioFileInfo.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -104,7 +105,7 @@ getCompressionMethodAsString(int format)
         compressionMethod = L"unknown";
         break;
     };
-    boost::to_upper(compressionMethod);
+    StringHelpers::to_upper(compressionMethod);
     return compressionMethod;
 }
 //=============================================================================

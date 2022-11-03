@@ -13,7 +13,7 @@
 #include <cstring>
 #include <algorithm>
 #include <limits>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "IEEEFP.hpp"

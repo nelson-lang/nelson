@@ -11,7 +11,7 @@
 #pragma warning(disable : 4018)
 #endif
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <cstring>
 #include <cstdio>
 #include <memory>
@@ -114,7 +114,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
         try {
             w = w.substr(nbChars);
             if (isCRLF) {
-                boost::replace_all(w, L"\n", L"\r\n");
+                StringHelpers::replace_all(w, L"\n", L"\r\n");
             }
         } catch (const std::out_of_range&) {
             result.clear();

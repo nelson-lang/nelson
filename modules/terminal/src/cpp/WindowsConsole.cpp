@@ -9,7 +9,6 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <boost/algorithm/string/predicate.hpp>
 #include <csignal>
 #include <fcntl.h> // _O_UTF16TEXT
 #include <io.h> // _setmode
@@ -21,6 +20,7 @@
 #include "NelsonHistory.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 #ifdef CR_1
 #undef CR_1
@@ -148,7 +148,7 @@ WindowsConsole::getTextLine(const std::wstring& prompt, bool bIsInput)
         if (bIsAction) {
             if (bIsInput) {
                 Nelson::History::setToken(L"");
-                if (boost::algorithm::ends_with(cmdline, L"\n")) {
+                if (StringHelpers::ends_with(cmdline, L"\n")) {
                     cmdline.pop_back();
                 }
             } else {
@@ -168,7 +168,7 @@ WindowsConsole::getTextLine(const std::wstring& prompt, bool bIsInput)
             }
             if (bIsInput) {
                 Nelson::History::setToken(L"");
-                if (boost::algorithm::ends_with(cmdline, L"\n")) {
+                if (StringHelpers::ends_with(cmdline, L"\n")) {
                     cmdline.pop_back();
                 }
             }

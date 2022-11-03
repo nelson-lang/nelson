@@ -9,7 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include <regex>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "FileCompleter.hpp"
 //=============================================================================
@@ -88,9 +88,9 @@ FileCompleter(const std::wstring& prefix)
         }
         if (nfs::is_directory(branch)) {
             mask = pathfs.filename().wstring();
-            boost::replace_all(mask, L".", L"\\.");
-            boost::replace_all(mask, L"?", L".");
-            boost::replace_all(mask, L"*", L".*");
+            StringHelpers::replace_all(mask, L".", L"\\.");
+            StringHelpers::replace_all(mask, L"?", L".");
+            StringHelpers::replace_all(mask, L"*", L".*");
             std::wregex rmask(mask, std::wregex::icase);
             {
                 nfs::path dir = branch;

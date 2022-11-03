@@ -23,6 +23,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -49,6 +50,7 @@ target_link_libraries(
   nlsCore
   nlsModules_manager
   nlsEngine
+  nlsCommons
   nlsFiles_folders_functions
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets)

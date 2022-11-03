@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <unordered_map>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <Eigen/Dense>
 #include "DecimalToBase.hpp"
 //=============================================================================
@@ -69,7 +69,7 @@ ullToBase(unsigned long long v, size_t b, size_t len)
         wchar_t buffer[_MAX_U64TOSTR_BASE2_COUNT];
 #ifdef _MSC_VER
         res = _ui64tow(v, buffer, (int)b);
-        boost::to_upper(res);
+        StringHelpers::to_upper(res);
 #else
         res = ullToBaseGeneric(v, b, len);
 #endif

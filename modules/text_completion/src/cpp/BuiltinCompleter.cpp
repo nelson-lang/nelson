@@ -11,7 +11,7 @@
 #include "Evaluator.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "What.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,7 +23,7 @@ BuiltinCompleter(const std::wstring& prefix)
     if (eval) {
         wstringVector builtin = WhatListOfBuiltin(eval, true, true);
         for (const auto& k : builtin) {
-            if (boost::algorithm::starts_with(k, prefix)) {
+            if (StringHelpers::starts_with(k, prefix)) {
                 res.push_back(k);
             }
         }

@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string/predicate.hpp>
 #include "addmoduleBuiltin.hpp"
 #include "AddModule.hpp"
 #include "Error.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,8 +25,8 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
         modulerootpath = argIn[0].getContentAsWideString();
-        if (!boost::algorithm::ends_with(modulerootpath, L"\\")
-            && (!boost::algorithm::ends_with(modulerootpath, L"/"))) {
+        if (!StringHelpers::ends_with(modulerootpath, L"\\")
+            && (!StringHelpers::ends_with(modulerootpath, L"/"))) {
             modulerootpath.append(L"/");
         }
     } else {

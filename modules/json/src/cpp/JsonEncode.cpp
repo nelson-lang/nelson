@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <iomanip>
@@ -211,7 +211,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
             for (int j = 0; j < cols; ++j) {
                 json_append_string(fmt::sprintf(format, ptr[j * rows + i]));
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -225,7 +225,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
             for (int j = 0; j < lastdimlen; ++j) {
                 json_append_string(fmt::sprintf(format, ptr[j * ymax + i]));
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -250,7 +250,7 @@ jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
             for (int j = 0; j < cols; ++j) {
                 encode_double(ptr[j * rows + i], convertNanInf);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -264,7 +264,7 @@ jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
             for (int j = 0; j < lastdimlen; ++j) {
                 encode_double(ptr[j * ymax + i], convertNanInf);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -289,7 +289,7 @@ jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
             for (int j = 0; j < cols; ++j) {
                 encode_single(ptr[j * rows + i], convertNanInf);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -303,7 +303,7 @@ jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
             for (int j = 0; j < lastdimlen; ++j) {
                 encode_single(ptr[j * ymax + i], convertNanInf);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -331,7 +331,7 @@ jsonEncodeCharacters(const ArrayOf& ValueToEncode)
             for (int j = 0; j < cols; ++j) {
                 encode_character(strw[j * rows + i]);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"\",");
@@ -346,7 +346,7 @@ jsonEncodeCharacters(const ArrayOf& ValueToEncode)
                 wchar_t ch = strw[i * ymax + j];
                 encode_character(ch);
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"\",");
@@ -379,7 +379,7 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
                     json_append_string(L"true,");
                 }
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -397,7 +397,7 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
                     json_append_string(L"true,");
                 }
             }
-            if (boost::algorithm::ends_with(jsonString, L",")) {
+            if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
             json_append_string(L"],");
@@ -450,7 +450,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
                         json_append_char(L',');
                     }
                 }
-                if (boost::algorithm::ends_with(jsonString, L",")) {
+                if (StringHelpers::ends_with(jsonString, L",")) {
                     jsonString.pop_back();
                 }
                 json_append_char(L'}');
@@ -498,7 +498,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             return {};
         } break;
         }
-        if (boost::algorithm::ends_with(jsonString, L",")) {
+        if (StringHelpers::ends_with(jsonString, L",")) {
             jsonString.pop_back();
         }
         encode_array(ValueToEncode, true);

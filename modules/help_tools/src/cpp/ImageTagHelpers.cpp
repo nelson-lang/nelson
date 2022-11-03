@@ -8,17 +8,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
 #include <boost/regex.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -46,8 +44,9 @@ parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::ws
         boost::xpressive::wsmatch const& what = *cur2;
         oldPath = what[0];
         std::string errorMessage;
-        if (!boost::algorithm::istarts_with(oldPath, L"http")) {
-            if (boost::ends_with(srcDirectory, L"/") || boost::ends_with(srcDirectory, L"\\")) {
+        if (!StringHelpers::istarts_with(oldPath, L"http")) {
+            if (StringHelpers::ends_with(srcDirectory, L"/")
+                || StringHelpers::ends_with(srcDirectory, L"\\")) {
                 FileSystemWrapper::Path absolutePath
                     = FileSystemWrapper::Path::canonical(srcDirectory + oldPath, errorMessage);
                 newPath = absolutePath.generic_wstring();

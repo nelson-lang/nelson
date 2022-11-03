@@ -10,8 +10,8 @@
 #include <ctime>
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -61,7 +61,7 @@ createHeader()
     localtime_r(&ltime, &newtime);
     std::wstring timestr = utf8_to_wstring(asctime_r(&newtime, buf));
 #endif
-    boost::algorithm::replace_last(timestr, L"\n", L"");
+    StringHelpers::replace_last(timestr, L"\n", L"");
     return header + std::wstring(L" on ") + timestr;
 }
 //=============================================================================

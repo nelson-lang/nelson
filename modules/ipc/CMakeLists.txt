@@ -32,6 +32,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../file_archiver/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include)
 endif()
 # ==============================================================================
@@ -64,6 +65,7 @@ target_link_libraries(
   nlsStream_manager
   nlsTime
   nlsTypes
+  nlsCommons
   ${BOOST_LIBRARIES}
   ${LIBRT})
 endif()  

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
-#include <boost/algorithm/string/predicate.hpp>
 #include "FileSystemWrapper.hpp"
 #include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
@@ -16,6 +15,7 @@
 #include "RepositoryClone.hpp"
 #include "RepositoryHelpers.hpp"
 #include "RepositoryCheckout.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -66,8 +66,8 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
         }
         FileSystemWrapper::Path p;
         if (errorMessage.empty()) {
-            if (!boost::algorithm::ends_with(localPath, L"\\")
-                && (!boost::algorithm::ends_with(localPath, L"/"))) {
+            if (!StringHelpers::ends_with(localPath, L"\\")
+                && (!StringHelpers::ends_with(localPath, L"/"))) {
                 p = localPath + std::wstring(L"/.git");
             } else {
                 p = localPath + std::wstring(L".git");

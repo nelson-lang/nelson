@@ -7,25 +7,27 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static std::wstring
 removeSimpleQuotesAndTrim(const std::wstring& newpath)
 {
-    std::wstring cleanedLine = boost::algorithm::trim_copy(newpath);
-    if (boost::algorithm::starts_with(cleanedLine, L"'")
-        && boost::algorithm::ends_with(cleanedLine, L"'")) {
-        boost::algorithm::replace_first(cleanedLine, L"'", L"");
-        boost::algorithm::replace_last(cleanedLine, L"'", L"");
-        boost::algorithm::trim(cleanedLine);
+    std::wstring cleanedLine = StringHelpers::trim_copy(newpath);
+    if (StringHelpers::starts_with(cleanedLine, L"'")
+        && StringHelpers::ends_with(cleanedLine, L"'")) {
+        StringHelpers::replace_first(cleanedLine, L"'", L"");
+        StringHelpers::replace_last(cleanedLine, L"'", L"");
+        StringHelpers::trim(cleanedLine);
     }
     return cleanedLine;
 }
@@ -59,8 +61,7 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         return true;
     } else {
         if (doException) {
-            std::wstring msg
-                = str(boost::wformat(_W("Cannot change directory '%s'.")) % pathApplied);
+            std::wstring msg = fmt::sprintf(_W("Cannot change directory '%s'."), pathApplied);
             Error(msg);
         }
     }

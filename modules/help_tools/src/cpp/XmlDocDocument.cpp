@@ -11,8 +11,6 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <fstream>
 #include "FileSystemWrapper.hpp"
 #include "GetNelsonPath.hpp"
@@ -51,6 +49,7 @@
 #include "XmlHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -895,7 +894,7 @@ XmlDocDocument::readFileCaseUsedFunction(xmlDocPtr doc, xmlNodePtr node)
         if (usedFunctionNode->content) {
             str = std::string((char*)usedFunctionNode->content);
         }
-        boost::trim(str);
+        StringHelpers::trim(str);
         if (str.empty()) {
             warningMessage.push_back(_W("line ") + std::to_wstring(usedFunctionNode->line)
                 + _W(": ") + utf8_to_wstring(USED_FUNCTION_TAG) + L" " + _W("is empty."));
@@ -958,7 +957,7 @@ XmlDocDocument::readFileCaseSyntax(xmlDocPtr doc, xmlNodePtr node)
             if (itemNode->content) {
                 str = std::string((char*)itemNode->content);
             }
-            boost::trim(str);
+            StringHelpers::trim(str);
             if (str.empty()) {
                 if (syntaxItems) {
                     delete syntaxItems;
@@ -1009,7 +1008,7 @@ XmlDocDocument::readFileCaseLanguage(xmlDocPtr doc, xmlNodePtr node)
     if (languageNode->content) {
         str = std::string((char*)languageNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(languageNode->line) + _W(": ")
@@ -1051,7 +1050,7 @@ XmlDocDocument::readFileCaseTitle(xmlDocPtr doc, xmlNodePtr node)
     if (titleNode->content) {
         str = std::string((char*)titleNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(titleNode->line) + _W(": ")
@@ -1085,7 +1084,7 @@ XmlDocDocument::readFileCaseKeyword(xmlDocPtr doc, xmlNodePtr node)
     if (keywordNode->content) {
         str = std::string((char*)keywordNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(keywordNode->line) + _W(": ")
@@ -1119,7 +1118,7 @@ XmlDocDocument::readFileCaseCopyright(xmlDocPtr doc, xmlNodePtr node)
     if (copyrightNode && copyrightNode->content) {
         str = std::string((char*)copyrightNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         if (copyrightNode) {
             warningMessage.push_back(_W("line ") + std::to_wstring(copyrightNode->line) + _W(": ")
@@ -1142,7 +1141,7 @@ XmlDocDocument::readFileCaseDescription(xmlDocPtr doc, xmlNodePtr node)
     xmlNodeDump(buffer, doc, descriptionNode, 0, 1);
     std::string str = std::string((char*)buffer->content);
     xmlBufferFree(buffer);
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
@@ -1150,8 +1149,8 @@ XmlDocDocument::readFileCaseDescription(xmlDocPtr doc, xmlNodePtr node)
         this->bReadOk = false;
         return false;
     }
-    boost::algorithm::replace_first(str, "<" + std::string(DESCRIPTION_TAG) + ">", "");
-    boost::algorithm::replace_last(str, "</" + std::string(DESCRIPTION_TAG) + ">", "");
+    StringHelpers::replace_first(str, "<" + std::string(DESCRIPTION_TAG) + ">", "");
+    StringHelpers::replace_last(str, "</" + std::string(DESCRIPTION_TAG) + ">", "");
     XmlDocDescriptionItem* ptrDescription = new XmlDocDescriptionItem(utf8_to_wstring(str));
     ptrDescription->setDirectories(this->xmlDirectory, this->directoryDestination);
     try {
@@ -1188,7 +1187,7 @@ XmlDocDocument::readFileCaseShortDescription(xmlDocPtr doc, xmlNodePtr node)
     if (shortDescriptionNode->content) {
         str = std::string((char*)shortDescriptionNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(shortDescriptionNode->line) + _W(": ")
@@ -1226,7 +1225,7 @@ XmlDocDocument::readFileCaseBibliography(xmlDocPtr doc, xmlNodePtr node)
         if (bibliogragphyNode->content) {
             str = std::string((char*)bibliogragphyNode->content);
         }
-        boost::trim(str);
+        StringHelpers::trim(str);
         if (str.empty()) {
             warningMessage.push_back(_W("line ") + std::to_wstring(bibliogragphyNode->line)
                 + _W(": ") + utf8_to_wstring(BIBLIOGRAPHY_TAG) + L" " + _W("is empty."));
@@ -1289,7 +1288,7 @@ XmlDocDocument::readFileCaseAuthors(xmlDocPtr doc, xmlNodePtr node)
             if (itemNode->content) {
                 str = std::string((char*)itemNode->content);
             }
-            boost::trim(str);
+            StringHelpers::trim(str);
             if (str.empty()) {
                 if (authorsItems) {
                     delete authorsItems;
@@ -1366,7 +1365,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                         if (versionNode->content) {
                             str = std::string((char*)versionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (historyItems) {
                                 delete historyItems;
@@ -1405,7 +1404,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                         if (descriptionNode->content) {
                             str = std::string((char*)descriptionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (historyItems) {
                                 delete historyItems;
@@ -1533,7 +1532,7 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                         if (nameNode->content) {
                             str = std::string((char*)nameNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (paramInputItems) {
                                 delete paramInputItems;
@@ -1572,7 +1571,7 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                         if (descriptionNode->content) {
                             str = std::string((char*)descriptionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (paramInputItems) {
                                 delete paramInputItems;
@@ -1692,7 +1691,7 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                         if (nameNode->content) {
                             str = std::string((char*)nameNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (paramOutputItems) {
                                 delete paramOutputItems;
@@ -1731,7 +1730,7 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                         if (descriptionNode->content) {
                             str = std::string((char*)descriptionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (paramOutputItems) {
                                 delete paramOutputItems;
@@ -1857,7 +1856,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                         if (nameNode->content) {
                             str = std::string((char*)nameNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (examplesItems) {
                                 delete examplesItems;
@@ -1896,7 +1895,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                         if (descriptionNode->content) {
                             str = std::string((char*)descriptionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             warningMessage.push_back(_W("line ")
                                 + std::to_wstring(descriptionNode->line) + _W(": ")
@@ -1948,8 +1947,8 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     xmlNodeDump(buffer, doc, imageNode, 0, 1);
                     std::string str = std::string((char*)buffer->content);
                     xmlBufferFree(buffer);
-                    boost::trim(str);
-                    boost::replace_all(str, EXAMPLE_ITEM_IMG_TAG, IMAGE_TAG);
+                    StringHelpers::trim(str);
+                    StringHelpers::replace_all(str, EXAMPLE_ITEM_IMG_TAG, IMAGE_TAG);
                     imagetag = utf8_to_wstring(str);
                     if (!isValidImageTag(imagetag)) {
                         if (examplesItems) {
@@ -2001,7 +2000,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                         if (dataNode->content) {
                             str = std::string((char*)dataNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (examplesItems) {
                                 delete examplesItems;
@@ -2205,7 +2204,7 @@ XmlDocDocument::readFileCaseChapter(xmlDocPtr doc, xmlNodePtr node)
     if (chapterNode->content) {
         str = std::string((char*)chapterNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(chapterNode->line) + _W(": ")
@@ -2240,7 +2239,7 @@ XmlDocDocument::readFileCaseChapterDescription(xmlDocPtr doc, xmlNodePtr node)
         if (chapterDescriptionNode->content) {
             str = std::string((char*)chapterDescriptionNode->content);
         }
-        boost::trim(str);
+        StringHelpers::trim(str);
         if (str.empty()) {
             warningMessage.push_back(_W("line ") + std::to_wstring(chapterDescriptionNode->line)
                 + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
@@ -2328,7 +2327,7 @@ XmlDocDocument::readFileCaseChapterIndex(xmlDocPtr doc, xmlNodePtr node)
                         if (descriptionNode->content) {
                             str = std::string((char*)descriptionNode->content);
                         }
-                        boost::trim(str);
+                        StringHelpers::trim(str);
                         if (str.empty()) {
                             if (chapterIndexItem) {
                                 delete chapterIndexItem;
@@ -2459,7 +2458,7 @@ XmlDocDocument::readFileCaseImage(xmlDocPtr doc, xmlNodePtr node)
     xmlNodeDump(buffer, doc, imageNode, 0, 1);
     std::string str = std::string((char*)buffer->content);
     xmlBufferFree(buffer);
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
             + utf8_to_wstring(IMAGE_TAG) + L" " + _W("is empty."));
@@ -2503,7 +2502,7 @@ XmlDocDocument::readFileCaseModuleName(xmlDocPtr doc, xmlNodePtr node)
     if (moduleNameNode->content) {
         str = std::string((char*)moduleNameNode->content);
     }
-    boost::trim(str);
+    StringHelpers::trim(str);
     if (str.empty()) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(moduleNameNode->line) + _W(": ")

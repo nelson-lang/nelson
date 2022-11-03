@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -37,7 +37,7 @@ safegetline(std::ifstream& os, std::string& line)
 static bool
 isEmptyLine(const std::string& line)
 {
-    std::string str = boost::algorithm::trim_left_copy(line);
+    std::string str = StringHelpers::trim_left_copy(line);
     return str.empty();
 }
 //=============================================================================
@@ -45,7 +45,7 @@ static bool
 isFunctionDefinitionLine(const std::string& line)
 {
     if (!isCommentedLine(line)) {
-        if (boost::algorithm::contains(line, "function")) {
+        if (StringHelpers::contains(line, "function")) {
             return true;
         }
     }
@@ -57,9 +57,9 @@ removeCommentCharacters(const std::string& line)
 {
     std::string res;
     const std::string commentSymbol = getCommentSymbol();
-    std::string str = boost::algorithm::trim_left_copy(line);
-    if (boost::algorithm::starts_with(str, commentSymbol)) {
-        boost::algorithm::erase_first(str, commentSymbol);
+    std::string str = StringHelpers::trim_left_copy(line);
+    if (StringHelpers::starts_with(str, commentSymbol)) {
+        StringHelpers::erase_first(str, commentSymbol);
         res = str;
     }
     return res;

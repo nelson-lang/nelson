@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "ismexBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
 #include "MxGetExtension.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,7 +30,7 @@ Nelson::FunctionsGateway::ismexBuiltin(int nLhs, const ArrayOfVector& argIn)
     PathFuncManager::getInstance()->find(name, filenames);
     if (!filenames.empty()) {
         for (const auto& filename : filenames) {
-            if (boost::algorithm::ends_with(filename, getMexExtension())) {
+            if (StringHelpers::ends_with(filename, getMexExtension())) {
                 res = true;
                 break;
             }

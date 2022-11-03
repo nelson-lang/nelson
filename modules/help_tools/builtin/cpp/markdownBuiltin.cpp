@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "IsCellOfStrings.hpp"
@@ -49,7 +49,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (nfs::directory_iterator dir_iter(pathIn.native()); dir_iter != end_iter;
                  ++dir_iter) {
                 FileSystemWrapper::Path current(dir_iter->path().native());
-                if (boost::iequals(current.extension().generic_wstring(), ".md")) {
+                if (StringHelpers::iequals(current.extension().generic_wstring(), L".md")) {
                     filesListIn.push_back(current.generic_wstring());
                 }
             }

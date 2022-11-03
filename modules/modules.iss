@@ -11,6 +11,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 ;==============================================================================
 #include "main/module.iss"
 #include "characters_encoding/module.iss"
+#include "commons/module.iss"
 #include "nelson_manager/module.iss"
 #include "terminal/module.iss"
 #include "operators/module.iss"

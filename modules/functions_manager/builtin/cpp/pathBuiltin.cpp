@@ -10,13 +10,12 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include "pathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "ToCellString.hpp"
 #include "NelsonPrint.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,9 +50,9 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring p = param1.getContentAsWideString();
         wstringVector paths;
 #ifdef _MSC_VER
-        boost::split(paths, p, boost::is_any_of(L";"));
+        StringHelpers::split(paths, p, L';');
 #else
-        boost::split(paths, p, boost::is_any_of(L":"));
+        StringHelpers::split(paths, p, L':');
 #endif
         PathFuncManager::getInstance()->clearUserPath();
         PathFuncManager::getInstance()->clear();
@@ -75,15 +74,15 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring p2 = param2.getContentAsWideString();
         wstringVector paths1;
 #ifdef _MSC_VER
-        boost::split(paths1, p1, boost::is_any_of(L";"));
+        StringHelpers::split(paths1, p1, L';');
 #else
-        boost::split(paths1, p1, boost::is_any_of(L":"));
+        StringHelpers::split(paths1, p1, L':');
 #endif
         wstringVector paths2;
 #ifdef _MSC_VER
-        boost::split(paths2, p2, boost::is_any_of(L";"));
+        StringHelpers::split(paths2, p2, L';');
 #else
-        boost::split(paths2, p2, boost::is_any_of(L":"));
+        StringHelpers::split(paths2, p2, L':');
 #endif
         PathFuncManager::getInstance()->clearUserPath();
         PathFuncManager::getInstance()->clear();

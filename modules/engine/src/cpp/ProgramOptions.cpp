@@ -7,8 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
+#include "StringHelpers.hpp"
 #include "ProgramOptions.hpp"
 //=============================================================================
 namespace Nelson {
@@ -307,15 +306,14 @@ ProgramOptions::parse()
     std::wstring _timeout_str;
     bRes = bRes && parseOptionWithValue(timeoutOption, bFind, _timeout_str);
     if (bFind) {
-        try {
-            long long ll = boost::lexical_cast<long long>(_timeout_str);
-            if (ll > 0) {
-                _timeout = static_cast<uint64>(ll);
-            } else {
-                _error = _W("wrong value for timeout option.");
-                return false;
-            }
-        } catch (const boost::bad_lexical_cast&) {
+        long long ll = 0;
+        if (!StringHelpers::str2longlong(_timeout_str, ll)) {
+            _error = _W("wrong value for timeout option.");
+            return false;
+        }
+        if (ll > 0) {
+            _timeout = static_cast<uint64>(ll);
+        } else {
             _error = _W("wrong value for timeout option.");
             return false;
         }

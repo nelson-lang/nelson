@@ -38,7 +38,7 @@
       "modules/f2c/src/c/f2c/",
       "modules/help_tools/src/c/hoedown",
       "modules/file_archiver/src/c/minizip",
-      "modules/stream_manager/src/fmt/include/fmt",
+      "modules/commons/src/fmt/include/fmt",
       "modules/files_folders_functions/src/include/dtl/",
       "modules/sio_client/src/socket_io",
       "modules/modules_manager/src/c/semver",

@@ -10,7 +10,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "DisplayCell.hpp"
 #include "DisplayCellHelpers.hpp"
 #include "NelsonConfiguration.hpp"

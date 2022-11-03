@@ -15,6 +15,7 @@
 #include "nlsConfig.h"
 #include <Eigen/Dense>
 #include <climits>
+#include <cstring>
 #include <sndfile.h>
 #include "AudioRead.hpp"
 #include "characters_encoding.hpp"

@@ -9,7 +9,7 @@
 //=============================================================================
 #include <matio.h>
 #include <ctime>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "SaveMatioFile.hpp"
 #include "SaveMatioVariable.hpp"
 #include "IsValidVariableName.hpp"
@@ -58,7 +58,7 @@ createHeaderMatioFile()
     localtime_r(&ltime, &newtime);
     std::string timestr = asctime_r(&newtime, buf);
 #endif
-    boost::algorithm::replace_last(timestr, "\n", "");
+    StringHelpers::replace_last(timestr, "\n", "");
     header = header + std::string(" on ") + timestr;
     return header;
 }

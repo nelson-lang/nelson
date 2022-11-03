@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <regex>
 #include "MakeValidFieldname.hpp"
 #include "characters_encoding.hpp"
@@ -30,7 +30,7 @@ MakeValidFieldname(const std::wstring& fieldname, const std::wstring& defaultPre
     std::wstring modifiedFieldname = fieldname;
     std::wregex re(L"[^a-zA-Z_0-9]");
     modifiedFieldname = std::regex_replace(fieldname, re, L"_");
-    if (boost::algorithm::starts_with(modifiedFieldname, L"_")) {
+    if (StringHelpers::starts_with(modifiedFieldname, L"_")) {
         modifiedFieldname = defaultPrefix + modifiedFieldname;
     }
     if (iswdigit(modifiedFieldname[0])) {

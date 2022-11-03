@@ -14,6 +14,8 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
@@ -25,8 +27,11 @@ file(GLOB ERROR_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ERROR_MANAGER_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCharacters_encoding nlsI18n
-                      ${Boost_LIBRARIES})
+target_link_libraries(${module_library_name} 
+  nlsCharacters_encoding 
+  nlsI18n
+  nlsCommons
+  ${Boost_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

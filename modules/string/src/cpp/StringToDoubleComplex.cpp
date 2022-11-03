@@ -8,10 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
 #include <locale>
 #include <cmath>
+#include <cwctype>
+#include "StringHelpers.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "StringToDouble.hpp"
 //=============================================================================
@@ -107,19 +107,19 @@ ParseComplexValue(const std::wstring& tx, double& real, double& imag)
     std::wstring num1 = tx.substr(0, lnum);
     std::wstring num2 = tx.substr(lnum, rnum);
     if (num1.empty() && num2.empty()) {
-        if (boost::algorithm::starts_with(ToUpper(tx), "-INF")) {
+        if (StringHelpers::starts_with(ToUpper(tx), L"-INF")) {
             real = -std::numeric_limits<double>::infinity();
-        } else if (boost::algorithm::starts_with(ToUpper(tx), "+INF")
-            || boost::algorithm::starts_with(ToUpper(tx), "INF")) {
+        } else if (StringHelpers::starts_with(ToUpper(tx), L"+INF")
+            || StringHelpers::starts_with(ToUpper(tx), L"INF")) {
             real = std::numeric_limits<double>::infinity();
         } else {
             real = nan("");
         }
-        if (boost::algorithm::ends_with(ToUpper(tx), "-INFI")) {
+        if (StringHelpers::ends_with(ToUpper(tx), L"-INFI")) {
             imag = -std::numeric_limits<double>::infinity();
-        } else if (boost::algorithm::ends_with(ToUpper(tx), "+INFI")) {
+        } else if (StringHelpers::ends_with(ToUpper(tx), L"+INFI")) {
             imag = std::numeric_limits<double>::infinity();
-        } else if (boost::algorithm::ends_with(ToUpper(tx), "NANI")) {
+        } else if (StringHelpers::ends_with(ToUpper(tx), L"NANI")) {
             imag = nan("");
         } else {
             imag = 0;
@@ -182,21 +182,21 @@ stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
         wasConverted = false;
     } else {
         std::wstring STR = str;
-        boost::replace_all(STR, L" ", L"");
-        boost::replace_all(STR, L",", L"");
+        StringHelpers::replace_all(STR, L" ", L"");
+        StringHelpers::replace_all(STR, L",", L"");
         if (STR.empty()) {
             res = doublecomplex(nan(""), 0);
             wasConverted = false;
         } else {
             /* case .9 replaced by 0.9 */
-            if (boost::algorithm::starts_with(STR, L".")) {
+            if (StringHelpers::starts_with(STR, L".")) {
                 STR = L"0" + STR;
             }
             if (((STR[0] == PlusChar) || (STR[0] == LessChar)) && (STR[1] == L'.')) {
                 /* case +.9 replaced by +0.9 */
-                boost::replace_all(STR, L"+.", L"+0.");
+                StringHelpers::replace_all(STR, L"+.", L"+0.");
                 /* case -.9 replaced by -0.9 */
-                boost::replace_all(STR, L"-.", L"-0.");
+                StringHelpers::replace_all(STR, L"-.", L"-0.");
             }
             /* Case: 'i', '+i', '-i', and with 'j' */
             double imag = nan("");
@@ -206,9 +206,8 @@ stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
             } else {
                 double realPart;
                 double imagPart;
-                if (boost::algorithm::contains(STR, L"i")
-                    || boost::algorithm::contains(STR, L"j")) {
-                    boost::replace_all(STR, L" ", L"");
+                if (StringHelpers::contains(STR, L"i") || StringHelpers::contains(STR, L"j")) {
+                    StringHelpers::replace_all(STR, L" ", L"");
                     ParseComplexValue(STR, realPart, imagPart);
                 } else {
                     realPart = stringToDouble(str, wasConverted);

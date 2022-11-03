@@ -10,7 +10,7 @@
 #if _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocImageItem.hpp"
@@ -70,7 +70,7 @@ XmlDocImageItem::findImage()
         } else {
             newfilename = filename + L"_" + crc + extension;
         }
-        boost::replace_all(tag, oldPath, newfilename);
+        StringHelpers::replace_all(tag, oldPath, newfilename);
         imageSource.assign(newPath);
         imageDestination = this->destDirectory + L"/" + newfilename;
     } else {
@@ -81,14 +81,14 @@ XmlDocImageItem::findImage()
 void
 XmlDocImageItem::setDirectories(const std::wstring& srcDirectory, const std::wstring& destDirectory)
 {
-    if (boost::algorithm::ends_with(srcDirectory, L"/")
-        || boost::algorithm::ends_with(srcDirectory, L"\\")) {
+    if (StringHelpers::ends_with(srcDirectory, L"/")
+        || StringHelpers::ends_with(srcDirectory, L"\\")) {
         this->srcDirectory = srcDirectory;
     } else {
         this->srcDirectory = srcDirectory + L"/";
     }
-    if (boost::algorithm::ends_with(destDirectory, L"/")
-        || boost::algorithm::ends_with(destDirectory, L"\\")) {
+    if (StringHelpers::ends_with(destDirectory, L"/")
+        || StringHelpers::ends_with(destDirectory, L"\\")) {
         this->destDirectory = destDirectory;
     } else {
         this->destDirectory = destDirectory + L"/";

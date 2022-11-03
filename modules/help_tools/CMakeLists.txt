@@ -16,6 +16,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -24,6 +25,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
   ${LIBXML2_INCLUDE_DIR})
 # ==============================================================================
@@ -41,6 +43,7 @@ target_link_libraries(
   nlsI18n
   nlsModules_manager
   nlsCore
+  nlsCommons
   nlsFiles_folders_functions
   nlsLocalization
   ${LIBXML2_LIBRARIES})
@@ -65,6 +68,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${HELP_TOOLS_BUILTIN})
@@ -83,6 +87,7 @@ target_link_libraries(
   nlsI18n
   nlsFiles_folders_functions
   nlsModules_manager
+  nlsCommons
   nlsData_structures)
 # ==============================================================================
 set_target_properties(

@@ -10,8 +10,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <atlconv.h>
-#include <boost/algorithm/string.hpp>
 #include "ComHelpers.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -50,7 +50,7 @@ isMethodCom(IDispatch* pDisp, std::wstring methodToSearch)
             }
             if (pFuncDesc->invkind & (DISPATCH_METHOD)) {
                 std::wstring method = std::wstring(name);
-                if (boost::iequals(method, methodToSearch)) {
+                if (StringHelpers::iequals(method, methodToSearch)) {
                     return true;
                 }
             }
@@ -97,7 +97,7 @@ isPropertyGetCom(IDispatch* pDisp, std::wstring propertyToSearch)
             }
             if (pFuncDesc->invkind & (DISPATCH_PROPERTYGET)) {
                 std::wstring method = std::wstring(name);
-                if (boost::iequals(method, propertyToSearch)) {
+                if (StringHelpers::iequals(method, propertyToSearch)) {
                     return true;
                 }
             }
@@ -144,7 +144,7 @@ isPropertyPutCom(IDispatch* pDisp, std::wstring propertyToSearch)
             }
             if (pFuncDesc->invkind & (DISPATCH_PROPERTYPUT)) {
                 std::wstring method = std::wstring(name);
-                if (boost::iequals(method, propertyToSearch)) {
+                if (StringHelpers::iequals(method, propertyToSearch)) {
                     return true;
                 }
             }

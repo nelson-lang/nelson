@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "ClearGlobal.hpp"
 #include "HandleManager.hpp"
 #include "MacroFunctionDef.hpp"
@@ -123,7 +123,7 @@ ClearPersistentVariable(Evaluator* eval, const std::string& variable)
             stringVector allVariableNames;
             eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
             for (const std::string& name : allVariableNames) {
-                if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
+                if (StringHelpers::starts_with(name, "_" + variable + "_")) {
                     res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
                 }
             }

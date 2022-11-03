@@ -9,7 +9,7 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 #include <regex>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "ComExcelHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -48,7 +48,7 @@ bool
 isValidRange(const std::wstring& range)
 {
     wstringVector splittedStrings;
-    boost::split(splittedStrings, range, boost::is_any_of(L":"));
+    StringHelpers::split(splittedStrings, range, L':');
     if (splittedStrings.size() == 2) {
         std::wstring R1 = splittedStrings[0];
         std::wstring R2 = splittedStrings[1];

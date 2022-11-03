@@ -19,7 +19,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
@@ -41,6 +42,7 @@ target_link_libraries(
   nlsElementary_functions
   nlsTypes
   nlsI18n
+  nlsCommons
   nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(

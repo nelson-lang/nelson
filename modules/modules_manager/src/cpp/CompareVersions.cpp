@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <semver.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "CompareVersions.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -21,43 +21,43 @@ CompareVersions(const std::string& versionA, const std::string& versionB, std::s
     semver_t semVersionB = {};
 
     std::string cleanVersionA = versionA;
-    if (boost::algorithm::starts_with(versionA, "v")) {
+    if (StringHelpers::starts_with(versionA, "v")) {
         cleanVersionA = cleanVersionA.erase(0, 1);
     }
     std::string cleanVersionB = versionB;
-    if (boost::algorithm::starts_with(versionB, "v")) {
+    if (StringHelpers::starts_with(versionB, "v")) {
         cleanVersionB = cleanVersionB.erase(0, 1);
     }
 
     std::string operatorSatifies;
 
-    if (boost::algorithm::starts_with(cleanVersionB, "=")) {
+    if (StringHelpers::starts_with(cleanVersionB, "=")) {
         operatorSatifies = "=";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
     }
-    if (boost::algorithm::starts_with(cleanVersionB, ">=")) {
+    if (StringHelpers::starts_with(cleanVersionB, ">=")) {
         operatorSatifies = ">=";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
     } else {
-        if (boost::algorithm::starts_with(cleanVersionB, ">")) {
+        if (StringHelpers::starts_with(cleanVersionB, ">")) {
             operatorSatifies = ">";
             cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
         }
     }
-    if (boost::algorithm::starts_with(cleanVersionB, "<=")) {
+    if (StringHelpers::starts_with(cleanVersionB, "<=")) {
         operatorSatifies = "<=";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
     } else {
-        if (boost::algorithm::starts_with(cleanVersionB, "<")) {
+        if (StringHelpers::starts_with(cleanVersionB, "<")) {
             operatorSatifies = "<";
             cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
         }
     }
-    if (boost::algorithm::starts_with(cleanVersionB, "^")) {
+    if (StringHelpers::starts_with(cleanVersionB, "^")) {
         operatorSatifies = "^";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
     }
-    if (boost::algorithm::starts_with(cleanVersionB, "~")) {
+    if (StringHelpers::starts_with(cleanVersionB, "~")) {
         operatorSatifies = "~";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
     }

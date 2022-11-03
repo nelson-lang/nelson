@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "FullFile.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,26 +23,26 @@ FullFilename(const std::wstring& path)
 {
     std::wstring result = path;
     bool haveSeparatorAtTheEnd
-        = boost::algorithm::ends_with(path, L"\\") || boost::algorithm::ends_with(path, L"/");
+        = StringHelpers::ends_with(path, L"\\") || StringHelpers::ends_with(path, L"/");
 #if _MSC_VER
-    bool isUNC = boost::algorithm::starts_with(path, L"\\\\");
-    boost::replace_all(result, L"/", FILE_SEPW);
-    boost::replace_all(result, L"\\.\\", L"");
-    while (boost::algorithm::contains(result, L"\\\\")) {
-        boost::replace_all(result, L"\\\\", FILE_SEPW);
+    bool isUNC = StringHelpers::starts_with(path, L"\\\\");
+    StringHelpers::replace_all(result, L"/", FILE_SEPW);
+    StringHelpers::replace_all(result, L"\\.\\", L"");
+    while (StringHelpers::contains(result, L"\\\\")) {
+        StringHelpers::replace_all(result, L"\\\\", FILE_SEPW);
     }
     if (isUNC) {
-        boost::replace_first(result, FILE_SEPW, L"\\\\");
+        StringHelpers::replace_first(result, FILE_SEPW, L"\\\\");
     }
 #else
-    boost::replace_all(result, L"\\", FILE_SEPW);
-    boost::replace_all(result, L"/./", L"");
-    while (boost::algorithm::contains(result, L"//")) {
-        boost::replace_all(result, L"//", FILE_SEPW);
+    StringHelpers::replace_all(result, L"\\", FILE_SEPW);
+    StringHelpers::replace_all(result, L"/./", L"");
+    while (StringHelpers::contains(result, L"//")) {
+        StringHelpers::replace_all(result, L"//", FILE_SEPW);
     }
 
 #endif
-    if (haveSeparatorAtTheEnd && !boost::algorithm::ends_with(result, FILE_SEPW)) {
+    if (haveSeparatorAtTheEnd && !StringHelpers::ends_with(result, FILE_SEPW)) {
         result = result + FILE_SEPW;
     }
     return result;

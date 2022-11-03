@@ -15,7 +15,8 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -33,6 +34,7 @@ add_library(${module_library_name} SHARED ${STRING_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsCommons
   nlsError_manager
   nlsInterpreter
   nlsElementary_mathematics
@@ -59,7 +61,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${STRING_BUILTIN})
@@ -73,6 +76,7 @@ target_link_libraries(
   nlsInterpreter
   nlsOverload
   nlsTypes
+  nlsCommons
   nlsI18n)
 # ==============================================================================
 set_target_properties(

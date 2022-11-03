@@ -9,7 +9,7 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "h5Load.hpp"
 #include "h5SaveLoadHelpers.hpp"

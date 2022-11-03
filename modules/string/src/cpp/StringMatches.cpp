@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "StringMatches.hpp"
 #include "IsCellOfStrings.hpp"
 //=============================================================================
@@ -19,9 +19,7 @@ matchesString(const std::wstring& A, const std::wstring& B, bool ignoreCase)
     if (!ignoreCase) {
         return (A == B);
     }
-    return boost::iequals(A, B);
-
-    return false;
+    return StringHelpers::iequals(A, B);
 }
 //=============================================================================
 ArrayOf

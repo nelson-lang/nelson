@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <fstream>
 #include <iostream>
 #include "Diary.hpp"
@@ -81,8 +81,8 @@ Diary::writeMessage(const std::wstring& msg)
         if (fileDiary.good()) {
             std::string utf8msg = wstring_to_utf8(msg);
 #ifdef _MSC_VER
-            boost::replace_all(utf8msg, "\n", "\r\n");
-            boost::replace_all(utf8msg, "\r\r", "\r");
+            StringHelpers::replace_all(utf8msg, "\n", "\r\n");
+            StringHelpers::replace_all(utf8msg, "\r\r", "\r");
 #endif
             fileDiary << utf8msg.c_str();
             fileDiary.close();

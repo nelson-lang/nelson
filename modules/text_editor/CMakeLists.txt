@@ -34,6 +34,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 # ==============================================================================
 file(GLOB TEXT_EDITOR_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -42,7 +43,7 @@ add_library(${module_library_name} SHARED ${TEXT_EDITOR_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-
+  nlsCommons
   nlsCharacters_encoding
   nlsFunctions_manager
   nlsGui

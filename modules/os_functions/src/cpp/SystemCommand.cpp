@@ -31,6 +31,7 @@
 #include "dynamic_library.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -276,8 +277,8 @@ DetectDetachProcess(const std::wstring& command, bool& haveDetach)
 std::wstring
 CleanCommand(const std::wstring& command)
 {
-    std::wstring res = boost::algorithm::trim_left_copy(command);
-    return boost::algorithm::trim_right_copy(command);
+    std::wstring res = StringHelpers::trim_left_copy(command);
+    return StringHelpers::trim_right_copy(command);
 }
 //=============================================================================
 static void

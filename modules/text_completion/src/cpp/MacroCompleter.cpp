@@ -9,7 +9,7 @@
 //=============================================================================
 #include "MacroCompleter.hpp"
 #include "PathFuncManager.hpp"
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,7 +19,7 @@ MacroCompleter(const std::wstring& prefix)
     wstringVector res;
     wstringVector macros = PathFuncManager::getInstance()->getMacrosList();
     for (auto& macro : macros) {
-        if (boost::algorithm::starts_with(macro, prefix)) {
+        if (StringHelpers::starts_with(macro, prefix)) {
             res.push_back(macro);
         }
     }

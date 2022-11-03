@@ -18,6 +18,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../history_manager/src/include
@@ -29,8 +30,13 @@ file(GLOB TERMINAL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BasicTerminal.cpp"
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TERMINAL_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsStream_manager nlsInterpreter
-                      nlsCharacters_encoding nlsI18n nlsHistory_manager)
+target_link_libraries(${module_library_name} 
+  nlsStream_manager
+  nlsInterpreter
+  nlsCharacters_encoding
+  nlsI18n
+  nlsCommons
+  nlsHistory_manager)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

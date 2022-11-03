@@ -11,12 +11,12 @@
 #include <fmt/format.h>
 #include <algorithm>
 #include <string>
-#include <boost/algorithm/string.hpp>
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,8 +30,8 @@ getPossibleSymbolNames(const std::string& userSymbolName)
     if (cleanedSymbolName.back() == '_') {
         cleanedSymbolName.pop_back();
     }
-    std::string cleanedSymbolNameUpperCase = boost::to_upper_copy<std::string>(cleanedSymbolName);
-    std::string cleanedSymbolNameLowerCase = boost::to_lower_copy<std::string>(cleanedSymbolName);
+    std::string cleanedSymbolNameUpperCase = StringHelpers::to_upper_copy(cleanedSymbolName);
+    std::string cleanedSymbolNameLowerCase = StringHelpers::to_lower_copy(cleanedSymbolName);
     stringVector possibleSymbolNames;
     possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase);
     possibleSymbolNames.push_back(cleanedSymbolNameLowerCase);
@@ -82,7 +82,7 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         if (symbolsFound.size() > 1) {
             ptr = nullptr;
             Error(fmt::sprintf(_("Multiple possible symbol name found: %s"),
-                boost::algorithm::join(symbolsFound, ", ")));
+                StringHelpers::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {

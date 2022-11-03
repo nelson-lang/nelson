@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <boost/filesystem.hpp>
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
@@ -30,9 +30,9 @@ RemoveIpcOldFiles()
         for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
             FileSystemWrapper::Path filepath(p->path().native());
             std::wstring filename = filepath.filename().wstring();
-            if (boost::algorithm::starts_with(
+            if (StringHelpers::starts_with(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
-                std::wstring pidStr = boost::replace_all_copy(
+                std::wstring pidStr = StringHelpers::replace_all_copy(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS) + L"_", L"");
                 bool usedPid = false;
                 try {

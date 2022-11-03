@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include "FindDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
@@ -45,7 +45,7 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
         for (nelson_handle hl : used) {
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             auto* obj = (DynamicLinkLibraryObject*)hlObj;
-            if (boost::algorithm::ends_with(obj->getLibraryPath(), fullLibraryName)) {
+            if (StringHelpers::ends_with(obj->getLibraryPath(), fullLibraryName)) {
                 retval << ArrayOf::logicalConstructor(true);
                 if (nLhs > 1) {
                     retval << ArrayOf::handleConstructor(hl);

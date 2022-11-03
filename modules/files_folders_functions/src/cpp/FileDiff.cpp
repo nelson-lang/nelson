@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <dtl/dtl.hpp>
-#include <boost/algorithm/string.hpp>
+#include "StringHelpers.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
