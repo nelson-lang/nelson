@@ -5,3 +5,4 @@ modules/stream_manager/tests/bench_fileread.json
 modules/json/tests/bench_jsonencode.json
 bin/
 **/CMakeFiles/
+tools/doxygen/nelson_doxygen

@@ -168,6 +168,8 @@ bin/macos/*-exec
 /tools/buildhelp/win32/Debug
 /tools/buildhelp/Release
 /tools/buildhelp/Debug
+/tools/doxygen/nelson_doxygen
+/tools/doxygen/nelson_doxygen.zip
 ################################################################################
 /modules/core/src/include/Nelson_VERSION.h
 /modules/types/src/include/nlsConfig.h
