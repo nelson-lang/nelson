@@ -29,7 +29,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get package version
-        uses: nyaascii/package-version@v1
+        uses: myrotvorets/info-from-package-json-action@1.2.0
+        id: json_version
 
       - name: Update version
         run: |
@@ -44,5 +45,5 @@ jobs:
         run: mkdir artifacts && mv Nelson-*.tar.Z artifacts
       - uses: actions/upload-artifact@v1
         with:
-          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.sha }}
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.sha }}
           path: artifacts/
