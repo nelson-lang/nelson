@@ -38,7 +38,7 @@ PROJECT_NAME           = Nelson
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 0.2.1
+PROJECT_NUMBER         = $(PROJECT_NUMBER)
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -51,14 +51,14 @@ PROJECT_BRIEF          = "Nelson numerical interpreter"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = D:/Developpements/GitHub/nelson/resources/banner_nelson_small.png
+PROJECT_LOGO           = ../../resources/banner_nelson_small.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = D:\Developpements\GitHub\nelson-website\doxygen
+OUTPUT_DIRECTORY       = nelson_doxygen
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -220,7 +220,7 @@ INHERIT_DOCS           = YES
 # of the file/class/namespace that contains it.
 # The default value is: NO.
 
-SEPARATE_MEMBER_PAGES  = NO
+SEPARATE_MEMBER_PAGES  = YES
 
 # The TAB_SIZE tag can be used to set the number of spaces in a tab. Doxygen
 # uses this value to replace tabs by spaces in code fragments.
@@ -435,7 +435,7 @@ LOOKUP_CACHE_SIZE      = 0
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
@@ -453,7 +453,7 @@ EXTRACT_PACKAGE        = NO
 # included in the documentation.
 # The default value is: NO.
 
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 
 # If the EXTRACT_LOCAL_CLASSES tag is set to YES, classes (and structs) defined
 # locally in source files will be included in the documentation. If set to NO,
@@ -623,26 +623,26 @@ STRICT_PROTO_MATCHING  = NO
 # list. This list is created by putting \todo commands in the documentation.
 # The default value is: YES.
 
-GENERATE_TODOLIST      = YES
+GENERATE_TODOLIST      = NO
 
 # The GENERATE_TESTLIST tag can be used to enable (YES) or disable (NO) the test
 # list. This list is created by putting \test commands in the documentation.
 # The default value is: YES.
 
-GENERATE_TESTLIST      = YES
+GENERATE_TESTLIST      = NO
 
 # The GENERATE_BUGLIST tag can be used to enable (YES) or disable (NO) the bug
 # list. This list is created by putting \bug commands in the documentation.
 # The default value is: YES.
 
-GENERATE_BUGLIST       = YES
+GENERATE_BUGLIST       = NO
 
 # The GENERATE_DEPRECATEDLIST tag can be used to enable (YES) or disable (NO)
 # the deprecated list. This list is created by putting \deprecated commands in
 # the documentation.
 # The default value is: YES.
 
-GENERATE_DEPRECATEDLIST= YES
+GENERATE_DEPRECATEDLIST= NO
 
 # The ENABLED_SECTIONS tag can be used to enable conditional documentation
 # sections, marked by \if <section_label> ... \endif and \cond <section_label>
@@ -819,46 +819,9 @@ FILE_PATTERNS          = *.c \
                          *.cc \
                          *.cxx \
                          *.cpp \
-                         *.c++ \
-                         *.java \
-                         *.ii \
-                         *.ixx \
-                         *.ipp \
-                         *.i++ \
-                         *.inl \
-                         *.idl \
-                         *.ddl \
-                         *.odl \
                          *.h \
                          *.hh \
-                         *.hxx \
-                         *.hpp \
-                         *.h++ \
-                         *.cs \
-                         *.d \
-                         *.php \
-                         *.php4 \
-                         *.php5 \
-                         *.phtml \
-                         *.inc \
-                         *.m \
-                         *.markdown \
-                         *.md \
-                         *.mm \
-                         *.dox \
-                         *.py \
-                         *.pyw \
-                         *.f90 \
-                         *.f95 \
-                         *.f03 \
-                         *.f08 \
-                         *.f \
-                         *.for \
-                         *.tcl \
-                         *.vhd \
-                         *.vhdl \
-                         *.ucf \
-                         *.qsf
+                         *.hpp
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -874,8 +837,22 @@ RECURSIVE              = YES
 # run.
 
 EXCLUDE                = ../../modules/qml_engine/examples \
-                         ../../modules/interpreter/src/cpp/FileWatcher \
-                         ../../modules/files_folders_functions/src/include/dtl
+                         ../../modules/f2c/src \
+                         ../../modules/files_folders_functions/src/include/dtl \
+                         ../../modules/sio_client/src/socket_io \
+                         ../../modules/commons/src/fmt \
+                         ../../modules/main/help \
+                         ../../modules/commons/src/cpp/stduuid \
+                         ../../modules/parallel/src/include/BS_thread_pool.hpp \
+                         ../../modules/interpreter/src/include/fast_float \
+                         ../../modules/interpreter/src/include/fifo_map.hpp \
+                         ../../modules/core/src/include/picoSHA2 \
+                         ../../modules/modules_manager/src/c/semver \
+                         ../../modules/fftw/README.md \
+                         ../../modules/slicot/README.md \
+                         ../../modules/webtools/resources \
+                         ../../modules/matio/test \
+                         ../../modules/characters_encoding/src/cpp/simdutf
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -891,7 +868,7 @@ EXCLUDE_SYMLINKS       = NO
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       = 
+EXCLUDE_PATTERNS       =  
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -1463,7 +1440,7 @@ ECLIPSE_DOC_ID         = org.doxygen.Project
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-DISABLE_INDEX          = NO
+DISABLE_INDEX          = YES
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information. If the tag
@@ -2216,7 +2193,7 @@ HIDE_UNDOC_RELATIONS   = YES
 # set to NO
 # The default value is: NO.
 
-HAVE_DOT               = NO
+HAVE_DOT               = YES
 
 # The DOT_NUM_THREADS specifies the number of dot invocations doxygen is allowed
 # to run in parallel. When set to 0 doxygen will base this on the number of

@@ -12,10 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace NelSon {
+namespace Nelson {
 namespace HelpToolsGateway {
     ArrayOfVector
     xmldoctohtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
-} // namespace NelSon
+} // namespace Nelson
 //=============================================================================
