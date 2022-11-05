@@ -12,8 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- timeout `--timeout` CLI argument and `system` with timeout return same error code `258`.
-- `test_run` catchs error code `258` as an test aborted (timeout).
+- timeout `--timeout` CLI argument and `system` with timeout return error code `258` on Windows and `134` others platforms.
+
+- `test_run` catchs error code about test aborted (timeout).
+
+- `exit` does not allow value > 255 on Linux and MacOS.
 
 ### Fixed
 

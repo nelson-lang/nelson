@@ -9,6 +9,9 @@
 //=============================================================================
 #include <cstdlib>
 #include <thread>
+#ifndef _MSC_VER
+#include <csignal>
+#endif
 #include "TimeoutThread.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,9 +27,14 @@ private:
     void
     exitWithCode()
     {
+#ifdef _MSC_VER
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
         // WAIT_TIMEOUT (258)
         exit(258);
+#else
+        // SIGABRT
+        exit(128 + SIGABRT);
+#endif
     }
     //=============================================================================
 public:

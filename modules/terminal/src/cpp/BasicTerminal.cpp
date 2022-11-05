@@ -67,16 +67,19 @@ BasicTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 std::string
 BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
 {
-#define CMD_BUFFER_SIZE (4096 * 2)
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
-    char buffer[CMD_BUFFER_SIZE];
     std::string retLine;
-    while (fgets(buffer, CMD_BUFFER_SIZE, stdin) == nullptr) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+    for (;;) {
+        char currrentChar = fgetc(stdin);
+        if (currrentChar == '\n') {
+            break;
+        } else {
+            retLine.push_back(currrentChar);
+        }
     }
-    retLine = buffer;
     this->diary.writeMessage(retLine);
     if (bIsInput) {
         if (StringHelpers::ends_with(retLine, "\n")) {
