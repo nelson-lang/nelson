@@ -577,7 +577,7 @@ jobs:
           dir: "C:/install/QT5/"
           install-deps: "true"
           modules: "qtwebengine"
-          cached: "false"
+          cache: "false"
           setup-python: "false"
 
       - name: Install dependencies
@@ -701,7 +701,7 @@ jobs:
           dir: "C:/install/QT6/"
           install-deps: "true"
           modules: "qtwebengine"
-          cached: "false"
+          cache: "false"
           setup-python: "false"
 
       - name: Install dependencies
