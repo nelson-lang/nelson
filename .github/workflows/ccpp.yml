@@ -568,7 +568,7 @@ jobs:
           python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
       - name: Install Qt 5.15.2
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: "5.15.2"
           host: "windows"
@@ -692,7 +692,7 @@ jobs:
           python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
       - name: Install Qt 6.4.0
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: "6.4.0"
           host: "windows"
