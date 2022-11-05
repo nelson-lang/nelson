@@ -49,7 +49,7 @@ public:
             std::chrono::nanoseconds current_time
                 = std::chrono::high_resolution_clock::now().time_since_epoch();
             std::chrono::nanoseconds difftime = (current_time - begin_time);
-            bContinue = (difftime.count() <= int64(_timeout_seconds * 1e9));
+            bContinue = (difftime <= std::chrono::seconds(_timeout_seconds));
         } while (bContinue && !_stop);
         if (!_stop) {
             exitWithCode();
@@ -71,6 +71,7 @@ static WaitTimeout* waitTask = nullptr;
 bool
 createTimeoutThread(uint64 _timeoutseconds)
 {
+    // MessageBox(NULL, L"  ", L"", MB_OK);
     try {
         waitTask = new WaitTimeout();
         timeout_thread = new std::thread(&WaitTimeout::start, waitTask, _timeoutseconds);

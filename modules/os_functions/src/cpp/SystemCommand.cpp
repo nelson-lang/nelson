@@ -131,15 +131,14 @@ public:
                 if ((timeout != 0)
                     && (std::chrono::duration_cast<std::chrono::seconds>(
                             _currentTimePoint - _beginTimePoint)
-                            .count()
-                        >= (long long)timeout)) {
+                        >= std::chrono::seconds(timeout))) {
                     _terminate = true;
                 }
                 if (_terminate) {
                     wasAborted = true;
                     _endTimePoint = std::chrono::steady_clock::now();
                     this->_duration = this->getDuration();
-                    this->_exitCode = int(SIGINT + 128);
+                    this->_exitCode = int(258); // WAIT_TIMEOUT
                     FileSystemWrapper::Path::remove(tempOutputFile);
                     FileSystemWrapper::Path::remove(tempErrorFile);
                     childProcess.terminate();

@@ -352,6 +352,12 @@ function test_case = create_test_case(filename)
   test_case.time = 0;
   test_case.isbench = isbench(filename);
   test_case.skip = false;
+
+  if test_case.isbench
+    timeout = int2str(380);
+  else
+    timeout = int2str(140);
+  end
   
   if (test_case.options.mpi_mode && ~have_mpi())
     test_case.status = 'Skip';
@@ -433,8 +439,8 @@ function test_case = create_test_case(filename)
         cmd = [cmd, ' ', '--noipc'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-      
-      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
+     
+      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
         test_case.command = build_command_nelson_gui(cmd, test_case.options.mpi_mode);
       elseif test_case.options.adv_cli_mode
