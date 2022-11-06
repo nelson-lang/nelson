@@ -15,11 +15,11 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QToolBar>
 //=============================================================================
-#include "GetNelsonPath.hpp"
 #include "HelpViewerWindow.h"
 #include "HelpViewer.h"
 #include "HelpCollection.hpp"
 #include "QStringConverter.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 HelpViewerWindow::HelpViewerWindow(const std::wstring& qchFilename, const std::wstring& openUrl)
     : _qchFilename(Nelson::wstringToQString(qchFilename))
@@ -115,7 +115,8 @@ void
 HelpViewerWindow::createToolbar()
 {
     toolbar = addToolBar(tr("Help's toolbar"));
-    QString nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()));
+    QString nelsonPath(Nelson::wstringToQString(
+        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory()));
 
     QString fileNameIcon;
 
@@ -178,7 +179,8 @@ HelpViewerWindow::createToolbar()
 void
 HelpViewerWindow::createHelpWindow()
 {
-    QString nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()));
+    QString nelsonPath(Nelson::wstringToQString(
+        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory()));
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon qIcon(fileNameIcon);
     this->setWindowIcon(qIcon);

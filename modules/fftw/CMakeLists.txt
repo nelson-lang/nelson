@@ -19,7 +19,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -43,6 +43,7 @@ target_link_libraries(
   nlsI18n
   nlsString
   nlsApi_nelson
+  nlsCommons
   nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(

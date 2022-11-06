@@ -10,7 +10,7 @@
 #include <boost/function.hpp>
 #include <cstdio>
 #include "SparseDynamicFunctions.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "Error.hpp"
 //=============================================================================
 static library_handle nlsSparseHandleDynamicLibrary = nullptr;

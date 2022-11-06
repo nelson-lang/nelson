@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GetPreferencesPath.hpp"
 #include "NelsonGateway.hpp"
 #include "bannerBuiltin.hpp"
 #include "evalBuiltin.hpp"
@@ -70,7 +69,6 @@ NLSGATEWAYNAME()
 static bool
 initializeCoreModule(Nelson::Evaluator* eval)
 {
-    ComputePreferencesPath();
     return true;
 }
 //=============================================================================

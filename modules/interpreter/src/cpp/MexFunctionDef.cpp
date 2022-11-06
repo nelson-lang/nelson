@@ -9,7 +9,7 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "MexFunctionDef.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "characters_encoding.hpp"

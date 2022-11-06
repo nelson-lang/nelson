@@ -11,8 +11,8 @@
 #include "FinishNelsonUserScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
-#include "GetPreferencesPath.hpp"
 #include "Interface.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +21,7 @@ FinishNelsonUserScript(Evaluator* eval)
 {
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
-        std::wstring prefPath = GetPreferencesPath();
+        std::wstring prefPath = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
         FileSystemWrapper::Path path(prefPath);
         path += L"/finish.m";
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(path);

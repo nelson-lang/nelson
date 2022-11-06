@@ -10,7 +10,7 @@
 #include <boost/dll/library_info.hpp>
 #include "FileSystemWrapper.hpp"
 #include "DynamicLinkLibraryObject.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"

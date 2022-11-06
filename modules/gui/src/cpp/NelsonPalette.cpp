@@ -17,8 +17,8 @@
 #include <QtWidgets/QToolTip>
 #include <QtWidgets/QStyleFactory>
 #include "NelsonPalette.hpp"
-#include "GetNelsonPath.hpp"
 #include "QStringConverter.hpp"
+#include "NelsonConfiguration.hpp"
 //===================================================================================
 namespace Nelson {
 //===================================================================================
@@ -28,7 +28,8 @@ static bool isQtDarkMode = false;
 static void
 changeToDarkTheme()
 {
-    QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    QString nelsonPath
+        = Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     QString darkThemeFullFilename = nelsonPath + "/resources/qss/Combinear.qss";
     QFile file(darkThemeFullFilename);
     if (file.exists()) {

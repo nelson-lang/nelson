@@ -13,7 +13,7 @@
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================

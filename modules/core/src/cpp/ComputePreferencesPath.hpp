@@ -12,20 +12,12 @@
 #pragma warning(disable : 4190)
 #endif
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsCore_exports.h"
 #include <string>
 //=============================================================================
 namespace Nelson {
-NLSCORE_IMPEXP ArrayOf
-GetRootFolder();
-NLSCORE_IMPEXP std::wstring
-GetRootPath();
-} // namespace Nelson
 //=============================================================================
-extern "C"
-{
-    NLSCORE_IMPEXP std::wstring
-    GetNelsonPath();
-}
+bool
+ComputePreferencesPath();
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

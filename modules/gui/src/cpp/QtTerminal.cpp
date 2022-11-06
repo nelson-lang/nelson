@@ -30,7 +30,6 @@
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "GetNelsonPath.hpp"
 #include "NelsonHistory.hpp"
 #include "ProcessEvents.hpp"
 #include "QStringConverter.hpp"
@@ -75,7 +74,8 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     setOpenExternalLinks(true);
     mCommandLineReady = true;
     document()->setMaximumBlockCount(0);
-    nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    nelsonPath = Nelson::wstringToQString(
+        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     helpOnSelectionAction = nullptr;
     cutAction = nullptr;
     copyAction = nullptr;
@@ -122,7 +122,8 @@ void
 QtTerminal::banner()
 {
     mCommandLineReady = false;
-    QString _nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    QString _nelsonPath = Nelson::wstringToQString(
+        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     QString fileName = _nelsonPath + "/resources/banner_nelson.png";
     textCursor().insertBlock();
     QFile qfile(fileName);

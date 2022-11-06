@@ -67,6 +67,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${LIBFFI_INCLUDE_DIR})
 # ==============================================================================
@@ -82,6 +83,7 @@ target_link_libraries(
   nlsApi_nelson
   nlsI18n
   nlsOverload
+  nlsCommons
   nlsDisplay_format
   nlsHandle)
 # ==============================================================================

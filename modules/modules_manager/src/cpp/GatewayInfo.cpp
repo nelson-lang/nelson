@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

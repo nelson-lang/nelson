@@ -7,25 +7,28 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-#include <string>
-#include <stdexcept>
-#ifdef _MSC_VER
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#pragma comment(lib, "kernel32.lib")
-#else
-#include <dlfcn.h>
-#endif
+#include "DynamicLibrary.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-#ifdef _MSC_VER
-using library_handle = HMODULE;
-using generic_function_ptr = FARPROC;
 //=============================================================================
-inline library_handle
+#ifndef _MSC_VER
+static int
+get_dlopen_flag(const std::string& library_name)
+{
+    // MPI needs to load library as DLD_GLOBAL
+    if (library_name.find("nlsMpi") != std::string::npos) {
+        return RTLD_NOW | RTLD_GLOBAL;
+    }
+    return RTLD_NOW | RTLD_LOCAL;
+}
+#endif
+//=============================================================================
+
+library_handle
 load_dynamic_library(const std::string& library_name)
 {
+#ifdef _MSC_VER
     library_handle hl;
     try {
         hl = LoadLibraryA(library_name.c_str());
@@ -33,11 +36,21 @@ load_dynamic_library(const std::string& library_name)
         hl = nullptr;
     }
     return hl;
+#else
+    library_handle hl;
+    try {
+        hl = dlopen(library_name.c_str(), get_dlopen_flag(library_name));
+    } catch (const std::runtime_error&) {
+        hl = nullptr;
+    }
+    return hl;
+#endif
 }
 //=============================================================================
-inline library_handle
+library_handle
 load_dynamic_libraryW(const std::wstring& library_name)
 {
+#ifdef _MSC_VER
     library_handle hl;
     try {
         hl = LoadLibraryW(library_name.c_str());
@@ -45,35 +58,63 @@ load_dynamic_libraryW(const std::wstring& library_name)
         hl = nullptr;
     }
     return hl;
+#else
+    return load_dynamic_library(wstring_to_utf8(library_name));
+#endif
 }
 //=============================================================================
-inline generic_function_ptr
+generic_function_ptr
 get_function(library_handle handle, const std::string& function_name)
 {
+#ifdef _MSC_VER
     return GetProcAddress(handle, function_name.c_str());
+#else
+    return dlsym(handle, function_name.c_str());
+#endif
 }
 //=============================================================================
-inline bool
+bool
 close_dynamic_library(library_handle handle)
 {
+#ifdef _MSC_VER
     return FreeLibrary(handle) != 0;
+#else
+    return dlclose(handle) == 0;
+#endif
 }
 //=============================================================================
-inline std::string
+std::string
 get_dynamic_library_extension()
 {
+#ifdef _MSC_VER
     return std::string(".dll");
+#else
+#ifdef __APPLE__
+    return std::string(".dylib");
+#else
+    return std::string(".so");
+#endif
+#endif
 }
 //=============================================================================
-inline std::wstring
+std::wstring
 get_dynamic_library_extensionW()
 {
+#ifdef _MSC_VER
     return std::wstring(L".dll");
+#else
+#ifdef __APPLE__
+    return std::wstring(L".dylib");
+#else
+    return std::wstring(L".so");
+#endif
+#endif
 }
 //=============================================================================
-inline std::string
+std::string
 get_dynamic_library_error()
 {
+#ifdef _MSC_VER
     DWORD errorMessageID = ::GetLastError();
     if (errorMessageID == 0) {
         return {};
@@ -86,67 +127,21 @@ get_dynamic_library_error()
     std::string message(messageBuffer, size);
     LocalFree(messageBuffer);
     return message;
-}
-//=============================================================================
 #else
-typedef void* library_handle;
-using generic_function_ptr = void*;
-//=============================================================================
-inline int
-get_dlopen_flag(const std::string& library_name)
-{
-    // MPI needs to load library as DLD_GLOBAL
-    if (library_name.find("nlsMpi") != std::string::npos) {
-        return RTLD_NOW | RTLD_GLOBAL;
-    }
-    return RTLD_NOW | RTLD_LOCAL;
-}
-//=============================================================================
-inline library_handle
-load_dynamic_library(const std::string& library_name)
-{
-    library_handle hl;
-    try {
-        hl = dlopen(library_name.c_str(), get_dlopen_flag(library_name));
-    } catch (const std::runtime_error&) {
-        hl = nullptr;
-    }
-    return hl;
-}
-//=============================================================================
-inline generic_function_ptr
-get_function(library_handle handle, const std::string& function_name)
-{
-    return dlsym(handle, function_name.c_str());
-}
-//=============================================================================
-inline bool
-close_dynamic_library(library_handle handle)
-{
-    return dlclose(handle) == 0;
-}
-//=============================================================================
-inline std::string
-get_dynamic_library_extension()
-{
-#ifdef __APPLE__
-    return std::string(".dylib");
-#else
-    return std::string(".so");
-#endif
-}
-//=============================================================================
-inline std::string
-get_dynamic_library_error()
-{
     std::string res;
     const char* errmsg = dlerror();
     if (errmsg) {
         res = std::string(errmsg);
     }
     return res;
+#endif
 }
 //=============================================================================
-#endif
+std::wstring
+get_dynamic_library_errorW()
+{
+    return utf8_to_wstring(get_dynamic_library_error());
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

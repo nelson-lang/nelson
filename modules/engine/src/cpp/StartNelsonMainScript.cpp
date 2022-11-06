@@ -11,7 +11,6 @@
 #include "StartNelsonMainScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
-#include "GetNelsonPath.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -20,7 +19,7 @@ StartNelsonMainScript(Evaluator* eval)
 {
     Context* ctx = eval->getContext();
     if (ctx != nullptr) {
-        std::wstring rootPath = Nelson::GetRootPath();
+        std::wstring rootPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
         FileSystemWrapper::Path path(rootPath);
         path += L"/etc/startup.m";
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(path);

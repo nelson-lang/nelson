@@ -37,7 +37,6 @@
 #include "StringHelpers.hpp"
 #include "QtTextEditor.h"
 #include "PostCommand.hpp"
-#include "GetNelsonPath.hpp"
 #include "ModulesManager.hpp"
 #include "QStringConverter.hpp"
 #include "QtLineNumber.h"
@@ -190,8 +189,9 @@ QtTextEditor::createActions()
         textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
     stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
     connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
-    fileNameIcon
-        = Nelson::wstringToQString(Nelson::GetRootPath()) + QString("/resources/help-icon.svg");
+    fileNameIcon = Nelson::wstringToQString(
+                       Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory())
+        + QString("/resources/help-icon.svg");
     helpOnSelectionAction = new QAction(QIcon(fileNameIcon), TR("Help on Selection"), this);
     connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
     smartIndentAction = new QAction(TR("Smart Indent"), this);

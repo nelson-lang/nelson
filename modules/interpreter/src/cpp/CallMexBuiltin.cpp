@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CallMexBuiltin.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 static Nelson::library_handle nlsMexHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;

@@ -23,7 +23,6 @@
 #include "Nelson_VERSION.h"
 #include "QtMainWindow.h"
 #include "QStringConverter.hpp"
-#include "GetNelsonPath.hpp"
 #include "NelsonPalette.hpp"
 #include "DefaultFont.hpp"
 #include "NelsonConfiguration.hpp"

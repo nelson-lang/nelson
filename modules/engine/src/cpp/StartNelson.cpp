@@ -29,7 +29,6 @@
 #include "EvaluateCommand.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonPath.hpp"
 #include "Localization.hpp"
 #include "MainEvaluator.hpp"
 #include "MaxOpenedFiles.hpp"
@@ -50,6 +49,7 @@
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
 #include "NelsonReadyNamedMutex.hpp"
+#include "ComputeNelsonPaths.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -263,6 +263,7 @@ static int
 StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     int exitCode = -1;
+    ComputesNelsonPaths();
     NelsonConfiguration::getInstance()->setNelsonEngineMode(_mode);
     ProgramOptions po(args, _mode);
     if (!po.isValid()) {
@@ -398,10 +399,16 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             io->errorMessage(e.getMessage());
         }
         try {
-            AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"core"));
-            AddGateway(
-                eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"modules_manager"));
-            AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"string"));
+            AddGateway(eval,
+                ConstructDynamicLibraryFullname(
+                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(), L"core"));
+            AddGateway(eval,
+                ConstructDynamicLibraryFullname(
+                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(),
+                    L"modules_manager"));
+            AddGateway(eval,
+                ConstructDynamicLibraryFullname(
+                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(), L"string"));
         } catch (const Exception& e) {
             Interface* io = eval->getInterface();
             eval->setLastErrorException(e);

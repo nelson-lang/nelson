@@ -128,6 +128,30 @@ NelsonConfiguration::getNelsonRootDirectory()
 }
 //=============================================================================
 void
+NelsonConfiguration::setNelsonBinaryDirectory(const std::wstring& directory)
+{
+    nelsonBinaryPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonBinaryDirectory()
+{
+    return nelsonBinaryPath;
+}
+//=============================================================================
+void
+NelsonConfiguration::setNelsonPreferencesDirectory(const std::wstring& directory)
+{
+    nelsonPreferencesPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonPreferencesDirectory()
+{
+    return nelsonPreferencesPath;
+}
+//=============================================================================
+void
 NelsonConfiguration::setMainGuiObject(void* mainGuiObject)
 {
     this->mainGuiObject = mainGuiObject;

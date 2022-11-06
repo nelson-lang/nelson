@@ -12,25 +12,26 @@
 #endif
 #include <cstdio>
 #include "FileSystemWrapper.hpp"
-#include "GetNelsonBinariesPath.hpp"
-#include "GetNelsonPath.hpp"
+#include "ComputeNelsonBinariesPath.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-GetNelsonBinariesPath()
+bool
+ComputeNelsonBinariesPath()
 {
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
     if (penv != L"") {
         FileSystemWrapper::Path path(penv);
         if (FileSystemWrapper::Path::is_directory(path)) {
-            return path.generic_wstring();
+            NelsonConfiguration::getInstance()->setNelsonBinaryDirectory(path.generic_wstring());
+            return true;
         }
     }
-    std::wstring nelsonPath = GetNelsonPath();
+    std::wstring nelsonPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
     FileSystemWrapper::Path binpath(nelsonPath);
 #ifdef _MSC_VER
 #ifdef _WIN64
@@ -46,10 +47,11 @@ GetNelsonBinariesPath()
 #endif
 #endif
     if (FileSystemWrapper::Path::is_directory(binpath)) {
-        return binpath.generic_wstring();
+        NelsonConfiguration::getInstance()->setNelsonBinaryDirectory(binpath.generic_wstring());
+        return true;
     }
     fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());
-    return {};
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

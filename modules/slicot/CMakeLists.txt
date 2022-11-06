@@ -17,15 +17,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include)
 # ==============================================================================
 file(GLOB SLICOT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${SLICOT_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsTypes
-                      nlsInterpreter nlsI18n nlsCharacters_encoding)
+target_link_libraries(${module_library_name}
+  nlsError_manager
+  nlsTypes
+  nlsInterpreter
+  nlsI18n
+  nlsCommons
+  nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

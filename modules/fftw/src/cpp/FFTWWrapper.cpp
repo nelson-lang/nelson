@@ -13,7 +13,7 @@
 #endif
 #include "FFTWDynamicLibrary.hpp"
 #include "FFTWWrapper.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

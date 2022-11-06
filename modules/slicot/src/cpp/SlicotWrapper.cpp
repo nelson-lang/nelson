@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SlicotWrapper.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 static bool slicotLoaded = false;

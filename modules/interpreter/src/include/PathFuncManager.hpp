@@ -43,8 +43,6 @@ private:
     void
     userpathCompute();
     std::wstring
-    getPreferencesPath();
-    std::wstring
     loadUserPathFromFile();
     bool
     saveUserPathToFile();

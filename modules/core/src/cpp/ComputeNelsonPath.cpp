@@ -22,7 +22,7 @@
 #endif
 #endif
 #include "FileSystemWrapper.hpp"
-#include "GetNelsonPath.hpp"
+#include "ComputeNelsonBinariesPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -89,56 +89,42 @@ get_basepathU()
 #endif
 #endif
 //=============================================================================
-ArrayOf
-GetRootFolder()
+bool
+ComputeNelsonPath()
 {
-    return ArrayOf::characterArrayConstructor(GetNelsonPath());
-}
-//=============================================================================
-std::wstring
-GetRootPath()
-{
-    std::wstring NelsonPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
-    if (NelsonPath.empty()) {
-        std::wstring p;
+    std::wstring NelsonPath;
+    std::wstring p;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
-        std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
-        if (penv != L"") {
-            FileSystemWrapper::Path path(penv);
-            if (FileSystemWrapper::Path::is_directory(path)) {
-                NelsonPath = path.generic_path().generic_wstring();
-                NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
-                return NelsonPath;
-            }
-        }
-#ifdef _MSC_VER
-        p = get_basepathW();
-#else
-        p = utf8_to_wstring(get_basepathU());
-#endif
-        FileSystemWrapper::Path path(p);
-        FileSystemWrapper::Path nelsonpath;
-#ifdef _MSC_VER
-        nelsonpath = path.parent_path().parent_path().parent_path();
-#else
-        nelsonpath = path.parent_path().parent_path();
-#endif
-        if (FileSystemWrapper::Path::is_directory(nelsonpath)) {
-            NelsonPath = nelsonpath.generic_path().getFinalPathname().generic_wstring();
+    std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
+    if (penv != L"") {
+        FileSystemWrapper::Path path(penv);
+        if (FileSystemWrapper::Path::is_directory(path)) {
+            NelsonPath = path.generic_path().generic_wstring();
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
-            return NelsonPath;
+            return true;
         }
-        fprintf(stderr, "%s\n", _("Error: we cannot find Nelson root path.").c_str());
-        NelsonConfiguration::getInstance()->setNelsonRootDirectory(L"");
     }
-    return NelsonPath;
+#ifdef _MSC_VER
+    p = get_basepathW();
+#else
+    p = utf8_to_wstring(get_basepathU());
+#endif
+    FileSystemWrapper::Path path(p);
+    FileSystemWrapper::Path nelsonpath;
+#ifdef _MSC_VER
+    nelsonpath = path.parent_path().parent_path().parent_path();
+#else
+    nelsonpath = path.parent_path().parent_path();
+#endif
+    if (FileSystemWrapper::Path::is_directory(nelsonpath)) {
+        NelsonPath = nelsonpath.generic_path().getFinalPathname().generic_wstring();
+        NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
+        return true;
+    }
+    fprintf(stderr, "%s\n", _("Error: we cannot find Nelson root path.").c_str());
+    NelsonConfiguration::getInstance()->setNelsonRootDirectory(L"");
+    return false;
 }
 //=============================================================================
 } // namespace Nelson
-//=============================================================================
-std::wstring
-GetNelsonPath()
-{
-    return Nelson::GetRootPath();
-}
 //=============================================================================

@@ -10,8 +10,8 @@
 #include <QtGui/QFontDatabase>
 #include <QtCore/QFile>
 #include "DefaultFont.hpp"
-#include "GetNelsonPath.hpp"
 #include "QStringConverter.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,7 +20,7 @@ static std::wstring defaultFontName;
 bool
 configureDefaultFont()
 {
-    std::wstring nelsonPath = Nelson::GetRootPath();
+    std::wstring nelsonPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
     std::wstring fontPath = nelsonPath + L"/resources/fonts";
     std::wstring JuliaMonoFullFilename = fontPath + L"/Hack-Regular.ttf";
     QString qFilename = Nelson::wstringToQString(JuliaMonoFullFilename);

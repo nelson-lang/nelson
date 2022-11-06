@@ -192,7 +192,6 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\dynamic_library.hpp" />
     <ClInclude Include="..\..\src\include\nlsDynamic_link_exports.h" />
     <ClInclude Include="..\include\CreateDynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\DeleteDynamicLinkLibraryObject.hpp" />

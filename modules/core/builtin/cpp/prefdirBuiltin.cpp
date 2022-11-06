@@ -9,7 +9,7 @@
 //=============================================================================
 #include "prefdirBuiltin.hpp"
 #include "Error.hpp"
-#include "GetPreferencesPath.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,7 +19,8 @@ Nelson::CoreGateway::prefdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::characterArrayConstructor(GetPreferencesPath());
+    retval << ArrayOf::characterArrayConstructor(
+        NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory());
     return retval;
 }
 //=============================================================================

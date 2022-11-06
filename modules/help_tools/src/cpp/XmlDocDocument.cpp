@@ -13,7 +13,6 @@
 //=============================================================================
 #include <fstream>
 #include "FileSystemWrapper.hpp"
-#include "GetNelsonPath.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
 #include "Localization.hpp"
@@ -50,6 +49,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

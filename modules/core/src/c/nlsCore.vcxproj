@@ -178,14 +178,15 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\Banner.hpp" />
     <ClInclude Include="..\..\src\include\GetCurrentNFilename.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonBinariesPath.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonPath.hpp" />
     <ClInclude Include="..\..\src\include\nlsCore_exports.h" />
+    <ClInclude Include="..\cpp\ComputeNelsonBinariesPath.hpp" />
+    <ClInclude Include="..\cpp\ComputeNelsonPath.hpp" />
+    <ClInclude Include="..\cpp\ComputePreferencesPath.hpp" />
+    <ClInclude Include="..\include\ComputeNelsonPaths.hpp" />
     <ClInclude Include="..\include\ComputionalThreads.hpp" />
     <ClInclude Include="..\include\EvaluateCommand.hpp" />
     <ClInclude Include="..\include\EvaluateInterface.hpp" />
     <ClInclude Include="..\include\EvaluateScriptFile.hpp" />
-    <ClInclude Include="..\include\GetPreferencesPath.hpp" />
     <ClInclude Include="..\include\IsEmptyScriptFile.hpp" />
     <ClInclude Include="..\include\NargIn.hpp" />
     <ClInclude Include="..\include\NargOut.hpp" />
@@ -228,14 +229,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Banner.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonPaths.cpp" />
     <ClCompile Include="..\cpp\ComputionalThreads.cpp" />
     <ClCompile Include="..\cpp\EvaluateInterface.cpp" />
     <ClCompile Include="..\cpp\EvaluateCommand.cpp" />
     <ClCompile Include="..\cpp\EvaluateScriptFile.cpp" />
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp" />
-    <ClCompile Include="..\cpp\GetNelsonBinariesPath.cpp" />
-    <ClCompile Include="..\cpp\GetNelsonPath.cpp" />
-    <ClCompile Include="..\cpp\GetPreferencesPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonBinariesPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonPath.cpp" />
+    <ClCompile Include="..\cpp\ComputePreferencesPath.cpp" />
     <ClCompile Include="..\cpp\IsEmptyScriptFile.cpp" />
     <ClCompile Include="..\cpp\NargIn.cpp" />
     <ClCompile Include="..\cpp\NargOut.cpp" />

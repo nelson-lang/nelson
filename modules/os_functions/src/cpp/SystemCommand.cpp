@@ -29,7 +29,7 @@
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"

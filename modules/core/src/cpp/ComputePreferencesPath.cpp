@@ -17,16 +17,14 @@
 #include <unistd.h>
 #endif
 #include "FileSystemWrapper.hpp"
-#include "GetPreferencesPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "Nelson_VERSION.h"
 #include "SetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static std::wstring preferencesPath;
 //=============================================================================
 static std::wstring
 buildPreferencesPath()
@@ -105,30 +103,13 @@ buildPreferencesPath()
     return prefPath;
 }
 //=============================================================================
-std::wstring
-GetPreferencesPath()
-{
-    return preferencesPath;
-}
-//=============================================================================
 bool
 ComputePreferencesPath()
 {
-    preferencesPath = buildPreferencesPath();
+    std::wstring preferencesPath = buildPreferencesPath();
+    NelsonConfiguration::getInstance()->setNelsonPreferencesDirectory(preferencesPath);
     return (!preferencesPath.empty());
 }
 //=============================================================================
 } // namespace Nelson
-//=============================================================================
-static bool bFirstCall = true;
-//=============================================================================
-std::wstring
-GetNelsonPreferencesPath()
-{
-    if (bFirstCall) {
-        Nelson::ComputePreferencesPath();
-        bFirstCall = false;
-    }
-    return Nelson::GetPreferencesPath();
-}
 //=============================================================================

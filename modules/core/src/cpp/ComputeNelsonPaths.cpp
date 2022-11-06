@@ -7,14 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsCore_exports.h"
-#include <string>
+#include "ComputeNelsonPaths.hpp"
+#include "ComputeNelsonPath.hpp"
+#include "ComputeNelsonBinariesPath.hpp"
+#include "ComputePreferencesPath.hpp"
 //=============================================================================
 namespace Nelson {
-NLSCORE_IMPEXP std::wstring
-GetNelsonBinariesPath();
+//=============================================================================
+bool
+ComputesNelsonPaths()
+{
+    ComputeNelsonPath();
+    ComputeNelsonBinariesPath();
+    ComputePreferencesPath();
+    return false;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

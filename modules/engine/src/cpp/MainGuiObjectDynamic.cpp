@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MainGuiObjectDynamic.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "i18n.hpp"
 #include <boost/function.hpp>
 #include <cstdio>

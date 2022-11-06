@@ -190,6 +190,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\DynamicLibrary.cpp" />
     <ClCompile Include="..\cpp\FileSystemWrapper.cpp" />
     <ClCompile Include="..\cpp\StringHelpers.cpp" />
     <ClCompile Include="..\cpp\UuidHelpers.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\DynamicLibrary.hpp" />
     <ClInclude Include="..\include\FileSystemWrapper.hpp" />
     <ClInclude Include="..\include\nlsCommons_exports.h" />
     <ClInclude Include="..\include\StringHelpers.hpp" />
