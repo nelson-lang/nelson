@@ -7,8 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if strcmp(getenv('AUDIODEV'), 'null') == false && ~any(contains(argv(), '--noaudio'))
-  addpath(modulepath(nelsonroot(), 'audio', 'functions'), '-frozen');
-  addgateway(modulepath(nelsonroot(), 'audio', 'builtin'));
+assert_isequal(nargin('exit'), 1);
+assert_isequal(nargout('exit'), 0);
+%=============================================================================
+if ~ispc()
+    assert_checkerror('exit(300)', _('Value between 0 and 255 expected.'))
+end
+%=============================================================================
+R = system('nelson-cli -e "exit(44)"');
+assert_isequal(R, 44);
+%=============================================================================
+if ispc()
+  R = system('nelson-cli -e "exit(447)"');
+  assert_isequal(R, 447);
 end
 %=============================================================================

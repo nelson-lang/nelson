@@ -194,7 +194,7 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
   parallel_tests = [];
   sequential_tests = [];
   for file = test_files_list(:)'
-    test_case = create_test_case(file{1});
+    test_case = create_test_case(file{1}, classname);
     test_case.classname = classname;
     if test_case.options.sequential_test_required || test_case.isbench
       sequential_tests = [sequential_tests, test_case];
@@ -340,18 +340,24 @@ function r = isSupportedPlatform(test_case)
   end
 end
 %=============================================================================
-function test_case = create_test_case(filename)
+function test_case = create_test_case(filename, classname)
   test_case.filename = filename;
   test_case.options = test_parsetags(filename);
   test_case.msg = '';
   
   [p, f, e] = fileparts(filename);
   test_case.name = f;
-  test_case.classname = '';
+  test_case.classname = classname;
   test_case.status = ''; % 'Pass', 'Fail', or 'Skip'. '' not evaluated.
   test_case.time = 0;
   test_case.isbench = isbench(filename);
   test_case.skip = false;
+  
+  if test_case.isbench
+    timeout = int2str(380);
+  else
+    timeout = int2str(140);
+  end
   
   if (test_case.options.mpi_mode && ~have_mpi())
     test_case.status = 'Skip';
@@ -434,7 +440,12 @@ function test_case = create_test_case(filename)
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       
-      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
+      without_audio = ~(test_case.options.audio_input_required || test_case.options.audio_output_required) && ~endsWith(test_case.classname, '.audio');
+      if without_audio
+        cmd = [cmd, ' ', '--noaudio'];
+      end
+      
+      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
         test_case.command = build_command_nelson_gui(cmd, test_case.options.mpi_mode);
       elseif test_case.options.adv_cli_mode

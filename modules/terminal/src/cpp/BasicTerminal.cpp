@@ -15,6 +15,8 @@
 #include <cstring>
 #include <iostream>
 #include <csignal>
+#include <thread>
+#include <chrono>
 #include "BasicTerminal.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -65,14 +67,18 @@ BasicTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 std::string
 BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
 {
-#define CMD_BUFFER_SIZE (4096 * 2)
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
-    char buffer[CMD_BUFFER_SIZE];
     std::string retLine;
-    if (fgets(buffer, CMD_BUFFER_SIZE, stdin) != nullptr) {
-        retLine = buffer;
+
+    for (;;) {
+        char currrentChar = fgetc(stdin);
+        if (currrentChar == '\n') {
+            break;
+        } else {
+            retLine.push_back(currrentChar);
+        }
     }
     this->diary.writeMessage(retLine);
     if (bIsInput) {

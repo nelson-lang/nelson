@@ -100,6 +100,11 @@
     </param_input_item>
 
     <param_input_item>
+      <param_name>--noaudio</param_name>
+      <param_description>disable audio module.</param_description>
+    </param_input_item>
+
+    <param_input_item>
       <param_name>--language lang</param_name>
       <param_description
       >If this option is present it fixes the user language. Currently, lang can be: fr_FR en_US.</param_description>

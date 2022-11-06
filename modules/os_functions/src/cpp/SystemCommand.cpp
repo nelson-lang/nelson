@@ -15,6 +15,7 @@
 #undef min
 #else
 #include <fcntl.h>
+#include <csignal>
 #endif
 #include <BS_thread_pool.hpp>
 #include <ctime>
@@ -63,8 +64,12 @@ public:
     void
     terminate()
     {
-        _terminate = true;
-        _running = false;
+        if (!_terminate) {
+            _terminate = true;
+            _running = false;
+            this->_exitCode = exitCodeAbort();
+            this->_duration = this->getDuration();
+        }
     }
     //=============================================================================
     bool
@@ -76,7 +81,7 @@ public:
     std::tuple<int, std::wstring, uint64>
     getResult()
     {
-        if (wasAborted) {
+        if (_terminate) {
             return std::make_tuple(_exitCode, L"ABORTED", _duration);
         }
         return std::make_tuple(_exitCode, _message, _duration);
@@ -85,15 +90,9 @@ public:
     uint64
     getDuration()
     {
-        if (_running) {
-            std::chrono::steady_clock::time_point _currentTimePoint
-                = std::chrono::steady_clock::now();
-            return std::chrono::duration_cast<std::chrono::milliseconds>(
-                _currentTimePoint - _beginTimePoint)
-                .count();
-        }
+        std::chrono::steady_clock::time_point _currentTimePoint = std::chrono::steady_clock::now();
         return std::chrono::duration_cast<std::chrono::milliseconds>(
-            _endTimePoint - _beginTimePoint)
+            _currentTimePoint - _beginTimePoint)
             .count();
     }
     //=============================================================================
@@ -125,30 +124,30 @@ public:
                 boost::process::std_out > tempOutputFile.generic_string().c_str(),
                 boost::process::std_err > tempErrorFile.generic_string().c_str(),
                 boost::process::std_in < boost::process::null);
-            while (childProcess.running()) {
+            while (childProcess.running() && !_terminate) {
                 std::chrono::steady_clock::time_point _currentTimePoint
                     = std::chrono::steady_clock::now();
                 if ((timeout != 0)
                     && (std::chrono::duration_cast<std::chrono::seconds>(
                             _currentTimePoint - _beginTimePoint)
-                            .count()
-                        >= (long long)timeout)) {
+                        >= std::chrono::seconds(timeout))) {
                     _terminate = true;
-                }
-                if (_terminate) {
-                    wasAborted = true;
-                    _endTimePoint = std::chrono::steady_clock::now();
-                    this->_duration = this->getDuration();
-                    this->_exitCode = int(SIGINT + 128);
-                    FileSystemWrapper::Path::remove(tempOutputFile);
-                    FileSystemWrapper::Path::remove(tempErrorFile);
-                    childProcess.terminate();
-                    _running = false;
-                    return;
+                    break;
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(10));
             }
-            this->_exitCode = (int)childProcess.exit_code();
+
+            if (_terminate) {
+                this->_duration = this->getDuration();
+                this->_exitCode = exitCodeAbort();
+                FileSystemWrapper::Path::remove(tempOutputFile);
+                FileSystemWrapper::Path::remove(tempErrorFile);
+                childProcess.terminate();
+                _running = false;
+                return;
+            } else {
+                this->_exitCode = (int)childProcess.exit_code();
+            }
 
             std::wstring outputResult;
             if (this->_exitCode) {
@@ -165,7 +164,6 @@ public:
         FileSystemWrapper::Path::remove(tempErrorFile);
 
         _running = false;
-        _endTimePoint = std::chrono::steady_clock::now();
         _duration = this->getDuration();
     }
     //=============================================================================
@@ -176,9 +174,17 @@ private:
     int _exitCode = 0;
     std::wstring _message = std::wstring();
     uint64 _duration = uint64(0);
-    bool wasAborted = false;
     std::chrono::steady_clock::time_point _beginTimePoint;
-    std::chrono::steady_clock::time_point _endTimePoint;
+    //=============================================================================
+    int
+    exitCodeAbort()
+    {
+#ifdef _MSC_VER
+        return int(258); // WAIT_TIMEOUT
+#else
+        return int(128 + SIGABRT);
+#endif
+    }
     //=============================================================================
 };
 //=============================================================================
@@ -235,7 +241,6 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
     for (size_t k = 0; k < nbCommands; k++) {
         if (taskList[k]) {
             results[k] = taskList[k]->getResult();
-            taskList[k]->terminate();
         }
     }
     for (systemTask* task : taskList) {
@@ -277,7 +282,6 @@ DetectDetachProcess(const std::wstring& command, bool& haveDetach)
 std::wstring
 CleanCommand(const std::wstring& command)
 {
-    std::wstring res = StringHelpers::trim_left_copy(command);
     return StringHelpers::trim_right_copy(command);
 }
 //=============================================================================

@@ -63,6 +63,19 @@ assert_istrue(t >= 5 && t < 7)
 assert_istrue(d(1) >= 1000 && d(1) <= 5000)
 assert_istrue(d(2) >= 5000 && d(2) <= 7000)
 assert_istrue(d(3) >= 3000 && d(2) <= 10000)
-assert_isequal(s, [130, 130, 130])
+if ispc()
+  assert_isequal(s, [258, 258, 258])
+else
+  assert_isequal(s, [134,134, 134])
+end
 assert_isequal(w, ["ABORTED", "ABORTED", "ABORTED"])
+%=============================================================================
+tic();[s,m]=system('nelson -cli --timeout 20'); R = toc();
+if ispc()
+  assert_isequal(s, 258);
+else
+  assert_isequal(s, 134);
+end
+assert_istrue(R > 20);
+assert_istrue(R < 30);
 %=============================================================================

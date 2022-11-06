@@ -31,6 +31,12 @@ Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
             }
             double dValue = param1.getContentAsDoubleScalar();
             iValue = static_cast<int>(dValue);
+#ifndef _MSC_VER
+            if (iValue < 0 || iValue > 255) {
+                Error(_("Value between 0 and 255 expected."));
+            }
+
+#endif
             if (static_cast<double>(iValue) != dValue) {
                 Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
             }
