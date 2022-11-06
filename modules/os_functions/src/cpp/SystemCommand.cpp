@@ -282,7 +282,6 @@ DetectDetachProcess(const std::wstring& command, bool& haveDetach)
 std::wstring
 CleanCommand(const std::wstring& command)
 {
-    std::wstring res = StringHelpers::trim_left_copy(command);
     return StringHelpers::trim_right_copy(command);
 }
 //=============================================================================
