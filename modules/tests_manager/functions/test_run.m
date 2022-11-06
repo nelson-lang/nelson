@@ -439,7 +439,12 @@ function test_case = create_test_case(filename)
         cmd = [cmd, ' ', '--noipc'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-     
+
+      without_audio = ~(test_case.options.audio_input_required || test_case.options.audio_output_required);
+      if without_audio
+        cmd = [cmd, ' ', '--noaudio'];
+      end
+
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
         test_case.command = build_command_nelson_gui(cmd, test_case.options.mpi_mode);
