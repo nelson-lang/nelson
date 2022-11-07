@@ -197,7 +197,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\getpidBuiltin.cpp" />
     <ClCompile Include="..\cpp\ipcBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

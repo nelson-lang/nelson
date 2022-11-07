@@ -10,6 +10,7 @@
 #include "iswidgettypeQObject.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
 #include <QtQml/QQmlComponent>

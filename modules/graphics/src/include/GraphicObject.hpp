@@ -9,7 +9,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/algorithm/string/predicate.hpp>
 #include <string>
 #include <map>
 #include "nlsGraphics_exports.h"

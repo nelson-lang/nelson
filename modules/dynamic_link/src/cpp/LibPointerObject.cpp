@@ -10,6 +10,7 @@
 #include "LibPointerObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsValidHandle.hpp"
 #include "ToCellString.hpp"
 #include "StringHelpers.hpp"

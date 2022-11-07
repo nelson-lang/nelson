@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "GatewayInfo.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"

@@ -10,6 +10,7 @@
 #include "RemoveModule.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"

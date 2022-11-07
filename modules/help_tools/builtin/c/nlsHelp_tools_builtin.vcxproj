@@ -186,7 +186,7 @@
     <ClCompile Include="..\cpp\markdownBuiltin.cpp" />
     <ClCompile Include="..\cpp\xmldocbuildBuiltin.cpp" />
     <ClCompile Include="..\cpp\xmldoccheckerBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

@@ -181,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\characters_encoding.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

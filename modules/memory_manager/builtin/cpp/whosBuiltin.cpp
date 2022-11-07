@@ -9,6 +9,7 @@
 //=============================================================================
 #include "whosBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Whos.hpp"
 //=============================================================================
 using namespace Nelson;

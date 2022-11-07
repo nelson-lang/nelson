@@ -9,6 +9,7 @@
 //=============================================================================
 #include "memoryBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MemoryInformation.hpp"
 #include "NelsonPrint.hpp"
 //=============================================================================

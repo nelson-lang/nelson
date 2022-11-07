@@ -9,8 +9,8 @@
 //=============================================================================
 #include "onesBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Ones.hpp"
-#include "nlsConfig.h"
 #include "StringToClass.hpp"
 //=============================================================================
 using namespace Nelson;

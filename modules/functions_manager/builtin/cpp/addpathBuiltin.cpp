@@ -14,6 +14,7 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

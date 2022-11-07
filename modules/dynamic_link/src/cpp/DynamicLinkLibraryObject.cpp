@@ -12,6 +12,7 @@
 #include "DynamicLinkLibraryObject.hpp"
 #include "DynamicLibrary.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"

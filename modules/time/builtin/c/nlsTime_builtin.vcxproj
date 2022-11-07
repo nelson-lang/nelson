@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTIME_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -114,7 +114,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTIME_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTIME_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -160,7 +160,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTIME_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/time/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -188,7 +188,7 @@
     <ClCompile Include="..\cpp\timeBuiltin.cpp" />
     <ClCompile Include="..\cpp\timeitBuiltin.cpp" />
     <ClCompile Include="..\cpp\tocBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name text_editor)
@@ -38,6 +37,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 # ==============================================================================
 file(GLOB TEXT_EDITOR_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER TEXT_EDITOR_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TEXT_EDITOR_SRC})
 # ==============================================================================
@@ -67,6 +68,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB TEXT_EDITOR_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER TEXT_EDITOR_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

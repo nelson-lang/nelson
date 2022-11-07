@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_Get_processor_nameBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include <mpi.h>
 //=============================================================================
 using namespace Nelson;

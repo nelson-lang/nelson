@@ -189,7 +189,7 @@
     <ClCompile Include="..\cpp\DynamicLinkSymbolObject.cpp" />
     <ClCompile Include="..\cpp\FindDynamicLinkLibraryObject.cpp" />
     <ClCompile Include="..\cpp\LibPointerObject.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsDynamic_link_exports.h" />

@@ -11,9 +11,12 @@
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
 #include "HDF5_helpers.hpp"
-#include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5Create.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

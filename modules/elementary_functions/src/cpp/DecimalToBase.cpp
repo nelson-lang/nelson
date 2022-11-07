@@ -14,9 +14,11 @@
 #include <cstdlib>
 #include <algorithm>
 #include <unordered_map>
-#include "StringHelpers.hpp"
 #include <Eigen/Dense>
+#include "StringHelpers.hpp"
 #include "DecimalToBase.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

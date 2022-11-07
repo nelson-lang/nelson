@@ -14,6 +14,7 @@
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
 #include "StringHelpers.hpp"

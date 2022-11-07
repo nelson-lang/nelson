@@ -187,7 +187,7 @@
     <ClCompile Include="..\cpp\SystemCommand.cpp" />
     <ClCompile Include="..\cpp\WindowsQueryRegistry.cpp" />
     <ClCompile Include="..\cpp\WinOpen.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\GetVariableEnvironment.hpp" />

@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name json)
@@ -30,6 +29,8 @@ include_directories(
 # ==============================================================================
 file(GLOB JSON_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c")
+list(FILTER JSON_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${JSON_SRC})
 # ==============================================================================
@@ -53,6 +54,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB JSON_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER JSON_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

@@ -172,8 +172,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\StringZLib.cpp" />
-    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

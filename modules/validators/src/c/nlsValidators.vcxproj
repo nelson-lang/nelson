@@ -178,7 +178,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Validators.cpp" />
     <ClCompile Include="..\cpp\ValidatorsInternal.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsValidators_exports.h" />

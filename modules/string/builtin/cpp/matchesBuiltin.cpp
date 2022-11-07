@@ -9,6 +9,7 @@
 //=============================================================================
 #include "matchesBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringMatches.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

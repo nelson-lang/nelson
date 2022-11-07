@@ -23,6 +23,7 @@
 #include "LoadMatioObject.hpp"
 #include "LoadMatioOpaque.hpp"
 #include "LoadMatioStruct.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

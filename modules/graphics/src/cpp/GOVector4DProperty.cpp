@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOVector4DProperty.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PrintPropertyHelpers.hpp"
 //=============================================================================
 namespace Nelson {

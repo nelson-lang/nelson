@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name gui)
@@ -37,6 +36,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
 # ==============================================================================
 file(GLOB GUI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER GUI_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${GUI_SRC})
 # ==============================================================================
@@ -66,6 +67,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB GUI_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER GUI_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -79,7 +82,7 @@ include_directories(
 add_library(nlsGui_builtin SHARED ${GUI_BUILTIN})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_builtin_name} 
+  ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
   nlsInterpreter

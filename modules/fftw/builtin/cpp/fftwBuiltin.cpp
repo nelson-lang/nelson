@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fftwBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FftHelpers.hpp"
 //=============================================================================
 using namespace Nelson;

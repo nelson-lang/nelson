@@ -7,15 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/chrono/chrono.hpp>
-#include <boost/date_time.hpp>
-#include <boost/date_time/gregorian/greg_date.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include "StringHelpers.hpp"
+#include <chrono>
 #include <iomanip>
 #include <tuple>
 #include <iostream>
 #include <fstream>
+#include "StringHelpers.hpp"
 #include "Profiler.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -264,8 +261,8 @@ Profiler::info(Profiler::Profile_Sort_Type sortOption)
 uint64
 Profiler::now()
 {
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    return uint64(static_cast<boost::uint64_t>(ns.count()));
+    std::chrono::nanoseconds ns = std::chrono::high_resolution_clock::now().time_since_epoch();
+    return uint64(static_cast<std::uint64_t>(ns.count()));
 }
 //=============================================================================
 size_t

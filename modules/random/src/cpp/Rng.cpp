@@ -9,6 +9,7 @@
 //=============================================================================
 #include "Rng.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "RandomInterface.hpp"
 #include "RandomLaggedFibonacci607.hpp"
 #include "RandomMersenneTwister.hpp"

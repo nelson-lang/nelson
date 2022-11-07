@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name terminal)
@@ -27,10 +26,13 @@ include_directories(
 file(GLOB TERMINAL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BasicTerminal.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BsdTerminal.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/linenoise.cpp")
+list(FILTER TERMINAL_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TERMINAL_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} 
+target_link_libraries(
+  ${module_library_name}
   nlsStream_manager
   nlsInterpreter
   nlsCharacters_encoding

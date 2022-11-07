@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ishermitianBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "IsHermitian.hpp"

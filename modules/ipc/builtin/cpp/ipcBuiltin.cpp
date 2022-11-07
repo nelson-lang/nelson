@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ipcBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "NelsonInterprocess.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonPIDs.hpp"

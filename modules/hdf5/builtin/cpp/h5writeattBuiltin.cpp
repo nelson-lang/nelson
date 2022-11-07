@@ -9,6 +9,7 @@
 //=============================================================================
 #include "h5writeattBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "h5WriteAttribute.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -320,7 +320,7 @@
     <ClCompile Include="..\cpp\isNh5File.cpp" />
     <ClCompile Include="..\cpp\whoNh5File.cpp" />
     <ClCompile Include="..\cpp\whosNh5File.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

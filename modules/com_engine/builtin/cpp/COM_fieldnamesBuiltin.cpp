@@ -9,6 +9,7 @@
 //=============================================================================
 #include "COM_fieldnamesBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ToCellString.hpp"
 #include "fieldnamesComHandleObject.hpp"
 //=============================================================================

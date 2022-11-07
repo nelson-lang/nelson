@@ -10,6 +10,7 @@
 #include "audioplayer_ismethodBuiltin.hpp"
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

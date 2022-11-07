@@ -12,6 +12,8 @@
 #include "QStringConverter.hpp"
 #include "QObjectHandleObject.hpp"
 #include <QtQml/QQmlComponent>
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

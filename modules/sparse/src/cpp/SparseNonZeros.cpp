@@ -11,6 +11,7 @@
 //=============================================================================
 #include "SparseNonZeros.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {

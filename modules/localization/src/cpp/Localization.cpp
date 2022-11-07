@@ -16,7 +16,6 @@
 #include <clocale>
 #include <fstream>
 #include "Localization.hpp"
-#include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

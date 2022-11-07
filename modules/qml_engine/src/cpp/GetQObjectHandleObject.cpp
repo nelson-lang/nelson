@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GetQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QVariantArrayOf.hpp"

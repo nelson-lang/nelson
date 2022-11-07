@@ -185,6 +185,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
+    <CustomBuild Include="..\include\Nelson_VERSION.h.vc">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy $(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy $(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copy $(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copy $(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\commons\src\include\Nelson_VERSION.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\include\nlsBuildConfig.h.vc">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h.vc" "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h.vc" "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h.vc" "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h.vc" "$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy $(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy $(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copy $(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copy $(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
@@ -196,11 +226,13 @@
     <ClCompile Include="..\cpp\UuidHelpers.cpp" />
     <ClCompile Include="..\fmt\src\format.cc" />
     <ClCompile Include="..\fmt\src\os.cc" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DynamicLibrary.hpp" />
     <ClInclude Include="..\include\FileSystemWrapper.hpp" />
+    <ClInclude Include="..\include\Nelson_VERSION.h" />
+    <ClInclude Include="..\include\nlsBuildConfig.h" />
     <ClInclude Include="..\include\nlsCommons_exports.h" />
     <ClInclude Include="..\include\StringHelpers.hpp" />
     <ClInclude Include="..\include\UuidHelpers.hpp" />

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #if defined(_NLS_WITH_OPENMP)
 #include <omp.h>
 #endif

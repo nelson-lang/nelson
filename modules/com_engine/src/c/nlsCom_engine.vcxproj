@@ -247,7 +247,7 @@
     <ClCompile Include="..\cpp\methodsComHandleObject.cpp" />
     <ClCompile Include="..\cpp\SetComHandleObject.cpp" />
     <ClCompile Include="..\cpp\VariantConversionHelpers.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

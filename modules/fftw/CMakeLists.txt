@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name fftw)
@@ -30,6 +29,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
 # ==============================================================================
 file(GLOB FFTW_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER FFTW_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${FFTW_SRC})
 # ==============================================================================
@@ -54,6 +55,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB FFTW_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER FFTW_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

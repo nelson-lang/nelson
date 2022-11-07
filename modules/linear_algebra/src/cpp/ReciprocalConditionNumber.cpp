@@ -7,14 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "lapack_eigen_config.hpp"
+#undef EIGEN_USE_MKL
 #undef EIGEN_USE_MKL_VML
-#include "lapack_eigen.hpp"
-#include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
+#include <Eigen/Dense>
 #include "ReciprocalConditionNumber.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

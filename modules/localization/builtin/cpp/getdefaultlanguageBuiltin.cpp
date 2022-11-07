@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "getdefaultlanguageBuiltin.hpp"
-#include "Error.hpp"
 #include "Localization.hpp"
 //=============================================================================
 using namespace Nelson;

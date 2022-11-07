@@ -9,6 +9,7 @@
 //=============================================================================
 #include "strrepBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringReplace.hpp"
 #include "OverloadFunction.hpp"
 #include "IsCellOfStrings.hpp"

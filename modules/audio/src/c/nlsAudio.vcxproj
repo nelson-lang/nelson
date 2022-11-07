@@ -226,7 +226,7 @@
     <ClCompile Include="..\cpp\AudioWrite.cpp" />
     <ClCompile Include="..\cpp\Beep.cpp" />
     <ClCompile Include="..\cpp\DeleteAudioplayerHandleObject.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AudioDevInfo.hpp" />

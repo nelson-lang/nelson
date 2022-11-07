@@ -236,7 +236,7 @@
     <ClCompile Include="..\cpp\echoBuiltin.cpp" />
     <ClCompile Include="..\cpp\formatBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

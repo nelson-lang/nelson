@@ -228,7 +228,7 @@
     <ClCompile Include="..\socket_io\src\internal\sio_packet.cpp" />
     <ClCompile Include="..\socket_io\src\sio_client.cpp" />
     <ClCompile Include="..\socket_io\src\sio_socket.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

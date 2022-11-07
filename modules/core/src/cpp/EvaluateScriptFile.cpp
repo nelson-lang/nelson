@@ -13,6 +13,7 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
 #include "IsEmptyScriptFile.hpp"

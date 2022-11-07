@@ -12,6 +12,7 @@
 #endif
 #include "pathBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PathFuncManager.hpp"
 #include "ToCellString.hpp"
 #include "NelsonPrint.hpp"

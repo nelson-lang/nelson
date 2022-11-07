@@ -9,6 +9,7 @@
 //=============================================================================
 #include "HtmlToPdf.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "DynamicLibrary.hpp"
 #include <boost/function.hpp>
 //=============================================================================

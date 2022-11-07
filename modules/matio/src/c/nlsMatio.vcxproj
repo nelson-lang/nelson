@@ -260,7 +260,7 @@
     <ClCompile Include="..\cpp\SaveMatioVariable.cpp" />
     <ClCompile Include="..\cpp\WhoMatioFile.cpp" />
     <ClCompile Include="..\cpp\WhosMatioFile.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\LoadMatioCell.hpp" />

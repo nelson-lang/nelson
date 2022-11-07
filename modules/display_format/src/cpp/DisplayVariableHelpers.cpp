@@ -25,6 +25,7 @@
 #include "FormatPlus.hpp"
 #include "FormatHex.hpp"
 #include "FormatHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

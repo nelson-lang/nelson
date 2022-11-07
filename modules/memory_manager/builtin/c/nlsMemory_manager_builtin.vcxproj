@@ -194,7 +194,7 @@
     <ClCompile Include="..\cpp\varunlockBuiltin.cpp" />
     <ClCompile Include="..\cpp\whoBuiltin.cpp" />
     <ClCompile Include="..\cpp\whosBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

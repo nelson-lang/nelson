@@ -14,9 +14,10 @@
 #include <iomanip>
 #include <sstream>
 #include <cstring>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "JsonEncode.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

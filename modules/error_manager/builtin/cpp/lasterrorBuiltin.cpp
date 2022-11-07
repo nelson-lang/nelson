@@ -9,6 +9,7 @@
 //=============================================================================
 #include "lasterrorBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ErrorToStruct.hpp"
 #include "IsErrorStruct.hpp"
 //=============================================================================

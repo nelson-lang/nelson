@@ -103,8 +103,8 @@
  *
  */
 
-#include <boost/chrono/chrono.hpp>
-#include <boost/thread/thread.hpp>
+#include <chrono>
+#include <thread>
 
 #include <sys/ioctl.h>
 #include <sys/select.h>
@@ -912,7 +912,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
         char seq[3];
         while (!kbhit()) {
             ProcessEventsDynamicFunctionWithoutWait();
-            boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             if (bStopReadLine) {
                 history_len--;
                 free(history[history_len]);

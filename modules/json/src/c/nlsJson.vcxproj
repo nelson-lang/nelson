@@ -211,7 +211,7 @@
     <ClCompile Include="..\cpp\JsonEncode.cpp" />
     <ClCompile Include="..\cpp\JsonDecode.cpp" />
     <ClCompile Include="..\cpp\JsonPrettyPrint.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="jsmn.c" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@
 #include "FileSystemWrapper.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================

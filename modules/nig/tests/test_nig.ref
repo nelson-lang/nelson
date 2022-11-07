@@ -68,6 +68,7 @@ ans =
 //=============================================================================
 #include <algorithm>
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "example_nig_sumBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;

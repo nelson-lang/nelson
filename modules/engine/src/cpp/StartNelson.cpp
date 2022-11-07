@@ -50,6 +50,7 @@
 #include "FilesAssociation.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "ComputeNelsonPaths.hpp"
+#include "i18n.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)

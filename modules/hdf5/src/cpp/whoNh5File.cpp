@@ -16,6 +16,8 @@
 #include "h5LoadVariable.hpp"
 #include "characters_encoding.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

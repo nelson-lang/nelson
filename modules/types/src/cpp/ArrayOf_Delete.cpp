@@ -12,6 +12,7 @@
 #include "Dimensions.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {

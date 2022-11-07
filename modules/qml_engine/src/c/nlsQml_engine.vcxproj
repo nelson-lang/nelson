@@ -206,7 +206,7 @@
     <ClCompile Include="..\cpp\rootQObject.cpp" />
     <ClCompile Include="..\cpp\SetQObjectHandleObject.cpp" />
     <ClCompile Include="..\cpp\UndefineDynamicProperty.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsQml_engine_exports.h" />

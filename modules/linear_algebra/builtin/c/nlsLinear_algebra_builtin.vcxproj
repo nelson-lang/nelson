@@ -194,7 +194,7 @@
     <ClCompile Include="..\cpp\sqrtmBuiltin.cpp" />
     <ClCompile Include="..\cpp\svdBuiltin.cpp" />
     <ClCompile Include="..\cpp\traceBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fgetlBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "File.hpp"
 #include "FileGetLine.hpp"
 #include "FilesManager.hpp"

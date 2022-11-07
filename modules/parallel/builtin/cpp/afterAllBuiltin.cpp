@@ -10,6 +10,7 @@
 #include <thread>
 #include "afterAllBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "FutureObjectHelpers.hpp"
 #include "FevalFutureObject.hpp"

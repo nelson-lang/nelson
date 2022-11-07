@@ -9,6 +9,7 @@
 //=============================================================================
 #include "questdlgBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "QuestionBox.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Warning.hpp"

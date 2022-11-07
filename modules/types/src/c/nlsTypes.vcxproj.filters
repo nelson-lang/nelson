@@ -131,9 +131,6 @@
     <ClCompile Include="..\cpp\MakeValidFieldname.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllMain.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_Assign.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -167,6 +164,9 @@
     <ClCompile Include="..\cpp\Decomplexify.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\dllMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -178,8 +178,5 @@
     <ResourceCompile Include="resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\include\nlsConfig.h.vc" />
   </ItemGroup>
 </Project>

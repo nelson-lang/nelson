@@ -10,6 +10,8 @@
 #include "DeleteDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

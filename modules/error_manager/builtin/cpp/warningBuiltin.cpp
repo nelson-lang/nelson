@@ -9,6 +9,7 @@
 //=============================================================================
 #include "warningBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Warning.hpp"
 #include "WarningIds.hpp"
 #include "IsWarningStruct.hpp"

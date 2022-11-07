@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringHelpers.hpp"
 #include <regex>
+#include "StringHelpers.hpp"
 #include "MakeValidFieldname.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

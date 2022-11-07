@@ -193,6 +193,7 @@
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\DecimalToBase.cpp" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
     <ClCompile Include="..\cpp\Hypothenus.cpp" />
@@ -224,7 +225,6 @@
     <ClCompile Include="..\cpp\Sqrt.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="..\cpp\UpperTrianglePart.cpp" />
-    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\HypothenusComplex.hpp" />

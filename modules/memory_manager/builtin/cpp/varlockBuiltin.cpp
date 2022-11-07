@@ -9,6 +9,7 @@
 //=============================================================================
 #include "varlockBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "LockVariable.hpp"
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "whichBuiltin.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ToCellString.hpp"
 #include "Which.hpp"
 #include "characters_encoding.hpp"

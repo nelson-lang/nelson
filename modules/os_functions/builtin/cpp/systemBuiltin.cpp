@@ -9,6 +9,7 @@
 //=============================================================================
 #include "systemBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "SystemCommand.hpp"
 #include "IsCellOfStrings.hpp"
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "handle_getBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"

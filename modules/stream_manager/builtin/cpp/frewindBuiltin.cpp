@@ -9,6 +9,7 @@
 //=============================================================================
 #include "frewindBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "File.hpp"
 #include "FileRewind.hpp"
 #include "FilesManager.hpp"

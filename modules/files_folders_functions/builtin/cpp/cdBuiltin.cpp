@@ -10,6 +10,7 @@
 #include "cdBuiltin.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "NelsonPrint.hpp"
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "svdBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "SVD.hpp"

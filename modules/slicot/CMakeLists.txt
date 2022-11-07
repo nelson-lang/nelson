@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name slicot)
@@ -21,10 +20,13 @@ include_directories(
 # ==============================================================================
 file(GLOB SLICOT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER SLICOT_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${SLICOT_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name}
+target_link_libraries(
+  ${module_library_name}
   nlsError_manager
   nlsTypes
   nlsInterpreter
@@ -40,6 +42,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB SLICOT_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER SLICOT_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${Boost_INCLUDE_DIRS}

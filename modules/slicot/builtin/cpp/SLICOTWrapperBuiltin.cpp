@@ -10,6 +10,7 @@
 #include "SLICOTWrapperBuiltin.hpp"
 #include "SlicotWrapper.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

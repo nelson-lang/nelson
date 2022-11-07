@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "slicot_mc01tdBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "macroargsBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MacroArguments.hpp"
 #include "ToCellString.hpp"
 //=============================================================================

@@ -9,10 +9,11 @@
 //=============================================================================
 #include "EqHandle.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "MatrixCheck.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "permuteBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Permute.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

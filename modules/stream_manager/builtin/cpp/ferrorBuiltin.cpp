@@ -13,6 +13,7 @@
 //=============================================================================
 #include "ferrorBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FilesManager.hpp"
 #include "FileError.hpp"
 #include "NelsonConfiguration.hpp"

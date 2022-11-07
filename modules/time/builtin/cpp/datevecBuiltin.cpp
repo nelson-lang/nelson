@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "datevecBuiltin.hpp"
 #include "Error.hpp"
 #include "DateVector.hpp"

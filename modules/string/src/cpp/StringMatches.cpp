@@ -10,6 +10,8 @@
 #include "StringHelpers.hpp"
 #include "StringMatches.hpp"
 #include "IsCellOfStrings.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

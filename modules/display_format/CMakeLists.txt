@@ -27,6 +27,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
 file(GLOB DISPLAY_FORMAT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER DISPLAY_FORMAT_SRC EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp") 
 # ==============================================================================
 add_library(${module_library_name} SHARED ${DISPLAY_FORMAT_SRC})
 # ==============================================================================
@@ -39,8 +40,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsStream_manager
   nlsElementary_mathematics
-  nlsI18n
-  ${BOOST_LIBRARIES})
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -51,6 +51,7 @@ set_target_properties(
 # ==============================================================================
 file(GLOB DISPLAY_FORMAT_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER DISPLAY_FORMAT_BUILTIN EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp") 
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -76,8 +77,7 @@ target_link_libraries(
   nlsI18n
   nlsCommons
   nlsCharacters_encoding
-  nlsApi_nelson
-  ${BOOST_LIBRARIES})
+  nlsApi_nelson)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

@@ -182,7 +182,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\HtmlExporter.cpp" />
     <ClCompile Include="..\cpp\Profiler.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "LibPointerObject.hpp"
 //=============================================================================

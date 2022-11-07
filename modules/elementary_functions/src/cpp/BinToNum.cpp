@@ -10,7 +10,7 @@
 #include <bitset>
 #include <stdexcept>
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
 #include "BinToNum.hpp"
 #include "characters_encoding.hpp"
 #include "Transpose.hpp"

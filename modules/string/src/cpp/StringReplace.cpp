@@ -16,7 +16,7 @@
 #include "IsCellOfStrings.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

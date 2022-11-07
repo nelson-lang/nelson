@@ -12,6 +12,7 @@
 #include "StringHelpers.hpp"
 #include <unordered_map>
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 #include "BaseToDecimal.hpp"
 #include "characters_encoding.hpp"

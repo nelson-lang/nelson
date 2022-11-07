@@ -189,7 +189,7 @@
     <ClCompile Include="..\cpp\ReadUserModules.cpp" />
     <ClCompile Include="..\cpp\RemoveGateway.cpp" />
     <ClCompile Include="..\cpp\RemoveModule.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="semver\semver.c" />
   </ItemGroup>
   <ItemGroup>

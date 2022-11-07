@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name function_handle)
@@ -26,6 +25,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
 # ==============================================================================
 file(GLOB FUNCTION_HANDLE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER FUNCTION_HANDLE_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${FUNCTION_HANDLE_SRC})
 # ==============================================================================
@@ -37,8 +38,7 @@ target_link_libraries(
   nlsInterpreter
   nlsI18n
   nlsDisplay_format
-  nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsCommons)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -49,6 +49,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB FUNCTION_HANDLE_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER FUNCTION_HANDLE_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

@@ -13,12 +13,14 @@
 //=============================================================================
 #include <limits>
 #include <complex>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "IntegerOperations.hpp"
 #include "DotPower.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
 #include "IEEEFP.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

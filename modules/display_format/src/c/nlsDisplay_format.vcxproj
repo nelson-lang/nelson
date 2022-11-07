@@ -275,7 +275,7 @@
     <ClCompile Include="..\cpp\FormatRational.cpp" />
     <ClCompile Include="..\cpp\Hexify.cpp" />
     <ClCompile Include="..\cpp\ScaleFactor.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

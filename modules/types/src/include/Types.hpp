@@ -14,7 +14,6 @@
 #include <vector>
 #include <cstddef>
 #include <cstdint>
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 

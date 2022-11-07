@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fetchOutputsBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FutureFetchOutputs.hpp"
 #include "FutureObject.hpp"
 #include "FevalFutureObject.hpp"

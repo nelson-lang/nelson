@@ -8,13 +8,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
 #endif
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "StringArrayAddition.hpp"
 #include "AdditionReal.hpp"
 #include "AdditionComplex.hpp"

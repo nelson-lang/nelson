@@ -10,6 +10,7 @@
 #include "throwAsCallerBuiltin.hpp"
 #include "MException.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ClassName.hpp"
 #include "DebugStack.hpp"
 //=============================================================================

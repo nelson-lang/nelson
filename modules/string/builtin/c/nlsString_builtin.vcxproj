@@ -210,7 +210,7 @@
     <ClCompile Include="..\cpp\strtrimBuiltin.cpp" />
     <ClCompile Include="..\cpp\tolowerBuiltin.cpp" />
     <ClCompile Include="..\cpp\toupperBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">

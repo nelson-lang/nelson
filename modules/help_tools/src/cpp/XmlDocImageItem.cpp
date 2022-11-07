@@ -12,6 +12,7 @@
 #endif
 #include "StringHelpers.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocImageItem.hpp"
 #include "XmlDocumentTags.hpp"

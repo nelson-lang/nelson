@@ -26,13 +26,14 @@
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -229,7 +229,7 @@
     <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
     <ClCompile Include="..\cpp\trilBuiltin.cpp" />
     <ClCompile Include="..\cpp\triuBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">

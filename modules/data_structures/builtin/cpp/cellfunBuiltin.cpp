@@ -15,6 +15,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ErrorToStruct.hpp"
 #include "PathFuncManager.hpp"
 #include "StringToFunctionHandle.hpp"

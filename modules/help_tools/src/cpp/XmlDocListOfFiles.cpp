@@ -9,12 +9,13 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
-#include "Messages.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "RelativePath.hpp"
 #include "XmlDocChapterDescriptionItem.hpp"
 #include "XmlDocChapterIndexItem.hpp"
 #include "XmlDocChapterNamer.hpp"
 #include "XmlDocListOfFiles.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

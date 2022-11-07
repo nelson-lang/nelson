@@ -20,6 +20,7 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ResponseCodeToMessage.hpp"
+#include "Error.hpp"
 #include "i18n.hpp"
 #include "ProcessEventsDynamic.hpp"
 #include "FileSystemWrapper.hpp"

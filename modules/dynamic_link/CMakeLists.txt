@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name dynamic_link)
@@ -30,6 +29,8 @@ include_directories(
   ${LIBFFI_INCLUDE_DIR})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER DYNAMIC_LINK_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${DYNAMIC_LINK_SRC})
 # ==============================================================================
@@ -57,6 +58,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER DYNAMIC_LINK_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -108,7 +111,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.txt")        
+  PATTERN "*.txt")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
@@ -135,7 +138,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.cpp")  
+  PATTERN "*.cpp")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

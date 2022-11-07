@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -167,7 +167,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -204,6 +204,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Rand.cpp" />
     <ClCompile Include="..\cpp\RandNormal.cpp" />
     <ClCompile Include="..\cpp\RandomInterface.cpp" />
@@ -212,16 +213,15 @@
     <ClCompile Include="..\cpp\RandomLaggedFibonacci607.cpp" />
     <ClCompile Include="..\cpp\Rng.cpp" />
     <ClCompile Include="..\cpp\Rng_helpers.cpp" />
-    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\RandomInterface.hpp" />
+    <ClInclude Include="..\cpp\RandomLaggedFibonacci607.hpp" />
+    <ClInclude Include="..\cpp\RandomMersenneTwister.hpp" />
+    <ClInclude Include="..\cpp\RandomMersenneTwister64.hpp" />
     <ClInclude Include="..\include\nlsRandom_exports.h" />
     <ClInclude Include="..\include\Rand.hpp" />
     <ClInclude Include="..\include\RandNormal.hpp" />
-    <ClInclude Include="..\include\RandomInterface.hpp" />
-    <ClInclude Include="..\include\RandomMersenneTwister.hpp" />
-    <ClInclude Include="..\include\RandomMersenneTwister64.hpp" />
-    <ClInclude Include="..\include\RandomLaggedFibonacci607.hpp" />
     <ClInclude Include="..\include\Rng.hpp" />
     <ClInclude Include="..\include\Rng_helpers.hpp" />
   </ItemGroup>

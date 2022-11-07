@@ -11,6 +11,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FevalFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"

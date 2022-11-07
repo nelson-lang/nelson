@@ -10,16 +10,16 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL_VML
 #undef EIGEN_USE_MKL
-#include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
 #include "InverseMatrix.hpp"
 #include "ClassName.hpp"
 #include "ReciprocalConditionNumber.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

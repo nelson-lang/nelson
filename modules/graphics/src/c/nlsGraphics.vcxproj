@@ -46,7 +46,7 @@
     <ClCompile Include="..\cpp\QtBaseWindow.cpp" />
     <ClCompile Include="..\cpp\QtRenderer.cpp" />
     <ClCompile Include="..\cpp\VertCatGO.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">

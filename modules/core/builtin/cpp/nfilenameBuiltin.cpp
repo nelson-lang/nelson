@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "nfilenameBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetCurrentNFilename.hpp"
 //=============================================================================
 using namespace Nelson;

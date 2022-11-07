@@ -9,6 +9,7 @@
 //=============================================================================
 #include "winopenBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "WinOpen.hpp"
 //=============================================================================
 using namespace Nelson;

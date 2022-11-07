@@ -10,7 +10,7 @@
 #define EIGEN_NO_DEBUG
 //=============================================================================
 #include <Eigen/Sparse>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "MxArrayOf.hpp"
 #include "MxNumericTypes.h"
 #include "MxHelpers.hpp"

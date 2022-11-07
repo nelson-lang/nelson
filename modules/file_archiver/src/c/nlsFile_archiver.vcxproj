@@ -178,7 +178,7 @@
     <ClCompile Include="..\cpp\Zip.cpp" />
     <ClCompile Include="..\cpp\ZipHelpers.cpp" />
     <ClCompile Include="..\cpp\Zipper.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="minizip\mz_compat.c" />
     <ClCompile Include="minizip\mz_crypt.c" />
     <ClCompile Include="minizip\mz_crypt_win32.c" />

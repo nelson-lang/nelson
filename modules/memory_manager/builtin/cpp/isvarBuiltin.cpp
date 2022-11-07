@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isvarBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsVariable.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -203,7 +203,7 @@
     <ClCompile Include="..\cpp\loadBuiltin.cpp" />
     <ClCompile Include="..\cpp\saveBuiltin.cpp" />
     <ClCompile Include="..\cpp\sscanfBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

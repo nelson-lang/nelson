@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSCHARACTERS_ENCODING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSCHARACTERS_ENCODING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSCHARACTERS_ENCODING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -161,7 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSCHARACTERS_ENCODING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/characters_encoding/src/cpp/simdutf;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/icu/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -183,27 +183,12 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\characters_encoding.cpp" />
     <ClCompile Include="..\cpp\simdutf\simdutf.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\..\types\src\include\nlsConfig.h.vc">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\types\src\include\nlsConfig.h.vc" "$(SolutionDir)modules\types\src\include\nlsConfig.h"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copy $(SolutionDir)modules\types\src\include\nlsConfig.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\types\src\include\nlsConfig.h</Outputs>
-    </CustomBuild>
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>

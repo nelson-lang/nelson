@@ -34,7 +34,7 @@
     <ClCompile Include="..\cpp\QtTextIndent.cpp" />
     <ClCompile Include="..\cpp\QtTextEditor.cpp" />
     <ClCompile Include="..\cpp\TextEditor.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\cpp\QtEditPane.h">

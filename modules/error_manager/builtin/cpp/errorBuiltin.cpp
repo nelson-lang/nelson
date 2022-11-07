@@ -10,6 +10,7 @@
 #include "errorBuiltin.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
 #include "IsErrorStruct.hpp"

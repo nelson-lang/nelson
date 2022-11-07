@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <vector>
 #include "SortCellHelpers.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

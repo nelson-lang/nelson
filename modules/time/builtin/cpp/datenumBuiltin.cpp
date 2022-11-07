@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "datenumBuiltin.hpp"
 #include "DateNumber.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Warning.hpp"
 #include "Now.hpp"
 #include "IsCellOfStrings.hpp"

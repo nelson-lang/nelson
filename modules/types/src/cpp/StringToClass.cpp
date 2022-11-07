@@ -9,12 +9,11 @@
 //=============================================================================
 #include "StringToClass.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-#define TOWSTRING_(x) L##x
-#define TOWSTRING(x) TOWSTRING_(x)
 //=============================================================================
 NelsonType
 StringToClass(const std::wstring& classname, bool& haveError)

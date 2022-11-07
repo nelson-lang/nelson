@@ -231,7 +231,7 @@
     <ClCompile Include="..\cpp\ResponseCodeToMessage.cpp" />
     <ClCompile Include="..\cpp\WebOptions.cpp" />
     <ClCompile Include="..\cpp\WebREST.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\ProcessEventsDynamic.hpp" />

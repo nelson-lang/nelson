@@ -9,6 +9,7 @@
 //=============================================================================
 #include "loadBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"

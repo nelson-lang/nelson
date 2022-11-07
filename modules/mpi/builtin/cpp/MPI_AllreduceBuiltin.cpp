@@ -7,11 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <mpi.h>
 #include "MPI_AllreduceBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
-#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

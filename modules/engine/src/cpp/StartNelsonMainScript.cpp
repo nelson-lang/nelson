@@ -13,6 +13,7 @@
 #include "EvaluateScriptFile.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 bool
 StartNelsonMainScript(Evaluator* eval)

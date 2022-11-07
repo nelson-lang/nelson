@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <limits>
 #include <cmath>
 #include <complex>

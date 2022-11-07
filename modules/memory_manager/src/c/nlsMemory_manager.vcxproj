@@ -183,7 +183,7 @@
     <ClCompile Include="..\cpp\MemoryInformation.cpp" />
     <ClCompile Include="..\cpp\Who.cpp" />
     <ClCompile Include="..\cpp\Whos.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\Clear.hpp" />

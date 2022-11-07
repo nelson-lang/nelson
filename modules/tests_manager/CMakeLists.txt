@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name tests_manager)
@@ -26,6 +25,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 # ==============================================================================
 file(GLOB TESTS_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER TESTS_MANAGER_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TESTS_MANAGER_SRC})
 # ==============================================================================
@@ -38,8 +39,7 @@ target_link_libraries(
   nlsI18n
   nlsCore
   nlsCommons
-  nlsFiles_folders_functions
-  ${BOOST_LIBRARIES})
+  nlsFiles_folders_functions)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -49,6 +49,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB TESTS_MANAGER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER TESTS_MANAGER_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

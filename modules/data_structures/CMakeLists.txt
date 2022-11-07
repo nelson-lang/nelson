@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name data_structures)
@@ -22,6 +21,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB DATA_STRUCTURES_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER DATA_STRUCTURES_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${DATA_STRUCTURES_SRC})
 # ==============================================================================
@@ -37,6 +38,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB DATA_STRUCTURES_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER DATA_STRUCTURES_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -57,7 +60,7 @@ target_link_libraries(
   ${module_library_name}
   nlsError_manager
   nlsStream_manager
-    nlsInterpreter
+  nlsInterpreter
   nlsTypes
   nlsCharacters_encoding
   nlsString

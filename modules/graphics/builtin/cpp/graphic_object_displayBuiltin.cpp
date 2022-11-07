@@ -12,6 +12,8 @@
 #include "GraphicObjectDisplay.hpp"
 #include "GOFigure.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

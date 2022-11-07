@@ -199,7 +199,6 @@
     <ClCompile Include="derfc_.c" />
     <ClCompile Include="derf_.c" />
     <ClCompile Include="dfe.c" />
-    <ClCompile Include="Dllmain.c" />
     <ClCompile Include="dolio.c" />
     <ClCompile Include="due.c" />
     <ClCompile Include="d_abs.c" />

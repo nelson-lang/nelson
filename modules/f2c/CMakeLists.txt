@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name f2c)
@@ -13,7 +12,7 @@ set(module_library_name nlsF2C)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-add_definitions(-D_POSIX_SOURCE)
+  add_definitions(-D_POSIX_SOURCE)
 endif()
 add_definitions(-DINTEGER_STAR_8)
 add_definitions(-DNO_My_ctype)
@@ -190,7 +189,10 @@ add_executable(nelson_f2c ${F2C_SRC})
 target_link_libraries(nelson_f2c)
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${BIN_DIRECTORY}/nelson_f2c DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_EXECUTE OWNER_WRITE OWNER_READ)
+install(
+  FILES ${BIN_DIRECTORY}/nelson_f2c
+  DESTINATION ${LIBRARY_OUTPUT}
+  PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_EXECUTE OWNER_WRITE OWNER_READ)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m

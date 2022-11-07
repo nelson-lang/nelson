@@ -8,13 +8,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
 #endif
 #include "Subtraction.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "SubtractionReal.hpp"
 #include "SubtractionComplex.hpp"
 #include "SubtractionInteger.hpp"

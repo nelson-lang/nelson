@@ -10,6 +10,7 @@
 #include "dlmwriteBuiltin.hpp"
 #include "DelimitedFile.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;

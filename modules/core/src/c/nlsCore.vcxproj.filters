@@ -30,9 +30,6 @@
     <ClInclude Include="..\include\EvaluateCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Nelson_VERSION.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\NargIn.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,9 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ComputeNelsonPath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp">
@@ -122,15 +116,15 @@
     <ClCompile Include="..\cpp\ComputeNelsonPaths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\dllMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\include\Nelson_VERSION.h.vc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">

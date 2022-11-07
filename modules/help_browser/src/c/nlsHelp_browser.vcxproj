@@ -25,7 +25,7 @@
     <ClCompile Include="..\cpp\HelpViewerWindow.cpp" />
     <ClCompile Include="..\cpp\moc_HelpViewer.cpp" />
     <ClCompile Include="..\cpp\moc_HelpViewerWindow.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\cpp\HelpViewer.h">

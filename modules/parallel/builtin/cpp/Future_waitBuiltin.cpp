@@ -13,6 +13,7 @@
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "WaitFutures.hpp"
 #include "FutureObjectHelpers.hpp"
 //=============================================================================

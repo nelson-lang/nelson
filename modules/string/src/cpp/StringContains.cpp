@@ -9,6 +9,7 @@
 //=============================================================================
 #include "StringContains.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsCellOfStrings.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================

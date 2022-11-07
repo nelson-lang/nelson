@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "MatrixTangent.hpp"
 #include "ClassName.hpp"

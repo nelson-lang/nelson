@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fieldnamesQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"

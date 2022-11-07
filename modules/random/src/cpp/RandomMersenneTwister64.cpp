@@ -181,8 +181,8 @@ RandomMersenneTwister64::setState(const std::vector<uint64>& _state)
 {
     // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;
-    for (unsigned long k : _state) {
-        line << ' ' << k;
+    for (uint64 k : _state) {
+        line << ' ' << (unsigned long)k;
     }
     line >> random_engine();
 }

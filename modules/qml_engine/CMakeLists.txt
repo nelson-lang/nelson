@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name qml_engine)
@@ -22,6 +21,7 @@ include_directories(
   ${Qt${QT_VERSION_MAJOR}Qml_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -36,12 +36,14 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
 file(GLOB QML_ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER QML_ENGINE_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${QML_ENGINE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-   nlsApi_nelson
+  nlsApi_nelson
   nlsGui
   nlsInterpreter
   nlsCharacters_encoding
@@ -63,6 +65,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB QML_ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER QML_ENGINE_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -77,8 +81,7 @@ add_library(${module_library_builtin_name} SHARED ${QML_ENGINE_BUILTIN})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
- 
-  ${module_library_name} 
+  ${module_library_name}
   nlsError_manager
   nlsInterpreter
   nlsOverload

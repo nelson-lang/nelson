@@ -10,6 +10,7 @@
 #include "audiodevinfoBuiltin.hpp"
 #include "AudioDevInfo.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

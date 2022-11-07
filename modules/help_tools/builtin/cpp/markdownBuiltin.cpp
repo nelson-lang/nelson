@@ -11,6 +11,7 @@
 #include "StringHelpers.hpp"
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
 //=============================================================================

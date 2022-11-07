@@ -9,6 +9,7 @@
 //=============================================================================
 #include "lookandfeelBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "QtLookAndFeel.hpp"
 #include "ToCellString.hpp"
 //=============================================================================

@@ -20,6 +20,8 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "FileSystemWrapper.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -11,6 +11,7 @@
 #include "triuBuiltin.hpp"
 #include "UpperTrianglePart.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;

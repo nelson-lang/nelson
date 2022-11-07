@@ -9,6 +9,7 @@
 //=============================================================================
 #include "FileStream.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

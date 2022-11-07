@@ -35,6 +35,7 @@ include_directories(
 # ==============================================================================
 file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
+list(FILTER INTERPRETER_SRC EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp") 
 # ==============================================================================
 add_library(${module_library_name} SHARED ${INTERPRETER_SRC})
 # ==============================================================================
@@ -61,6 +62,7 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB INTERPRETER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER INTERPRETER_BUILTIN EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp") 
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

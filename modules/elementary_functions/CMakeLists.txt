@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name elementary_functions)
@@ -31,6 +30,8 @@ include_directories(
   ${Boost_INCLUDE_DIRS})
 # ==============================================================================
 file(GLOB ELEMENTARY_FUNCTIONS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER ELEMENTARY_FUNCTIONS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ELEMENTARY_FUNCTIONS_SRC})
 # ==============================================================================
@@ -59,6 +60,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB ELEMENTARY_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER ELEMENTARY_FUNCTIONS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${EIGEN3_INCLUDE_DIR}

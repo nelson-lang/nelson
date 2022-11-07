@@ -180,7 +180,7 @@
     <ClCompile Include="..\cpp\FftHelpers.cpp" />
     <ClCompile Include="..\cpp\FFTWWrapper.cpp" />
     <ClCompile Include="..\cpp\InverseFft.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\FFTWWrapper.hpp" />

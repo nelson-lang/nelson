@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name assert_functions)
@@ -12,8 +11,8 @@ set(module_library_name nlsAssert_functions)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 include_directories(
-  ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -23,6 +22,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 # ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER ASSERT_FUNCTIONS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ASSERT_FUNCTIONS_SRC})
 # ==============================================================================
@@ -34,8 +35,7 @@ target_link_libraries(
   nlsTypes
   nlsI18n
   nlsCore
-  nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsCommons)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -46,6 +46,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER ASSERT_FUNCTIONS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

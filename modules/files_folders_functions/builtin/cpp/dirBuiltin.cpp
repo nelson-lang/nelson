@@ -10,6 +10,7 @@
 #include <vector>
 #include "dirBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "ListFiles.hpp"
 #include "NelsonConfiguration.hpp"

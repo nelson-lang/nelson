@@ -19,7 +19,7 @@
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Warning.hpp"
 #include "Sleep.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "DataInterProcessToExchange.hpp"
 #include "CompressedStringHelpers.hpp"
 #include "StringZLib.hpp"
@@ -27,6 +27,7 @@
 #include "FilesAssociation.hpp"
 #include "NelsonMinimizedDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

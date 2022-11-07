@@ -193,7 +193,7 @@
     <ClCompile Include="..\cpp\semverBuiltin.cpp" />
     <ClCompile Include="..\cpp\toolboxdirBuiltin.cpp" />
     <ClCompile Include="..\cpp\usermodulesdirBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

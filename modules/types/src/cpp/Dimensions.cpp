@@ -16,6 +16,7 @@
 #include "Dimensions.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,17 +24,18 @@ Dimensions::Dimensions() { memset(data, 0, sizeof(indexType) * MAXDIMS); }
 //=============================================================================
 Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {
+    indexType szVector = dimsVector.size();
 #ifndef NLS_INDEX_TYPE_64
     for (auto k : dimsVector) {
         if (k < 0) {
             Error(_W("Illegal argument to Dimensions constructor"));
         }
     }
-#endif
-    indexType szVector = dimsVector.size();
+#else
     if (szVector > maxDims) {
         Error(_W("Illegal argument to Dimensions constructor"));
     }
+#endif
     reset();
     for (indexType k = 0; k < szVector; ++k) {
         data[k] = dimsVector[k];
@@ -326,13 +328,6 @@ Dimensions::toString() const
         }
     }
     return text;
-}
-//=============================================================================
-void
-Dimensions::printMe(Interface* io) const
-{
-    std::string txt = toString();
-    io->outputMessage(txt);
 }
 //=============================================================================
 void

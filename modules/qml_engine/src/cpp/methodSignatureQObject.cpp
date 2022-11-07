@@ -9,6 +9,7 @@
 //=============================================================================
 #include "methodSignatureQObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"

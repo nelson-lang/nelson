@@ -11,7 +11,8 @@
 #include <cwctype>
 #include "IsLetter.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "i18n.hpp"
+#include "nlsBuildConfig.h"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

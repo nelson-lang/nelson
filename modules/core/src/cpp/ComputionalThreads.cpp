@@ -20,7 +20,7 @@
 #include <omp.h>
 #include <Eigen/Dense>
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "StringHelpers.hpp"
 #include "ComputionalThreads.hpp"
 #include "GetVariableEnvironment.hpp"

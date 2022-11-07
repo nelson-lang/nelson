@@ -10,6 +10,8 @@
 #include "backgroundPool_structBuiltin.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "ToCellString.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

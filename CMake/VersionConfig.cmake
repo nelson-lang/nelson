@@ -31,10 +31,10 @@ else()
   set(Nelson_VERSION_BUILD ${Nelson_VERSION_BUILD_DEFAULT})
 endif()
 # ==============================================================================
-if(EXISTS ${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h)
+if(EXISTS ${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h)
 else()
   configure_file(
-    "${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h.in"
-    "${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h")
+    "${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h.in"
+    "${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h")
 endif()
 # ==============================================================================

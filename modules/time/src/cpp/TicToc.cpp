@@ -7,16 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <chrono>
 #include "TicToc.hpp"
-#include <boost/chrono/chrono.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static uint64
 nowAsNanoseconds()
 {
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    return uint64(static_cast<boost::uint64_t>(ns.count()));
+    std::chrono::nanoseconds ns = std::chrono::high_resolution_clock::now().time_since_epoch();
+    return uint64(static_cast<std::uint64_t>(ns.count()));
 }
 //=============================================================================
 bool

@@ -10,6 +10,7 @@
 #include <mpi.h>
 #include "MPI_Comm_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"

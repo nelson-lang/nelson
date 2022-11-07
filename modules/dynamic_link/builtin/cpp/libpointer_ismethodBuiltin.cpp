@@ -9,6 +9,7 @@
 //=============================================================================
 #include "libpointer_ismethodBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;

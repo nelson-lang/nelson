@@ -9,6 +9,7 @@
 //=============================================================================
 #include "FutureFetchOutputs.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "WaitFutures.hpp"
 #include "VertCatOperator.hpp"
 //=============================================================================

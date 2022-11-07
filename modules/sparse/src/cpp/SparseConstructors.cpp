@@ -13,6 +13,8 @@
 #include "CheckIJV.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

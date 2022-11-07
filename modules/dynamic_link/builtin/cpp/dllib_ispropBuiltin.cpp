@@ -10,6 +10,7 @@
 #include "dllib_ispropBuiltin.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "mat2strBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MatrixToString.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

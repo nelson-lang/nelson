@@ -192,7 +192,7 @@
     <ClCompile Include="..\cpp\rmfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

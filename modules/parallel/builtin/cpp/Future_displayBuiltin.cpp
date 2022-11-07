@@ -12,6 +12,7 @@
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"

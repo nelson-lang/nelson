@@ -10,8 +10,8 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "SqrtMatrix.hpp"
 #include "ClassName.hpp"

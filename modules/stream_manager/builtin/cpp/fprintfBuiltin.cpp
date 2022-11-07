@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fprintfBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "File.hpp"
 #include "FilesManager.hpp"
 #include "Interface.hpp"

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "nargoutBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "NargOut.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

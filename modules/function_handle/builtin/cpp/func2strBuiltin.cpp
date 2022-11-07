@@ -10,6 +10,7 @@
 #include "func2strBuiltin.hpp"
 #include "OverloadFunction.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "AnonymousMacroFunctionDef.hpp"

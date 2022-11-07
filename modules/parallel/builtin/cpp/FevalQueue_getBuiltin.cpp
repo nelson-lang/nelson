@@ -10,6 +10,7 @@
 #include "FevalQueue_getBuiltin.hpp"
 #include "FevalQueueObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================

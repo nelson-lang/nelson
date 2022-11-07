@@ -268,7 +268,7 @@
     <ClCompile Include="..\cpp\XmlDocTitleItem.cpp" />
     <ClCompile Include="..\cpp\XmlDocUsedFunctionItem.cpp" />
     <ClCompile Include="..\cpp\XmlHelpers.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="hoedown\autolink.c" />
     <ClCompile Include="hoedown\buffer.c" />
     <ClCompile Include="hoedown\document.c" />

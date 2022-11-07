@@ -18,7 +18,9 @@
 #include "Dimensions.hpp"
 #include "Types.hpp"
 #include "SparseDynamicFunctions.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

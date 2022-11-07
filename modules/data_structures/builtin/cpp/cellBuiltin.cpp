@@ -13,7 +13,7 @@
 #include <fmt/format.h>
 #include "cellBuiltin.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

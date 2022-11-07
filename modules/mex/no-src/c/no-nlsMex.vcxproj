@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\MxCall.cpp" />
     <ClCompile Include="..\cpp\MxMemory.cpp" />
   </ItemGroup>

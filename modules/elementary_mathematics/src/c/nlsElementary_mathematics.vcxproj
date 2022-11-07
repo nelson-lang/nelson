@@ -178,6 +178,7 @@
     <ClInclude Include="..\include\complex_multiply.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\IEEEFP.cpp" />
   </ItemGroup>
   <ItemGroup>

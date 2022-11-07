@@ -24,7 +24,7 @@
     <ClCompile Include="..\cpp\FileCompleter.cpp" />
     <ClCompile Include="..\cpp\MacroCompleter.cpp" />
     <ClCompile Include="..\cpp\VariableCompleter.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">

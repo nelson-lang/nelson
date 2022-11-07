@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GraphicObjectGet.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GOProperty.hpp"
 //=============================================================================
 namespace Nelson {

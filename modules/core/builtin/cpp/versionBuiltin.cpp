@@ -9,6 +9,7 @@
 //=============================================================================
 #include "versionBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Nelson_VERSION.h"
 #include "ToCellString.hpp"
 #include "VersionCompilerFlags.hpp"

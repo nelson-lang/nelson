@@ -10,7 +10,8 @@
 #include <algorithm>
 #include "cell2structBuiltin.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "i18n.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

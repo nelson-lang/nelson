@@ -9,6 +9,7 @@
 //=============================================================================
 #include "diaryBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Interface.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

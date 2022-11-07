@@ -29,6 +29,7 @@
 #include <QtQml/QQmlListProperty>
 #include "QVariantArrayOf.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetQObjectHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "IsCellOfStrings.hpp"

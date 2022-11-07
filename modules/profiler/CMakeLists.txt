@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name profiler)
@@ -25,6 +24,8 @@ include_directories(
   ${Boost_INCLUDE_DIRS})
 # ==============================================================================
 file(GLOB PROFILER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER PROFILER_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${PROFILER_SRC})
 # ==============================================================================
@@ -36,8 +37,7 @@ target_link_libraries(
   nlsStream_manager
   nlsCharacters_encoding
   nlsI18n
-  nlsTypes
-  ${BOOST_LIBRARIES})
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -47,6 +47,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB PROFILER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER PROFILER_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include

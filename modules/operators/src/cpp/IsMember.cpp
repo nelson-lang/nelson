@@ -8,7 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include "IsMember.hpp"
 #include "Error.hpp"
 //=============================================================================

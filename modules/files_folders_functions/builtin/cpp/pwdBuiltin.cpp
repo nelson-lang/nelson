@@ -9,6 +9,7 @@
 //=============================================================================
 #include "pwdBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "NelsonPrint.hpp"
 //=============================================================================

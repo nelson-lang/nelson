@@ -9,7 +9,7 @@
 //=============================================================================
 #include <bitset>
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
 #include "NumToBin.hpp"
 #include "Transpose.hpp"
 //=============================================================================

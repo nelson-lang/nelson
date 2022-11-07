@@ -11,6 +11,8 @@
 #include "MException.hpp"
 #include "ClassName.hpp"
 #include "ToCellString.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

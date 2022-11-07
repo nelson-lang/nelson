@@ -9,6 +9,7 @@
 //=============================================================================
 #include "builtinBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -10,6 +10,7 @@
 #include <regex>
 #include "ListFiles.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "getmodulesBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ModulesManager.hpp"
 #include "ToCellString.hpp"
 //=============================================================================

@@ -12,6 +12,7 @@
 #include "h5SaveLoadHelpers.hpp"
 #include "h5SaveVariable.hpp"
 #include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

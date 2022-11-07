@@ -26,6 +26,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB OS_FUNCTIONS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER OS_FUNCTIONS_SRC EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp") 
 # ==============================================================================
 add_library(${module_library_name} SHARED ${OS_FUNCTIONS_SRC})
 # ==============================================================================
@@ -39,7 +40,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsStream_manager
   nlsCommons
-  ${BOOST_LIBRARIES})
+  ${Boost_FILESYSTEM_LIBRARY})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -49,6 +50,7 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB OS_FUNCTONS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER OS_FUNCTONS_BUILTIN EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp") 
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include

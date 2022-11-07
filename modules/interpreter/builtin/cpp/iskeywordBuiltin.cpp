@@ -10,7 +10,7 @@
 #include "iskeywordBuiltin.hpp"
 #include "Error.hpp"
 #include "Keywords.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

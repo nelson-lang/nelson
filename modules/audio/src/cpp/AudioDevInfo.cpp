@@ -9,6 +9,7 @@
 //=============================================================================
 #include <portaudio.h>
 #include "AudioDevInfo.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

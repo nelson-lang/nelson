@@ -14,6 +14,7 @@
 #include "ToCellString.hpp"
 #endif
 #include "WindowsQueryRegistry.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 #ifdef _MSC_VER

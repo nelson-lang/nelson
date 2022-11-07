@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name help_tools)
@@ -32,6 +31,8 @@ include_directories(
 # ==============================================================================
 file(GLOB HELP_TOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown/*.c")
+list(FILTER HELP_TOOLS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${HELP_TOOLS_SRC})
 # ==============================================================================
@@ -58,6 +59,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB HELP_TOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER HELP_TOOLS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -126,10 +129,10 @@ install(
   FILES_MATCHING
   PATTERN "*.m")
 install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/xml
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
-    FILES_MATCHING
-    PATTERN "*.xml")
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/xml
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
+  FILES_MATCHING
+  PATTERN "*.xml")
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources/about.txt
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/resources)
 install(

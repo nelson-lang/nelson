@@ -9,8 +9,9 @@
 //=============================================================================
 #include "randBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Rand.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

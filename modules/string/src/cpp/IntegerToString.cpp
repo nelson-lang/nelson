@@ -10,7 +10,7 @@
 #include "IntegerToString.hpp"
 #include "RealPart.hpp"
 #include "i18n.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

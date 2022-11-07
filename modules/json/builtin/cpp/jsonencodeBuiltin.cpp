@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jsonencodeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "JsonEncode.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

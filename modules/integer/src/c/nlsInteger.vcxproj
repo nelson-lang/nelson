@@ -189,6 +189,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\ToInteger.cpp" />
   </ItemGroup>
   <ItemGroup>

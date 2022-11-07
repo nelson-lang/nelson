@@ -9,7 +9,10 @@
 //=============================================================================
 #include "h5ReadFloat.hpp"
 #include "h5ReadHelpers.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

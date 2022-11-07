@@ -201,7 +201,7 @@
     <ClCompile Include="..\cpp\runBuiltin.cpp" />
     <ClCompile Include="..\cpp\sha256builtin.cpp" />
     <ClCompile Include="..\cpp\versionBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "narginBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "NargIn.hpp"
 #include "characters_encoding.hpp"
 #include "AnonymousMacroFunctionDef.hpp"

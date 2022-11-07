@@ -20,7 +20,8 @@
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
 #include "JsonVariable.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

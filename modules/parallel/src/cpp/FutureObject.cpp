@@ -19,6 +19,7 @@
 #include "ParallelEvaluator.hpp"
 #include "HandleManager.hpp"
 #include "FutureObjectHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
