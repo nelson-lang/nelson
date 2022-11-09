@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FMT_EXPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSCOMMONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FMT_EXPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSCOMMONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>FMT_EXPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSCOMMONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -161,7 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>FMT_EXPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSCOMMONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/cpp/stduuid;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>

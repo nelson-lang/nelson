@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Github Actions CI warnings
 
+- [#778](http://github.com/Nelson-numerical-software/nelson/issues/778): ArchLinux CI Build.
+
 ## 0.6.10 (2022-10-31)
 
 ### Added
