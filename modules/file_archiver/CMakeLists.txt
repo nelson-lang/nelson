@@ -77,14 +77,10 @@ if(WITHOUT_FILE_ARCHIVER_MODULE)
 else()
   target_link_libraries(
     ${module_library_name}
-    nlsInterpreter
-    nlsNelson_manager
-    nlsTypes
-    nlsElementary_functions
-    nlsElementary_mathematics
     nlsCharacters_encoding
-    nlsI18n
     nlsCommons
+    nlsError_manager
+    nlsI18n
     ${ZLIB_LIBRARIES})
 endif()
 # ==============================================================================
@@ -115,13 +111,11 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   target_link_libraries(
     ${module_library_builtin_name}
     ${module_library_name}
-    nlsError_manager
-    nlsInterpreter
-    nlsOverload
-    nlsTypes
     nlsApi_nelson
+    nlsError_manager
     nlsI18n
-    nlsString)
+    nlsInterpreter
+    nlsTypes)
   # ==============================================================================
   set_target_properties(
     ${module_library_builtin_name}

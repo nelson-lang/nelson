@@ -64,11 +64,11 @@ if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
   target_link_libraries(
     ${module_library_builtin_name}
     ${module_library_name}
+    nlsApi_nelson
+    nlsI18n
     nlsError_manager
     nlsInterpreter
-    nlsTypes
-    nlsI18n
-    nlsApi_nelson)
+    nlsTypes)
   # ==============================================================================
   set_target_properties(
     ${module_library_builtin_name}

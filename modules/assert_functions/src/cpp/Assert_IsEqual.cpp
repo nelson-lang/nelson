@@ -33,7 +33,8 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
             computed);
     } else {
         if (computedArray.isScalar() && expectedArray.isScalar()) {
-            if (computedArray.getDataClass() == expectedArray.getDataClass()) {
+            if ((computedArray.getDataClass() == expectedArray.getDataClass())
+                && (!computedArray.isSparse() && !expectedArray.isSparse())) {
                 switch (expectedArray.getDataClass()) {
                 case NLS_LOGICAL: {
                     logical computed = computedArray.getContentAsLogicalScalar();

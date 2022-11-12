@@ -33,14 +33,13 @@ add_library(${module_library_name} SHARED ${FILES_FOLDERS_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsStream_manager
   nlsCharacters_encoding
+  nlsCommons
   nlsError_manager
-  nlsTypes
   nlsI18n
-  nlsTime
   nlsInterpreter
-  nlsCommons)
+  nlsTime
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -74,17 +73,16 @@ add_library(${module_library_builtin_name} SHARED
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
   nlsApi_nelson
-  nlsNelson_manager
-  nlsCharacters_encoding
   nlsCommons
-  nlsInterpreter
-  nlsI18n
-  nlsTypes
   nlsData_structures
-  nlsString)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsStream_manager
+  nlsString
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

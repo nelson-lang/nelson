@@ -35,16 +35,8 @@ add_library(${module_library_name} SHARED ${DOUBLE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsElementary_mathematics
-  nlsElementary_functions
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
   nlsTypes
-  nlsI18n
-  nlsString
-  nlsApi_nelson
-  nlsCharacters_encoding)
+  nlsString)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -71,13 +63,11 @@ add_library(${module_library_builtin_name} SHARED ${DOUBLE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsTypes
-  nlsI18n
-  nlsElementary_functions)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

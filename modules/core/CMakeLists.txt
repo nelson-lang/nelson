@@ -36,17 +36,16 @@ add_library(${module_library_name} SHARED ${CORE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsOs_functions
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes
-  nlsError_manager
-  nlsStream_manager
-  nlsCommons
   nlsCharacters_encoding
+  nlsCommons
+  nlsError_manager
   nlsFiles_folders_functions
   nlsI18n
-  nlsString
+  nlsInterpreter
+  nlsNelson_manager
+  nlsOs_functions
+  nlsStream_manager
+  nlsTypes
   ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -76,15 +75,15 @@ add_library(${module_library_builtin_name} SHARED ${CORE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsTypes
-  nlsI18n
-  nlsCommons
   nlsApi_nelson
+  nlsCharacters_encoding
+  nlsCommons
   nlsData_structures
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes
   nlsOverload)
 # ==============================================================================
 set_target_properties(

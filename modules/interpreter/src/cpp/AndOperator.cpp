@@ -18,7 +18,7 @@ Evaluator::andOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf retval;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
+        && isOverloadAllowed()) {
         retval = OverloadBinaryOperator(this, A, B, "and");
     } else {
         retval = And(A, B);

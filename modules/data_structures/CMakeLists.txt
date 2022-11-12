@@ -26,8 +26,8 @@ list(FILTER DATA_STRUCTURES_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} SHARED ${DATA_STRUCTURES_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsInterpreter nlsTypes
-                      nlsApi_nelson nlsFunction_handle nlsI18n)
+target_link_libraries(${module_library_name}
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -58,14 +58,14 @@ add_library(${module_library_builtin_name} SHARED ${DATA_STRUCTURES_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
-  nlsInterpreter
-  nlsTypes
+  nlsApi_nelson
   nlsCharacters_encoding
-  nlsString
+  nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
   nlsOverload
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

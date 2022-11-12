@@ -29,8 +29,11 @@ list(FILTER CONSTRUCTORS_FUNCTIONS_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} SHARED ${CONSTRUCTORS_FUNCTIONS_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsTypes
-                      nlsInterpreter nlsI18n)
+target_link_libraries(${module_library_name}
+  nlsElementary_mathematics
+  nlsError_manager
+  nlsTypes
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -54,8 +57,13 @@ include_directories(
 add_library(${module_library_builtin_name} SHARED
             ${CONSTRUCTORS_FUNCTONS_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsInterpreter nlsTypes nlsI18n nlsOverload)
+target_link_libraries(${module_library_builtin_name}
+  ${module_library_name}
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

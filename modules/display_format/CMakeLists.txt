@@ -33,14 +33,12 @@ add_library(${module_library_name} SHARED ${DISPLAY_FORMAT_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsTypes
-  nlsCommons
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsStream_manager
+  nlsCommons
   nlsElementary_mathematics
-  nlsI18n)
+  nlsI18n
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -69,15 +67,12 @@ add_library(${module_library_builtin_name} SHARED ${DISPLAY_FORMAT_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsI18n
   nlsCommons
-  nlsCharacters_encoding
-  nlsApi_nelson)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

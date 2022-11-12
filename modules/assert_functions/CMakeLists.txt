@@ -29,13 +29,12 @@ add_library(${module_library_name} SHARED ${ASSERT_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsStream_manager
-  nlsTypes
-  nlsI18n
+  nlsCommons
   nlsCore
-  nlsCommons)
+  nlsI18n
+  nlsError_manager
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -63,10 +62,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
   nlsI18n
   nlsTypes
-  nlsString)
+  nlsInterpreter)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

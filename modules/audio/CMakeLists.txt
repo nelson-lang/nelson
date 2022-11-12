@@ -40,15 +40,13 @@ add_library(${module_library_name} SHARED ${AUDIO_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsApi_nelson
+  nlsCharacters_encoding
+  nlsCommons
   nlsError_manager
-  nlsInterpreter
-  nlsElementary_mathematics
+  nlsI18n
   nlsOperators
   nlsTypes
-  nlsI18n
-  nlsCommons
-  nlsCharacters_encoding
-  nlsApi_nelson
   ${PORTAUDIO_LIBRARIES}
   ${SNDFILE_LIBRARIES}
   ${TAGLIB_LIBRARIES}
@@ -85,19 +83,17 @@ add_library(${module_library_builtin_name} SHARED ${AUDIO_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsElementary_functions
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsI18n
   nlsApi_nelson
   nlsCharacters_encoding
-  nlsNelson_manager
-  nlsHandle
   nlsDisplay_format
-  ${PORTAUDIO_LIBRARIES}
-  ${SNDFILE_LIBRARIES})
+  nlsError_manager
+  nlsHandle
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsOverload
+  nlsStream_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

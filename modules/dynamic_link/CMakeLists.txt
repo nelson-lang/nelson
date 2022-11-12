@@ -36,18 +36,15 @@ add_library(${module_library_name} SHARED ${DYNAMIC_LINK_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
-  nlsCharacters_encoding
   nlsApi_nelson
-  nlsI18n
-  nlsHandle
-  nlsString
-  nlsFiles_folders_functions
-  nlsStream_manager
-  nlsOs_functions
+  nlsCharacters_encoding
   nlsCommons
+  nlsError_manager
+  nlsFiles_folders_functions
+  nlsHandle
+  nlsI18n
+  nlsOs_functions
+  nlsTypes
   ${LIBFFI_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -79,16 +76,15 @@ add_library(${module_library_builtin_name} SHARED ${DYNAMIC_LINK_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
-  nlsI18n
-  nlsOverload
   nlsCommons
   nlsDisplay_format
-  nlsHandle)
+  nlsError_manager
+  nlsHandle
+  nlsI18n
+  nlsInterpreter
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

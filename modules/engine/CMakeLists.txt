@@ -50,22 +50,22 @@ endif()
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCore
-  nlsInterpreter
-  nlsModules_manager
-  nlsTerminal
   nlsCharacters_encoding
-  nlsMemory_manager
-  nlsNelson_manager
-  nlsLocalization
-  nlsI18n
   nlsCommons
-  nlsMex
-  nlsTime
-  nlsSparse
+  nlsCore
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
   nlsIpc
+  nlsLocalization
+  nlsMemory_manager
+  nlsMex
+  nlsModules_manager
+  nlsNelson_manager
+  nlsOs_functions
   nlsSio_client
-  nlsFile_archiver
+  nlsStream_manager
+  nlsTerminal
   ${LIBRT})
 # ==============================================================================
 set_target_properties(
@@ -94,12 +94,12 @@ add_library(${module_library_builtin_name} SHARED ${ENGINE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsApi_nelson
   nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsTypes
   nlsI18n
-  nlsApi_nelson)
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

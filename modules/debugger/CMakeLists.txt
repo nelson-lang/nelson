@@ -46,8 +46,12 @@ include_directories(
 add_library(${module_library_builtin_name} SHARED ${DEBUGGER_BUILTIN})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_builtin_name} nlsError_manager nlsTypes nlsI18n
-  nlsInterpreter nlsCommons
+  ${module_library_builtin_name} 
+  nlsCommons
+  nlsError_manager 
+  nlsInterpreter
+  nlsI18n
+  nlsTypes 
   # ${module_library_name}
 )
 # ==============================================================================

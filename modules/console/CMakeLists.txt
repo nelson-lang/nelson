@@ -26,7 +26,7 @@ list(FILTER CONSOLE_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} SHARED ${CONSOLE_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsInterpreter nlsI18n)
+target_link_libraries(${module_library_name} nlsInterpreter)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -47,8 +47,12 @@ include_directories(
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${CONSOLE_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsInterpreter nlsTypes nlsI18n)
+target_link_libraries(${module_library_builtin_name}
+  ${module_library_name}
+  nlsError_manager
+  nlsInterpreter 
+  nlsTypes 
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

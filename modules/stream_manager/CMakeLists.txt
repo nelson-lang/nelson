@@ -10,8 +10,6 @@ set(module_name stream_manager)
 set(module_library_name nlsStream_manager)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-add_definitions(-DFMT_EXPORT)
-# ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include

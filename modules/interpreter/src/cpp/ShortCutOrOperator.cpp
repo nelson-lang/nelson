@@ -54,7 +54,7 @@ Evaluator::shortCutOrOperator(AbstractSyntaxTreePtr t)
         return retval;
     }
     ArrayOf A = expression(t->down);
-    if (needToOverloadOperator(A) && !isOverloadAllowed()) {
+    if (needToOverloadOperator(A) && isOverloadAllowed()) {
         ArrayOf B = expression(t->down->right);
         retval = OverloadBinaryOperator(this, A, B, "shortcutor");
         callstack.popID();
@@ -69,7 +69,7 @@ Evaluator::shortCutOrOperator(AbstractSyntaxTreePtr t)
             return retval;
         }
         ArrayOf B = expression(t->down->right);
-        if (needToOverloadOperator(B) && !isOverloadAllowed()) {
+        if (needToOverloadOperator(B) && isOverloadAllowed()) {
             retval = OverloadBinaryOperator(this, A, B, "shortcutor");
             callstack.popID();
             return retval;

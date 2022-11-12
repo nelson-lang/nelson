@@ -38,10 +38,6 @@ target_link_libraries(
   nlsOperators
   nlsI18n
   nlsTypes
-  ${BLAS_LIBRARIES}
-  ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY}
   ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -70,11 +66,11 @@ add_library(${module_library_builtin_name} SHARED ${DATA_ANALYSIS_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsCommons
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsI18n
-  nlsLinear_algebra
   nlsTypes)
 # ==============================================================================
 set_target_properties(
