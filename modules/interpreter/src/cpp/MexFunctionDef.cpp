@@ -61,22 +61,22 @@ MexFunctionDef::MexFunctionDef(const std::wstring& filename, const std::wstring&
         char* functionName = (char*)get_function(nlsMexHandleDynamicLibrary, FUNCTIONNAME_ENTRY);
         PROC_MexIsLockedPtr = get_function(nlsMexHandleDynamicLibrary, MEXISLOCKED_ENTRY);
 
-        if (PROC_MexFileRequiredApiVersionPtr == nullptr || PROC_mexFunctionPtr == nullptr
-            || functionName == nullptr || PROC_MexClearAtExitPtr == nullptr
-            || PROC_MexIsLockedPtr == nullptr) {
+        if (PROC_mexFunctionPtr == nullptr) {
             close_dynamic_library(nlsMexHandleDynamicLibrary);
             nlsMexHandleDynamicLibrary = nullptr;
             loaded = false;
             return;
         }
         std::string utf8name = wstring_to_utf8(name);
-        if (strcmp(utf8name.c_str(), functionName)) {
+        if (functionName && strcmp(utf8name.c_str(), functionName)) {
             strncpy(functionName, utf8name.c_str(), BUFFER_LENGTH_NAME);
         }
         int buildRelease = 0;
         int targetApiVersion = 0;
-        PROC_MexFileRequiredApiVersionPtr(&buildRelease, &targetApiVersion);
-        interleavedComplex = targetApiVersion != 0x07300000;
+        if (PROC_MexFileRequiredApiVersionPtr) {
+            PROC_MexFileRequiredApiVersionPtr(&buildRelease, &targetApiVersion);
+            interleavedComplex = targetApiVersion != 0x07300000;
+        }
         loaded = true;
 
         libraryPtr = (void*)nlsMexHandleDynamicLibrary;
