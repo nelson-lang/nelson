@@ -34,16 +34,10 @@ add_library(${module_library_name} SHARED ${SPECIAL_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsApi_nelson
-  nlsError_manager
-  nlsCharacters_encoding
-  nlsI18n
-  nlsTypes
   nlsElementary_mathematics
-  ${BLAS_LIBRARIES}
-  ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY})
+  nlsError_manager
+  nlsI18n
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -70,9 +64,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsI18n
   nlsTypes)
 # ==============================================================================
 set_target_properties(

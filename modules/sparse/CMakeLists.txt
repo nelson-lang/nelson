@@ -33,14 +33,9 @@ add_library(${module_library_name} SHARED ${SPARSE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsDouble
-  nlsElementary_mathematics
   nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsStream_manager
-  nlsTypes
-  nlsI18n)
+  nlsI18n
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -66,11 +61,10 @@ add_library(${module_library_builtin_name} SHARED ${SPARSE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsI18n
   nlsTypes)
 # ==============================================================================
 set_target_properties(

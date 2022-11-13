@@ -32,12 +32,10 @@ add_library(${module_library_name} SHARED ${STATISTICS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsApi_nelson
-  nlsTypes
-  nlsI18n
   nlsElementary_functions
-  nlsOperators
+  nlsError_manager
+  nlsI18n
+  nlsTypes
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}

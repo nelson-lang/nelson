@@ -31,12 +31,11 @@ add_library(${module_library_name} SHARED ${LINEAR_ALGEBRA_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsConstructors_functions
   nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsI18n
   nlsOperators
-  nlsConstructors_functions
+  nlsTypes
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}
@@ -67,12 +66,11 @@ add_library(${module_library_builtin_name} SHARED ${LINEAR_ALGEBRA_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsTypes
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

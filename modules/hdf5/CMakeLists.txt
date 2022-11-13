@@ -35,14 +35,13 @@ add_library(${module_library_name} SHARED ${HDF5_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsTypes
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsI18n
-  nlsSparse
   nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsSparse
+  nlsTypes
   ${HDF5_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -71,12 +70,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsI18n
-  nlsCharacters_encoding
-  nlsApi_nelson
+  nlsInterpreter
+  nlsTypes
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

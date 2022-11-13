@@ -52,13 +52,12 @@ if(WITHOUT_SIO_CLIENT_MODULE)
 else()
   target_link_libraries(
     ${module_library_name}
-    nlsError_manager
-    nlsTypes
-    nlsInterpreter
-    nlsNelson_manager
     nlsCharacters_encoding
     nlsCommons
-    nlsI18n)
+    nlsInterpreter
+    nlsNelson_manager
+    nlsStream_manager
+    nlsTypes)
 endif()
 # ==============================================================================
 set_target_properties(
@@ -87,13 +86,10 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
   target_link_libraries(
     ${module_library_builtin_name}
     ${module_library_name}
-    nlsApi_nelson
     nlsError_manager
-    nlsInterpreter
-    nlsOverload
-    nlsTypes
     nlsI18n
-    nlsElementary_functions)
+    nlsInterpreter
+    nlsTypes)
   # ==============================================================================
   set_target_properties(
     ${module_library_builtin_name}

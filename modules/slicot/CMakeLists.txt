@@ -27,12 +27,7 @@ add_library(${module_library_name} SHARED ${SLICOT_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsTypes
-  nlsInterpreter
-  nlsI18n
-  nlsCommons
-  nlsCharacters_encoding)
+  nlsCommons)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -61,11 +56,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsApi_nelson
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

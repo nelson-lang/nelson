@@ -33,12 +33,12 @@ add_library(${module_library_name} SHARED ${TERMINAL_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsStream_manager
-  nlsInterpreter
   nlsCharacters_encoding
-  nlsI18n
   nlsCommons
-  nlsHistory_manager)
+  nlsHistory_manager
+  nlsInterpreter
+  nlsStream_manager
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

@@ -32,14 +32,13 @@ add_library(${module_library_name} SHARED ${OS_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsApi_nelson
   nlsCharacters_encoding
-  nlsTypes
+  nlsCommons
   nlsError_manager
   nlsI18n
-  nlsApi_nelson
   nlsNelson_manager
-  nlsStream_manager
-  nlsCommons
+  nlsTypes
   ${Boost_FILESYSTEM_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -62,8 +61,14 @@ include_directories(
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${OS_FUNCTONS_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsInterpreter nlsTypes nlsApi_nelson nlsI18n nlsData_structures)
+target_link_libraries(${module_library_builtin_name} 
+  ${module_library_name}
+  nlsApi_nelson
+  nlsData_structures
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

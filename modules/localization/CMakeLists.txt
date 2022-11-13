@@ -43,12 +43,9 @@ if(WITHOUT_LOCALIZATION_MODULE)
 else()
   target_link_libraries(
     ${module_library_name}
-    nlsTypes
-    nlsInterpreter
     nlsCharacters_encoding
-    nlsI18n
     nlsNelson_manager
-    ${BOOST_LIBRARIES})
+    ${Boost_LOCALE_LIBRARY})
 endif()
 # ==============================================================================
 set_target_properties(
@@ -74,8 +71,13 @@ if(NOT WITHOUT_LOCALIZATION_MODULE)
   # ==============================================================================
   add_library(${module_library_builtin_name} SHARED ${LOCALIZATION_BUILTIN})
   # ==============================================================================
-  target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                        nlsTypes nlsCharacters_encoding nlsApi_nelson nlsI18n)
+  target_link_libraries(${module_library_builtin_name}
+    ${module_library_name}
+    nlsApi_nelson
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
   # ==============================================================================
   set_target_properties(
     ${module_library_builtin_name}

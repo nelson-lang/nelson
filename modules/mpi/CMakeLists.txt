@@ -34,14 +34,11 @@ add_library(${module_library_name} SHARED ${MPI_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
   nlsError_manager
-  nlsTypes
   nlsI18n
-  nlsCore
+  nlsInterpreter
   nlsSparse
-  nlsFunction_handle
-  nlsFiles_folders_functions
+  nlsTypes
   ${MPI_C_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -73,14 +70,11 @@ add_library(${module_library_builtin_name} SHARED ${MPI_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsCharacters_encoding
   nlsError_manager
-  nlsDisplay_format
-  nlsInterpreter
-  nlsI18n
-  nlsTypes
-  nlsString
   nlsHandle
+  nlsI18n
+  nlsInterpreter
+  nlsTypes
   ${MPI_C_LIBRARIES})
 # ==============================================================================
 set_target_properties(

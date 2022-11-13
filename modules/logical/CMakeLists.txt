@@ -31,12 +31,10 @@ add_library(${module_library_name} SHARED ${LOGICAL_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
   nlsApi_nelson
-  nlsTypes
+  nlsError_manager
   nlsI18n
-  nlsElementary_functions)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -63,14 +61,12 @@ add_library(${module_library_builtin_name} SHARED ${LOGICAL_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsStream_manager
+  nlsCommons
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsTypes
-  nlsString
-  nlsCommons
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

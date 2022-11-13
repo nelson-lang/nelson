@@ -36,15 +36,13 @@ add_library(${module_library_name} SHARED ${MODULES_MANAGER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsCore
-  nlsInterpreter
-  nlsNelson_manager
-  nlsOs_functions
   nlsCharacters_encoding
-  nlsI18n
   nlsCommons
-  nlsFiles_folders_functions)
+  nlsCore
+  nlsError_manager
+  nlsI18n
+  nlsNelson_manager
+  nlsOs_functions)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -72,12 +70,12 @@ add_library(${module_library_builtin_name} SHARED ${MODULES_MANAGER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsCharacters_encoding
-  nlsInterpreter
   nlsApi_nelson
-  nlsI18n
+  nlsCharacters_encoding
   nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
   nlsTypes)
 # ==============================================================================
 set_target_properties(

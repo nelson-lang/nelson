@@ -44,18 +44,16 @@ add_library(${module_library_name} SHARED ${TEXT_EDITOR_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCommons
   nlsCharacters_encoding
+  nlsCommons
+  nlsEngine
   nlsFunctions_manager
   nlsGui
   nlsI18n
-  nlsCore
   nlsInterpreter
   nlsModules_manager
   nlsNelson_manager
-  nlsOs_functions
   nlsText_completion
-  nlsEngine
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::PrintSupport)
@@ -85,10 +83,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
-  nlsTypes
-  nlsApi_nelson
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

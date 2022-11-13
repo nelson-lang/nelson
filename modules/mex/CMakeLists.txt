@@ -52,12 +52,11 @@ else()
     nlsCharacters_encoding
     nlsError_manager
     nlsI18n
-    nlsNelson_manager
+    nlsInterpreter
+    nlsIpc
+    nlsSparse
     nlsStream_manager
     nlsTypes
-    nlsInterpreter
-    nlsSparse
-    nlsIpc
     nlsOs_functions
     ${BOOST_LIBRARIES})
 endif()
@@ -88,11 +87,10 @@ if(NOT WITHOUT_MEX_MODULE)
   target_link_libraries(
     ${module_library_builtin_name}
     nlsError_manager
+    nlsI18n
     nlsInterpreter
     nlsTypes
-    nlsApi_nelson
-    nlsValidators
-    nlsI18n)
+    nlsValidators)
   # ==============================================================================
   set_target_properties(
     ${module_library_builtin_name}

@@ -59,15 +59,16 @@ else()
   target_link_libraries(
     ${module_library_name}
     nlsCharacters_encoding
+    nlsCommons
     nlsError_manager
     nlsFile_archiver
     nlsI18n
     nlsInterpreter
+    nlsNelson_manager
     nlsOs_functions
     nlsStream_manager
     nlsTime
     nlsTypes
-    nlsCommons
     ${BOOST_LIBRARIES}
     ${LIBRT})
 endif()
@@ -101,11 +102,11 @@ if(NOT WITHOUT_IPC_MODULE)
   target_link_libraries(
     ${module_library_builtin_name}
     ${module_library_name}
+    nlsCore
     nlsError_manager
     nlsI18n
     nlsInterpreter
     nlsNelson_manager
-    nlsCore
     nlsTypes)
   # ==============================================================================
   set_target_properties(

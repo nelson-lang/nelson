@@ -33,13 +33,11 @@ add_library(${module_library_name} SHARED ${STREAM_MANAGER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsTypes
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsElementary_mathematics
-  nlsI18n
   nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsTypes
   ${Boost_IOSTREAMS_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -70,15 +68,15 @@ add_library(${module_library_builtin_name} SHARED ${STREAM_MANAGER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsI18n
-  nlsCharacters_encoding
-  nlsNelson_manager
   nlsApi_nelson
-  nlsCommons)
+  nlsCharacters_encoding
+  nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

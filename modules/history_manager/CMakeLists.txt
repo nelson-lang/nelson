@@ -33,16 +33,9 @@ add_library(${module_library_name} SHARED ${HISTORY_MANAGER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsElementary_mathematics
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsTypes
   nlsCharacters_encoding
-  nlsData_structures
-  nlsCore
   nlsCommons
-  nlsI18n)
+  nlsNelson_manager)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -71,12 +64,12 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsApi_nelson
+  nlsData_structures
   nlsError_manager
-  nlsNelson_manager
+  nlsI18n
   nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsI18n)
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

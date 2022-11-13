@@ -33,13 +33,12 @@ add_library(${module_library_name} SHARED ${PARALLEL_SRC})
 # ==============================================================================
 target_link_libraries(${module_library_name} 
   nlsCharacters_encoding
+  nlsCommons
   nlsCore
   nlsError_manager
   nlsI18n
   nlsInterpreter
   nlsNelson_manager
-  nlsStream_manager
-  nlsCommons
   nlsTypes)
 # ==============================================================================
 set_target_properties(

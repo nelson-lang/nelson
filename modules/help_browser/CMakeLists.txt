@@ -40,16 +40,12 @@ add_library(${module_library_name} SHARED ${HELP_BROWSER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
   nlsCharacters_encoding
-  nlsI18n
-  nlsGui
   nlsCommons
-  nlsNelson_manager
-  nlsCore
   nlsFiles_folders_functions
+  nlsGui
+  nlsI18n
+  nlsNelson_manager
   ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
   ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::PrintSupport)
@@ -77,11 +73,11 @@ add_library(${module_library_builtin_name} SHARED ${HELP_BROWSER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
-  nlsI18n)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

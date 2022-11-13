@@ -33,13 +33,10 @@ add_library(${module_library_name} SHARED ${TESTS_MANAGER_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
-  nlsError_manager
-  nlsStream_manager
-  nlsTypes
-  nlsI18n
-  nlsCore
   nlsCommons
-  nlsFiles_folders_functions)
+  nlsFiles_folders_functions
+  nlsI18n
+  nlsInterpreter)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -66,10 +63,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
   nlsI18n
-  nlsTypes
-  nlsString)
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

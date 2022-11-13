@@ -36,8 +36,8 @@ add_library(${module_library_name} SHARED ${OPERATORS_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsApi_nelson
+  nlsElementary_mathematics
   nlsError_manager
-  nlsCharacters_encoding
   nlsI18n
   nlsTypes
   ${BLAS_LIBRARIES}
@@ -72,10 +72,10 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
-  nlsOverload
   nlsI18n
+  nlsInterpreter
   nlsLinear_algebra
+  nlsOverload
   nlsTypes)
 # ==============================================================================
 set_target_properties(

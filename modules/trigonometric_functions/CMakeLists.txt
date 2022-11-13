@@ -31,10 +31,10 @@ add_library(${module_library_name} SHARED ${TRIGONOMETRIC_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsTypes
-  nlsI18n
   nlsApi_nelson
+  nlsError_manager
+  nlsI18n
+  nlsTypes
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}
@@ -66,10 +66,10 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsTypes
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

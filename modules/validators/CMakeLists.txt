@@ -42,22 +42,17 @@ add_library(${module_library_name} SHARED ${VALIDATORS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsData_structures
-  nlsError_manager
-  nlsStream_manager
-  nlsInterpreter
-  nlsTypes
-  nlsTypes_builtin
-  nlsElementary_functions_builtin
-  nlsData_analysis_builtin
-  nlsOperators_builtin
-  nlsModules_manager
-  nlsI18n
   nlsCommons
+  nlsData_analysis_builtin
+  nlsData_structures
+  nlsElementary_functions_builtin
+  nlsError_manager
   nlsFiles_folders_functions_builtin
+  nlsI18n
+  nlsOperators_builtin
   nlsString_builtin
-  nlsString)
+  nlsTypes_builtin
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -85,11 +80,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
-  nlsTypes
-  nlsApi_nelson
   nlsI18n
-  nlsFiles_folders_functions)
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

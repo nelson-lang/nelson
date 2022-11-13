@@ -26,7 +26,11 @@ list(FILTER OVERLOAD_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} SHARED ${OVERLOAD_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsInterpreter nlsTypes nlsI18n)
+target_link_libraries(${module_library_name}
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -47,8 +51,12 @@ include_directories(
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${OVERLOAD_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsInterpreter nlsTypes nlsI18n)
+target_link_libraries(${module_library_builtin_name}
+  ${module_library_name}
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

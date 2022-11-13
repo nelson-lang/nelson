@@ -29,8 +29,11 @@ list(FILTER INTEGER_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} SHARED ${INTEGER_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsTypes nlsI18n
-                      nlsElementary_functions nlsCharacters_encoding)
+target_link_libraries(${module_library_name}
+  nlsCharacters_encoding
+  nlsError_manager 
+  nlsI18n
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -56,10 +59,10 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
   nlsOverload
-  nlsTypes
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

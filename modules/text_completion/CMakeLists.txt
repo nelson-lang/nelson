@@ -33,17 +33,10 @@ add_library(${module_library_name} SHARED ${TEXT_COMPLETION_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
   nlsCharacters_encoding
-  nlsCore
-  nlsI18n
   nlsCommons
-  nlsModules_manager
   nlsFunctions_manager
-  nlsCharacters_encoding
-  nlsOs_functions)
+  nlsInterpreter)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

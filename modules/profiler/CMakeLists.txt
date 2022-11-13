@@ -31,13 +31,9 @@ add_library(${module_library_name} SHARED ${PROFILER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsApi_nelson
-  nlsError_manager
-  nlsCommons
-  nlsStream_manager
   nlsCharacters_encoding
-  nlsI18n
-  nlsTypes)
+  nlsCommons
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -65,13 +61,11 @@ add_library(${module_library_builtin_name} SHARED ${PROFILER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsModules_manager
-  nlsCharacters_encoding
-  nlsInterpreter
-  nlsOverload
-  nlsI18n
   nlsCommons
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsModules_manager
   nlsTypes)
 # ==============================================================================
 set_target_properties(

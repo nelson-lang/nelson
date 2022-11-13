@@ -31,10 +31,10 @@ add_library(${module_library_name} SHARED ${MEMORY_MANAGER_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
-  nlsInterpreter
+  nlsCommons
   nlsError_manager
   nlsI18n
-  nlsCommons
+  nlsInterpreter
   nlsTypes)
 # ==============================================================================
 set_target_properties(
@@ -66,16 +66,16 @@ add_library(${module_library_builtin_name} SHARED ${MEMORY_MANAGER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
-  nlsFunctions_manager
-  nlsStream_manager
-  nlsString
-  nlsI18n
+  nlsCharacters_encoding
   nlsCommons
-  nlsMex)
+  nlsError_manager
+  nlsFunctions_manager
+  nlsI18n
+  nlsInterpreter
+  nlsMex
+  nlsStream_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

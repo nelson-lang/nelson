@@ -33,16 +33,11 @@ add_library(${module_library_name} SHARED ${TYPES_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsElementary_mathematics
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
   nlsCommons
-  ${BLAS_LIBRARIES}
-  ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY}
+  nlsElementary_mathematics
+  nlsError_manager
+  nlsI18n
   ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -65,8 +60,13 @@ include_directories(
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${TYPES_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsInterpreter nlsOverload nlsI18n)
+target_link_libraries(${module_library_builtin_name}
+  ${module_library_name}
+  nlsCharacters_encoding
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter 
+  nlsOverload)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

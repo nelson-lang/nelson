@@ -39,16 +39,13 @@ add_library(${module_library_name} SHARED ${WEBTOOLS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
-  nlsInterpreter
-  nlsElementary_mathematics
-  nlsElementary_functions
-  nlsTypes
-  nlsI18n
   nlsCharacters_encoding
-  nlsFiles_folders_functions
   nlsCommons
+  nlsError_manager
+  nlsFiles_folders_functions
+  nlsI18n
+  nlsNelson_manager
+  nlsTypes
   ${CURL_LIBRARIES}
   ${LIBGIT2_LIBRARIES})
 # ==============================================================================
@@ -76,13 +73,11 @@ add_library(${module_library_builtin_name} SHARED ${WEBTOOLS_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsElementary_functions
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsApi_nelson
-  nlsI18n)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

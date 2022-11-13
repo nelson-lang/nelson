@@ -78,8 +78,11 @@ endif()
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${I18N_BUILTIN})
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsTypes nlsInterpreter)
+target_link_libraries(${module_library_builtin_name}
+  ${module_library_name}
+  nlsError_manager
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}
