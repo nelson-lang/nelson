@@ -322,9 +322,6 @@
     <ProjectReference Include="..\..\..\profiler\src\c\nlsProfiler.vcxproj">
       <Project>{3a10cbee-b778-46ca-9c0f-720dedced9f2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
-      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>

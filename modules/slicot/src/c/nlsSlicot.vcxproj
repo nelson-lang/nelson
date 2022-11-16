@@ -187,9 +187,6 @@
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
-      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

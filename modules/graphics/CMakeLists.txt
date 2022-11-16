@@ -42,17 +42,13 @@ add_library(${module_library_name} SHARED ${GRAPHICS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
   nlsCharacters_encoding
-  nlsI18n
-  nlsGui
-  nlsCore
-  nlsModules_manager
-  nlsEngine
   nlsCommons
-  nlsFiles_folders_functions
+  nlsError_manager
+  nlsGui
+  nlsI18n
+  nlsModules_manager
+  nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
@@ -82,12 +78,12 @@ add_library(${module_library_builtin_name} SHARED ${GRAPHICS_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
   nlsDisplay_format
-  nlsI18n)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

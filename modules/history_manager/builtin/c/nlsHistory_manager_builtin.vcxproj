@@ -198,9 +198,6 @@
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
-      <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>

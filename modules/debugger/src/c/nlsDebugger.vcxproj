@@ -236,7 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsDebugger_exports.h" />
-    <ClInclude Include="..\include\nlsInterpreter_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

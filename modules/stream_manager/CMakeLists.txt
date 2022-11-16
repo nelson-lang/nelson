@@ -38,6 +38,7 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsTypes
+  nlsHistory_manager
   ${Boost_IOSTREAMS_LIBRARY})
 # ==============================================================================
 set_target_properties(

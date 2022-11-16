@@ -216,17 +216,8 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
-      <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\files_folders_functions\builtin\c\nlsFiles_folders_functions_builtin.vcxproj">
-      <Project>{aed644dc-e6e8-4bc0-bdec-f89d7623597e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>

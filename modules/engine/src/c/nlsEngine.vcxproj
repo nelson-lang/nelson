@@ -231,14 +231,8 @@
     <ProjectReference Include="..\..\..\core\src\c\nlsCore.vcxproj">
       <Project>{2e6aabb4-2551-4478-814d-648150952186}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\dynamic_link\src\c\nlsDynamic_link.vcxproj">
-      <Project>{1d386695-18b8-4565-b198-b700b57bf4a2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\file_archiver\src\c\nlsFile_archiver.vcxproj">
-      <Project>{b192ae19-f947-4900-81a6-babe8fa2b6cd}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
@@ -270,20 +264,11 @@
     <ProjectReference Include="..\..\..\sio_client\src\c\nlsSio_client.vcxproj">
       <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\sparse\src\c\nlsSparse.vcxproj">
-      <Project>{74cc7c51-0768-41e6-a973-6159633dcfbc}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
       <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\terminal\src\c\nlsTerminal.vcxproj">
       <Project>{636d4715-9889-4a8e-9404-3b05cb7734d1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\time\src\c\nlsTime.vcxproj">
-      <Project>{2391a997-6a1f-49ef-8a7a-92769f13b1f7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
-      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

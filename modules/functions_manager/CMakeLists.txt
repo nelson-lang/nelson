@@ -73,8 +73,10 @@ add_library(${module_library_builtin_name} SHARED ${FUNCTIONS_MANAGER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsCharacters_encoding
   nlsError_manager
   nlsStream_manager
+  nlsModules_manager
   nlsInterpreter
   nlsTypes
   nlsApi_nelson

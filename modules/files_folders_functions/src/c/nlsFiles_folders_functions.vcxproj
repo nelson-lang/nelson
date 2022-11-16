@@ -225,9 +225,6 @@
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
-      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\time\src\c\nlsTime.vcxproj">
       <Project>{2391a997-6a1f-49ef-8a7a-92769f13b1f7}</Project>
     </ProjectReference>

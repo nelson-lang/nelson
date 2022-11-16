@@ -37,9 +37,7 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsI18n
-  nlsString
   nlsApi_nelson
-  nlsCore
   nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(
@@ -70,12 +68,13 @@ add_library(${module_library_builtin_name} SHARED ${HANDLE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsOverload
-  nlsInterpreter
   nlsCharacters_encoding
-  nlsTypes
+  nlsDisplay_format
   nlsError_manager
-  nlsI18n)
+  nlsI18n
+  nlsInterpreter
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

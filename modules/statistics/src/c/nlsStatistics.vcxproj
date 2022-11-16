@@ -176,9 +176,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
-      <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
@@ -187,9 +184,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\operators\src\c\nlsOperators.vcxproj">
-      <Project>{1d03d6f8-862d-4aff-9857-cd73cb9b3d8b}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>

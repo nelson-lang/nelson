@@ -228,17 +228,8 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
-      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
       <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
-      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
-      <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>

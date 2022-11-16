@@ -206,9 +206,6 @@
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\dynamic_link\src\c\nlsDynamic_link.vcxproj">
-      <Project>{1d386695-18b8-4565-b198-b700b57bf4a2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -226,9 +223,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
       <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
-      <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>

@@ -50,8 +50,7 @@ target_link_libraries(
   nlsOperators
   nlsOs_functions
   nlsProfiler
-  nlsTypes
-  ${BOOST_LIBRARIES})
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

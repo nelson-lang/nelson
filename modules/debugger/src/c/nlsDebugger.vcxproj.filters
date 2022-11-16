@@ -23,7 +23,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\nlsInterpreter_exports.h" />
     <ClInclude Include="..\include\nlsDebugger_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>

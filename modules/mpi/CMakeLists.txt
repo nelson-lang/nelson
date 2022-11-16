@@ -70,6 +70,8 @@ add_library(${module_library_builtin_name} SHARED ${MPI_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsDisplay_format
+  nlsCharacters_encoding
   nlsError_manager
   nlsHandle
   nlsI18n

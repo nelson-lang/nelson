@@ -47,6 +47,7 @@ target_link_libraries(
   nlsTypes
   nlsError_manager
   nlsNelson_manager
+  nlsStream_manager
   nlsCharacters_encoding
   nlsCore
   nlsHistory_manager
@@ -89,6 +90,8 @@ target_link_libraries(
   nlsTypes
   nlsData_structures
   nlsApi_nelson
+  nlsNelson_manager
+  nlsCore
   nlsI18n)
 # ==============================================================================
 set_target_properties(
