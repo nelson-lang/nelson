@@ -29,7 +29,6 @@
 #include <QtWidgets/QScrollBar>
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "NelsonHistory.hpp"
 #include "ProcessEvents.hpp"
 #include "QStringConverter.hpp"
@@ -185,7 +184,7 @@ QtTerminal::getLine(const std::wstring& prompt)
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
     if (eval == nullptr) {
-        void* veval = GetNelsonMainEvaluatorDynamicFunction();
+        void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
         eval = (Nelson::Evaluator*)veval;
     }
     bool wasInterruptByAction = false;

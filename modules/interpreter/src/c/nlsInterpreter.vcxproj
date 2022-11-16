@@ -250,7 +250,6 @@
     <ClCompile Include="..\cpp\FunctionsInMemory.cpp" />
     <ClCompile Include="..\cpp\GatewayHelpers.cpp" />
     <ClCompile Include="..\cpp\GeOperator.cpp" />
-    <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\GtOperator.cpp" />
     <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
@@ -355,7 +354,6 @@
     <ClInclude Include="..\include\FunctionsInMemory.hpp" />
     <ClInclude Include="..\include\GatewayHelpers.hpp" />
     <ClInclude Include="..\include\GenericTable.hpp" />
-    <ClInclude Include="..\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
     <ClInclude Include="..\include\HorzCatOperator.hpp" />
     <ClInclude Include="..\include\Keywords.hpp" />
     <ClInclude Include="..\include\LexerInterface.hpp" />

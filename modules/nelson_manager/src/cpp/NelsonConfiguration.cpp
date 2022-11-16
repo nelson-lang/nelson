@@ -24,6 +24,7 @@ NelsonConfiguration::NelsonConfiguration()
     nelsonRootPath = L"";
     ipcEnabled = false;
     mainGuiObject = nullptr;
+    mainEvaluator = nullptr;
     FileManager = nullptr;
     RandomEngine = nullptr;
     HistoryManager = nullptr;
@@ -161,6 +162,18 @@ void*
 NelsonConfiguration::getMainGuiObject()
 {
     return this->mainGuiObject;
+}
+//=============================================================================
+void
+NelsonConfiguration::setMainEvaluator(void* mainEvaluator)
+{
+    this->mainEvaluator = mainEvaluator;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getMainEvaluator()
+{
+    return this->mainEvaluator;
 }
 //=============================================================================
 void

@@ -115,8 +115,8 @@
 #include <termios.h>
 
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "NelsonHistory.h"
+#include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "linenoise.h"
 #include <cctype>
@@ -920,7 +920,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
                 return -1;
             }
             if (eval == nullptr) {
-                void* veval = GetNelsonMainEvaluatorDynamicFunction();
+                void* veval = Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
                 eval = (Nelson::Evaluator*)veval;
             }
             if (!eval->commandQueue.isEmpty()) {

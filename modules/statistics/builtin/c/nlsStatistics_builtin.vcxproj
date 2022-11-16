@@ -199,7 +199,7 @@
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\c\nlsStatistics.vcxproj">
-      <Project>{0229f943-6e1a-4cdd-8a0b-cf0f211b6c13}</Project>
+      <Project>{9ac8560a-9e4c-4430-9938-63d6377890eb}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

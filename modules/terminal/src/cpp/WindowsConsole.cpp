@@ -15,7 +15,7 @@
 #include "WindowsConsole.hpp"
 #include "ActionMenu.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 #include "LineManager.hpp"
 #include "NelsonHistory.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
@@ -449,7 +449,7 @@ WindowsConsole::getCharacter(bool& bIsAction)
                 ProcessEventsDynamicFunctionWithoutWait();
             }
             if (eval == nullptr) {
-                void* veval = GetNelsonMainEvaluatorDynamicFunction();
+                void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
                 eval = (Nelson::Evaluator*)veval;
             }
             if (!eval->commandQueue.isEmpty() || bInterruptGetChar) {

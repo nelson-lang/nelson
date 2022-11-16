@@ -43,6 +43,7 @@ add_library(${module_library_name} SHARED ${QML_ENGINE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsNelson_manager
   nlsApi_nelson
   nlsCharacters_encoding
   nlsData_structures

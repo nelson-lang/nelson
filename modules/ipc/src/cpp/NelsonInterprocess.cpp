@@ -16,7 +16,6 @@
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
 #include "PostCommandDynamicFunction.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Warning.hpp"
 #include "Sleep.hpp"
 #include "nlsBuildConfig.h"
@@ -135,7 +134,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         evalAnswerAvailable = true;
     } break;
     case PUT: {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             bool success;
@@ -147,7 +146,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         }
     } break;
     case GET: {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             ArrayOf result;
@@ -164,7 +163,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         res = true;
     } break;
     case IS_VAR: {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             bool isVar = scope->isVariable(messageData.variableName);
@@ -182,7 +181,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         }
     } break;
     case IS_MINIMIZED: {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         bool minimized = true;
         if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
             minimized = getNelsonMinimizedDynamicFunction();
@@ -321,7 +320,7 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
     closeIpcReceiverIsReadyMutex(pid);
     int l = 0;
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (loopTerminated || l >= TIMEOUT_COUNT) {
                 break;
@@ -484,7 +483,7 @@ evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
         return false;
     }
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (evalAnswerAvailable || !isPIDRunning(pidDestination)) {
                 break;
@@ -603,7 +602,7 @@ isMinimizedFromNelsonInterprocessReceiver(
         return false;
     }
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (isMinimizedAnswerAvailable || !isPIDRunning(pidDestination)) {
                 break;
@@ -665,7 +664,7 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
         return false;
     }
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (isVarAnswerAvailable || !isPIDRunning(pidDestination)) {
                 break;
@@ -728,7 +727,7 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     }
     int l = 0;
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (getVarAnswerAvailable || l >= TIMEOUT_COUNT) {
                 break;
@@ -764,7 +763,7 @@ void
 waitMessageQueueUntilReady(bool withEventsLoop)
 {
     if (withEventsLoop) {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         while (true) {
             if (isMessageQueueReady || isMessageQueueFails) {
                 break;

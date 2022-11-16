@@ -10,7 +10,7 @@
 #include <algorithm>
 #include "VariableCompleter.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,7 +19,7 @@ wstringVector
 VariableCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval) {
         Context* context = eval->getContext();
         stringVector variables;

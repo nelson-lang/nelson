@@ -10,7 +10,7 @@
 #include "What.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -42,7 +42,7 @@ wstringVector
 WhatListOfBuiltin(bool bSorted)
 {
     wstringVector functionsList;
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         functionsList = WhatListOfBuiltin(eval, bSorted);
     }
@@ -59,7 +59,7 @@ wstringVector
 WhatListOfMacro()
 {
     wstringVector macroList;
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         macroList = WhatListOfMacro(eval);
     }

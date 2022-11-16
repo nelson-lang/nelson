@@ -9,7 +9,7 @@
 //=============================================================================
 #include "nelsonObject.h"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 #include "Interface.hpp"
 #include "ProcessEvents.hpp"
 #include "QStringConverter.hpp"
@@ -24,7 +24,7 @@ static Evaluator* eval = nullptr;
 nelsonObject::nelsonObject(QObject* parent) : QObject(parent)
 {
     if (eval == nullptr) {
-        eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     }
 }
 //=============================================================================

@@ -9,14 +9,14 @@
 //=============================================================================
 #include "PostCommand.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 postCommand(const std::wstring& commandToExecute)
 {
-    void* veval = GetNelsonMainEvaluatorDynamicFunction();
+    void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
     if (veval != nullptr) {
         std::wstring _cmd = commandToExecute + L";";
         auto* eval = static_cast<Evaluator*>(veval);
