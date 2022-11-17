@@ -10,10 +10,7 @@ set(module_name mex)
 set(module_library_name nlsMex)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-if(WITHOUT_MEX_MODULE)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
-                      ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
-else()
+if(NOT WITHOUT_MEX_MODULE)
   include_directories(
     ${EIGEN3_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
@@ -32,21 +29,14 @@ else()
     ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include)
 endif()
 # ==============================================================================
-if(WITHOUT_MEX_MODULE)
-  file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
-  list(FILTER MEX_SRC EXCLUDE REGEX
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/dllMain.cpp")
-else()
+if(NOT WITHOUT_MEX_MODULE)
   file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
   list(FILTER MEX_SRC EXCLUDE REGEX
        "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 endif()
 # ==============================================================================
-add_library(${module_library_name} SHARED ${MEX_SRC})
-# ==============================================================================
-if(WITHOUT_MEX_MODULE)
-  target_link_libraries(${module_library_name})
-else()
+if(NOT WITHOUT_MEX_MODULE)
+  add_library(${module_library_name} SHARED ${MEX_SRC})
   target_link_libraries(
     ${module_library_name}
     nlsCharacters_encoding
@@ -101,9 +91,7 @@ if(NOT WITHOUT_MEX_MODULE)
   # ==============================================================================
 endif()
 # ==============================================================================
-if(WITHOUT_MEX_MODULE)
-  install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-else()
+if(NOT WITHOUT_MEX_MODULE)
   install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
   install(TARGETS ${module_library_builtin_name}
           LIBRARY DESTINATION ${LIBRARY_OUTPUT})

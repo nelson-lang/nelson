@@ -30,7 +30,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../ipc/src/include
@@ -59,7 +58,6 @@ target_link_libraries(
   nlsIpc
   nlsLocalization
   nlsMemory_manager
-  nlsMex
   nlsModules_manager
   nlsNelson_manager
   nlsOs_functions

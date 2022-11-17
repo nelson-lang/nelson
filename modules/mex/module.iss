@@ -10,7 +10,6 @@
 #define MODULE_NAME "mex"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsMex.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-Source: {#RootPath}bin\{#BinPath}\libno-nlsMex.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsMex.dll; Components: not {#COMPONENT_MEX};
 Source: {#RootPath}bin\{#BinPath}\libnlsMex.lib; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 Source: {#RootPath}bin\{#BinPath}\libnlsMex_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 ;==============================================================================

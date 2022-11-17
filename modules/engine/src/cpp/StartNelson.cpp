@@ -45,7 +45,6 @@
 #include "WarningEmitter.h"
 #include "ErrorEmitter.h"
 #include "NelsonPrint.hpp"
-#include "MxCall.h"
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
 #include "NelsonReadyNamedMutex.hpp"
@@ -390,7 +389,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
-        mexSetEvaluator(eval);
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
         if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {
