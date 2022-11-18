@@ -8,12 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "Hypothenus.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
 #include "HypothenusReal.hpp"
 #include "HypothenusComplex.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

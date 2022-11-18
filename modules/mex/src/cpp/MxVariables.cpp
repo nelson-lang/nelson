@@ -12,11 +12,13 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "MxArrayOf.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 static mxArray*
 mexGetVariableCommon(const char* workspace, const char* varname, bool interleavedComplex)
 {
-    Nelson::Evaluator* mainEvaluator = (Nelson::Evaluator*)mexGetEvaluator();
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
         if (context != nullptr) {
@@ -77,7 +79,8 @@ int
 mexPutVariable(const char* workspace, const char* varname, const mxArray* pm)
 {
     int ret = 1;
-    Nelson::Evaluator* mainEvaluator = (Nelson::Evaluator*)mexGetEvaluator();
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
         if (context != nullptr) {

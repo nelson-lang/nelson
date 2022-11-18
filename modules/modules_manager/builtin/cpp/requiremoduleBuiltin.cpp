@@ -9,6 +9,7 @@
 //=============================================================================
 #include "requiremoduleBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ModulesManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fetchNextBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FevalFutureFetchNext.hpp"
 #include "FevalFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"

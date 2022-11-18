@@ -16,7 +16,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "SscanfFunction.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

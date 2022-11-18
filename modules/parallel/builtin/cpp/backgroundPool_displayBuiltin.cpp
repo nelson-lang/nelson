@@ -10,6 +10,7 @@
 #include "backgroundPool_displayBuiltin.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"

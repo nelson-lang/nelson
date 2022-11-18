@@ -14,6 +14,7 @@
 #include "FindConcatenateClass.hpp"
 #include "ConcatenateNdArray.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {

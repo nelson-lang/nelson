@@ -10,10 +10,12 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "CholeskyFactorization.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

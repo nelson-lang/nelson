@@ -10,6 +10,7 @@
 #include "MExceptionBuiltin.hpp"
 #include "MException.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;

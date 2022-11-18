@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "CumProd.hpp"
 //=============================================================================
 namespace Nelson {

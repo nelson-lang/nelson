@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name webtools)
@@ -33,21 +32,20 @@ include_directories(
 # ==============================================================================
 file(GLOB WEBTOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c")
+list(FILTER WEBTOOLS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${WEBTOOLS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
-  nlsInterpreter
-  nlsElementary_mathematics
-  nlsElementary_functions
-  nlsTypes
-  nlsI18n
   nlsCharacters_encoding
-  nlsFiles_folders_functions
   nlsCommons
+  nlsError_manager
+  nlsFiles_folders_functions
+  nlsI18n
+  nlsNelson_manager
+  nlsTypes
   ${CURL_LIBRARIES}
   ${LIBGIT2_LIBRARIES})
 # ==============================================================================
@@ -59,6 +57,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB WEBTOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER WEBTOOLS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -73,13 +73,11 @@ add_library(${module_library_builtin_name} SHARED ${WEBTOOLS_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsElementary_functions
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsApi_nelson
-  nlsI18n)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

@@ -13,7 +13,6 @@
 #include "characters_encoding.hpp"
 #include "SioClientListener.hpp"
 #include "NelsonConfiguration.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
@@ -156,7 +155,7 @@ SioClientCommand::sioregister(const std::string& name, const std::string& functi
         sio::socket::event_listener_aux([&](std::string const& name, sio::message::ptr const& data,
                                             bool isAck, sio::message::list& ack_resp) {
             std::string _data = data->get_map()["data"]->get_string();
-            void* veval = GetNelsonMainEvaluatorDynamicFunction();
+            void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
             if (veval != nullptr) {
                 auto* eval = static_cast<Evaluator*>(veval);
                 ArrayOf dataAsArrayOf = ArrayOf::characterArrayConstructor(_data);

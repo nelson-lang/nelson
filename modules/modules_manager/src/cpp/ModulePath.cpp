@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "ModulePath.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"

@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IEEEFP.hpp"
 #include <cmath>
 #include <cstdint>
+#include "IEEEFP.hpp"
 //=============================================================================
 bool
 IsInfinite(float t)

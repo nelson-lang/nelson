@@ -11,15 +11,14 @@
 #pragma once
 //=============================================================================
 #include <vector>
+#include "nlsInterpreter_exports.h"
 #include "AbstractSyntaxTree.hpp"
 #include "ArrayOf.hpp"
 #include "CommandQueue.hpp"
 #include "Context.hpp"
 #include "FunctionDef.hpp"
-#include "Error.hpp"
 #include "Interface.hpp"
 #include "StackEntry.hpp"
-#include "nlsInterpreter_exports.h"
 #include "Exception.hpp"
 #include "CallStack.hpp"
 //=============================================================================

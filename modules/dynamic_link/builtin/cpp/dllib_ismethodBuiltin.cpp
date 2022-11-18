@@ -10,6 +10,7 @@
 #include "dllib_ismethodBuiltin.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================

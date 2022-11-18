@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl.h>
 #endif
@@ -15,8 +16,10 @@
 #include "Atan2.hpp"
 #include "ArrayOf.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "nlsTrigonometric_functions_exports.h"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

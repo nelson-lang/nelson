@@ -11,8 +11,8 @@
 #include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QPushButton>
 #include "QuestionBox.hpp"
-#include "GetNelsonPath.hpp"
 #include "QStringConverter.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +27,8 @@ QuestionBox(const std::wstring& title, const std::wstring& question, const std::
     } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    QString nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()));
+    QString nelsonPath(
+        Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()));
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon qIcon(fileNameIcon);
     msgBox->setWindowIcon(qIcon);

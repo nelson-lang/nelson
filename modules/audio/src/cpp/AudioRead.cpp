@@ -12,13 +12,14 @@
 #include <Windows.h>
 #endif
 //=============================================================================
-#include "nlsConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <climits>
 #include <cstring>
 #include <sndfile.h>
 #include "AudioRead.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

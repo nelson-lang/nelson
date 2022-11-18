@@ -12,6 +12,7 @@
 #include "SparseRealPart.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 //=============================================================================

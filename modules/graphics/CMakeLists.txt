@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name graphics)
@@ -36,22 +35,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
 file(GLOB GRAPHICS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER GRAPHICS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${GRAPHICS_SRC})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_name} 
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
+  ${module_library_name}
   nlsCharacters_encoding
-  nlsI18n
-  nlsGui
-  nlsCore
-  nlsModules_manager
-  nlsEngine
   nlsCommons
-  nlsFiles_folders_functions
+  nlsError_manager
+  nlsGui
+  nlsI18n
+  nlsModules_manager
+  nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
@@ -73,18 +70,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER GRAPHICS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${GRAPHICS_BUILTIN})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_builtin_name} 
+  ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
   nlsDisplay_format
-  nlsI18n)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ConvertCharsToStrings.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "convertCharsToStringsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name slicot)
@@ -17,15 +16,18 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include)
 # ==============================================================================
 file(GLOB SLICOT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER SLICOT_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${SLICOT_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsTypes
-                      nlsInterpreter nlsI18n nlsCharacters_encoding)
+target_link_libraries(
+  ${module_library_name}
+  nlsCommons)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -35,6 +37,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB SLICOT_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER SLICOT_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${Boost_INCLUDE_DIRS}
@@ -52,11 +56,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsI18n
   nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsApi_nelson
-  nlsI18n)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

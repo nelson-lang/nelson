@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_IprobeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>

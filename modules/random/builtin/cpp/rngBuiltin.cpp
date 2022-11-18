@@ -9,6 +9,7 @@
 //=============================================================================
 #include "rngBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Rng.hpp"
 #include "Rng_helpers.hpp"
 #include "ToCellString.hpp"

@@ -9,8 +9,8 @@
 //=============================================================================
 #include "zerosBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Zeros.hpp"
-#include "nlsConfig.h"
 #include "StringToClass.hpp"
 //=============================================================================
 using namespace Nelson;

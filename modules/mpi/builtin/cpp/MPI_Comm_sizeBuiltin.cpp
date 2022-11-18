@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_Comm_sizeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include <mpi.h>
 //=============================================================================

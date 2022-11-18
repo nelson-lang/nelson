@@ -21,9 +21,9 @@
 #include "h5ReadCompound.hpp"
 #include "h5ReadVlen.hpp"
 #include "h5ReadReference.hpp"
-#include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "Exception.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

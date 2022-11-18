@@ -9,6 +9,7 @@
 //=============================================================================
 #include "filepartsBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileParts.hpp"
 //=============================================================================
 using namespace Nelson;

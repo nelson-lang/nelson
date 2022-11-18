@@ -11,20 +11,7 @@
 #include "MxCall.h"
 #include "Evaluator.hpp"
 #include "MxArrayOf.hpp"
-//=============================================================================
-static Nelson::Evaluator* mainEvaluator = nullptr;
-//=============================================================================
-void*
-mexGetEvaluator()
-{
-    return (void*)mainEvaluator;
-}
-//=============================================================================
-void
-mexSetEvaluator(void* eval)
-{
-    mainEvaluator = (Nelson::Evaluator*)eval;
-}
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 static int
 mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName,
@@ -35,6 +22,8 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
     for (int r = 0; r < nrhs; ++r) {
         argIn.push_back(Nelson::MxArrayToArrayOf(prhs[r]));
     }
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
         if (context != nullptr) {
@@ -105,6 +94,8 @@ mexCallNELSONWithTrap(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[],
     for (int r = 0; r < nrhs; ++r) {
         argIn.push_back(Nelson::MxArrayToArrayOf(prhs[r]));
     }
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
         if (context != nullptr) {
@@ -145,6 +136,8 @@ mexCallMATLABWithTrapInterleavedComplex(
 int
 mexEvalString(const char* command)
 {
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         if (mainEvaluator->evaluateString(command, true)) {
             return 0;
@@ -156,6 +149,8 @@ mexEvalString(const char* command)
 static mxArray*
 mexEvalStringWithTrapInternal(const char* command, bool interleavedComplex)
 {
+    Nelson::Evaluator* mainEvaluator
+        = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         try {
             bool res = mainEvaluator->evaluateString(command, true);

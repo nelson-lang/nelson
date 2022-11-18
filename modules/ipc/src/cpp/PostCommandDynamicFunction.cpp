@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstdlib>
 #include "PostCommandDynamicFunction.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 static Nelson::library_handle nlsEngineHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;

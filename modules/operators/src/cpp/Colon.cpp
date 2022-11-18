@@ -10,9 +10,10 @@
 #include <cmath>
 #include "Colon.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 #include "Warning.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

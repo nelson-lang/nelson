@@ -20,6 +20,7 @@
 #include "Evaluator.hpp"
 #include "ClassName.hpp"
 #include "MxArrayOf.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 bool
 mxIsClass(const mxArray* pm, const char* classname)
@@ -145,7 +146,9 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
                 Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->getDataPointer();
                 obj = elements[index];
             }
-            Nelson::Evaluator* mainEvaluator = (Nelson::Evaluator*)mexGetEvaluator();
+            Nelson::Evaluator* mainEvaluator
+                = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()
+                      ->getMainEvaluator();
             if (mainEvaluator != nullptr) {
                 Nelson::Context* context = mainEvaluator->getContext();
                 if (context != nullptr) {
@@ -193,7 +196,9 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
                     Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->getDataPointer();
                     obj = elements[index];
                 }
-                Nelson::Evaluator* mainEvaluator = (Nelson::Evaluator*)mexGetEvaluator();
+                Nelson::Evaluator* mainEvaluator
+                    = (Nelson::Evaluator*)Nelson::NelsonConfiguration::getInstance()
+                          ->getMainEvaluator();
                 if (mainEvaluator != nullptr) {
                     Nelson::Context* context = mainEvaluator->getContext();
                     if (context != nullptr) {

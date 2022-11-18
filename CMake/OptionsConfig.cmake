@@ -71,6 +71,6 @@ foreach(mod ${without_module})
   endif()
 endforeach(mod)
 
-configure_file("${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h.in"
-                 "${CMAKE_SOURCE_DIR}/modules/types/src/include/nlsConfig.h")
+configure_file("${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h.in"
+                 "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h")
 # ==============================================================================

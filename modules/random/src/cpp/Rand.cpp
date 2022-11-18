@@ -9,6 +9,7 @@
 //=============================================================================
 #include "Rand.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "RandomInterface.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================

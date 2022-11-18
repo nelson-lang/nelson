@@ -9,6 +9,7 @@
 //=============================================================================
 #include "timeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Time.hpp"
 //=============================================================================
 using namespace Nelson;

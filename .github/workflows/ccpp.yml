@@ -387,9 +387,16 @@ jobs:
     container: archlinux:latest
     timeout-minutes: 120
     steps:
-      - name: Install dependencies
+      - name: Trust repo directory
         run: |
           pacman -Sy --noconfirm
+          pacman -S git --noconfirm
+          git config --global --add safe.directory /__w/nelson/nelson
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm
           pacman -S base-devel --noconfirm
           pacman -S git --noconfirm       
           pacman -S gcc binutils glibc --noconfirm
@@ -420,16 +427,9 @@ jobs:
           pacman -S curl --noconfirm
           pacman -S libgit2 --noconfirm
           pacman -S python3 --noconfirm
-          git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
-          mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;        
-          git clone https://github.com/HDFGroup/hdf5.git /tmp/hdf5-1_12_1
-          cd /tmp/hdf5-1_12_1 && git checkout hdf5-1_12_1 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v112 CFLAGS="-w" && make install -C src
-          git clone https://github.com/tbeu/matio /tmp/matio
-          cd /tmp/matio && git checkout v1.5.21 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_12_1/hdf5 && make && make install;
-      - name: Trust repo directory
-        run: git config --global --add safe.directory /__w/nelson/nelson
-      - name: Checkout repository
-        uses: actions/checkout@v3
+          pacman -S eigen --noconfirm
+          pacman -S hdf5 --noconfirm
+          pacman -S libmatio --noconfirm
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
         id: json_version

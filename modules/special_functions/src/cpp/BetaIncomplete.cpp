@@ -7,9 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include <boost/math/special_functions/beta.hpp>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
+#include <Eigen/Dense>
 #include "BetaIncomplete.hpp"
 #include "Error.hpp"
 //=============================================================================

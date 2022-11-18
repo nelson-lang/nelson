@@ -9,7 +9,7 @@
 //=============================================================================
 #include "And.hpp"
 #include "MatrixCheck.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include <algorithm>
 //=============================================================================
 namespace Nelson {

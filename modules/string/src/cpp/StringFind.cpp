@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <vector>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "StringFind.hpp"
 //=============================================================================
 namespace Nelson {

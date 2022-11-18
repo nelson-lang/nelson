@@ -10,6 +10,7 @@
 #include "graphic_object_classBuiltin.hpp"
 #include "GraphicObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

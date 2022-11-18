@@ -10,6 +10,7 @@
 #include "assert_checkerrorBuiltin.hpp"
 #include "Assert_CheckError.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

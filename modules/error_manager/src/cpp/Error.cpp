@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 namespace Nelson {
 //============================================================================

@@ -15,9 +15,9 @@
 #include <QtCore/QStandardPaths>
 #include "QStringConverter.hpp"
 #include "HelpCollection.hpp"
-#include "GetNelsonPath.hpp"
 #include "FileSystemWrapper.hpp"
 #include "RemoveDirectory.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -182,8 +182,8 @@ HelpCollection::getNelsonCachedCollectionFullFilename()
 std::wstring
 HelpCollection::getNelsonCollectionFullFilename()
 {
-    std::wstring path
-        = GetNelsonPath() + L"/modules/help_tools/resources/" + getNelsonQhcFilename();
+    std::wstring path = NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+        + L"/modules/help_tools/resources/" + getNelsonQhcFilename();
     return path;
 }
 //=============================================================================

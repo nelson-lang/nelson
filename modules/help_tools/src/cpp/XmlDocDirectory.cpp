@@ -10,7 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
 #include "XmlDocDirectory.hpp"
-#include "Messages.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "RelativePath.hpp"
 #include "Types.hpp"
 #include "XmlDocChapterItem.hpp"

@@ -19,6 +19,7 @@
 #include <QtQuick/QQuickView>
 #include "QmlEngine.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MainGuiObject.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"

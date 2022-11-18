@@ -9,6 +9,7 @@
 //=============================================================================
 #include "winqueryregBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "WindowsQueryRegistry.hpp"
 //=============================================================================
 using namespace Nelson;

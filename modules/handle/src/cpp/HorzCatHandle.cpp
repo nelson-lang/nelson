@@ -9,6 +9,7 @@
 //=============================================================================
 #include "HorzCatHandle.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include <Eigen/Dense>

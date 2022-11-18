@@ -10,7 +10,8 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "DeterminantMatrix.hpp"

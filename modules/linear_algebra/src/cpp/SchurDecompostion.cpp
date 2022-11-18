@@ -9,7 +9,7 @@
 //=============================================================================
 #include "SchurDecompostion.hpp"
 #include "ClassName.hpp"
-#include "lapack_eigen.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Eigenvalues>
 //=============================================================================
 namespace Nelson {

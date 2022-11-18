@@ -9,6 +9,7 @@
 //=============================================================================
 #include "nzmaxBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
 //=============================================================================

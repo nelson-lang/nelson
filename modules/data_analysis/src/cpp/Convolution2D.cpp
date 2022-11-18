@@ -10,6 +10,7 @@
 #include <complex>
 #include "Convolution2D.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Decomplexify.hpp"
 #include "complex_multiply.hpp"
 //=============================================================================

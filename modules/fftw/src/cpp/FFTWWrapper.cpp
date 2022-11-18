@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #if defined(_NLS_WITH_OPENMP)
 #include <omp.h>
 #endif
 #include "FFTWDynamicLibrary.hpp"
 #include "FFTWWrapper.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

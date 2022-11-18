@@ -10,7 +10,8 @@
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 void*

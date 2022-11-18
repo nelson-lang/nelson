@@ -10,7 +10,8 @@
 #include <algorithm>
 #include "DotRightDivide.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "DotRightDivideReal.hpp"
 #include "DotRightDivideComplex.hpp"
 #include "DotRightDivideInteger.hpp"

@@ -154,7 +154,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-cli", "modules\main\
 		{EF56F7F5-0444-466D-A7A2-CAE8D2EAABC3} = {EF56F7F5-0444-466D-A7A2-CAE8D2EAABC3}
 		{EFAB75F2-31F1-4531-9D51-491772741ECE} = {EFAB75F2-31F1-4531-9D51-491772741ECE}
 		{F0407694-8F75-48E8-A52B-57C231262572} = {F0407694-8F75-48E8-A52B-57C231262572}
-		{F274199D-43E9-4606-889D-426D5A01D188} = {F274199D-43E9-4606-889D-426D5A01D188}
 		{F6495DD9-6FF5-485B-9393-767327A4DD79} = {F6495DD9-6FF5-485B-9393-767327A4DD79}
 		{F666AC18-EEDA-4A00-ACD2-4CAFE3865C15} = {F666AC18-EEDA-4A00-ACD2-4CAFE3865C15}
 		{F6C133FC-80FF-4F59-93B8-E918A4762138} = {F6C133FC-80FF-4F59-93B8-E918A4762138}
@@ -282,9 +281,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		modules\modules.m.in = modules\modules.m.in
 		modules\modules.m.vc = modules\modules.m.vc
 		tools\innosetup\Nelson.iss = tools\innosetup\Nelson.iss
-		modules\types\src\include\nlsConfig.h = modules\types\src\include\nlsConfig.h
-		modules\types\src\include\nlsConfig.h.in = modules\types\src\include\nlsConfig.h.in
-		modules\types\src\include\nlsConfig.h.vc = modules\types\src\include\nlsConfig.h.vc
+		modules\commons\src\include\Nelson_VERSION.h.vc = modules\commons\src\include\Nelson_VERSION.h.vc
+		modules\commons\src\include\nlsBuildConfig.h.vc = modules\commons\src\include\nlsBuildConfig.h.vc
 		etc\startup.m = etc\startup.m
 	EndProjectSection
 EndProject
@@ -491,11 +489,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "no-nlsLocalization", "modules\localization\no-src\c\no-nlsLocalization.vcxproj", "{DA17003A-28F0-4AC2-B9F5-80A46387811B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{964FF907-D58A-48B6-A03B-3F6CF48CBE41} = {964FF907-D58A-48B6-A03B-3F6CF48CBE41}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "no-nlsMex", "modules\mex\no-src\c\no-nlsMex.vcxproj", "{F274199D-43E9-4606-889D-426D5A01D188}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A3EEB626-83DB-426D-B483-37A478EE8166} = {A3EEB626-83DB-426D-B483-37A478EE8166}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "no-nlsIpc", "modules\ipc\no-src\c\no-nlsIpc.vcxproj", "{4090DCB4-6226-4367-A18A-67EDEEAA5C1D}"
@@ -1674,14 +1667,6 @@ Global
 		{DA17003A-28F0-4AC2-B9F5-80A46387811B}.Release|Win32.Build.0 = Release|Win32
 		{DA17003A-28F0-4AC2-B9F5-80A46387811B}.Release|x64.ActiveCfg = Release|x64
 		{DA17003A-28F0-4AC2-B9F5-80A46387811B}.Release|x64.Build.0 = Release|x64
-		{F274199D-43E9-4606-889D-426D5A01D188}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F274199D-43E9-4606-889D-426D5A01D188}.Debug|Win32.Build.0 = Debug|Win32
-		{F274199D-43E9-4606-889D-426D5A01D188}.Debug|x64.ActiveCfg = Debug|x64
-		{F274199D-43E9-4606-889D-426D5A01D188}.Debug|x64.Build.0 = Debug|x64
-		{F274199D-43E9-4606-889D-426D5A01D188}.Release|Win32.ActiveCfg = Release|Win32
-		{F274199D-43E9-4606-889D-426D5A01D188}.Release|Win32.Build.0 = Release|Win32
-		{F274199D-43E9-4606-889D-426D5A01D188}.Release|x64.ActiveCfg = Release|x64
-		{F274199D-43E9-4606-889D-426D5A01D188}.Release|x64.Build.0 = Release|x64
 		{4090DCB4-6226-4367-A18A-67EDEEAA5C1D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4090DCB4-6226-4367-A18A-67EDEEAA5C1D}.Debug|Win32.Build.0 = Debug|Win32
 		{4090DCB4-6226-4367-A18A-67EDEEAA5C1D}.Debug|x64.ActiveCfg = Debug|x64

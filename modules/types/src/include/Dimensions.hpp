@@ -11,7 +11,6 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 //=============================================================================
@@ -212,13 +211,6 @@ public:
 
     [[nodiscard]] std::wstring
     toWideString() const;
-    //=============================================================================
-    /**
-     * Print some representation of this object as a row vector, i.e.,
-     * $$[a_1 a_2 \ldots a_n]$$.
-     */
-    void
-    printMe(Interface* io) const;
     //=============================================================================
     /**
      * Reset the number of allocated dimensions to zero, and reset the

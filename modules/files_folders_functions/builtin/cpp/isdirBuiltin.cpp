@@ -10,6 +10,8 @@
 #include "FileSystemWrapper.hpp"
 #include "isdirBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "i18n.hpp"
 #include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;

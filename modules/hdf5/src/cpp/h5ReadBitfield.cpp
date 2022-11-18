@@ -10,6 +10,9 @@
 #include "h5ReadBitfield.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
+#include "NewWithException.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

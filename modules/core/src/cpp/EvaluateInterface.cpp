@@ -9,6 +9,7 @@
 //=============================================================================
 #include "EvaluateInterface.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 EvaluateInterface::EvaluateInterface() { outputBuffer.clear(); }

@@ -11,6 +11,7 @@
 #include <atlconv.h>
 #include "invokeCOM.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 bool
 invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch* pDisp,

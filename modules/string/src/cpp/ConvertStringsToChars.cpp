@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ConvertStringsToChars.hpp"
-#include "Exception.hpp"
-#include "nlsConfig.h"
+#include "NewWithException.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -25,6 +25,7 @@ list(
   operators
   elementary_functions
   interpreter
+  modules_manager  
   debugger
   double
   single
@@ -47,7 +48,6 @@ list(
   history_manager
   terminal
   handle
-  modules_manager
   engine
   profiler
   mex
@@ -61,6 +61,7 @@ list(
   GUI
   FFTW
   SLICOT
+  VALIDATORS  
   F2C
   MPI
   AUDIO
@@ -70,7 +71,6 @@ list(
   QML_ENGINE
   SIGNAL_PROCESSING
   DATA_ANALYSIS
-  VALIDATORS
   HDF5
   MATIO
   HELP_TOOLS

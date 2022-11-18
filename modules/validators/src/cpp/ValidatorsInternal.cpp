@@ -38,6 +38,7 @@
 #include "eqBuiltin.hpp"
 #include "allBuiltin.hpp"
 #include "anyBuiltin.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

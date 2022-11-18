@@ -9,6 +9,7 @@
 //=============================================================================
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
 #include "FileSystemWrapper.hpp"

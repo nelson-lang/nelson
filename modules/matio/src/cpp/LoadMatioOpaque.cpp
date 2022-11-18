@@ -10,6 +10,7 @@
 #include "LoadMatioOpaque.hpp"
 #include "Warning.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

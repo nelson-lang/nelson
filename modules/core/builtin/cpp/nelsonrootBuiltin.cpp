@@ -9,7 +9,7 @@
 //=============================================================================
 #include "nelsonrootBuiltin.hpp"
 #include "Error.hpp"
-#include "GetNelsonPath.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,7 +19,8 @@ Nelson::CoreGateway::nelsonrootBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << GetRootFolder();
+    retval << ArrayOf::characterArrayConstructor(
+        NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     return retval;
 }
 //=============================================================================

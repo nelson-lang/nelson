@@ -9,9 +9,10 @@
 //=============================================================================
 #include <boost/integer/common_factor_ct.hpp>
 #include <boost/integer/common_factor_rt.hpp>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "GCD.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {

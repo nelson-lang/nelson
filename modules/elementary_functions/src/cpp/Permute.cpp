@@ -10,7 +10,7 @@
 #include <memory.h>
 #include "Permute.hpp"
 #include "Transpose.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

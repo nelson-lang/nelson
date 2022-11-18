@@ -10,6 +10,7 @@
 #include "backgroundPool_getBuiltin.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;

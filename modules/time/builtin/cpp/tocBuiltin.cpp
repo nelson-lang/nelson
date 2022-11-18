@@ -12,6 +12,7 @@
 #include <fmt/format.h>
 #include "tocBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "TicToc.hpp"
 //=============================================================================
 using namespace Nelson;

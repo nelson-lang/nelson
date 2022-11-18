@@ -9,6 +9,7 @@
 //=============================================================================
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ClassName.hpp"
 #include "StringHelpers.hpp"

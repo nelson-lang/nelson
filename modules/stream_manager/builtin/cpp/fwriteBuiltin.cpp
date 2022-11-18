@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fwriteBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileWrite.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"

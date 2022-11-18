@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name dynamic_link)
@@ -30,23 +29,22 @@ include_directories(
   ${LIBFFI_INCLUDE_DIR})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER DYNAMIC_LINK_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${DYNAMIC_LINK_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
-  nlsCharacters_encoding
   nlsApi_nelson
-  nlsI18n
-  nlsHandle
-  nlsString
-  nlsFiles_folders_functions
-  nlsStream_manager
-  nlsOs_functions
+  nlsCharacters_encoding
   nlsCommons
+  nlsError_manager
+  nlsFiles_folders_functions
+  nlsHandle
+  nlsI18n
+  nlsOs_functions
+  nlsTypes
   ${LIBFFI_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -57,6 +55,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER DYNAMIC_LINK_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -67,6 +67,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${LIBFFI_INCLUDE_DIR})
 # ==============================================================================
@@ -75,15 +76,15 @@ add_library(${module_library_builtin_name} SHARED ${DYNAMIC_LINK_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
   nlsApi_nelson
-  nlsI18n
-  nlsOverload
+  nlsCommons
   nlsDisplay_format
-  nlsHandle)
+  nlsError_manager
+  nlsHandle
+  nlsI18n
+  nlsInterpreter
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}
@@ -106,7 +107,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.txt")        
+  PATTERN "*.txt")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
@@ -133,7 +134,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.cpp")  
+  PATTERN "*.cpp")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

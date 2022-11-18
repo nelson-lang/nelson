@@ -16,6 +16,7 @@
 #include "SortComplexHelpers.hpp"
 #include "SortStringHelpers.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

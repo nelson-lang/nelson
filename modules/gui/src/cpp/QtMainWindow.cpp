@@ -26,7 +26,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include "QtMainWindow.h"
 #include "PostCommand.hpp"
-#include "GetNelsonPath.hpp"
 #include "Nelson_VERSION.h"
 #include "QStringConverter.hpp"
 #include "QtTerminal.h"
@@ -34,6 +33,8 @@
 #include "UiGetDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPalette.hpp"
+#include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -113,7 +114,8 @@ QtMainWindow::~QtMainWindow()
 }
 //=============================================================================
 QtMainWindow::QtMainWindow(bool minimized)
-    : nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()))
+    : nelsonPath(
+        Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()))
 {
     QWidget* widget = new QWidget;
     setCentralWidget(widget);

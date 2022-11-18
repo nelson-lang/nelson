@@ -16,14 +16,12 @@
 #include "AddPathToEnvironmentVariable.hpp"
 #include "Console.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "GetQtPath.hpp"
 #include "GuiTerminal.hpp"
 #include "Warning.hpp"
 #include "Nelson_VERSION.h"
 #include "QtMainWindow.h"
 #include "QStringConverter.hpp"
-#include "GetNelsonPath.hpp"
 #include "NelsonPalette.hpp"
 #include "DefaultFont.hpp"
 #include "NelsonConfiguration.hpp"
@@ -63,7 +61,8 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     } break;
     case QtCriticalMsg:
     case QtFatalMsg: {
-        auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+        auto* eval
+            = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
         if (eval) {
             Interface* io = eval->getInterface();
             if (io) {

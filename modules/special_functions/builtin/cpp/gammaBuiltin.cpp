@@ -9,6 +9,7 @@
 //=============================================================================
 #include "gammaBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Gamma.hpp"
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"

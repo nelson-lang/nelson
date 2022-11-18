@@ -9,6 +9,7 @@
 //=============================================================================
 #include "blanksBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Blanks.hpp"
 //=============================================================================
 using namespace Nelson;

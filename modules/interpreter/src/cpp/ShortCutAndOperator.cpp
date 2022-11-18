@@ -9,6 +9,8 @@
 //=============================================================================
 #include "Evaluator.hpp"
 #include "OverloadBinaryOperator.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -58,7 +60,7 @@ Evaluator::shortCutAndOperator(AbstractSyntaxTreePtr t)
         return retval;
     }
     ArrayOf A = expression(t->down);
-    if (needToOverloadOperator(A) && !isOverloadAllowed()) {
+    if (needToOverloadOperator(A) && isOverloadAllowed()) {
         ArrayOf B = expression(t->down->right);
         retval = OverloadBinaryOperator(this, A, B, "shortcutand");
         callstack.popID();
@@ -76,7 +78,7 @@ Evaluator::shortCutAndOperator(AbstractSyntaxTreePtr t)
             return retval;
         }
         ArrayOf B = expression(t->down->right);
-        if (needToOverloadOperator(B) && !isOverloadAllowed()) {
+        if (needToOverloadOperator(B) && isOverloadAllowed()) {
             retval = OverloadBinaryOperator(this, A, B, "shortcutand");
             callstack.popID();
             return retval;

@@ -10,8 +10,10 @@
 #include "XorLogical.hpp"
 #include "MatrixCheck.hpp"
 #include "Types.hpp"
-#include "Exception.hpp"
-#include "nlsConfig.h"
+#include "NewWithException.hpp"
+#include "nlsBuildConfig.h"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

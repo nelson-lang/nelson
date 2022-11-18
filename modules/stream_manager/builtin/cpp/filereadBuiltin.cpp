@@ -13,6 +13,7 @@
 #include "filereadBuiltin.hpp"
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MapFileRead.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"

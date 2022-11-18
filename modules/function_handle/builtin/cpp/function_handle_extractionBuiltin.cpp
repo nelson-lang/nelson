@@ -11,6 +11,7 @@
 #include "ArrayOf.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

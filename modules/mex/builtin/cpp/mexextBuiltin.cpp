@@ -9,6 +9,7 @@
 //=============================================================================
 #include "mexextBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Validators.hpp"
 #include "MxGetExtension.hpp"
 //=============================================================================

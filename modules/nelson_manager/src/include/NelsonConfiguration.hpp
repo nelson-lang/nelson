@@ -83,10 +83,28 @@ public:
     getNelsonRootDirectory();
     //=============================================================================
     void
+    setNelsonBinaryDirectory(const std::wstring& directory);
+    //=============================================================================
+    std::wstring
+    getNelsonBinaryDirectory();
+    //=============================================================================
+    void
+    setNelsonPreferencesDirectory(const std::wstring& directory);
+    //=============================================================================
+    std::wstring
+    getNelsonPreferencesDirectory();
+    //=============================================================================
+    void
     setMainGuiObject(void* mainGuiObject);
     //=============================================================================
     void*
     getMainGuiObject();
+    //=============================================================================
+    void
+    setMainEvaluator(void* mainEvaluator);
+    //=============================================================================
+    void*
+    getMainEvaluator();
     //=============================================================================
     void
     setFileManager(void* filemanager);
@@ -144,9 +162,12 @@ private:
     bool modulesProtected;
     //=============================================================================
     std::wstring nelsonRootPath;
+    std::wstring nelsonBinaryPath;
+    std::wstring nelsonPreferencesPath;
     //=============================================================================
     bool ipcEnabled;
     //=============================================================================
+    void* mainEvaluator;
     void* mainGuiObject;
     void* FileManager;
     void* RandomEngine;

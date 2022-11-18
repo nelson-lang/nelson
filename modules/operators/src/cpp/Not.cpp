@@ -10,7 +10,8 @@
 #include "Not.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "i18n.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

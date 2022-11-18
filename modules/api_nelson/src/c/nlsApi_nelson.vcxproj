@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\MatrixCheck.cpp" />
     <ClCompile Include="..\cpp\ToCellString.cpp" />
   </ItemGroup>

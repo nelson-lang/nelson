@@ -9,6 +9,7 @@
 //=============================================================================
 #include "computerBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PlatformInfo.hpp"
 //=============================================================================
 using namespace Nelson;

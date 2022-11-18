@@ -15,6 +15,7 @@
 #include "ClearGlobal.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
 #include "GatewaysManager.hpp"

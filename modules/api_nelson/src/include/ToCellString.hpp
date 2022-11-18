@@ -9,10 +9,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Error.hpp"
-#include "nlsapi_nelson_exports.h"
 #include <string>
+#include "ArrayOf.hpp"
+#include "nlsapi_nelson_exports.h"
 //=============================================================================
 namespace Nelson {
 NLSAPI_NELSON_IMPEXP ArrayOf

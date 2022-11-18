@@ -189,7 +189,7 @@
     <ClCompile Include="..\cpp\NelsonMinimizedDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\PostCommandDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\RemoveIpcOldFiles.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsIpc_exports.h" />

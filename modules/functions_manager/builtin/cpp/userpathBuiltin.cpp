@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PathFuncManager.hpp"
 //=============================================================================
 using namespace Nelson;

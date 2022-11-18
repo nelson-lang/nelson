@@ -178,19 +178,19 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\Banner.hpp" />
     <ClInclude Include="..\..\src\include\GetCurrentNFilename.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonBinariesPath.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonPath.hpp" />
     <ClInclude Include="..\..\src\include\nlsCore_exports.h" />
+    <ClInclude Include="..\cpp\ComputeNelsonBinariesPath.hpp" />
+    <ClInclude Include="..\cpp\ComputeNelsonPath.hpp" />
+    <ClInclude Include="..\cpp\ComputePreferencesPath.hpp" />
+    <ClInclude Include="..\include\ComputeNelsonPaths.hpp" />
     <ClInclude Include="..\include\ComputionalThreads.hpp" />
     <ClInclude Include="..\include\EvaluateCommand.hpp" />
     <ClInclude Include="..\include\EvaluateInterface.hpp" />
     <ClInclude Include="..\include\EvaluateScriptFile.hpp" />
-    <ClInclude Include="..\include\GetPreferencesPath.hpp" />
     <ClInclude Include="..\include\IsEmptyScriptFile.hpp" />
     <ClInclude Include="..\include\NargIn.hpp" />
     <ClInclude Include="..\include\NargOut.hpp" />
     <ClInclude Include="..\include\NelsonSHA256.hpp" />
-    <ClInclude Include="..\include\Nelson_VERSION.h" />
     <ClInclude Include="..\include\Pause.hpp" />
     <ClInclude Include="..\include\VersionCompilerFlags.hpp" />
   </ItemGroup>
@@ -228,42 +228,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Banner.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonPaths.cpp" />
     <ClCompile Include="..\cpp\ComputionalThreads.cpp" />
     <ClCompile Include="..\cpp\EvaluateInterface.cpp" />
     <ClCompile Include="..\cpp\EvaluateCommand.cpp" />
     <ClCompile Include="..\cpp\EvaluateScriptFile.cpp" />
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp" />
-    <ClCompile Include="..\cpp\GetNelsonBinariesPath.cpp" />
-    <ClCompile Include="..\cpp\GetNelsonPath.cpp" />
-    <ClCompile Include="..\cpp\GetPreferencesPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonBinariesPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonPath.cpp" />
+    <ClCompile Include="..\cpp\ComputePreferencesPath.cpp" />
     <ClCompile Include="..\cpp\IsEmptyScriptFile.cpp" />
     <ClCompile Include="..\cpp\NargIn.cpp" />
     <ClCompile Include="..\cpp\NargOut.cpp" />
     <ClCompile Include="..\cpp\NelsonSHA256.cpp" />
     <ClCompile Include="..\cpp\Pause.cpp" />
     <ClCompile Include="..\cpp\VersionCompilerFlags.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
-    <CustomBuild Include="..\include\Nelson_VERSION.h.vc">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy $(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy $(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copy $(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h.vc" "$(SolutionDir)modules\core\src\include\Nelson_VERSION.h"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copy $(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\core\src\include\Nelson_VERSION.h</Outputs>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

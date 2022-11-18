@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name engine)
@@ -31,7 +30,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../ipc/src/include
@@ -40,6 +38,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/socket_io/src)
 # ==============================================================================
 file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER ENGINE_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ENGINE_SRC})
 # ==============================================================================
@@ -49,23 +49,21 @@ endif()
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCore
-  nlsInterpreter
-  nlsModules_manager
-  nlsTerminal
   nlsCharacters_encoding
-  nlsMemory_manager
-  nlsNelson_manager
-  nlsLocalization
-  nlsI18n
   nlsCommons
-  nlsMex
-  nlsTime
-  nlsSparse
+  nlsCore
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
   nlsIpc
+  nlsLocalization
+  nlsMemory_manager
+  nlsModules_manager
+  nlsNelson_manager
+  nlsOs_functions
   nlsSio_client
-  nlsFile_archiver
-  ${BOOST_LIBRARIES}
+  nlsStream_manager
+  nlsTerminal
   ${LIBRT})
 # ==============================================================================
 set_target_properties(
@@ -76,6 +74,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER ENGINE_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
@@ -92,12 +92,12 @@ add_library(${module_library_builtin_name} SHARED ${ENGINE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsApi_nelson
   nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsTypes
   nlsI18n
-  nlsApi_nelson)
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

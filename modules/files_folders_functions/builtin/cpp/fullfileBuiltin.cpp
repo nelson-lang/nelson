@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fullfileBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FullFile.hpp"
 #include "ConvertStringsToChars.hpp"
 //=============================================================================

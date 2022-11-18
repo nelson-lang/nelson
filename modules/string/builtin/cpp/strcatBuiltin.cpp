@@ -13,6 +13,7 @@
 #include "UuidHelpers.hpp"
 #include "strcatBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ConvertStringsToChars.hpp"
 //=============================================================================
 using namespace Nelson;

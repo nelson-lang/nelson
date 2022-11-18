@@ -9,6 +9,7 @@
 //=============================================================================
 #include "setenvBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "SetVariableEnvironment.hpp"
 //=============================================================================
 using namespace Nelson;

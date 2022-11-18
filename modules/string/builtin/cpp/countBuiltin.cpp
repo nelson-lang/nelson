@@ -12,6 +12,7 @@
 #include "countBuiltin.hpp"
 #include "StringCount.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "IsCellOfStrings.hpp"
 //=============================================================================

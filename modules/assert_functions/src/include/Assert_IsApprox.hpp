@@ -9,10 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsAssert_functions_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 NLSASSERT_FUNCTIONS_IMPEXP bool

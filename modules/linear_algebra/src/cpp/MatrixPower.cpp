@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "lapack_eigen.hpp"
 #include "MatrixPower.hpp"
 #include "DotPower.hpp"
 #include "InverseMatrix.hpp"
@@ -16,6 +15,8 @@
 #include "MatrixMultiplication.hpp"
 #include "RightDivide.hpp"
 #include "Eye.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

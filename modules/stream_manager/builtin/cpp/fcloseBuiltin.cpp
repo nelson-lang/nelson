@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fcloseBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileClose.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"

@@ -13,6 +13,8 @@
 #include <algorithm>
 #include "fieldnamesComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

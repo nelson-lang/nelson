@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name help_tools)
@@ -23,6 +22,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
@@ -31,21 +31,21 @@ include_directories(
 # ==============================================================================
 file(GLOB HELP_TOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown/*.c")
+list(FILTER HELP_TOOLS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${HELP_TOOLS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsTypes
-  nlsInterpreter
   nlsCharacters_encoding
-  nlsI18n
-  nlsModules_manager
-  nlsCore
   nlsCommons
+  nlsError_manager
   nlsFiles_folders_functions
+  nlsI18n
+  nlsInterpreter
   nlsLocalization
+  nlsModules_manager
   ${LIBXML2_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -56,6 +56,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB HELP_TOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER HELP_TOOLS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -76,19 +78,15 @@ add_library(${module_library_builtin_name} SHARED ${HELP_TOOLS_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsApi_nelson
-  nlsFunction_handle
   nlsCharacters_encoding
-  nlsI18n
-  nlsFiles_folders_functions
-  nlsModules_manager
   nlsCommons
-  nlsData_structures)
+  nlsData_structures
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}
@@ -124,10 +122,10 @@ install(
   FILES_MATCHING
   PATTERN "*.m")
 install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/xml
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
-    FILES_MATCHING
-    PATTERN "*.xml")
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/xml
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
+  FILES_MATCHING
+  PATTERN "*.xml")
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources/about.txt
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/resources)
 install(

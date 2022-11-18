@@ -10,6 +10,7 @@
 #include "SaveMatioHandle.hpp"
 #include "SaveMatioStruct.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

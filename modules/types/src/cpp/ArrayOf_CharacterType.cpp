@@ -12,7 +12,8 @@
 #include "Data.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

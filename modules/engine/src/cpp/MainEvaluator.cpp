@@ -31,11 +31,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static Evaluator* mainEvaluator = nullptr;
-//=============================================================================
 Evaluator*
 createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow)
 {
+    Evaluator* mainEvaluator = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     size_t mainEvaluatorID = 0;
     setDefaultMaxNumCompThreads();
     if (mainEvaluator == nullptr) {
@@ -116,20 +115,16 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
             } break;
             }
         }
+        NelsonConfiguration::getInstance()->setMainEvaluator((void*)mainEvaluator);
         Localization::Instance()->setLanguage(effectiveLang, false);
     }
-    return mainEvaluator;
-}
-//=============================================================================
-Evaluator*
-getMainEvaluator()
-{
     return mainEvaluator;
 }
 //=============================================================================
 bool
 destroyMainEvaluator()
 {
+    Evaluator* mainEvaluator = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     if (mainEvaluator != nullptr) {
         Context* ctxt = mainEvaluator->getContext();
         if (ctxt != nullptr) {
@@ -178,16 +173,11 @@ destroyMainEvaluator()
         Localization::Instance()->destroy();
         delete mainEvaluator;
         mainEvaluator = nullptr;
+        NelsonConfiguration::getInstance()->setMainEvaluator(nullptr);
         return true;
     }
     return false;
 }
 //=============================================================================
 } // namespace Nelson
-//=============================================================================
-void*
-getNelsonMainEvaluator()
-{
-    return (void*)Nelson::getMainEvaluator();
-}
 //=============================================================================

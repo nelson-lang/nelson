@@ -7,21 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "SetNelSonEnvironmentVariables.hpp"
-#include "AddPathToEnvironmentVariable.hpp"
-#include "GetNelsonBinariesPath.hpp"
-#include "GetNelsonPath.hpp"
-#include "SetVariableEnvironment.hpp"
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+#include "SetNelSonEnvironmentVariables.hpp"
+#include "AddPathToEnvironmentVariable.hpp"
+#include "SetVariableEnvironment.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 SetNelSonEnvironmentVariables()
 {
-    std::wstring binPath = GetNelsonBinariesPath();
+    std::wstring binPath = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
     if (!binPath.empty()) {
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), binPath);
         std::wstring envVarName = std::wstring(L"NELSON_BINARY_PATH");

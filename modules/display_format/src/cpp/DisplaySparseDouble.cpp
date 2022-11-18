@@ -18,6 +18,7 @@
 #include "FormatHelpers.hpp"
 #include "ArrayOfFormatInfo.hpp"
 #include "ComputeFormatInfo.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

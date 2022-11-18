@@ -10,11 +10,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <Propvarutil.h>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "VariantConversionHelpers.hpp"
 #include "ClassName.hpp"
 #include "ComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

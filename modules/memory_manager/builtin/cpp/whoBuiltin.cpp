@@ -11,6 +11,7 @@
 #include <vector>
 #include "whoBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ToCellString.hpp"
 #include "Who.hpp"
 #include "BuiltInFunctionDefManager.hpp"

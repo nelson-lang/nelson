@@ -10,6 +10,7 @@
 #include "QObject_iswindowtypeBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "QObjectHandleObject.hpp"
 #include "iswindowtypeQObject.hpp"
 //=============================================================================

@@ -11,11 +11,11 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include <cstring>
-#include "nlsConfig.h"
 #include "Types.hpp"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "EigenLapackHelpers.hpp"
 //=============================================================================
 namespace Nelson {

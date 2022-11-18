@@ -13,6 +13,8 @@
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
 #include "FileSystemWrapper.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

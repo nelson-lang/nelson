@@ -10,6 +10,7 @@
 #include "dllib_dispBuiltin.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -39,7 +40,7 @@ Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const A
         DisplayVariableHeader(io, param1, name, false);
         Dimensions dimsParam1 = param1.getDimensions();
         io->outputMessage(L"[dllib] - size: ");
-        dimsParam1.printMe(io);
+        io->outputMessage(dimsParam1.toWideString());
         io->outputMessage("\n");
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {

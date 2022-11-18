@@ -9,6 +9,7 @@
 //=============================================================================
 #include "AddModule.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"

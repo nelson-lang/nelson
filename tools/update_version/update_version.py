@@ -138,14 +138,14 @@ def edit_cmakelist(major, minor, maintenance, build):
 
 
 def delete_nelson_version_h():
-    filename = './modules/core/src/include/Nelson_VERSION.h'
+    filename = './modules/commons/src/include/Nelson_VERSION.h'
     if os.path.isfile(filename) is True:
         os.remove(filename)
 
 
 def edit_nelson_version_h_vc(major, minor, maintenance, build, git_hash):
     lines_out = []
-    filename = './modules/core/src/include/Nelson_VERSION.h.vc'
+    filename = './modules/commons/src/include/Nelson_VERSION.h.vc'
     with open(filename) as f:
         lines_in = f.readlines()
         for line in lines_in:
@@ -179,7 +179,7 @@ def edit_nelson_version_h_vc(major, minor, maintenance, build, git_hash):
 
 def edit_nelson_version_h_in(git_hash):
     lines_out = []
-    filename = './modules/core/src/include/Nelson_VERSION.h.in'
+    filename = './modules/commons/src/include/Nelson_VERSION.h.in'
     with open(filename) as f:
         lines_in = f.readlines()
         for line in lines_in:

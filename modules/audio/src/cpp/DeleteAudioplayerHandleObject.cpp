@@ -10,6 +10,7 @@
 #include "DeleteAudioplayerHandleObject.hpp"
 #include "AudioplayerObject.hpp"
 #include "HandleManager.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

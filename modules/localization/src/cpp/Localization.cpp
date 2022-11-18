@@ -16,8 +16,8 @@
 #include <clocale>
 #include <fstream>
 #include "Localization.hpp"
-#include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,13 +37,7 @@ safegetline(std::ifstream& os, std::string& line)
     return os;
 }
 //=============================================================================
-Localization::Localization()
-{
-    nlsCoreDynamicLibrary = nullptr;
-    bFirstDynamicLibraryCall = true;
-    initCoreDynamicLibrary();
-    initLanguageSupported();
-}
+Localization::Localization() { initLanguageSupported(); }
 //=============================================================================
 Localization*
 Localization::Instance()
@@ -64,76 +58,11 @@ Localization::destroy()
 }
 //=============================================================================
 void
-Localization::initCoreDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::string fullpathCoreSharedLibrary = "libnlsCore" + get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf = nullptr;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
-                fullpathCoreSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathCoreSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = std::getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathCoreSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathCoreSharedLibrary;
-        }
-#endif
-        nlsCoreDynamicLibrary = load_dynamic_library(fullpathCoreSharedLibrary);
-        if (nlsCoreDynamicLibrary) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
-}
-//=============================================================================
-std::wstring
-Localization::getPreferencesPathDynamic()
-{
-    using PROC_GetPreferencesPath = std::wstring (*)();
-    static PROC_GetPreferencesPath GetPreferencesPathPtr = nullptr;
-    initCoreDynamicLibrary();
-    if (!GetPreferencesPathPtr) {
-        GetPreferencesPathPtr = reinterpret_cast<PROC_GetPreferencesPath>(
-            get_function(nlsCoreDynamicLibrary, "GetNelsonPreferencesPath"));
-        if (!GetPreferencesPathPtr) {
-            Error(L"Core Function not loaded.");
-        }
-    }
-    return GetPreferencesPathPtr();
-}
-//=============================================================================
-std::wstring
-Localization::getNelsonPathDynamic()
-{
-    using PROC_GetNelsonPath = std::wstring (*)();
-    static PROC_GetNelsonPath GetNelsonPathPtr = nullptr;
-    initCoreDynamicLibrary();
-    if (!GetNelsonPathPtr) {
-        GetNelsonPathPtr = reinterpret_cast<PROC_GetNelsonPath>(
-            get_function(nlsCoreDynamicLibrary, "GetNelsonPath"));
-        if (!GetNelsonPathPtr) {
-            Error(_W("Core Function not loaded."));
-        }
-    }
-    return GetNelsonPathPtr();
-}
-//=============================================================================
-void
 Localization::setLanguageEnvironment(const std::wstring& lang)
 {
     if (isSupportedLanguage(lang)) {
-        std::wstring localesPath = getNelsonPathDynamic() + L"/locale/";
+        std::wstring localesPath
+            = NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/locale/";
         boost::locale::generator gen;
         try {
             gen.add_messages_path(wstring_to_utf8(localesPath));
@@ -151,7 +80,8 @@ void
 Localization::initLanguageSupported()
 {
     if (LanguageSupported.empty()) {
-        std::wstring langsconf = getNelsonPathDynamic() + L"/etc/languages.conf";
+        std::wstring langsconf
+            = NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/etc/languages.conf";
         std::string jsonString;
         std::string tmpline;
 #ifdef _MSC_VER
@@ -202,7 +132,7 @@ Localization::setLanguage(const std::wstring& lang, bool save)
         if (!save) {
             return true;
         }
-        std::wstring prefDir = getPreferencesPathDynamic();
+        std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
         std::wstring prefFile = prefDir + L"/nelson.conf";
         std::string jsonString;
         std::string tmpline;
@@ -273,7 +203,7 @@ Localization::initializeLocalization(const std::wstring& lang)
     initLanguageSupported();
     if (lang.empty()) {
         std::wstring language_saved;
-        std::wstring prefDir = getPreferencesPathDynamic();
+        std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
         std::wstring prefFile = prefDir + L"/nelson.conf";
         std::string jsonString;
         std::string tmpline;

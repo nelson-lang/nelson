@@ -10,6 +10,7 @@
 #include "charBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsCellOfStrings.hpp"
 #include "OverloadFunction.hpp"
 #include "ToChar.hpp"

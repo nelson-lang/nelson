@@ -171,8 +171,8 @@ bin/macos/*-exec
 /tools/doxygen/nelson_doxygen
 /tools/doxygen/nelson_doxygen.zip
 ################################################################################
-/modules/core/src/include/Nelson_VERSION.h
-/modules/types/src/include/nlsConfig.h
+/modules/commons/src/include/Nelson_VERSION.h
+/modules/commons/src/include/nlsBuildConfig.h
 /modules/*/src/c/*/x64
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release

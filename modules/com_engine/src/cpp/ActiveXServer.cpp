@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ActiveXServer.hpp"
-#include "Error.hpp"
 #include <Ole2.h>
 #include <atlconv.h>
+#include "ActiveXServer.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {

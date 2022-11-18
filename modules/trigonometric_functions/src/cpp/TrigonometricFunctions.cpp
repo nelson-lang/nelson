@@ -11,7 +11,8 @@
 #define _USE_MATH_DEFINES
 #endif
 //=============================================================================
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl.h>
 #endif

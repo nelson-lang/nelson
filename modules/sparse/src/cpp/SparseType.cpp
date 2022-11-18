@@ -13,7 +13,8 @@
 #include <Eigen/Sparse>
 #include "SparseType.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "i18n.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 template <class T>
 void*

@@ -13,7 +13,7 @@
 #include "StringHelpers.hpp"
 #include <cctype>
 #include <string>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

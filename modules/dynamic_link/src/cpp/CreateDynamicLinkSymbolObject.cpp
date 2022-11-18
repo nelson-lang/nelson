@@ -14,8 +14,9 @@
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {

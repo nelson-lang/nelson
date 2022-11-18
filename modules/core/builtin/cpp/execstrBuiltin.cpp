@@ -13,6 +13,7 @@
 //=============================================================================
 #include "execstrBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "EvaluateCommand.hpp"
 //=============================================================================
 using namespace Nelson;

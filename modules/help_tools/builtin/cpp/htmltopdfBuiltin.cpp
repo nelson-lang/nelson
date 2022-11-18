@@ -10,6 +10,7 @@
 #include <fstream>
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HtmlToPdf.hpp"
 #include "FileSystemWrapper.hpp"
 #include "NelSon_engine_mode.h"

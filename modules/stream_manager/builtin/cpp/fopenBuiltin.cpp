@@ -13,6 +13,7 @@
 //=============================================================================
 #include "fopenBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Warning.hpp"
 #include "File.hpp"
 #include "FileOpen.hpp"

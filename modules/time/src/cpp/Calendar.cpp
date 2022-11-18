@@ -16,6 +16,7 @@
 #include "Calendar.hpp"
 #include "DateVector.hpp"
 #include "Transpose.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

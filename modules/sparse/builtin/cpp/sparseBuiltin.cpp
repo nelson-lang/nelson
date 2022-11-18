@@ -9,6 +9,7 @@
 //=============================================================================
 #include "sparseBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
 #include "SparseConstructors.hpp"

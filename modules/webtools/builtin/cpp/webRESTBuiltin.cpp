@@ -9,6 +9,7 @@
 //=============================================================================
 #include "webRESTBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "WebREST.hpp"
 #include "ClassName.hpp"
 //=============================================================================

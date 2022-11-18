@@ -11,16 +11,17 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
+#include <vector>
+#include <algorithm>
 #include <unicode/unistr.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
 #include <unicode/uchar.h>
-#include <vector>
-#include <boost/locale.hpp>
 #include <unicode/ustring.h>
-#include <algorithm>
 #include "characters_encoding.hpp"
-#include "nlsConfig.h"
+//=============================================================================
+#define USE_SIMDUTF
+//=============================================================================
 #ifdef USE_SIMDUTF
 #include "simdutf.h"
 #endif

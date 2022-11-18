@@ -24,6 +24,7 @@ NelsonConfiguration::NelsonConfiguration()
     nelsonRootPath = L"";
     ipcEnabled = false;
     mainGuiObject = nullptr;
+    mainEvaluator = nullptr;
     FileManager = nullptr;
     RandomEngine = nullptr;
     HistoryManager = nullptr;
@@ -128,6 +129,30 @@ NelsonConfiguration::getNelsonRootDirectory()
 }
 //=============================================================================
 void
+NelsonConfiguration::setNelsonBinaryDirectory(const std::wstring& directory)
+{
+    nelsonBinaryPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonBinaryDirectory()
+{
+    return nelsonBinaryPath;
+}
+//=============================================================================
+void
+NelsonConfiguration::setNelsonPreferencesDirectory(const std::wstring& directory)
+{
+    nelsonPreferencesPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonPreferencesDirectory()
+{
+    return nelsonPreferencesPath;
+}
+//=============================================================================
+void
 NelsonConfiguration::setMainGuiObject(void* mainGuiObject)
 {
     this->mainGuiObject = mainGuiObject;
@@ -137,6 +162,18 @@ void*
 NelsonConfiguration::getMainGuiObject()
 {
     return this->mainGuiObject;
+}
+//=============================================================================
+void
+NelsonConfiguration::setMainEvaluator(void* mainEvaluator)
+{
+    this->mainEvaluator = mainEvaluator;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getMainEvaluator()
+{
+    return this->mainEvaluator;
 }
 //=============================================================================
 void

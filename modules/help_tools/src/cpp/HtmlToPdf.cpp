@@ -9,7 +9,8 @@
 //=============================================================================
 #include "HtmlToPdf.hpp"
 #include "Error.hpp"
-#include "dynamic_library.hpp"
+#include "i18n.hpp"
+#include "DynamicLibrary.hpp"
 #include <boost/function.hpp>
 //=============================================================================
 namespace Nelson {

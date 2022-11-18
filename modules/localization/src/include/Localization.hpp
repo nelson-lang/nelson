@@ -9,10 +9,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
-#include "dynamic_library.hpp"
-#include "nlsLocalization_exports.h"
 #include <string>
+#include "Types.hpp"
+#include "nlsLocalization_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,15 +42,7 @@ private:
 
     std::wstring currentLanguage;
     wstringVector LanguageSupported;
-    library_handle nlsCoreDynamicLibrary = nullptr;
-    bool bFirstDynamicLibraryCall;
 
-    void
-    initCoreDynamicLibrary();
-    std::wstring
-    getPreferencesPathDynamic();
-    std::wstring
-    getNelsonPathDynamic();
     void
     setLanguageEnvironment(const std::wstring& lang);
     void

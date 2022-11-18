@@ -9,6 +9,8 @@
 //=============================================================================
 #include "h5ReadReference.hpp"
 #include "h5ReadHelpers.hpp"
+#include "NewWithException.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {

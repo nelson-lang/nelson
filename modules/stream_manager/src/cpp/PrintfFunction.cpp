@@ -17,6 +17,7 @@
 #include "StringHelpers.hpp"
 #include "PrintfFunction.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PrintfHelper.hpp"
 //=============================================================================
 namespace Nelson {

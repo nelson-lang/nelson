@@ -12,6 +12,7 @@
 #include "FscanFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

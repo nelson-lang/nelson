@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 #include <cstdlib>
 #include <string>
 //=============================================================================

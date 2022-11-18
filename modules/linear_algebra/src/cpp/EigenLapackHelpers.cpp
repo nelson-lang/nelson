@@ -11,10 +11,10 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include <cstring>
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "EigenLapackHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -151,7 +151,7 @@ doubleEigenDecompositionSymmetric(int n, double* v, double* d, double* a, bool e
     int LWORK;
 
     LWORK = -1;
-    dsyev_(&JOBZ, &UPLO, &N, Ain, &LDA, d, &WORKSZE, &LWORK, &INFO);
+    LAPACK_dsyev(&JOBZ, &UPLO, &N, Ain, &LDA, d, &WORKSZE, &LWORK, &INFO);
     LWORK = (int)WORKSZE;
     double* WORK = (double*)new_with_exception<double>(LWORK, false);
     LAPACK_dsyev(&JOBZ, &UPLO, &N, Ain, &LDA, d, WORK, &LWORK, &INFO);

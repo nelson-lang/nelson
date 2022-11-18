@@ -9,6 +9,7 @@
 //=============================================================================
 #include "historyBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HistoryManager.hpp"
 #include "IsCellOfStrings.hpp"
 #include "ToCellString.hpp"

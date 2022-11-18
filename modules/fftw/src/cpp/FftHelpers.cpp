@@ -13,7 +13,7 @@
 #include "FFTWWrapper.hpp"
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -13,6 +13,8 @@
 #include <algorithm>
 #include "methodsComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "str2funcBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringToFunctionHandle.hpp"
 //=============================================================================
 using namespace Nelson;

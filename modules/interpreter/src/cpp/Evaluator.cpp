@@ -8,13 +8,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include "StringHelpers.hpp"
 #include <boost/interprocess/managed_shared_memory.hpp>
+#include <algorithm>
 #include <cstdio>
 #include <cerrno>
 #include <iostream>
 #include <cmath>
+#include "StringHelpers.hpp"
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"
@@ -42,7 +42,6 @@
 #include "MainEvaluator.hpp"
 #include "CommandQueue.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
-#include "Error.hpp"
 #include "VertCatOperator.hpp"
 #include "HorzCatOperator.hpp"
 #include "PathFuncManager.hpp"
@@ -57,6 +56,7 @@
 #include "PathFuncManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "VertCat.hpp"
 #include "HorzCat.hpp"
 #include "PathFuncManager.hpp"

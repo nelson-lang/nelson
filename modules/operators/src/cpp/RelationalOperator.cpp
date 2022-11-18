@@ -8,10 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "Equals.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "ClassName.hpp"
 #include "FindCommonClass.hpp"
 //=============================================================================

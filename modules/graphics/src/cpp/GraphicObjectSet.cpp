@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GraphicObjectSet.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GOProperty.hpp"
 #include "GOFigure.hpp"
 #include "GORoot.hpp"

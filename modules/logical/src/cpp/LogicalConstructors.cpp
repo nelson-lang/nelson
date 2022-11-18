@@ -10,6 +10,7 @@
 #include <cstring>
 #include "LogicalConstructors.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {

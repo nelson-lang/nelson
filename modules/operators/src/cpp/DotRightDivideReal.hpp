@@ -9,10 +9,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
-#include "nlsConfig.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {

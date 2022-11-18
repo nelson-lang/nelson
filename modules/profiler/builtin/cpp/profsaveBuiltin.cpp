@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "profsaveBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
 //=============================================================================

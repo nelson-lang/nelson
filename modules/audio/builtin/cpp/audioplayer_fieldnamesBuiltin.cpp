@@ -10,6 +10,7 @@
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "ToCellString.hpp"

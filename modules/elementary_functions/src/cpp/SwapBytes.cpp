@@ -10,7 +10,7 @@
 #include <boost/endian/conversion.hpp>
 #include "SwapBytes.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

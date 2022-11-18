@@ -9,6 +9,7 @@
 //=============================================================================
 #include "getnelsonmodeBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
 //=============================================================================

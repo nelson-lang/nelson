@@ -9,6 +9,7 @@
 //=============================================================================
 #include "structBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsValidFieldname.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

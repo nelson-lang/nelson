@@ -10,9 +10,10 @@
 #include "FileSystemWrapper.hpp"
 #include "GatewayInfo.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

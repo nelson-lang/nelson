@@ -8,10 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "getavailablelanguagesBuiltin.hpp"
-#include "Error.hpp"
 #include "Localization.hpp"
 #include "ToCellString.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "NargIn.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

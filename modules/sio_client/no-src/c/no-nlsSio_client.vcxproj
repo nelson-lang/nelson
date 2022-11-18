@@ -189,7 +189,7 @@
     <ClCompile Include="..\cpp\SioClientCommand.cpp" />
     <ClCompile Include="..\cpp\SioClientInterface.cpp" />
     <ClCompile Include="..\cpp\SioClientEmit.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

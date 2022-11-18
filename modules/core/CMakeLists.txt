@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name core)
@@ -30,22 +29,23 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
 # ==============================================================================
 file(GLOB CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER CORE_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${CORE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsOs_functions
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes
-  nlsError_manager
-  nlsStream_manager
-  nlsCommons
   nlsCharacters_encoding
+  nlsCommons
+  nlsError_manager
   nlsFiles_folders_functions
   nlsI18n
-  nlsString
+  nlsInterpreter
+  nlsNelson_manager
+  nlsOs_functions
+  nlsStream_manager
+  nlsTypes
   ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
 # ==============================================================================
 set_target_properties(
@@ -56,6 +56,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB CORE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER CORE_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -73,15 +75,15 @@ add_library(${module_library_builtin_name} SHARED ${CORE_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsTypes
-  nlsI18n
-  nlsCommons
   nlsApi_nelson
+  nlsCharacters_encoding
+  nlsCommons
   nlsData_structures
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsTypes
   nlsOverload)
 # ==============================================================================
 set_target_properties(

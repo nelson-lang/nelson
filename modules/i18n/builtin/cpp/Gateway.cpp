@@ -20,23 +20,11 @@ static const nlsGateway gateway[] = {
 
 };
 //=============================================================================
-static bool
-initializeI18nModule(Nelson::Evaluator* eval)
-{
-    return true;
-}
-//=============================================================================
-static bool
-finishI18nModule(Nelson::Evaluator* eval)
-{
-    return true;
-}
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeI18nModule)
+NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishI18nModule)
+NLSGATEWAYREMOVE(gateway)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "IsValidVariableName.hpp"
-#include "Types.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

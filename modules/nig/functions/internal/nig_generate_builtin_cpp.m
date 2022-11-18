@@ -15,6 +15,7 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
   filenameHeaderBuiltin = [CppBuiltinName, '.hpp'];
   txt{end + 1} = '#include <algorithm>';
   txt{end + 1} = '#include "Error.hpp"';
+  txt{end + 1} = '#include "i18n.hpp"';
   txt{end + 1} = ['#include "', filenameHeaderBuiltin, '"'];
   txt{end + 1} = '//=============================================================================';
   txt{end + 1} = 'using namespace Nelson;';

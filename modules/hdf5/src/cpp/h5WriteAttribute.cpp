@@ -12,10 +12,10 @@
 #include "FileSystemWrapper.hpp"
 #include "HDF5_helpers.hpp"
 #include "h5WriteAttribute.hpp"
-#include "Exception.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "h5WriteHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

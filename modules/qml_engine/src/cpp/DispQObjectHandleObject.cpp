@@ -26,6 +26,7 @@
 #include <QtQml/QQmlComponent>
 #include "DispQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QObjectHandleObject.hpp"

@@ -14,6 +14,7 @@
 #include "ReadUserModules.hpp"
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

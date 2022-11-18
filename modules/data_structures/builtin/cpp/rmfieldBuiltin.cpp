@@ -13,6 +13,7 @@
 #include <fmt/format.h>
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadRequired.hpp"

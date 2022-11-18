@@ -10,7 +10,6 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
-#include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
 #include "h5ReadFloat.hpp"
@@ -23,6 +22,8 @@
 #include "h5ReadVlen.hpp"
 #include "h5ReadArray.hpp"
 #include "h5ReadReference.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

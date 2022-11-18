@@ -16,10 +16,10 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include "GetPreferencesPath.hpp"
 #include "HistoryManager.hpp"
 #include "characters_encoding.hpp"
 #include "FileSystemWrapper.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,7 +48,8 @@ HistoryManager::HistoryManager()
     saveAfterNCommands = DEFAULT_SAVEAFTERNCOMMANDS;
     nbCommands = 0;
     // commands.reserve(4096);
-    setFilename(GetPreferencesPath() + std::wstring(L"/Nelson.history"));
+    setFilename(NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory()
+        + std::wstring(L"/Nelson.history"));
     token.clear();
     token_position = 0;
     tokens_found.clear();

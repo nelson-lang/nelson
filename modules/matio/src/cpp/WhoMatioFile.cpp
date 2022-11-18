@@ -13,6 +13,8 @@
 #include "WhoMatioFile.hpp"
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

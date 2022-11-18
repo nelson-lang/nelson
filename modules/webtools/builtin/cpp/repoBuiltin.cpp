@@ -9,6 +9,7 @@
 //=============================================================================
 #include "repoBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Repository.hpp"
 #include "ToCellString.hpp"
 //=============================================================================

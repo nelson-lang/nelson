@@ -13,6 +13,7 @@
 #include "invokeComHandleObject.hpp"
 #include "ComHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
 #include "characters_encoding.hpp"

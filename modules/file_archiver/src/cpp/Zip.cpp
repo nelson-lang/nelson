@@ -16,6 +16,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================

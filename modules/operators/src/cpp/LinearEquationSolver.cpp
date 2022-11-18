@@ -8,10 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <limits>
-#include "lapack_eigen.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "LinearEquationSolver.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "i18n.hpp"
 #include "Warning.hpp"
 //=============================================================================

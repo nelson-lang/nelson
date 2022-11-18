@@ -11,7 +11,9 @@
 #include "Remainder.hpp"
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

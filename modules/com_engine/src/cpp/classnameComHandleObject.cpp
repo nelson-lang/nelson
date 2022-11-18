@@ -15,6 +15,7 @@
 #include "ClassName.hpp"
 #include "ComHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {

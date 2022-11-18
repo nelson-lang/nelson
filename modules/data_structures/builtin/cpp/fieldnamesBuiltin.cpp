@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fieldnamesBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"

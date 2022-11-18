@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fseekBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "File.hpp"
 #include "FileSeek.hpp"
 #include "FilesManager.hpp"

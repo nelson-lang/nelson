@@ -9,6 +9,7 @@
 //=============================================================================
 #include "acquirevarBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 //=============================================================================
 using namespace Nelson;

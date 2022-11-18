@@ -23,6 +23,8 @@
 #include "nlsInterpreter_exports.h"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
 #include "NelSonParser.h"

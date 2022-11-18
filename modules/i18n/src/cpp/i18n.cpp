@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/locale.hpp>
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include <boost/locale.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -17,9 +17,10 @@
 #include <fmt/format.h>
 #include "StringHelpers.hpp"
 #include "NumberToString.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "characters_encoding.hpp"
 #include "RealPart.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

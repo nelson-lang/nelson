@@ -11,6 +11,7 @@
 #include <vector>
 #include "Whos.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Who.hpp"
 #include "ClassName.hpp"
 #include "Interface.hpp"

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "strfindBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringFind.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================

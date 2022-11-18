@@ -3,15 +3,12 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name stream_manager)
 set(module_library_name nlsStream_manager)
 set(module_library_builtin_name ${module_library_name}_builtin)
-# ==============================================================================
-add_definitions(-DFMT_EXPORT)
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
@@ -28,20 +25,21 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
 file(GLOB STREAM_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/src/*.cc")
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/src/*.cc")
+list(FILTER STREAM_MANAGER_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${STREAM_MANAGER_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsTypes
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsElementary_mathematics
-  nlsI18n
   nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsError_manager
+  nlsI18n
+  nlsTypes
+  nlsHistory_manager
+  ${Boost_IOSTREAMS_LIBRARY})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -52,6 +50,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB STREAM_MANAGER_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER STREAM_MANAGER_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -69,16 +69,15 @@ add_library(${module_library_builtin_name} SHARED ${STREAM_MANAGER_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
-  nlsI18n
-  nlsCharacters_encoding
-  nlsNelson_manager
   nlsApi_nelson
+  nlsCharacters_encoding
   nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsOverload
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

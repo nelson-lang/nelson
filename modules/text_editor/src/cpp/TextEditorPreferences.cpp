@@ -17,16 +17,9 @@
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
 #include "DefaultFont.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
-//=============================================================================
-static std::wstring
-getPreferencesPath()
-{
-#define NELSON_PREFERENCES_PATH_ENV L"NELSON_PREFERENCES_PATH"
-    std::wstring prefPath = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
-    return prefPath;
-}
 //=============================================================================
 static std::ifstream&
 safegetline(std::ifstream& os, std::string& line)
@@ -47,7 +40,7 @@ TextEditorSavePreferences(
     QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles)
 {
     bool bRes = false;
-    std::wstring prefDir = getPreferencesPath();
+    std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
     boost::property_tree::ptree pt;
@@ -93,7 +86,7 @@ TextEditorLoadPreferences(
     int pref_font_size = -1;
     bool pref_font_fixed_pitch = true;
     std::string pref_font_name = wstring_to_utf8(getDefaultFontName());
-    std::wstring prefDir = getPreferencesPath();
+    std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(editorConfFile);

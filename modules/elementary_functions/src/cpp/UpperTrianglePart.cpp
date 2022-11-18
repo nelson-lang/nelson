@@ -8,9 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 #include "UpperTrianglePart.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

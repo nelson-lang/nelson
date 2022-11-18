@@ -10,6 +10,7 @@
 #include "graphic_object_fieldnamesBuiltin.hpp"
 #include "GraphicObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -11,6 +11,7 @@
 #include <fmt/format.h>
 #include "falseBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "LogicalConstructors.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -13,8 +13,8 @@
 #endif
 //=============================================================================
 #include <cstdio>
-#include "nlsConfig.h"
-#include "lapack_eigen.hpp"
+#include "nlsBuildConfig.h"
+#include "lapack_eigen_config.hpp"
 #include "IsHermitian.hpp"
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"

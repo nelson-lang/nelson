@@ -11,6 +11,7 @@
 #include "freadBuiltin.hpp"
 #include "Endian.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileRead.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"

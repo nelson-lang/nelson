@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name time)
@@ -26,20 +25,20 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB TIME_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER TIME_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TIME_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+  nlsCommons
+  nlsElementary_mathematics
+  nlsI18n
   nlsInterpreter
   nlsNelson_manager
-  nlsTypes
   nlsOperators
-  nlsElementary_mathematics
-  nlsCharacters_encoding
-  nlsI18n
-  nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -49,6 +48,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB TIME_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER TIME_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -65,17 +66,15 @@ add_library(${module_library_builtin_name} SHARED ${TIME_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsApi_nelson
-  nlsI18n
-  nlsString
   nlsCommons
   nlsData_structures
-  ${BOOST_LIBRARIES})
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsOverload
+  nlsStream_manager
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

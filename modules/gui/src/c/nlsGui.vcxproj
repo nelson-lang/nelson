@@ -39,7 +39,7 @@
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
     <ClCompile Include="..\cpp\QuestionBox.cpp" />
     <ClCompile Include="..\cpp\UiGetDirectory.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Console.hpp" />

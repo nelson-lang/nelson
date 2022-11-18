@@ -11,6 +11,7 @@
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 #include "PathFuncManager.hpp"
 //=============================================================================
 using namespace Nelson;

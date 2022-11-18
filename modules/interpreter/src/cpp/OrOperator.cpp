@@ -18,7 +18,7 @@ Evaluator::orOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf retval;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
+        && isOverloadAllowed()) {
         retval = OverloadBinaryOperator(this, A, B, "or");
     } else {
         retval = Or(A, B);

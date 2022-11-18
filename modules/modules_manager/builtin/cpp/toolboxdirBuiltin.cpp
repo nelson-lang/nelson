@@ -9,6 +9,7 @@
 //=============================================================================
 #include "toolboxdirBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"

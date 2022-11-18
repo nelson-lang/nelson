@@ -9,6 +9,7 @@
 //=============================================================================
 #include "headcommentsBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "HeadComments.hpp"
 #include "FileSystemWrapper.hpp"
 #include "MacroFunctionDef.hpp"

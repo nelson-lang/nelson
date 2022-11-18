@@ -11,6 +11,7 @@
 #include "NewFigure.hpp"
 #include "figureBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GOWindowManager.hpp"
 #include "GOFigure.hpp"
 //=============================================================================

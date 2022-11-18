@@ -19,6 +19,7 @@
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

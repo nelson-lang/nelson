@@ -13,15 +13,15 @@
 #endif
 //=============================================================================
 #include <cstring>
-#include "lapack_eigen.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
-#include "StringHelpers.hpp"
 #include <cinttypes>
 #include <cmath>
 #include <cstdio>
 #include <limits>
+#include "StringHelpers.hpp"
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "IEEEFP.hpp"
@@ -30,7 +30,9 @@
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf

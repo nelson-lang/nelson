@@ -13,6 +13,7 @@
 #include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
 #include "StringHelpers.hpp"

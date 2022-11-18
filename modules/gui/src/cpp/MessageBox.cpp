@@ -12,10 +12,10 @@
 #include <QtWidgets/QAbstractButton>
 #include <QtCore/QVariant>
 #include "MessageBox.hpp"
-#include "GetNelsonPath.hpp"
 #include "QObjectHandleObjectAllocator.hpp"
 #include "QStringConverter.hpp"
 #include "HandleManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -59,7 +59,8 @@ MessageBox(const std::wstring& message, const std::wstring& title, const std::ws
     } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    QString nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()));
+    QString nelsonPath(
+        Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()));
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon qIcon(fileNameIcon);
     bool modal = false;

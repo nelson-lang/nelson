@@ -11,6 +11,7 @@
 #include "GraphicObject.hpp"
 #include "GraphicObjectDelete.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

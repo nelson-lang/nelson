@@ -9,6 +9,7 @@
 //=============================================================================
 #include "feofBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================

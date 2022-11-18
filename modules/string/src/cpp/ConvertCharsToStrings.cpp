@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ConvertCharsToStrings.hpp"
-#include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "IsCellOfStrings.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector

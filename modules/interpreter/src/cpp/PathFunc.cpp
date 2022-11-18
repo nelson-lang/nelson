@@ -15,6 +15,7 @@
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {

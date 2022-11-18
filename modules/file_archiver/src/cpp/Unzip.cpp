@@ -17,6 +17,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {

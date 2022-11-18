@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name files_folders_functions)
@@ -27,20 +26,20 @@ include_directories(
 # ==============================================================================
 file(GLOB FILES_FOLDERS_FUNCTIONS_SRC
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER FILES_FOLDERS_FUNCTIONS_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${FILES_FOLDERS_FUNCTIONS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsStream_manager
   nlsCharacters_encoding
-  nlsError_manager
-  nlsTypes
-  nlsI18n
-  nlsTime
-  nlsInterpreter
   nlsCommons
-  ${BOOST_LIBRARIES})
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsTime
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -51,6 +50,8 @@ set_target_properties(
 # ==============================================================================
 file(GLOB FILES_FOLDERS_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER FILES_FOLDERS_FUNCTIONS_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -72,17 +73,16 @@ add_library(${module_library_builtin_name} SHARED
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsStream_manager
   nlsApi_nelson
-  nlsNelson_manager
-  nlsCharacters_encoding
   nlsCommons
-  nlsInterpreter
-  nlsI18n
-  nlsTypes
   nlsData_structures
-  nlsString)
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsNelson_manager
+  nlsStream_manager
+  nlsString
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

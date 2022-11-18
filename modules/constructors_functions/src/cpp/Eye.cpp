@@ -7,10 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Eye.hpp"
-#include "nlsConfig.h"
-#include "SparseDynamicFunctions.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
+#include "Eye.hpp"
+#include "SparseDynamicFunctions.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

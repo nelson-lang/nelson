@@ -9,13 +9,14 @@
 //=============================================================================
 #include "xmldocbuildBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "Exception.hpp"
 #include "FileSystemWrapper.hpp"
 #include "XmlDocDirectory.hpp"
 #include "XmlDocDocument.hpp"
 #include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
-#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

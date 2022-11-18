@@ -9,7 +9,9 @@
 //=============================================================================
 #include "h5WriteHelpers.hpp"
 #include "Exception.hpp"
+#include "NewWithException.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

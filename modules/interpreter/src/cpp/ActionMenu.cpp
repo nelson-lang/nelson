@@ -10,14 +10,14 @@
 #include "ActionMenu.hpp"
 #include "CommandQueue.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 doExit()
 {
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         eval->addCommandToQueue(L"quit;");
     }
@@ -26,7 +26,7 @@ doExit()
 void
 doHelp()
 {
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         eval->addCommandToQueue(L"doc;");
     }
@@ -35,7 +35,7 @@ doHelp()
 void
 doPause()
 {
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         eval->addCommandToQueue(L"keyboard;");
     }
@@ -44,7 +44,7 @@ doPause()
 void
 doStop()
 {
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         eval->addCommandToQueue(L"abort;");
     }

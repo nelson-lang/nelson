@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name debugger)
@@ -26,13 +25,15 @@ include_directories(
 # ADD_LIBRARY( ${module_library_name} SHARED ${DEBUGGER_SRC} )
 # ==============================================================================
 # target_link_libraries(${module_library_name} nlsCharacters_encoding
-# nlsInterpreter ${BOOST_LIBRARIES} )
+# nlsInterpreter)
 # ==============================================================================
 # set_target_properties(${module_library_name} PROPERTIES VERSION
 # ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
 # SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
-file(GLOB INTERPRETER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+file(GLOB DEBUGGER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER DEBUGGER_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -42,14 +43,15 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-add_library(${module_library_builtin_name} SHARED ${INTERPRETER_BUILTIN})
+add_library(${module_library_builtin_name} SHARED ${DEBUGGER_BUILTIN})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name} 
-  nlsError_manager 
-  nlsTypes nlsI18n
-  nlsInterpreter
   nlsCommons
+  nlsError_manager 
+  nlsInterpreter
+  nlsI18n
+  nlsTypes 
   # ${module_library_name}
 )
 # ==============================================================================

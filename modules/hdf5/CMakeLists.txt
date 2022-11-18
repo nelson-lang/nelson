@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name hdf5)
@@ -29,20 +28,20 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
 file(GLOB HDF5_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER HDF5_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${HDF5_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsTypes
   nlsCharacters_encoding
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter
-  nlsI18n
-  nlsSparse
   nlsCommons
-  ${BOOST_LIBRARIES}
+  nlsError_manager
+  nlsI18n
+  nlsInterpreter
+  nlsSparse
+  nlsTypes
   ${HDF5_LIBRARIES})
 # ==============================================================================
 set_target_properties(
@@ -53,6 +52,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 file(GLOB HDF5_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER HDF5_BUILTIN EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
@@ -69,12 +70,9 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsTypes
   nlsI18n
-  nlsCharacters_encoding
-  nlsApi_nelson
+  nlsInterpreter
+  nlsTypes
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

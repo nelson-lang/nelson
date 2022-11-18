@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `--noaudio` CLI argument disable audio (module) in Nelson.
 
+- logical operators `&`, `|` , `&&`, `||` for sparses matrix managed.
+
 ### Changed
 
 - timeout `--timeout` CLI argument and `system` with timeout return error code `258` on Windows and `134` others platforms.

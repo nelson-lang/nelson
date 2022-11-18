@@ -3,8 +3,7 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name terminal)
@@ -18,6 +17,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -27,16 +27,20 @@ include_directories(
 file(GLOB TERMINAL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BasicTerminal.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BsdTerminal.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/linenoise.cpp")
+list(FILTER TERMINAL_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${TERMINAL_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} 
-  nlsStream_manager
-  nlsInterpreter
+target_link_libraries(
+  ${module_library_name}
   nlsCharacters_encoding
-  nlsI18n
   nlsCommons
-  nlsHistory_manager)
+  nlsHistory_manager
+  nlsInterpreter
+  nlsStream_manager
+  nlsNelson_manager
+  nlsI18n)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

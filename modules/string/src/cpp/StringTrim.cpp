@@ -12,7 +12,7 @@
 #include <string>
 #include "StringTrim.hpp"
 #include "Error.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

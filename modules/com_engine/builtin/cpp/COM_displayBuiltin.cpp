@@ -10,6 +10,7 @@
 #include "COM_displayBuiltin.hpp"
 #include "DispComHandleObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

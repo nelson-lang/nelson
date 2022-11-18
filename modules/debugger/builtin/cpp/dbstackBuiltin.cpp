@@ -12,6 +12,7 @@
 #include "dbstackBuiltin.hpp"
 #include "DebugStack.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PositionScript.hpp"
 #include "CallStack.hpp"
 #include "characters_encoding.hpp"

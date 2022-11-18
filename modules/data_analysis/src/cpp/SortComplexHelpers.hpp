@@ -15,7 +15,7 @@
 #include "Types.hpp"
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
-#include "nlsConfig.h"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

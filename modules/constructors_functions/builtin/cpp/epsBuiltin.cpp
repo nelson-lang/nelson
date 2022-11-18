@@ -10,6 +10,7 @@
 #include "epsBuiltin.hpp"
 #include "Epsilon.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

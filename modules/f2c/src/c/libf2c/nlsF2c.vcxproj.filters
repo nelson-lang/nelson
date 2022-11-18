@@ -131,9 +131,6 @@
     <ClCompile Include="dfe.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dllmain.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dolio.c">
       <Filter>Source Files</Filter>
     </ClCompile>

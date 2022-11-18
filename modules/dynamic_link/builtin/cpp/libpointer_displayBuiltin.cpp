@@ -13,6 +13,7 @@
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

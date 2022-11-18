@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstdlib>
 #include "NelsonMinimizedDynamicFunction.hpp"
-#include "dynamic_library.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 static Nelson::library_handle nlsGuiHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
