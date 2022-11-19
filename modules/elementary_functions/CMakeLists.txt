@@ -44,11 +44,7 @@ target_link_libraries(
   nlsI18n
   nlsOperators
   nlsTypes
-  ${BLAS_LIBRARIES}
-  ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY}
-  ${OpenMP_CXX_LIBRARIES})
+  ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

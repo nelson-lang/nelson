@@ -1,72 +1,67 @@
-# This script looks for two places:
-#	- the environment variable MKLROOT
-#	- the directory /opt/intel/mkl
+# - Try to find mkl - the Intel Math Kernel Library
+# Once done this will define
+#  MKL_FOUND - System has mkl
+#  MKL_INCLUDE_DIRS - The mkl include directories
+#  MKL_LIBRARIES - The libraries needed to use mkl
+#  MKL_DEFINITIONS - Compiler switches required for using mkl
 
+find_path(MKL_INCLUDE_DIR
+            NAMES mkl.h
+            HINTS $ENV{MKL_DIR}/include
+                  /opt/intel/oneapi/mkl/latest/include
+                  /opt/intel/mkl/include
+                  /usr/include/mkl
+            PATHS)
 
-# Stage 1: find the root directory
+find_path(MKL_FFTW_INCLUDE_DIR
+            NAMES fftw3.h
+            HINTS $ENV{MKL_DIR}/include/fftw
+                  /opt/intel/oneapi/mkl/latest/include/fftw
+                  /opt/intel/mkl/include/fftw
+                  /usr/include/mkl/fftw
+            PATHS)
 
-set(MKLROOT_PATH $ENV{MKLROOT})
+find_library(MKL_LIBRARIES
+            NAMES mkl_rt
+            HINTS $ENV{MKL_DIR}/lib/intel64
+                  /opt/intel/oneapi/mkl/latest/lib/intel64
+                  /opt/intel/mkl/lib/intel64
+            PATHS)
 
-if (NOT MKLROOT_PATH)
-    # try to find at /opt/intel/mkl
+find_library(MKL_CORE
+            NAMES libmkl_core.a
+            HINTS $ENV{MKL_DIR}/lib/intel64
+                  /opt/intel/oneapi/mkl/latest/lib/intel64/
+                  /opt/intel/mkl/lib/intel64
+            PATHS)
 
-    if (EXISTS "/opt/intel/mkl")
-        set(MKLROOT_PATH "/opt/intel/mkl")
-    endif (EXISTS "/opt/intel/mkl")
-endif (NOT MKLROOT_PATH)
+find_library(MKL_ILP
+            NAMES libmkl_intel_ilp64.a
+            HINTS $ENV{MKL_DIR}/lib/intel64
+                  /opt/intel/oneapi/mkl/latest/lib/intel64/
+                  /opt/intel/mkl/lib/intel64
+            PATHS)
 
+find_library(MKL_SEQ
+            NAMES libmkl_sequential.a
+            HINTS $ENV{MKL_DIR}/lib/intel64
+                  /opt/intel/oneapi/mkl/latest/lib/intel64/
+                  /opt/intel/mkl/lib/intel64
+            PATHS)
 
-# Stage 2: find include path and libraries
-
-if (MKLROOT_PATH)
-    # root-path found
-
-    set(EXPECT_MKL_INCPATH "${MKLROOT_PATH}/include")
-
-    if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-        set(EXPECT_MKL_LIBPATH "${MKLROOT_PATH}/lib")
-    endif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-
-    set(EXPECT_ICC_LIBPATH "$ENV{ICC_LIBPATH}")
-
-    if (CMAKE_SYSTEM_NAME MATCHES "Linux")
-        if (CMAKE_SIZEOF_VOID_P MATCHES 8)
-            set(EXPECT_MKL_LIBPATH "${MKLROOT_PATH}/lib/intel64")
-        else (CMAKE_SIZEOF_VOID_P MATCHES 8)
-            set(EXPECT_MKL_LIBPATH "${MKLROOT_PATH}/lib/ia32")
-        endif (CMAKE_SIZEOF_VOID_P MATCHES 8)
-    endif (CMAKE_SYSTEM_NAME MATCHES "Linux")
-
-    # set include
-
-    if (IS_DIRECTORY ${EXPECT_MKL_INCPATH})
-        set(MKL_INCLUDE_DIR ${EXPECT_MKL_INCPATH})
-    endif (IS_DIRECTORY ${EXPECT_MKL_INCPATH})
-
-    if (IS_DIRECTORY ${EXPECT_MKL_LIBPATH})
-        set(MKL_LIBRARY_DIR ${EXPECT_MKL_LIBPATH})
-    endif (IS_DIRECTORY ${EXPECT_MKL_LIBPATH})
-
-    # find specific library files
-
-    find_library(LIB_MKL_RT NAMES mkl_rt HINTS ${MKL_LIBRARY_DIR})
-    find_library(LIB_PTHREAD NAMES pthread)
-    #find_library(LIB_IMF NAMES imf HINTS ${MKL_LIBRARY_DIR} ${EXPECT_ICC_LIBPATH})
-
-endif (MKLROOT_PATH)
-
-set(MKL_LIBRARIES
-        ${LIB_MKL_RT}
-        ${LIB_PTHREAD})
-
-# deal with QUIET and REQUIRED argument
+set(MKL_STATIC_LIBRARIES -Wl,--start-group ${MKL_CORE} ${MKL_ILP} ${MKL_SEQ} -Wl,--end-group -lpthread -lm -ldl)
+set(MKL_INCLUDE_DIRS ${MKL_INCLUDE_DIR} ${MKL_FFTW_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
+# handle the QUIETLY and REQUIRED arguments and set MKL_FOUND to TRUE
+# if all listed variables are TRUE
+find_package_handle_standard_args(MKL  DEFAULT_MSG
+                                  MKL_LIBRARIES MKL_CORE MKL_ILP MKL_SEQ MKL_INCLUDE_DIRS)
 
-find_package_handle_standard_args(MKL DEFAULT_MSG
-        MKL_LIBRARY_DIR
-        LIB_MKL_RT
-        LIB_PTHREAD
-        MKL_INCLUDE_DIR)
+if(MKL_FOUND)
+  MESSAGE(STATUS "Found MKL_INCLUDE_DIRS: ${MKL_INCLUDE_DIRS}" )
+  MESSAGE(STATUS "Found MKL_LIBRARIES: ${MKL_LIBRARIES}" )
+  MESSAGE(STATUS "Found MKL_STATIC_LIBRARIES: ${MKL_STATIC_LIBRARIES}" )
+endif(MKL_FOUND)
 
-mark_as_advanced(LIB_MKL_RT LIB_PTHREAD  MKL_INCLUDE_DIR)
+mark_as_advanced(MKL_INCLUDE_DIR MKL_FFTW_INCLUDE_DIR MKL_LIBRARIES MKL_CORE MKL_ILP MKL_SEQ)

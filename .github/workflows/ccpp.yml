@@ -174,7 +174,7 @@ jobs:
           path: artifacts/
 
   Jammy:
-    name: Ubuntu-22.04 Jammy
+    name: Ubuntu-22.04 Jammy (OpenBLAS)
     runs-on: ubuntu-22.04
     timeout-minutes: 120
 
@@ -197,6 +197,7 @@ jobs:
           sudo apt -y install libffi-dev;
           sudo apt -y install libicu-dev;
           sudo apt -y install libxml2-dev;
+          sudo apt -y install libopenblas-openmp-dev;
           sudo apt -y install liblapack-dev;
           sudo apt -y install liblapacke-dev;
           sudo apt -y install fftw3;
@@ -270,7 +271,7 @@ jobs:
           path: artifacts/
 
   Focal:
-    name: Ubuntu-20.04 Focal
+    name: Ubuntu-20.04 Focal (BLAS - LAPACK)
     runs-on: ubuntu-20.04
     timeout-minutes: 120
 

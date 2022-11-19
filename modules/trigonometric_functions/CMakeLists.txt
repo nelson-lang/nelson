@@ -35,10 +35,7 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsTypes
-  ${BLAS_LIBRARIES}
-  ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY})
+  ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

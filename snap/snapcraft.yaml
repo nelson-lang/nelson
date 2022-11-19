@@ -39,7 +39,7 @@ plugs:
 
 environment:
   XDG_RUNTIME_DIR: /tmp
-  LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
+  LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
   LANG: C.UTF-8
   LC_ALL: C.UTF-8
 
@@ -53,7 +53,7 @@ parts:
     override-build: |
       craftctl default
 
-      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DENABLE_PACKAGING=ON -DQTDIR=/usr/lib/qt6 . 
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DENABLE_PACKAGING=ON -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
       cmake --build . -- -j $(nproc)
       export XDG_RUNTIME_DIR=/tmp
       cmake --build . -- -j $(nproc) buildhelp
@@ -64,11 +64,9 @@ parts:
       sed -i 's|Icon=nelson|Icon=$CRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/nelson\.png|' desktop/org.nelson.Nelson.desktop
 
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
-      #ln -sf libpsm_infinipath.so.1.16 $CRAFT_PART_INSTALL/usr/lib/libpsm1/libpsm_infinipath.so.1
-      ln -s mpiexec.openmpi $CRAFT_PART_INSTALL/usr/bin/mpiexec
 
       craftctl set grade=stable
-      craftctl set version=0.6.10.0
+      craftctl set version=0.6.11.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
@@ -81,18 +79,15 @@ parts:
       - locales-all
       - libglvnd-dev
       - libasound2-data
-      - libopenmpi-dev
       - autotools-dev
       - libtool
       - automake
-      - openmpi-bin
       - gettext
       - pkg-config
       - libffi-dev
       - libicu-dev
       - libxml2-dev
-      - libblas-dev
-      - liblapack-dev
+      - libopenblas-openmp-dev
       - liblapacke-dev
       - fftw3-dev
       - libasound-dev
@@ -135,16 +130,13 @@ parts:
       - libc6
       - build-essential
       - locales-all
-      - libopenmpi3
       - libtool
       - automake
-      - openmpi-bin
       - gettext
       - pkg-config
       - libffi7
       - libxml2
-      - libblas3
-      - liblapack3
+      - libopenblas0-openmp  
       - liblapacke
       - fftw3
       - libasound2-data
@@ -209,14 +201,12 @@ parts:
 
 apps:
   nelson:
-    command: usr/Nelson-0.6.10/bin/linux/nelson
+    command: usr/Nelson-0.6.11/bin/linux/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
-      LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
       LOCPATH: "$SNAP/usr/lib/locale"
-      NELSON_WITHOUT_IPC: "TRUE"
-      NELSON_WITHOUT_MPI: "TRUE"
       PATH: "$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/x86_64-linux-gnu/qt6/bin:$PATH"
       QTDIR: "/usr/lib/x86_64-linux-gnu/qt6/"
       QTDIR_BINARIES: "/usr/lib/x86_64-linux-gnu/qt6/bin"
@@ -263,14 +253,6 @@ layout:
     symlink: $SNAP/usr/lib/x86_64-linux-gnu/libmvec_nonshared.a
   /usr/lib/x86_64-linux-gnu/libpthread_nonshared.a:
     symlink: $SNAP/usr/lib/x86_64-linux-gnu/libpthread_nonshared.a
-
-  # openmpi dependencies paths
-  #/usr/share/openmpi:
-  #symlink: $SNAP/usr/share/openmpi
-  #/etc/openmpi:
-  #bind: $SNAP/etc/openmpi
-  #/usr/lib/x86_64-linux-gnu/openmpi:
-  #bind: $SNAP/usr/lib/x86_64-linux-gnu/openmpi
 
   #alsa
   /usr/lib/x86_64-linux-gnu/alsa-lib:
