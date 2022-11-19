@@ -1,0 +1,10 @@
+[package]
+name = "hello_mex"
+version = "0.0.1"
+authors = ["Allan CPORNET <nelson.numerical.computation@gmail.com>"]
+build="build.rs"
+
+[lib]
+name="helloworldmex"
+crate-type=["dylib"]
+

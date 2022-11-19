@@ -145,5 +145,30 @@ else()
     DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
     FILES_MATCHING
     PATTERN "*.c")
+  install(
+    DIRECTORY
+      ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples/rust-mex-builder
+    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/examples
+    FILES_MATCHING
+    PATTERN "*.md")
+  install(
+    DIRECTORY
+      ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples/rust-mex-builder/helloworld
+    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/examples/rust-mex-builder
+    FILES_MATCHING
+    PATTERN "*.template")
+  install(
+    DIRECTORY
+      ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples/rust-mex-builder/helloworld
+    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/examples/rust-mex-builder
+    FILES_MATCHING
+    PATTERN "*.toml")
+  install(
+    DIRECTORY
+      ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples/rust-mex-builder/helloworld/src
+    DESTINATION
+      ${ROOT_OUTPUT}/modules/${module_name}/examples/rust-mex-builder/helloworld
+    FILES_MATCHING
+    PATTERN "*.rs")
 endif()
 # ==============================================================================

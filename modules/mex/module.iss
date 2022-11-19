@@ -31,3 +31,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MO
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.c; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\README.md; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\Cargo.toml; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\Build.template; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\src\lib.rs; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\src\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
+;==============================================================================
