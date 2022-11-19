@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `--noaudio` CLI argument disable audio (module) in Nelson.
 
+- [#783](http://github.com/Nelson-numerical-software/nelson/issues/783): Fedora 37 support.
+
 - logical operators `&`, `|` , `&&`, `||` for sparses matrix managed.
 
 - an example to build mexFunction using Rust.

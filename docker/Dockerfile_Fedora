@@ -8,7 +8,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 
-FROM fedora:36
+FROM fedora:37
 LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
