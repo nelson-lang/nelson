@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#783](http://github.com/Nelson-numerical-software/nelson/issues/783): Fedora 37 support.
 
+- logical operators `&`, `|` , `&&`, `||` for sparses matrix managed.
+
+- an example to build mexFunction using Rust.
+
 ### Changed
 
 - timeout `--timeout` CLI argument and `system` with timeout return error code `258` on Windows and `134` others platforms.
