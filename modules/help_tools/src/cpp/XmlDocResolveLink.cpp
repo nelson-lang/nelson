@@ -95,13 +95,13 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
     }
     filepath = directorysource + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
     if (FileSystemWrapper::Path::is_regular_file(filepath)) {
-        bool bRes = false;
-        resolvedlink = RelativePath(directorysource, filepath, bRes);
+        bool _bRes = false;
+        resolvedlink = RelativePath(directorysource, filepath, _bRes);
         return true;
     }
     if (FileSystemWrapper::Path::is_regular_file(linkname)) {
-        bool bRes = false;
-        resolvedlink = RelativePath(directorysource, linkname, bRes);
+        bool _bRes = false;
+        resolvedlink = RelativePath(directorysource, linkname, _bRes);
         return true;
     }
     return bRes;

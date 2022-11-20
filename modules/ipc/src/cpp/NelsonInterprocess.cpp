@@ -181,7 +181,6 @@ processMessageData(const dataInterProcessToExchange& messageData)
         }
     } break;
     case IS_MINIMIZED: {
-        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         bool minimized = true;
         if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
             minimized = getNelsonMinimizedDynamicFunction();

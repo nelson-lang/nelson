@@ -168,33 +168,5 @@ ToChar(const ArrayOf& A, bool& needToOverload)
     return res;
 }
 //=============================================================================
-static std::wstring
-ToChar(const wstringVector& V, std::vector<Dimensions> dimsVector, Dimensions& dims)
-{
-    std::wstring res;
-    size_t lenMax = 0;
-    for (size_t k = 0; k < V.size(); ++k) {
-        if (lenMax < V[k].size()) {
-            lenMax = dimsVector[k].getColumns();
-        }
-    }
-    if (V.size() == 1) {
-        dims = dimsVector[0];
-        return V[0];
-    } else {
-        ArrayOf resAsArrayOf = ArrayOf::characterArrayConstructor(V[0]);
-        resAsArrayOf.reshape(dimsVector[0]);
-        bool bSuccess;
-        for (size_t i = 1; i < V.size(); i++) {
-            ArrayOf B = ArrayOf::characterArrayConstructor(V[i]);
-            B.reshape(dimsVector[i]), resAsArrayOf = VertCat(resAsArrayOf, B, true, bSuccess);
-        }
-        res = resAsArrayOf.getContentAsArrayOfCharacters();
-        dims[0] = resAsArrayOf.getRows();
-        dims[1] = resAsArrayOf.getColumns();
-    }
-    return res;
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================
