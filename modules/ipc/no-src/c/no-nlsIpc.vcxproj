@@ -182,10 +182,16 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\FilesAssociations.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp" />
+    <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
+    <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\nlsIpc_exports.h" />
     <ClInclude Include="..\include\FilesAssociation.hpp" />
+    <ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp" />
+    <ClInclude Include="..\include\NelsonInterprocess.hpp" />
+    <ClInclude Include="..\include\NelsonPIDs.hpp" />
+    <ClInclude Include="..\include\nlsIpc_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -195,6 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
