@@ -48,7 +48,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 # ==============================================================================
 if(NOT LIBFFI_LIBRARY)
-  find_package(LIBFFI REQUIRED)
+  find_package(LibFFI REQUIRED)
 endif()
 # ==============================================================================
 if(LIBFFI_LIBRARY)

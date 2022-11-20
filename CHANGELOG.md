@@ -16,8 +16,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#783](http://github.com/Nelson-numerical-software/nelson/issues/783): Fedora 37 support.
 
-- logical operators `&`, `|` , `&&`, `||` for sparses matrix managed.
-
 - an example to build mexFunction using Rust.
 
 ### Changed
@@ -30,11 +28,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#776](http://github.com/Nelson-numerical-software/nelson/issues/776): internal dependencies between modules reworked.
 
+- Uses MKL or OpenBlas if detected on linux and MacOs (Nelson is faster on Linux and MacOs).
+
 ### Fixed
 
 - basic terminal was closed immediately if stdin was null.
 
-- Github Actions CI warnings
+- Github Actions CI warnings.
 
 - [#778](http://github.com/Nelson-numerical-software/nelson/issues/778): ArchLinux Github CI was broken.
 
