@@ -14,6 +14,9 @@ if(WITHOUT_IPC_MODULE)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
 else()
   include_directories(
@@ -54,7 +57,7 @@ if(NOT WITHOUT_IPC_MODULE)
 endif()
 # ==============================================================================
 if(WITHOUT_IPC_MODULE)
-  target_link_libraries(${module_library_name})
+  target_link_libraries(${module_library_name} nlsTypes)
 else()
   target_link_libraries(
     ${module_library_name}
