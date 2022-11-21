@@ -276,8 +276,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     std::wstring msg = responseCodeToMessage(response_code);
     if (!msg.empty()) {
         // remove file if error detected.
-        FileSystemWrapper::Path p = filename;
-        FileSystemWrapper::Path::remove(p);
+        FileSystemWrapper::Path _p = filename;
+        FileSystemWrapper::Path::remove(_p);
         Error(msg);
     }
     return fullFilename;

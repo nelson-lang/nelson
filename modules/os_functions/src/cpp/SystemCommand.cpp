@@ -43,9 +43,6 @@ static bool bFirstDynamicLibraryCall = true;
 static void
 ProcessEventsDynamicFunction();
 //=============================================================================
-static void
-deleteFile(nfs::path p);
-//=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
 //=============================================================================
@@ -340,19 +337,6 @@ void
 ProcessEventsDynamicFunction()
 {
     ProcessEventsDynamicFunction(false);
-}
-//=============================================================================
-void
-deleteFile(nfs::path p)
-{
-    if (nfs::exists(p)) {
-
-#ifdef _MSC_VER
-        int res = _wremove(p.generic_wstring().c_str());
-#else
-        int res = remove(p.generic_string().c_str());
-#endif
-    }
 }
 //=============================================================================
 std::wstring

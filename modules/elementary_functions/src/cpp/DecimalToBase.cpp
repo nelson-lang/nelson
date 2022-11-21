@@ -68,8 +68,8 @@ ullToBase(unsigned long long v, size_t b, size_t len)
     case 8:
     case 10:
     case 16: {
-        wchar_t buffer[_MAX_U64TOSTR_BASE2_COUNT];
 #ifdef _MSC_VER
+        wchar_t buffer[_MAX_U64TOSTR_BASE2_COUNT];
         res = _ui64tow(v, buffer, (int)b);
         StringHelpers::to_upper(res);
 #else

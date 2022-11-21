@@ -580,7 +580,6 @@ Profiler::coverageAnalyzer(
 
     int keywords = 0;
 
-    size_t res = 0;
     for (const std::string& line : functionContent) {
         std::string temp = StringHelpers::trim_copy(line);
         if (temp.empty() || StringHelpers::starts_with(temp, "%")) {

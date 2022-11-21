@@ -79,7 +79,6 @@ static WaitTimeout* waitTask = nullptr;
 bool
 createTimeoutThread(uint64 _timeoutseconds)
 {
-    // MessageBox(NULL, L"  ", L"", MB_OK);
     try {
         waitTask = new WaitTimeout();
         timeout_thread = new std::thread(&WaitTimeout::start, waitTask, _timeoutseconds);
