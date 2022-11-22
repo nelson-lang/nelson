@@ -20,6 +20,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - an example to build mexFunction using Rust.
 
+- geometry module:
+
+  - `rotx`: 3x3 transformation matrix for rotations around x-axis
+  - `roty`: 3x3 transformation matrix for rotations around y-axis
+  - `rotz`: 3x3 transformation matrix for rotations around z-axis
+
+- `spones` replaces non zero sparse matrix elements with ones.
+
 ### Changed
 
 - timeout `--timeout` CLI argument and `system` with timeout return error code `258` on Windows and `134` others platforms.
