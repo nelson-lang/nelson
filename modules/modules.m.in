@@ -74,6 +74,7 @@ modules_list = {
 {'f2c', @WITH_F2C_MODULE@};
 {'nig', @WITH_NIG_MODULE@};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
+{'geometry', @WITH_GEOMETRY_MODULE@};
 {'com_engine', false};
 };
 % ============================================================================

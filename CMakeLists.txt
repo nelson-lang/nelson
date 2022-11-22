@@ -72,7 +72,8 @@ list(
   RANDOM
   SPECIAL_FUNCTIONS
   TEXT_COMPLETION
-  CHARACTERS_ENCODING)
+  CHARACTERS_ENCODING
+  GEOMETRY)
 foreach(mod ${optional_modules})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
 endforeach(mod)

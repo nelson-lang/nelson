@@ -127,6 +127,7 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_WEBTOOLS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_MATIO}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_GEOMETRY}'));
     
     for I := 0 to ModulesList.Count - 1 do
       begin;

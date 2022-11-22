@@ -74,6 +74,7 @@ modules_list = {
 {'f2c', true};
 {'nig', true};
 {'webtools', true};
+{'geometry', true};
 {'com_engine', true};
 };
 % ============================================================================
