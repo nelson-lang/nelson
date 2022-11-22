@@ -86,7 +86,8 @@ list(
   POLYNOMIAL_FUNCTIONS
   RANDOM
   SPECIAL_FUNCTIONS
-  TEXT_COMPLETION)
+  TEXT_COMPLETION
+  GEOMETRY)
 
 foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)

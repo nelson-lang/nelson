@@ -17,7 +17,7 @@ function varargout = rot90(varargin)
   if nargin == 2
     k = varargin{2};
     if ~isscalar(k)
-      error(message('MATLAB:rot90:kNonScalar'));
+      error('Nelson:rot90:kNonScalar', _('Input argument #1: scalar expected.'));
     end
     k = mod(k, 4);
   end
@@ -33,7 +33,7 @@ function varargout = rot90(varargin)
       B = permute(A,[2 1 3:ndims(A)]);
       B = flip(B, 2);
     otherwise
-      error(message('MATLAB:rot90:kNonInteger'));
+      error('Nelson:rot90:kNonInteger', _('Input argument #1: scalar integer value expected.'));
     end
     varargout{1} = B;
   end

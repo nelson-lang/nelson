@@ -118,6 +118,9 @@ Name: {#COMPONENT_F2C}; Description:{cm:F2C_MODULE}; Types: full custom;
 #define COMPONENT_NIG 'NIG'
 Name: {#COMPONENT_NIG}; Description:{cm:NIG_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_GEOMETRY 'GEOMETRY'
+Name: {#COMPONENT_GEOMETRY}; Description:{cm:GEOMETRY_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
 Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full custom;
 ;==============================================================================
