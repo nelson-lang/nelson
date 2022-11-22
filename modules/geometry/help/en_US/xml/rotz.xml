@@ -4,7 +4,8 @@
 
   <language>en_US</language>
   <keyword>rotz</keyword>
-  <short_description>3x3 transformation matrix for rotations around z-axis</short_description>
+  <short_description
+  >3x3 transformation matrix for rotations around z-axis</short_description>
 
   <syntax>
     <syntax_item>rm = rotz(angle)</syntax_item>
@@ -21,21 +22,23 @@
   <param_output>
     <param_output_item>
       <param_name>rm</param_name>
-      <param_description>3x3 transformation matrix: real-valued orthogonal matrix.</param_description>
+      <param_description
+      >3x3 transformation matrix: real-valued orthogonal matrix.</param_description>
     </param_output_item>
   </param_output>
 
-  <description><p><b>rotz</b> returns 3x3 transformation matrix for rotations around z-axis.</p>
+  <description><p><b
+      >rotz</b> returns 3x3 transformation matrix for rotations around z-axis.</p>
 </description>
   <used_function />
-  <bibliography>Goldstein, H., C. Poole and J. Safko, Classical Mechanics, 3rd Edition, San Francisco: Addison Wesley, 2002, pp. 142–144.</bibliography>
+  <bibliography
+  >Goldstein, H., C. Poole and J. Safko, Classical Mechanics, 3rd Edition, San Francisco: Addison Wesley, 2002, pp. 142–144.</bibliography>
 
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description />
-    <example_item_data
-      ><![CDATA[r = rotz(90)]]>
+    <example_item_data><![CDATA[r = rotz(90)]]>
     </example_item_data>
   </example_item>
 
