@@ -27,7 +27,7 @@ assert_isequal(rcond([i Inf;2 3]), 0);
 assert_isequal(rcond([2 NaN;2i 3]), NaN);
 assert_isequal(rcond([i Inf;2 3]), 0);
 %=============================================================================
-if ~ismac()
+if ispc()
   % MacOs blas/lapack ref fails for single ...
   assert_isapprox(rcond(single(eye(30, 30))), single(1), 1e-1);
   assert_isapprox(rcond(single([1, 2; 3, 4])), single(0.0476), 1e-3);

@@ -22,7 +22,7 @@ assert_isapprox(inv([i, 2; i, 4]), [-2i  i; -0.5, 0.5], 1e-15);
 %=============================================================================
 assert_isequal(inv([0 0;2 3]), [Inf, Inf; Inf, Inf]);
 assert_isequal(inv([2 NaN;2 3]) , [NaN, NaN; NaN, NaN])
-if ~ismac()
+if ispc()
   assert_isequal(inv([2 Inf;2 3]), [NaN, NaN; 0 0])
   assert_isapprox(inv([0 Inf;2 3]), [0 0.5; 0 0], 1e-15);
 end
@@ -49,8 +49,8 @@ assert_isapprox(inv(single([1, 2; 3, 4])), single([-2, 1; 1.5, -0.5]), 1e-6);
 assert_isapprox(inv(single([i, 2; i, 4])), single([-2i  i; -0.5, 0.5]), 1e-15);
 %=============================================================================
 assert_isequal(inv(single([0 0;2 3])), single([Inf, Inf; Inf, Inf]));
-assert_isequal(inv(single([2 NaN;2 3])) , single([NaN, NaN; NaN, NaN]))
-if ~ismac()
+if ispc()
+  assert_isequal(inv(single([2 NaN;2 3])) , single([NaN, NaN; NaN, NaN]))
   assert_isequal(inv(single([2 Inf;2 3])), single([NaN, NaN; 0 0]))
   assert_isapprox(inv(single([0 Inf;2 3])), single([0 0.5; 0 0]), 1e-15);
 end
