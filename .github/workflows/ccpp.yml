@@ -411,7 +411,7 @@ jobs:
           pacman -S icu --noconfirm
           pacman -S qt5-base --noconfirm
           pacman -S qt5-tools --noconfirm
-          pacman -S qt5-webkit --noconfirm
+          pacman -S qt5-quickcontrols --noconfirm
           pacman -S libxml2 --noconfirm
           pacman -S gcc --noconfirm
           pacman -S make --noconfirm
