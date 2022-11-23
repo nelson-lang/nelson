@@ -9,6 +9,7 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "SparseType.hpp"

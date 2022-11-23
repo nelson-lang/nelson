@@ -56,6 +56,7 @@
 #include "signBuiltin.hpp"
 #include "hypotBuiltin.hpp"
 #include "permuteBuiltin.hpp"
+#include "__rot90_matrix_2D__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -166,6 +167,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "permute", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::permuteBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "__rot90_matrix_2D__",
+        (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__rot90_matrix_2D__Builtin, 1, 2,
+        CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

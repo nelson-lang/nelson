@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {

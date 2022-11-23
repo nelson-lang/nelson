@@ -7,29 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Inf.hpp"
-#include "lapack_eigen_config.hpp"
-#include <Eigen/Dense>
+#include "__rot90_matrix_2D__Builtin.hpp"
+#include "Rotate90.hpp"
 //=============================================================================
-namespace Nelson {
+using namespace Nelson;
 //=============================================================================
-ArrayOf
-Inf()
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::__rot90_matrix_2D__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
-    return Inf(1, 1);
+    ArrayOfVector retval;
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
+    int nbRotations = argIn[1].getContentAsInteger32Scalar();
+    retval << Rotate90(argIn[0], nbRotations);
+    return retval;
 }
-//=============================================================================
-ArrayOf
-Inf(uint32 m, uint32 n)
-{
-    double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE,
-        static_cast<indexType>(m) * static_cast<indexType>(n), Nelson::stringVector(), false));
-    Eigen::Map<Eigen::MatrixXd> matInf(mat, m, n);
-    matInf.setConstant(std::numeric_limits<double>::infinity());
-    Dimensions dimMat(m, n);
-    ArrayOf res = ArrayOf(NLS_DOUBLE, dimMat, mat);
-    return res;
-}
-
-} // namespace Nelson
 //=============================================================================
