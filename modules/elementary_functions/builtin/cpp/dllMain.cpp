@@ -9,6 +9,11 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include "lapack_eigen_config.hpp"
+//=============================================================================
+#if defined(_NLS_WITH_VML)
+#pragma comment(lib, "libnlsvml_mkl.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

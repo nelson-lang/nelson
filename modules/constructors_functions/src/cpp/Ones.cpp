@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "Ones.hpp"
 #include "Error.hpp"

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "TransposeSparseDouble.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 //=============================================================================

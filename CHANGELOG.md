@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.6.11 (UNRELEASED)
+## 0.6.11 (2022-11-25)
 
 ### Added
 
@@ -21,11 +21,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - an example to build mexFunction using Rust.
 
 - geometry module:
+
   - `rotx`: 3x3 transformation matrix for rotations around x-axis
   - `roty`: 3x3 transformation matrix for rotations around y-axis
   - `rotz`: 3x3 transformation matrix for rotations around z-axis
 
 - `spones` replaces non zero sparse matrix elements with ones.
+
+- `rot90` faster for 2D matrix.
 
 ### Changed
 

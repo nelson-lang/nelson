@@ -12,6 +12,7 @@
 #endif
 #include "TraceMatrix.hpp"
 #include "ClassName.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {

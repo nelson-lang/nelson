@@ -13,6 +13,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "SparseType.hpp"
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 //=============================================================================

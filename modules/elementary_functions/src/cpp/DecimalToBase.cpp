@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <unordered_map>
+#include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "StringHelpers.hpp"
 #include "DecimalToBase.hpp"
