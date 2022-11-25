@@ -11,7 +11,7 @@ function varargout = meshgrid(x, y, z)
   nargoutchk(0, 3);
   % Cartesian rectangular grid in 2-D or 3-D    
   if nargin == 0 || (nargin > 1 && nargout > nargin)
-    error(_('Wrong number of input arguments.'), 'Nelson:meshgrid:NotEnoughInputs');
+    error('Nelson:meshgrid:NotEnoughInputs', _('Wrong number of input arguments.'));
   end
   isCartesianRectangularGrid2D = (nargin == 1 && nargout < 3) || (nargin == 2);
   if ~isCartesianRectangularGrid2D
