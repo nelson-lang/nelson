@@ -12,8 +12,6 @@ jobs:
       - name: install dependencies
         run: |
           brew --version
-          brew update
-          brew upgrade
           brew cleanup
           brew install coreutils
           brew install zlib
@@ -101,9 +99,7 @@ jobs:
       - name: install dependencies
         run: |
           brew --version
-          brew update
-          brew upgrade
-          brew cleanup          
+          brew cleanup
           brew install coreutils
           brew install zlib
           brew install libtool
@@ -489,6 +485,9 @@ jobs:
           dnf install -y taglib-devel
           dnf install -y qt6-qtbase-devel
           dnf install -y qt6-qtdeclarative-devel
+          dnf install -y qt6-qtbase-mysql
+          dnf install -y qt6-qtbase-odbc
+          dnf install -y qt6-qtbase-postgresql
           dnf install -y qt6-doctools
           dnf install -y qt6-qtquickcontrols2
           dnf install -y qt6-qttools
