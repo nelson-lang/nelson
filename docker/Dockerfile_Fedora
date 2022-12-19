@@ -41,6 +41,9 @@ RUN dnf install -y jack-audio-connection-kit-devel
 RUN dnf install -y taglib-devel
 RUN dnf install -y qt6-qtbase-devel
 RUN dnf install -y qt6-qtdeclarative-devel
+RUN dnf install -y qt6-qtbase-mysql
+RUN dnf install -y qt6-qtbase-odbc
+RUN dnf install -y qt6-qtbase-postgresql
 RUN dnf install -y qt6-doctools
 RUN dnf install -y qt6-qtquickcontrols2
 RUN dnf install -y qt6-qttools
