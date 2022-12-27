@@ -10,9 +10,22 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 g = groot();
-assert_istrue(isempty(g.CurrentFigure));
+R =  properties(g);
+REF = {'Children';
+ 'CurrentFigure'; 
+ 'Parent';
+ 'PointerLocation';
+ 'ScreenDepth';
+ 'ScreenPixelsPerInch';
+ 'ScreenSize';
+ 'Tag';
+ 'Type';
+ 'Units';
+ 'UserData'};
+assert_isequal(R, REF);
 %=============================================================================
-a = figure(1);
-assert_isfalse(isempty(g.CurrentFigure));
-assert_isequal(g.CurrentFigure.Number, 1);
+assert_isequal(g.Type, 'root');
+assert_isequal(g.Tag, '');
+assert_isequal(g.UserData, []);
+assert_isequal(g.Units, 'pixels');
 %=============================================================================

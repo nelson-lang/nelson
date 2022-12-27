@@ -48,5 +48,5 @@ assert_isequal(R, 'cell');
 %=============================================================================
 f = figure(33);
 R = mxGetClassName(f);
-assert_isequal(R, 'graphic_object');
+assert_isequal(R, 'graphics_object');
 %=============================================================================

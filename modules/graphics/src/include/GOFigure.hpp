@@ -9,70 +9,65 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GraphicObject.hpp"
-#include "GraphicRenderer.hpp"
-#include "GOWindow.hpp"
+#include "nlsGraphics_exports.h"
+#include "GraphicsObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define FIGURE_TYPE_STR "figure"
-//=============================================================================
 class GOWindow;
 //=============================================================================
-class GOFigure : public GraphicObject
+class NLSGRAPHICS_IMPEXP GOFigure : public GraphicsObject
 {
-    bool m_resized;
+private:
+    int m_width, m_height;
+    bool _resized;
+    void
+    loadDefaultColorMap();
+    void
+    loadParulaColorMap();
     GOWindow* m_win;
 
-public:
-    GOFigure(GOWindow* win);
-    ~GOFigure() override = default;
     void
+    refreshInnerPositionProperty();
+    void
+    refreshOuterPositionProperty();
+
+public:
+    GOFigure(GOWindow* win, int number);
+    ~GOFigure() override = default;
+    virtual void
     registerProperties() override;
     bool
     resized();
+    int
+    getWidth()
+    {
+        return m_width;
+    }
+    int
+    getHeight()
+    {
+        return m_height;
+    }
+    virtual std::wstring
+    getType() override;
+
     void
-    refreshProperties() override;
-    virtual void
-    paintMe(GraphicRenderer& gc);
+    updateState() override;
+    void
+    paintMe(RenderInterface& gc) override;
     virtual void
     resizeGL(int width, int height);
     void
     initializeProperties();
     void
     repaint();
-    GOWindow*
-    getParentWindow();
-    uint64
-    id();
+    void
+    setFocus();
 
-private:
-    void
-    refreshColorProperty();
-    void
-    refreshOuterPositionProperty();
-    void
-    refreshInnerPositionProperty();
     void
     refreshPositionProperty();
-
-    void
-    applyBackgroundProperty();
-    void
-    applyVisibleProperty();
-    void
-    applyNameProperty();
-    void
-    applyOuterPositionProperty();
-    void
-    applyInnerPositionProperty();
-    void
-    applyPositionProperty();
-    int
-    computeYOuterInnerOffset();
-    int
-    computeXOuterInnerOffset();
 };
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

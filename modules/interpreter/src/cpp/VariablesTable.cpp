@@ -16,9 +16,9 @@ namespace Nelson {
 //=============================================================================
 VariablesTable::VariablesTable()
 {
-    GenericTable<ArrayOf>* genericTable = nullptr;
+    GenericTable<std::string, ArrayOf>* genericTable = nullptr;
     try {
-        genericTable = new GenericTable<ArrayOf>;
+        genericTable = new GenericTable<std::string, ArrayOf>;
     } catch (const std::bad_alloc&) {
         genericTable = nullptr;
     }
@@ -29,7 +29,7 @@ VariablesTable::VariablesTable()
 VariablesTable::~VariablesTable()
 {
     if (variablesTable != nullptr) {
-        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<std::string, ArrayOf>*)variablesTable;
         delete genericTable;
         genericTable = nullptr;
     }
@@ -40,7 +40,7 @@ ArrayOf*
 VariablesTable::findVariable(const std::string& key)
 {
     if (variablesTable != nullptr) {
-        return ((GenericTable<ArrayOf>*)variablesTable)->findSymbol(key);
+        return ((GenericTable<std::string, ArrayOf>*)variablesTable)->findSymbol(key);
     }
     return nullptr;
 }
@@ -60,7 +60,7 @@ bool
 VariablesTable::isVariable(const key_type& key)
 {
     if (variablesTable != nullptr) {
-        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<std::string, ArrayOf>*)variablesTable;
         value_type* v = genericTable->findSymbol(key);
         if (v != nullptr) {
             return true;
@@ -75,7 +75,7 @@ VariablesTable::deleteVariable(const key_type& key)
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
-                auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                auto* genericTable = (GenericTable<std::string, ArrayOf>*)variablesTable;
                 while (lockedAccess) { }
                 lockedAccess = true;
                 genericTable->deleteSymbol(key);
@@ -101,7 +101,7 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
         return false;
     }
     if (!isLockedVariable(key) || lockedVariables.empty()) {
-        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<std::string, ArrayOf>*)variablesTable;
         while (lockedAccess) { }
         lockedAccess = true;
         genericTable->insertSymbol(key, val);
@@ -117,7 +117,7 @@ VariablesTable::getVariablesList(bool withPersistent)
     if (variablesTable == nullptr) {
         return {};
     }
-    auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+    auto* genericTable = (GenericTable<std::string, ArrayOf>*)variablesTable;
     stringVector list = genericTable->getAllSymbols();
     if (withPersistent) {
         return list;

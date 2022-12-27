@@ -8,26 +8,30 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOScalarDoubleProperty.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-GOScalarDoubleProperty::get()
-{
-    return ArrayOf::doubleConstructor(m_data);
-}
-//=============================================================================
 void
-GOScalarDoubleProperty::set(ArrayOf value)
+GOScalarProperty::data(double x)
 {
-    if (isWriteProtected()) {
-        Error(_W("Read only property."));
-    }
-    m_data = value.getContentAsDoubleScalar();
-    GOProperty::set(value);
+    at(0) = x;
 }
 //=============================================================================
-} // namespace Nelson
+double
+GOScalarProperty::data()
+{
+    return at(0);
+}
 //=============================================================================
+std::wstring
+GOScalarProperty::toWideString()
+{
+    double value = at(0);
+
+    if (std::floor(value) - value < std::numeric_limits<double>::epsilon()) {
+        return std::to_wstring((int64)at(0));
+    }
+    return std::to_wstring(at(0));
+}
+//=============================================================================
+}

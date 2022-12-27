@@ -8,5 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath(nelsonroot(), 'graphics', 'builtin'));
-%addpath(modulepath(nelsonroot(), 'graphics', 'functions'));
+addpath([modulepath(nelsonroot(), 'graphics', 'functions'), '/colormaps']);
+addpath(modulepath(nelsonroot(), 'graphics', 'functions'));
 %=============================================================================

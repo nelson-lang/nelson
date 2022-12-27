@@ -63,6 +63,10 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf I(argIn[0]);
     ArrayOf J(argIn[1]);
     ArrayOf V(argIn[2]);
+    if (I.isComplex() || J.isComplex()) {
+        Error(_W("Sparse matrix indices must be positive integers."),
+            L"Nelson:sparsfcn:nonPositiveIndicesOfSparse");
+    }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)
         && !V.isSparse()) {

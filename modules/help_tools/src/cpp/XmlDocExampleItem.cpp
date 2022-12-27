@@ -121,7 +121,7 @@ XmlDocExampleItem::writeAsMarkdown(std::string& utf8stream)
             _imageDestination = this->_dstDirectory + L"/" + newfilename;
             Nelson::copyImage(_imageSource, _imageDestination);
         }
-        utf8stream = utf8stream + wstring_to_utf8(this->getImageTag()) + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(this->getImageTag()) + "\n\n";
     }
     return true;
 }

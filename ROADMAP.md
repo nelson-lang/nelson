@@ -32,7 +32,7 @@ _Main Features_:
 - linear algebra module,
 - Computer Aided Control Systems Design module,
 - completion,
-- graphics output (Graphic objects introduced in v0.4.5),
+- graphics output, 2D-3D plot functions (v0.6.12),
 - some basic openCV functions.
 
 ## How can I help ?

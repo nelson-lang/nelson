@@ -104,7 +104,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             // Q = 1:10
             // Q(eye(2,0))
             // Q(eye(0,2))
-            return ArrayOf::emptyConstructor(1, 0, isSparse());
+            Dimensions dims(1, 0);
+            return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
         }
         index.toOrdinalType();
         Dimensions retdims(index.dp->dimensions);

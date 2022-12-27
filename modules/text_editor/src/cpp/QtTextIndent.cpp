@@ -56,7 +56,7 @@ QtTextIndent::update()
     // The number of characters inserted
     int orig_length = toIndent.length();
     int new_length = indented.length();
-    int new_pos = qMax(curpos + new_length - orig_length, 0);
+    int new_pos = std::max(curpos + new_length - orig_length, 0);
     final.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     final.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, new_pos);
     m_te->setTextCursor(final);

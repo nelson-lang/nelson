@@ -10,14 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-namespace GraphicsGateway {
-    ArrayOfVector
-    figureBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+ArrayOfVector
+figureBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}; // namespace Nelson
+}
 //=============================================================================

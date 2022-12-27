@@ -23,11 +23,13 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
@@ -47,9 +49,10 @@ target_link_libraries(
   nlsError_manager
   nlsGui
   nlsI18n
-  nlsModules_manager
+  nlsNelson_manager
   nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Svg
   Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
 set_target_properties(
@@ -109,6 +112,11 @@ install(
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions/colormaps
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/functions
   FILES_MATCHING
   PATTERN "*.m")
 install(

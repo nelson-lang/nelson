@@ -64,6 +64,7 @@ using single = float;
 using constIndexPtr = const indexType*;
 
 using nelson_handle = uint64_t;
+using go_handle = int64_t;
 
 struct function_handle
 {
@@ -127,7 +128,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_DCOMPLEX_STR "double"
 #define NLS_CHAR_STR "char"
 #define NLS_FUNCTION_HANDLE_STR "function_handle"
-#define NLS_GO_HANDLE_STR "graphic_object"
+#define NLS_GO_HANDLE_STR "graphics_object"
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"

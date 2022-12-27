@@ -25,6 +25,7 @@ RUN pacman -S cmake --noconfirm
 RUN pacman -S libffi --noconfirm
 RUN pacman -S icu --noconfirm
 RUN pacman -S qt5-base --noconfirm
+RUN pacman -S qt5-svg --noconfirm
 RUN pacman -S qt5-tools --noconfirm
 RUN pacman -S qt5-quickcontrols --noconfirm
 RUN pacman -S libxml2 --noconfirm

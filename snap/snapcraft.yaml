@@ -66,7 +66,7 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
 
       craftctl set grade=stable
-      craftctl set version=0.6.11.0
+      craftctl set version=0.6.12.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
@@ -113,6 +113,7 @@ parts:
       - libqt6sql6-sqlite
       - libqt6quick6
       - libqt6opengl6-dev
+      - libqt6svg6-dev
       - qt6-declarative-dev
       - qt6-documentation-tools
       - qml6-module-qtquick
@@ -201,7 +202,7 @@ parts:
 
 apps:
   nelson:
-    command: usr/Nelson-0.6.11/bin/linux/nelson
+    command: usr/Nelson-0.6.12/bin/linux/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7

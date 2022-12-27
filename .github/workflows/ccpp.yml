@@ -406,6 +406,7 @@ jobs:
           pacman -S libffi --noconfirm
           pacman -S icu --noconfirm
           pacman -S qt5-base --noconfirm
+          pacman -S qt5-svg --noconfirm
           pacman -S qt5-tools --noconfirm
           pacman -S qt5-quickcontrols --noconfirm
           pacman -S libxml2 --noconfirm
@@ -489,6 +490,7 @@ jobs:
           dnf install -y qt6-qtbase-odbc
           dnf install -y qt6-qtbase-postgresql
           dnf install -y qt6-doctools
+          dnf install -y qt6-qtsvg-devel
           dnf install -y qt6-qtquickcontrols2
           dnf install -y qt6-qttools
           dnf install -y qt6-qttools-libs-help

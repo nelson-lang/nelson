@@ -9,52 +9,30 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "GOProperty.hpp"
+#include "GOGenericProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOStringProperty : public GOProperty
+class GOStringProperty : public GOGenericProperty
 {
 protected:
-    std::string m_data;
+    std::wstring _data;
 
 public:
-    //=============================================================================
     GOStringProperty() = default;
-    //=============================================================================
     ~GOStringProperty() override = default;
-    //=============================================================================
     ArrayOf
     get() override;
-    //=============================================================================
-    void set(ArrayOf /*unused*/) override;
-    //=============================================================================
-    std::string
-    data()
-    {
-        return m_data;
-    }
-    //=============================================================================
+    void set(ArrayOf) override;
+    std::wstring
+    data();
     void
-    value(const std::string& m)
-    {
-        m_data = m;
-    }
-    //=============================================================================
+    data(const std::wstring& m);
     bool
-    is(const std::string& m)
-    {
-        return (m_data == m);
-    }
-    //=============================================================================
-    std::string
-    print(const std::string& propertyName) override
-    {
-        return "\t" + propertyName + ":\t'" + m_data + "'";
-    }
-    //=============================================================================
+    isEqual(const std::wstring& m);
+    std::wstring
+    toWideString() override;
 };
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

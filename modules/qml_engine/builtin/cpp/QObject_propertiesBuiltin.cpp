@@ -34,9 +34,9 @@ Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
         if (io) {
             std::wstring msg;
             if (fieldnames.size() == 0) {
-                msg = _W("No property for class: QObject.") + L"\n";
+                msg = L"\n" + _W("No property for class QObject.") + L"\n";
             } else {
-                msg = _W("Properties for class: QObject:") + L"\n\n";
+                msg = L"\n" + _W("Properties for class QObject:") + L"\n\n";
                 for (auto& fieldname : fieldnames) {
                     msg = msg + std::wstring(L"\t") + fieldname + std::wstring(L"\n");
                 }

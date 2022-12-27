@@ -8,58 +8,88 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "InitializeGraphics.hpp"
+#include "__line__Builtin.hpp"
+#include "__text__Builtin.hpp"
+#include "__surf__Builtin.hpp"
+#include "__image__Builtin.hpp"
 #include "figureBuiltin.hpp"
+#include "graphics_object_displayBuiltin.hpp"
+#include "graphics_object_setBuiltin.hpp"
+#include "graphics_object_getBuiltin.hpp"
+#include "graphics_object_isequalBuiltin.hpp"
+#include "graphics_object_propertiesBuiltin.hpp"
+#include "graphics_object_eq_graphics_objectBuiltin.hpp"
+#include "isgraphicsBuiltin.hpp"
+#include "saveasBuiltin.hpp"
+#include "copygraphicsBuiltin.hpp"
 #include "grootBuiltin.hpp"
+#include "isValidGraphicsPropertyBuiltin.hpp"
+#include "graphics_object_ispropBuiltin.hpp"
+#include "GOFiguresManager.hpp"
+#include "axesBuiltin.hpp"
 #include "gcfBuiltin.hpp"
-#include "graphic_object_displayBuiltin.hpp"
-#include "graphic_object_deleteBuiltin.hpp"
-#include "graphic_object_getBuiltin.hpp"
-#include "graphic_object_setBuiltin.hpp"
-#include "graphic_object_classBuiltin.hpp"
-#include "graphic_object_isvalidBuiltin.hpp"
-#include "graphic_object_fieldnamesBuiltin.hpp"
-#include "graphic_object_horzcat_graphic_objectBuiltin.hpp"
-#include "graphic_object_vertcat_graphic_objectBuiltin.hpp"
+#include "gcaBuiltin.hpp"
+#include "closeBuiltin.hpp"
+#include "is2DBuiltin.hpp"
+#include "refreshBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "graphic_object_display", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_displayBuiltin,
-        0, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "graphic_object_disp", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_displayBuiltin, 0,
-        1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 2 },
-    { "groot", (ptrBuiltin)Nelson::GraphicsGateway::grootBuiltin, 1, 0 },
-    { "gcf", (ptrBuiltin)Nelson::GraphicsGateway::gcfBuiltin, 1, 0 },
-    { "graphic_object_delete", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_deleteBuiltin, 0,
-        1 },
-    { "graphic_object_get", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_getBuiltin, 1, 2 },
-    { "graphic_object_set", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_setBuiltin, 1, 3 },
-    { "graphic_object_class", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_classBuiltin, 1,
-        1 },
-    { "graphic_object_isvalid", (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_isvalidBuiltin,
-        1, 1 },
-    { "graphic_object_fieldnames",
-        (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_fieldnamesBuiltin, 1, 1 },
-    { "graphic_object_horzcat_graphic_object",
-        (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin, 1, 2 },
-    { "graphic_object_vertcat_graphic_object",
-        (ptrBuiltin)Nelson::GraphicsGateway::graphic_object_vertcat_graphic_objectBuiltin, 1, 2 },
+    { "__line__", (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1, 1, CPP_BUILTIN },
+    { "__text__", (ptrBuiltin)Nelson::GraphicsGateway::__text__Builtin, -1, 1, CPP_BUILTIN },
+    { "__surf__", (ptrBuiltin)Nelson::GraphicsGateway::__surf__Builtin, -1, 1, CPP_BUILTIN },
+    { "__image__", (ptrBuiltin)Nelson::GraphicsGateway::__image__Builtin, -1, 1, CPP_BUILTIN },
+    { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
+    { "graphics_object_display",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "graphics_object_disp", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_displayBuiltin,
+        0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "graphics_object_properties",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_propertiesBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "graphics_object_set", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_setBuiltin, -1, 1,
+        CPP_BUILTIN },
+    { "graphics_object_get", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_getBuiltin, -1, 1,
+        CPP_BUILTIN },
+    { "graphics_object_isequal",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
+    { "graphics_object_isequalto",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
+    { "graphics_object_isprop", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_ispropBuiltin,
+        1, 2, CPP_BUILTIN },
+    { "graphics_object_eq_graphics_object",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_eq_graphics_objectBuiltin, 1, 2 },
+    { "isgraphics", (ptrBuiltin)Nelson::GraphicsGateway::isgraphicsBuiltin, 1, 1, CPP_BUILTIN },
+    { "saveas", (ptrBuiltin)Nelson::GraphicsGateway::saveasBuiltin, 0, 2, CPP_BUILTIN },
+    { "copygraphics", (ptrBuiltin)Nelson::GraphicsGateway::copygraphicsBuiltin, 0, 1, CPP_BUILTIN },
+    { "groot", (ptrBuiltin)Nelson::GraphicsGateway::grootBuiltin, 1, 0, CPP_BUILTIN },
+    { "isValidGraphicsProperty",
+        (ptrBuiltin)Nelson::GraphicsGateway::isValidGraphicsPropertyBuiltin, 1, 2, CPP_BUILTIN },
+    { "axes", (ptrBuiltin)Nelson::GraphicsGateway::axesBuiltin, -1, 1, CPP_BUILTIN },
+    { "gcf", (ptrBuiltin)Nelson::GraphicsGateway::gcfBuiltin, -1, 0, CPP_BUILTIN },
+    { "gca", (ptrBuiltin)Nelson::GraphicsGateway::gcaBuiltin, -1, 0, CPP_BUILTIN },
+    { "close", (ptrBuiltin)Nelson::GraphicsGateway::closeBuiltin, -1, 0, CPP_BUILTIN },
+    { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
+    { "is2D", (ptrBuiltin)Nelson::GraphicsGateway::is2DBuiltin, 1, 1, CPP_BUILTIN },
+    { "refresh", (ptrBuiltin)Nelson::GraphicsGateway::refreshBuiltin, 0, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
 initializeGraphicsModule(Nelson::Evaluator* eval)
 {
-    return initializeGraphics();
+    initializeGraphic();
+    return true;
 }
 //=============================================================================
 static bool
 finishGraphicsModule(Nelson::Evaluator* eval)
 {
-    return finishGraphics();
+    shutdownGraphic();
+    return true;
 }
 //=============================================================================
 NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeGraphicsModule)

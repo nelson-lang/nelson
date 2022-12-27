@@ -9,6 +9,13 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <QtCore/QtGlobal>
+//=============================================================================
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Core.lib")
+#else
+#pragma comment(lib, "Qt5Core.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

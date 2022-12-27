@@ -58,6 +58,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - `OpenMP` and `SIMD` extensions used.
 
+- 2D and 3D plotting with high-level plot commands.
+
 - Parallel Computing Module.
 
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper.

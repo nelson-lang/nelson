@@ -13,6 +13,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -276,6 +277,21 @@ ArrayOf::isIntegerType() const
             || (dp->dataClass == NLS_UINT32) || (dp->dataClass == NLS_UINT64)
             || (dp->dataClass == NLS_INT8) || (dp->dataClass == NLS_INT16)
             || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
+    }
+    return false;
+}
+//=============================================================================
+bool
+ArrayOf::isIntegerValue() const
+{
+    if (isIntegerType()) {
+        return true;
+    }
+    if (dp->dataClass == NLS_DOUBLE) {
+        return IsIntegerFormOrNotFinite((double*)dp->getData(), getElementCount());
+    }
+    if (dp->dataClass == NLS_SINGLE) {
+        return IsIntegerFormOrNotFinite((single*)dp->getData(), getElementCount());
     }
     return false;
 }

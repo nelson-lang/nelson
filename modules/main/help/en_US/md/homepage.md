@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.6.11.0
+### Nelson 0.6.12.0
 
 This is an pre-release of Nelson.
 
@@ -23,6 +23,8 @@ Try it !
   - handle objects.
 
 - `OpenMP` and `SIMD` extensions used.
+
+- 2D and 3D plotting with high-level plot commands.
 
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
 

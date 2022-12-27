@@ -9,53 +9,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "GOProperty.hpp"
+#include "GOFixedVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOScalarDoubleProperty : public GOProperty
+class GOScalarProperty : public GOFixedVectorProperty
 {
-protected:
-    double m_data;
-
 public:
-    //=============================================================================
-    GOScalarDoubleProperty() = default;
-    //=============================================================================
-    ~GOScalarDoubleProperty() override = default;
-    //=============================================================================
-    ArrayOf
-    get() override;
-    //=============================================================================
-    void set(ArrayOf /*unused*/) override;
-    //=============================================================================
-    double
-    data()
-    {
-        return m_data;
-    }
-    //=============================================================================
+    GOScalarProperty() : GOFixedVectorProperty(1) { }
+    ~GOScalarProperty() override = default;
     void
-    value(double m)
-    {
-        m_data = m;
-    }
-    //=============================================================================
-    std::string
-    print(const std::string& propertyName) override
-    {
-        int ivalue = static_cast<int>(m_data);
-        std::string v;
-        if (static_cast<double>(ivalue) == m_data) {
-            v = std::to_string(ivalue);
-        } else {
-            v = std::to_string(m_data);
-        }
-        return "\t" + propertyName + ":\t" + v;
-    }
-    //=============================================================================
+    data(double x);
+    double
+    data();
+    std::wstring
+    toWideString() override;
 };
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

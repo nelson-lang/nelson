@@ -40,6 +40,7 @@ list(
   QtPackagesRequired
   Core
   Widgets
+  Svg
   Gui
   Quick
   PrintSupport

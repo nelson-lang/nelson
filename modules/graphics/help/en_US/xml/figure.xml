@@ -10,6 +10,10 @@
   <syntax_item>f = figure()</syntax_item>
   <syntax_item>f = figure(ID)</syntax_item>
   <syntax_item>f = figure(H)</syntax_item>
+  <syntax_item>f = figure(propertyName, propertyValue)</syntax_item>
+  <syntax_item>f = figure(ID, propertyName, propertyValue)</syntax_item>
+  <syntax_item>f = figure(H, propertyName, propertyValue)</syntax_item>
+ 
   </syntax>
 	
 	<param_input>
@@ -21,14 +25,23 @@
 		<param_input_item>
 			<param_name>H</param_name>
 			<param_description
-      >a scalar graphic object on an existing figure.</param_description>
+      >a scalar graphics object on an existing figure.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description>a scalar string or row vector character.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description>a value.</param_description>
+		</param_input_item>
+
 	</param_input>
 
   <param_output>
     <param_output_item>
       <param_name>f</param_name>
-      <param_description>a graphic object: figure handle.</param_description>
+      <param_description>a graphics object: figure handle.</param_description>
     </param_output_item>
   </param_output>
 
@@ -43,10 +56,11 @@
 <p><b
       >OuterPosition</b>: Location and size of outer bounds (vector [X Y W H]).</p>
 <p><b>Position</b>: Location and size of drawable area.</p>
-<p><b>Tag</b>: String identifier.</p>
+<p><b
+      >Tag</b>: Object identifier: string scalar, character vector, '' (default).</p>
 <p><b>Type</b>: Type 'figure'.</p>
-<p><b>UserData</b>: User data (any array type).</p>
-<p><b>Visible</b>: </p>
+<p><b>UserData</b>: User data: array or [] (default).</p>
+<p><b>Visible</b>: State of visibility: 'off' or 'on' (default).</p>
 </description>
 
 
@@ -63,7 +77,9 @@
 g = figure(2)
 h = figure(3)
 figure(g)
-gcf()]]>
+gcf()
+figure('Name', 'Hello')
+]]>
     </example_item_data>
   </example_item>
 
@@ -73,6 +89,10 @@ gcf()]]>
     <see_also_item>
       <link linkend="${graphics}gcf">gcf</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}close">close</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

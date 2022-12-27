@@ -105,7 +105,8 @@ formatReal(T val, const FormatDisplayInformation& formatInfo)
 {
     std::wstring result;
     if (val == 0) {
-        result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, 0);
+        result = fmt::sprintf(
+            formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, 0.);
     } else {
         if (formatInfo.scaleFactor != 1) {
             result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,

@@ -22,6 +22,7 @@
 #else
 #include <filesystem>
 #endif
+#include <ctime>
 #include "nlsCommons_exports.h"
 //=============================================================================
 #ifdef _WITH_BOOST_FILESYSTEM_

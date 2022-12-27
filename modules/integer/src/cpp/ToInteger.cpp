@@ -29,7 +29,7 @@ ToInteger(NelsonType destinationClass, const ArrayOf& A)
         Error(_W("Invalid conversion from complex matrix to '") + destType + _W("' matrix."));
     } break;
     case NLS_GO_HANDLE: {
-        Error(_W("Conversion to '") + destType + _W("' from graphic_object is not possible."));
+        Error(_W("Conversion to '") + destType + _W("' from graphics_object is not possible."));
     } break;
     case NLS_HANDLE: {
         Error(_W("Conversion to '") + destType + _W("' from handle is not possible."));
