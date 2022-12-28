@@ -111,7 +111,13 @@ function helpForNelsonOnly(destinationdir)
     for k = 1:length(src_files)
       copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
     end
-    changelogs = {'CHANGELOG.md', 'CHANGELOG-0.1.x.md', 'CHANGELOG-0.2.x.md', 'CHANGELOG-0.3.x.md', 'CHANGELOG-0.4.x.md', 'CHANGELOG-0.5.x.md'};
+    changelogs = {'CHANGELOG.md', ...
+    'CHANGELOG-0.1.x.md', ...
+    'CHANGELOG-0.2.x.md', ...
+    'CHANGELOG-0.3.x.md', ...
+    'CHANGELOG-0.4.x.md', ...
+    'CHANGELOG-0.5.x.md', ...
+    'CHANGELOG-0.6.x.md'};
     changelogs_dir = [dir_dst, '/changelogs'];
     mkdir(changelogs_dir);
     for k = 1:length(changelogs)
@@ -126,6 +132,7 @@ function helpForNelsonOnly(destinationdir)
     end
     content = fileread([dir_dst, '/', 'README.md']);
     content = strrep(content, '(CHANGELOG.md)', '(./changelogs/CHANGELOG.md)');
+    content = strrep(content, '(CHANGELOG-0.6.x.md)', '(./changelogs/CHANGELOG-0.6.x.md)');
     content = strrep(content, '(CHANGELOG-0.5.x.md)', '(./changelogs/CHANGELOG-0.5.x.md)');
     content = strrep(content, '(CHANGELOG-0.4.x.md)', '(./changelogs/CHANGELOG-0.4.x.md)');
     content = strrep(content, '(CHANGELOG-0.3.x.md)', '(./changelogs/CHANGELOG-0.3.x.md)');
