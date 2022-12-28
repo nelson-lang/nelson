@@ -15,9 +15,9 @@ namespace Nelson {
 //=============================================================================
 LocalFunctionsTable::LocalFunctionsTable()
 {
-    GenericTable<FunctionDefPtr>* genericTable = nullptr;
+    GenericTable<std::string, FunctionDefPtr>* genericTable = nullptr;
     try {
-        genericTable = new GenericTable<FunctionDefPtr>;
+        genericTable = new GenericTable<std::string, FunctionDefPtr>;
     } catch (const std::bad_alloc&) {
         genericTable = nullptr;
     }
@@ -27,7 +27,7 @@ LocalFunctionsTable::LocalFunctionsTable()
 LocalFunctionsTable::~LocalFunctionsTable()
 {
     if (cachedLocalFunctionsTable != nullptr) {
-        auto* genericTable = (GenericTable<FunctionDefPtr>*)cachedLocalFunctionsTable;
+        auto* genericTable = (GenericTable<std::string, FunctionDefPtr>*)cachedLocalFunctionsTable;
         delete genericTable;
         genericTable = nullptr;
     }
@@ -37,7 +37,7 @@ bool
 LocalFunctionsTable::find(const std::string& key, FunctionDefPtr& dest)
 {
     if (cachedLocalFunctionsTable != nullptr) {
-        auto* genericTable = (GenericTable<FunctionDefPtr>*)cachedLocalFunctionsTable;
+        auto* genericTable = (GenericTable<std::string, FunctionDefPtr>*)cachedLocalFunctionsTable;
         FunctionDefPtr* v = genericTable->findSymbol(key);
         if (v != nullptr) {
             dest = v[0];
@@ -55,7 +55,7 @@ LocalFunctionsTable::add(const std::string& key, const FunctionDefPtr val)
         return false;
     }
     if (cachedLocalFunctionsTable != nullptr) {
-        auto* genericTable = (GenericTable<FunctionDefPtr>*)cachedLocalFunctionsTable;
+        auto* genericTable = (GenericTable<std::string, FunctionDefPtr>*)cachedLocalFunctionsTable;
         genericTable->insertSymbol(key, val);
         return true;
     }

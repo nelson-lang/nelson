@@ -16,13 +16,11 @@
 #include <mutex>
 #include "Types.hpp"
 //=============================================================================
-using key_type = std::string;
-//=============================================================================
 #define SYMTAB 8192
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T> class GenericTable
+template <class KEY_TYPE, class T> class GenericTable
 {
 private:
     std::mutex m_mutex;
@@ -31,18 +29,18 @@ private:
     //=============================================================================
     struct Entry
     {
-        key_type key;
+        KEY_TYPE key;
         value_type val;
         Entry* next;
-        Entry(key_type k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) { }
+        Entry(KEY_TYPE k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) { }
     };
     //=============================================================================
     Entry* hashTable[SYMTAB];
     //=============================================================================
     size_t
-    hashKey(const key_type& key)
+    hashKey(const KEY_TYPE& key)
     {
-        std::hash<std::string> hash_fn;
+        std::hash<KEY_TYPE> hash_fn;
         return hash_fn(key);
     }
     //=============================================================================
@@ -66,7 +64,7 @@ public:
     }
     //=============================================================================
     value_type*
-    findSymbol(const key_type& key)
+    findSymbol(const KEY_TYPE& key)
     {
         std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB; // Hash
@@ -81,7 +79,7 @@ public:
     }
     //=============================================================================
     void
-    deleteSymbol(const key_type& key)
+    deleteSymbol(const KEY_TYPE& key)
     {
         std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB; // Hash
@@ -112,7 +110,7 @@ public:
     }
     //=============================================================================
     void
-    insertSymbol(const key_type& key, const value_type& val)
+    insertSymbol(const KEY_TYPE& key, const value_type& val)
     {
         std::scoped_lock<std::mutex> lock { m_mutex };
         size_t i = hashKey(key) % SYMTAB;
@@ -131,11 +129,11 @@ public:
         hashTable[i] = new Entry(key, val, hashTable[i]);
     }
     //=============================================================================
-    stringVector
+    std::vector<KEY_TYPE>
     getAllSymbols()
     {
         std::scoped_lock<std::mutex> lock { m_mutex };
-        stringVector retlist;
+        std::vector<KEY_TYPE> retlist;
         for (auto& i : hashTable) {
             if (i != nullptr) {
                 Entry* ptr;

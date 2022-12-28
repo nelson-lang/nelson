@@ -131,7 +131,7 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
         if (pa->ptr != nullptr) {
             auto* ptr = (Nelson::ArrayOf*)pa->ptr;
             bool isSupportedObject
-                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicObject();
+                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
                 mexErrMsgTxt(_("mxGetProperty object expected.").c_str());
             }
@@ -183,7 +183,7 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
         if (pa->ptr != nullptr) {
             auto* ptr = (Nelson::ArrayOf*)pa->ptr;
             bool isSupportedObject
-                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicObject();
+                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
                 mexErrMsgTxt(_("mxSetProperty object expected.").c_str());
             }

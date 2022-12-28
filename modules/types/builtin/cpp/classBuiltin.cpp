@@ -26,7 +26,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         }
         if (!bSuccess) {
-            if (argIn[0].isClassStruct() || argIn[0].isHandle() || argIn[0].isGraphicObject()) {
+            if (argIn[0].isClassStruct() || argIn[0].isHandle() || argIn[0].isGraphicsObject()) {
                 retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
                 if (bSuccess) {
                     return retval;

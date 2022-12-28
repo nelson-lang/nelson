@@ -7,31 +7,24 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cmath>
-#include "NewFigure.hpp"
 #include "gcfBuiltin.hpp"
-#include "Error.hpp"
-#include "GOWindowManager.hpp"
-#include "GOFigure.hpp"
+#include "GOFiguresManager.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson::GraphicsGateway {
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
+gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOf res;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    uint64 currentWindowsID = getCurrentGOWindowID();
-    if (currentWindowsID == 0) {
-        GOFigure* goPtr = Nelson::newFigure();
-        res = ArrayOf::graphicObjectConstructor(goPtr);
-    } else {
-        GOFigure* goPtr = Nelson::newFigure(currentWindowsID);
-        res = ArrayOf::graphicObjectConstructor(goPtr);
+    ArrayOfVector retval;
+    int64 currentFigureID = getCurrentFigure();
+    if (currentFigureID == -1) {
+        currentFigureID = createNewFigure();
     }
-    ArrayOfVector retval(1);
-    retval << res;
+    retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
     return retval;
+}
+//=============================================================================
 }
 //=============================================================================

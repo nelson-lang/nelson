@@ -141,7 +141,7 @@ smartIndentLine(QString lineToIndent, QStringList previousText, int indentSize)
         leadingSpace = match.capturedLength();
     }
     leadingSpace += indentIncrement * indentSize;
-    leadingSpace = qMax(leadingSpace, 0);
+    leadingSpace = std::max(leadingSpace, 0);
     return setIndentSpace(lineToIndent, leadingSpace);
 }
 //=============================================================================

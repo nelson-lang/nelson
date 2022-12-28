@@ -8,26 +8,39 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOArrayOfProperty.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
 GOArrayOfProperty::get()
 {
-    return m_data;
+    return _data;
 }
 //=============================================================================
 void
-GOArrayOfProperty::set(ArrayOf value)
+GOArrayOfProperty::set(ArrayOf m)
 {
-    if (isWriteProtected()) {
-        Error(_W("Read only property."));
-    }
-    m_data = value;
-    GOProperty::set(value);
+    GOGenericProperty::set(m);
+    _data = m;
 }
 //=============================================================================
-} // namespace Nelson
+ArrayOf
+GOArrayOfProperty::data()
+{
+    return _data;
+}
+//=============================================================================
+void
+GOArrayOfProperty::data(const ArrayOf& m)
+{
+    _data = m;
+}
+//=============================================================================
+std::wstring
+GOArrayOfProperty::toWideString()
+{
+    return L"[" + _data.getDimensions().toWideString() + L"]";
+}
+//=============================================================================
+}
 //=============================================================================

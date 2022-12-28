@@ -307,6 +307,9 @@ msgstr ""
 msgid "#2 'errcatch' or 'nocatch' expected."
 msgstr ""
 
+msgid "Value between 0 and 255 expected."
+msgstr ""
+
 msgid "Cannot return input name if not in an active function."
 msgstr ""
 
@@ -322,6 +325,12 @@ msgstr ""
 msgid "You can only call 'narginchk' from within a Nelson function."
 msgstr ""
 
+msgid "Scalar integer value required for #1 argument."
+msgstr ""
+
+msgid "Scalar integer value required for #2 argument."
+msgstr ""
+
 msgid "No output arguments are allowed if only two input arguments."
 msgstr ""
 
@@ -329,6 +338,9 @@ msgid "You can only call 'nargoutchk' from within a Nelson function."
 msgstr ""
 
 msgid "#4 input must be either 'struct' or 'string'."
+msgstr ""
+
+msgid "Scalar integer value required for #3 argument."
 msgstr ""
 
 msgid "Not enough output arguments."
@@ -343,21 +355,6 @@ msgstr ""
 msgid "Unknow option."
 msgstr ""
 
-msgid "Invalid use of statement list."
-msgstr ""
-
-msgid "'local', 'caller', 'base' scope expected."
-msgstr ""
-
-msgid "Error:"
-msgstr ""
-
-msgid "input function not allowed from evalc."
-msgstr ""
-
-msgid "File does not exist."
-msgstr ""
-
 msgid "Error: we cannot find Nelson binaries path."
 msgstr ""
 
@@ -370,11 +367,33 @@ msgstr ""
 msgid "Error: we cannot find Nelson preferences path."
 msgstr ""
 
+msgid "Invalid use of statement list."
+msgstr ""
+
+msgid "'local', 'caller', 'base' scope expected."
+msgstr ""
+
+msgid "Error:"
+msgstr ""
+
+msgid "input function not allowed from evalc."
+msgstr ""
+
+msgid "Permission denied."
+msgstr ""
+
+msgid "File does not exist."
+msgstr ""
+
 #, c-format
 msgid "'%s' does not know how to answer nargin/nargout."
 msgstr ""
 
 msgid "function not found."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for #%d argument."
 msgstr ""
 
 msgid "Invalid third argument."
@@ -600,21 +619,6 @@ msgstr ""
 msgid "Invalid type for #%zu input argument: %s expected."
 msgstr ""
 
-msgid "File not found."
-msgstr ""
-
-msgid "Module not loaded: symbol not found."
-msgstr ""
-
-msgid "Module not loaded: library not loaded."
-msgstr ""
-
-msgid "Module not loaded: library not loaded.\n"
-msgstr ""
-
-msgid "Module not loaded: library handle not found."
-msgstr ""
-
 msgid "Invalid argument type:"
 msgstr ""
 
@@ -676,6 +680,12 @@ msgid "Third argument should be an integer value."
 msgstr ""
 
 msgid "Undefined function 'ndims' for input arguments of type"
+msgstr ""
+
+msgid "ORDER must have at least N elements for an N-D array."
+msgstr ""
+
+msgid "Second argument is not a valid permutation."
 msgstr ""
 
 msgid "Too many dimensions!"
@@ -807,6 +817,9 @@ msgid "Undefined function 'rem' for complex input argument."
 msgstr ""
 
 msgid "Undefined function 'rem' for sparse input argument."
+msgstr ""
+
+msgid "Input argument #1: scalar integer value expected."
 msgstr ""
 
 msgid "unknown mode."
@@ -1044,13 +1057,13 @@ msgstr ""
 msgid "A cell of existing filenames expected."
 msgstr ""
 
-msgid "Permission denied."
-msgstr ""
-
 msgid "Directory already exists."
 msgstr ""
 
 msgid "an existing directory expected."
+msgstr ""
+
+msgid "Permission denied"
 msgstr ""
 
 msgid "an existing file expected."
@@ -1143,64 +1156,106 @@ msgstr ""
 msgid "Argument #1 must be a valid function_handle."
 msgstr ""
 
-msgid "Scalar value expected."
+msgid "single argument to axes function must be handle for an axes."
 msgstr ""
 
-msgid "Integer value expected."
+msgid "Specified window does not exist."
 msgstr ""
 
-msgid "Integer positive value expected."
+msgid "Invalid handle."
 msgstr ""
 
-msgid "An valid figure object expected."
+msgid "figure number is out of range - it must be between 1 and 2147483647."
 msgstr ""
 
-msgid "graphic_object expected."
+msgid "figure graphics object expected."
 msgstr ""
 
-msgid "Cannot delete graphic_object."
+msgid "Wrong number of input parameters."
 msgstr ""
 
-msgid "Scalar graphic_object expected."
+msgid "Got error for property "
 msgstr ""
 
-msgid "Read only property."
+msgid "graphics_object expected."
 msgstr ""
 
-msgid "an valid [R, G, B] color expected."
+msgid "No property for class"
 msgstr ""
 
-msgid "an valid string color expected."
+msgid "Properties for class"
 msgstr ""
 
-msgid "[R, G, B] vector or string color expected."
+msgid "Property is readable only: "
 msgstr ""
 
-msgid "Numeric values expected."
+msgid "Got error for property :"
 msgstr ""
 
-msgid "full values expected."
+msgid "Invalid object."
 msgstr ""
 
-msgid "Value must be a 2 element vector."
+msgid "axes graphics object expected."
 msgstr ""
 
-msgid "Value must be a 3 element vector."
+msgid "Invalid Graphics object type name:"
 msgstr ""
 
-msgid "Value must be a 4 element vector."
+msgid "Unsupported format:"
 msgstr ""
 
-msgid "Deleted graphic_object.\n"
+msgid "Impossible to save image."
+msgstr ""
+
+msgid "Units not managed:"
+msgstr ""
+
+msgid "Expecting a color spec: either a color name or a 3-vector or RGB values"
+msgstr ""
+
+msgid "Expect an m x 3 matrix for color orders."
+msgstr ""
+
+msgid "Color vector must be between 0 and 1."
+msgstr ""
+
+msgid "Please close some graphical windows."
+msgstr ""
+
+msgid "Expecting handle for property."
+msgstr ""
+
+msgid "Invalid figure id."
+msgstr ""
+
+msgid "Expecting a string for property."
+msgstr ""
+
+msgid "Illegal selection for property."
+msgstr ""
+
+msgid "Expecting a '|' - delimited list of strings for property argument."
+msgstr ""
+
+msgid "&Close"
+msgstr ""
+
+msgid "Invalid property:"
+msgstr ""
+
+msgid "Restricted string/scalar default failed lookup of: "
+msgstr ""
+
+msgid "Restricted string/color default failed lookup of: "
+msgstr ""
+
+msgid "Set restricted string default failed lookup of: "
+msgstr ""
+
+msgid "Deleted graphics_object.\n"
 msgstr ""
 
 msgid "with properties:"
-msgstr ""
-
-msgid "Valid property expected."
-msgstr ""
-
-msgid "Valid graphic_object expected."
 msgstr ""
 
 msgid "look and feel not applied."
@@ -1389,13 +1444,13 @@ msgstr ""
 msgid "Stop execution"
 msgstr ""
 
-msgid "Invalid handle."
-msgstr ""
-
 msgid "handle expected."
 msgstr ""
 
 msgid "Handles being catenated have incompatible classes."
+msgstr ""
+
+msgid "Scalar value expected."
 msgstr ""
 
 msgid "Unsupported value type."
@@ -1738,7 +1793,7 @@ msgstr ""
 msgid "' matrix."
 msgstr ""
 
-msgid "' from graphic_object is not possible."
+msgid "' from graphics_object is not possible."
 msgstr ""
 
 msgid "' from handle is not possible."
@@ -1984,6 +2039,9 @@ msgstr ""
 
 #, c-format
 msgid "Previously accessible file '%s' is now inaccessible."
+msgstr ""
+
+msgid "Complex values cannot converted to logicals."
 msgstr ""
 
 msgid "Operand to && operator must be convertible to logical scalar values."
@@ -2366,9 +2424,6 @@ msgstr ""
 msgid "Undefined function 'trace' for input arguments of type"
 msgstr ""
 
-msgid "Core Function not loaded."
-msgstr ""
-
 msgid "Input following 'like' is not a logical array."
 msgstr ""
 
@@ -2384,7 +2439,7 @@ msgstr ""
 msgid "Conversion to logical from sparse integer is not possible."
 msgstr ""
 
-msgid "Conversion to logical from graphic_object is not possible."
+msgid "Conversion to logical from graphics_object is not possible."
 msgstr ""
 
 msgid "Conversion to logical from handle is not possible."
@@ -2581,6 +2636,21 @@ msgid "Invalid value #1"
 msgstr ""
 
 msgid "Invalid value #2"
+msgstr ""
+
+msgid "File not found."
+msgstr ""
+
+msgid "Module not loaded: symbol not found."
+msgstr ""
+
+msgid "Module not loaded: library not loaded."
+msgstr ""
+
+msgid "Module not loaded: library not loaded.\n"
+msgstr ""
+
+msgid "Module not loaded: library handle not found."
 msgstr ""
 
 msgid "Path does not exist:"
@@ -2919,10 +2989,10 @@ msgstr ""
 msgid "QObject handle expected."
 msgstr ""
 
-msgid "No property for class: QObject."
+msgid "No property for class QObject."
 msgstr ""
 
-msgid "Properties for class: QObject:"
+msgid "Properties for class QObject:"
 msgstr ""
 
 msgid "Name not found."
@@ -3156,8 +3226,14 @@ msgstr ""
 msgid "Undefined function 'nzmax' for input arguments."
 msgstr ""
 
+msgid "Sparse matrix indices must be positive integers."
+msgstr ""
+
 msgid ""
 "in I, J, V format, all three vectors must be the same size or be scalars."
+msgstr ""
+
+msgid "Index into matrix must be positive."
 msgstr ""
 
 msgid "Index exceeds matrix dimensions."
@@ -3515,6 +3591,9 @@ msgstr ""
 msgid "Type not managed in this case."
 msgstr ""
 
+msgid "Input must be a text scalar."
+msgstr ""
+
 msgid "A 2D matrix expected."
 msgstr ""
 
@@ -3573,9 +3652,6 @@ msgid "Save &As"
 msgstr ""
 
 msgid "Save A&ll"
-msgstr ""
-
-msgid "&Close"
 msgstr ""
 
 msgid "Close &All"
@@ -3939,10 +4015,10 @@ msgstr ""
 msgid "Duplicated field detected."
 msgstr ""
 
-msgid "Size mismatch in assignment A(I1,I2,...,In) = B."
+msgid "Empty matrix of type double expected."
 msgstr ""
 
-msgid "Empty matrix of type double expected."
+msgid "Size mismatch in assignment A(I1,I2,...,In) = B."
 msgstr ""
 
 msgid "Cannot promote to function_handle array."
@@ -4073,6 +4149,9 @@ msgstr ""
 msgid "Expected a real value scalar."
 msgstr ""
 
+msgid "A real integer value scalar expected."
+msgstr ""
+
 msgid "Expected a real valued scalar"
 msgstr ""
 
@@ -4087,10 +4166,10 @@ msgstr ""
 msgid "Expected a function_handle."
 msgstr ""
 
-msgid "Expected an graphic object."
+msgid "Expected an graphics object."
 msgstr ""
 
-msgid "Expected an graphic object scalar."
+msgid "Expected an graphics object scalar."
 msgstr ""
 
 msgid "Expected a valid handle."
@@ -4877,10 +4956,6 @@ msgstr ""
 msgid "A scalar expected."
 msgstr ""
 
-#, c-format
-msgid "Wrong value for #%d argument."
-msgstr ""
-
 msgid "Wrong value for argument #1. Scalar integer value expected."
 msgstr ""
 
@@ -4953,20 +5028,20 @@ msgstr ""
 msgid "Wrong type for argument #%d: handle expected."
 msgstr ""
 
-msgid "Wrong type for argument #1: graphic object expected."
+msgid "Wrong type for argument #1: graphics object expected."
 msgstr ""
 
-msgid "Wrong type for argument #2: graphic object expected."
+msgid "Wrong type for argument #2: graphics object expected."
 msgstr ""
 
-msgid "Wrong type for argument #3: graphic object expected."
+msgid "Wrong type for argument #3: graphics object expected."
 msgstr ""
 
 #, c-format
-msgid "Wrong type for argument #%d: graphic object expected."
+msgid "Wrong type for argument #%d: graphics object expected."
 msgstr ""
 
-msgid "'off' or 'on' expected."
+msgid "Invalid Graphics Object."
 msgstr ""
 
 msgid "Wrong Overloading::OverloadClass."
@@ -4998,6 +5073,21 @@ msgid "your error message"
 msgstr ""
 
 msgid "assert_istrue fails."
+msgstr ""
+
+msgid "Audio data must be real and floating point."
+msgstr ""
+
+msgid "Sample rate FS must be a positive number."
+msgstr ""
+
+msgid "NBITS must be 8, 16, or 24."
+msgstr ""
+
+msgid "Argument #1: Requires 2-D values only."
+msgstr ""
+
+msgid "RANGE must be a 2-element [YMIN, YMAX] vector."
 msgstr ""
 
 msgid "Welcome to COM Interface for Nelson !"
@@ -5166,6 +5256,15 @@ msgstr ""
 msgid "#1 input argument: must be real positive integer values."
 msgstr ""
 
+msgid "Wrong value for argument #1: finite value expected."
+msgstr ""
+
+msgid "Wrong value for argument #1: real value expected."
+msgstr ""
+
+msgid "N must be 2^k*p, with p = 1, 12, 20."
+msgstr ""
+
 msgid "Last element of input column does not match first element of input row."
 msgstr ""
 
@@ -5181,6 +5280,16 @@ msgstr ""
 msgid "dimensions must be an integer vector."
 msgstr ""
 
+msgid "An numeric 2-D matrix expected."
+msgstr ""
+
+msgid "tolerance must be a real scalar."
+msgstr ""
+
+#, python-format
+msgid "normest did not converge for %d iterations with tolerance %g"
+msgstr ""
+
 msgid "Imaginary part is ignored."
 msgstr ""
 
@@ -5188,6 +5297,12 @@ msgid "Indexing arguments must have the same length."
 msgstr ""
 
 msgid "Indexing arguments are out of range of an array of the given size."
+msgstr ""
+
+msgid "Input argument must be a vector."
+msgstr ""
+
+msgid "Column wins diagonal conflict."
 msgstr ""
 
 #, python-format
@@ -5228,6 +5343,94 @@ msgid "All values of DIM must be integer values."
 msgstr ""
 
 msgid "Too many input arguments."
+msgstr ""
+
+msgid "Unknown command option:"
+msgstr ""
+
+msgid "Vector must have 4, 6, or 8 elements."
+msgstr ""
+
+msgid "\"manual\" or \"auto\" argument expected."
+msgstr ""
+
+msgid "Error setting property"
+msgstr ""
+
+msgid "Requires a string scalar or a character vector argument."
+msgstr ""
+
+msgid "Invalid LineSpec string."
+msgstr ""
+
+msgid "First argument must be an axes object."
+msgstr ""
+
+msgid "Command option must be on or off."
+msgstr ""
+
+msgid "Invalid input arguments."
+msgstr ""
+
+msgid "Invalid input arguments"
+msgstr ""
+
+#, python-format
+msgid "data %d"
+msgstr ""
+
+msgid "Invalid argument type: char vector, string or cell of char expected."
+msgstr ""
+
+msgid "Unrecognized location option."
+msgstr ""
+
+msgid "Wrong input arguments."
+msgstr ""
+
+msgid "Dimensions do not match."
+msgstr ""
+
+msgid "Not enough input arguments."
+msgstr ""
+
+msgid "Wrong size for input arguments: vectors with same size expected."
+msgstr ""
+
+msgid "Must be a 3-column colormap matrix."
+msgstr ""
+
+msgid "Invalid parameter/value pair arguments."
+msgstr ""
+
+msgid "Invalid input argument: numeric value expected."
+msgstr ""
+
+msgid "Vectors x and y must be the same length."
+msgstr ""
+
+msgid "Vectors x and z must be the same length."
+msgstr ""
+
+msgid "last argument must be a string or cell of strings."
+msgstr ""
+
+msgid "Invalid input argument: graphics object or text value expected."
+msgstr ""
+
+msgid "xlabel needs at least one argument."
+msgstr ""
+
+msgid "Invalid output argument."
+msgstr ""
+
+msgid "ylabel needs at least one argument."
+msgstr ""
+
+msgid "zlabel needs at least one argument."
+msgstr ""
+
+msgid "plot3 display of 3-D helix"
 msgstr ""
 
 msgid "This is the default error string."
@@ -5283,10 +5486,31 @@ msgstr ""
 msgid "Function %s has already been declared within this scope."
 msgstr ""
 
+msgid "A must be a 2-D numeric or logical matrix."
+msgstr ""
+
+msgid "TYPE must be lower or upper."
+msgstr ""
+
 msgid "Input must be square."
 msgstr ""
 
+msgid "A must be a square numeric matrix."
+msgstr ""
+
 msgid "Difference order N must be a positive integer scalar."
+msgstr ""
+
+msgid "LOWER must be non-negative integers."
+msgstr ""
+
+msgid "UPPER must be non-negative integers."
+msgstr ""
+
+msgid "Input argument must be a real numeric scalar tolerance"
+msgstr ""
+
+msgid "First input must be a column vector of length 2."
 msgstr ""
 
 #, python-format
@@ -5352,7 +5576,13 @@ msgstr ""
 msgid "an valid module name expected."
 msgstr ""
 
-msgid "MPI dependency not loaded."
+msgid "nmm required webtools module."
+msgstr ""
+
+msgid "nmm required file_archiver module."
+msgstr ""
+
+msgid "nmm required json module."
 msgstr ""
 
 msgid "#2 argument: integer value expected."
@@ -5365,9 +5595,6 @@ msgid "An .m filename extension expected."
 msgstr ""
 
 msgid "Wrong type for argument #1: MPI_Comm expected."
-msgstr ""
-
-msgid "Not enough input arguments."
 msgstr ""
 
 msgid "Dimension argument must be a real, positive, integer scalar."
@@ -5421,10 +5648,19 @@ msgstr ""
 msgid "Please use speye(n), speye(m, n) or speye([m, n])."
 msgstr ""
 
-msgid "Wrong value for argument #1: finite value expected."
+msgid "ND-sparse arrays are not supported."
 msgstr ""
 
-msgid "Wrong value for argument #1: real value expected."
+msgid "Length must 3 in the dimension in which the cross product expected."
+msgstr ""
+
+msgid "At least one dimension of length 3 expected."
+msgstr ""
+
+msgid "A and B must be single or double."
+msgstr ""
+
+msgid "A and B must be same size."
 msgstr ""
 
 msgid "Wrong value for input argument #1: a nonnegative integer expected."
@@ -5433,8 +5669,7 @@ msgstr ""
 msgid "Wrong value for input argument #1: maximum value of n allowed is 2^32."
 msgstr ""
 
-#, python-format
-msgid "%s not yet implemented."
+msgid "Peaks"
 msgstr ""
 
 msgid "Wrong value for #3 argument: 0 or 1 expected."

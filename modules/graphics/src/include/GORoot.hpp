@@ -9,41 +9,45 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GraphicObject.hpp"
-#include "GraphicRenderer.hpp"
-#include "GOWindow.hpp"
+#include "nlsGraphics_exports.h"
+#include "GraphicsObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define ROOT_TYPE_STR "root"
-//=============================================================================
-class GORoot : public GraphicObject
+class NLSGRAPHICS_IMPEXP GORoot : public GraphicsObject
 {
-    bool m_resized;
-    void* m_qWindowPtr;
+private:
+    void
+    refreshCurrentFigureProperty();
+    void
+    refreshChildrenProperty();
+    void
+    refreshScreenSizeProperty();
+    void
+    refreshScreenDepthProperty();
+    void
+    refreshScreenPixelsPerInchProperty();
 
 public:
-    GORoot(void* qWindowPtr);
+    GORoot();
     ~GORoot() override = default;
-    void
-    registerProperties() override;
-    bool
-    resized();
-    int
-    getWidth();
-    int
-    getHeight();
-    void
-    refreshProperties() override;
+    virtual std::wstring
+    getType() override;
     virtual void
-    paintMe(GraphicRenderer& gc);
-    virtual void
-    resizeGL(int width, int height);
+    constructProperties();
     void
-    initializeProperties();
+    updateState() override;
     void
-    repaint();
+    setupDefaults();
+    void
+    paintMe(RenderInterface& gc) override;
 };
 //=============================================================================
-} // namespace Nelson
+NLSGRAPHICS_IMPEXP int64
+graphicsRootObject();
+//=============================================================================
+NLSGRAPHICS_IMPEXP GORoot*
+getGraphicsRootObject();
+//=============================================================================
+}
 //=============================================================================

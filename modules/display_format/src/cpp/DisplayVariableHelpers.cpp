@@ -125,7 +125,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     std::wstring typeAsText;
     switch (A.getDataClass()) {
     case NLS_GO_HANDLE:
-        typeAsText = L"graphic_object";
+        typeAsText = L"graphics_object";
         break;
     case NLS_HANDLE:
         typeAsText = L"handle";
@@ -236,14 +236,14 @@ buildHeader(const ArrayOf& A)
 {
     std::wstring msg;
     std::wstring typeAsText = getClassAsWideString(A, false);
-    if (A.isScalar() && !(A.isCell() || A.isStruct() || A.isHandle() || A.isGraphicObject())) {
+    if (A.isScalar() && !(A.isCell() || A.isStruct() || A.isHandle() || A.isGraphicsObject())) {
         msg = L"  " + typeAsText + L"\n";
     } else {
         std::wstring dimensions = A.getDimensions().toWideString();
         std::wstring dimensionsForHuman = L"";
         switch (A.getDataClass()) {
         case NLS_GO_HANDLE: {
-            return msg;
+            typeAsText = L"[" + typeAsText + L"]";
         } break;
         case NLS_HANDLE: {
             if (A.getDataPointer() != nullptr) {

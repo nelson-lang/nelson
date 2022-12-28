@@ -11,14 +11,24 @@
 #include <Windows.h>
 #include <QtCore/QtGlobal>
 //=============================================================================
+#pragma comment(lib, "Opengl32.lib")
+#pragma comment(lib, "Glu32.lib")
+//=============================================================================
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Svg.lib")
 #pragma comment(lib, "Qt6Core.lib")
 #pragma comment(lib, "Qt6Widgets.lib")
 #pragma comment(lib, "Qt6Gui.lib")
+#pragma comment(lib, "Qt6OpenGL.lib")
+#pragma comment(lib, "Qt6OpenGLWidgets.lib")
+#pragma comment(lib, "Qt6PrintSupport.lib")
 #else
+#pragma comment(lib, "Qt5Svg.lib")
 #pragma comment(lib, "Qt5Core.lib")
 #pragma comment(lib, "Qt5Widgets.lib")
 #pragma comment(lib, "Qt5Gui.lib")
+#pragma comment(lib, "Qt5OpenGL.lib")
+#pragma comment(lib, "Qt5PrintSupport.lib")
 #endif
 //=============================================================================
 int WINAPI

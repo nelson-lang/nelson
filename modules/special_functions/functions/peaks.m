@@ -37,7 +37,11 @@ function varargout = peaks (varargin)
     disp('   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ... ')
     disp('   - 1/3*exp(-(x+1).^2 - y.^2) ')
     disp(' ')
-    warning(sprintf(_('%s not yet implemented.'), 'surf'));
+    surf(x, y, z);
+    axis('tight')
+    xlabel('x');
+    ylabel('y');
+    title(_('Peaks'));
   elseif nargout == 1
     varargout{1} = z;
   else

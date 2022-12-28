@@ -2131,7 +2131,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
             // add default behavior;
         } else {
             std::string fieldname = t->down->text;
-            if (r.isHandle() || r.isGraphicObject()) {
+            if (r.isHandle() || r.isGraphicsObject()) {
                 setHandle(r, fieldname, value);
             } else if (r.isStruct() || r.isEmpty()) {
                 r.setFieldAsList(fieldname, value);
@@ -3772,7 +3772,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 if (!haveFunction) {
                     rv = r.getFieldAsList(fieldname);
                 }
-            } else if (r.isHandle() || r.isGraphicObject()) {
+            } else if (r.isHandle() || r.isGraphicsObject()) {
                 ArrayOfVector params;
                 logical isValidMethod = false;
                 try {
@@ -4347,7 +4347,7 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         Error(_W("Right hand values must satisfy left hand side expression."));
     }
     std::wstring currentType;
-    if (r.isGraphicObject()) {
+    if (r.isGraphicsObject()) {
         currentType = ClassToString(r.getDataClass());
     } else {
         currentType = r.getHandleCategory();
@@ -4376,7 +4376,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     ArrayOfVector argIn;
     std::wstring currentType;
     std::string functionNameCurrentType;
-    if (r.isGraphicObject()) {
+    if (r.isGraphicsObject()) {
         currentType = ClassToString(r.getDataClass());
         functionNameCurrentType = ClassName(r) + "_" + fieldname;
     } else {

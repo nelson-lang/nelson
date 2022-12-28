@@ -9,18 +9,19 @@
 //=============================================================================
 #include "grootBuiltin.hpp"
 #include "Error.hpp"
-#include "GraphicRoot.hpp"
+#include "GORoot.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson::GraphicsGateway {
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::grootBuiltin(int nLhs, const ArrayOfVector& argIn)
+grootBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    void* grootPtr = getGraphicRoot();
-    retval << ArrayOf::graphicObjectConstructor(grootPtr);
+    ArrayOfVector retval = {};
+    retval << ArrayOf::graphicsObjectConstructor(graphicsRootObject());
     return retval;
 }
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

@@ -4,6 +4,80 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.6.12 (2022-12-27)
+
+### Added
+
+Graphics module:
+
+First big step to do plot 2D and 3D with Nelson. Some features are missing and will come in next releases.
+Current version is usable and show plots possibilities of Nelson.
+
+Do not hesitate to create features requests or bug reports. Contributions are welcome.
+
+Implemented features:
+
+- `figure` creates an figure window.
+- `cla` clears figure.
+- `axes` creates cartesian axes.
+- `axis` set axis limits and aspect ratios.
+- `cla` clears axes.
+- `zlim` set or get z-axis limits.
+- `ylim` set or get y-axis limits.
+- `xlim` set or get x-axis limits.
+- `clim` set colormap limits.
+- `line` creates primitive line.
+- `plot` 2-D line plot.
+- `plot3` 3-D line plot.
+- `rgbplot` Plot colormap.
+- `subplot` Create axes in tiled positions.
+- `newplot` Prepare to produce a new plot.
+- `semilogx` Semilog plot (x-axis has log scale).
+- `semilogy` Semilog plot (y-axis has log scale).s
+- `quiver` Quiver or vector plot.
+- `surf` creates surface plot.
+- `text` creates text descriptions to data points.
+- `title` adds title.
+- `legend` adds legend to axes.
+- `xlabel` Label x-axis.
+- `ylabel` Label y-axis.
+- `zlabel` Label z-axis.
+- `grid` Display or hide axes grid lines.
+- `spy` Visualize sparsity pattern of matrix.
+- `image` displays image from array.
+- `imagesc` displays image from array with scaled colors.
+- `cylinder` creates cylinder.
+- `sphere` creates sphere.
+- `close` close one or more figures.
+- `gcf` get current figure graphics object.
+- `gca` get current axes graphics object.
+- `groot` return graphic root object.
+- `refresh` redraws current figure.
+- `ishold` get current hold state.
+- `hold` retain current plot when adding new plots.
+- `view` Camera line of sigh.
+- `saveas` Save figure to specific file format.
+- `copygraphics` Copy plot to clipboard.
+- `isValidGraphicsProperty` check property name is valid for a graphics object type name.
+- `isprop`, `properties`, `isequal`, `eq`, `display`, `set`, `get` for Graphics Object type.
+- `isgraphics` Check if it is an graphics object handles.
+- `colstyle` Parse color and style from string.
+- `is2D` Checks if ax is a 2-D Polar or Cartesian axes.
+- `colorbar` Colorbar showing color scale.
+- `colormap` View and set current colormap.
+- colormaps:
+  - `autumn`: Autumn colormap array.
+  - `gray`: Gray colormap array.
+  - `parula`: Parula colormap array.
+  - `spring`: Spring colormap array.
+  - `summer`: Summer colormap array.
+  - `winter`: Winter colormap array.
+
+```markdown
+░░ٌٌٌӇ░ٌٌٌƛ░ٌٌٌƤ░ٌٌٌƤ░ٌٌٌƳ ░ٌٌٌ░ٌٌٌƝ░ٌٌٌЄ░ٌٌٌƜ░ٌٌٌ░ٌٌٌ Ƴ░ٌٌٌЄ░ٌٌٌƛ░ٌٌٌƦ░ٌٌٌ!░
+╚═════════ ೋღ❤ღೋ ═════════╝
+```
+
 ## 0.6.11 (2022-11-25)
 
 ### Added

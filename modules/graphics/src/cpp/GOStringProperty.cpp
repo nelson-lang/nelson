@@ -8,26 +8,45 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOStringProperty.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+std::wstring
+GOStringProperty::data()
+{
+    return _data;
+}
+//=============================================================================
+void
+GOStringProperty::data(const std::wstring& m)
+{
+    _data = m;
+}
+//=============================================================================
+bool
+GOStringProperty::isEqual(const std::wstring& m)
+{
+    return (_data == m);
+}
+//=============================================================================
+std::wstring
+GOStringProperty::toWideString()
+{
+    return L"'" + _data + L"'";
+}
 //=============================================================================
 ArrayOf
 GOStringProperty::get()
 {
-    return ArrayOf::characterArrayConstructor(m_data);
+    return ArrayOf::characterArrayConstructor(_data);
 }
 //=============================================================================
 void
-GOStringProperty::set(ArrayOf value)
+GOStringProperty::set(ArrayOf arg)
 {
-    if (isWriteProtected()) {
-        Error(_W("Read only property."));
-    }
-    m_data = value.getContentAsCString();
-    GOProperty::set(value);
+    GOGenericProperty::set(arg);
+    _data = arg.getContentAsWideString();
 }
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

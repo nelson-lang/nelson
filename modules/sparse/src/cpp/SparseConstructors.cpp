@@ -72,11 +72,17 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     indexType rows = 0;
     for (indexType i = 0; i < I.getElementCount(); i++) {
         rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
+        if (ip[i] < 1) {
+            Error(_W("Index into matrix must be positive."));
+        }
     }
     auto* jp = (indexType*)J.getDataPointer();
     indexType cols = 0;
     for (indexType j = 0; j < J.getElementCount(); j++) {
         cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
+        if (jp[j] < 1) {
+            Error(_W("Index into matrix must be positive."));
+        }
     }
     Dimensions dim(rows, cols);
     bool bScalarV = false;

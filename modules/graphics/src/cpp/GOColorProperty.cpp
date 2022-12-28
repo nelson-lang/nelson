@@ -7,81 +7,37 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QColor>
 #include "GOColorProperty.hpp"
 #include "Error.hpp"
-#include "PrintPropertyHelpers.hpp"
+#include "i18n.hpp"
+#include "GOColorHelpers.hpp"
+#include "GOPropertyValues.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+bool
+GOColorProperty::isNone()
+{
+    return (_data[0] < 0);
+}
+//=============================================================================
+void
+GOColorProperty::set(ArrayOf arg)
+{
+    GOGenericProperty::set(arg);
+    if (!ParseColorToRGB(arg, _data)) {
+        Error(_W("Expecting a color spec: either a color name or a 3-vector or RGB values"));
+    }
+}
 //=============================================================================
 ArrayOf
 GOColorProperty::get()
 {
-    std::vector<double> rgb = asVector();
-    Dimensions dims(1, rgb.size());
-    double* values = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, rgb.size());
-    memcpy(values, rgb.data(), sizeof(double) * rgb.size());
-    return ArrayOf(NLS_DOUBLE, dims, values);
-}
-//=============================================================================
-void
-GOColorProperty::set(ArrayOf _value)
-{
-    Dimensions dims = _value.getDimensions();
-    if (_value.isVector() && _value.isDoubleType(true) && (dims.getElementCount() == 3)) {
-        auto* ptr = (double*)_value.getDataPointer();
-        QColor color;
-        color.setRgbF(ptr[0], ptr[1], ptr[2]);
-        if (!color.isValid()) {
-            Error(_("an valid [R, G, B] color expected."));
-        }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        float r;
-        float g;
-        float b;
-#else
-        qreal r;
-        qreal g;
-        qreal b;
-#endif
-        color.getRgbF(&r, &g, &b);
-        R = r;
-        G = g;
-        B = b;
-    } else if (_value.isRowVectorCharacterArray()) {
-        std::string colorName = _value.getContentAsCString();
-        if (QColor::isValidColor(colorName.c_str())) {
-            QColor color;
-            color.setNamedColor(colorName.c_str());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            float r;
-            float g;
-            float b;
-#else
-            qreal r;
-            qreal g;
-            qreal b;
-#endif
-            color.getRgbF(&r, &g, &b);
-            R = r;
-            G = g;
-            B = b;
-        } else {
-            Error(_("an valid string color expected."));
-        }
-    } else {
-        Error(_("[R, G, B] vector or string color expected."));
+    if (_data[0] == -1) {
+        return ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_NONE_STR);
     }
-    GOProperty::set(_value);
+    return GOVectorProperty::get();
 }
 //=============================================================================
-std::string
-GOColorProperty::print(const std::string& propertyName)
-{
-    std::string v = "[" + printNumber(R) + " " + printNumber(G) + " " + printNumber(B) + "]";
-    return "\t" + propertyName + "\t" + v;
 }
-//=============================================================================
-
-} // namespace Nelson
 //=============================================================================

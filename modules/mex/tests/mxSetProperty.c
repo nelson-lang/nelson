@@ -11,9 +11,9 @@
 #include <mex.h>
 //=============================================================================
 #if MX_IS_NELSON
-#define GRAPHIC_OBJECT_TYPE "graphic_object"
+#define GRAPHICS_OBJECT_TYPE "graphics_object"
 #else
-#define GRAPHIC_OBJECT_TYPE "graphics"
+#define GRAPHICS_OBJECT_TYPE "graphic"
 #endif
 #define BLUE_INDEX 2
 #define GREEN_INDEX 1
@@ -37,8 +37,8 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     }
 
     objectClassName = mxGetClassName(prhs[0]);
-    if (strncmp(objectClassName, GRAPHIC_OBJECT_TYPE, 15)) {
-        mexErrMsgTxt("Graphic object expected.");
+    if (strncmp(objectClassName, GRAPHICS_OBJECT_TYPE, 15)) {
+        mexErrMsgTxt("Graphics object expected.");
     }
 
     color_ptr = mxGetProperty(prhs[0], 0, colorProperty);

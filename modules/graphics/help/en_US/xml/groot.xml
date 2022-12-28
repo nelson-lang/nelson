@@ -14,21 +14,23 @@
 
     <param_output_item>
       <param_name>g</param_name>
-      <param_description>a graphic object: root object.</param_description>
+      <param_description>a graphics object: root object.</param_description>
     </param_output_item>
   </param_output>
 
   <description><p><b>groot</b> returns graphic root object.</p>
 <p>Properties:</p>
 <p><b>Children</b>: Array of available figure objects.</p>
-<p><b>CurrentFigure</b>: Current figure graphic object.</p>
+<p><b>CurrentFigure</b>: Current figure graphics object.</p>
 <p><b>Parent</b>: empty array (No parent)</p>
 <p><b>PointerLocation</b>: Current location of pointer.</p>
 <p><b>ScreenDepth</b>: Number of bits that define each pixel color.</p>
 <p><b>ScreenSize</b>: Size of primary display (vector).</p>
-<p><b>Tag</b>: String identifier.</p>
+<p><b
+      >Tag</b>: Object identifier: string scalar, character vector, '' (default).</p>
 <p><b>Type</b>: Type 'root'.</p>
-<p><b>UserData</b>: User data (any array type).</p>
+<p><b>Units</b>: 'pixels'.</p>
+<p><b>UserData</b>: User data: array or [] (default).</p>
 </description>
 
   <used_function />

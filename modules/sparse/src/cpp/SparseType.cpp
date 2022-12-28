@@ -788,24 +788,36 @@ Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, i
     tripletList.reserve(nnz);
     T* pV = (T*)cp;
     for (indexType k = 0; k < nnz; k++) {
+        bool isZeroValue = false;
         Triplet tr;
         if (bScalarV) {
-            tr = Triplet(I[k] - 1, J[k] - 1, pV[0]);
-        } else {
-            tr = Triplet(I[k] - 1, J[k] - 1, pV[k]);
-        }
-        typename std::vector<Triplet>::iterator it
-            = tripletfind(tripletList.begin(), tripletList.end(), tr);
-        if (it != tripletList.end()) {
-            T val = it->value();
-            tripletList.erase(it);
-            if (bScalarV) {
-                tr = Triplet(I[k] - 1, J[k] - 1, pV[0] + val);
+            if (pV[0]) {
+                tr = Triplet(I[k] - 1, J[k] - 1, pV[0]);
             } else {
-                tr = Triplet(I[k] - 1, J[k] - 1, pV[k] + val);
+                isZeroValue = true;
+            }
+        } else {
+            if (pV[0]) {
+                tr = Triplet(I[k] - 1, J[k] - 1, pV[k]);
+            } else {
+                isZeroValue = true;
             }
         }
-        tripletList.push_back(tr);
+
+        if (!isZeroValue) {
+            typename std::vector<Triplet>::iterator it
+                = tripletfind(tripletList.begin(), tripletList.end(), tr);
+            if (it != tripletList.end()) {
+                T val = it->value();
+                tripletList.erase(it);
+                if (bScalarV) {
+                    tr = Triplet(I[k] - 1, J[k] - 1, pV[0] + val);
+                } else {
+                    tr = Triplet(I[k] - 1, J[k] - 1, pV[k] + val);
+                }
+            }
+            tripletList.push_back(tr);
+        }
     }
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat = nullptr;
     try {
@@ -829,17 +841,29 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
     tripletList.reserve(nnz);
     auto* pV = (logical*)cp;
     for (indexType k = 0; k < nnz; k++) {
+        bool isFalseValue = false;
         Triplet tr;
         if (bScalarV) {
-            tr = Triplet(I[k] - 1, J[k] - 1, pV[0]);
+            if (pV[0]) {
+                tr = Triplet(I[k] - 1, J[k] - 1, pV[0]);
+            } else {
+                isFalseValue = true;
+            }
         } else {
-            tr = Triplet(I[k] - 1, J[k] - 1, pV[k]);
+            if (pV[k]) {
+                tr = Triplet(I[k] - 1, J[k] - 1, pV[k]);
+            } else {
+                isFalseValue = true;
+            }
         }
-        std::vector<Triplet>::iterator it = tripletfind(tripletList.begin(), tripletList.end(), tr);
-        if (it != tripletList.end()) {
-            Error(_W("Repeated indices are not supported for sparse logical matrices."));
+        if (!isFalseValue) {
+            std::vector<Triplet>::iterator it
+                = tripletfind(tripletList.begin(), tripletList.end(), tr);
+            if (it != tripletList.end()) {
+                Error(_W("Repeated indices are not supported for sparse logical matrices."));
+            }
+            tripletList.push_back(tr);
         }
-        tripletList.push_back(tr);
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat = nullptr;
     try {
@@ -864,16 +888,21 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
     auto* pV = (double*)cp;
     indexType q = 0;
     for (indexType k = 0; k < nnz; k++) {
+        bool isZeroValue = false;
         /* Currently , for compatibility, complex values are not cumulative */
         if (bScalarV) {
-            doublecomplex v(pV[0], pV[1]);
+            if (pV[0] || pV[1]) {
+                doublecomplex v(pV[0], pV[1]);
+                tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
+            }
             q = q + 2;
-            tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
         } else {
-            doublecomplex v(pV[q], pV[q + 1]);
-            q = q + 2;
-            tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
+            if (pV[q] || pV[q + 1]) {
+                doublecomplex v(pV[q], pV[q + 1]);
+                tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
+            }
         }
+        q = q + 2;
     }
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
     try {

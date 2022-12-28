@@ -445,6 +445,8 @@ public:
     [[nodiscard]] bool
     isIntegerType() const;
     [[nodiscard]] bool
+    isIntegerValue() const;
+    [[nodiscard]] bool
     isNdArrayIntegerType() const;
 
     /*
@@ -1239,22 +1241,22 @@ public:
     static ArrayOf
     toStringArray(ArrayOf m, bool& needToOverload);
     //=========================================================================
-    // graphic object handle
+    // graphics object handle
     //=========================================================================
     /*
-     * check is graphic object handle type
+     * check is graphics object handle type
      */
     [[nodiscard]] bool
-    isGraphicObject() const;
+    isGraphicsObject() const;
 
     static ArrayOf
-    graphicObjectConstructor(void* ptrObject);
+    graphicsObjectConstructor(go_handle graphicsObjectHandle);
 
     /*
      * return nelson_handle as void *
      */
-    [[nodiscard]] void*
-    getContentAsGraphicObjectScalar() const;
+    [[nodiscard]] go_handle
+    getContentAsGraphicsObjectScalar() const;
 };
 //=========================================================================
 bool

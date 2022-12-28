@@ -9,54 +9,30 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "GOGenericProperty.hpp"
 #include "ArrayOf.hpp"
-#include "GOProperty.hpp"
-#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOArrayOfProperty : public GOProperty
+class GOArrayOfProperty : public GOGenericProperty
 {
 protected:
-    ArrayOf m_data;
+    ArrayOf _data;
 
 public:
-    //=============================================================================
-    GOArrayOfProperty() = default;
-    //=============================================================================
+    GOArrayOfProperty() : _data(ArrayOf::emptyConstructor()) { }
     ~GOArrayOfProperty() override = default;
-    //=============================================================================
     ArrayOf
     get() override;
-    //=============================================================================
-    void set(ArrayOf /*unused*/) override;
-    //=============================================================================
-    std::string
-    print(const std::string& propertyName) override
-    {
-        std::string v;
-        if (m_data.isNumeric() && m_data.isEmpty(true)) {
-            v = "[]";
-        } else {
-            Dimensions dims = m_data.getDimensions();
-            v = "[" + dims.toString() + " " + ClassName(m_data) + "]";
-        }
-        return "\t" + propertyName + ":\t" + v;
-    }
-    //=============================================================================
-    ArrayOf
-    data()
-    {
-        return m_data;
-    }
-    //=============================================================================
     void
-    value(const ArrayOf& m)
-    {
-        m_data = m;
-    }
-    //=============================================================================
+    set(ArrayOf m) override;
+    ArrayOf
+    data();
+    void
+    data(const ArrayOf& m);
+    std::wstring
+    toWideString() override;
 };
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

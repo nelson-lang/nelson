@@ -155,7 +155,7 @@
     <ClCompile Include="..\cpp\ArrayOf_StringType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ArrayOf_GraphicObjectType.cpp">
+    <ClCompile Include="..\cpp\ArrayOf_GraphicsObjectType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_PromoteType.cpp">

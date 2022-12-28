@@ -9,50 +9,63 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QMainWindow>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QTabWidget>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/QAction>
+#else
+#include <QtWidgets/QAction>
+#endif
 #include <QtCore/QEventLoop>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QCloseEvent>
-#include "GraphicObject.hpp"
 #include "GOFigure.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOFigure;
-//=============================================================================
-class GOWindow : public QWidget
+class GOWindow : public QMainWindow
 {
+    //=============================================================================
 protected:
-    QWidget* m_qtChild;
-    QStackedWidget* m_layout;
+    bool initialized;
+    int64 handle;
+    QWidget* qtchild = nullptr;
+    GOFigure* goFig = nullptr;
     QEventLoop m_loop;
-    bool m_initialized;
-    unsigned m_id;
-    GOFigure* m_goFig;
-    int m_clickX, m_clickY;
-    std::wstring graphicsRootPath;
-
+    int click_x, click_y;
+    //=============================================================================
+    QAction* closeAction;
+    QMenu* fileMenu;
+    //=============================================================================
+    void
+    createActions();
+    void
+    createMenuBar();
+    //=============================================================================
 public:
-    GOWindow(unsigned id);
-    ~GOWindow() override;
-    unsigned
-    ID();
+    GOWindow(int64 ahandle);
+    ~GOWindow() override { delete goFig; }
+    int64
+    getHandle();
     GOFigure*
     getGOFigure();
     void
-    refreshProperties();
-    void
-    getClick(int& x, int& y);
+    updateState();
     void
     closeEvent(QCloseEvent* e) override;
     void
+    getClickPosition(int& x, int& y);
+    void
     mousePressEvent(QMouseEvent* e) override;
+    void
+    focusInEvent(QFocusEvent* event) override;
+    void
+    moveEvent(QMoveEvent* e) override;
     QWidget*
-    getQWidget();
-    std::vector<double>
-    getCurrentScreenGeometry();
+    getMainQWigdet()
+    {
+        return qtchild;
+    }
 };
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

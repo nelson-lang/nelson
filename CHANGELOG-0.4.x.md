@@ -241,7 +241,7 @@
 
 # 0.4.5 (2020-05-23)
 
-- graphic object type added.
+- graphics object type added.
 
 - figure builtin: creates figure.
 
@@ -249,7 +249,7 @@
 
 - groot builtin: returns graphic root object.
 
-- get, set, isvalid, class, fieldnames, delete, disp builtin overloaded to manage graphic objects.
+- get, set, isvalid, class, fieldnames, delete, disp builtin overloaded to manage graphics objects.
 
 - test_run: tests are sorted on all platforms.
 
@@ -265,7 +265,7 @@
 
   - mxGetClassName, mxSetClassName fully supported.
 
-  - mxGetProperty, mxSetProperty fully supported (handle, graphic object, ...).
+  - mxGetProperty, mxSetProperty fully supported (handle, graphics object, ...).
 
 ## Bug Fixes:
 

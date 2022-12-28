@@ -19,36 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\GOArrayOfProperty.cpp" />
-    <ClCompile Include="..\cpp\GOColorProperty.cpp" />
-    <ClCompile Include="..\cpp\GOOnOffSwitchProperty.cpp" />
-    <ClCompile Include="..\cpp\GORoot.cpp" />
-    <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
-    <ClCompile Include="..\cpp\GOScalarLogicalProperty.cpp" />
-    <ClCompile Include="..\cpp\GOStringProperty.cpp" />
-    <ClCompile Include="..\cpp\GOVector2DProperty.cpp" />
-    <ClCompile Include="..\cpp\GOVector3DProperty.cpp" />
-    <ClCompile Include="..\cpp\GOVector4DProperty.cpp" />
-    <ClCompile Include="..\cpp\GOWindowManager.cpp" />
-    <ClCompile Include="..\cpp\GOFigure.cpp" />
-    <ClCompile Include="..\cpp\GOWindow.cpp" />
-    <ClCompile Include="..\cpp\GraphicObject.cpp" />
-    <ClCompile Include="..\cpp\GraphicObjectDelete.cpp" />
-    <ClCompile Include="..\cpp\GraphicObjectDisplay.cpp" />
-    <ClCompile Include="..\cpp\GraphicObjectGet.cpp" />
-    <ClCompile Include="..\cpp\GraphicObjectSet.cpp" />
-    <ClCompile Include="..\cpp\GraphicRoot.cpp" />
-    <ClCompile Include="..\cpp\HorzCatGO.cpp" />
-    <ClCompile Include="..\cpp\InitializeGraphics.cpp" />
-    <ClCompile Include="..\cpp\NewFigure.cpp" />
-    <ClCompile Include="..\cpp\PrintPropertyHelpers.cpp" />
-    <ClCompile Include="..\cpp\QtBaseFigure.cpp" />
-    <ClCompile Include="..\cpp\QtBaseWindow.cpp" />
-    <ClCompile Include="..\cpp\QtRenderer.cpp" />
-    <ClCompile Include="..\cpp\VertCatGO.cpp" />
-    <ClCompile Include="..\cpp\dllMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
     </ProjectReference>
@@ -64,8 +34,8 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj">
-      <Project>{f666ac18-eeda-4a00-acd2-4cafe3865c15}</Project>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
@@ -81,37 +51,150 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\DefaultProperties.hpp" />
-    <ClInclude Include="..\include\GOColorProperty.hpp" />
-    <ClInclude Include="..\include\GOOnOffSwitchProperty.hpp" />
-    <ClInclude Include="..\include\GOProperty.hpp" />
+    <ClInclude Include="..\cpp\GOAxisHelpers.hpp" />
+    <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
+    <ClInclude Include="..\cpp\RenderHelpers.hpp" />
+    <ClInclude Include="..\include\BaseFigureQt.hpp" />
+    <ClInclude Include="..\include\CloseFigure.hpp" />
+    <ClInclude Include="..\include\ColoredPoint.hpp" />
+    <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
+    <ClInclude Include="..\include\ExportGraphics.hpp" />
+    <ClInclude Include="..\include\GOAlignHorizProperty.hpp" />
+    <ClInclude Include="..\include\GOAlignVertProperty.hpp" />
     <ClInclude Include="..\include\GOArrayOfProperty.hpp" />
-    <ClInclude Include="..\include\GORoot.hpp" />
-    <ClInclude Include="..\include\GOScalarDoubleProperty.hpp" />
-    <ClInclude Include="..\include\GOScalarLogicalProperty.hpp" />
-    <ClInclude Include="..\include\GOStringProperty.hpp" />
-    <ClInclude Include="..\include\GOVector2DProperty.hpp" />
-    <ClInclude Include="..\include\GOVector3DProperty.hpp" />
-    <ClInclude Include="..\include\GOVector4DProperty.hpp" />
-    <ClInclude Include="..\include\GOWindowManager.hpp" />
+    <ClInclude Include="..\include\GOAutoFlatColorProperty.hpp" />
+    <ClInclude Include="..\include\GOAxis.hpp" />
+    <ClInclude Include="..\include\GOBackFaceLightingProperty.hpp" />
+    <ClInclude Include="..\include\GOColorHelpers.hpp" />
+    <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
+    <ClInclude Include="..\include\GOColorProperty.hpp" />
+    <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
+    <ClInclude Include="..\include\GORestrictedStringColorProperty.hpp" />
+    <ClInclude Include="..\include\GORestrictedStringProperty.hpp" />
+    <ClInclude Include="..\include\GORestrictedStringScalarProperty.hpp" />
+    <ClInclude Include="..\include\GORestrictedStringVectorProperty.hpp" />
+    <ClInclude Include="..\include\GODataMappingModeProperty.hpp" />
+    <ClInclude Include="..\include\GOEgdeAlphaProperty.hpp" />
+    <ClInclude Include="..\include\GOFaceAlphaProperty.hpp" />
     <ClInclude Include="..\include\GOFigure.hpp" />
+    <ClInclude Include="..\include\GOFiguresManager.hpp" />
+    <ClInclude Include="..\include\GOFixedVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOFontAngleProperty.hpp" />
+    <ClInclude Include="..\include\GOFontUnitsProperty.hpp" />
+    <ClInclude Include="..\include\GOFontWeightProperty.hpp" />
+    <ClInclude Include="..\include\GOGenericProperty.hpp" />
+    <ClInclude Include="..\include\GOGObjectsProperty.hpp" />
+    <ClInclude Include="..\include\GOHelpers.hpp" />
+    <ClInclude Include="..\include\GOImage.hpp" />
+    <ClInclude Include="..\include\GOInOutProperty.hpp" />
+    <ClInclude Include="..\include\GOLeftRightProperty.hpp" />
+    <ClInclude Include="..\include\GOLightingModeProperty.hpp" />
+    <ClInclude Include="..\include\GOLinearLogProperty.hpp" />
+    <ClInclude Include="..\include\GOLineSeries.hpp" />
+    <ClInclude Include="..\include\GOLineStyleOrderProperty.hpp" />
+    <ClInclude Include="..\include\GOLineStyleProperty.hpp" />
+    <ClInclude Include="..\include\GOList.hpp" />
+    <ClInclude Include="..\include\GOMappingModeProperty.hpp" />
+    <ClInclude Include="..\include\GONextPlotModeProperty.hpp" />
+    <ClInclude Include="..\include\GONormalReverseProperty.hpp" />
+    <ClInclude Include="..\include\GOPositionProperty.hpp" />
+    <ClInclude Include="..\include\GOProjectionModeProperty.hpp" />
+    <ClInclude Include="..\include\GOPropertyNames.hpp" />
+    <ClInclude Include="..\include\GOPropertyValues.hpp" />
+    <ClInclude Include="..\include\GORoot.hpp" />
+    <ClInclude Include="..\include\GORowColumnsProperty.hpp" />
+    <ClInclude Include="..\include\GOScalarDoubleProperty.hpp" />
+    <ClInclude Include="..\include\GOStringAutoManualProperty.hpp" />
+    <ClInclude Include="..\include\GOStringOnOffProperty.hpp" />
+    <ClInclude Include="..\include\GOStringProperty.hpp" />
+    <ClInclude Include="..\include\GOStringVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOSurface.hpp" />
+    <ClInclude Include="..\include\GOSymbolProperty.hpp" />
+    <ClInclude Include="..\include\GOText.hpp" />
+    <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
+    <ClInclude Include="..\include\GOUnitsProperty.hpp" />
+    <ClInclude Include="..\include\GOVectorFourDoubleProperty.hpp" />
+    <ClInclude Include="..\include\GOVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOVectorSixDoubleProperty.hpp" />
+    <ClInclude Include="..\include\GOVectorThreeDoubleProperty.hpp" />
+    <ClInclude Include="..\include\GOVectorTwoDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOWindow.hpp" />
-    <ClInclude Include="..\include\GraphicObject.hpp" />
-    <ClInclude Include="..\include\GraphicObjectDelete.hpp" />
-    <ClInclude Include="..\include\GraphicObjectDisplay.hpp" />
-    <ClInclude Include="..\include\GraphicObjectGet.hpp" />
-    <ClInclude Include="..\include\GraphicObjectSet.hpp" />
-    <ClInclude Include="..\include\GraphicRenderer.hpp" />
-    <ClInclude Include="..\include\GraphicRoot.hpp" />
-    <ClInclude Include="..\include\HorzCatGO.hpp" />
-    <ClInclude Include="..\include\InitializeGraphics.hpp" />
-    <ClInclude Include="..\include\NewFigure.hpp" />
+    <ClInclude Include="..\include\GraphicsObject.hpp" />
+    <ClInclude Include="..\include\GraphicsObjectDisplay.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
-    <ClInclude Include="..\include\PrintPropertyHelpers.hpp" />
-    <ClInclude Include="..\include\QtBaseFigure.hpp" />
-    <ClInclude Include="..\include\QtBaseWindow.hpp" />
-    <ClInclude Include="..\include\QtRenderer.hpp" />
-    <ClInclude Include="..\include\VertCatGO.hpp" />
+    <ClInclude Include="..\include\NonClosableWidget.hpp" />
+    <ClInclude Include="..\include\RenderQt.hpp" />
+    <ClInclude Include="..\include\RenderInterface.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\BaseFigureQt.cpp" />
+    <ClCompile Include="..\cpp\CloseFigure.cpp" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
+    <ClCompile Include="..\cpp\ExportGraphics.cpp" />
+    <ClCompile Include="..\cpp\GOAlignHorizProperty.cpp" />
+    <ClCompile Include="..\cpp\GOAlignVertProperty.cpp" />
+    <ClCompile Include="..\cpp\GOArrayOfProperty.cpp" />
+    <ClCompile Include="..\cpp\GOAutoFlatColorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOAxis.cpp" />
+    <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOBackFaceLightingProperty.cpp" />
+    <ClCompile Include="..\cpp\GOColorHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
+    <ClCompile Include="..\cpp\GOColorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GORestrictedStringColorProperty.cpp" />
+    <ClCompile Include="..\cpp\GORestrictedStringProperty.cpp" />
+    <ClCompile Include="..\cpp\GORestrictedStringScalarProperty.cpp" />
+    <ClCompile Include="..\cpp\GORestrictedStringVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GODataMappingModeProperty.cpp" />
+    <ClCompile Include="..\cpp\GOEgdeAlphaProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFaceAlphaProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFigure.cpp" />
+    <ClCompile Include="..\cpp\GOFiguresManager.cpp" />
+    <ClCompile Include="..\cpp\GOFixedVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFontAngleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFontUnitsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFontWeightProperty.cpp" />
+    <ClCompile Include="..\cpp\GOGObjectsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOImage.cpp" />
+    <ClCompile Include="..\cpp\GOInOutProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLeftRightProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLightingModeProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLinearLogProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLineSeries.cpp" />
+    <ClCompile Include="..\cpp\GOLineStyleOrderProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLineStyleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOMappingModeProperty.cpp" />
+    <ClCompile Include="..\cpp\GONextPlotModeProperty.cpp" />
+    <ClCompile Include="..\cpp\GONormalReverseProperty.cpp" />
+    <ClCompile Include="..\cpp\GOPositionProperty.cpp" />
+    <ClCompile Include="..\cpp\GOProjectionModeProperty..cpp" />
+    <ClCompile Include="..\cpp\GORoot.cpp" />
+    <ClCompile Include="..\cpp\GORowColumnsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOStringAutoManualProperty.cpp" />
+    <ClCompile Include="..\cpp\GOStringOnOffProperty.cpp" />
+    <ClCompile Include="..\cpp\GOStringProperty.cpp" />
+    <ClCompile Include="..\cpp\GOStringVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOSurface.cpp" />
+    <ClCompile Include="..\cpp\GOSymbolProperty.cpp" />
+    <ClCompile Include="..\cpp\GOText.cpp" />
+    <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
+    <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOVectorSixDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOVectorThreeDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOVectorTwoDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOWindow.cpp" />
+    <ClCompile Include="..\cpp\GraphicsObject.cpp" />
+    <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
+    <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
+    <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
+    <ClCompile Include="..\cpp\RenderQt.cpp" />
+    <ClCompile Include="..\cpp\RenderHelpers.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7ECBC5F0-CE99-4738-944C-E88C3DDF12BB}</ProjectGuid>
@@ -194,7 +277,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -220,7 +303,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -248,7 +331,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -278,7 +361,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>

@@ -24,7 +24,7 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     nargincheck(argIn, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.isGraphicObject()) {
+    if (param1.isGraphicsObject()) {
         bool doOverload = false;
         std::wstring ufunctionNameGetHandle = ClassToString(param1.getDataClass()) + L"_set";
         std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);

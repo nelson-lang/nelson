@@ -46,6 +46,7 @@ RUN dnf install -y qt6-qtbase-odbc
 RUN dnf install -y qt6-qtbase-postgresql
 RUN dnf install -y qt6-doctools
 RUN dnf install -y qt6-qtquickcontrols2
+RUN dnf install -y qt6-qtsvg-devel
 RUN dnf install -y qt6-qttools
 RUN dnf install -y qt6-qttools-libs-help
 RUN dnf install -y qt6-qttools-devel

@@ -25,5 +25,4 @@ end
 F = figure(33);
 R = mxDuplicateArray(F);
 assert_isequal(R.Number, F.Number);
-delete(F);
 %=============================================================================

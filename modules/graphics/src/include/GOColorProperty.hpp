@@ -9,59 +9,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "GOProperty.hpp"
-#include "Error.hpp"
+#include "GOFixedVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOColorProperty : public GOProperty
+class GOColorProperty : public GOFixedVectorProperty
 {
-protected:
-    double R;
-    double G;
-    double B;
-
 public:
-    //=============================================================================
-    GOColorProperty() = default;
-    //=============================================================================
+    GOColorProperty() : GOFixedVectorProperty(3) { }
     ~GOColorProperty() override = default;
-    //=============================================================================
+    void set(ArrayOf) override;
     ArrayOf
     get() override;
-    //=============================================================================
-    void set(ArrayOf /*value*/) override;
-    //=============================================================================
-    std::vector<double>
-    asVector()
-    {
-        std::vector<double> rgb;
-        rgb.reserve(3);
-        rgb.push_back(R);
-        rgb.push_back(G);
-        rgb.push_back(B);
-        return rgb;
-    }
-    //=============================================================================
-    std::vector<double>
-    data()
-    {
-        return asVector();
-    }
-    //=============================================================================
-    std::string
-    print(const std::string& propertyName) override;
-    //=============================================================================
-    void
-    value(double r, double g, double b)
-    {
-        R = r;
-        G = g;
-        B = b;
-    }
-    //=============================================================================
+    bool
+    isNone();
 };
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================
