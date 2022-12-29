@@ -163,13 +163,7 @@ public:
     releaseDirectDraw() override;
     //=============================================================================
     void
-    getModelviewMatrix(double amodel[16]) override;
-    //=============================================================================
-    void
-    getProjectionMatrix(double aproj[16]) override;
-    //=============================================================================
-    void
-    getViewport(int aviewp[4]) override;
+    getModelviewMatrix(std::vector<double>& model) override;
     //=============================================================================
     void
     putText(double x, double y, std::wstring txt, std::vector<double> color, AlignmentFlag xflag,
