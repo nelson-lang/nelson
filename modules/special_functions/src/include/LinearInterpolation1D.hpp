@@ -15,7 +15,10 @@
 namespace Nelson {
 //=============================================================================
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
-Gamma(const ArrayOf& arrayIn);
+LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ);
+//=============================================================================
+NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
+LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ);
 //=============================================================================
 }
 //=============================================================================
