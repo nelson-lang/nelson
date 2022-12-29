@@ -11,6 +11,7 @@
 #include "gammaBuiltin.hpp"
 #include "betaincBuiltin.hpp"
 #include "gcdBuiltin.hpp"
+#include "interp1Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,6 +23,8 @@ static const nlsGateway gateway[] = {
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "gcd", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "interp1", (ptrBuiltin)Nelson::SpecialFunctionsGateway::interp1Builtin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
