@@ -41,4 +41,18 @@ assert_isequal(c, '');
 assert_isequal(m, '');
 assert_isequal(msg, REF);
 %=============================================================================
-
+[l, c, m, msg] = colstyle ('4', 'plot')
+REF.message = _('Invalid LineSpec string.');
+REF.Identifier = 'Nelson:colstyle:InvalidLinespec';
+assert_isequal(l, '');
+assert_isequal(c, '');
+assert_isequal(m, '');
+assert_isequal(msg, REF);
+%=============================================================================
+[l, c, m, msg] = colstyle ('*', 'plot')
+REF = [];
+assert_isequal(l, 'none');
+assert_isequal(c, '');
+assert_isequal(m, '*');
+assert_isequal(msg, REF);
+%=============================================================================
