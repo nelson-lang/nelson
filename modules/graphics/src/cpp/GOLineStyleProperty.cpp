@@ -13,7 +13,7 @@
 namespace Nelson {
 //=============================================================================
 static const wchar_t* LINE_STYLE_DICT[7]
-    = { L"-", L"--", L":", L"-.", GO_PROPERTY_VALUE_NONE_STR, L"", 0 };
+    = { L"-", L"--", L":", L"-.", GO_PROPERTY_VALUE_NONE_STR, 0 };
 //=============================================================================
 GOLineStyleProperty::GOLineStyleProperty() : GORestrictedStringProperty(LINE_STYLE_DICT) { }
 //=============================================================================

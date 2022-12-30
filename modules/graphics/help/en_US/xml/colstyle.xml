@@ -9,6 +9,8 @@
   <syntax>
   <syntax_item
     >[linespec, colorspec, markerspec, msg] = colstyle (str)</syntax_item>
+  <syntax_item
+    >[linespec, colorspec, markerspec, msg] = colstyle (str, 'plot')</syntax_item>
   </syntax>
 	
 	<param_input>
@@ -17,6 +19,12 @@
 			<param_description
       >a row vector of character or scalar string:  line specification.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>'plot'</param_name>
+			<param_description
+      >linespec returns 'none' and not '' with this option.</param_description>
+		</param_input_item>
+
 	</param_input>
 
   <param_output>
@@ -53,7 +61,10 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description />
-    <example_item_data><![CDATA[[l, c, m, msg] = colstyle('r:x')]]>
+    <example_item_data
+      ><![CDATA[[l, c, m, msg] = colstyle('r:x')
+[l, c, m, msg] = colstyle('*')
+[l, c, m, msg] = colstyle('*', 'plot')]]>
     </example_item_data>
   </example_item>
 
