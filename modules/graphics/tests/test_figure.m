@@ -52,11 +52,13 @@ REF = {'AlphaMap';
 'Name';
 'NextPlot';
 'Number';
+'NumberTitle';
 'Parent';
 'Position';
 'Tag';
 'Type';
-'UserData'};
+'UserData';
+'Visible'};
 assert_isequal(p, REF);
 %=============================================================================
 close all

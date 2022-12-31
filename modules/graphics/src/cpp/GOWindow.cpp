@@ -28,11 +28,13 @@
 #include "Types.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "GOHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define TITLE_WITH_NAME_FORMAT L"Figure %d: %s"
-#define TITLE_DEFAULT_FORMAT L"Figure %d"
+#define TITLE_WITH_FIGURE_NUMBER_FORMAT L"Figure %d"
+#define TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT L"Figure %d: %s"
+#define TITLE_WITH_NAME_ONLY_FORMAT L"%s"
 //=============================================================================
 GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 {
@@ -44,7 +46,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     handle = ahandle;
     int figureId = handle + 1;
     goFig = new GOFigure(this, figureId);
-    setWindowTitle(wstringToQString(fmt::sprintf(TITLE_DEFAULT_FORMAT, figureId)));
+    setWindowTitle(wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
     setFocusPolicy(Qt::ClickFocus);
     qtchild = new BaseFigureQt(NULL, goFig);
     setCentralWidget(qtchild);
@@ -78,21 +80,39 @@ GOWindow::updateState()
     if (!initialized) {
         return;
     }
-    if (goFig->hasChanged(GO_NAME_PROPERTY_NAME_STR)) {
-        GOStringProperty* name = (GOStringProperty*)goFig->findProperty(GO_NAME_PROPERTY_NAME_STR);
-        int figureId = handle + 1;
-        if (name->data().empty()) {
-            setWindowTitle(wstringToQString(fmt::sprintf(TITLE_DEFAULT_FORMAT, figureId)));
+    if (goFig->hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
+        if (goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
+            show();
         } else {
-            setWindowTitle(
-                wstringToQString(fmt::sprintf(TITLE_WITH_NAME_FORMAT, figureId, name->data())));
+            hide();
         }
     }
+    if (goFig->hasChanged(GO_NAME_PROPERTY_NAME_STR)
+        || goFig->hasChanged(GO_NUMBER_PROPERTY_NAME_STR)
+        || goFig->hasChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR)) {
+        bool withNumberTitle
+            = (goFig->stringCheck(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR));
+        int figureId = handle + 1;
+        GOStringProperty* name = (GOStringProperty*)goFig->findProperty(GO_NAME_PROPERTY_NAME_STR);
+        if (withNumberTitle) {
+            if (name->data().empty()) {
+                setWindowTitle(
+                    wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
+            } else {
+                setWindowTitle(wstringToQString(fmt::sprintf(
+                    TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT, figureId, name->data())));
+            }
+        } else {
+            setWindowTitle(
+                wstringToQString(fmt::sprintf(TITLE_WITH_NAME_ONLY_FORMAT, name->data())));
+        }
+    }
+
     GOFourVectorProperty* hfv
         = (GOFourVectorProperty*)goFig->findProperty(GO_POSITION_PROPERTY_NAME_STR);
     if (hfv->isModified()) {
-        int ws;
-        int hs;
+        int ws = 0;
+        int hs = 0;
         ((BaseFigureQt*)(qtchild))->currentScreenResolution(ws, hs);
         int w = (int)(hfv->data()[2]);
         int h = (int)(hfv->data()[3]);
