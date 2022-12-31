@@ -30,7 +30,7 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\interp1Builtin.cpp">
+    <ClCompile Include="..\cpp\__interp1__Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,7 +61,7 @@
     <ClInclude Include="..\include\gcdBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\interp1Builtin.hpp">
+    <ClInclude Include="..\include\__interp1__Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

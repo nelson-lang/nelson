@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SpecialFunctionsGateway {
 //=============================================================================
 ArrayOfVector
-interp1Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+__interp1__Builtin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

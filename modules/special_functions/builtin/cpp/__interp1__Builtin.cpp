@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "interp1Builtin.hpp"
+#include "__interp1__Builtin.hpp"
 #include "LinearInterpolation1D.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -15,8 +15,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SpecialFunctionsGateway::interp1Builtin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SpecialFunctionsGateway::__interp1__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 4);
