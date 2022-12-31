@@ -185,7 +185,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gcdBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\interp1Builtin.cpp" />
+    <ClCompile Include="..\cpp\__interp1__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
@@ -214,7 +214,7 @@
     <ClInclude Include="..\include\betaincBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
     <ClInclude Include="..\include\gcdBuiltin.hpp" />
-    <ClInclude Include="..\include\interp1Builtin.hpp" />
+    <ClInclude Include="..\include\__interp1__Builtin.hpp" />
     <ClInclude Include="..\include\nlsSpecial_functions_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

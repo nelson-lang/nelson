@@ -153,9 +153,6 @@ void
 LinearInterpolationComplex(
     const T* x1, const T* y1, indexType x1count, const T* xi, indexType xicount, T* yi)
 {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
     for (ompIndexType k = 0; k < (ompIndexType)xicount; k++) {
         int left = 0;
         int mflag = 0;
@@ -177,9 +174,6 @@ void
 LinearInterpolationReal(
     const T* x1, const T* y1, indexType x1count, const T* xi, indexType xicount, T* yi)
 {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
     for (ompIndexType k = 0; k < (ompIndexType)xicount; k++) {
         int left = 0;
         int mflag = 0;
