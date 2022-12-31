@@ -14,6 +14,7 @@
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "GOFiguresManager.hpp"
+#include "GOStringOnOffProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,6 +50,8 @@ GOFigure::registerProperties()
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_NAME_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -60,6 +63,8 @@ GOFigure::initializeProperties()
     setStringDefault(GO_NEXT_PLOT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REPLACE_STR);
     setGoProperty(GO_PARENT_PROPERTY_NAME_STR, graphicsRootObject());
     setStringDefault(GO_NAME_PROPERTY_NAME_STR, {});
+    setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     loadParulaColorMap();
     _resized = false;
