@@ -127,6 +127,7 @@ GOImage::updateState()
     GOFigure* fig = getParentFigure();
     if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR) || ax->hasChanged(GO_C_LIM_PROPERTY_NAME_STR)
         || fig->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
+        || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
         || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR)) {
         updateCAlphadata();
     }
@@ -218,9 +219,9 @@ double*
 GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool floatData)
 {
     double* ret = new double[rows * cols * 3];
-    std::vector<double> cmap(((GraphicsObject*)getParentFigure())
-                                 ->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     GOAxis* ap(getParentAxis());
+    std::vector<double> cmap(
+        ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     std::vector<double> clim(
         ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
     double clim_min(std::min(clim[0], clim[1]));
@@ -230,6 +231,24 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
     }
     size_t cmaplen(cmap.size() / 3);
     if (cmaplen < 1) {
+        if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
+            for (int i = 0; i < rows * cols; i++) {
+                int ndx = floatData ? (int)dp[i] - 1 : (int)dp[i];
+                ndx = (int)std::min<indexType>(
+                    (indexType)(cmaplen - 1), std::max<indexType>((indexType)0, (indexType)ndx));
+                ret[i] = 1;
+                ret[i + rows * cols] = 1;
+                ret[i + 2 * rows * cols] = 1;
+            }
+        } else {
+            for (int i = 0; i < rows * cols; i++) {
+                int ndx = (int)((dp[i] - clim_min) / (clim_max - clim_min) * (cmaplen - 1));
+                ndx = (int)std::min<indexType>(cmaplen - 1, std::max(0, ndx));
+                ret[i] = 1;
+                ret[i + rows * cols] = 1;
+                ret[i + 2 * rows * cols] = 1;
+            }
+        }
         return ret;
     }
     if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {

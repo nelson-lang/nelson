@@ -16,7 +16,8 @@ GOColorVectorProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
     arg.promoteType(NLS_DOUBLE);
-    if ((!arg.is2D()) || (arg.getDimensionLength(1) != 3)) {
+    bool isValid = arg.isEmpty() || (arg.is2D() && (arg.getDimensionLength(1) == 3));
+    if (!isValid) {
         Error(_("Expect an m x 3 matrix for color orders."));
     }
     const double* dp = (const double*)arg.getDataPointer();

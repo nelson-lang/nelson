@@ -181,6 +181,13 @@ GraphicsObject::sortProperties()
     std::sort(m_property_names_order.begin(), m_property_names_order.end());
 }
 //=============================================================================
+bool
+GraphicsObject::haveProperty(const std::wstring& name)
+{
+    return (std::find(m_property_names_order.begin(), m_property_names_order.end(), name)
+        != m_property_names_order.end());
+}
+//=============================================================================
 wstringVector
 GraphicsObject::getFieldnames()
 {
