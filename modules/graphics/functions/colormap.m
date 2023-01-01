@@ -17,8 +17,7 @@ function varargout = colormap(varargin)
     if nargin == 1
       if isgraphics(varargin{1}, 'axes') 
         ax = varargin{1};
-        f = ax.Parent;
-        varargout{1} = f.ColorMap;
+        varargout{1} = ax.ColorMap;
         return
       elseif isgraphics(varargin{1}, 'figure')
         f =  varargin{1};
