@@ -27,16 +27,17 @@ protected:
     std::vector<double>
     getAlphaMap(indexType rows, indexType cols);
 
+    virtual void
+    constructProperties();
+    virtual void
+    setupDefaults();
+
 public:
     virtual std::wstring
     getType() override;
 
     GOImage();
     ~GOImage() override;
-    virtual void
-    constructProperties();
-    virtual void
-    setupDefaults();
     void
     updateState() override;
     void

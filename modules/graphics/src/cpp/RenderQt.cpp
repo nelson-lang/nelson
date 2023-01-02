@@ -158,27 +158,11 @@ RenderQt::releaseDirectDraw()
 }
 //=============================================================================
 void
-RenderQt::getProjectionMatrix(double aproj[16])
+RenderQt::getModelviewMatrix(std::vector<double>& amodel)
 {
-    for (int i = 0; i < 16; i++) {
-        aproj[i] = proj[i];
-    }
-}
-//=============================================================================
-void
-RenderQt::getModelviewMatrix(double amodel[16])
-{
-    for (int i = 0; i < 16; i++) {
-        amodel[i] = model[i];
-    }
-}
-//=============================================================================
-void
-RenderQt::getViewport(int aviewp[4])
-{
-    for (int i = 0; i < 4; i++) {
-        aviewp[i] = viewp[i];
-    }
+    amodel.clear();
+    amodel.reserve(16);
+    amodel.insert(amodel.begin(), std::begin(model), std::end(model));
 }
 //=============================================================================
 QPointF

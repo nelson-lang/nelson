@@ -30,7 +30,6 @@ GORestrictedStringProperty::set(ArrayOf arg)
         Error(_W("Expecting a string for property."));
     }
     std::wstring tst(arg.getContentAsWideString());
-    if (tst.empty()) { }
     if (std::find(m_dictionary.begin(), m_dictionary.end(), tst) == m_dictionary.end()) {
         Error(_W("Illegal selection for property."));
     }

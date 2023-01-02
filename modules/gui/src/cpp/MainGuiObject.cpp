@@ -28,7 +28,6 @@
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
-static QStyle* defaultStyle = nullptr;
 static bool messageVerbose = false;
 //===================================================================================
 void
