@@ -11,7 +11,7 @@ function map = parula(m)
   if nargin < 1
     f = get(groot(), 'CurrentFigure');
     if isempty(f)
-      m = 64;
+      m = 256;
     else
       m = size(f.Colormap,1);
     end

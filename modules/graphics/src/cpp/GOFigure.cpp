@@ -51,6 +51,8 @@ GOFigure::registerProperties()
     registerProperty(new GOStringProperty, GO_NAME_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_DRAW_LATER_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -63,6 +65,8 @@ GOFigure::initializeProperties()
     setGoProperty(GO_PARENT_PROPERTY_NAME_STR, graphicsRootObject());
     setStringDefault(GO_NAME_PROPERTY_NAME_STR, {});
     setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+    setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     loadParulaColorMap();
     _resized = false;
@@ -131,6 +135,19 @@ void
 GOFigure::updateState()
 {
     m_win->updateState();
+    if (hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)) {
+        GOGObjectsProperty* children
+            = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+        std::vector<int64> handles(children->data());
+        ArrayOf colormapAsArrayOf = findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)->get();
+        for (int i = 0; i < handles.size(); i++) {
+            GraphicsObject* fp = findGraphicsObject(handles[i]);
+            if (fp->haveProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)) {
+                fp->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)->set(colormapAsArrayOf);
+                fp->updateState();
+            }
+        }
+    }
     refreshPositionProperty();
     refreshDrawLaterProperty();
 }
@@ -208,27 +225,6 @@ GOFigure::loadParulaColorMap()
         0.9379, 0.1261, 0.9642, 0.9437, 0.1216, 0.9657, 0.9494, 0.1168, 0.9674, 0.9552, 0.1116,
         0.9692, 0.9609, 0.1061, 0.9711, 0.9667, 0.1001, 0.973, 0.9724, 0.0938, 0.9749, 0.9782,
         0.0872, 0.9769, 0.9839, 0.0805 };
-    GOColorVectorProperty* hcv
-        = (GOColorVectorProperty*)findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
-    hcv->data(cmap);
-    cmap.clear();
-    cmap.push_back(1.0);
-    GOVectorProperty* hv = (GOVectorProperty*)findProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR);
-    hv->data(cmap);
-}
-//=============================================================================
-void
-GOFigure::loadDefaultColorMap()
-{
-    std::vector<double> cmap;
-    for (int i = 0; i < 64; i++) {
-        double h = i / (64.0);
-        double r, g, b;
-        HSVRAMP(h, r, g, b);
-        cmap.push_back(r);
-        cmap.push_back(g);
-        cmap.push_back(b);
-    }
     GOColorVectorProperty* hcv
         = (GOColorVectorProperty*)findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
     hcv->data(cmap);

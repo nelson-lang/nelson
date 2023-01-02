@@ -75,16 +75,17 @@ void
 RenderQt::setLineStyle(std::wstring style)
 {
     QPen pen(pnt->pen());
-    if (style == L"-")
+    if (style == L"-") {
         pen.setStyle(Qt::SolidLine);
-    else if (style == L"--")
+    } else if (style == L"--") {
         pen.setStyle(Qt::DashLine);
-    else if (style == L":")
+    } else if (style == L":") {
         pen.setStyle(Qt::DotLine);
-    else if (style == L"-.")
+    } else if (style == L"-.") {
         pen.setStyle(Qt::DashDotLine);
-    else if (style == GO_PROPERTY_VALUE_NONE_STR)
+    } else if (style == GO_PROPERTY_VALUE_NONE_STR) {
         pen.setStyle(Qt::NoPen);
+    }
     pnt->setPen(pen);
 }
 //=============================================================================

@@ -348,3 +348,7 @@ A C++17 cross-platform implementation for UUIDs
 > <https://github.com/mariusbancila/stduuid>
 
 > <https://github.com/mariusbancila/stduuid/blob/master/LICENSE> MIT license
+
+- Piecewise Polynomial Package (interv)
+
+> <https://netlib.org/pppack/interv.f> > <http://www.netlib.org/pppack>

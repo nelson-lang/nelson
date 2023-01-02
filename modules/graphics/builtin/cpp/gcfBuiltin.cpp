@@ -20,7 +20,12 @@ gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     int64 currentFigureID = getCurrentFigure();
     if (currentFigureID == -1) {
-        currentFigureID = createNewFigure();
+        std::vector<int64> figs = getFigureGraphicsObjects();
+        if (figs.empty()) {
+            currentFigureID = createNewFigure();
+        } else {
+            currentFigureID = figs.back();
+        }
     }
     retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
     return retval;

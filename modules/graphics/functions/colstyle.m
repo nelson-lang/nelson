@@ -8,11 +8,24 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [linespec, colorspec, markerspec, msg] = colstyle (varargin)
+  narginchk(1, 3);
+  nargoutchk(0, 4);
   style = varargin{1};
+  emptyAsNone = false;
+  raiseError = true;
   if nargin == 2
-    raiseError = varargin{2};
-  else
-    raiseError = true;
+    if ~(ischar(varargin{2}) || isStringScalar(varargin{2})) 
+      error(_('"plot" argument expected.'));
+    end
+    option = convertStringsToChars(varargin{2});
+
+    if strcmp('plot', option) || strcmp('', option)
+      emptyAsNone = strcmp('plot', option);
+    else 
+      error(_('"plot" argument expected.'));
+    end
+  elseif nargin == 3
+    raiseError = varargin{3};
   end
   if ~ischar(style) && ~isStringScalar(style)
     if raiseError
@@ -60,6 +73,14 @@ function [linespec, colorspec, markerspec, msg] = colstyle (varargin)
     linespec = '';
     msg.message = _('Invalid LineSpec string.');
     msg.Identifier = 'Nelson:colstyle:InvalidLinespec';
+    return
+  end
+  if isempty(linespec)
+    if emptyAsNone
+      linespec = 'none';
+    else
+      linespec = '';
+    end
   end
 end
 %=============================================================================

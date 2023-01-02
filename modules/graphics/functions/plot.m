@@ -55,7 +55,7 @@ function varargout = plot(varargin)
       end
       inputArguments(1) = [];
     else
-      [ps, cs, ms, msg] = colstyle(inputArguments{2}, false);
+      [ps, cs, ms, msg] = colstyle(inputArguments{2}, 'plot', false);
       r = isempty(msg);
       if (r)
         h = [h; plot_Y(inputArguments{1},go,completeProperties(cs,ms,ps,propertiesList))];
@@ -68,7 +68,7 @@ function varargout = plot(varargin)
         end
         inputArguments(1:2) = [];
       else
-        [ps, cs, ms, msg] = colstyle(inputArguments{3}, false);
+        [ps, cs, ms, msg] = colstyle(inputArguments{3}, 'plot', false);
         r = isempty(msg);
         if (r)
           h = [h; plot_XY(inputArguments{1},inputArguments{2},go, completeProperties(cs,ms,ps,propertiesList))];
@@ -91,6 +91,9 @@ function varargout = plot(varargin)
 end
 %=============================================================================
 function q = completeProperties(cs, ms, ps, p)
+  if isempty(ps)
+    ps = 'none';
+  end
   if (strcmp(cs, ''))
     q = {'marker', ms, 'linestyle', ps, p{:}};
   else

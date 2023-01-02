@@ -88,7 +88,8 @@ public:
     isWritable(const std::wstring& name);
     wstringVector
     getFieldnames();
-
+    bool
+    haveProperty(const std::wstring& name);
     double
     findScalarDoubleProperty(const std::wstring& name);
     unsigned

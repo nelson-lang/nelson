@@ -51,7 +51,7 @@ function varargout = plot3(varargin)
     end;
     r = true;
     if (length(inputArguments) > 3)
-      [ps, cs, ms, msg] = colstyle(inputArguments{4}, false);
+      [ps, cs, ms, msg] = colstyle(inputArguments{4}, '', false);
       r = isempty(msg);
     end
     if (length(inputArguments) == 3 || (length(inputArguments) > 3) && ~r)
@@ -72,6 +72,9 @@ function varargout = plot3(varargin)
 end
 %=============================================================================
 function q = completeProperties(cs, ms, ps, p)
+  if isempty(ps)
+    ps = 'none';
+  end 
   if (strcmp(cs, ''))
     q = {'Marker', ms, 'LineStyle', ps, p{:}};
   else

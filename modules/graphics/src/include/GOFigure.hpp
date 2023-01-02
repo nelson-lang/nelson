@@ -22,8 +22,6 @@ private:
     int m_width, m_height;
     bool _resized;
     void
-    loadDefaultColorMap();
-    void
     loadParulaColorMap();
     GOWindow* m_win;
 
