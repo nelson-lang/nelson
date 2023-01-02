@@ -69,6 +69,8 @@
 <p><b>Type</b>: Type 'figure'.</p>
 <p><b>UserData</b>: User data: array or [] (default).</p>
 <p><b>Visible</b>: State of visibility: 'off' or 'on' (default).</p>
+<p><b
+      >DrawLater</b>: is used to delay a huge succession of graphics commands (implying several drawings or redrawings): 'on' or 'off' (default).</p>
 </description>
 
   <used_function />

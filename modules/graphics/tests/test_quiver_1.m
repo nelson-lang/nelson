@@ -10,6 +10,7 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
+f.DrawLater = 'on';
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
 U1 = sin(X);
 V1 = cos(Y);
@@ -23,4 +24,5 @@ ax2 = subplot(1, 2, 2);
 quiver(X,Y,U2,V2)
 axis equal
 title(ax2, 'Right Plot')
+f.DrawLater = 'off';
 %=============================================================================

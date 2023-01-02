@@ -9,11 +9,9 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
-f.DrawLater = 'on';
-[X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
-U1 = sin(X);
-V1 = cos(Y);
-quiver(U1, V1)
-f.DrawLater = 'off';
-%=============================================================================
+% function available for compatibility.
+x = -pi:pi/20:pi;
+plot(x, cos(x))
+drawnow
+title('Title Here ...')
+grid on

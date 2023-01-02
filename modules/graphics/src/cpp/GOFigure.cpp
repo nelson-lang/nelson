@@ -50,6 +50,7 @@ GOFigure::registerProperties()
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_NAME_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_DRAW_LATER_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     sortProperties();
@@ -63,6 +64,7 @@ GOFigure::initializeProperties()
     setStringDefault(GO_NEXT_PLOT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REPLACE_STR);
     setGoProperty(GO_PARENT_PROPERTY_NAME_STR, graphicsRootObject());
     setStringDefault(GO_NAME_PROPERTY_NAME_STR, {});
+    setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
@@ -147,8 +149,7 @@ GOFigure::updateState()
         }
     }
     refreshPositionProperty();
-    refreshInnerPositionProperty();
-    refreshOuterPositionProperty();
+    refreshDrawLaterProperty();
 }
 //=============================================================================
 void
@@ -236,15 +237,20 @@ GOFigure::loadParulaColorMap()
 void
 GOFigure::paintMe(RenderInterface& gc)
 {
-    GOColorProperty* color = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
-    gc.clear(color->data());
-    GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-    std::vector<int64> handles(children->data());
-    for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
-        GraphicsObject* fp = findGraphicsObject(handles[i]);
-        fp->paintMe(gc);
+    GOOnOffProperty* drawLaterProperty
+        = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+    if (!drawLaterProperty->asBool()) {
+        GOColorProperty* color = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+        gc.clear(color->data());
+        GOGObjectsProperty* children
+            = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+        std::vector<int64> handles(children->data());
+        for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
+            GraphicsObject* fp = findGraphicsObject(handles[i]);
+            fp->paintMe(gc);
+        }
+        _resized = false;
     }
-    _resized = false;
 }
 //=============================================================================
 void
@@ -287,9 +293,16 @@ GOFigure::refreshPositionProperty()
 };
 //=============================================================================
 void
-GOFigure::refreshInnerPositionProperty() {};
-//=============================================================================
-void
-GOFigure::refreshOuterPositionProperty() {};
+GOFigure::refreshDrawLaterProperty()
+{
+    if (hasChanged(GO_DRAW_LATER_PROPERTY_NAME_STR)) {
+        GOOnOffProperty* drawLaterProperty
+            = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+        if (!drawLaterProperty->asBool()) {
+            repaint();
+        }
+    }
+};
 //=============================================================================
 }
+//=============================================================================

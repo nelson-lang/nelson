@@ -32,6 +32,7 @@
 #include "closeBuiltin.hpp"
 #include "is2DBuiltin.hpp"
 #include "refreshBuiltin.hpp"
+#include "drawnowBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -76,6 +77,7 @@ static const nlsGateway gateway[] = {
     { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
     { "is2D", (ptrBuiltin)Nelson::GraphicsGateway::is2DBuiltin, 1, 1, CPP_BUILTIN },
     { "refresh", (ptrBuiltin)Nelson::GraphicsGateway::refreshBuiltin, 0, 1, CPP_BUILTIN },
+    { "drawnow", (ptrBuiltin)Nelson::GraphicsGateway::drawnowBuiltin, 0, 0, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

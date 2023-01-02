@@ -57,6 +57,7 @@
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
     <ClInclude Include="..\include\CloseFigure.hpp" />
     <ClInclude Include="..\include\ColoredPoint.hpp" />
+    <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
     <ClInclude Include="..\include\ExportGraphics.hpp" />
     <ClInclude Include="..\include\GOAlignHorizProperty.hpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="..\cpp\BaseFigureQt.cpp" />
     <ClCompile Include="..\cpp\CloseFigure.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\DrawNow.cpp" />
     <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
     <ClCompile Include="..\cpp\ExportGraphics.cpp" />
     <ClCompile Include="..\cpp\GOAlignHorizProperty.cpp" />
