@@ -13,7 +13,6 @@ function view(varargin)
   % view(az, el)
   
   narginchk(1, 3);
-  cameraUpVectorUpdated = false;
   if nargin == 1
     ax = gca();  
     value = varargin{1};
@@ -35,7 +34,11 @@ function view(varargin)
       el = varargin{3};
     end
   end
-  az = az * (pi / 180);
+  applyView(ax, az, el)
+end
+%=============================================================================
+function applyView(ax, az, el)
+    az = az * (pi / 180);
   if (el == 0)
     el = 0.001;
   end
@@ -54,13 +57,13 @@ function view(varargin)
   y = -cos(el) * cos(az) * r + ymean;
   x = cos(el)*sin(az)*r + xmean;
   ax.cameraPosition = [x, y, z];
-  if ~cameraUpVectorUpdated
-    if (abs(el-pi/2) < .001)
-      ax.CameraUpVector = [0, 1, 0];
-    else
-      ax.CameraUpVector = [0, 0, 1];
-    end
+  
+  if (abs(el-pi/2) < .001)
+    ax.CameraUpVector = [0, 1, 0];
+  else
+    ax.CameraUpVector = [0, 0, 1];
   end
+
 end
 %=============================================================================
 function [az, el] = viewValue(ax, value)

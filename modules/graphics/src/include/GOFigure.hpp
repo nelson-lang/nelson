@@ -28,9 +28,7 @@ private:
     GOWindow* m_win;
 
     void
-    refreshInnerPositionProperty();
-    void
-    refreshOuterPositionProperty();
+    refreshDrawLaterProperty();
 
 public:
     GOFigure(GOWindow* win, int number);

@@ -48,6 +48,8 @@
 <description>
 <p><b>figure</b> creates figure.</p>
 <p>Properties:</p>
+
+
 <p><b>Color</b>:  Background color [R, G, B] or string (example: 'blue').</p>
 <p><b
       >InnerPosition</b>: Location and size of drawable area (similar to 'Position').</p>
@@ -61,6 +63,8 @@
 <p><b>Type</b>: Type 'figure'.</p>
 <p><b>UserData</b>: User data: array or [] (default).</p>
 <p><b>Visible</b>: State of visibility: 'off' or 'on' (default).</p>
+<p><b
+      >DrawLater</b>: is used to delay a huge succession of graphics commands (implying several drawings or redrawings): 'on' or 'off' (default).</p>
 </description>
 
 

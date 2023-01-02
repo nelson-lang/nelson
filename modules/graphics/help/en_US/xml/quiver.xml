@@ -68,7 +68,7 @@
       <p><b
       >quiver</b> try to scale the arrow lengths so that they do not overlap.</p>
       <p
-    >Current implementation is slow. It will be optimized in next version (builtin).</p>
+    >Current implementation is slow but it can be optimized using DrawLater property of figure. It could be optimized in an next version by an builtin.</p>
 </description>
 
   <used_function />
@@ -82,10 +82,12 @@
     </example_item_description>
     <example_item_data
       ><![CDATA[f = figure();
+f.DrawLater = 'on';
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
 U1 = sin(X);
 V1 = cos(Y);
-quiver(U1,V1, 'r')]]>
+quiver(U1,V1, 'r')
+f.DrawLater = 'off';]]>
     </example_item_data>
     <example_item_img src="../images/quiver_1.svg" align="middle" />
   </example_item>
@@ -97,6 +99,7 @@ quiver(U1,V1, 'r')]]>
     </example_item_description>
     <example_item_data
       ><![CDATA[f = figure();
+f.DrawLater = 'on';      
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
 U1 = sin(X);
 V1 = cos(Y);
@@ -109,7 +112,8 @@ quiver(ax1, X, Y, U1, V1)
 ax2 = subplot(1, 2, 2);
 quiver(X,Y,U2,V2)
 axis equal
-title(ax2, 'Right Plot')]]>
+title(ax2, 'Right Plot')
+f.DrawLater = 'off';]]>
     </example_item_data>
     <example_item_img src="../images/quiver_2.svg" align="middle" />
   </example_item>

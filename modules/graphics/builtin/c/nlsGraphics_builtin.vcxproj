@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\axesBuiltin.cpp" />
     <ClCompile Include="..\cpp\closeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\drawnowBuiltin.cpp" />
     <ClCompile Include="..\cpp\GOConstructorHelpers.cpp" />
     <ClCompile Include="..\cpp\copygraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="..\include\axesBuiltin.hpp" />
     <ClInclude Include="..\include\closeBuiltin.hpp" />
     <ClInclude Include="..\include\copygraphicsBuiltin.hpp" />
+    <ClInclude Include="..\include\drawnowBuiltin.hpp" />
     <ClInclude Include="..\include\figureBuiltin.hpp" />
     <ClInclude Include="..\include\gcaBuiltin.hpp" />
     <ClInclude Include="..\include\gcfBuiltin.hpp" />

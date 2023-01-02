@@ -49,6 +49,7 @@ REF = {'AlphaMap';
 'Color';
 'Colormap';
 'CurrentAxes';
+'DrawLater';
 'Name';
 'NextPlot';
 'Number';
