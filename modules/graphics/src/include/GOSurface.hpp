@@ -26,16 +26,16 @@ class NLSGRAPHICS_IMPEXP GOSurface : public GOImage
     autoCMode();
     std::vector<std::vector<coloredPoint>>
     buildQuadsNoTexMap(GORestrictedStringColorProperty* cp, GORestrictedStringScalarProperty* ap);
+    void
+    constructProperties() override;
+    void
+    setupDefaults() override;
 
 public:
     GOSurface();
     ~GOSurface() override;
     virtual std::wstring
     getType() override;
-    void
-    constructProperties() override;
-    void
-    setupDefaults() override;
     void
     updateState() override;
     void

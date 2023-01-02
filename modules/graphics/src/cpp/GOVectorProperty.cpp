@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <limits>
 #include "GOVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
@@ -68,7 +69,8 @@ GOVectorProperty::toWideString()
 {
     std::wstring msg = L"[";
     for (size_t k = 0; k < _data.size(); k++) {
-        if ((double)(int)(_data[k]) == _data[k]) {
+        if (std::fabs((double)(int)(_data[k]) - _data[k])
+            < std::numeric_limits<double>::epsilon()) {
             msg = msg + std::to_wstring((int)_data[k]);
         } else {
             msg = msg + std::to_wstring(_data[k]);

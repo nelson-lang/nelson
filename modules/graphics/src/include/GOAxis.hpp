@@ -55,9 +55,6 @@ private:
     double z1pos[3], z2pos[3];
     bool xvisible, yvisible, zvisible;
     QFont m_font;
-    double model[16];
-    double proj[16];
-    int viewp[4];
     GenericTable<std::wstring, GOGenericProperty*> properties;
     //=============================================================================
     void

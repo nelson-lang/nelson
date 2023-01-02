@@ -225,7 +225,7 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
         ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
     double clim_min(std::min(clim[0], clim[1]));
     double clim_max(std::max(clim[0], clim[1]));
-    if (clim_min == clim_max) {
+    if (std::fabs(clim_min - clim_max) < std::numeric_limits<double>::epsilon()) {
         return ret;
     }
     size_t cmaplen(cmap.size() / 3);

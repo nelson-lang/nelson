@@ -152,15 +152,7 @@ public:
         = 0;
     //=============================================================================
     virtual void
-    getViewport(int viewp[4])
-        = 0;
-    //=============================================================================
-    virtual void
-    getProjectionMatrix(double proj[16])
-        = 0;
-    //=============================================================================
-    virtual void
-    getModelviewMatrix(double model[16])
+    getModelviewMatrix(std::vector<double>& model)
         = 0;
     virtual void
     putText(double x, double y, std::wstring txt, std::vector<double> color, AlignmentFlag xflag,

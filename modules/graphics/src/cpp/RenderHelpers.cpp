@@ -121,6 +121,7 @@ DrawSymbol(RenderInterface& gc, RenderInterface::SymbolType symb, double x, doub
         break;
     case RenderInterface::Pentagram:
     case RenderInterface::Hexagram:
+    case RenderInterface::None:
         break;
     }
 }

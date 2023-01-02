@@ -404,7 +404,7 @@ GOAxis::recalculateTicks()
 void
 GOAxis::drawZGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 {
-    double m[16];
+    std::vector<double> m;
     gc.getModelviewMatrix(m);
     if (m[6] > 0) {
         gc.line(limits[0], limits[2], t, limits[1], limits[2], t);
@@ -421,7 +421,7 @@ GOAxis::drawZGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 void
 GOAxis::drawYGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 {
-    double m[16];
+    std::vector<double> m;
     gc.getModelviewMatrix(m);
     if (m[10] > 0) {
         gc.line(limits[0], t, limits[4], limits[1], t, limits[4]);
@@ -438,7 +438,7 @@ GOAxis::drawYGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 void
 GOAxis::drawXGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 {
-    double m[16];
+    std::vector<double> m;
     gc.getModelviewMatrix(m);
     if (m[10] > 0) {
         gc.line(t, limits[2], limits[4], t, limits[3], limits[4]);
@@ -688,7 +688,7 @@ GOAxis::drawBox(RenderInterface& gc)
 void
 GOAxis::setupAxis(RenderInterface& gc)
 {
-    double model[16];
+    std::vector<double> model;
     gc.getModelviewMatrix(model);
     std::vector<double> limits(getAxisLimits());
     if (((GOTopBottomProperty*)findProperty(GO_X_AXIS_LOCATION_PROPERTY_NAME_STR))
@@ -1808,10 +1808,6 @@ GOAxis::setupProjection(RenderInterface& gc)
     }
     gc.project(xmin, xmax, ymin, ymax, -zmax, -zmin);
     gc.viewport(position[0], position[1], position[2], position[3]);
-
-    gc.getModelviewMatrix(model);
-    gc.getProjectionMatrix(proj);
-    gc.getViewport(viewp);
 }
 //=============================================================================
 std::vector<double>

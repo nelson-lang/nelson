@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `CHANGELOG` 0.7.x family.
 
+### Fixed
+
+- warnings detected by CodeQL.
+
 ## Previous changelog
 
 [Changelog v0.6.x](CHANGELOG-0.6.x.md)
