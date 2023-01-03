@@ -62,10 +62,14 @@ public:
     }
     //=============================================================================
     T
-    findGO(int64 handle)
+    findGO(int64 handle, bool throwError = true)
     {
         if (graphicsobjects.count(handle - 1) == 0) {
-            Error(_W("Invalid Graphics Object."));
+            if (throwError) {
+                Error(_W("Invalid Graphics Object."));
+            } else {
+                return nullptr;
+            }
         }
         return graphicsobjects[handle - 1];
     }

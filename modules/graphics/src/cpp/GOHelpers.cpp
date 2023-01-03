@@ -8,11 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <limits>
+#include <algorithm>
 #include "GOHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "GOList.hpp"
 #include "GOFiguresManager.hpp"
+#include "GOGObjectsProperty.hpp"
+#include "GOPropertyNames.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,12 +28,11 @@ isDeletedGraphicsObject(int64 handle)
         return false;
     }
     if (handle >= HANDLE_OFFSET_OBJECT) {
-        return (findGraphicsObject(handle) == nullptr);
+        return (findGraphicsObject(handle, false) == nullptr);
     }
     return (getFigure(handle) == nullptr);
 }
 //=============================================================================
-
 void
 freeGraphicsObject(int64 handle)
 {
@@ -70,10 +72,52 @@ validateGO(int64 handle)
         findGOFigure(handle);
 }
 //=============================================================================
-GraphicsObject*
-findGraphicsObject(int64 handle)
+bool
+deleteGraphicsObject(int64 handle, bool repaintParentFigure)
 {
-    return (objectset.findGO(handle - HANDLE_OFFSET_OBJECT));
+    GraphicsObject* gp = findGraphicsObject(handle, false);
+    if (!gp) {
+        return false;
+    }
+    GOFigure* parentFigure = nullptr;
+    if (!gp->isType(L"figure") && !gp->isType(L"root")) {
+        parentFigure = gp->getParentFigure();
+    }
+    GOGObjectsProperty* hp = (GOGObjectsProperty*)gp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
+    std::vector<int64> parents(hp->data());
+    if (!parents.empty()) {
+        for (auto p : parents) {
+            GraphicsObject* gparent = findGraphicsObject(p, false);
+            if (gparent) {
+                GOGObjectsProperty* gchildren = (GOGObjectsProperty*)gparent->findProperty(
+                    GO_CHILDREN_PROPERTY_NAME_STR, false);
+                if (gchildren) {
+                    std::vector<int64> children(gchildren->data());
+                    if (!children.empty()) {
+                        std::vector<int64> filtered;
+                        filtered.reserve(children.size());
+                        for (auto c : children) {
+                            if (c != handle) {
+                                filtered.push_back(c);
+                            }
+                        }
+                        gchildren->data(filtered);
+                    }
+                }
+            }
+        }
+    }
+    freeGraphicsObject(handle);
+    if (parentFigure && repaintParentFigure) {
+        parentFigure->repaint();
+    }
+    return true;
+}
+//=============================================================================
+GraphicsObject*
+findGraphicsObject(int64 handle, bool throwError)
+{
+    return objectset.findGO(handle - HANDLE_OFFSET_OBJECT, throwError);
 }
 //=============================================================================
 GOFigure*

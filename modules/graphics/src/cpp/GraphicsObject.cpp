@@ -39,11 +39,13 @@ GraphicsObject::~GraphicsObject()
     for (int i = 0; i < my_children.size(); i++) {
         int64 handle = my_children[i];
         if (handle >= HANDLE_OFFSET_OBJECT) {
-            gp = findGraphicsObject(handle);
-            gp->dereference();
-            if (gp->referenceCount() <= 0) {
-                freeGraphicsObject(handle);
-                delete gp;
+            gp = findGraphicsObject(handle, false);
+            if (gp) {
+                gp->dereference();
+                if (gp->referenceCount() <= 0) {
+                    freeGraphicsObject(handle);
+                    delete gp;
+                }
             }
         }
     }

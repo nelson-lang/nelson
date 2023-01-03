@@ -17,7 +17,7 @@ colormap = [0.2 0.1 0.5;
     0.9 1 0];
 rgbplot(colormap);
 ax = gca();
-assert_isequal(size(ax.Children), [1 3]);
+assert_isequal(size(ax.Children), [3 1]);
 assert_isequal(ax.Children(1).Type, 'line');
 assert_isequal(ax.Children(2).Type, 'line');
 assert_isequal(ax.Children(3).Type, 'line');

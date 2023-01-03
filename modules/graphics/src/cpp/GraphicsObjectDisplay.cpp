@@ -26,7 +26,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
             GraphicsObject* fp = nullptr;
             if (isDeletedGraphicsObject(handle)) {
                 io->outputMessage("\n");
-                io->outputMessage(L"  " + _W("Deleted graphics_object.\n"));
+                io->outputMessage(L"  " + _W("Deleted graphics_object\n"));
                 return;
             }
             if (handle == HANDLE_ROOT_OBJECT) {
@@ -39,7 +39,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
 
             wstringVector names = fp->getFieldnames();
             io->outputMessage(L"\n");
-            GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR);
+            GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
             GOGenericProperty* hpNumber = fp->findProperty(GO_NUMBER_PROPERTY_NAME_STR, false);
             if (hpType && hpNumber) {
                 io->outputMessage(L"  " + hpType->get().getContentAsWideString() + L" ("
@@ -52,7 +52,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
             }
 
             for (auto name : names) {
-                GOGenericProperty* hp = fp->findProperty(name);
+                GOGenericProperty* hp = fp->findProperty(name, false);
                 if (hp) {
                     io->outputMessage(L"  " + name + L": " + hp->toWideString() + L"\n");
                 } else {
@@ -61,8 +61,28 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
             }
         }
     } else {
-        io->outputMessage(
-            L"  " + dims.toWideString() + L" " + TOWSTRING(NLS_GO_HANDLE_STR) + L"\n");
+        if (dims.isColumnVector()) {
+            io->outputMessage("\n");
+            for (size_t k = 0; k < dims.getElementCount(); ++k) {
+                int64 handle = (int64)ptrGO[k];
+                GraphicsObject* fp = nullptr;
+                if (isDeletedGraphicsObject(handle)) {
+                    io->outputMessage(L"  " + _W("Deleted graphics_object\n"));
+                } else {
+                    if (handle == HANDLE_ROOT_OBJECT) {
+                        fp = getGraphicsRootObject();
+                    } else if (handle >= HANDLE_OFFSET_OBJECT) {
+                        fp = findGraphicsObject(handle);
+                    } else {
+                        fp = (GraphicsObject*)findGOFigure(handle);
+                    }
+                    GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
+                    if (hpType) {
+                        io->outputMessage(L"  " + hpType->get().getContentAsWideString() + L"\n");
+                    }
+                }
+            }
+        }
     }
 }
 //=============================================================================

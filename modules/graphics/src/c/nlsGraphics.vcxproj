@@ -124,6 +124,7 @@
     <ClInclude Include="..\include\GraphicsObjectDisplay.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
     <ClInclude Include="..\include\NonClosableWidget.hpp" />
+    <ClInclude Include="..\include\RefreshFigure.hpp" />
     <ClInclude Include="..\include\RenderQt.hpp" />
     <ClInclude Include="..\include\RenderInterface.hpp" />
   </ItemGroup>
@@ -195,6 +196,7 @@
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
     <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
+    <ClCompile Include="..\cpp\RefreshFigure.cpp" />
     <ClCompile Include="..\cpp\RenderQt.cpp" />
     <ClCompile Include="..\cpp\RenderHelpers.cpp" />
   </ItemGroup>

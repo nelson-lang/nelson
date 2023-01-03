@@ -19,6 +19,7 @@
 #include "graphics_object_isequalBuiltin.hpp"
 #include "graphics_object_propertiesBuiltin.hpp"
 #include "graphics_object_eq_graphics_objectBuiltin.hpp"
+#include "graphics_object_deleteBuiltin.hpp"
 #include "isgraphicsBuiltin.hpp"
 #include "saveasBuiltin.hpp"
 #include "copygraphicsBuiltin.hpp"
@@ -52,6 +53,8 @@ static const nlsGateway gateway[] = {
     { "graphics_object_properties",
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_propertiesBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "graphics_object_delete", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_deleteBuiltin,
+        0, 1, CPP_BUILTIN },
     { "graphics_object_set", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_setBuiltin, -1, 1,
         CPP_BUILTIN },
     { "graphics_object_get", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_getBuiltin, -1, 1,

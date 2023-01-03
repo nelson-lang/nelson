@@ -28,8 +28,11 @@ namespace Nelson {
 NLSGRAPHICS_IMPEXP void
 checkIdValidity(int64 id);
 //=============================================================================
+NLSGRAPHICS_IMPEXP bool
+deleteGraphicsObject(int64 handle, bool repaintParentFigure);
+//=============================================================================
 NLSGRAPHICS_IMPEXP GraphicsObject*
-findGraphicsObject(int64 handle);
+findGraphicsObject(int64 handle, bool throwError = true);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GOFigure*
 findGOFigure(int64 handle);

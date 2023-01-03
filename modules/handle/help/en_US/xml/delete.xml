@@ -29,6 +29,29 @@
   <used_function />
   <bibliography />
 
+  
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[f = figure();
+ax = gca();
+img = image();
+hold on
+P = plot(magic(5));
+children1 = ax.Children;
+delete(img);
+size(children1)
+children2 = ax.Children;
+size(children2)]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
 
   <see_also>
     <see_also_item>

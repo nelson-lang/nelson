@@ -35,7 +35,7 @@ ArrayOf
 GOGObjectsProperty::get()
 {
     nelson_handle* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, _data.size());
-    ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(1, _data.size()), dp);
+    ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(_data.size(), 1), dp);
     for (int i = 0; i < _data.size(); i++) {
         dp[i] = _data[i];
     }
@@ -75,7 +75,7 @@ GOGObjectsProperty::toWideString()
             fp = getGraphicsRootObject();
             fp->updateState();
         } else if (_data[k] >= HANDLE_OFFSET_OBJECT) {
-            fp = findGraphicsObject(_data[k]);
+            fp = findGraphicsObject(_data[k], false);
         } else {
             fp = (GraphicsObject*)findGOFigure(_data[k]);
         }
@@ -89,9 +89,23 @@ GOGObjectsProperty::toWideString()
                     break;
                 }
             }
+        } else {
+            typeStr = _W("Deleted graphics_object");
         }
     }
-    return L"[" + std::to_wstring(_data.size()) + L"x1 " + typeStr + L"]";
+    std::wstring colsStr;
+    if (_data.size() == 0) {
+        colsStr = L"x0";
+    } else {
+        colsStr = L"x1";
+    }
+    std::wstring text;
+    if (typeStr.empty()) {
+        text = L"[" + std::to_wstring(_data.size()) + colsStr + L"]";
+    } else {
+        text = L"[" + std::to_wstring(_data.size()) + colsStr + L" " + typeStr + L"]";
+    }
+    return text;
 }
 //=============================================================================
 }

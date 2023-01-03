@@ -7,33 +7,32 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GOScalarDoubleProperty.hpp"
+#include "RefreshFigure.hpp"
+#include "GOFigure.hpp"
+#include "GOFiguresManager.hpp"
+#include "GOHelpers.hpp"
+#include "GraphicsObject.hpp"
+#include "GOGObjectsProperty.hpp"
+#include "GOPropertyNames.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-GOScalarProperty::data(double x)
+refreshFigure(go_handle go)
 {
-    at(0) = x;
-}
-//=============================================================================
-double
-GOScalarProperty::data()
-{
-    return at(0);
-}
-//=============================================================================
-std::wstring
-GOScalarProperty::toWideString()
-{
-    double value = at(0);
-    std::wstring msg;
-    if (std::fabs((double)(int)(value)-value) < std::numeric_limits<double>::epsilon()) {
-        msg = std::to_wstring((int)value);
-    } else {
-        msg = std::to_wstring(value);
+    GOFigure* fig = findGOFigure(go);
+    if (fig) {
+        fig->updateState();
+        GOGObjectsProperty* children
+            = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+        std::vector<int64> handles(children->data());
+        for (int i = 0; i < handles.size(); i++) {
+            GraphicsObject* fp = findGraphicsObject(handles[i]);
+            fp->updateState();
+        }
+        fig->repaint();
     }
-    return msg;
 }
 //=============================================================================
 }
+//=============================================================================
