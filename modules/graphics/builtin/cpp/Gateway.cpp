@@ -34,6 +34,7 @@
 #include "is2DBuiltin.hpp"
 #include "refreshBuiltin.hpp"
 #include "drawnowBuiltin.hpp"
+#include "imreadBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -81,6 +82,7 @@ static const nlsGateway gateway[] = {
     { "is2D", (ptrBuiltin)Nelson::GraphicsGateway::is2DBuiltin, 1, 1, CPP_BUILTIN },
     { "refresh", (ptrBuiltin)Nelson::GraphicsGateway::refreshBuiltin, 0, 1, CPP_BUILTIN },
     { "drawnow", (ptrBuiltin)Nelson::GraphicsGateway::drawnowBuiltin, 0, 0, CPP_BUILTIN },
+    { "imread", (ptrBuiltin)Nelson::GraphicsGateway::imreadBuiltin, -1, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

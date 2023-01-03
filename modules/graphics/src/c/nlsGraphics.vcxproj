@@ -122,6 +122,7 @@
     <ClInclude Include="..\include\GOWindow.hpp" />
     <ClInclude Include="..\include\GraphicsObject.hpp" />
     <ClInclude Include="..\include\GraphicsObjectDisplay.hpp" />
+    <ClInclude Include="..\include\ImageReader.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
     <ClInclude Include="..\include\NonClosableWidget.hpp" />
     <ClInclude Include="..\include\RefreshFigure.hpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\cpp\GOWindow.cpp" />
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
+    <ClCompile Include="..\cpp\ImageReader.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
     <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
     <ClCompile Include="..\cpp\RefreshFigure.cpp" />
