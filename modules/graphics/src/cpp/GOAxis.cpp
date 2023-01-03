@@ -1505,14 +1505,18 @@ GOAxis::drawAxisLabels(RenderInterface& gc)
     if (zvisible) {
         lbl = (GOGObjectsProperty*)findProperty(GO_Z_LABEL_PROPERTY_NAME_STR);
         if (!lbl->data().empty()) {
-            GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
-            fp->paintMe(gc);
+            GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
+            if (fp) {
+                fp->paintMe(gc);
+            }
         }
     }
     lbl = (GOGObjectsProperty*)findProperty(GO_TITLE_PROPERTY_NAME_STR);
     if (!lbl->data().empty()) {
-        GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
-        fp->paintMe(gc);
+        GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
+        if (fp) {
+            fp->paintMe(gc);
+        }
     }
     setupProjection(gc);
     setStringDefault(GO_X_DIR_PROPERTY_NAME_STR, xdir);
@@ -1642,8 +1646,10 @@ GOAxis::drawChildren(RenderInterface& gc)
     GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     std::vector<int64> handles(children->data());
     for (int i = 0; i < handles.size(); i++) {
-        GraphicsObject* fp = findGraphicsObject(handles[i]);
-        fp->paintMe(gc);
+        GraphicsObject* fp = findGraphicsObject(handles[i], false);
+        if (fp) {
+            fp->paintMe(gc);
+        }
     }
 }
 //=============================================================================

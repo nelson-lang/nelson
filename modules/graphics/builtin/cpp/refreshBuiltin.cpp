@@ -11,13 +11,10 @@
 #include "refreshBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "RefreshFigure.hpp"
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOHelpers.hpp"
-#include "GraphicsObject.hpp"
-#include "GOGObjectsProperty.hpp"
-#include "GOPropertyNames.hpp"
-
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -27,35 +24,32 @@ refreshBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOfVector retval = {};
-    int64 handle;
+    int64 handle = NO_FIGURE;
     GOFigure* fig = nullptr;
-    if (argIn.size() == 0) {
+    switch (argIn.size()) {
+    case 0: {
         handle = getCurrentFigure();
-        if (handle == -1) {
+        if (handle == NO_FIGURE) {
             handle = createNewFigure();
+            return retval;
         }
-    } else {
-        if (argIn[0].isGraphicsObject() && argIn[0].isScalar()) {
-            handle = argIn[0].getContentAsGraphicsObjectScalar();
-        } else {
+    } break;
+    case 1: {
+        bool isScalarGraphicsObject = argIn[0].isGraphicsObject() && argIn[0].isScalar();
+        if (!isScalarGraphicsObject) {
             Error(_("figure graphics object expected."));
+            return retval;
         }
+        handle = argIn[0].getContentAsGraphicsObjectScalar();
+    } break;
+    default: {
+        handle = NO_FIGURE;
+    } break;
     }
-    if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT) {
+    if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT || handle == NO_FIGURE) {
         Error(_("figure graphics object expected."));
     }
-    fig = findGOFigure(handle);
-    if (fig) {
-        fig->updateState();
-        GOGObjectsProperty* children
-            = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-        std::vector<int64> handles(children->data());
-        for (int i = 0; i < handles.size(); i++) {
-            GraphicsObject* fp = findGraphicsObject(handles[i]);
-            fp->updateState();
-        }
-        fig->repaint();
-    }
+    refreshFigure(handle);
     return retval;
 }
 //=============================================================================

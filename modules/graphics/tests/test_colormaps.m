@@ -9,7 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f= figure()
+f= figure();
+f.DrawLater = 'on';
 colormaps = {'autumn';
 'bone';
 'cool';
@@ -37,3 +38,4 @@ for map = colormaps'
     grid off
     view(-30, 10)
 end
+f.DrawLater = 'off';

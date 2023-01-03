@@ -48,7 +48,7 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (handles[k] == HANDLE_ROOT_OBJECT) {
                 fp = getGraphicsRootObject();
             } else if (handles[k] >= HANDLE_OFFSET_OBJECT) {
-                fp = findGraphicsObject(handles[k]);
+                fp = findGraphicsObject(handles[k], false);
             } else {
                 fp = (GraphicsObject*)findGOFigure(handles[k]);
             }

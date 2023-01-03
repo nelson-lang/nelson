@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `Visible` property to `figure` graphics object.
 - [809](http://github.com/Nelson-numerical-software/nelson/issues/809): `NumberTitle` property to `figure` graphics object.
 - `AlphaMap` and `Colormap` properties added to `Axes` graphics object.
+- `delete` for graphics objects.
 
 ### Fixed
 

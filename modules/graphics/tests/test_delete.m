@@ -10,16 +10,15 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-x = linspace(-pi, pi);
-y1 = cos(x);
-plot(x, y1)
+ax = gca();
+img = image();
 hold on
-y2 = sin(x);
-plot(x, y2)
-hold off
-%=============================================================================
-ax = f.Children;
-assert_isequal(size(ax.Children), [2 1]);
-assert_isequal(ax.Children(1).Type, 'line');
-assert_isequal(ax.Children(2).Type, 'line');
+P = plot(magic(5));
+children1 = ax.Children;
+assert_isequal(size(children1), [6, 1]);
+delete(img);
+assert_isequal(size(children1), [6, 1]);
+assert_istrue(~isgraphics(img) && isa(img, 'graphics_object'));
+children2 = ax.Children;
+assert_isequal(size(children2), [5, 1]);
 %=============================================================================

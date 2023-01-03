@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gcaBuiltin.cpp" />
     <ClCompile Include="..\cpp\gcfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\graphics_object_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphics_object_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphics_object_eq_graphics_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphics_object_getBuiltin.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="..\include\figureBuiltin.hpp" />
     <ClInclude Include="..\include\gcaBuiltin.hpp" />
     <ClInclude Include="..\include\gcfBuiltin.hpp" />
+    <ClInclude Include="..\include\graphics_object_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_displayBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_eq_graphics_objectBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_getBuiltin.hpp" />
