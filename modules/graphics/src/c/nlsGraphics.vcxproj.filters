@@ -257,6 +257,9 @@
     <ClInclude Include="..\include\RefreshFigure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ImageReader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -467,6 +470,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\RefreshFigure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ImageReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
