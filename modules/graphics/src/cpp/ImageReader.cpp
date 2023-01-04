@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "QStringConverter.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -87,7 +88,10 @@ imageReaderRGB32(QImage image, int nLhs)
     Dimensions dims(d);
     uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dims, ptr);
-    indexType imageCounter = image.height() * image.width();
+    indexType imageCounter = (indexType)image.height() * (indexType)image.width();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
     for (indexType row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine((int)row);
         for (indexType col = 0; col < image.width(); col++) {
@@ -117,6 +121,9 @@ imageReaderRGB32AllGray(QImage image, int nLhs)
     results.reserve(nLhs + 1);
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, image.height() * image.width());
     ArrayOf A = ArrayOf(NLS_UINT8, Dimensions(image.height(), image.width()), ptrA);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
     for (indexType row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine((int)row);
         for (indexType col = 0; col < image.width(); col++) {
@@ -155,7 +162,10 @@ imageReaderARGB32(QImage image, int nLhs)
         = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsTransparency.getElementCount());
     ArrayOf transparency = ArrayOf(NLS_UINT8, dimsTransparency, ptrTransparency);
 
-    indexType imageCounter = image.height() * image.width();
+    indexType imageCounter = (indexType)image.height() * (indexType)image.width();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
     for (indexType row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine((int)row);
         for (indexType col = 0; col < image.width(); col++) {
@@ -191,6 +201,9 @@ imageReaderARGB32AllGray(QImage image, int nLhs)
     uint8* ptrTransparency = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
 
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
     for (int row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine(row);
         for (int col = 0; col < image.width(); col++) {
@@ -220,6 +233,9 @@ imageReaderIndexed8(QImage image, int nLhs)
     Dimensions dimsA(image.height(), image.width());
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
     for (int row = 0; row < image.height(); row++) {
         uchar* p = image.scanLine(row);
         for (int col = 0; col < image.width(); col++) {
@@ -235,6 +251,9 @@ imageReaderIndexed8(QImage image, int nLhs)
         double* ptrColorTable
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsColorTable.getElementCount());
         ArrayOf colormap = ArrayOf(NLS_DOUBLE, dimsColorTable, ptrColorTable);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
         for (int i = 0; i < numcol; i++) {
             QColor c(colorTable[i]);
             ptrColorTable[i] = (double)c.redF();
@@ -249,6 +268,9 @@ imageReaderIndexed8(QImage image, int nLhs)
         uint8* ptrTransparency
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
         for (int row = 0; row < alpha.height(); row++) {
             uchar* p = alpha.scanLine(row);
             for (int col = 0; col < alpha.width(); col++) {
