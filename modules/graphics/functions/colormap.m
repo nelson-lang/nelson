@@ -40,7 +40,7 @@ function varargout = colormap(varargin)
       % nargin == 2
       go = varargin{1};
       map = varargin{2};
-      if ischar(map) || isScalarString(map)
+      if ischar(map) || isStringScalar(map)
         map = convertStringsToChars(map);
         if strcmp(map, 'default')
           map = 'parula';

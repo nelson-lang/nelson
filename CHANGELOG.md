@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `AlphaMap` and `Colormap` properties added to `Axes` graphics object.
 - `delete` for graphics objects.
 - `imread` Read image from graphics file.
+- `imshow` Display image.
 
 ### Fixed
 

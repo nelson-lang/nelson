@@ -75,8 +75,13 @@ GOImage::getLimits()
 {
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yp = (GOTwoVectorProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
+    std::vector<double> XP(xp->data());
+    std::vector<double> YP(xp->data());
 
     std::vector<double> limits;
+    if (XP.size() != 2 || YP.size() != 2) {
+        return limits;
+    }
     limits.push_back(xp->data()[0]);
     limits.push_back(xp->data()[1]);
     limits.push_back(yp->data()[0]);
@@ -160,6 +165,11 @@ GOImage::paintMe(RenderInterface& gc)
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yp = (GOTwoVectorProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
     int x1, y1, x2, y2;
+    std::vector<double> XP(xp->data());
+    std::vector<double> YP(yp->data());
+    if (XP.size() != 2 || YP.size() != 2) {
+        return;
+    }
     gc.toPixels(xp->data()[0], yp->data()[0], 0, x1, y1);
     gc.toPixels(xp->data()[1], yp->data()[1], 0, x2, y2);
     if ((abs(x2 - x1) > 4096) || (abs(y2 - y1) > 4096)) {

@@ -26,21 +26,14 @@ function varargout = imagesc(varargin)
     end
   end
   
-  switch(nargin)
-    case 1
-      handle = image(varargin{1}, 'CDataMapping', 'scaled');
-    case 3
-      handle = image(varargin{:}, 'CDataMapping', 'scaled');
-    otherwise
-      error(_('Invalid input arguments'));
-    end
-    
-    if ~isempty(lim),
-      clim(lim);
-    end
-    
-    if (nargout > 0)
-      varargout{1} = handle;
-    end
+  handle = image(varargin{:}, 'CDataMapping', 'scaled');
+
+  if ~isempty(lim),
+    clim(lim);
   end
-  %=============================================================================
+    
+  if (nargout > 0)
+    varargout{1} = handle;
+  end
+end
+%=============================================================================
