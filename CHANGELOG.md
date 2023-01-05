@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#823](http://github.com/Nelson-numerical-software/nelson/issues/823): default LineStyle for a line was wrong with marker.
 
+- `CTRL+C` was not catched on advanced cli for linux and macos.
+
 - warnings detected by CodeQL.
 
 ## Previous changelog
