@@ -32,7 +32,6 @@ ArrayOf
 LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
 {
     ArrayOf X;
-    char* ptrVoid = nullptr;
     indexType len = 0;
     NelsonType destinationClass = NLS_DOUBLE;
     switch (V.getDataClass()) {

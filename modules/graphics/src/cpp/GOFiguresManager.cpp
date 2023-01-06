@@ -17,8 +17,8 @@ namespace Nelson {
 static std::map<int64, GOWindow*> hFigures;
 static int64 GOCurrentFig = NO_FIGURE;
 static QWidget* _currentFocus = nullptr;
-static NonClosableWidget* wid = nullptr;
-static bool NonGUIModeHack = false;
+// static NonClosableWidget* wid = nullptr;
+// static bool NonGUIModeHack = false;
 //=============================================================================
 void
 saveFocus()
