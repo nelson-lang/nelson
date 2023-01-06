@@ -9,15 +9,25 @@
 //=============================================================================
 #include <cstring>
 #include <iostream>
+#include <csignal>
 #include "BsdTerminal.hpp"
 #include "StringHelpers.hpp"
 #include "NelsonHistory.hpp"
 #include "characters_encoding.hpp"
 #include "linenoise.h"
+#include "Evaluator.hpp"
+//=============================================================================
+static void
+intHandler(int dummy = 0)
+{
+    Nelson::sigInterrupt(1);
+}
 //=============================================================================
 BsdTerminal::BsdTerminal()
 {
     linenoiseSetMultiLine(1);
+    signal(SIGINT, intHandler);
+    signal(SIGTSTP, intHandler);
     atPrompt = false;
 }
 //=============================================================================
