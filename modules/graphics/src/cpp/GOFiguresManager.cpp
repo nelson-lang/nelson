@@ -156,6 +156,7 @@ notifyCurrentFigureChanged(int64 figNum)
 void
 notifyFigureClosed(int64 figNum)
 {
+    closeFigure(figNum);
     hFigures[figNum] = nullptr;
     if (figNum == GOCurrentFig) {
         GOCurrentFig = NO_FIGURE;

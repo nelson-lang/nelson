@@ -64,12 +64,14 @@ Tokenize(const std::wstring& str, std::vector<std::wstring>& tokens, const std::
 void
 validateGO(int64 handle)
 {
-    if (handle == 0)
+    if (handle == 0) {
         return;
-    if (handle >= HANDLE_OFFSET_OBJECT)
+    }
+    if (handle >= HANDLE_OFFSET_OBJECT) {
         findGraphicsObject(handle);
-    else
+    } else {
         findGOFigure(handle);
+    }
 }
 //=============================================================================
 bool

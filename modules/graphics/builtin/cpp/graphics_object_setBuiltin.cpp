@@ -43,14 +43,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!fp->isWritable(propname)) {
                 Error(_W("Property is readable only: ") + propname);
             }
-            try {
-                GOGenericProperty* hp = fp->findProperty(propname);
-                if (hp) {
-                    hp->set(argIn[ptr + 1]);
-                }
-            } catch (const Exception&) {
-                Error(_W("Got error for property :") + propname);
-            }
+            GOGenericProperty* hp = fp->findProperty(propname);
+            hp->set(argIn[ptr + 1]);
         }
         ptr += 2;
     }

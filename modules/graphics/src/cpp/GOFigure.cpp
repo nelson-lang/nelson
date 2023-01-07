@@ -246,8 +246,10 @@ GOFigure::paintMe(RenderInterface& gc)
             = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
         std::vector<int64> handles(children->data());
         for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
-            GraphicsObject* fp = findGraphicsObject(handles[i]);
-            fp->paintMe(gc);
+            GraphicsObject* fp = findGraphicsObject(handles[i], false);
+            if (fp) {
+                fp->paintMe(gc);
+            }
         }
         _resized = false;
     }

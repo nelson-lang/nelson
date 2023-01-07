@@ -77,7 +77,7 @@ function varargout = subplot(varargin)
   if (~found)
     ax = axes('OuterPosition', position);
   end
-  fig.nextPlot = 'add';
+  fig.NextPlot = 'add';
   if (nargout > 0) 
     varargout{1} = ax;
   end;

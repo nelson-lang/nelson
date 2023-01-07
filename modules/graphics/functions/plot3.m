@@ -116,8 +116,8 @@ function x = resizeMatrix(a, rows, cols)
 end
 %=============================================================================
 function hl = plotVector(go, x, y, z, lineProperties)
-  colorOrder = get(go, 'ColorOrder');
-  index = length(get(go, 'Children')) + 1;
+  colorOrder = go.ColorOrder;
+  index = length(go.Children) + 1;
   indexModified = round(mod(index - 1, size(colorOrder, 1)) + 1);
   hl = __line__('XData', x, 'YData', y, 'ZData', z, 'Color', colorOrder(indexModified, :), lineProperties{:});
 end

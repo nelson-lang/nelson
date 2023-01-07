@@ -56,7 +56,7 @@ function applyView(ax, az, el)
   z = sin(el) * r + zmean;
   y = -cos(el) * cos(az) * r + ymean;
   x = cos(el)*sin(az)*r + xmean;
-  ax.cameraPosition = [x, y, z];
+  ax.CameraPosition = [x, y, z];
   
   if (abs(el-pi/2) < .001)
     ax.CameraUpVector = [0, 1, 0];
