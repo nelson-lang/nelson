@@ -42,29 +42,30 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf results = ArrayOf(NLS_LOGICAL, dims, ptrResult);
     int64* handles = (int64*)argIn[0].getDataPointer();
     for (size_t k = 0; k < dims.getElementCount(); k++) {
-        GraphicsObject* fp = nullptr;
         bool result = false;
-        try {
-            if (handles[k] == HANDLE_ROOT_OBJECT) {
-                fp = getGraphicsRootObject();
-            } else if (handles[k] >= HANDLE_OFFSET_OBJECT) {
-                fp = findGraphicsObject(handles[k], false);
-            } else {
-                fp = (GraphicsObject*)findGOFigure(handles[k]);
-            }
-            if (!typeStr.empty()) {
-                GOGenericProperty* hp = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
-                if (hp) {
-                    std::wstring r = hp->get().getContentAsWideString();
-                    std::transform(r.begin(), r.end(), r.begin(), ::tolower);
-                    result = (r == typeStr);
+        if (!isDeletedGraphicsObject(handles[k])) {
+            GraphicsObject* fp = nullptr;
+            try {
+                if (handles[k] == HANDLE_ROOT_OBJECT) {
+                    fp = getGraphicsRootObject();
+                } else if (handles[k] >= HANDLE_OFFSET_OBJECT) {
+                    fp = findGraphicsObject(handles[k], false);
+                } else {
+                    fp = (GraphicsObject*)findGOFigure(handles[k]);
                 }
-            } else {
-                result = (fp != nullptr);
+                if (!typeStr.empty() && fp) {
+                    GOGenericProperty* hp = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
+                    if (hp) {
+                        std::wstring r = hp->get().getContentAsWideString();
+                        std::transform(r.begin(), r.end(), r.begin(), ::towlower);
+                        result = (r == typeStr);
+                    }
+                } else {
+                    result = (fp != nullptr);
+                }
+            } catch (const Exception&) {
+                result = false;
             }
-
-        } catch (const Exception&) {
-            result = false;
         }
         ptrResult[k] = result;
     }

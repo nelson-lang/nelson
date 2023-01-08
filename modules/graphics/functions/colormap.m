@@ -17,11 +17,11 @@ function varargout = colormap(varargin)
     if nargin == 1
       if isgraphics(varargin{1}, 'axes') 
         ax = varargin{1};
-        varargout{1} = ax.ColorMap;
+        varargout{1} = ax.Colormap;
         return
       elseif isgraphics(varargin{1}, 'figure')
         f =  varargin{1};
-        varargout{1} = f.ColorMap;
+        varargout{1} = f.Colormap;
         return
       else
         f = gcf();
@@ -31,9 +31,9 @@ function varargout = colormap(varargin)
           if strcmp(map, 'default')
             map = 'parula';
           end
-          f.ColorMap = eval(map);
+          f.Colormap = eval(map);
         else
-          f.ColorMap = map;
+          f.Colormap = map;
         end
       end
     else
@@ -45,7 +45,7 @@ function varargout = colormap(varargin)
         if strcmp(map, 'default')
           map = 'parula';
         end
-        go.ColorMap = eval(map);
+        go.Colormap = eval(map);
       else
         go.Colormap = map;
       end
@@ -53,7 +53,7 @@ function varargout = colormap(varargin)
   end
   refresh(gcf());
   if nargout == 1
-    varargout{1} = get(go, 'Colormap');
+    varargout{1} = go.Colormap;
   end
 end
 %=============================================================================

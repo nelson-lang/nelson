@@ -11,7 +11,7 @@ function spy(varargin)
   narginchk(0, 3);
   
   cax = newplot();
-  next = lower(get(cax, 'NextPlot'));
+  next = lower(cax.NextPlot);
   hold_state = ishold();
   
   marker = '';
@@ -47,7 +47,7 @@ function spy(varargin)
     marker = '.';
   end
   if isempty(color)
-    co = get(cax, 'colorOrder');
+    co = cax.ColorOrder;
     color = co(1,:);
   end
   
@@ -62,15 +62,15 @@ function spy(varargin)
   end
   if (markersize == 0)
     ax = gca(); 
-    units = ax.units;
-    ax.units = 'normalized';
-    pos = get(ax,'position');
+    units = ax.Units;
+    ax.Units = 'normalized';
+    pos = ax.Position;
     pos(1) = pos(1) * 420;
     pos(2) = pos(2) * 315;
     pos(3) = pos(3) * 420; 
     pos(4) = pos(4) * 315;
     markersize = max(4, min(14, round(6 * min(pos(3:4)) / max(m+1, n+1))));
-    set(ax,'units', units);
+    ax.Units = units;
   end
   
   if issparse(S)
@@ -88,8 +88,8 @@ function spy(varargin)
   end
   p = plot(j, i); 
   p.Marker = marker;
-  p.Markersize = markersize;
-  p.Linestyle = linestyle;
+  p.MarkerSize = markersize;
+  p.LineStyle = linestyle;
   p.Color = color;
   p.MarkerEdgeColor = color;
   

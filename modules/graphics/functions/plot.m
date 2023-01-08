@@ -95,18 +95,18 @@ function q = completeProperties(cs, ms, ps, p)
     ps = 'none';
   end
   if (strcmp(cs, ''))
-    q = {'marker', ms, 'linestyle', ps, p{:}};
+    q = {'Marker', ms, 'LineStyle', ps, p{:}};
   else
-    q = {'color', cs, 'marker', ms, 'linestyle', ps, 'markeredgecolor', cs, 'markerfacecolor', cs, p{:}};
+    q = {'Color', cs, 'Marker', ms, 'LineStyle', ps, 'MarkerEdgeColor', cs, 'MarkerFaceColor', cs, p{:}};
   end
 end
 %=============================================================================
 function k = plotVector(go, x, y, lineProperties)
   index = length(go.Children) + 1;
-  colorOrder = get(go, 'ColorOrder');
+  colorOrder = go.ColorOrder;
   indexmod = uint32(mod(index-1, size(colorOrder, 1)) + 1);
   if (~any(strcmp(lineProperties, 'color')))
-    lineProperties = [lineProperties, {'markeredgecolor', colorOrder(indexmod,:), 'markerfacecolor', colorOrder(indexmod, :)}];
+    lineProperties = [lineProperties, {'MarkerEdgeColor', colorOrder(indexmod,:), 'MarkerFaceColor', colorOrder(indexmod, :)}];
   end
   k = __line__('XData', x, 'YData', y, 'Color', colorOrder(indexmod, :), lineProperties{:});
 end

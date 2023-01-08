@@ -12,6 +12,6 @@
 f = figure();
 surf(peaks);
 colormap('white');
-r = f.ColorMap;
+r = f.Colormap;
 assert_isapprox(r(1:2, :), [1, 1, 1; 1, 1, 1], 1e-4); 
 %=============================================================================

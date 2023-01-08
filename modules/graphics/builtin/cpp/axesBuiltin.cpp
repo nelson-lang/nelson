@@ -23,7 +23,6 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 axesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-
     if (argIn.size() != 1) {
         bool restoreLimMode = false;
         GraphicsObject* fp = new GOAxis;

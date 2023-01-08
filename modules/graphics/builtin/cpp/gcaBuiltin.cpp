@@ -11,6 +11,7 @@
 #include "GOFiguresManager.hpp"
 #include "GOPropertyNames.hpp"
 #include "axesBuiltin.hpp"
+#include "GOHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -25,7 +26,7 @@ gcaBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     GOFigure* fig = getCurrentGOFigure();
     unsigned current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
-    if (current == 0) {
+    if (current == 0 || isDeletedGraphicsObject(current)) {
         ArrayOfVector arg2;
         axesBuiltin(0, arg2);
         current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);

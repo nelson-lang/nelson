@@ -11,6 +11,7 @@
 #include <cmath>
 #include <QtWidgets/QApplication>
 #include <QtGui/QPainter>
+#include "nlsBuildConfig.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOAxis.hpp"
@@ -1923,13 +1924,16 @@ void
 GOAxis::reMap(std::vector<double> xs, std::vector<double> ys, std::vector<double> zs,
     std::vector<double>& ax, std::vector<double>& ay, std::vector<double>& az)
 {
-    ax.reserve(xs.size());
-    ay.reserve(xs.size());
-    az.reserve(xs.size());
-    for (size_t i = 0; i < xs.size(); i++) {
-        ax.push_back(mapX(xs[i]));
-        ay.push_back(mapY(ys[i]));
-        az.push_back(mapZ(zs[i]));
+    ax.resize(xs.size());
+    ay.resize(xs.size());
+    az.resize(xs.size());
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)xs.size(); i++) {
+        ax[i] = mapX(xs[i]);
+        ay[i] = mapY(ys[i]);
+        az[i] = mapZ(zs[i]);
     }
 }
 //=============================================================================
