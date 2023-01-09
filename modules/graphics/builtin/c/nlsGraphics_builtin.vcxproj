@@ -204,6 +204,7 @@
     <ClCompile Include="..\cpp\graphics_object_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\grootBuiltin.cpp" />
     <ClCompile Include="..\cpp\imreadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\imwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\is2DBuiltin.cpp" />
     <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="..\include\graphics_object_setBuiltin.hpp" />
     <ClInclude Include="..\include\grootBuiltin.hpp" />
     <ClInclude Include="..\include\imreadBuiltin.hpp" />
+    <ClInclude Include="..\include\imwriteBuiltin.hpp" />
     <ClInclude Include="..\include\is2DBuiltin.hpp" />
     <ClInclude Include="..\include\isgraphicsBuiltin.hpp" />
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />

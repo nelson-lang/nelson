@@ -33,7 +33,7 @@ _Main Features_:
 - Computer Aided Control Systems Design module,
 - completion,
 - graphics output, 2D-3D plot functions (v0.6.12),
-- some basic openCV functions.
+- imread, imwrite, imshow functions (v0.7.1).
 
 ## How can I help ?
 

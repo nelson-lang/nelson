@@ -9,17 +9,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
-#include <QtCore/QString>
 #include <string>
+#include <map>
+#include "nlsGraphics_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSGUI_IMPEXP std::wstring
-QStringTowstring(QString qstr);
+#define DEFAULT_QUALITY 75
 //=============================================================================
-NLSGUI_IMPEXP QString
-wstringToQString(const std::wstring& wstr);
+NLSGRAPHICS_IMPEXP void
+imageWriter(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
+    const std::wstring& format, const ArrayOf& alphaMap, int quality,
+    const std::map<std::wstring, wstringVector>& nameValue);
+
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

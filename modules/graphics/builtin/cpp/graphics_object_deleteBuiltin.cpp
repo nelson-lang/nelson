@@ -22,7 +22,6 @@ Nelson::GraphicsGateway::graphics_object_deleteBuiltin(int nLhs, const ArrayOfVe
 {
     nargincheck(argIn, 1, 1);
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
-    GraphicsObject* fp = nullptr;
     if (handle == HANDLE_ROOT_OBJECT) {
         Error(_W("Cannot delete root graphics object."));
     } else if (handle >= HANDLE_OFFSET_OBJECT) {

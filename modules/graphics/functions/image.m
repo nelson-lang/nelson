@@ -9,6 +9,7 @@
 %=============================================================================
 function varargout = image(varargin)
   ax = newplot();
+  ax.YDir = 'reverse';
   if (length(varargin) == 0)
     C = demo();
     im = __image__('CData', C, 'XData', [1, size(C, 2)], 'YData', [1, size(C, 1)], varargin{2:end});
@@ -27,7 +28,9 @@ function varargout = image(varargin)
     C = varargin{1};
     axis('maximal');
     im = __image__('CData', C, 'XData', [1, size(C, 2)], 'YData', [1, size(C, 1)]);
-    zoom(varargin{2});
+    if exist('zoom')
+      zoom(varargin{2});
+    end
   elseif (length(varargin) >= 3)
     x = varargin{1};
     y = varargin{2};

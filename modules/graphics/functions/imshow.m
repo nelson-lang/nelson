@@ -61,8 +61,6 @@ function varargout = imshow(varargin)
         displayRange = arg;
       elseif (size(arg, 2) == 3)
         indexed = true;
-        min(arg) >= 0
-        max(arg) <= 1
         if ((min(arg, [], 'all') >= 0) || (max(arg, [], 'all') <= 1))
           usedColormap = arg;
         else

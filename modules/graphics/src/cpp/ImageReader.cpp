@@ -24,6 +24,8 @@ imageReaderRGB32(QImage image, int nLhs);
 static ArrayOfVector
 imageReaderRGB32AllGray(QImage image, int nLhs);
 static ArrayOfVector
+imageReaderGrayScale16(QImage image, int nLhs);
+static ArrayOfVector
 imageReaderARGB32(QImage image, int nLhs);
 static ArrayOfVector
 imageReaderARGB32AllGray(QImage image, int nLhs);
@@ -42,7 +44,8 @@ imageReader(const std::wstring& filename, int nLhs)
     if (image.isNull()) {
         Error(_W("Impossible read image file."));
     }
-    switch (image.format()) {
+    auto imageFormat = image.format();
+    switch (imageFormat) {
     case QImage::Format_Indexed8: {
         results = imageReaderIndexed8(image, nLhs);
     } break;
@@ -60,6 +63,9 @@ imageReader(const std::wstring& filename, int nLhs)
         } else {
             results = imageReaderARGB32(image, nLhs);
         }
+    } break;
+    case QImage::Format_Grayscale16: {
+        results = imageReaderGrayScale16(image, nLhs);
     } break;
     default: {
         image = image.convertToFormat(QImage::Format_RGB32);
@@ -105,11 +111,11 @@ imageReaderRGB32(QImage image, int nLhs)
     results << A;
     if (nLhs > 1) {
         // no colormap
-        results.push_back(ArrayOf::emptyConstructor(0, 0));
+        results << ArrayOf::emptyConstructor(0, 0);
     }
     if (nLhs > 2) {
         // no transparency
-        results.push_back(ArrayOf::emptyConstructor(0, 0));
+        results << ArrayOf::emptyConstructor(0, 0);
     }
     return results;
 }
@@ -180,7 +186,7 @@ imageReaderARGB32(QImage image, int nLhs)
     results << A;
     if (nLhs > 1) {
         // no colormap
-        results.push_back(ArrayOf::emptyConstructor(0, 0));
+        results << ArrayOf::emptyConstructor(0, 0);
     }
     if (nLhs > 2) {
         // transparency
@@ -215,7 +221,7 @@ imageReaderARGB32AllGray(QImage image, int nLhs)
     results << A;
     if (nLhs > 1) {
         // no colormap
-        results.push_back(ArrayOf::emptyConstructor(0, 0));
+        results << ArrayOf::emptyConstructor(0, 0);
     }
     if (nLhs > 2) {
         // transparency
@@ -282,6 +288,37 @@ imageReaderIndexed8(QImage image, int nLhs)
     return results;
 }
 //=============================================================================
+ArrayOfVector
+imageReaderGrayScale16(QImage image, int nLhs)
+{
+    ArrayOfVector results = {};
+    results.reserve(nLhs + 1);
 
+    Dimensions dimsA(image.height(), image.width());
+    uint16* ptrA = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dimsA.getElementCount());
+    ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(col)
+#endif
+    for (int row = 0; row < image.height(); row++) {
+        QRgb* p = (QRgb*)image.scanLine(row);
+        for (int col = 0; col < image.width(); col++) {
+            int ndx = row + col * image.height();
+            ptrA[ndx] = quint16(p[col]);
+        }
+    }
+    results << A;
+    if (nLhs > 1) {
+        // no colormap
+        results << ArrayOf::emptyConstructor(0, 0);
+    }
+    if (nLhs > 2) {
+        // transparency
+        results << ArrayOf::emptyConstructor(0, 0);
+    }
+    return results;
+}
+//=============================================================================
 }
 //=============================================================================
