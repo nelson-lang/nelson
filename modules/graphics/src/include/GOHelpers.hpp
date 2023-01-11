@@ -43,6 +43,9 @@ findGOWindows(int64 handle);
 NLSGRAPHICS_IMPEXP void
 validateGO(int64 handle);
 //=============================================================================
+NLSGRAPHICS_IMPEXP ArrayOf
+uniformizeStringVector(const ArrayOf& arg, wstringVector& asWideStringVector);
+//=============================================================================
 NLSGRAPHICS_IMPEXP void
 Tokenize(
     const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters);

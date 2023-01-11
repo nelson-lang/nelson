@@ -24,6 +24,7 @@
 #include "GORestrictedStringVectorProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -54,20 +55,16 @@ GraphicsObject::~GraphicsObject()
 bool
 GraphicsObject::isWritable(const std::wstring& name)
 {
-    std::wstring lower(name);
-    std::transform(lower.begin(), lower.end(), lower.begin(), tolower);
-    if (m_properties_writable.count(lower) == 0) {
+    if (m_properties_writable.count(name) == 0) {
         return false;
     }
-    return m_properties_writable[lower];
+    return m_properties_writable[name];
 }
 //=============================================================================
 GOGenericProperty*
 GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 {
-    std::wstring asLowerName(name);
-    std::transform(asLowerName.begin(), asLowerName.end(), asLowerName.begin(), tolower);
-    GOGenericProperty** hp = m_properties.findSymbol(asLowerName);
+    GOGenericProperty** hp = m_properties.findSymbol(name);
     if (hp) {
         return (*hp);
     } else {
@@ -167,14 +164,11 @@ GraphicsObject::findGoProperty(const std::wstring& name)
 void
 GraphicsObject::registerProperty(GOGenericProperty* hp, const std::wstring& name, bool iwritable)
 {
-    std::wstring lower(name);
-    std::transform(lower.begin(), lower.end(), lower.begin(), tolower);
-
-    if (!m_properties.findSymbol(lower)) {
+    if (!m_properties.findSymbol(name)) {
         m_property_names_order.push_back(name);
-        m_properties_writable[lower] = iwritable;
+        m_properties_writable[name] = iwritable;
     }
-    m_properties.insertSymbol(lower, hp);
+    m_properties.insertSymbol(name, hp);
 }
 //=============================================================================
 void
@@ -231,12 +225,10 @@ GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::
 }
 //=============================================================================
 void
-GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const std::wstring& values)
+GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const wstringVector& values)
 {
     GORestrictedStringVectorProperty* hp = (GORestrictedStringVectorProperty*)findProperty(name);
-    std::vector<std::wstring> data;
-    Tokenize(values, data, L"|");
-    ((GOStringVector*)hp)->data(data);
+    ((GOStringVector*)hp)->data(values);
 }
 //=============================================================================
 void
@@ -272,6 +264,14 @@ void
 GraphicsObject::setScalarDoubleDefault(const std::wstring& name, double value)
 {
     GOScalarProperty* hp = (GOScalarProperty*)findProperty(name);
+    hp->data(value);
+}
+//=============================================================================
+void
+GraphicsObject::setScalarPositiveIntegerValueDefault(const std::wstring& name, double value)
+{
+    GOScalarPositiveIntegerValueProperty* hp
+        = (GOScalarPositiveIntegerValueProperty*)findProperty(name);
     hp->data(value);
 }
 //=============================================================================

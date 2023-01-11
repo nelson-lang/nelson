@@ -32,7 +32,7 @@ function varargout = colorbar(varargin)
     'YAxisLocation', 'right', ...
     'XTick', 'none', ...
     'Tag', 'Colorbar', ...
-    'Userdata', ax);
+    'UserData', ax);
   end
   if (length(inputArguments) > 0)
     axes(cba);
@@ -43,7 +43,7 @@ function varargout = colorbar(varargin)
   N = size(cmap, 1);
   cmap = linspace(0, N, N)';
   cmap = repmat(cmap, [1, 4]);
-  han = __image__('ydata', ax.CLim,'cdata', cmap);
+  han = __image__('YData', ax.CLim,'CData', cmap);
   axis('tight');
   axes(ax);
   if nargout == 1
@@ -57,7 +57,7 @@ function cba = findColorBar(ax)
   fig = ax.Parent;
   peers = fig.Children;
   for i = 1:numel(peers)
-    if (isgraphics(peers(i), 'axes') && (strcmp(get(peers(i), 'tag'), 'Colorbar')) && (isequal(get(peers(i), 'Userdata'), ax)))
+    if (isgraphics(peers(i), 'axes') && (strcmp(get(peers(i), 'Tag'), 'Colorbar')) && (isequal(get(peers(i), 'UserData'), ax)))
       cba = peers(i);
       return;
     end

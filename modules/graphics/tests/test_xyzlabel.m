@@ -42,6 +42,6 @@ y = sin(x);
 plot(x, y);
 ax = gca();
 xlabel(ax, 'X label');
-assert_istrue(isgraphics(ax.xLabel, 'text'));
+assert_istrue(isgraphics(ax.XLabel, 'text'));
 assert_isequal(ax.XLabel.String, 'X label');
 %=============================================================================

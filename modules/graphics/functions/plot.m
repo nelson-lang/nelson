@@ -95,20 +95,71 @@ function q = completeProperties(cs, ms, ps, p)
     ps = 'none';
   end
   if (strcmp(cs, ''))
-    q = {'marker', ms, 'linestyle', ps, p{:}};
+    q = {'Marker', ms, 'LineStyle', ps, p{:}};
   else
-    q = {'color', cs, 'marker', ms, 'linestyle', ps, 'markeredgecolor', cs, 'markerfacecolor', cs, p{:}};
+    q = {'Color', cs, 'Marker', ms, 'LineStyle', ps, 'MarkerEdgeColor', cs, 'MarkerFaceColor', cs, p{:}};
   end
 end
 %=============================================================================
-function k = plotVector(go, x, y, lineProperties)
-  index = length(go.Children) + 1;
-  colorOrder = get(go, 'ColorOrder');
-  indexmod = uint32(mod(index-1, size(colorOrder, 1)) + 1);
-  if (~any(strcmp(lineProperties, 'color')))
-    lineProperties = [lineProperties, {'markeredgecolor', colorOrder(indexmod,:), 'markerfacecolor', colorOrder(indexmod, :)}];
+function color = getColorAndUpdateIndex(go)
+  colorOrder = go.ColorOrder;
+  if isempty (colorOrder)
+    color = [0 0 0];
+    return;
   end
-  k = __line__('XData', x, 'YData', y, 'Color', colorOrder(indexmod, :), lineProperties{:});
+  colorIndex = go.ColorOrderIndex;
+  nbColors = size (colorOrder, 1);
+  colorIndex = mod (colorIndex, nbColors);
+  if (colorIndex == 0)
+    colorIndex = nbColors;
+  elseif (colorIndex < 0)
+    colorIndex = 1;
+  end
+  color = colorOrder(colorIndex, :);
+  if (colorIndex >= nbColors)
+    colorIndex = colorIndex + 1;
+    colorIndex = mod (colorIndex, nbColors);
+    if (colorIndex == 0)
+      colorIndex = 1;
+    end
+    lineStyleOrderIndex = go.LineStyleOrderIndex;
+    go.LineStyleOrderIndex = lineStyleOrderIndex + 1;
+  else
+     colorIndex = colorIndex + 1;
+  end
+  go.ColorOrderIndex = colorIndex;
+end
+%=============================================================================
+function lineStyle = getLineStyleAndUpdateIndex(go)
+  lineStyleOrder = go.LineStyleOrder;
+  if isempty (lineStyleOrder)
+    lineStyle = '-';
+    return;
+  end
+  if ischar(lineStyleOrder)
+    lineStyleOrder = cellstr(lineStyleOrder);
+  end
+  style_idx = go.LineStyleOrderIndex;
+  num_styles = size(lineStyleOrder, 1);
+  style_idx = mod (style_idx, num_styles);
+  if (style_idx == 0)
+    style_idx = num_styles;
+  elseif (style_idx < 0)
+    style_idx = 1;
+  end
+  lineStyle = lineStyleOrder{style_idx};
+end
+%=============================================================================
+function k = plotVector(go, x, y, lineProperties)
+  lineStyle = getLineStyleAndUpdateIndex(go);
+  color = getColorAndUpdateIndex(go);
+  if (~any(strcmp(lineProperties, 'Color')))
+    lineProperties = [lineProperties, {'MarkerEdgeColor', color, 'MarkerFaceColor', color}];
+  end
+  if (~any(strcmp(lineProperties, 'LineStyle')))
+    lineProperties = [lineProperties, {'LineStyle', lineStyle}];
+  end  
+  k = __line__('XData', x, 'YData', y, 'Color', color, lineProperties{:});
 end
 %=============================================================================
 function h = plot_XY(X, Y, go, lineProperties)

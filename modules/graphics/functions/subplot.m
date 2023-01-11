@@ -75,9 +75,9 @@ function varargout = subplot(varargin)
   children(childrenToDelete) = [];
   fig.Children = children;
   if (~found)
-    ax = axes('OuterPosition', position);
+    ax = axes('OuterPosition', position, 'LineStyleOrder', '-');
   end
-  fig.nextPlot = 'add';
+  fig.NextPlot = 'add';
   if (nargout > 0) 
     varargout{1} = ax;
   end;

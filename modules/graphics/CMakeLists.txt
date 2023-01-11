@@ -31,6 +31,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
@@ -50,6 +51,7 @@ target_link_libraries(
   nlsGui
   nlsI18n
   nlsNelson_manager
+  nlsData_structures
   nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Svg

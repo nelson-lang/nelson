@@ -40,16 +40,16 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (propname == GO_CHILDREN_PROPERTY_NAME_STR) {
             SetChildren(fp, argIn[ptr + 1]);
         } else {
-            if (!fp->isWritable(propname)) {
-                Error(_W("Property is readable only: ") + propname);
-            }
             try {
                 GOGenericProperty* hp = fp->findProperty(propname);
                 if (hp) {
+                    if (!fp->isWritable(propname)) {
+                        Error(_W("Property is readable only: ") + propname);
+                    }
                     hp->set(argIn[ptr + 1]);
                 }
-            } catch (const Exception&) {
-                Error(_W("Got error for property :") + propname);
+            } catch (const Exception& e) {
+                Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
             }
         }
         ptr += 2;

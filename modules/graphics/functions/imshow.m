@@ -143,7 +143,7 @@ function varargout = imshow(varargin)
     end
     parent = h.Parent;
     if ~isempty(usedColormap)
-      parent.ColorMap = usedColormap;
+      parent.Colormap = usedColormap;
     end
     parent.Visible = 'off';
     if isValidGraphicsProperty('figure', 'View')

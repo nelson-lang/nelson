@@ -10,8 +10,15 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-surf(peaks);
-colormap('winter');
-r = f.Colormap;
-assert_isapprox(r(1:2, :), [0         0    1.0000;         0    0.0039    0.9980], 1e-4); 
+ax = gca();
+assert_isequal(ax.ColorOrderIndex, 1);
+hold on
+assert_isequal(ax.ColorOrderIndex, 1);
+REF = [2, 3, 4, 5, 6, 7, 1, 2, 3];
+for r = 1:9
+    x = linspace(0,r,500);
+    y = sqrt(r.^2-x.^2);
+    plot(x, y, 'LineWidth', 2);
+    assert_isequal(ax.ColorOrderIndex, REF(r));
+end
 %=============================================================================

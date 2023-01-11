@@ -34,8 +34,8 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
         } else {
             try {
                 fp->findProperty(propname)->set(t[1]);
-            } catch (const Exception&) {
-                Error(_W("Got error for property ") + propname);
+            } catch (const Exception& e) {
+                Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
             }
         }
         t.pop_front();
