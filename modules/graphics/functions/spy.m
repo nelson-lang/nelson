@@ -11,7 +11,7 @@ function spy(varargin)
   narginchk(0, 3);
   
   cax = newplot();
-  next = lower(get(cax, 'NextPlot'));
+  next = lower(cax.NextPlot);
   hold_state = ishold();
   
   marker = '';

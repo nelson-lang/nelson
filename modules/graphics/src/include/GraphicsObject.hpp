@@ -13,7 +13,6 @@
 #include <unordered_map>
 #include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
-#include "GenericTable.hpp"
 #include "GOGenericProperty.hpp"
 #include "RenderInterface.hpp"
 //=============================================================================
@@ -26,7 +25,7 @@ class NLSGRAPHICS_IMPEXP GraphicsObject
 {
 private:
     std::unordered_map<std::wstring, bool> m_properties_writable;
-    GenericTable<std::wstring, GOGenericProperty*> m_properties;
+    std::unordered_map<std::wstring, GOGenericProperty*> m_properties;
     wstringVector m_property_names_order;
     unsigned ref_count;
 

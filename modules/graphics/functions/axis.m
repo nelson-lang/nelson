@@ -119,18 +119,18 @@ function axisTightMode(ax)
 end
 %=============================================================================
 function axisManualMode(ax)
-  ax.xLimMode = 'manual';
-  ax.yLimMode = 'manual';
+  ax.XLimMode = 'manual';
+  ax.YLimMode = 'manual';
   ax.ZLimMode = 'manual';
 end
 %=============================================================================
 function axisMaximalMode(ax)
   ax.XTick = [];
-  ax.yTick = [];
-  ax.zTick = [];
-  ax.xTickLabel = '';
-  ax.yTickLabel = '';
-  ax.zTickLabel = '';
+  ax.YTick = [];
+  ax.ZTick = [];
+  ax.XTickLabel = '';
+  ax.YTickLabel = '';
+  ax.ZTickLabel = '';
 end  
 %=============================================================================
 function axisAutoMode(ax, mode)

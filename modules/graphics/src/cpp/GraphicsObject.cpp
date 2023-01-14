@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
+#include "nlsBuildConfig.h"
 #include "GraphicsObject.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -64,12 +68,31 @@ GraphicsObject::isWritable(const std::wstring& name)
 GOGenericProperty*
 GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 {
-    GOGenericProperty** hp = m_properties.findSymbol(name);
+    std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
+        = m_properties.find(name);
+    GOGenericProperty* hp = (got != m_properties.end()) ? (got->second) : nullptr;
     if (hp) {
-        return (*hp);
+        return hp;
     } else {
         if (raiseError) {
-            Error(_W("Invalid property:") + L" " + name);
+            std::wstring lowerName(name);
+            std::wstring proposedName;
+            std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), towlower);
+            for (auto element : m_property_names_order) {
+                std::wstring lowerElement(element);
+                std::transform(
+                    lowerElement.begin(), lowerElement.end(), lowerElement.begin(), towlower);
+                if (lowerElement == lowerName) {
+                    proposedName = element;
+                    break;
+                }
+            }
+            std::wstring msg;
+            msg = fmt::sprintf(_W("Unrecognized property '%s' for class '%s'."), name, getType());
+            if (!proposedName.empty()) {
+                msg = msg + L"\n" + _W("Did you mean:") + L" " + proposedName;
+            }
+            Error(msg);
         }
         hp = nullptr;
     }
@@ -164,11 +187,14 @@ GraphicsObject::findGoProperty(const std::wstring& name)
 void
 GraphicsObject::registerProperty(GOGenericProperty* hp, const std::wstring& name, bool iwritable)
 {
-    if (!m_properties.findSymbol(name)) {
+    std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
+        = m_properties.find(name);
+
+    if (got == m_properties.end()) {
         m_property_names_order.push_back(name);
         m_properties_writable[name] = iwritable;
     }
-    m_properties.insertSymbol(name, hp);
+    m_properties[name] = hp;
 }
 //=============================================================================
 void
@@ -325,7 +351,12 @@ GraphicsObject::hasChanged(const std::wstring& name)
 void
 GraphicsObject::clearAllChanged()
 {
-    std::vector<std::wstring> names = m_properties.getAllSymbols();
+    std::vector<std::wstring> names;
+    names.resize(m_properties.size());
+    indexType k = 0;
+    for (auto& it : m_properties) {
+        names[k++] = it.first;
+    }
     clearChanged(names);
 }
 //=============================================================================

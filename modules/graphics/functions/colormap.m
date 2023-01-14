@@ -53,7 +53,7 @@ function varargout = colormap(varargin)
   end
   refresh(gcf());
   if nargout == 1
-    varargout{1} = get(go, 'Colormap');
+    varargout{1} = go.Colormap;
   end
 end
 %=============================================================================

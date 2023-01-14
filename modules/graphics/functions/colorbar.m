@@ -32,7 +32,8 @@ function varargout = colorbar(varargin)
     'YAxisLocation', 'right', ...
     'XTick', 'none', ...
     'Tag', 'Colorbar', ...
-    'UserData', ax);
+    'UserData', ax, ...
+    'Colormap', ax.Colormap);
   end
   if (length(inputArguments) > 0)
     axes(cba);
@@ -41,7 +42,7 @@ function varargout = colorbar(varargin)
   end
   cmap = colormap(ax);
   N = size(cmap, 1);
-  cmap = linspace(0, N, N)';
+  cmap = linspace(N, 0, N)';
   cmap = repmat(cmap, [1, 4]);
   han = __image__('YData', ax.CLim,'CData', cmap);
   axis('tight');

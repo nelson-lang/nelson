@@ -22,11 +22,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `imread` Read image from graphics file.
 - `imshow` Display image.
 
+### Changed
+
+- Graphics objects property names check is strict (compatibility).
+
+- Some speed optimization with graphics objects.
+
 ### Fixed
 
 - [#823](http://github.com/Nelson-numerical-software/nelson/issues/823): default LineStyle for a line was wrong with marker.
 
 - `CTRL+C` was not catched on advanced cli for linux and macos.
+
+- colors in `colorbar` were not in the good order.
 
 - warnings detected by CodeQL.
 
