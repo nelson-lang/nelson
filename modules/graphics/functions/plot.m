@@ -139,15 +139,15 @@ function lineStyle = getLineStyleAndUpdateIndex(go)
   if ischar(lineStyleOrder)
     lineStyleOrder = cellstr(lineStyleOrder);
   end
-  style_idx = go.LineStyleOrderIndex;
-  num_styles = size(lineStyleOrder, 1);
-  style_idx = mod (style_idx, num_styles);
-  if (style_idx == 0)
-    style_idx = num_styles;
-  elseif (style_idx < 0)
-    style_idx = 1;
+  LineStyleOrderIndex = go.LineStyleOrderIndex;
+  numberOfStyles = size(lineStyleOrder, 1);
+  LineStyleOrderIndex = mod (LineStyleOrderIndex, numberOfStyles);
+  if (LineStyleOrderIndex == 0)
+    LineStyleOrderIndex = numberOfStyles;
+  elseif (LineStyleOrderIndex < 0)
+    LineStyleOrderIndex = 1;
   end
-  lineStyle = lineStyleOrder{style_idx};
+  lineStyle = lineStyleOrder{LineStyleOrderIndex};
 end
 %=============================================================================
 function k = plotVector(go, x, y, lineProperties)

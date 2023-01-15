@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `ColorOrderIndex` and `LineStyleOrderIndex` properties added to `axes` graphics object.
 - `delete` for graphics objects.
 - `imread` Read image from graphics file.
+- `imwrite` Write image to graphics file.
 - `imshow` Display image.
 
 ### Changed

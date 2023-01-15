@@ -32,6 +32,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
@@ -50,6 +51,7 @@ target_link_libraries(
   nlsError_manager
   nlsGui
   nlsI18n
+  nlsElementary_functions
   nlsNelson_manager
   nlsData_structures
   nlsTypes

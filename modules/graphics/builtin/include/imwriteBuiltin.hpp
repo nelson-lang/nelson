@@ -9,17 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
-#include <QtCore/QString>
-#include <string>
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-NLSGUI_IMPEXP std::wstring
-QStringTowstring(QString qstr);
+ArrayOfVector
+imwriteBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-NLSGUI_IMPEXP QString
-wstringToQString(const std::wstring& wstr);
-//=============================================================================
-} // namespace Nelson
+}; // namespace Nelson
 //=============================================================================
