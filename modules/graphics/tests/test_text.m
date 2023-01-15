@@ -39,6 +39,7 @@ REF = {'BackgroundColor';
 'FontUnits';          
 'FontWeight';         
 'HorizontalAlignment';
+'Interpreter';
 'LineStyle';          
 'LineWidth';          
 'Margin';             

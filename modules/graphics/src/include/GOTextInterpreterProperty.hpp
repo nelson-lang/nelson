@@ -9,35 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGraphics_exports.h"
-#include "GraphicsObject.hpp"
+#include "GORestrictedStringProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOText : public GraphicsObject
+class GOTextInterpreterProperty : public GORestrictedStringProperty
 {
-private:
-    QFont fnt;
-    std::wstring text;
-    std::wstring
-    replaceSpecialCharacters(const std::wstring& text);
-
 public:
-    GOText();
-    ~GOText() override;
-    virtual std::wstring
-    getType() override;
-    virtual void
-    constructProperties();
-    virtual void
-    setupDefaults();
-    void
-    updateState() override;
-    void
-    paintMe(RenderInterface& gc) override;
-    int
-    getTextHeightInPixels();
+    GOTextInterpreterProperty();
+    ~GOTextInterpreterProperty() override = default;
 };
 //=============================================================================
-}
+};
 //=============================================================================
