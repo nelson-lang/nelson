@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include "GORestrictedStringVectorProperty.hpp"
+#include "GOHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,8 +24,9 @@ GORestrictedStringVectorProperty::GORestrictedStringVectorProperty(const wchar_t
 void
 GORestrictedStringVectorProperty::set(ArrayOf arg)
 {
-    GOGenericProperty::set(arg);
-    GOStringVector::set(arg);
+    ArrayOf _arg = uniformizeStringVector(arg, _data);
+    GOGenericProperty::set(_arg);
+    GOStringVector::set(_arg);
     for (int i = 0; i < _data.size(); i++) {
         if (find(m_dictionary.begin(), m_dictionary.end(), _data[i]) == m_dictionary.end()) {
             Error(_W("Illegal selection for property."));

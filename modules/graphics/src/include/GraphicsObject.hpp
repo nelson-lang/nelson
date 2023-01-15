@@ -104,7 +104,7 @@ public:
     void
     setRestrictedStringDefault(const std::wstring& name, const std::wstring& value);
     void
-    setRestrictedStringSetDefault(const std::wstring& name, const std::wstring& value);
+    setRestrictedStringSetDefault(const std::wstring& name, const wstringVector& values);
     void
     setRestrictedStringScalarDefault(
         const std::wstring& name, const std::wstring& value, double scalar);
@@ -121,6 +121,8 @@ public:
     setStringDefault(const std::wstring& name, const std::wstring& value);
     void
     setScalarDoubleDefault(const std::wstring& name, double value);
+    void
+    setScalarPositiveIntegerValueDefault(const std::wstring& name, double value);
     void
     setGoProperty(const std::wstring& name, int64 value);
     bool

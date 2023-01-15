@@ -28,6 +28,7 @@
 #include "GORestrictedStringVectorProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -250,12 +251,10 @@ GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::
 }
 //=============================================================================
 void
-GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const std::wstring& values)
+GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const wstringVector& values)
 {
     GORestrictedStringVectorProperty* hp = (GORestrictedStringVectorProperty*)findProperty(name);
-    std::vector<std::wstring> data;
-    Tokenize(values, data, L"|");
-    ((GOStringVector*)hp)->data(data);
+    ((GOStringVector*)hp)->data(values);
 }
 //=============================================================================
 void
@@ -291,6 +290,14 @@ void
 GraphicsObject::setScalarDoubleDefault(const std::wstring& name, double value)
 {
     GOScalarProperty* hp = (GOScalarProperty*)findProperty(name);
+    hp->data(value);
+}
+//=============================================================================
+void
+GraphicsObject::setScalarPositiveIntegerValueDefault(const std::wstring& name, double value)
+{
+    GOScalarPositiveIntegerValueProperty* hp
+        = (GOScalarPositiveIntegerValueProperty*)findProperty(name);
     hp->data(value);
 }
 //=============================================================================

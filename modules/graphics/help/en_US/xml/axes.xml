@@ -77,6 +77,8 @@
       >Clipping</b> Clipping of objects to axes limits: 'on' (default) or 'off'.</p>
 <p><b>Color</b> Background color for the axes: RGB triplet or string color.</p>
 <p><b>ColorOrder</b> Color order: three-column matrix of RGB triplets.</p>
+<p><b
+      >ColorOrderIndex</b>Color order index: positive integer value, specifies the next color used.</p>
 <p><b>DataAspectRatio</b> Relative length of data units: vector [x, y, z].</p>
 <p><b
       >DataAspectRatioMode</b> Data aspect ratio mode: 'manual' or 'auto' (default).</p>
@@ -97,6 +99,8 @@
       >Layer</b> Placement of grid lines and tick marks: 'top' or 'bottom' (default).</p>
 <p><b
       >LineStyleOrder</b> Line style order: character vector, cell array of character vectors, string array or '-' solid line (default).</p>
+<p><b
+      >LineStyleOrderIndex</b>Color order index: positive integer value,  property specifies the next line style used.</p>
 <p><b>LineWidth</b> Line width: positive numeric value.</p>
 <p><b
       >MinorGridLineStyle</b> Line style for minor grid lines: '-', '--', '-.', 'none' or ':' (default).</p>

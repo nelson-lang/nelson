@@ -41,6 +41,7 @@
 #include "GOVectorThreeDoubleProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "GOList.hpp"
 #include "GOFigure.hpp"
 #include "GOText.hpp"
@@ -82,6 +83,8 @@ GOAxis::constructProperties()
     registerProperty(new GOOnOffProperty, GO_CLIPPING_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOColorVectorProperty, GO_COLOR_ORDER_PROPERTY_NAME_STR);
+    registerProperty(
+        new GOScalarPositiveIntegerValueProperty, GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR);
     registerProperty(new GOSixVectorProperty, GO_DATA_LIMITS_PROPERTY_NAME_STR);
     registerProperty(new GOThreeVectorProperty, GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
@@ -95,7 +98,9 @@ GOAxis::constructProperties()
     registerProperty(new GOOnOffProperty, GO_HIT_TEST_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOTopBottomProperty, GO_LAYER_PROPERTY_NAME_STR);
-    registerProperty(new GOLineStyleOrderProperty, GO_LINE_STYLEORDER_PROPERTY_NAME_STR);
+    registerProperty(new GOLineStyleOrderProperty, GO_LINE_STYLE_ORDER_PROPERTY_NAME_STR);
+    registerProperty(
+        new GOScalarPositiveIntegerValueProperty, GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleProperty, GO_MINOR_GRID_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
@@ -216,6 +221,7 @@ GOAxis::setupDefaults()
     colorsOrder.push_back(0.1840);
     GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_COLOR_ORDER_PROPERTY_NAME_STR);
     hp->data(colorsOrder);
+    setScalarPositiveIntegerValueDefault(GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR, 1.0);
     setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, 1, 1, 1);
     setRestrictedStringDefault(
         GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
@@ -230,7 +236,10 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_LAYER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOTTOM_STR);
     setScalarDoubleDefault(GO_LINE_WIDTH_PROPERTY_NAME_STR, 1.0);
-    setRestrictedStringSetDefault(GO_LINE_STYLEORDER_PROPERTY_NAME_STR, L"-|--|:|-.");
+    wstringVector defaultLineStyleOrder;
+    defaultLineStyleOrder.push_back(L"-");
+    setRestrictedStringSetDefault(GO_LINE_STYLE_ORDER_PROPERTY_NAME_STR, defaultLineStyleOrder);
+    setScalarPositiveIntegerValueDefault(GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR, 1.0);
     setRestrictedStringDefault(GO_MINOR_GRID_LINE_STYLE_PROPERTY_NAME_STR, L":");
     setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 0, 0, 1, 1);
     setRestrictedStringDefault(GO_NEXT_PLOT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REPLACE_STR);

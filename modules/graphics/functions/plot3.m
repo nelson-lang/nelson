@@ -115,10 +115,61 @@ function x = resizeMatrix(a, rows, cols)
   end
 end
 %=============================================================================
-function hl = plotVector(go, x, y, z, lineProperties)
+function color = getColorAndUpdateIndex(go)
   colorOrder = go.ColorOrder;
-  index = length(go.Children) + 1;
-  indexModified = round(mod(index - 1, size(colorOrder, 1)) + 1);
-  hl = __line__('XData', x, 'YData', y, 'ZData', z, 'Color', colorOrder(indexModified, :), lineProperties{:});
+  if isempty (colorOrder)
+    color = [0 0 0];
+    return;
+  end
+  colorIndex = go.ColorOrderIndex;
+  nbColors = size (colorOrder, 1);
+  colorIndex = mod (colorIndex, nbColors);
+  if (colorIndex == 0)
+    colorIndex = nbColors;
+  elseif (colorIndex < 0)
+    colorIndex = 1;
+  end
+  color = colorOrder(colorIndex, :);
+  if (colorIndex >= nbColors)
+    colorIndex = colorIndex + 1;
+    colorIndex = mod (colorIndex, nbColors);
+    if (colorIndex == 0)
+      colorIndex = 1;
+    end
+    lineStyleOrderIndex = go.LineStyleOrderIndex;
+    go.LineStyleOrderIndex = lineStyleOrderIndex + 1;
+  else
+     colorIndex = colorIndex + 1;
+  end
+  go.ColorOrderIndex = colorIndex;
+end
+%=============================================================================
+function lineStyle = getLineStyleAndUpdateIndex(go)
+  lineStyleOrder = go.LineStyleOrder;
+  if isempty (lineStyleOrder)
+    lineStyle = '-';
+    return;
+  end
+  if ischar(lineStyleOrder)
+    lineStyleOrder = cellstr(lineStyleOrder);
+  end
+  style_idx = go.LineStyleOrderIndex;
+  num_styles = size(lineStyleOrder, 1);
+  style_idx = mod (style_idx, num_styles);
+  if (style_idx == 0)
+    style_idx = num_styles;
+  elseif (style_idx < 0)
+    style_idx = 1;
+  end
+  lineStyle = lineStyleOrder{style_idx};
+end
+%=============================================================================
+function hl = plotVector(go, x, y, z, lineProperties)
+  lineStyle = getLineStyleAndUpdateIndex(go);
+  color = getColorAndUpdateIndex(go);
+  if (~any(strcmp(lineProperties, 'LineStyle')))
+    lineProperties = [lineProperties, {'LineStyle', lineStyle}];
+  end  
+  hl = __line__('XData', x, 'YData', y, 'ZData', z, 'Color', color, lineProperties{:});
 end
 %=============================================================================

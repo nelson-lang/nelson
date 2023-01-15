@@ -30,6 +30,8 @@ function varargout = cla(varargin)
   ax.XTickLabelMode = 'auto';
   ax.YTickLabelMode = 'auto';
   ax.ZTickLabelMode = 'auto';
+  ax.ColorOrderIndex = 1;
+  ax.LineStyleOrderIndex = 1;
   if nargout == 1
     varargout{1} = ax;
   else

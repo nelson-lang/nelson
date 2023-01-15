@@ -16,6 +16,8 @@
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
+#include "IsCellOfStrings.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,6 +48,49 @@ checkIdValidity(int64 id)
     if (!isValidId) {
         Error(_("Invalid figure id."));
     }
+}
+//=============================================================================
+ArrayOf
+uniformizeStringVector(const ArrayOf& arg, wstringVector& asWideStringVector)
+{
+    ArrayOf res;
+    if (arg.isRowVectorCharacterArray()) {
+        std::wstring str = arg.getContentAsWideString();
+        if (StringHelpers::contains(str, L"|")) {
+            Tokenize(str, asWideStringVector, L"|");
+        } else {
+            asWideStringVector.push_back(str);
+        }
+        Dimensions dims(asWideStringVector.size(), 1);
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, asWideStringVector.size());
+        res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+        for (indexType k = 0; k < dims.getElementCount(); k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
+        }
+    } else if (arg.isStringArray()) {
+        asWideStringVector = arg.getContentAsWideStringVector();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, asWideStringVector.size());
+        Dimensions dims(asWideStringVector.size(), 1);
+        res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+        for (indexType k = 0; k < dims.getElementCount(); k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
+        }
+    } else if (IsCellOfString(arg)) {
+        asWideStringVector = arg.getContentAsWideStringVector();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, asWideStringVector.size());
+        Dimensions dims(asWideStringVector.size(), 1);
+        res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+        for (indexType k = 0; k < dims.getElementCount(); k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
+        }
+    } else {
+        Error(_W("The value must be a '|' delimited character vector, string array, or cell array "
+                 "of character vectors."));
+    }
+    return res;
 }
 //=============================================================================
 void

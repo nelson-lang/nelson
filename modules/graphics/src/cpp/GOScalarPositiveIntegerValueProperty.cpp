@@ -7,56 +7,53 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GOStringVectorProperty.hpp"
+#include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "GOHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-GOStringVector::get()
-{
-    if (_data.size() == 1) {
-        return ArrayOf::characterArrayConstructor(_data[0]);
-    }
-    Dimensions dims(_data.size(), 1);
-    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.size());
-    ArrayOf resultAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
-        elements[k] = ArrayOf::characterArrayConstructor(_data[k]);
-    }
-    return resultAsCell;
-}
-//=============================================================================
-void
-GOStringVector::set(ArrayOf arg)
-{
-    wstringVector argVector;
-    ArrayOf _arg = uniformizeStringVector(arg, _data);
-    GOGenericProperty::set(_arg);
-}
-//=============================================================================
-std::vector<std::wstring>
-GOStringVector::data()
+double
+GOScalarPositiveIntegerValueProperty::data()
 {
     return _data;
 }
 //=============================================================================
 void
-GOStringVector::data(std::vector<std::wstring> m)
+GOScalarPositiveIntegerValueProperty::data(double m)
 {
     _data = m;
 }
 //=============================================================================
-std::wstring
-GOStringVector::toWideString()
+bool
+GOScalarPositiveIntegerValueProperty::isEqual(double m)
 {
-    if (_data.size() == 1) {
-        return _data[0];
-    }
-    return L"{1x" + std::to_wstring(_data.size()) + L" cell}";
+    return (_data == m);
 }
 //=============================================================================
-};
+std::wstring
+GOScalarPositiveIntegerValueProperty::toWideString()
+{
+    return std::to_wstring((int64)_data);
+}
+//=============================================================================
+ArrayOf
+GOScalarPositiveIntegerValueProperty::get()
+{
+    return ArrayOf::doubleConstructor(_data);
+}
+//=============================================================================
+void
+GOScalarPositiveIntegerValueProperty::set(ArrayOf arg)
+{
+    double value = arg.getContentAsDoubleScalar();
+
+    if (value != (int)value || !std::isfinite(value) || value < 1) {
+        Error(_("Value should be an positive integer value > 0."));
+    }
+    GOGenericProperty::set(arg);
+    _data = value;
+}
+//=============================================================================
+}
 //=============================================================================
