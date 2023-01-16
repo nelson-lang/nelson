@@ -39,6 +39,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - warnings detected by CodeQL.
 
+- [#824](http://github.com/Nelson-numerical-software/nelson/issues/824): VariableCompleter was not filtered by prefix.
+
 ## Previous changelog
 
 [Changelog v0.6.x](CHANGELOG-0.6.x.md)

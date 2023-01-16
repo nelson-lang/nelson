@@ -12,6 +12,7 @@
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,8 +37,11 @@ VariableCompleter(const std::wstring& prefix)
             variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
         }
         res.reserve(variables.size());
+        std::string utf8prefix = wstring_to_utf8(prefix);
         for (const auto& variable : variables) {
-            res.push_back(utf8_to_wstring(variable));
+            if (StringHelpers::starts_with(variable, utf8prefix)) {
+                res.push_back(utf8_to_wstring(variable));
+            }
         }
     }
     return res;
