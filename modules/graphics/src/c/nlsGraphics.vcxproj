@@ -119,6 +119,7 @@
     <ClInclude Include="..\include\GOSurface.hpp" />
     <ClInclude Include="..\include\GOSymbolProperty.hpp" />
     <ClInclude Include="..\include\GOText.hpp" />
+    <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
     <ClInclude Include="..\include\GOVectorFourDoubleProperty.hpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\cpp\GOSurface.cpp" />
     <ClCompile Include="..\cpp\GOSymbolProperty.cpp" />
     <ClCompile Include="..\cpp\GOText.cpp" />
+    <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
     <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
