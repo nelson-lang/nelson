@@ -11,49 +11,64 @@ function varargout = colormap(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
   if (nargin == 0)
-    f = gcf();
-    varargout{1} = f.Colormap;
+    m = colorMapNoRhs()
   else
     if nargin == 1
-      if isgraphics(varargin{1}, 'axes') 
-        ax = varargin{1};
-        varargout{1} = ax.Colormap;
-        return
-      elseif isgraphics(varargin{1}, 'figure')
-        f =  varargin{1};
-        varargout{1} = f.Colormap;
-        return
-      else
-        f = gcf();
-        map = varargin{1};
-        if ischar(map) || isStringScalar(map)
-          map = convertStringsToChars(map);
-          if strcmp(map, 'default')
-            map = 'parula';
-          end
-          f.Colormap = eval(map);
-        else
-          f.Colormap = map;
-        end
-      end
+      m = colorMapOneRhs(varargin{1});
     else
       % nargin == 2
       go = varargin{1};
       map = varargin{2};
-      if ischar(map) || isStringScalar(map)
-        map = convertStringsToChars(map);
-        if strcmp(map, 'default')
-          map = 'parula';
-        end
-        go.Colormap = eval(map);
-      else
-        go.Colormap = map;
-      end
+      m = colorMapTwoRhs(go, map)
     end
   end
   refresh(gcf());
   if nargout == 1
-    varargout{1} = go.Colormap;
+    varargout{1} = m;
   end
+end
+%=============================================================================
+function m = colorMapNoRhs()
+  f = gcf();
+  m = f.Colormap;
+end
+%=============================================================================
+function m = colorMapOneRhs(arg)
+  if isgraphics(arg, 'axes') 
+    ax = arg;
+    m = ax.Colormap;
+    return
+  elseif isgraphics(arg, 'figure')
+    f =  arg;
+    m = f.Colormap;
+    return
+  else
+    f = gcf();
+    map = arg;
+    if ischar(map) || isStringScalar(map)
+      map = convertStringsToChars(map);
+      if strcmp(map, 'default')
+        map = 'parula';
+      end
+      m = eval(map);
+      f.Colormap = m;
+    else
+      m = map;
+      f.Colormap = map;
+    end
+  end
+  %=============================================================================
+function m = colorMapTwoRhs(go, map)
+  if ischar(map) || isStringScalar(map)
+    map = convertStringsToChars(map);
+    if strcmp(map, 'default')
+      map = 'parula';
+    end
+    m = eval(map);
+    go.Colormap = m;
+  else
+    m = map;
+    go.Colormap = map;
+  end  
 end
 %=============================================================================
