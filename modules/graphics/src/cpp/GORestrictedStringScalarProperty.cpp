@@ -37,7 +37,13 @@ GORestrictedStringScalarProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
     if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
-        GORestrictedStringProperty::set(arg);
+        std::wstring str = arg.getContentAsWideString();
+        try {
+            double num = wcstod(str.c_str(), nullptr);
+            _scalar = num;
+        } catch (const std::invalid_argument&) {
+            GORestrictedStringProperty::set(arg);
+        }
     } else {
         _scalar = arg.getContentAsDoubleScalar();
     }

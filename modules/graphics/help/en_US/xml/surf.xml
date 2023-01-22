@@ -153,16 +153,10 @@ S = surf(X, Y, Z, C)]]>
     </example_item_description>
     <example_item_data
       ><![CDATA[f = figure();
-k = 5;
-n = 2^(k-1);
-theta = pi * (-n:2:n) / n;
-phi = (pi / 2) * (-n:2:n)' / n;
-X = cos(phi) * cos(theta);
-Y = cos(phi) * sin(theta);
-Z = sin(phi) * ones(size(theta));
-colormap([0 0 0;1 1 1]);
-C = hadamard(2^k); 
-surf(X, Y, Z, C)
+[X,Y] = meshgrid(-8:.5:8);
+R = sqrt(X.^2 + Y.^2) + eps;
+Z = sin(R)./R;
+h = surf(X, Y, Z);
 axis square]]>
     </example_item_data>
     <example_item_img src="../images/surf_2.svg" align="middle" />

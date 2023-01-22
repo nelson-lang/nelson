@@ -19,7 +19,7 @@ function varargout = colormap(varargin)
       % nargin == 2
       go = varargin{1};
       map = varargin{2};
-      m = colorMapTwoRhs(go, map)
+      m = colorMapTwoRhs(go, map);
     end
   end
   refresh(gcf());

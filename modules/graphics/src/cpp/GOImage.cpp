@@ -261,6 +261,9 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
         }
         return ret;
     }
+    if (!dp) {
+        return ret;
+    }
     if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
         for (int i = 0; i < rows * cols; i++) {
             int ndx = floatData ? (int)dp[i] - 1 : (int)dp[i];

@@ -109,7 +109,7 @@
     <ClInclude Include="..\include\GOPropertyNames.hpp" />
     <ClInclude Include="..\include\GOPropertyValues.hpp" />
     <ClInclude Include="..\include\GORoot.hpp" />
-    <ClInclude Include="..\include\GORowColumnsProperty.hpp" />
+    <ClInclude Include="..\include\GORowColumnProperty.hpp" />
     <ClInclude Include="..\include\GOScalarDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOScalarPositiveIntegerValueProperty.hpp" />
     <ClInclude Include="..\include\GOStringAutoManualProperty.hpp" />
@@ -185,7 +185,7 @@
     <ClCompile Include="..\cpp\GOPositionProperty.cpp" />
     <ClCompile Include="..\cpp\GOProjectionModeProperty..cpp" />
     <ClCompile Include="..\cpp\GORoot.cpp" />
-    <ClCompile Include="..\cpp\GORowColumnsProperty.cpp" />
+    <ClCompile Include="..\cpp\GORowColumnProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarPositiveIntegerValueProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringAutoManualProperty.cpp" />
