@@ -33,51 +33,119 @@ function varargout = surface(varargin)
   propertiesList = {};
   firstString = find (cellfun ('isclass', inputArguments, 'char'), 1);
   if (isempty(firstString))
-   firstString = nbInputArguments + 1;
+    firstString = nbInputArguments + 1;
   end
   propertiesList = inputArguments(firstString:end);
   inputArguments = inputArguments(1:firstString-1);
- 
   if (length(inputArguments) == 0)
-    X = 1:3;
-    Y = X';
-    C = eye (3);
-    Z = eye (3);
-
-    h = __surf__('ZData', Z, propertiesList);
-    xlim(go, [1 3]);
-    ylim(go, [1 3]);
+    h = surfaceNoRhs(propertiesList);
   elseif (length(inputArguments) == 1)
-    if isempty(propertiesList)
-      h = __surf__('ZData', inputArguments{1}, propertiesList);
-    else
-      h = __surf__('ZData', inputArguments{1}, propertiesList{:});
-    end
+    h = surfaceOneRhs(inputArguments, propertiesList);
+  elseif (length(inputArguments) == 2)
+    h = surfaceTwoRhs(inputArguments, propertiesList);
   elseif (length(inputArguments) == 3)
-    h = __surf__('XData', inputArguments{1}, ...
-    'YData',inputArguments{2}, ...
-    'ZData',inputArguments{3}, propertiesList{:});
+    h = surfaceThreeRhs(inputArguments, propertiesList);
   elseif (length(inputArguments) == 4)
-    if isempty(propertiesList)
-      h = __surf__('XData',inputArguments{1}, ...
-      'YData', inputArguments{2}, ...
-      'ZData',inputArguments{3}, ...
-      'CData',inputArguments{4}, propertiesList);
-    else
-      h = __surf__('XData',inputArguments{1}, ...
-      'YData', inputArguments{2}, ...
-      'ZData',inputArguments{3}, ...
-      'CData',inputArguments{4}, ...
-      propertiesList{:});
-    end
+    h = surfaceFourRhs(inputArguments, propertiesList);
   else
     error(_('Invalid parameter/value pair arguments.'));
   end
-  axes(saveca);
   grid(go, 'on')
   grid(go, 'off')
+  axes(saveca);
   if nargout > 0
     varargout{1} = h;
   end
-
 end
+%=============================================================================
+function h = surfaceNoRhs(propertiesList)
+  Z = eye(3, 2);
+  h = __surf__('ZData', Z, propertiesList);
+  xlim(go, [1 3]);
+  ylim(go, [1 3]);
+end
+%=============================================================================
+function h = surfaceOneRhs(inputArguments, propertiesList)
+  Z = inputArguments{1};
+  h = __surf__('ZData', Z, propertiesList{:});
+end
+%=============================================================================
+function h = surfaceTwoRhs(inputArguments, propertiesList)
+  Z = inputArguments{1};
+  C = inputArguments{2};
+  if (~isreal(Z) || ~isreal(C))
+    error (_('X, C arguments must be real.'));
+  end
+  if (ismatrix(Z) && ~isvector(Z) && ~isscalar(Z))
+    [nr, nc] = size(Z);
+    X = 1:nc;
+    Y = (1:nr)';
+  else
+    error (_('Z argument must be a matrix.'));
+  end
+  h = __surf__('ZData', Z,  'CData', C, propertiesList{:});
+end
+%=============================================================================
+function h = surfaceThreeRhs(inputArguments, propertiesList)
+  X = inputArguments{1};
+  Y = inputArguments{2};
+  Z = inputArguments{3};
+  if (~isreal(X) || ~isreal(Y) || ~isreal(Z))
+    error(_('X, Y, Z arguments must be real.'));
+  end
+  
+  if (isvector(X) && isvector(Y) && ismatrix(Z))
+    if (size(Z, 1) == length(Y) && size(Z, 2) == length(X))
+      X = X(:)';
+      Y = Y(:);
+    else
+      error(_('size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).'));
+    end
+  elseif (ismatrix(X) && ismatrix(Y) && ismatrix(Z))
+    [X_nr, X_nc] = size(X);
+    [Y_nr, Y_nc] = size(Y);
+    [Z_nr, Z_nc] = size(Z);
+    isSameSize = ((X_nr== Y_nr) && (Y_nr == Z_nr) && (X_nc == Y_nc) && (Y_nc == Z_nc));
+    if (~isSameSize)
+      error(_('X, Y, and Z must have the same dimensions.'));
+    end
+  else
+    error(_('X and Y must be vectors and Z must be a matrix.'));
+  end
+  h = __surf__('XData', X,  'YData', Y, 'ZData', Z, propertiesList{:});
+end
+%=============================================================================
+function h = surfaceFourRhs(inputArguments, propertiesList)
+  X = inputArguments{1};
+  Y = inputArguments{2};
+  Z = inputArguments{3};
+  C = inputArguments{4};
+  if (~isreal(X) || ~isreal(Y) || ~isreal(Z) || ~isreal(C))
+    error(_('X, Y, Z, C arguments must be real.'));
+  end
+  [Z_nr, Z_nc] = size(Z);
+  [C_nr, C_nc, C_np] = size(C);
+  if (~(Z_nr == C_nr && Z_nc == C_nc && (C_np == 1 || C_np == 3)))
+    error(_('Z and C must have the same size.'));
+  end
+  if (isvector(X) && isvector(Y) && ismatrix(Z))
+    if (size(Z, 1) == length(Y) && size(Z, 2) == length(X))
+      X = X(:)';
+      Y = Y(:);
+    else
+      error(_('size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).'));
+    end
+  elseif (ismatrix(X) && ismatrix(Y) && ismatrix(Z))
+    [X_nr, X_nc] = size(X);
+    [Y_nr, Y_nc] = size(Y);
+    [Z_nr, Z_nc] = size(Z);
+    isSameSize = ((X_nr== Y_nr) && (Y_nr == Z_nr) && (X_nc == Y_nc) && (Y_nc == Z_nc));
+    if (~isSameSize)
+      error(_('X, Y, and Z must have the same dimensions.'));
+    end
+  else
+    error(_('X and Y must be vectors and Z must be a matrix.'));
+  end
+  h = __surf__('XData', X, 'YData', Y, 'ZData', Z, 'CData', C,  propertiesList{:});
+end
+%=============================================================================

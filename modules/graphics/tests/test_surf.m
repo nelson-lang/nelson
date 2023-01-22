@@ -15,7 +15,7 @@ surf(peaks);
 f = figure();
 [X,Y] = meshgrid(1:0.5:10,1:20);
 Z = sin(X) + cos(Y);
-S = surf(X, Y, Z)
+S = surf(X, Y, Z);
 %=============================================================================
 P = properties(S);
 REF = {'AlphaData';               

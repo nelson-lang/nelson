@@ -1,3 +1,12 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
 function varargout = pcolor(varargin)
   inputArguments = varargin;
   if (length(inputArguments) >= 2)
@@ -23,8 +32,7 @@ function varargout = pcolor(varargin)
     X = inputArguments{1};
     Y = inputArguments{2};
     C = inputArguments{3};
-    [nr, nc] = size(C);
-    Z = zeros (nr, nc);
+    Z = zeros (size(C));
     h = surface(ax, X, Y, Z, C);
     xlims = [min(min(X)), max(max(X))];
     ylims = [min(min(Y)), max(max(Y))];
@@ -46,3 +54,4 @@ function varargout = pcolor(varargin)
     varargout{1} = h;
   end
 end
+%=============================================================================

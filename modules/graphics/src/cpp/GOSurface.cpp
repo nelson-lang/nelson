@@ -135,19 +135,19 @@ std::vector<std::vector<coloredPoint>>
 GOSurface::buildQuadsNoTexMap(
     GORestrictedStringColorProperty* cp, GORestrictedStringScalarProperty* ap)
 {
-    // Get the x,y,z & color data points
     std::vector<std::vector<coloredPoint>> retval;
-    ArrayOf xdata(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
-    xdata.promoteType(NLS_DOUBLE);
-    ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
+    ArrayOf xdata(getCoordinateMatrix(GO_X_DATA_PROPERTY_NAME_STR, true));
+    ArrayOf ydata(getCoordinateMatrix(GO_Y_DATA_PROPERTY_NAME_STR, false));
     ydata.promoteType(NLS_DOUBLE);
     ArrayOf zdata(findArrayOfProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     zdata.promoteType(NLS_DOUBLE);
     if ((xdata.getElementCount() != zdata.getElementCount())
-        || (xdata.getElementCount() != ydata.getElementCount()))
+        || (xdata.getElementCount() != ydata.getElementCount())) {
         return retval;
-    if (zdata.isEmpty())
+    }
+    if (zdata.isEmpty()) {
         return retval;
+    }
     double* xdp = (double*)xdata.getDataPointer();
     double* ydp = (double*)ydata.getDataPointer();
     double* zdp = (double*)zdata.getDataPointer();
@@ -239,21 +239,74 @@ GOSurface::buildQuadsNoTexMap(
     return retval;
 }
 //=============================================================================
+ArrayOf
+GOSurface::getCoordinateMatrix(const std::wstring& propertyName, bool isXCoord)
+{
+    ArrayOf ZData(findArrayOfProperty(L"ZData"));
+    indexType zRows = ZData.getRows();
+    indexType zCols = ZData.getColumns();
+    if (stringCheck(propertyName + L"Mode", L"manual")) {
+        ArrayOf CData(findArrayOfProperty(propertyName));
+        if (CData.isVector()
+            && ((isXCoord && (CData.getElementCount() == zCols))
+                || (!isXCoord && (CData.getElementCount() == zRows)))) {
+            CData.promoteType(NLS_DOUBLE);
+            const double* qp = (const double*)CData.getDataPointer();
+            Dimensions dimsZ(zRows, zCols);
+            double* dp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsZ.getElementCount());
+            ArrayOf mat = ArrayOf(NLS_DOUBLE, dimsZ, dp);
+            for (indexType i = 0; i < zCols; i++) {
+                for (indexType j = 0; j < zRows; j++) {
+                    if (isXCoord) {
+                        *dp = qp[i];
+                    } else {
+                        *dp = qp[j];
+                    }
+                    dp++;
+                }
+            }
+            return mat;
+        } else if (CData.is2D() && (CData.getRows() == zRows) && (CData.getColumns() == zCols)) {
+            return CData;
+        }
+    }
+    Dimensions dimsZ(zRows, zCols);
+    double* dp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsZ.getElementCount());
+    ArrayOf mat = ArrayOf(NLS_DOUBLE, dimsZ, dp);
+    for (indexType i = 0; i < zCols; i++) {
+        for (indexType j = 0; j < zRows; j++) {
+            if (isXCoord) {
+                *dp = i + 1;
+            } else {
+                *dp = j + 1;
+            }
+            dp++;
+        }
+    }
+    return mat;
+}
+//=============================================================================
 void
 GOSurface::updateState()
 {
-    if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR))
+    if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_X_DATA_MODE_PROPERTY_NAME_STR);
-    if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR))
+    }
+    if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
-    if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR))
+    }
+    if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
-    if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR))
+    }
+    if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         autoXMode();
-    if (isAuto(GO_Y_DATA_MODE_PROPERTY_NAME_STR))
+    }
+    if (isAuto(GO_Y_DATA_MODE_PROPERTY_NAME_STR)) {
         autoYMode();
-    if (isAuto(GO_C_DATA_MODE_PROPERTY_NAME_STR))
+    }
+    if (isAuto(GO_C_DATA_MODE_PROPERTY_NAME_STR)) {
         autoCMode();
+    }
     updateCAlphadata();
 }
 //=============================================================================
@@ -261,8 +314,9 @@ void
 GOSurface::paintMe(RenderInterface& gc)
 {
     updateState();
-    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
+    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         return;
+    }
     ArrayOf xdata(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
     xdata.promoteType(NLS_DOUBLE);
     ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
