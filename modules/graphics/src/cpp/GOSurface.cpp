@@ -16,7 +16,7 @@
 #include "GOColorInterpProperty.hpp"
 #include "GOAutoFlatColorProperty.hpp"
 #include "GOLightingModeProperty.hpp"
-#include "GORowColumnsProperty.hpp"
+#include "GORowColumnProperty.hpp"
 #include "GODataMappingModeProperty.hpp"
 #include "GOMappingModeProperty.hpp"
 #include "GOSymbolProperty.hpp"
@@ -71,7 +71,7 @@ GOSurface::constructProperties()
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MARKER_SIZE_PROPERTY_NAME_STR);
-    registerProperty(new GORowColumnsProperty, GO_MESH_STYLE_PROPERTY_NAME_STR);
+    registerProperty(new GORowColumnProperty, GO_MESH_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_SPECULAR_COLOR_REFLECTANCE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR);
