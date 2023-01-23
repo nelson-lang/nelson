@@ -20,5 +20,15 @@ GOTextInterpreterProperty::GOTextInterpreterProperty()
 {
 }
 //=============================================================================
+TEXT_INTERPRETER_FORMAT
+GOTextInterpreterProperty::getAsEnum()
+{
+    std::wstring value = this->data();
+    if (value == GO_PROPERTY_VALUE_TEX_STR) {
+        return TEXT_INTERPRETER_FORMAT::TEX_MARKUP;
+    }
+    return TEXT_INTERPRETER_FORMAT::NONE;
+}
+//=============================================================================
 }
 //=============================================================================

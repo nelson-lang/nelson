@@ -34,7 +34,7 @@ end
 filename = [TMPDIR, 'export_image.', 'blob'];
 assert_checkerror('saveas(gcf(), filename)', [_('Unsupported format:'), 'blob']) 
 %=============================================================================
-filename = [TMPDIR, 'export_no_extension']
+filename = [TMPDIR, 'export_no_extension'];
 for ex = extensions
     saveas(gcf(), filename, ex);
     assert_istrue(isfile([filename, '.', char(ex)]));

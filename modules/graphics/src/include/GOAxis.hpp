@@ -19,6 +19,7 @@
 #include "GraphicsObject.hpp"
 #include "GOFigure.hpp"
 #include "RenderInterface.hpp"
+#include "GOTextInterpreterProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

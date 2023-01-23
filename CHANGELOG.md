@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `LineStyleOrder` property of 'axes' used for `plot` and `plot3`.
 - `ColorOrderIndex` and `LineStyleOrderIndex` properties added to `axes` graphics object.
 - `Interpreter` property added to `text` graphics object.
-- tex special characters support for `text` graphics object.
+- tex special characters support for `text` and `ticks` graphics object.
 - `delete` for graphics objects.
 - `imread` Read image from graphics file.
 - `imwrite` Write image to graphics file.

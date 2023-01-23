@@ -9,25 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GORestrictedStringProperty.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-enum TEXT_INTERPRETER_FORMAT
-{
-    TEX_MARKUP,
-    LATEX_MARKUP,
-    NONE
-};
+wstringVector
+texToUnicode(const wstringVector& strs);
 //=============================================================================
-class GOTextInterpreterProperty : public GORestrictedStringProperty
-{
-public:
-    GOTextInterpreterProperty();
-    ~GOTextInterpreterProperty() override = default;
-    TEXT_INTERPRETER_FORMAT
-    getAsEnum();
-};
+std::wstring
+texToUnicode(const std::wstring& str);
 //=============================================================================
-};
+}
 //=============================================================================

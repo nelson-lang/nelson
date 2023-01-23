@@ -31,7 +31,7 @@
 #include "GOArrayOfProperty.hpp"
 #include "QStringConverter.hpp"
 #include "GOTextInterpreterProperty.hpp"
-#include "StringHelpers.hpp"
+#include "TexToUnicode.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -221,9 +221,10 @@ GOText::updateState()
     fnt.setStyle(fstyle);
     fnt.setWeight(fweight);
     GOStringProperty* txt = (GOStringProperty*)findProperty(GO_STRING_PROPERTY_NAME_STR);
-    GOStringProperty* textInterpreter = (GOStringProperty*)findProperty(GO_INTERPRETER_NAME_STR);
-    if (textInterpreter->data() == GO_PROPERTY_VALUE_TEX_STR) {
-        text = replaceSpecialCharacters(txt->data());
+    GOTextInterpreterProperty* textInterpreter
+        = (GOTextInterpreterProperty*)findProperty(GO_INTERPRETER_NAME_STR);
+    if (textInterpreter->getAsEnum() == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
+        text = texToUnicode(txt->data());
     } else {
         text = txt->data();
     }
@@ -231,115 +232,6 @@ GOText::updateState()
     QRect sze(fm.boundingRect(wstringToQString(text)));
     setFourVectorDefault(
         GO_BOUNDING_BOX_PROPERTY_NAME_STR, sze.left(), sze.bottom(), sze.width(), sze.height());
-}
-//=============================================================================
-std::wstring
-GOText::replaceSpecialCharacters(const std::wstring& text)
-{
-    std::wstring modifiedText(text);
-    StringHelpers::replace_all(modifiedText, L"\\alpha", L"α");
-    StringHelpers::replace_all(modifiedText, L"\\upsilon", L"υ");
-    StringHelpers::replace_all(modifiedText, L"\\sim", L"~");
-    StringHelpers::replace_all(modifiedText, L"\\angle", L"∠");
-    StringHelpers::replace_all(modifiedText, L"\\phi", L"ϕ");
-    StringHelpers::replace_all(modifiedText, L"\\leq", L"≤");
-    StringHelpers::replace_all(modifiedText, L"\\ast", L"*");
-    StringHelpers::replace_all(modifiedText, L"\\chi", L"χ");
-    StringHelpers::replace_all(modifiedText, L"\\infty", L"∞");
-    StringHelpers::replace_all(modifiedText, L"\\beta", L"β");
-    StringHelpers::replace_all(modifiedText, L"\\psi", L"ψ");
-    StringHelpers::replace_all(modifiedText, L"\\clubsuit", L"♣");
-    StringHelpers::replace_all(modifiedText, L"\\gamma", L"γ");
-    StringHelpers::replace_all(modifiedText, L"\\omega", L"ω");
-    StringHelpers::replace_all(modifiedText, L"\\diamondsuit", L"♦");
-    StringHelpers::replace_all(modifiedText, L"\\delta", L"δ");
-    StringHelpers::replace_all(modifiedText, L"\\Gamma", L"Γ");
-    StringHelpers::replace_all(modifiedText, L"\\heartsuit", L"♥");
-    StringHelpers::replace_all(modifiedText, L"\\epsilon", L"ϵ");
-    StringHelpers::replace_all(modifiedText, L"\\Delta", L"Δ");
-    StringHelpers::replace_all(modifiedText, L"\\spadesuit", L"♠");
-    StringHelpers::replace_all(modifiedText, L"\\zeta", L"ζ");
-    StringHelpers::replace_all(modifiedText, L"\\Theta", L"Θ");
-    StringHelpers::replace_all(modifiedText, L"\\leftrightarrow", L"↔");
-    StringHelpers::replace_all(modifiedText, L"\\eta", L"η");
-    StringHelpers::replace_all(modifiedText, L"\\Lambda", L"Λ");
-    StringHelpers::replace_all(modifiedText, L"\\leftarrow", L"←");
-    StringHelpers::replace_all(modifiedText, L"\\theta", L"θ");
-    StringHelpers::replace_all(modifiedText, L"\\Xi", L"Ξ");
-    StringHelpers::replace_all(modifiedText, L"\\Leftarrow", L"⇐");
-    StringHelpers::replace_all(modifiedText, L"\\vartheta", L"ϑ");
-    StringHelpers::replace_all(modifiedText, L"\\Pi", L"Π");
-    StringHelpers::replace_all(modifiedText, L"\\uparrow", L"↑");
-    StringHelpers::replace_all(modifiedText, L"\\iota", L"ι");
-    StringHelpers::replace_all(modifiedText, L"\\Sigma", L"Σ");
-    StringHelpers::replace_all(modifiedText, L"\\rightarrow", L"→");
-    StringHelpers::replace_all(modifiedText, L"\\kappa", L"κ");
-    StringHelpers::replace_all(modifiedText, L"\\Upsilon", L"ϒ");
-    StringHelpers::replace_all(modifiedText, L"\\Rightarrow", L"⇒");
-    StringHelpers::replace_all(modifiedText, L"\\lambda", L"λ");
-    StringHelpers::replace_all(modifiedText, L"\\Phi", L"Φ");
-    StringHelpers::replace_all(modifiedText, L"\\downarrow", L"↓");
-    StringHelpers::replace_all(modifiedText, L"\\mu", L"µ");
-    StringHelpers::replace_all(modifiedText, L"\\Psi", L"Ψ");
-    StringHelpers::replace_all(modifiedText, L"\\circ", L"º");
-    StringHelpers::replace_all(modifiedText, L"\\nu", L"ν");
-    StringHelpers::replace_all(modifiedText, L"\\Omega", L"Ω");
-    StringHelpers::replace_all(modifiedText, L"\\pm", L"±");
-    StringHelpers::replace_all(modifiedText, L"\\xi", L"ξ");
-    StringHelpers::replace_all(modifiedText, L"\\forall", L"∀");
-    StringHelpers::replace_all(modifiedText, L"\\geq", L"≥");
-    StringHelpers::replace_all(modifiedText, L"\\pi", L"π");
-    StringHelpers::replace_all(modifiedText, L"\\exists", L"∃");
-    StringHelpers::replace_all(modifiedText, L"\\propto", L"∝");
-    StringHelpers::replace_all(modifiedText, L"\\rho", L"ρ");
-    StringHelpers::replace_all(modifiedText, L"\\ni", L"∍");
-    StringHelpers::replace_all(modifiedText, L"\\partial", L"∂");
-    StringHelpers::replace_all(modifiedText, L"\\sigma", L"σ");
-    StringHelpers::replace_all(modifiedText, L"\\cong", L"≅");
-    StringHelpers::replace_all(modifiedText, L"\\bullet", L"•");
-    StringHelpers::replace_all(modifiedText, L"\\varsigma", L"ς");
-    StringHelpers::replace_all(modifiedText, L"\\approx", L"≈");
-    StringHelpers::replace_all(modifiedText, L"\\div", L"÷");
-    StringHelpers::replace_all(modifiedText, L"\\tau", L"τ");
-    StringHelpers::replace_all(modifiedText, L"\\Re", L"ℜ");
-    StringHelpers::replace_all(modifiedText, L"\\neq", L"≠");
-    StringHelpers::replace_all(modifiedText, L"\\equiv", L"≡");
-    StringHelpers::replace_all(modifiedText, L"\\oplus", L"⊕");
-    StringHelpers::replace_all(modifiedText, L"\\aleph", L"ℵ");
-    StringHelpers::replace_all(modifiedText, L"\\Im", L"ℑ");
-    StringHelpers::replace_all(modifiedText, L"\\cup", L"∪");
-    StringHelpers::replace_all(modifiedText, L"\\wp", L"℘");
-    StringHelpers::replace_all(modifiedText, L"\\otimes", L"⊗");
-    StringHelpers::replace_all(modifiedText, L"\\subseteq", L"⊆");
-    StringHelpers::replace_all(modifiedText, L"\\oslash", L"∅");
-    StringHelpers::replace_all(modifiedText, L"\\cap", L"∩");
-    StringHelpers::replace_all(modifiedText, L"\\in", L"∈");
-    StringHelpers::replace_all(modifiedText, L"\\supseteq", L"⊇");
-    StringHelpers::replace_all(modifiedText, L"\\supset", L"⊃");
-    StringHelpers::replace_all(modifiedText, L"\\lceil", L"⌈");
-    StringHelpers::replace_all(modifiedText, L"\\subset", L"⊂");
-    StringHelpers::replace_all(modifiedText, L"\\int", L"∫");
-    StringHelpers::replace_all(modifiedText, L"\\cdot", L"·");
-    StringHelpers::replace_all(modifiedText, L"\\o", L"ο");
-    StringHelpers::replace_all(modifiedText, L"\\rfloor", L"⌋");
-    StringHelpers::replace_all(modifiedText, L"\\neg", L"¬");
-    StringHelpers::replace_all(modifiedText, L"\\nabla", L"∇");
-    StringHelpers::replace_all(modifiedText, L"\\lfloor", L"⌊");
-    StringHelpers::replace_all(modifiedText, L"\\times", L"x");
-    StringHelpers::replace_all(modifiedText, L"\\ldots", L"…");
-    StringHelpers::replace_all(modifiedText, L"\\perp", L"⊥");
-    StringHelpers::replace_all(modifiedText, L"\\surd", L"√");
-    StringHelpers::replace_all(modifiedText, L"\\prime", L"´");
-    StringHelpers::replace_all(modifiedText, L"\\wedge", L"∧");
-    StringHelpers::replace_all(modifiedText, L"\\varpi", L"ϖ");
-    StringHelpers::replace_all(modifiedText, L"\\0", L"∅");
-    StringHelpers::replace_all(modifiedText, L"\\rceil", L"⌉");
-    StringHelpers::replace_all(modifiedText, L"\\rangle", L"〉");
-    StringHelpers::replace_all(modifiedText, L"\\mid", L"|");
-    StringHelpers::replace_all(modifiedText, L"\\vee", L"∨");
-    StringHelpers::replace_all(modifiedText, L"\\langle", L"〈");
-    StringHelpers::replace_all(modifiedText, L"\\copyright", L"©");
-    return modifiedText;
 }
 //=============================================================================
 }

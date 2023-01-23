@@ -104,6 +104,8 @@
 
 <p>lists of the supported special characters for the 'tex' interpreter:</p>
 
+<p>Superscript: ^{ }   'text^{superscript}'</p>
+<p>Subscript: _{ }   'text_{subscript}'</p>
 <p />
    <table style="width:100%">
   <tr>

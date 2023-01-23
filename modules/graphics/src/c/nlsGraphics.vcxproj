@@ -60,6 +60,7 @@
     <ClInclude Include="..\cpp\GOAxisHelpers.hpp" />
     <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
     <ClInclude Include="..\cpp\RenderHelpers.hpp" />
+    <ClInclude Include="..\cpp\TexToUnicode.hpp" />
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
     <ClInclude Include="..\include\CloseFigure.hpp" />
     <ClInclude Include="..\include\ColoredPoint.hpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="..\cpp\RefreshFigure.cpp" />
     <ClCompile Include="..\cpp\RenderQt.cpp" />
     <ClCompile Include="..\cpp\RenderHelpers.cpp" />
+    <ClCompile Include="..\cpp\TexToUnicode.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7ECBC5F0-CE99-4738-944C-E88C3DDF12BB}</ProjectGuid>

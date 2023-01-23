@@ -13,11 +13,9 @@
 #include <list>
 #include <vector>
 #include "Types.hpp"
+#include "GOTextInterpreterProperty.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-std::wstring
-trimTickPrint(double val, bool scientificNotation);
 //=============================================================================
 double
 tickLog(double x);
@@ -26,15 +24,17 @@ std::list<double>
 getTicksInner(double amin, double amax, bool isLog, int requestedCounts);
 //=============================================================================
 void
-formatAxisManual(double t1, double t2, int tickcount, bool isLogarithmic, double& tStart,
-    double& tStop, std::vector<double>& tickLocations, wstringVector& tlabels);
+formatAxisManual(TEXT_INTERPRETER_FORMAT textFormat, double t1, double t2, int tickcount,
+    bool isLogarithmic, double& tStart, double& tStop, std::vector<double>& tickLocations,
+    wstringVector& tlabels);
 //=============================================================================
 std::list<double>
 getTicksOuter(double amin, double amax, bool isLog, int requestedCounts);
 //=============================================================================
 void
-formatAxisAuto(double tMin, double tMax, int tickcount, bool isLogarithmic, double& tStart,
-    double& tStop, std::vector<double>& tickLocations, wstringVector& tlabels);
+formatAxisAuto(TEXT_INTERPRETER_FORMAT textFormat, double tMin, double tMax, int tickcount,
+    bool isLogarithmic, double& tStart, double& tStop, std::vector<double>& tickLocations,
+    wstringVector& tlabels);
 //=============================================================================
 void
 minMaxVector(double* vals, int len, double& vmin, double& vmax);
