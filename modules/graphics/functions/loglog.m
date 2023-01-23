@@ -7,12 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = semilogx(varargin)
-  go = plot(varargin{:});
-  ax = go.Parent;
-  ax.XScale = 'log';
-  if (nargout > 0)
-    varargout{1} = go;
-  end
+function varargout = loglog(varargin)
+    go = plot(varargin{:});
+    ax = go.Parent;
+    ax.XScale = 'log';
+    ax.YScale = 'log';
+    if (nargout > 0)
+      varargout{1} = go;
+    end
 end
 %=============================================================================
+  

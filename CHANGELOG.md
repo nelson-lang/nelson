@@ -24,9 +24,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `imwrite` Write image to graphics file.
 - `imshow` Display image.
 - `surface` Primitive surface plot.
-- `pcolor` Pseudocolor plot.
+- [808](http://github.com/Nelson-numerical-software/nelson/issues/808): `pcolor` Pseudocolor plot.
 - `mesh` Mesh surface plot.
 - `meshz` Mesh surface plot with curtain.
+- [807](http://github.com/Nelson-numerical-software/nelson/issues/807): `loglog` Log-log scale plot.
 - `CHANGELOG` 0.7.x family.
 
 ### Changed

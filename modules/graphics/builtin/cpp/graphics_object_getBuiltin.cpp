@@ -19,19 +19,27 @@ ArrayOfVector
 Nelson::GraphicsGateway::graphics_object_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
-    std::wstring propname = argIn[1].getContentAsWideString();
-    GraphicsObject* fp = nullptr;
-    if (handle == HANDLE_ROOT_OBJECT) {
-        fp = getGraphicsRootObject();
-        fp->updateState();
-    } else if (handle >= HANDLE_OFFSET_OBJECT) {
-        fp = findGraphicsObject(handle);
-    } else {
-        fp = (GraphicsObject*)findGOFigure(handle);
+    ArrayOf paramGo1 = argIn[0];
+    if (paramGo1.getDataClass() != NLS_GO_HANDLE) {
+        Error(_W("graphics_object expected."));
     }
+    Dimensions dims1 = paramGo1.getDimensions();
+    auto* ptrGO1 = (nelson_handle*)paramGo1.getDataPointer();
+    std::wstring propname = argIn[1].getContentAsWideString();
     ArrayOfVector retval;
-    retval << fp->findProperty(propname)->get();
+    for (size_t k = 0; k < dims1.getElementCount(); k++) {
+        auto handle = ptrGO1[k];
+        GraphicsObject* fp = nullptr;
+        if (handle == HANDLE_ROOT_OBJECT) {
+            fp = getGraphicsRootObject();
+            fp->updateState();
+        } else if (handle >= HANDLE_OFFSET_OBJECT) {
+            fp = findGraphicsObject(handle);
+        } else {
+            fp = (GraphicsObject*)findGOFigure(handle);
+        }
+        retval << fp->findProperty(propname)->get();
+    }
     return retval;
 }
 //=============================================================================
