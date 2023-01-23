@@ -13,11 +13,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GORowColumnsProperty : public GORestrictedStringProperty
+class GORowColumnProperty : public GORestrictedStringProperty
 {
 public:
-    GORowColumnsProperty();
-    ~GORowColumnsProperty() override = default;
+    GORowColumnProperty();
+    ~GORowColumnProperty() override = default;
 };
 //=============================================================================
 };

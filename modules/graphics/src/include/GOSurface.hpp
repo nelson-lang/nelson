@@ -26,6 +26,8 @@ class NLSGRAPHICS_IMPEXP GOSurface : public GOImage
     autoCMode();
     std::vector<std::vector<coloredPoint>>
     buildQuadsNoTexMap(GORestrictedStringColorProperty* cp, GORestrictedStringScalarProperty* ap);
+    ArrayOf
+    getCoordinateMatrix(const std::wstring& propertyName, bool isXCoord);
     void
     constructProperties() override;
     void

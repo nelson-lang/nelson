@@ -59,8 +59,11 @@
 
 <description>
 <p><b
-      >axes</b> creates axes in the current figure and set it as the current axes.</p>
-<p><b>axes(cax)</b> set current axes.</p>
+      >surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.</p>
+<p
+    >You can customize the appearance of the plot using various options such as color, lighting, and shading.</p>
+<p
+    >For example, you can use the colormap option to change the color of the surface, and the FaceLighting option to change the lighting of the surface.</p>
 
 <p>Properties:</p>
 <p />
@@ -153,16 +156,10 @@ S = surf(X, Y, Z, C)]]>
     </example_item_description>
     <example_item_data
       ><![CDATA[f = figure();
-k = 5;
-n = 2^(k-1);
-theta = pi * (-n:2:n) / n;
-phi = (pi / 2) * (-n:2:n)' / n;
-X = cos(phi) * cos(theta);
-Y = cos(phi) * sin(theta);
-Z = sin(phi) * ones(size(theta));
-colormap([0 0 0;1 1 1]);
-C = hadamard(2^k); 
-surf(X, Y, Z, C)
+[X,Y] = meshgrid(-8:.5:8);
+R = sqrt(X.^2 + Y.^2) + eps;
+Z = sin(R)./R;
+h = surf(X, Y, Z);
 axis square]]>
     </example_item_data>
     <example_item_img src="../images/surf_2.svg" align="middle" />
@@ -173,6 +170,9 @@ axis square]]>
   <see_also>
     <see_also_item>
       <link linkend="${graphics}view">view</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surface">surface</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${elementary_functions}meshgrid">meshgrid</link>

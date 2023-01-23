@@ -17,7 +17,7 @@ function varargout = grid(varargin)
     return;
   end
   inputArguments = varargin;
-  if isgraphics(inputArguments)
+  if isgraphics(inputArguments{1})
     ax = inputArguments{1};
     propertyIndex = 2;
   else

@@ -164,7 +164,7 @@
     <ClInclude Include="..\include\GORoot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\GORowColumnsProperty.hpp">
+    <ClInclude Include="..\include\GORowColumnProperty.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GOScalarDoubleProperty.hpp">
@@ -394,7 +394,7 @@
     <ClCompile Include="..\cpp\GORoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\GORowColumnsProperty.cpp">
+    <ClCompile Include="..\cpp\GORowColumnProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp">

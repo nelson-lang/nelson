@@ -22,13 +22,9 @@ namespace Nelson {
 static ArrayOfVector
 imageReaderRGB32(QImage image, int nLhs);
 static ArrayOfVector
-imageReaderRGB32AllGray(QImage image, int nLhs);
-static ArrayOfVector
 imageReaderGrayScale16(QImage image, int nLhs);
 static ArrayOfVector
 imageReaderARGB32(QImage image, int nLhs);
-static ArrayOfVector
-imageReaderARGB32AllGray(QImage image, int nLhs);
 static ArrayOfVector
 imageReaderIndexed8(QImage image, int nLhs);
 //=============================================================================
@@ -50,30 +46,17 @@ imageReader(const std::wstring& filename, int nLhs)
         results = imageReaderIndexed8(image, nLhs);
     } break;
     case QImage::Format_RGB32: {
-        if (image.allGray()) {
-            results = imageReaderRGB32AllGray(image, nLhs);
-
-        } else {
-            results = imageReaderRGB32(image, nLhs);
-        }
+        results = imageReaderRGB32(image, nLhs);
     } break;
     case QImage::Format_ARGB32: {
-        if (image.allGray()) {
-            results = imageReaderARGB32AllGray(image, nLhs);
-        } else {
-            results = imageReaderARGB32(image, nLhs);
-        }
+        results = imageReaderARGB32(image, nLhs);
     } break;
     case QImage::Format_Grayscale16: {
         results = imageReaderGrayScale16(image, nLhs);
     } break;
     default: {
         image = image.convertToFormat(QImage::Format_RGB32);
-        if (image.allGray()) {
-            results = imageReaderRGB32AllGray(image, nLhs);
-        } else {
-            results = imageReaderRGB32(image, nLhs);
-        }
+        results = imageReaderRGB32(image, nLhs);
     } break;
     case QImage::Format_Invalid: {
         Error(_W("Unsupported file image format."));
@@ -121,35 +104,6 @@ imageReaderRGB32(QImage image, int nLhs)
 }
 //=============================================================================
 ArrayOfVector
-imageReaderRGB32AllGray(QImage image, int nLhs)
-{
-    ArrayOfVector results;
-    results.reserve(nLhs + 1);
-    uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, image.height() * image.width());
-    ArrayOf A = ArrayOf(NLS_UINT8, Dimensions(image.height(), image.width()), ptrA);
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for private(col)
-#endif
-    for (indexType row = 0; row < image.height(); row++) {
-        QRgb* p = (QRgb*)image.scanLine((int)row);
-        for (indexType col = 0; col < image.width(); col++) {
-            indexType ndx = row + col * image.height();
-            ptrA[ndx] = qGray(p[col]);
-        }
-    }
-    results << A;
-    if (nLhs > 1) {
-        // colormap
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    if (nLhs > 2) {
-        // transparency
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    return results;
-}
-//=============================================================================
-ArrayOfVector
 imageReaderARGB32(QImage image, int nLhs)
 {
     ArrayOfVector results = {};
@@ -180,41 +134,6 @@ imageReaderARGB32(QImage image, int nLhs)
             ptrA[ndx] = qRed(p[col]);
             ptrA[ndx + 1 * imageCounter] = qGreen(p[col]);
             ptrA[ndx + 2 * imageCounter] = qBlue(p[col]);
-            ptrTransparency[ndx] = qAlpha(p[col]);
-        }
-    }
-    results << A;
-    if (nLhs > 1) {
-        // no colormap
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    if (nLhs > 2) {
-        // transparency
-        results << transparency;
-    }
-    return results;
-}
-//=============================================================================
-ArrayOfVector
-imageReaderARGB32AllGray(QImage image, int nLhs)
-{
-    ArrayOfVector results = {};
-    results.reserve(nLhs + 1);
-
-    Dimensions dimsA(image.height(), image.width());
-    uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
-    ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
-    uint8* ptrTransparency = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
-    ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for private(col)
-#endif
-    for (int row = 0; row < image.height(); row++) {
-        QRgb* p = (QRgb*)image.scanLine(row);
-        for (int col = 0; col < image.width(); col++) {
-            int ndx = row + col * image.height();
-            ptrA[ndx] = qGray(p[col]);
             ptrTransparency[ndx] = qAlpha(p[col]);
         }
     }

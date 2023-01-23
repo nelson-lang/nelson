@@ -774,6 +774,7 @@ Path::last_write_time(const Path& p, std::string& errorMessage)
     try {
         file_time = nfs::last_write_time(nfs::path(p.nativePath));
     } catch (const nfs::filesystem_error& e) {
+        file_time = 0;
         std::error_code error_code = e.code();
         errorMessage = error_code.message();
     }
@@ -789,6 +790,7 @@ Path::last_write_time(const Path& p, std::string& errorMessage)
     } catch (const nfs::filesystem_error& e) {
         std::error_code error_code = e.code();
         errorMessage = error_code.message();
+        return (time_t)0;
     }
     return (time_t)to_time_t(file_time);
 #endif

@@ -17,6 +17,7 @@
 #include "i18n.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GraphicsObject.hpp"
+#include "GOColorVectorProperty.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -52,6 +53,15 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
         fp->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, currentFigureID);
         GOFigure* fig = getCurrentGOFigure();
         fig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, handle);
+
+        GOColorVectorProperty* colormapFigure
+            = (GOColorVectorProperty*)fig->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
+        GOColorVectorProperty* colormapAxes
+            = (GOColorVectorProperty*)fp->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
+        if (colormapFigure && colormapAxes) {
+            colormapAxes->data(colormapFigure->data());
+        }
+
         GOGObjectsProperty* hp
             = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
         std::vector<int64> children(hp->data());

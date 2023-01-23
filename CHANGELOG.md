@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- `drawnow`: Update figures and process callbacks
+- `drawnow`: Update figures and process callbacks.
 - `DrawLater` property added to `figure` graphics object.
 - `interp1` linear interpolation 1D.
 - [736](http://github.com/Nelson-numerical-software/nelson/issues/736): `bone`, `cool`, `copper`, `hot`, `jet`, `pink`, `turbo`, `viridis`, `white` colormaps.
@@ -23,24 +23,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `imread` Read image from graphics file.
 - `imwrite` Write image to graphics file.
 - `imshow` Display image.
+- `surface` Primitive surface plot.
+- `pcolor` Pseudocolor plot.
+- `mesh` Mesh surface plot.
+- `meshz` Mesh surface plot with curtain.
 - `CHANGELOG` 0.7.x family.
 
 ### Changed
 
 - Graphics objects property names check is strict (compatibility).
-
 - Some speed optimization with graphics objects.
+- `surf` reworked to use `surface`.
 
 ### Fixed
 
 - [#823](http://github.com/Nelson-numerical-software/nelson/issues/823): default LineStyle for a line was wrong with marker.
-
 - `CTRL+C` was not catched on advanced cli for linux and macos.
-
 - colors in `colorbar` were not in the good order.
-
 - warnings detected by CodeQL.
-
 - [#824](http://github.com/Nelson-numerical-software/nelson/issues/824): VariableCompleter was not filtered by prefix.
 
 ## Previous changelog

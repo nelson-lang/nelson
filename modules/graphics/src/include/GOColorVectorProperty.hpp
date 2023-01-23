@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "GOVectorTwoDoubleProperty.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOColorVectorProperty : public GOVectorProperty
+class NLSGRAPHICS_IMPEXP GOColorVectorProperty : public GOVectorProperty
 {
 public:
     GOColorVectorProperty() : GOVectorProperty() { }

@@ -12,10 +12,11 @@
 #include <vector>
 #include "ArrayOf.hpp"
 #include "GOGenericProperty.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOVectorProperty : public GOGenericProperty
+class NLSGRAPHICS_IMPEXP GOVectorProperty : public GOGenericProperty
 {
 protected:
     std::vector<double> _data;
