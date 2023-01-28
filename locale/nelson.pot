@@ -1174,7 +1174,10 @@ msgstr ""
 msgid "Wrong number of input parameters."
 msgstr ""
 
-msgid "Got error for property "
+msgid "Got error for property:"
+msgstr ""
+
+msgid "Cannot delete root graphics object."
 msgstr ""
 
 msgid "graphics_object expected."
@@ -1189,7 +1192,7 @@ msgstr ""
 msgid "Property is readable only: "
 msgstr ""
 
-msgid "Got error for property :"
+msgid "Wrong value for quality: [0, 100] expected."
 msgstr ""
 
 msgid "Invalid object."
@@ -1199,6 +1202,9 @@ msgid "axes graphics object expected."
 msgstr ""
 
 msgid "Invalid Graphics object type name:"
+msgstr ""
+
+msgid "Parent directory does not exist: "
 msgstr ""
 
 msgid "Unsupported format:"
@@ -1225,7 +1231,15 @@ msgstr ""
 msgid "Expecting handle for property."
 msgstr ""
 
+msgid "Deleted graphics_object"
+msgstr ""
+
 msgid "Invalid figure id."
+msgstr ""
+
+msgid ""
+"The value must be a '|' delimited character vector, string array, or cell "
+"array of character vectors."
 msgstr ""
 
 msgid "Expecting a string for property."
@@ -1234,13 +1248,17 @@ msgstr ""
 msgid "Illegal selection for property."
 msgstr ""
 
-msgid "Expecting a '|' - delimited list of strings for property argument."
+msgid "Value should be an positive integer value > 0."
 msgstr ""
 
 msgid "&Close"
 msgstr ""
 
-msgid "Invalid property:"
+#, c-format
+msgid "Unrecognized property '%s' for class '%s'."
+msgstr ""
+
+msgid "Did you mean:"
 msgstr ""
 
 msgid "Restricted string/scalar default failed lookup of: "
@@ -1252,10 +1270,43 @@ msgstr ""
 msgid "Set restricted string default failed lookup of: "
 msgstr ""
 
-msgid "Deleted graphics_object.\n"
+msgid "Deleted graphics_object\n"
 msgstr ""
 
 msgid "with properties:"
+msgstr ""
+
+msgid "A valid filename expected."
+msgstr ""
+
+msgid "Impossible read image file."
+msgstr ""
+
+msgid "Unsupported file image format."
+msgstr ""
+
+msgid "Colormap should have three columns."
+msgstr ""
+
+msgid "Wrong size for AlphaMap."
+msgstr ""
+
+msgid "Image must be double, single, logical or uint8 type."
+msgstr ""
+
+msgid "Unable to determine the file format from the file name."
+msgstr ""
+
+msgid "Not supported format."
+msgstr ""
+
+msgid "Cannot write "
+msgstr ""
+
+msgid "Image data must be either MxN or MxNx3."
+msgstr ""
+
+msgid "Cannot save image file"
 msgstr ""
 
 msgid "look and feel not applied."
@@ -3323,6 +3374,9 @@ msgstr ""
 msgid "Input argument must be dense and real."
 msgstr ""
 
+msgid "'linear' method expected."
+msgstr ""
+
 msgid "Error evaluating betainc."
 msgstr ""
 
@@ -3353,6 +3407,18 @@ msgstr ""
 msgid ""
 "Integers can only be combined with integers of the same class, or scalar "
 "doubles."
+msgstr ""
+
+msgid "'double' or 'single' type for all input arguments expected."
+msgstr ""
+
+msgid "dense type for all input arguments expected."
+msgstr ""
+
+msgid "Inputs arguments must be real."
+msgstr ""
+
+msgid "X and V must be of the same length."
 msgstr ""
 
 msgid "Inputs must be 2-D."
@@ -3413,9 +3479,6 @@ msgid "Not implemented for requested file identifier."
 msgstr ""
 
 msgid "Second argument must be greater than zero."
-msgstr ""
-
-msgid "A valid filename expected."
 msgstr ""
 
 msgid "Encoding not supported."
@@ -5357,6 +5420,9 @@ msgstr ""
 msgid "Error setting property"
 msgstr ""
 
+msgid "\"plot\" argument expected."
+msgstr ""
+
 msgid "Requires a string scalar or a character vector argument."
 msgstr ""
 
@@ -5372,7 +5438,49 @@ msgstr ""
 msgid "Invalid input arguments."
 msgstr ""
 
-msgid "Invalid input arguments"
+msgid "Invalid #1 argument: image or filename expected."
+msgstr ""
+
+msgid "Invalid #1 argument: image must be uint8, uint16, double, or single."
+msgstr ""
+
+msgid "Wrong size for #1 argument: image must be MxN or MxNx3 array."
+msgstr ""
+
+msgid "Invalid colormap."
+msgstr ""
+
+msgid "Invalid input argument."
+msgstr ""
+
+msgid "border option not yet implement."
+msgstr ""
+
+msgid "initialMagnification option not yet implement."
+msgstr ""
+
+msgid "Invalid colormap"
+msgstr ""
+
+msgid "reduce option not yet implement."
+msgstr ""
+
+msgid "XData must be a vector."
+msgstr ""
+
+msgid "YData must be a vector."
+msgstr ""
+
+msgid "Unrecognized property."
+msgstr ""
+
+msgid "Invalid argument detected."
+msgstr ""
+
+msgid "Displaying real part of complex input."
+msgstr ""
+
+msgid "Pixels with NaN values are set to minimum pixel value."
 msgstr ""
 
 #, python-format
@@ -5388,6 +5496,12 @@ msgstr ""
 msgid "Wrong input arguments."
 msgstr ""
 
+msgid "Invalid parameter/value pair arguments."
+msgstr ""
+
+msgid "pcolor requires either X,Y,C, or C arguments."
+msgstr ""
+
 msgid "Dimensions do not match."
 msgstr ""
 
@@ -5400,7 +5514,30 @@ msgstr ""
 msgid "Must be a 3-column colormap matrix."
 msgstr ""
 
-msgid "Invalid parameter/value pair arguments."
+msgid "X, C arguments must be real."
+msgstr ""
+
+msgid "Z argument must be a matrix."
+msgstr ""
+
+msgid "X, Y, Z arguments must be real."
+msgstr ""
+
+msgid ""
+"size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as "
+"length(X)."
+msgstr ""
+
+msgid "X, Y, and Z must have the same dimensions."
+msgstr ""
+
+msgid "X and Y must be vectors and Z must be a matrix."
+msgstr ""
+
+msgid "X, Y, Z, C arguments must be real."
+msgstr ""
+
+msgid "Z and C must have the same size."
 msgstr ""
 
 msgid "Invalid input argument: numeric value expected."
@@ -5667,6 +5804,9 @@ msgid "Wrong value for input argument #1: a nonnegative integer expected."
 msgstr ""
 
 msgid "Wrong value for input argument #1: maximum value of n allowed is 2^32."
+msgstr ""
+
+msgid "linear method expected."
 msgstr ""
 
 msgid "Peaks"
