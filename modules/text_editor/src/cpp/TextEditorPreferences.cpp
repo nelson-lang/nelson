@@ -39,7 +39,6 @@ bool
 TextEditorSavePreferences(
     QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles)
 {
-    bool bRes = false;
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
@@ -78,7 +77,6 @@ bool
 TextEditorLoadPreferences(
     QFont& currentFont, QPoint& pos, QSize& sz, Nelson::wstringVector& recentFiles)
 {
-    bool bRes = false;
     int pref_pos_x = TEXT_EDITOR_DEFAULT_POS_X;
     int pref_pos_y = TEXT_EDITOR_DEFAULT_POS_Y;
     int pref_sz_x = TEXT_EDITOR_DEFAULT_SIZE_X;

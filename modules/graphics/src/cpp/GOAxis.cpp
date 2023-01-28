@@ -920,7 +920,6 @@ GOAxis::setupAxis(RenderInterface& gc)
         x2pos[1] = flipY(x1pos[1]);
         x2pos[2] = x1pos[2];
         y2pos[0] = flipX(y1pos[0]);
-        // y2pos[2] = y2pos[2];
     }
     if ((model[6] == 0) && (model[10] == 0)) {
         y2pos[0] = y1pos[0];
