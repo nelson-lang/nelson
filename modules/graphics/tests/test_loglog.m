@@ -9,40 +9,43 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-TMPDIR = [tempdir, 'saveas_test/'];
-if isdir(TMPDIR)
-    rmdir(TMPDIR, 's');
-end
-mkdir(TMPDIR);
+f = figure();
+x = logspace(-1,2);
+y = 2 .^ x;
+loglog(x,y)
+grid on
 %=============================================================================
-extensions = ["png", "jpg", "pdf", "svg"];
+f = figure();
+x = logspace(-1,2,10000);
+y = 5 + 3*sin(x);
+loglog(x, y);
 %=============================================================================
-x = -2:0.25:2;
-y = x;
-[X,Y] = meshgrid(x);
-F = X.*exp(-X.^2-Y.^2);
-surf(X,Y,F);
+f = figure();
+x = logspace(-1,2,20);
+y = 10 .^ x;
+loglog(x,y,'s','MarkerFaceColor',[0 0.447 0.741])
+grid on
 %=============================================================================
-for ex = extensions
-    filename = [TMPDIR, 'export_image.', char(ex)];
-    saveas(gcf(), filename);
-    assert_istrue(isfile(filename));
-    fileinfo = dir(filename);
-    assert_istrue(fileinfo.bytes > 0);
-end
+f = figure();
+x = logspace(-1,2,10000);
+hold on
+y1 = 5 + 3*sin(x/4);
+y2 = 5 - 3*sin(x/4);
+loglog(x,y1)
+loglog(x,y2,'--')
+hold off
+legend('Signal 1','Signal 2','Location','northwest')
 %=============================================================================
-filename = [TMPDIR, 'export_image.', 'blob'];
-assert_checkerror('saveas(gcf(), filename)', [_('Unsupported format:'), 'blob']) 
+f = figure();
+y = [0.001 0.01 0.1 1 10 100];
+loglog(y)
+grid on
 %=============================================================================
-filename = [TMPDIR, 'export_no_extension'];
-for ex = extensions
-    saveas(gcf(), filename, ex);
-    assert_istrue(isfile([filename, '.', char(ex)]));
-    fileinfo = dir([filename, '.', char(ex)]);
-    assert_istrue(fileinfo.bytes > 0);
-end
-%=============================================================================
-if isdir(TMPDIR)
-    rmdir(TMPDIR, 's');
-end
+y = [0.0010    0.0100    0.1000
+     0.0100    0.1000    1.0000
+     0.1000    1.0000   10.0000
+     1.0000   10.5000  100.0000
+    10.0000  100.0000 1000.0000];
+h= loglog(y);
+grid on
 %=============================================================================

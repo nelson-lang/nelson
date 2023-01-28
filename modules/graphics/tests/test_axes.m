@@ -76,6 +76,7 @@ REF = {'ALim';
 'TextHeight';            
 'TickDir';               
 'TickDirMode';           
+'TickLabelInterpreter';  
 'TickLength';            
 'TightInset';            
 'Title';                 

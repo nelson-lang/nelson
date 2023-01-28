@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = semilogy(varargin)
   go = plot(varargin{:});
-  ax = gca();
+  ax = go.Parent;
   ax.YScale = 'log';
   if (nargout > 0)
     varargout{1} = go;

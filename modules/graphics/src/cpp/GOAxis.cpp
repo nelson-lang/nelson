@@ -42,6 +42,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "GOScalarPositiveIntegerValueProperty.hpp"
+#include "GOTextInterpreterProperty.hpp"
 #include "GOList.hpp"
 #include "GOFigure.hpp"
 #include "GOText.hpp"
@@ -51,10 +52,11 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "TexToUnicode.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const int MAX_TICK_COUNT = 1000;
+const int MAX_MINI_TICK_COUNT = 10;
 //=============================================================================
 std::wstring
 GOAxis::getType()
@@ -164,6 +166,7 @@ GOAxis::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOColorVectorProperty, GO_COLOR_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
+    registerProperty(new GOTextInterpreterProperty, GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -287,6 +290,7 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_Y_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setTwoVectorDefault(GO_C_LIM_PROPERTY_NAME_STR, 0, 1);
+    setStringDefault(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
 
     loadParulaColorMap();
     updateAxisFont();
@@ -415,9 +419,11 @@ GOAxis::recalculateTicks()
     double zStart, zStop;
     GOTwoVectorProperty* tp = nullptr;
     GOLinearLogProperty* lp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+    GOTextInterpreterProperty* textInterpreterProperty
+        = (GOTextInterpreterProperty*)findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
     if (isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(limits[0], limits[1], xcnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart,
-            xStop, xticks, xlabels);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
         tp = (GOTwoVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
@@ -429,13 +435,13 @@ GOAxis::recalculateTicks()
         }
         tp->data(lims);
     } else {
-        formatAxisManual(limits[0], limits[1], xcnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart,
-            xStop, xticks, xlabels);
+        formatAxisManual(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
     }
     lp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
     if (isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(limits[2], limits[3], ycnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart,
-            yStop, yticks, ylabels);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
         tp = (GOTwoVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
@@ -447,14 +453,14 @@ GOAxis::recalculateTicks()
         }
         tp->data(lims);
     } else {
-        formatAxisManual(limits[2], limits[3], ycnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart,
-            yStop, yticks, ylabels);
+        formatAxisManual(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
     }
 
     lp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
     if (isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(limits[4], limits[5], zcnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart,
-            zStop, zticks, zlabels);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
         tp = (GOTwoVectorProperty*)findProperty(GO_Z_LIM_PROPERTY_NAME_STR);
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
@@ -466,8 +472,8 @@ GOAxis::recalculateTicks()
         }
         tp->data(lims);
     } else {
-        formatAxisManual(limits[4], limits[5], zcnt, lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart,
-            zStop, zticks, zlabels);
+        formatAxisManual(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt,
+            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
     }
     GOVectorProperty* hp = nullptr;
     GOStringVector* qp = nullptr;
@@ -1573,12 +1579,35 @@ GOAxis::drawTickMarks(RenderInterface& gc)
             ticdir = -1;
         }
     }
+
+    GOTextInterpreterProperty* textInterpreterProperty
+        = (GOTextInterpreterProperty*)findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+    TEXT_INTERPRETER_FORMAT textFormat = textInterpreterProperty->getAsEnum();
+
     GOStringVector* qp = (GOStringVector*)findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR);
-    std::vector<std::wstring> xlabeltxt(qp->data());
+    std::vector<std::wstring> xlabeltxt;
+    if (textFormat == TEX_MARKUP) {
+        xlabeltxt = texToUnicode(qp->data());
+    } else {
+        xlabeltxt = qp->data();
+    }
+
     qp = (GOStringVector*)findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
-    std::vector<std::wstring> ylabeltxt(qp->data());
+    std::vector<std::wstring> ylabeltxt;
+    if (textFormat == TEX_MARKUP) {
+        ylabeltxt = texToUnicode(qp->data());
+    } else {
+        ylabeltxt = qp->data();
+    }
+
     qp = (GOStringVector*)findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
-    std::vector<std::wstring> zlabeltxt(qp->data());
+    std::vector<std::wstring> zlabeltxt;
+    if (textFormat == TEX_MARKUP) {
+        zlabeltxt = texToUnicode(qp->data());
+    } else {
+        zlabeltxt = qp->data();
+    }
+
     std::vector<double> limits(getAxisLimits());
     gc.setLineStyle(L"-");
 
@@ -1594,7 +1623,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
                 double t1 = xticks[i];
                 double t2 = xticks[i + 1];
                 int n = 2;
-                while (((t1 * n) < t2) && (n < MAX_TICK_COUNT)) {
+                while (((t1 * n) < t2) && (n < MAX_MINI_TICK_COUNT)) {
                     minorticks.push_back(mapX(n * t1));
                     n++;
                 }
@@ -1616,7 +1645,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
                 double t1 = yticks[i];
                 double t2 = yticks[i + 1];
                 int n = 2;
-                while (((t1 * n) < t2) && (n < MAX_TICK_COUNT)) {
+                while (((t1 * n) < t2) && (n < MAX_MINI_TICK_COUNT)) {
                     minorticks.push_back(mapY(n * t1));
                     n++;
                 }
@@ -1638,7 +1667,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
                 double t1 = zticks[i];
                 double t2 = zticks[i + 1];
                 int n = 2;
-                while (((t1 * n) < t2) && (n < MAX_TICK_COUNT)) {
+                while (((t1 * n) < t2) && (n < MAX_MINI_TICK_COUNT)) {
                     minorticks.push_back(mapZ(n * t1));
                     n++;
                 }

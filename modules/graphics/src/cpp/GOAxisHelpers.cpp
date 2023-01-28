@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
@@ -12,37 +12,86 @@
 #include <fmt/xchar.h>
 #include <cmath>
 #include "GOAxisHelpers.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-trimTickPrint(double val, bool scientificNotation)
+static wstringVector
+split(const std::wstring& str, const std::wstring& token)
+{
+    wstringVector result;
+    std::wstring wstr(str);
+    while (wstr.size()) {
+        size_t index = wstr.find(token);
+        if (index != std::wstring::npos) {
+            result.push_back(wstr.substr(0, index));
+            wstr = wstr.substr(index + token.size());
+            if (str.size() == 0) {
+                result.push_back(wstr);
+            }
+        } else {
+            result.push_back(wstr);
+            wstr = L"";
+        }
+    }
+    return result;
+}
+//=============================================================================
+static std::wstring
+formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotation)
 {
     std::wstring buffer;
     if (scientificNotation) {
         std::wstring label = fmt::sprintf(L"%e", val);
-        size_t ePtr = label.size() - 1;
-        while ((label[ePtr] != L'e') && (label[ePtr] != L'E')) {
+        if (textFormat == TEX_MARKUP) {
+            std::wstring copyLabel(label);
+            wstringVector elements = split(copyLabel, L"e");
+            if (elements.size() == 2) {
+                std::wstring mantissa = elements[0];
+                size_t dotPtr = mantissa.size() - 1;
+                while (mantissa[dotPtr] != L'.') {
+                    mantissa.erase(dotPtr, 1);
+                    dotPtr--;
+                }
+                mantissa.erase(dotPtr, 1);
+                mantissa += L"0";
+                std::wstring sign = elements[1].substr(0, 1);
+                std::wstring exponent = elements[1].substr(1, elements[1].size() - 1);
+                while (!exponent.empty() && *exponent.begin() == L'0') {
+                    exponent.erase(0, 1);
+                }
+                if (exponent.empty()) {
+                    exponent = L"0";
+                }
+                if (sign == L"-") {
+                    exponent = sign + exponent;
+                }
+                label = mantissa + L"^{" + exponent + L"}";
+            }
+        } else {
+            size_t ePtr = label.size() - 1;
+            while ((label[ePtr] != L'e') && (label[ePtr] != L'E')) {
+                ePtr--;
+            }
             ePtr--;
-        }
-        ePtr--;
-        while (label[ePtr] == L'0') {
-            label.erase(ePtr, 1);
-            ePtr--;
-        }
-        if ((label[ePtr] == L'.') || (label[ePtr] == L',')) {
-            label.insert(ePtr + 1, L"0");
-        }
-        ePtr = label.size() - 1;
-        while ((label[ePtr] != L'e') && (label[ePtr] != L'E')) {
-            ePtr--;
-        }
-        ePtr += 2;
-        while (ePtr < (unsigned int)(label.size()) && (label[ePtr] == L'0')) {
-            label.erase(ePtr, 1);
-        }
-        if (ePtr == (unsigned int)(label.size())) {
-            label.append(L"0");
+            while (label[ePtr] == L'0') {
+                label.erase(ePtr, 1);
+                ePtr--;
+            }
+            if ((label[ePtr] == L'.') || (label[ePtr] == L',')) {
+                label.insert(ePtr + 1, L"0");
+            }
+            ePtr = label.size() - 1;
+            while ((label[ePtr] != L'e') && (label[ePtr] != L'E')) {
+                ePtr--;
+            }
+            ePtr += 2;
+            while (ePtr < (unsigned int)(label.size()) && (label[ePtr] == L'0')) {
+                label.erase(ePtr, 1);
+            }
+            if (ePtr == (unsigned int)(label.size())) {
+                label.append(L"0");
+            }
         }
         return label;
     } else {
@@ -139,8 +188,9 @@ getTicksInner(double amin, double amax, bool isLog, int requestedCounts)
 }
 //=============================================================================
 void
-formatAxisManual(double t1, double t2, int tickcount, bool isLogarithmic, double& tStart,
-    double& tStop, std::vector<double>& tickLocations, wstringVector& tickLabels)
+formatAxisManual(TEXT_INTERPRETER_FORMAT textFormat, double t1, double t2, int tickcount,
+    bool isLogarithmic, double& tStart, double& tStop, std::vector<double>& tickLocations,
+    wstringVector& tickLabels)
 {
     tickLocations.clear();
     tickLabels.clear();
@@ -170,9 +220,9 @@ formatAxisManual(double t1, double t2, int tickcount, bool isLogarithmic, double
         std::advance(l_front, i);
         double tloc = *l_front;
         if (!isLogarithmic) {
-            tickLabels.push_back(trimTickPrint(tloc, exponentialForm));
+            tickLabels.push_back(formatTick(textFormat, tloc, exponentialForm));
         } else {
-            tickLabels.push_back(trimTickPrint(pow(10.0, tloc), true));
+            tickLabels.push_back(formatTick(textFormat, pow(10.0, tloc), true));
         }
     }
 }
@@ -255,8 +305,9 @@ getTicksOuter(double amin, double amax, bool isLog, int requestedCounts)
 }
 //=============================================================================
 void
-formatAxisAuto(double tMin, double tMax, int tickcount, bool isLogarithmic, double& tStart,
-    double& tStop, std::vector<double>& tickLocations, wstringVector& tlabels)
+formatAxisAuto(TEXT_INTERPRETER_FORMAT textFormat, double tMin, double tMax, int tickcount,
+    bool isLogarithmic, double& tStart, double& tStop, std::vector<double>& tickLocations,
+    wstringVector& tlabels)
 {
     tickLocations.clear();
     tlabels.clear();
@@ -286,9 +337,9 @@ formatAxisAuto(double tMin, double tMax, int tickcount, bool isLogarithmic, doub
         std::advance(l_front, i);
         double tloc = *l_front;
         if (!isLogarithmic) {
-            tlabels.push_back(trimTickPrint(tloc, exponentialForm));
+            tlabels.push_back(formatTick(textFormat, tloc, exponentialForm));
         } else {
-            tlabels.push_back(trimTickPrint(pow(10.0, tloc), true));
+            tlabels.push_back(formatTick(textFormat, pow(10.0, tloc), true));
         }
     }
 }

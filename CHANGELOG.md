@@ -18,15 +18,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `LineStyleOrder` property of 'axes' used for `plot` and `plot3`.
 - `ColorOrderIndex` and `LineStyleOrderIndex` properties added to `axes` graphics object.
 - `Interpreter` property added to `text` graphics object.
-- tex special characters support for `text` graphics object.
+- tex special characters support for `text` and `ticks` graphics object.
 - `delete` for graphics objects.
 - `imread` Read image from graphics file.
 - `imwrite` Write image to graphics file.
 - `imshow` Display image.
 - `surface` Primitive surface plot.
-- `pcolor` Pseudocolor plot.
+- [808](http://github.com/Nelson-numerical-software/nelson/issues/808): `pcolor` Pseudocolor plot.
 - `mesh` Mesh surface plot.
 - `meshz` Mesh surface plot with curtain.
+- [807](http://github.com/Nelson-numerical-software/nelson/issues/807): `loglog` Log-log scale plot.
 - `CHANGELOG` 0.7.x family.
 
 ### Changed

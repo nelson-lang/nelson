@@ -40,6 +40,9 @@ GraphicsGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     std::wstring filename = argIn[1].getContentAsWideString();
     FileSystemWrapper::Path p(filename);
+    if (!p.parent_path().is_directory()) {
+        Error(_W("Parent directory does not exist: ") + p.parent_path().generic_wstring());
+    }
     IMAGE_FORMAT formatForced;
     if (p.has_extension()) {
         std::wstring pathExtension = p.extension().wstring();
@@ -67,10 +70,14 @@ GraphicsGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
             formatForced = IMAGE_FORMAT::PNG_EXPORT;
         }
         filename = filename + L"." + getExportImageFormatAsString(formatForced);
+        p = filename;
     }
     bool saved = ExportGraphics(f, filename, formatForced);
     if (!saved) {
         Error(_W("Impossible to save image."), L"Nelson:saveas:badFormat");
+    }
+    if (!p.is_regular_file()) {
+        Error(_W("Impossible to save image."), L"Nelson:saveas:filename");
     }
     return retval;
 }
