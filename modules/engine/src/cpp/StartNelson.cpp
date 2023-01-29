@@ -37,7 +37,6 @@
 #include "Nelson_VERSION.h"
 #include "ProgramOptions.hpp"
 #include "RecursionStack.hpp"
-#include "SetNelSonEnvironmentVariables.hpp"
 #include "TimeoutThread.hpp"
 #include "characters_encoding.hpp"
 #include "SioClientCommand.hpp"
@@ -301,10 +300,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
                 return 0;
             }
         }
-    }
-    if (!SetNelSonEnvironmentVariables()) {
-        ErrorPathDetection(_mode);
-        return exitCode;
     }
     setMaxOpenedFiles();
     initializeDefaultWarningIdsList();

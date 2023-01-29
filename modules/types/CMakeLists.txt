@@ -38,6 +38,7 @@ target_link_libraries(
   nlsElementary_mathematics
   nlsError_manager
   nlsI18n
+  nlsNelson_manager
   ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
