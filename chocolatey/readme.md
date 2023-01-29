@@ -8,8 +8,8 @@ https://community.chocolatey.org/account/Packages
 
 ```
 choco pack
-choco install nelson.v0.6.12.2623.nupkg -dv -s .
+choco install nelson.v0.7.1.2683.nupkg -dv -s .
 
 choco apikey -k <your key here> -s https://push.chocolatey.org/
-choco push nelson.0.6.12.2623.nupkg -s https://push.chocolatey.org/
+choco push nelson.0.7.1.2683.nupkg -s https://push.chocolatey.org/
 ```
