@@ -16,12 +16,14 @@
 #include "GetVariableEnvironment.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "DynamicLibrary.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 ComputeNelsonBinariesPath()
 {
+#define CORE_MODULE_NAME L"libnlsCore"
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
     if (penv != L"") {
@@ -33,19 +35,8 @@ ComputeNelsonBinariesPath()
     }
     std::wstring nelsonPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
     FileSystemWrapper::Path binpath(nelsonPath);
-#ifdef _MSC_VER
-#ifdef _WIN64
-    binpath += L"/bin/x64";
-#else
-    binpath += L"/bin/win32";
-#endif
-#else
-#if defined(__APPLE__) || defined(__MACH__)
-    binpath += L"/bin/macOS";
-#else
-    binpath += L"/bin/linux";
-#endif
-#endif
+    std::wstring currentLibraryName = CORE_MODULE_NAME + get_dynamic_library_extensionW();
+    binpath = get_dynamic_library_pathW(currentLibraryName);
     if (FileSystemWrapper::Path::is_directory(binpath)) {
         NelsonConfiguration::getInstance()->setNelsonBinaryDirectory(binpath.generic_wstring());
         return true;

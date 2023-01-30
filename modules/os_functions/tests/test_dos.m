@@ -10,7 +10,7 @@
 assert_isequal(nargin('dos'), 1);
 assert_isequal(nargout('dos'), 2);
 %=============================================================================
-binpath = modulepath(nelsonroot,'core','bin');
+binpath = modulepath(nelsonroot,'nelson','bin');
 nelson_exe = ['"', binpath, '/nelson-cli', '"'];
 %=============================================================================
 nelson_cmd = 'exit(33);';

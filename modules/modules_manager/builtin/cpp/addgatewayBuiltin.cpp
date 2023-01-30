@@ -18,11 +18,15 @@ Nelson::ModulesManagerGateway::addgatewayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
+    std::wstring moduleName;
+    if (argIn.size() > 1) {
+        moduleName = argIn[1].getContentAsWideString();
+    }
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
-        AddGateway(eval, dynlibName);
+        AddGateway(eval, dynlibName, moduleName);
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'sio_client', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'sio_client', 'builtin'), 'sio_client');
 addpath(modulepath(nelsonroot(), 'sio_client', 'functions'), '-frozen');
 %=============================================================================

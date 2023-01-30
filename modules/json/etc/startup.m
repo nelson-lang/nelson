@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 %addpath(modulepath(nelsonroot(), 'json', 'functions'), '-frozen');
-addgateway(modulepath(nelsonroot(), 'json', 'builtin'))
+addgateway(modulepath(nelsonroot(), 'json', 'builtin'), 'json');
+%=============================================================================

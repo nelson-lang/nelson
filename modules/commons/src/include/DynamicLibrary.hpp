@@ -52,5 +52,8 @@ get_dynamic_library_error();
 NLSCOMMONS_IMPEXP std::wstring
 get_dynamic_library_errorW();
 //=============================================================================
+NLSCOMMONS_IMPEXP std::wstring
+get_dynamic_library_pathW(const std::wstring& libraryNameWithExtension);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-  addgateway(modulepath(nelsonroot(), 'com_engine', 'builtin'));
+  addgateway(modulepath(nelsonroot(), 'com_engine', 'builtin'), 'com_engine');
   addpath(modulepath(nelsonroot(), 'com_engine', 'functions'), '-frozen');
 else
   removemodule('com_engine');

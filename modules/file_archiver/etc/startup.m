@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'file_archiver', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'file_archiver', 'builtin'), 'file_archiver');
 %addpath(modulepath(nelsonroot(), 'file_archiver', 'functions'), '-frozen');
 %=============================================================================
