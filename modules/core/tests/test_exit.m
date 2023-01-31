@@ -14,11 +14,18 @@ if ~ispc()
     assert_checkerror('exit(300)', _('Value between 0 and 255 expected.'))
 end
 %=============================================================================
-R = system('nelson-cli -e "exit(44)"');
+binpath = modulepath(nelsonroot,'nelson','bin');
+if ispc()
+  nelson_exe = ['"', binpath, '/nelson-cli', '"'];
+else
+  nelson_exe = [binpath, '/nelson-cli'];
+end
+%=============================================================================
+R = system([nelson_exe, ' -e "exit(44)"']);
 assert_isequal(R, 44);
 %=============================================================================
 if ispc()
-  R = system('nelson-cli -e "exit(447)"');
+  R = system([nelson_exe, ' -e "exit(447)"']);
   assert_isequal(R, 447);
 end
 %=============================================================================

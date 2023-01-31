@@ -20,12 +20,13 @@ typedef struct
     std::wstring modulename;
     std::wstring modulepath;
     bool isprotected;
+    std::wstring librarypath;
 } module;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 using versionElement = std::tuple<double, double, double>;
-using mapElement = std::tuple<std::wstring, std::wstring, bool, versionElement>;
+using mapElement = std::tuple<std::wstring, std::wstring, std::wstring, bool, versionElement>;
 //=============================================================================
 class NLSMODULES_MANAGER_IMPEXP ModulesManager //-V690
 {
@@ -38,6 +39,8 @@ public:
     getModulesPathList(bool bReverse);
     wstringVector
     getModulesList(bool bReverse);
+    wstringVector
+    getLibraryList(bool bReverse);
     std::vector<bool>
     getModulesProtectedList(bool bReverse);
     std::vector<versionElement>
@@ -46,6 +49,8 @@ public:
     insertModule(const std::wstring& modulename, const std::wstring& path, bool protectedModule);
     bool
     findModule(const std::wstring& modulename, std::wstring& path);
+    bool
+    isModule(const std::wstring& modulename);
     void
     deleteAllModules();
     bool
@@ -54,6 +59,8 @@ public:
     findModuleNameByPath(const std::wstring& filename);
     bool
     isProtectedModule(const std::wstring& modulename);
+    bool
+    setLibraryPath(const std::wstring& modulename, const std::wstring& libraryFullname);
 
 private:
     ModulesManager();

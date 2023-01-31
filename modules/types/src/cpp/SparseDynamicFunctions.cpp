@@ -12,6 +12,7 @@
 #include "DynamicLibrary.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 static library_handle nlsSparseHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
@@ -20,30 +21,13 @@ static void
 initSparseDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
-        std::string fullpathSparseSharedLibrary = "libnlsSparse" + get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
-                fullpathSparseSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathSparseSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = std::getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathSparseSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathSparseSharedLibrary;
-        }
-#endif
-        nlsSparseHandleDynamicLibrary = load_dynamic_library(fullpathSparseSharedLibrary);
+        std::wstring fullpathSparseSharedLibrary
+            = L"libnlsSparse" + get_dynamic_library_extensionW();
+        std::wstring nelsonBinaryDirectory
+            = Nelson::NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        fullpathSparseSharedLibrary
+            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathSparseSharedLibrary;
+        nlsSparseHandleDynamicLibrary = load_dynamic_libraryW(fullpathSparseSharedLibrary);
         if (nlsSparseHandleDynamicLibrary) {
             bFirstDynamicLibraryCall = false;
         }

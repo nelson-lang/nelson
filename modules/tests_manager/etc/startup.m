@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'tests_manager', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'tests_manager', 'builtin'), 'tests_manager');
 addpath(modulepath(nelsonroot(), 'tests_manager', 'functions'), '-frozen');
+%=============================================================================

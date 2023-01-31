@@ -190,7 +190,6 @@
     <ClCompile Include="..\cpp\PostCommand.cpp" />
     <ClCompile Include="..\cpp\ProgramOptions.cpp" />
     <ClCompile Include="..\cpp\RecursionStack.cpp" />
-    <ClCompile Include="..\cpp\SetNelSonEnvironmentVariables.cpp" />
     <ClCompile Include="..\cpp\StartNelson.cpp" />
     <ClCompile Include="..\cpp\StartNelsonMainScript.cpp" />
     <ClCompile Include="..\cpp\StartNelsonUserModules.cpp" />
@@ -202,7 +201,6 @@
     <ClInclude Include="..\..\src\include\MainEvaluator.hpp" />
     <ClInclude Include="..\..\src\include\NelSon_engine_mode.h" />
     <ClInclude Include="..\..\src\include\nlsEngine_exports.h" />
-    <ClInclude Include="..\..\src\include\SetNelSonEnvironmentVariables.hpp" />
     <ClInclude Include="..\..\src\include\StartNelson.h" />
     <ClInclude Include="..\include\CloseAllFiles.hpp" />
     <ClInclude Include="..\include\MainGuiObjectDynamic.hpp" />

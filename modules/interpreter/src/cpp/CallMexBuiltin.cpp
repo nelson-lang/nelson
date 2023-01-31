@@ -9,46 +9,29 @@
 //=============================================================================
 #include "CallMexBuiltin.hpp"
 #include "DynamicLibrary.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 static Nelson::library_handle nlsMexHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
+//=============================================================================
+namespace Nelson {
 //=============================================================================
 static void
 initMexDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
-        std::string fullpathMexSharedLibrary
-            = "libnlsMex" + Nelson::get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf != nullptr) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0U) {
-                fullpathMexSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathMexSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathMexSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathMexSharedLibrary;
-        }
-#endif
-        nlsMexHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathMexSharedLibrary);
+        std::wstring fullpathMexSharedLibrary
+            = L"libnlsMex" + Nelson::get_dynamic_library_extensionW();
+        std::wstring nelsonBinaryDirectory
+            = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        fullpathMexSharedLibrary
+            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathMexSharedLibrary;
+        nlsMexHandleDynamicLibrary = Nelson::load_dynamic_libraryW(fullpathMexSharedLibrary);
         if (nlsMexHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }
     }
 }
-//=============================================================================
-namespace Nelson {
 //=============================================================================
 void
 CallMexBuiltin(void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs,

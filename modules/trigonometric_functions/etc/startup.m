@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'), 'trigonometric_functions');
 addpath(modulepath(nelsonroot(), 'trigonometric_functions', 'functions'), '-frozen');
+%=============================================================================

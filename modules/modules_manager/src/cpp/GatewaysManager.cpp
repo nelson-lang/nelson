@@ -103,7 +103,10 @@ GatewaysManager::addGateway(
                 libraryMap.emplace(libraryFullName, nlsModuleHandleDynamicLibrary);
             }
             FileSystemWrapper::Path::current_path(currentdirbackup);
-            return AddGatewayPtr((void*)eval, libraryFullName.c_str());
+            if (needToAdd) {
+                return AddGatewayPtr((void*)eval, libraryFullName.c_str());
+            }
+            return true;
         }
         std::string error_msg = get_dynamic_library_error();
         FileSystemWrapper::Path::current_path(currentdirbackup);

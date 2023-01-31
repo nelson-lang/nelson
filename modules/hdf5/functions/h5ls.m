@@ -23,7 +23,11 @@ function varargout = h5ls(varargin)
   else
     h5path = "";
   end
-  exe = "h5ls";
+  if ispc()
+    exe = ['"', modulepath(nelsonroot(),'nelson','bin'), '/', 'h5ls', '"'];
+  else
+    exe = "h5ls";
+  end
   if (h5path == "")
     if ispc()
       cmd = [exe + " -r -f -v " + """" + h5filename + """"];

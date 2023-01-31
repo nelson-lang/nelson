@@ -7,8 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifndef _MSC_VER
+#if defined(__APPLE__) || defined(__MACH__)
+#import <mach-o/dyld.h>
+#else
+#include <link.h>
+#endif
+#endif
 #include "DynamicLibrary.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,12 +32,11 @@ get_dlopen_flag(const std::string& library_name)
 }
 #endif
 //=============================================================================
-
 library_handle
 load_dynamic_library(const std::string& library_name)
 {
-#ifdef _MSC_VER
     library_handle hl;
+#ifdef _MSC_VER
     try {
         hl = LoadLibraryA(library_name.c_str());
     } catch (const std::runtime_error&) {
@@ -37,7 +44,6 @@ load_dynamic_library(const std::string& library_name)
     }
     return hl;
 #else
-    library_handle hl;
     try {
         hl = dlopen(library_name.c_str(), get_dlopen_flag(library_name));
     } catch (const std::runtime_error&) {
@@ -141,6 +147,50 @@ std::wstring
 get_dynamic_library_errorW()
 {
     return utf8_to_wstring(get_dynamic_library_error());
+}
+//=============================================================================
+std::wstring
+get_dynamic_library_pathW(const std::wstring& libraryNameWithExtension)
+{
+    std::wstring full_path;
+    library_handle hModule = load_dynamic_libraryW(libraryNameWithExtension);
+    if (hModule != NULL) {
+#ifdef _MSC_VER
+#define MAX_PATH_LEN 4096
+        wchar_t szFileName[MAX_PATH_LEN];
+        if (GetModuleFileName(hModule, szFileName, MAX_PATH_LEN) != 0) {
+            Nelson::FileSystemWrapper::Path p(szFileName);
+            Nelson::FileSystemWrapper::Path path = p.parent_path();
+            full_path = path.generic_wstring();
+        }
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+        uint32_t count = _dyld_image_count();
+        for (uint32_t i = 1; i < count; i++) {
+            const char* image_name = _dyld_get_image_name(i);
+            void* handle = dlopen(image_name, RTLD_LAZY);
+            if (handle == hModule) {
+                std::string filename = image_name;
+                Nelson::FileSystemWrapper::Path p(filename);
+                Nelson::FileSystemWrapper::Path path = p.parent_path();
+                full_path = path.generic_wstring();
+                break;
+            }
+            dlclose(handle);
+        }
+#else
+        struct link_map* lm;
+        if (dlinfo(hModule, RTLD_DI_LINKMAP, &lm) == 0) {
+            std::string filename = lm->l_name;
+            Nelson::FileSystemWrapper::Path p(filename);
+            Nelson::FileSystemWrapper::Path path = p.parent_path();
+            full_path = path.generic_wstring();
+        }
+#endif
+#endif
+        close_dynamic_library(hModule);
+    }
+    return full_path;
 }
 //=============================================================================
 } // namespace Nelson

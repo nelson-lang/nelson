@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'dynamic_link', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'dynamic_link', 'builtin'), 'dynamic_link');
 addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'), '-frozen');
 %=============================================================================
 loadcompilerconf();

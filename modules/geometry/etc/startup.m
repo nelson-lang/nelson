@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%addgateway(modulepath(nelsonroot(), 'geometry', 'builtin'));
+%addgateway(modulepath(nelsonroot(), 'geometry', 'builtin'), 'geometry');
 addpath(modulepath(nelsonroot(), 'geometry', 'functions'), '-frozen');
 %=============================================================================

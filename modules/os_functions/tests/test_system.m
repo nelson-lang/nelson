@@ -10,7 +10,7 @@
 assert_isequal(nargin('system'), 1);
 assert_isequal(nargout('system'), 2);
 %=============================================================================
-binpath = modulepath(nelsonroot,'core','bin');
+binpath = modulepath(nelsonroot,'nelson','bin');
 nelson_exe = ['"', binpath, '/nelson-cli', '"'];
 nelson_cmd = 'a=35;exit(a);';
 cmd = [nelson_exe, ' --execute "', nelson_cmd, '"'];
@@ -70,7 +70,14 @@ else
 end
 assert_isequal(w, ["ABORTED", "ABORTED", "ABORTED"])
 %=============================================================================
-tic();[s,m]=system('nelson -cli --timeout 20'); R = toc();
+binpath = modulepath(nelsonroot,'nelson','bin');
+if ispc()
+  nelson_exe = ['"', binpath, '/nelson', '"'];
+else
+  nelson_exe = [binpath, '/nelson'];
+end
+cmd = [nelson_exe, ' -cli --timeout 20'];
+tic();[s,m]=system(cmd); R = toc();
 if ispc()
   assert_isequal(s, 258);
 else

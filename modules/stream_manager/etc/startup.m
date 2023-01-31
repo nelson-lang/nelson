@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'stream_manager', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'stream_manager', 'builtin'), 'stream_manager');
 addpath(modulepath(nelsonroot(), 'stream_manager', 'functions'), '-frozen');
+%=============================================================================

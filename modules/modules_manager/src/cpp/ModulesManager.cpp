@@ -88,12 +88,12 @@ ModulesManager::getModulesProtectedList(bool bReverse)
         if (!modulesMap.empty()) {
             for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
                 mapElement elem = modulesMap[i];
-                retlist.push_back(std::get<2>(elem));
+                retlist.push_back(std::get<3>(elem));
             }
         }
     } else {
         for (auto elem : modulesMap) {
-            retlist.push_back(std::get<2>(elem));
+            retlist.push_back(std::get<3>(elem));
         }
     }
     return retlist;
@@ -170,12 +170,12 @@ ModulesManager::getModulesVersionList(bool bReverse)
         if (!modulesMap.empty()) {
             for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
                 mapElement elem = modulesMap[i];
-                retlist.push_back(std::get<3>(elem));
+                retlist.push_back(std::get<4>(elem));
             }
         }
     } else {
         for (auto elem : modulesMap) {
-            retlist.push_back(std::get<3>(elem));
+            retlist.push_back(std::get<4>(elem));
         }
     }
     return retlist;
@@ -192,7 +192,7 @@ ModulesManager::insertModule(
     } else {
         version = readVersionFromJson(path);
     }
-    modulesMap.emplace_back(modulename, path, protectedModule, version);
+    modulesMap.emplace_back(modulename, path, L"", protectedModule, version);
 }
 //=============================================================================
 void
@@ -225,6 +225,17 @@ ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
     return false;
 }
 //=============================================================================
+bool
+ModulesManager::isModule(const std::wstring& modulename)
+{
+    for (auto& it : modulesMap) {
+        if (std::get<0>(it) == modulename) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
 std::wstring
 ModulesManager::findModuleNameByPath(const std::wstring& filename)
 {
@@ -246,8 +257,26 @@ ModulesManager::isProtectedModule(const std::wstring& modulename)
         for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
             mapElement elem = modulesMap[i];
             if (std::get<0>(elem) == modulename) {
-                return std::get<2>(elem);
+                return std::get<3>(elem);
             }
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+ModulesManager::setLibraryPath(const std::wstring& modulename, const std::wstring& libraryFullname)
+{
+    for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+        mapElement elem = modulesMap[i];
+        if (std::get<0>(elem) == modulename) {
+            std::wstring libraryPath = std::get<2>(elem);
+            if (libraryPath.empty()) {
+                std::get<2>(elem) = libraryFullname;
+                modulesMap[i] = elem;
+                return true;
+            }
+            return false;
         }
     }
     return false;

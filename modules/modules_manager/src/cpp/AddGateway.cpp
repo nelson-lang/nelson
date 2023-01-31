@@ -10,16 +10,27 @@
 #include "AddGateway.hpp"
 #include "Error.hpp"
 #include "GatewaysManager.hpp"
+#include "ModulesManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-AddGateway(Evaluator* eval, const std::wstring& dynlibname)
+AddGateway(
+    Evaluator* eval, const std::wstring& dynlibname, const std::wstring& moduleNameAssociated)
 {
     std::wstring errorMessage;
+    if (!moduleNameAssociated.empty()
+        && !ModulesManager::Instance().isModule(moduleNameAssociated)) {
+        Error(_W("Invalid module name:") + moduleNameAssociated);
+    }
     GatewaysManager::getInstance()->addGateway(eval, dynlibname, errorMessage);
     if (!errorMessage.empty()) {
         Error(errorMessage);
+    }
+    if (!moduleNameAssociated.empty()) {
+        if (!ModulesManager::Instance().setLibraryPath(moduleNameAssociated, dynlibname)) {
+            Error(_W("Impossible to associate module name and library path"));
+        }
     }
 }
 //=============================================================================

@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,32 +23,14 @@ static void
 initInterpreterDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
-        std::string fullpathInterpreterSharedLibrary
-            = "libnlsInterpreter" + Nelson::get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf != nullptr) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0u) {
-                fullpathInterpreterSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathInterpreterSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathInterpreterSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathInterpreterSharedLibrary;
-        }
-#endif
+        std::wstring fullpathInterpreterSharedLibrary
+            = L"libnlsInterpreter" + Nelson::get_dynamic_library_extensionW();
+        std::wstring nelsonBinaryDirectory
+            = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        fullpathInterpreterSharedLibrary
+            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathInterpreterSharedLibrary;
         nlsInterpreterHandleDynamicLibrary
-            = Nelson::load_dynamic_library(fullpathInterpreterSharedLibrary);
+            = Nelson::load_dynamic_libraryW(fullpathInterpreterSharedLibrary);
         if (nlsInterpreterHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }

@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
+addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'), 'fftw');
 if FFTWwrapper('load')
   addpath(modulepath(nelsonroot(), 'fftw', 'functions'), '-frozen');
 else
