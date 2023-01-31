@@ -150,11 +150,11 @@ assert_isequal(r.x__, 42);
 r = jsondecode('[{"''":42}]');
 assert_isequal(r.x_, 42);
 %=============================================================================
-json = fileread([modulepath('json'), '/tests/example1.json']);
+json = fileread([modulepath('json', 'tests'), '/example1.json']);
 r = jsondecode(json);
 assert_isequal(fieldnames(r), {'glossary'});
 %=============================================================================
-json = fileread([modulepath('json'), '/tests/example2.json']);
+json = fileread([modulepath('json', 'tests'), '/example2.json']);
 r = jsondecode(json);
 assert_isequal(fieldnames(r), {'quiz'});
 assert_isequal(fieldnames(r.quiz), {'sport';'maths'});

@@ -10,7 +10,7 @@
 assert_isequal(nargin('h5readatt'), 3);
 assert_isequal(nargout('h5readatt'), 1);
 %=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
+h5_directory = [modulepath('hdf5','tests'), '/h5'];
 %=============================================================================
 opaque = [h5_directory, '/h5ex_t_opaqueatt.h5'];
 R = h5readatt(opaque,'/DS1','A1');

@@ -22,10 +22,10 @@ initMexDynamicLibrary()
     if (bFirstDynamicLibraryCall) {
         std::wstring fullpathMexSharedLibrary
             = L"libnlsMex" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonBinaryDirectory
-            = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        std::wstring nelsonLibrariesDirectory
+            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
         fullpathMexSharedLibrary
-            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathMexSharedLibrary;
+            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathMexSharedLibrary;
         nlsMexHandleDynamicLibrary = Nelson::load_dynamic_libraryW(fullpathMexSharedLibrary);
         if (nlsMexHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;

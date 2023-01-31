@@ -11,6 +11,6 @@ delete(backgroundPool_used());
 delete(FevalFuture_used());
 delete(FevalQueue_used());
 %=============================================================================
-% rmpath(modulepath(nelsonroot(), 'parallel', 'functions'));
-removegateway(modulepath(nelsonroot(), 'parallel', 'builtin'));
+% rmpath(modulepath('parallel', 'functions'));
+removegateway(modulepath('parallel', 'builtin'));
 %=============================================================================

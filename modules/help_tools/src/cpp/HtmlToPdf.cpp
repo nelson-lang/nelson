@@ -23,10 +23,10 @@ initGuiDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::wstring fullpathGuiSharedLibrary = L"libnlsGui" + get_dynamic_library_extensionW();
-        std::wstring nelsonBinaryDirectory
-            = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        std::wstring nelsonLibrariesDirectory
+            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
         fullpathGuiSharedLibrary
-            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathGuiSharedLibrary;
+            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathGuiSharedLibrary;
         nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(fullpathGuiSharedLibrary);
         if (nlsGuiHandleDynamicLibrary) {
             bFirstDynamicLibraryCall = false;

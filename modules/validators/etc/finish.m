@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-removegateway(modulepath(nelsonroot(), 'validators', 'builtin'))
+removegateway(modulepath('validators', 'builtin'))
 %=============================================================================

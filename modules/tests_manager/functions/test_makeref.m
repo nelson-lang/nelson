@@ -40,7 +40,7 @@ function r = test_makerefile(filename, options, ref_dest)
   
   cmd = [cmd, ' --quiet', ' --execute', ' ', cmd_to_execute];
   
-  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  nelson_bin_path = modulepath('nelson', 'bin');
   
   if options.cli_mode
     nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];

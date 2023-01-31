@@ -3,30 +3,37 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name assert_functions)
 set(module_library_name nlsAssert_functions)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
-# ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 list(FILTER ASSERT_FUNCTIONS_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${ASSERT_FUNCTIONS_SRC})
+add_library(${module_library_name} ${ASSERT_FUNCTIONS_SRC})
 # ==============================================================================
+target_include_directories(
+  ${module_library_name}
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_name}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 target_link_libraries(
   ${module_library_name}
   nlsCommons
@@ -36,67 +43,90 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes)
 # ==============================================================================
+file(GLOB ASSERT_FUNCTIONS_HEADER
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${ASSERT_FUNCTIONS_HEADER}")
 # ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER ASSERT_FUNCTIONS_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
-# ==============================================================================
-add_library(${module_library_builtin_name} SHARED ${ASSERT_FUNCTIONS_BUILTIN})
-# ==============================================================================
-target_link_libraries(
+add_library(${module_library_builtin_name} ${ASSERT_FUNCTIONS_BUILTIN})
+target_include_directories(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsTypes
-  nlsInterpreter)
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_builtin_name}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
+target_link_libraries(${module_library_builtin_name} ${module_library_name}
+                      nlsError_manager nlsI18n nlsTypes nlsInterpreter)
 # ==============================================================================
+file(
+  GLOB
+  ASSERT_FUNCTIONS_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_builtin_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${ASSERT_FUNCTIONS_HEADER}")
 # ==============================================================================
-install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS ${module_library_builtin_name}
-        LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+include(GNUInstallDirs)
+# ==============================================================================
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+install(
+  TARGETS ${module_library_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+install(
+  TARGETS ${module_library_builtin_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.qch"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-  FILES_MATCHING
-  PATTERN "*.m")
 # ==============================================================================

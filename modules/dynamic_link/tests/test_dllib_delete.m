@@ -12,7 +12,7 @@
 assert_isequal(nargin('dllib_delete'), 1);
 assert_isequal(nargout('dllib_delete'), 0);
 %=============================================================================
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 assert_istrue(isvalid(lib));
 delete(lib);

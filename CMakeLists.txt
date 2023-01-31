@@ -3,7 +3,10 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -17,12 +20,25 @@ message(
 # ==============================================================================
 cmake_minimum_required(VERSION 3.9)
 # ==============================================================================
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
+# ==============================================================================
 project(Nelson)
+# ==============================================================================
+set(default_build_type "Release")
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+  set(default_build_type "Debug")
+endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 0)
 set(Nelson_VERSION_MINOR_DEFAULT 7)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 1)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
+# ==============================================================================
+include(VersionConfig)
+# ==============================================================================
+set(Nelson_VERSION
+    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
+)
 # ==============================================================================
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   option(CMAKE_INSTALL_PREFIX "Install directory used by instal." "$ENV{HOME}")
@@ -113,8 +129,6 @@ option(ENABLE_CLANG_TIDY_FIX "Analyze code with clang-tidy and fix errors." OFF)
 # ==============================================================================
 option(ENABLE_PACKAGING "Build Nelson for packaging" OFF)
 # ==============================================================================
-message(STATUS "Build Nelson for packaging: ${ENABLE_PACKAGING}")
-# ==============================================================================
 if(WITHOUT_OPENMP)
   message(STATUS "OpenMP disabled.")
 endif()
@@ -137,11 +151,7 @@ if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
 endif()
 # ==============================================================================
-set(CMAKE_BUILD_TYPE "Debug")
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
-set(BUILD_SHARED_LIBS "true")
-# ==============================================================================
-include(VersionConfig)
+option (BUILD_SHARED_LIBS "Build shared libraries" ON)
 # ==============================================================================
 include(OptionsConfig)
 # ==============================================================================
@@ -151,8 +161,8 @@ include(clang-tidy)
 # ==============================================================================
 include(TreeConfig)
 # ==============================================================================
-set(CMAKE_SKIP_BUILD_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH ".")
+include(GNUInstallDirs)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_MACOSX_RPATH 1)
 endif()
@@ -166,7 +176,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 endif()
 # ==============================================================================
-include(Eigen3Config)
+find_package(Eigen3 3.3 REQUIRED)
 # ==============================================================================
 if(NOT WITHOUT_GUI_MODULE)
   include(QtConfig)
@@ -215,12 +225,12 @@ find_package(BLAS)
 find_package(LAPACK)
 find_package(LAPACKE)
 # ==============================================================================
-if (MKL_FOUND)
-  set(NELSON_BLAS_LAPACKX_LIBRARIES ${MKL_LIBRARIES} )
+if(MKL_FOUND)
+  set(NELSON_BLAS_LAPACKX_LIBRARIES ${MKL_LIBRARIES})
 else()
-  if (OpenBLAS_FOUND)
+  if(OpenBLAS_FOUND)
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-      if (NOT LAPACKE_FOUND)
+      if(NOT LAPACKE_FOUND)
         message(SEND_ERROR "LAPACKE Library required.")
       endif()
       set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} ${LAPACKE_LIBRARIES})
@@ -228,20 +238,21 @@ else()
       set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB})
     endif()
   else()
-    if (NOT BLAS_FOUND)
+    if(NOT BLAS_FOUND)
       message(SEND_ERROR "BLAS Library required.")
     endif()
-    if (NOT LAPACK_FOUND)
+    if(NOT LAPACK_FOUND)
       message(SEND_ERROR "LAPACK Library required.")
     endif()
-    if (NOT LAPACKE_FOUND)
+    if(NOT LAPACKE_FOUND)
       message(SEND_ERROR "LAPACKE Library required.")
     endif()
-    set(NELSON_BLAS_LAPACKX_LIBRARIES ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${LAPACKE_LIBRARIES})
+    set(NELSON_BLAS_LAPACKX_LIBRARIES ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+                                      ${LAPACKE_LIBRARIES})
   endif()
 endif()
-message(STATUS "NELSON_BLAS_LAPACKX_LIBRARIES: ${NELSON_BLAS_LAPACKX_LIBRARIES}")
-
+message(
+  STATUS "NELSON_BLAS_LAPACKX_LIBRARIES: ${NELSON_BLAS_LAPACKX_LIBRARIES}")
 # ==============================================================================
 if(NOT WITHOUT_HDF5_MODULE)
   find_package(HDF5 REQUIRED)
@@ -268,7 +279,7 @@ if(NOT WITHOUT_AUDIO_MODULE)
     find_package(ALSA REQUIRED)
     find_package(Jack REQUIRED)
   endif()
-  find_package(Portaudio REQUIRED)  
+  find_package(Portaudio REQUIRED)
   include(PortAudioConfig)
 endif()
 # ==============================================================================
@@ -307,6 +318,7 @@ set(ROOT_OUTPUT
     "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/"
 )
 # ==============================================================================
+# dev build path is different of installed version
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
@@ -321,17 +333,63 @@ add_subdirectory(desktop)
 # ==============================================================================
 include(ModuleSkeletonConfig)
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/gpl-3.0.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/lgpl-3.0.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.1.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.2.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.3.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.4.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.5.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.6.x.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/THIRDPARTY.md DESTINATION ${ROOT_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/CLA.md DESTINATION ${ROOT_OUTPUT})
+include(GNUInstallDirs)
+# ==============================================================================
+install(FILES ${CMAKE_SOURCE_DIR}/gpl-3.0.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/lgpl-3.0.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.1.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.2.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.3.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.4.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.5.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.6.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/README.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/THIRDPARTY.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(
+  FILES ${CMAKE_SOURCE_DIR}/CLA.md
+  DESTINATION DESTINATION
+  "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+# ==============================================================================
+include(CMakePackageConfigHelpers)
+# ==============================================================================
+set(NELSON_CMAKECONFIG_INSTALL_DIR
+    "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+    CACHE STRING "install path for nelsonConfig.cmake")
+# ==============================================================================
+set(NELSON_DATA_INSTALL_DIR
+    "${CMAKE_DATA_ROOTDIR}/${PROJECT_NAME}/modules"
+    CACHE STRING "install path for Nelson data files")
+# ==============================================================================
+configure_package_config_file(
+  ${PROJECT_NAME}Config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}Config.cmake"
+  INSTALL_DESTINATION ${NELSON_CMAKECONFIG_INSTALL_DIR})
+# ==============================================================================
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+  VERSION ${Nelson_VERSION}
+  COMPATIBILITY AnyNewerVersion)
+# ==============================================================================
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}Config.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${NELSON_CMAKECONFIG_INSTALL_DIR})
+# ==============================================================================
+install(
+  EXPORT ${PROJECT_NAME}-targets
+  FILE ${PROJECT_NAME}Targets.cmake
+  DESTINATION ${NELSON_CMAKECONFIG_INSTALL_DIR})
 # ==============================================================================

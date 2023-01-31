@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-path_1 = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
-path_2 = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsCore', getdynlibext()];
+path_1 = modulepath('dynamic_link', 'builtin');
+path_2 = modulepath('core', 'builtin');
 lib1 = dlopen(path_1);
 lib2 = dlopen(path_2);
 lib3 = dlopen(path_1);

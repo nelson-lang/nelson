@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'trigonometric_functions', 'functions'));
-removegateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'));
+rmpath(modulepath('trigonometric_functions', 'functions'));
+removegateway(modulepath('trigonometric_functions', 'builtin'));

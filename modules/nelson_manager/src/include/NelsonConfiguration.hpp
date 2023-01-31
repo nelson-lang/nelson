@@ -83,10 +83,22 @@ public:
     getNelsonRootDirectory();
     //=============================================================================
     void
+    setNelsonModulesDirectory(const std::wstring& directory);
+    //=============================================================================
+    std::wstring
+    getNelsonModulesDirectory();
+    //=============================================================================
+    void
     setNelsonBinaryDirectory(const std::wstring& directory);
     //=============================================================================
     std::wstring
     getNelsonBinaryDirectory();
+    //=============================================================================
+    void
+    setNelsonLibraryDirectory(const std::wstring& directory);
+    //=============================================================================
+    std::wstring
+    getNelsonLibraryDirectory();
     //=============================================================================
     void
     setNelsonPreferencesDirectory(const std::wstring& directory);
@@ -163,6 +175,8 @@ private:
     //=============================================================================
     std::wstring nelsonRootPath;
     std::wstring nelsonBinaryPath;
+    std::wstring nelsonLibraryPath;
+    std::wstring nelsonModulesPath;
     std::wstring nelsonPreferencesPath;
     //=============================================================================
     bool ipcEnabled;

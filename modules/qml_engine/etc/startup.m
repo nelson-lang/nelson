@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'qml_engine', 'builtin'), 'qml_engine');
-addpath(modulepath(nelsonroot(), 'qml_engine', 'functions'), '-frozen');
+addgateway(modulepath('qml_engine', 'builtin'), 'qml_engine');
+addpath(modulepath('qml_engine', 'functions'), '-frozen');
 %=============================================================================

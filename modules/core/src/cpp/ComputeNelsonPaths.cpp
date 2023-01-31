@@ -8,19 +8,48 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ComputeNelsonPaths.hpp"
-#include "ComputeNelsonPath.hpp"
+#include "ComputeNelsonRootPath.hpp"
+#include "ComputeNelsonLibrariesPath.hpp"
 #include "ComputeNelsonBinariesPath.hpp"
+#include "ComputeNelsonModulesPath.hpp"
 #include "ComputePreferencesPath.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-ComputesNelsonPaths()
+ComputesNelsonPaths(std::wstring& errorMessage)
 {
-    ComputeNelsonPath();
-    ComputeNelsonBinariesPath();
-    ComputePreferencesPath();
-    return false;
+    // Possible cases:
+    // 1] GNU
+    // ../prefix/bin/   --> binaries path
+    // ../prefix/share/nelson --> nelson root path
+    // ../prefix/share/nelson/modules --> nelson modules path
+    // ../prefix/lib/nelson --> nelson libraries path
+    //
+    // 2] local build linux and/or Windows
+    // ../nelson/bin/arch  --> binaries path
+    // ../nelson --> nelson root path
+    // ../nelson/modules --> nelson modules path
+    // ../nelson/bin/arch  --> nelson libraries path
+
+    // Order is important
+    if (!ComputeNelsonLibrariesPath(errorMessage)) {
+        return false;
+    }
+    if (!ComputeNelsonRootPath(errorMessage)) {
+        return false;
+    }
+    if (!ComputeNelsonModulesPath(errorMessage)) {
+        return false;
+    }
+    if (!ComputeNelsonBinariesPath(errorMessage)) {
+        return false;
+    }
+    if (!ComputePreferencesPath(errorMessage)) {
+        return false;
+    }
+    errorMessage.clear();
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

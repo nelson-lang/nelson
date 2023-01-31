@@ -31,7 +31,6 @@
     ],
     "excludePathContains": [
       ".git",
-      "node_modules",
       "modules/f2c/src/c/libf2c",
       "modules/f2c/tests/dgemm.c",
       "modules/f2c/src/c/libf2c/",

@@ -19,14 +19,15 @@ enum MODULEPATH_OPTION
     GET_BINARY_PATH,
     GET_ROOT_PATH,
     GET_ETC_PATH,
-    GET_DYNLIB_FULLPATH,
-    GET_SCRIPT_PATH
+    GET_LIBRARY_FULLPATH,
+    GET_FUNCTIONS_PATH,
+    GET_TESTS_PATH
 };
 //=============================================================================
 NLSMODULES_MANAGER_IMPEXP std::wstring
 ModulePath(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP std::wstring
-ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortname,
-    MODULEPATH_OPTION option);
+ModulePath(const std::wstring& moduleshortname, MODULEPATH_OPTION option);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

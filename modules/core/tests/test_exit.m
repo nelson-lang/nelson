@@ -14,7 +14,7 @@ if ~ispc()
     assert_checkerror('exit(300)', _('Value between 0 and 255 expected.'))
 end
 %=============================================================================
-binpath = modulepath(nelsonroot,'nelson','bin');
+binpath = modulepath('nelson', 'bin');
 if ispc()
   nelson_exe = ['"', binpath, '/nelson-cli', '"'];
 else

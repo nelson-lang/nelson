@@ -13,7 +13,7 @@
 % Help browser did not work on some Windows platforms
 %=============================================================================
 % <--WINDOWS ONLY-->
-bin_path = modulepath(nelsonroot,'help_browser','bin');
+bin_path = modulepath('nelson', 'bin');
 assert_istrue(isdir([bin_path, '/plugins/sqldrivers']));
 assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlite.dll']));
 assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlodbc.dll']));

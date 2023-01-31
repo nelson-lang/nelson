@@ -8,18 +8,36 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function c = dlgetnelsonincludes()
-  c = {[modulepath('interpreter'), '/src/include']; ...
-  [modulepath('types'), '/src/include']; ...
-  [modulepath('error_manager'), '/src/include']; ...
-  [modulepath('i18n'), '/src/include']; ...
-  [modulepath('stream_manager'), '/src/include']};
+  if isdir([modulepath('interpreter'), '/src/include'])
+    c = {[modulepath('interpreter'), '/src/include']; ...
+    [modulepath('types'), '/src/include']; ...
+    [modulepath('error_manager'), '/src/include']; ...
+    [modulepath('i18n'), '/src/include']; ...
+    [modulepath('stream_manager'), '/src/include']};
 
-  if (ismodule('f2c'))
-    c = [c; [modulepath('f2c'), '/src/include']];
-  end
-  if (ismodule('validators'))
-    c = [c; [modulepath('validators'), '/src/include']];
-  end
+    if (ismodule('f2c'))
+      c = [c; [modulepath('f2c'), '/src/include']];
+    end
+    if (ismodule('validators'))
+      c = [c; [modulepath('validators'), '/src/include']];
+    end
+  else
+    if (isdir([modulepath('nelson', 'builtin'), '/../include/Nelson/interpreter']))
+      includeRootPath = fullpath([modulepath('nelson', 'builtin'), '/../include/Nelson/']);
+      c = {[includeRootPath, '/interpreter']; ...
+    [includeRootPath, '/types']; ...
+    [includeRootPath, '/error_manager']; ...
+    [includeRootPath, '/i18n']; ...
+    [includeRootPath, '/stream_manager']};
 
+    if (ismodule('f2c'))
+      c = [c; [includeRootPath, '/f2c']];
+    end
+    if (ismodule('validators'))
+      c = [c; [includeRootPath, '/validators']];
+    end
+
+   end
+  end
 end
 %=============================================================================

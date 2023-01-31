@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.7.2 (UNRELEASED)
+
+### Changed
+
+- cmake project reworked. It should be easier to package Nelson on linux platforms (Thanks to @JohanMabille)
+- `modulepath` reworked and extended.
+
 ## 0.7.1 (2023-01-29)
 
 ### Added

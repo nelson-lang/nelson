@@ -1012,7 +1012,7 @@ end
 function cmd = build_command_nelson_mode(exe, command, withMPI)
   persistent nelson_bin_path
   if isempty(nelson_bin_path)
-    nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+    nelson_bin_path = modulepath('nelson', 'bin');
   end
   nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];

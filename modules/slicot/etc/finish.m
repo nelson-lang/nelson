@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 SLICOTWrapper('free');
-removegateway(modulepath(nelsonroot(), 'slicot', 'builtin'));
+removegateway(modulepath('slicot', 'builtin'));
 %=============================================================================

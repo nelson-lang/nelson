@@ -9,8 +9,8 @@
 %=============================================================================
 % <-- NO USER MODULES -->
 %=============================================================================
-path_1 = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
-path_2 = [modulepath(nelsonroot(),'core','bin'), '/libnlsCore', getdynlibext()];
+path_1 = modulepath('dynamic_link', 'builtin');
+path_2 = modulepath('core', 'builtin');
 assert_isequal(size(dllib_used()), [0 0]);
 lib1 = dlopen(path_1);
 assert_isequal(size(dllib_used()), [1 1]);

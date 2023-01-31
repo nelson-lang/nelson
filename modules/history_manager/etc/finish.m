@@ -11,5 +11,5 @@ if ( (strcmp(getnelsonmode(), 'GUI') == 1) || (strcmp(getnelsonmode(), 'ADVANCED
   if ~any(strcmp(argv(),'--nouserstartup'))
     history('save');
   end
-  removegateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
+  removegateway(modulepath('history_manager', 'builtin'));
 end

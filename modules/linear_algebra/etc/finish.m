@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'));
-removegateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'));
+rmpath(modulepath('linear_algebra', 'functions'));
+removegateway(modulepath('linear_algebra', 'builtin'));
 %=============================================================================

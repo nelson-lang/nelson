@@ -23,10 +23,10 @@ initSparseDynamicLibrary()
     if (bFirstDynamicLibraryCall) {
         std::wstring fullpathSparseSharedLibrary
             = L"libnlsSparse" + get_dynamic_library_extensionW();
-        std::wstring nelsonBinaryDirectory
-            = Nelson::NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        std::wstring nelsonLibrariesDirectory
+            = Nelson::NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
         fullpathSparseSharedLibrary
-            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathSparseSharedLibrary;
+            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathSparseSharedLibrary;
         nlsSparseHandleDynamicLibrary = load_dynamic_libraryW(fullpathSparseSharedLibrary);
         if (nlsSparseHandleDynamicLibrary) {
             bFirstDynamicLibraryCall = false;

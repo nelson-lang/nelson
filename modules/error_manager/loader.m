@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addmodule([nelsonroot() '/modules/' 'error_manager'], 'error_manager');
-addpath(modulepath(nelsonroot(), 'error_manager', 'functions'), '-frozen');
+addpath(modulepath('error_manager', 'functions'), '-frozen');
 %=============================================================================

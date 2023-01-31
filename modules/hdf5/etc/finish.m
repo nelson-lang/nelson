@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'hdf5', 'functions'));
-removegateway(modulepath(nelsonroot(), 'hdf5', 'builtin'))
+rmpath(modulepath('hdf5', 'functions'));
+removegateway(modulepath('hdf5', 'builtin'))

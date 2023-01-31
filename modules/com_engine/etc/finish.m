@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-  rmpath(modulepath(nelsonroot(), 'com_engine', 'functions'));
-  removegateway(modulepath(nelsonroot(), 'com_engine', 'builtin'));
+  rmpath(modulepath('com_engine', 'functions'));
+  removegateway(modulepath('com_engine', 'builtin'));
 end
 %=============================================================================

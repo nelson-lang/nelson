@@ -12,9 +12,11 @@
 #include <string>
 #include "ArrayOf.hpp"
 #include "Types.hpp"
+#include "nlsInterpreter_exports.h"
+
 //=============================================================================
 namespace Nelson {
-class VariablesTable
+class NLSINTERPRETER_IMPEXP VariablesTable
 {
     //=============================================================================
 private:

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = f2c(varargin)
-  path_f2c = [modulepath(nelsonroot(),'f2c','bin'), '/nelson_f2c'];
+  path_f2c = [modulepath('f2c','bin'), '/nelson_f2c'];
   if ispc()
     path_f2c = [path_f2c, '.exe'];
   end
@@ -33,7 +33,7 @@ function varargout = f2c(varargin)
   if nargin == 3
     options = varargin{3};
   end
-  F2C_OPTIONS = ['-E -I"', modulepath(nelsonroot(),'f2c','root'), 'src/include"', ' -d'];
+  F2C_OPTIONS = ['-E -I"', modulepath('f2c','root'), 'src/include"', ' -d'];
   cmd = ['"', path_f2c, '" "', src, '"', ' ', F2C_OPTIONS, dst, ' ', options];
   [res, msg] = unix(cmd);
   if res == 0

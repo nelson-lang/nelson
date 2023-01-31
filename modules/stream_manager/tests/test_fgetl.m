@@ -10,7 +10,7 @@
 assert_isequal(nargin('fgetl'), 1);
 assert_isequal(nargout('fgetl'), 1);
 %=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
+filename = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
 assert_isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
 found = false;
@@ -26,7 +26,7 @@ end
 fclose(fid);
 assert_istrue(found);
 %=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
+filename = [modulepath('characters_encoding', 'tests'), '/olaf_Windows-1251.txt'];
 assert_isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'windows-1251');
 found = false;

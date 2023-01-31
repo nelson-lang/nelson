@@ -9,7 +9,7 @@
 %=============================================================================
 % <-- NO USER MODULES -->
 %=============================================================================
-lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+lib = dlopen(modulepath('dynamic_link', 'builtin'));
 libs = [lib; lib];
 %=============================================================================
 R = evalc('display(lib)')

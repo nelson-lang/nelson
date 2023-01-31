@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'statistics', 'builtin'), 'statistics');
-addpath(modulepath(nelsonroot(), 'statistics', 'functions'), '-frozen');
+addgateway(modulepath('statistics', 'builtin'), 'statistics');
+addpath(modulepath('statistics', 'functions'), '-frozen');
 %=============================================================================

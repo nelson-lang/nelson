@@ -20,7 +20,6 @@
 #include "AbstractSyntaxTree.hpp"
 #include "ParseRHS.hpp"
 #include "i18n.hpp"
-#include "nlsInterpreter_exports.h"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
@@ -28,6 +27,7 @@
 #include "FileParser.hpp"
 #include "Keywords.hpp"
 #include "NelSonParser.h"
+#include "LexerInterface.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

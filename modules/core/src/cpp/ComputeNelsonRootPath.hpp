@@ -7,21 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#pragma once
 //=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    }
-    return 1;
-}
+#include <string>
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+bool
+ComputeNelsonRootPath(std::wstring& errorMessage);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

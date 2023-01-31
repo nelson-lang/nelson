@@ -46,7 +46,7 @@ function qhelpgenerator_filename = get_help_generator_filename()
 end
 %=============================================================================
 function qhelpgenerator_filename = get_help_generator_filename_windows()
-  qhelpgenerator_filename = ['"', modulepath(nelsonroot(),'nelson','bin'), '/', 'qhelpgenerator', '"'];
+  qhelpgenerator_filename = ['"', modulepath('nelson', 'bin'), '/', 'qhelpgenerator', '"'];
 end
 %=============================================================================
 function QTDIR_BINARIES = get_qtdir_binaries()

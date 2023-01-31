@@ -3,21 +3,15 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name characters_encoding)
 set(module_library_name nlsCharacters_encoding)
 set(module_library_builtin_name ${module_library_name}_builtin)
-# ==============================================================================
-if(WITHOUT_CHARACTERS_ENCODING_MODULE)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
-else()
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf ${ICU_INCLUDE_DIRS})
-endif()
 # ==============================================================================
 if(WITHOUT_CHARACTERS_ENCODING_MODULE)
   file(GLOB CHARACTERS_ENCODING_SRC
@@ -31,36 +25,65 @@ else()
        "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 endif()
 # ==============================================================================
-add_library(${module_library_name} SHARED ${CHARACTERS_ENCODING_SRC})
+add_library(${module_library_name} ${CHARACTERS_ENCODING_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} ${ICU_LIBRARIES})
+if(WITHOUT_CHARACTERS_ENCODING_MODULE)
+  target_include_directories(
+    ${module_library_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_link_libraries(${module_library_name})
+else()
+  target_include_directories(
+    ${module_library_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
+                                   ${ICU_INCLUDE_DIRS})
+  target_link_libraries(${module_library_name} ${ICU_LIBRARIES})
+endif()
 # ==============================================================================
+if(WITHOUT_CHARACTERS_ENCODING_MODULE)
+  file(GLOB CHARACTERS_ENCODING_HEADER
+       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+else()
+  file(GLOB CHARACTERS_ENCODING_HEADER
+       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+endif()
 set_target_properties(
   ${module_library_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${CHARACTERS_ENCODING_HEADER}")
 # ==============================================================================
 if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
   file(GLOB CHARACTERS_ENCODING_BUILTIN
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
   list(FILTER CHARACTERS_ENCODING_BUILTIN EXCLUDE REGEX
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
-  # ==============================================================================
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
-  # ==============================================================================
-  add_library(${module_library_builtin_name} SHARED
-              ${CHARACTERS_ENCODING_BUILTIN})
-  # ==============================================================================
+endif()
+# ==============================================================================
+if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
+  add_library(${module_library_builtin_name} ${CHARACTERS_ENCODING_BUILTIN})
+  target_include_directories(
+    ${module_library_builtin_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_builtin_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
   target_link_libraries(
     ${module_library_builtin_name}
     ${module_library_name}
@@ -70,48 +93,64 @@ if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
     nlsInterpreter
     nlsTypes)
   # ==============================================================================
+  file(
+    GLOB
+    CHARACTERS_ENCODING_HEADER
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.h")
   set_target_properties(
     ${module_library_builtin_name}
     PROPERTIES
       VERSION
       ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-      SOVERSION ${Nelson_VERSION_MAJOR})
-  # ==============================================================================
+      SOVERSION ${Nelson_VERSION_MAJOR}
+      PUBLIC_HEADER "${CHARACTERS_ENCODING_HEADER}")
 endif()
 # ==============================================================================
-if(WITHOUT_CHARACTERS_ENCODING_MODULE)
-  install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-else()
-  install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-  install(TARGETS ${module_library_builtin_name}
-          LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+include(GNUInstallDirs)
+# ==============================================================================
+install(
+  TARGETS ${module_library_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    TARGETS ${module_library_builtin_name}
+    EXPORT ${PROJECT_NAME}-targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  # ==============================================================================
+  install(
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.m")
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-    FILES_MATCHING
-    PATTERN "*.qch"
-    PATTERN "xml" EXCLUDE
-    PATTERN "md" EXCLUDE)
-  install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.m")
+  # ==============================================================================
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.txt")
+  # ==============================================================================
 endif()
 # ==============================================================================

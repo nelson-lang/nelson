@@ -32,11 +32,11 @@ R = sha256({'Hello'; 'World'}, '-file');
 REF = {''; ''};
 assert_isequal(R, REF)
 %=============================================================================
-R = sha256([modulepath('matio'), '/tests/mat/test_char_array_unicode_7.4_GLNX86.mat']);
+R = sha256([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat']);
 REF = 'f7ef31cc009995e0643236676ebf2de0d72cf41ea66f3ace3436e53e7b5e04f5';
 assert_isequal(R, REF)
 %=============================================================================
-R = sha256([modulepath('matio'), '/tests/mat/test_char_array_unicode_7.4_GLNX86.mat'], '-file');
+R = sha256([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat'], '-file');
 REF = 'f7ef31cc009995e0643236676ebf2de0d72cf41ea66f3ace3436e53e7b5e04f5';
 assert_isequal(R, REF)
 %=============================================================================

@@ -56,7 +56,7 @@ REF.Value = x;
 REF.DataType = 'doublePtr';
 assert_isequal(r, REF);
 %=============================================================================
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
 [r1, r2] = dlcall(f, xPtr);

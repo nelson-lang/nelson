@@ -33,7 +33,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data
-      ><![CDATA[path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+      ><![CDATA[path_ref = modulepath('dynamic_link', 'builtin');
 lib = dlopen(path_ref)
 isvalid(lib)
 dlclose(lib); // or delete(lib)

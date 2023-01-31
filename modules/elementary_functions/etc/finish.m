@@ -12,6 +12,6 @@
 base2dec('', 2);
 dec2base([], 2);
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'elementary_functions', 'functions'));
-removegateway(modulepath(nelsonroot(), 'elementary_functions', 'builtin'))
+rmpath(modulepath('elementary_functions', 'functions'));
+removegateway(modulepath('elementary_functions', 'builtin'))
 %=============================================================================

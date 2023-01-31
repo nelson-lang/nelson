@@ -12,7 +12,7 @@
 clear('all')
 [u1, s1] = memory();
 %=============================================================================
-addpath([modulepath('stream_manager'), '/tests/loadsavebin']);
+addpath([modulepath('stream_manager', 'tests'), '/loadsavebin']);
 for i=1:50000
   typeofbin(201);
 end

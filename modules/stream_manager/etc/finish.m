@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'stream_manager', 'functions'));
-removegateway(modulepath(nelsonroot(), 'stream_manager', 'builtin'))
+rmpath(modulepath('stream_manager', 'functions'));
+removegateway(modulepath('stream_manager', 'builtin'))

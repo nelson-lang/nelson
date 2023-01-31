@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ( (strcmp(getnelsonmode(), 'GUI') == true) || (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true) )
-  addgateway(modulepath(nelsonroot(), 'history_manager', 'builtin'), 'history_manager');
+  addgateway(modulepath('history_manager', 'builtin'), 'history_manager');
   if ~any(strcmp(argv(),'--nouserstartup'))
     history('load');
   end

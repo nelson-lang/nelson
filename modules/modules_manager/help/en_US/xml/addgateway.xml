@@ -36,8 +36,7 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description
       >Add gateway for string module:</example_item_description>
-		<example_item_data
-      ><![CDATA[addgateway(modulepath(nelsonroot(), 'time', 'builtin'))]]>
+		<example_item_data><![CDATA[addgateway(modulepath('time', 'builtin'))]]>
 		</example_item_data>
 	</example_item>
 

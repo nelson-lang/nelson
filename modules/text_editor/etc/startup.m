@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'text_editor', 'builtin'), 'text_editor');
-addpath(modulepath(nelsonroot(), 'text_editor', 'functions'), '-frozen');
+addgateway(modulepath('text_editor', 'builtin'), 'text_editor');
+addpath(modulepath('text_editor', 'functions'), '-frozen');
 %=============================================================================

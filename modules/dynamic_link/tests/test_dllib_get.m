@@ -10,13 +10,13 @@
 assert_isequal(nargin('dllib_get'), 2);
 assert_isequal(nargout('dllib_get'), 1);
 %=============================================================================
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = modulepath('dynamic_link', 'builtin');
 lib = dlopen(path_ref);
 path_lib = get(lib, 'Path');
-assert_istrue(startsWith(path_lib, [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link']));
+assert_istrue(startsWith(path_lib, path_ref));
 %=============================================================================
 path_lib = lib.Path;
-assert_istrue(startsWith(path_lib, [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link']));
+assert_istrue(startsWith(path_lib, path_ref));
 %=============================================================================
 assert_checkerror('path_lib = get(lib, ''Pat2'');', _('Wrong value for #2 argument.'));
 %=============================================================================

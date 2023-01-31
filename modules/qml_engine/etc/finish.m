@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 delete(QObject_used())
-rmpath(modulepath(nelsonroot(), 'qml_engine', 'functions'));
-removegateway(modulepath(nelsonroot(), 'qml_engine', 'builtin'));
+rmpath(modulepath('qml_engine', 'functions'));
+removegateway(modulepath('qml_engine', 'builtin'));
 %=============================================================================

@@ -19,7 +19,7 @@ function nig(varargin)
   if ~isdir(NIG_DESTINATION)
     error(_('an existing directory expected.'));
   end
-  addpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
+  addpath([modulepath('nig', 'functions'), '/internal']);
   try
     have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) && isdir([NIG_DESTINATION, '/builtin/include']);
     len = length(NIG_FUNCTIONS);
@@ -42,9 +42,9 @@ function nig(varargin)
     nig_txt_to_file(nig_generate_gateway_cpp(NIG_FUNCTIONS), filenameCppGateway);
   catch
     error_struct = lasterror();
-    rmpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
+    rmpath([modulepath('nig', 'functions'), '/internal']);
     error(error_struct);
   end
-  rmpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
+  rmpath([modulepath('nig', 'functions'), '/internal']);
 end
 %=============================================================================

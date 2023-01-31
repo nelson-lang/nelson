@@ -15,11 +15,11 @@ assert_isequal(nargin('qml_evaluatefile'), 1);
 assert_isequal(nargout('qml_evaluatefile'), 1);
 %=============================================================================
 if ismac() || ispc()
-  js_file = [modulepath('qml_engine'), '/tests/example_no_output.js'];
+  js_file = [modulepath('qml_engine', 'tests'), '/example_no_output.js'];
   r = qml_evaluatefile(js_file);
   assert_isequal(r, []);
   %=============================================================================
-  js_file = [modulepath('qml_engine'), '/tests/example_with_output.js'];
+  js_file = [modulepath('qml_engine', 'tests'), '/example_with_output.js'];
   r = qml_evaluatefile(js_file);
   assert_isequal(r, 56);
   %=============================================================================

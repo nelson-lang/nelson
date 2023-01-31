@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if strcmp(getnelsonmode(), 'BASIC_TERMINAL') == true
-  addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'), 'mpi');
+  addgateway(modulepath('mpi', 'builtin'), 'mpi');
 end
-addpath(modulepath(nelsonroot(), 'mpi', 'functions'), '-frozen');
+addpath(modulepath('mpi', 'functions'), '-frozen');
 %=============================================================================

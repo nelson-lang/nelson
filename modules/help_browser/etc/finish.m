@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 helpbrowser('-close');
-rmpath(modulepath(nelsonroot(), 'help_browser', 'functions'));
-removegateway(modulepath(nelsonroot(), 'help_browser', 'builtin'));
+rmpath(modulepath('help_browser', 'functions'));
+removegateway(modulepath('help_browser', 'builtin'));

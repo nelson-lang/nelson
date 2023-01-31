@@ -21,7 +21,7 @@ function varargout = h5dump(varargin)
     h5path = "";
   end
   if ispc()
-    exe = ['"', modulepath(nelsonroot(),'nelson','bin'), '/', 'h5dump', '"'];
+    exe = ['"', modulepath('nelson', 'bin'), '/', 'h5dump', '"'];
   else
     exe = "h5dump";
   end

@@ -10,7 +10,7 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 %=============================================================================
-ascii = [modulepath('characters_encoding'), '/tests/harpers_ASCII.txt'];
+ascii = [modulepath('characters_encoding', 'tests'), '/harpers_ASCII.txt'];
 F = fopen(ascii, 'rt');
 R = fread(F,'uint8');
 fclose(F);

@@ -84,7 +84,7 @@ jobs:
           export OMP_NUM_THREADS=1
           cmake --build . -- tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: nelson-github-action-artifacts-macOS-BigSur-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
@@ -163,7 +163,7 @@ jobs:
       - name: all tests
         run: cmake --build . -- tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: nelson-github-action-artifacts-macOS-BigSur-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
@@ -260,7 +260,7 @@ jobs:
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson_*.deb artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
@@ -373,7 +373,7 @@ jobs:
       - name: all tests
         run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v1
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-20-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}

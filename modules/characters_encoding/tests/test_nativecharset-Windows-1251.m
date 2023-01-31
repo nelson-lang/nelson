@@ -10,7 +10,7 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 %=============================================================================
-windows_1251 = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
+windows_1251 = [modulepath('characters_encoding', 'tests'), '/olaf_Windows-1251.txt'];
 F = fopen(windows_1251, 'rt');
 R = fread(F,'uint8');
 fclose(F);

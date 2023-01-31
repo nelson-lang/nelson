@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addmodule([nelsonroot() '/modules/' 'debugger'], 'debugger');
+addmodule([nelsonroot(), '/modules/', 'debugger'], 'debugger');
 %=============================================================================

@@ -60,15 +60,21 @@
     <ClInclude Include="..\cpp\ComputeNelsonBinariesPath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\ComputeNelsonPath.hpp">
+    <ClInclude Include="..\cpp\ComputeNelsonRootPath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\ComputePreferencesPath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\ComputeNelsonLibrariesPath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\ComputeNelsonModulesPath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\ComputeNelsonPath.cpp">
+    <ClCompile Include="..\cpp\ComputeNelsonRootPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp">
@@ -117,6 +123,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ComputeNelsonLibrariesPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ComputeNelsonModulesPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

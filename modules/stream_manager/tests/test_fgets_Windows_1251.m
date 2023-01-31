@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
+filename = [modulepath('characters_encoding', 'tests'), '/olaf_Windows-1251.txt'];
 assert_isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'windows-1251');
 found = false;

@@ -3,4 +3,4 @@
 %
 %
 %
-run([modulepath('core'), '/tests/run_file2.m'])
+run([modulepath('core', 'tests'), '/run_file2.m'])

@@ -12,7 +12,7 @@
 assert_isequal(nargin('dlsym'), 4);
 assert_isequal(nargout('dlsym'), -1);
 %=============================================================================
-lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()]);
 %=============================================================================
 f = dlsym(lib, 'dynlibTestReturnTypeScalarUInt8', 'void', {});
 r = dlcall(f);

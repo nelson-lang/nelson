@@ -3,7 +3,10 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 include_directories(${EIGEN_INCLUDE_DIR})
@@ -25,7 +28,7 @@ list(
   operators
   elementary_functions
   interpreter
-  modules_manager  
+  modules_manager
   debugger
   double
   single
@@ -61,7 +64,7 @@ list(
   GUI
   FFTW
   SLICOT
-  VALIDATORS  
+  VALIDATORS
   F2C
   MPI
   AUDIO
@@ -102,6 +105,8 @@ foreach(mod ${moduleslist})
   add_subdirectory(${mod})
 endforeach(mod)
 # ==============================================================================
+include(GNUInstallDirs)
+# ==============================================================================
 install(FILES ${CMAKE_SOURCE_DIR}/modules/modules.m
-        DESTINATION ${ROOT_OUTPUT}/modules)
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules)
 # ==============================================================================

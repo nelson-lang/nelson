@@ -10,22 +10,26 @@
 p = which('clear');
 assert_istrue(contains(p, 'libnlsMemory_manager_builtin'));
 %=============================================================================
-p = modulepath(nelsonroot(),'core','builtin');
+p = modulepath('core','builtin');
 assert_istrue(contains(p, 'libnlsCore_builtin'));
 %=============================================================================
 p = modulepath('core');
 ref = [nelsonroot, '/modules/core'];
 assert_isequal(p, ref);
 %=============================================================================
-p = modulepath(nelsonroot(),'core','etc');
+p = modulepath('core','etc');
 ref = [nelsonroot, '/modules/core/etc'];
 assert_isequal(p, ref);
 %=============================================================================
-p = modulepath(nelsonroot(),'core','bin');
+p = modulepath('nelson','builtin');
 ref = fileparts(which('clear'));
 assert_isequal(p, ref);
 %=============================================================================
-p = modulepath(nelsonroot(),'core','root');
-ref = [nelsonroot, '/modules/core/'];
+p = modulepath('core','root');
+ref = [nelsonroot, '/modules/core'];
+assert_isequal(p, ref);
+%=============================================================================
+p = modulepath('core','tests');
+ref = [nelsonroot, '/modules/core/tests'];
 assert_isequal(p, ref);
 %=============================================================================
