@@ -145,7 +145,7 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
     if (!errorMessage.empty()) {
         canonicalPath = filename;
     }
-    file->setFileName(canonicalPath.generic_path().generic_wstring());
+    file->setFileName(canonicalPath.generic_wstring());
     file->setFileMode(_mode);
     file->setFilePointer((void*)fp);
     file->setEncoding(encoding);

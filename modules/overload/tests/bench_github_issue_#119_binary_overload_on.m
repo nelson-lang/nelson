@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addpath([modulepath('overload'),'/tests/overload']);
+addpath([modulepath('overload', 'tests'), '/overload']);
 M = 1:1e5;
 overloadbasictypes(true);
 tic;for i=M

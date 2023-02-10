@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
+filename = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
 assert_isequal(feof(fid), 0);
 %=============================================================================

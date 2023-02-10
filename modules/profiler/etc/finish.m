@@ -10,5 +10,5 @@
 profile('off')
 profile('clear')
 %=============================================================================
-removegateway(modulepath(nelsonroot(), 'profiler', 'builtin'))
+removegateway(modulepath('profiler', 'builtin'))
 %=============================================================================

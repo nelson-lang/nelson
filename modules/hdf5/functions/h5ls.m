@@ -24,7 +24,7 @@ function varargout = h5ls(varargin)
     h5path = "";
   end
   if ispc()
-    exe = ['"', modulepath(nelsonroot(),'nelson','bin'), '/', 'h5ls', '"'];
+    exe = ['"', modulepath('nelson', 'bin'), '/', 'h5ls', '"'];
   else
     exe = "h5ls";
   end

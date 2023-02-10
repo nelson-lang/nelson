@@ -9,6 +9,6 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 % <--CHECK REF-->
-copyfile([modulepath('text_editor'), '/tests/smartindent.txt'], [tempdir(),'/smartindent.txt']);
+copyfile([modulepath('text_editor', 'tests'), '/smartindent.txt'], [tempdir(),'/smartindent.txt']);
 smartindent([tempdir(),'/smartindent.txt'])
 fileread([tempdir(),'/smartindent.txt'], 'char', 'native')

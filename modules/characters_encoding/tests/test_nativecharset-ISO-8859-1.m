@@ -10,7 +10,7 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 %=============================================================================
-iso8859_1 = [modulepath('characters_encoding'), '/tests/die_ISO-8859-1.txt'];
+iso8859_1 = [modulepath('characters_encoding', 'tests'), '/die_ISO-8859-1.txt'];
 F = fopen(iso8859_1, 'rt');
 R = fread(F,'uint8');
 fclose(F);
@@ -19,7 +19,7 @@ assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
 assert_istrue(any(contains(ce, 'ISO-8859-1')))
 %=============================================================================
-pt = [modulepath('characters_encoding'), '/tests/portugal_ISO-8859-1.txt'];
+pt = [modulepath('characters_encoding', 'tests'), '/portugal_ISO-8859-1.txt'];
 F = fopen(pt, 'rt');
 R = fread(F,'uint8');
 fclose(F);

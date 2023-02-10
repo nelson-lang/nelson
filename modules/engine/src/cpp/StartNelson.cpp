@@ -173,12 +173,12 @@ ErrorCommandLine(const std::wstring& str, NELSON_ENGINE_MODE _mode)
     if (_mode == GUI) {
         MessageBox(nullptr, str.c_str(), msg.c_str(), MB_ICONINFORMATION);
     } else {
-        std::wcout << msg.c_str() << L"\n";
-        std::wcout << str;
+        std::wcerr << msg.c_str() << L"\n";
+        std::wcerr << str;
     }
 #else
-    std::wcout << msg.c_str() << L"\n";
-    std::wcout << str.c_str();
+    std::wcerr << msg.c_str() << L"\n";
+    std::wcerr << str.c_str();
 #endif
 }
 //=============================================================================
@@ -262,7 +262,11 @@ static int
 StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     int exitCode = -1;
-    ComputesNelsonPaths();
+    std::wstring errorMessage;
+    if (!ComputesNelsonPaths(errorMessage)) {
+        ErrorCommandLine(errorMessage, _mode);
+        return exitCode;
+    }
     NelsonConfiguration::getInstance()->setNelsonEngineMode(_mode);
     ProgramOptions po(args, _mode);
     if (!po.isValid()) {
@@ -395,14 +399,16 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         try {
             AddGateway(eval,
                 ConstructDynamicLibraryFullname(
-                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(), L"core"));
+                    NelsonConfiguration::getInstance()->getNelsonLibraryDirectory(), L"core",
+                    true));
             AddGateway(eval,
                 ConstructDynamicLibraryFullname(
-                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(),
-                    L"modules_manager"));
+                    NelsonConfiguration::getInstance()->getNelsonLibraryDirectory(),
+                    L"modules_manager", true));
             AddGateway(eval,
                 ConstructDynamicLibraryFullname(
-                    NelsonConfiguration::getInstance()->getNelsonRootDirectory(), L"string"));
+                    NelsonConfiguration::getInstance()->getNelsonLibraryDirectory(), L"string",
+                    true));
         } catch (const Exception& e) {
             Interface* io = eval->getInterface();
             eval->setLastErrorException(e);

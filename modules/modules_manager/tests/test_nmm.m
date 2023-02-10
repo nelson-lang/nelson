@@ -50,7 +50,7 @@ if isempty(r)
 end
 assert_isfalse(r);
 %=============================================================================
-nmm('install', [modulepath('modules_manager'), '/tests/module_skeleton_basic-all-3.0.0.nmz']);
+nmm('install', [modulepath('modules_manager', 'tests'), '/module_skeleton_basic-all-3.0.0.nmz']);
 r = nmm('list');
 r = any(contains(fieldnames(r), 'module_skeleton_basic'));
 assert_istrue(r);

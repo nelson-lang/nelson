@@ -38,17 +38,32 @@ for arg do
     esac
 done    
 #==============================================================================
-ARCH=$(uname -m)
-if [ $ARCH = "x86_64" ]
-then
-    NLS_OPENMPI_LIBRARY_PATH="/usr/lib64/openmpi/lib"
-    NLS_OPENMPI_BIN_PATH="/usr/lib64/openmpi/bin"
-else
-    NLS_OPENMPI_LIBRARY_PATH="/usr/lib32/openmpi/lib"
-    NLS_OPENMPI_BIN_PATH="/usr/lib32/openmpi/bin"
+if test -f $SCRIPT_DIRECTORY/../lib64/libnlsEngine.so; then
+  CURRENT_DIRECTORY=$(pwd -P)
+  cd "$SCRIPT_DIRECTORY/../lib64"
+  NLS_LIBRARY_PATH=$(pwd)
+  cd $CURRENT_DIRECTORY
 fi 
+if test -f $SCRIPT_DIRECTORY/../lib/libnlsEngine.so; then
+  CURRENT_DIRECTORY=$(pwd -P)
+  cd "$SCRIPT_DIRECTORY/../lib"
+  NLS_LIBRARY_PATH=$(pwd)
+  cd $CURRENT_DIRECTORY
+fi 
+if [ "$LD_LIBRARY_PATH" = "" ]; then
+  export LD_LIBRARY_PATH=$NLS_LIBRARY_PATH
+else
+  export LD_LIBRARY_PATH="$NLS_LIBRARY_PATH:{$LD_LIBRARY_PATH}"
+fi
 #==============================================================================
-# fedora path
+if test -d /usr/lib64/openmpi/lib; then
+  NLS_OPENMPI_LIBRARY_PATH="/usr/lib64/openmpi/lib"
+  NLS_OPENMPI_BIN_PATH="/usr/lib64/openmpi/bin"
+fi
+if test -d /usr/lib32/openmpi/lib; then
+  NLS_OPENMPI_LIBRARY_PATH="/usr/lib32/openmpi/lib"
+  NLS_OPENMPI_BIN_PATH="/usr/lib32/openmpi/bin"
+fi
 if test -d $NLS_OPENMPI_LIBRARY_PATH; then
   if [ "$LD_LIBRARY_PATH" = "" ]
   then

@@ -52,7 +52,7 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description />
 		<example_item_data
-      ><![CDATA[[gateway_name, builtin_list] = gatewayinfo(modulepath(nelsonroot(), 'time', 'builtin'))
+      ><![CDATA[[gateway_name, builtin_list] = gatewayinfo(modulepath('time', 'builtin'))
 ]]>
 	</example_item_data>
 	

@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'polynomial_functions', 'functions'));
+rmpath(modulepath('polynomial_functions', 'functions'));
 %=============================================================================

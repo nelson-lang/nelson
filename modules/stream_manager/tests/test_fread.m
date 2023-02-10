@@ -10,7 +10,7 @@
 assert_isequal(nargin('fread'), 3);
 assert_isequal(nargout('fread'), 1);
 %=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
+filename = [modulepath('characters_encoding', 'tests'), '/olaf_Windows-1251.txt'];
 F = fopen(filename, 'rt', 'n', 'windows-1251');
 [R, S] = fread(F, '*char');
 fclose(F);

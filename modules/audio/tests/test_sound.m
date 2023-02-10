@@ -11,7 +11,7 @@
 %=============================================================================
 assert_isequal(nargin('sound'), -1)
 assert_isequal(nargout('sound'), 0)
-wav_file = [modulepath('audio'), '/tests/MacBoing.wav'];
+wav_file = [modulepath('audio', 'tests'), '/MacBoing.wav'];
 [y, fs] = audioread(wav_file);
 %=============================================================================
 sound(y);

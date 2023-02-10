@@ -15,7 +15,7 @@ function varargout = license(varargin)
   end
   if ispc()
     if ismodule('fftw')
-      fft_file_info = dir([modulepath(nelsonroot(),'core','bin'), '/libfftw3-3.dll']);
+      fft_file_info = dir([modulepath('nelson', 'builtin'), '/libfftw3-3.dll']);
       % fftw mkl wrapper > 20 Mo dll
       isFFTMKLWRAPPER = (fft_file_info.bytes > 20000000);
       isLGPL = ~ismodule('slicot') && isFFTMKLWRAPPER;

@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'hdf5', 'builtin'), 'hdf5');
-addpath(modulepath(nelsonroot(), 'hdf5', 'functions'), '-frozen');
+addgateway(modulepath('hdf5', 'builtin'), 'hdf5');
+addpath(modulepath('hdf5', 'functions'), '-frozen');
 %=============================================================================

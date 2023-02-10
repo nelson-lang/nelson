@@ -10,11 +10,11 @@
 TEST_DIR = [tempdir(), 'f2c'];
 mkdir(TEST_DIR);
 DEST_FILE = [TEST_DIR, '/dgemm.c'];
-REF_FILE = [modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.c'];
+REF_FILE = [modulepath('f2c','tests'), '/dgemm.c'];
 if isfile(DEST_FILE)
   rmfile(DEST_FILE);
 end
-copyfile([modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.f'], [TEST_DIR, '/dgemm.f'])
+copyfile([modulepath('f2c','tests'), '/dgemm.f'], [TEST_DIR, '/dgemm.f'])
 f2c([TEST_DIR, '/dgemm.f'], TEST_DIR);
 DEST_FILE = [TEST_DIR, '/dgemm.c'];
 assert_istrue(isfile(DEST_FILE));

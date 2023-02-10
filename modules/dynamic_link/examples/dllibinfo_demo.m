@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+lib = dlopen(modulepath('dynamic_link', 'builtin'));
 % get list all symbols available in loaded shared library
 symbols = dllibinfo(lib)
 % release handle

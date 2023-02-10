@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'error_manager', 'builtin'), 'error_manager');
+addgateway(modulepath('error_manager', 'builtin'), 'error_manager');
 %=============================================================================

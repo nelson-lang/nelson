@@ -31,7 +31,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "addmodule", (ptrBuiltin)Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "modulepath", (ptrBuiltin)Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
+    { "modulepath", (ptrBuiltin)Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 2 },
     { "getmodules", (ptrBuiltin)Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
     { "ismodule", (ptrBuiltin)Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
     { "toolboxdir", (ptrBuiltin)Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },

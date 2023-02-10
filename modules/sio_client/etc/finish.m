@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'sio_client', 'functions'));
-removegateway(modulepath(nelsonroot(), 'sio_client', 'builtin'));
+rmpath(modulepath('sio_client', 'functions'));
+removegateway(modulepath('sio_client', 'builtin'));
 %=============================================================================

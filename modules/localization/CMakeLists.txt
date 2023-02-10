@@ -3,28 +3,15 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name localization)
 set(module_library_name nlsLocalization)
 set(module_library_builtin_name ${module_library_name}_builtin)
-# ==============================================================================
-if(WITHOUT_LOCALIZATION_MODULE)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
-                      ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
-else()
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-    ${Boost_INCLUDE_DIRS})
-endif()
 # ==============================================================================
 if(WITHOUT_LOCALIZATION_MODULE)
   file(GLOB LOCALIZATION_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
@@ -36,85 +23,151 @@ else()
        "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 endif()
 # ==============================================================================
-add_library(${module_library_name} SHARED ${LOCALIZATION_SRC})
+add_library(${module_library_name} ${LOCALIZATION_SRC})
 # ==============================================================================
 if(WITHOUT_LOCALIZATION_MODULE)
+  target_include_directories(
+    ${module_library_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
   target_link_libraries(${module_library_name})
 else()
-  target_link_libraries(
+  target_include_directories(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsNelson_manager
-    ${Boost_LOCALE_LIBRARY})
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+            ${Boost_INCLUDE_DIRS})
+
+  target_link_libraries(${module_library_name} nlsCharacters_encoding
+                        nlsNelson_manager ${Boost_LOCALE_LIBRARY})
 endif()
 # ==============================================================================
+if(WITHOUT_LOCALIZATION_MODULE)
+  file(GLOB LOCALIZATION_HEADER
+       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.h")
+else()
+  file(GLOB LOCALIZATION_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+endif()
 set_target_properties(
   ${module_library_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${LOCALIZATION_HEADER}")
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
-  # ==============================================================================
   file(GLOB LOCALIZATION_BUILTIN
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
   list(FILTER LOCALIZATION_BUILTIN EXCLUDE REGEX
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
   # ==============================================================================
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-  # ==============================================================================
-  add_library(${module_library_builtin_name} SHARED ${LOCALIZATION_BUILTIN})
-  # ==============================================================================
-  target_link_libraries(${module_library_builtin_name}
+  add_library(${module_library_builtin_name} ${LOCALIZATION_BUILTIN})
+  target_include_directories(
+    ${module_library_builtin_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_builtin_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+
+  target_link_libraries(
+    ${module_library_builtin_name}
     ${module_library_name}
     nlsApi_nelson
     nlsError_manager
     nlsI18n
     nlsInterpreter
     nlsTypes)
-  # ==============================================================================
+endif()
+# ==============================================================================
+if(NOT WITHOUT_LOCALIZATION_MODULE)
+  file(
+    GLOB
+    LOCALIZATION_HEADER
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.h")
+
   set_target_properties(
     ${module_library_builtin_name}
     PROPERTIES
       VERSION
       ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-      SOVERSION ${Nelson_VERSION_MAJOR})
-  # ==============================================================================
+      SOVERSION ${Nelson_VERSION_MAJOR}
+      PUBLIC_HEADER "${LOCALIZATION_HEADER}")
 endif()
 # ==============================================================================
-if(WITHOUT_LOCALIZATION_MODULE)
-  install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-else()
-  install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-  install(TARGETS ${module_library_builtin_name}
-          LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-  install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
-          DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+include(GNUInstallDirs)
+# ==============================================================================
+install(
+  TARGETS ${module_library_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+if(NOT WITHOUT_LOCALIZATION_MODULE)
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    TARGETS ${module_library_builtin_name}
+    EXPORT ${PROJECT_NAME}-targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  # ==============================================================================
+  install(
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.m")
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.m")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.qch"
     PATTERN "xml" EXCLUDE
     PATTERN "md" EXCLUDE)
   install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
     PATTERN "*.m")
   # ==============================================================================

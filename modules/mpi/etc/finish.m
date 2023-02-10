@@ -9,9 +9,9 @@
 %=============================================================================
 if (exist('MPI_Comm_used') ~= 0)
   delete(MPI_Comm_used());
-  removegateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
+  removegateway(modulepath('mpi', 'builtin'));
 end
 if (exist('MPI_exec') ~= 0)
-  rmpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+  rmpath(modulepath('mpi', 'functions'));
 end
 %=============================================================================

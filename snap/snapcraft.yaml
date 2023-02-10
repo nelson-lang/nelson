@@ -53,7 +53,7 @@ parts:
     override-build: |
       craftctl default
 
-      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DENABLE_PACKAGING=ON -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
       cmake --build . -- -j $(nproc)
       export XDG_RUNTIME_DIR=/tmp
       cmake --build . -- -j $(nproc) buildhelp

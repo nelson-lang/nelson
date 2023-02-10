@@ -9,7 +9,7 @@
 %=============================================================================
 % <--RELEASE ONLY-->
 %=============================================================================
-wav_file = [modulepath('audio'), '/tests/6_Channel_ID.wav'];
+wav_file = [modulepath('audio', 'tests'), '/6_Channel_ID.wav'];
 info = audioinfo(wav_file);
 assert_isequal(info.CompressionMethod, 'WAVX')
 assert_isequal(info.NumChannels, [6.000000])
@@ -21,7 +21,7 @@ assert_isequal(info.Comment, [])
 assert_isequal(info.Artist, [])
 assert_isequal(info.BitsPerSample, 16)
 %=============================================================================
-flac_file = [modulepath('audio'), '/tests/handel.flac'];
+flac_file = [modulepath('audio', 'tests'), '/handel.flac'];
 info = audioinfo(flac_file);
 assert_isequal(info.CompressionMethod, 'FLAC');
 assert_isequal(info.NumChannels, [1.000000]);
@@ -33,7 +33,7 @@ assert_isequal(info.Comment, 'some comments');
 assert_isequal(info.Artist, []);
 assert_isequal(info.BitsPerSample, [16.000000]);
 %=============================================================================
-ogg_file = [modulepath('audio'), '/tests/flac_char.ogg'];
+ogg_file = [modulepath('audio', 'tests'), '/flac_char.ogg'];
 assert_checkerror('info = audioinfo(ogg_file);', _('Wrong value for #1 argument.'));
 %=============================================================================
 

@@ -3,30 +3,15 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name i18n)
 set(module_library_name nlsI18n)
 set(module_library_builtin_name ${module_library_name}_builtin)
-# ==============================================================================
-if(WITHOUT_I18N_MODULE)
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
-else()
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-    ${Boost_INCLUDE_DIRS})
-endif()
 # ==============================================================================
 if(WITHOUT_I18N_MODULE)
   file(GLOB I18N_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
@@ -38,83 +23,143 @@ else()
        "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 endif()
 # ==============================================================================
-add_library(${module_library_name} SHARED ${I18N_SRC})
+add_library(${module_library_name} ${I18N_SRC})
 # ==============================================================================
 if(WITHOUT_I18N_MODULE)
+  target_include_directories(
+    ${module_library_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
+
   target_link_libraries(${module_library_name} nlsCharacters_encoding)
 else()
+  target_include_directories(
+    ${module_library_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+            ${Boost_INCLUDE_DIRS})
+
   target_link_libraries(${module_library_name} nlsCharacters_encoding
                         ${Boost_LIBRARIES})
 endif()
 # ==============================================================================
+if(WITHOUT_I18N_MODULE)
+  file(GLOB I18N_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.h")
+else()
+  file(GLOB I18N_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+endif()
 set_target_properties(
   ${module_library_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${I18N_HEADER}")
 # ==============================================================================
-if(WITHOUT_I18N_MODULE)
-  file(GLOB I18N_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/no-builtin/cpp/*.cpp")
-  list(FILTER I18N_BUILTIN EXCLUDE REGEX
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-builtin/cpp/dllMain.cpp")
-else()
+if(NOT WITHOUT_I18N_MODULE)
   file(GLOB I18N_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
   list(FILTER I18N_BUILTIN EXCLUDE REGEX
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
+  # ==============================================================================
+  add_library(${module_library_builtin_name} ${I18N_BUILTIN})
+  target_include_directories(
+    ${module_library_builtin_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+  target_include_directories(
+    ${module_library_builtin_name}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
+
+  target_link_libraries(${module_library_builtin_name} ${module_library_name}
+                        nlsError_manager nlsInterpreter nlsTypes)
+  # ==============================================================================
+  file(
+    GLOB
+    I18N_HEADER
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.h")
+  set_target_properties(
+    ${module_library_builtin_name}
+    PROPERTIES
+      VERSION
+      ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
+      SOVERSION ${Nelson_VERSION_MAJOR}
+      PUBLIC_HEADER "${I18N_HEADER}")
 endif()
 # ==============================================================================
-if(WITHOUT_I18N_MODULE)
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/no-builtin/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
-else()
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
+include(GNUInstallDirs)
+# ==============================================================================
+install(
+  TARGETS ${module_library_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+if(NOT WITHOUT_I18N_MODULE)
+  # ==============================================================================
+  install(
+    TARGETS ${module_library_builtin_name}
+    EXPORT ${PROJECT_NAME}-targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  # ==============================================================================
+  install(
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.m")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.m")
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.qch"
+    PATTERN "xml" EXCLUDE
+    PATTERN "md" EXCLUDE)
+  install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
+    DESTINATION
+      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.m")
+  # ==============================================================================
 endif()
-# ==============================================================================
-add_library(${module_library_builtin_name} SHARED ${I18N_BUILTIN})
-# ==============================================================================
-target_link_libraries(${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes)
-# ==============================================================================
-set_target_properties(
-  ${module_library_builtin_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
-# ==============================================================================
-install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS ${module_library_builtin_name}
-        LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-  FILES_MATCHING
-  PATTERN "*.qch"
-  PATTERN "xml" EXCLUDE
-  PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/src
-  FILES_MATCHING
-  PATTERN "*.hpp")
 # ==============================================================================

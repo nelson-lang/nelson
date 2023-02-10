@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%addgateway(modulepath(nelsonroot(), 'signal_processing', 'builtin'), 'signal_processing');
-addpath(modulepath(nelsonroot(), 'signal_processing', 'functions'), '-frozen');
+%addgateway(modulepath('signal_processing', 'builtin'), 'signal_processing');
+addpath(modulepath('signal_processing', 'functions'), '-frozen');
 %=============================================================================

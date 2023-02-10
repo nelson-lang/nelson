@@ -12,31 +12,32 @@
 //=============================================================================
 #include <cstdio>
 #include <string>
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 /**
  * Set the string buffer to be processed by the lexer.
  */
-void
+NLSINTERPRETER_IMPEXP void
 setLexBuffer(const std::wstring& buffer);
-void
+NLSINTERPRETER_IMPEXP void
 setLexBuffer(const std::string& buffer);
 
 /**
  * Set the FILE pointer for the file to be processed
  * by the lexer.
  */
-void
+NLSINTERPRETER_IMPEXP void
 setLexFile(FILE* fp);
 /**
  * Lex the file, and then check to see if more input is needed.
  */
-bool
+NLSINTERPRETER_IMPEXP bool
 lexCheckForMoreInput(int pcount);
 /**
  * Retrieve the contents of the continuationCount.
  */
-int
+NLSINTERPRETER_IMPEXP int
 getContinuationCount();
 //=============================================================================
 } // namespace Nelson

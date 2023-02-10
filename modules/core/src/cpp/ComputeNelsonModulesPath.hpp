@@ -9,13 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#ifdef _MSC_VER
-#ifdef NLSDEBUGGER_EXPORTS
-#define NLSDEBUGGER_IMPEXP __declspec(dllexport)
-#else
-#define NLSDEBUGGER_IMPEXP __declspec(dllimport)
-#endif
-#else
-#define NLSDEBUGGER_IMPEXP __attribute__((visibility("default")))
-#endif
+#include <string>
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+bool
+ComputeNelsonModulesPath(std::wstring& errorMessage);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'memory_manager', 'builtin'), 'memory_manager');
+addgateway(modulepath('memory_manager', 'builtin'), 'memory_manager');
 %=============================================================================

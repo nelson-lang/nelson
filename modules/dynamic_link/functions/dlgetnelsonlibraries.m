@@ -8,21 +8,22 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function c = dlgetnelsonlibraries()
-  c = {[modulepath(nelsonroot(),'interpreter','bin'), '/libnlsInterpreter']; ...
-  [modulepath(nelsonroot(),'error_manager','bin'), '/libnlsError_manager']; ...
-  [modulepath(nelsonroot(),'i18n','bin'), '/libnlsI18n']; ...
-  [modulepath(nelsonroot(),'types','bin'), '/libnlsTypes']};
+  nelsonLibrariesPath = modulepath('nelson', 'builtin');
+  c = {[nelsonLibrariesPath, '/libnlsInterpreter']; ...
+  [nelsonLibrariesPath, '/libnlsError_manager']; ...
+  [nelsonLibrariesPath, '/libnlsI18n']; ...
+  [nelsonLibrariesPath, '/libnlsTypes']};
 
   if (ismodule('validators'))
-    c = [c; [modulepath(nelsonroot(),'validators','bin'), '/libnlsValidators']];
+    c = [c; [nelsonLibrariesPath, '/libnlsValidators']];
   end
 
   if (ismodule('f2c'))
-    c = [c; [modulepath(nelsonroot(),'f2c','bin'), '/libnlsF2C']];
+    c = [c; [nelsonLibrariesPath, '/libnlsF2C']];
   end
 
   if (ispc())
-    c = [c; [modulepath(nelsonroot(),'nelson','bin'), '/libnlsblaslapack']];
+    c = [c; [nelsonLibrariesPath, '/libnlsblaslapack']];
   end
 end
 %=============================================================================

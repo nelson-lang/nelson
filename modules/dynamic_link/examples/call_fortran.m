@@ -8,7 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-  blas_library_name = [modulepath(nelsonroot(),'nelson','bin'), '/', 'libnlsblaslapack', getdynlibext()];
+  nelsonLibrariesPath = modulepath('nelson', 'builtin');
+  blas_library_name = [nelsonLibrariesPath, '/', 'libnlsblaslapack', getdynlibext()];
   lib = dlopen(blas_library_name)
 else
   blas_library_name = ['libblas', getdynlibext()];

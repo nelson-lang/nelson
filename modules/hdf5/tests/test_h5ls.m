@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
+h5_directory = [modulepath('hdf5', 'tests'), '/h5'];
 h5_filename = [h5_directory, '/', 'example.h5'];
 R = h5ls(h5_filename);
 REF = {

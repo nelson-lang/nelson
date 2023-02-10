@@ -9,7 +9,7 @@
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
 %=============================================================================
-json_audio = [modulepath('audio'), '/tests/test_audioplayer.json'];
+json_audio = [modulepath('audio', 'tests'), '/test_audioplayer.json'];
 st = jsondecode(fileread(json_audio));
 %=============================================================================
 r = audioplayer(st.y, st.fs);

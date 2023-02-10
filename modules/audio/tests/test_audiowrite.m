@@ -12,7 +12,7 @@ if isdir(dest_path)
   rmdir(dest_path, 's');
 end
 %=============================================================================
-wav_file = [modulepath('audio'), '/tests/DynoA3.wav'];
+wav_file = [modulepath('audio', 'tests'), '/DynoA3.wav'];
 [Y_REF, FS_REF] = audioread(wav_file);
 mkdir(dest_path);
 dest_file = [dest_path, '/'];

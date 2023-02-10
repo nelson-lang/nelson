@@ -10,6 +10,7 @@
 #define MODULE_NAME "f2c"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsF2C.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_F2C};
+Source: {#RootPath}bin\{#BinPath}\libnlsF2C.lib; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_F2C} and {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}bin\{#BinPath}\nelson_f2c.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_F2C};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nelson_f2c.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_F2C} and {#COMPONENT_DYNAMIC_LINK};

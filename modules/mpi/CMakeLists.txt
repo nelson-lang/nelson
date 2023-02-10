@@ -3,35 +3,44 @@
 # ==============================================================================
 # This file is part of the Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name mpi)
 set(module_library_name nlsMpi)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-include_directories(
-  ${Boost_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../function_handle/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-  ${MPI_INCLUDE_PATH})
-# ==============================================================================
-file(GLOB MPI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
-list(FILTER MPI_SRC EXCLUDE REGEX
+file(GLOB CONSTRUCTORS_FUNCTIONS_SRC
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER CONSTRUCTORS_FUNCTIONS_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${MPI_SRC})
+add_library(${module_library_name} ${CONSTRUCTORS_FUNCTIONS_SRC})
 # ==============================================================================
+target_include_directories(
+  ${module_library_name}
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_name}
+  PRIVATE ${Boost_INCLUDE_DIRS}
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../function_handle/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+          ${MPI_INCLUDE_PATH})
+
 target_link_libraries(
   ${module_library_name}
   nlsError_manager
@@ -41,32 +50,43 @@ target_link_libraries(
   nlsTypes
   ${MPI_C_LIBRARIES})
 # ==============================================================================
+file(GLOB CONSTRUCTORS_FUNCTIONS_HEADER
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${CONSTRUCTORS_FUNCTIONS_HEADER}")
 # ==============================================================================
-file(GLOB MPI_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER MPI_BUILTIN EXCLUDE REGEX
+file(GLOB CONSTRUCTORS_FUNCTIONS_BUILTIN
+     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER CONSTRUCTORS_FUNCTIONS_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
-  ${MPI_INCLUDE_PATH})
-# ==============================================================================
-add_library(${module_library_builtin_name} SHARED ${MPI_BUILTIN})
-# ==============================================================================
+add_library(${module_library_builtin_name} ${CONSTRUCTORS_FUNCTIONS_BUILTIN})
+target_include_directories(
+  ${module_library_builtin_name}
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_builtin_name}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
+          ${MPI_INCLUDE_PATH})
+
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
@@ -79,52 +99,67 @@ target_link_libraries(
   nlsTypes
   ${MPI_C_LIBRARIES})
 # ==============================================================================
+file(
+  GLOB
+  CONSTRUCTORS_FUNCTIONS_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_builtin_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR})
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${CONSTRUCTORS_FUNCTIONS_HEADER}")
 # ==============================================================================
-install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS ${module_library_builtin_name}
-        LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
-        DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+include(GNUInstallDirs)
+# ==============================================================================
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  TARGETS ${module_library_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+install(
+  TARGETS ${module_library_builtin_name}
+  EXPORT ${PROJECT_NAME}-targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# ==============================================================================
+install(
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples/help_examples
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/examples
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.qch"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
 # ==============================================================================

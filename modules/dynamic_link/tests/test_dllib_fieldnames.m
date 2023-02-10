@@ -10,7 +10,7 @@
 assert_isequal(nargin('dllib_isprop'), 2);
 assert_isequal(nargout('dllib_isprop'), 1);
 %=============================================================================
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = modulepath('dynamic_link', 'builtin');
 lib = dlopen(path_ref);
 assert_isequal(fieldnames(lib), {'Path'});
 %=============================================================================

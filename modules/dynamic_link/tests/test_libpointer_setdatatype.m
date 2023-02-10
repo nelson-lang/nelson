@@ -23,7 +23,7 @@ assert_checkerror('a.Value', _('The datatype and size of the value must be defin
 %=============================================================================
 x = 133.3;
 xPtr = libpointer('doublePtr', x);
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
 [r1, r2] = dlcall(f, xPtr);

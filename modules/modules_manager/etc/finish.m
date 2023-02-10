@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'modules_manager', 'functions'));
+rmpath(modulepath('modules_manager', 'functions'));
 %=============================================================================
 

@@ -160,7 +160,13 @@ get_dynamic_library_pathW(const std::wstring& libraryNameWithExtension)
         wchar_t szFileName[MAX_PATH_LEN];
         if (GetModuleFileName(hModule, szFileName, MAX_PATH_LEN) != 0) {
             Nelson::FileSystemWrapper::Path p(szFileName);
-            Nelson::FileSystemWrapper::Path path = p.parent_path();
+            std::string error;
+            Nelson::FileSystemWrapper::Path _p
+                = Nelson::FileSystemWrapper::Path::canonical(p, error);
+            if (!error.empty()) {
+                _p = p;
+            }
+            Nelson::FileSystemWrapper::Path path = _p.parent_path();
             full_path = path.generic_wstring();
         }
 #else
@@ -172,7 +178,13 @@ get_dynamic_library_pathW(const std::wstring& libraryNameWithExtension)
             if (handle == hModule) {
                 std::string filename = image_name;
                 Nelson::FileSystemWrapper::Path p(filename);
-                Nelson::FileSystemWrapper::Path path = p.parent_path();
+                std::string error;
+                Nelson::FileSystemWrapper::Path _p
+                    = Nelson::FileSystemWrapper::Path::canonical(p, error);
+                if (!error.empty()) {
+                    _p = p;
+                }
+                Nelson::FileSystemWrapper::Path path = _p.parent_path();
                 full_path = path.generic_wstring();
                 break;
             }
@@ -183,7 +195,13 @@ get_dynamic_library_pathW(const std::wstring& libraryNameWithExtension)
         if (dlinfo(hModule, RTLD_DI_LINKMAP, &lm) == 0) {
             std::string filename = lm->l_name;
             Nelson::FileSystemWrapper::Path p(filename);
-            Nelson::FileSystemWrapper::Path path = p.parent_path();
+            std::string error;
+            Nelson::FileSystemWrapper::Path _p
+                = Nelson::FileSystemWrapper::Path::canonical(p, error);
+            if (!error.empty()) {
+                _p = p;
+            }
+            Nelson::FileSystemWrapper::Path path = _p.parent_path();
             full_path = path.generic_wstring();
         }
 #endif

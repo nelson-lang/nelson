@@ -10,7 +10,7 @@
 assert_isequal(nargin('h5read'), 2);
 assert_isequal(nargout('h5read'), 1);
 %=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
+h5_directory = [modulepath('hdf5', 'tests'), '/h5'];
 %=============================================================================
 double_data = [h5_directory, '/h5ex_t_float.h5'];
 R = h5read(double_data,'/DS1');

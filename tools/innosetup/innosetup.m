@@ -14,8 +14,8 @@ if fp ~= -1
   fprintf(fp, ['#define GENERATED_INFO', char(10)]);
   compiler = version('-compiler');
   vernumber = version('-number');
-  isQt5 = isfile([modulepath(nelsonroot(),'core','bin'), '/', 'Qt5Core.dll']);
-  isQt6 = isfile([modulepath(nelsonroot(),'core','bin'), '/', 'Qt6Core.dll']);
+  isQt5 = isfile([modulepath('nelson', 'builtin'), '/', 'Qt5Core.dll']);
+  isQt6 = isfile([modulepath('nelson','builtin'), '/', 'Qt6Core.dll']);
   if isQt5
     fprintf(fp, ['#define QT5_USED', char(10)]);
   end

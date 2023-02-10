@@ -14,62 +14,108 @@
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
+#include "NelsonConfiguration.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 ModulePath(const std::wstring& moduleshortname)
 {
-    std::wstring rpath;
-    return rpath;
+    return ModulePath(moduleshortname, GET_ROOT_PATH);
+}
+//=============================================================================
+static bool
+isInternalModule(const std::wstring& modulePath, const std::wstring& nelsonModulePath)
+{
+    return StringHelpers::starts_with(modulePath, nelsonModulePath);
+}
+//=============================================================================
+static std::wstring
+ModulePathNelson(MODULEPATH_OPTION option)
+{
+    std::wstring returnedPath;
+    switch (option) {
+    case Nelson::GET_BINARY_PATH:
+        returnedPath = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        break;
+    case Nelson::GET_ROOT_PATH:
+        returnedPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
+        break;
+    case Nelson::GET_ETC_PATH:
+        returnedPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/etc";
+        break;
+    case Nelson::GET_LIBRARY_FULLPATH:
+        returnedPath = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
+        break;
+    case Nelson::GET_FUNCTIONS_PATH:
+    case Nelson::GET_TESTS_PATH:
+    default:
+        Error(_W("Invalid option."));
+        break;
+    }
+    return returnedPath;
 }
 //=============================================================================
 std::wstring
-ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortname,
-    MODULEPATH_OPTION option)
+ModulePath(const std::wstring& moduleshortname, MODULEPATH_OPTION option)
 {
+    if (moduleshortname == L"nelson") {
+        return ModulePathNelson(option);
+    }
+    std::wstring moduleRootPath;
+    if (!ModulesManager::Instance().findModule(moduleshortname, moduleRootPath)) {
+        Error(_W("invalid module name."));
+    }
+    bool isNelsonInternalModule = isInternalModule(
+        moduleRootPath, NelsonConfiguration::getInstance()->getNelsonModulesDirectory());
     FileSystemWrapper::Path p;
     switch (option) {
-    case GET_BINARY_PATH: {
-        p = ConstructBinariesPath(modulerootpath);
-        p = p.generic_wstring();
-        if (!FileSystemWrapper::Path::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+    case Nelson::GET_BINARY_PATH: {
+        if (isNelsonInternalModule) {
+            p = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        } else {
+            p = moduleRootPath + L"/" + moduleshortname + L"/bin";
+            if (!p.is_directory()) {
+                Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            }
         }
     } break;
-    case GET_ROOT_PATH: {
-        p = ConstructRootName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
-        if (!FileSystemWrapper::Path::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+    case Nelson::GET_ROOT_PATH: {
+        return moduleRootPath;
+    } break;
+    case Nelson::GET_ETC_PATH: {
+        if (isNelsonInternalModule) {
+            p = NelsonConfiguration::getInstance()->getNelsonModulesDirectory() + L"/"
+                + moduleshortname + L"/etc";
+        } else {
+            p = moduleRootPath + L"/" + moduleshortname + L"/etc";
         }
     } break;
-    case GET_ETC_PATH: {
-        p = ConstructEtcName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
-        if (!FileSystemWrapper::Path::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+    case Nelson::GET_LIBRARY_FULLPATH: {
+        p = ConstructDynamicLibraryFullname(isNelsonInternalModule
+                ? NelsonConfiguration::getInstance()->getNelsonLibraryDirectory()
+                : moduleRootPath,
+            moduleshortname, isNelsonInternalModule);
+    } break;
+    case Nelson::GET_FUNCTIONS_PATH: {
+        if (isNelsonInternalModule) {
+            p = NelsonConfiguration::getInstance()->getNelsonModulesDirectory() + L"/"
+                + moduleshortname + L"/functions";
+        } else {
+            p = moduleRootPath + L"/" + moduleshortname + L"/functions";
         }
     } break;
-    case GET_DYNLIB_FULLPATH: {
-        p = ConstructDynamicLibraryFullname(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
-        std::wstring filename = FindDynamicLibraryName(
-            p.parent_path().generic_wstring(), p.filename().generic_wstring(), false);
-        if (filename.empty()) {
-            Error(_W("File does not exist:") + L"\n" + p.generic_wstring());
+    case Nelson::GET_TESTS_PATH: {
+        if (isNelsonInternalModule) {
+            p = NelsonConfiguration::getInstance()->getNelsonModulesDirectory() + L"/"
+                + moduleshortname + L"/tests";
+        } else {
+            p = moduleRootPath + L"/" + moduleshortname + L"/tests";
         }
     } break;
-    case GET_SCRIPT_PATH: {
-        p = ConstructScriptName(modulerootpath, moduleshortname);
-        p = p.generic_wstring();
-        if (!FileSystemWrapper::Path::is_directory(p)) {
-            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
-        }
-    } break;
-    default: {
-        Error(_W("Wrong option."));
-    } break;
+    default:
+        break;
     }
     return p.generic_wstring();
 }

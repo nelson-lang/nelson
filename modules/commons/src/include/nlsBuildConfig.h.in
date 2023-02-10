@@ -9,6 +9,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#define NELSON_PROJECT_NAME L"@PROJECT_NAME@"
+//=============================================================================
 #define WITH_OPENMP @WITH_OPENMP@
 #define WITH_MEX_MODULE @WITH_MEX_MODULE@
 #define WITH_FFTW_MODULE @WITH_FFTW_MODULE@

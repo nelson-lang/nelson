@@ -10,7 +10,7 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 %=============================================================================
-utf8 = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
+utf8 = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
 F = fopen(utf8, 'rt');
 R = fread(F,'uint8');
 fclose(F);

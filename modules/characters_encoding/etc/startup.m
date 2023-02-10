@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%addpath(modulepath(nelsonroot(), 'characters_encoding', 'functions'), '-frozen');
-addgateway(modulepath(nelsonroot(), 'characters_encoding', 'builtin'));
+%addpath(modulepath('characters_encoding', 'functions'), '-frozen');
+addgateway(modulepath('characters_encoding', 'builtin'));
 %=============================================================================

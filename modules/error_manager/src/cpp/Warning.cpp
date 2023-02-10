@@ -25,10 +25,10 @@ initInterpreterDynamicLibrary()
     if (bFirstDynamicLibraryCall) {
         std::wstring fullpathInterpreterSharedLibrary
             = L"libnlsInterpreter" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonBinaryDirectory
-            = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        std::wstring nelsonLibrariesDirectory
+            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
         fullpathInterpreterSharedLibrary
-            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathInterpreterSharedLibrary;
+            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathInterpreterSharedLibrary;
         nlsInterpreterHandleDynamicLibrary
             = Nelson::load_dynamic_libraryW(fullpathInterpreterSharedLibrary);
         if (nlsInterpreterHandleDynamicLibrary != nullptr) {

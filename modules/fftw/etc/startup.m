@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'), 'fftw');
+addgateway(modulepath('fftw', 'builtin'), 'fftw');
 if FFTWwrapper('load')
-  addpath(modulepath(nelsonroot(), 'fftw', 'functions'), '-frozen');
+  addpath(modulepath('fftw', 'functions'), '-frozen');
 else
   warning('Nelson:fftw:loadingFails', _('library fftw not loaded.'))
   removemodule('fftw');

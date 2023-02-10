@@ -180,7 +180,9 @@
     <ClInclude Include="..\..\src\include\GetCurrentNFilename.hpp" />
     <ClInclude Include="..\..\src\include\nlsCore_exports.h" />
     <ClInclude Include="..\cpp\ComputeNelsonBinariesPath.hpp" />
-    <ClInclude Include="..\cpp\ComputeNelsonPath.hpp" />
+    <ClInclude Include="..\cpp\ComputeNelsonLibrariesPath.hpp" />
+    <ClInclude Include="..\cpp\ComputeNelsonModulesPath.hpp" />
+    <ClInclude Include="..\cpp\ComputeNelsonRootPath.hpp" />
     <ClInclude Include="..\cpp\ComputePreferencesPath.hpp" />
     <ClInclude Include="..\include\ComputeNelsonPaths.hpp" />
     <ClInclude Include="..\include\ComputionalThreads.hpp" />
@@ -228,6 +230,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Banner.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonLibrariesPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonModulesPath.cpp" />
     <ClCompile Include="..\cpp\ComputeNelsonPaths.cpp" />
     <ClCompile Include="..\cpp\ComputionalThreads.cpp" />
     <ClCompile Include="..\cpp\EvaluateInterface.cpp" />
@@ -235,7 +239,7 @@
     <ClCompile Include="..\cpp\EvaluateScriptFile.cpp" />
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp" />
     <ClCompile Include="..\cpp\ComputeNelsonBinariesPath.cpp" />
-    <ClCompile Include="..\cpp\ComputeNelsonPath.cpp" />
+    <ClCompile Include="..\cpp\ComputeNelsonRootPath.cpp" />
     <ClCompile Include="..\cpp\ComputePreferencesPath.cpp" />
     <ClCompile Include="..\cpp\IsEmptyScriptFile.cpp" />
     <ClCompile Include="..\cpp\NargIn.cpp" />

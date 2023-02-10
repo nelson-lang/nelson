@@ -4,12 +4,17 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
+#
 # SPDX-License-Identifier: LGPL-3.0-or-later
+#
 # LICENCE_BLOCK_END
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.m DESTINATION ${ROOT_OUTPUT}/etc)
+include(GNUInstallDirs)
+# ==============================================================================
+install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.m
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/languages.conf
-        DESTINATION ${ROOT_OUTPUT}/etc)
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/startup.m
-        DESTINATION ${ROOT_OUTPUT}/etc)
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 # ==============================================================================

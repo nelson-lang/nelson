@@ -12,7 +12,7 @@
 path_dest = [tempdir(), 'imwrite_tests'];
 [res, msg] = rmdir(path_dest, 's');
 mkdir(path_dest);
-images_path = [modulepath('graphics'), '/tests/images/'];
+images_path = [modulepath('graphics', 'tests'), '/images/'];
 %=============================================================================
 [img_REF, map_REF, alpha_REF] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
 imwrite(img_REF, map_REF, [path_dest, 'winter-fox-64x64-indexed8.png']);

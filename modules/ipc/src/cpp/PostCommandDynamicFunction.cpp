@@ -21,10 +21,10 @@ initEngineDynamicLibrary()
     if (bFirstDynamicLibraryCall) {
         std::wstring fullpathEngineSharedLibrary
             = L"libnlsEngine" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonBinaryDirectory
-            = Nelson::NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+        std::wstring nelsonLibrariesDirectory
+            = Nelson::NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
         fullpathEngineSharedLibrary
-            = nelsonBinaryDirectory + std::wstring(L"/") + fullpathEngineSharedLibrary;
+            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathEngineSharedLibrary;
         nlsEngineHandleDynamicLibrary = Nelson::load_dynamic_libraryW(fullpathEngineSharedLibrary);
         if (nlsEngineHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;

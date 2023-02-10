@@ -10,7 +10,7 @@ On windows x64:
 example_path = [nelsonroot(), '/modules/mex/examples/rust-mex-builder/helloworld/'];
 cd(example_path)
 txt = fileread('build.template');
-txt = replace(txt, '__LIB_PATH__', modulepath(nelsonroot(),'mex','bin'));
+txt = replace(txt, '__LIB_PATH__', modulepath('nelson', 'builtin'));
 filewrite('build.rs', txt);
 [s, msg] = system('cargo build');
 copyfile([example_path, '/target/debug/helloworldmex', getdynlibext()], [example_path, '/target/debug/helloworldmex.', mexext()]);

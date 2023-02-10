@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 delete(audioplayer_used());
-rmpath(modulepath(nelsonroot(), 'audio', 'functions'));
-removegateway(modulepath(nelsonroot(), 'audio', 'builtin'));
+rmpath(modulepath('audio', 'functions'));
+removegateway(modulepath('audio', 'builtin'));

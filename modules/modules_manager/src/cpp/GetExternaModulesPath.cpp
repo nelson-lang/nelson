@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "FileSystemWrapper.hpp"
 #include "GetExternalModulesPath.hpp"
 #include "Nelson_VERSION.h"
@@ -38,8 +39,8 @@ getUserDir()
 bool
 CreateIfRequiredExternalModulesPath()
 {
-    std::wstring defaultExternalModulesDirectory
-        = getUserDir() + std::wstring(L"nelson/") + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
+    std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(NELSON_PROJECT_NAME)
+        + L"/" + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
     externalModulesPath
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
     FileSystemWrapper::Path modulesPath(externalModulesPath);

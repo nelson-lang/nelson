@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'), 'linear_algebra');
-addpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'), '-frozen');
+addgateway(modulepath('linear_algebra', 'builtin'), 'linear_algebra');
+addpath(modulepath('linear_algebra', 'functions'), '-frozen');
 %=============================================================================

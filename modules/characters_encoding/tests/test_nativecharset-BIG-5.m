@@ -10,7 +10,7 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 %=============================================================================
-big5 = [modulepath('characters_encoding'), '/tests/yan_BIG-5.txt'];
+big5 = [modulepath('characters_encoding', 'tests'), '/yan_BIG-5.txt'];
 F = fopen(big5, 'rt');
 R = fread(F,'uint8');
 fclose(F);

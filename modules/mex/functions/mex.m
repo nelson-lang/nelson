@@ -296,11 +296,18 @@ function ext = getSupportedLibraryExtension()
 end
 %=============================================================================
 function includes = getMexIncludes()
-  includes = {[modulepath('mex'), '/src/include']};
-  
+  if isdir([modulepath('mex'), '/src/include'])
+    includes = {[modulepath('mex'), '/src/include']};
+  else
+    if isdir([modulepath('nelson', 'builtin'), '/../include/Nelson/mex'])
+      includes = {fullpath([modulepath('nelson', 'builtin'), '/../include/Nelson/mex'])};
+    else
+      includes = {};
+    end
+  end
 end
 %=============================================================================
 function libraries = getMexLibraries()
-  libraries = {[modulepath(nelsonroot(),'mex','bin'), '/libnlsMex']};
+  libraries = {[modulepath('nelson', 'builtin'), '/libnlsMex']};
 end
 %=============================================================================

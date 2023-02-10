@@ -15,7 +15,7 @@ if isdir(P)
   REF = p;
 else
   V = version('-number');
-  REF = [userdir(), 'nelson/', sprintf('%d.%d.%d',V(1), V(2), V(3)), '/'];
+  REF = [userdir(), 'Nelson/', sprintf('%d.%d.%d',V(1), V(2), V(3)), '/'];
 end
 R = usermodulesdir();
 assert_isequal(R, REF);

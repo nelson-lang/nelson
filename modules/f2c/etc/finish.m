@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'f2c', 'functions'));
-%removegateway(modulepath(nelsonroot(), 'f2c', 'builtin'));
+rmpath(modulepath('f2c', 'functions'));
+%removegateway(modulepath('f2c', 'builtin'));

@@ -141,6 +141,30 @@ NelsonConfiguration::getNelsonBinaryDirectory()
 }
 //=============================================================================
 void
+NelsonConfiguration::setNelsonLibraryDirectory(const std::wstring& directory)
+{
+    nelsonLibraryPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonLibraryDirectory()
+{
+    return nelsonLibraryPath;
+}
+//=============================================================================
+void
+NelsonConfiguration::setNelsonModulesDirectory(const std::wstring& directory)
+{
+    nelsonModulesPath = directory;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonModulesDirectory()
+{
+    return nelsonModulesPath;
+}
+//=============================================================================
+void
 NelsonConfiguration::setNelsonPreferencesDirectory(const std::wstring& directory)
 {
     nelsonPreferencesPath = directory;

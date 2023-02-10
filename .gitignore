@@ -114,6 +114,7 @@ My Advisor XE Results - *
 *.dflginspxe
 *.infoinspxe
 ################################################################################
+NelsonConfigVersion.cmake
 CMakeFiles/
 _CPack_Packages/
 Makefile
@@ -123,10 +124,15 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 cmake_install.cmake
 install_manifest.txt
+*.a
 *.so
 *.dylib
-Nelson-*-Darwin.tar.Z
-Nelson-*-Linux.tar.Z
+Nelson-*-*.tar.Z
+Nelson-*-*.tar.gz
+nelson_*_*.deb
+nelson_*_*.rpm
+nelson_*_*.dmg
+nelson_*_*.zip
 bin/linux/*.so.*
 bin/linux/*-exec
 bin/linux/*.so.*

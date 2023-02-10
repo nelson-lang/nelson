@@ -10,7 +10,7 @@
 assert_isequal(nargin('dlsym_delete'), 1);
 assert_isequal(nargout('dlsym_delete'), 0);
 %=============================================================================
-path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
 assert_istrue(isvalid(f));

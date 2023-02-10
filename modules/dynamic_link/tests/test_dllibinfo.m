@@ -10,7 +10,7 @@
 assert_isequal(nargin('dllibinfo'), 1);
 assert_isequal(nargout('dllibinfo'), 1);
 %=============================================================================
-lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()]);
 %=============================================================================
 c = dllibinfo(lib);
 assert_istrue(iscell(c));
