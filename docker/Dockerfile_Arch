@@ -14,8 +14,13 @@ LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
 
+
+
+
 RUN pacman -Syu --noconfirm
 RUN pacman -S base-devel --noconfirm
+RUN pacman -S git --noconfirm       
+RUN pacman -S gcc binutils glibc --noconfirm
 RUN pacman -S inetutils --noconfirm
 RUN pacman -S gawk --noconfirm
 RUN pacman -S m4 --noconfirm
@@ -40,19 +45,13 @@ RUN pacman -S hdf5 --noconfirm
 RUN pacman -S taglib --noconfirm
 RUN pacman -S portaudio --noconfirm
 RUN pacman -S libsndfile --noconfirm
-RUN pacman -S git --noconfirm
 RUN pacman -S zlib --noconfirm
 RUN pacman -S curl --noconfirm
 RUN pacman -S libgit2 --noconfirm
-
-RUN git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
-RUN mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;        
-
-RUN git clone https://github.com/HDFGroup/hdf5.git /tmp/hdf5-1_12_1
-RUN cd /tmp/hdf5-1_12_1 && git checkout hdf5-1_12_1 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v112 CFLAGS="-w" && make install -C src
-
-RUN git clone https://github.com/tbeu/matio /tmp/matio
-RUN cd /tmp/matio && git checkout v1.5.21 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_12_1/hdf5 && make && make install;
+RUN pacman -S python3 --noconfirm
+RUN pacman -S eigen --noconfirm
+RUN pacman -S hdf5 --noconfirm
+RUN pacman -S libmatio --noconfirm
 
 RUN git clone https://github.com/Nelson-numerical-software/nelson.git
 WORKDIR "/nelson"
