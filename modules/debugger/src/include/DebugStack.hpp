@@ -7,40 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ErrorEmitter.h"
-#include "DebugStack.hpp"
-#include "Interface.hpp"
+#pragma once
 //=============================================================================
-static Nelson::Evaluator* evaluatorError = nullptr;
+#include <vector>
+#include "nlsDebugger_exports.h"
+#include "PositionScript.hpp"
+#include "CallStack.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-setErrorEvaluator(Evaluator* eval)
-{
-    evaluatorError = eval;
-}
+using stackTrace = std::vector<PositionScript>;
 //=============================================================================
-void
-throwException(const Exception& e)
-{
-    throw e;
-}
+NLSDEBUGGER_IMPEXP void
+DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositions);
 //=============================================================================
 } // namespace Nelson
-//=============================================================================
-void
-NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id, bool asCaller)
-{
-    std::wstring message(msg);
-    if (!message.empty()) {
-        if (evaluatorError != nullptr) {
-            std::wstring identifier(id);
-            Nelson::stackTrace trace;
-            DebugStack(evaluatorError->callstack, asCaller ? 1 : 0, trace);
-            Nelson::Exception exception(message, trace, identifier);
-            Nelson::throwException(exception);
-        }
-    }
-}
 //=============================================================================

@@ -10,6 +10,7 @@
 #define MODULE_NAME "debugger"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsDebugger_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsDebugger.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_BROWSER} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

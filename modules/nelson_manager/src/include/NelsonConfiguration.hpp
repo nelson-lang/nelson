@@ -107,6 +107,12 @@ public:
     getNelsonPreferencesDirectory();
     //=============================================================================
     void
+    setMainIOInterface(void* IOInterface);
+    //=============================================================================
+    void*
+    getMainIOInterface();
+    //=============================================================================
+    void
     setMainGuiObject(void* mainGuiObject);
     //=============================================================================
     void*
@@ -151,6 +157,16 @@ public:
     int
     getMaxNumCompThreads();
     //=============================================================================
+    void
+    setLastErrorException(void* lastErrorException);
+    void*
+    getLastErrorException();
+    //=============================================================================
+    void
+    setLastWarningException(void* lastWarningException);
+    void*
+    getLastWarningException();
+    //=============================================================================
 private:
     NelsonConfiguration();
     //=============================================================================
@@ -182,10 +198,13 @@ private:
     bool ipcEnabled;
     //=============================================================================
     void* mainEvaluator;
+    void* mainInputOutputInterface;
     void* mainGuiObject;
     void* FileManager;
     void* RandomEngine;
     void* HistoryManager;
+    void* lastErrorException;
+    void* lastWarningException;
     //=============================================================================
     int engineMode;
     //=============================================================================

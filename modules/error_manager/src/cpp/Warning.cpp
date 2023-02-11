@@ -11,44 +11,37 @@
 #include "Warning.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
-#include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
+#include "Evaluator.hpp"
+#include "DebugStack.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static Nelson::library_handle nlsInterpreterHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
-//=============================================================================
 static void
-initInterpreterDynamicLibrary()
+warningEmitter(const std::wstring& message, const std::wstring& id)
 {
-    if (bFirstDynamicLibraryCall) {
-        std::wstring fullpathInterpreterSharedLibrary
-            = L"libnlsInterpreter" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonLibrariesDirectory
-            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        fullpathInterpreterSharedLibrary
-            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathInterpreterSharedLibrary;
-        nlsInterpreterHandleDynamicLibrary
-            = Nelson::load_dynamic_libraryW(fullpathInterpreterSharedLibrary);
-        if (nlsInterpreterHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
+    if (!message.empty()) {
+        Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+        if (!eval) {
+            return;
         }
-    }
-}
-//=============================================================================
-static void
-NelsonWarningEmitterDynamicFunction(const std::wstring& msg, const std::wstring& id, bool asError)
-{
-    using PROC_NelsonWarningEmitter = void (*)(const wchar_t*, const wchar_t*, bool);
-    static PROC_NelsonWarningEmitter NelsonWarningEmitterPtr = nullptr;
-    initInterpreterDynamicLibrary();
-    if (NelsonWarningEmitterPtr == nullptr) {
-        NelsonWarningEmitterPtr = reinterpret_cast<PROC_NelsonWarningEmitter>(
-            Nelson::get_function(nlsInterpreterHandleDynamicLibrary, "NelsonWarningEmitter"));
-    }
-    if (NelsonWarningEmitterPtr != nullptr) {
-        NelsonWarningEmitterPtr(msg.c_str(), id.c_str(), asError);
+        Interface* io = (Interface*)NelsonConfiguration::getInstance()->getMainIOInterface();
+        if (!io) {
+            return;
+        }
+        stackTrace trace;
+        DebugStack(eval->callstack, 1, trace);
+        try {
+            Exception* exception = new Exception(message, trace, id);
+            Exception* previousException
+                = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException();
+            if (previousException) {
+                delete previousException;
+            }
+            NelsonConfiguration::getInstance()->setLastWarningException(exception);
+            io->warningMessage(exception->getMessage());
+        } catch (const std::bad_alloc&) {
+        }
     }
 }
 //=============================================================================
@@ -59,14 +52,14 @@ Warning(const std::wstring& id, const std::wstring& message)
         WARNING_STATE state = warningCheckState(id);
         switch (state) {
         case WARNING_STATE::AS_ERROR: {
-            NelsonWarningEmitterDynamicFunction(message, id, true);
+            Error(message, id);
         } break;
         case WARNING_STATE::DISABLED:
             break;
         case WARNING_STATE::ENABLED:
         case WARNING_STATE::NOT_FOUND:
         default: {
-            NelsonWarningEmitterDynamicFunction(message, id, false);
+            warningEmitter(message, id);
         } break;
         }
     }

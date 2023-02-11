@@ -33,10 +33,11 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../debugger/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
 target_link_libraries(${module_library_name} nlsCharacters_encoding nlsI18n
-                      nlsNelson_manager nlsCommons)
+                      nlsNelson_manager nlsCommons nlsDebugger)
 # ==============================================================================
 file(GLOB ERROR_MANAGER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
@@ -63,6 +64,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../debugger/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
@@ -73,6 +75,7 @@ target_link_libraries(
   ${module_library_name}
   nlsInterpreter
   nlsOverload
+  nlsDebugger
   nlsTypes
   nlsI18n
   nlsApi_nelson)

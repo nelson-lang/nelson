@@ -177,6 +177,18 @@ NelsonConfiguration::getNelsonPreferencesDirectory()
 }
 //=============================================================================
 void
+NelsonConfiguration::setMainIOInterface(void* IOInterface)
+{
+    this->mainInputOutputInterface = IOInterface;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getMainIOInterface()
+{
+    return this->mainInputOutputInterface;
+}
+//=============================================================================
+void
 NelsonConfiguration::setMainGuiObject(void* mainGuiObject)
 {
     this->mainGuiObject = mainGuiObject;
@@ -264,6 +276,30 @@ int
 NelsonConfiguration::getMaxNumCompThreads()
 {
     return nbOfThreadsToUse;
+}
+//=============================================================================
+void
+NelsonConfiguration::setLastErrorException(void* lastErrorException)
+{
+    this->lastErrorException = lastErrorException;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getLastErrorException()
+{
+    return this->lastErrorException;
+}
+//=============================================================================
+void
+NelsonConfiguration::setLastWarningException(void* lastWarningException)
+{
+    this->lastWarningException = lastWarningException;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getLastWarningException()
+{
+    return this->lastWarningException;
 }
 //=============================================================================
 } // namespace Nelson

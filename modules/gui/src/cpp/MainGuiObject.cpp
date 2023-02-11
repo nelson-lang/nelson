@@ -15,7 +15,6 @@
 #include "MainGuiObject.hpp"
 #include "AddPathToEnvironmentVariable.hpp"
 #include "Console.hpp"
-#include "Evaluator.hpp"
 #include "GetQtPath.hpp"
 #include "GuiTerminal.hpp"
 #include "Warning.hpp"
@@ -24,7 +23,10 @@
 #include "QStringConverter.hpp"
 #include "NelsonPalette.hpp"
 #include "DefaultFont.hpp"
+#include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
+#include "Error.hpp"
+#include "Warning.hpp"
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
@@ -60,14 +62,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     } break;
     case QtCriticalMsg:
     case QtFatalMsg: {
-        auto* eval
-            = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
-        if (eval) {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->errorMessage(str);
-            }
-        }
+        Error(str);
     } break;
     }
 }

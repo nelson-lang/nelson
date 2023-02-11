@@ -63,15 +63,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
      * The interface for I/O
      */
     Interface* io;
-    /**
-     * The last error that occured.
-     */
-    Exception lastErrorException;
-
-    /**
-     * The last warning that occured.
-     */
-    Exception lastWarningException;
 
     /**
      * autostop storage flag

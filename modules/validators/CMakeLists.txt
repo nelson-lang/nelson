@@ -44,7 +44,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 
@@ -55,6 +55,7 @@ target_link_libraries(
   nlsData_structures
   nlsElementary_functions_builtin
   nlsError_manager
+  nlsNelson_manager
   nlsFiles_folders_functions_builtin
   nlsI18n
   nlsOperators_builtin

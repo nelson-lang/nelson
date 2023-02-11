@@ -9,17 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include "nlsInterpreter_exports.h"
-#include "PositionScript.hpp"
-#include "CallStack.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-using stackTrace = std::vector<PositionScript>;
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositions);
-//=============================================================================
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSDEBUGGER_EXPORTS
+#define NLSDEBUGGER_IMPEXP __declspec(dllexport)
+#else
+#define NLSDEBUGGER_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSDEBUGGER_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

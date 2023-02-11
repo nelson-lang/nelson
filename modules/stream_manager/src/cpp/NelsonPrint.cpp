@@ -8,30 +8,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonPrint.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static Interface* currentInterface = nullptr;
 //=============================================================================
 void
 setPrintInterface(Interface* io)
 {
-    currentInterface = io;
+    NelsonConfiguration::getInstance()->setMainIOInterface(io);
 }
 //=============================================================================
 void
 NelsonPrint(const std::wstring& msg)
 {
-    if (currentInterface) {
-        currentInterface->outputMessage(msg);
+    Interface* io = (Interface*)NelsonConfiguration::getInstance()->getMainIOInterface();
+    if (io) {
+        io->outputMessage(msg);
     }
 }
 //=============================================================================
 void
 NelsonPrint(const std::string& msg)
 {
-    if (currentInterface) {
-        currentInterface->outputMessage(msg);
+    Interface* io = (Interface*)NelsonConfiguration::getInstance()->getMainIOInterface();
+    if (io) {
+        io->outputMessage(msg);
     }
 }
 //=============================================================================
@@ -40,8 +41,10 @@ NelsonPrint(const std::string& msg)
 int
 NelsonPrint(const wchar_t* msg)
 {
-    if (Nelson::currentInterface) {
-        Nelson::currentInterface->outputMessage(msg);
+    Nelson::Interface* io
+        = (Nelson::Interface*)Nelson::NelsonConfiguration::getInstance()->getMainIOInterface();
+    if (io) {
+        io->outputMessage(msg);
         return (int)wcslen(msg);
     }
     return -1;

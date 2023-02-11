@@ -43,9 +43,6 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static Nelson::Evaluator* eval = nullptr;
-//=============================================================================
-
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
@@ -183,10 +180,9 @@ QtTerminal::getLine(const std::wstring& prompt)
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
-    if (eval == nullptr) {
-        void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
-        eval = (Nelson::Evaluator*)veval;
-    }
+    void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
+    Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+    eval->commandQueue.clear();
     bool wasInterruptByAction = false;
     do {
         Nelson::ProcessEvents(true);
