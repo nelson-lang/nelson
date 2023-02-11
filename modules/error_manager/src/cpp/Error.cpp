@@ -9,46 +9,22 @@
 //=============================================================================
 #include <cstdlib>
 #include "Error.hpp"
+#include "Evaluator.hpp"
+#include "DebugStack.hpp"
 #include "characters_encoding.hpp"
-#include "Exception.hpp"
-#include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //============================================================================
-static Nelson::library_handle nlsInterpreterHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
-//============================================================================
-static void
-initInterpreterDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::wstring fullpathInterpreterSharedLibrary
-            = L"libnlsInterpreter" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonLibrariesDirectory
-            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        fullpathInterpreterSharedLibrary
-            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathInterpreterSharedLibrary;
-        nlsInterpreterHandleDynamicLibrary
-            = Nelson::load_dynamic_libraryW(fullpathInterpreterSharedLibrary);
-        if (nlsInterpreterHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
-}
-//=============================================================================
 void
 Error(const std::wstring& msg, const std::wstring& id, bool asCaller)
 {
-    using PROC_NelsonErrorEmitter = void (*)(const wchar_t*, const wchar_t*, bool);
-    static PROC_NelsonErrorEmitter NelsonErrorEmitterPtr = nullptr;
-    initInterpreterDynamicLibrary();
-    if (NelsonErrorEmitterPtr == nullptr) {
-        NelsonErrorEmitterPtr = reinterpret_cast<PROC_NelsonErrorEmitter>(
-            Nelson::get_function(nlsInterpreterHandleDynamicLibrary, "NelsonErrorEmitter"));
-    }
-    if (NelsonErrorEmitterPtr != nullptr) {
-        NelsonErrorEmitterPtr(msg.c_str(), id.c_str(), asCaller);
+    if (!msg.empty()) {
+        stackTrace trace;
+        Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+        DebugStack(eval->callstack, asCaller ? 1 : 0, trace);
+        Exception exception(msg, trace, id);
+        throw exception;
     }
 }
 //=============================================================================

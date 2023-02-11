@@ -195,6 +195,9 @@
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\c\nlsDebugger.vcxproj">
+      <Project>{6301554d-09ec-4b75-9bc3-9cfc0c0681a1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />

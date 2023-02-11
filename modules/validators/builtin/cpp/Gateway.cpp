@@ -113,7 +113,6 @@ static const nlsGateway gateway[] = {
 static bool
 initializeValidatorsModule(Nelson::Evaluator* eval)
 {
-    setEvaluator(eval);
     return true;
 }
 //=============================================================================

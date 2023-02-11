@@ -126,8 +126,6 @@
 #include <cstring>
 #include <unistd.h>
 
-static Nelson::Evaluator* eval = nullptr;
-
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
 #define LINENOISE_MAX_LINE 4096
 static char* unsupported_term[] = { "dumb", "cons25", "emacs", nullptr };
@@ -906,6 +904,9 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
         return -1;
     }
     bStopReadLine = 0;
+    void* veval = Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
+    Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+    eval->commandQueue.clear();
     while (true) {
         char c;
         int nread;
@@ -918,10 +919,6 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
                 free(history[history_len]);
                 clearLine();
                 return -1;
-            }
-            if (eval == nullptr) {
-                void* veval = Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
-                eval = (Nelson::Evaluator*)veval;
             }
             if (!eval->commandQueue.isEmpty()) {
                 history_len--;

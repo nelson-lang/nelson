@@ -417,8 +417,6 @@ WindowsConsole::keysEventsFilter(INPUT_RECORD irBuffer, bool& bIsChar, bool& bIs
     return ch;
 }
 //=============================================================================
-static Nelson::Evaluator* eval = nullptr;
-//=============================================================================
 wchar_t
 WindowsConsole::getCharacter(bool& bIsAction)
 {
@@ -438,6 +436,9 @@ WindowsConsole::getCharacter(bool& bIsAction)
         HMENU hmenu = GetSystemMenu(hwnd, FALSE);
         EnableMenuItem(hmenu, SC_CLOSE, MF_GRAYED);
         bIsAction = false;
+        void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
+        Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+        eval->commandQueue.clear();
         while (TRUE) {
             ::WaitForSingleObject(Win32InputStream, 30);
             DWORD nbEventsAvailable = 0;
@@ -447,10 +448,6 @@ WindowsConsole::getCharacter(bool& bIsAction)
                 break;
             } else {
                 ProcessEventsDynamicFunctionWithoutWait();
-            }
-            if (eval == nullptr) {
-                void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
-                eval = (Nelson::Evaluator*)veval;
             }
             if (!eval->commandQueue.isEmpty() || bInterruptGetChar) {
                 bIsAction = true;

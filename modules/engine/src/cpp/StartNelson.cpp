@@ -41,8 +41,6 @@
 #include "characters_encoding.hpp"
 #include "SioClientCommand.hpp"
 #include "WarningIds.hpp"
-#include "WarningEmitter.h"
-#include "ErrorEmitter.h"
 #include "NelsonPrint.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
@@ -385,8 +383,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 
     Evaluator* eval = createMainEvaluator(_mode, lang, po.haveOptionsMinimize());
     if (eval != nullptr) {
-        setWarningEvaluator(eval);
-        setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);

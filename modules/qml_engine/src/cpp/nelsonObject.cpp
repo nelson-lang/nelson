@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QDebug>
 #include "nelsonObject.h"
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
@@ -15,14 +16,12 @@
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"
 #include "characters_encoding.hpp"
-#include <QtCore/QDebug>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static Evaluator* eval = nullptr;
-//=============================================================================
 nelsonObject::nelsonObject(QObject* parent) : QObject(parent)
 {
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     if (eval == nullptr) {
         eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     }
@@ -117,6 +116,7 @@ QVariant
 nelsonObject::call(const QString& functionName, const QVariantList& args)
 {
     QVariant res;
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     if (eval) {
         std::wstring wfunctionName = QStringTowstring(functionName);
         std::string ufunctionName = wstring_to_utf8(wfunctionName);

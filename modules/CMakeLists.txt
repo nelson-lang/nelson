@@ -17,6 +17,7 @@ list(
   characters_encoding
   commons
   nelson_manager
+  debugger
   i18n
   localization
   elementary_mathematics
@@ -29,7 +30,6 @@ list(
   elementary_functions
   interpreter
   modules_manager
-  debugger
   double
   single
   sparse
