@@ -32,7 +32,6 @@
 #include "i18n.hpp"
 #include "GetQObjectHandleObject.hpp"
 #include "HandleManager.hpp"
-#include "IsCellOfStrings.hpp"
 #include "QStringConverter.hpp"
 #include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
@@ -1047,7 +1046,7 @@ ArrayOfToQVariant(ArrayOf A)
     } break;
     case NLS_CELL_ARRAY: {
         if (A.isVector()) {
-            if (IsCellOfString(A)) {
+            if (A.isCellOfCharacterVectors()) {
                 wstringVector vstr = A.getContentAsWideStringVector();
                 QStringList stringlist;
                 for (auto& k : vstr) {

@@ -9,7 +9,6 @@
 //=============================================================================
 #include "ConvertCharsToStrings.hpp"
 #include "NewWithException.hpp"
-#include "IsCellOfStrings.hpp"
 #include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
@@ -39,7 +38,7 @@ ConvertCharsToStrings(const ArrayOfVector& A)
                 }
                 res.push_back(ArrayOf::stringArrayConstructor(str));
             }
-        } else if (IsCellOfString(value)) {
+        } else if (value.isCellOfCharacterVectors()) {
             auto* elementsString = new_with_exception<ArrayOf>(dims.getElementCount(), false);
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();

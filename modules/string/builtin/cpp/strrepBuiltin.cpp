@@ -12,7 +12,6 @@
 #include "i18n.hpp"
 #include "StringReplace.hpp"
 #include "OverloadFunction.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

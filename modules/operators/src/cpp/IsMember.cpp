@@ -15,22 +15,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isCellOfString(const ArrayOf& A)
-{
-    if (A.isCell()) {
-        indexType nbElements = A.getElementCount();
-        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-        for (indexType k = 0; k < nbElements; ++k) {
-            if (!elements[k].isCharacterArray()) {
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-}
-//=============================================================================
 static ArrayOf
 isMemberStringArray(const ArrayOf& A, const ArrayOf& B)
 {
@@ -148,8 +132,8 @@ IsMember(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    bool isTextA = A.isCharacterArray() || A.isStringArray() || isCellOfString(A);
-    bool isTextB = B.isCharacterArray() || B.isStringArray() || isCellOfString(B);
+    bool isTextA = A.isCharacterArray() || A.isStringArray() || A.isCellOfCharacterVectors();
+    bool isTextB = B.isCharacterArray() || B.isStringArray() || B.isCellOfCharacterVectors();
     if (A.isCharacterArray() && B.isCharacterArray()) {
         res = isMemberReal<charType>(A, B);
     } else if (isTextA && isTextB) {

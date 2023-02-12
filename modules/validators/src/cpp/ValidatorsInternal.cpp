@@ -29,7 +29,6 @@
 #include "isrealBuiltin.hpp"
 #include "floorBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
-#include "IsCellOfStrings.hpp"
 #include "strlengthBuiltin.hpp"
 #include "ismemberBuiltin.hpp"
 #include "gtBuiltin.hpp"
@@ -154,7 +153,8 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeText(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray() || IsCellOfString(arg);
+    bool isText
+        = arg.isRowVectorCharacterArray() || arg.isStringArray() || arg.isCellOfCharacterVectors();
     if (!isText) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "
@@ -864,7 +864,8 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray() || IsCellOfString(arg);
+    bool isText
+        = arg.isRowVectorCharacterArray() || arg.isStringArray() || arg.isCellOfCharacterVectors();
     if (!isText) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "

@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "SystemCommand.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +25,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     wstringVector commands;
     bool outputAsArray = false;
 
-    if (argIn[0].isStringArray() || IsCellOfString(argIn[0])) {
+    if (argIn[0].isStringArray() || argIn[0].isCellOfCharacterVectors()) {
         commands = argIn[0].getContentAsWideStringVector(true);
         outputAsArray = true;
     } else if (argIn[0].isRowVectorCharacterArray()) {

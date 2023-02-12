@@ -9,7 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - cmake project reworked. It should be easier to package Nelson on linux platforms (Thanks to @JohanMabille)
+- Debian package generated.
 - `modulepath` reworked and extended.
+- C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellOfCharacterVectors()`
+- Remove internal circular dependency about error and warning.
 
 ## 0.7.1 (2023-01-29)
 

@@ -9,7 +9,6 @@
 //=============================================================================
 #include "iscellstrBuiltin.hpp"
 #include "Error.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,7 +18,7 @@ Nelson::DataStructuresGateway::iscellstrBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::logicalConstructor(IsCellOfString(argIn[0]));
+    retval << ArrayOf::logicalConstructor(argIn[0].isCellOfCharacterVectors());
     return retval;
 }
 //=============================================================================

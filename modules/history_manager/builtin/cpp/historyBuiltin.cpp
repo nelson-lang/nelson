@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "HistoryManager.hpp"
-#include "IsCellOfStrings.hpp"
 #include "ToCellString.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -200,7 +199,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
                 ptrHistoryManager->appendLine(str);
-            } else if (IsCellOfString(arg2)) {
+            } else if (arg2.isCellOfCharacterVectors()) {
                 ArrayOf cell(arg2);
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
                 indexType elementCount = arg2.getElementCount();

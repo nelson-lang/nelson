@@ -1136,6 +1136,9 @@ public:
     isCell() const;
 
     [[nodiscard]] bool
+    isCellOfCharacterVectors() const;
+
+    [[nodiscard]] bool
     isStruct() const;
     void
     setStructType(const std::string& structname);
