@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellOfCharacterVectors()`
 - Remove internal circular dependency about error and warning.
 
+### Fixed
+
+- `disp`, `display` did no more support overloading.
+
 ## 0.7.1 (2023-01-29)
 
 ### Added
