@@ -22,29 +22,26 @@ namespace Nelson {
 void
 OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name, bool asDispBuiltin)
 {
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        Context* context = eval->getContext();
-        if (context != nullptr) {
-            FunctionDef* funcDef = nullptr;
-            std::string OverloadName;
-            if (asDispBuiltin) {
-                OverloadName = ClassName(a) + "_disp";
-            } else {
-                OverloadName = ClassName(a) + "_display";
-            }
-            if (context->lookupFunction(OverloadName, funcDef)) {
-                bSuccess = true;
-                ArrayOfVector argsIn;
-                argsIn.push_back(a);
-                if (!asDispBuiltin) {
-                    argsIn.push_back(ArrayOf::characterArrayConstructor(name));
-                }
-                int nargout = 0;
-                funcDef->evaluateFunction(eval, argsIn, nargout);
-            }
-        }
+    std::string OverloadName;
+    if (asDispBuiltin) {
+        OverloadName = ClassName(a) + "_disp";
+    } else {
+        OverloadName = ClassName(a) + "_display";
     }
+    Context* context = eval->getContext();
+    FunctionDef* funcDef = nullptr;
+    bool bSuccess = false;
+    if (context->lookupFunction(OverloadName, funcDef)) {
+        bSuccess = true;
+        ArrayOfVector argsIn;
+        argsIn.push_back(a);
+        if (!asDispBuiltin) {
+            argsIn.push_back(ArrayOf::characterArrayConstructor(name));
+        }
+        int nargout = 0;
+        funcDef->evaluateFunction(eval, argsIn, nargout);
+    }
+
     if (!bSuccess) {
         bool needToOverload;
         uint64 ticProfile = Profiler::getInstance()->tic();
@@ -55,30 +52,9 @@ OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name, boo
                 = computeProfileStack(eval, asDispBuiltin ? "disp" : "display", L"evaluator");
             Profiler::getInstance()->toc(ticProfile, stack);
         }
+
         if (needToOverload) {
-            Context* context = eval->getContext();
-            if (context != nullptr) {
-                FunctionDef* funcDef = nullptr;
-                std::string OverloadName;
-                if (asDispBuiltin) {
-                    OverloadName = ClassName(a) + "_disp";
-                } else {
-                    OverloadName = ClassName(a) + "_display";
-                }
-                if (context->lookupFunction(OverloadName, funcDef)) {
-                    bSuccess = true;
-                    ArrayOfVector argsIn;
-                    argsIn.push_back(a);
-                    if (!asDispBuiltin) {
-                        argsIn.push_back(ArrayOf::characterArrayConstructor(name));
-                    }
-                    int nargout = 0;
-                    funcDef->evaluateFunction(eval, argsIn, nargout);
-                } else {
-                    Error(utf8_to_wstring(
-                        _("function") + " " + OverloadName + " " + _("undefined.")));
-                }
-            }
+            Error(utf8_to_wstring(_("function") + " " + OverloadName + " " + _("undefined.")));
         }
     }
 }
