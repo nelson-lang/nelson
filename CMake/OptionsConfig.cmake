@@ -63,7 +63,11 @@ if (WITHOUT_OPENMP)
 else()
   set(WITH_OPENMP 1)
 endif()
-
+# ==============================================================================
+include(GNUInstallDirs)
+set(NLS_LIBRARY_PATH_PREFIX ${CMAKE_INSTALL_LIBDIR})
+set(NLS_RUNTIME_PATH_PREFIX ${CMAKE_INSTALL_BINDIR})
+# ==============================================================================
 foreach(mod ${without_module})
   if (WITHOUT_${mod}_MODULE)
     set(WITH_${mod}_MODULE 0)

@@ -3972,14 +3972,15 @@ bool
 Evaluator::setLastErrorException(const Exception& e)
 {
     Exception* ptrPreviousException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException();
+        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException(getID());
     if (ptrPreviousException) {
         delete ptrPreviousException;
     }
     try {
         Exception* ptrException = new Exception(e);
-        NelsonConfiguration::getInstance()->setLastErrorException(ptrException);
+        NelsonConfiguration::getInstance()->setLastErrorException(getID(), ptrException);
     } catch (const std::bad_alloc&) {
+        NelsonConfiguration::getInstance()->setLastErrorException(getID(), nullptr);
         return false;
     }
     return true;
@@ -3989,7 +3990,7 @@ Exception
 Evaluator::getLastErrorException()
 {
     Exception* ptrException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException();
+        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException(getID());
     Exception lastException;
     if (ptrException) {
         lastException = *ptrException;
@@ -4000,15 +4001,19 @@ Evaluator::getLastErrorException()
 void
 Evaluator::resetLastErrorException()
 {
-    Exception e;
-    setLastErrorException(e);
+    Exception* ptrException
+        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException(getID());
+    if (ptrException) {
+        delete ptrException;
+    }
+    NelsonConfiguration::getInstance()->setLastErrorException(getID(), nullptr);
 }
 //=============================================================================
 Exception
 Evaluator::getLastWarningException()
 {
     Exception* ptrException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException();
+        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
     Exception lastException;
     if (ptrException) {
         lastException = *ptrException;
@@ -4019,22 +4024,27 @@ Evaluator::getLastWarningException()
 void
 Evaluator::resetLastWarningException()
 {
-    Exception e;
-    setLastWarningException(e);
+    Exception* ptrException
+        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
+    if (ptrException) {
+        delete ptrException;
+    }
+    NelsonConfiguration::getInstance()->setLastWarningException(getID(), nullptr);
 }
 //=============================================================================
 bool
 Evaluator::setLastWarningException(const Exception& e)
 {
     Exception* ptrPreviousException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException();
+        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
     if (ptrPreviousException) {
         delete ptrPreviousException;
     }
     try {
         Exception* ptrException = new Exception(e);
-        NelsonConfiguration::getInstance()->setLastWarningException(ptrException);
+        NelsonConfiguration::getInstance()->setLastWarningException(getID(), ptrException);
     } catch (const std::bad_alloc&) {
+        NelsonConfiguration::getInstance()->setLastWarningException(getID(), nullptr);
         return false;
     }
     return true;

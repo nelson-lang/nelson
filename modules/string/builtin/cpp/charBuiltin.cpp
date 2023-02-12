@@ -11,7 +11,6 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "IsCellOfStrings.hpp"
 #include "OverloadFunction.hpp"
 #include "ToChar.hpp"
 //=============================================================================
@@ -103,7 +102,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             }
         } break;
         case NLS_CELL_ARRAY: {
-            if (!IsCellOfString(argIn[0])) {
+            if (!argIn[0].isCellOfCharacterVectors()) {
                 retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
                 if (!bSuccess) {
                     Error(_("Undefined function 'char' for input arguments of type") + " '"

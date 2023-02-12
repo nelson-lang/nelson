@@ -13,7 +13,6 @@
 #include "StringHelpers.hpp"
 #include <vector>
 #include "StringReplace.hpp"
-#include "IsCellOfStrings.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "nlsBuildConfig.h"

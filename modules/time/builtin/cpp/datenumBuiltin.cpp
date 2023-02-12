@@ -14,7 +14,6 @@
 #include "i18n.hpp"
 #include "Warning.hpp"
 #include "Now.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -195,7 +194,7 @@ datanumBuiltinOneRhs(int nLhs, const ArrayOf& param1)
                 }
             }
             retval << res;
-        } else if (IsCellOfString(param1)) {
+        } else if (param1.isCellOfCharacterVectors()) {
             ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
             Dimensions dimsRes = param1.getDimensions();
             double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
@@ -242,7 +241,7 @@ datanumBuiltinTwoRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2)
             }
         }
         retval << res;
-    } else if (IsCellOfString(param1)) {
+    } else if (param1.isCellOfCharacterVectors()) {
         std::wstring dateformat = param2.getContentAsWideString();
         ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
         Dimensions dimsRes = param1.getDimensions();

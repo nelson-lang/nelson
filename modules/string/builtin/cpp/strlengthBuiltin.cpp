@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "StringLength.hpp"
 #include "OverloadFunction.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,7 +34,7 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } break;
         default:
         case NLS_CELL_ARRAY: {
-            if (IsCellOfString(param)) {
+            if (param.isCellOfCharacterVectors()) {
                 retval << StringLength(argIn[0]);
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);

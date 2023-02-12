@@ -10,7 +10,6 @@
 #include "StringCount.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "IsCellOfStrings.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -48,7 +47,7 @@ StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
             A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
     } else {
         if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))
-            && (Pattern.isStringArray() || IsCellOfString(Pattern))) {
+            && (Pattern.isStringArray() || Pattern.isCellOfCharacterVectors())) {
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
@@ -59,7 +58,7 @@ StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
                 count = count + countString(strA, pattern, bCaseSensitive);
             }
             res = ArrayOf::doubleConstructor(count);
-        } else if ((A.isStringArray() || IsCellOfString(A))
+        } else if ((A.isStringArray() || A.isCellOfCharacterVectors())
             && (Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
@@ -71,8 +70,8 @@ StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
                 result[k] = countString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
             }
             res = ArrayOf(NLS_DOUBLE, dimA, result);
-        } else if ((A.isStringArray() || IsCellOfString(A))
-            && (Pattern.isStringArray() || IsCellOfString(Pattern))) {
+        } else if ((A.isStringArray() || A.isCellOfCharacterVectors())
+            && (Pattern.isStringArray() || Pattern.isCellOfCharacterVectors())) {
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();

@@ -91,7 +91,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
           ${LIBXML2_INCLUDE_DIR})
 
 target_link_libraries(
@@ -100,7 +99,6 @@ target_link_libraries(
   nlsApi_nelson
   nlsCharacters_encoding
   nlsCommons
-  nlsData_structures
   nlsError_manager
   nlsI18n
   nlsInterpreter

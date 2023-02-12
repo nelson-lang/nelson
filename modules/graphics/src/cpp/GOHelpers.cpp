@@ -16,7 +16,6 @@
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
-#include "IsCellOfStrings.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -77,7 +76,7 @@ uniformizeStringVector(const ArrayOf& arg, wstringVector& asWideStringVector)
         for (indexType k = 0; k < dims.getElementCount(); k++) {
             elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
         }
-    } else if (IsCellOfString(arg)) {
+    } else if (arg.isCellOfCharacterVectors()) {
         asWideStringVector = arg.getContentAsWideStringVector();
         ArrayOf* elements
             = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, asWideStringVector.size());

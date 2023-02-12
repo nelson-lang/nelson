@@ -9,7 +9,6 @@
 //=============================================================================
 #include "fullpathBuiltin.hpp"
 #include "Error.hpp"
-#include "IsCellOfStrings.hpp"
 #include "ToCellString.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
@@ -22,7 +21,7 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (IsCellOfString(param1) || param1.isStringArray()) {
+    if (param1.isCellOfCharacterVectors() || param1.isStringArray()) {
         Dimensions dims = param1.getDimensions();
         wstringVector paths = param1.getContentAsWideStringVector();
         wstringVector normalizedPaths;

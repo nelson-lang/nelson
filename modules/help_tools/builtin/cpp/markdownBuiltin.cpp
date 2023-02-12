@@ -12,7 +12,6 @@
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "IsCellOfStrings.hpp"
 #include "Markdown.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -74,7 +73,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         // argIn.size() == 1
         ArrayOf param1 = argIn[0];
         std::wstring stringInput;
-        if (IsCellOfString(param1)) {
+        if (param1.isCellOfCharacterVectors()) {
             wstringVector vstr = param1.getContentAsWideStringColumnVector();
             for (auto& k : vstr) {
                 stringInput = stringInput + L"\n" + k;

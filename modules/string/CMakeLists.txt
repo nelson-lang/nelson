@@ -38,14 +38,12 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
   nlsCommons
-  nlsData_structures
   nlsElementary_functions
   nlsElementary_mathematics
   nlsError_manager
@@ -91,7 +89,6 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsCommons
-  nlsData_structures
   nlsError_manager
   nlsI18n
   nlsInterpreter
