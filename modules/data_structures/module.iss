@@ -9,7 +9,7 @@
 ;==============================================================================
 #define MODULE_NAME "data_structures"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libnlsData_structures.dll; DestDir: {app}\bin\{#BinPath}\;
+;Source: {#RootPath}bin\{#BinPath}\libnlsData_structures.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsData_structures_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;

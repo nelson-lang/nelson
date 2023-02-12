@@ -158,14 +158,14 @@ public:
     getMaxNumCompThreads();
     //=============================================================================
     void
-    setLastErrorException(void* lastErrorException);
+    setLastErrorException(size_t ID, void* lastErrorException);
     void*
-    getLastErrorException();
+    getLastErrorException(size_t ID);
     //=============================================================================
     void
-    setLastWarningException(void* lastWarningException);
+    setLastWarningException(size_t ID, void* lastWarningException);
     void*
-    getLastWarningException();
+    getLastWarningException(size_t ID);
     //=============================================================================
 private:
     NelsonConfiguration();
@@ -203,8 +203,8 @@ private:
     void* FileManager;
     void* RandomEngine;
     void* HistoryManager;
-    void* lastErrorException;
-    void* lastWarningException;
+    std::map<size_t, void*> lastErrorException;
+    std::map<size_t, void*> lastWarningException;
     //=============================================================================
     int engineMode;
     //=============================================================================

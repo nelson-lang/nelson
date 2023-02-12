@@ -9,7 +9,6 @@
 //=============================================================================
 #include "ToChar.hpp"
 #include "IEEEFP.hpp"
-#include "IsCellOfStrings.hpp"
 #include "VertCat.hpp"
 #include <vector>
 //=============================================================================

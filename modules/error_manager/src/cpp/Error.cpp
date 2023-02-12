@@ -22,6 +22,9 @@ Error(const std::wstring& msg, const std::wstring& id, bool asCaller)
     if (!msg.empty()) {
         stackTrace trace;
         Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+        if (!eval) {
+            return;
+        }
         DebugStack(eval->callstack, asCaller ? 1 : 0, trace);
         Exception exception(msg, trace, id);
         throw exception;

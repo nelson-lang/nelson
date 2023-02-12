@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "MessageBox.hpp"
-#include "IsCellOfStrings.hpp"
 #include "Warning.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -37,7 +36,7 @@ Nelson::GuiGateway::msgboxBuiltin(int nLhs, const ArrayOfVector& argIn)
             text += L"\n";
             text += lines[k];
         }
-    } else if (IsCellOfString(param1)) {
+    } else if (param1.isCellOfCharacterVectors()) {
         wstringVector lines = param1.getContentAsWideStringVector();
         text = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {

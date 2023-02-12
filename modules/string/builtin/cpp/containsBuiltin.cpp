@@ -14,7 +14,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "OverloadFunction.hpp"
-#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,7 +34,7 @@ Nelson::StringGateway::containsBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         bool bCaseSensitive = true;
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (A.isCharacterArray() || A.isStringArray() || IsCellOfString(A)) {
+        if (A.isCharacterArray() || A.isStringArray() || A.isCellOfCharacterVectors()) {
             if (argIn.size() == 4) { //-V112
                 ArrayOf param3 = argIn[2];
                 std::wstring fieldname = param3.getContentAsWideString();

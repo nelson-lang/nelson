@@ -77,7 +77,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include)
 
 target_link_libraries(
@@ -85,7 +84,6 @@ target_link_libraries(
   ${module_library_name}
   nlsApi_nelson
   nlsCommons
-  nlsData_structures
   nlsError_manager
   nlsI18n
   nlsInterpreter

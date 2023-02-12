@@ -22,6 +22,25 @@ ArrayOf::isCell() const
     return (this->getDataClass() == NLS_CELL_ARRAY);
 }
 //=============================================================================
+bool
+ArrayOf::isCellOfCharacterVectors() const
+{
+    if (!isCell()) {
+        return false;
+    }
+    if (isEmpty()) {
+        return true;
+    }
+    ArrayOf* arg = (ArrayOf*)(getDataPointer());
+    indexType elementCount = getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
+        if (!arg[k].isCharacterArray()) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
 ArrayOf
 ArrayOf::toCell(ArrayOf m)
 {

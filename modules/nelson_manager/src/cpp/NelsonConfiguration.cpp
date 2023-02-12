@@ -29,6 +29,8 @@ NelsonConfiguration::NelsonConfiguration()
     RandomEngine = nullptr;
     HistoryManager = nullptr;
     engineMode = 0;
+    lastErrorException.clear();
+    lastWarningException.clear();
 }
 //=============================================================================
 NelsonConfiguration*
@@ -279,27 +281,33 @@ NelsonConfiguration::getMaxNumCompThreads()
 }
 //=============================================================================
 void
-NelsonConfiguration::setLastErrorException(void* lastErrorException)
+NelsonConfiguration::setLastErrorException(size_t ID, void* lastErrorException)
 {
-    this->lastErrorException = lastErrorException;
+    this->lastErrorException[ID] = lastErrorException;
 }
 //=============================================================================
 void*
-NelsonConfiguration::getLastErrorException()
+NelsonConfiguration::getLastErrorException(size_t ID)
 {
-    return this->lastErrorException;
+    if (this->lastErrorException.count(ID) != 0) {
+        return this->lastErrorException[ID];
+    }
+    return nullptr;
 }
 //=============================================================================
 void
-NelsonConfiguration::setLastWarningException(void* lastWarningException)
+NelsonConfiguration::setLastWarningException(size_t ID, void* lastWarningException)
 {
-    this->lastWarningException = lastWarningException;
+    this->lastWarningException[ID] = lastWarningException;
 }
 //=============================================================================
 void*
-NelsonConfiguration::getLastWarningException()
+NelsonConfiguration::getLastWarningException(size_t ID)
 {
-    return this->lastWarningException;
+    if (this->lastWarningException.count(ID) != 0) {
+        return this->lastWarningException[ID];
+    }
+    return nullptr;
 }
 //=============================================================================
 } // namespace Nelson

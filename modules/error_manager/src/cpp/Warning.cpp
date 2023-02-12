@@ -20,6 +20,7 @@ namespace Nelson {
 static void
 warningEmitter(const std::wstring& message, const std::wstring& id)
 {
+    size_t mainEvaluatorID = 0;
     if (!message.empty()) {
         Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
         if (!eval) {
@@ -34,11 +35,12 @@ warningEmitter(const std::wstring& message, const std::wstring& id)
         try {
             Exception* exception = new Exception(message, trace, id);
             Exception* previousException
-                = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException();
+                = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(
+                    mainEvaluatorID);
             if (previousException) {
                 delete previousException;
             }
-            NelsonConfiguration::getInstance()->setLastWarningException(exception);
+            NelsonConfiguration::getInstance()->setLastWarningException(mainEvaluatorID, exception);
             io->warningMessage(exception->getMessage());
         } catch (const std::bad_alloc&) {
         }

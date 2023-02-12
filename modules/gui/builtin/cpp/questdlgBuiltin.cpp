@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "QuestionBox.hpp"
-#include "IsCellOfStrings.hpp"
 #include "Warning.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -45,7 +44,7 @@ Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
             question += L"\n";
             question += lines[k];
         }
-    } else if (IsCellOfString(param1)) {
+    } else if (param1.isCellOfCharacterVectors()) {
         wstringVector lines = param1.getContentAsWideStringVector();
         question = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {
