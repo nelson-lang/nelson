@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - `disp`, `display` did no more support overloading.
+- `image` did not save all values for `XData` and `YData`.
 
 ## 0.7.1 (2023-01-29)
 
