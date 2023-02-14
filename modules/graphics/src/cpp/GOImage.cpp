@@ -46,8 +46,8 @@ GOImage::constructProperties()
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
-    registerProperty(new GOTwoVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOTwoVectorProperty, GO_Y_DATA_PROPERTY_NAME_STR);
+    registerProperty(new GOVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
+    registerProperty(new GOVectorProperty, GO_Y_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     sortProperties();
@@ -79,7 +79,7 @@ GOImage::getLimits()
     std::vector<double> YP(xp->data());
 
     std::vector<double> limits;
-    if (XP.size() != 2 || YP.size() != 2) {
+    if (XP.size() < 2 || YP.size() < 2) {
         return limits;
     }
     limits.push_back(xp->data()[0]);
@@ -164,19 +164,12 @@ GOImage::paintMe(RenderInterface& gc)
     }
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yp = (GOTwoVectorProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
-    int x1, y1, x2, y2;
-    std::vector<double> XP(xp->data());
-    std::vector<double> YP(yp->data());
-    if (XP.size() != 2 || YP.size() != 2) {
-        return;
-    }
-    gc.toPixels(xp->data()[0], yp->data()[0], 0, x1, y1);
-    gc.toPixels(xp->data()[1], yp->data()[1], 0, x2, y2);
-    if ((abs(x2 - x1) > 4096) || (abs(y2 - y1) > 4096)) {
-        return;
-    }
-    gc.drawImage(xp->data()[0], yp->data()[0], xp->data()[1], yp->data()[1],
-        img.scaled(abs(x2 - x1), abs(y2 - y1)));
+    GOAxis* ax = getParentAxis();
+    GOTwoVectorProperty* xLim = (GOTwoVectorProperty*)ax->findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+    GOTwoVectorProperty* yLim = (GOTwoVectorProperty*)ax->findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+    bool xFlip = (ax->stringCheck(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR));
+    bool yFlip = (ax->stringCheck(GO_Y_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR));
+    gc.drawImage(xp->data(), yp->data(), xLim->data(), yLim->data(), xFlip, yFlip, img);
 }
 //=============================================================================
 std::vector<double>

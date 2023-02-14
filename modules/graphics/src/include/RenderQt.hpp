@@ -192,6 +192,11 @@ public:
     drawImage(double x1, double y1, double x2, double y2, QImage pic) override;
     //=============================================================================
     void
+    drawImage(const std::vector<double>& xp, const std::vector<double>& yp,
+        const std::vector<double>& xLim, const std::vector<double>& yLim, bool xFlip, bool yFlip,
+        QImage pic);
+    //=============================================================================
+    void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
         std::vector<std::vector<coloredPoint>> edges, bool flatedges) override;
     //=============================================================================

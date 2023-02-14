@@ -243,6 +243,67 @@ RenderQt::drawImage(double x1, double y1, double x2, double y2, QImage pic)
 }
 //=============================================================================
 void
+RenderQt::drawImage(const std::vector<double>& xp, const std::vector<double>& yp,
+    const std::vector<double>& xLim, const std::vector<double>& yLim, bool xFlip, bool yFlip,
+    QImage pic)
+{
+    float data_x1 = (float)xp[0];
+    float data_y1 = (float)yp[0];
+    float data_x2 = (float)xp[1];
+    float data_y2 = (float)yp[1];
+
+    float lim_x1 = (float)xLim[0];
+    float lim_y1 = (float)yLim[0];
+    float lim_x2 = (float)xLim[1];
+    float lim_y2 = (float)yLim[1];
+
+    float vis_x1 = qMax(qMin(lim_x1, data_x2), data_x1);
+    float vis_x2 = qMax(qMin(lim_x2, data_x2), data_x1);
+    float vis_y1 = qMax(qMin(lim_y1, data_y2), data_y1);
+    float vis_y2 = qMax(qMin(lim_y2, data_y2), data_y1);
+
+    float img_x1 = (vis_x1 - data_x1) * (pic.width() - 1) / (data_x2 - data_x1);
+    float img_x2 = (vis_x2 - data_x1) * (pic.width() - 1) / (data_x2 - data_x1);
+    float img_y1 = (vis_y1 - data_y1) * (pic.height() - 1) / (data_y2 - data_y1);
+    float img_y2 = (vis_y2 - data_y1) * (pic.height() - 1) / (data_y2 - data_y1);
+
+    if (yFlip) {
+        vis_y1 = lim_y1 + lim_y2 - vis_y1;
+        vis_y2 = lim_y1 + lim_y2 - vis_y2;
+    }
+
+    if (!yFlip) {
+        float img_y1_t = pic.height() - img_y2;
+        img_y2 = pic.height() - img_y1;
+        img_y1 = img_y1_t;
+    }
+
+    if (xFlip) {
+        vis_x1 = lim_x1 + lim_x2 - vis_x1;
+        vis_x2 = lim_x1 + lim_x2 - vis_x2;
+    }
+
+    if (xFlip) {
+        float img_x1_t = pic.width() - img_x2;
+        img_x2 = pic.width() - img_x1;
+        img_x1 = img_x1_t;
+    }
+
+    img_x2++;
+    img_y2++;
+
+    QPointF topLeft(map(std::min(vis_x1, vis_x2), std::max(vis_y1, vis_y2), 0));
+    QPointF botRight(map(std::max(vis_x1, vis_x2), std::min(vis_y2, vis_y1), 0));
+    QRectF target(topLeft, botRight);
+    QRectF source(QPointF(img_x1, img_y1), QPointF(img_x2, img_y2));
+
+    float xscale = xFlip ? -1 : 1;
+    float yscale = (!yFlip) ? -1 : 1;
+
+    pnt->drawImage(target, pic.transformed(QTransform().scale(xscale, yscale)), source);
+}
+//=============================================================================
+void
 RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
     std::vector<std::vector<coloredPoint>> edges, bool flatedges)
 {
