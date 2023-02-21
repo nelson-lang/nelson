@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================

@@ -10,6 +10,8 @@
 #include "uigetdirBuiltin.hpp"
 #include "Error.hpp"
 #include "UiGetDirectory.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

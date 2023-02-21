@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace FunctionsGateway {
-    ArrayOfVector
-    pathBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::FunctionsGateway {
+ArrayOfVector
+pathBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

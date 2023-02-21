@@ -13,6 +13,8 @@
 #include "i18n.hpp"
 #include "NelsonPrint.hpp"
 #include "ToCellString.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

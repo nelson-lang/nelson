@@ -12,6 +12,7 @@
 #include <Eigen/Sparse>
 #include "HorzCatSparseLogical.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

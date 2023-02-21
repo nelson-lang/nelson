@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "FullFile.hpp"
 #include "ConvertStringsToChars.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

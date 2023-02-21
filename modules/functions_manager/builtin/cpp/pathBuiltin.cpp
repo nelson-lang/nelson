@@ -17,6 +17,7 @@
 #include "ToCellString.hpp"
 #include "NelsonPrint.hpp"
 #include "StringHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

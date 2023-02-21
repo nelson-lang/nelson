@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string>
 #include "cputimeBuiltin.hpp"
 #include "CpuTime.hpp"
 #include "Error.hpp"
-#include <string>
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -12,12 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace DataStructuresGateway {
-    ArrayOfVector
-    namedargs2cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::DataStructuresGateway {
+ArrayOfVector
+namedargs2cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

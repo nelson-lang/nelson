@@ -14,6 +14,7 @@
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
 #include "GORoot.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "AfterAllFuture_deleteBuiltin.hpp"
 #include "DeleteGenericObject.hpp"
 #include "AfterAllFutureObject.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

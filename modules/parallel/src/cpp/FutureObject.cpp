@@ -20,6 +20,7 @@
 #include "HandleManager.hpp"
 #include "FutureObjectHelpers.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

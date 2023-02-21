@@ -9,7 +9,7 @@
 //=============================================================================
 #include "COM_usedBuiltin.hpp"
 #include "ComHandleObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;

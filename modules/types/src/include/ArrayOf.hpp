@@ -19,7 +19,6 @@
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "ArrayOfVector.hpp"
-#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 

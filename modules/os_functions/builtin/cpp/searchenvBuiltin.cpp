@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "SearchVariableEnvironment.hpp"
 #include "ToCellString.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

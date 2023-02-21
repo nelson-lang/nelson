@@ -24,6 +24,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "Decomplexify.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

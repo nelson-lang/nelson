@@ -10,6 +10,8 @@
 #include "libpointerBuiltin.hpp"
 #include "Error.hpp"
 #include "LibPointerObject.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

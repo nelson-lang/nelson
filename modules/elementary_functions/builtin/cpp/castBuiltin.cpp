@@ -12,6 +12,7 @@
 #include "Cast.hpp"
 #include "StringToClass.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

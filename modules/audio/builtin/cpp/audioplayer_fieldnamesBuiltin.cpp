@@ -14,6 +14,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "ToCellString.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

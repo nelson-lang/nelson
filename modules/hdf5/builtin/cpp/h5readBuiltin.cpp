@@ -10,6 +10,7 @@
 #include "h5readBuiltin.hpp"
 #include "Error.hpp"
 #include "h5ReadDataset.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

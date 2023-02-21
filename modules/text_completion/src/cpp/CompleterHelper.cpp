@@ -114,7 +114,6 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
     }
     size_t lengthCurrentLine = currentLine.size();
     if (stringToAdd.empty()) {
-        size_t lengthLineModified = lengthCurrentLine;
         lineModified = currentLine;
         return lineModified;
     }

@@ -14,6 +14,7 @@
 #include "i18n.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

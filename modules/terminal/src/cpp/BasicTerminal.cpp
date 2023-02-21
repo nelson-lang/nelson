@@ -76,9 +76,8 @@ BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
         char currrentChar = fgetc(stdin);
         if (currrentChar == '\n') {
             break;
-        } else {
-            retLine.push_back(currrentChar);
         }
+        retLine.push_back(currrentChar);
     }
     this->diary.writeMessage(retLine);
     if (bIsInput) {

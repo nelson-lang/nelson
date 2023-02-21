@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MPI_Get_library_versionBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;

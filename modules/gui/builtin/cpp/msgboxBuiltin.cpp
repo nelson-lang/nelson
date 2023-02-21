@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "MessageBox.hpp"
 #include "Warning.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

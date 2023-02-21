@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "ToCellString.hpp"
 #include "fieldnamesQObjectHandleObject.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

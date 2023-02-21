@@ -53,7 +53,7 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
             FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
             formatInfo.trim = true;
             for (indexType k = 0; k < A.getElementCount(); ++k) {
-                std::wstring numberAsStr = formatScalarNumber(values[k], false, formatInfo);
+                std::wstring numberAsStr = formatScalarNumber((double)values[k], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     size_t nbCharsLimit = 6;
                     if (StringHelpers::contains(numberAsStr, L"/")) {
@@ -121,8 +121,8 @@ summarizeCellComplexEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
             FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
             formatInfo.trim = true;
             for (indexType k = 0; k < A.getElementCount() * 2; k = k + 2) {
-                std::wstring numberAsStr
-                    = formatScalarComplexNumber(ap[k], ap[k + 1], false, formatInfo);
+                std::wstring numberAsStr = formatScalarComplexNumber(
+                    (double)ap[k], (double)ap[k + 1], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     size_t nbCharsLimit = (8 * 2) + 3;
                     if (StringHelpers::contains(numberAsStr, L"/")) {

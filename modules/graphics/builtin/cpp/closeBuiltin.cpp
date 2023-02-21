@@ -12,6 +12,9 @@
 #include "GOFiguresManager.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOStringProperty.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

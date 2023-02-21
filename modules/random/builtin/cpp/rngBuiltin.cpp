@@ -13,6 +13,8 @@
 #include "Rng.hpp"
 #include "Rng_helpers.hpp"
 #include "ToCellString.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

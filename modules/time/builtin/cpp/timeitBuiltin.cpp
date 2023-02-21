@@ -8,9 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <numeric>
+#include <chrono>
 #include "timeitBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

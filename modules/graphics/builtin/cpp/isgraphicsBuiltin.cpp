@@ -14,6 +14,7 @@
 #include "GOHelpers.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

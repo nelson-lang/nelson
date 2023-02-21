@@ -12,6 +12,8 @@
 #include "ToSingle.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

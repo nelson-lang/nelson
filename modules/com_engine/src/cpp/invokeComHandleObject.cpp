@@ -18,6 +18,7 @@
 #include "VariantConversionHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "invokeCOM.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
-#include "Error.hpp"
 #include "HorzCatSparseLogical.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

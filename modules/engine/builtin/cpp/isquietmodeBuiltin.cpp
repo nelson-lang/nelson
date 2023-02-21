@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isquietmodeBuiltin.hpp"
-#include "Error.hpp"
 #include "NelSon_engine_mode.h"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

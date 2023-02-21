@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "QtLookAndFeel.hpp"
 #include "ToCellString.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "ticBuiltin.hpp"
 #include "Error.hpp"
 #include "TicToc.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

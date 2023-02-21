@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

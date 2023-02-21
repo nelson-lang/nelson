@@ -15,6 +15,8 @@
 #include "Which.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

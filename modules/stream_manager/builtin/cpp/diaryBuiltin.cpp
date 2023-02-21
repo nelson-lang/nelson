@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "Interface.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

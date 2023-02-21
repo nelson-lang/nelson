@@ -10,6 +10,7 @@
 #include "FevalFuture_deleteBuiltin.hpp"
 #include "DeleteGenericObject.hpp"
 #include "FevalFutureObject.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

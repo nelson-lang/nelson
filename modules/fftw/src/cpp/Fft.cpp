@@ -10,6 +10,7 @@
 #include "Fft.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "FftHelpers.hpp"
 //=============================================================================
 namespace Nelson {

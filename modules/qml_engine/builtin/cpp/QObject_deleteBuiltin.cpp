@@ -9,7 +9,7 @@
 //=============================================================================
 #include "QObject_deleteBuiltin.hpp"
 #include "DeleteQObjectHandleObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "audioinfoBuiltin.hpp"
 #include "AudioFileInfo.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

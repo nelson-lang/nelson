@@ -10,6 +10,8 @@
 #include "sparsedouble_imagBuiltin.hpp"
 #include "Error.hpp"
 #include "SparseImagPart.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

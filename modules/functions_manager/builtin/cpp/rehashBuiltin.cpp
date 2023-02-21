@@ -10,6 +10,7 @@
 #include "rehashBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

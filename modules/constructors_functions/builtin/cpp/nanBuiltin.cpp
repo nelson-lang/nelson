@@ -10,6 +10,7 @@
 #include "nanBuiltin.hpp"
 #include "Error.hpp"
 #include "NaN.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

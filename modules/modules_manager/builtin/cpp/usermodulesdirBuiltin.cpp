@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "GetExternalModulesPath.hpp"
 #include "FileSystemWrapper.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

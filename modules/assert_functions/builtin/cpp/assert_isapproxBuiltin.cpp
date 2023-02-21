@@ -10,6 +10,7 @@
 #include "assert_isapproxBuiltin.hpp"
 #include "Assert_IsApprox.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

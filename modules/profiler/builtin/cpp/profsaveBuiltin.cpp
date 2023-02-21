@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

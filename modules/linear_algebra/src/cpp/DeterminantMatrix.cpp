@@ -15,6 +15,8 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "DeterminantMatrix.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

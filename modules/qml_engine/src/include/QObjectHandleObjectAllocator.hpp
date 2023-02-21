@@ -13,6 +13,7 @@
 #include "nlsQml_engine_exports.h"
 #include "QObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

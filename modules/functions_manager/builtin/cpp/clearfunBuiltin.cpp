@@ -12,6 +12,7 @@
 #include "ClearFunction.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

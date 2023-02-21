@@ -15,6 +15,8 @@
 #include "ExpMatrix.hpp"
 #include "ClassName.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

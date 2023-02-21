@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "ErrorToStruct.hpp"
 #include "IsErrorStruct.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

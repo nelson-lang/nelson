@@ -14,6 +14,7 @@
 #include <cctype>
 #include <string>
 #include "nlsBuildConfig.h"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "AfterAllFuture_usedBuiltin.hpp"
 #include "AfterAllFutureObject.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

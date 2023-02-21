@@ -79,7 +79,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     if (nchar != -1) {
         // Very old bug in CRT. it will be certainly never fixed for compatibility ...
         // https://developercommunity.visualstudio.com/content/problem/425878/fseek-ftell-fail-in-text-mode-for-unix-style-text.html
-        setvbuf(fileptr, NULL, _IONBF, 0);
+        setvbuf(fileptr, nullptr, _IONBF, 0);
     }
 #endif
     if (!getline(readline, fileptr, isCRLF)) {

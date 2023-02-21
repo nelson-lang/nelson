@@ -124,8 +124,8 @@ ArrayOfToException(const ArrayOf& arg)
         ArrayOf fileAsArrayOf = stackElement[k].getField("file");
         ArrayOf nameAsArrayOf = stackElement[k].getField("name");
         ArrayOf lineAsArrayOf = stackElement[k].getField("line");
-        trace.emplace_back(PositionScript(nameAsArrayOf.getContentAsWideString(),
-            fileAsArrayOf.getContentAsWideString(), (int)lineAsArrayOf.getContentAsDoubleScalar()));
+        trace.emplace_back(nameAsArrayOf.getContentAsWideString(),
+            fileAsArrayOf.getContentAsWideString(), (int)lineAsArrayOf.getContentAsDoubleScalar());
     }
     e.setTrace(trace);
     return e;

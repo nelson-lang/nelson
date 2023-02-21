@@ -15,6 +15,7 @@
 #include "NelsonPIDs.hpp"
 #include "NelsonInterprocess.hpp"
 #include "EvaluateCommand.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

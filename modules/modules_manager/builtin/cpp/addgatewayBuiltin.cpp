@@ -10,6 +10,8 @@
 #include "addgatewayBuiltin.hpp"
 #include "AddGateway.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

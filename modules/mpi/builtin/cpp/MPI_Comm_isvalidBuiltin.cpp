@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

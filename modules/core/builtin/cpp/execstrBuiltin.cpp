@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "EvaluateCommand.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

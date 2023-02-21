@@ -10,7 +10,7 @@
 #include "mrdivideBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadBinaryOperator.hpp"
-#include "RightDivide.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

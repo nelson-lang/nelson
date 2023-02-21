@@ -17,8 +17,8 @@ class PrintfHelper
 {
 private:
     const ArrayOfVector args;
-    int vectorIndex;
-    int elementIndex;
+    int vectorIndex { 1 };
+    int elementIndex { 0 };
     bool hasMoreData;
     bool dataUsed;
     void

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "mpowerBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "OverloadFunction.hpp"
 #include "MatrixPower.hpp"
 //=============================================================================

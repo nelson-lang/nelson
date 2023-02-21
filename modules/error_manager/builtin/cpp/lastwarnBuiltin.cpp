@@ -10,6 +10,7 @@
 #include "lastwarnBuiltin.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

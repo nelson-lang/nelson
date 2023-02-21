@@ -9,7 +9,9 @@
 //=============================================================================
 #include "sparsedouble_ctransposeBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "CtransposeSparseDouble.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

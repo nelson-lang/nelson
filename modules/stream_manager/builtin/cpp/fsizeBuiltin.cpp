@@ -14,6 +14,7 @@
 #include "FileSize.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

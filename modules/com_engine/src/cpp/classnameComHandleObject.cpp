@@ -17,6 +17,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

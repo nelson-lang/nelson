@@ -10,6 +10,8 @@
 #include "sparselogical_ctransposeBuiltin.hpp"
 #include "Error.hpp"
 #include "CtransposeSparseLogical.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

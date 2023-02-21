@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
-#include "Error.hpp"
 #include "VertCatSparseDouble.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

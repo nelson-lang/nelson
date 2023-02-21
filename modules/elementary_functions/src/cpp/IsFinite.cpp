@@ -10,6 +10,8 @@
 #include "nlsBuildConfig.h"
 #include "IsFinite.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "HorzCatSparseLogical.hpp"
 #include "CtransposeSparseLogical.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "slicot_sg02adBuiltin.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

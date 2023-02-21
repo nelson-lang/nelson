@@ -10,6 +10,8 @@
 #include "mkdirBuiltin.hpp"
 #include "Error.hpp"
 #include "MakeDirectory.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

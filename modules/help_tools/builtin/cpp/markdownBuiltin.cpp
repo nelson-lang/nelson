@@ -13,6 +13,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Markdown.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

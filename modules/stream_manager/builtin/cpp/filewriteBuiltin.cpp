@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringHelpers.hpp"
-#include <boost/algorithm/string/predicate.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -16,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

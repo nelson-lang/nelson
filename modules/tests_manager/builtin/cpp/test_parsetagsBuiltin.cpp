@@ -10,6 +10,7 @@
 #include "test_parsetagsBuiltin.hpp"
 #include "Error.hpp"
 #include "ParseTags.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

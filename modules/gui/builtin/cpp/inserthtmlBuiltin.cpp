@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "GuiTerminal.hpp"
 #include "Interface.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

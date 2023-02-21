@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "ComplexConjugate.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

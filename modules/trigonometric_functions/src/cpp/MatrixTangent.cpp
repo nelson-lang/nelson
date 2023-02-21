@@ -12,6 +12,8 @@
 #include <Eigen/Dense>
 #include "MatrixTangent.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

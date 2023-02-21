@@ -10,6 +10,7 @@
 #include "getavailablelanguagesBuiltin.hpp"
 #include "Localization.hpp"
 #include "ToCellString.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

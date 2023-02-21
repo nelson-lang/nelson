@@ -18,6 +18,7 @@
 #include "StringHelpers.hpp"
 #include "AudioFileInfo.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

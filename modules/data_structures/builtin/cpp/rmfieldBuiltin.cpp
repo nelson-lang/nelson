@@ -17,6 +17,7 @@
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadRequired.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

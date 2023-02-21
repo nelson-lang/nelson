@@ -12,6 +12,7 @@
 #include "stringsBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

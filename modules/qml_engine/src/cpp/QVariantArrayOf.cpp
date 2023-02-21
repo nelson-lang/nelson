@@ -36,6 +36,7 @@
 #include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

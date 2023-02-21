@@ -11,10 +11,12 @@
 #include "GOPropertyNames.hpp"
 #include "GraphicsObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "Exception.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

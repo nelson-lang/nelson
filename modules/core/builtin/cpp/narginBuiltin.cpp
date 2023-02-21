@@ -13,6 +13,7 @@
 #include "NargIn.hpp"
 #include "characters_encoding.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "AddGateway.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GatewaysManager.hpp"
 #include "ModulesManager.hpp"
 //=============================================================================

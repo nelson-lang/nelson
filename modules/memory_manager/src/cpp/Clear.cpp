@@ -67,6 +67,9 @@ bool
 ClearVariable(Evaluator* eval, const std::string& variable)
 {
     Scope* currentScope = eval->getContext()->getCurrentScope();
+    if (!currentScope) {
+        return false;
+    }
     if (currentScope->getName() == "base") {
         Scope* globalScope = eval->getContext()->getGlobalScope();
         globalScope->deleteVariable(variable);

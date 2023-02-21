@@ -18,9 +18,9 @@
 #include "i18n.hpp"
 #include "ErrorToStruct.hpp"
 #include "PathFuncManager.hpp"
-#include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "dllibisloadedBuiltin.hpp"
 #include "FindDynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

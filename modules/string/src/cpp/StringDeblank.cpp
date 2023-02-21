@@ -13,6 +13,7 @@
 #include "StringDeblank.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

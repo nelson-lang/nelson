@@ -12,6 +12,9 @@
 #include "copygraphicsBuiltin.hpp"
 #include "GOWindow.hpp"
 #include "GOHelpers.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

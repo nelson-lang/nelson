@@ -14,6 +14,8 @@
 #include "cellBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

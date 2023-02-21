@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "tempdirBuiltin.hpp"
-#include "Error.hpp"
 #include "GetSystemTemporaryDirectory.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

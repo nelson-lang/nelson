@@ -12,6 +12,7 @@
 #include "UminusSparse.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "SparseType.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>

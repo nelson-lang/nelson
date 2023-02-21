@@ -9,9 +9,9 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "restoredefaultpathBuiltin.hpp"
-#include "Error.hpp"
 #include "ModulesManager.hpp"
 #include "PathFuncManager.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

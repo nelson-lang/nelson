@@ -48,6 +48,7 @@
 #include "NelsonConfiguration.hpp"
 #include "PostCommand.hpp"
 #include "NelsonPalette.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

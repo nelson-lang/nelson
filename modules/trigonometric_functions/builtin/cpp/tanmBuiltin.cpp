@@ -12,6 +12,7 @@
 #include "MatrixTangent.hpp"
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

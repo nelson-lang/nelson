@@ -60,12 +60,12 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         PathFuncManager::getInstance()->setCurrentUserPath(
             FileSystemWrapper::Path::current_path().generic_wstring());
         return true;
-    } else {
-        if (doException) {
-            std::wstring msg = fmt::sprintf(_W("Cannot change directory '%s'."), pathApplied);
-            Error(msg);
-        }
     }
+    if (doException) {
+        std::wstring msg = fmt::sprintf(_W("Cannot change directory '%s'."), pathApplied);
+        Error(msg);
+    }
+
     return false;
 }
 //=============================================================================

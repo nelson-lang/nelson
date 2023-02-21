@@ -19,6 +19,7 @@
 #include "SparseToIJV.hpp"
 #include "StringToFunctionHandle.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

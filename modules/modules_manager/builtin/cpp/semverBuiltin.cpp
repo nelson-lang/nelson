@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "CompareVersions.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

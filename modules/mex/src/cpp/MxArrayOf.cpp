@@ -16,6 +16,8 @@
 #include "MxHelpers.hpp"
 #include "Exception.hpp"
 #include "SparseConstructors.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

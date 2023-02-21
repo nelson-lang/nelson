@@ -15,6 +15,7 @@
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

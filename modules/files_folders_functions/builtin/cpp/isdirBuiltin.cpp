@@ -11,6 +11,8 @@
 #include "isdirBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "Unzip.hpp"
 #include "ToCellString.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "h5WriteAttribute.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

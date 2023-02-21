@@ -15,6 +15,7 @@
 #include "FileParser.hpp"
 #include "ParserState.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

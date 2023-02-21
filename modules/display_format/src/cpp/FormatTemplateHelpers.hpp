@@ -17,10 +17,10 @@ template <class T>
 bool
 getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max, bool& isFinite)
 {
-    T minValue = std::nan("NaN");
-    T maxValue = std::nan("NaN");
-    T shared_max = std::nan("NaN");
-    T shared_min = std::nan("NaN");
+    T minValue = (T)std::nan("NaN");
+    T maxValue = (T)std::nan("NaN");
+    T shared_max = (T)std::nan("NaN");
+    T shared_min = (T)std::nan("NaN");
     isFinite = true;
 
     for (indexType k = 0; k < nbElements; ++k) {

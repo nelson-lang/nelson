@@ -11,6 +11,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <array>
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 //=============================================================================
@@ -43,7 +44,7 @@ private:
     /**
      * The data array of dimensions.
      */
-    indexType data[MAXDIMS];
+    std::array<indexType, MAXDIMS> data;
     //=============================================================================
     /**
      * The number of dimensions currently allocated.

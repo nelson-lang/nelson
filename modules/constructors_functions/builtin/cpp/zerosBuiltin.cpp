@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "Zeros.hpp"
 #include "StringToClass.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

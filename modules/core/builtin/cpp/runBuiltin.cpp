@@ -15,6 +15,8 @@
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

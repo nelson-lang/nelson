@@ -10,6 +10,7 @@
 #include "nlsBuildConfig.h"
 #include "ComplexTranspose.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

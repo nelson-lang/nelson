@@ -15,6 +15,7 @@
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "slicot_ab07ndBuiltin.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

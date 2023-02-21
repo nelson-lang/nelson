@@ -44,11 +44,14 @@ precisionFromString(const std::wstring& str, bool& bOK)
     }
     if (str == L"uint16") {
         return NLS_UINT16;
-    } else if (str == L"uint32") {
+    }
+    if (str == L"uint32") {
         return NLS_UINT32;
-    } else if (str == L"uint64") {
+    }
+    if (str == L"uint64") {
         return NLS_UINT64;
-    } else if (str == L"char" || (str == L"*char")) {
+    }
+    if (str == L"char" || (str == L"*char")) {
         return NLS_CHAR;
     }
     bOK = false;

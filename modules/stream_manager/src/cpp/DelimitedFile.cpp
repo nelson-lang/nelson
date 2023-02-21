@@ -13,6 +13,7 @@
 #include "characters_encoding.hpp"
 #include <fstream>
 #include <iostream>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -9,7 +9,7 @@
 //=============================================================================
 #include "dlsym_deleteBuiltin.hpp"
 #include "DeleteDynamicLinkSymbolObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

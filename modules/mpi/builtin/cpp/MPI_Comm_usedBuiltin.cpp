@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MPI_Comm_usedBuiltin.hpp"
-#include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

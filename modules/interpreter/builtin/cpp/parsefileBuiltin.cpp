@@ -13,6 +13,8 @@
 #include "Error.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

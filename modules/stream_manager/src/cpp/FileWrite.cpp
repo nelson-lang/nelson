@@ -13,6 +13,7 @@
 #include "FileWrite.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

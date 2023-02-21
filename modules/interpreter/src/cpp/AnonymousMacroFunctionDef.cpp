@@ -22,6 +22,7 @@
 #include "ProfilerHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -79,7 +80,6 @@ ArrayOfVector
 AnonymousMacroFunctionDef::evaluateFunction(
     Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
-    lock();
     updateCode(nargout);
     ArrayOfVector outputs;
     size_t minCount = 0;

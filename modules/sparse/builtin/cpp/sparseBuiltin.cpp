@@ -15,6 +15,8 @@
 #include "SparseConstructors.hpp"
 #include "CheckIJV.hpp"
 #include "SparseType.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

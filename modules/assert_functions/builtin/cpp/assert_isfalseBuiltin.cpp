@@ -10,6 +10,8 @@
 #include "assert_isfalseBuiltin.hpp"
 #include "Assert_IsFalse.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

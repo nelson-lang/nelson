@@ -10,6 +10,7 @@
 #include "numelBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadUnaryOperator.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

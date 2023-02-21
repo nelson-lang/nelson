@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace DataStructuresGateway {
-    ArrayOfVector
-    iscellstrBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::DataStructuresGateway {
+ArrayOfVector
+iscellstrBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

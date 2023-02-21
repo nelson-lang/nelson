@@ -15,6 +15,7 @@
 #include "HandleManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -20,6 +20,7 @@
 #include "nlsBuildConfig.h"
 #include "characters_encoding.hpp"
 #include "RealPart.hpp"
+#include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {

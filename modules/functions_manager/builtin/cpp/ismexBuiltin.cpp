@@ -8,11 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ismexBuiltin.hpp"
-#include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PathFuncManager.hpp"
 #include "MxGetExtension.hpp"
 #include "StringHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "Interface.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

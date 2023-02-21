@@ -10,6 +10,7 @@
 #include "geBuiltin.hpp"
 #include "Error.hpp"
 #include "GreaterEquals.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -13,6 +13,7 @@
 #include "IntegerToString.hpp"
 #include "OverloadFunction.hpp"
 #include "VertCat.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

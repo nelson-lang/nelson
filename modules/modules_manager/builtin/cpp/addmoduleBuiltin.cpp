@@ -11,6 +11,8 @@
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "StringHelpers.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

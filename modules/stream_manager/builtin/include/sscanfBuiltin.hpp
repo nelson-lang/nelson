@@ -11,12 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace StreamGateway {
-    ArrayOfVector
-    sscanfBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
+namespace Nelson::StreamGateway {
+ArrayOfVector
+sscanfBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

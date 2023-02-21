@@ -10,6 +10,8 @@
 #include "ismoduleBuiltin.hpp"
 #include "Error.hpp"
 #include "ModulesManager.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
