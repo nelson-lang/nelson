@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "ModulesManager.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -15,6 +15,7 @@
 #include "MexFunctionDef.hpp"
 #include "characters_encoding.hpp"
 #include "FunctionsInMemory.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

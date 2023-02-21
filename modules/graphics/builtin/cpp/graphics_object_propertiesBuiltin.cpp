@@ -12,6 +12,8 @@
 #include "ToCellString.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
+#include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

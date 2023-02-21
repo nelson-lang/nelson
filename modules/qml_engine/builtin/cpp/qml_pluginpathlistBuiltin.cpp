@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "qml_pluginpathlistBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "QmlEngine.hpp"
 #include "ToCellString.hpp"
 //=============================================================================

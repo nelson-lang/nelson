@@ -9,7 +9,7 @@
 //=============================================================================
 #include "dlsymBuiltin.hpp"
 #include "CreateDynamicLinkLibraryObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

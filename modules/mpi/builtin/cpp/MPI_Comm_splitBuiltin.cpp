@@ -13,6 +13,7 @@
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

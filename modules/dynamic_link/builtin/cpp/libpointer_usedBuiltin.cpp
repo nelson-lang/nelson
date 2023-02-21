@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "libpointer_usedBuiltin.hpp"
-#include "Error.hpp"
 #include "LibPointerObject.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

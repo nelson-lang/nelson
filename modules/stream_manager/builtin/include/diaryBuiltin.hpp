@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace StreamGateway {
-    ArrayOfVector
-    diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::StreamGateway {
+ArrayOfVector
+diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

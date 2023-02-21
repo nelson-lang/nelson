@@ -10,6 +10,7 @@
 #include "isclassBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

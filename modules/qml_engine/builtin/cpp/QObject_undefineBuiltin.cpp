@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_undefineBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "UndefineDynamicProperty.hpp"
 //=============================================================================
 using namespace Nelson;

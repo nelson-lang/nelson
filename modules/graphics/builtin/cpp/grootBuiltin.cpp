@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "grootBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "GORoot.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {

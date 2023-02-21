@@ -10,6 +10,7 @@
 #include "siounregisterBuiltin.hpp"
 #include "Error.hpp"
 #include "SioClientRegister.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

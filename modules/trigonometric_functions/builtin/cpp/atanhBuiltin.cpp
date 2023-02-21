@@ -9,9 +9,11 @@
 //=============================================================================
 #include "atanhBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "TrigonometricFunctions.hpp"
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

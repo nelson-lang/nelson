@@ -10,6 +10,8 @@
 #include "sparselogical_realBuiltin.hpp"
 #include "Error.hpp"
 #include "SparseRealPart.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

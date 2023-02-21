@@ -13,6 +13,8 @@
 #include "i18n.hpp"
 #include "QObjectHandleObject.hpp"
 #include "iswindowtypeQObject.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -10,6 +10,7 @@
 #include "ParallelEvaluator.hpp"
 #include "Error.hpp"
 #include "EvaluateInterface.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

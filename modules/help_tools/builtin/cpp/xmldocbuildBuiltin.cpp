@@ -17,6 +17,8 @@
 #include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

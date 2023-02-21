@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "COM_getBuiltin.hpp"
-#include "Error.hpp"
 #include "GetComHandleObject.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

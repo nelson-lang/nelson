@@ -10,6 +10,7 @@
 #include "rmdirBuiltin.hpp"
 #include "Error.hpp"
 #include "RemoveDirectory.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

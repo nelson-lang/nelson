@@ -16,6 +16,7 @@
 #include "PositionScript.hpp"
 #include "CallStack.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

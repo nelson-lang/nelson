@@ -14,6 +14,7 @@
 #include "HandleManager.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

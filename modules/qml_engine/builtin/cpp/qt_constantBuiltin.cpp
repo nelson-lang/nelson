@@ -12,6 +12,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ToCellString.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

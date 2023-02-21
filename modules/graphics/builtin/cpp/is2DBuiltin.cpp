@@ -16,6 +16,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

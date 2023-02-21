@@ -12,6 +12,7 @@
 #include "OverloadBinaryOperator.hpp"
 #include "OverloadTernaryOperator.hpp"
 #include "Colon.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

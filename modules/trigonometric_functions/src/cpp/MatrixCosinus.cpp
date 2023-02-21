@@ -11,6 +11,8 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "MatrixCosinus.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

@@ -19,6 +19,7 @@
 #include "Exception.hpp"
 #include "mex.h"
 #include "MxHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================

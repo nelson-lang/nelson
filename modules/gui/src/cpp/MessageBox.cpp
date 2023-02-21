@@ -16,6 +16,7 @@
 #include "QStringConverter.hpp"
 #include "HandleManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

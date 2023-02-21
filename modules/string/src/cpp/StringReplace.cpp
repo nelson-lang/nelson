@@ -16,6 +16,7 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "nlsBuildConfig.h"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

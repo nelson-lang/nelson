@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4996)
+#endif
+//=============================================================================
 #include "StringHelpers.hpp"
 #include <cwctype>
 #include <cctype>
@@ -26,6 +30,7 @@
 #include "i18n.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
+#include "LexerInterface.hpp"
 #include "NelSonParser.h"
 #include "LexerInterface.hpp"
 //=============================================================================

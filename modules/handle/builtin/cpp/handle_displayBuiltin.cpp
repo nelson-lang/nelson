@@ -10,6 +10,8 @@
 #include "handle_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

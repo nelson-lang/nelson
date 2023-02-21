@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include "i18n.hpp"
 #include "DisplayDouble.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"

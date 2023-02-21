@@ -9,6 +9,7 @@
 //=============================================================================
 #include "Zeros.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOf

@@ -9,9 +9,11 @@
 //=============================================================================
 #include "graphics_object_getBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

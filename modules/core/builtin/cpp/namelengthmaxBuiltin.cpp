@@ -10,6 +10,7 @@
 #include "namelengthmaxBuiltin.hpp"
 #include "Error.hpp"
 #include "Keywords.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -15,6 +15,8 @@
 #include "ListFiles.hpp"
 #include "NelsonConfiguration.hpp"
 #include "NelsonPrint.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

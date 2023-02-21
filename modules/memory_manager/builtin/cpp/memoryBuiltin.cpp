@@ -8,8 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "memoryBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 #include "MemoryInformation.hpp"
 #include "NelsonPrint.hpp"
 //=============================================================================

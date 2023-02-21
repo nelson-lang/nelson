@@ -9,6 +9,7 @@
 //=============================================================================
 #include "nlsBuildConfig.h"
 #include "Negate.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

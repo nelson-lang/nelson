@@ -14,6 +14,7 @@
 #include "IsValidHandle.hpp"
 #include "ToCellString.hpp"
 #include "StringHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

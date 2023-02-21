@@ -13,6 +13,7 @@
 #include "DeleteGenericObject.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {

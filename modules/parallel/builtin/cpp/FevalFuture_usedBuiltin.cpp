@@ -10,6 +10,7 @@
 #include "FevalFuture_usedBuiltin.hpp"
 #include "FevalFutureObject.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

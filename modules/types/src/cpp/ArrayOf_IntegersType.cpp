@@ -13,6 +13,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_methodsignatureBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "methodSignatureQObject.hpp"
 //=============================================================================
 using namespace Nelson;

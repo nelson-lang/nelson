@@ -9,6 +9,7 @@
 //=============================================================================
 #include "matrix.h"
 #include "MxHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 mxDouble*
 mxGetPiSeparatedComplex(const mxArray* pm)

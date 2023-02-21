@@ -10,6 +10,7 @@
 #include "isint32Builtin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

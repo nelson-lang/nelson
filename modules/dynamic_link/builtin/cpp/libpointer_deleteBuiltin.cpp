@@ -9,7 +9,7 @@
 //=============================================================================
 #include "libpointer_deleteBuiltin.hpp"
 #include "DeleteLibPointerObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

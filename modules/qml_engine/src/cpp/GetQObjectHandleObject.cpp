@@ -16,6 +16,7 @@
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

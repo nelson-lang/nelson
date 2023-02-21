@@ -14,6 +14,7 @@
 #include "GOFiguresManager.hpp"
 #include "GOHelpers.hpp"
 #include "GraphicsObject.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

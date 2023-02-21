@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "JsonEncode.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

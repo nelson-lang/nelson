@@ -10,6 +10,7 @@
 #include "isletterBuiltin.hpp"
 #include "IsLetter.hpp"
 #include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -13,6 +13,8 @@
 #include "StringStartsWith.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

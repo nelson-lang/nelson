@@ -11,6 +11,9 @@
 #include "imwriteBuiltin.hpp"
 #include "ImageWriter.hpp"
 #include "StringHelpers.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

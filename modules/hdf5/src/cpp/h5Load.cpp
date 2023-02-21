@@ -17,6 +17,7 @@
 #include "h5LoadVariable.hpp"
 #include "haveNh5Header.hpp"
 #include "Warning.hpp"
+#include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {

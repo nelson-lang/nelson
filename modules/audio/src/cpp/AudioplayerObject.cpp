@@ -13,6 +13,7 @@
 #include "ComplexTranspose.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

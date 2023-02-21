@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "handle_vertcat_handleBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "VertCatHandle.hpp"
 //=============================================================================
 using namespace Nelson;

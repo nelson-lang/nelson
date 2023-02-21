@@ -14,6 +14,8 @@
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

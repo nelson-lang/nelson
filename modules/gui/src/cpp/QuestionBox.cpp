@@ -13,6 +13,8 @@
 #include "QuestionBox.hpp"
 #include "QStringConverter.hpp"
 #include "NelsonConfiguration.hpp"
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

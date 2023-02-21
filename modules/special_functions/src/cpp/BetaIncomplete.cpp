@@ -13,6 +13,7 @@
 #include <Eigen/Dense>
 #include "BetaIncomplete.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

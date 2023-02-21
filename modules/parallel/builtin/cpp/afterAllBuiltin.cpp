@@ -16,6 +16,8 @@
 #include "FevalFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 #//=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace FunctionsGateway {
-    ArrayOfVector
-    userpathBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::FunctionsGateway {
+ArrayOfVector
+userpathBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

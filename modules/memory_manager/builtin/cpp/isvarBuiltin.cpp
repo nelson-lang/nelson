@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "IsVariable.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -26,7 +26,7 @@ Evaluator::rightDivideOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::rightDivideOperator(const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
+    ArrayOf res = {};
     bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {

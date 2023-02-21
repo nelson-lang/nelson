@@ -10,6 +10,7 @@
 #include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
 #include "Error.hpp"
 #include "HorzCatSparseDouble.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

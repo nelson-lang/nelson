@@ -13,6 +13,7 @@
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

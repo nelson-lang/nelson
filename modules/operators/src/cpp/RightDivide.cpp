@@ -15,6 +15,9 @@
 #include "MatrixCheck.hpp"
 #include "ComplexTranspose.hpp"
 #include "FindCommonClass.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

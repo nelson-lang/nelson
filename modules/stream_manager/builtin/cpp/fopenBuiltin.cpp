@@ -21,6 +21,7 @@
 #include "Endian.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

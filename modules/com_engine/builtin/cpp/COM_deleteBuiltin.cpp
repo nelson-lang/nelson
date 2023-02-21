@@ -9,7 +9,7 @@
 //=============================================================================
 #include "COM_deleteBuiltin.hpp"
 #include "DeleteComHandleObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

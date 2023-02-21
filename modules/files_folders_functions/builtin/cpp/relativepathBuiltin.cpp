@@ -10,6 +10,7 @@
 #include "relativepathBuiltin.hpp"
 #include "Error.hpp"
 #include "RelativePath.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

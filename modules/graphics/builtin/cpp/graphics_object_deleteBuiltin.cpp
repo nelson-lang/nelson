@@ -8,12 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "graphics_object_deleteBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "GOFiguresManager.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

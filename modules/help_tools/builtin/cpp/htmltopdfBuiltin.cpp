@@ -15,6 +15,8 @@
 #include "FileSystemWrapper.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

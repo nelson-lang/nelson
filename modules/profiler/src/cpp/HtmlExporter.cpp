@@ -17,6 +17,7 @@
 #include "StringHelpers.hpp"
 #include "HtmlExporter.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

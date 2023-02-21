@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "libpointer_isvalidBuiltin.hpp"
-#include "Error.hpp"
 #include "IsValidHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

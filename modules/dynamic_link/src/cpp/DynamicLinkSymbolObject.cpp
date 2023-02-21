@@ -18,6 +18,7 @@
 #include "IsValidHandle.hpp"
 #include "LibPointerObject.hpp"
 #include "ToCellString.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

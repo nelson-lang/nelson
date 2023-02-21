@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "prefdirBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;

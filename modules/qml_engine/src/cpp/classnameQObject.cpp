@@ -15,6 +15,7 @@
 #include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
 #include <QtQml/QQmlComponent>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

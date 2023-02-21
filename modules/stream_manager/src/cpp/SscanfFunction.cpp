@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
 #include <algorithm>
 #include <cstring>
 #include <fstream>
@@ -17,6 +21,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -78,11 +83,11 @@ convertToArrayOfSscanf(ArrayOfVector& values, NelsonType classDestination, bool 
             N = 1;
         } else {
             if (std::isinf(n)) {
-                M = m;
-                N = values.size() / m;
+                M = (indexType)m;
+                N = (indexType)(values.size() / m);
             } else {
-                M = m;
-                N = n;
+                M = (indexType)m;
+                N = (indexType)n;
             }
         }
     }

@@ -17,8 +17,7 @@ namespace Nelson {
 static inline double
 getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 {
-    int commonLogarithm;
-    commonLogarithm = log10(std::abs(max_amplitude));
+    int commonLogarithm = (int)log10(std::abs(max_amplitude));
     if (commonLogarithm == 1) {
         return 1;
     }

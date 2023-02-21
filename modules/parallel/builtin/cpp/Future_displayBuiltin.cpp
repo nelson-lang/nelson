@@ -17,6 +17,7 @@
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "FutureObjectHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

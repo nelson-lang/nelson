@@ -13,6 +13,8 @@
 #include "QObjectHandleObject.hpp"
 #include <QtGui/QWindow>
 #include <QtQml/QQmlComponent>
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

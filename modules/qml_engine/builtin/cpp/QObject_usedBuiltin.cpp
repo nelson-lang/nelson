@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_usedBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "QObjectHandleObject.hpp"
 #include "usedHandle.hpp"
 //=============================================================================

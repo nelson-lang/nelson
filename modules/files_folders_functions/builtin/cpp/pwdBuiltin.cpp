@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "NelsonPrint.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

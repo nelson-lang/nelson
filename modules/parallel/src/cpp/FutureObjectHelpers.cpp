@@ -14,6 +14,7 @@
 #include "AfterEachFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "VertCatOperator.hpp"
 #include "ParallelEvaluator.hpp"
 //=============================================================================

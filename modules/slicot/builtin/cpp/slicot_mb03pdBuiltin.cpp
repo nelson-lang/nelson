@@ -11,6 +11,7 @@
 #include "slicot_mb03pdBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

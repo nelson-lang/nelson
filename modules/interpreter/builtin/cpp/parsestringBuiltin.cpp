@@ -10,6 +10,7 @@
 #include "parsestringBuiltin.hpp"
 #include "Error.hpp"
 #include "ParserInterface.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "NargOut.hpp"
 #include "characters_encoding.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -21,6 +21,7 @@
 #include "ClassName.hpp"
 #include "MxArrayOf.hpp"
 #include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 bool
 mxIsClass(const mxArray* pm, const char* classname)

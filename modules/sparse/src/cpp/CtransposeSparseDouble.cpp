@@ -11,6 +11,8 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

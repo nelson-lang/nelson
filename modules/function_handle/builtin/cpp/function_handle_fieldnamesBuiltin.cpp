@@ -10,6 +10,8 @@
 #include "function_handle_fieldnamesBuiltin.hpp"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -11,6 +11,7 @@
 #include "StringHelpers.hpp"
 #include "GORoot.hpp"
 #include "GOHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

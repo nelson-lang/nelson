@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

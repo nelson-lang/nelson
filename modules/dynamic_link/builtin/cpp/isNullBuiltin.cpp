@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isNullBuiltin.hpp"
-#include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

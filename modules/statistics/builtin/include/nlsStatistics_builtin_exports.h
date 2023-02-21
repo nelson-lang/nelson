@@ -10,12 +10,12 @@
 #pragma once
 //=============================================================================
 #ifdef _MSC_VER
-#ifdef NLSSINGLE_BUILTIN_EXPORTS
-#define NLSSINGLE_BUILTIN_IMPEXP __declspec(dllexport)
+#ifdef NLSSTATISTICS_BUILTIN_EXPORTS
+#define NLSSTATISTICS_BUILTIN_IMPEXP __declspec(dllexport)
 #else
-#define NLSSINGLE_BUILTIN_IMPEXP __declspec(dllimport)
+#define NLSSTATISTICS_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSSINGLE_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#define NLSSTATISTICS_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

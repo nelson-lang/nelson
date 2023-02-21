@@ -16,6 +16,7 @@
 #include "i18n.hpp"
 #include "WaitFutures.hpp"
 #include "FutureObjectHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

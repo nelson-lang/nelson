@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "Rand.hpp"
 #include "nlsBuildConfig.h"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

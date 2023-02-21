@@ -16,6 +16,7 @@
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "FutureObjectHelpers.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

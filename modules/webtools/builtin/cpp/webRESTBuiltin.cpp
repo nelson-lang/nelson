@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "WebREST.hpp"
 #include "ClassName.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

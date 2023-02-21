@@ -12,6 +12,8 @@
 #include "RemoveGateway.hpp"
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Dimensions::Dimensions() { memset(data, 0, sizeof(indexType) * MAXDIMS); }
+Dimensions::Dimensions() { std::fill(std::begin(data), std::end(data), 0); }
 //=============================================================================
 Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {
@@ -333,14 +333,14 @@ Dimensions::toString() const
 void
 Dimensions::reset()
 {
-    memset(data, 0, sizeof(indexType) * MAXDIMS);
+    std::fill(data.begin(), data.end(), 0);
     length = 0;
 }
 //=============================================================================
 void
 Dimensions::zeroOut()
 {
-    memset(data, 0, sizeof(indexType) * length);
+    std::fill_n(data.begin(), length, (indexType)0);
 }
 //=============================================================================
 void

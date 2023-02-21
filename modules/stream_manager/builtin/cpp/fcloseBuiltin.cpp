@@ -13,6 +13,8 @@
 #include "FileClose.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

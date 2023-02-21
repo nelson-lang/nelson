@@ -38,7 +38,7 @@ computeWidthRealByScaleFactor(FormatDisplayInformation& formatInfo)
     if (formatInfo.scaleFactor < 9) {
         formatInfo.formatReal = L"%*ld";
         formatInfo.floatAsInteger = true;
-        int scaleFactor = formatInfo.scaleFactor;
+        int scaleFactor = (int)formatInfo.scaleFactor;
         switch (scaleFactor) {
         case 1:
         case 2: {

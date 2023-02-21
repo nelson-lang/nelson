@@ -14,6 +14,8 @@
 #include "i18n.hpp"
 #include "Warning.hpp"
 #include "Now.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

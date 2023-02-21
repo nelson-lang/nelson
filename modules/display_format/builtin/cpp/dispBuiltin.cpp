@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dispBuiltin.hpp"
-#include "Error.hpp"
 #include "OverloadDisplay.hpp"
 #include "DisplayVariable.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

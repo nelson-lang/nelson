@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "userdirBuiltin.hpp"
-#include "Error.hpp"
 #include "GetUserDirectory.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

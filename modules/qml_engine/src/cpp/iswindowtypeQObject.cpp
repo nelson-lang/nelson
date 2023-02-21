@@ -14,6 +14,7 @@
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
 #include <QtQml/QQmlComponent>
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

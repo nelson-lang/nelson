@@ -14,6 +14,7 @@
 #include "CtransposeSparseDouble.hpp"
 #include "HorzCatSparseDouble.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -9,8 +9,8 @@
 //=============================================================================
 #include "dllib_usedBuiltin.hpp"
 #include "DynamicLinkLibraryObject.hpp"
-#include "Error.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

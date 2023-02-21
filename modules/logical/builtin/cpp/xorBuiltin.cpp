@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "XorLogical.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

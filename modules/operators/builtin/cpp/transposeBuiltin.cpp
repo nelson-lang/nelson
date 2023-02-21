@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "Transpose.hpp"
 #include "OverloadUnaryOperator.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

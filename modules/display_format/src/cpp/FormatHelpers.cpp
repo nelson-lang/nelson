@@ -34,7 +34,7 @@ formatScaleFactor(const FormatDisplayInformation& formatInfo)
 {
     std::wstring scaleFactorAsString;
     if (formatInfo.scaleFactor != 1) {
-        int absCommonLogarithm = abs(formatInfo.scaleFactor);
+        int absCommonLogarithm = (int)abs(formatInfo.scaleFactor);
         std::wstring sign;
         if (formatInfo.scaleFactor > 0) {
             sign = L"+";
@@ -139,8 +139,8 @@ formatComplex(T realPart, T imagPart, const FormatDisplayInformation& formatInfo
     }
 
     if (formatInfo.scaleFactor != 1) {
-        T scaledRealPart = realPart / pow(10, formatInfo.scaleFactor);
-        T scaledImagPart = imagPart / pow(10, formatInfo.scaleFactor);
+        T scaledRealPart = realPart / (T)pow(10, formatInfo.scaleFactor);
+        T scaledImagPart = imagPart / (T)pow(10, formatInfo.scaleFactor);
 
         resultRealPart = fmt::sprintf(
             formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, scaledRealPart);

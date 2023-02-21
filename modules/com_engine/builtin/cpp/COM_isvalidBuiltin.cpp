@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "COM_isvalidBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 //=============================================================================

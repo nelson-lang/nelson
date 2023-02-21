@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "handle_horzcat_handleBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "HorzCatHandle.hpp"
 //=============================================================================
 using namespace Nelson;

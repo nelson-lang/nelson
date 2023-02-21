@@ -15,6 +15,8 @@
 #include <cstdio>
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

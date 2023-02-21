@@ -10,6 +10,7 @@
 #include "FevalQueue_usedBuiltin.hpp"
 #include "FevalQueueObject.hpp"
 #include "usedHandle.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

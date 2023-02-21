@@ -9,9 +9,11 @@
 //=============================================================================
 #include "betaincBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "BetaIncomplete.hpp"
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

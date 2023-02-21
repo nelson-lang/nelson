@@ -12,6 +12,7 @@
 #include <Eigen/Dense>
 #include "Norm.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

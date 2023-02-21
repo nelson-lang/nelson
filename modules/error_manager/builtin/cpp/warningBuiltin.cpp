@@ -13,6 +13,7 @@
 #include "Warning.hpp"
 #include "WarningIds.hpp"
 #include "IsWarningStruct.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

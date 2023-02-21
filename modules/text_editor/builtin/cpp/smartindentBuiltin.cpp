@@ -10,6 +10,8 @@
 #include "smartindentBuiltin.hpp"
 #include "Error.hpp"
 #include "SmartIndent.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "LibPointerObject.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "i18n.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

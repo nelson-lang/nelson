@@ -9,8 +9,8 @@
 //=============================================================================
 #include "int64Builtin.hpp"
 #include "ToInteger.hpp"
-#include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

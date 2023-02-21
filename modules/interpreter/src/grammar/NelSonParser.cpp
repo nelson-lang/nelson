@@ -88,6 +88,7 @@
 #include <mutex>
 #include "NelsonParserHelpers.hpp"
 #include "AbstractSyntaxTree.hpp"
+#include "i18n.hpp"
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================

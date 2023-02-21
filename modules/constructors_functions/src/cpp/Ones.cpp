@@ -11,6 +11,7 @@
 #include <Eigen/Dense>
 #include "Ones.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOf

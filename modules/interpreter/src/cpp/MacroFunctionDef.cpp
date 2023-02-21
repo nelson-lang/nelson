@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4996)
+#endif
+//=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
@@ -22,6 +26,7 @@
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

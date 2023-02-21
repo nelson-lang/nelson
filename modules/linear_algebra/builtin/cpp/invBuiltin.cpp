@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "invBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InverseMatrix.hpp"

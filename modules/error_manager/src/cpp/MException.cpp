@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "StringHelpers.hpp"
 #include "MException.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

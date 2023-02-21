@@ -10,6 +10,7 @@
 #include "isvarnameBuiltin.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #if _MSC_VER
 #define WIN32_LEAN_AND_MEAN
+#pragma warning(disable : 4535)
 #include <Windows.h>
 #include <eh.h>
 #else

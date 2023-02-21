@@ -13,6 +13,8 @@
 #include <cstring>
 #include "FileRead.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "FileSeek.hpp"
 #include "FileTell.hpp"
 #include "characters_encoding.hpp"

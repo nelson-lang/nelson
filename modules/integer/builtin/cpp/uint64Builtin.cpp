@@ -9,7 +9,7 @@
 //=============================================================================
 #include "uint64Builtin.hpp"
 #include "ToInteger.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;

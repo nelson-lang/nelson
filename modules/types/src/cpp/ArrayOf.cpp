@@ -26,7 +26,6 @@
 #include "Data.hpp"
 #include "IEEEFP.hpp"
 #include "SparseDynamicFunctions.hpp"
-#include "SparseType.hpp"
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"

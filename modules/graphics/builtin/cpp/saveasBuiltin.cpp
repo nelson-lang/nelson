@@ -14,6 +14,7 @@
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
 #include "FileSystemWrapper.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

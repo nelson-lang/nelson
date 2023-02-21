@@ -15,6 +15,7 @@
 #include "DynamicLibrary.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

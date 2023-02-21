@@ -13,6 +13,8 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "CheckerHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

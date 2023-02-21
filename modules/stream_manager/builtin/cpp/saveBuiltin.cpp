@@ -14,6 +14,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
 #include "FileSystemWrapper.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

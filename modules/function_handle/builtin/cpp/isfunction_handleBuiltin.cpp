@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isfunction_handleBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "StringToFunctionHandle.hpp"
 //=============================================================================
 using namespace Nelson;

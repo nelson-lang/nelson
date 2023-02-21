@@ -11,6 +11,8 @@
 #include "copyfileBuiltin.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

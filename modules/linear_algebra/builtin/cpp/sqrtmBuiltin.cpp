@@ -12,6 +12,7 @@
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "SqrtMatrix.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

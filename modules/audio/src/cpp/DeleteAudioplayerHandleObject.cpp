@@ -11,6 +11,7 @@
 #include "AudioplayerObject.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

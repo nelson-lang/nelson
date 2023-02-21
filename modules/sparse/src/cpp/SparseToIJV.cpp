@@ -13,6 +13,8 @@
 #include "SparseNonZeros.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

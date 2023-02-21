@@ -9,7 +9,7 @@
 //=============================================================================
 #include "dlcloseBuiltin.hpp"
 #include "DeleteDynamicLinkLibraryObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

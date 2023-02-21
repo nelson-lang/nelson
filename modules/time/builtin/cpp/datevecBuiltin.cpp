@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "DateVector.hpp"
 #include "OverloadFunction.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

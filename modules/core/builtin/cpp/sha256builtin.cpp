@@ -11,7 +11,10 @@
 #include "sha256Builtin.hpp"
 #include "NelsonSHA256.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ToCellString.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

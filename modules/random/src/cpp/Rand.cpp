@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "RandomInterface.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

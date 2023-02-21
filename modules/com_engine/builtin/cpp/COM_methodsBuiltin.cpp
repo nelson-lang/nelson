@@ -8,9 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "COM_methodsBuiltin.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 #include "ToCellString.hpp"
 #include "methodsComHandleObject.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

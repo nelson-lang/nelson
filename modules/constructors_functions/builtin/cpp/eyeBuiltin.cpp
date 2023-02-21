@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "Eye.hpp"
 #include "StringToClass.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -53,8 +54,8 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
                         nRhs = argIn.size() - 2;
                     } else {
                         wchar_t buffer[4096];
-                        swprintf(
-                            buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), pos);
+                        const std::wstring fmt = std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE);
+                        swprintf(buffer, 4096, fmt.c_str(), pos);
                         Error(std::wstring(buffer));
                     }
                 }

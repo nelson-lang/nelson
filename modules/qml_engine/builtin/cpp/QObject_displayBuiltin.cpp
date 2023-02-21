@@ -9,7 +9,7 @@
 //=============================================================================
 #include "QObject_displayBuiltin.hpp"
 #include "DispQObjectHandleObject.hpp"
-#include "Error.hpp"
+#include "CheckerHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
