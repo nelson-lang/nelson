@@ -299,8 +299,8 @@ function includes = getMexIncludes()
   if isdir([modulepath('mex'), '/src/include'])
     includes = {[modulepath('mex'), '/src/include']};
   else
-    if isdir([modulepath('nelson', 'builtin'), '/../include/Nelson/mex'])
-      includes = {fullpath([modulepath('nelson', 'builtin'), '/../include/Nelson/mex'])};
+    if isdir([modulepath('nelson', 'builtin'), '/../../include/Nelson/mex'])
+      includes = {fullpath([modulepath('nelson', 'builtin'), '/../../include/Nelson/mex'])};
     else
       includes = {};
     end

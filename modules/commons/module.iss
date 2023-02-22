@@ -10,3 +10,7 @@
 #define MODULE_NAME "commons"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsCommons.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\Nelson_VERSION.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nlsBuildConfig.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+;==============================================================================

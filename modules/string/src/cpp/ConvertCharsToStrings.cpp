@@ -38,7 +38,7 @@ ConvertCharsToStrings(const ArrayOfVector& A)
                 }
                 res.push_back(ArrayOf::stringArrayConstructor(str));
             }
-        } else if (value.isCellOfCharacterVectors()) {
+        } else if (value.isCellArrayOfCharacterVectors()) {
             auto* elementsString = new_with_exception<ArrayOf>(dims.getElementCount(), false);
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();

@@ -42,15 +42,15 @@ SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 #==============================================================================
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 #==============================================================================
-if test -d $SCRIPT_DIRECTORY/../lib; then
+if test -d $SCRIPT_DIRECTORY/../lib/Nelson; then
   CURRENT_DIRECTORY=$(pwd -P)
-  cd "$SCRIPT_DIRECTORY/../lib"
+  cd "$SCRIPT_DIRECTORY/../lib/Nelson"
   NLS_LIBRARY_PATH=$(pwd)
   cd $CURRENT_DIRECTORY
   if [ "$LD_LIBRARY_PATH" = "" ]; then
     export LD_LIBRARY_PATH=$NLS_LIBRARY_PATH
   else
-    export LD_LIBRARY_PATH="$NLS_LIBRARY_PATH:{$LD_LIBRARY_PATH}"
+    export LD_LIBRARY_PATH="$NLS_LIBRARY_PATH:$LD_LIBRARY_PATH"
   fi
 fi
 #==============================================================================
@@ -63,11 +63,11 @@ if test -d "/usr/local/opt/qt5/bin"; then
 fi
 #==============================================================================
 if test -d "/opt/homebrew/lib"; then
-    export LD_LIBRARY_PATH="/opt/homebrew/lib:${LD_LIBRARY_PATH}"
-    export DYLD_LIBRARY_PATH="/opt/homebrew/lib:${DYLD_LIBRARY_PATH}"
+    export LD_LIBRARY_PATH="/opt/homebrew/lib:$LD_LIBRARY_PATH"
+    export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 fi
 #==============================================================================
-export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:${LD_LIBRARY_PATH}"
-export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY:${DYLD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$DYLD_LIBRARY_PATH"
 $SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec "$@" 
 #==============================================================================

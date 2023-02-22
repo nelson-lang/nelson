@@ -136,8 +136,8 @@ IsMember(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    bool isTextA = A.isCharacterArray() || A.isStringArray() || A.isCellOfCharacterVectors();
-    bool isTextB = B.isCharacterArray() || B.isStringArray() || B.isCellOfCharacterVectors();
+    bool isTextA = A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors();
+    bool isTextB = B.isCharacterArray() || B.isStringArray() || B.isCellArrayOfCharacterVectors();
     if (A.isCharacterArray() && B.isCharacterArray()) {
         res = isMemberReal<charType>(A, B);
     } else if (isTextA && isTextB) {

@@ -93,7 +93,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/debugger/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -114,7 +114,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/debugger/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -137,7 +137,7 @@
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/debugger/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -163,7 +163,7 @@
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSERROR_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/debugger/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>

@@ -56,22 +56,6 @@ else()
                         nlsNelson_manager ${Boost_LOCALE_LIBRARY})
 endif()
 # ==============================================================================
-if(WITHOUT_LOCALIZATION_MODULE)
-  file(GLOB LOCALIZATION_HEADER
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.hpp"
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.h")
-else()
-  file(GLOB LOCALIZATION_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-endif()
-set_target_properties(
-  ${module_library_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR}
-    PUBLIC_HEADER "${LOCALIZATION_HEADER}")
-# ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   file(GLOB LOCALIZATION_BUILTIN
        "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -103,42 +87,26 @@ if(NOT WITHOUT_LOCALIZATION_MODULE)
     nlsTypes)
 endif()
 # ==============================================================================
-if(NOT WITHOUT_LOCALIZATION_MODULE)
-  file(
-    GLOB
-    LOCALIZATION_HEADER
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/builtin/include/*.h")
-
-  set_target_properties(
-    ${module_library_builtin_name}
-    PROPERTIES
-      VERSION
-      ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-      SOVERSION ${Nelson_VERSION_MAJOR}
-      PUBLIC_HEADER "${LOCALIZATION_HEADER}")
-endif()
-# ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
 install(
   TARGETS ${module_library_name}
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   install(
     TARGETS ${module_library_builtin_name}
     EXPORT ${PROJECT_NAME}-targets
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+    PUBLIC_HEADER
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
   # ==============================================================================
   install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

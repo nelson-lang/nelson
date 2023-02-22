@@ -28,13 +28,13 @@ StringMatches(ArrayOf A, ArrayOf B, bool ignoreCase)
 {
     ArrayOf res;
     bool isSupportedA
-        = (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCellOfCharacterVectors());
+        = (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors());
     if (!isSupportedA) {
         Error(_W("Wrong type for argument #1: string array or character vector or cell array of "
                  "character vectors expected."));
     }
     bool isSupportedB
-        = (B.isRowVectorCharacterArray() || B.isStringArray() || B.isCellOfCharacterVectors());
+        = (B.isRowVectorCharacterArray() || B.isStringArray() || B.isCellArrayOfCharacterVectors());
     if (!isSupportedB) {
         Error(_W("Wrong type for argument #2: string array or character vector or cell array of "
                  "character vectors expected."));

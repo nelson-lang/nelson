@@ -76,7 +76,7 @@ uniformizeStringVector(const ArrayOf& arg, wstringVector& asWideStringVector)
         for (indexType k = 0; k < dims.getElementCount(); k++) {
             elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
         }
-    } else if (arg.isCellOfCharacterVectors()) {
+    } else if (arg.isCellArrayOfCharacterVectors()) {
         asWideStringVector = arg.getContentAsWideStringVector();
         ArrayOf* elements
             = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, asWideStringVector.size());

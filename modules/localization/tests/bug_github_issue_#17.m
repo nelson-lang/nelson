@@ -12,8 +12,8 @@
 % <-- Short Description -->
 % 'locales' directory renamed as 'locale' (more standard).
 %=============================================================================
-if isdir([modulepath('nelson', 'bin'), '../lib']) || ...
-    isdir([modulepath('nelson', 'bin'), '../lib64'])
+if isdir([modulepath('nelson', 'bin'), '/../lib']) || ...
+    isdir([modulepath('nelson', 'bin'), '/../lib64'])
     assert_istrue(isdir([modulepath('nelson', 'root'), '/../locale']));
 else
     assert_istrue(isdir([modulepath('nelson', 'root'), '/locale']));

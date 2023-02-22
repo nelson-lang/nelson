@@ -56,15 +56,18 @@ target_link_libraries(
   nlsTypes
   ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
 # ==============================================================================
-file(GLOB CORE_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+file(
+  GLOB
+  CORE_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/EvaluateCommand.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/EvaluateInterface.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/EvaluateScriptFile.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/nlsCore_exports.h")
 set_target_properties(
   ${module_library_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR}
-    PUBLIC_HEADER "${CORE_HEADER}")
+  PROPERTIES VERSION ${Nelson_VERSION}
+             SOVERSION ${Nelson_VERSION_MAJOR}
+             PUBLIC_HEADER "${CORE_HEADER}")
 # ==============================================================================
 file(GLOB CORE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER CORE_BUILTIN EXCLUDE REGEX
@@ -102,36 +105,25 @@ target_link_libraries(
   nlsTypes
   nlsOverload)
 # ==============================================================================
-file(
-  GLOB
-  CORE_HEADER
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-set_target_properties(
-  ${module_library_builtin_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR}
-    PUBLIC_HEADER "${CORE_HEADER}")
-# ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
 install(
   TARGETS ${module_library_name}
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 install(
   TARGETS ${module_library_builtin_name}
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

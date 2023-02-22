@@ -22,7 +22,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isCellOfCharacterVectors() || argIn[0].isStringArray()) {
+    if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
         Dimensions dim = argIn[0].getDimensions();
         if (argIn[0].isEmpty()) {
             retval << ArrayOf::emptyConstructor(dim);

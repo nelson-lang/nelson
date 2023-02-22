@@ -153,8 +153,8 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeText(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    bool isText
-        = arg.isRowVectorCharacterArray() || arg.isStringArray() || arg.isCellOfCharacterVectors();
+    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray()
+        || arg.isCellArrayOfCharacterVectors();
     if (!isText) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "
@@ -864,8 +864,8 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    bool isText
-        = arg.isRowVectorCharacterArray() || arg.isStringArray() || arg.isCellOfCharacterVectors();
+    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray()
+        || arg.isCellArrayOfCharacterVectors();
     if (!isText) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "

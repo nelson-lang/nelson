@@ -50,16 +50,6 @@ target_link_libraries(
   nlsTypes
   ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
-file(GLOB OPERATORS_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-set_target_properties(
-  ${module_library_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR}
-    PUBLIC_HEADER "${OPERATORS_HEADER}")
-# ==============================================================================
 file(GLOB OPERATORS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER OPERATORS_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
@@ -71,15 +61,15 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_builtin_name}
-  PRIVATE   ${EIGEN3_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include)
+  PRIVATE ${EIGEN3_INCLUDE_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include)
 
 target_link_libraries(
   ${module_library_builtin_name}
@@ -91,36 +81,25 @@ target_link_libraries(
   nlsOverload
   nlsTypes)
 # ==============================================================================
-file(
-  GLOB
-  OPERATORS_HEADER
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-set_target_properties(
-  ${module_library_builtin_name}
-  PROPERTIES
-    VERSION
-    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
-    SOVERSION ${Nelson_VERSION_MAJOR}
-    PUBLIC_HEADER "${OPERATORS_HEADER}")
-# ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
 install(
   TARGETS ${module_library_name}
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 install(
   TARGETS ${module_library_builtin_name}
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+  PUBLIC_HEADER
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

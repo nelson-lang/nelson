@@ -201,7 +201,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
                 ptrHistoryManager->appendLine(str);
-            } else if (arg2.isCellOfCharacterVectors()) {
+            } else if (arg2.isCellArrayOfCharacterVectors()) {
                 ArrayOf cell(arg2);
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
                 indexType elementCount = arg2.getElementCount();
