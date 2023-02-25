@@ -37,7 +37,7 @@ Nelson::GuiGateway::msgboxBuiltin(int nLhs, const ArrayOfVector& argIn)
             text += L"\n";
             text += lines[k];
         }
-    } else if (param1.isCellOfCharacterVectors()) {
+    } else if (param1.isCellArrayOfCharacterVectors()) {
         wstringVector lines = param1.getContentAsWideStringVector();
         text = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {

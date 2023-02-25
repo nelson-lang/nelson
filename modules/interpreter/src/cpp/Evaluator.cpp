@@ -8,6 +8,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <algorithm>
 #include <cstdio>

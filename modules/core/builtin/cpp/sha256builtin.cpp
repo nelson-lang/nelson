@@ -59,7 +59,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
                 elements[k] = ArrayOf::emptyConstructor();
             }
         }
-    } else if (arg.isCellOfCharacterVectors()) {
+    } else if (arg.isCellArrayOfCharacterVectors()) {
         Dimensions dimArg = arg.getDimensions();
         size_t nbArg = dimArg.getElementCount();
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbArg);

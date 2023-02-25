@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
 #include "haveNh5Header.hpp"
 #include "characters_encoding.hpp"
 #include "h5SaveLoadHelpers.hpp"

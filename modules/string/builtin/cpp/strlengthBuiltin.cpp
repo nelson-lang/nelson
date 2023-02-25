@@ -35,7 +35,7 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } break;
         default:
         case NLS_CELL_ARRAY: {
-            if (param.isCellOfCharacterVectors()) {
+            if (param.isCellArrayOfCharacterVectors()) {
                 retval << StringLength(argIn[0]);
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);

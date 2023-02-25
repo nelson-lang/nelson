@@ -9,15 +9,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - cmake project reworked. It should be easier to package Nelson on linux platforms (Thanks to @JohanMabille)
-- Debian package generated.
+- Debian package generated (beta - feedback welcome).
 - `modulepath` reworked and extended.
-- C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellOfCharacterVectors()`
+- C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellArrayOfCharacterVectors()`
 - Remove internal circular dependency about error and warning.
+- Exports minimum headers in package.
 
 ### Fixed
 
 - `disp`, `display` did no more support overloading.
 - `image` did not save all values for `XData` and `YData`.
+- Github CI Monterey and Ubuntu 22.04 (dependencies install) fixed.
+- some warnings.
 
 ## 0.7.1 (2023-01-29)
 

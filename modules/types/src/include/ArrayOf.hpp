@@ -1135,7 +1135,7 @@ public:
     isCell() const;
 
     [[nodiscard]] bool
-    isCellOfCharacterVectors() const;
+    isCellArrayOfCharacterVectors() const;
 
     [[nodiscard]] bool
     isStruct() const;

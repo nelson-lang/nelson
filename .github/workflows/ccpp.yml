@@ -30,7 +30,6 @@ jobs:
           brew install boost
           brew install libxml2
           brew upgrade cmake
-          brew install qt6
           brew install fftw
           brew install portaudio
           brew install libsndfile
@@ -42,10 +41,11 @@ jobs:
           brew install libomp
           brew link libomp --force
           brew install openblas
-          export BUILD_ROOT=$(pwd);
-          cd /Users/runner/work/nelson;
-          git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
 
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "6.4.2"
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -59,7 +59,6 @@ jobs:
 
       - name: CMake
         run: |
-          export PATH=/usr/local/opt/qt5/bin:$PATH
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
       - name: make
         run: cmake --build . -- -j$(nproc)
@@ -128,9 +127,6 @@ jobs:
           brew install libomp
           brew link libomp --force          
           brew install openblas
-          export BUILD_ROOT=$(pwd);
-          cd /Users/runner/work/nelson;
-          git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -177,8 +173,8 @@ jobs:
     steps:
       - name: install dependencies
         run: |
-          sudo apt update;
-          sudo apt upgrade;
+          #sudo apt update;
+          #sudo apt upgrade;
           sudo apt -y install build-essential;
           sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
           sudo apt -y install ninja-build;

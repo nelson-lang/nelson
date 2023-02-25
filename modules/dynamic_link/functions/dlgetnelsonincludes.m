@@ -22,8 +22,8 @@ function c = dlgetnelsonincludes()
       c = [c; [modulepath('validators'), '/src/include']];
     end
   else
-    if (isdir([modulepath('nelson', 'builtin'), '/../include/Nelson/interpreter']))
-      includeRootPath = fullpath([modulepath('nelson', 'builtin'), '/../include/Nelson/']);
+    if (isdir([modulepath('nelson', 'builtin'), '/../../include/Nelson/interpreter']))
+      includeRootPath = fullpath([modulepath('nelson', 'builtin'), '/../../include/Nelson/']);
       c = {[includeRootPath, '/interpreter']; ...
     [includeRootPath, '/types']; ...
     [includeRootPath, '/error_manager']; ...

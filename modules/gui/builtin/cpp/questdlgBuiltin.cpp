@@ -45,7 +45,7 @@ Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
             question += L"\n";
             question += lines[k];
         }
-    } else if (param1.isCellOfCharacterVectors()) {
+    } else if (param1.isCellArrayOfCharacterVectors()) {
         wstringVector lines = param1.getContentAsWideStringVector();
         question = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {

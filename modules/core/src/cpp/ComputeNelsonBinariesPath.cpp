@@ -51,7 +51,7 @@ ComputeNelsonBinariesPath(std::wstring& errorMessage)
     if (StringHelpers::ends_with(libraryPath.generic_wstring(), prefixBinaryPath)) {
         binaryPath = libraryPath;
     } else {
-        binaryPath = libraryPath.parent_path().generic_wstring() + L"/bin";
+        binaryPath = libraryPath.parent_path().parent_path().generic_wstring() + L"/bin";
     }
 
     if (binaryPath.is_directory()) {

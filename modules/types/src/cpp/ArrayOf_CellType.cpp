@@ -23,7 +23,7 @@ ArrayOf::isCell() const
 }
 //=============================================================================
 bool
-ArrayOf::isCellOfCharacterVectors() const
+ArrayOf::isCellArrayOfCharacterVectors() const
 {
     if (!isCell()) {
         return false;

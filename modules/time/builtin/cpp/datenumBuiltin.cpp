@@ -196,7 +196,7 @@ datanumBuiltinOneRhs(int nLhs, const ArrayOf& param1)
                 }
             }
             retval << res;
-        } else if (param1.isCellOfCharacterVectors()) {
+        } else if (param1.isCellArrayOfCharacterVectors()) {
             ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
             Dimensions dimsRes = param1.getDimensions();
             double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
@@ -243,7 +243,7 @@ datanumBuiltinTwoRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2)
             }
         }
         retval << res;
-    } else if (param1.isCellOfCharacterVectors()) {
+    } else if (param1.isCellArrayOfCharacterVectors()) {
         std::wstring dateformat = param2.getContentAsWideString();
         ArrayOf* pArrayStr = (ArrayOf*)param1.getDataPointer();
         Dimensions dimsRes = param1.getDimensions();

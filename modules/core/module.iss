@@ -12,6 +12,11 @@
 Source: {#RootPath}bin\{#BinPath}\libnlsCore.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsCore_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\EvaluateCommand.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\EvaluateInterface.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\EvaluateScriptFile.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nlsCore_exports.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;

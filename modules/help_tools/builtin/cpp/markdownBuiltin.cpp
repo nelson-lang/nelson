@@ -75,7 +75,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         // argIn.size() == 1
         ArrayOf param1 = argIn[0];
         std::wstring stringInput;
-        if (param1.isCellOfCharacterVectors()) {
+        if (param1.isCellArrayOfCharacterVectors()) {
             wstringVector vstr = param1.getContentAsWideStringColumnVector();
             for (auto& k : vstr) {
                 stringInput = stringInput + L"\n" + k;

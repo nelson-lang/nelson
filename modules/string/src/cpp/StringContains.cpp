@@ -36,7 +36,7 @@ StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
             A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
     } else {
         if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))
-            && (Pattern.isStringArray() || Pattern.isCellOfCharacterVectors())) {
+            && (Pattern.isStringArray() || Pattern.isCellArrayOfCharacterVectors())) {
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
@@ -50,7 +50,7 @@ StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
                 }
             }
             res = ArrayOf::logicalConstructor(val);
-        } else if ((A.isStringArray() || A.isCellOfCharacterVectors())
+        } else if ((A.isStringArray() || A.isCellArrayOfCharacterVectors())
             && ((Pattern.isStringArray() && Pattern.isScalar()) || Pattern.isCharacterArray())) {
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
@@ -63,8 +63,8 @@ StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
                     containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive));
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
-        } else if ((A.isStringArray() || A.isCellOfCharacterVectors())
-            && (Pattern.isStringArray() || Pattern.isCellOfCharacterVectors())) {
+        } else if ((A.isStringArray() || A.isCellArrayOfCharacterVectors())
+            && (Pattern.isStringArray() || Pattern.isCellArrayOfCharacterVectors())) {
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();

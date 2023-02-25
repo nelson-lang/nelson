@@ -48,19 +48,21 @@ ComputeNelsonRootPath(std::wstring& errorMessage)
         = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
     FileSystemWrapper::Path parent = libraryPath.parent_path();
     FileSystemWrapper::Path modulesPath = parent.generic_wstring() + L"/modules";
+    FileSystemWrapper::Path modulesFile = modulesPath.generic_wstring() + L"/modules.m";
     bool found = false;
     while (!found && !parent.generic_wstring().empty() && parent.generic_wstring() != L"/") {
-        if (modulesPath.is_directory()) {
+        if (modulesFile.is_regular_file()) {
             found = true;
             break;
         } else {
             parent = parent.parent_path();
             modulesPath = parent.generic_wstring() + L"/modules";
+            modulesFile = modulesPath.generic_wstring() + L"/modules.m";
         }
     }
     if (!found) {
-        //  ../prefix/lib/nelson/0.7.1
-        FileSystemWrapper::Path prefixDirectory = libraryPath.parent_path();
+        //  ../prefix/lib/nelson
+        FileSystemWrapper::Path prefixDirectory = libraryPath.parent_path().parent_path();
         FileSystemWrapper::Path shareDirectory = prefixDirectory.generic_wstring() + L"/share";
         if (shareDirectory.is_directory()) {
             modulesPath = shareDirectory.generic_wstring() + L"/"

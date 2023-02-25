@@ -38,22 +38,22 @@ for arg do
     esac
 done    
 #==============================================================================
-if test -f $SCRIPT_DIRECTORY/../lib64/libnlsEngine.so; then
+if test -f $SCRIPT_DIRECTORY/../lib64/Nelson/libnlsEngine.so; then
   CURRENT_DIRECTORY=$(pwd -P)
-  cd "$SCRIPT_DIRECTORY/../lib64"
+  cd "$SCRIPT_DIRECTORY/../lib64/Nelson"
   NLS_LIBRARY_PATH=$(pwd)
   cd $CURRENT_DIRECTORY
 fi 
-if test -f $SCRIPT_DIRECTORY/../lib/libnlsEngine.so; then
+if test -f $SCRIPT_DIRECTORY/../lib/Nelson/libnlsEngine.so; then
   CURRENT_DIRECTORY=$(pwd -P)
-  cd "$SCRIPT_DIRECTORY/../lib"
+  cd "$SCRIPT_DIRECTORY/../lib/Nelson"
   NLS_LIBRARY_PATH=$(pwd)
   cd $CURRENT_DIRECTORY
 fi 
 if [ "$LD_LIBRARY_PATH" = "" ]; then
   export LD_LIBRARY_PATH=$NLS_LIBRARY_PATH
 else
-  export LD_LIBRARY_PATH="$NLS_LIBRARY_PATH:{$LD_LIBRARY_PATH}"
+  export LD_LIBRARY_PATH="$NLS_LIBRARY_PATH:$LD_LIBRARY_PATH"
 fi
 #==============================================================================
 if test -d /usr/lib64/openmpi/lib; then
@@ -69,7 +69,7 @@ if test -d $NLS_OPENMPI_LIBRARY_PATH; then
   then
     export LD_LIBRARY_PATH="$NLS_OPENMPI_LIBRARY_PATH"
   else
-    export LD_LIBRARY_PATH="$NLS_OPENMPI_LIBRARY_PATH:{$LD_LIBRARY_PATH}"
+    export LD_LIBRARY_PATH="$NLS_OPENMPI_LIBRARY_PATH:$LD_LIBRARY_PATH"
   fi
 fi
 if test -d $NLS_OPENMPI_BIN_PATH; then
@@ -86,7 +86,7 @@ if test -d "/usr/local/lib"; then
     then
         export LD_LIBRARY_PATH="/usr/local/lib"
     else
-        export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
+        export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
     fi
 fi
 #==============================================================================
@@ -94,7 +94,7 @@ if [ "$LD_LIBRARY_PATH" = "" ]
 then
   export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY"
 else
-  export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:${LD_LIBRARY_PATH}"
+  export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
 fi
 #==============================================================================
 $SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec "$@" 

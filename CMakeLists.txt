@@ -151,7 +151,7 @@ if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
 endif()
 # ==============================================================================
-option (BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 # ==============================================================================
 include(OptionsConfig)
 # ==============================================================================
@@ -162,7 +162,9 @@ include(clang-tidy)
 include(TreeConfig)
 # ==============================================================================
 include(GNUInstallDirs)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_INSTALL_RPATH
+    "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
+)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_MACOSX_RPATH 1)
 endif()
@@ -301,22 +303,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   include(MacOsConfig)
 endif()
 # ==============================================================================
-set(INSTALL_DIRECTORY
-    "${CMAKE_INSTALL_PREFIX}Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}"
-)
+set(INSTALL_DIRECTORY "${CMAKE_INSTALL_PREFIX}Nelson-${Nelson_VERSION}")
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(LIBRARY_OUTPUT
-      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/macOS/"
-  )
+  set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION}/bin/macOS/")
 else()
-  set(LIBRARY_OUTPUT
-      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/linux/"
-  )
+  set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION}/bin/linux/")
 endif()
-set(ROOT_OUTPUT
-    "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/"
-)
+set(ROOT_OUTPUT "Nelson-${Nelson_VERSION}/")
 # ==============================================================================
 # dev build path is different of installed version
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIRECTORY})

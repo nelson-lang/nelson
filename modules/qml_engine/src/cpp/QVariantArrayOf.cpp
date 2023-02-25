@@ -1047,7 +1047,7 @@ ArrayOfToQVariant(ArrayOf A)
     } break;
     case NLS_CELL_ARRAY: {
         if (A.isVector()) {
-            if (A.isCellOfCharacterVectors()) {
+            if (A.isCellArrayOfCharacterVectors()) {
                 wstringVector vstr = A.getContentAsWideStringVector();
                 QStringList stringlist;
                 for (auto& k : vstr) {

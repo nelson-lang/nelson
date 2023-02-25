@@ -27,7 +27,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     wstringVector commands;
     bool outputAsArray = false;
 
-    if (argIn[0].isStringArray() || argIn[0].isCellOfCharacterVectors()) {
+    if (argIn[0].isStringArray() || argIn[0].isCellArrayOfCharacterVectors()) {
         commands = argIn[0].getContentAsWideStringVector(true);
         outputAsArray = true;
     } else if (argIn[0].isRowVectorCharacterArray()) {
