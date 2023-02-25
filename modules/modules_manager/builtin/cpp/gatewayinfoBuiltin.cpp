@@ -10,7 +10,6 @@
 #include "gatewayinfoBuiltin.hpp"
 #include "Error.hpp"
 #include "GatewayInfo.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -30,7 +29,7 @@ Nelson::ModulesManagerGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector&
         bool bRes = GatewayInfo(dynlibName, moduleName, builtinList, errorMessage);
         if (bRes) {
             retval << ArrayOf::characterArrayConstructor(moduleName);
-            retval << ToCellStringAsColumn(builtinList);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(builtinList);
         } else {
             Error(errorMessage);
         }

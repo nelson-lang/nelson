@@ -13,7 +13,6 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -30,7 +29,7 @@ Nelson::AudioGateway::audioplayer_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
-    retval << ToCellStringAsColumn(fieldnames);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
     return retval;
 }
 //=============================================================================

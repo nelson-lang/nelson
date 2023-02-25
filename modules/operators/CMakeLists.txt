@@ -32,7 +32,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
@@ -43,7 +42,6 @@ target_include_directories(
 
 target_link_libraries(
   ${module_library_name}
-  nlsApi_nelson
   nlsElementary_mathematics
   nlsError_manager
   nlsI18n

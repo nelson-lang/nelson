@@ -10,7 +10,6 @@
 #include "QObject_propertiesBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "fieldnamesQObjectHandleObject.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -47,7 +46,7 @@ Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
             io->outputMessage(msg);
         }
     } else {
-        retval.push_back(ToCellStringAsColumn(fieldnames));
+        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames));
     }
     return retval;
 }

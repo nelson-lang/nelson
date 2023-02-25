@@ -9,7 +9,6 @@
 //=============================================================================
 #include "whatBuiltin.hpp"
 #include "Error.hpp"
-#include "ToCellString.hpp"
 #include "What.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,9 +20,9 @@ Nelson::FunctionsGateway::whatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 2);
     nargincheck(argIn, 0, 0);
-    retval << ToCellStringAsColumn(WhatListOfBuiltin(eval));
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(WhatListOfBuiltin(eval));
     if (nLhs == 2) {
-        retval << ToCellStringAsColumn(WhatListOfMacro(eval));
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(WhatListOfMacro(eval));
     }
     return retval;
 }

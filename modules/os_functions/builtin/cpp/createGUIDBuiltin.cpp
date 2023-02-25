@@ -10,7 +10,6 @@
 #include "createGUIDBuiltin.hpp"
 #include "CreateGUID.hpp"
 #include "Error.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -29,7 +28,7 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& arg
         if (arg1.isNumeric()) {
             indexType idx = arg1.getContentAsScalarIndex();
             wstringVector strs = CreateGUID(static_cast<size_t>(idx));
-            retval << ToCellStringAsColumn(strs);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(strs);
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }

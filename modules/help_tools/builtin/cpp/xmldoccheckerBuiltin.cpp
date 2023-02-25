@@ -10,7 +10,6 @@
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "XmlDocDocument.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -70,9 +69,9 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                     io->warningMessage(std::wstring(L"\t") + _W("No warning.") + L"\n");
                 }
             } else {
-                retval << ToCellStringAsColumn(errorRes);
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorRes);
                 if (nLhs > 1) {
-                    retval << ToCellStringAsColumn(warningRes);
+                    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(warningRes);
                 }
             }
         } else {

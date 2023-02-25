@@ -12,7 +12,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "NelsonPrint.hpp"
-#include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -74,7 +73,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 2: {
         retval << cal->get(); //-V774
-        retval << ToCellStringAsRow(cal->getNameOfDays());
+        retval << ArrayOf::toCellArrayOfCharacterRowVectors(cal->getNameOfDays());
         delete cal;
     } break;
     default: {

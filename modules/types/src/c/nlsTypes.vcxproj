@@ -226,6 +226,7 @@
     <ClInclude Include="..\include\HandleManager.hpp" />
     <ClInclude Include="..\include\IsValidVariableName.hpp" />
     <ClInclude Include="..\include\MakeValidFieldname.hpp" />
+    <ClInclude Include="..\include\MatrixCheck.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ArrayOf.cpp" />
@@ -259,6 +260,7 @@
     <ClCompile Include="..\cpp\IsValidFieldname.cpp" />
     <ClCompile Include="..\cpp\IsValidVariableName.cpp" />
     <ClCompile Include="..\cpp\MakeValidFieldname.cpp" />
+    <ClCompile Include="..\cpp\MatrixCheck.cpp" />
     <ClCompile Include="..\cpp\SparseDynamicFunctions.cpp" />
     <ClCompile Include="..\cpp\StringToClass.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />

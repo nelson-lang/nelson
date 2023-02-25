@@ -13,7 +13,6 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "ToCellString.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -44,7 +43,7 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVecto
         }
         NelsonPrint(msg);
     } else {
-        retval << ToCellStringAsColumn(fieldnames);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
     }
     return retval;
 }

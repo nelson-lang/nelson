@@ -10,7 +10,6 @@
 #include "searchenvBuiltin.hpp"
 #include "Error.hpp"
 #include "SearchVariableEnvironment.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -33,7 +32,7 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(int nLhs, const ArrayOfVector& argI
         varEnvName = argIn[1].getContentAsWideString();
     }
     wstringVector res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
-    retval << ToCellStringAsColumn(res);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
     return retval;
 }
 //=============================================================================

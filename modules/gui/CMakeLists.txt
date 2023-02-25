@@ -46,7 +46,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../qml_engine/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
+          )
 
 target_link_libraries(
   ${module_library_name}
@@ -60,7 +60,6 @@ target_link_libraries(
   nlsHistory_manager
   nlsI18n
   nlsOs_functions
-  nlsApi_nelson
   nlsCommons
   nlsEngine
   Qt${QT_VERSION_MAJOR}::Core
@@ -84,7 +83,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+          
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 
@@ -94,7 +93,6 @@ target_link_libraries(
   nlsError_manager
   nlsInterpreter
   nlsTypes
-  nlsApi_nelson
   nlsNelson_manager
   nlsCore
   nlsI18n)

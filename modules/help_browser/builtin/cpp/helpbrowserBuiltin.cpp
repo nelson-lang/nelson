@@ -10,7 +10,6 @@
 #include "helpbrowserBuiltin.hpp"
 #include "Error.hpp"
 #include "HelpBrowser.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -30,7 +29,8 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
         if (param1 == L"-attributes") {
             nargoutcheck(nLhs, 0, 1);
             ArrayOfVector retval;
-            retval << ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes());
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(
+                HelpBrowser::getInstance()->getAttributes());
             return retval;
         }
         if (param1 == L"-close") {

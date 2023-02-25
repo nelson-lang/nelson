@@ -10,7 +10,6 @@
 #include <cstring>
 #include <sndfile.h>
 #include "AudioSupportedFormats.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -71,7 +70,7 @@ AudioSupportedFormats()
             extension = "." + extension;
         }
         extensions << ArrayOf::characterArrayConstructor(extension);
-        subformats << ToCellStringAsColumn(AudioSubFormats(info.format));
+        subformats << ArrayOf::toCellArrayOfCharacterColumnVectors(AudioSubFormats(info.format));
     }
     st.setFieldAsList("Name", formats);
     st.setFieldAsList("Extension", extensions);

@@ -13,7 +13,6 @@
 #include "HeadComments.hpp"
 #include "FileSystemWrapper.hpp"
 #include "MacroFunctionDef.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -73,7 +72,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                     }
                 }
             } else {
-                retval << ToCellStringAsColumn(comments);
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(comments);
             }
         } break;
         case HEADCOMMENTS_ERROR::NOT_A_MACRO: {

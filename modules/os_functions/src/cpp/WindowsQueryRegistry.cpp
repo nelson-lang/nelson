@@ -11,7 +11,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <unordered_map>
-#include "ToCellString.hpp"
 #endif
 #include "WindowsQueryRegistry.hpp"
 #include "i18n.hpp"
@@ -69,7 +68,7 @@ windowsQueryRegistryAllValuesNames(
                     }
                 }
                 RegCloseKey(desiredHkey);
-                res = ToCellStringAsColumn(names);
+                res = ArrayOf::toCellArrayOfCharacterColumnVectors(names);
             }
         }
     }

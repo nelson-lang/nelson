@@ -9,7 +9,6 @@
 //=============================================================================
 #include "graphics_object_propertiesBuiltin.hpp"
 #include "GraphicsObject.hpp"
-#include "ToCellString.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "i18n.hpp"
@@ -52,7 +51,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
             io->outputMessage(msg);
         }
     } else {
-        retval.push_back(ToCellStringAsColumn(propertyNames));
+        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(propertyNames));
     }
     return retval;
 }

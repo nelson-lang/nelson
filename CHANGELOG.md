@@ -13,7 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `modulepath` reworked and extended.
 - C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellArrayOfCharacterVectors()`
 - C++ API: header `CheckHelpers.hpp` replaced by `InputOutputArgumentsCheckers.hpp`
-
+- C++ API: `ToCellStringAsColumn` replaced by `ArrayOf::toCellArrayOfCharacterColumnVectors`
+- `api_nelson` methods moved to type modules
 - Remove internal circular dependency about error and warning.
 - Exports minimum headers in package.
 

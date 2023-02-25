@@ -15,7 +15,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "MapFileRead.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -110,7 +109,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 res = ArrayOf::stringArrayConstructor(results, dims);
             } else {
                 // cell
-                res = ToCellStringAsColumn(results);
+                res = ArrayOf::toCellArrayOfCharacterColumnVectors(results);
             }
         }
         retval << res;
