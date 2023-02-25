@@ -10,7 +10,7 @@
 #include "audioinfoBuiltin.hpp"
 #include "AudioFileInfo.hpp"
 #include "Error.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -10,7 +10,7 @@
 #include "sioregisterBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "SioClientRegister.hpp"
 //=============================================================================

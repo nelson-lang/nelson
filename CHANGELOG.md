@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debian package generated (beta - feedback welcome).
 - `modulepath` reworked and extended.
 - C++ API: `IsCellOfStrings(ArrayOf)` replaced by `ArrayOf::isCellArrayOfCharacterVectors()`
+- C++ API: header `CheckHelpers.hpp` replaced by `InputOutputArgumentsCheckers.hpp`
+
 - Remove internal circular dependency about error and warning.
 - Exports minimum headers in package.
 

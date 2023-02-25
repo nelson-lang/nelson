@@ -16,7 +16,7 @@
 #include "MPI_helpers.hpp"
 #include "characters_encoding.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

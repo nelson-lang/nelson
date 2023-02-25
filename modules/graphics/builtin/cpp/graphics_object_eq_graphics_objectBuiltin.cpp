@@ -9,7 +9,7 @@
 //=============================================================================
 #include "graphics_object_eq_graphics_objectBuiltin.hpp"
 #include "EqGraphicsObjects.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

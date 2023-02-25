@@ -12,7 +12,7 @@
 #include "GOPropertyNames.hpp"
 #include "axesBuiltin.hpp"
 #include "GOHelpers.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

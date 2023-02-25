@@ -15,7 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

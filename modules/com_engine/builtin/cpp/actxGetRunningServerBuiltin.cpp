@@ -9,7 +9,7 @@
 //=============================================================================
 #include "actxGetRunningServerBuiltin.hpp"
 #include "ActiveXServer.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

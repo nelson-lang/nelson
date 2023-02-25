@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "function_handle_isequalBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "FunctionHandleIsEqual.hpp"
 //=============================================================================
 using namespace Nelson;

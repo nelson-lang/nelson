@@ -9,7 +9,7 @@
 //=============================================================================
 #include "whomatBuiltin.hpp"
 #include "WhoMatioFile.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

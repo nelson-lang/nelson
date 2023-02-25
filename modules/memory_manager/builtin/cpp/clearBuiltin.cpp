@@ -24,7 +24,7 @@
 #include "MexFunctionDef.hpp"
 #include "PathFuncManager.hpp"
 #include "FunctionsInMemory.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

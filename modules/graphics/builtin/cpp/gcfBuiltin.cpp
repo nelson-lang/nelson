@@ -9,7 +9,7 @@
 //=============================================================================
 #include "gcfBuiltin.hpp"
 #include "GOFiguresManager.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================

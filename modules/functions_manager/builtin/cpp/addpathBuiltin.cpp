@@ -15,7 +15,7 @@
 #include "PathFuncManager.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

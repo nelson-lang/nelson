@@ -17,7 +17,7 @@
 #include "FilesManager.hpp"
 #include "FileError.hpp"
 #include "NelsonConfiguration.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -20,7 +20,7 @@
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

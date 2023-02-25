@@ -12,7 +12,7 @@
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "ToCellString.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -12,7 +12,7 @@
 #include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "LockVariable.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

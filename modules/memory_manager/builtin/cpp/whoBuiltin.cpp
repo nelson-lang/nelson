@@ -17,7 +17,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {

@@ -12,7 +12,7 @@
 #include "PathFuncManager.hpp"
 #include "MxGetExtension.hpp"
 #include "StringHelpers.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

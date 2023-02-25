@@ -9,7 +9,7 @@
 //=============================================================================
 #include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
 #include "VertCatSparseDouble.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

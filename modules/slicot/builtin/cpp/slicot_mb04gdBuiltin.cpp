@@ -10,7 +10,7 @@
 #include <algorithm>
 #include "slicot_mb04gdBuiltin.hpp"
 #include "Error.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

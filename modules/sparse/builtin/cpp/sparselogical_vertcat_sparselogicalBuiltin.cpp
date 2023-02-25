@@ -9,7 +9,7 @@
 //=============================================================================
 #include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
 #include "VertCatSparseLogical.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

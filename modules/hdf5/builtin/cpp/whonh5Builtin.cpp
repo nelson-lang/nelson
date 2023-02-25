@@ -9,7 +9,7 @@
 //=============================================================================
 #include "whonh5Builtin.hpp"
 #include "whoNh5File.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

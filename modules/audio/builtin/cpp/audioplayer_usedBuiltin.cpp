@@ -11,7 +11,7 @@
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
 #include "usedHandle.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

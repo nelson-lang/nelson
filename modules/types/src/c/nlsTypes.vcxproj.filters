@@ -63,10 +63,10 @@
     <ClInclude Include="..\include\ArrayOfVector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\CheckerHelpers.hpp">
+    <ClInclude Include="..\include\Decomplexify.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Decomplexify.hpp">
+    <ClInclude Include="..\include\InputOutputArgumentsCheckers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,7 +14,7 @@
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 #include "ClassToString.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

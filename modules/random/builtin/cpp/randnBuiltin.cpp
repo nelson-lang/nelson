@@ -12,7 +12,7 @@
 #include "i18n.hpp"
 #include "RandNormal.hpp"
 #include "nlsBuildConfig.h"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

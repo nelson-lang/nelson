@@ -9,7 +9,7 @@
 //=============================================================================
 #include "imreadBuiltin.hpp"
 #include "ImageReader.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

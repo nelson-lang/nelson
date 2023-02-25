@@ -12,7 +12,7 @@
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "Atan2.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

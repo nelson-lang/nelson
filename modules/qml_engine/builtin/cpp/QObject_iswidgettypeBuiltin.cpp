@@ -14,7 +14,7 @@
 #include "QObjectHandleObject.hpp"
 #include "iswidgettypeQObject.hpp"
 #include "PredefinedErrorMessages.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

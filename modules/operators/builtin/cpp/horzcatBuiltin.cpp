@@ -10,7 +10,7 @@
 #include "horzcatBuiltin.hpp"
 #include "Error.hpp"
 #include "HorzCatOperator.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

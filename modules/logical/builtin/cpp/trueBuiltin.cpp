@@ -13,7 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "LogicalConstructors.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

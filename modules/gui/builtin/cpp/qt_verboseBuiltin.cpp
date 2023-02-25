@@ -10,7 +10,7 @@
 #include "qt_verboseBuiltin.hpp"
 #include "Error.hpp"
 #include "MainGuiObject.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

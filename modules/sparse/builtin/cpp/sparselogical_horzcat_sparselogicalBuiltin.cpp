@@ -9,7 +9,7 @@
 //=============================================================================
 #include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
 #include "HorzCatSparseLogical.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

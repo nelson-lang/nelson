@@ -10,7 +10,7 @@
 #include "assert_isequalBuiltin.hpp"
 #include "Assert_IsEqual.hpp"
 #include "Error.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

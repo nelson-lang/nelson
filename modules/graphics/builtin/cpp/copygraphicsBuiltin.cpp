@@ -14,7 +14,7 @@
 #include "GOHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
