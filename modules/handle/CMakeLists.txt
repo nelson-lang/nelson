@@ -35,7 +35,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 
@@ -45,7 +44,6 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsI18n
-  nlsApi_nelson
   nlsCharacters_encoding)
 # ==============================================================================
 file(GLOB HANDLE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")

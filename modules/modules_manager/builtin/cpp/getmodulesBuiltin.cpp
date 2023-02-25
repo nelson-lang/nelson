@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ModulesManager.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -36,9 +35,9 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
         }
         bReverse = true;
     }
-    retval << ToCellStringAsColumn(GetModulesName(bReverse));
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(GetModulesName(bReverse));
     if (nLhs > 1) {
-        retval << ToCellStringAsColumn(GetModulesPath(bReverse));
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(GetModulesPath(bReverse));
     }
     if (nLhs > 2) {
         std::vector<versionElement> versionList = GetModulesVersion(bReverse);

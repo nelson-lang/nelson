@@ -11,9 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-
 #include "Nelson_VERSION.h"
-#include "ToCellString.hpp"
 #include "VersionCompilerFlags.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -48,7 +46,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (option == L"-release") {
             retval << ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME);
         } else if (option == L"-compiler") {
-            retval << ToCellStringAsRow(VersionCompilerFlags());
+            retval << ArrayOf::toCellArrayOfCharacterRowVectors(VersionCompilerFlags());
         } else if (option == L"-commit_hash") {
             retval << ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH);
         } else if (option == L"-number") {

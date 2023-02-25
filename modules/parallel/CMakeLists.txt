@@ -68,7 +68,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
@@ -76,7 +75,6 @@ target_include_directories(
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsCharacters_encoding
   nlsDisplay_format
   nlsError_manager

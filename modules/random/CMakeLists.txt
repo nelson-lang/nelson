@@ -54,13 +54,11 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsError_manager
   nlsI18n
   nlsInterpreter

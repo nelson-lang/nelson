@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "QtLookAndFeel.hpp"
-#include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -36,7 +35,7 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         if (param1 == L"available") {
             wstringVector lfs = GetLookAndFeelAvailable();
-            retval << ToCellStringAsColumn(lfs);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(lfs);
             return retval;
         }
         bool res = SetCurrentLookAndFeel(param1);

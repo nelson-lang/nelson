@@ -9,7 +9,6 @@
 //=============================================================================
 #include "fullpathBuiltin.hpp"
 #include "Error.hpp"
-#include "ToCellString.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -33,7 +32,7 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
         if (param1.isStringArray()) {
             retval << ArrayOf::stringArrayConstructor(normalizedPaths, dims);
         } else {
-            retval << ToCellStringAsColumn(normalizedPaths);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(normalizedPaths);
         }
     } else {
         std::wstring path = argIn[0].getContentAsWideString();

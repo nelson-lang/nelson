@@ -9,7 +9,6 @@
 //=============================================================================
 #include "getavailablelanguagesBuiltin.hpp"
 #include "Localization.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -22,7 +21,7 @@ Nelson::LocalizationGateway::getavailablelanguagesBuiltin(int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 0);
     Localization::Instance()->getManagedLanguages(langs);
-    retval << ToCellStringAsColumn(langs);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(langs);
     return retval;
 }
 //=============================================================================

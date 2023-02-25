@@ -12,7 +12,6 @@
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
-#include "ToCellString.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
@@ -53,7 +52,7 @@ methodsQObject(const ArrayOf& A)
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     stringVector methodsName;
     methodsQObject(qmlhandleobj, methodsName);
-    return ToCellStringAsColumn(methodsName);
+    return ArrayOf::toCellArrayOfCharacterColumnVectors(methodsName);
 }
 //=============================================================================
 }

@@ -11,7 +11,6 @@
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,7 +31,7 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(int nLhs, const ArrayOfVector& argI
     if (!errorMessage.empty()) {
         Error(_("Cannot get library symbols: ") + errorMessage);
     }
-    retval << ToCellStringAsColumn(symbols);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(symbols);
     return retval;
 }
 //=============================================================================

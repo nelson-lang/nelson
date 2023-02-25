@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "OverloadFunction.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -45,7 +44,7 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
                     res.promoteType(NLS_CELL_ARRAY);
                     retval << res;
                 } else {
-                    retval << ToCellStringAsColumn(fieldnames);
+                    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
                 }
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);

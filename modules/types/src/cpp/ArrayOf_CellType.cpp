@@ -22,6 +22,82 @@ ArrayOf::isCell() const
     return (this->getDataClass() == NLS_CELL_ARRAY);
 }
 //=============================================================================
+static ArrayOf
+toCellArrayOfCharacterVectors(const stringVector& vectorStr, bool bAsColumn)
+{
+    ArrayOf* elements = nullptr;
+    size_t nbElements = vectorStr.size();
+    if (nbElements > 0) {
+        try {
+            elements = new ArrayOf[nbElements];
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        for (size_t k = 0; k < nbElements; k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
+        }
+    }
+    ArrayOf c;
+    if (bAsColumn) {
+        Dimensions dims(nbElements, 1);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    } else {
+        Dimensions dims(1, nbElements);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    }
+    return c;
+}
+//=============================================================================
+static ArrayOf
+toCellArrayOfCharacterVectors(const wstringVector& vectorStr, bool bAsColumn)
+{
+    ArrayOf* elements = nullptr;
+    size_t nbElements = vectorStr.size();
+    if (nbElements > 0) {
+        try {
+            elements = new ArrayOf[nbElements];
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        for (size_t k = 0; k < nbElements; k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
+        }
+    }
+    ArrayOf c;
+    if (bAsColumn) {
+        Dimensions dims(nbElements, 1);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    } else {
+        Dimensions dims(1, nbElements);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    }
+    return c;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::toCellArrayOfCharacterRowVectors(const stringVector& elements)
+{
+    return toCellArrayOfCharacterVectors(elements, false);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::toCellArrayOfCharacterRowVectors(const wstringVector& elements)
+{
+    return toCellArrayOfCharacterVectors(elements, false);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::toCellArrayOfCharacterColumnVectors(const stringVector& elements)
+{
+    return toCellArrayOfCharacterVectors(elements, true);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::toCellArrayOfCharacterColumnVectors(const wstringVector& elements)
+{
+    return toCellArrayOfCharacterVectors(elements, true);
+}
+//=============================================================================
 bool
 ArrayOf::isCellArrayOfCharacterVectors() const
 {

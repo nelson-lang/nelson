@@ -13,7 +13,6 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -29,7 +28,7 @@ Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
         Error(_W("dllib handle expected."));
     }
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
-    retval << ToCellStringAsColumn(objDllib->fieldnames());
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(objDllib->fieldnames());
     return retval;
 }
 //=============================================================================

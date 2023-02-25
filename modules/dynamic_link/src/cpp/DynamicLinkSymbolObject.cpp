@@ -17,7 +17,6 @@
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 #include "LibPointerObject.hpp"
-#include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
@@ -495,11 +494,11 @@ DynamicLinkSymbolObject::get(const std::wstring& propertyName, ArrayOf& res)
         return true;
     }
     if (propertyName == L"Input") {
-        res = ToCellStringAsRow(_paramsInTypes);
+        res = ArrayOf::toCellArrayOfCharacterRowVectors(_paramsInTypes);
         return true;
     }
     if (propertyName == L"Output") {
-        res = ToCellStringAsRow(_paramsOutTypes);
+        res = ArrayOf::toCellArrayOfCharacterRowVectors(_paramsOutTypes);
         return true;
     }
     return false;

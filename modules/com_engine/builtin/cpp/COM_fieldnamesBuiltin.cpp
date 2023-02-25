@@ -10,7 +10,6 @@
 #include "COM_fieldnamesBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "fieldnamesComHandleObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -39,7 +38,7 @@ Nelson::ComEngineGateway::COM_fieldnamesBuiltin(int nLhs, const ArrayOfVector& a
     }
     wstringVector fieldnames;
     fieldnamesComHandleObject(param1, fullList, fieldnames);
-    retval << ToCellStringAsColumn(fieldnames);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
     return retval;
 }
 //=============================================================================

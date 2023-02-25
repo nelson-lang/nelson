@@ -10,7 +10,6 @@
 #include "qml_pluginpathlistBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "QmlEngine.hpp"
-#include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,7 +20,7 @@ Nelson::QmlEngineGateway::qml_pluginpathlistBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     wstringVector res = QmlEngine::getInstance()->pluginPathList();
-    retval.push_back(ToCellStringAsColumn(res));
+    retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(res));
     return retval;
 }
 //=============================================================================

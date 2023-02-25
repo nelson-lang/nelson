@@ -23,7 +23,6 @@ list(
   elementary_mathematics
   error_manager
   types
-  api_nelson
   stream_manager
   display_format
   operators

@@ -43,14 +43,12 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 
 target_link_libraries(
   ${module_library_name}
   nlsNelson_manager
-  nlsApi_nelson
   nlsCharacters_encoding
   nlsDisplay_format
   nlsError_manager
@@ -81,13 +79,11 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include)
 
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsApi_nelson
   nlsError_manager
   nlsHandle
   nlsI18n

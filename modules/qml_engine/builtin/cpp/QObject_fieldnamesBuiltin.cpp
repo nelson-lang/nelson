@@ -10,7 +10,6 @@
 #include "QObject_fieldnamesBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "fieldnamesQObjectHandleObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -39,7 +38,7 @@ Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     }
     wstringVector fieldnames;
     fieldnamesQObjectHandleObject(param1, fullList, fieldnames);
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames));
     return retval;
 }
 //=============================================================================

@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -53,7 +52,7 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfV
         Error("Type or dimensions not supported.");
     }
     stringVector encodings = detectEncodings(data);
-    retval << ToCellStringAsColumn(encodings);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(encodings);
     return retval;
 }
 //=============================================================================

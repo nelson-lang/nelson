@@ -40,7 +40,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
+          )
 
 target_link_libraries(${module_library_name} nlsCharacters_encoding nlsCommons
                       nlsError_manager nlsI18n nlsTypes)
@@ -57,7 +57,7 @@ target_include_directories(
 target_include_directories(
   ${module_library_builtin_name}
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+          
           ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

@@ -13,7 +13,6 @@
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
-#include "ToCellString.hpp"
 #include <QtQml/QQmlComponent>
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -60,7 +59,7 @@ classnameQObject(const ArrayOf& A)
         if (names.size() == 1) {
             res = ArrayOf::characterArrayConstructor(names[0]);
         } else {
-            res = ToCellStringAsColumn(names);
+            res = ArrayOf::toCellArrayOfCharacterColumnVectors(names);
         }
     } else {
         res = ArrayOf::emptyConstructor(dimsA);

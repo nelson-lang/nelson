@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "MacroArguments.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -33,9 +32,9 @@ Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const Arra
     wstringVector Outputs;
     bool bOK = MacroArguments(eval, wfunctionname, Inputs, Outputs);
     if (bOK) {
-        retval << ToCellStringAsColumn(Inputs);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(Inputs);
         if (nLhs > 1) {
-            retval << ToCellStringAsColumn(Outputs);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(Outputs);
         }
     } else {
         Error(_W("function macro name not found."));
