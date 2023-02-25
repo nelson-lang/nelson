@@ -11,7 +11,6 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "Which.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
@@ -77,7 +76,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                retval << ToCellStringAsColumn(res);
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
             }
         } else if (wparam2 == L"-module") {
             wstringVector res = WhichModule(wfunctionname);
@@ -86,7 +85,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     NelsonPrint(re + L"\n");
                 }
             } else {
-                retval << ToCellStringAsColumn(res);
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
             }
         } else {
             Error(_W("#2 Argument must be \'-all\' or  \'-module\'."));

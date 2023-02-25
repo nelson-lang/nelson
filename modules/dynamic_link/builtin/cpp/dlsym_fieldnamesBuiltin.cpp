@@ -13,7 +13,6 @@
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -29,7 +28,7 @@ Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
         Error(_W("dlsym handle expected."));
     }
     auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
-    retval << ToCellStringAsColumn(objDlsym->fieldnames());
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(objDlsym->fieldnames());
     return retval;
 }
 //=============================================================================

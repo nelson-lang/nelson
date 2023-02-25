@@ -34,7 +34,6 @@
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QObjectHandleObject.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -195,7 +194,7 @@ QVariantToArrayOf(QVariant Q)
         for (auto& k : stringlist) {
             wvector.push_back(QStringTowstring(k));
         }
-        return ToCellStringAsRow(wvector);
+        return ArrayOf::toCellArrayOfCharacterRowVectors(wvector);
     } break;
     case QMetaType::Type::QByteArray: {
         QByteArray qbytearray = Q.toByteArray();

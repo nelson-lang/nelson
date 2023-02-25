@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "argvBuiltin.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -19,7 +18,7 @@ Nelson::EngineGateway::argvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ToCellStringAsColumn(eval->getCommandLineArguments());
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(eval->getCommandLineArguments());
     return retval;
 }
 //=============================================================================

@@ -14,7 +14,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PathFuncManager.hpp"
-#include "ToCellString.hpp"
 #include "NelsonPrint.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

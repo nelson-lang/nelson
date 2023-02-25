@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "HistoryManager.hpp"
-#include "ToCellString.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -35,7 +34,7 @@ historyBuiltin_size_one_rhs(
             retval << ArrayOf::characterArrayConstructor(ptrHistoryManager->getFilename());
         } else if (str == L"get") {
             wstringVector res = ptrHistoryManager->get();
-            retval << ToCellStringAsColumn(res);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
         } else if (str == L"display") {
             if (nLhs == 0) {
                 wstringVector lines = ptrHistoryManager->get();
@@ -98,7 +97,7 @@ historyBuiltin_no_rhs(
             }
         }
     } else {
-        retval << ToCellStringAsColumn(res);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
     }
     return retval;
 }
@@ -199,8 +198,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
         } else if (str == L"append") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
-                std::wstring str = arg2.getContentAsWideString();
-                ptrHistoryManager->appendLine(str);
+                ptrHistoryManager->appendLine(arg2.getContentAsWideString());
             } else if (arg2.isCellArrayOfCharacterVectors()) {
                 ArrayOf cell(arg2);
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
@@ -303,7 +301,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                             Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         } else {
                             wstringVector res = ptrHistoryManager->get(ivalue1, ivalue2);
-                            retval << ToCellStringAsColumn(res);
+                            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
                         }
                     } else {
                         Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);

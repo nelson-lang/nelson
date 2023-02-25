@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsapi_nelson_exports.h"
+#include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
 /**
@@ -25,7 +25,7 @@ namespace Nelson {
  *  5. A & B must be conformant, i.e. the number of columns in A must
  *     match the number of rows in B.
  */
-NLSAPI_NELSON_IMPEXP bool
+NLSTYPES_IMPEXP bool
 MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
 
 /**
@@ -52,20 +52,20 @@ MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
  *    objects to an NLS_DOUBLE!
  *
  */
-NLSAPI_NELSON_IMPEXP
+NLSTYPES_IMPEXP
 NelsonType
 FindCommonType(const ArrayOf& A, const ArrayOf& B);
 
 /**
  * Check that both of the argument objects are numeric.
  */
-NLSAPI_NELSON_IMPEXP void
+NLSTYPES_IMPEXP void
 CheckNumeric(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
 
 /*
  * Check to see if two dimensions (when treated as vectors) are equivalent in size.
  */
-NLSAPI_NELSON_IMPEXP bool
+NLSTYPES_IMPEXP bool
 SameSizeCheck(Dimensions& Adim, Dimensions& Bdim);
 
 /**
@@ -75,7 +75,7 @@ SameSizeCheck(Dimensions& Adim, Dimensions& Bdim);
  *  2. Either A & B are the same size or
  *      A is a scalar or B is a scalar.
  */
-NLSAPI_NELSON_IMPEXP void
+NLSTYPES_IMPEXP void
 VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
 
 /**
@@ -85,7 +85,7 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
  *  2. Either A & B are the same size or
  *      A is a scalar or B is a scalar.
  */
-NLSAPI_NELSON_IMPEXP void
+NLSTYPES_IMPEXP void
 VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname);
 
 /**
@@ -95,7 +95,7 @@ VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname);
  *  2. Either A & B must be the same size, or A is a
  *     scalar or B is a scalar.
  */
-NLSAPI_NELSON_IMPEXP void
+NLSTYPES_IMPEXP void
 BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
 } // namespace Nelson
 //=============================================================================

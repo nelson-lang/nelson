@@ -10,7 +10,6 @@
 #include "zipBuiltin.hpp"
 #include "Error.hpp"
 #include "Zip.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -33,7 +32,7 @@ Nelson::FileArchiverGateway::zipBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     Zip(zipFilename, names, rootPath, filenames);
     if (nLhs > 0) {
-        retval << ToCellStringAsRow(filenames);
+        retval << ArrayOf::toCellArrayOfCharacterRowVectors(filenames);
     }
     return retval;
 }

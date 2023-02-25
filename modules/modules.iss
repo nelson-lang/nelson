@@ -16,7 +16,6 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "terminal/module.iss"
 #include "operators/module.iss"
 #include "elementary_mathematics/module.iss"
-#include "api_nelson/module.iss"
 #include "dynamic_link/module.iss"
 #include "modules_manager/module.iss"
 #include "engine/module.iss"

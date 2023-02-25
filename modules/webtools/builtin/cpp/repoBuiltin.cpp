@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Repository.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -124,7 +123,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryBranchList(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval << ToCellStringAsColumn(branches);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(branches);
         }
     } else if (command == L"tag") {
         nargoutcheck(nLhs, 0, 1);
@@ -132,7 +131,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryTagList(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval << ToCellStringAsColumn(branches);
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(branches);
         }
     } else if (command == L"remove_branch") {
         nargoutcheck(nLhs, 0, 0);

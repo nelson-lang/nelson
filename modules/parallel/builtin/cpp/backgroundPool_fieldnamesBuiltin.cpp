@@ -9,7 +9,6 @@
 //=============================================================================
 #include "backgroundPool_fieldnamesBuiltin.hpp"
 #include "BackgroundPoolObject.hpp"
-#include "ToCellString.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -28,7 +27,7 @@ Nelson::ParallelGateway::backgroundPool_fieldnamesBuiltin(int nLhs, const ArrayO
     }
     auto* backgroundPool = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = backgroundPool->fieldnames();
-    retval << ToCellStringAsColumn(fieldnames);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
     return retval;
 }
 //=============================================================================

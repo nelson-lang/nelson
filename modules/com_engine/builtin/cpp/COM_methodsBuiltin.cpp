@@ -9,7 +9,6 @@
 //=============================================================================
 #include "COM_methodsBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "ToCellString.hpp"
 #include "methodsComHandleObject.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -27,7 +26,7 @@ Nelson::ComEngineGateway::COM_methodsBuiltin(int nLhs, const ArrayOfVector& argI
     }
     wstringVector methods;
     methodsComHandleObject(param1, methods);
-    retval << ToCellStringAsColumn(methods);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(methods);
     return retval;
 }
 //=============================================================================

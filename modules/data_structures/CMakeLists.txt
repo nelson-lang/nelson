@@ -40,7 +40,6 @@ target_include_directories(
 
 target_link_libraries(
   ${module_library_builtin_name}
-  nlsApi_nelson
   nlsCharacters_encoding
   nlsCommons
   nlsError_manager

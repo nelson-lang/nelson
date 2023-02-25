@@ -13,7 +13,6 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -30,7 +29,7 @@ Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(int nLhs, const ArrayOf
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objLibPointer->fieldnames();
-    retval << ToCellStringAsColumn(fieldnames);
+    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
     return retval;
 }
 //=============================================================================

@@ -12,7 +12,6 @@
 #include "i18n.hpp"
 #include "Rng.hpp"
 #include "Rng_helpers.hpp"
-#include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -71,7 +70,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << backupCurrentRngStruct;
                 }
             } else if (param == L"enginelist") {
-                retval << ToCellStringAsColumn(getSupportedRngEngineName());
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(getSupportedRngEngineName());
             }
         } else if (arg1.isNumeric()) {
             double s = arg1.getContentAsDoubleScalar();

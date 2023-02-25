@@ -11,7 +11,6 @@
 #include "QtConstants.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,7 +23,7 @@ Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval;
     switch (argIn.size()) {
     case 0: {
-        retval.push_back(ToCellStringAsColumn(QtConstants()));
+        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(QtConstants()));
     } break;
     case 1: {
         std::wstring constantName = argIn[0].getContentAsWideString();

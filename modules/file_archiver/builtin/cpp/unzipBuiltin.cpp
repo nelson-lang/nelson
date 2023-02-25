@@ -10,7 +10,6 @@
 #include "unzipBuiltin.hpp"
 #include "Error.hpp"
 #include "Unzip.hpp"
-#include "ToCellString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -30,7 +29,7 @@ Nelson::FileArchiverGateway::unzipBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     UnZip(zipFilename, rootPath, filenames);
     if (nLhs > 0) {
-        retval << ToCellStringAsRow(filenames);
+        retval << ArrayOf::toCellArrayOfCharacterRowVectors(filenames);
     }
     return retval;
 }
