@@ -15,7 +15,7 @@
 #include "EigenDecomposition.hpp"
 #include "GeneralizedEigenDecomposition.hpp"
 #include "IsHermitian.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

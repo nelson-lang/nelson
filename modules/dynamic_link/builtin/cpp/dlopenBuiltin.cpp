@@ -14,7 +14,7 @@
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
 #include "PredefinedErrorMessages.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

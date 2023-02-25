@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "HelpBrowser.hpp"
 #include "ToCellString.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

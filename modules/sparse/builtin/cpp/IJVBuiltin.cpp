@@ -13,7 +13,7 @@
 #include "SparseType.hpp"
 #include "SparseNonZeros.hpp"
 #include "SparseToIJV.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

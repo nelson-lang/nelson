@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "usernameBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "GetUsername.hpp"
 //=============================================================================
 using namespace Nelson;

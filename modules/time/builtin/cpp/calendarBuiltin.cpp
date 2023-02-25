@@ -14,7 +14,7 @@
 #include "NelsonPrint.hpp"
 #include "ToCellString.hpp"
 #include "PredefinedErrorMessages.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -9,7 +9,7 @@
 //=============================================================================
 #include "handle_eq_genericBuiltin.hpp"
 #include "EqHandle.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

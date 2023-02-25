@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

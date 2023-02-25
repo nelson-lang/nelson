@@ -13,7 +13,7 @@
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "IsSymmetric.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

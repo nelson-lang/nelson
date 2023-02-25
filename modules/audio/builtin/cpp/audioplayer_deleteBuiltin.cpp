@@ -10,7 +10,7 @@
 #include "audioplayer_deleteBuiltin.hpp"
 #include "DeleteAudioplayerHandleObject.hpp"
 #include "Error.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

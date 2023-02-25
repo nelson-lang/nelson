@@ -16,7 +16,7 @@
 #include "IsErrorStruct.hpp"
 #include "MException.hpp"
 #include "PredefinedErrorMessages.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

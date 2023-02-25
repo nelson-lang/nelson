@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "LibPointerObject.hpp"
 #include "PredefinedErrorMessages.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

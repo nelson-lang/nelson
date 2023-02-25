@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_methodsBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "methodsQObject.hpp"
 //=============================================================================
 using namespace Nelson;

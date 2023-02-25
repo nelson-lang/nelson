@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "backgroundPoolBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "BackgroundPoolObject.hpp"
 //=============================================================================
 using namespace Nelson;

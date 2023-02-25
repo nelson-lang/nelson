@@ -10,7 +10,7 @@
 #include "vertcatBuiltin.hpp"
 #include "Error.hpp"
 #include "VertCatOperator.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

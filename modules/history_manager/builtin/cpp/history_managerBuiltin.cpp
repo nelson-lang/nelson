@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "HistoryManager.hpp"
 #include "NelsonConfiguration.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

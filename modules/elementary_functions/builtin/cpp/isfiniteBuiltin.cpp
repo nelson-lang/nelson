@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "IsFinite.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

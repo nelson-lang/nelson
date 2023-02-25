@@ -11,7 +11,7 @@
 #include "LinearInterpolation1D.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

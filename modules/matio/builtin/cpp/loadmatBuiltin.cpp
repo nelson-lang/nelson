@@ -9,7 +9,7 @@
 //=============================================================================
 #include "loadmatBuiltin.hpp"
 #include "LoadMatioFile.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

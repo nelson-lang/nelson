@@ -13,7 +13,7 @@
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

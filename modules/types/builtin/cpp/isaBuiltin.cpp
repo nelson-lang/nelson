@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "characters_encoding.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

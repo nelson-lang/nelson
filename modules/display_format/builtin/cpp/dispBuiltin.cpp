@@ -10,7 +10,7 @@
 #include "dispBuiltin.hpp"
 #include "OverloadDisplay.hpp"
 #include "DisplayVariable.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

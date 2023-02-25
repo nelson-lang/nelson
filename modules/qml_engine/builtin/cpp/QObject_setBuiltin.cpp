@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_setBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "SetQObjectHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;

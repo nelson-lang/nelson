@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "COM_methodsBuiltin.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "ToCellString.hpp"
 #include "methodsComHandleObject.hpp"
 #include "PredefinedErrorMessages.hpp"

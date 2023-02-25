@@ -16,7 +16,7 @@
 #include "PrintfFunction.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

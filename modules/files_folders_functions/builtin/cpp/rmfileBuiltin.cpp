@@ -10,7 +10,7 @@
 #include "rmfileBuiltin.hpp"
 #include "Error.hpp"
 #include "RemoveFile.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

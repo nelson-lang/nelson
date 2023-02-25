@@ -12,7 +12,7 @@
 #include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include <mpi.h>
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -14,7 +14,7 @@
 #include "piBuiltin.hpp"
 #include "Error.hpp"
 #include <cmath>
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

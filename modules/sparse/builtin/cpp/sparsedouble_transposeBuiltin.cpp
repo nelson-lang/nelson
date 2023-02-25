@@ -10,7 +10,7 @@
 #include "sparsedouble_transposeBuiltin.hpp"
 #include "Error.hpp"
 #include "TransposeSparseDouble.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;

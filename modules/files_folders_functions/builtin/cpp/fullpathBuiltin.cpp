@@ -11,7 +11,7 @@
 #include "Error.hpp"
 #include "ToCellString.hpp"
 #include "FileSystemWrapper.hpp"
-#include "CheckerHelpers.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
