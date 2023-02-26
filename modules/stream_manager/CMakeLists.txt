@@ -124,6 +124,11 @@ install(
   FILES_MATCHING
   PATTERN "*.m")
 install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/loadsavebin
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/tests"
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING

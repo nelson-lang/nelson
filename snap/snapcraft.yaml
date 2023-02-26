@@ -66,7 +66,7 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
 
       craftctl set grade=stable
-      craftctl set version=0.7.1.0
+      craftctl set version=0.7.2.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
@@ -202,7 +202,7 @@ parts:
 
 apps:
   nelson:
-    command: usr/Nelson-0.7.1/bin/linux/nelson
+    command: usr/bin/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7

@@ -86,7 +86,7 @@ jobs:
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v1
         with:
-          name: nelson-github-action-artifacts-macOS-BigSur-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          name: nelson-github-action-artifacts-macOS-Monterey-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
 
   BigSur:

@@ -26,12 +26,11 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
     std::wstring fullLibraryPath;
     if (searchLibrary(libraryPath, fullLibraryPath)) {
         boost::system::error_code errorCode;
-        boost::dll::shared_library lib(fullLibraryPath, errorCode);
+        _shared_library = boost::dll::shared_library(fullLibraryPath, errorCode);
         if (errorCode) {
             Error(_("Cannot load library: ") + errorCode.message());
         }
-        _libraryPath = lib.location().generic_wstring();
-        _shared_library = lib;
+        _libraryPath = _shared_library.location().generic_wstring();
     } else {
         Error(_W("Cannot load library: ") + libraryPath);
     }
