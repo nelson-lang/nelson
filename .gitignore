@@ -9,6 +9,7 @@
 #==============================================================================
 # This .gitignore for Nelson
 
+build/
 chocolatey/nelson/*.nupkg
 nelson*.snap
 tests_*.xml

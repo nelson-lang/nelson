@@ -13,7 +13,6 @@ set(module_name text_editor)
 set(module_library_name nlsText_editor)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
@@ -30,9 +29,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_name}
-  PRIVATE ${Boost_INCLUDE_DIRS}
-          ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -47,7 +44,8 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
+          ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+          ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS})
 
 target_link_libraries(
   ${module_library_name}

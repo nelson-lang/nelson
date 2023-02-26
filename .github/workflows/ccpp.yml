@@ -263,6 +263,74 @@ jobs:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
           path: artifacts/
 
+  Micromamba:
+    name: Micromamba (Ubuntu-22.04)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install micromamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment-dev.yml
+          environment-name: nelson
+
+      - name: cmake configure
+        run: |
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          mkdir -p build
+          cd build
+          cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DWITHOUT_SLICOT_MODULE=ON \
+            -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+            -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+            -DCMAKE_INSTALL_LIBDIR=lib
+
+      - name: make
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          cmake --build . -- -j $(nproc)
+
+      - name: get module skeleton
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          cmake --build . -- get_module_skeleton
+
+      - name: build help
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          cmake --build . -- buildhelp
+
+      - name: minimal tests
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          cmake --build . -- tests_minimal
+
+      - name: install
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          cmake --build . -- install
+
+      - name: all tests
+        run: |
+          cd build
+          eval "$(micromamba shell hook --shell=bash)"
+          micromamba activate nelson  
+          xvfb-run cmake --build . -- tests_all
+
   Focal:
     name: Ubuntu-20.04 Focal (BLAS - LAPACK)
     runs-on: ubuntu-20.04
