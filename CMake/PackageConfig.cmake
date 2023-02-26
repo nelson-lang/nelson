@@ -122,6 +122,25 @@ if(UNIX)
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
             "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.1.4)")
 
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-documentation-tools")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-templates")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-controls")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-window")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-dialogs")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtqml-workerscript")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-layouts")
+
       endif(DEBIAN_FOUND)
     endif()
   endif(APPLE)
