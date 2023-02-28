@@ -206,11 +206,12 @@ apps:
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
-      LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
+      LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
       LOCPATH: "$SNAP/usr/lib/locale"
       PATH: "$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/x86_64-linux-gnu/qt6/bin:$PATH"
       QTDIR: "/usr/lib/x86_64-linux-gnu/qt6/"
-      QTDIR_BINARIES: "/usr/lib/x86_64-linux-gnu/qt6/bin"
+      #QTDIR_BINARIES: "/usr/lib/x86_64-linux-gnu/qt6/bin"
+      QTDIR_BINARIES: "$SNAP/usr/lib/qt6/bin/"
 
     plugs: &plugs
       - alsa
@@ -232,6 +233,32 @@ apps:
       - hardware-observe
 
 layout:
+  /usr/bin/nelson:
+    bind-file: $SNAP/usr/bin/nelson
+  /usr/bin/nelson_f2c:
+    bind-file: $SNAP/usr/bin/nelson_f2c
+  /usr/bin/nelson-cli:
+    symlink: $SNAP/usr/bin/nelson-cli
+  /usr/bin/nelson-adv-cli:
+    symlink: $SNAP/usr/bin/nelson-adv-cli
+  /usr/bin/nelson-gui:
+    symlink: $SNAP/usr/bin/nelson-gui
+  /usr/bin/nelson-cli-exec:
+    bind-file: $SNAP/usr/bin/nelson-cli-exec
+  /usr/bin/nelson-adv-cli-exec:
+    bind-file: $SNAP/usr/bin/nelson-adv-cli-exec
+  /usr/bin/nelson-gui-exec:
+    bind-file: $SNAP/usr/bin/nelson-gui-exec
+  /usr/bin/qhelpgenerator:
+    bind-file: $SNAP/usr/lib/qt6/bin/qhelpgenerator
+
+
+  /usr/lib/Nelson:
+    bind: $SNAP/usr/lib/x86_64-linux-gnu/Nelson
+
+  /usr/share/Nelson:
+    bind: $SNAP/usr/share/Nelson
+
   /usr/local/lib:
     symlink: $SNAP/usr/local/lib
 
