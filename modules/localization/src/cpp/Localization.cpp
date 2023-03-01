@@ -7,12 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/foreach.hpp>
+#include <nlohmann/json.hpp>
 #include <boost/function.hpp>
 #include <boost/locale.hpp>
 #include <boost/locale/generator.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
 #include <clocale>
 #include <fstream>
 #include "Localization.hpp"
@@ -22,20 +20,6 @@
 namespace Nelson {
 //=============================================================================
 Localization* Localization::m_pInstance = nullptr;
-//=============================================================================
-static std::ifstream&
-safegetline(std::ifstream& os, std::string& line)
-{
-    std::string myline;
-    if (getline(os, myline)) {
-        if (!myline.empty() && myline[myline.size() - 1] == '\r') {
-            line = myline.substr(0, myline.size() - 1);
-        } else {
-            line = myline;
-        }
-    }
-    return os;
-}
 //=============================================================================
 Localization::Localization() { initLanguageSupported(); }
 //=============================================================================
@@ -89,23 +73,40 @@ Localization::initLanguageSupported()
 #else
         std::ifstream jsonFile(wstring_to_utf8(langsconf));
 #endif
-        if (jsonFile.is_open()) {
-            while (safegetline(jsonFile, tmpline)) {
-                jsonString += tmpline + '\n';
-            }
-            jsonFile.close();
+        if (!jsonFile.is_open()) {
+            LanguageSupported.push_back(std::wstring(L"en_US"));
+            return;
         }
-        boost::property_tree::ptree pt2;
-        std::istringstream is(jsonString);
-        LanguageSupported.clear();
+        nlohmann::json data;
         try {
-            boost::property_tree::read_json(is, pt2);
-            BOOST_FOREACH (
-                boost::property_tree::ptree::value_type& v, pt2.get_child("supported_languages")) {
-                LanguageSupported.push_back(utf8_to_wstring(v.second.data()));
+            data = nlohmann::json::parse(jsonFile);
+        } catch (const nlohmann::json::exception&) {
+            jsonFile.close();
+            LanguageSupported.push_back(std::wstring(L"en_US"));
+            return;
+        }
+
+        jsonFile.close();
+
+        nlohmann::json languages;
+        try {
+            languages = data["supported_languages"];
+        } catch (const nlohmann::json::exception&) {
+            LanguageSupported.push_back(std::wstring(L"en_US"));
+            return;
+        }
+        if (!languages.is_null() && languages.is_array()) {
+            try {
+                for (nlohmann::json::iterator it = languages.begin(); it != languages.end(); ++it) {
+                    std::string value = *it;
+                    LanguageSupported.push_back(utf8_to_wstring(value));
+                }
+            } catch (const nlohmann::json::exception&) {
+                LanguageSupported.clear();
+                LanguageSupported.push_back(std::wstring(L"en_US"));
+                return;
             }
-        } catch (const boost::property_tree::json_parser::json_parser_error& je) {
-            je.message();
+        } else {
             LanguageSupported.push_back(std::wstring(L"en_US"));
         }
     }
@@ -141,43 +142,24 @@ Localization::setLanguage(const std::wstring& lang, bool save)
 #else
         std::ifstream jsonFile(wstring_to_utf8(prefFile));
 #endif
+        nlohmann::json data;
         if (jsonFile.is_open()) {
-            while (safegetline(jsonFile, tmpline)) {
-                jsonString += tmpline + '\n';
-            }
-            jsonFile.close();
-            boost::property_tree::ptree pt;
-            std::istringstream is(jsonString);
             try {
-                boost::property_tree::read_json(is, pt);
-                pt.put("language", wstring_to_utf8(lang));
-                std::ostringstream buf;
-                boost::property_tree::write_json(buf, pt, false);
-                std::string json = buf.str();
-#ifdef _MSC_VER
-                std::ofstream out(prefFile);
-#else
-                std::ofstream out(wstring_to_utf8(prefFile));
-#endif
-                out << json;
-                out.close();
-                return true;
-            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
-                je.message();
+                data = nlohmann::json::parse(jsonFile);
+            } catch (const nlohmann::json::exception&) {
+                jsonFile.close();
                 return false;
             }
-        } else {
-            boost::property_tree::ptree pt;
-            pt.put("language", wstring_to_utf8(lang));
-            std::ostringstream buf;
-            boost::property_tree::write_json(buf, pt, false);
-            std::string json = buf.str();
+            jsonFile.close();
+        }
+        data["language"] = wstring_to_utf8(lang);
 #ifdef _MSC_VER
-            std::ofstream out(prefFile);
+        std::ofstream out(prefFile);
 #else
-            std::ofstream out(wstring_to_utf8(prefFile));
+        std::ofstream out(wstring_to_utf8(prefFile));
 #endif
-            out << json;
+        if (out.is_open()) {
+            out << data.dump(4);
             out.close();
             return true;
         }
@@ -200,34 +182,28 @@ Localization::initializeLocalization(const std::wstring& lang)
 {
     std::wstring effectiveLang = L"en_US";
     std::wstring _lang(lang);
+
     initLanguageSupported();
     if (lang.empty()) {
-        std::wstring language_saved;
+        std::wstring language_saved = L"";
         std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
         std::wstring prefFile = prefDir + L"/nelson.conf";
-        std::string jsonString;
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(prefFile);
 #else
         std::ifstream jsonFile(wstring_to_utf8(prefFile));
 #endif
         if (jsonFile.is_open()) {
-            while (safegetline(jsonFile, tmpline)) {
-                jsonString += tmpline + '\n';
-            }
-            jsonFile.close();
-            boost::property_tree::ptree pt;
-            std::istringstream is(jsonString);
             try {
-                boost::property_tree::read_json(is, pt);
-                language_saved = utf8_to_wstring(pt.get<std::string>("language"));
-            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
-                je.message();
+                nlohmann::json data = nlohmann::json::parse(jsonFile);
+                if (data["language"].is_string()) {
+                    std::string value = data["language"];
+                    language_saved = utf8_to_wstring(value);
+                }
+            } catch (const nlohmann::json::exception&) {
                 language_saved.clear();
             }
-        } else {
-            language_saved.clear();
+            jsonFile.close();
         }
         _lang = language_saved;
     }

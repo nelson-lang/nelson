@@ -214,6 +214,7 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
 ArrayOf
 jsonPrettyPrint(const std::wstring& stringToPrettify)
 {
+    // <nlohmann/json> does not manage NaN
     std::wstring jsonPrettified = JSONPrettify(stringToPrettify, Colons::TIGHT);
     return ArrayOf::characterArrayConstructor(jsonPrettified);
 }
