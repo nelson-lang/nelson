@@ -173,8 +173,9 @@ jobs:
     steps:
       - name: install dependencies
         run: |
-          #sudo apt update;
-          #sudo apt upgrade;
+          sudo apt-mark hold grub-efi-amd64-signed
+          sudo apt-get update --fix-missing
+          sudo apt upgrade;
           sudo apt -y install build-essential;
           sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
           sudo apt -y install ninja-build;
