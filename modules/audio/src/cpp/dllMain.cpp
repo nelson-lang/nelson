@@ -9,10 +9,13 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include "nlsBuildConfig.h"
 //=============================================================================
 #pragma comment(lib, "portaudio.lib")
 #pragma comment(lib, "sndfile.lib")
+#if WITH_TAGLIB
 #pragma comment(lib, "tag.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

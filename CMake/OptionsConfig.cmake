@@ -64,6 +64,12 @@ else()
   set(WITH_OPENMP 1)
 endif()
 # ==============================================================================
+if(TAGLIB_FOUND)
+  set(WITH_TAGLIB 1)
+else()
+  set(WITH_TAGLIB 0)
+endif()
+# ==============================================================================
 include(GNUInstallDirs)
 set(NLS_LIBRARY_PATH_PREFIX ${CMAKE_INSTALL_LIBDIR})
 set(NLS_RUNTIME_PATH_PREFIX ${CMAKE_INSTALL_BINDIR})

@@ -276,7 +276,7 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_AUDIO_MODULE)
   find_package(LibSndFile REQUIRED)
-  find_package(Taglib REQUIRED)
+  find_package(Taglib)
   if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     find_package(ALSA REQUIRED)
     find_package(Jack REQUIRED)

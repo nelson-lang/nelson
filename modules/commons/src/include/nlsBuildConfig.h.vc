@@ -18,6 +18,7 @@
 #define NLS_RUNTIME_PATH_PREFIX L"bin/win32"
 #endif
 //=============================================================================
+#define WITH_TAGLIB 1
 #define WITH_OPENMP 1
 #define WITH_MEX_MODULE 1
 #define WITH_FFTW_MODULE 1
