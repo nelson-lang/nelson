@@ -7,10 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/foreach.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
 #include <fstream>
+#include <nlohmann/json.hpp>
 #include "FileSystemWrapper.hpp"
 #include "TextEditorPreferences.hpp"
 #include "GetVariableEnvironment.hpp"
@@ -21,20 +19,6 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static std::ifstream&
-safegetline(std::ifstream& os, std::string& line)
-{
-    std::string myline;
-    if (getline(os, myline)) {
-        if (myline.size() && myline[myline.size() - 1] == '\r') {
-            line = myline.substr(0, myline.size() - 1);
-        } else {
-            line = myline;
-        }
-    }
-    return os;
-}
-//=============================================================================
 bool
 TextEditorSavePreferences(
     QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles)
@@ -42,35 +26,36 @@ TextEditorSavePreferences(
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
-    boost::property_tree::ptree pt;
     QString fontQString = currentFont.toString();
-    ;
     std::wstring fontName = QStringTowstring(fontQString);
-    pt.put("FONT_SIZE", currentFont.pointSize());
-    pt.put("FONT_FIXED_PITCH", currentFont.fixedPitch());
-    pt.put("FONT_NAME", wstring_to_utf8(fontName));
-    pt.put("POSITION_X", pos.x());
-    pt.put("POSITION_Y", pos.y());
-    pt.put("SIZE_X", sz.width());
-    pt.put("SIZE_Y", sz.height());
-    boost::property_tree::ptree recent_files_node;
+
+    nlohmann::json data;
+
+    data["FONT_SIZE"] = currentFont.pointSize();
+    data["FONT_FIXED_PITCH"] = currentFont.fixedPitch();
+    data["FONT_NAME"] = wstring_to_utf8(fontName);
+    data["POSITION_X"] = pos.x();
+    data["POSITION_Y"] = pos.y();
+    data["SIZE_X"] = sz.width();
+    data["SIZE_Y"] = sz.height();
+
+    stringVector utfFilenames;
     for (auto& name : recentFiles) {
-        boost::property_tree::ptree name_node;
-        name_node.put("", wstring_to_utf8(name));
-        recent_files_node.push_back(std::make_pair("", name_node));
+        utfFilenames.push_back(wstring_to_utf8(name));
     }
-    pt.add_child("RECENT_FILES", recent_files_node);
-    std::ostringstream buf;
-    boost::property_tree::write_json(buf, pt, false);
-    std::string json = buf.str();
+    nlohmann::json j_vector(utfFilenames);
+    data["RECENT_FILES"] = j_vector;
 #ifdef _MSC_VER
     std::ofstream out(editorConfFile);
 #else
     std::ofstream out(wstring_to_utf8(editorConfFile));
 #endif
-    out << json;
-    out.close();
-    return true;
+    if (out.is_open()) {
+        out << data.dump(4);
+        out.close();
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 bool
@@ -96,38 +81,23 @@ TextEditorLoadPreferences(
         std::ifstream jsonFile(wstring_to_utf8(editorConfFile));
 #endif
         if (jsonFile.is_open()) {
-            std::string jsonString = "";
-            while (safegetline(jsonFile, tmpline)) {
-                jsonString += tmpline + '\n';
+            nlohmann::json data;
+            try {
+                data = nlohmann::json::parse(jsonFile);
+                pref_font_size = data["FONT_SIZE"];
+                pref_font_fixed_pitch = data["FONT_FIXED_PITCH"];
+                pref_font_name = data["FONT_NAME"];
+                pref_pos_x = data["POSITION_X"];
+                pref_pos_y = data["POSITION_Y"];
+                pref_sz_x = data["SIZE_X"];
+                pref_sz_y = data["SIZE_Y"];
+                stringVector _recentFiles = data["RECENT_FILES"];
+                for (auto name : _recentFiles) {
+                    recentFiles.push_back(utf8_to_wstring(name));
+                }
+            } catch (const nlohmann::json::exception&) {
             }
             jsonFile.close();
-            boost::property_tree::ptree pt;
-            std::istringstream is(jsonString);
-            try {
-                boost::property_tree::read_json(is, pt);
-                if (pt.count("FONT_NAME") != 0) {
-                    pref_font_name = pt.get<std::string>("FONT_NAME");
-                }
-                if (pt.count("FONT_SIZE") != 0) {
-                    pref_font_size = pt.get<int>("FONT_SIZE");
-                }
-                if (pt.count("FONT_FIXED_PITCH") != 0) {
-                    pref_font_fixed_pitch = pt.get<bool>("FONT_FIXED_PITCH");
-                }
-                recentFiles.clear();
-                if (pt.count("RECENT_FILES") != 0) {
-                    for (boost::property_tree::ptree::value_type& names :
-                        pt.get_child("RECENT_FILES")) {
-                        recentFiles.push_back(utf8_to_wstring(names.second.data()));
-                    }
-                }
-                pref_pos_x = pt.get<int>("POSITION_X");
-                pref_pos_y = pt.get<int>("POSITION_Y");
-                pref_sz_x = pt.get<int>("SIZE_X");
-                pref_sz_y = pt.get<int>("SIZE_Y");
-            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
-                je.message();
-            }
         }
     }
     QString font = QString::fromUtf8(pref_font_name.c_str());

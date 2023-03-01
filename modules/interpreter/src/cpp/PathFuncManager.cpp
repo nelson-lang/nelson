@@ -8,12 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cerrno>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
-#include <boost/format.hpp>
 #include <algorithm>
 #include <fstream>
+#include <nlohmann/json.hpp>
 #include "PathFuncManager.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -29,20 +26,6 @@
 namespace Nelson {
 //=============================================================================
 PathFuncManager* PathFuncManager::m_pInstance = nullptr;
-//=============================================================================
-static std::ifstream&
-safegetline(std::ifstream& os, std::string& line)
-{
-    std::string myline;
-    if (getline(os, myline)) {
-        if (myline.size() && myline[myline.size() - 1] == '\r') {
-            line = myline.substr(0, myline.size() - 1);
-        } else {
-            line = myline;
-        }
-    }
-    return os;
-}
 //=============================================================================
 PathFuncManager::PathFuncManager()
 {
@@ -578,19 +561,14 @@ PathFuncManager::loadUserPathFromFile()
         std::ifstream jsonFile(wstring_to_utf8(userPathFile));
 #endif
         if (jsonFile.is_open()) {
-            std::string jsonString;
-            while (safegetline(jsonFile, tmpline)) {
-                jsonString += tmpline + '\n';
+            nlohmann::json data;
+            try {
+                data = nlohmann::json::parse(jsonFile);
+                std::string _preferedUserPath = data["userpath"];
+                preferedUserPath = utf8_to_wstring(_preferedUserPath);
+            } catch (const nlohmann::json::exception&) {
             }
             jsonFile.close();
-            boost::property_tree::ptree pt;
-            std::istringstream is(jsonString);
-            try {
-                boost::property_tree::read_json(is, pt);
-                preferedUserPath = utf8_to_wstring(pt.get<std::string>("userpath"));
-            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
-                je.message();
-            }
         }
     }
     return preferedUserPath;
@@ -605,19 +583,20 @@ PathFuncManager::saveUserPathToFile()
     }
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
-    boost::property_tree::ptree pt;
-    pt.put("userpath", wstring_to_utf8(up));
-    std::ostringstream buf;
-    boost::property_tree::write_json(buf, pt, false);
-    std::string json = buf.str();
+
+    nlohmann::json data;
+    data["userpath"] = wstring_to_utf8(up);
 #ifdef _MSC_VER
     std::ofstream out(userPathFile);
 #else
     std::ofstream out(wstring_to_utf8(userPathFile));
 #endif
-    out << json;
-    out.close();
-    return true;
+    if (out.is_open()) {
+        out << data;
+        out.close();
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

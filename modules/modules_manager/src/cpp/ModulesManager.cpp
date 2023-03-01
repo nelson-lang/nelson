@@ -10,11 +10,10 @@
 #include <unordered_map>
 #include <map>
 #include <algorithm>
-#include "StringHelpers.hpp"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <semver.h>
 #include <fstream>
+#include <nlohmann/json.hpp>
+#include <semver.h>
+#include "StringHelpers.hpp"
 #include "ModulesManager.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
@@ -99,20 +98,6 @@ ModulesManager::getModulesProtectedList(bool bReverse)
     return retlist;
 }
 //=============================================================================
-static std::ifstream&
-safegetline(std::ifstream& os, std::string& line)
-{
-    std::string myline;
-    if (getline(os, myline)) {
-        if (!myline.empty() && myline[myline.size() - 1] == '\r') {
-            line = myline.substr(0, myline.size() - 1);
-        } else {
-            line = myline;
-        }
-    }
-    return os;
-}
-//=============================================================================
 versionElement
 ModulesManager::readVersionFromJson(const std::wstring& path)
 {
@@ -130,16 +115,10 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
     std::ifstream jsonFile(wstring_to_utf8(moduleJsonFilename));
 #endif
     if (jsonFile.is_open()) {
-        std::string tmpline;
-        while (safegetline(jsonFile, tmpline)) {
-            jsonString += tmpline + '\n';
-        }
-        jsonFile.close();
-        boost::property_tree::ptree root;
-        std::istringstream is(jsonString);
+        nlohmann::json data;
         try {
-            boost::property_tree::read_json(is, root);
-            std::string versionString = root.get<std::string>("version");
+            data = nlohmann::json::parse(jsonFile);
+            std::string versionString = data["version"];
             semver_t semVersion = {};
             if (semver_parse(versionString.c_str(), &semVersion) != 0) {
                 version.clear();
@@ -149,10 +128,9 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
                 version.push_back(semVersion.minor);
                 version.push_back(semVersion.patch);
             }
-
-        } catch (const boost::property_tree::json_parser::json_parser_error&) {
-            version.clear();
+        } catch (const nlohmann::json::exception&) {
         }
+        jsonFile.close();
     }
     if (version.size() == 3) {
         return std::make_tuple(version[0], version[1], version[2]);

@@ -190,6 +190,13 @@ The Diff Template Library written by C++
 > <https://github.com/Borisas/cpp-json-prettify/blob/master/license.txt>
 > MIT license
 
+- JSON for Modern C++
+
+> <https://github.com/nlohmann/json>
+
+> <https://github.com/nlohmann/json/blob/master/LICENSE.MIT>
+> MIT license
+
 - Portaudio
 
 PortAudio is a free, cross-platform, open-source, audio I/O library
@@ -272,14 +279,6 @@ Asio C++ Library
 > <http://think-async.com/Asio/>
 
 > <https://github.com/chriskohlhoff/asio/blob/master/asio/COPYING> (Boost 1.0)
-
-- fifo_map
-
-a FIFO-ordered associative container for C++
-
-> <https://github.com/nlohmann/fifo_map>
-
-> <https://github.com/nlohmann/fifo_map/blob/master/LICENSE.MIT> MIT license
 
 - picoSHA2
 
