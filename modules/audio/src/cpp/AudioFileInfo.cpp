@@ -11,9 +11,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
-#include <fileref.h>
+#include "nlsBuildConfig.h"
 #include <sndfile.h>
+#if WITH_TAGLIB
+#include <fileref.h>
 #include <tag.h>
+#endif
 #include <cstring>
 #include "StringHelpers.hpp"
 #include "AudioFileInfo.hpp"
@@ -220,6 +223,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     std::wstring Title;
     std::wstring Comment;
     std::wstring Artist;
+#if WITH_TAGLIB
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -233,6 +237,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
             Artist = tag->artist().toWString();
         }
     }
+#endif
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
     fieldnames.push_back("Filename");

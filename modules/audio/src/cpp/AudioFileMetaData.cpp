@@ -7,9 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
+#if WITH_TAGLIB
 #include <fileref.h>
 #include <tag.h>
 #include <tpropertymap.h>
+#endif
 #include "StringHelpers.hpp"
 #include "AudioFileMetaData.hpp"
 #include "MakeValidFieldname.hpp"
@@ -37,6 +40,7 @@ AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
     wstringVector& fiedvalues, std::wstring& errorMessage)
 {
     errorMessage.clear();
+#if WITH_TAGLIB
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -72,7 +76,9 @@ AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
         errorMessage = _W("No tags available.");
         return false;
     }
-
+#else
+    errorMessage = _W("Taglib not available.");
+#endif
     return false;
 }
 //=============================================================================
@@ -81,6 +87,7 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
     wstringVector fieldvalues, std::wstring& errorMessage)
 {
     errorMessage.clear();
+#if WITH_TAGLIB
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -116,7 +123,9 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
         errorMessage = _W("No tags available.");
         return false;
     }
-
+#else
+    errorMessage = _W("Taglib not available.");
+#endif
     return false;
 }
 //=============================================================================
@@ -125,6 +134,7 @@ deleteAudioFileMetaData(
     const std::wstring& filename, const std::wstring& fieldname, std::wstring& errorMessage)
 {
     errorMessage.clear();
+#if WITH_TAGLIB
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -157,6 +167,9 @@ deleteAudioFileMetaData(
             return false;
         }
     }
+#else
+    errorMessage = _W("Taglib not available.");
+#endif
     return false;
 }
 //=============================================================================
