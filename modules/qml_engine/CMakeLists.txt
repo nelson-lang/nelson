@@ -14,7 +14,6 @@ set(module_library_name nlsQml_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # ==============================================================================
 file(GLOB QML_ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 list(FILTER QML_ENGINE_SRC EXCLUDE REGEX

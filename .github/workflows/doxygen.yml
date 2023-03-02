@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: install dependencies
         run: |
-          sudo apt update;
-          sudo apt upgrade;
+          #sudo apt update;
+          #sudo apt upgrade;
           sudo apt -y install doxygen;
           sudo apt -y install graphviz;
 

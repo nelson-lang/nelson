@@ -19,6 +19,11 @@ list(FILTER AUDIO_SRC EXCLUDE REGEX
 # ==============================================================================
 add_library(${module_library_name} ${AUDIO_SRC})
 # ==============================================================================
+if(NOT TAGLIB_FOUND)
+  set(TAGLIB_INCLUDES "")
+  set(TAGLIB_LIBRARIES "")
+endif()
+# ==============================================================================
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -77,7 +82,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-          
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include

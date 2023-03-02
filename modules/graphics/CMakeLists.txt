@@ -13,7 +13,6 @@ set(module_name graphics)
 set(module_library_name nlsGraphics)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")

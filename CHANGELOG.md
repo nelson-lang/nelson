@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - internal: boost no more used to read/write json files.
 - internal: taglib library is optional.
 
+### Added
+
+- [851](http://github.com/Nelson-numerical-software/nelson/issues/851): Build with micromamba environment
+
 ## 0.7.2 (2023-02-27)
 
 ### Changed
