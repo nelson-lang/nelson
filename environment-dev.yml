@@ -26,5 +26,6 @@ dependencies:
   - libffi
   - libzlib
   - eigen
+  - pkg-config
   - mesa-libgl-devel-cos6-x86_64
   - xorg-x11-server-xvfb-cos6-x86_64
