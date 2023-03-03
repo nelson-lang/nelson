@@ -7,6 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+if ispc() && ~havecompiler()
+  configuremsvc()
+end
+%=============================================================================
 [status, compiler] = loadcompilerconf();
 if ispc()
   assert_istrue(islogical(status));

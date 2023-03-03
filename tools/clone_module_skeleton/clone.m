@@ -31,5 +31,9 @@ end
 if isdir([DESTINATION, '/.git'])
   rmdir([DESTINATION, '/.git'], 's');
 end
+if isdir([DESTINATION, '/.github'])
+  rmdir([DESTINATION, '/.github'], 's');
+end
+
 exit();
 %=============================================================================
