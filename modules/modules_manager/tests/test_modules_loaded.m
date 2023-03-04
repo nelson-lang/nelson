@@ -25,6 +25,9 @@ end
 if ~any(strcmp(getnelsonmode(), ["ADVANCED_SIO_CLIENT", "BASIC_SIO_CLIENT"]))
   modules_list(strcmp(modules_list, 'sio_client')) = [];
 end
+if ~ismodule('audio')
+  modules_list(strcmp(modules_list, 'audio')) = [];
+end
 if ~ismodule('slicot')
   modules_list(strcmp(modules_list, 'slicot')) = [];
 end
