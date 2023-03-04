@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- [851](http://github.com/Nelson-numerical-software/nelson/issues/851): Build with micromamba environment
+- [851](http://github.com/Nelson-numerical-software/nelson/issues/851): Build with micromamba environment (linux and macOS)
 
 ## 0.7.2 (2023-02-27)
 
