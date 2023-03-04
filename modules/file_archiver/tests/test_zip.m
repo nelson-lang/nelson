@@ -15,7 +15,7 @@ if ~isfile(builderFile)
   return
 end
 %=============================================================================
-TMPDIR = tempdir();
+TMPDIR = tempdir()
 if ismac()
   TMPDIR = ['/private', TMPDIR];
 end
@@ -111,12 +111,10 @@ REF = {'module_skeleton/CHANGELOG.md', ...
 'module_skeleton/tests/bench_macro_sum.m', ...            
 'module_skeleton/tests/test_cpp_sum.m', ...               
 'module_skeleton/tests/test_macro_sum.m'};
-for e = REF
-  assert_istrue(any(contains(R3, e{1})));
-end
 assert_istrue(isfile(DEST_3));
 info = dir(DEST_3);
 assert_istrue(info.bytes > 0);
+assert_istrue(any(contains(REF, R3)));
 %=============================================================================
 DEST_4 = [TMPDIR, 'zip_test_4.zip'];
 R4 = zip(DEST_4, [nelsonroot(), '/module_skeleton/']);
@@ -158,12 +156,10 @@ REF = {
 'tests/bench_macro_sum.m', ...            
 'tests/test_cpp_sum.m', ...               
 'tests/test_macro_sum.m'};
-for e = REF
-  assert_istrue(any(contains(R4, e{1})));
-end
 assert_istrue(isfile(DEST_4));
 info = dir(DEST_4);
 assert_istrue(info.bytes > 0);
+assert_istrue(any(contains(REF, R4)));
 %=============================================================================
 DEST_5 = [TMPDIR, 'zip_test_5.zip'];
 R5 = zip(DEST_5, [nelsonroot(), '/module_skeleton/.']);
@@ -204,12 +200,10 @@ REF = {'CHANGELOG.md', ...
   'tests/bench_macro_sum.m', ...           
   'tests/test_cpp_sum.m', ...              
   'tests/test_macro_sum.m'};
-for e = REF
-  assert_istrue(any(contains(R5, e{1})));
-end
 assert_istrue(isfile(DEST_5));
 info = dir(DEST_5);
 assert_istrue(info.bytes > 0);
+assert_istrue(any(contains(REF, R5)));
 %=============================================================================
 cmd = 'R = zip(DEST_1, ''*.m'', [nelsonroot(), ''/modules_skeleton''])';
 assert_checkerror(cmd, _('Invalid root path.'));
