@@ -40,7 +40,8 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (option == L"-date") {
-            retval << ArrayOf::characterArrayConstructor(__TIMESTAMP__);
+            retval << ArrayOf::characterArrayConstructor(
+                std::string(__DATE__) + " " + std::string(__TIME__));
         } else if (option == L"-description") {
             retval << ArrayOf::characterArrayConstructor(L"");
         } else if (option == L"-release") {

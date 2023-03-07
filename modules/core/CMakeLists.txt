@@ -73,6 +73,9 @@ file(GLOB CORE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER CORE_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
+add_custom_target(invalidate_file ALL
+  COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/versionBuiltin.cpp")
+# ==============================================================================
 add_library(${module_library_builtin_name} ${CORE_BUILTIN})
 target_include_directories(
   ${module_library_builtin_name}
