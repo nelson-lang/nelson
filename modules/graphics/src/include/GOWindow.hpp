@@ -43,7 +43,12 @@ protected:
     //=============================================================================
 public:
     GOWindow(int64 ahandle);
-    ~GOWindow() override { delete goFig; }
+    ~GOWindow() override
+    {
+        if (goFig) {
+            delete goFig;
+        }
+    }
     int64
     getHandle();
     GOFigure*
