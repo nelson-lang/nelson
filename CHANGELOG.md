@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [866](http://github.com/Nelson-numerical-software/nelson/issues/866): Close menu on figure can crash on linux.
+- [869](http://github.com/Nelson-numerical-software/nelson/issues/869): missing help files in linux package.
 
 ## 0.7.2 (2023-02-27)
 
