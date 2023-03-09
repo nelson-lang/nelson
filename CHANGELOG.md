@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [851](http://github.com/Nelson-numerical-software/nelson/issues/851): Build with micromamba environment (linux and macOS)
 
+### Fixed
+
+- [866](http://github.com/Nelson-numerical-software/nelson/issues/866): Close menu on figure can crash on linux.
+
 ## 0.7.2 (2023-02-27)
 
 ### Changed

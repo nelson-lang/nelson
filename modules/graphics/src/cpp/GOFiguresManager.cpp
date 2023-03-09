@@ -158,30 +158,10 @@ notifyCurrentFigureChanged(int64 figNum)
 void
 notifyFigureClosed(int64 figNum)
 {
-    closeFigure(figNum);
     hFigures[figNum] = nullptr;
     if (figNum == GOCurrentFig) {
         GOCurrentFig = NO_FIGURE;
     }
-
-    // Check for all figures closed
-    /*
-    bool allClosed = true;
-
-    std::map<int64, GOWindow*>::iterator it;
-    for (it = hFigures.begin(); allClosed && it != hFigures.end(); ++it) {
-        allClosed = (it->second == nullptr);
-    }
-    if (allClosed && NonGUIModeHack) {
-        if (!wid) {
-            wid = new NonClosableWidget;
-            wid->setGeometry(0, 0, 1, 1);
-            wid->setWindowIcon(QIcon(":/images/Nelson_small_mod_64.png"));
-            wid->show();
-        } else {
-            wid->show();
-        }
-    }*/
 }
 //=============================================================================
 GOWindow*
