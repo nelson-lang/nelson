@@ -136,7 +136,7 @@ install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
-  PATTERN "*.xml")
+  PATTERN "*.*")
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/templates
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
