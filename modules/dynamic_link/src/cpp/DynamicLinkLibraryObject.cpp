@@ -23,16 +23,42 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
     : HandleGenericObject(std::wstring(DLLIB_CATEGORY_STR), this, false)
 {
     _propertiesNames = { L"Path" };
-    std::wstring fullLibraryPath;
-    if (searchLibrary(libraryPath, fullLibraryPath)) {
+    boost::filesystem::path filePath(libraryPath);
+    boost::filesystem::path dirPath;
+    std::wstring parentPath;
+    std::wstring filename;
+
+    if (filePath.has_parent_path()) {
+        dirPath = filePath.parent_path();
+        parentPath = dirPath.wstring();
+    }
+    filename = filePath.filename().wstring();
+
+    if (parentPath.empty()) {
+        // libNelson.so
+        if (searchLibrary(libraryPath, _libraryPath)) {
+            boost::system::error_code errorCode;
+            _shared_library = boost::dll::shared_library(_libraryPath, errorCode);
+            if (errorCode) {
+                Error(_("Cannot load library: ") + errorCode.message());
+            }
+        } else {
+            Error(_W("Cannot load library: ") + libraryPath);
+        }
+    } else {
+        // ../path/ppp/libNelson.so
+        try {
+            dirPath = boost::filesystem::absolute(dirPath);
+        } catch (const boost::filesystem::filesystem_error&) {
+            Error(_W("Cannot load library: ") + libraryPath);
+        }
+        filePath = dirPath / boost::filesystem::path(filename);
         boost::system::error_code errorCode;
-        _shared_library = boost::dll::shared_library(fullLibraryPath, errorCode);
+        _shared_library = boost::dll::shared_library(filePath, errorCode);
         if (errorCode) {
             Error(_("Cannot load library: ") + errorCode.message());
         }
-        _libraryPath = _shared_library.location().generic_wstring();
-    } else {
-        Error(_W("Cannot load library: ") + libraryPath);
+        _libraryPath = filePath.generic_wstring();
     }
 }
 //=============================================================================
@@ -60,8 +86,9 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
 {
     stringVector symbols;
     try {
-        boost::dll::library_info libinfo(_libraryPath, false);
-        std::vector<std::string> stdSymbols = libinfo.symbols();
+        boost::dll::library_info lib_info(_libraryPath, true);
+        std::vector<std::string> stdSymbols = lib_info.symbols();
+
         symbols.reserve(stdSymbols.size());
         for (const std::string& s : stdSymbols) {
             symbols.push_back(s);
