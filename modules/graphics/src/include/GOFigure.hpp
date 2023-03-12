@@ -28,6 +28,9 @@ private:
     void
     refreshDrawLaterProperty();
 
+    int
+    transformY(int y, int heightFrame, int screenHeight);
+
 public:
     GOFigure(GOWindow* win, int number);
     ~GOFigure() override = default;

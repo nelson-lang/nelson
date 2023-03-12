@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QWidget>
+#include <QtGui/QScreen>
 #include "GOFigure.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,7 +19,7 @@ class BaseFigureQt : public QWidget
 {
 private:
     GOFigure* hfig = nullptr;
-    QScreen*
+    static QScreen*
     getActiveScreen();
 
 public:
@@ -27,8 +28,12 @@ public:
     paintEvent(QPaintEvent* e);
     void
     resizeEvent(QResizeEvent* e) override;
-    void
+    static bool
     currentScreenResolution(int& w, int& h);
+    static int
+    getCurrentScreenHeight();
+    static int
+    getCurrentScreenWidth();
 };
 //=============================================================================
 }

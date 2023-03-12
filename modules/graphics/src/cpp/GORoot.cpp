@@ -23,6 +23,7 @@
 #include "GOArrayOfProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
+#include "BaseFigureQt.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +40,7 @@ GORoot::getType()
 {
     return L"root";
 }
-
+//=============================================================================
 void
 GORoot::constructProperties()
 {
@@ -107,10 +108,9 @@ GORoot::refreshScreenPixelsPerInchProperty()
 void
 GORoot::refreshScreenSizeProperty()
 {
-    QScreen* mainScreen = QGuiApplication::primaryScreen();
-    QSize mainSize = mainScreen->size();
-    setFourVectorDefault(
-        GO_SCREEN_SIZE_PROPERTY_NAME_STR, 1.0, 1.0, mainSize.width(), mainSize.height());
+    setFourVectorDefault(GO_SCREEN_SIZE_PROPERTY_NAME_STR, 1.0, 1.0,
+        Nelson::BaseFigureQt::getCurrentScreenWidth(),
+        Nelson::BaseFigureQt::getCurrentScreenHeight());
 }
 //=============================================================================
 void

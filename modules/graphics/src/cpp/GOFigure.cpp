@@ -15,6 +15,7 @@
 #include "GORoot.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOStringOnOffProperty.hpp"
+#include "BaseFigureQt.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -262,7 +263,11 @@ GOFigure::resizeGL(int width, int height)
     QPoint qPoint = qGeometry.topLeft();
     m_width = width;
     m_height = height;
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, qPoint.x(), qPoint.y(), width, height);
+
+    int transformedY
+        = transformY(qPoint.y(), height, Nelson::BaseFigureQt::getCurrentScreenHeight());
+
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, qPoint.x(), transformedY, width, height);
     _resized = true;
     updateState();
     GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
@@ -281,6 +286,13 @@ GOFigure::resized()
     return _resized;
 }
 //=============================================================================
+int
+GOFigure::transformY(int y, int heightFrame, int screenHeight)
+{
+    int transformedY = screenHeight - heightFrame - y;
+    return transformedY;
+}
+//=============================================================================
 void
 GOFigure::refreshPositionProperty()
 {
@@ -291,7 +303,9 @@ GOFigure::refreshPositionProperty()
     QPoint qPoint = qFrameGeometry.topLeft();
 
     auto* positionProperty = (GOFourVectorProperty*)property;
-    positionProperty->value(qPoint.x(), qPoint.y(), qSize.width(), qSize.height());
+    int transformedY
+        = transformY(qPoint.y(), m_height, Nelson::BaseFigureQt::getCurrentScreenHeight());
+    positionProperty->value(qPoint.x(), transformedY, qSize.width(), qSize.height());
 };
 //=============================================================================
 void
