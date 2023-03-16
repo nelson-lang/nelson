@@ -1208,15 +1208,33 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
+
+    std::vector<double> clim(findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
+    std::vector<double> alim(findVectorDoubleProperty(GO_A_LIM_PROPERTY_NAME_STR));
+
+    GOSixVectorProperty* hp
+        = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
+
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
         std::vector<double> child_limits(fp->getLimits());
+        std::wstring goType = fp->getType();
         if (!child_limits.empty()) {
             if (first) {
                 limits = child_limits;
+                if (goType == GO_PROPERTY_VALUE_PATCH_STR) {
+                    limits[6] = std::min(limits[6], clim[0]);
+                    limits[7] = std::max(limits[7], clim[1]);
+                    limits[8] = std::min(limits[8], alim[0]);
+                    limits[9] = std::max(limits[9], alim[1]);
+                }
                 first = false;
             } else {
-                for (int i = 0; i < std::min(limits.size(), child_limits.size()); i += 2) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType i = 0;
+                     i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
                     limits[i] = std::min(limits[i], child_limits[i]);
                     limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
                 }
@@ -1238,8 +1256,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         limits[4] = limits[4] - 0.5;
         limits[5] = limits[4] + 1;
     }
-    GOSixVectorProperty* hp
-        = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
     hp->value(limits[0], limits[1], limits[2], limits[3], limits[4], limits[5]);
     if (x) {
         setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, limits[0], limits[1]);
@@ -1712,8 +1728,8 @@ GOAxis::drawChildren(RenderInterface& gc)
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
-    for (int i = 0; i < handles.size(); i++) {
-        GraphicsObject* fp = findGraphicsObject(handles[i], false);
+    for (auto h : handles) {
+        GraphicsObject* fp = findGraphicsObject(h, false);
         if (fp) {
             fp->paintMe(gc);
         }

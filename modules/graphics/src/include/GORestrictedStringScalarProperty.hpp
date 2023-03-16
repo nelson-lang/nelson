@@ -17,13 +17,10 @@ namespace Nelson {
 class GORestrictedStringScalarProperty : public GORestrictedStringProperty
 {
 private:
-    double _scalar;
+    double _scalar { 0 };
 
 public:
-    GORestrictedStringScalarProperty(const wchar_t** dict)
-        : GORestrictedStringProperty(dict), _scalar(0)
-    {
-    }
+    GORestrictedStringScalarProperty(const wchar_t** dict) : GORestrictedStringProperty(dict) { }
     ~GORestrictedStringScalarProperty() override = default;
     void set(ArrayOf) override;
     ArrayOf

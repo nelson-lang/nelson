@@ -72,20 +72,26 @@ RenderQt::color(std::vector<double> col)
 }
 //=============================================================================
 void
+RenderQt::setLineStyle(QPen& _pen, std::wstring style)
+{
+    if (style == L"-") {
+        _pen.setStyle(Qt::SolidLine);
+    } else if (style == L"--") {
+        _pen.setStyle(Qt::DashLine);
+    } else if (style == L":") {
+        _pen.setStyle(Qt::DotLine);
+    } else if (style == L"-.") {
+        _pen.setStyle(Qt::DashDotLine);
+    } else if (style == GO_PROPERTY_VALUE_NONE_STR) {
+        _pen.setStyle(Qt::NoPen);
+    }
+}
+//=============================================================================
+void
 RenderQt::setLineStyle(std::wstring style)
 {
     QPen pen(pnt->pen());
-    if (style == L"-") {
-        pen.setStyle(Qt::SolidLine);
-    } else if (style == L"--") {
-        pen.setStyle(Qt::DashLine);
-    } else if (style == L":") {
-        pen.setStyle(Qt::DotLine);
-    } else if (style == L"-.") {
-        pen.setStyle(Qt::DashDotLine);
-    } else if (style == GO_PROPERTY_VALUE_NONE_STR) {
-        pen.setStyle(Qt::NoPen);
-    }
+    setLineStyle(pen, style);
     pnt->setPen(pen);
 }
 //=============================================================================
@@ -327,9 +333,11 @@ void
 RenderQt::clear(std::vector<double> col)
 {
     pnt->save();
-    pnt->setPen(QColor((int)(col[0] * 255), (int)(col[1] * 255), (int)(col[2] * 255)));
-    pnt->setBrush(QColor((int)(col[0] * 255), (int)(col[1] * 255), (int)(col[2] * 255)));
-    pnt->drawRect((int)m_x1, (int)m_y1, (int)m_width, (int)m_height);
+    if (col.size() == 3) {
+        pnt->setPen(QColor((int)(col[0] * 255), (int)(col[1] * 255), (int)(col[2] * 255)));
+        pnt->setBrush(QColor((int)(col[0] * 255), (int)(col[1] * 255), (int)(col[2] * 255)));
+        pnt->drawRect((int)m_x1, (int)m_y1, (int)m_width, (int)m_height);
+    }
     pnt->restore();
 }
 //=============================================================================
@@ -749,5 +757,52 @@ RenderQt::putText(double x, double y, std::wstring txt, std::vector<double> colo
     }
     pnt->restore();
     pnt->setPen(pen);
+}
+//=============================================================================
+void
+RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle)
+{
+    FaceList::const_iterator it = faces.begin();
+
+    while (it != faces.end()) {
+        const Face face = *it;
+        std::vector<point>::const_iterator vert_it = face.vertices.begin();
+
+        QPolygonF poly;
+        poly.reserve(face.vertices.size());
+
+        if (face.FaceColorMode == ColorMode::ColorSpec) {
+            pnt->setBrush(QColor((int)(face.FaceColor.r * 255), (int)(face.FaceColor.g * 255),
+                (int)(face.FaceColor.b * 255), (int)(face.FaceColor.a * 255)));
+        }
+        if (face.FaceColorMode == ColorMode::Flat || face.FaceColorMode == ColorMode::Interp) {
+            pnt->setBrush(
+                QColor((int)(face.vertexcolors[0].r * 255), (int)(face.vertexcolors[0].g * 255),
+                    (int)(face.vertexcolors[0].b * 255), (int)(face.vertexcolors[0].a * 255)));
+        }
+        if (face.EdgeColorMode == ColorMode::ColorSpec) {
+            QPen pen((QColor((int)(face.EdgeColor.r * 255), (int)(face.EdgeColor.g * 255),
+                (int)(face.EdgeColor.b * 255), (int)(face.EdgeColor.a * 255))));
+            pen.setWidthF(lineWidth);
+            setLineStyle(pen, lineStyle);
+            pnt->setPen(pen);
+        }
+        if (face.EdgeColorMode == ColorMode::Flat || face.EdgeColorMode == ColorMode::Interp) {
+
+            QPen pen(QColor((int)(face.edgecolors[0].r * 255), (int)(face.edgecolors[0].g * 255),
+                (int)(face.edgecolors[0].b * 255), (int)(face.edgecolors[0].a * 255)));
+            pen.setWidthF(lineWidth);
+            setLineStyle(pen, lineStyle);
+            pnt->setPen(pen);
+        }
+
+        while (vert_it != face.vertices.end()) {
+            point v = *vert_it;
+            poly.push_back(map(v.x, v.y, v.z));
+            ++vert_it;
+        }
+        pnt->drawPolygon(poly);
+        ++it;
+    }
 }
 //=============================================================================

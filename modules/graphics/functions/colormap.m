@@ -11,7 +11,7 @@ function varargout = colormap(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
   if (nargin == 0)
-    m = colorMapNoRhs()
+    m = colorMapNoRhs();
   else
     if nargin == 1
       m = colorMapOneRhs(varargin{1});
@@ -22,7 +22,6 @@ function varargout = colormap(varargin)
       m = colorMapTwoRhs(go, map);
     end
   end
-  refresh(gcf());
   if nargout == 1
     varargout{1} = m;
   end
@@ -56,6 +55,7 @@ function m = colorMapOneRhs(arg)
       m = map;
       f.Colormap = map;
     end
+    refresh(f);
   end
   %=============================================================================
 function m = colorMapTwoRhs(go, map)
@@ -69,6 +69,10 @@ function m = colorMapTwoRhs(go, map)
   else
     m = map;
     go.Colormap = map;
-  end  
+  end
+  if ~isgraphics(go, 'Figure')
+    go = ancestor(go, 'Figure');
+  end
+  refresh(go);
 end
 %=============================================================================

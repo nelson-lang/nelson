@@ -7,20 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "__image__Builtin.hpp"
+#include "GOConstructorHelpers.hpp"
+#include "GOPatch.hpp"
 //=============================================================================
-#include <vector>
-#include <string>
-#include "nlsGraphics_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data);
-//=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const std::wstring& colorString, bool withNone, std::vector<double>& data);
+ArrayOfVector
+__patch__Builtin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    retval << ArrayOf::graphicsObjectConstructor(GOCommonConstructorHelper(new GOPatch, argIn));
+    return retval;
+}
 //=============================================================================
 }
 //=============================================================================

@@ -14,6 +14,7 @@
 #include "GraphicsObject.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,15 +23,19 @@ refreshFigure(go_handle go)
 {
     GOFigure* fig = findGOFigure(go);
     if (fig) {
-        fig->updateState();
-        GOGObjectsProperty* children
-            = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-        std::vector<int64> handles(children->data());
-        for (int i = 0; i < handles.size(); i++) {
-            GraphicsObject* fp = findGraphicsObject(handles[i]);
-            fp->updateState();
+        try {
+            fig->updateState();
+            GOGObjectsProperty* children
+                = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+            std::vector<int64> handles(children->data());
+            for (int i = 0; i < handles.size(); i++) {
+                GraphicsObject* fp = findGraphicsObject(handles[i]);
+                fp->updateState();
+            }
+            fig->repaint();
+        } catch (const Exception&) {
+            return;
         }
-        fig->repaint();
     }
 }
 //=============================================================================

@@ -43,26 +43,28 @@ Exponential(const ArrayOf& A, bool& needToOverload)
             needToOverload = true;
         } else {
             Dimensions dimsA = A.getDimensions();
+            indexType nElementsA = A.getElementCount();
             if (classA == NLS_DOUBLE) {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
-                    NLS_DOUBLE, dimsA.getElementCount(), stringVector(), false);
+                    NLS_DOUBLE, nElementsA, stringVector(), false);
                 auto* ptrIn = (double*)A.getDataPointer();
-                Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsA.getElementCount());
-                Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsA.getElementCount());
+                Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, nElementsA);
+                Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, nElementsA);
                 matOut = matIn.array().exp();
                 res = ArrayOf(NLS_DOUBLE, dimsA, ptrOut);
             } else {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
-                    NLS_DCOMPLEX, dimsA.getElementCount(), stringVector(), false);
+                    NLS_DCOMPLEX, nElementsA, stringVector(), false);
                 auto* Cz = reinterpret_cast<std::complex<double>*>(ptrOut);
-                auto* ptrIn = (double*)A.getDataPointer();
-                auto* Az = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
-                Eigen::Map<Eigen::ArrayXcd> matOut(Cz, 1, dimsA.getElementCount());
-                Eigen::Map<Eigen::ArrayXcd> matIn(Az, 1, dimsA.getElementCount());
+                double* ptrIn = (double*)A.getDataPointer();
+                auto* Az = reinterpret_cast<std::complex<double>*>(ptrIn);
+                indexType nLen = dimsA.getElementCount();
+                Eigen::Map<Eigen::ArrayXcd> matOut(Cz, nElementsA);
+                Eigen::Map<Eigen::ArrayXcd> matIn(Az, nElementsA);
 #if defined(_NLS_WITH_VML)
                 matOut = matIn.array().exp();
 #else
-                ompIndexType elementCount = dimsA.getElementCount();
+                ompIndexType elementCount = (ompIndexType)nElementsA;
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -82,26 +84,27 @@ Exponential(const ArrayOf& A, bool& needToOverload)
             needToOverload = true;
         } else {
             Dimensions dimsA = A.getDimensions();
+            indexType nElementsA = A.getElementCount();
             if (classA == NLS_SINGLE) {
                 single* ptrOut = (single*)ArrayOf::allocateArrayOf(
-                    NLS_SINGLE, dimsA.getElementCount(), stringVector(), false);
+                    NLS_SINGLE, nElementsA, stringVector(), false);
                 auto* ptrIn = (single*)A.getDataPointer();
-                Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsA.getElementCount());
-                Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsA.getElementCount());
+                Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, nElementsA);
+                Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, nElementsA);
                 matOut = matIn.array().exp();
                 res = ArrayOf(NLS_SINGLE, dimsA, ptrOut);
             } else {
                 single* ptrOut = (single*)ArrayOf::allocateArrayOf(
-                    NLS_SCOMPLEX, dimsA.getElementCount(), stringVector(), false);
+                    NLS_SCOMPLEX, nElementsA, stringVector(), false);
                 auto* Cz = reinterpret_cast<std::complex<single>*>(ptrOut);
                 auto* ptrIn = (single*)A.getDataPointer();
-                auto* Az = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
-                Eigen::Map<Eigen::ArrayXcf> matOut(Cz, 1, dimsA.getElementCount());
-                Eigen::Map<Eigen::ArrayXcf> matIn(Az, 1, dimsA.getElementCount());
+                auto* Az = reinterpret_cast<std::complex<single>*>(ptrIn);
+                Eigen::Map<Eigen::ArrayXcf> matOut(Cz, nElementsA);
+                Eigen::Map<Eigen::ArrayXcf> matIn(Az, nElementsA);
 #if defined(_NLS_WITH_VML)
                 matOut = matIn.array().exp();
 #else
-                ompIndexType elementCount = dimsA.getElementCount();
+                ompIndexType elementCount = (ompIndexType)nElementsA;
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif

@@ -13,7 +13,75 @@
 #include <string>
 #include <QtGui/QFont>
 #include "ColoredPoint.hpp"
+#include "RGBAColorData.hpp"
 //=============================================================================
+namespace ColorMode {
+enum ColorMode
+{
+    ColorSpec,
+    None,
+    Flat,
+    Interp
+};
+}
+//=============================================================================
+namespace AlphaMode {
+enum AlphaMode
+{
+    Scalar,
+    Flat,
+    Interp
+};
+}
+namespace EraseMode {
+enum EraseMode
+{
+    Normal,
+    None,
+    Xor,
+    Background
+};
+}
+namespace LightingMode {
+enum LightingMode
+{
+    None,
+    Flat,
+    Gouraud,
+    Phong
+};
+}
+
+class point
+{
+public:
+    double x;
+    double y;
+    double z;
+    point()
+    {
+        x = 0;
+        y = 0;
+        z = 0;
+    };
+    point(double X, double Y, double Z) : x(X), y(Y), z(Z) {};
+};
+//=============================================================================
+class Face
+{
+public:
+    std::vector<point> vertices;
+    std::vector<RGBAColorData> edgecolors;
+    std::vector<RGBAColorData> vertexcolors;
+    RGBAColorData FaceColor;
+    RGBAColorData EdgeColor;
+    enum ColorMode::ColorMode FaceColorMode;
+    enum ColorMode::ColorMode EdgeColorMode;
+};
+//=============================================================================
+using FaceList = std::vector<Face>;
+//=============================================================================
+
 class RenderInterface
 {
 public:
@@ -197,6 +265,10 @@ public:
     virtual void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
         std::vector<std::vector<coloredPoint>> edges, bool flatedges)
+        = 0;
+    //=============================================================================
+    virtual void
+    drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle)
         = 0;
     //=============================================================================
 };
