@@ -119,7 +119,9 @@ GOWindow::updateState()
 
         int x = (int)(hfv->data()[0]);
         int y = (int)(hfv->data()[1]);
-        move(x, y);
+
+        int transformedY = hs - h - y;
+        move(x, transformedY);
         resize(w, h);
     }
 }

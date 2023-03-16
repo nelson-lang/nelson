@@ -8,7 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtGui/QWindow>
-#include <QtGui/QScreen>
+#include <QtGui/QGuiApplication>
+#include <QtWidgets/QApplication>
 #include "BaseFigureQt.hpp"
 #include "RenderQt.hpp"
 //=============================================================================
@@ -35,29 +36,51 @@ BaseFigureQt::BaseFigureQt(QWidget* parent, GOFigure* fig) : QWidget(parent) { h
 QScreen*
 BaseFigureQt::getActiveScreen()
 {
-    QScreen* pActive = nullptr;
-    QWidget* pWidget = this;
-    while (pWidget) {
-        auto w = pWidget->windowHandle();
-        if (w != nullptr) {
-            pActive = w->screen();
-            break;
-        } else
-            pWidget = pWidget->parentWidget();
+    QScreen* screen = nullptr;
+    QScreen* primaryScreen = QGuiApplication::primaryScreen();
+    QWidget* widget = QApplication::activeWindow();
+    if (widget) {
+        QPoint widgetPos = widget->pos();
+        screen = QGuiApplication::screenAt(widgetPos);
     }
-
-    return pActive;
+    if (!screen) {
+        screen = primaryScreen;
+    }
+    return screen;
 }
 //=============================================================================
-void
+bool
 BaseFigureQt::currentScreenResolution(int& w, int& h)
 {
     QScreen* qScreen = getActiveScreen();
     if (qScreen) {
-        QRect screenSize = qScreen->availableGeometry();
+        QRect screenSize = qScreen->geometry();
         w = screenSize.width();
         h = screenSize.height();
+        return true;
+    } else {
+        w = -1;
+        h = -1;
     }
+    return false;
+}
+//=============================================================================
+int
+BaseFigureQt::getCurrentScreenHeight()
+{
+    int w = 0;
+    int h = 0;
+    currentScreenResolution(w, h);
+    return h;
+}
+//=============================================================================
+int
+BaseFigureQt::getCurrentScreenWidth()
+{
+    int w = 0;
+    int h = 0;
+    currentScreenResolution(w, h);
+    return w;
 }
 //=============================================================================
 }

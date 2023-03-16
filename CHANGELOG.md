@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Figure property `Position` uses position based on bottom left position for compatibility.
 - internal: boost no more used to read/write json files.
 - internal: taglib library is optional.
 - version date updated with each build.

@@ -63,7 +63,11 @@
 <p><b>Number</b>: Figure Number.</p>
 <p><b>NumberTitle</b>: Use number title: 'off' or 'on' (default).</p> 
 <p><b>Parent</b>: Figure parent: root graphics object.</p>
-<p><b>Position</b>: Location and size of drawable area.</p> 
+<p><b
+      >Position</b>: Location and size of drawable area: [left, bottom, width, height]</p> 
+<p
+    >'width' and 'height' define the size of the window. 'left' and 'bottom' define the position of the first addressable pixel in the lower left corner of the window</p>
+
 <p><b
       >Tag</b>: Object identifier: string scalar, character vector, '' (default).</p>
 <p><b>Type</b>: Type 'figure'.</p>
