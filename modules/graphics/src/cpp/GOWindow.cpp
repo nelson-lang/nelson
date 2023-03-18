@@ -59,7 +59,8 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 void
 GOWindow::closeEvent(QCloseEvent* e)
 {
-    notifyFigureClosed(handle);
+    closeFigure(handle, false);
+    e->accept();
 }
 //=============================================================================
 GOFigure*

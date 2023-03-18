@@ -135,12 +135,6 @@ notifyCurrentFigureChanged(int64 figNum)
     // GOCurrentFig = figNum;
 }
 //=============================================================================
-void
-notifyFigureClosed(int64 figNum)
-{
-    closeFigure(figNum);
-}
-//=============================================================================
 GOWindow*
 getHandleWindow(int64 fignum)
 {
@@ -169,11 +163,13 @@ shutdownGraphic()
 }
 //=============================================================================
 bool
-closeFigure(go_handle fignum)
+closeFigure(go_handle fignum, bool forceClose)
 {
     GOWindow* win = getFigure(fignum);
     if (win) {
-        win->hide();
+        if (forceClose) {
+            win->hide();
+        }
         GOFigure* fig = win->getGOFigure();
         if (fig) {
             GOGObjectsProperty* hp
@@ -189,7 +185,9 @@ closeFigure(go_handle fignum)
                 }
             }
         }
-        delete win;
+        if (forceClose) {
+            delete win;
+        }
         win = nullptr;
         hFigures[fignum] = nullptr;
         if (GOCurrentFig == fignum) {
