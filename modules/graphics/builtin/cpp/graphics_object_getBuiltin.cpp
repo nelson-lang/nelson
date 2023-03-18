@@ -40,6 +40,9 @@ Nelson::GraphicsGateway::graphics_object_getBuiltin(int nLhs, const ArrayOfVecto
         } else {
             fp = (GraphicsObject*)findGOFigure(handle);
         }
+        if (!fp) {
+            Error(_W("Invalid handle."));
+        }
         retval << fp->findProperty(propname)->get();
     }
     return retval;

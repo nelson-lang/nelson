@@ -33,6 +33,9 @@ GraphicsGateway::graphics_object_ispropBuiltin(int nLhs, const ArrayOfVector& ar
     } else {
         fp = (GraphicsObject*)findGOFigure(handle);
     }
+    if (!fp) {
+        Error(_W("Invalid handle."));
+    }
     std::vector<std::wstring> fieldnames = fp->getFieldnames();
     bool isValid = false;
     for (auto name : fieldnames) {
