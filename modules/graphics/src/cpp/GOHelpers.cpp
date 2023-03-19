@@ -119,43 +119,59 @@ validateGO(int64 handle)
 }
 //=============================================================================
 bool
-deleteGraphicsObject(int64 handle, bool repaintParentFigure)
+deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInParent)
 {
     GraphicsObject* gp = findGraphicsObject(handle, false);
     if (!gp) {
         return false;
     }
-    GOFigure* parentFigure = nullptr;
-    if (!gp->isType(L"figure") && !gp->isType(L"root")) {
-        parentFigure = gp->getParentFigure();
+    GOGObjectsProperty* hp = (GOGObjectsProperty*)gp->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+    if (hp) {
+        std::vector<int64> children(hp->data());
+        if (!children.empty()) {
+            for (auto c : children) {
+                deleteGraphicsObject(c, false, false);
+            }
+            children.clear();
+            hp->data(children);
+        }
     }
-    GOGObjectsProperty* hp = (GOGObjectsProperty*)gp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
-    std::vector<int64> parents(hp->data());
-    if (!parents.empty()) {
-        for (auto p : parents) {
-            GraphicsObject* gparent = findGraphicsObject(p, false);
-            if (gparent) {
-                GOGObjectsProperty* gchildren = (GOGObjectsProperty*)gparent->findProperty(
-                    GO_CHILDREN_PROPERTY_NAME_STR, false);
-                if (gchildren) {
-                    std::vector<int64> children(gchildren->data());
-                    if (!children.empty()) {
-                        std::vector<int64> filtered;
-                        filtered.reserve(children.size());
-                        for (auto c : children) {
-                            if (c != handle) {
-                                filtered.push_back(c);
+
+    if (removeRefInParent) {
+        GOGObjectsProperty* gop
+            = (GOGObjectsProperty*)gp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
+        if (gop) {
+            std::vector<int64> parentHandles(gop->data());
+            if (!parentHandles.empty()) {
+                for (auto h : parentHandles) {
+                    GraphicsObject* gh = findGraphicsObject(h, false);
+                    if (gh) {
+                        hp = (GOGObjectsProperty*)gh->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+                        if (hp) {
+                            std::vector<int64> childrenParent(hp->data());
+                            std::vector<int64> filtered;
+                            filtered.reserve(childrenParent.size());
+                            for (auto c : childrenParent) {
+                                if (c != handle) {
+                                    filtered.push_back(c);
+                                }
                             }
+                            hp->data(filtered);
                         }
-                        gchildren->data(filtered);
                     }
                 }
             }
         }
     }
     freeGraphicsObject(handle);
-    if (parentFigure && repaintParentFigure) {
-        parentFigure->repaint();
+    if (repaintParentFigure) {
+        GOFigure* parentFigure = nullptr;
+        if (!gp->isType(L"figure") && !gp->isType(L"root")) {
+            parentFigure = gp->getParentFigure();
+        }
+        if (parentFigure) {
+            parentFigure->repaint();
+        }
     }
     return true;
 }
@@ -172,11 +188,6 @@ findGOFigure(int64 handle)
     int64 id = handle;
     checkIdValidity(id);
     GOWindow* window = getFigure(id);
-    if (window) {
-        return window->getGOFigure();
-    }
-    selectFigure(id);
-    window = getFigure(id);
     if (window) {
         return window->getGOFigure();
     }

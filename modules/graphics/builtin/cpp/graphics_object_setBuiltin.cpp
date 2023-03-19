@@ -36,6 +36,9 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         fp = (GraphicsObject*)findGOFigure(handle);
     }
+    if (!fp) {
+        Error(_W("Invalid handle."));
+    }
     int ptr = 1;
     while (argIn.size() >= (ptr + 2)) {
         std::wstring propname = argIn[ptr].getContentAsWideString();

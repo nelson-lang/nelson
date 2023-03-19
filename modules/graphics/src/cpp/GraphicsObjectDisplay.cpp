@@ -15,6 +15,7 @@
 #include "GOFiguresManager.hpp"
 #include "GORoot.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,7 +38,9 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
             } else {
                 fp = (GraphicsObject*)findGOFigure(handle);
             }
-
+            if (!fp) {
+                Error(_W("Invalid handle."));
+            }
             wstringVector names = fp->getFieldnames();
             io->outputMessage(L"\n");
             GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
@@ -76,6 +79,9 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                         fp = findGraphicsObject(handle);
                     } else {
                         fp = (GraphicsObject*)findGOFigure(handle);
+                    }
+                    if (!fp) {
+                        Error(_W("Invalid handle."));
                     }
                     GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
                     if (hpType) {

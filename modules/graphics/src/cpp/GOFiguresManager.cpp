@@ -9,6 +9,8 @@
 //=============================================================================
 #include <QtWidgets/QApplication>
 #include "GOFiguresManager.hpp"
+#include "GOGObjectsProperty.hpp"
+#include "GOPropertyNames.hpp"
 #include "GOHelpers.hpp"
 #include "NonClosableWidget.hpp"
 #include "Error.hpp"
@@ -88,28 +90,6 @@ selectFigure(int64 fignum)
     return GOCurrentFig;
 }
 //=============================================================================
-bool
-closeFigure(go_handle fignum)
-{
-    GOWindow* win = getFigure(fignum);
-    if (win) {
-        win->hide();
-        delete win;
-        win = nullptr;
-        hFigures[fignum] = nullptr;
-        if (GOCurrentFig == fignum) {
-            std::vector<int64> nums = getFigureGraphicsObjects();
-            if (nums.empty()) {
-                GOCurrentFig = NO_FIGURE;
-            } else {
-                GOCurrentFig = nums.back();
-            }
-        }
-        return true;
-    }
-    return false;
-}
-//=============================================================================
 GOFigure*
 getCurrentGOFigure()
 {
@@ -155,15 +135,6 @@ notifyCurrentFigureChanged(int64 figNum)
     // GOCurrentFig = figNum;
 }
 //=============================================================================
-void
-notifyFigureClosed(int64 figNum)
-{
-    hFigures[figNum] = nullptr;
-    if (figNum == GOCurrentFig) {
-        GOCurrentFig = NO_FIGURE;
-    }
-}
-//=============================================================================
 GOWindow*
 getHandleWindow(int64 fignum)
 {
@@ -185,8 +156,51 @@ shutdownGraphic()
 {
     std::map<int64, GOWindow*>::iterator it;
     for (it = hFigures.begin(); it != hFigures.end(); ++it) {
-        closeFigure(it->first);
+        if (it->second) {
+            closeFigure(it->first);
+        }
     }
+}
+//=============================================================================
+bool
+closeFigure(go_handle fignum, bool forceClose)
+{
+    GOWindow* win = getFigure(fignum);
+    if (win) {
+        if (forceClose) {
+            win->hide();
+        }
+        GOFigure* fig = win->getGOFigure();
+        if (fig) {
+            GOGObjectsProperty* hp
+                = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+            if (hp) {
+                std::vector<int64> children(hp->data());
+                if (!children.empty()) {
+                    for (auto c : children) {
+                        deleteGraphicsObject(c, false, false);
+                    }
+                    children.clear();
+                    hp->data(children);
+                }
+            }
+        }
+        if (forceClose) {
+            delete win;
+        }
+        win = nullptr;
+        hFigures[fignum] = nullptr;
+        if (GOCurrentFig == fignum) {
+            std::vector<int64> nums = getFigureGraphicsObjects();
+            if (nums.empty()) {
+                GOCurrentFig = NO_FIGURE;
+            } else {
+                GOCurrentFig = nums.back();
+            }
+        }
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 }

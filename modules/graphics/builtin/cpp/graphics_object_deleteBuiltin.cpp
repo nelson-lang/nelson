@@ -24,7 +24,7 @@ Nelson::GraphicsGateway::graphics_object_deleteBuiltin(int nLhs, const ArrayOfVe
     if (handle == HANDLE_ROOT_OBJECT) {
         Error(_W("Cannot delete root graphics object."));
     } else if (handle >= HANDLE_OFFSET_OBJECT) {
-        deleteGraphicsObject(handle, true);
+        deleteGraphicsObject(handle, true, true);
     } else {
         closeFigure(handle);
     }

@@ -41,7 +41,7 @@ NLSGRAPHICS_IMPEXP int64
 selectFigure(int64 fignum);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
-closeFigure(go_handle fignum);
+closeFigure(go_handle fignum, bool forceClose = true);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GOWindow*
 getFigure(int64 id);
@@ -51,9 +51,6 @@ getFigureGraphicsObjects();
 //=============================================================================
 NLSGRAPHICS_IMPEXP int64
 getCurrentFigure();
-//=============================================================================
-NLSGRAPHICS_IMPEXP void
-notifyFigureClosed(int64 figNum);
 //=============================================================================
 NLSGRAPHICS_IMPEXP void
 notifyCurrentFigureChanged(int64 figNum);

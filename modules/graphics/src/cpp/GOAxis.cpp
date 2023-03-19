@@ -747,11 +747,11 @@ GOFigure*
 GOAxis::getParentFigure()
 {
     GOGObjectsProperty* parent = (GOGObjectsProperty*)findProperty(GO_PARENT_PROPERTY_NAME_STR);
-    if (parent->data().empty())
-        return NULL;
+    if (parent->data().empty()) {
+        return nullptr;
+    }
     unsigned parent_handle = parent->data()[0];
-    GOFigure* fig = findGOFigure(parent_handle);
-    return fig;
+    return findGOFigure(parent_handle);
 }
 //=============================================================================
 std::vector<double>

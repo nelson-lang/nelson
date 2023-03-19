@@ -29,7 +29,7 @@ NLSGRAPHICS_IMPEXP void
 checkIdValidity(int64 id);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
-deleteGraphicsObject(int64 handle, bool repaintParentFigure);
+deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInParent);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GraphicsObject*
 findGraphicsObject(int64 handle, bool throwError = true);
