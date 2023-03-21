@@ -98,24 +98,63 @@ ArrayOf::int64Constructor(int64 aval)
     return ArrayOf(NLS_INT64, dim, data);
 }
 //=============================================================================
+template <class T>
 ArrayOf
-ArrayOf::int64VectorConstructor(indexType len)
+integerVectorConstructor(NelsonType nlsType, indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
-    int64* data = static_cast<int64*>(allocateArrayOf(NLS_INT64, len, stringVector(), true));
-    return ArrayOf(NLS_INT64, dim, data);
+    T* data = static_cast<T*>(ArrayOf::allocateArrayOf(nlsType, len, stringVector(), true));
+    return ArrayOf(nlsType, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint8VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<uint8>(NLS_UINT8, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int8VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<int8>(NLS_INT8, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint16VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<uint16>(NLS_UINT16, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int16VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<int16>(NLS_INT16, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint32VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<uint32>(NLS_UINT32, len);
 }
 //=============================================================================
 ArrayOf
 ArrayOf::int32VectorConstructor(indexType len)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    dim[1] = len;
-    int32* data = static_cast<int32*>(allocateArrayOf(NLS_INT32, len, stringVector(), true));
-    return ArrayOf(NLS_INT32, dim, data);
+    return integerVectorConstructor<int32>(NLS_INT32, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint64VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<uint64>(NLS_UINT64, len);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int64VectorConstructor(indexType len)
+{
+    return integerVectorConstructor<int64>(NLS_INT64, len);
 }
 //=============================================================================
 ArrayOf

@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- `validatecolor` Validate color values.
+- hexadecimal color code managed example: '#DDFF00'.
 - [851](http://github.com/Nelson-numerical-software/nelson/issues/851): Build with micromamba environment (linux and macOS)
 
 ### Fixed

@@ -9,18 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <string>
-#include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data);
-//=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const std::wstring& colorString, std::vector<double>& data);
+ArrayOfVector
+validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }
 //=============================================================================

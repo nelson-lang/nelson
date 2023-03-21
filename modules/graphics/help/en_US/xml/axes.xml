@@ -75,7 +75,8 @@
       >Children</b> Array of graphics objects:  A vector containing graphics objects to children of the current axis.</p>
 <p><b
       >Clipping</b> Clipping of objects to axes limits: 'on' (default) or 'off'.</p>
-<p><b>Color</b> Background color for the axes: RGB triplet or string color.</p>
+<p><b
+      >Color</b> Background color for the axes: RGB triplet, string color or hexadecimal color code.</p>
 <p><b>ColorOrder</b> Color order: three-column matrix of RGB triplets.</p>
 <p><b
       >ColorOrderIndex</b>Color order index: positive integer value, specifies the next color used.</p>

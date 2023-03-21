@@ -24,8 +24,8 @@ drawNow()
     for (auto f : figures) {
         GOWindow* window = getFigure(f);
         GOFigure* goFigure = window->getGOFigure();
-        GOOnOffProperty* drawLaterProperty
-            = (GOOnOffProperty*)goFigure->findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+        GOOnOffProperty* drawLaterProperty = static_cast<GOOnOffProperty*>(
+            goFigure->findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
         std::wstring value = drawLaterProperty->data();
         bool restoreOffAfter = false;
         if (value == GO_PROPERTY_VALUE_ON_STR) {

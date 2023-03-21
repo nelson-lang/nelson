@@ -53,7 +53,8 @@
 <p><b>AlphaMap</b>: Transparency map for Axes content.</p>
 <p><b
       >Children</b>: Children of figure: empty array (default) or 1-D array of objects.</p>
-<p><b>Color</b>: Background color [R, G, B] or string (example: 'blue').</p>
+<p><b
+      >Color</b>: Background color [R, G, B] or string (example: 'blue') or hexadecimal color code ('#FFAA00').</p>
 <p><b
       >Colormap</b>: Color map for axes content of figure: m-by-3 array of RGB triplets, parula (default).</p>
 <p><b>CurrentAxes</b>: Target axes in current figure: Axes object.</p>

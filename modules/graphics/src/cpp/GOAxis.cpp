@@ -222,7 +222,8 @@ GOAxis::setupDefaults()
     colorsOrder.push_back(0.6350);
     colorsOrder.push_back(0.0780);
     colorsOrder.push_back(0.1840);
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_COLOR_ORDER_PROPERTY_NAME_STR);
+    GOVectorProperty* hp
+        = static_cast<GOVectorProperty*>(findProperty(GO_COLOR_ORDER_PROPERTY_NAME_STR));
     hp->data(colorsOrder);
     setScalarPositiveIntegerValueDefault(GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR, 1.0);
     setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, 1, 1, 1);
@@ -372,11 +373,12 @@ GOAxis::loadParulaColorMap()
         0.9692, 0.9609, 0.1061, 0.9711, 0.9667, 0.1001, 0.973, 0.9724, 0.0938, 0.9749, 0.9782,
         0.0872, 0.9769, 0.9839, 0.0805 };
     GOColorVectorProperty* hcv
-        = (GOColorVectorProperty*)findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
+        = static_cast<GOColorVectorProperty*>(findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     hcv->data(cmap);
     cmap.clear();
     cmap.push_back(1.0);
-    GOVectorProperty* hv = (GOVectorProperty*)findProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR);
+    GOVectorProperty* hv
+        = static_cast<GOVectorProperty*>(findProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
     hv->data(cmap);
 }
 //=============================================================================
@@ -418,13 +420,14 @@ GOAxis::recalculateTicks()
     double yStart, yStop;
     double zStart, zStop;
     GOTwoVectorProperty* tp = nullptr;
-    GOLinearLogProperty* lp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
-    GOTextInterpreterProperty* textInterpreterProperty
-        = (GOTextInterpreterProperty*)findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+    GOLinearLogProperty* lp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
+    GOTextInterpreterProperty* textInterpreterProperty = static_cast<GOTextInterpreterProperty*>(
+        findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR));
     if (isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR)) {
         formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
-        tp = (GOTwoVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_X_LIM_PROPERTY_NAME_STR));
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             lims.push_back(xStart);
@@ -438,11 +441,11 @@ GOAxis::recalculateTicks()
         formatAxisManual(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
     }
-    lp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+    lp = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
     if (isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR)) {
         formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
-        tp = (GOTwoVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_Y_LIM_PROPERTY_NAME_STR));
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             lims.push_back(yStart);
@@ -457,11 +460,11 @@ GOAxis::recalculateTicks()
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
     }
 
-    lp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+    lp = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
     if (isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)) {
         formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
-        tp = (GOTwoVectorProperty*)findProperty(GO_Z_LIM_PROPERTY_NAME_STR);
+        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_Z_LIM_PROPERTY_NAME_STR));
         std::vector<double> lims;
         if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             lims.push_back(zStart);
@@ -478,27 +481,27 @@ GOAxis::recalculateTicks()
     GOVectorProperty* hp = nullptr;
     GOStringVector* qp = nullptr;
     if (isAuto(GO_X_TICK_MODE_PROPERTY_NAME_STR)) {
-        hp = (GOVectorProperty*)findProperty(GO_X_TICK_PROPERTY_NAME_STR);
+        hp = static_cast<GOVectorProperty*>(findProperty(GO_X_TICK_PROPERTY_NAME_STR));
         hp->data(xticks);
     }
     if (isAuto(GO_X_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = (GOStringVector*)findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR);
+        qp = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(xlabels);
     }
     if (isAuto(GO_Y_TICK_MODE_PROPERTY_NAME_STR)) {
-        hp = (GOVectorProperty*)findProperty(GO_Y_TICK_PROPERTY_NAME_STR);
+        hp = static_cast<GOVectorProperty*>(findProperty(GO_Y_TICK_PROPERTY_NAME_STR));
         hp->data(yticks);
     }
     if (isAuto(GO_Y_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = (GOStringVector*)findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
+        qp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(ylabels);
     }
     if (isAuto(GO_Z_TICK_MODE_PROPERTY_NAME_STR)) {
-        hp = (GOVectorProperty*)findProperty(GO_Z_TICK_PROPERTY_NAME_STR);
+        hp = static_cast<GOVectorProperty*>(findProperty(GO_Z_TICK_PROPERTY_NAME_STR));
         hp->data(zticks);
     }
     if (isAuto(GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = (GOStringVector*)findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
+        qp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(zlabels);
     }
 }
@@ -559,21 +562,24 @@ GOAxis::drawMinorGridLines(RenderInterface& gc)
 {
     std::vector<double> limits(getAxisLimits());
     gc.setLineStyle(
-        ((GOLineStyleProperty*)findProperty(GO_MINOR_GRID_LINE_STYLE_PROPERTY_NAME_STR))->data());
+        (static_cast<GOLineStyleProperty*>(findProperty(GO_MINOR_GRID_LINE_STYLE_PROPERTY_NAME_STR))
+                ->data()));
     gc.depth(false);
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_TICK_PROPERTY_NAME_STR);
+    GOVectorProperty* hp
+        = static_cast<GOVectorProperty*>(findProperty(GO_X_TICK_PROPERTY_NAME_STR));
     std::vector<double> xticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Y_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Y_TICK_PROPERTY_NAME_STR));
     std::vector<double> yticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Z_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Z_TICK_PROPERTY_NAME_STR));
     std::vector<double> zticks(hp->data());
-    GOColorProperty* xc = (GOColorProperty*)findProperty(GO_X_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* yc = (GOColorProperty*)findProperty(GO_Y_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* zc = (GOColorProperty*)findProperty(GO_Z_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* xc = static_cast<GOColorProperty*>(findProperty(GO_X_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* yc = static_cast<GOColorProperty*>(findProperty(GO_Y_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* zc = static_cast<GOColorProperty*>(findProperty(GO_Z_COLOR_PROPERTY_NAME_STR));
     GOLinearLogProperty* sp = nullptr;
-    if (((GOOnOffProperty*)findProperty(GO_X_MINOR_GRID_PROPERTY_NAME_STR))->asBool()) {
+    if ((static_cast<GOOnOffProperty*>(findProperty(GO_X_MINOR_GRID_PROPERTY_NAME_STR)))
+            ->asBool()) {
         gc.color(xc->data());
-        sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+        sp = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             for (int i = 0; i < xticks.size() - 1; i++) {
                 double t = mapX((xticks[i] + xticks[i + 1]) / 2);
@@ -594,9 +600,10 @@ GOAxis::drawMinorGridLines(RenderInterface& gc)
             }
         }
     }
-    if (((GOOnOffProperty*)findProperty(GO_Y_MINOR_GRID_PROPERTY_NAME_STR))->asBool()) {
+    if ((static_cast<GOOnOffProperty*>(findProperty(GO_Y_MINOR_GRID_PROPERTY_NAME_STR)))
+            ->asBool()) {
         gc.color(yc->data());
-        sp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+        sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             for (int i = 0; i < yticks.size() - 1; i++) {
                 double t = mapY((yticks[i] + yticks[i + 1]) / 2);
@@ -617,9 +624,10 @@ GOAxis::drawMinorGridLines(RenderInterface& gc)
             }
         }
     }
-    if (((GOOnOffProperty*)findProperty(GO_Z_MINOR_GRID_PROPERTY_NAME_STR))->asBool()) {
+    if ((static_cast<GOOnOffProperty*>(findProperty(GO_Z_MINOR_GRID_PROPERTY_NAME_STR)))
+            ->asBool()) {
         gc.color(zc->data());
-        sp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+        sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
             for (int i = 0; i < zticks.size() - 1; i++) {
                 double t = mapZ((zticks[i] + zticks[i + 1]) / 2);
@@ -650,31 +658,36 @@ GOAxis::drawGridLines(RenderInterface& gc)
     gc.depth(false);
     gc.lineWidth(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
     gc.setLineStyle(
-        ((GOLineStyleProperty*)findProperty(GO_GRID_LINE_STYLE_PROPERTY_NAME_STR))->data());
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_TICK_PROPERTY_NAME_STR);
+        (static_cast<GOLineStyleProperty*>(findProperty(GO_GRID_LINE_STYLE_PROPERTY_NAME_STR)))
+            ->data());
+    GOVectorProperty* hp
+        = static_cast<GOVectorProperty*>(findProperty(GO_X_TICK_PROPERTY_NAME_STR));
     std::vector<double> xticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Y_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Y_TICK_PROPERTY_NAME_STR));
     std::vector<double> yticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Z_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Z_TICK_PROPERTY_NAME_STR));
     std::vector<double> zticks(hp->data());
-    GOColorProperty* xc = (GOColorProperty*)findProperty(GO_X_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* yc = (GOColorProperty*)findProperty(GO_Y_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* zc = (GOColorProperty*)findProperty(GO_Z_COLOR_PROPERTY_NAME_STR);
-    if (xvisible && ((GOOnOffProperty*)findProperty(GO_X_GRID_PROPERTY_NAME_STR))->asBool()) {
+    GOColorProperty* xc = static_cast<GOColorProperty*>(findProperty(GO_X_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* yc = static_cast<GOColorProperty*>(findProperty(GO_Y_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* zc = static_cast<GOColorProperty*>(findProperty(GO_Z_COLOR_PROPERTY_NAME_STR));
+    if (xvisible
+        && (static_cast<GOOnOffProperty*>(findProperty(GO_X_GRID_PROPERTY_NAME_STR)))->asBool()) {
         gc.color(xc->data());
         for (int i = 0; i < xticks.size(); i++) {
             double t = mapX(xticks[i]);
             drawXGridLine(gc, t, limits);
         }
     }
-    if (yvisible && ((GOOnOffProperty*)findProperty(GO_Y_GRID_PROPERTY_NAME_STR))->asBool()) {
+    if (yvisible
+        && (static_cast<GOOnOffProperty*>(findProperty(GO_Y_GRID_PROPERTY_NAME_STR)))->asBool()) {
         gc.color(yc->data());
         for (int i = 0; i < yticks.size(); i++) {
             double t = mapY(yticks[i]);
             drawYGridLine(gc, t, limits);
         }
     }
-    if (zvisible && ((GOOnOffProperty*)findProperty(GO_Z_GRID_PROPERTY_NAME_STR))->asBool()) {
+    if (zvisible
+        && (static_cast<GOOnOffProperty*>(findProperty(GO_Z_GRID_PROPERTY_NAME_STR)))->asBool()) {
         gc.color(zc->data());
         for (int i = 0; i < zticks.size(); i++) {
             double t = mapZ(zticks[i]);
@@ -702,19 +715,20 @@ GOAxis::getMaxTickMetric(
 void
 GOAxis::setAxisLimits(std::vector<double> lims)
 {
-    GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+    GOLinearLogProperty* sp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, lims[0], lims[1]);
     } else {
         setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, pow(10.0, lims[0]), pow(10.0, lims[1]));
     }
-    sp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+    sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, lims[2], lims[3]);
     } else {
         setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, pow(10.0, lims[2]), pow(10.0, lims[3]));
     }
-    sp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+    sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, lims[4], lims[5]);
     } else {
@@ -726,19 +740,20 @@ void
 GOAxis::computeAxisLimits(const std::wstring& axisLimitPropertyName, indexType indexMin,
     indexType indexMax, double& limMin, double& limMax)
 {
-    GOTwoVectorProperty* hp = (GOTwoVectorProperty*)findProperty(axisLimitPropertyName);
+    GOTwoVectorProperty* hp
+        = static_cast<GOTwoVectorProperty*>(findProperty(axisLimitPropertyName));
     if (std::isfinite(hp->data()[0])) {
         limMin = hp->data()[0];
     } else {
         GOSixVectorProperty* dataLimits
-            = (GOSixVectorProperty*)findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR);
+            = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
         limMin = dataLimits->data()[indexMin];
     }
     if (std::isfinite(hp->data()[1])) {
         limMax = hp->data()[1];
     } else {
         GOSixVectorProperty* dataLimits
-            = (GOSixVectorProperty*)findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR);
+            = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
         limMax = dataLimits->data()[indexMax];
     }
 }
@@ -746,7 +761,8 @@ GOAxis::computeAxisLimits(const std::wstring& axisLimitPropertyName, indexType i
 GOFigure*
 GOAxis::getParentFigure()
 {
-    GOGObjectsProperty* parent = (GOGObjectsProperty*)findProperty(GO_PARENT_PROPERTY_NAME_STR);
+    GOGObjectsProperty* parent
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR));
     if (parent->data().empty()) {
         return nullptr;
     }
@@ -757,14 +773,14 @@ GOAxis::getParentFigure()
 std::vector<double>
 GOAxis::getPropertyVectorAsPixels(const std::wstring& name)
 {
-    GOFourVectorProperty* hp = (GOFourVectorProperty*)findProperty(name);
+    GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
     return (unitsReinterpret(hp->data()));
 }
 //=============================================================================
 void
 GOAxis::drawBox(RenderInterface& gc)
 {
-    GOColorProperty* hp = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* hp = static_cast<GOColorProperty*>(findProperty(GO_COLOR_PROPERTY_NAME_STR));
     if (hp->isNone()) {
         return;
     }
@@ -793,13 +809,13 @@ GOAxis::setupAxis(RenderInterface& gc)
     std::vector<double> model;
     gc.getModelviewMatrix(model);
     std::vector<double> limits(getAxisLimits());
-    if (((GOTopBottomProperty*)findProperty(GO_X_AXIS_LOCATION_PROPERTY_NAME_STR))
+    if ((static_cast<GOTopBottomProperty*>(findProperty(GO_X_AXIS_LOCATION_PROPERTY_NAME_STR)))
             ->isEqual(GO_PROPERTY_VALUE_BOTTOM_STR)) {
         x1pos[2] = limits[4];
     } else {
         x1pos[2] = limits[5];
     }
-    if (((GOLeftRightProperty*)findProperty(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR))
+    if ((static_cast<GOLeftRightProperty*>(findProperty(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR)))
             ->isEqual(GO_PROPERTY_VALUE_LEFT_STR)) {
         y1pos[2] = limits[4];
     } else {
@@ -980,12 +996,14 @@ GOAxis::updateAxisFont()
 {
     QFont::Style fstyle = QFont::StyleNormal;
     QFont::Weight fweight = QFont::Normal;
-    GOStringProperty* fontname = (GOStringProperty*)findProperty(GO_FONT_NAME_PROPERTY_NAME_STR);
+    GOStringProperty* fontname
+        = static_cast<GOStringProperty*>(findProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
     GOFontAngleProperty* fontangle
-        = (GOFontAngleProperty*)findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR);
+        = static_cast<GOFontAngleProperty*>(findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR));
     GOFontWeightProperty* fontweight
-        = (GOFontWeightProperty*)findProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
-    GOScalarProperty* fontsize = (GOScalarProperty*)findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+        = static_cast<GOFontWeightProperty*>(findProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
+    GOScalarProperty* fontsize
+        = static_cast<GOScalarProperty*>(findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
     if (fontangle->isEqual(GO_PROPERTY_VALUE_NORMAL_STR)) {
         fstyle = QFont::StyleNormal;
     }
@@ -1026,9 +1044,9 @@ void
 GOAxis::drawAxisLines(RenderInterface& gc)
 {
     std::vector<double> limits(getAxisLimits());
-    GOColorProperty* xc = (GOColorProperty*)findProperty(GO_X_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* yc = (GOColorProperty*)findProperty(GO_Y_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* zc = (GOColorProperty*)findProperty(GO_Z_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* xc = static_cast<GOColorProperty*>(findProperty(GO_X_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* yc = static_cast<GOColorProperty*>(findProperty(GO_Y_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* zc = static_cast<GOColorProperty*>(findProperty(GO_Z_COLOR_PROPERTY_NAME_STR));
     gc.setLineStyle(L"-");
     gc.lineWidth(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
     if (xvisible) {
@@ -1096,46 +1114,47 @@ GOAxis::rePackFigure()
     int maxTickWidth = 0;
     int maxTickHeight = 0;
     QFontMetrics fm(m_font);
-    GOGObjectsProperty* lbl = (GOGObjectsProperty*)findProperty(GO_X_LABEL_PROPERTY_NAME_STR);
+    GOGObjectsProperty* lbl
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_X_LABEL_PROPERTY_NAME_STR));
     if (!lbl->data().empty()) {
-        GOText* fp = (GOText*)findGraphicsObject(lbl->data()[0]);
+        GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         xlabelHeight = fp->getTextHeightInPixels();
     }
-    GOStringVector* gp = nullptr;
-    gp = (GOStringVector*)findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR);
+    GOStringVector* gp
+        = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> xlabels(gp->data());
     for (int i = 0; i < xlabels.size(); i++) {
         QRect sze(fm.boundingRect(Nelson::wstringToQString(xlabels[i])));
         maxTickWidth = std::max(maxTickWidth, sze.width());
         maxTickHeight = std::max(maxTickHeight, sze.height());
     }
-    lbl = (GOGObjectsProperty*)findProperty(GO_Y_LABEL_PROPERTY_NAME_STR);
+    lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Y_LABEL_PROPERTY_NAME_STR));
     if (!lbl->data().empty()) {
-        GOText* fp = (GOText*)findGraphicsObject(lbl->data()[0]);
+        GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         ylabelHeight = fp->getTextHeightInPixels();
     }
-    gp = (GOStringVector*)findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
+    gp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> ylabels(gp->data());
     for (int i = 0; i < ylabels.size(); i++) {
         QRect sze(fm.boundingRect(wstringToQString(ylabels[i])));
         maxTickWidth = std::max(maxTickWidth, sze.width());
         maxTickHeight = std::max(maxTickHeight, sze.height());
     }
-    lbl = (GOGObjectsProperty*)findProperty(GO_Z_LABEL_PROPERTY_NAME_STR);
+    lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Z_LABEL_PROPERTY_NAME_STR));
     if (!lbl->data().empty()) {
-        GOText* fp = (GOText*)findGraphicsObject(lbl->data()[0]);
+        GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         zlabelHeight = fp->getTextHeightInPixels();
     }
-    gp = (GOStringVector*)findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
+    gp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> zlabels(gp->data());
     for (int i = 0; i < zlabels.size(); i++) {
         QRect sze(fm.boundingRect(wstringToQString(zlabels[i])));
         maxTickWidth = std::max(maxTickWidth, sze.width());
         maxTickHeight = std::max(maxTickHeight, sze.height());
     }
-    lbl = (GOGObjectsProperty*)findProperty(GO_TITLE_PROPERTY_NAME_STR);
+    lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_TITLE_PROPERTY_NAME_STR));
     if (!lbl->data().empty()) {
-        GOText* fp = (GOText*)findGraphicsObject(lbl->data()[0]);
+        GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         titleHeight = fp->getTextHeightInPixels();
     }
     QRect sze(fm.boundingRect("|"));
@@ -1149,7 +1168,7 @@ GOAxis::rePackFigure()
     int height = fig->getHeight();
     if ((maxTickWidth == 0) && (maxTickHeight == 0) && (maxLabelHeight == 0)) {
         GOFourVectorProperty* hp
-            = (GOFourVectorProperty*)findProperty(GO_POSITION_PROPERTY_NAME_STR);
+            = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
         hp->value(
             outerpos[0] / width, outerpos[1] / height, outerpos[2] / width, outerpos[3] / height);
         return;
@@ -1171,7 +1190,8 @@ GOAxis::rePackFigure()
     if ((outerpos[3] - posheight) < 2 * maxLabelHeight) {
         posheight = outerpos[3] - 2 * maxLabelHeight;
     }
-    GOFourVectorProperty* hp = (GOFourVectorProperty*)findProperty(GO_POSITION_PROPERTY_NAME_STR);
+    GOFourVectorProperty* hp
+        = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
     hp->value((double)(posx0 / width), double(posy0 / height), double(poswidth / width),
         double(posheight / height));
     hp->clearModified();
@@ -1185,7 +1205,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
     }
     std::vector<double> limits;
     bool first = true;
-    GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
@@ -1217,7 +1238,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         limits[4] = limits[4] - 0.5;
         limits[5] = limits[4] + 1;
     }
-    GOSixVectorProperty* hp = (GOSixVectorProperty*)findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR);
+    GOSixVectorProperty* hp
+        = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
     hp->value(limits[0], limits[1], limits[2], limits[3], limits[4], limits[5]);
     if (x) {
         setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, limits[0], limits[1]);
@@ -1428,9 +1450,9 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
             ly = 1e10;
         }
         double lmax = std::min(lx, ly);
-        GOGObjectsProperty* lbl = (GOGObjectsProperty*)findProperty(labelname);
+        GOGObjectsProperty* lbl = static_cast<GOGObjectsProperty*>(findProperty(labelname));
         if (!lbl->data().empty()) {
-            GOText* fp = (GOText*)findGraphicsObject(lbl->data()[0]);
+            GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
             double axx1, axy1, axx2, axy2;
             gc.toPixels(0, 0, 0, axx1, axy1);
             gc.toPixels(unitx, unity, unitz, axx2, axy2);
@@ -1442,7 +1464,7 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
                 angle -= 180;
             }
             GOScalarProperty* sp
-                = (GOScalarProperty*)fp->findProperty(GO_ROTATION_PROPERTY_NAME_STR);
+                = static_cast<GOScalarProperty*>(fp->findProperty(GO_ROTATION_PROPERTY_NAME_STR));
             double origx, origy;
             gc.toPixels(meanval * unitx + (px1 + px2) / 2.0, meanval * unity + (py1 + py2) / 2.0,
                 meanval * unitz + (pz1 + pz2) / 2.0, origx, origy);
@@ -1460,17 +1482,18 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
             }
             if (angle2 < 0) {
                 if (fabs(angle) != 90) {
-                    ((GOAlignVertProperty*)fp->findProperty(
-                         GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR))
+                    (static_cast<GOAlignVertProperty*>(
+                         fp->findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR)))
                         ->data(GO_PROPERTY_VALUE_TOP_STR);
                 } else {
 
-                    ((GOAlignVertProperty*)fp->findProperty(
-                         GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR))
+                    (static_cast<GOAlignVertProperty*>(
+                         fp->findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR)))
                         ->data(GO_PROPERTY_VALUE_BOTTOM_STR);
                 }
             } else {
-                ((GOAlignVertProperty*)fp->findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR))
+                (static_cast<GOAlignVertProperty*>(
+                     fp->findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR)))
                     ->data(GO_PROPERTY_VALUE_BOTTOM_STR);
             }
             if ((angle == -90) && (angle2 == -180)) {
@@ -1479,8 +1502,8 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
             sp->data(angle);
             xl1 += (x3 - origx) * 0.04;
             yl1 += (y3 - origy) * 0.04;
-            GOThreeVectorProperty* gp
-                = (GOThreeVectorProperty*)fp->findProperty(GO_POSITION_PROPERTY_NAME_STR);
+            GOThreeVectorProperty* gp = static_cast<GOThreeVectorProperty*>(
+                fp->findProperty(GO_POSITION_PROPERTY_NAME_STR));
             std::vector<double> outerpos(
                 getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR));
             double xnorm, ynorm;
@@ -1504,21 +1527,21 @@ GOAxis::drawAxisLabels(RenderInterface& gc)
     setStringDefault(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setStringDefault(GO_Y_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     if (xvisible) {
-        lbl = (GOGObjectsProperty*)findProperty(GO_X_LABEL_PROPERTY_NAME_STR);
+        lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_X_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
             fp->paintMe(gc);
         }
     }
     if (yvisible) {
-        lbl = (GOGObjectsProperty*)findProperty(GO_Y_LABEL_PROPERTY_NAME_STR);
+        lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Y_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
             fp->paintMe(gc);
         }
     }
     if (zvisible) {
-        lbl = (GOGObjectsProperty*)findProperty(GO_Z_LABEL_PROPERTY_NAME_STR);
+        lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Z_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
             if (fp) {
@@ -1526,7 +1549,7 @@ GOAxis::drawAxisLabels(RenderInterface& gc)
             }
         }
     }
-    lbl = (GOGObjectsProperty*)findProperty(GO_TITLE_PROPERTY_NAME_STR);
+    lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_TITLE_PROPERTY_NAME_STR));
     if (!lbl->data().empty()) {
         GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
         if (fp) {
@@ -1542,20 +1565,21 @@ void
 GOAxis::drawTickMarks(RenderInterface& gc)
 {
     GOVectorProperty* hp = nullptr;
-    hp = (GOVectorProperty*)findProperty(GO_X_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_X_TICK_PROPERTY_NAME_STR));
     std::vector<double> xticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Y_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Y_TICK_PROPERTY_NAME_STR));
     std::vector<double> yticks(hp->data());
-    hp = (GOVectorProperty*)findProperty(GO_Z_TICK_PROPERTY_NAME_STR);
+    hp = static_cast<GOVectorProperty*>(findProperty(GO_Z_TICK_PROPERTY_NAME_STR));
     std::vector<double> zticks(hp->data());
     gc.lineWidth(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
-    GOColorProperty* xc = (GOColorProperty*)findProperty(GO_X_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* yc = (GOColorProperty*)findProperty(GO_Y_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* zc = (GOColorProperty*)findProperty(GO_Z_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* xc = static_cast<GOColorProperty*>(findProperty(GO_X_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* yc = static_cast<GOColorProperty*>(findProperty(GO_Y_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* zc = static_cast<GOColorProperty*>(findProperty(GO_Z_COLOR_PROPERTY_NAME_STR));
 
     std::vector<double> position(getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR));
     int maxlen = (int)((position[2] > position[3]) ? position[2] : position[3]);
-    GOTwoVectorProperty* kp = (GOTwoVectorProperty*)findProperty(GO_TICK_LENGTH_PROPERTY_NAME_STR);
+    GOTwoVectorProperty* kp
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_TICK_LENGTH_PROPERTY_NAME_STR));
     std::vector<double> ticklen(kp->data());
     int ticlen;
     if (is2DView()) {
@@ -1571,7 +1595,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
             ticdir = -1;
         }
     } else {
-        if (((GOInOutProperty*)findProperty(GO_TICK_DIR_PROPERTY_NAME_STR))
+        if ((static_cast<GOInOutProperty*>(findProperty(GO_TICK_DIR_PROPERTY_NAME_STR)))
                 ->isEqual(GO_PROPERTY_VALUE_IN_STR)) {
             ticdir = 1;
         } else {
@@ -1579,11 +1603,12 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         }
     }
 
-    GOTextInterpreterProperty* textInterpreterProperty
-        = (GOTextInterpreterProperty*)findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+    GOTextInterpreterProperty* textInterpreterProperty = static_cast<GOTextInterpreterProperty*>(
+        findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR));
     TEXT_INTERPRETER_FORMAT textFormat = textInterpreterProperty->getAsEnum();
 
-    GOStringVector* qp = (GOStringVector*)findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR);
+    GOStringVector* qp
+        = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> xlabeltxt;
     if (textFormat == TEX_MARKUP) {
         xlabeltxt = texToUnicode(qp->data());
@@ -1591,7 +1616,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         xlabeltxt = qp->data();
     }
 
-    qp = (GOStringVector*)findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
+    qp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> ylabeltxt;
     if (textFormat == TEX_MARKUP) {
         ylabeltxt = texToUnicode(qp->data());
@@ -1599,7 +1624,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         ylabeltxt = qp->data();
     }
 
-    qp = (GOStringVector*)findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
+    qp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> zlabeltxt;
     if (textFormat == TEX_MARKUP) {
         zlabeltxt = texToUnicode(qp->data());
@@ -1616,7 +1641,8 @@ GOAxis::drawTickMarks(RenderInterface& gc)
             mapticks.push_back(mapX(xticks[i]));
         }
         std::vector<double> minorticks;
-        GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+        GOLinearLogProperty* sp
+            = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
             for (int i = 0; i < xticks.size() - 1; i++) {
                 double t1 = xticks[i];
@@ -1638,7 +1664,8 @@ GOAxis::drawTickMarks(RenderInterface& gc)
             mapticks.push_back(mapY(yticks[i]));
         }
         std::vector<double> minorticks;
-        GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+        GOLinearLogProperty* sp
+            = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
             for (int i = 0; i < yticks.size() - 1; i++) {
                 double t1 = yticks[i];
@@ -1660,7 +1687,8 @@ GOAxis::drawTickMarks(RenderInterface& gc)
             mapticks.push_back(mapZ(zticks[i]));
         }
         std::vector<double> minorticks;
-        GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+        GOLinearLogProperty* sp
+            = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
             for (int i = 0; i < zticks.size() - 1; i++) {
                 double t1 = zticks[i];
@@ -1681,7 +1709,8 @@ GOAxis::drawTickMarks(RenderInterface& gc)
 void
 GOAxis::drawChildren(RenderInterface& gc)
 {
-    GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i], false);
@@ -1765,7 +1794,7 @@ GOAxis::updateState()
         toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
     if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
         GOThreeVectorProperty* tv
-            = (GOThreeVectorProperty*)findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR);
+            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
         std::vector<double> limits(getAxisLimits());
         tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0,
             (limits[4] + limits[5]) / 2.0);
@@ -1774,8 +1803,8 @@ GOAxis::updateState()
         toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv
-            = (GOThreeVectorProperty*)findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR);
+        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
         std::vector<double> limits(getAxisLimits());
         tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0, limits[5] + 1);
     }
@@ -1783,12 +1812,13 @@ GOAxis::updateState()
         toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv
-            = (GOThreeVectorProperty*)findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR);
+        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
         tv->value(0, 1, 0);
     }
 
-    GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
@@ -1840,7 +1870,7 @@ GOAxis::unitsReinterpret(std::vector<double> a)
     GOFigure* fig = getParentFigure();
     unsigned width = fig->getWidth();
     unsigned height = fig->getHeight();
-    GOUnitsProperty* hp = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
+    GOUnitsProperty* hp = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
     if (hp->isEqual(GO_PROPERTY_VALUE_NORMALIZED_STR)) {
         for (int i = 0; i < a.size(); i += 2) {
             a[i] *= width;
@@ -1860,7 +1890,8 @@ GOAxis::getAxisLimits()
     double xLimMin;
     double xLimMax;
     computeAxisLimits(GO_X_LIM_PROPERTY_NAME_STR, 0, 1, xLimMin, xLimMax);
-    GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+    GOLinearLogProperty* sp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         lims.push_back(xLimMin);
         lims.push_back(xLimMax);
@@ -1871,7 +1902,7 @@ GOAxis::getAxisLimits()
     double yLimMin;
     double yLimMax;
     computeAxisLimits(GO_Y_LIM_PROPERTY_NAME_STR, 2, 3, yLimMin, yLimMax);
-    sp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+    sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         lims.push_back(yLimMin);
         lims.push_back(yLimMax);
@@ -1883,7 +1914,7 @@ GOAxis::getAxisLimits()
     double zLimMin;
     double zLimMax;
     computeAxisLimits(GO_Z_LIM_PROPERTY_NAME_STR, 4, 5, zLimMin, zLimMax);
-    sp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+    sp = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
         lims.push_back(zLimMin);
         lims.push_back(zLimMax);
@@ -1898,11 +1929,11 @@ void
 GOAxis::setupProjection(RenderInterface& gc)
 {
     GOThreeVectorProperty* tv1
-        = (GOThreeVectorProperty*)findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR);
+        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
     GOThreeVectorProperty* tv2
-        = (GOThreeVectorProperty*)findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR);
+        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
     GOThreeVectorProperty* tv3
-        = (GOThreeVectorProperty*)findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR);
+        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
     gc.lookAt(tv1->data()[0], tv1->data()[1], tv1->data()[2], tv2->data()[0], tv2->data()[1],
         tv2->data()[2], tv3->data()[0], tv3->data()[1], tv3->data()[2]);
     std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
@@ -1997,10 +2028,12 @@ double
 GOAxis::mapY(double y)
 {
     GONormalReverseProperty* hp
-        = (GONormalReverseProperty*)findProperty(GO_Y_DIR_PROPERTY_NAME_STR);
-    GOTwoVectorProperty* ylim = (GOTwoVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        = static_cast<GONormalReverseProperty*>(findProperty(GO_Y_DIR_PROPERTY_NAME_STR));
+    GOTwoVectorProperty* ylim
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_Y_LIM_PROPERTY_NAME_STR));
     std::vector<double> lims(ylim->data());
-    GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_Y_SCALE_PROPERTY_NAME_STR);
+    GOLinearLogProperty* sp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
         y = tickLog(y);
     }
@@ -2016,10 +2049,12 @@ double
 GOAxis::mapZ(double z)
 {
     GONormalReverseProperty* hp
-        = (GONormalReverseProperty*)findProperty(GO_Z_DIR_PROPERTY_NAME_STR);
-    GOTwoVectorProperty* zlim = (GOTwoVectorProperty*)findProperty(GO_Z_LIM_PROPERTY_NAME_STR);
+        = static_cast<GONormalReverseProperty*>(findProperty(GO_Z_DIR_PROPERTY_NAME_STR));
+    GOTwoVectorProperty* zlim
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_Z_LIM_PROPERTY_NAME_STR));
     std::vector<double> lims(zlim->data());
-    GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_Z_SCALE_PROPERTY_NAME_STR);
+    GOLinearLogProperty* sp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
         z = tickLog(z);
     }

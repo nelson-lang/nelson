@@ -651,11 +651,39 @@ public:
     characterArrayConstructor(const std::wstring& astr);
 
     /**
-     * int64 vector constructor - Construct an NLS_INT64 object
+     * uint8 vector constructor - Construct an NLS_UINT8 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int64VectorConstructor(indexType len);
+    uint8VectorConstructor(indexType len);
+
+    /**
+     * int8 vector constructor - Construct an NLS_INT8 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    int8VectorConstructor(indexType len);
+
+    /**
+     * uint16 vector constructor - Construct an NLS_UINT16 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    uint16VectorConstructor(indexType len);
+
+    /**
+     * int16 vector constructor - Construct an NLS_INT16 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    int16VectorConstructor(indexType len);
+
+    /**
+     * uint32 vector constructor - Construct an NLS_UINT32 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    uint32VectorConstructor(indexType len);
 
     /**
      * int32 vector constructor - Construct an NLS_INT32 object
@@ -663,6 +691,21 @@ public:
      */
     static ArrayOf
     int32VectorConstructor(indexType len);
+
+    /**
+     * uint64 vector constructor - Construct an NLS_UINT64 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    uint64VectorConstructor(indexType len);
+
+    /**
+     * int64 vector constructor - Construct an NLS_INT64 object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    int64VectorConstructor(indexType len);
+
     /**
      * Double vector constructor - Construct an NLS_DOUBLE object
      * that is a (row) vector with the given length.

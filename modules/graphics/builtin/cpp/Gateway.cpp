@@ -36,6 +36,7 @@
 #include "drawnowBuiltin.hpp"
 #include "imreadBuiltin.hpp"
 #include "imwriteBuiltin.hpp"
+#include "validatecolorBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -85,6 +86,8 @@ static const nlsGateway gateway[] = {
     { "drawnow", (ptrBuiltin)Nelson::GraphicsGateway::drawnowBuiltin, 0, 0, CPP_BUILTIN },
     { "imread", (ptrBuiltin)Nelson::GraphicsGateway::imreadBuiltin, -1, 1, CPP_BUILTIN },
     { "imwrite", (ptrBuiltin)Nelson::GraphicsGateway::imwriteBuiltin, 0, -2, CPP_BUILTIN },
+    { "validatecolor", (ptrBuiltin)Nelson::GraphicsGateway::validatecolorBuiltin, 1, 2,
+        CPP_BUILTIN },
 };
 //=============================================================================
 static bool
