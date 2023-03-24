@@ -195,7 +195,8 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(_W("Mx3 matrix of RGB triplets, a character vector, a cell-array of character "
                  "vectors or a string array expected."),
             L"Nelson:graphics:validatecolor:InvalidColor");
+    } break;
     }
-        return retval;
-    }
-    //=============================================================================
+    return retval;
+}
+//=============================================================================
