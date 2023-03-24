@@ -48,7 +48,7 @@ closeFigureByName(const std::wstring& name)
             return false;
         }
         GOStringProperty* propertyName
-            = (GOStringProperty*)goFigure->findProperty(GO_NAME_PROPERTY_NAME_STR);
+            = static_cast<GOStringProperty*>(goFigure->findProperty(GO_NAME_PROPERTY_NAME_STR));
         if (propertyName->data() == name) {
             return closeFigure(nums[k]);
         }

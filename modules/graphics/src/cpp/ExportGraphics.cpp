@@ -78,7 +78,8 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
         return result;
     }
     GOFigure* hf = f->getGOFigure();
-    GOColorProperty* color = (GOColorProperty*)hf->findProperty(GO_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* color
+        = static_cast<GOColorProperty*>(hf->findProperty(GO_COLOR_PROPERTY_NAME_STR));
     double cr = color->at(0);
     double cg = color->at(1);
     double cb = color->at(2);
