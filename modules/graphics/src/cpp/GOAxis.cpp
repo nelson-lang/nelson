@@ -1972,17 +1972,17 @@ GOAxis::setupProjection(RenderInterface& gc)
 }
 //=============================================================================
 std::vector<double>
-GOAxis::reMap(std::vector<double> t)
+GOAxis::reMap(std::vector<double> t, bool forceLinearScale)
 {
     std::vector<double> s;
     s.reserve(t.size() * 3);
     for (size_t i = 0; i < t.size(); i += 3) {
-        s.push_back(mapX(t[i]));
-        s.push_back(mapY(t[i + 1]));
+        s.push_back(mapX(t[i], forceLinearScale));
+        s.push_back(mapY(t[i + 1], forceLinearScale));
         if (t.size() > 2) {
-            s.push_back(mapZ(t[i + 2]));
+            s.push_back(mapZ(t[i + 2], forceLinearScale));
         } else {
-            s.push_back(mapZ(0));
+            s.push_back(mapZ(0, forceLinearScale));
         }
     }
     return s;
@@ -2006,14 +2006,14 @@ GOAxis::reMap(std::vector<double> xs, std::vector<double> ys, std::vector<double
 }
 //=============================================================================
 double
-GOAxis::mapX(double x)
+GOAxis::mapX(double x, bool forceLinearScale)
 {
     GONormalReverseProperty* hp
         = (GONormalReverseProperty*)findProperty(GO_X_DIR_PROPERTY_NAME_STR);
     GOTwoVectorProperty* xlim = (GOTwoVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
     std::vector<double> lims(xlim->data());
     GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
-    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
+    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR) && !forceLinearScale) {
         x = tickLog(x);
     }
     if (hp->isEqual(GO_PROPERTY_VALUE_REVERSE_STR)) {
@@ -2025,7 +2025,7 @@ GOAxis::mapX(double x)
 }
 //=============================================================================
 double
-GOAxis::mapY(double y)
+GOAxis::mapY(double y, bool forceLinearScale)
 {
     GONormalReverseProperty* hp
         = static_cast<GONormalReverseProperty*>(findProperty(GO_Y_DIR_PROPERTY_NAME_STR));
@@ -2034,7 +2034,7 @@ GOAxis::mapY(double y)
     std::vector<double> lims(ylim->data());
     GOLinearLogProperty* sp
         = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
-    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
+    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR) && !forceLinearScale) {
         y = tickLog(y);
     }
     if (hp->isEqual(GO_PROPERTY_VALUE_REVERSE_STR)) {
@@ -2046,7 +2046,7 @@ GOAxis::mapY(double y)
 }
 //=============================================================================
 double
-GOAxis::mapZ(double z)
+GOAxis::mapZ(double z, bool forceLinearScale)
 {
     GONormalReverseProperty* hp
         = static_cast<GONormalReverseProperty*>(findProperty(GO_Z_DIR_PROPERTY_NAME_STR));
@@ -2055,7 +2055,7 @@ GOAxis::mapZ(double z)
     std::vector<double> lims(zlim->data());
     GOLinearLogProperty* sp
         = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
-    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
+    if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR) && !forceLinearScale) {
         z = tickLog(z);
     }
     if (hp->isEqual(GO_PROPERTY_VALUE_REVERSE_STR)) {
