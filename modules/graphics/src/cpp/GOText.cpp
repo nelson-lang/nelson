@@ -127,7 +127,7 @@ GOText::paintMe(RenderInterface& gc)
     }
     int x, y;
     std::vector<double> pos(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
-    std::vector<double> mapped(axis->reMap(pos));
+    std::vector<double> mapped(axis->reMap(pos, true));
     gc.toPixels(mapped[0], mapped[1], mapped[2], x, y);
     gc.setupDirectDraw();
     double margin(findScalarDoubleProperty(GO_MARGIN_PROPERTY_NAME_STR));

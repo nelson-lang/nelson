@@ -40,7 +40,8 @@ public:
     void
     paintMe(RenderInterface& gc) override;
     //=============================================================================
-    std::vector<double> reMap(std::vector<double>);
+    std::vector<double>
+    reMap(std::vector<double>, bool forceLinearScale);
     //=============================================================================
     void
     reMap(std::vector<double>, std::vector<double>, std::vector<double>, std::vector<double>&,
@@ -131,13 +132,13 @@ private:
     void setAxisLimits(std::vector<double>);
     //=============================================================================
     double
-    mapX(double x);
+    mapX(double x, bool forceLinearScale = false);
     //=============================================================================
     double
-    mapY(double y);
+    mapY(double y, bool forceLinearScale = false);
     //=============================================================================
     double
-    mapZ(double z);
+    mapZ(double z, bool forceLinearScale = false);
     //=============================================================================
     void
     setupProjection(RenderInterface& gc);
