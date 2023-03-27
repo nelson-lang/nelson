@@ -288,9 +288,9 @@ GOPatch::buildPolygons(FaceList& faces)
         Error(_("Nx3 dimensional matrix expected for 'Vertices'."));
     }
 
-    const double* pVertOrder = (const double*)facesData.getDataPointer();
-    const double* pVertData = (const double*)verticesdata.getDataPointer();
-    const double* pVertColor = (const double*)faceVertexCdata.getDataPointer();
+    const double* pVertOrder = static_cast<const double*>(facesData.getDataPointer());
+    const double* pVertData = static_cast<const double*>(verticesdata.getDataPointer());
+    const double* pVertColor = static_cast<const double*>(faceVertexCdata.getDataPointer());
 
     indexType nbColumnsFaceVertexCdata = faceVertexCdata.getColumns();
     indexType nbRowsFaceVertexCdata = faceVertexCdata.getRows();
@@ -306,13 +306,14 @@ GOPatch::buildPolygons(FaceList& faces)
         face.EdgeColorMode = EdgeColorMode;
 
         if (face.FaceColorMode == ColorMode::ColorSpec) {
-            GORestrictedStringColorProperty* fc
-                = (GORestrictedStringColorProperty*)findProperty(GO_FACE_COLOR_PROPERTY_NAME_STR);
+            GORestrictedStringColorProperty* fc = static_cast<GORestrictedStringColorProperty*>(
+                findProperty(GO_FACE_COLOR_PROPERTY_NAME_STR));
             if (!fc) {
                 Error(_W("Invalid Face Colorspec."));
+            } else {
+                std::vector<double> colorspec = fc->colorSpec();
+                face.FaceColor = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], 1);
             }
-            std::vector<double> colorspec = fc->colorSpec();
-            face.FaceColor = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], 1);
         }
 
         if (face.FaceColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
@@ -326,8 +327,8 @@ GOPatch::buildPolygons(FaceList& faces)
         }
 
         if (face.EdgeColorMode == ColorMode::ColorSpec) {
-            GORestrictedStringColorProperty* ec
-                = (GORestrictedStringColorProperty*)findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR);
+            GORestrictedStringColorProperty* ec = static_cast<GORestrictedStringColorProperty*>(
+                findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR));
             if (!ec) {
                 Error(_W("Invalid EdgeColor parameter."));
             }
@@ -344,10 +345,6 @@ GOPatch::buildPolygons(FaceList& faces)
             && (nbRowsFaceVertexCdata != nVertices)) {
             Error(_W("Invalid FaceVertexCData parameter with EgdeColor to 'interp'."));
         }
-#define pVertC(i, j)                                                                               \
-    ((i < nbRowsFaceVertexCdata && j < nbColumnsFaceVertexCdata)                                   \
-            ? (pVertColor + i + (int)nbRowsFaceVertexCdata * j)                                    \
-            : (Error(_W("Out of bounds.")), pVertColor))
 
         for (int k = 0; k < maxVertsPerFace; k++) {
             if (!std::isnan(*(pVertOrder + j + k * nFaces))) {
@@ -369,7 +366,6 @@ GOPatch::buildPolygons(FaceList& faces)
 
                 face.vertices.push_back(vert);
 
-                bool addToVertexColors = false;
                 double R = 0;
                 double G = 0;
                 double B = 0;
