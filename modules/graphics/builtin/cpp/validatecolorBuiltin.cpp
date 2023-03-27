@@ -143,7 +143,7 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
         for (indexType k = 0; k < nElements; ++k) {
             std::vector<double> rgb;
-            if (!ParseColorToRGB(elements[k], rgb)) {
+            if (!ParseColorToRGB(elements[k], false, rgb)) {
                 Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
             }
             dptr[k] = rgb[0];
@@ -165,7 +165,7 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
         for (indexType k = 0; k < nElements; ++k) {
             std::vector<double> rgb;
-            if (!ParseColorToRGB(elements[k], rgb)) {
+            if (!ParseColorToRGB(elements[k], false, rgb)) {
                 Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
             }
             dptr[k] = rgb[0];
@@ -177,7 +177,7 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
     case NLS_CHAR: {
         std::wstring colorStr = param1.getContentAsWideString();
         std::vector<double> rgb;
-        if (!ParseColorToRGB(colorStr, rgb)) {
+        if (!ParseColorToRGB(colorStr, false, rgb)) {
             Error(
                 _W("Valid color string expected."), L"Nelson:graphics:validatecolor:InvalidColor");
         } else {

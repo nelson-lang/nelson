@@ -17,10 +17,12 @@
 namespace Nelson {
 //=============================================================================
 bool
-ParseColorToRGB(const std::wstring& colorString, std::vector<double>& data)
+ParseColorToRGB(const std::wstring& colorString, bool withNone, std::vector<double>& data)
 {
     std::unordered_map<std::wstring, std::vector<double>> colors;
-    colors[L"none"] = { -1, -1, -1 };
+    if (withNone) {
+        colors[L"none"] = { -1, -1, -1 };
+    }
     colors[L"y"] = { 1, 1, 0 };
     colors[L"yellow"] = { 1, 1, 0 };
     colors[L"m"] = { 1, 0, 1 };
@@ -98,7 +100,7 @@ bool
 ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data)
 {
     if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
-        return ParseColorToRGB(arg.getContentAsWideString(), data);
+        return ParseColorToRGB(arg.getContentAsWideString(), true, data);
     } else {
         indexType nbElements = arg.getElementCount();
         if (nbElements != 3) {

@@ -13,6 +13,7 @@
 #include "GOFigure.hpp"
 #include "GORoot.hpp"
 #include "GOImage.hpp"
+#include "GOPatch.hpp"
 #include "GOLineSeries.hpp"
 #include "GOText.hpp"
 #include "StringHelpers.hpp"
@@ -51,6 +52,9 @@ GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& a
     }
     if (StringHelpers::iequals(GOTypename, L"figure")) {
         fp = new GOFigure(nullptr, -1);
+    }
+    if (StringHelpers::iequals(GOTypename, L"patch")) {
+        fp = new GOPatch();
     }
 
     if (!fp) {

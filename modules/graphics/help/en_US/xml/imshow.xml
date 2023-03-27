@@ -94,7 +94,7 @@ h = imshow(filename)
       <link linkend="${graphics}imagesc">imagesc</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}colormap">colormap</link>
+      <link linkend="${graphics}colormap">colormap</link>
     </see_also_item>
   </see_also>
 

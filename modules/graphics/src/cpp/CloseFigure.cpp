@@ -38,8 +38,8 @@ bool
 closeFigureByName(const std::wstring& name)
 {
     std::vector<int64> nums = getFigureGraphicsObjects();
-    for (size_t k = 0; k < nums.size(); k++) {
-        GOWindow* window = getFigure(nums[k]);
+    for (long long num : nums) {
+        GOWindow* window = getFigure(num);
         if (!window) {
             return false;
         }
@@ -50,7 +50,7 @@ closeFigureByName(const std::wstring& name)
         GOStringProperty* propertyName
             = static_cast<GOStringProperty*>(goFigure->findProperty(GO_NAME_PROPERTY_NAME_STR));
         if (propertyName->data() == name) {
-            return closeFigure(nums[k]);
+            return closeFigure(num);
         }
     }
     return false;
@@ -60,7 +60,7 @@ bool
 closeFigureByName(const wstringVector& names)
 {
     bool res = true;
-    for (auto name : names) {
+    for (const auto& name : names) {
         res = closeFigureByName(name) && res;
     }
     return false;

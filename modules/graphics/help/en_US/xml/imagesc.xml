@@ -123,7 +123,7 @@ colormap(gray)]]>
       <link linkend="${graphics}image">image</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}colormap">colormap</link>
+      <link linkend="${graphics}colormap">colormap</link>
     </see_also_item>
 
   </see_also>

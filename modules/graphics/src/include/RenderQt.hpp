@@ -72,6 +72,9 @@ private:
     QRect
     boundingRectMultiLine(const std::wstring& text, QFont fnt, size_t& nbLines);
     //=============================================================================
+    void
+    setLineStyle(QPen& _pen, std::wstring style);
+    //=============================================================================
 public:
     //=============================================================================
     virtual double
@@ -199,6 +202,9 @@ public:
     void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
         std::vector<std::vector<coloredPoint>> edges, bool flatedges) override;
+    //=============================================================================
+    void
+    drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle);
     //=============================================================================
 };
 //=============================================================================

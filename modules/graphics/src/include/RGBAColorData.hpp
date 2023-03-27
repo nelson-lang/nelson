@@ -9,18 +9,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <string>
-#include "nlsGraphics_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data);
-//=============================================================================
-NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const std::wstring& colorString, bool withNone, std::vector<double>& data);
-//=============================================================================
-}
+class RGBAColorData
+{
+    //=============================================================================
+public:
+    double r;
+    double g;
+    double b;
+    double a;
+    RGBAColorData()
+    {
+        r = 0;
+        g = 0;
+        b = 0;
+        a = 0;
+    };
+    RGBAColorData(double red, double green, double blue, double alpha)
+        : r(red), g(green), b(blue), a(alpha) {};
+};
 //=============================================================================

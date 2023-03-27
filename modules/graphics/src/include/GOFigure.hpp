@@ -34,7 +34,7 @@ private:
 public:
     GOFigure(GOWindow* win, int number);
     ~GOFigure() override = default;
-    virtual void
+    void
     registerProperties() override;
     bool
     resized();
@@ -48,7 +48,7 @@ public:
     {
         return m_height;
     }
-    virtual std::wstring
+    std::wstring
     getType() override;
 
     void

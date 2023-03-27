@@ -213,6 +213,7 @@
     <ClCompile Include="..\cpp\__image__Builtin.cpp" />
     <ClCompile Include="..\cpp\__line__Builtin.cpp" />
     <ClCompile Include="..\cpp\saveasBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__patch__Builtin.cpp" />
     <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
     <ClCompile Include="..\cpp\__text__Builtin.cpp" />
   </ItemGroup>
@@ -277,6 +278,7 @@
     <ClInclude Include="..\include\__line__Builtin.hpp" />
     <ClInclude Include="..\include\nlsGraphics_builtin_exports.h" />
     <ClInclude Include="..\include\saveasBuiltin.hpp" />
+    <ClInclude Include="..\include\__patch__Builtin.hpp" />
     <ClInclude Include="..\include\__surf__Builtin.hpp" />
     <ClInclude Include="..\include\__text__Builtin.hpp" />
   </ItemGroup>

@@ -74,6 +74,7 @@
     <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOPatch.hpp" />
     <ClInclude Include="..\include\GORestrictedStringColorProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringScalarProperty.hpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOPatch.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringColorProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringScalarProperty.cpp" />
