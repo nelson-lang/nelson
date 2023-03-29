@@ -8,9 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- `weboption` did not manage HeaderFields as expected.
+- `weboptions` did not manage HeaderFields as expected.
 - update `cacert.pem`.
-
 
 ## 0.7.3 (2023-03-28)
 
