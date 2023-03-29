@@ -356,6 +356,20 @@ buildHeader(CURL* curlObject, WebOptions& options)
     for (const std::string& l : lines) {
         chunk = curl_slist_append(chunk, l.c_str());
     }
+    wstringVector headerFields = options.getHeaderFields();
+    size_t nbFields = headerFields.size();
+    if (nbFields > 0) {
+        if (nbFields % 2) {
+            Error(_W("Invalid HeaderFields size."));
+        }
+        size_t nbFieldnames = nbFields / 2;
+        for (size_t k = 0; k < nbFieldnames; k++) {
+            std::string header = wstring_to_utf8(headerFields[k]) + ": "
+                + wstring_to_utf8(headerFields[k + nbFieldnames]);
+            chunk = curl_slist_append(chunk, header.c_str());
+        }
+    }
+
     return curl_easy_setopt(curlObject, CURLOPT_HTTPHEADER, chunk);
 }
 //=============================================================================
