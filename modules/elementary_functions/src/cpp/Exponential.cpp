@@ -58,7 +58,6 @@ Exponential(const ArrayOf& A, bool& needToOverload)
                 auto* Cz = reinterpret_cast<std::complex<double>*>(ptrOut);
                 double* ptrIn = (double*)A.getDataPointer();
                 auto* Az = reinterpret_cast<std::complex<double>*>(ptrIn);
-                indexType nLen = dimsA.getElementCount();
                 Eigen::Map<Eigen::ArrayXcd> matOut(Cz, nElementsA);
                 Eigen::Map<Eigen::ArrayXcd> matIn(Az, nElementsA);
 #if defined(_NLS_WITH_VML)
