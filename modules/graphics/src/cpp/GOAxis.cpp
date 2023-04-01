@@ -1865,8 +1865,16 @@ GOAxis::paintMe(RenderInterface& gc)
         drawBox(gc);
         drawGridLines(gc);
         drawMinorGridLines(gc);
+    } else {
+        GOColorProperty* hp
+            = static_cast<GOColorProperty*>(findProperty(GO_COLOR_PROPERTY_NAME_STR));
+        if (!hp->isNone()) {
+            gc.color(hp->data());
+        }
     }
+
     drawChildren(gc);
+
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
         drawAxisLines(gc);
         drawTickMarks(gc);
