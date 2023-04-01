@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.7.4 (UNRELEASED)
 
+### Added
+
+- chatGPT example.
+- utah teapot example.
+
+### Changed
+
+- figure without axes has a color.
+
 ### Fixed
 
 - `weboptions` did not manage HeaderFields as expected.
