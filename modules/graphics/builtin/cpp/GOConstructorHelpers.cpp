@@ -18,6 +18,7 @@
 #include "axesBuiltin.hpp"
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
+#include "GOGroup.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -25,15 +26,22 @@ go_handle
 GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
 {
     bool isAutoParent = true;
-    go_handle handle = assignGraphicsObject(fp);
+    bool hasGroupAsParent = false;
+    go_handle thisHandle = assignGraphicsObject(fp);
     ArrayOfVector t(arg);
     while (t.size() >= 2) {
         std::wstring propname(t[0].getContentAsWideString());
+        ArrayOf propvalue(t[1]);
         if (propname == GO_AUTO_PARENT_PROPERTY_NAME_STR) {
-            isAutoParent = (t[1].getContentAsWideString() == GO_PROPERTY_VALUE_ON_STR);
+            isAutoParent = (propvalue.getContentAsWideString() == GO_PROPERTY_VALUE_ON_STR);
         } else {
             try {
-                fp->findProperty(propname)->set(t[1]);
+                if (propname == GO_PARENT_PROPERTY_NAME_STR) {
+                    go_handle hparent = propvalue.getContentAsGraphicsObjectScalar();
+                    GraphicsObject* hp = findGraphicsObject(hparent);
+                    hasGroupAsParent = hp->isType(GO_PROPERTY_VALUE_HGGROUP_STR);
+                }
+                fp->findProperty(propname)->set(propvalue);
             } catch (const Exception& e) {
                 Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
             }
@@ -43,27 +51,53 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
     }
 
     if (isAutoParent) {
-        GOFigure* fig = getCurrentGOFigure();
-        int64 current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
-        if (current == 0) {
-            ArrayOfVector arg2;
-            axesBuiltin(0, arg2);
-            current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
+        if (!hasGroupAsParent) {
+            GOFigure* fig = getCurrentGOFigure();
+            int64 current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
+            if (current == 0) {
+                ArrayOfVector arg2;
+                axesBuiltin(0, arg2);
+                current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
+            }
+            GOAxis* axis = static_cast<GOAxis*>(findGraphicsObject(current));
+            GOGObjectsProperty* cp = static_cast<GOGObjectsProperty*>(
+                axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+            std::vector<int64> children(cp->data());
+            children.push_back(thisHandle);
+            cp->data(children);
+            cp = static_cast<GOGObjectsProperty*>(fp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
+            std::vector<int64> parent;
+            parent.push_back(current);
+            cp->data(parent);
+            axis->updateState();
+        } else {
+            GOGObjectsProperty* hgGroupParent
+                = static_cast<GOGObjectsProperty*>(fp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
+            std::vector<int64> groupParent(hgGroupParent->data());
+            if (groupParent.size() == 1) {
+                GOGroup* group = static_cast<GOGroup*>(findGraphicsObject(groupParent[0]));
+                if (group) {
+                    GOGObjectsProperty* cp = static_cast<GOGObjectsProperty*>(
+                        group->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+                    std::vector<int64> children(cp->data());
+                    children.push_back(thisHandle);
+                    cp->data(children);
+                } else {
+                    Error(_W("hggroup expected."));
+                }
+            } else {
+                Error(_W("Parent should have only one graphics object."));
+            }
         }
-        GOAxis* axis = (GOAxis*)findGraphicsObject(current);
-        GOGObjectsProperty* cp
-            = (GOGObjectsProperty*)axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-        std::vector<int64> children(cp->data());
-        children.push_back(handle);
-        cp->data(children);
-        cp = (GOGObjectsProperty*)fp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
-        std::vector<int64> parent;
-        parent.push_back(current);
-        cp->data(parent);
-        axis->updateState();
     }
     fp->updateState();
-    return handle;
+    if (!fp->isType(L"figure") && !fp->isType(L"root")) {
+        GOFigure* fig = fp->getParentFigure();
+        if (fig) {
+            fig->repaint();
+        }
+    }
+    return thisHandle;
 }
 //=============================================================================
 }

@@ -11,7 +11,7 @@ function varargout = plot(varargin)
   inputArguments = varargin;
   nbInputArguments = nargin;
   if (nbInputArguments >= 2)
-    if ((length(inputArguments{1}) == 1) && isgraphics(inputArguments{1}, 'axes'))
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
       go = inputArguments{1}(1);
       inputArguments(1) = [];
       nbInputArguments = nbInputArguments - 1;

@@ -37,22 +37,22 @@ function args = parsePatchArguments(inputArguments)
     end
   end
   
-  if (isgraphics(inputArguments{1}, 'axes'))
+  if (length(inputArguments) > 0 &&isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments{2:end};
   end
-
+  
   nbInputArguments = length(inputArguments);
   if nbInputArguments == 0
     inputArguments = {'XData', [0; 1; 0], 'YData', [1; 1; 0]};
     nbInputArguments = length(inputArguments);
   end
-
+  
   firstString = find (cellfun ('isclass', inputArguments, 'char'), 1);
   if (isempty(firstString))
     firstString = nbInputArguments + 1;
   end
-
+  
   if ((nbInputArguments >= 3) && (firstString == 3)) || ((nbInputArguments >= 4) && (firstString == 4))
     % h = patch(X, Y, C) or h = patch(X, Y, Z, C)
     str = inputArguments{firstString};
@@ -77,9 +77,8 @@ function args = parsePatchArguments(inputArguments)
     propertiesList = inputArguments(firstString:end);
     inputArguments = inputArguments(1:firstString-1);
   end
-
+  
   nbInputArguments = length(inputArguments);
-  args = {};
   ax = [];
   XData = [];
   YData = [];
@@ -91,7 +90,7 @@ function args = parsePatchArguments(inputArguments)
   FaceVertexCData = [];
   FaceColorDefault = [0 0 0];
   EdgeColorDefault = [0 0 0];
-
+  
   if (nbInputArguments == 3)
     % h = patch(X, Y, C) 
     XData = inputArguments{1};
@@ -108,7 +107,7 @@ function args = parsePatchArguments(inputArguments)
   elseif (nbInputArguments > 0) 
     error(_('Wrong number of input arguments.'));
   end
-
+  
   
   if (isvector (XData))
     XData = XData(:);
@@ -122,29 +121,69 @@ function args = parsePatchArguments(inputArguments)
       end
     end
   end
-
-
-  nbPropertiesList = length(propertiesList);
-  ParentAsProperty = getValueByName(propertiesList, nbPropertiesList, 'Parent');
-  XDataAsProperty = getValueByName(propertiesList, nbPropertiesList, 'XData');
-  YDataAsProperty = getValueByName(propertiesList, nbPropertiesList, 'YData');
-  ZDataAsProperty = getValueByName(propertiesList, nbPropertiesList, 'ZData');
-  CDataAsProperty = getValueByName(propertiesList, nbPropertiesList, 'CData');
-  FacesAsProperty = getValueByName(propertiesList, nbPropertiesList, 'Faces');
-  VerticesAsProperty = getValueByName(propertiesList, nbPropertiesList, 'Vertices');
-  FaceVertexCDataAsProperty = getValueByName(propertiesList, nbPropertiesList, 'FaceVertexCData');
-  FaceColorAsProperty = getValueByName(propertiesList, nbPropertiesList, 'FaceColor');
-  EdgeColorAsProperty = getValueByName(propertiesList, nbPropertiesList, 'EdgeColor');
-  CDataMappingAsProperty = getValueByName(propertiesList, nbPropertiesList, 'CDataMapping');
-
-  propertiesList = removeCollectedProperties(propertiesList, nbPropertiesList);
-
+  
+  args = struct(propertiesList{:});
+  ParentAsProperty = getValueFromStruct(args, 'Parent');
+  if isfield(args, 'Parent')
+    rmfield(args, 'Parent');
+  end
+  
+  XDataAsProperty = getValueFromStruct(args, 'XData');
+  if isfield(args, 'XData')
+    rmfield(args, 'XData');
+  end
+  
+  YDataAsProperty = getValueFromStruct(args, 'YData');
+  if isfield(args, 'YData')
+    rmfield(args, 'YData');
+  end
+  
+  ZDataAsProperty = getValueFromStruct(args, 'ZData');
+  if isfield(args, 'ZData')
+    rmfield(args, 'ZData');
+  end
+  
+  CDataAsProperty = getValueFromStruct(args, 'CData');
+  if isfield(args, 'CData')
+    rmfield(args, 'CData');
+  end
+  
+  FacesAsProperty = getValueFromStruct(args, 'Faces');
+  if isfield(args, 'Faces')
+    rmfield(args, 'Faces');
+  end
+  
+  VerticesAsProperty = getValueFromStruct(args, 'Vertices');
+  if isfield(args, 'Vertices')
+    rmfield(args, 'Vertices');
+  end
+  
+  FaceVertexCDataAsProperty = getValueFromStruct(args, 'FaceVertexCData');
+  if isfield(args, 'FaceVertexCData')
+    rmfield(args, 'FaceVertexCData');
+  end
+  
+  FaceColorAsProperty = getValueFromStruct(args, 'FaceColor');
+  if isfield(args, 'FaceColor')
+    rmfield(args, 'FaceColor');
+  end
+  
+  EdgeColorAsProperty = getValueFromStruct(args, 'EdgeColor');
+  if isfield(args, 'EdgeColor')
+    rmfield(args, 'EdgeColor');
+  end
+  
+  CDataMappingAsProperty = getValueFromStruct(args, 'CDataMapping');
+  if isfield(args, 'CDataMapping')
+    rmfield(args, 'CDataMapping');
+  end
+  
   if isempty(CDataMappingAsProperty)
     CDataMapping = 'scaled';
   else
     CDataMapping = CDataMappingAsProperty;
   end
-
+  
   if isempty(ParentAsProperty)
     if isempty(ax)
       Parent = gca();
@@ -154,7 +193,7 @@ function args = parsePatchArguments(inputArguments)
   else
     Parent = ParentAsProperty;
   end
-
+  
   if (haveCData && isvector(CData) && length(CData) ~= 3)
     colors = colormap(Parent);
     nbColors = size(colors, 1);
@@ -173,23 +212,23 @@ function args = parsePatchArguments(inputArguments)
       error(_('CDataMapping scaled or direct value expected'));
     end
   end
-
+  
   if ~isempty(XDataAsProperty)
     XData = XDataAsProperty;
   end
-
+  
   if ~isempty(YDataAsProperty)
     YData = YDataAsProperty;
   end
-
+  
   if ~isempty(ZDataAsProperty)
     ZData = ZDataAsProperty;
   end
-
+  
   if ~isempty(CDataAsProperty)
     CData = CDataAsProperty;
   end
-
+  
   if isempty(VerticesAsProperty)
     if isempty(ZData)
       ZData = ones(size(XData));
@@ -208,7 +247,7 @@ function args = parsePatchArguments(inputArguments)
       end
     end
   end
-
+  
   if ~isempty(FacesAsProperty)
     Faces = FacesAsProperty;
   else
@@ -219,7 +258,7 @@ function args = parsePatchArguments(inputArguments)
       Faces = reshape(1:nx*ny, size(XData))';
     end
   end
-
+  
   if ~isempty(CDataAsProperty)
     CData = CDataAsProperty;
   else
@@ -227,7 +266,7 @@ function args = parsePatchArguments(inputArguments)
       CData = Parent.Color;
     end
   end
-
+  
   if ~isempty(FaceVertexCDataAsProperty)
     FaceVertexCData = FaceVertexCDataAsProperty;
   else
@@ -243,7 +282,7 @@ function args = parsePatchArguments(inputArguments)
       error(_('String color or numeric value expected.')),
     end
   end
-
+  
   if ~isempty(FaceColorAsProperty)
     FaceColor = FaceColorAsProperty;
   else
@@ -253,51 +292,35 @@ function args = parsePatchArguments(inputArguments)
       FaceColor = 'flat';
     end
   end
-
+  
   if ~isempty(EdgeColorAsProperty)
     EdgeColor = EdgeColorAsProperty;
     if ischar(EdgeColor) && strcmp(EdgeColor, 'none')
       EdgeColor = CData;
     end
   else
-      EdgeColor = EdgeColorDefault;
+    EdgeColor = EdgeColorDefault;
   end
-
-  args = {'Parent', Parent, ...
-  'XData', XData, ...
-  'YData', YData, ...
-  'ZData', ZData, ...
-  'CData', CData, ...
-  'Faces', Faces, ...
-  'Vertices', Vertices, ...
-  'FaceVertexCData', FaceVertexCData, ...
-  'FaceColor', FaceColor, ...
-  'EdgeColor', EdgeColor};
-
-  args = [args, propertiesList];
-
+  
+  args.Parent = Parent;
+  args.XData = XData;
+  args.YData = YData;
+  args.ZData = ZData;
+  args.CData = CData;
+  args.Faces = Faces;
+  args.Vertices = Vertices;
+  args.FaceVertexCData = FaceVertexCData;
+  args.FaceColor = FaceColor;
+  args.EdgeColor = EdgeColor;
+  
+  args = reshape([fieldnames(args)'; struct2cell(args)'], 1, []);
+  
 end
 %=============================================================================
-function filteredProperties = removeCollectedProperties(propertiesList, nbPropertiesList)
-  filteredProperties = propertiesList;
-  elements = {'Parent', 'XData', 'YData', 'ZData', 'CData', 'Faces', ...
-      'Vertices', 'FaceVertexCData', 'FaceColor', 'EdgeColor', 'CDataMapping'};
-  nbElements = length(elements);
-  for k = 1:1:nbElements
-    idx = find(strcmp(filteredProperties, elements{k}));
-    if ~isempty(idx)
-      filteredProperties([idx, idx + 1]) = [];
-    end
-  end
-end
-%=============================================================================
-function value = getValueByName(inputArguments, nbInputArguments, name)
+function value = getValueFromStruct(st, name)
   value = [];
-  for k = 1:2:nbInputArguments
-    fieldname = inputArguments{k};
-    if ischar(fieldname) && strcmp(fieldname, name)
-      value = inputArguments{k  + 1};
-      return
-    end
+  if isfield(st, name)
+    value = st.(name);
+  end
 end
 %=============================================================================

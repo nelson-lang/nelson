@@ -16,6 +16,7 @@
 #include "GOPatch.hpp"
 #include "GOLineSeries.hpp"
 #include "GOText.hpp"
+#include "GOGroup.hpp"
 #include "StringHelpers.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
@@ -55,6 +56,9 @@ GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& a
     }
     if (StringHelpers::iequals(GOTypename, L"patch")) {
         fp = new GOPatch();
+    }
+    if (StringHelpers::iequals(GOTypename, L"hggroup")) {
+        fp = new GOGroup();
     }
 
     if (!fp) {

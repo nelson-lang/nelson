@@ -11,7 +11,7 @@ function varargout = quiver(varargin)
   narginchk(2, 10000);
   nargoutchk(0, 1);
   inputArguments = varargin;
-  if ((length(inputArguments{1}) == 1) && isgraphics(inputArguments{1}, 'axes'))
+  if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else

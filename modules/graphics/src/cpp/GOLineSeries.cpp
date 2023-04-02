@@ -29,7 +29,7 @@ namespace Nelson {
 std::wstring
 GOLineSeries::getType()
 {
-    return L"line";
+    return GO_PROPERTY_VALUE_LINE_STR;
 }
 //=============================================================================
 GOLineSeries::GOLineSeries()
@@ -128,7 +128,9 @@ GOLineSeries::paintMe(RenderInterface& gc)
     }
     std::vector<double> mxs, mys, mzs;
     GOAxis* parent = (GOAxis*)getParentAxis();
-    parent->reMap(xs, ys, zs, mxs, mys, mzs);
+    if (parent) {
+        parent->reMap(xs, ys, zs, mxs, mys, mzs);
+    }
     if (!lc->isNone()) {
         gc.color(lc->data());
         gc.setLineStyle(findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR));

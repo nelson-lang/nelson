@@ -16,7 +16,7 @@ function varargout = text(varargin)
   narginchk(3, 10000);
   nargoutchk(0, 1);
   inputArguments = varargin;
-  if isgraphics(varargin{1}, 'axes')
+  if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     parent = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else
@@ -66,6 +66,12 @@ function varargout = text(varargin)
       error(_('last argument must be a string or cell of strings.'))
     end
     inputArguments = inputArguments(2:end);
+    inputAsStruct = struct(inputArguments{:});
+    if isfield(inputAsStruct, 'Parent')
+      parent = inputAsStruct.Parent;
+      rmfield(inputAsStruct, 'Parent');
+    end
+    inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
     H = [];
     for (i=1:numel(x))
       H = [H, __text__('Parent', parent, 'Position', [x(i), y(i), z(i)], 'String', labelArray{i}, inputArguments{1:end})];
