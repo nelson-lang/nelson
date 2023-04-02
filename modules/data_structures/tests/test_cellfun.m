@@ -68,3 +68,9 @@ assert_isequal(AgtA, false);
 AgtB = cellfun(R, A, B, 'ErrorHandler', H,  'UniformOutput', false);
 assert_isequal(AgtB, {false});
 %=============================================================================
+assert_istrue(all(cellfun('isnumeric', {})));
+assert_istrue(all(cellfun('isnumeric', {}, 'UniformOutput', true)));
+%=============================================================================
+R = cellfun('isnumeric', {}, 'UniformOutput', false)
+assert_isequal(R, {});
+%=============================================================================

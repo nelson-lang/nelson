@@ -19,20 +19,48 @@ function varargout = grid(varargin)
   inputArguments = varargin;
   if isgraphics(inputArguments{1})
     ax = inputArguments{1};
-    propertyIndex = 2;
+    inputArguments = inputArguments{2:end};
   else
     ax = gca();
-    propertyIndex = 1;
-  end
-  if (nargin - propertyIndex == 0)
+   end
+
+  if length(inputArguments) == 0
     gridToggle(ax);
-  elseif (strcmp(varargin{propertyIndex}, 'on'))
-    gridOn(ax);
-  elseif (strcmp(varargin{propertyIndex}, 'off'))
-    gridOff(gca);
   else
-    error(_('Unknown command option.'));
+    if ischar(inputArguments)
+      parameter = inputArguments;
+    else
+      parameter = inputArguments{1};
+    end
+    if ischar(parameter)
+      if strcmp(parameter, 'on')
+        gridOn(ax);
+      elseif strcmp(parameter, 'off')
+        gridOff(ax);
+      elseif strcmp(parameter, 'minor')
+        minorGridToggle(ax);
+      else
+        error(_('Unknown command option.'));
+      end 
   end
+end
+%=============================================================================
+function minorGridOn(go)
+  go.XMinorGrid = 'on';
+  go.YMinorGrid = 'on';
+  go.ZMinorGrid = 'on';
+end
+%=============================================================================
+function minorGridOff(go)
+  go.XMinorGrid = 'off';
+  go.YMinorGrid = 'off';
+  go.ZMinorGrid = 'off';
+end
+%=============================================================================
+function gridOff(go)
+  go.XGrid = 'off';
+  go.YGrid = 'off';
+  go.ZGrid = 'off';
 end
 %=============================================================================
 function gridOn(go)
@@ -52,6 +80,17 @@ function gridToggle(go)
     gridOff(go);
   else
     gridOn(go);
+  end
+end
+%=============================================================================
+function minorGridToggle(go)
+  if ~isprop(go, 'XMinorGrid')
+    return
+  end
+  if (strcmp(go.XMinorGrid, 'on') || strcmp(go.YMinorGrid, 'on') || strcmp(go.ZMinorGrid, 'on'))
+    minorGridOff(go);
+  else
+    minorGridOn(go);
   end
 end
 %=============================================================================
