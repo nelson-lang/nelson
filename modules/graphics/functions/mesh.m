@@ -23,32 +23,14 @@ function varargout = mesh(varargin)
     go = newplot();
   end
   nextplot = go.NextPlot;
-  
-  propertyArg = find(cellfun ('isclass', varargin, 'char'), 1);
-  if isempty(propertyArg)
-    h = surface(inputArguments{:});
-    h.FaceColor ='w';
-    h.EdgeColor = 'flat';
-    h.FaceLighting = 'none';
-    h.EdgeLighting = 'flat';
-  else
-    h = surface(inputArguments{:});
-    h.FaceColor ='w';
-    h.EdgeColor = 'flat';
-    h.FaceLighting = 'none';
-    h.EdgeLighting = 'flat';
-    propertiesList = inputArguments(propertyArg:end);
-    for k = 1:2:length(propertiesList)
-      name = propertiesList{k};
-      value = propertiesList{k + 1};
-      set(h, name, value);
-    end
-  end
+
+  args = {'FaceColor', 'w', 'EdgeColor', 'flat', 'FaceLighting', 'none', 'EdgeLighting', 'flat'};
+  args = [inputArguments{:}, args];
+  h = surface(go, args{:});
+
   if (~ishold(go))
     view(go, 3);
-    go.XGrid = 'on';
-    go.YGrid = 'on';
-    go.ZGrid = 'on';
+    grid(go, 'on');
   end
   if nargout > 0
     varargout{1} = h;

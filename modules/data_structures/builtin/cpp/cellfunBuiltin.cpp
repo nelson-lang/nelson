@@ -84,6 +84,10 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
 {
     ArrayOfVector outputs;
     indexType elementCount = argdims.getElementCount();
+    if (nargout == 1 && elementCount == 0) {
+        outputs << ArrayOf::emptyConstructor(Dimensions(0, 0));
+        return outputs;
+    }
     for (indexType i = 0; i < elementCount; i++) {
         ArrayOfVector input;
         for (indexType j = 1; j < argcount; j++) {

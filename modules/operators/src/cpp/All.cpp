@@ -21,6 +21,11 @@ All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
+    bool mustBeOverloaded = !(A.isNumeric() || A.isLogical() || A.isCharacterArray());
+    if (mustBeOverloaded) {
+        needToOverload = true;
+        return {};
+    }
     try {
         A.promoteType(NLS_LOGICAL);
     } catch (Exception&) {
