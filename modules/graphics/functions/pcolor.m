@@ -10,7 +10,7 @@
 function varargout = pcolor(varargin)
   inputArguments = varargin;
   if (length(inputArguments) >= 2)
-     if ((length(inputArguments{1})==1) && isgraphics(inputArguments{1}, 'axes'))
+     if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
         ax = inputArguments{1}(1);
         inputArguments = inputArguments(2:end);
      else   

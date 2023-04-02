@@ -18,7 +18,7 @@ function varargout = surface(varargin)
   inputArguments = varargin;
   nbInputArguments = nargin;
   if (nbInputArguments >= 2)
-    if ((length(inputArguments{1}) == 1) && isgraphics(inputArguments{1}, 'axes'))
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
       go = inputArguments{1}(1);
       inputArguments = inputArguments(2:end);
       nbInputArguments = length(inputArguments);
@@ -38,7 +38,7 @@ function varargout = surface(varargin)
   propertiesList = inputArguments(firstString:end);
   inputArguments = inputArguments(1:firstString-1);
   if (length(inputArguments) == 0)
-    h = surfaceNoRhs(propertiesList);
+    h = surfaceNoRhs(go, propertiesList);
   elseif (length(inputArguments) == 1)
     h = surfaceOneRhs(inputArguments, propertiesList);
   elseif (length(inputArguments) == 2)
@@ -50,15 +50,13 @@ function varargout = surface(varargin)
   else
     error(_('Invalid parameter/value pair arguments.'));
   end
-  grid(go, 'on')
-  grid(go, 'off')
   axes(saveca);
   if nargout > 0
     varargout{1} = h;
   end
 end
 %=============================================================================
-function h = surfaceNoRhs(propertiesList)
+function h = surfaceNoRhs(go, propertiesList)
   Z = eye(3, 2);
   h = __surf__('ZData', Z, propertiesList);
   xlim(go, [1 3]);

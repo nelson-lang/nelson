@@ -38,13 +38,13 @@ GraphicsObject::GraphicsObject() { ref_count = 1; }
 //=============================================================================
 GraphicsObject::~GraphicsObject()
 {
-    GOGObjectsProperty* hp = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-    GraphicsObject* gp;
+    GOGObjectsProperty* hp
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> my_children(hp->data());
     for (int i = 0; i < my_children.size(); i++) {
         int64 handle = my_children[i];
         if (handle >= HANDLE_OFFSET_OBJECT) {
-            gp = findGraphicsObject(handle, false);
+            GraphicsObject* gp = findGraphicsObject(handle, false);
             if (gp) {
                 gp->dereference();
                 if (gp->referenceCount() <= 0) {
@@ -102,7 +102,7 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 void
 GraphicsObject::setGoProperty(const std::wstring& name, int64 value)
 {
-    GOGObjectsProperty* hp = (GOGObjectsProperty*)findProperty(name);
+    GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(findProperty(name));
     if (hp) {
         std::vector<int64> newval;
         newval.push_back(value);
@@ -113,33 +113,50 @@ GraphicsObject::setGoProperty(const std::wstring& name, int64 value)
 GOAxis*
 GraphicsObject::getParentAxis()
 {
-    GOGObjectsProperty* parent = (GOGObjectsProperty*)findProperty(GO_PARENT_PROPERTY_NAME_STR);
+    GOGObjectsProperty* parent
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR));
     if (parent->data().empty()) {
         return nullptr;
     }
     unsigned parent_handle = parent->data()[0];
     GraphicsObject* fp = findGraphicsObject(parent_handle);
-    GOStringProperty* name = (GOStringProperty*)fp->findProperty(GO_TYPE_PROPERTY_NAME_STR);
+    GOStringProperty* name
+        = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
     if (!name) {
         return nullptr;
+    }
+    if (name->isEqual(GO_PROPERTY_VALUE_HGGROUP_STR)) {
+        GOGObjectsProperty* hgGroupParent
+            = static_cast<GOGObjectsProperty*>(fp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
+        if (hgGroupParent) {
+            fp = findGraphicsObject(hgGroupParent->data()[0]);
+            name = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
+            if (!name) {
+                return nullptr;
+            }
+        }
     }
     if (!name->isEqual(GO_PROPERTY_VALUE_AXES_STR)) {
         return nullptr;
     }
-    return (GOAxis*)fp;
+    return static_cast<GOAxis*>(fp);
 }
 //=============================================================================
 GOFigure*
 GraphicsObject::getParentFigure()
 {
-    GOAxis* hp;
+    GOAxis* hp = nullptr;
     if (stringCheck(GO_TYPE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AXES_STR)) {
-        hp = (GOAxis*)this;
+        hp = static_cast<GOAxis*>(this);
     } else {
         hp = getParentAxis();
     }
-    GOGObjectsProperty* parent = (GOGObjectsProperty*)hp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
-    if (parent->data().empty()) {
+    if (!hp) {
+        return nullptr;
+    }
+    GOGObjectsProperty* parent
+        = static_cast<GOGObjectsProperty*>(hp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
+    if (!parent || parent->data().empty()) {
         return nullptr;
     }
     unsigned parent_handle = parent->data()[0];
@@ -149,35 +166,35 @@ GraphicsObject::getParentFigure()
 std::wstring
 GraphicsObject::findStringProperty(const std::wstring& name)
 {
-    GOStringProperty* sp = (GOStringProperty*)findProperty(name);
+    GOStringProperty* sp = static_cast<GOStringProperty*>(findProperty(name));
     return (sp->data());
 }
 //=============================================================================
 std::vector<double>
 GraphicsObject::findVectorDoubleProperty(const std::wstring& name)
 {
-    GOVectorProperty* sp = (GOVectorProperty*)findProperty(name);
+    GOVectorProperty* sp = static_cast<GOVectorProperty*>(findProperty(name));
     return (sp->data());
 }
 //=============================================================================
 ArrayOf
 GraphicsObject::findArrayOfProperty(const std::wstring& name)
 {
-    GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(name);
+    GOArrayOfProperty* hp = static_cast<GOArrayOfProperty*>(findProperty(name));
     return (hp->data());
 }
 //=============================================================================
 double
 GraphicsObject::findScalarDoubleProperty(const std::wstring& name)
 {
-    GOScalarProperty* sp = (GOScalarProperty*)findProperty(name);
+    GOScalarProperty* sp = static_cast<GOScalarProperty*>(findProperty(name));
     return (sp->data());
 }
 //=============================================================================
 unsigned
 GraphicsObject::findGoProperty(const std::wstring& name)
 {
-    GOGObjectsProperty* sp = (GOGObjectsProperty*)findProperty(name);
+    GOGObjectsProperty* sp = static_cast<GOGObjectsProperty*>(findProperty(name));
     if (sp->data().empty()) {
         return 0;
     }
@@ -220,7 +237,8 @@ void
 GraphicsObject::setRestrictedStringScalarDefault(
     const std::wstring& name, const std::wstring& value, double sval)
 {
-    GORestrictedStringScalarProperty* hp = (GORestrictedStringScalarProperty*)findProperty(name);
+    GORestrictedStringScalarProperty* hp
+        = static_cast<GORestrictedStringScalarProperty*>(findProperty(name));
     if (!hp) {
         Error(_W("Restricted string/scalar default failed lookup of: ") + L"<" + name + L">");
     }
@@ -232,7 +250,8 @@ void
 GraphicsObject::setRestrictedStringColorDefault(
     const std::wstring& name, const std::wstring& value, double red, double green, double blue)
 {
-    GORestrictedStringColorProperty* hp = (GORestrictedStringColorProperty*)findProperty(name);
+    GORestrictedStringColorProperty* hp
+        = static_cast<GORestrictedStringColorProperty*>(findProperty(name));
     if (!hp) {
         Error(_W("Restricted string/color default failed lookup of: ") + L"<" + name + L">");
     }
@@ -243,7 +262,7 @@ GraphicsObject::setRestrictedStringColorDefault(
 void
 GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::wstring& value)
 {
-    GORestrictedStringProperty* hp = (GORestrictedStringProperty*)findProperty(name);
+    GORestrictedStringProperty* hp = static_cast<GORestrictedStringProperty*>(findProperty(name));
     if (!hp) {
         Error(_W("Set restricted string default failed lookup of: ") + L"<" + name + L">");
     }
@@ -253,14 +272,15 @@ GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::
 void
 GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const wstringVector& values)
 {
-    GORestrictedStringVectorProperty* hp = (GORestrictedStringVectorProperty*)findProperty(name);
+    GORestrictedStringVectorProperty* hp
+        = static_cast<GORestrictedStringVectorProperty*>(findProperty(name));
     ((GOStringVector*)hp)->data(values);
 }
 //=============================================================================
 void
 GraphicsObject::setThreeVectorDefault(const std::wstring& name, double x, double y, double z)
 {
-    GOThreeVectorProperty* hp = (GOThreeVectorProperty*)findProperty(name);
+    GOThreeVectorProperty* hp = static_cast<GOThreeVectorProperty*>(findProperty(name));
     hp->value(x, y, z);
 }
 //=============================================================================
@@ -268,28 +288,28 @@ void
 GraphicsObject::setFourVectorDefault(
     const std::wstring& name, double x, double y, double z, double w)
 {
-    GOFourVectorProperty* hp = (GOFourVectorProperty*)findProperty(name);
+    GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
     hp->value(x, y, z, w);
 }
 //=============================================================================
 void
 GraphicsObject::setTwoVectorDefault(const std::wstring& name, double x, double y)
 {
-    GOTwoVectorProperty* hp = (GOTwoVectorProperty*)findProperty(name);
+    GOTwoVectorProperty* hp = static_cast<GOTwoVectorProperty*>(findProperty(name));
     hp->value(x, y);
 }
 //=============================================================================
 void
 GraphicsObject::setStringDefault(const std::wstring& name, const std::wstring& value)
 {
-    GOStringProperty* hp = (GOStringProperty*)findProperty(name);
+    GOStringProperty* hp = static_cast<GOStringProperty*>(findProperty(name));
     hp->data(value);
 }
 //=============================================================================
 void
 GraphicsObject::setScalarDoubleDefault(const std::wstring& name, double value)
 {
-    GOScalarProperty* hp = (GOScalarProperty*)findProperty(name);
+    GOScalarProperty* hp = static_cast<GOScalarProperty*>(findProperty(name));
     hp->data(value);
 }
 //=============================================================================
@@ -297,21 +317,21 @@ void
 GraphicsObject::setScalarPositiveIntegerValueDefault(const std::wstring& name, double value)
 {
     GOScalarPositiveIntegerValueProperty* hp
-        = (GOScalarPositiveIntegerValueProperty*)findProperty(name);
+        = static_cast<GOScalarPositiveIntegerValueProperty*>(findProperty(name));
     hp->data(value);
 }
 //=============================================================================
 bool
 GraphicsObject::isAuto(const std::wstring& mode)
 {
-    GOAutoManualProperty* hp = (GOAutoManualProperty*)findProperty(mode);
+    GOAutoManualProperty* hp = static_cast<GOAutoManualProperty*>(findProperty(mode));
     return hp->isEqual(GO_PROPERTY_VALUE_AUTO_STR);
 }
 //=============================================================================
 bool
 GraphicsObject::stringCheck(const std::wstring& name, const std::wstring& value)
 {
-    GOStringProperty* hp = (GOStringProperty*)findProperty(name);
+    GOStringProperty* hp = static_cast<GOStringProperty*>(findProperty(name));
     return hp->isEqual(value);
 }
 //=============================================================================
@@ -324,7 +344,7 @@ GraphicsObject::isType(const std::wstring& name)
 void
 GraphicsObject::toManual(const std::wstring& name)
 {
-    GOAutoManualProperty* qp = (GOAutoManualProperty*)findProperty(name);
+    GOAutoManualProperty* qp = static_cast<GOAutoManualProperty*>(findProperty(name));
     qp->data(GO_PROPERTY_VALUE_MANUAL_STR);
 }
 //=============================================================================
