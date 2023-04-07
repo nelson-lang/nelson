@@ -169,9 +169,6 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
     constIndexPtr* indx = nullptr;
     void* qp = nullptr;
     indexType i;
-    if (isEmpty()) {
-        Error(_W("Cannot index into empty variable."));
-    }
     try {
         indexType L = index.size();
         // Convert the indexing variables into an ordinal type.
@@ -212,6 +209,10 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
         }
         if (outDims.getElementCount() == 0) {
+            Dimensions thisDims = getDimensions();
+            if (dimsDest.getMax() > thisDims.getMax()) {
+                Error(_W("Index exceeds dimensions."));
+            }
             return ArrayOf::emptyConstructor(outDims, false);
         }
         if (isSparse()) {
