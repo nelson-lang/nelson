@@ -108,16 +108,12 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
                         Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                     }
                     if (argIn[0].getElementCount() < Nelson::maxDims) {
-                        ArrayOf dimVector = argIn[0];
-                        dimVector.promoteType(NLS_DOUBLE);
-                        auto* ptrValues = (double*)dimVector.getDataPointer();
-                        ompIndexType elementCount = argIn[0].getElementCount();
+                        ArrayOf dimVector(argIn[0]);
+                        auto* ptrValues
+                            = static_cast<indexType*>(dimVector.getContentAsIndexPointer());
+                        ompIndexType elementCount = dimVector.getElementCount();
                         for (ompIndexType k = 0; k < elementCount; k++) {
-                            if (ptrValues[k] > 0) {
-                                dims[k] = static_cast<indexType>(ptrValues[k]);
-                            } else {
-                                dims[k] = 0;
-                            }
+                            dims[k] = static_cast<indexType>(ptrValues[k]);
                         }
                         if (dims.getLength() == 1) {
                             dims[1] = dims[0];
@@ -134,9 +130,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {
-                ArrayOf param = argIn[k];
-                indexType idx = param.getContentAsScalarIndex();
-                dims[k] = idx;
+                dims[k] = argIn[k].getContentAsScalarIndex(true, true, true);
             }
             if (dims.getLength() == 1) {
                 dims[1] = dims[0];

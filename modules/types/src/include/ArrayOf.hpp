@@ -1117,7 +1117,8 @@ public:
      * be converted to a index typevalue.
      */
     [[nodiscard]] indexType
-    getContentAsScalarIndex(bool bWithZero = true, bool checkIsIntegerValue = false) const;
+    getContentAsScalarIndex(bool bWithZero = true, bool checkIsIntegerValue = false,
+        bool convertNegativeValueAsZero = false) const;
 
     indexType*
     getContentAsIndexPointer();
