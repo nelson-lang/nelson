@@ -16,6 +16,7 @@
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "NewWithException.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,9 +33,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
-            ArrayOf* elementsCell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_CELL_ARRAY, argIn[0].getElementCount(), stringVector(), false));
-
+            auto* elementsCell = new_with_exception<ArrayOf>(argIn[0].getElementCount(), false);
             auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
             ompIndexType elementCount = argIn[0].getElementCount();
 #if defined(_NLS_WITH_OPENMP)
@@ -43,6 +42,8 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (ompIndexType k = 0; k < elementCount; k++) {
                 if (elementsStringArray[k].isCharacterArray()) {
                     elementsCell[k] = elementsStringArray[k];
+                } else {
+                    elementsCell[k] = ArrayOf::emptyConstructor();
                 }
             }
             ArrayOf res = ArrayOf(NLS_CELL_ARRAY, argIn[0].getDimensions(), elementsCell);
@@ -50,29 +51,17 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (argIn[0].getDataClass() == NLS_DOUBLE) {
             if (argIn[0].isVector() || argIn[0].isScalar()) {
                 if (argIn[0].isScalar()) {
-                    ArrayOf arg = argIn[0];
-                    double dindex = arg.getContentAsDoubleScalar();
-                    if (!std::isfinite(dindex)) {
-                        Error(ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
-                    }
-                    if (dindex < 0) {
-                        dindex = 0;
-                    }
-                    auto index = static_cast<indexType>(dindex);
-                    if (static_cast<double>(index) != dindex) {
-                        Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
-                    }
+                    indexType index = argIn[0].getContentAsScalarIndex(true, true, true);
                     Dimensions dims(index, index);
-                    auto* elements = new ArrayOf[index * index];
+                    auto* elements = new_with_exception<ArrayOf>(index * index, false);
                     for (indexType k = 0; k < index * index; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
                     retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
                 } else {
-                    ArrayOf arg = argIn[0];
-                    Dimensions dims(arg.getElementCount());
-                    auto* dindex = (double*)arg.getDataPointer();
-                    for (indexType k = 0; k < arg.getElementCount(); k++) {
+                    Dimensions dims(argIn[0].getElementCount());
+                    auto* dindex = (double*)argIn[0].getDataPointer();
+                    for (indexType k = 0; k < argIn[0].getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
                             Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
@@ -88,7 +77,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                     dims.simplify();
                     ompIndexType elementCount = dims.getElementCount();
-                    auto* elements = new ArrayOf[elementCount];
+                    auto* elements = new_with_exception<ArrayOf>(elementCount, false);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -108,20 +97,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         for (sizeType k = 0; k < static_cast<sizeType>(argIn.size()); k++) {
             if (argIn[k].getDataClass() == NLS_DOUBLE) {
                 if (argIn[k].isScalar()) {
-                    ArrayOf arg = argIn[k];
-                    double dindex = arg.getContentAsDoubleScalar();
-                    if (!std::isfinite(dindex)) {
-                        Error(fmt::sprintf(
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
-                    }
-                    if (dindex < 0) {
-                        dindex = 0;
-                    }
-                    auto index = static_cast<indexType>(dindex);
-                    if (static_cast<double>(index) != dindex) {
-                        Error(fmt::sprintf(
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
-                    }
+                    indexType index = argIn[k].getContentAsScalarIndex(true, true, true);
                     dims.setDimensionLength(k, index);
                 } else {
                     Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
@@ -131,13 +107,13 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         }
         dims.simplify();
-        auto* elements = new ArrayOf[dims.getElementCount()];
+        auto* elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
         ompIndexType elementCount = dims.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
-            elements[k] = ArrayOf::emptyConstructor();
+            elements[k].setValue(ArrayOf::emptyConstructor());
         }
         retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }

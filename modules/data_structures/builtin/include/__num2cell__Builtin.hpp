@@ -7,37 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include "Inf.hpp"
+#pragma once
 //=============================================================================
-namespace Nelson {
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOf
-Inf()
-{
-    return Inf(1, 1);
-}
+namespace Nelson::DataStructuresGateway {
 //=============================================================================
-ArrayOf
-Inf(indexType m, indexType n)
-{
-    Dimensions dims(m, n);
-    return Inf(dims);
-}
-//=============================================================================
-ArrayOf
-Inf(Dimensions& dims)
-{
-    dims.simplify();
-    indexType nbElements = dims.getElementCount();
-    double* mat = nullptr;
-    if (nbElements != 0) {
-        mat = static_cast<double*>(
-            ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false));
-        std::fill_n(mat, nbElements, std::numeric_limits<double>::infinity());
-    }
-    return ArrayOf(NLS_DOUBLE, dims, mat, false);
-}
+ArrayOfVector
+__num2cell__Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -17,5 +17,9 @@ NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 NaN();
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 NaN(indexType m, indexType n);
+//=============================================================================
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+NaN(Dimensions& dims);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
 - chatGPT example.
 - utah teapot example.
@@ -18,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `grid minor` toggles the visibility of the minor grid lines.
 - `mesh` reworked.
 - extraction on empty matrix for compatibility.
+- `ones`, `eye`, `inf`, `nan` allow negative index (replaced by 0) for compatibility.
 
 ### Fixed
 

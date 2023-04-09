@@ -1212,7 +1212,8 @@ isDoubleOrSingleClass(NelsonType classIn)
 #undef caseMacro
 //=============================================================================
 indexType
-ArrayOf::getContentAsScalarIndex(bool bWithZero, bool checkIsIntegerValue) const
+ArrayOf::getContentAsScalarIndex(
+    bool bWithZero, bool checkIsIntegerValue, bool convertNegativeValueAsZero) const
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
@@ -1235,7 +1236,11 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero, bool checkIsIntegerValue) const
             idx = static_cast<indexType>(maxIndexType);
             Error(_W("Invalid index value > limit max."));
         } else if (valueAsDouble < 0) {
-            Error(_W("Expected a positive integer scalar."));
+            if (convertNegativeValueAsZero) {
+                idx = static_cast<indexType>(0);
+            } else {
+                Error(_W("Expected a positive integer scalar."));
+            }
         } else {
             idx = static_cast<indexType>(valueAsDouble);
         }

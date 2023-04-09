@@ -23,6 +23,7 @@
 #include "namedargs2cellBuiltin.hpp"
 #include "getfieldBuiltin.hpp"
 #include "rmfieldBuiltin.hpp"
+#include "__num2cell__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,6 +43,8 @@ static const nlsGateway gateway[] = {
     { "rmfield", (ptrBuiltin)Nelson::DataStructuresGateway::rmfieldBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "struct", (ptrBuiltin)Nelson::DataStructuresGateway::structBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__num2cell__", (ptrBuiltin)Nelson::DataStructuresGateway::__num2cell__Builtin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "iscellstr", (ptrBuiltin)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
     { "cell", (ptrBuiltin)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },

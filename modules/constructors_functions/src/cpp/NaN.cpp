@@ -7,9 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "NaN.hpp"
-#include "lapack_eigen_config.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,14 +21,23 @@ NaN()
 ArrayOf
 NaN(indexType m, indexType n)
 {
-    double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, static_cast<indexType>(m * n), Nelson::stringVector(), false));
-    Eigen::Map<Eigen::MatrixXd> matNaN(mat, m, n);
-    matNaN.setConstant(std::nan("NaN"));
-    Dimensions dimMat(m, n);
-    ArrayOf res = ArrayOf(NLS_DOUBLE, dimMat, mat);
-    return res;
+    Dimensions dims(m, n);
+    return NaN(dims);
 }
-
+//=============================================================================
+ArrayOf
+NaN(Dimensions& dims)
+{
+    dims.simplify();
+    indexType nbElements = dims.getElementCount();
+    double* mat = nullptr;
+    if (nbElements != 0) {
+        mat = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false));
+        std::fill_n(mat, nbElements, std::nan("NaN"));
+    }
+    return ArrayOf(NLS_DOUBLE, dims, mat, false);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

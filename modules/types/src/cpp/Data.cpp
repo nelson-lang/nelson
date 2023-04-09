@@ -115,94 +115,99 @@ void
 Data::freeDataBlock()
 {
     if (cp) {
-        if (ArrayOf::isDataClassReferenceType(dataClass)) {
+        switch (dataClass) {
+        case NLS_CELL_ARRAY: {
             auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
-        } else if (sparse) {
-            DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
-        } else {
-            switch (dataClass) {
-            case NLS_CELL_ARRAY: {
-                auto* rp = static_cast<ArrayOf*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_STRING_ARRAY: {
-                auto* rp = static_cast<ArrayOf*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_GO_HANDLE: {
-                auto* rp = static_cast<nelson_handle*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_HANDLE: {
-                auto* rp = static_cast<nelson_handle*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_STRUCT_ARRAY: {
-                auto* rp = static_cast<ArrayOf*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_LOGICAL: {
+        } break;
+        case NLS_STRING_ARRAY: {
+            auto* rp = static_cast<ArrayOf*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_GO_HANDLE: {
+            auto* rp = static_cast<nelson_handle*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_HANDLE: {
+            auto* rp = static_cast<nelson_handle*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_STRUCT_ARRAY: {
+            auto* rp = static_cast<ArrayOf*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_LOGICAL: {
+            if (sparse) {
+                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+            } else {
                 auto* rp = static_cast<logical*>(cp);
                 delete[] rp;
-            } break;
-            case NLS_UINT8: {
-                auto* rp = static_cast<uint8*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_INT8: {
-                auto* rp = static_cast<int8*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_UINT16: {
-                auto* rp = static_cast<uint16*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_INT16: {
-                auto* rp = static_cast<int16*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_UINT32: {
-                auto* rp = static_cast<uint32*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_INT32: {
-                auto* rp = static_cast<int32*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_UINT64: {
-                auto* rp = static_cast<uint64*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_INT64: {
-                auto* rp = static_cast<int64*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_SINGLE: {
-                auto* rp = static_cast<single*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_DOUBLE: {
-                auto* rp = static_cast<double*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_SCOMPLEX: {
-                auto* rp = static_cast<single*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_DCOMPLEX: {
-                auto* rp = static_cast<double*>(cp);
-                delete[] rp;
-            } break;
-            case NLS_CHAR: {
-                auto* rp = static_cast<charType*>(cp);
-                delete[] rp;
-            } break;
-            default: {
-            } break;
             }
-            cp = nullptr;
+        } break;
+        case NLS_UINT8: {
+            auto* rp = static_cast<uint8*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_INT8: {
+            auto* rp = static_cast<int8*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_UINT16: {
+            auto* rp = static_cast<uint16*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_INT16: {
+            auto* rp = static_cast<int16*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_UINT32: {
+            auto* rp = static_cast<uint32*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_INT32: {
+            auto* rp = static_cast<int32*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_UINT64: {
+            auto* rp = static_cast<uint64*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_INT64: {
+            auto* rp = static_cast<int64*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_SINGLE: {
+            auto* rp = static_cast<single*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_DOUBLE: {
+            if (sparse) {
+                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+            } else {
+                auto* rp = static_cast<double*>(cp);
+                delete[] rp;
+            }
+        } break;
+        case NLS_SCOMPLEX: {
+            auto* rp = static_cast<single*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_DCOMPLEX: {
+            if (sparse) {
+                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+            } else {
+                auto* rp = static_cast<double*>(cp);
+                delete[] rp;
+            }
+        } break;
+        case NLS_CHAR: {
+            auto* rp = static_cast<charType*>(cp);
+            delete[] rp;
+        } break;
+        default: {
+        } break;
         }
+        cp = nullptr;
     }
 }
 //=============================================================================

@@ -45,8 +45,8 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
                     std::wstring arg = argIn[pos].getContentAsWideString();
                     if (arg == L"like") {
                         ArrayOf arg = argIn[pos + 1];
-                        bIsSparse = arg.isSparse();
-                        destClass = arg.getDataClass();
+                        bIsSparse = argIn[pos + 1].isSparse();
+                        destClass = argIn[pos + 1].getDataClass();
                         if (argIn.size() - 2 == 0) {
                             m = 1;
                         }
@@ -62,14 +62,13 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     if (nRhs == 1) {
-        ArrayOf arg = argIn[0];
-        arg.promoteType(NLS_DOUBLE);
-        if (arg.isScalar()) {
-            n = arg.getContentAsScalarIndex();
+        if (argIn[0].isScalar()) {
+            n = argIn[0].getContentAsScalarIndex(true, true, true);
             m = n;
-        } else if (arg.isRowVector()) {
-            if (arg.getElementCount() == 2) {
-                indexType* pIndex = arg.getContentAsIndexPointer();
+        } else if (argIn[0].isRowVector()) {
+            if (argIn[0].getElementCount() == 2) {
+                ArrayOf dimVector(argIn[0]);
+                indexType* pIndex = dimVector.getContentAsIndexPointer();
                 n = pIndex[0];
                 m = pIndex[1];
                 delete[] pIndex;
@@ -80,10 +79,8 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Size vector should be a row vector with real elements."));
         }
     } else if (nRhs == 2) {
-        ArrayOf arg1 = argIn[0];
-        n = arg1.getContentAsScalarIndex();
-        ArrayOf arg2 = argIn[1];
-        m = arg2.getContentAsScalarIndex();
+        n = argIn[0].getContentAsScalarIndex(true, true, true);
+        m = argIn[1].getContentAsScalarIndex(true, true, true);
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
