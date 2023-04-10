@@ -60,7 +60,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
                 } else {
                     Dimensions dims(argIn[0].getElementCount());
-                    auto* dindex = (double*)argIn[0].getDataPointer();
+                    auto* dindex = reinterpret_cast<const double*>(argIn[0].getDataPointer());
                     for (indexType k = 0; k < argIn[0].getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
