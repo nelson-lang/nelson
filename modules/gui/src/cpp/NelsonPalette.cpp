@@ -8,7 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtWidgets/QApplication>
+#include <QtGui/QGuiApplication>
+#include <QtGui/QStyleHints>
 #include <QtCore/QProcess>
+#include <QtCore/QtGlobal>
 #if _MSC_VER
 #include <QtCore/QSettings>
 #endif
@@ -42,11 +45,17 @@ changeToDarkTheme()
 void
 createNelsonPalette()
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX)))
+    QStyleHints* currentStyle = QGuiApplication::styleHints();
+    if (currentStyle) {
+        isQtDarkMode = currentStyle->colorScheme() == Qt::ColorScheme::Dark;
+    }
+#else
     nelsonPalette = qApp->palette();
     QColor windowTextColor = nelsonPalette.color(QPalette::WindowText);
     QColor windowColor = nelsonPalette.color(QPalette::Window);
     isQtDarkMode = windowTextColor.toHsl().value() > windowColor.toHsl().value();
-    // Qt 5 and Qt6 currently does not manage natevily dark theme on Windows ...
+    // Qt 5 and Qt6.4 currently does not manage natevily dark theme on Windows ...
     if (!isQtDarkMode) {
 #if _MSC_VER
         QSettings settings(
@@ -66,9 +75,10 @@ createNelsonPalette()
         isQtDarkMode = output.contains("dark", Qt::CaseInsensitive);
 #endif
 #endif
-        if (isQtDarkMode) {
-            changeToDarkTheme();
-        }
+    }
+#endif
+    if (isQtDarkMode) {
+        changeToDarkTheme();
     }
 }
 //===================================================================================
