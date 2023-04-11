@@ -19,6 +19,7 @@
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOGroup.hpp"
+#include "RefreshFigure.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -93,9 +94,7 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
     fp->updateState();
     if (!fp->isType(L"figure") && !fp->isType(L"root")) {
         GOFigure* fig = fp->getParentFigure();
-        if (fig) {
-            fig->repaint();
-        }
+        refreshFigure(fig);
     }
     return thisHandle;
 }

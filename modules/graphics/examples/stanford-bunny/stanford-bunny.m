@@ -7,10 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
-%=============================================================================
-examples_directory = [modulepath('graphics', 'root'), '/', 'examples/'];
-run([examples_directory, 'utah-teapot/utah-teapot.m']);
-run([examples_directory, 'nefertiti-mask/nefertiti-mask.m']);
-run([examples_directory, 'stanford-bunny/stanford-bunny.m']);
+tic();
+bunny_directory = [modulepath('graphics', 'root'), '/examples/stanford-bunny/'];
+load([bunny_directory, 'stanford-bunny.nh5']);
+f = figure('Visible', 'off', 'DrawLater', 'on', 'Color', [1, 1, 1]);
+patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
+      'EdgeColor', 'none', ...
+      'FaceColor', 'interp', 'FaceAlpha', 1);
+axis equal
+axis off 
+view([0, 0, 1]);
+f.DrawLater = 'off';
+f.Visible = 'on';
+toc();
 %=============================================================================

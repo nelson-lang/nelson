@@ -62,20 +62,22 @@ findAvailableFigureId()
 }
 //=============================================================================
 int64
-createNewFigure()
+createNewFigure(bool show)
 {
     int64 figNum = findAvailableFigureId();
     checkIdValidity(figNum);
     hFigures[figNum] = new GOWindow(figNum);
-    saveFocus();
-    hFigures[figNum]->show();
-    restoreFocus();
+    if (show) {
+        saveFocus();
+        hFigures[figNum]->show();
+        restoreFocus();
+    }
     GOCurrentFig = figNum;
     return GOCurrentFig;
 }
 //=============================================================================
 int64
-selectFigure(int64 fignum)
+selectFigure(int64 fignum, bool show)
 {
     checkIdValidity(fignum);
     if (hFigures.count(fignum) == 0
@@ -83,10 +85,12 @@ selectFigure(int64 fignum)
         hFigures[fignum] = new GOWindow(fignum);
     }
     GOCurrentFig = fignum;
-    saveFocus();
-    hFigures[fignum]->show();
-    hFigures[fignum]->raise();
-    restoreFocus();
+    if (show) {
+        saveFocus();
+        hFigures[fignum]->show();
+        hFigures[fignum]->raise();
+        restoreFocus();
+    }
     return GOCurrentFig;
 }
 //=============================================================================
