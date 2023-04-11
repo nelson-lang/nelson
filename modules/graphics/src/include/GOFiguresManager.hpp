@@ -32,13 +32,13 @@ NLSGRAPHICS_IMPEXP int64
 findAvailableFigureId();
 //=============================================================================
 NLSGRAPHICS_IMPEXP int64
-createNewFigure();
+createNewFigure(bool show = true);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GOFigure*
 getCurrentGOFigure();
 //=============================================================================
 NLSGRAPHICS_IMPEXP int64
-selectFigure(int64 fignum);
+selectFigure(int64 fignum, bool show = true);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
 closeFigure(go_handle fignum, bool forceClose = true);
@@ -55,6 +55,11 @@ getCurrentFigure();
 NLSGRAPHICS_IMPEXP void
 notifyCurrentFigureChanged(int64 figNum);
 //=============================================================================
-
+NLSGRAPHICS_IMPEXP void
+saveFocus();
+//=============================================================================
+NLSGRAPHICS_IMPEXP void
+restoreFocus();
+//=============================================================================
 }
 //=============================================================================

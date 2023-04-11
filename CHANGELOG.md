@@ -11,11 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
 - chatGPT example.
-- utah teapot example.
+- graphics examples about 3D polygons:
+  - utah teapot example.
+  - nefertiti mask example.
+  - stanford bunny example.
 
 ### Changed
 
-- figure without axes has a color.
+- `figure` without axes has a color.
+- `figure` can be created not visible.
 - `grid minor` toggles the visibility of the minor grid lines.
 - `mesh` reworked.
 - extraction on empty matrix for compatibility.

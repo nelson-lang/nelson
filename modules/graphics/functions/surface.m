@@ -40,13 +40,13 @@ function varargout = surface(varargin)
   if (length(inputArguments) == 0)
     h = surfaceNoRhs(go, propertiesList);
   elseif (length(inputArguments) == 1)
-    h = surfaceOneRhs(inputArguments, propertiesList);
+    h = surfaceOneRhs(go, inputArguments, propertiesList);
   elseif (length(inputArguments) == 2)
-    h = surfaceTwoRhs(inputArguments, propertiesList);
+    h = surfaceTwoRhs(go, inputArguments, propertiesList);
   elseif (length(inputArguments) == 3)
-    h = surfaceThreeRhs(inputArguments, propertiesList);
+    h = surfaceThreeRhs(go, inputArguments, propertiesList);
   elseif (length(inputArguments) == 4)
-    h = surfaceFourRhs(inputArguments, propertiesList);
+    h = surfaceFourRhs(go, inputArguments, propertiesList);
   else
     error(_('Invalid parameter/value pair arguments.'));
   end
@@ -58,17 +58,17 @@ end
 %=============================================================================
 function h = surfaceNoRhs(go, propertiesList)
   Z = eye(3, 2);
-  h = __surf__('ZData', Z, propertiesList);
+  h = __surf__('Parent', go, 'ZData', Z, propertiesList);
   xlim(go, [1 3]);
   ylim(go, [1 3]);
 end
 %=============================================================================
-function h = surfaceOneRhs(inputArguments, propertiesList)
+function h = surfaceOneRhs(go, inputArguments, propertiesList)
   Z = inputArguments{1};
-  h = __surf__('ZData', Z, propertiesList{:});
+  h = __surf__('Parent', go, 'ZData', Z, propertiesList{:});
 end
 %=============================================================================
-function h = surfaceTwoRhs(inputArguments, propertiesList)
+function h = surfaceTwoRhs(go, inputArguments, propertiesList)
   Z = inputArguments{1};
   C = inputArguments{2};
   if (~isreal(Z) || ~isreal(C))
@@ -81,10 +81,10 @@ function h = surfaceTwoRhs(inputArguments, propertiesList)
   else
     error (_('Z argument must be a matrix.'));
   end
-  h = __surf__('ZData', Z,  'CData', C, propertiesList{:});
+  h = __surf__('Parent', go, 'ZData', Z,  'CData', C, propertiesList{:});
 end
 %=============================================================================
-function h = surfaceThreeRhs(inputArguments, propertiesList)
+function h = surfaceThreeRhs(go, inputArguments, propertiesList)
   X = inputArguments{1};
   Y = inputArguments{2};
   Z = inputArguments{3};
@@ -110,10 +110,10 @@ function h = surfaceThreeRhs(inputArguments, propertiesList)
   else
     error(_('X and Y must be vectors and Z must be a matrix.'));
   end
-  h = __surf__('XData', X,  'YData', Y, 'ZData', Z, propertiesList{:});
+  h = __surf__('Parent', go, 'XData', X,  'YData', Y, 'ZData', Z, propertiesList{:});
 end
 %=============================================================================
-function h = surfaceFourRhs(inputArguments, propertiesList)
+function h = surfaceFourRhs(go, inputArguments, propertiesList)
   X = inputArguments{1};
   Y = inputArguments{2};
   Z = inputArguments{3};
@@ -144,6 +144,6 @@ function h = surfaceFourRhs(inputArguments, propertiesList)
   else
     error(_('X and Y must be vectors and Z must be a matrix.'));
   end
-  h = __surf__('XData', X, 'YData', Y, 'ZData', Z, 'CData', C,  propertiesList{:});
+  h = __surf__('Parent', go, 'XData', X, 'YData', Y, 'ZData', Z, 'CData', C,  propertiesList{:});
 end
 %=============================================================================

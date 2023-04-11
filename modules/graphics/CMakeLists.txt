@@ -149,7 +149,7 @@ install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
-    PATTERN "*.m")    
+    PATTERN "*.nh5")    
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"

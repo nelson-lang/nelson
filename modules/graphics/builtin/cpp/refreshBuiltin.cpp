@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QApplication>
 #include "refreshBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
