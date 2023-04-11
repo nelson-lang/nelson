@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
+- `colorbar('off')` deletes colorbar associated with the current axes.
 - chatGPT example.
 - utah teapot example.
 
