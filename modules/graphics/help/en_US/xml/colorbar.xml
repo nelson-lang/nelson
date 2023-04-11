@@ -8,8 +8,10 @@
 
  <syntax>
     <syntax_item>colorbar()</syntax_item>
+    <syntax_item>colorbar('off')</syntax_item>
     <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>colorbar(target, ...)</syntax_item>
+    <syntax_item>colorbar(target, 'off')</syntax_item>
     <syntax_item>c = colorbar(...)</syntax_item>
  </syntax>
 	
@@ -27,6 +29,12 @@
 			<param_name>target</param_name>
 			<param_description>Target: axes.</param_description>
 		</param_input_item>
+    <param_input_item>
+			<param_name>'off'</param_name>
+			<param_description
+      >deletes colorbar associated with the current axes.</param_description>
+		</param_input_item>
+    
 	</param_input>
 
  
