@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Qt 6.5 support.
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
 - chatGPT example.
@@ -20,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `mesh` reworked.
 - extraction on empty matrix for compatibility.
 - `ones`, `eye`, `inf`, `nan` allow negative index (replaced by 0) for compatibility.
+- Windows 64 bits version embed Qt 6.5
 
 ### Fixed
 

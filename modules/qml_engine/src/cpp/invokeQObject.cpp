@@ -7,6 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtQml/QQmlComponent>
+#include <QtCore/QVariant>
+#include <QtCore/QGenericArgument>
+#include <QtCore/QMetaMethod>
+#include <QtCore/QObject>
 #include "invokeQObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -14,7 +19,6 @@
 #include "QVariantArrayOf.hpp"
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -61,7 +65,7 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
         QGenericArgument arg[NB_PARAMS_MAX];
         for (size_t k = 0; k < params.size(); k++) {
             qparams[k] = ArrayOfToQVariant(params[k]);
-            arg[k] = Q_ARG(QVariant, qparams[k]);
+            arg[k] = QGenericArgument("QVariant", static_cast<void*>(qparams[k].data()));
         }
         bool ok;
         if (metaMethodFound.returnType() == QMetaType::Void) {
@@ -70,8 +74,9 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
             haveReturnValue = false;
         } else {
             QVariant result;
-            ok = metaMethodFound.invoke(qobj, Qt::DirectConnection, Q_RETURN_ARG(QVariant, result),
-                arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
+            ok = metaMethodFound.invoke(qobj, Qt::DirectConnection,
+                QGenericReturnArgument("QVariant", static_cast<void*>(result.data())), arg[0],
+                arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
             haveReturnValue = true;
             if (ok) {
                 if (!result.isValid()) {
