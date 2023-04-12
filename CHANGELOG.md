@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Qt 6.5 support.
+- `issorted` Determine if array is sorted.
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
 - `colorbar('off')` deletes colorbar associated with the current axes.
@@ -26,7 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `mesh` reworked.
 - extraction on empty matrix for compatibility.
 - `ones`, `eye`, `inf`, `nan` allow negative index (replaced by 0) for compatibility.
-- Windows 64 bits version embed Qt 6.5
+- Windows 64 bits version embeds Qt 6.5.
 
 ### Fixed
 
