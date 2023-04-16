@@ -86,6 +86,8 @@ GOText::constructProperties()
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
+
     sortProperties();
 }
 //=============================================================================
@@ -113,6 +115,8 @@ GOText::setupDefaults()
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 0, 0, 0);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setStringDefault(GO_INTERPRETER_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
+    setRestrictedStringDefault(GO_FONT_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    fnt.setStyleStrategy(QFont::PreferAntialias);
 }
 //=============================================================================
 void
@@ -218,6 +222,10 @@ GOText::updateState()
         fweight = QFont::DemiBold;
     }
     fnt = QFont(Nelson::wstringToQString(fontname->data()), (int)(fontsize->data()));
+    GOOnOffProperty* fontSmoothingProperty
+        = (GOOnOffProperty*)findProperty(GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
+    fnt.setStyleStrategy(
+        fontSmoothingProperty->asBool() ? QFont::PreferAntialias : QFont::NoAntialias);
     fnt.setStyle(fstyle);
     fnt.setWeight(fweight);
     GOStringProperty* txt = (GOStringProperty*)findProperty(GO_STRING_PROPERTY_NAME_STR);

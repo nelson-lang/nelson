@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
 - `colorbar('off')` deletes colorbar associated with the current axes.
+- `waterfall` Waterfall plot.
+- figure property: `GraphicsSmoothing` Axes graphics smoothing.
+- text property: `FontSmoothing`.
+- surf property: `MeshStyle`.
 - chatGPT example.
 - graphics examples about 3D polygons:
   - utah teapot example.

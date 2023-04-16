@@ -59,6 +59,7 @@
       >Colormap</b>: Color map for axes content of figure: m-by-3 array of RGB triplets, parula (default).</p>
 <p><b>CurrentAxes</b>: Target axes in current figure: Axes object.</p>
 <p><b>Name</b>: Name (default '').</p>
+<p><b>GraphicsSmoothing</b>: GraphicsSmoothing (default 'on').</p>
 <p><b
       >NextPlot</b>: Directive on how to add next plot: 'new', 'replace', 'replacechildren' or 'add' (default).</p>
 <p><b>Number</b>: Figure Number.</p>

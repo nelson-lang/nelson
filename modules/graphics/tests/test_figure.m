@@ -50,6 +50,7 @@ REF = {'AlphaMap';
 'Colormap';
 'CurrentAxes';
 'DrawLater';
+'GraphicsSmoothing';
 'Name';
 'NextPlot';
 'Number';

@@ -54,6 +54,7 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_DRAW_LATER_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -68,6 +69,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     loadParulaColorMap();
     _resized = false;
@@ -241,6 +243,9 @@ GOFigure::paintMe(RenderInterface& gc)
     GOOnOffProperty* drawLaterProperty
         = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
     if (!drawLaterProperty->asBool()) {
+        GOOnOffProperty* graphicsSmoothingProperty
+            = (GOOnOffProperty*)findProperty(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
+        gc.setGraphicsSmoothing(graphicsSmoothingProperty->asBool());
         GOColorProperty* color = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
         gc.clear(color->data());
         GOGObjectsProperty* children

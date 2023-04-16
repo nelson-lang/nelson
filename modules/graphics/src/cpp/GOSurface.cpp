@@ -338,9 +338,21 @@ GOSurface::paintMe(RenderInterface& gc)
     std::vector<std::vector<coloredPoint>> edgequads(buildQuadsNoTexMap(
         (GORestrictedStringColorProperty*)findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR),
         (GORestrictedStringScalarProperty*)findProperty(GO_EDGE_ALPHA_PROPERTY_NAME_STR)));
+
+    GORestrictedStringScalarProperty* meshStyleProperty
+        = static_cast<GORestrictedStringScalarProperty*>(
+            findProperty(GO_MESH_STYLE_PROPERTY_NAME_STR));
+    meshStyle meshstyle = meshStyle::Both;
+    if (meshStyleProperty->isEqual(GO_PROPERTY_VALUE_BOTH_STR)) {
+        meshstyle = meshStyle::Both;
+    } else if (meshStyleProperty->isEqual(GO_PROPERTY_VALUE_ROW_STR)) {
+        meshstyle = meshStyle::Row;
+    } else {
+        meshstyle = meshStyle::Column;
+    }
     gc.quadStrips(surfquads,
         stringCheck(GO_FACE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR), edgequads,
-        stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR));
+        stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR), meshstyle);
 }
 //=============================================================================
 std::vector<double>

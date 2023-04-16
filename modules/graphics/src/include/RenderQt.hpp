@@ -77,6 +77,12 @@ private:
     //=============================================================================
 public:
     //=============================================================================
+    virtual bool
+    getGraphicsSmoothing() override;
+    //=============================================================================
+    virtual void
+    setGraphicsSmoothing(bool on) override;
+    //=============================================================================
     virtual double
     width() override
     {
@@ -201,7 +207,7 @@ public:
     //=============================================================================
     void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-        std::vector<std::vector<coloredPoint>> edges, bool flatedges) override;
+        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle) override;
     //=============================================================================
     void
     drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle);

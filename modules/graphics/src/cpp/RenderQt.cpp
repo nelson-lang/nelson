@@ -32,6 +32,18 @@ RenderQt::RenderQt(QPainter* painter, double x1, double y1, double width, double
     debugFlag = false;
 }
 //=============================================================================
+bool
+RenderQt::getGraphicsSmoothing()
+{
+    return pnt->testRenderHint(QPainter::Antialiasing);
+}
+//=============================================================================
+void
+RenderQt::setGraphicsSmoothing(bool on)
+{
+    pnt->setRenderHint(QPainter::Antialiasing, on);
+}
+//=============================================================================
 void
 RenderQt::tri(double x1, double y1, double z1, double x2, double y2, double z2, double x3,
     double y3, double z3)
@@ -311,11 +323,12 @@ RenderQt::drawImage(const std::vector<double>& xp, const std::vector<double>& yp
 //=============================================================================
 void
 RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-    std::vector<std::vector<coloredPoint>> edges, bool flatedges)
+    std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle)
 {
     std::vector<quad3D> mapqds(mapQuads(faces, edges));
     std::sort(mapqds.begin(), mapqds.end());
-    for (auto& mapqd : mapqds) {
+    for (size_t k = 0; k < mapqds.size(); k++) {
+        quad3D mapqd = mapqds[k];
         QPolygonF poly;
         poly.push_back(QPointF(mapqd.pts[0].x, mapqd.pts[0].y));
         poly.push_back(QPointF(mapqd.pts[1].x, mapqd.pts[1].y));
@@ -323,9 +336,31 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
         poly.push_back(QPointF(mapqd.pts[2].x, mapqd.pts[2].y));
         pnt->setBrush(QColor((int)(mapqd.r * 255), (int)(mapqd.g * 255), (int)(mapqd.b * 255),
             (int)(mapqd.a * 255)));
-        pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255), (int)(mapqd.eb * 255),
-            (int)(mapqd.ea * 255)));
+        if (meshstyle == meshStyle::Both) {
+            pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255), (int)(mapqd.eb * 255),
+                (int)(mapqd.ea * 255)));
+        } else {
+            pnt->setPen(QPen(Qt::NoPen));
+        }
         pnt->drawPolygon(poly);
+        if (meshstyle != meshStyle::Both) {
+            size_t idx1, idx2;
+            if (meshstyle == meshStyle::Row) {
+                idx1 = 1;
+                idx2 = 3;
+            } else {
+                idx1 = 0;
+                idx2 = 2;
+            }
+            for (int i = 0; i < poly.size(); i++) {
+                if (meshstyle == meshStyle::Row) { }
+                if (i == idx1 || i == idx2) {
+                    pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255),
+                        (int)(mapqd.eb * 255), (int)(mapqd.ea * 255)));
+                    pnt->drawLine(poly[i], poly[(i + 1) % poly.size()]);
+                }
+            }
+        }
     }
 }
 //=============================================================================
