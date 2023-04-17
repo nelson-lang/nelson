@@ -15,6 +15,13 @@
 #include "ColoredPoint.hpp"
 #include "RGBAColorData.hpp"
 //=============================================================================
+enum meshStyle
+{
+    Row,
+    Column,
+    Both
+};
+//=============================================================================
 namespace ColorMode {
 enum ColorMode
 {
@@ -109,6 +116,14 @@ public:
         Hexagram,
         None
     };
+    //=============================================================================
+    virtual bool
+    getGraphicsSmoothing()
+        = 0;
+    //=============================================================================
+    virtual void
+    setGraphicsSmoothing(bool on)
+        = 0;
     //=============================================================================
     virtual void
     debug()
@@ -264,7 +279,7 @@ public:
     //=============================================================================
     virtual void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-        std::vector<std::vector<coloredPoint>> edges, bool flatedges)
+        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle)
         = 0;
     //=============================================================================
     virtual void

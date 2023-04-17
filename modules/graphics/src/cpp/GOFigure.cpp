@@ -54,6 +54,7 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_DRAW_LATER_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -68,6 +69,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     loadParulaColorMap();
     _resized = false;
@@ -239,12 +241,16 @@ void
 GOFigure::paintMe(RenderInterface& gc)
 {
     GOOnOffProperty* drawLaterProperty
-        = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+        = static_cast<GOOnOffProperty*>(findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
     if (!drawLaterProperty->asBool()) {
-        GOColorProperty* color = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+        GOOnOffProperty* graphicsSmoothingProperty
+            = static_cast<GOOnOffProperty*>(findProperty(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR));
+        gc.setGraphicsSmoothing(graphicsSmoothingProperty->asBool());
+        GOColorProperty* color
+            = static_cast<GOColorProperty*>(findProperty(GO_COLOR_PROPERTY_NAME_STR));
         gc.clear(color->data());
         GOGObjectsProperty* children
-            = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
         std::vector<int64> handles(children->data());
         for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
             GraphicsObject* fp = findGraphicsObject(handles[i], false);
@@ -313,7 +319,7 @@ GOFigure::refreshDrawLaterProperty()
 {
     if (hasChanged(GO_DRAW_LATER_PROPERTY_NAME_STR)) {
         GOOnOffProperty* drawLaterProperty
-            = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+            = static_cast<GOOnOffProperty*>(findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
         if (!drawLaterProperty->asBool()) {
             repaint();
         }

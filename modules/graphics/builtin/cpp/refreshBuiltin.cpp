@@ -25,7 +25,6 @@ refreshBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     ArrayOfVector retval = {};
     int64 handle = NO_FIGURE;
-    GOFigure* fig = nullptr;
     switch (argIn.size()) {
     case 0: {
         handle = getCurrentFigure();
