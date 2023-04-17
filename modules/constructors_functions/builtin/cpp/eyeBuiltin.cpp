@@ -44,7 +44,6 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (argIn[pos].isRowVectorCharacterArray()) {
                     std::wstring arg = argIn[pos].getContentAsWideString();
                     if (arg == L"like") {
-                        ArrayOf arg = argIn[pos + 1];
                         bIsSparse = argIn[pos + 1].isSparse();
                         destClass = argIn[pos + 1].getDataClass();
                         if (argIn.size() - 2 == 0) {

@@ -241,15 +241,16 @@ void
 GOFigure::paintMe(RenderInterface& gc)
 {
     GOOnOffProperty* drawLaterProperty
-        = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+        = static_cast<GOOnOffProperty*>(findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
     if (!drawLaterProperty->asBool()) {
         GOOnOffProperty* graphicsSmoothingProperty
-            = (GOOnOffProperty*)findProperty(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
+            = static_cast<GOOnOffProperty*>(findProperty(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR));
         gc.setGraphicsSmoothing(graphicsSmoothingProperty->asBool());
-        GOColorProperty* color = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+        GOColorProperty* color
+            = static_cast<GOColorProperty*>(findProperty(GO_COLOR_PROPERTY_NAME_STR));
         gc.clear(color->data());
         GOGObjectsProperty* children
-            = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
         std::vector<int64> handles(children->data());
         for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
             GraphicsObject* fp = findGraphicsObject(handles[i], false);
@@ -318,7 +319,7 @@ GOFigure::refreshDrawLaterProperty()
 {
     if (hasChanged(GO_DRAW_LATER_PROPERTY_NAME_STR)) {
         GOOnOffProperty* drawLaterProperty
-            = (GOOnOffProperty*)findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR);
+            = static_cast<GOOnOffProperty*>(findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
         if (!drawLaterProperty->asBool()) {
             repaint();
         }

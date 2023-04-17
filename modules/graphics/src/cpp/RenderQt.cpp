@@ -353,7 +353,6 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
                 idx2 = 2;
             }
             for (int i = 0; i < poly.size(); i++) {
-                if (meshstyle == meshStyle::Row) { }
                 if (i == idx1 || i == idx2) {
                     pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255),
                         (int)(mapqd.eb * 255), (int)(mapqd.ea * 255)));

@@ -138,7 +138,7 @@ GOText::paintMe(RenderInterface& gc)
     margin = margin + 1;
     RenderInterface::AlignmentFlag xalign, yalign;
     GOAlignVertProperty* hv
-        = (GOAlignVertProperty*)findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR);
+        = static_cast<GOAlignVertProperty*>(findProperty(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR));
     if (hv->isEqual(GO_PROPERTY_VALUE_TOP_STR)) {
         yalign = RenderInterface::Max;
     } else if (hv->isEqual(GO_PROPERTY_VALUE_MIDDLE_STR)) {
@@ -146,8 +146,8 @@ GOText::paintMe(RenderInterface& gc)
     } else {
         yalign = RenderInterface::Min;
     }
-    GOAlignHorizProperty* hh
-        = (GOAlignHorizProperty*)findProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
+    GOAlignHorizProperty* hh = static_cast<GOAlignHorizProperty*>(
+        findProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR));
     if (hh->isEqual(GO_PROPERTY_VALUE_LEFT_STR)) {
         xalign = RenderInterface::Min;
     } else if (hh->isEqual(GO_PROPERTY_VALUE_CENTER_STR)) {
@@ -169,22 +169,25 @@ GOText::paintMe(RenderInterface& gc)
     double hdely = -(textwidth + 2 * margin) * sintheta;
     double vdelx = (textheight + 2 * margin) * sintheta;
     double vdely = (textheight + 2 * margin) * costheta;
-    GOColorProperty* bc = (GOColorProperty*)findProperty(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* bc
+        = static_cast<GOColorProperty*>(findProperty(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR));
     if (!bc->isNone()) {
         gc.color(bc->data());
         gc.quad(x1, y1, 0, x1 + hdelx, y1 + hdely, 0, x1 + hdelx + vdelx, y1 + hdely + vdely, 0,
             x1 + vdelx, y1 + vdely, 0);
     }
-    GOColorProperty* ec = (GOColorProperty*)findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* ec
+        = static_cast<GOColorProperty*>(findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR));
     if (!ec->isNone()) {
         gc.color(ec->data());
         gc.setLineStyle(
-            ((GOLineStyleProperty*)findProperty(GO_LINE_STYLE_PROPERTY_NAME_STR))->data());
+            (static_cast<GOLineStyleProperty*>(findProperty(GO_LINE_STYLE_PROPERTY_NAME_STR)))
+                ->data());
         gc.lineWidth(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
         gc.quadline(x1, y1, 0, x1 + hdelx, y1 + hdely, 0, x1 + hdelx + vdelx, y1 + hdely + vdely, 0,
             x1 + vdelx, y1 + vdely, 0);
     }
-    GOColorProperty* tc = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* tc = static_cast<GOColorProperty*>(findProperty(GO_COLOR_PROPERTY_NAME_STR));
     gc.putText(x, y, text, tc->data(), xalign, yalign, fnt, rotation);
     gc.releaseDirectDraw();
 }
@@ -223,14 +226,15 @@ GOText::updateState()
     }
     fnt = QFont(Nelson::wstringToQString(fontname->data()), (int)(fontsize->data()));
     GOOnOffProperty* fontSmoothingProperty
-        = (GOOnOffProperty*)findProperty(GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
+        = static_cast<GOOnOffProperty*>(findProperty(GO_FONT_SMOOTHING_PROPERTY_NAME_STR));
     fnt.setStyleStrategy(
         fontSmoothingProperty->asBool() ? QFont::PreferAntialias : QFont::NoAntialias);
     fnt.setStyle(fstyle);
     fnt.setWeight(fweight);
-    GOStringProperty* txt = (GOStringProperty*)findProperty(GO_STRING_PROPERTY_NAME_STR);
+    GOStringProperty* txt
+        = static_cast<GOStringProperty*>(findProperty(GO_STRING_PROPERTY_NAME_STR));
     GOTextInterpreterProperty* textInterpreter
-        = (GOTextInterpreterProperty*)findProperty(GO_INTERPRETER_NAME_STR);
+        = static_cast<GOTextInterpreterProperty*>(findProperty(GO_INTERPRETER_NAME_STR));
     if (textInterpreter->getAsEnum() == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         text = texToUnicode(txt->data());
     } else {
