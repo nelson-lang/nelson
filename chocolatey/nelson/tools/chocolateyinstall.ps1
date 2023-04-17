@@ -1,6 +1,6 @@
 ﻿$packageName = 'nelson'
 $installerType = 'exe'
-$silentArgs = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+$silentArgs = '/VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /NORESTART /SP-'
 $url = 'https://github.com/Nelson-numerical-software/nelson/releases/download/v0.7.3/Nelson-0.7.3.2891-x86-32.exe'
 $checksum = '479fe61cfb5bb8fbc494354f48d805787aee70af132cfe32f4c37785b61b957a'
 $checksumType = 'sha256'

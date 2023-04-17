@@ -624,7 +624,7 @@ jobs:
 
       - name: Install Nelson with installer
         run: |
-          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-32.exe /SP- /SILENT /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-32.exe /SP- /VERYSILENT /ALLUSERS /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
 
       - name: Creates artifacts directory
         run: |
@@ -748,7 +748,7 @@ jobs:
 
       - name: Install Nelson with installer
         run: |
-          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /SILENT /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /VERYSILENT /ALLUSERS /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
 
       - name: creates artifacts directory
         run: |

@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Windows installer: allow to install for current user (no administrator rights required).
 - `figure` without axes has a color.
 - `figure` can be created not visible.
 - `grid minor` toggles the visibility of the minor grid lines.

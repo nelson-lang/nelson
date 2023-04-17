@@ -372,3 +372,15 @@ function NextButtonClick(CurPageID: Integer): Boolean;
       end;
   end;
 //=============================================================================
+function GetDefaultDirName(Param: string): string;
+begin
+  if IsAdminInstallMode then
+  begin
+    Result := ExpandConstant('{pf}');
+  end
+    else
+  begin
+    Result := ExpandConstant('{userappdata}');
+  end;
+end;
+//=============================================================================
