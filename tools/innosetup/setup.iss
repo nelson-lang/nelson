@@ -7,6 +7,8 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
+UsedUserAreasWarning=false
+PrivilegesRequiredOverridesAllowed=commandline dialog
 #ifdef NELSON_X64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
@@ -19,10 +21,10 @@ AppMutex={#APPLICATION_NAME}-{#APPLICATION_VERSION}
 AppPublisher={#APPLICATION_PUBLISHER}
 AppVerName={#FULL_APPLICATION_NAME}
 #ifdef NELSON_X64
-DefaultDirName={autopf}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
+DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
 DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
 #else
-DefaultDirName={autopf}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
+DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
 DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
 #endif
 UsePreviousAppDir=no
@@ -37,4 +39,5 @@ OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-64
 OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-32
 #endif
 WizardStyle=modern
+ChangesAssociations=yes
 ;==============================================================================
