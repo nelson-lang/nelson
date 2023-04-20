@@ -355,6 +355,9 @@ conditionedStatement:
   expr optionalEndStatement statementList {
     $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$3.v.p,$1.v.p->getContext());
   } |
+  expr optionalEndStatement {
+	  $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$1.v.p->getContext());
+	} |
   expr error {yyxpt("valid list of statements after condition",$2);}
 ;
 

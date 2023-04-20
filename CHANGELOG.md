@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - extraction on empty matrix for compatibility.
 - `ones`, `eye`, `inf`, `nan` allow negative index (replaced by 0) for compatibility.
 - Windows 64 bits version embeds Qt 6.5.
+- allows `if` with empty statements
 
 ### Fixed
 

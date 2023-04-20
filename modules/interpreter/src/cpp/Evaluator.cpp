@@ -3908,14 +3908,13 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     if (line == "\n") {
         return false;
     }
-    char ch = *line.rbegin();
-    std::string command;
+    std::string command = line;
+    char ch = *command.rbegin();
+
     // we add <RETURN> at the end
     // the command need a <RETURN> to be correctly parser
     if (ch != '\n') {
-        command = line + "\n";
-    } else {
-        command = line;
+        command = command + "\n";
     }
     AbstractSyntaxTree::clearReferences();
     try {
