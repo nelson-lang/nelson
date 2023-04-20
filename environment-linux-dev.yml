@@ -1,0 +1,32 @@
+name: nelson
+channels:
+  - conda-forge
+dependencies:
+  # Build dependencies
+  - cmake
+  - cxx-compiler
+  # Host dependencies
+  - mesalib
+  - qt-main
+  - boost
+  - fftw
+  - openblas
+  - openmpi
+  - openmpi-mpicc
+  - openmpi-mpicxx
+  - libmatio
+  - hdf5
+  - portaudio
+  - libgit2
+  - libcurl
+  - gettext
+  - icu
+  - libxml2
+  - libsndfile
+  - libffi
+  - libzlib
+  - eigen
+  - jack
+  - pkg-config
+  - mesa-libgl-devel-cos6-x86_64
+  - xorg-x11-server-xvfb-cos6-x86_64

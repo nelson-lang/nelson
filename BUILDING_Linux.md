@@ -7,7 +7,7 @@
 After installing micromamba
 
 ```bash
-micromamba env create -f environment-dev.yml
+micromamba env create -f environment-linux-dev.yml
 micromamba activate nelson
 ```
 

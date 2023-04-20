@@ -14,7 +14,7 @@ jobs:
       - name: install micromamba
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: environment-dev.yml
+          environment-file: environment-linux-dev.yml
           environment-name: nelson
 
       - name: cmake configure
@@ -79,7 +79,7 @@ jobs:
       - name: install micromamba
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: environment-dev.yml
+          environment-file: environment-macos-dev.yml
           environment-name: nelson
 
       - name: cmake configure
