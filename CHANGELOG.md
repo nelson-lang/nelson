@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `hggroup` Create group object.
 - `colorbar('off')` deletes colorbar associated with the current axes.
 - `waterfall` Waterfall plot.
+- `ribbon` ribbon plot.
 - figure property: `GraphicsSmoothing` Axes graphics smoothing.
 - text property: `FontSmoothing`.
 - surf property: `MeshStyle`.
