@@ -380,7 +380,7 @@ begin
   end
     else
   begin
-    Result := ExpandConstant('{userappdata}');
+    Result := ExpandConstant('{userpf}');
   end;
 end;
 //=============================================================================
