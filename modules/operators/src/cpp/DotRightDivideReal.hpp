@@ -233,7 +233,7 @@ real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf
         // A.isScalar() && B.isScalar() with same size
         // A.isMatrix() && B.isMatrix() with same size
         if (A.isScalar()) {
-            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+            T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(classDestination, 1));
             ptrC[0] = ((T*)A.getDataPointer())[0] / ((T*)B.getDataPointer())[0];
             res = ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
         } else {

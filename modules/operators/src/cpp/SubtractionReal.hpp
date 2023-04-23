@@ -53,7 +53,7 @@ template <class T>
 ArrayOf
 scalar_scalar_real_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
-    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+    T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(classDestination, 1));
     ptrC[0] = ((T*)A.getDataPointer())[0] - ((T*)B.getDataPointer())[0];
     return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
 }
