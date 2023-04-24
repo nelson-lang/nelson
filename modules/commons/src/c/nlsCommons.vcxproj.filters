@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
+    <None Include="..\include\nlsBuildConfig.h.in" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
