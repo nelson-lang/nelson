@@ -166,56 +166,47 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
     case NLS_UINT32:
     case NLS_UINT64: {
         A.promoteType(NLS_UINT64);
-        auto* ptr = (uint64*)A.getDataPointer();
+        auto* ptr
+            = static_cast<uint64*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         vs = dec2base<uint64>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, false, commonSize);
     } break;
     case NLS_INT8: {
-        int8* ptr = (int8*)A.getDataPointer();
+        auto* ptr
+            = static_cast<int8*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         vs = dec2base<int8>(ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
     } break;
     case NLS_INT16: {
-        auto* ptr = (int16*)A.getDataPointer();
+        auto* ptr
+            = static_cast<int16*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         vs = dec2base<int16>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
     } break;
     case NLS_INT32: {
-        auto* ptr = (int32*)A.getDataPointer();
+        auto* ptr
+            = static_cast<int32*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         vs = dec2base<int32>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
     } break;
     case NLS_INT64: {
-        auto* ptr = (int64*)A.getDataPointer();
+        auto* ptr
+            = static_cast<int64*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         vs = dec2base<int64>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
     } break;
     case NLS_SINGLE: {
-        auto* ptr = (single*)A.getDataPointer();
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> mat(
-            ptr, 1, dimsA.getElementCount());
-        if (!mat.allFinite()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
-        }
-        if (!(mat.array() >= 0.).all()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
-        }
-        if ((mat.array() != mat.array().floor()).all()) {
+        auto* ptr
+            = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+        if (!A.isIntegerValue() || !A.isPositive()) {
             Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
         }
         vs = dec2base<single>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
-    }
+    } break;
     case NLS_DOUBLE: {
-        auto* ptr = (double*)A.getDataPointer();
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> mat(
-            ptr, 1, dimsA.getElementCount());
-        if (!mat.allFinite()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
-        }
-        if ((mat.array() != mat.array().floor()).all()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
-        }
-        if (!(mat.array() >= 0.).all()) {
+        auto* ptr
+            = static_cast<double*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+        if (!A.isIntegerValue() || !A.isPositive()) {
             Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
         }
         vs = dec2base<double>(

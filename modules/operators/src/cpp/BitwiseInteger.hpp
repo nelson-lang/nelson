@@ -12,12 +12,45 @@
 #include "nlsBuildConfig.h"
 #include "ArrayOf.hpp"
 #include "IntegerOperations.hpp"
+#include "BitwiseOperators.hpp"
+#include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <typename T> using BitwiseOperation = T (*)(T, T);
+//=============================================================================
+template <class T>
+BitwiseOperation<T>
+getBitwiseOperation(BITWISE_OPERATOR bitwiseOperator)
+{
+    BitwiseOperation<T> op;
+    switch (bitwiseOperator) {
+    default:
+    case BITWISE_OPERATOR::BIT_AND:
+        op = scalar_scalar_integer_bitand<T>;
+        break;
+    case BITWISE_OPERATOR::BIT_OR:
+        op = scalar_scalar_integer_bitor<T>;
+        break;
+    case BITWISE_OPERATOR::BIT_XOR:
+        op = scalar_scalar_integer_bitxor<T>;
+        break;
+    }
+    return op;
+}
+//=============================================================================
+template <class T>
+T
+scalar_scalar_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, T a, T b)
+{
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
+    return op(a, b);
+}
+//=============================================================================
 template <class T>
 ArrayOf
-scalar_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+scalar_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -25,63 +58,70 @@ scalar_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
-        ptrC[k] = scalar_scalar_integer_addition(ptrA[0], ptrB[k]);
+        ptrC[k] = op(ptrA[0], ptrB[k]);
     }
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_scalar_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_scalar_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
-        ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[0]);
+        ptrC[k] = op(ptrA[k], ptrB[0]);
     }
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
+
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (long long k = 0; k < (long long)Clen; ++k) {
-        ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[k]);
+        ptrC[k] = op(ptrA[k], ptrB[k]);
     }
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-row_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+row_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -90,14 +130,15 @@ row_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
     indexType q = 0;
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[q], ptrB[m]);
+            ptrC[m] = op(ptrA[q], ptrB[m]);
         }
         q++;
     }
@@ -106,7 +147,8 @@ row_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const
 //=============================================================================
 template <class T>
 ArrayOf
-column_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+column_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -114,13 +156,14 @@ column_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[j], ptrB[m]);
+            ptrC[m] = op(ptrA[j], ptrB[m]);
         }
     }
     return res;
@@ -128,7 +171,8 @@ column_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, co
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_row_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -138,15 +182,16 @@ matrix_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const
 
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
 
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[m], ptrB[q]);
+            ptrC[m] = op(ptrA[m], ptrB[q]);
         }
         q++;
     }
@@ -155,7 +200,8 @@ matrix_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_column_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_column_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -164,14 +210,14 @@ matrix_column_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, Cp, false);
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
-
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[m], ptrB[j]);
+            ptrC[m] = op(ptrA[m], ptrB[j]);
         }
     }
     return res;
@@ -179,7 +225,8 @@ matrix_column_integer_addition(NelsonType classDestination, const ArrayOf& A, co
 //=============================================================================
 template <class T>
 ArrayOf
-row_column_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+row_column_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -190,13 +237,14 @@ row_column_integer_addition(NelsonType classDestination, const ArrayOf& A, const
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     indexType m = 0;
     for (indexType i = 0; i < dimsA.getColumns(); i++) {
         for (indexType j = 0; j < dimsB.getRows(); j++) {
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[i], ptrB[j]);
+            ptrC[m] = op(ptrA[i], ptrB[j]);
             m++;
         }
     }
@@ -205,7 +253,8 @@ row_column_integer_addition(NelsonType classDestination, const ArrayOf& A, const
 //=============================================================================
 template <class T>
 ArrayOf
-column_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+column_row_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination,
+    const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -216,15 +265,17 @@ column_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
+    const T* ptrA = static_cast<const T*>(A.getDataPointer());
+    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    T* ptrC = static_cast<T*>(Cp);
     indexType m = 0;
     indexType elementCountA = dimsA.getElementCount();
     indexType elementCountB = dimsB.getElementCount();
+
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
-            ptrC[m] = scalar_scalar_integer_addition(ptrA[j], ptrB[i]);
+            ptrC[m] = op(ptrA[j], ptrB[i]);
             m++;
         }
     }
@@ -233,7 +284,8 @@ column_row_integer_addition(NelsonType classDestination, const ArrayOf& A, const
 //=============================================================================
 template <class T>
 ArrayOf
-integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, const ArrayOf& A,
+    const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -245,63 +297,56 @@ integer_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
         // A.isMatrix() && B.isMatrix() with same size
         if (A.isScalar()) {
             T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(classDestination, 1));
-            ptrC[0] = scalar_scalar_integer_addition<T>(
-                ((T*)A.getDataPointer())[0], ((T*)B.getDataPointer())[0]);
-            res = ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
-        } else {
-            res = matrix_matrix_integer_addition<T>(classDestination, A, B);
+            ptrC[0] = scalar_scalar_integer_bitwise<T>(bitwiseOperator,
+                static_cast<const T*>(A.getDataPointer())[0],
+                static_cast<const T*>(B.getDataPointer())[0]);
+            return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
         }
-    } else {
-        if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
-                res = scalar_matrix_integer_addition<T>(classDestination, A, B);
-            } else {
-                res = matrix_scalar_integer_addition<T>(classDestination, A, B);
-            }
-        } else {
-            if (A.isVector() || B.isVector()) {
-                if ((A.isRowVector() && B.isRowVector())
-                    || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                } else if (A.isRowVector() && B.isColumnVector()) {
-                    res = row_column_integer_addition<T>(classDestination, A, B);
-                } else if (A.isColumnVector() && B.isRowVector()) {
-                    res = column_row_integer_addition<T>(classDestination, A, B);
-                } else if (A.getRows() == B.getRows()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = row_matrix_integer_addition<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_row_integer_addition<T>(classDestination, A, B);
-                    }
-                } else if (A.getColumns() == B.getColumns()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = column_matrix_integer_addition<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_column_integer_addition<T>(classDestination, A, B);
-                    }
-                } else {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+        return matrix_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+    }
+
+    if (A.isScalar() || B.isScalar()) {
+        if (A.isScalar()) {
+            return scalar_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+        }
+        return matrix_scalar_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+    }
+
+    if (A.isVector() || B.isVector()) {
+        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+            Error(_("Size mismatch on arguments."));
+        }
+        if (A.isRowVector() && B.isColumnVector()) {
+            return row_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+        }
+        if (A.isColumnVector() && B.isRowVector()) {
+            return column_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+        }
+        if (A.getRows() == B.getRows()) {
+            if (A.isVector()) {
+                if (!B.is2D()) {
+                    Error(_("Size mismatch on arguments."));
                 }
-            } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                return row_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
             }
+            if (!A.is2D()) {
+                Error(_("Size mismatch on arguments."));
+            }
+            return matrix_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
         }
+        if (A.getColumns() == B.getColumns()) {
+            if (A.isVector()) {
+                if (!B.is2D()) {
+                    Error(_("Size mismatch on arguments."));
+                }
+                return column_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+            }
+            if (!A.is2D()) {
+                Error(_("Size mismatch on arguments."));
+            }
+            return matrix_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
+        }
+        Error(_("Size mismatch on arguments."));
     }
     return res;
 }

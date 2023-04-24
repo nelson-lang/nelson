@@ -191,6 +191,7 @@
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\Any.cpp" />
     <ClCompile Include="..\cpp\BinaryOperatorsHelpers.cpp" />
+    <ClCompile Include="..\cpp\BitwiseOperators.cpp" />
     <ClCompile Include="..\cpp\Colon.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="..\cpp\AdditionComplex.hpp" />
     <ClInclude Include="..\cpp\AdditionInteger.hpp" />
     <ClInclude Include="..\cpp\AdditionReal.hpp" />
+    <ClInclude Include="..\cpp\BitwiseInteger.hpp" />
     <ClInclude Include="..\cpp\DotRightDivideComplex.hpp" />
     <ClInclude Include="..\cpp\DotRightDivideInteger.hpp" />
     <ClInclude Include="..\cpp\DotRightDivideReal.hpp" />
@@ -265,6 +267,7 @@
     <ClInclude Include="..\include\And.hpp" />
     <ClInclude Include="..\include\Any.hpp" />
     <ClInclude Include="..\include\BinaryOperatorsHelpers.hpp" />
+    <ClInclude Include="..\include\BitwiseOperators.hpp" />
     <ClInclude Include="..\include\Colon.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />

@@ -183,6 +183,9 @@
     <ClCompile Include="..\cpp\allBuiltin.cpp" />
     <ClCompile Include="..\cpp\andBuiltin.cpp" />
     <ClCompile Include="..\cpp\anyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bitandBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bitorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bitxorBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
@@ -245,6 +248,9 @@
     <ClInclude Include="..\include\allBuiltin.hpp" />
     <ClInclude Include="..\include\andBuiltin.hpp" />
     <ClInclude Include="..\include\anyBuiltin.hpp" />
+    <ClInclude Include="..\include\bitandBuiltin.hpp" />
+    <ClInclude Include="..\include\bitorBuiltin.hpp" />
+    <ClInclude Include="..\include\bitxorBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />

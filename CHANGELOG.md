@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Qt 6.5 support.
+- [802](http://github.com/Nelson-numerical-software/nelson/issues/802): `bitand`, `bitor`, `bitxor` functions.
 - `issorted` Determine if array is sorted.
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.

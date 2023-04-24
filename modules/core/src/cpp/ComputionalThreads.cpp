@@ -17,10 +17,12 @@
 #else
 #include <unistd.h>
 #endif
+#include "nlsBuildConfig.h"
+#if defined(_NLS_WITH_OPENMP)
 #include <omp.h>
+#endif
 #include <Eigen/Dense>
 #include <algorithm>
-#include "nlsBuildConfig.h"
 #include "StringHelpers.hpp"
 #include "ComputionalThreads.hpp"
 #include "GetVariableEnvironment.hpp"

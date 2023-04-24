@@ -372,7 +372,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
     Dimensions dimsB = b.getDimensions();
     if (SameSizeCheck(dimsA, dimsB)) {
         if (a.isScalar()) {
-            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+            T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(classDestination, 1));
             ptrC[0] = ((T*)a.getDataPointer())[0] * ((T*)b.getDataPointer())[0];
             return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
         }
