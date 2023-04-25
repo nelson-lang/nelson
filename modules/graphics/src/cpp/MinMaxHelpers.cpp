@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cmath>
+#include "nlsBuildConfig.h"
 #include "MinMaxHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -17,7 +18,10 @@ findVectorMin(const std::vector<double>& v)
 {
     double min = 0;
     bool first = true;
-    for (int i = 0; i < v.size(); i++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for reduction(min : min)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
         if (std::isfinite(v[i]))
             if (first) {
                 first = false;
@@ -34,7 +38,10 @@ findVectorMax(const std::vector<double>& v)
 {
     double max = 0;
     bool first = true;
-    for (int i = 0; i < v.size(); i++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for reduction(max : max)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
         if (std::isfinite(v[i]))
             if (first) {
                 first = false;
@@ -58,6 +65,9 @@ ArrayOfMin(const ArrayOf& a)
     indexType len = a.getElementCount();
     double min = 0;
     bool first = true;
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for reduction(min : min)
+#endif
     for (indexType i = 0; i < len; i++) {
         if (std::isfinite(v[i]))
             if (first) {
@@ -82,7 +92,10 @@ ArrayOfMax(const ArrayOf& a)
     indexType len = _a.getElementCount();
     double max = 0;
     bool first = true;
-    for (indexType i = 0; i < len; i++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for reduction(max : max)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
         if (std::isfinite(v[i]))
             if (first) {
                 first = false;

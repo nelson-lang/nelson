@@ -80,6 +80,7 @@ ParseUnsignedIntegerColorToRGB(
     const ArrayOf& arg, indexType nbElements, double maxValue, std::vector<double>& data)
 {
     const T* ptr = static_cast<const T*>(arg.getDataPointer());
+    data.reserve(nbElements);
     for (indexType k = 0; k < nbElements; ++k) {
         data.push_back((double)ptr[k] / maxValue);
     }
@@ -91,6 +92,7 @@ ParseSignedIntegerColorToRGB(const ArrayOf& arg, indexType nbElements, double mi
     double maxValue, std::vector<double>& data)
 {
     const T* ptr = static_cast<const T*>(arg.getDataPointer());
+    data.reserve(nbElements);
     for (indexType k = 0; k < nbElements; ++k) {
         data.push_back(static_cast<double>(ptr[k] + minValue) / maxValue);
     }

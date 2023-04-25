@@ -93,8 +93,9 @@ GOLineSeries::updateState()
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++)
+        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
             xs[i] = (i + 1.0);
+        }
     }
     if (zs.size() == 0) {
         zs.resize(ys.size());

@@ -36,7 +36,7 @@ GOGObjectsProperty::get()
 {
     nelson_handle* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, _data.size());
     ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(_data.size(), 1), dp);
-    for (int i = 0; i < _data.size(); i++) {
+    for (size_t i = 0; i < _data.size(); i++) {
         dp[i] = _data[i];
     }
     return ret;
@@ -54,11 +54,12 @@ GOGObjectsProperty::set(ArrayOf arg)
         Error(_W("Expecting handle for property."));
     }
     const int64* dp = (const int64*)arg.getDataPointer();
-    for (int i = 0; i < arg.getElementCount(); i++) {
+    for (indexType i = 0; i < arg.getElementCount(); i++) {
         validateGO(dp[i]);
     }
     _data.clear();
-    for (int i = 0; i < arg.getElementCount(); i++) {
+    _data.reserve(arg.getElementCount());
+    for (indexType i = 0; i < arg.getElementCount(); i++) {
         _data.push_back(dp[i]);
     }
     GOGenericProperty::set(arg);

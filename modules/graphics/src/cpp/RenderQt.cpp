@@ -10,6 +10,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
+#include "nlsBuildConfig.h"
 #include "Types.hpp"
 #include "GOPropertyValues.hpp"
 #include "RenderQt.hpp"
@@ -49,6 +50,7 @@ RenderQt::tri(double x1, double y1, double z1, double x2, double y2, double z2, 
     double y3, double z3)
 {
     QPolygonF poly;
+    poly.reserve(3);
     poly.push_back(map(x1, y1, z1));
     poly.push_back(map(x2, y2, z2));
     poly.push_back(map(x3, y3, z3));
@@ -60,6 +62,7 @@ RenderQt::triLine(double x1, double y1, double z1, double x2, double y2, double 
     double y3, double z3)
 {
     QPolygonF poly;
+    poly.reserve(3);
     poly.push_back(map(x1, y1, z1));
     poly.push_back(map(x2, y2, z2));
     poly.push_back(map(x3, y3, z3));
@@ -330,6 +333,7 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
     for (size_t k = 0; k < mapqds.size(); k++) {
         quad3D mapqd = mapqds[k];
         QPolygonF poly;
+        poly.reserve(4);
         poly.push_back(QPointF(mapqd.pts[0].x, mapqd.pts[0].y));
         poly.push_back(QPointF(mapqd.pts[1].x, mapqd.pts[1].y));
         poly.push_back(QPointF(mapqd.pts[3].x, mapqd.pts[3].y));
@@ -502,6 +506,7 @@ RenderQt::quad(double x1, double y1, double z1, double x2, double y2, double z2,
     double y3, double z3, double x4, double y4, double z4)
 {
     QPolygonF poly;
+    poly.reserve(4);
     poly.push_back(map(x1, y1, z1));
     poly.push_back(map(x2, y2, z2));
     poly.push_back(map(x3, y3, z3));
@@ -514,6 +519,7 @@ RenderQt::quadline(double x1, double y1, double z1, double x2, double y2, double
     double y3, double z3, double x4, double y4, double z4)
 {
     QPolygonF poly;
+    poly.reserve(5);
     poly.push_back(map(x1, y1, z1));
     poly.push_back(map(x2, y2, z2));
     poly.push_back(map(x3, y3, z3));

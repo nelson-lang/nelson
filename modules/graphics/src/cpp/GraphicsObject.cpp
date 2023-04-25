@@ -41,7 +41,7 @@ GraphicsObject::~GraphicsObject()
     GOGObjectsProperty* hp
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> my_children(hp->data());
-    for (int i = 0; i < my_children.size(); i++) {
+    for (indexType i = 0; i < my_children.size(); i++) {
         int64 handle = my_children[i];
         if (handle >= HANDLE_OFFSET_OBJECT) {
             GraphicsObject* gp = findGraphicsObject(handle, false);
@@ -351,7 +351,7 @@ GraphicsObject::toManual(const std::wstring& name)
 bool
 GraphicsObject::hasChanged(const std::vector<std::wstring>& names)
 {
-    for (int i = 0; i < names.size(); i++) {
+    for (indexType i = 0; i < names.size(); i++) {
         GOGenericProperty* hp = findProperty(names[i]);
         if (hp->isModified()) {
             return true;
@@ -383,7 +383,7 @@ GraphicsObject::clearAllChanged()
 void
 GraphicsObject::clearChanged(const std::vector<std::wstring>& names)
 {
-    for (int i = 0; i < names.size(); i++) {
+    for (indexType i = 0; i < names.size(); i++) {
         clearChanged(names[i]);
     }
 }
