@@ -101,34 +101,49 @@ IsIntegerFormOrNotFinite(float t)
     return IsIntegerFormOrNotFinite<float>(t);
 }
 //=============================================================================
-#define NB_ELEMENTS_MAX_ONE_THREAD 1000
+template <class T>
+bool
+IsIntegerFormNoOpenMP(const T* t, size_t nbElements)
+{
+    if (t != nullptr && nbElements > 0) {
+        for (size_t k = 0; k < nbElements; k++) {
+            if (!IsIntegerForm(t[k])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+template <class T>
+bool
+IsIntegerFormOpenMP(const T* t, size_t nbElements)
+{
+    if (t != nullptr && nbElements > 0) {
+        bool result = true;
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for shared(result)
+#endif
+        for (long long k = 0; k < (long long)nbElements; k++) {
+            if (!IsIntegerForm(t[k])) {
+                result = false;
+            }
+        }
+        return result;
+    }
+    return false;
+}
 //=============================================================================
 template <class T>
 bool
 IsIntegerForm(const T* t, size_t nbElements)
 {
-    if (t != nullptr && nbElements > 0) {
-        if (nbElements < NB_ELEMENTS_MAX_ONE_THREAD) {
-            for (size_t k = 0; k < nbElements; k++) {
-                if (!IsIntegerForm(t[k])) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            bool result = true;
 #ifdef _NLS_WITH_OPENMP
-#pragma omp parallel for shared(result)
+    return IsIntegerFormOpenMP<T>(t, nbElements);
+#else
+    return IsIntegerFormNoOpenMP<T>(t, nbElements);
 #endif
-            for (long long k = 0; k < (long long)nbElements; k++) {
-                if (!IsIntegerForm(t[k])) {
-                    result = false;
-                }
-            }
-            return result;
-        }
-    }
-    return false;
 }
 //=============================================================================
 bool
@@ -145,35 +160,52 @@ IsIntegerForm(const double* t, size_t nbElements)
 //=============================================================================
 template <class T>
 bool
-IsIntegerFormOrNotFinite(const T* t, size_t nbElements)
+IsIntegerFormOrNotFiniteNoOpenMP(const T* t, size_t nbElements)
 {
     if (t != nullptr && nbElements > 0) {
-        if (nbElements < NB_ELEMENTS_MAX_ONE_THREAD) {
-            for (size_t k = 0; k < nbElements; k++) {
-                if (!IsIntegerFormOrNotFinite(t[k])) {
-                    return false;
-                }
+        for (size_t k = 0; k < nbElements; k++) {
+            if (!IsIntegerFormOrNotFinite(t[k])) {
+                return false;
             }
-            return true;
-        } else {
-            bool result = true;
+        }
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+template <class T>
+bool
+IsIntegerFormOrNotFiniteOpenMP(const T* t, size_t nbElements)
+{
+    bool result = true;
+    if (t != nullptr && nbElements > 0) {
 #ifdef _NLS_WITH_OPENMP
 #pragma omp parallel for reduction(&& : result)
 #endif
-            for (long long k = 0; k < (long long)nbElements; k++) {
-                if (!IsIntegerFormOrNotFinite(t[k])) {
+        for (long long k = 0; k < (long long)nbElements; k++) {
+            if (!IsIntegerFormOrNotFinite(t[k])) {
 #ifdef _NLS_WITH_OPENMP
 #pragma omp critical
 #endif
-                    {
-                        result = false;
-                    }
+                {
+                    result = false;
                 }
             }
-            return result;
         }
+        return result;
     }
     return false;
+}
+//=============================================================================
+template <class T>
+bool
+IsIntegerFormOrNotFinite(const T* t, size_t nbElements)
+{
+#ifdef _NLS_WITH_OPENMP
+    return IsIntegerFormOrNotFiniteOpenMP<T>(t, nbElements);
+#else
+    return IsIntegerFormOrNotFiniteNoOpenMP<T>(t, nbElements);
+#endif
 }
 //=============================================================================
 bool
