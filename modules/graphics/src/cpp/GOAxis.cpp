@@ -1653,14 +1653,16 @@ GOAxis::drawTickMarks(RenderInterface& gc)
 
     if (xvisible) {
         std::vector<double> mapticks;
-        for (int i = 0; i < xticks.size(); i++) {
+        mapticks.reserve(xticks.size());
+        for (size_t i = 0; i < xticks.size(); i++) {
             mapticks.push_back(mapX(xticks[i]));
         }
         std::vector<double> minorticks;
         GOLinearLogProperty* sp
             = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
-            for (int i = 0; i < xticks.size() - 1; i++) {
+            minorticks.reserve(xticks.size());
+            for (size_t i = 0; i < xticks.size() - 1; i++) {
                 double t1 = xticks[i];
                 double t2 = xticks[i + 1];
                 int n = 2;
@@ -1676,14 +1678,16 @@ GOAxis::drawTickMarks(RenderInterface& gc)
     }
     if (yvisible) {
         std::vector<double> mapticks;
-        for (int i = 0; i < yticks.size(); i++) {
+        mapticks.reserve(yticks.size());
+        for (size_t i = 0; i < yticks.size(); i++) {
             mapticks.push_back(mapY(yticks[i]));
         }
         std::vector<double> minorticks;
         GOLinearLogProperty* sp
             = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
-            for (int i = 0; i < yticks.size() - 1; i++) {
+            minorticks.reserve(yticks.size());
+            for (size_t i = 0; i < yticks.size() - 1; i++) {
                 double t1 = yticks[i];
                 double t2 = yticks[i + 1];
                 int n = 2;
@@ -1699,14 +1703,16 @@ GOAxis::drawTickMarks(RenderInterface& gc)
     }
     if (zvisible) {
         std::vector<double> mapticks;
-        for (int i = 0; i < zticks.size(); i++) {
+        mapticks.reserve(zticks.size());
+        for (size_t i = 0; i < zticks.size(); i++) {
             mapticks.push_back(mapZ(zticks[i]));
         }
         std::vector<double> minorticks;
         GOLinearLogProperty* sp
             = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
         if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR)) {
-            for (int i = 0; i < zticks.size() - 1; i++) {
+            minorticks.reserve(zticks.size());
+            for (size_t i = 0; i < zticks.size() - 1; i++) {
                 double t1 = zticks[i];
                 double t2 = zticks[i + 1];
                 int n = 2;
@@ -1896,7 +1902,7 @@ GOAxis::unitsReinterpret(std::vector<double> a)
     unsigned height = fig->getHeight();
     GOUnitsProperty* hp = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
     if (hp->isEqual(GO_PROPERTY_VALUE_NORMALIZED_STR)) {
-        for (int i = 0; i < a.size(); i += 2) {
+        for (size_t i = 0; i < a.size(); i += 2) {
             a[i] *= width;
             a[i + 1] *= height;
         }

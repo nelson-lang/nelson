@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOSurface.hpp"
@@ -184,7 +185,7 @@ GOSurface::buildQuadsNoTexMap(
             g = p[1];
             b = p[2];
         }
-        for (int i = 0; i < cols; i++)
+        for (indexType i = 0; i < cols; i++)
             dummyline[i]
                 = qRgba((int)(255 * r), (int)(255 * g), (int)(255 * b), (int)(255 * alphaval));
     }
@@ -393,7 +394,10 @@ GOSurface::autoYMode()
     double* dp = (double*)ydata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-    for (indexType j = 0; j < cols; j++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         for (indexType i = 0; i < rows; i++) {
             dp[i + j * rows] = i + 1;
         }
@@ -410,7 +414,10 @@ GOSurface::autoXMode()
     double* dp = (double*)xdata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-    for (indexType j = 0; j < cols; j++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         for (indexType i = 0; i < rows; i++) {
             dp[i + j * rows] = j + 1;
         }

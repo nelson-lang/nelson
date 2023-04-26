@@ -112,7 +112,7 @@ GOPatch::getLimits()
         }
         Zmin = Zmax;
 
-        for (int i = 0; i < nRows; i++) {
+        for (indexType i = 0; i < nRows; i++) {
             Xmax = std::max(Xmax, *pVerticesDataX);
             Xmin = std::min(Xmin, *pVerticesDataX);
             Ymax = std::max(Ymax, *pVerticesDataY);

@@ -31,6 +31,7 @@ GOColorVectorProperty::set(ArrayOf arg)
     }
     _data.clear();
     indexType rows = n / 3;
+    _data.reserve(rows * 3);
     for (indexType i = 0; i < rows; i++) {
         for (indexType j = 0; j < 3; j++) {
             _data.push_back(dp[i + j * rows]);

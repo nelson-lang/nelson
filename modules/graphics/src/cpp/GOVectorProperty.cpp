@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include <limits>
 #include "GOVectorProperty.hpp"
 //=============================================================================
@@ -17,7 +18,10 @@ GOVectorProperty::get()
 {
     ArrayOf ret(ArrayOf::doubleVectorConstructor(_data.size()));
     double* dp = (double*)ret.getReadWriteDataPointer();
-    for (int i = 0; i < _data.size(); i++) {
+#ifdef _NLS_WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)_data.size(); i++) {
         dp[i] = _data[i];
     }
     return ret;

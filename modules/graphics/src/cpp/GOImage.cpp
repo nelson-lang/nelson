@@ -178,6 +178,7 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
     GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
     std::vector<double> alphain(hp->data());
     std::vector<double> alphaout;
+    alphaout.reserve(rows * cols);
     std::vector<double> amap(((GraphicsObject*)getParentFigure())
                                  ->findVectorDoubleProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
     indexType amaplen((indexType)amap.size());
@@ -194,14 +195,15 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
         return alphaout;
     } else if (alphain.size() != rows * cols) {
         increment = 0;
-    } else
+    } else {
         increment = 1;
+    }
     if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
-        for (int i = 0; i < rows * cols; i++) {
+        for (indexType i = 0; i < rows * cols; i++) {
             alphaout.push_back(std::min(1.0, std::max(0.0, alphain[i * increment])));
         }
     } else if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
-        for (int i = 0; i < rows * cols; i++) {
+        for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
             ndx = std::min<indexType>(amaplen - 1, std::max<indexType>(0, ndx));
             alphaout.push_back(amap[ndx]);
@@ -235,18 +237,13 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
     size_t cmaplen(cmap.size() / 3);
     if (cmaplen < 1) {
         if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
-            for (int i = 0; i < rows * cols; i++) {
-                int ndx = floatData ? (int)dp[i] - 1 : (int)dp[i];
-                ndx = (int)std::min<indexType>(
-                    (indexType)(cmaplen - 1), std::max<indexType>((indexType)0, (indexType)ndx));
+            for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
                 ret[i + 2 * rows * cols] = 1;
             }
         } else {
-            for (int i = 0; i < rows * cols; i++) {
-                int ndx = (int)((dp[i] - clim_min) / (clim_max - clim_min) * (cmaplen - 1));
-                ndx = (int)std::min<indexType>(cmaplen - 1, std::max(0, ndx));
+            for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
                 ret[i + 2 * rows * cols] = 1;

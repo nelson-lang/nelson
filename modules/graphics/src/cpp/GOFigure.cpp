@@ -143,7 +143,7 @@ GOFigure::updateState()
             = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
         std::vector<int64> handles(children->data());
         ArrayOf colormapAsArrayOf = findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)->get();
-        for (int i = 0; i < handles.size(); i++) {
+        for (size_t i = 0; i < handles.size(); i++) {
             GraphicsObject* fp = findGraphicsObject(handles[i]);
             if (fp->haveProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)) {
                 fp->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)->set(colormapAsArrayOf);

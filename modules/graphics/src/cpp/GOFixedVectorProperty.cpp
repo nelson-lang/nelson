@@ -21,7 +21,7 @@ GOFixedVectorProperty::set(ArrayOf num)
     _data.clear();
     indexType minLen = std::min((indexType)m_len, num.getElementCount());
     _data.reserve(minLen);
-    for (int i = 0; i < minLen; i++) {
+    for (indexType i = 0; i < minLen; i++) {
         _data.push_back(dp[i]);
     }
 }
