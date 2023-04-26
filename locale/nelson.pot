@@ -6,27 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Cannot apply numeric operation "
-msgstr ""
-
-msgid " to reference types."
-msgstr ""
-
-msgid "Same reference type expected."
-msgstr ""
-
-msgid "Size mismatch on arguments to arithmetic operator"
-msgstr ""
-
-msgid "Cannot apply matrix operation "
-msgstr ""
-
-msgid " to N-Dimensional arrays."
-msgstr ""
-
-msgid "Size mismatch on arguments to "
-msgstr ""
-
 msgid "empty string not allowed as expected message."
 msgstr ""
 
@@ -149,6 +128,9 @@ msgid "Invalid filename."
 msgstr ""
 
 msgid "No tags available."
+msgstr ""
+
+msgid "Taglib not available."
 msgstr ""
 
 msgid "Cannot save file."
@@ -277,13 +259,13 @@ msgstr ""
 msgid "Size vector should be a row vector with real elements."
 msgstr ""
 
+msgid "Too many dimensions! Current limit is"
+msgstr ""
+
 msgid "A supported type expected at last argument."
 msgstr ""
 
 msgid "'like' expected at n - 2 argument."
-msgstr ""
-
-msgid "Too many dimensions! Current limit is"
 msgstr ""
 
 msgid "sparse not supported."
@@ -355,16 +337,19 @@ msgstr ""
 msgid "Unknow option."
 msgstr ""
 
-msgid "Error: we cannot find Nelson binaries path."
+msgid "Cannot find Nelson binary path."
 msgstr ""
 
-msgid "Error: we cannot find Nelson root path."
+msgid "Cannot find Nelson libraries path."
 msgstr ""
 
-msgid "Error: we cannot create preferences path."
+msgid "Cannot find Nelson modules path."
 msgstr ""
 
-msgid "Error: we cannot find Nelson preferences path."
+msgid "Cannot find Nelson root path."
+msgstr ""
+
+msgid "Cannot find Nelson preferences path."
 msgstr ""
 
 msgid "Invalid use of statement list."
@@ -1171,10 +1156,19 @@ msgstr ""
 msgid "figure graphics object expected."
 msgstr ""
 
+msgid "Invalid Figure handle."
+msgstr ""
+
 msgid "Wrong number of input parameters."
 msgstr ""
 
 msgid "Got error for property:"
+msgstr ""
+
+msgid "hggroup expected."
+msgstr ""
+
+msgid "Parent should have only one graphics object."
 msgstr ""
 
 msgid "Cannot delete root graphics object."
@@ -1187,6 +1181,9 @@ msgid "No property for class"
 msgstr ""
 
 msgid "Properties for class"
+msgstr ""
+
+msgid "Expected graphics object(s)."
 msgstr ""
 
 msgid "Property is readable only: "
@@ -1211,6 +1208,37 @@ msgid "Unsupported format:"
 msgstr ""
 
 msgid "Impossible to save image."
+msgstr ""
+
+msgid "RGB triplet expected."
+msgstr ""
+
+msgid "One color specification or use the 'multiple' option expected."
+msgstr ""
+
+msgid "Valid color expected."
+msgstr ""
+
+msgid "Invalid #2 argument: 'one', 'multiple' expected."
+msgstr ""
+
+msgid ""
+"RGB triplet, a character vector, or a string scalar, cell of row characters "
+"expected."
+msgstr ""
+
+msgid "Use the 'multiple' option or specify one color specification."
+msgstr ""
+
+msgid "Valid color string expected."
+msgstr ""
+
+msgid ""
+"Mx3 matrix of RGB triplets, a character vector, a cell-array of character "
+"vectors or a string array expected."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator"
 msgstr ""
 
 msgid "Units not managed:"
@@ -1240,6 +1268,33 @@ msgstr ""
 msgid ""
 "The value must be a '|' delimited character vector, string array, or cell "
 "array of character vectors."
+msgstr ""
+
+msgid "Out of bounds."
+msgstr ""
+
+msgid "Nx3 dimensional matrix expected for 'Vertices'."
+msgstr ""
+
+msgid "Invalid Face Colorspec."
+msgstr ""
+
+msgid "Invalid FaceVertexCData parameter with FaceColor to 'flat'."
+msgstr ""
+
+msgid "Invalid FaceVertexCData parameter with FaceColor to 'interp'."
+msgstr ""
+
+msgid "Invalid EdgeColor parameter."
+msgstr ""
+
+msgid "Invalid FaceVertexCData parameter with EgdeColor to 'flat'."
+msgstr ""
+
+msgid "Invalid FaceVertexCData parameter with EgdeColor to 'interp'."
+msgstr ""
+
+msgid "Vertex Index out of bounds."
 msgstr ""
 
 msgid "Expecting a string for property."
@@ -2653,10 +2708,7 @@ msgstr ""
 msgid "Wrong value for #1 argument, 'reverse' expected."
 msgstr ""
 
-msgid "invalid module name."
-msgstr ""
-
-msgid "Argument #3 must be a valid option."
+msgid "Argument #2 must be a valid option."
 msgstr ""
 
 msgid " is not installed."
@@ -2665,7 +2717,16 @@ msgstr ""
 msgid "Cannot compare versions: "
 msgstr ""
 
+msgid "invalid module name."
+msgstr ""
+
 msgid "Impossible to get external modules directory."
+msgstr ""
+
+msgid "Invalid module name:"
+msgstr ""
+
+msgid "Impossible to associate module name and library path"
 msgstr ""
 
 msgid ": This module is already used: "
@@ -2704,10 +2765,10 @@ msgstr ""
 msgid "Module not loaded: library handle not found."
 msgstr ""
 
-msgid "Path does not exist:"
+msgid "Invalid option."
 msgstr ""
 
-msgid "Wrong option."
+msgid "Path does not exist:"
 msgstr ""
 
 msgid "Please check: "
@@ -2762,6 +2823,24 @@ msgid "String expected."
 msgstr ""
 
 msgid "Invalid communicator"
+msgstr ""
+
+msgid "finite integer values expected."
+msgstr ""
+
+msgid "finite positive integer values expected."
+msgstr ""
+
+msgid "ASSUMEDTYPE must be an integer type name."
+msgstr ""
+
+msgid "Operands to BIT Ops must be numeric."
+msgstr ""
+
+msgid "Inputs must be full."
+msgstr ""
+
+msgid "Input arguments must have the same class or scalar doubles."
 msgstr ""
 
 msgid "Colon input arguments must have same type."
@@ -4218,7 +4297,7 @@ msgstr ""
 msgid "Expected a real valued scalar"
 msgstr ""
 
-msgid "Cannot index into empty variable."
+msgid "Index exceeds dimensions."
 msgstr ""
 
 msgid ""
@@ -4321,13 +4400,28 @@ msgstr ""
 msgid "Invalid dimension position."
 msgstr ""
 
-msgid "Index exceeds dimensions."
-msgstr ""
-
 msgid "handle must have a type."
 msgstr ""
 
 msgid "handle must have a pointer."
+msgstr ""
+
+msgid "Cannot apply numeric operation "
+msgstr ""
+
+msgid " to reference types."
+msgstr ""
+
+msgid "Same reference type expected."
+msgstr ""
+
+msgid "Cannot apply matrix operation "
+msgstr ""
+
+msgid " to N-Dimensional arrays."
+msgstr ""
+
+msgid "Size mismatch on arguments to "
 msgstr ""
 
 msgid "Sparse Function not loaded."
@@ -4689,6 +4783,9 @@ msgid "Cannot initialize webwrite."
 msgstr ""
 
 msgid "Cannot initialize websave."
+msgstr ""
+
+msgid "Invalid HeaderFields size."
 msgstr ""
 
 msgid "Allowable stack depth exceeded..."
@@ -5198,6 +5295,15 @@ msgstr ""
 msgid "an expression after +"
 msgstr ""
 
+msgid "invalid argument: rows, descend, ascend expected."
+msgstr ""
+
+msgid "Invalid argument #2: scalar integer value expected."
+msgstr ""
+
+msgid "invalid argument: descend, ascend expected."
+msgstr ""
+
 msgid "Cannot convert missing element."
 msgstr ""
 
@@ -5429,6 +5535,9 @@ msgstr ""
 msgid "Invalid LineSpec string."
 msgstr ""
 
+msgid "Group can be only a child of axes or hggroup."
+msgstr ""
+
 msgid "First argument must be an axes object."
 msgstr ""
 
@@ -5499,6 +5608,18 @@ msgstr ""
 msgid "Invalid parameter/value pair arguments."
 msgstr ""
 
+msgid "struct type expected."
+msgstr ""
+
+msgid "CDataMapping scaled or direct value expected"
+msgstr ""
+
+msgid "Size of data mismatch."
+msgstr ""
+
+msgid "String color or numeric value expected."
+msgstr ""
+
 msgid "pcolor requires either X,Y,C, or C arguments."
 msgstr ""
 
@@ -5512,6 +5633,11 @@ msgid "Wrong size for input arguments: vectors with same size expected."
 msgstr ""
 
 msgid "Must be a 3-column colormap matrix."
+msgstr ""
+
+msgid ""
+"X must have the same dimensions as Y or be a vector with the same number of "
+"rows as Y."
 msgstr ""
 
 msgid "X, C arguments must be real."
@@ -5975,6 +6101,13 @@ msgstr ""
 
 #, python-format
 msgid "Value must be greater than %d."
+msgstr ""
+
+msgid ""
+"Please define CHATGPT_API_KEY environment variable with your private API Key."
+msgstr ""
+
+msgid "Your question to ChatGPT? "
 msgstr ""
 
 #, python-format
