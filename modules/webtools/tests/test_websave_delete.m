@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 o = weboptions('RequestMethod', 'delete');
+o.Timeout = 60;
 filename = [tempdir(), 'test_websave_delete.json'];
 fullname = websave(filename, 'http://httpbin.org/delete', o);
 R = jsondecode(fileread(fullname));
@@ -21,6 +22,8 @@ assert_isequal(R.url, 'http://httpbin.org/delete');
 % assert_isequal(R, REF);
 %=============================================================================
 filename = [tempdir(), 'test_websave_delete.json'];
-cmd = 'fullname = websave(filename, ''http://httpbin.org/delete'');';
+o = weboptions();
+o.Timeout = 120;
+cmd = 'fullname = websave(filename, ''http://httpbin.org/delete'', o);';
 assert_checkerror(cmd, _('Method Not Allowed (405)'));
 %=============================================================================
