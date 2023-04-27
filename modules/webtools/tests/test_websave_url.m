@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 o = weboptions('RequestMethod', 'get');
+o.Timeout = 160;
 filename = [tempdir(), 'test_websave_args.json'];
 fullname = websave(filename, 'http://httpbin.org/get', 'r', i, "b+", 3, o);
 R = jsondecode(fileread(fullname));
@@ -17,24 +18,28 @@ assert_isequal(R.args.b_, '3');
 assert_isequal(R.args.r, '0+1i');
 %=============================================================================
 o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'csv');
+o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args.json'];
 M = [1 2 3; 4 5 6];
 fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
 R = jsondecode(fileread(fullname))
 %=============================================================================
 o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'json');
+o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args.json'];
 M = [1 2 3; 4 5 6];
 fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
 R = jsondecode(fileread(fullname))
 %=============================================================================
 o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'repeating');
+o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args.json'];
 M = [1 2 3; 4 5 6];
 fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
 R = jsondecode(fileread(fullname))
 %=============================================================================
 o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'php');
+o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args.json'];
 M = [1 2 3; 4 5 6];
 fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
