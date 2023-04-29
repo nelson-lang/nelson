@@ -82,14 +82,14 @@ template <class T>
 T
 scalar_scalar_integer_bitand(T a, T b)
 {
-    return T(a bitand b);
+    return T(a & b);
 }
 //=============================================================================
 template <class T>
 T
 scalar_scalar_integer_bitor(T a, T b)
 {
-    return T(a bitor b);
+    return T(a | b);
 }
 //=============================================================================
 template <class T>
