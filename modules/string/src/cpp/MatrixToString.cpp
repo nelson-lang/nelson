@@ -7,14 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringHelpers.hpp"
 #include <cmath>
 #include <cstdio>
 #include <cwchar>
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "MatrixToString.hpp"
+#include "StringHelpers.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"

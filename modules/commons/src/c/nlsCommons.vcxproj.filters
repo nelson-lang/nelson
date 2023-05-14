@@ -30,12 +30,6 @@
     <ClCompile Include="..\cpp\StringHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\fmt\src\format.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\fmt\src\os.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\UuidHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +40,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\fmt\src\format.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

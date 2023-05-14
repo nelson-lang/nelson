@@ -11,6 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <curl/curl.h>
