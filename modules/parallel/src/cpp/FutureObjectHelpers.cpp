@@ -25,7 +25,7 @@ FuturesToArrayOf(const std::vector<FutureObject*>& futures)
 {
     Dimensions dims(1, futures.size());
     nelson_handle* ptrObject = static_cast<nelson_handle*>(
-        ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false));
+        ArrayOf::allocateArrayOf(NLS_HANDLE, dims.getElementCount(), stringVector(), false));
     for (size_t k = 0; k < futures.size(); ++k) {
         ptrObject[k] = futures[k]->asNelsonHandle;
     }
