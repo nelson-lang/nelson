@@ -8,12 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include "StringHelpers.hpp"
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
+#include "StringHelpers.hpp"
 #include "nlsBuildConfig.h"
 #include "JsonEncode.hpp"
 #include "characters_encoding.hpp"

@@ -16,6 +16,7 @@
 #include <csetjmp>
 #include <csignal>
 #endif
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include "Error.hpp"
