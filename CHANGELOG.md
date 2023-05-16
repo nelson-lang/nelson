@@ -8,10 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- update BS::thread_pool v3.4.0
-- update `simdutf` to 3.2.9.
-- update `{fmt}` to 10.0.0.
-- update `fast_float` to 4.0.0.
+- `BS::thread_pool` v3.4.0
+- `simdutf` to 3.2.9.
+- `{fmt}` to 10.0.0.
+- `fast_float` to 4.0.0.
+- CMake 3.26.3 on Windows
 
 ## 0.7.4 (2023-04-27)
 
