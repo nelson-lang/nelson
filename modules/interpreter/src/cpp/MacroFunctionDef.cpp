@@ -11,6 +11,7 @@
 #pragma warning(disable : 4996)
 #endif
 //=============================================================================
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>

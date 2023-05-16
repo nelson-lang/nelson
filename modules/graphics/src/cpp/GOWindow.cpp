@@ -12,6 +12,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtGui/QIcon>
 #include <QtGui/QMouseEvent>
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>

@@ -7,10 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringHelpers.hpp"
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "StringHelpers.hpp"
 #include "DisplayString.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"

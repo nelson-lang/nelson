@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- update `{fmt}` to 10.0.0.
 - update `fast_float` to 4.0.0.
 
 ## 0.7.4 (2023-04-27)

@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <string>
 #include <limits>
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>

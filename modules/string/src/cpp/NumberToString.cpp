@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <cmath>
 //=============================================================================
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include "StringHelpers.hpp"

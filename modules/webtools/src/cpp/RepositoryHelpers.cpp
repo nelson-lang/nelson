@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
