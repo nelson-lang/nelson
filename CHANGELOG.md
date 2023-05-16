@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- update `simdutf` to 3.2.9.
 - update `{fmt}` to 10.0.0.
 - update `fast_float` to 4.0.0.
 
