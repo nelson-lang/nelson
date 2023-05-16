@@ -157,9 +157,7 @@
 #include <string.h> /* memset, strncpy, strlen */
 #include <limits.h>
 
-#ifdef HAVE_STDINT_H
-#  include <stdint.h>
-#endif
+#include <stdint.h>
 
 #ifndef __INT8_TYPE__
 typedef signed char        int8_t;
