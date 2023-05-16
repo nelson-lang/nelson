@@ -57,6 +57,8 @@ typedef void* DIR;
 #include <dirent.h>
 #endif
 
+#include <stdint.h>
+
 /***************************************************************************/
 /* Shared functions */
 
