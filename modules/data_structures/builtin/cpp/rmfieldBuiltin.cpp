@@ -9,6 +9,7 @@
 //=============================================================================
 #include <set>
 #include <algorithm>
+#define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include "rmfieldBuiltin.hpp"
