@@ -33,8 +33,8 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
@@ -50,6 +50,7 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsOperators
+  nlsInterpreter
   nlsTypes
   ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================

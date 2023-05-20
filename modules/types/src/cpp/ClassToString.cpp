@@ -7,73 +7,34 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <map>
 #include "ClassToString.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::map<NelsonType, std::wstring> typeNames
+    = { { NLS_GO_HANDLE, TOWSTRING(NLS_GO_HANDLE_STR) }, { NLS_HANDLE, TOWSTRING(NLS_HANDLE_STR) },
+          { NLS_CELL_ARRAY, TOWSTRING(NLS_CELL_ARRAY_STR) },
+          { NLS_STRING_ARRAY, TOWSTRING(NLS_STRING_ARRAY_STR) },
+          { NLS_STRUCT_ARRAY, TOWSTRING(NLS_STRUCT_ARRAY_STR) },
+          { NLS_DCOMPLEX, TOWSTRING(NLS_DOUBLE_STR) }, { NLS_DOUBLE, TOWSTRING(NLS_DOUBLE_STR) },
+          { NLS_SCOMPLEX, TOWSTRING(NLS_SINGLE_STR) }, { NLS_SINGLE, TOWSTRING(NLS_SINGLE_STR) },
+          { NLS_LOGICAL, TOWSTRING(NLS_LOGICAL_STR) }, { NLS_UINT8, TOWSTRING(NLS_UINT8_STR) },
+          { NLS_INT8, TOWSTRING(NLS_INT8_STR) }, { NLS_UINT16, TOWSTRING(NLS_UINT16_STR) },
+          { NLS_INT16, TOWSTRING(NLS_INT16_STR) }, { NLS_UINT32, TOWSTRING(NLS_UINT32_STR) },
+          { NLS_INT32, TOWSTRING(NLS_INT32_STR) }, { NLS_UINT64, TOWSTRING(NLS_UINT64_STR) },
+          { NLS_INT64, TOWSTRING(NLS_INT64_STR) }, { NLS_CHAR, TOWSTRING(NLS_CHAR_STR) } };
+
+//=============================================================================
 std::wstring
 ClassToString(NelsonType classType)
 {
-    std::wstring classString;
-    switch (classType) {
-    case NLS_GO_HANDLE: {
-        classString = TOWSTRING(NLS_GO_HANDLE_STR);
-    } break;
-    case NLS_HANDLE: {
-        classString = TOWSTRING(NLS_HANDLE_STR);
-    } break;
-    case NLS_CELL_ARRAY: {
-        classString = TOWSTRING(NLS_CELL_ARRAY_STR);
-    } break;
-    case NLS_STRING_ARRAY: {
-        classString = TOWSTRING(NLS_STRING_ARRAY_STR);
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        classString = TOWSTRING(NLS_STRUCT_ARRAY_STR);
-    } break;
-    case NLS_DCOMPLEX:
-    case NLS_DOUBLE: {
-        classString = TOWSTRING(NLS_DOUBLE_STR);
-    } break;
-    case NLS_SCOMPLEX:
-    case NLS_SINGLE: {
-        classString = TOWSTRING(NLS_SINGLE_STR);
-    } break;
-    case NLS_LOGICAL:
-        classString = TOWSTRING(NLS_LOGICAL_STR);
-        break;
-    case NLS_UINT8:
-        classString = TOWSTRING(NLS_UINT8_STR);
-        break;
-    case NLS_INT8:
-        classString = TOWSTRING(NLS_INT8_STR);
-        break;
-    case NLS_UINT16:
-        classString = TOWSTRING(NLS_UINT16_STR);
-        break;
-    case NLS_INT16:
-        classString = TOWSTRING(NLS_INT16_STR);
-        break;
-    case NLS_UINT32:
-        classString = TOWSTRING(NLS_UINT32_STR);
-        break;
-    case NLS_INT32:
-        classString = TOWSTRING(NLS_INT32_STR);
-        break;
-    case NLS_UINT64:
-        classString = TOWSTRING(NLS_UINT64_STR);
-        break;
-    case NLS_INT64:
-        classString = TOWSTRING(NLS_INT64_STR);
-        break;
-    case NLS_CHAR:
-        classString = TOWSTRING(NLS_CHAR_STR);
-        break;
-    default:
-        break;
+    auto it = typeNames.find(classType);
+    if (it != typeNames.end()) {
+        return it->second;
     }
-    return classString;
+    return {};
 }
 //=============================================================================
 } // namespace Nelson
