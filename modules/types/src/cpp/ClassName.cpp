@@ -18,9 +18,10 @@ namespace Nelson {
 std::string
 ClassName(const ArrayOf& In)
 {
-    std::string classString = wstring_to_utf8(ClassToString(In.getDataClass()));
-    if (In.getDataClass() == NLS_GO_HANDLE) {
-        classString = NLS_GO_HANDLE_STR;
+    std::string classString = {};
+    if (In.isSparse()) {
+        classString
+            = std::string(NLS_SPARSE_STR) + wstring_to_utf8(ClassToString(In.getDataClass()));
     } else if (In.getDataClass() == NLS_HANDLE) {
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
@@ -40,9 +41,8 @@ ClassName(const ArrayOf& In)
         }
     } else if (In.getDataClass() == NLS_STRUCT_ARRAY) {
         classString = In.getStructType();
-    }
-    if (In.isSparse()) {
-        classString = std::string(NLS_SPARSE_STR) + classString;
+    } else {
+        classString = wstring_to_utf8(ClassToString(In.getDataClass()));
     }
     return classString;
 }

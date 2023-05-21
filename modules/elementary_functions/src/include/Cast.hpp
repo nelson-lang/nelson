@@ -10,10 +10,17 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Cast(const ArrayOf& arrayIn, NelsonType destinationClass, bool isSparse);
+Cast(Evaluator* eval, const ArrayOf& arrayIn, const std::string& classname, bool isComplex = false,
+    bool isSparse = false, bool withCheck = true);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Cast(Evaluator* eval, const ArrayOf& arrayIn, const ArrayOf& likeThis);
+//=============================================================================
 }
 //=============================================================================
