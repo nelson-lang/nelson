@@ -161,7 +161,7 @@ Sign(const ArrayOf& A, bool& needToOverload)
         Dimensions dimsA = A.getDimensions();
         return SignUnsignedInteger<charType>(NLS_CHAR, (charType*)A.getDataPointer(), dimsA);
     } break;
-    case NLS_NOT_TYPED:
+    case NLS_UNKNOWN:
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

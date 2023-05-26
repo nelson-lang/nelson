@@ -126,7 +126,7 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
 {
     ArrayOf res;
     NelsonType classA = A.getDataClass();
-    if (classA < NLS_LOGICAL || A.isSparse() || classA == NLS_CHAR) {
+    if (classA > NLS_LOGICAL || A.isSparse()) {
         std::wstring classname;
         ClassName(A, classname);
         std::wstring msg = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");

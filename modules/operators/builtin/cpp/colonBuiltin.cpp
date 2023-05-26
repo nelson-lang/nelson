@@ -9,8 +9,6 @@
 //=============================================================================
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
-#include "OverloadTernaryOperator.hpp"
 #include "Colon.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================

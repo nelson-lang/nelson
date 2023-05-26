@@ -15,6 +15,9 @@
 namespace Nelson {
 //=============================================================================
 NLSTYPES_IMPEXP std::wstring
+ClassToStringW(NelsonType classType);
+//=============================================================================
+NLSTYPES_IMPEXP std::string
 ClassToString(NelsonType classType);
 //=============================================================================
 }

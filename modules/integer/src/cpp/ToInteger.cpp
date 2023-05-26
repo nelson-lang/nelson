@@ -19,7 +19,7 @@ ArrayOf
 ToInteger(NelsonType destinationClass, const ArrayOf& A)
 {
 
-    std::wstring destType = ClassToString(destinationClass);
+    std::wstring destType = ClassToStringW(destinationClass);
     if (A.isSparse()) {
         Error(_W("Conversion to '") + destType + _W("' from sparse matrix is not possible."));
     }

@@ -58,8 +58,7 @@ Transpose(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     NelsonType classA = A.getDataClass();
-    if ((classA < NLS_LOGICAL || A.isSparse())
-        && !(A.isCell() || A.isStruct() || A.isStringArray())) {
+    if ((classA > NLS_CHAR || A.isSparse()) && !(A.isCell() || A.isStruct() || A.isStringArray())) {
         needToOverload = true;
         return {};
     }

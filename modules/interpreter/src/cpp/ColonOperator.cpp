@@ -9,8 +9,11 @@
 //=============================================================================
 #include "Colon.hpp"
 #include "Evaluator.hpp"
-#include "OverloadTernaryOperator.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 #include "OverloadBinaryOperator.hpp"
+#include "ClassToString.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,40 +78,140 @@ Evaluator::colonUnitOperator(AbstractSyntaxTreePtr t)
     return retval;
 }
 //=============================================================================
+static NelsonType
+getColonDataType(NelsonType typeA, NelsonType typeB)
+{
+    if (typeA == typeB) {
+        return typeA;
+    }
+    if (typeA == NLS_DOUBLE || typeA == NLS_DCOMPLEX) {
+        return typeB;
+    }
+    if (typeB == NLS_DOUBLE || typeA == NLS_DCOMPLEX) {
+        return typeA;
+    }
+    return NLS_UNKNOWN;
+}
+//=============================================================================
+static NelsonType
+getColonDataType(NelsonType typeA, NelsonType typeB, NelsonType typeC)
+{
+    NelsonType colonType = getColonDataType(typeA, typeB);
+    if (colonType == NLS_UNKNOWN) {
+        return colonType;
+    }
+    return getColonDataType(colonType, typeC);
+}
+//=============================================================================
+static std::string
+precedenceTypeName(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
+{
+    NelsonType classA = A.getDataClass();
+    NelsonType classB = B.getDataClass();
+    NelsonType classC = C.getDataClass();
+
+    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
+    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
+    bool isObjectC = C.isClassStruct() || (classC == NLS_HANDLE);
+
+    if (isObjectA) {
+        if (classA == NLS_HANDLE) {
+            return wstring_to_utf8(A.getHandleCategory());
+        } else {
+            return A.getStructType();
+        }
+    } else if (isObjectB) {
+        if (classB == NLS_HANDLE) {
+            return wstring_to_utf8(B.getHandleCategory());
+        } else {
+            return B.getStructType();
+        }
+    } else if (isObjectC) {
+        if (classC == NLS_HANDLE) {
+            return wstring_to_utf8(C.getHandleCategory());
+        } else {
+            return C.getStructType();
+        }
+    }
+    NelsonType commonColonType = getColonDataType(classA, classB, classC);
+    if (commonColonType == NLS_UNKNOWN) {
+        Error(_W("Colon operands must be all the same type."),
+            L"Nelson:colon:mixedNonDoubleOperands");
+    }
+    return ClassToString(commonColonType);
+}
+//=============================================================================
+static std::string
+precedenceTypeName(const ArrayOf& A, const ArrayOf& B)
+{
+    NelsonType classA = A.getDataClass();
+    NelsonType classB = B.getDataClass();
+
+    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
+    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
+    if (isObjectA) {
+        if (classA == NLS_HANDLE) {
+            return wstring_to_utf8(A.getHandleCategory());
+        } else {
+            return A.getStructType();
+        }
+    } else if (isObjectB) {
+        if (classB == NLS_HANDLE) {
+            return wstring_to_utf8(B.getHandleCategory());
+        } else {
+            return B.getStructType();
+        }
+    }
+
+    NelsonType commonColonType = getColonDataType(classA, classB);
+    if (commonColonType == NLS_UNKNOWN) {
+        Error(_W("Colon operands must be all the same type."),
+            L"Nelson:colon:mixedNonDoubleOperands");
+    }
+    return ClassToString(commonColonType);
+}
+//=============================================================================
 ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
-    bool bSuccess = false;
-    if (overloadOnBasicTypes) {
-        res = OverloadBinaryOperator(this, A, B, "colon", bSuccess);
+    FunctionDef* funcDef = nullptr;
+    std::string typeName = precedenceTypeName(A, B);
+
+    std::string overloadTypeName = typeName + "_" + "colon";
+    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
+        Context* context = this->getContext();
+        context->lookupFunction(overloadTypeName, funcDef);
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        res = Colon(A, B, needToOverload);
-        if (needToOverload) {
-            return OverloadBinaryOperator(this, A, B, "colon");
-        }
+    if (!funcDef) {
+        Error(_("function") + " " + overloadTypeName + " " + _("undefined."));
     }
-    return res;
+    ArrayOfVector argsIn;
+    argsIn << A;
+    argsIn << B;
+    ArrayOfVector r = funcDef->evaluateFunction(this, argsIn, 1);
+    return r[0];
 }
 //=============================================================================
 ArrayOf
 Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
-    ArrayOf res;
-    bool bSuccess = false;
-    if (overloadOnBasicTypes) {
-        res = OverloadTernaryOperator(this, A, B, C, "colon", bSuccess);
+    FunctionDef* funcDef = nullptr;
+    std::string typeName = precedenceTypeName(A, B, C);
+
+    std::string overloadTypeName = typeName + "_" + "colon";
+    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
+        Context* context = this->getContext();
+        context->lookupFunction(overloadTypeName, funcDef);
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        res = Colon(A, B, C, needToOverload);
-        if (needToOverload) {
-            return OverloadTernaryOperator(this, A, B, C, "colon");
-        }
+    if (!funcDef) {
+        Error(_W("colon overloading not defined."));
     }
-    return res;
+    ArrayOfVector argsIn;
+    argsIn << A;
+    argsIn << B;
+    argsIn << C;
+    ArrayOfVector r = funcDef->evaluateFunction(this, argsIn, 1);
+    return r[0];
 }
 //=============================================================================
 } // namespace Nelson

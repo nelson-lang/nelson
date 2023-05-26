@@ -53,7 +53,6 @@
 #include "HandleManager.hpp"
 #include "OverloadBinaryOperator.hpp"
 #include "OverloadUnaryOperator.hpp"
-#include "OverloadTernaryOperator.hpp"
 #include "ComplexTranspose.hpp"
 #include "OverloadRequired.hpp"
 #include "NotEquals.hpp"
@@ -4392,14 +4391,13 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     if (fieldvalue.size() != 1) {
         Error(_W("Right hand values must satisfy left hand side expression."));
     }
-    std::wstring currentType;
+    std::string currentType;
     if (r.isGraphicsObject()) {
         currentType = ClassToString(r.getDataClass());
     } else {
-        currentType = r.getHandleCategory();
+        currentType = wstring_to_utf8(r.getHandleCategory());
     }
-    std::wstring ufunctionNameSetHandle = currentType + L"_set";
-    std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
+    std::string functionNameSetHandle = currentType + "_set";
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
@@ -4423,7 +4421,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     std::wstring currentType;
     std::string functionNameCurrentType;
     if (r.isGraphicsObject()) {
-        currentType = ClassToString(r.getDataClass());
+        currentType = ClassToStringW(r.getDataClass());
         functionNameCurrentType = ClassName(r) + "_" + fieldname;
     } else {
         currentType = r.getHandleCategory();

@@ -860,7 +860,7 @@ ArrayOf::isPositive() const
         return isTPositive<int32>(dp->getData(), getElementCount());
     case NLS_INT64:
         return isTPositive<int64>(dp->getData(), getElementCount());
-    case NLS_NOT_TYPED:
+    case NLS_UNKNOWN:
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

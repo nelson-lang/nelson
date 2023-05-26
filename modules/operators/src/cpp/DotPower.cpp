@@ -764,11 +764,10 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
         return C;
     }
     // If A is not at least a single type, promote it to double
-    if (AClass < NLS_SINGLE) {
-        AClass = NLS_DOUBLE;
-    }
-    if (BClass < NLS_INT64) {
-        BClass = NLS_INT64;
+    if (AClass != BClass) {
+        if (AClass < NLS_SCOMPLEX) {
+            AClass = NLS_DCOMPLEX;
+        }
     }
 
     // Get a read on if A is positive
@@ -811,7 +810,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DOUBLE && (!Anegative)) {
         switch (BClass) {
         default: {
-            Error(_("Unhandled type for second argument to A^B"));
+            Error(_W("Unhandled type for second argument to A^B"));
         } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 8);
@@ -822,7 +821,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_SINGLE && Anegative) {
         switch (BClass) {
         default: {
-            Error(_("Unhandled type for second argument to A^B"));
+            Error(_W("Unhandled type for second argument to A^B"));
         } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 4);

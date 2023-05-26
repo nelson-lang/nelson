@@ -181,7 +181,6 @@
     <ClInclude Include="..\..\src\include\OverloadFunction.hpp" />
     <ClInclude Include="..\..\src\include\OverloadRequired.hpp" />
     <ClInclude Include="..\include\Overload.hpp" />
-    <ClInclude Include="..\include\OverloadTernaryOperator.hpp" />
     <ClInclude Include="..\..\src\include\OverloadUnaryOperator.hpp" />
     <ClInclude Include="..\include\OverloadExtraction.hpp" />
     <ClInclude Include="..\include\OverloadHelpers.hpp" />

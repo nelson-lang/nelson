@@ -17,7 +17,7 @@ NelsonType
 FindCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    NelsonType commonClass = NLS_NOT_TYPED;
+    NelsonType commonClass = NLS_UNKNOWN;
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
         return commonClass;

@@ -80,7 +80,7 @@ initializeFfiTypesMap()
 #else
     ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
 #endif
-    ffiTypesMap[L"libpointer"] = CType(&ffi_type_pointer, NLS_NOT_TYPED);
+    ffiTypesMap[L"libpointer"] = CType(&ffi_type_pointer, NLS_UNKNOWN);
     ffiTypesMapInitialized = true;
 }
 //=============================================================================

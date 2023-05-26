@@ -84,7 +84,7 @@ void
 ArrayOfSerialization::clear()
 {
     fullySerialized = false;
-    nelsonObjectClass = (int)NLS_NOT_TYPED;
+    nelsonObjectClass = (int)NLS_UNKNOWN;
     isSparse = false;
     dims.clear();
     fieldnames.clear();

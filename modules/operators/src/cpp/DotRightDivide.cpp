@@ -46,7 +46,7 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
         }
         return res;
     }
-    if (commonClass >= NLS_UINT8 && commonClass <= NLS_INT64) {
+    if (commonClass >= NLS_INT8 && commonClass <= NLS_UINT64) {
         switch (commonClass) {
         case NLS_INT8:
             return integer_dotRightDivide<int8>(NLS_INT8, A, B);

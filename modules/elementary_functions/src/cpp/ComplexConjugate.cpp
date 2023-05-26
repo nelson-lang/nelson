@@ -23,7 +23,7 @@ ArrayOf
 ComplexConjugate(const ArrayOf& A)
 {
     NelsonType classA = A.getDataClass();
-    if (classA < NLS_LOGICAL || A.isSparse()) {
+    if (classA > NLS_LOGICAL || A.isSparse()) {
         Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
             + "'.");
     }
