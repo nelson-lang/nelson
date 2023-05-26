@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- `BS::thread_pool` v3.4.0
+- `BS::thread_pool` v3.5.0
 - `simdutf` to 3.2.9.
 - `{fmt}` to 10.0.0.
 - `fast_float` to 4.0.0.
