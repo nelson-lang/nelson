@@ -27,8 +27,7 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOf param1 = argIn[0];
     if (param1.isGraphicsObject()) {
         bool doOverload = false;
-        std::wstring ufunctionNameGetHandle = ClassToString(param1.getDataClass()) + L"_set";
-        std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+        std::string functionNameGetHandle = ClassToString(param1.getDataClass()) + "_set";
         Context* context = eval->getContext();
         FunctionDef* funcDef = nullptr;
         if (context->lookupFunction(functionNameGetHandle, funcDef)) {
@@ -40,7 +39,7 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
         }
         if (!doOverload) {
-            std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+            std::wstring msg = utf8_to_wstring(functionNameGetHandle) + L" " + _W("not defined.");
             Error(msg);
         }
     } else {

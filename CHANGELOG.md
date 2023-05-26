@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `fast_float` to 4.0.0.
 - CMake 3.26.3 on Windows
 - `cast` reworked to be more compatible.
+- `colon` reworked to be more compatible (operator uses unary overload).
 
 ## 0.7.4 (2023-04-27)
 

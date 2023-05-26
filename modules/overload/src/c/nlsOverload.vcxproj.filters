@@ -36,9 +36,6 @@
     <ClInclude Include="..\include\OverloadHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\OverloadTernaryOperator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Overload.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

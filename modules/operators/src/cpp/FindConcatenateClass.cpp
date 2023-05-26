@@ -18,7 +18,7 @@ FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = true;
     if (A.isSparse() && B.isSparse()) {
-        return NLS_NOT_TYPED;
+        return NLS_UNKNOWN;
     }
     NelsonType Aclass = A.getDataClass();
     NelsonType Bclass = B.getDataClass();
@@ -26,7 +26,7 @@ FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isHandle()) {
             if (A.getHandleCategory() != B.getHandleCategory()) {
                 needToOverload = true;
-                return NLS_NOT_TYPED;
+                return NLS_UNKNOWN;
             }
         }
         needToOverload = false;
@@ -145,7 +145,7 @@ FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         needToOverload = false;
         return NLS_SCOMPLEX;
     }
-    return NLS_NOT_TYPED;
+    return NLS_UNKNOWN;
 }
 //=============================================================================
 }

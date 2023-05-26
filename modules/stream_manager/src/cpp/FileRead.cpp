@@ -88,7 +88,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         case NLS_CHAR: {
             sizeToRead = sizeToRead / sizeof(char);
         } break;
-        case NLS_NOT_TYPED:
+        case NLS_UNKNOWN:
         case NLS_GO_HANDLE:
         case NLS_HANDLE:
         case NLS_CELL_ARRAY:

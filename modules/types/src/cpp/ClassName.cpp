@@ -20,8 +20,7 @@ ClassName(const ArrayOf& In)
 {
     std::string classString = {};
     if (In.isSparse()) {
-        classString
-            = std::string(NLS_SPARSE_STR) + wstring_to_utf8(ClassToString(In.getDataClass()));
+        classString = std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
     } else if (In.getDataClass() == NLS_HANDLE) {
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
@@ -42,7 +41,7 @@ ClassName(const ArrayOf& In)
     } else if (In.getDataClass() == NLS_STRUCT_ARRAY) {
         classString = In.getStructType();
     } else {
-        classString = wstring_to_utf8(ClassToString(In.getDataClass()));
+        classString = ClassToString(In.getDataClass());
     }
     return classString;
 }

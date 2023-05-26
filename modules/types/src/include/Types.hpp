@@ -84,26 +84,27 @@ struct function_handle
 
 enum NelsonType
 {
-    NLS_NOT_TYPED = -1,
-    NLS_GO_HANDLE = 0,
-    NLS_HANDLE,
-    NLS_CELL_ARRAY,
-    NLS_STRUCT_ARRAY,
-    NLS_STRING_ARRAY,
-    NLS_LOGICAL,
-    NLS_UINT8,
-    NLS_INT8,
-    NLS_UINT16,
-    NLS_INT16,
-    NLS_UINT32,
-    NLS_INT32,
-    NLS_UINT64,
-    NLS_INT64,
+    NLS_DOUBLE = 0,
     NLS_SINGLE,
-    NLS_DOUBLE,
-    NLS_SCOMPLEX,
     NLS_DCOMPLEX,
+    NLS_SCOMPLEX,
+    NLS_INT8,
+    NLS_INT16,
+    NLS_INT32,
+    NLS_INT64,
+    NLS_UINT8,
+    NLS_UINT16,
+    NLS_UINT32,
+    NLS_UINT64,
+    NLS_LOGICAL,
     NLS_CHAR,
+    NLS_STRUCT_ARRAY,
+    NLS_CELL_ARRAY,
+    NLS_STRING_ARRAY,
+    NLS_HANDLE,
+    NLS_GO_HANDLE,
+    /* NLS_FUNCTION_HANDLE, */
+    NLS_UNKNOWN,
 };
 
 using stringVector = std::vector<std::string>;
@@ -132,6 +133,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
+#define NLS_UNKNOWN_STR "unknown"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

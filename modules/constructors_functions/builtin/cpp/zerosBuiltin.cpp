@@ -92,7 +92,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring paramstr = lastArg.getContentAsWideString();
             cl = StringToClass(paramstr);
             nRhs--;
-            if (cl < NLS_LOGICAL || cl > NLS_DOUBLE) {
+            if (cl > NLS_LOGICAL) {
                 Error(_W("A supported type expected at last argument."));
             }
         }

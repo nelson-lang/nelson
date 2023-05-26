@@ -106,7 +106,7 @@ LibPointerObject::initializeCommon()
     _initialDimY = -1;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
-    _currentType = NelsonType::NLS_NOT_TYPED;
+    _currentType = NelsonType::NLS_UNKNOWN;
 }
 //=============================================================================
 LibPointerObject::~LibPointerObject()
@@ -168,7 +168,7 @@ LibPointerObject*
 LibPointerObject::plus(indexType offset)
 {
     LibPointerObject* newPtr = nullptr;
-    if (_dimX == -1 || _dimY == -1 || _currentType == NLS_NOT_TYPED) {
+    if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN) {
         Error(_W("The datatype and size of the value must be defined."));
     }
     if ((_dimX * _dimY) < offset) {
@@ -332,8 +332,7 @@ LibPointerObject::get(const std::wstring& propertyName, ArrayOf& res)
         return true;
     }
     if (propertyName == L"Value") {
-        if (_dimX == -1 || _dimY == -1 || _currentType == NLS_NOT_TYPED
-            || _voidPointer == nullptr) {
+        if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN || _voidPointer == nullptr) {
             Error(_W("The datatype and size of the value must be defined."));
         }
         void* copyPointer

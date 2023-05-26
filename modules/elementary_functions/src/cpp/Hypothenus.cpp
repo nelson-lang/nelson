@@ -23,7 +23,7 @@ computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = true;
     if (A.isSparse() || B.isSparse()) {
-        return NLS_NOT_TYPED;
+        return NLS_UNKNOWN;
     }
     if ((A.isDoubleClass() || A.isSingleClass()) && (B.isDoubleClass() || B.isSingleClass())) {
         needToOverload = false;
@@ -54,7 +54,7 @@ computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
         return destinationClass;
     }
-    return NLS_NOT_TYPED;
+    return NLS_UNKNOWN;
 }
 //=============================================================================
 static ArrayOf

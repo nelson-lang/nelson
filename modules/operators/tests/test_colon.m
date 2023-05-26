@@ -120,5 +120,5 @@ assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('R = 1:1:inf;',  _('Invalid range.'));
 %=============================================================================
-assert_checkerror('single(1):int32(2):single(4)', _('Colon input arguments must have same type.'));
+assert_checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type.'));
 %=============================================================================
