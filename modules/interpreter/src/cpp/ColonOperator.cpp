@@ -104,7 +104,7 @@ getColonDataType(NelsonType typeA, NelsonType typeB, NelsonType typeC)
 }
 //=============================================================================
 static std::string
-precedenceTypeName(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
+precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
@@ -142,7 +142,7 @@ precedenceTypeName(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 }
 //=============================================================================
 static std::string
-precedenceTypeName(const ArrayOf& A, const ArrayOf& B)
+precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
 {
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
@@ -175,7 +175,7 @@ ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
     FunctionDef* funcDef = nullptr;
-    std::string typeName = precedenceTypeName(A, B);
+    std::string typeName = precedenceTypeNameColon(A, B);
 
     std::string overloadTypeName = typeName + "_" + "colon";
     if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
@@ -196,7 +196,7 @@ ArrayOf
 Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
     FunctionDef* funcDef = nullptr;
-    std::string typeName = precedenceTypeName(A, B, C);
+    std::string typeName = precedenceTypeNameColon(A, B, C);
 
     std::string overloadTypeName = typeName + "_" + "colon";
     if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
