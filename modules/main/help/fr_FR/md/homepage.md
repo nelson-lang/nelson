@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.7.4.0
+### Nelson 0.7.5.0
 
 Ceci est une version alpha de Nelson.
 
