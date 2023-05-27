@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cmath>
+#include <Eigen/Sparse>
 #include "Colon.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -177,6 +178,139 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
     return V;
 }
 //=============================================================================
+template <class T>
+ArrayOf
+ColonInteger(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType destinationType)
+{
+    bool warningArrayAsScalar = false;
+    T step;
+    T low;
+    T high;
+    if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+        low = static_cast<T>(1);
+        high = static_cast<T>(0);
+        step = static_cast<T>(1);
+    } else {
+        if (!I.isScalar() || !J.isScalar() || !K.isScalar()) {
+            warningArrayAsScalar = true;
+        }
+        ArrayOf _I(I);
+        _I.promoteType(destinationType);
+        ArrayOf _J(J);
+        _J.promoteType(destinationType);
+        ArrayOf _K(K);
+        _K.promoteType(destinationType);
+
+        T* pStep = (T*)_I.getDataPointer();
+        step = pStep[0];
+        T* pLow = (T*)_J.getDataPointer();
+        low = pLow[0];
+        T* pHigh = (T*)_K.getDataPointer();
+        high = pHigh[0];
+    }
+    if (warningArrayAsScalar) {
+        Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+    }
+    return integer_colon<T>(destinationType, low, high, step);
+}
+//=============================================================================
+template <class T>
+T
+getSparseScalar(const ArrayOf& A)
+{
+    T value;
+    if (A.isComplex()) {
+        Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)A.getSparseDataPointer();
+
+        const std::complex<T>* values = spMat->valuePtr();
+        value = values[0].real();
+    } else {
+        Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.getSparseDataPointer();
+
+        const T* values = spMat->valuePtr();
+        value = values[0];
+    }
+    return value;
+}
+//=============================================================================
+template <class T>
+ArrayOf
+ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType destinationType)
+{
+    bool warningArrayAsScalar = false;
+    T step = (T)0;
+    T low = (T)0;
+    T high = (T)0;
+    if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+        low = static_cast<T>(1);
+        high = static_cast<T>(0);
+        step = static_cast<T>(1);
+    } else {
+        if (!I.isScalar() || !J.isScalar() || !K.isScalar()) {
+            warningArrayAsScalar = true;
+        }
+        ArrayOf _I(I);
+        _I.promoteType(destinationType);
+        if (_I.isSparse()) {
+            step = getSparseScalar<T>(_I);
+        } else {
+            T* pStep = (T*)_I.getDataPointer();
+            step = pStep[0];
+        }
+        ArrayOf _J(J);
+        _J.promoteType(destinationType);
+        if (_J.isSparse()) {
+            low = getSparseScalar<T>(_J);
+        } else {
+            T* pLow = (T*)_J.getDataPointer();
+            low = pLow[0];
+        }
+        ArrayOf _K(K);
+        _K.promoteType(destinationType);
+        if (_K.isSparse()) {
+            high = getSparseScalar<T>(_K);
+        } else {
+            T* pHigh = (T*)_K.getDataPointer();
+            high = pHigh[0];
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+    }
+    return real_colon<T>(destinationType, low, high, step);
+}
+//=============================================================================
+template <class T>
+ArrayOf
+ColonChar(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
+{
+    bool warningArrayAsScalar = false;
+    charType step;
+    charType low;
+    charType high;
+    if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+        step = static_cast<charType>(1);
+        low = static_cast<charType>(1);
+        high = static_cast<charType>(0);
+    } else {
+        std::wstring content = I.getContentAsWideString();
+        step = content[0];
+        content = J.getContentAsWideString();
+        low = content[0];
+        content = K.getContentAsWideString();
+        high = content[0];
+        if (!I.isScalar() || !J.isScalar() || !K.isScalar()) {
+            warningArrayAsScalar = true;
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+    }
+    return char_colon(low, high, step);
+}
+//=============================================================================
 ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& K)
 {
@@ -187,373 +321,41 @@ Colon(const ArrayOf& J, const ArrayOf& K)
 NLSOPERATORS_IMPEXP ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
 {
-    bool warningArrayAsScalar = false;
     switch (J.getDataClass()) {
     case NLS_UINT8: {
-        uint8 step;
-        uint8 low;
-        uint8 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            low = static_cast<uint8>(1);
-            high = static_cast<uint8>(0);
-            step = static_cast<uint8>(1);
-        } else {
-            step = I.getContentAsUnsignedInteger8Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger8Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger8Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<uint8>(NLS_UINT8, low, high, step);
+        return ColonInteger<uint8>(J, I, K, NLS_UINT8);
     } break;
     case NLS_INT8: {
-        int8 step;
-        int8 low;
-        int8 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            low = static_cast<int8>(1);
-            high = static_cast<int8>(0);
-            step = static_cast<int8>(1);
-        } else {
-            step = I.getContentAsInteger8Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger8Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger8Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<int8>(NLS_INT8, low, high, step);
+        return ColonInteger<int8>(J, I, K, NLS_INT8);
     } break;
     case NLS_UINT16: {
-        uint16 step;
-        uint16 low;
-        uint16 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint16>(1);
-            low = static_cast<uint16>(1);
-            high = static_cast<uint16>(0);
-        } else {
-            step = I.getContentAsUnsignedInteger16Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger16Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger16Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<uint16>(NLS_UINT16, low, high, step);
+        return ColonInteger<uint16>(J, I, K, NLS_UINT16);
     } break;
     case NLS_INT16: {
-        int16 step;
-        int16 low;
-        int16 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int16>(1);
-            low = static_cast<int16>(1);
-            high = static_cast<int16>(0);
-        } else {
-            step = I.getContentAsInteger16Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger16Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger16Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<int16>(NLS_INT16, low, high, step);
+        return ColonInteger<int16>(J, I, K, NLS_INT16);
     } break;
     case NLS_UINT32: {
-        uint32 step;
-        uint32 low;
-        uint32 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint32>(1);
-            low = static_cast<uint32>(1);
-            high = static_cast<uint32>(0);
-        } else {
-            step = I.getContentAsUnsignedInteger32Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger32Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger32Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<uint32>(NLS_UINT32, low, high, step);
+        return ColonInteger<uint32>(J, I, K, NLS_UINT32);
     } break;
     case NLS_INT32: {
-        auto step = static_cast<int32>(1);
-        int32 low;
-        int32 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int32>(1);
-            low = static_cast<int32>(1);
-            high = static_cast<int32>(0);
-        } else {
-            step = I.getContentAsInteger32Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger32Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger32Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<int32>(NLS_INT32, low, high, step);
+        return ColonInteger<int32>(J, I, K, NLS_INT32);
     } break;
     case NLS_UINT64: {
-        auto step = static_cast<uint64>(1);
-        uint64 low;
-        uint64 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint64>(1);
-            low = static_cast<uint64>(1);
-            high = static_cast<uint64>(0);
-        } else {
-            step = I.getContentAsUnsignedInteger64Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger64Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger64Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<uint64>(NLS_UINT64, low, high, step);
+        return ColonInteger<uint64>(J, I, K, NLS_UINT64);
     } break;
     case NLS_INT64: {
-        int64 step;
-        int64 low;
-        int64 high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int64>(1);
-            low = static_cast<int64>(1);
-            high = static_cast<int64>(0);
-        } else {
-            step = I.getContentAsInteger32Scalar(true, true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger32Scalar(true, true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger32Scalar(true, true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return integer_colon<int64>(NLS_INT64, low, high, step);
+        return ColonInteger<int64>(J, I, K, NLS_INT64);
     } break;
+    case NLS_SCOMPLEX:
     case NLS_SINGLE: {
-        single step;
-        single low;
-        single high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<single>(1);
-            low = static_cast<single>(1);
-            high = static_cast<single>(0);
-        } else {
-            step = I.getContentAsSingleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsSingleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsSingleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return real_colon<single>(NLS_SINGLE, low, high, step);
+        return ColonReal<single>(J, I, K, NLS_SINGLE);
     } break;
+    case NLS_DCOMPLEX:
     case NLS_DOUBLE: {
-        double step;
-        double low;
-        double high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<double>(1);
-            low = static_cast<double>(1);
-            high = static_cast<double>(0);
-        } else {
-            step = I.getContentAsDoubleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsDoubleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsDoubleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return real_colon<double>(NLS_DOUBLE, low, high, step);
-    } break;
-    case NLS_SCOMPLEX: {
-        single step;
-        single low;
-        single high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<single>(1);
-            low = static_cast<single>(1);
-            high = static_cast<single>(0);
-        } else {
-            ArrayOf JJ(J);
-            ArrayOf KK(K);
-            ArrayOf II(I);
-            II.promoteType(NLS_SINGLE);
-            JJ.promoteType(NLS_SINGLE);
-            KK.promoteType(NLS_SINGLE);
-            step = II.getContentAsSingleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = JJ.getContentAsSingleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = KK.getContentAsSingleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return real_colon<single>(NLS_SINGLE, low, high, step);
-    } break;
-    case NLS_DCOMPLEX: {
-        double step;
-        double low;
-        double high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<double>(1);
-            low = static_cast<double>(1);
-            high = static_cast<double>(0);
-        } else {
-            ArrayOf II(I);
-            ArrayOf JJ(J);
-            ArrayOf KK(K);
-            II.promoteType(NLS_DOUBLE);
-            JJ.promoteType(NLS_DOUBLE);
-            KK.promoteType(NLS_DOUBLE);
-            step = II.getContentAsDoubleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = JJ.getContentAsDoubleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = KK.getContentAsDoubleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return real_colon<double>(NLS_DOUBLE, low, high, step);
+        return ColonReal<double>(J, I, K, NLS_DOUBLE);
     } break;
     case NLS_CHAR: {
-        charType step;
-        charType low;
-        charType high;
-        if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<charType>(1);
-            low = static_cast<charType>(1);
-            high = static_cast<charType>(0);
-        } else {
-            std::wstring content = I.getContentAsWideString();
-            step = content[0];
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            content = J.getContentAsWideString();
-            low = content[0];
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            content = K.getContentAsWideString();
-            high = content[0];
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
-        }
-        return char_colon(low, high, step);
+        return ColonChar<charType>(J, I, K);
     } break;
     default: {
         std::string overloadName = ClassName(J) + "_colon";
