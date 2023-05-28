@@ -179,7 +179,7 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
 }
 //=============================================================================
 template <class T>
-ArrayOf
+static ArrayOf
 ColonInteger(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType destinationType)
 {
     bool warningArrayAsScalar = false;
@@ -201,11 +201,11 @@ ColonInteger(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType de
         ArrayOf _K(K);
         _K.promoteType(destinationType);
 
-        T* pStep = (T*)_I.getDataPointer();
+        T* pStep = reinterpret_cast<T*>(const_cast<void*>(_I.getDataPointer()));
         step = pStep[0];
-        T* pLow = (T*)_J.getDataPointer();
+        T* pLow = reinterpret_cast<T*>(const_cast<void*>(_J.getDataPointer()));
         low = pLow[0];
-        T* pHigh = (T*)_K.getDataPointer();
+        T* pHigh = reinterpret_cast<T*>(const_cast<void*>(_K.getDataPointer()));
         high = pHigh[0];
     }
     if (warningArrayAsScalar) {
@@ -215,19 +215,21 @@ ColonInteger(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType de
 }
 //=============================================================================
 template <class T>
-T
+static T
 getSparseScalar(const ArrayOf& A)
 {
     T value;
     if (A.isComplex()) {
         Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)A.getSparseDataPointer();
+            = reinterpret_cast<Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*>(
+                const_cast<void*>(A.getSparseDataPointer()));
 
         const std::complex<T>* values = spMat->valuePtr();
         value = values[0].real();
     } else {
         Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.getSparseDataPointer();
+            = reinterpret_cast<Eigen::SparseMatrix<T, 0, signedIndexType>*>(
+                const_cast<void*>(A.getSparseDataPointer()));
 
         const T* values = spMat->valuePtr();
         value = values[0];
@@ -236,7 +238,7 @@ getSparseScalar(const ArrayOf& A)
 }
 //=============================================================================
 template <class T>
-ArrayOf
+static ArrayOf
 ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType destinationType)
 {
     bool warningArrayAsScalar = false;
@@ -256,7 +258,7 @@ ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType desti
         if (_I.isSparse()) {
             step = getSparseScalar<T>(_I);
         } else {
-            T* pStep = (T*)_I.getDataPointer();
+            T* pStep = reinterpret_cast<T*>(const_cast<void*>(_I.getDataPointer()));
             step = pStep[0];
         }
         ArrayOf _J(J);
@@ -264,7 +266,7 @@ ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType desti
         if (_J.isSparse()) {
             low = getSparseScalar<T>(_J);
         } else {
-            T* pLow = (T*)_J.getDataPointer();
+            T* pLow = reinterpret_cast<T*>(const_cast<void*>(_J.getDataPointer()));
             low = pLow[0];
         }
         ArrayOf _K(K);
@@ -272,7 +274,7 @@ ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType desti
         if (_K.isSparse()) {
             high = getSparseScalar<T>(_K);
         } else {
-            T* pHigh = (T*)_K.getDataPointer();
+            T* pHigh = reinterpret_cast<T*>(const_cast<void*>(_K.getDataPointer()));
             high = pHigh[0];
         }
     }
@@ -283,7 +285,7 @@ ColonReal(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, NelsonType desti
 }
 //=============================================================================
 template <class T>
-ArrayOf
+static ArrayOf
 ColonChar(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
 {
     bool warningArrayAsScalar = false;
@@ -318,7 +320,7 @@ Colon(const ArrayOf& J, const ArrayOf& K)
     return Colon(J, I, K);
 }
 //=============================================================================
-NLSOPERATORS_IMPEXP ArrayOf
+ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
 {
     switch (J.getDataClass()) {
