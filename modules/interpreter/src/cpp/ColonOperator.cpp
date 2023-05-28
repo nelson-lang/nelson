@@ -104,7 +104,8 @@ getColonDataType(NelsonType typeA, NelsonType typeB, NelsonType typeC)
 }
 //=============================================================================
 static std::string
-precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
+precedenceTypeNameColon(
+    const ArrayOf& A, const ArrayOf& B, const ArrayOf& C, NelsonType& destinationType)
 {
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
@@ -116,20 +117,26 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
+            destinationType = NLS_HANDLE;
             return wstring_to_utf8(A.getHandleCategory());
         } else {
+            destinationType = NLS_STRUCT_ARRAY;
             return A.getStructType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
+            destinationType = NLS_HANDLE;
             return wstring_to_utf8(B.getHandleCategory());
         } else {
+            destinationType = NLS_STRUCT_ARRAY;
             return B.getStructType();
         }
     } else if (isObjectC) {
         if (classC == NLS_HANDLE) {
+            destinationType = NLS_HANDLE;
             return wstring_to_utf8(C.getHandleCategory());
         } else {
+            destinationType = NLS_STRUCT_ARRAY;
             return C.getStructType();
         }
     }
@@ -138,11 +145,12 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
         Error(_W("Colon operands must be all the same type."),
             L"Nelson:colon:mixedNonDoubleOperands");
     }
+    destinationType = commonColonType;
     return ClassToString(commonColonType);
 }
 //=============================================================================
 static std::string
-precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
+precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, NelsonType& destinationType)
 {
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
@@ -151,14 +159,18 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
     bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
+            destinationType = NLS_HANDLE;
             return wstring_to_utf8(A.getHandleCategory());
         } else {
+            destinationType = NLS_STRUCT_ARRAY;
             return A.getStructType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
+            destinationType = NLS_HANDLE;
             return wstring_to_utf8(B.getHandleCategory());
         } else {
+            destinationType = NLS_STRUCT_ARRAY;
             return B.getStructType();
         }
     }
@@ -168,6 +180,7 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
         Error(_W("Colon operands must be all the same type."),
             L"Nelson:colon:mixedNonDoubleOperands");
     }
+    destinationType = commonColonType;
     return ClassToString(commonColonType);
 }
 //=============================================================================
@@ -175,12 +188,17 @@ ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
     FunctionDef* funcDef = nullptr;
-    std::string typeName = precedenceTypeNameColon(A, B);
+    NelsonType commonColonType;
+    std::string typeName = precedenceTypeNameColon(A, B, commonColonType);
 
     std::string overloadTypeName = typeName + "_" + "colon";
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
+
+    FunctionsInMemory::FIND_FUNCTION_TYPE functionType
+        = isOverloadAllowed() ? FunctionsInMemory::ALL : FunctionsInMemory::BUILTIN;
+
+    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef, functionType)) {
         Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef);
+        context->lookupFunction(overloadTypeName, funcDef, !isOverloadAllowed());
     }
     if (!funcDef) {
         Error(_("function") + " " + overloadTypeName + " " + _("undefined."));
@@ -196,12 +214,16 @@ ArrayOf
 Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
     FunctionDef* funcDef = nullptr;
-    std::string typeName = precedenceTypeNameColon(A, B, C);
+    NelsonType commonColonType;
+    std::string typeName = precedenceTypeNameColon(A, B, C, commonColonType);
+
+    FunctionsInMemory::FIND_FUNCTION_TYPE functionType
+        = isOverloadAllowed() ? FunctionsInMemory::ALL : FunctionsInMemory::BUILTIN;
 
     std::string overloadTypeName = typeName + "_" + "colon";
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
+    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef, functionType)) {
         Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef);
+        context->lookupFunction(overloadTypeName, funcDef, !isOverloadAllowed());
     }
     if (!funcDef) {
         Error(_W("colon overloading not defined."));
