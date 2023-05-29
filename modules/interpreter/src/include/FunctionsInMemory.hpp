@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <unordered_map>
+#include <map>
 #include <vector>
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
@@ -17,10 +18,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+enum OperatorType
+{
+    COLON_OP = 0,
+};
+//=============================================================================
 class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
 private:
     //=============================================================================
+    std::map<std::pair<NelsonType, OperatorType>, FunctionDefPtr> _unaryOperatorInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _mexFunctionsInMemory;
     std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
@@ -62,8 +69,7 @@ public:
     add(const std::string& functionName, FunctionDefPtr function);
     //=============================================================================
     void
-    add(Overload::OverloadClass overloadClass, const std::string& functionName,
-        FunctionDefPtr function);
+    add(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr function);
     //=============================================================================
     bool
     deleteMFunction(const std::string& functionName);
@@ -92,6 +98,9 @@ public:
     //=============================================================================
     wstringVector
     getMexInMemory(bool withCompleteNames);
+    //=============================================================================
+    bool
+    findUnaryOperator(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr& function);
     //=============================================================================
 };
 //=============================================================================

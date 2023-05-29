@@ -184,56 +184,70 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, NelsonType& destinat
     return ClassToString(commonColonType);
 }
 //=============================================================================
+static bool
+isObject(NelsonType nelsonType, const std::string& typeName)
+{
+    return nelsonType == NLS_HANDLE
+        || (nelsonType == NLS_STRUCT_ARRAY && typeName != NLS_STRUCT_ARRAY_STR);
+}
+//=============================================================================
 ArrayOf
-Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
+colonOperatorImpl(Evaluator* eval, const ArrayOfVector& argsIn)
 {
     FunctionDef* funcDef = nullptr;
     NelsonType commonColonType;
-    std::string typeName = precedenceTypeNameColon(A, B, commonColonType);
-
+    std::string typeName = argsIn.size() == 2
+        ? precedenceTypeNameColon(argsIn[0], argsIn[1], commonColonType)
+        : precedenceTypeNameColon(argsIn[0], argsIn[1], argsIn[2], commonColonType);
     std::string overloadTypeName = typeName + "_" + "colon";
 
-    FunctionsInMemory::FIND_FUNCTION_TYPE functionType
-        = isOverloadAllowed() ? FunctionsInMemory::ALL : FunctionsInMemory::BUILTIN;
-
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef, functionType)) {
-        Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef, !isOverloadAllowed());
+    if (!eval->isOverloadAllowed()) {
+        Context* context = eval->getContext();
+        if (context->lookupFunction(overloadTypeName, funcDef, !eval->isOverloadAllowed())) {
+            FunctionsInMemory::getInstance()->add(commonColonType, COLON_OP, funcDef);
+        }
+    } else {
+        if (isObject(commonColonType, typeName)) {
+            if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
+                Context* context = eval->getContext();
+                context->lookupFunction(overloadTypeName, funcDef);
+            }
+        } else {
+            if (!FunctionsInMemory::getInstance()->findUnaryOperator(
+                    commonColonType, COLON_OP, funcDef)) {
+                Context* context = eval->getContext();
+                if (context->lookupFunction(overloadTypeName, funcDef)) {
+                    FunctionsInMemory::getInstance()->add(commonColonType, COLON_OP, funcDef);
+                }
+            }
+        }
     }
+
     if (!funcDef) {
         Error(_("function") + " " + overloadTypeName + " " + _("undefined."));
     }
-    ArrayOfVector argsIn;
-    argsIn << A;
-    argsIn << B;
-    ArrayOfVector r = funcDef->evaluateFunction(this, argsIn, 1);
+
+    ArrayOfVector r = funcDef->evaluateFunction(eval, argsIn, 1);
     return r[0];
+}
+//=============================================================================
+ArrayOf
+Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
+{
+    ArrayOfVector args;
+    args << A;
+    args << B;
+    return colonOperatorImpl(this, args);
 }
 //=============================================================================
 ArrayOf
 Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
-    FunctionDef* funcDef = nullptr;
-    NelsonType commonColonType;
-    std::string typeName = precedenceTypeNameColon(A, B, C, commonColonType);
-
-    FunctionsInMemory::FIND_FUNCTION_TYPE functionType
-        = isOverloadAllowed() ? FunctionsInMemory::ALL : FunctionsInMemory::BUILTIN;
-
-    std::string overloadTypeName = typeName + "_" + "colon";
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef, functionType)) {
-        Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef, !isOverloadAllowed());
-    }
-    if (!funcDef) {
-        Error(_W("colon overloading not defined."));
-    }
-    ArrayOfVector argsIn;
-    argsIn << A;
-    argsIn << B;
-    argsIn << C;
-    ArrayOfVector r = funcDef->evaluateFunction(this, argsIn, 1);
-    return r[0];
+    ArrayOfVector args;
+    args << A;
+    args << B;
+    args << C;
+    return colonOperatorImpl(this, args);
 }
 //=============================================================================
 } // namespace Nelson

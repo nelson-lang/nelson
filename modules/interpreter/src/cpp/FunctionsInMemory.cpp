@@ -25,6 +25,7 @@ FunctionsInMemory::~FunctionsInMemory()
     _macroFunctionsInMemory.clear();
     _mexFunctionsInMemory.clear();
     _builtinFunctionInMemory.clear();
+    _unaryOperatorInMemory.clear();
 }
 //=============================================================================
 FunctionsInMemory*
@@ -315,6 +316,27 @@ FunctionsInMemory::getMexInMemory(bool withCompleteNames)
         }
     }
     return names;
+}
+//=============================================================================
+bool
+FunctionsInMemory::findUnaryOperator(
+    NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr& function)
+{
+    std::pair<NelsonType, OperatorType> key = std::make_pair(nelsonType, operatorType);
+
+    auto it = _unaryOperatorInMemory.find(key);
+    if (it != _unaryOperatorInMemory.end()) {
+        function = it->second;
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+void
+FunctionsInMemory::add(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr function)
+{
+    std::pair<NelsonType, OperatorType> key = std::make_pair(nelsonType, operatorType);
+    _unaryOperatorInMemory.insert({ key, function });
 }
 //=============================================================================
 }
