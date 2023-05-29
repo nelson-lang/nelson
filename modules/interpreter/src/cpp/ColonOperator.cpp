@@ -119,26 +119,23 @@ precedenceTypeNameColon(
         if (classA == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
             return wstring_to_utf8(A.getHandleCategory());
-        } else {
-            destinationType = NLS_STRUCT_ARRAY;
-            return A.getStructType();
         }
+        destinationType = NLS_STRUCT_ARRAY;
+        return A.getStructType();
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
             return wstring_to_utf8(B.getHandleCategory());
-        } else {
-            destinationType = NLS_STRUCT_ARRAY;
-            return B.getStructType();
         }
+        destinationType = NLS_STRUCT_ARRAY;
+        return B.getStructType();
     } else if (isObjectC) {
         if (classC == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
             return wstring_to_utf8(C.getHandleCategory());
-        } else {
-            destinationType = NLS_STRUCT_ARRAY;
-            return C.getStructType();
         }
+        destinationType = NLS_STRUCT_ARRAY;
+        return C.getStructType();
     }
     NelsonType commonColonType = getColonDataType(classA, classB, classC);
     if (commonColonType == NLS_UNKNOWN) {
@@ -161,18 +158,16 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, NelsonType& destinat
         if (classA == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
             return wstring_to_utf8(A.getHandleCategory());
-        } else {
-            destinationType = NLS_STRUCT_ARRAY;
-            return A.getStructType();
         }
+        destinationType = NLS_STRUCT_ARRAY;
+        return A.getStructType();
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
             return wstring_to_utf8(B.getHandleCategory());
-        } else {
-            destinationType = NLS_STRUCT_ARRAY;
-            return B.getStructType();
         }
+        destinationType = NLS_STRUCT_ARRAY;
+        return B.getStructType();
     }
 
     NelsonType commonColonType = getColonDataType(classA, classB);
