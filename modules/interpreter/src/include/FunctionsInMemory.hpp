@@ -21,7 +21,10 @@ namespace Nelson {
 enum OperatorType
 {
     COLON_OP = 0,
+    UPLUS_OP
 };
+//=============================================================================
+static std::vector<std::string> operatorNames = { "colon", "uplus" };
 //=============================================================================
 class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {

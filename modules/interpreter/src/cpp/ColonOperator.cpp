@@ -94,83 +94,58 @@ getColonDataType(NelsonType typeA, NelsonType typeB)
 }
 //=============================================================================
 static NelsonType
-getColonDataType(NelsonType typeA, NelsonType typeB, NelsonType typeC)
+getColonDataType(const std::vector<NelsonType>& typeList)
 {
-    NelsonType colonType = getColonDataType(typeA, typeB);
-    if (colonType == NLS_UNKNOWN) {
+    NelsonType colonType = getColonDataType(typeList[0], typeList[1]);
+    if (colonType == NLS_UNKNOWN || typeList.size() == 2) {
         return colonType;
     }
-    return getColonDataType(colonType, typeC);
+    return getColonDataType(colonType, typeList[2]);
 }
 //=============================================================================
 static std::string
-precedenceTypeNameColon(
-    const ArrayOf& A, const ArrayOf& B, const ArrayOf& C, NelsonType& destinationType)
+precedenceTypeNameColon(const ArrayOfVector& argsIn, NelsonType& destinationType)
 {
-    NelsonType classA = A.getDataClass();
-    NelsonType classB = B.getDataClass();
-    NelsonType classC = C.getDataClass();
+    NelsonType classA = argsIn[0].getDataClass();
+    NelsonType classB = argsIn[1].getDataClass();
+    NelsonType classC = argsIn.size() == 3 ? argsIn[2].getDataClass() : NLS_UNKNOWN;
 
-    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
-    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
-    bool isObjectC = C.isClassStruct() || (classC == NLS_HANDLE);
+    bool isObjectA = argsIn[0].isClassStruct() || (classA == NLS_HANDLE);
+    bool isObjectB = argsIn[1].isClassStruct() || (classB == NLS_HANDLE);
+    bool isObjectC
+        = argsIn.size() == 3 ? argsIn[2].isClassStruct() || (classC == NLS_HANDLE) : false;
 
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(A.getHandleCategory());
+            return wstring_to_utf8(argsIn[0].getHandleCategory());
         }
         destinationType = NLS_STRUCT_ARRAY;
-        return A.getStructType();
-    } else if (isObjectB) {
+        return argsIn[0].getStructType();
+    }
+    if (isObjectB) {
         if (classB == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(B.getHandleCategory());
+            return wstring_to_utf8(argsIn[1].getHandleCategory());
         }
         destinationType = NLS_STRUCT_ARRAY;
-        return B.getStructType();
-    } else if (isObjectC) {
+        return argsIn[1].getStructType();
+    }
+    if (argsIn.size() == 3 && isObjectC) {
         if (classC == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(C.getHandleCategory());
+            return wstring_to_utf8(argsIn[2].getHandleCategory());
         }
         destinationType = NLS_STRUCT_ARRAY;
-        return C.getStructType();
+        return argsIn[2].getStructType();
     }
-    NelsonType commonColonType = getColonDataType(classA, classB, classC);
-    if (commonColonType == NLS_UNKNOWN) {
-        Error(_W("Colon operands must be all the same type."),
-            L"Nelson:colon:mixedNonDoubleOperands");
+    std::vector<NelsonType> typeList;
+    typeList.push_back(classA);
+    typeList.push_back(classB);
+    if (argsIn.size() == 3) {
+        typeList.push_back(classC);
     }
-    destinationType = commonColonType;
-    return ClassToString(commonColonType);
-}
-//=============================================================================
-static std::string
-precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, NelsonType& destinationType)
-{
-    NelsonType classA = A.getDataClass();
-    NelsonType classB = B.getDataClass();
-
-    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
-    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
-    if (isObjectA) {
-        if (classA == NLS_HANDLE) {
-            destinationType = NLS_HANDLE;
-            return wstring_to_utf8(A.getHandleCategory());
-        }
-        destinationType = NLS_STRUCT_ARRAY;
-        return A.getStructType();
-    } else if (isObjectB) {
-        if (classB == NLS_HANDLE) {
-            destinationType = NLS_HANDLE;
-            return wstring_to_utf8(B.getHandleCategory());
-        }
-        destinationType = NLS_STRUCT_ARRAY;
-        return B.getStructType();
-    }
-
-    NelsonType commonColonType = getColonDataType(classA, classB);
+    NelsonType commonColonType = getColonDataType(typeList);
     if (commonColonType == NLS_UNKNOWN) {
         Error(_W("Colon operands must be all the same type."),
             L"Nelson:colon:mixedNonDoubleOperands");
@@ -191,9 +166,7 @@ colonOperatorImpl(Evaluator* eval, const ArrayOfVector& argsIn)
 {
     FunctionDef* funcDef = nullptr;
     NelsonType commonColonType;
-    std::string typeName = argsIn.size() == 2
-        ? precedenceTypeNameColon(argsIn[0], argsIn[1], commonColonType)
-        : precedenceTypeNameColon(argsIn[0], argsIn[1], argsIn[2], commonColonType);
+    std::string typeName = precedenceTypeNameColon(argsIn, commonColonType);
     std::string overloadTypeName = typeName + "_" + "colon";
 
     if (!eval->isOverloadAllowed()) {
@@ -230,6 +203,7 @@ ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOfVector args;
+    args.reserve(2);
     args << A;
     args << B;
     return colonOperatorImpl(this, args);
@@ -239,6 +213,7 @@ ArrayOf
 Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
     ArrayOfVector args;
+    args.reserve(3);
     args << A;
     args << B;
     args << C;
