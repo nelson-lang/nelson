@@ -80,5 +80,7 @@ using nlsGateway = struct nlsGatewayStructType
 //=============================================================================
 #define NLSGATEWAYREMOVE(gateway) NLSGATEWAYREMOVEEXTENDED(gateway, NULL)
 //=============================================================================
-#define OVERLOAD_UNARY_NAME(typeName, methodeName) typeName "_" methodeName
+#define OVERLOAD_UNARY_NAME(typeName, operatorName) typeName "_" operatorName
+//=============================================================================
+#define OVERLOAD_METHOD_NAME(typeName, functionName) typeName "_" functionName
 //=============================================================================

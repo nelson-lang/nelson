@@ -25,7 +25,7 @@ void
 SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B)
 {
     ArrayOf res;
-    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+    if (A.getHandleCategory() != COM_CATEGORY_WSTR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();

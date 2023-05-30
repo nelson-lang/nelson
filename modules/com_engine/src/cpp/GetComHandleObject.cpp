@@ -25,7 +25,7 @@ ArrayOf
 GetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOfVector& params)
 {
     ArrayOf res;
-    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+    if (A.getHandleCategory() != COM_CATEGORY_WSTR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();

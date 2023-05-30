@@ -18,7 +18,7 @@
 namespace Nelson {
 //=============================================================================
 AudioplayerObject::AudioplayerObject()
-    : HandleGenericObject(std::wstring(AUDIOPLAYER_CATEGORY_STR), this, false)
+    : HandleGenericObject(std::wstring(AUDIOPLAYER_CATEGORY_WSTR), this, false)
 {
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
         L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type" };
@@ -34,7 +34,7 @@ AudioplayerObject::AudioplayerObject()
         _Running = false;
         _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
-        _Type = AUDIOPLAYER_CATEGORY_STR;
+        _Type = AUDIOPLAYER_CATEGORY_WSTR;
     }
     paStream = nullptr;
 }
@@ -52,7 +52,7 @@ AudioplayerObject::~AudioplayerObject()
     _Running = false;
     _Tag.clear();
     _UserData = ArrayOf::emptyConstructor();
-    _Type = AUDIOPLAYER_CATEGORY_STR;
+    _Type = AUDIOPLAYER_CATEGORY_WSTR;
     paStream = nullptr;
 }
 //=============================================================================

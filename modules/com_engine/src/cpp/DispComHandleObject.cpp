@@ -42,7 +42,7 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             auto* qp = (nelson_handle*)A.getDataPointer();
             nelson_handle hl = qp[0];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != COM_CATEGORY_STR) {
+            if (hlObj->getCategory() != COM_CATEGORY_WSTR) {
                 Error(_W("COM handle expected."));
             }
             auto* comhandleobj = (ComHandleObject*)hlObj;

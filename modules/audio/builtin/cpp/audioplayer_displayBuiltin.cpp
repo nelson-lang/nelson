@@ -34,7 +34,7 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
+            if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_WSTR) {
                 Error(_W("audioplayer handle expected."));
             }
             auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();

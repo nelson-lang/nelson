@@ -14,10 +14,12 @@
 #include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsAudio_exports.h"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
+#define AUDIOPLAYER_CATEGORY_STR "audioplayer"
+#define AUDIOPLAYER_CATEGORY_WSTR TOWSTRING(AUDIOPLAYER_CATEGORY_STR)
 //=============================================================================
 class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {

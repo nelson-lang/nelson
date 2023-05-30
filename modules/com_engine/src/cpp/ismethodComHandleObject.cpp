@@ -33,7 +33,7 @@ ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& metho
 ArrayOf
 ismethodComHandleObject(const ArrayOf& A, const std::wstring& methodname)
 {
-    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+    if (A.getHandleCategory() != COM_CATEGORY_WSTR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();

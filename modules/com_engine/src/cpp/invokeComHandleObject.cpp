@@ -33,7 +33,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     if (params.size() > NB_PARAMS_MAX) {
         Error(_W("Only 7 input parameters expected."));
     }
-    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+    if (A.getHandleCategory() != COM_CATEGORY_WSTR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
