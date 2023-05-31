@@ -20,7 +20,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory)
+DeleteGenericObject(const ArrayOf& A, const std::string& handleCategory)
 {
     bool res = false;
     if (A.isHandle()) {
@@ -33,7 +33,7 @@ DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != handleCategory) {
-                        std::wstring msg = fmt::sprintf(_W("%s handle expected."), handleCategory);
+                        std::string msg = fmt::sprintf(_("%s handle expected."), handleCategory);
                         Error(msg);
                     }
                     HandleManager::getInstance()->removeHandle(hl);
@@ -47,7 +47,7 @@ DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory)
                 }
             }
         } else {
-            std::wstring msg = fmt::sprintf(_W("%s valid handle expected."), handleCategory);
+            std::string msg = fmt::sprintf(_("%s valid handle expected."), handleCategory);
             Error(msg);
         }
     }

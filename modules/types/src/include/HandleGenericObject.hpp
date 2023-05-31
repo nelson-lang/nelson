@@ -21,15 +21,15 @@ namespace Nelson {
 class NLSTYPES_IMPEXP HandleGenericObject
 {
 private:
-    std::wstring category;
+    std::string category;
     void* ptr;
     bool _isScoped;
 
 public:
-    HandleGenericObject(const std::wstring& _category, void* _ptr, bool isScoped);
+    HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped);
     virtual ~HandleGenericObject() = default;
     ;
-    std::wstring
+    std::string
     getCategory();
     void
     setPointer(void* _ptr);

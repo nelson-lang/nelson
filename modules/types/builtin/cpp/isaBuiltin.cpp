@@ -42,16 +42,15 @@ Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         retval << ArrayOf::logicalConstructor(bRes);
     } else {
         bool res = false;
-        std::wstring currentClassName;
-        ClassName(param1, currentClassName);
-        if (currentClassName == utf8_to_wstring(NLS_HANDLE_STR)) {
-            if (classnameExpected == utf8_to_wstring(NLS_HANDLE_STR)) {
+        std::string currentClassName = ClassName(param1);
+        if (currentClassName == NLS_HANDLE_STR) {
+            if (wstring_to_utf8(classnameExpected) == NLS_HANDLE_STR) {
                 res = true;
             } else {
-                res = (param1.getHandleCategory() == classnameExpected);
+                res = (param1.getHandleCategory() == wstring_to_utf8(classnameExpected));
             }
         } else {
-            res = (currentClassName == classnameExpected);
+            res = (currentClassName == wstring_to_utf8(classnameExpected));
         }
         retval << ArrayOf::logicalConstructor(res);
     }

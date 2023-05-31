@@ -110,7 +110,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
 //=============================================================================
 DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, void* pointerFunction,
     const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsTypes)
-    : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
+    : HandleGenericObject(DLSYM_CATEGORY_STR, this, false)
 {
     _propertiesNames = { L"Prototype", L"Input", L"Output" };
     if (!ffiTypesMapInitialized) {

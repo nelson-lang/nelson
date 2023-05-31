@@ -14,12 +14,10 @@
 #include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsAudio_exports.h"
-#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 #define AUDIOPLAYER_CATEGORY_STR "audioplayer"
-#define AUDIOPLAYER_CATEGORY_WSTR TOWSTRING(AUDIOPLAYER_CATEGORY_STR)
 //=============================================================================
 class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {
@@ -80,7 +78,7 @@ private:
     bool _Running;
     std::wstring _Tag;
     ArrayOf _UserData;
-    std::wstring _Type;
+    std::string _Type;
     PaStream* paStream;
     uint32 firstSample;
     uint32 lastSample;
@@ -110,7 +108,7 @@ private:
     getTag();
     Nelson::ArrayOf
     getUserData();
-    std::wstring
+    std::string
     getType();
     PaStream*
     getStream();

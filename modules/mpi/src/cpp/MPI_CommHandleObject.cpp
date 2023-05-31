@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
-    : HandleGenericObject(std::wstring(MPI_COMM_CATEGORY_STR), _ptr, false)
+    : HandleGenericObject(MPI_COMM_CATEGORY_STR, _ptr, false)
 {
 }
 //=============================================================================

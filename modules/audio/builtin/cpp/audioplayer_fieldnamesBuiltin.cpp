@@ -24,7 +24,7 @@ Nelson::AudioGateway::audioplayer_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_WSTR) {
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();

@@ -118,7 +118,7 @@ precedenceTypeNameColon(const ArrayOfVector& argsIn, NelsonType& destinationType
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(argsIn[0].getHandleCategory());
+            return argsIn[0].getHandleCategory();
         }
         destinationType = NLS_STRUCT_ARRAY;
         return argsIn[0].getStructType();
@@ -126,7 +126,7 @@ precedenceTypeNameColon(const ArrayOfVector& argsIn, NelsonType& destinationType
     if (isObjectB) {
         if (classB == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(argsIn[1].getHandleCategory());
+            return argsIn[1].getHandleCategory();
         }
         destinationType = NLS_STRUCT_ARRAY;
         return argsIn[1].getStructType();
@@ -134,7 +134,9 @@ precedenceTypeNameColon(const ArrayOfVector& argsIn, NelsonType& destinationType
     if (argsIn.size() == 3 && isObjectC) {
         if (classC == NLS_HANDLE) {
             destinationType = NLS_HANDLE;
-            return wstring_to_utf8(argsIn[2].getHandleCategory());
+            return argsIn[2].getHandleCategory()
+
+                ;
         }
         destinationType = NLS_STRUCT_ARRAY;
         return argsIn[2].getStructType();

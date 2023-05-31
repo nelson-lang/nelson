@@ -17,7 +17,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define DLLIB_CATEGORY_STR L"dllib"
+#define DLLIB_CATEGORY_STR "dllib"
 //=============================================================================
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject
 {

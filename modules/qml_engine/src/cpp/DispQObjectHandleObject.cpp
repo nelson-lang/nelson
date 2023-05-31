@@ -241,7 +241,7 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
                 io->outputMessage(msg);
             }
         } else {
-            std::wstring msg = L"  " + _W("handle to deleted: ") + QOBJECT_CATEGORY_STR + L"\n";
+            std::string msg = "  " + _("handle to deleted: ") + QOBJECT_CATEGORY_STR + "\n";
             io->outputMessage(msg);
         }
     }

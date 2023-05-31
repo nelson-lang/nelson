@@ -24,8 +24,7 @@ iswidgettypeQObject(const ArrayOf& A)
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
-    std::wstring className;
-    ClassName(A, className);
+    std::string className = ClassName(A);
     if (className != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }

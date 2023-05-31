@@ -34,8 +34,7 @@ FevalQueueObject::destroy()
     }
 }
 //=============================================================================
-FevalQueueObject::FevalQueueObject()
-    : HandleGenericObject(std::wstring(FEVALQUEUE_CATEGORY_STR), this, false)
+FevalQueueObject::FevalQueueObject() : HandleGenericObject(FEVALQUEUE_CATEGORY_STR, this, false)
 {
     propertiesNames = { L"QueuedFutures", L"RunningFutures" };
 }

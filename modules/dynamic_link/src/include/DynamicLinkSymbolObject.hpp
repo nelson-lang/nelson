@@ -9,16 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <ffi.h>
 #include "ArrayOf.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
-#include <ffi.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define DLSYM_CATEGORY_STR L"dlsym"
+#define DLSYM_CATEGORY_STR "dlsym"
 //=============================================================================
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject
 {

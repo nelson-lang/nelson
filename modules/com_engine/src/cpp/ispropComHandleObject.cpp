@@ -34,7 +34,7 @@ ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propert
 ArrayOf
 ispropComHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
-    if (A.getHandleCategory() != COM_CATEGORY_WSTR) {
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();

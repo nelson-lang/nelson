@@ -14,7 +14,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-usedHandle(const std::wstring& category)
+usedHandle(const std::string& category)
 {
     ArrayOf res;
     std::vector<nelson_handle> used

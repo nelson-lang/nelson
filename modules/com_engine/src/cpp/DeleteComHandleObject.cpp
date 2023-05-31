@@ -29,7 +29,7 @@ DeleteComHandleObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != COM_CATEGORY_WSTR) {
+                    if (hlObj->getCategory() != COM_CATEGORY_STR) {
                         Error(_W("COM handle expected."));
                     }
                     auto* comhandleobj = (ComHandleObject*)hlObj;

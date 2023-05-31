@@ -17,8 +17,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-AudioplayerObject::AudioplayerObject()
-    : HandleGenericObject(std::wstring(AUDIOPLAYER_CATEGORY_WSTR), this, false)
+AudioplayerObject::AudioplayerObject() : HandleGenericObject(AUDIOPLAYER_CATEGORY_STR, this, false)
 {
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
         L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type" };
@@ -34,7 +33,7 @@ AudioplayerObject::AudioplayerObject()
         _Running = false;
         _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
-        _Type = AUDIOPLAYER_CATEGORY_WSTR;
+        _Type = AUDIOPLAYER_CATEGORY_STR;
     }
     paStream = nullptr;
 }
@@ -52,7 +51,7 @@ AudioplayerObject::~AudioplayerObject()
     _Running = false;
     _Tag.clear();
     _UserData = ArrayOf::emptyConstructor();
-    _Type = AUDIOPLAYER_CATEGORY_WSTR;
+    _Type = AUDIOPLAYER_CATEGORY_STR;
     paStream = nullptr;
 }
 //=============================================================================
@@ -146,7 +145,7 @@ AudioplayerObject::getUserData()
     return _UserData;
 }
 //=============================================================================
-std::wstring
+std::string
 AudioplayerObject::getType()
 {
     return _Type;
@@ -217,7 +216,7 @@ AudioplayerObject::disp(Interface* io)
                 = utf8_to_wstring("[" + userDataClassName + "] - size: " + dimsUserData.toString());
         }
         io->outputMessage(L"\tUserData: \t" + valueToDisp + L"\n");
-        valueToDisp = getType();
+        valueToDisp = utf8_to_wstring(getType());
         io->outputMessage(L"\tType: \t'" + valueToDisp + L"'\n");
         return true;
     }

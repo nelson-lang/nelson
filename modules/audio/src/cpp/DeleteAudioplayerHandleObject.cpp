@@ -28,7 +28,7 @@ DeleteAudioplayerHandleObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_WSTR) {
+                    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR) {
                         Error(_W("audioplayer handle expected."));
                     }
                     auto* playerObj = (AudioplayerObject*)hlObj;

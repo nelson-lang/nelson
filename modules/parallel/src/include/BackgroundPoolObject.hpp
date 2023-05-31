@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BACKGROUNDPOOL_CATEGORY_STR L"backgroundPool"
+#define BACKGROUNDPOOL_CATEGORY_STR "backgroundPool"
 //=============================================================================
 class NLSPARALLEL_IMPEXP BackgroundPoolObject : public HandleGenericObject
 {

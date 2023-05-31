@@ -15,7 +15,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define FEVALFUTURE_CATEGORY_STR L"FevalFuture"
+#define FEVALFUTURE_CATEGORY_STR "FevalFuture"
 //=============================================================================
 class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject, public FutureObject
 {

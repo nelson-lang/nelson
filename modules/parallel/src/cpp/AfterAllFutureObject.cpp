@@ -17,8 +17,7 @@
 //=============================================================================
 AfterAllFutureObject::AfterAllFutureObject(
     const std::wstring& functionName, const std::vector<FutureObject*>& predecessors)
-    : FutureObject(functionName)
-    , HandleGenericObject(std::wstring(AFTERALLFUTURE_CATEGORY_STR), this, false)
+    : FutureObject(functionName), HandleGenericObject(AFTERALLFUTURE_CATEGORY_STR, this, false)
 
 {
     setType(AFTERALLFUTURE_CATEGORY_STR);

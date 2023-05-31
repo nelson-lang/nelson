@@ -18,7 +18,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define AFTEREACHFUTURE_CATEGORY_STR L"AfterEachFuture"
+#define AFTEREACHFUTURE_CATEGORY_STR "AfterEachFuture"
 //=============================================================================
 class NLSPARALLEL_IMPEXP AfterEachFutureObject : public HandleGenericObject, public FutureObject
 {

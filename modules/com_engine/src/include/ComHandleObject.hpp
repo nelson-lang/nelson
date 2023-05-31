@@ -12,10 +12,8 @@
 #include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsCom_engine_exports.h"
-#include "StringHelpers.hpp"
 //=============================================================================
 #define COM_CATEGORY_STR "COM"
-#define COM_CATEGORY_WSTR TOWSTRING(COM_CATEGORY_STR)
 //=============================================================================
 namespace Nelson {
 //=============================================================================

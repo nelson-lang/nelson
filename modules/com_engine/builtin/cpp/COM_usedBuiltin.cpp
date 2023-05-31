@@ -20,7 +20,7 @@ Nelson::ComEngineGateway::COM_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
-    retval << usedHandle(COM_CATEGORY_WSTR);
+    retval << usedHandle(COM_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

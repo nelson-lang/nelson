@@ -400,9 +400,8 @@ NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessag
     if (A.isScalar()) {
         switch (type) {
         case NLS_HANDLE: {
-            std::wstring name;
-            ClassName(A, name);
-            if (name == COM_CATEGORY_WSTR) {
+            std::string name = ClassName(A);
+            if (name == COM_CATEGORY_STR) {
                 HandleGenericObject* ptr = A.getContentAsHandleScalar();
                 if (ptr) {
                     auto* pVariant = static_cast<VARIANT*>(ptr->getPointer());

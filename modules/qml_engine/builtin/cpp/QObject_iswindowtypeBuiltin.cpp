@@ -26,8 +26,7 @@ Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(int nLhs, const ArrayOfVec
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        std::wstring className;
-        ClassName(param1, className);
+        std::string className = ClassName(param1);
         if (className != QOBJECT_CATEGORY_STR) {
             Error(_W("QObject handle expected."));
         }
