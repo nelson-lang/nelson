@@ -17,7 +17,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-AudioplayerObject::AudioplayerObject() : HandleGenericObject(AUDIOPLAYER_CATEGORY_STR, this, false)
+AudioplayerObject::AudioplayerObject()
+    : HandleGenericObject(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, this, false)
 {
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
         L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type" };
@@ -33,7 +34,7 @@ AudioplayerObject::AudioplayerObject() : HandleGenericObject(AUDIOPLAYER_CATEGOR
         _Running = false;
         _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
-        _Type = AUDIOPLAYER_CATEGORY_STR;
+        _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
     }
     paStream = nullptr;
 }
@@ -51,7 +52,7 @@ AudioplayerObject::~AudioplayerObject()
     _Running = false;
     _Tag.clear();
     _UserData = ArrayOf::emptyConstructor();
-    _Type = AUDIOPLAYER_CATEGORY_STR;
+    _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
     paStream = nullptr;
 }
 //=============================================================================

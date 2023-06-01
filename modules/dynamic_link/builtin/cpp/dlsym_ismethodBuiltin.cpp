@@ -22,7 +22,7 @@ Nelson::DynamicLinkGateway::dlsym_ismethodBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
     ArrayOf param2 = argIn[1];

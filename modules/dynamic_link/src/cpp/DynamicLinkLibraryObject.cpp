@@ -20,7 +20,7 @@
 namespace Nelson {
 //=============================================================================
 DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPath)
-    : HandleGenericObject(DLLIB_CATEGORY_STR, this, false)
+    : HandleGenericObject(NLS_HANDLE_DLLIB_CATEGORY_STR, this, false)
 {
     _propertiesNames = { L"Path" };
     boost::filesystem::path filePath(libraryPath);

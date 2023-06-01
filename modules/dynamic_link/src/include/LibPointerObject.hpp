@@ -16,8 +16,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define LIBPOINTER_CATEGORY_STR "libpointer"
-//=============================================================================
 class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject
 {
 public:

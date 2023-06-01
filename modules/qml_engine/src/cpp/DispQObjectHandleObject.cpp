@@ -241,7 +241,8 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
                 io->outputMessage(msg);
             }
         } else {
-            std::string msg = "  " + _("handle to deleted: ") + QOBJECT_CATEGORY_STR + "\n";
+            std::string msg
+                = "  " + _("handle to deleted: ") + NLS_HANDLE_QOBJECT_CATEGORY_STR + "\n";
             io->outputMessage(msg);
         }
     }
@@ -253,7 +254,7 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
     if (A.isHandle()) {
         DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
-            if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
+            if (A.getHandleCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
             }
 

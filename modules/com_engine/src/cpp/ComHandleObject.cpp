@@ -7,12 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "Types.hpp"
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ComHandleObject::ComHandleObject(void* _ptr)
-    : HandleGenericObject(COM_CATEGORY_STR, _ptr, false) { }
+    : HandleGenericObject(NLS_HANDLE_COM_CATEGORY_STR, _ptr, false)
+{
+}
 //=============================================================================
 ComHandleObject::~ComHandleObject() = default;
 //=============================================================================

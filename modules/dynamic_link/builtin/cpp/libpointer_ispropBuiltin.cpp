@@ -24,7 +24,7 @@ Nelson::DynamicLinkGateway::libpointer_ispropBuiltin(int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
         Error(_W("libpointer handle expected."));
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();

@@ -135,5 +135,18 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_INTEGER_STR "integer"
 #define NLS_UNKNOWN_STR "unknown"
 //=============================================================================
+#define NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR "audioplayer"
+#define NLS_HANDLE_COM_CATEGORY_STR "COM"
+#define NLS_HANDLE_DLSYM_CATEGORY_STR "dlsym"
+#define NLS_HANDLE_DLLIB_CATEGORY_STR "dllib"
+#define NLS_HANDLE_LIBPOINTER_CATEGORY_STR "libpointer"
+#define NLS_HANDLE_MPI_COMM_CATEGORY_STR "MPI_Comm"
+#define NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR "backgroundPool"
+#define NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR "AfterAllFuture"
+#define NLS_HANDLE_FEVALFUTURE_CATEGORY_STR "FevalFuture"
+#define NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR "AfterEachFuture"
+#define NLS_HANDLE_FEVALQUEUE_CATEGORY_STR "FevalQueue"
+#define NLS_HANDLE_QOBJECT_CATEGORY_STR "QObject"
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -20,7 +20,7 @@ Nelson::DynamicLinkGateway::dllib_usedBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << usedHandle(DLLIB_CATEGORY_STR);
+    retval << usedHandle(NLS_HANDLE_DLLIB_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

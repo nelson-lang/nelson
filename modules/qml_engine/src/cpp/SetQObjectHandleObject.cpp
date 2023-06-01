@@ -33,7 +33,7 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
@@ -47,7 +47,7 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
         if (hlObjParent == nullptr) {
             Error(_W("QObject valid handle expected."));
         } else {
-            if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR) {
+            if (hlObjParent->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
             }
         }

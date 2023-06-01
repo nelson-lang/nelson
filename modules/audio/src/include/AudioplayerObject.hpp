@@ -17,8 +17,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define AUDIOPLAYER_CATEGORY_STR "audioplayer"
-//=============================================================================
 class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {
 public:

@@ -27,7 +27,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (!param1.isHandle()) {
         Error(_W("backgroundPool handle expected."));
     }
-    if (param1.getHandleCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
         Error(_W("backgroundPool handle expected."));
     }
     ArrayOf param2 = argIn[1];

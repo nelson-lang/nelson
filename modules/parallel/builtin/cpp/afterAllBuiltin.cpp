@@ -31,9 +31,9 @@ Nelson::ParallelGateway::afterAllBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (!param1.isHandle()) {
         Error(_W("Future handle expected."));
     }
-    bool isSupportedType = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR);
+    bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
         Error(_W("FevalFuture handle expected."));
     }

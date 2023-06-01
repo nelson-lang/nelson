@@ -52,7 +52,7 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
             Error(_W("scalar or [start, end] vector expected."));
         }
     }
-    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();

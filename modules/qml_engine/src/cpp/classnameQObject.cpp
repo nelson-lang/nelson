@@ -25,7 +25,7 @@ classnameQObject(const ArrayOf& A)
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     std::string className = ClassName(A);
-    if (className != QOBJECT_CATEGORY_STR) {
+    if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
     ArrayOf res;

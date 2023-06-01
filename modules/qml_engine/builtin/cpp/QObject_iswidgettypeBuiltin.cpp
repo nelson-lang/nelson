@@ -27,7 +27,7 @@ Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(int nLhs, const ArrayOfVec
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
         std::string className = ClassName(param1);
-        if (className != QOBJECT_CATEGORY_STR) {
+        if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
             Error(_W("QObject handle expected."));
         }
         retval.push_back(iswidgettypeQObject(param1));

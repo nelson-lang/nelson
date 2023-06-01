@@ -21,7 +21,7 @@ Nelson::DynamicLinkGateway::dlsym_ispropBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
     ArrayOf param2 = argIn[1];

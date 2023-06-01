@@ -10,8 +10,9 @@
 #include "FevalFutureObject.hpp"
 //=============================================================================
 FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
-    : FutureObject(functionName), HandleGenericObject(FEVALFUTURE_CATEGORY_STR, this, false)
+    : FutureObject(functionName)
+    , HandleGenericObject(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR, this, false)
 {
-    setType(FEVALFUTURE_CATEGORY_STR);
+    setType(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
 }
 //=============================================================================

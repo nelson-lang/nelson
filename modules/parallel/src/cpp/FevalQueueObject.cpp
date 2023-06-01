@@ -34,7 +34,8 @@ FevalQueueObject::destroy()
     }
 }
 //=============================================================================
-FevalQueueObject::FevalQueueObject() : HandleGenericObject(FEVALQUEUE_CATEGORY_STR, this, false)
+FevalQueueObject::FevalQueueObject()
+    : HandleGenericObject(NLS_HANDLE_FEVALQUEUE_CATEGORY_STR, this, false)
 {
     propertiesNames = { L"QueuedFutures", L"RunningFutures" };
 }

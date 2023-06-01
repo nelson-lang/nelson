@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
-    : HandleGenericObject(MPI_COMM_CATEGORY_STR, _ptr, false)
+    : HandleGenericObject(NLS_HANDLE_MPI_COMM_CATEGORY_STR, _ptr, false)
 {
 }
 //=============================================================================
@@ -25,7 +25,7 @@ MPI_Comm
 HandleToMpiComm(const ArrayOf& A)
 {
     MPI_Comm commReturned = MPI_COMM_NULL;
-    if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
+    if (A.getHandleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
         Error(_W("MPI_Comm handle expected."));
     }
     auto* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
@@ -61,7 +61,7 @@ MPICommHandleDelete(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR) {
+                    if (hlObj->getCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
                         Error(_W("MPI_Comm handle expected."));
                     }
                     auto* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;

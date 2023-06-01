@@ -47,7 +47,7 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
+            if (param1.getHandleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
                 Error(_W("MPI_Comm handle expected."));
             }
             MPI_CommHandleObject* mpicommhandleobj

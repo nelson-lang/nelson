@@ -37,7 +37,7 @@ DeleteGenericObject(const ArrayOf& A, const std::string& handleCategory)
                         Error(msg);
                     }
                     HandleManager::getInstance()->removeHandle(hl);
-                    if (hlObj->getCategory() == BACKGROUNDPOOL_CATEGORY_STR) {
+                    if (hlObj->getCategory() == NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
                         BackgroundPoolObject::getInstance()->destroy();
                     } else {
                         delete hlObj;

@@ -69,15 +69,15 @@ getClassInfoFromVariant(VARIANT* pVariant, std::wstring& className, std::wstring
 void
 classnameComHandle(ComHandleObject* comHandle, std::wstring& classname)
 {
-    classname = utf8_to_wstring(COM_CATEGORY_STR);
+    classname = utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR);
     if (comHandle) {
         VARIANT* pVariant = (VARIANT*)comHandle->getPointer();
         std::wstring className;
         std::wstring classTypeName;
         bool res = getClassInfoFromVariant(pVariant, className, classTypeName);
         if (!res) {
-            classname = utf8_to_wstring(COM_CATEGORY_STR) + std::wstring(L".") + className
-                + classTypeName;
+            classname = utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR) + std::wstring(L".")
+                + className + classTypeName;
         }
     }
 }
@@ -111,7 +111,7 @@ classnameComHandle(const ArrayOf& A, wstringVector& classname)
     }
     std::wstring className;
     ClassName(A, className);
-    if (className != utf8_to_wstring(COM_CATEGORY_STR)) {
+    if (className != utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR)) {
         Error(_W("COM handle expected."));
     }
     Dimensions dimsA = A.getDimensions();

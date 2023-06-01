@@ -72,7 +72,8 @@ MessageBox(const std::wstring& message, const std::wstring& title, const std::ws
         modal = false;
     } else if (mode == L"replace") {
         std::vector<nelson_handle> qObjectNelsonHandles
-            = HandleManager::getInstance()->getAllHandlesOfCategory(QOBJECT_CATEGORY_STR);
+            = HandleManager::getInstance()->getAllHandlesOfCategory(
+                NLS_HANDLE_QOBJECT_CATEGORY_STR);
         for (auto qObjectNelsonHandle : qObjectNelsonHandles) {
             HandleGenericObject* hlObj
                 = HandleManager::getInstance()->getPointer(qObjectNelsonHandle);
@@ -105,7 +106,8 @@ MessageBox(const std::wstring& message, const std::wstring& title, const std::ws
 
         QObject* qObj = (QObject*)msgBox;
         std::vector<nelson_handle> qObjectNelsonHandles
-            = HandleManager::getInstance()->getAllHandlesOfCategory(QOBJECT_CATEGORY_STR);
+            = HandleManager::getInstance()->getAllHandlesOfCategory(
+                NLS_HANDLE_QOBJECT_CATEGORY_STR);
         for (auto qObjectNelsonHandle : qObjectNelsonHandles) {
             HandleGenericObject* hlObj
                 = HandleManager::getInstance()->getPointer(qObjectNelsonHandle);
