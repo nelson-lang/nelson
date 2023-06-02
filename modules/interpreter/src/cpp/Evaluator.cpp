@@ -377,7 +377,7 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         switch (t->opNum) {
         case OP_COLON:
             if (ticProfiling != 0U) {
-                operatorName = "colon";
+                operatorName = getOperatorName(COLON_OP);
             }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
                 retval = colonOperator(t);
@@ -486,37 +486,17 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         case OP_POS: {
             bool bSuccess = false;
             if (ticProfiling != 0U) {
-                operatorName = "uplus";
+                operatorName = getOperatorName(UPLUS_OP);
             }
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "uplus", bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = UnaryPlus(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "uplus");
-                }
-            }
+            retval = uplusOperator(expression(t->down));
         } break;
         case OP_NEG: {
             if (ticProfiling != 0U) {
-                operatorName = "uminus";
+                operatorName = getOperatorName(UMINUS_OP);
             }
-            bool bSuccess = false;
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "uminus", bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = UnaryMinus(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "uminus");
-                }
-            }
+            retval = uminusOperator(expression(t->down));
         } break;
+
         case OP_NOT: {
             if (ticProfiling != 0U) {
                 operatorName = "not";

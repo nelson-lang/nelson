@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "UnaryMinus.hpp"
@@ -18,11 +19,23 @@ ArrayOf
 uminusReal(const ArrayOf& A)
 {
     indexType nbElements = A.getElementCount();
-    T* pRes
-        = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA((T*)A.getDataPointer(), nbElements, 1);
-    matRes = -matA.array();
+    T* pRes = static_cast<T*>(
+        ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false));
+    T* ptrA = static_cast<T*>(const_cast<void*>(A.getDataPointer()));
+    if (nbElements == 1) {
+        pRes[0] = -ptrA[0];
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
+            pRes[k] = -ptrA[k];
+        }
+#else
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA(ptrA, nbElements, 1);
+        matRes = -matA.array();
+#endif
+    }
     return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
 }
 //=============================================================================
@@ -34,34 +47,28 @@ uminusComplex(const ArrayOf& A)
     void* pRes
         = ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     std::complex<T>* pResz = reinterpret_cast<std::complex<T>*>(pRes);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(pResz, nbElements, 1);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(Az, nbElements, 1);
-    matRes = -matA.array();
-    return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
-}
-//=============================================================================
-template <class T>
-ArrayOf
-uminusInteger(const ArrayOf& A)
-{
-    indexType nbElements = A.getElementCount();
-    T* pRes
-        = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA((T*)A.getDataPointer(), nbElements, 1);
-    matRes = -matA.array();
-    return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
-}
-//=============================================================================
-ArrayOf
-UnaryMinus(const ArrayOf& A, bool& needToOverload)
-{
-    needToOverload = false;
-    if (A.isSparse()) {
-        needToOverload = true;
-        return {};
+
+    if (nbElements == 1) {
+        pResz[0] = -Az[0];
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
+            pResz[k] = -Az[k];
+        }
+#else
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(pResz, nbElements, 1);
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(Az, nbElements, 1);
+        matRes = -matA.array();
+#endif
     }
+    return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
+}
+//=============================================================================
+ArrayOf
+UnaryMinus(const ArrayOf& A)
+{
     ArrayOf res;
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
@@ -69,7 +76,7 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         res.promoteType(NLS_DOUBLE);
-        res = uminusReal<double>(res);
+        return uminusReal<double>(res);
     } break;
     case NLS_UINT8:
     case NLS_UINT16:
@@ -77,38 +84,36 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT64: {
         void* Cp
             = ArrayOf::allocateArrayOf(A.getDataClass(), A.getElementCount(), stringVector(), true);
-        res = ArrayOf(A.getDataClass(), A.getDimensions(), Cp);
+        return ArrayOf(A.getDataClass(), A.getDimensions(), Cp);
     } break;
     case NLS_INT8: {
-        res = uminusInteger<int8>(A);
+        return uminusReal<int8>(A);
     } break;
     case NLS_INT16: {
-        res = uminusInteger<int16>(A);
+        return uminusReal<int16>(A);
     } break;
     case NLS_INT32: {
-        res = uminusInteger<int32>(A);
+        return uminusReal<int32>(A);
     } break;
     case NLS_INT64: {
-        res = uminusInteger<int64>(A);
+        return uminusReal<int64>(A);
     } break;
     case NLS_SINGLE: {
-        res = uminusReal<single>(A);
+        return uminusReal<single>(A);
     } break;
     case NLS_DOUBLE: {
-        res = uminusReal<double>(A);
+        return uminusReal<double>(A);
     } break;
     case NLS_SCOMPLEX: {
-        res = uminusComplex<single>(A);
+        return uminusComplex<single>(A);
     } break;
     case NLS_DCOMPLEX: {
-        res = uminusComplex<double>(A);
+        return uminusComplex<double>(A);
     } break;
     default: {
-        needToOverload = true;
-        return {};
     } break;
     }
-    return res;
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

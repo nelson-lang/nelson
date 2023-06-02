@@ -702,6 +702,12 @@ public:
         ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName);
 
     ArrayOf
+    uminusOperator(const ArrayOf& A);
+
+    ArrayOf
+    uplusOperator(const ArrayOf& A);
+
+    ArrayOf
     colonUnitOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
     colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.7.6 (UNRELEASED)
+
+### Changed
+
+- `uminus` reworked (faster and more compatible overload).
+
 ## 0.7.5 (2023-05-27)
 
 ### Changed

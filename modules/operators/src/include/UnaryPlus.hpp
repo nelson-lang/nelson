@@ -11,13 +11,12 @@
 //=============================================================================
 #include "nlsOperators_exports.h"
 #include "ArrayOf.hpp"
-#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 /**
  * C = +A
  */
 NLSOPERATORS_IMPEXP ArrayOf
-UnaryPlus(const ArrayOf& A, bool& needToOverload);
+UnaryPlus(const ArrayOf& A);
 }
 //=============================================================================

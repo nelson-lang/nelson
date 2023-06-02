@@ -35,3 +35,129 @@ Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     return retval;
 }
 //=============================================================================
+static ArrayOfVector
+generic_colonBuiltin(NelsonType nlsType, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    ArrayOf res;
+    if (argIn.size() == 2) {
+        ArrayOf A = argIn[0];
+        ArrayOf B = argIn[1];
+        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
+            if (A.isDoubleType()) {
+                double d = A.getContentAsDoubleScalar(true);
+                if (int64(d) != d) {
+                    Error(_W("Colon input arguments must have same type."));
+                }
+            }
+            if (B.isDoubleType()) {
+                double d = B.getContentAsDoubleScalar(true);
+                if (int64(d) != d) {
+                    Error(_W("Colon input arguments must have same type."));
+                }
+            }
+        }
+        A.promoteType(nlsType);
+        B.promoteType(nlsType);
+        res = Colon(A, B);
+    } else if (argIn.size() == 3) {
+        ArrayOf A = argIn[0];
+        ArrayOf B = argIn[1];
+        ArrayOf C = argIn[2];
+        A.promoteType(nlsType);
+        B.promoteType(nlsType);
+        C.promoteType(nlsType);
+        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
+            if (A.isDoubleType()) {
+                double d = A.getContentAsDoubleScalar(true);
+                if (int64(d) != d) {
+                    Error(_W("Colon input arguments must have same type."));
+                }
+            }
+            if (B.isDoubleType()) {
+                double d = B.getContentAsDoubleScalar(true);
+                if (int64(d) != d) {
+                    Error(_W("Colon input arguments must have same type."));
+                }
+            }
+            if (C.isDoubleType()) {
+                double d = C.getContentAsDoubleScalar(true);
+                if (int64(d) != d) {
+                    Error(_W("Colon input arguments must have same type."));
+                }
+            }
+        }
+        res = Colon(A, B, C);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    retval << res;
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::double_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_DOUBLE, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::single_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_SINGLE, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::uint8_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_UINT8, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::uint16_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_UINT16, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::uint32_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_UINT32, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::uint64_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_UINT64, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::int8_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_INT8, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::int16_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_INT16, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::int32_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_INT32, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::int64_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_INT64, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::OperatorsGateway::char_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_colonBuiltin(NLS_CHAR, nLhs, argIn);
+}
+//=============================================================================

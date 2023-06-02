@@ -11,7 +11,8 @@
 #include "Evaluator.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "Overload.hpp"
+#include "FunctionsInMemory.hpp"
 #include "ClassToString.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -169,7 +170,7 @@ colonOperatorImpl(Evaluator* eval, const ArrayOfVector& argsIn)
     FunctionDef* funcDef = nullptr;
     NelsonType commonColonType;
     std::string typeName = precedenceTypeNameColon(argsIn, commonColonType);
-    std::string overloadTypeName = typeName + "_" + "colon";
+    std::string overloadTypeName = overloadOperatorName(typeName, COLON_OP);
 
     if (!eval->isOverloadAllowed()) {
         Context* context = eval->getContext();

@@ -12,19 +12,13 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-UnaryPlus(const ArrayOf& A, bool& needToOverload)
+UnaryPlus(const ArrayOf& A)
 {
     ArrayOf res;
-    needToOverload = false;
-    if (A.isSparse()) {
-        needToOverload = true;
-        return {};
-    }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
     case NLS_CHAR: {
         res = A;
-        res.ensureSingleOwner();
         res.promoteType(NLS_DOUBLE);
     } break;
     case NLS_UINT8:
@@ -40,10 +34,8 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
         res = A;
-        res.ensureSingleOwner();
     } break;
     default: {
-        needToOverload = true;
         return {};
     } break;
     }

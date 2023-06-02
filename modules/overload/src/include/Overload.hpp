@@ -9,6 +9,35 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "Operators.hpp"
+//=============================================================================
+namespace Nelson {
+#define OVERLOAD_OPERATOR_NAME(typeName, operatorName) typeName "_" operatorName
+//=============================================================================
+#define OVERLOAD_FUNCTION_NAME(typeName, functionName) typeName "_" functionName
+//=============================================================================
+#define OVERLOAD_METHOD_NAME(typeName, methodName) typeName "_" methodName
+//=============================================================================
+inline std::string
+overloadOperatorName(const std::string& typeName, OperatorType operatorType)
+{
+    return typeName + "_" + getOperatorName(operatorType);
+}
+//=============================================================================
+inline std::string
+overloadFunctionName(const std::string& typeName, const std::string& functionName)
+{
+    return typeName + "_" + functionName;
+}
+//=============================================================================
+inline std::string
+overloadMethodName(const std::string& typeName, const std::string& methodName)
+{
+    return typeName + "_" + methodName;
+}
+//=============================================================================
+}
+//=============================================================================
 namespace Nelson::Overload {
 //=============================================================================
 enum OverloadClass

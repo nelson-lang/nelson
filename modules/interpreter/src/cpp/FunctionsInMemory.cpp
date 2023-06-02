@@ -322,8 +322,7 @@ bool
 FunctionsInMemory::findUnaryOperator(
     NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr& function)
 {
-    std::pair<NelsonType, OperatorType> key = std::make_pair(nelsonType, operatorType);
-
+    uint64 key = nelsonType ^ operatorType;
     auto it = _unaryOperatorInMemory.find(key);
     if (it != _unaryOperatorInMemory.end()) {
         function = it->second;
@@ -335,7 +334,7 @@ FunctionsInMemory::findUnaryOperator(
 void
 FunctionsInMemory::add(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr function)
 {
-    std::pair<NelsonType, OperatorType> key = std::make_pair(nelsonType, operatorType);
+    uint64 key = nelsonType ^ operatorType;
     _unaryOperatorInMemory.insert({ key, function });
 }
 //=============================================================================

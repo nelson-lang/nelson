@@ -218,13 +218,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\int16Builtin.hpp" />
-    <ClInclude Include="..\include\int16_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int32Builtin.hpp" />
-    <ClInclude Include="..\include\int32_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int64Builtin.hpp" />
-    <ClInclude Include="..\include\int64_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int8Builtin.hpp" />
-    <ClInclude Include="..\include\int8_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\intmaxBuiltin.hpp" />
     <ClInclude Include="..\include\intminBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInteger_builtin_exports.h" />

@@ -10,27 +10,19 @@
 #pragma once
 //=============================================================================
 #include <unordered_map>
-#include <map>
 #include <vector>
+#include "Operators.hpp"
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 #include "Overload.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-enum OperatorType
-{
-    COLON_OP = 0,
-    UPLUS_OP
-};
-//=============================================================================
-static std::vector<std::string> operatorNames = { "colon", "uplus" };
-//=============================================================================
 class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
 private:
     //=============================================================================
-    std::map<std::pair<NelsonType, OperatorType>, FunctionDefPtr> _unaryOperatorInMemory;
+    std::unordered_map<uint64, FunctionDefPtr> _unaryOperatorInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _mexFunctionsInMemory;
     std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
