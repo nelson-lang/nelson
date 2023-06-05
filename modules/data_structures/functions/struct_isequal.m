@@ -11,7 +11,9 @@ function r = struct_isequal(a, b)
   r = false;
   if isstruct(b)
     fieldA = fieldnames(a);
-    fieldB = fieldnames(b);
+    fieldA = sort(fieldA);
+    fieldB = fieldnames(b)
+    fieldB = sort(fieldB);;
     if isequalto(fieldA, fieldB)
       if isequalto(size(a), size(b))
         r = true;
