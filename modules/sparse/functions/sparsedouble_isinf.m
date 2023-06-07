@@ -8,11 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_isinf(a)
-  [I, J, V] = IJV(a);
+  [I, J, V, m, n, nz] = IJV(a);
   R = isinf(V);
   I2 = I(R);
   J2 = J(R);
   V2 = true(size(I2, 1), size(I2, 2));
-  r = sparse(I2, J2, V2);
+  r = sparse(I2, J2, V2, m, n, nz);
 end
 %=============================================================================

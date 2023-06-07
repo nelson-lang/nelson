@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_asin(a)
-  [I, J, V] = IJV(a);
-  r = sparse(I, J, asin(V), size(a, 1), size(a, 2));
+  [I, J, V, m, n, nz] = IJV(a);
+  r = sparse(I, J, asin(V), m, n, nz);
 end

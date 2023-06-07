@@ -66,7 +66,9 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
         vstride, olen);
     if (I.isEmpty() || J.isEmpty() || V.isEmpty()) {
         Dimensions dim(0, 0);
-        return ArrayOf(NLS_DOUBLE, dim, nullptr, true);
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
+            = new Eigen::SparseMatrix<double, 0, signedIndexType>(dim.getRows(), dim.getColumns());
+        return ArrayOf(NLS_DOUBLE, dim, spmat, true);
     }
     // Calculate the number of rows in the matrix
     auto* ip = (indexType*)I.getDataPointer();

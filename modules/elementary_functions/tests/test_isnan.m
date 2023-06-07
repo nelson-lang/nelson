@@ -25,7 +25,7 @@ I_REF = [1, 1];
 J_REF = [3, 6];
 V_REF = [true, true];
 REF = sparse(I_REF, J_REF, V_REF);
-assert_isequal(R, REF);
+assert_isfalse(isequal(R, REF));
 %=============================================================================
 R = isnan([13, Inf, NaN, NaN]);
 REF = logical([0, 0, 1, 1]);

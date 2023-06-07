@@ -103,7 +103,7 @@ sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     indexType nnz = 0;
     if (argIn.size() == 6) {
         ArrayOf NNZ(argIn[5]);
-        nnz = NNZ.getContentAsScalarIndex(false);
+        nnz = NNZ.getContentAsScalarIndex(true);
     }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)

@@ -14,10 +14,10 @@ function R = sparsedouble_tril(varargin)
   else
     k = varargin{2};
   end
-  [I, J, V, m, n] = IJV(A);
+  [I, J, V, m, n, nz] = IJV(A);
   IJ = [I, J];
   L = find(IJ(:, 1) >= (IJ(:, 2) - k));
   S = IJ(L, :);
-  R = sparse(S(:,1), S(:,2), V(L), m, n);
+  R = sparse(S(:,1), S(:,2), V(L), m, n, nz);
 end
 %=============================================================================

@@ -57,8 +57,8 @@ SparseRealPart(ArrayOf a)
     } break;
     case NLS_DCOMPLEX: {
         try {
-            indexType rows = a.getDimensionLength(0);
-            indexType cols = a.getDimensionLength(1);
+            indexType rows = a.getRows();
+            indexType cols = a.getColumns();
             Eigen::SparseMatrix<double, 0, signedIndexType>* spmatDST
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
             Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmatSRC

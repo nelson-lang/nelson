@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = sparsedouble_sinh(a)
-  [I, J, V] = IJV(a);
-  r = sparse(I, J, sinh(V), size(a, 1), size(a, 2));
+  [I, J, V, m, n, nz] = IJV(a);
+  r = sparse(I, J, sinh(V), m, n, nz);
 end

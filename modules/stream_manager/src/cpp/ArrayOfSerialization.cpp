@@ -58,6 +58,7 @@ IJVToAllocatedEigenSparse(const std::vector<uint64>& I, const std::vector<uint64
         if (spMat) {
             spMat->setFromTriplets(tripletList.begin(), tripletList.end());
             spMat->reserve(nzmax);
+            spMat->finalize();
             spMat->makeCompressed();
             spMat->data().squeeze();
             return (void*)spMat;

@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-A = [1 0 0 0;
-0 2 0 0;
-0 0 3 0;
-0 0 0 4];
-CX = sparse (complex(zeros(4, 4), A));
+A = [1 0 0 0 1;
+0 2 0 0 2;
+0 0 3 0 4;
+0 0 0 4 1];
+CX = sparse (complex(zeros(4, 5), A));
 R = real(CX);
-REF = sparse(zeros(4,4));
+REF = sparse(zeros(4,5));
 assert_isequal(R, REF);
 %=============================================================================
 A = [1 0 0 0;

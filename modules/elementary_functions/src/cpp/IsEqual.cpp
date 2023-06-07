@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string.h>
+#include <Eigen/Sparse>
 #include "nlsBuildConfig.h"
 #include "IsEqual.hpp"
 #include "ImagPart.hpp"
@@ -16,75 +17,34 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isequalornan(double a, double b)
+template <class T>
+bool
+isequalornan(T a, T b)
 {
-    if (std::isnan(a) && std::isnan(b)) {
-        return true;
-    }
-    return (a == b);
+    return (std::isnan(a) && std::isnan(b)) || (a == b);
 }
 //=============================================================================
-static bool
-double_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN)
+template <class T>
+bool
+integer_IsEqual(T* ptrA, T* ptrB, indexType byteSize)
 {
-    indexType nbElementsA = A.getElementCount();
-    A.promoteType(NLS_DOUBLE);
-    B.promoteType(NLS_DOUBLE);
-    auto* ptrA = (double*)A.getDataPointer();
-    auto* ptrB = (double*)B.getDataPointer();
+    return (memcmp(ptrA, ptrB, byteSize) == 0);
+}
+//=============================================================================
+template <class T>
+static bool
+real_IsEqual(const ArrayOf& A, const ArrayOf& B, bool withNaN)
+{
+    ompIndexType nbElementsA = (ompIndexType)A.getElementCount();
+    auto* ptrA = (T*)A.getDataPointer();
+    auto* ptrB = (T*)B.getDataPointer();
     bool equal = true;
     if (withNaN) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for shared(equal)
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)nbElementsA; k++) {
+        for (ompIndexType k = 0; k < nbElementsA; k++) {
             if (equal && !isequalornan(ptrA[k], ptrB[k])) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp critical
-#endif
-                equal = false;
-            }
-        }
-        return equal;
-    }
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for shared(equal)
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)nbElementsA; k++) {
-        if (equal && ptrA[k] != ptrB[k]) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp critical
-#endif
-            equal = false;
-        }
-    }
-    return equal;
-}
-//=============================================================================
-static bool
-doublecomplex_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN)
-{
-    indexType nbElementsA = A.getElementCount();
-    A.promoteType(NLS_DCOMPLEX);
-    B.promoteType(NLS_DCOMPLEX);
-    ArrayOf realPartA = RealPart(A);
-    ArrayOf realPartB = RealPart(B);
-    ArrayOf imagPartA = ImagPart(A);
-    ArrayOf imagPartB = ImagPart(B);
-    auto* ptrRealA = (double*)realPartA.getDataPointer();
-    auto* ptrRealB = (double*)realPartB.getDataPointer();
-    auto* ptrImagA = (double*)imagPartA.getDataPointer();
-    auto* ptrImagB = (double*)imagPartB.getDataPointer();
-    bool equal = true;
-    if (withNaN) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for shared(equal)
-#endif
-        for (ompIndexType k = 0; k < (ompIndexType)nbElementsA; k++) {
-            if (equal
-                && (!isequalornan(ptrRealA[k], ptrRealB[k])
-                    || !isequalornan(ptrImagA[k], ptrImagB[k]))) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp critical
 #endif
@@ -95,8 +55,46 @@ doublecomplex_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN)
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for shared(equal)
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)nbElementsA; k++) {
-            if (equal && (ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k])) {
+        for (ompIndexType k = 0; k < nbElementsA; k++) {
+            if (equal && ptrA[k] != ptrB[k]) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+                equal = false;
+            }
+        }
+    }
+    return equal;
+}
+//=============================================================================
+template <class T>
+static bool
+complex_IsEqual(ArrayOf& A, ArrayOf& B, bool withNaN)
+{
+    ompIndexType nbElementsA = (ompIndexType)A.getElementCount() * 2;
+    auto* ptrA = (T*)A.getDataPointer();
+    auto* ptrB = (T*)B.getDataPointer();
+    bool equal = true;
+    if (withNaN) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)nbElementsA; k = k + 2) {
+            if (equal
+                && (!isequalornan<T>(ptrA[k], ptrB[k])
+                    || !isequalornan<T>(ptrA[k + 1], ptrB[k + 1]))) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+                equal = false;
+            }
+        }
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < nbElementsA; k = k + 2) {
+            if (equal && (ptrA[k] != ptrB[k]) || (ptrA[k + 1] != ptrB[k + 1])) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp critical
 #endif
@@ -135,6 +133,178 @@ string_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needT
     return true;
 }
 //=============================================================================
+template <class T>
+static bool
+haveSameIndexes(Eigen::SparseMatrix<T, 0, signedIndexType>* spMatA,
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMatB)
+{
+    std::vector<signedIndexType> iA;
+    std::vector<signedIndexType> jA;
+    std::vector<signedIndexType> iB;
+    std::vector<signedIndexType> jB;
+    iA.reserve(spMatA->innerSize());
+    jA.reserve(spMatA->outerSize());
+    iB.reserve(spMatB->innerSize());
+    jB.reserve(spMatB->outerSize());
+
+    for (indexType k = 0; k < (indexType)spMatA->outerSize(); ++k) {
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMatA, k); it;
+             ++it) {
+            iA.push_back(it.row());
+            jA.push_back(it.col());
+        }
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMatB, k); it;
+             ++it) {
+            iB.push_back(it.row());
+            jB.push_back(it.col());
+        }
+    }
+
+    bool equal = memcmp(iA.data(), iB.data(), sizeof(signedIndexType) * iA.size()) == 0;
+    if (!equal) {
+        return equal;
+    }
+    return memcmp(jA.data(), jB.data(), sizeof(signedIndexType) * jA.size()) == 0;
+}
+//=============================================================================
+template <class T>
+static bool
+sparsecomplex_IsEqual(ArrayOf& A, ArrayOf& B, bool withNaN)
+{
+    Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>* spMatA
+        = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>* spMatB
+        = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)B.getSparseDataPointer();
+    if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
+        return false;
+    }
+    if (spMatA == nullptr && spMatB == nullptr) {
+        return A.getNonzeros() == B.getNonzeros();
+    }
+    const std::complex<T>* valuesA = spMatA->valuePtr();
+    const std::complex<T>* valuesB = spMatB->valuePtr();
+    if (spMatA->nonZeros() != spMatB->nonZeros()) {
+        return false;
+    }
+    if (spMatA->outerSize() != spMatB->outerSize()) {
+        return false;
+    }
+    bool equal = true;
+    if (withNaN) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
+            if (equal
+                && (!isequalornan<T>(valuesA[k].real(), valuesB[k].real())
+                    || !isequalornan<T>(valuesA[k].imag(), valuesB[k].imag()))) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+                equal = false;
+            }
+        }
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < spMatA->nonZeros(); k++) {
+            if (equal && (valuesA[k].real() != valuesB[k].real())
+                || (valuesA[k].imag() != valuesB[k].imag())) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+                equal = false;
+            }
+        }
+    }
+    if (!equal) {
+        return equal;
+    }
+    return haveSameIndexes<std::complex<T>>(spMatA, spMatB);
+}
+//=============================================================================
+template <class T>
+static bool
+sparsereal_IsEqual(ArrayOf& A, ArrayOf& B, bool withNaN)
+{
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMatA
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMatB
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)B.getSparseDataPointer();
+
+    if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
+        return false;
+    }
+    if (spMatA == nullptr && spMatB == nullptr) {
+        return A.getNonzeros() == B.getNonzeros();
+    }
+    const T* valuesA = spMatA->valuePtr();
+    const T* valuesB = spMatB->valuePtr();
+
+    if (spMatA->nonZeros() != spMatB->nonZeros()) {
+        return false;
+    }
+    if (spMatA->outerSize() != spMatB->outerSize()) {
+        return false;
+    }
+    bool equal = true;
+    if (withNaN) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
+            if (equal && !isequalornan<T>(valuesA[k], valuesB[k])) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+                equal = false;
+            }
+        }
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(equal)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp critical
+#endif
+            if (equal && valuesA[k] != valuesB[k]) {
+                equal = false;
+            }
+        }
+    }
+    if (!equal) {
+        return equal;
+    }
+    return haveSameIndexes<T>(spMatA, spMatB);
+}
+//=============================================================================
+template <class T>
+static bool
+sparselogical_IsEqual(ArrayOf& A, ArrayOf& B)
+{
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMatA
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMatB
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)B.getSparseDataPointer();
+    if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
+        return false;
+    }
+    if (spMatA == nullptr && spMatB == nullptr) {
+        return A.getNonzeros() == B.getNonzeros();
+    }
+    const T* valuesA = spMatA->valuePtr();
+    const T* valuesB = spMatB->valuePtr();
+    if ((spMatA->nonZeros() != spMatB->nonZeros())) {
+        return false;
+    }
+    if (spMatA->innerSize() != spMatB->innerSize()) {
+        return false;
+    }
+    return haveSameIndexes<T>(spMatA, spMatB);
+}
+//=============================================================================
 bool
 IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload)
 {
@@ -160,9 +330,31 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             if (!B.isSparse()) {
                 B.makeSparse();
             }
+
+            NelsonType destinationType;
+            if (A.getDataClass() != B.getDataClass()) {
+                destinationType = A.isComplex() || B.isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE;
+                A.promoteType(destinationType);
+                B.promoteType(destinationType);
+            }
+            switch (A.getDataClass()) {
+            case NLS_DOUBLE: {
+                return sparsereal_IsEqual<double>(A, B, withNaN);
+            } break;
+            case NLS_LOGICAL: {
+                return sparselogical_IsEqual<logical>(A, B);
+            } break;
+            case NLS_DCOMPLEX: {
+                return sparsecomplex_IsEqual<double>(A, B, withNaN);
+            } break;
+            default: {
+                return false;
+            }
+            }
             needToOverload = true;
             return false;
         } catch (const Exception&) {
+            needToOverload = true;
             return false;
         }
     }
@@ -188,6 +380,65 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         }
         return false;
     }
+
+    if (A.getDataClass() == B.getDataClass()) {
+        switch (A.getDataClass()) {
+        case NLS_DOUBLE: {
+            return real_IsEqual<double>(A, B, withNaN);
+        } break;
+        case NLS_SINGLE: {
+            return real_IsEqual<single>(A, B, withNaN);
+        } break;
+        case NLS_DCOMPLEX: {
+            return complex_IsEqual<double>(A, B, withNaN);
+        } break;
+        case NLS_SCOMPLEX: {
+            return complex_IsEqual<single>(A, B, withNaN);
+        } break;
+        case NLS_INT8: {
+            return integer_IsEqual<int8>(
+                (int8*)A.getDataPointer(), (int8*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_INT16: {
+            return integer_IsEqual<int16>(
+                (int16*)A.getDataPointer(), (int16*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_INT32: {
+            return integer_IsEqual<int32>(
+                (int32*)A.getDataPointer(), (int32*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_INT64: {
+            return integer_IsEqual<int64>(
+                (int64*)A.getDataPointer(), (int64*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_UINT8: {
+            return integer_IsEqual<uint8>(
+                (uint8*)A.getDataPointer(), (uint8*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_UINT16: {
+            return integer_IsEqual<uint16>((uint16*)A.getDataPointer(), (uint16*)B.getDataPointer(),
+                (indexType)A.getByteSize());
+        } break;
+        case NLS_UINT32: {
+            return integer_IsEqual<uint32>((uint32*)A.getDataPointer(), (uint32*)B.getDataPointer(),
+                (indexType)A.getByteSize());
+        } break;
+        case NLS_UINT64: {
+            return integer_IsEqual<uint64>((uint64*)A.getDataPointer(), (uint64*)B.getDataPointer(),
+                (indexType)A.getByteSize());
+        } break;
+        case NLS_LOGICAL: {
+            return integer_IsEqual<logical>((logical*)A.getDataPointer(),
+                (logical*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        case NLS_CHAR: {
+            return integer_IsEqual<charType>((charType*)A.getDataPointer(),
+                (charType*)B.getDataPointer(), (indexType)A.getByteSize());
+        } break;
+        }
+    } else {
+    }
+
     bool isComplexA = A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX;
     bool isComplexB = B.getDataClass() == NLS_DCOMPLEX || B.getDataClass() == NLS_SCOMPLEX;
     bool isRealA = A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE;
@@ -196,9 +447,13 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
     bool isSingleOrDoubleB = B.getDataClass() == NLS_SINGLE || B.getDataClass() == NLS_DOUBLE;
     if ((isSingleOrDoubleA || isComplexA) && (isSingleOrDoubleB || isComplexB)) {
         if (isRealA && isRealB) {
-            return double_IsEqual(A, B, sameTypes, withNaN);
+            A.promoteType(NLS_DOUBLE);
+            B.promoteType(NLS_DOUBLE);
+            return real_IsEqual<double>(A, B, withNaN);
         }
-        return doublecomplex_IsEqual(A, B, sameTypes, withNaN);
+        A.promoteType(NLS_DCOMPLEX);
+        B.promoteType(NLS_DCOMPLEX);
+        return complex_IsEqual<double>(A, B, withNaN);
     }
     try {
         A.promoteType(NLS_DOUBLE);
@@ -207,7 +462,7 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         needToOverload = true;
         return false;
     }
-    return double_IsEqual(A, B, sameTypes, withNaN);
+    return real_IsEqual<double>(A, B, withNaN);
 }
 //=============================================================================
 } // namespace Nelson

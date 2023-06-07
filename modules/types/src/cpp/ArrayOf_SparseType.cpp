@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -79,7 +80,28 @@ ArrayOf::makeSparse()
         Error(_W("Cannot make n-dimensional arrays sparse."));
     }
     if (isEmpty()) {
-        dp = dp->putData(dp->dataClass, dp->dimensions, nullptr, true, dp->fieldNames);
+        switch (dp->dataClass) {
+        case NLS_LOGICAL: {
+            Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
+                = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
+                    dp->dimensions.getRows(), dp->dimensions.getColumns());
+            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
+        } break;
+        case NLS_DOUBLE: {
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
+                = new Eigen::SparseMatrix<double, 0, signedIndexType>(
+                    dp->dimensions.getRows(), dp->dimensions.getColumns());
+            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
+        } break;
+        case NLS_DCOMPLEX: {
+            Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spmat
+                = new Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>(
+                    dp->dimensions.getRows(), dp->dimensions.getColumns());
+            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
+        } break;
+        default: {
+        } break;
+        }
         return;
     }
     if (isReferenceType() || isCharacterArray()) {
