@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP bool
-IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload);
+IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, NelsonType commonType, bool withNaN);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

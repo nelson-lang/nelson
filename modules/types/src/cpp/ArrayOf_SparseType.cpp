@@ -80,28 +80,11 @@ ArrayOf::makeSparse()
         Error(_W("Cannot make n-dimensional arrays sparse."));
     }
     if (isEmpty()) {
-        switch (dp->dataClass) {
-        case NLS_LOGICAL: {
-            Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
-                = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
-                    dp->dimensions.getRows(), dp->dimensions.getColumns());
-            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
-        } break;
-        case NLS_DOUBLE: {
-            Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
-                = new Eigen::SparseMatrix<double, 0, signedIndexType>(
-                    dp->dimensions.getRows(), dp->dimensions.getColumns());
-            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
-        } break;
-        case NLS_DCOMPLEX: {
-            Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spmat
-                = new Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>(
-                    dp->dimensions.getRows(), dp->dimensions.getColumns());
-            dp = dp->putData(dp->dataClass, dp->dimensions, spmat, true, dp->fieldNames);
-        } break;
-        default: {
-        } break;
-        }
+        void* cp = ArrayOf::allocateArrayOf(dp->dataClass, 0, stringVector(), true);
+        dp = dp->putData(dp->dataClass, dp->dimensions,
+            MakeSparseArrayOfDynamicFunction(
+                dp->dataClass, dp->dimensions[0], dp->dimensions[1], cp),
+            true, dp->fieldNames);
         return;
     }
     if (isReferenceType() || isCharacterArray()) {

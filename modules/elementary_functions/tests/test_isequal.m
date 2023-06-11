@@ -21,6 +21,7 @@ assert_isequal(isequal(struct('nelson', 1), struct('sonnel', 1)), false);
 assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('nelson', 1, 'sonnel', 2)), true);
 assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('sonnel', 2, 'nelson', 1)), true);
 assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('nelson', 1, 'sonnel', 2), struct ('nelson', 1, 'sonnel', 2)), true);
+assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('nelson', 1, 'sonnel', 2), struct ('nelson', 1, 'sonnel', 3)), false);
 assert_isequal(isequal(struct('nelson', 'abc', 'sonnel', 2), struct ('nelson', 'abc', 'sonnel', 2)), true);
 %=============================================================================
 assert_isequal(isequal(11, 11), true);

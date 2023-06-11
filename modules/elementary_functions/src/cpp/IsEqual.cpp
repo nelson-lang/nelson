@@ -106,7 +106,7 @@ complex_IsEqual(ArrayOf& A, ArrayOf& B, bool withNaN)
 }
 //=============================================================================
 static bool
-string_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload)
+string_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN)
 {
     indexType nbElementsA = A.getElementCount();
     auto* elementA = (ArrayOf*)A.getDataPointer();
@@ -122,11 +122,7 @@ string_IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needT
         if (isMissingEl1 || isMissingEl2) {
             return false;
         }
-        bool res = IsEqual(el1, el2, sameTypes, withNaN, needToOverload);
-        if (needToOverload) {
-            return false;
-        }
-        if (!res) {
+        if (!IsEqual(el1, el2, sameTypes, NLS_CHAR, withNaN)) {
             return false;
         }
     }
@@ -306,9 +302,8 @@ sparselogical_IsEqual(ArrayOf& A, ArrayOf& B)
 }
 //=============================================================================
 bool
-IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload)
+IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, NelsonType commonType, bool withNaN)
 {
-    needToOverload = false;
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!dimsA.equals(dimsB)) {
@@ -336,6 +331,10 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
                 destinationType = A.isComplex() || B.isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE;
                 A.promoteType(destinationType);
                 B.promoteType(destinationType);
+            } else {
+                if (A.isEmpty() && B.isEmpty()) {
+                    return A.getDimensions().equals(B.getDimensions());
+                }
             }
             switch (A.getDataClass()) {
             case NLS_DOUBLE: {
@@ -351,10 +350,8 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
                 return false;
             }
             }
-            needToOverload = true;
             return false;
         } catch (const Exception&) {
-            needToOverload = true;
             return false;
         }
     }
@@ -363,20 +360,10 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         return true;
     }
 
-    if (A.isStruct() || B.isStruct()) {
-        if (A.isStruct() && B.isStruct()) {
-            needToOverload = true;
-        }
-        return false;
-    }
-    if (A.isCell() && B.isCell()) {
-        needToOverload = true;
-        return false;
-    }
     indexType nbElementsA = dimsA.getElementCount();
     if (A.isStringArray() || B.isStringArray()) {
         if (A.isStringArray() && B.isStringArray()) {
-            return string_IsEqual(A, B, sameTypes, withNaN, needToOverload);
+            return string_IsEqual(A, B, sameTypes, withNaN);
         }
         return false;
     }
@@ -459,7 +446,6 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         A.promoteType(NLS_DOUBLE);
         B.promoteType(NLS_DOUBLE);
     } catch (const Exception&) {
-        needToOverload = true;
         return false;
     }
     return real_IsEqual<double>(A, B, withNaN);
