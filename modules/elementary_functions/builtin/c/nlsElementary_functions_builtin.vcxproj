@@ -199,6 +199,7 @@
     <ClCompile Include="..\cpp\imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isequalBuiltinHelpers.cpp" />
     <ClCompile Include="..\cpp\isequalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequaltoBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfiniteBuiltin.cpp" />
@@ -256,6 +257,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\isequalBuiltinHelpers.hpp" />
     <ClInclude Include="..\include\absBuiltin.hpp" />
     <ClInclude Include="..\include\base2decBuiltin.hpp" />
     <ClInclude Include="..\include\bin2numBuiltin.hpp" />

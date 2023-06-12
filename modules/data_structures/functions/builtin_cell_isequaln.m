@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = builtin_cell_isequal(a, b)
+function r = builtin_cell_isequaln(a, b)
   s1 = size(a);
   s2 = size(b);
   if isequal(s1, s2)

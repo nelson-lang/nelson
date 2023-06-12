@@ -36,8 +36,8 @@ static bool
 real_IsEqual(const ArrayOf& A, const ArrayOf& B, bool withNaN)
 {
     ompIndexType nbElementsA = (ompIndexType)A.getElementCount();
-    auto* ptrA = (T*)A.getDataPointer();
-    auto* ptrB = (T*)B.getDataPointer();
+    T* ptrA = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+    T* ptrB = static_cast<T*>(const_cast<void*>(static_cast<const void*>(B.getDataPointer())));
     bool equal = true;
     if (withNaN) {
 #if defined(_NLS_WITH_OPENMP)
@@ -72,8 +72,8 @@ static bool
 complex_IsEqual(ArrayOf& A, ArrayOf& B, bool withNaN)
 {
     ompIndexType nbElementsA = (ompIndexType)A.getElementCount() * 2;
-    auto* ptrA = (T*)A.getDataPointer();
-    auto* ptrB = (T*)B.getDataPointer();
+    T* ptrA = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+    T* ptrB = static_cast<T*>(const_cast<void*>(static_cast<const void*>(B.getDataPointer())));
     bool equal = true;
     if (withNaN) {
 #if defined(_NLS_WITH_OPENMP)
@@ -290,8 +290,6 @@ sparselogical_IsEqual(ArrayOf& A, ArrayOf& B)
     if (spMatA == nullptr && spMatB == nullptr) {
         return A.getNonzeros() == B.getNonzeros();
     }
-    const T* valuesA = spMatA->valuePtr();
-    const T* valuesB = spMatB->valuePtr();
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
     }
@@ -360,7 +358,6 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, NelsonType commonType, bool with
         return true;
     }
 
-    indexType nbElementsA = dimsA.getElementCount();
     if (A.isStringArray() || B.isStringArray()) {
         if (A.isStringArray() && B.isStringArray()) {
             return string_IsEqual(A, B, sameTypes, withNaN);
@@ -384,46 +381,74 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, NelsonType commonType, bool with
         } break;
         case NLS_INT8: {
             return integer_IsEqual<int8>(
-                (int8*)A.getDataPointer(), (int8*)B.getDataPointer(), (indexType)A.getByteSize());
+                static_cast<int8*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer()))),
+                static_cast<int8*>(const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_INT16: {
-            return integer_IsEqual<int16>(
-                (int16*)A.getDataPointer(), (int16*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<int16>(static_cast<int16*>(const_cast<void*>(
+                                              static_cast<const void*>(A.getDataPointer()))),
+                static_cast<int16*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_INT32: {
-            return integer_IsEqual<int32>(
-                (int32*)A.getDataPointer(), (int32*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<int32>(static_cast<int32*>(const_cast<void*>(
+                                              static_cast<const void*>(A.getDataPointer()))),
+                static_cast<int32*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_INT64: {
-            return integer_IsEqual<int64>(
-                (int64*)A.getDataPointer(), (int64*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<int64>(static_cast<int64*>(const_cast<void*>(
+                                              static_cast<const void*>(A.getDataPointer()))),
+                static_cast<int64*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_UINT8: {
-            return integer_IsEqual<uint8>(
-                (uint8*)A.getDataPointer(), (uint8*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<uint8>(static_cast<uint8*>(const_cast<void*>(
+                                              static_cast<const void*>(A.getDataPointer()))),
+                static_cast<uint8*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_UINT16: {
-            return integer_IsEqual<uint16>((uint16*)A.getDataPointer(), (uint16*)B.getDataPointer(),
+            return integer_IsEqual<uint16>(static_cast<uint16*>(const_cast<void*>(
+                                               static_cast<const void*>(A.getDataPointer()))),
+                static_cast<uint16*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
                 (indexType)A.getByteSize());
         } break;
         case NLS_UINT32: {
-            return integer_IsEqual<uint32>((uint32*)A.getDataPointer(), (uint32*)B.getDataPointer(),
+            return integer_IsEqual<uint32>(static_cast<uint32*>(const_cast<void*>(
+                                               static_cast<const void*>(A.getDataPointer()))),
+                static_cast<uint32*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
                 (indexType)A.getByteSize());
         } break;
         case NLS_UINT64: {
-            return integer_IsEqual<uint64>((uint64*)A.getDataPointer(), (uint64*)B.getDataPointer(),
+            return integer_IsEqual<uint64>(static_cast<uint64*>(const_cast<void*>(
+                                               static_cast<const void*>(A.getDataPointer()))),
+                static_cast<uint64*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
                 (indexType)A.getByteSize());
         } break;
         case NLS_LOGICAL: {
-            return integer_IsEqual<logical>((logical*)A.getDataPointer(),
-                (logical*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<logical>(static_cast<logical*>(const_cast<void*>(
+                                                static_cast<const void*>(A.getDataPointer()))),
+                static_cast<logical*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                (indexType)A.getByteSize());
         } break;
         case NLS_CHAR: {
-            return integer_IsEqual<charType>((charType*)A.getDataPointer(),
-                (charType*)B.getDataPointer(), (indexType)A.getByteSize());
+            return integer_IsEqual<charType>(static_cast<charType*>(const_cast<void*>(
+                                                 static_cast<const void*>(A.getDataPointer()))),
+                static_cast<charType*>(
+                    const_cast<void*>(static_cast<const void*>(B.getDataPointer()))),
+                A.getByteSize());
         } break;
         }
-    } else {
     }
 
     bool isComplexA = A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX;
