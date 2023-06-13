@@ -79,7 +79,7 @@ bool
 BuiltInFunctionDefManager::remove(const std::string& name)
 {
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
-        if ((*it)->getName() == name) {
+        if ((*it)->getName() == std::string_view { name }) {
             auto* p = (BuiltInFunctionDef*)*it;
             delete p;
             builtinVector.erase(it);
@@ -170,7 +170,7 @@ BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
     bool res = false;
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->getName() == name) {
+            if ((*it)->getName() == std::string_view { name }) {
                 path = ((BuiltInFunctionDef*)(*it))->getFilename();
                 return true;
             }
@@ -185,7 +185,7 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
     bool res = false;
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->getName() == name) {
+            if ((*it)->getName() == std::string_view { name }) {
                 paths.emplace_back(((BuiltInFunctionDef*)(*it))->getFilename());
                 res = true;
             }
@@ -199,7 +199,7 @@ BuiltInFunctionDefManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->getName() == name) {
+            if ((*it)->getName() == std::string_view { name }) {
                 ptr = static_cast<FunctionDefPtr>(*it);
                 return true;
             }

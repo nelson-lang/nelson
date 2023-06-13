@@ -20,6 +20,10 @@ const std::wstring gatewayName = L"special_functions";
 static const nlsGateway gateway[] = {
     { "gamma", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { OVERLOAD_FUNCTION_NAME(NLS_DOUBLE_STR, "gamma"),
+        (ptrBuiltin)Nelson::SpecialFunctionsGateway::generic_gammaBuiltin, 1, 1, CPP_BUILTIN },
+    { OVERLOAD_FUNCTION_NAME(NLS_SINGLE_STR, "gamma"),
+        (ptrBuiltin)Nelson::SpecialFunctionsGateway::generic_gammaBuiltin, 1, 1, CPP_BUILTIN },
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "gcd", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2,

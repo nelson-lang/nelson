@@ -13,6 +13,12 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SpecialFunctionsGateway {
+//=============================================================================
 ArrayOfVector
 gammaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+generic_gammaBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

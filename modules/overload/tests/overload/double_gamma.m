@@ -8,5 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = double_gamma(argin)
+  if ~isreal(argin)
+    error('complex not supported.')
+  end
   r = 42;
 end
