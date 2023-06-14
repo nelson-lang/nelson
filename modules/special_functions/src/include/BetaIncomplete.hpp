@@ -14,7 +14,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
-BetaIncomplete(
-    const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower, bool& needOverload);
+BetaIncomplete(const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower);
 }
 //=============================================================================

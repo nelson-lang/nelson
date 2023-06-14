@@ -17,5 +17,8 @@ namespace Nelson::SpecialFunctionsGateway {
 ArrayOfVector
 betaincBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+ArrayOfVector
+generic_betaincBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

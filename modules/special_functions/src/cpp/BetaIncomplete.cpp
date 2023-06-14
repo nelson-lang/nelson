@@ -75,28 +75,9 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
 }
 //=============================================================================
 ArrayOf
-BetaIncomplete(
-    const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower, bool& needOverload)
+BetaIncomplete(const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower)
 {
     ArrayOf res;
-    if (X.getDataClass() == NLS_DOUBLE || X.getDataClass() == NLS_SINGLE && !X.isSparse()) {
-        needOverload = false;
-    } else {
-        needOverload = true;
-        return res;
-    }
-    if (Y.getDataClass() == NLS_DOUBLE || Y.getDataClass() == NLS_SINGLE && !Y.isSparse()) {
-        needOverload = false;
-    } else {
-        needOverload = true;
-        return res;
-    }
-    if (Z.getDataClass() == NLS_DOUBLE || Z.getDataClass() == NLS_SINGLE && !Z.isSparse()) {
-        needOverload = false;
-    } else {
-        needOverload = true;
-        return res;
-    }
     indexType maxLen
         = std::max(X.getElementCount(), std::max(Y.getElementCount(), Z.getElementCount()));
     Dimensions dimsX = X.getDimensions();
@@ -145,8 +126,6 @@ BetaIncomplete(
             Error(_("Wrong value for #1 argument. [0, 1] values expected."));
         }
         res = BetaIncomplete<single>(retDims, NLS_SINGLE, maxLen, X, YY, ZZ, isLower);
-    } else {
-        needOverload = true;
     }
     return res;
 }
