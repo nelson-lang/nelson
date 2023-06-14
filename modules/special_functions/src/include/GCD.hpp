@@ -15,6 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
-GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+GCD(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
 }
 //=============================================================================
