@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "UnaryPlus.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +37,7 @@ UnaryPlus(const ArrayOf& A)
         res = A;
     } break;
     default: {
-        return {};
+        OverloadRequired("uplus");
     } break;
     }
     return res;

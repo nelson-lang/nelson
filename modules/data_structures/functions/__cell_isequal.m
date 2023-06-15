@@ -7,14 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = builtin_cell_isequaln(a, b)
+function r = __cell_isequal(a, b)
+  r = false;  
+  if ~iscell(a)
+    return
+  end
+  if ~iscell(b)
+    return
+  end
   s1 = size(a);
   s2 = size(b);
   if isequal(s1, s2)
     r = true;
     k = 1;
     for e = a(:)'
-      if ~isequaln(e{1}, b{k})
+      if ~isequal(e{1}, b{k})
         r = false;
         break;
       else

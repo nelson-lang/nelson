@@ -26,7 +26,29 @@ Nelson::ComEngineGateway::COM_displayBuiltin(Evaluator* eval, int nLhs, const Ar
     std::string name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsCString();
+    } else {
+        name = argIn[0].name();
     }
+    Interface* io = nullptr;
+    if (eval) {
+        io = eval->getInterface();
+    }
+    DispComHandleObject(io, param1, name);
+#else
+    Error(_W("Not implemented on this platform."));
+#endif
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::ComEngineGateway::COM_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+#ifdef _MSC_VER
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    ArrayOf param1 = argIn[0];
+    std::string name;
     Interface* io = nullptr;
     if (eval) {
         io = eval->getInterface();

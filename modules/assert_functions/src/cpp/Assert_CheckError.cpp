@@ -29,7 +29,7 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
     }
     bool bRes = false;
     if (bEval == false) {
-        if (computedmsg == expectedmsg) {
+        if (expectedmsg.compare(computedmsg) == 0) {
             bRes = true;
             msg.clear();
         } else {

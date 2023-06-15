@@ -42,7 +42,7 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "display"),
         (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "disp"),
-        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "isvalid"),
         (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "MPI_Initialized", (ptrBuiltin)Nelson::MpiGateway::MPI_InitializedBuiltin, 1, 0 },
@@ -70,8 +70,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "delete"),
         (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1 },
-    { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "used"),
-        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_usedBuiltin, 1, 0 },
+    { "MPI_Comm_used", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_usedBuiltin, 1, 0 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "split"),
         (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
 };

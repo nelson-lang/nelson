@@ -372,19 +372,23 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         }
     } break;
     default: {
-        uint64 ticProfiling = Profiler::getInstance()->tic();
+        // !!! TODO REWORK with all operators support standard overload
+        uint64 ticProfiling = !0U;
+        if (t->opNum != OP_COLON) {
+            ticProfiling = Profiler::getInstance()->tic();
+        }
         std::string operatorName;
         switch (t->opNum) {
-        case OP_COLON:
-            if (ticProfiling != 0U) {
-                operatorName = getOperatorName(COLON_OP);
-            }
+        case OP_COLON: {
+            ArrayOf res;
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
-                retval = colonOperator(t);
+                res = colonOperator(t);
             } else {
-                retval = colonUnitOperator(t);
+                res = colonUnitOperator(t);
             }
-            break;
+            callstack.popID();
+            return res;
+        } break;
         case OP_EMPTY: {
             retval = ArrayOf::emptyConstructor();
         } break;

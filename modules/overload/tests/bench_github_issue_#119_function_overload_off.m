@@ -10,4 +10,7 @@
 A = struct([]);
 M = 1:1e5;
 overloadbasictypes(false);
-tic;for i=M;isequal(A,A);end;toc()
+tic;for i=M
+  isequal(A,A);
+end;
+toc()

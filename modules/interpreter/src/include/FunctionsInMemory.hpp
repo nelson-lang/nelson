@@ -22,7 +22,7 @@ class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
 private:
     //=============================================================================
-    std::unordered_map<uint64, FunctionDefPtr> _unaryOperatorInMemory;
+    std::unordered_map<OperatorType, FunctionDefPtr> _unaryOperatorInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
     std::vector<std::pair<std::string, FunctionDefPtr>> _mexFunctionsInMemory;
     std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
@@ -64,7 +64,7 @@ public:
     add(const std::string& functionName, FunctionDefPtr function);
     //=============================================================================
     void
-    add(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr function);
+    add(OperatorType operatorType, FunctionDefPtr function);
     //=============================================================================
     bool
     deleteMFunction(const std::string& functionName);
@@ -95,7 +95,7 @@ public:
     getMexInMemory(bool withCompleteNames);
     //=============================================================================
     bool
-    findUnaryOperator(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr& function);
+    findUnaryOperator(OperatorType operatorType, FunctionDefPtr& function);
     //=============================================================================
 };
 //=============================================================================

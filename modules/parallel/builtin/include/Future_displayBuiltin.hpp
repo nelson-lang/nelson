@@ -17,5 +17,8 @@ namespace Nelson::ParallelGateway {
 ArrayOfVector
 Future_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+ArrayOfVector
+Future_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

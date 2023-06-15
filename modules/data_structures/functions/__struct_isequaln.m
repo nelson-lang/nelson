@@ -7,12 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = builtin_struct_isequaln(a, b)
+function r = __struct_isequaln(a, b)
   r = false;
-  fieldA = fieldnames(a);
-  fieldA = sort(fieldA);
-  fieldB = fieldnames(b);
-  fieldB = sort(fieldB);;
+  if ~isstruct(a)
+    return
+  end
+  if ~isstruct(b)
+    return
+  end
+  fieldA = sort(fieldnames(a));
+  fieldB = sort(fieldnames(b));
   if isequalto(fieldA, fieldB)
     if isequalto(size(a), size(b))
       r = true;

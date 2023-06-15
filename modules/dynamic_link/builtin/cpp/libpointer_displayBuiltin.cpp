@@ -29,6 +29,8 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
     std::wstring name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
+    } else {
+        name = argIn[0].wname();
     }
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
@@ -37,7 +39,8 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
             if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                 Error(_W("libpointer handle expected."));
             }
-            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
+            LibPointerObject* lipPointerObj
+                = static_cast<LibPointerObject*>(param1.getContentAsHandleScalar());
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());

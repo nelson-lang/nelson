@@ -10,45 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::OperatorsGateway {
 //=============================================================================
 ArrayOfVector
-colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-double_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-single_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int8_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int16_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int32_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int64_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint8_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint16_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint32_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint64_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-char_colonBuiltin(int nLhs, const ArrayOfVector& argIn);
+colonBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

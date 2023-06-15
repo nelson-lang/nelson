@@ -824,6 +824,9 @@ private:
     colonOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
+    colonOperator(const ArrayOfVector& argIn);
+
+    ArrayOf
     additionOperator(AbstractSyntaxTreePtr t);
     ArrayOf
     subtractionOperator(AbstractSyntaxTreePtr t);

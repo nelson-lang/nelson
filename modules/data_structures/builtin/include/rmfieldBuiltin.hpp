@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::DataStructuresGateway {
+//=============================================================================
 ArrayOfVector
-rmfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+rmfieldBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

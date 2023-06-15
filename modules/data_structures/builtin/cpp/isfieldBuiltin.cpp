@@ -9,70 +9,57 @@
 //=============================================================================
 #include "isfieldBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::isfieldBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param1.isClassStruct() || param1.isHandle()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        if (param1.isStruct()) {
-            if (param2.isRowVectorCharacterArray()) {
-                stringVector fieldnames = param1.getFieldNames();
-                std::string name = param2.getContentAsCString();
-                bool res = false;
-                for (auto& fieldname : fieldnames) {
-                    if (fieldname.compare(name) == 0) {
-                        res = true;
-                    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    if (param1.isStruct()) {
+        if (param2.isRowVectorCharacterArray()) {
+            stringVector fieldnames = param1.getFieldNames();
+            std::string name = param2.getContentAsCString();
+            bool res = false;
+            for (auto& fieldname : fieldnames) {
+                if (fieldname.compare(name) == 0) {
+                    res = true;
                 }
-                retval << ArrayOf::logicalConstructor(res);
-            } else if (param2.isCell()) {
-                stringVector fieldnames = param1.getFieldNames();
-                Dimensions dims2 = param2.getDimensions();
-                if (dims2.getElementCount() == 0) {
-                    retval << ArrayOf::logicalConstructor(false);
-                } else {
-                    auto* elements = (ArrayOf*)(param2.getDataPointer());
-                    logical* res = static_cast<logical*>(ArrayOf::allocateArrayOf(
-                        NLS_LOGICAL, dims2.getElementCount(), stringVector(), false));
-                    ompIndexType elementCount = dims2.getElementCount();
-                    for (ompIndexType k = 0; k < elementCount; ++k) {
-                        res[k] = false;
-                        if (elements[k].isRowVectorCharacterArray()) {
-                            std::string name = elements[k].getContentAsCString();
-                            for (auto& fieldname : fieldnames) {
-                                if (fieldname.compare(name) == 0) {
-                                    res[k] = true;
-                                }
+            }
+            retval << ArrayOf::logicalConstructor(res);
+        } else if (param2.isCell()) {
+            stringVector fieldnames = param1.getFieldNames();
+            Dimensions dims2 = param2.getDimensions();
+            if (dims2.getElementCount() == 0) {
+                retval << ArrayOf::logicalConstructor(false);
+            } else {
+                auto* elements = (ArrayOf*)(param2.getDataPointer());
+                logical* res = static_cast<logical*>(ArrayOf::allocateArrayOf(
+                    NLS_LOGICAL, dims2.getElementCount(), stringVector(), false));
+                ompIndexType elementCount = dims2.getElementCount();
+                for (ompIndexType k = 0; k < elementCount; ++k) {
+                    res[k] = false;
+                    if (elements[k].isRowVectorCharacterArray()) {
+                        std::string name = elements[k].getContentAsCString();
+                        for (auto& fieldname : fieldnames) {
+                            if (fieldname.compare(name) == 0) {
+                                res[k] = true;
                             }
                         }
                     }
-                    retval << ArrayOf(NLS_LOGICAL, dims2, res);
                 }
-            } else {
-                retval << ArrayOf::logicalConstructor(false);
+                retval << ArrayOf(NLS_LOGICAL, dims2, res);
             }
         } else {
             retval << ArrayOf::logicalConstructor(false);
         }
+    } else {
+        retval << ArrayOf::logicalConstructor(false);
     }
     return retval;
 }

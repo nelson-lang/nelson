@@ -30,6 +30,6 @@ Nelson::ValidatorsGateway::mustBeFileBuiltin(int nLhs, const ArrayOfVector& argI
         }
     }
     mustBeFile(argIn[0], argPos, true);
-    return retval;
+    return {};
 }
 //=============================================================================

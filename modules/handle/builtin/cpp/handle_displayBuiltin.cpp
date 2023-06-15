@@ -29,8 +29,30 @@ Nelson::HandleGateway::handle_displayBuiltin(Evaluator* eval, int nLhs, const Ar
     std::wstring name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
+    } else {
+        name = argIn[0].wname();
     }
     if (io) {
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        DisplayVariableFooter(io, name.empty());
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::HandleGateway::handle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    if (!param1.isHandle()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+    }
+    Interface* io = eval->getInterface();
+    if (io) {
+        std::wstring name;
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         DisplayVariableFooter(io, name.empty());

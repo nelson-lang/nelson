@@ -7,32 +7,41 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dlcallBuiltin.hpp"
-#include "DynamicLinkSymbolObject.hpp"
+#include "libpointer_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "characters_encoding.hpp"
+#include "LibPointerObject.hpp"
+#include "DisplayVariableHelpers.hpp"
+#include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1);
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        Error(_W("dlsym handle expected."));
+    if (param1.isHandle()) {
+        std::wstring name;
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                Error(_W("libpointer handle expected."));
+            }
+            LibPointerObject* lipPointerObj
+                = static_cast<LibPointerObject*>(param1.getContentAsHandleScalar());
+            lipPointerObj->disp(io);
+        }
+        DisplayVariableFooter(io, name.empty());
+    } else {
+        Error(_W("libpointer handle expected."));
     }
-    auto* dlsymObj = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
-    ArrayOfVector params;
-    for (size_t l = 1; l < argIn.size(); l++) {
-        params.push_back(argIn[l]);
-    }
-    retval = dlsymObj->call(eval, nLhs, params);
     return retval;
 }
 //=============================================================================

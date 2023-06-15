@@ -82,7 +82,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::QmlEngineGateway::QObject_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_QOBJECT_CATEGORY_STR, "disp"),
-        (ptrBuiltin)Nelson::QmlEngineGateway::QObject_displayBuiltin, 0, 1,
+        (ptrBuiltin)Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_QOBJECT_CATEGORY_STR, "get"),
         (ptrBuiltin)Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
@@ -110,8 +110,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_QOBJECT_CATEGORY_STR, "findchildren"),
         (ptrBuiltin)Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
-    { OVERLOAD_METHOD_NAME(NLS_HANDLE_QOBJECT_CATEGORY_STR, "used"),
-        (ptrBuiltin)Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
+    { "QObject_used", (ptrBuiltin)Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
     { "qt_version", (ptrBuiltin)Nelson::QmlEngineGateway::qt_versionBuiltin, 1, 0 },
     { "qt_constant", (ptrBuiltin)Nelson::QmlEngineGateway::qt_constantBuiltin, 1, 1 },
 };

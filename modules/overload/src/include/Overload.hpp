@@ -12,6 +12,12 @@
 #include "Operators.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define CHAR_TO_STRING(ch) #ch
+//=============================================================================
+#define OVERLOAD_SYMBOL_CHAR '@'
+#define OVERLOAD_SYMBOL_STR CHAR_TO_STRING(OVERLOAD_SYMBOL_CHAR)
+//=============================================================================
 #define OVERLOAD_OPERATOR_NAME(typeName, operatorName) typeName "_" operatorName
 //=============================================================================
 #define OVERLOAD_FUNCTION_NAME(typeName, functionName) typeName "_" functionName

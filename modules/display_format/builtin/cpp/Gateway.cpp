@@ -131,12 +131,6 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_STRING_ARRAY_STR, "disp"),
         (ptrBuiltin)Nelson::DisplayFormatGateway::generic_dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { OVERLOAD_FUNCTION_NAME("sparsedouble", "disp"),
-        (ptrBuiltin)Nelson::DisplayFormatGateway::generic_dispBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { OVERLOAD_FUNCTION_NAME("sparselogical", "disp"),
-        (ptrBuiltin)Nelson::DisplayFormatGateway::generic_dispBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool

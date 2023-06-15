@@ -15,9 +15,7 @@
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
-#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -38,68 +36,55 @@ unsortedRemoveDuplicates(stringVector& values)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "rmfield", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param1.isClassStruct() || param1.isHandle()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "rmfield", bSuccess);
-            if (bSuccess) {
-                return retval;
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    if (param1.isStruct()) {
+        stringVector namesToRemove = param2.getContentAsCStringVector();
+        stringVector currentNames = param1.getFieldNames();
+        stringVector common;
+
+        unsortedRemoveDuplicates(namesToRemove);
+
+        for (const std::string& n : namesToRemove) {
+            bool have = false;
+            for (const std::string& c : currentNames) {
+                if (c.compare(n) == 0) {
+                    have = true;
+                }
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY, "rmfield");
+            if (!have) {
+                Error(fmt::sprintf(_("A field named '%s' doesn't exist."), n));
+            }
         }
-        if (param1.isStruct()) {
-            stringVector namesToRemove = param2.getContentAsCStringVector();
-            stringVector currentNames = param1.getFieldNames();
-            stringVector common;
-
-            unsortedRemoveDuplicates(namesToRemove);
-
-            for (const std::string& n : namesToRemove) {
-                bool have = false;
-                for (const std::string& c : currentNames) {
-                    if (c.compare(n) == 0) {
-                        have = true;
-                    }
-                }
-                if (!have) {
-                    Error(fmt::sprintf(_("A field named '%s' doesn't exist."), n));
-                }
+        common = currentNames;
+        for (const std::string& c : namesToRemove) {
+            common.erase(std::remove(common.begin(), common.end(), c), common.end());
+        }
+        if (param1.isScalar()) {
+            ArrayOfVector values;
+            for (const std::string& c : common) {
+                values.push_back(param1.getField(c));
             }
-            common = currentNames;
-            for (const std::string& c : namesToRemove) {
-                common.erase(std::remove(common.begin(), common.end(), c), common.end());
-            }
-            if (param1.isScalar()) {
-                ArrayOfVector values;
-                for (const std::string& c : common) {
-                    values.push_back(param1.getField(c));
-                }
-                retval << ArrayOf::structScalarConstructor(common, values);
-            } else {
-                Dimensions dims = param1.getDimensions();
-                auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                    NLS_STRUCT_ARRAY, dims.getElementCount(), common, false));
-
-                ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, common);
-                for (const std::string& c : common) {
-                    ArrayOfVector data = param1.getFieldAsList(c);
-                    st.setFieldAsList(c, data);
-                }
-                retval << st;
-            }
+            retval << ArrayOf::structScalarConstructor(common, values);
         } else {
-            Error(_W("Wrong type for argument #1. struct expected."));
+            Dimensions dims = param1.getDimensions();
+            auto* qp = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), common, false));
+
+            ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, common);
+            for (const std::string& c : common) {
+                ArrayOfVector data = param1.getFieldAsList(c);
+                st.setFieldAsList(c, data);
+            }
+            retval << st;
         }
+    } else {
+        Error(_W("Wrong type for argument #1. struct expected."));
     }
     return retval;
 }

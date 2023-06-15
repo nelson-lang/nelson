@@ -12,6 +12,10 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "NelsonGateway.hpp"
+#include "ClassName.hpp"
+#include "ClassToString.hpp"
+#include "FunctionsInMemory.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,6 +35,33 @@ ArrayOfVector
 BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     lock();
+    if (this->getName()[0] != OVERLOAD_SYMBOL_CHAR && eval->isOverloadAllowed()
+        && inputs.size() > 0) {
+        NelsonType destinationType = inputs[0].getDataClass();
+        std::string destinationTypeName;
+        if (destinationType >= NLS_STRUCT_ARRAY) {
+            destinationTypeName = ClassName(inputs[0]);
+        } else {
+            destinationTypeName = ClassToString(destinationType);
+        }
+
+        FunctionDef* funcDef = nullptr;
+        std::string overloadTypeName = overloadFunctionName(destinationTypeName, getName());
+        if (!FunctionsInMemory::getInstance()->find(
+                overloadTypeName, funcDef, FunctionsInMemory::ALL)) {
+            eval->getContext()->lookupFunction(overloadTypeName, funcDef, false);
+        }
+
+        bool isSameBuiltin = false;
+        if (funcDef && funcDef->type() == NLS_BUILT_IN_FUNCTION) {
+            BuiltInFunctionDef* ptrBuiltin = static_cast<BuiltInFunctionDef*>(funcDef);
+            BuiltInFunctionDef* ptrBuiltinThis = static_cast<BuiltInFunctionDef*>(this);
+            isSameBuiltin = (ptrBuiltin->fptr == ptrBuiltinThis->fptr);
+        }
+        if (funcDef && !isSameBuiltin) {
+            return funcDef->evaluateFunction(eval, inputs, nargout);
+        }
+    }
     ArrayOfVector outputs;
     eval->callstack.pushDebug(this->getName(), std::string("built-in ") + this->getName());
     size_t stackDepth = eval->callstack.size();

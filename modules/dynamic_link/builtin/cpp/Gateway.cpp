@@ -12,6 +12,7 @@
 #include "dlcallBuiltin.hpp"
 #include "dlcloseBuiltin.hpp"
 #include "dllib_displayBuiltin.hpp"
+#include "dllib_dispBuiltin.hpp"
 #include "dllib_fieldnamesBuiltin.hpp"
 #include "dllib_getBuiltin.hpp"
 #include "dllib_ismethodBuiltin.hpp"
@@ -23,6 +24,7 @@
 #include "dlsymBuiltin.hpp"
 #include "dlsym_deleteBuiltin.hpp"
 #include "dlsym_displayBuiltin.hpp"
+#include "dlsym_dispBuiltin.hpp"
 #include "dlsym_fieldnamesBuiltin.hpp"
 #include "dlsym_getBuiltin.hpp"
 #include "dlsym_ismethodBuiltin.hpp"
@@ -34,6 +36,7 @@
 #include "libpointerBuiltin.hpp"
 #include "libpointer_deleteBuiltin.hpp"
 #include "libpointer_displayBuiltin.hpp"
+#include "libpointer_dispBuiltin.hpp"
 #include "libpointer_fieldnamesBuiltin.hpp"
 #include "libpointer_getBuiltin.hpp"
 #include "libpointer_isNullBuiltin.hpp"
@@ -55,7 +58,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "disp"),
-        (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 1,
+        (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "isvalid"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_isvalidBuiltin, 1, 1,
@@ -75,8 +78,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_ismethodBuiltin, 1, 2 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "fieldnames"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin, 1, 1 },
-    { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "used"),
-        (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_usedBuiltin, 1, 0 },
+    { "dlsym_used", (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_usedBuiltin, 1, 0 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "delete"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_deleteBuiltin, 0, 1 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "get"),
@@ -85,8 +87,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_ispropBuiltin, 1, 2 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "ismethod"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_ismethodBuiltin, 1, 2 },
-    { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "used"),
-        (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
+    { "dllib_used", (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "delete"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "fieldnames"),
@@ -95,33 +96,40 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "disp"),
-        (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_displayBuiltin, 0, 1,
+        (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { OVERLOAD_METHOD_NAME(NLS_HANDLE_DLLIB_CATEGORY_STR, "isvalid"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dllib_isvalidBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dllibinfo", (ptrBuiltin)Nelson::DynamicLinkGateway::dllibinfoBuiltin, 1, 1 },
     { "libpointer", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
-    { "libpointer_display", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_displayBuiltin, 0, 2,
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "display"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "libpointer_disp", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_displayBuiltin, 0, 1,
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "disp"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "libpointer_isNull", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
-    { "libpointer_reshape", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0,
-        3 },
-    { "libpointer_get", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
-    { "libpointer_isprop", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_ispropBuiltin, 1, 2 },
-    { "libpointer_ismethod", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin, 1,
-        2 },
-    { "libpointer_plus", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_plusBuiltin, 1, 2 },
-    { "libpointer_setdatatype",
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "isNull"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "reshape"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "get"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "isprop"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_ispropBuiltin, 1, 2 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "ismethod"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin, 1, 2 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "plus"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_plusBuiltin, 1, 2 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "setdatatype"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_setdatatypeBuiltin, 0, 2 },
     { "libpointer_used", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_usedBuiltin, 1, 0 },
-    { "libpointer_delete", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_deleteBuiltin, 0, 1 },
-    { "libpointer_fieldnames", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin,
-        1, 1 },
-    { "libpointer_isvalid", (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin, 1,
-        1 },
+    { OVERLOAD_METHOD_NAME(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, "delete"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_deleteBuiltin, 0, 1 },
+    { OVERLOAD_METHOD_NAME("libpointer", "fieldnames"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin, 1, 1 },
+    { OVERLOAD_METHOD_NAME("libpointer", "isvalid"),
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin, 1, 1 },
     { "getdynlibext", (ptrBuiltin)Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 },
     { "dllibisloaded", (ptrBuiltin)Nelson::DynamicLinkGateway::dllibisloadedBuiltin, 1, 1 }
 };

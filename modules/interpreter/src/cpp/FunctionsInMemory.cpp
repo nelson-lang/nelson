@@ -319,11 +319,9 @@ FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 }
 //=============================================================================
 bool
-FunctionsInMemory::findUnaryOperator(
-    NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr& function)
+FunctionsInMemory::findUnaryOperator(OperatorType operatorType, FunctionDefPtr& function)
 {
-    uint64 key = nelsonType ^ operatorType;
-    auto it = _unaryOperatorInMemory.find(key);
+    auto it = _unaryOperatorInMemory.find(operatorType);
     if (it != _unaryOperatorInMemory.end()) {
         function = it->second;
         return true;
@@ -332,10 +330,9 @@ FunctionsInMemory::findUnaryOperator(
 }
 //=============================================================================
 void
-FunctionsInMemory::add(NelsonType nelsonType, OperatorType operatorType, FunctionDefPtr function)
+FunctionsInMemory::add(OperatorType operatorType, FunctionDefPtr function)
 {
-    uint64 key = nelsonType ^ operatorType;
-    _unaryOperatorInMemory.insert({ key, function });
+    _unaryOperatorInMemory.insert({ operatorType, function });
 }
 //=============================================================================
 }

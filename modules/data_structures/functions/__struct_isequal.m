@@ -7,12 +7,30 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-R = 1:int64(3);
-REF = int64([1 2 3]);
-assert_isequal(R, REF);
-%=============================================================================
-assert_checkerror('R = 0.1:int64(3);', _('Colon operands must be all the same type, or mixed with real double scalar.'));
-%=============================================================================
-R = int64(10):int64(1):int64(15);
-REF = int64([10 11 12 13 14 15]);
+function r = __struct_isequal(a, b)
+  r = false;
+  if ~isstruct(a)
+    return
+  end
+  if ~isstruct(b)
+    return
+  end
+  fieldA = sort(fieldnames(a));
+  fieldB = sort(fieldnames(b));
+  if isequalto(fieldA, fieldB)
+    if isequalto(size(a), size(b))
+      r = true;
+      for f = fieldA(:)'
+        for l = 1:length(a)
+          valueA = getfield(a(l), f{:});
+          valueB = getfield(b(l), f{:});
+          if ~isequal(valueA, valueB)
+            r = false;
+            break;
+          end
+        end
+      end
+    end
+  end
+end
 %=============================================================================

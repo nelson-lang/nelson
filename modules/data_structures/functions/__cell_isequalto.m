@@ -7,24 +7,28 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = builtin_struct_isequalto(a, b)
+function r = __cell_isequalto(a, b)
   r = false;
-  fieldA = fieldnames(a);
-  fieldB = fieldnames(b);
-  if isequalto(fieldA, fieldB)
-    if isequalto(size(a), size(b))
-      r = true;
-      for f = fieldA(:)'
-        for l = 1:length(a)
-          valueA = getfield(a(l), f{:});
-          valueB = getfield(b(l), f{:});
-          if ~isequaln(valueA, valueB)
-            r = false;
-            break;
-          end
-        end
+  if ~iscell(a)
+    return
+  end
+  if ~iscell(b)
+    return
+  end
+  s1 = size(a);
+  s2 = size(b);
+  if isequal(s1, s2)
+    r = true;
+    k = 1;
+    for e = a(:)'
+      if ~isequalto(e{1}, b{k})
+        r = false;
+        break;
+      else
+        k = k + 1;
       end
     end
+  else
+    r = false;
   end
 end
-%=============================================================================

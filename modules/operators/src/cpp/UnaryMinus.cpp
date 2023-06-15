@@ -11,6 +11,7 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "UnaryMinus.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -111,6 +112,7 @@ UnaryMinus(const ArrayOf& A)
         return uminusComplex<double>(A);
     } break;
     default: {
+        OverloadRequired("uminus");
     } break;
     }
     return {};

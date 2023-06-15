@@ -10,48 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::OperatorsGateway {
 //=============================================================================
 ArrayOfVector
-uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-logical_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-double_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-single_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int8_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int16_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int32_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-int64_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint8_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint16_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint32_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-uint64_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-ArrayOfVector
-char_uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
+uminusBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -27,6 +27,7 @@ Nelson::DisplayFormatGateway::displayBuiltin(Evaluator* eval, int nLhs, const Ar
     if (argIn.size() == 2) {
         variableName = argIn[1].getContentAsWideString();
     }
+
     OverloadDisplay(eval, variable, variableName, false);
     return retval;
 }

@@ -49,39 +49,6 @@ isObject(NelsonType nelsonType, const std::string& typeName)
         || (nelsonType == NLS_STRUCT_ARRAY && typeName != NLS_STRUCT_ARRAY_STR);
 }
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isequalCommonBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 2);
-
-    NelsonType destinationType = argIn[0].getDataClass();
-    std::string destinationTypeName = ClassName(argIn[0]);
-    for (size_t k = 1; k < argIn.size(); k++) {
-        destinationType = getCommonDataType(destinationType, argIn[k].getDataClass());
-        if (destinationType >= NLS_STRUCT_ARRAY) {
-            if (argIn[k].getDataClass() == destinationType) {
-                destinationTypeName = ClassName(argIn[k]);
-            }
-        } else {
-            destinationTypeName = ClassToString(destinationType);
-        }
-    }
-    FunctionDef* funcDef = nullptr;
-    std::string overloadTypeName = overloadFunctionName(destinationTypeName, functionName);
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef,
-            eval->isOverloadAllowed() ? FunctionsInMemory::ALL : FunctionsInMemory::BUILTIN)) {
-        Context* context = eval->getContext();
-        context->lookupFunction(overloadTypeName, funcDef, !eval->isOverloadAllowed());
-    }
-    if (!funcDef) {
-        Error(_("function") + " " + overloadTypeName + " " + _("undefined."));
-    }
-    return funcDef->evaluateFunction(eval, argIn, 1);
-}
-//=============================================================================
 static ArrayOfVector
 reference_isequalCommonBuiltin(Evaluator* eval, const ArrayOfVector& argIn,
     const std::string& functionName, const std::string& referenceTypeName)
@@ -92,7 +59,7 @@ reference_isequalCommonBuiltin(Evaluator* eval, const ArrayOfVector& argIn,
         return retval;
     }
     FunctionDef* funcDef = nullptr;
-    std::string overloadTypeName = "builtin_" + referenceTypeName + "_" + functionName;
+    std::string overloadTypeName = "__" + referenceTypeName + "_" + functionName;
     if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
         Context* context = eval->getContext();
         context->lookupFunction(overloadTypeName, funcDef);
@@ -149,109 +116,32 @@ generic_isequalCommonBuiltin(const ArrayOfVector& args, const std::string& funct
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::struct_isequalCommonBuiltin(
-    Evaluator* eval, const ArrayOfVector& argIn, const std::string& functionName)
+Nelson::ElementaryFunctionsGateway::isequalCommonBuiltin(Evaluator* eval, int nLhs,
+    const ArrayOfVector& argIn, const std::string& functionName, bool mustBeSameType,
+    bool nanIsSame)
 {
-    return reference_isequalCommonBuiltin(eval, argIn, functionName, NLS_STRUCT_ARRAY_STR);
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2);
+
+    NelsonType destinationType = argIn[0].getDataClass();
+    std::string destinationTypeName = ClassName(argIn[0]);
+    for (size_t k = 1; k < argIn.size(); k++) {
+        destinationType = getCommonDataType(destinationType, argIn[k].getDataClass());
+        if (destinationType >= NLS_STRUCT_ARRAY) {
+            if (argIn[k].getDataClass() == destinationType) {
+                destinationTypeName = ClassName(argIn[k]);
+            }
+        } else {
+            destinationTypeName = ClassToString(destinationType);
+        }
+    }
+
+    if (destinationType <= NLS_CHAR || (destinationType == NLS_STRING_ARRAY)) {
+        return generic_isequalCommonBuiltin(
+            argIn, functionName, destinationType, mustBeSameType, nanIsSame);
+    }
+
+    return reference_isequalCommonBuiltin(eval, argIn, functionName, destinationTypeName);
 }
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::cell_isequalCommonBuiltin(
-    Evaluator* eval, const ArrayOfVector& argIn, const std::string& functionName)
-{
-    return reference_isequalCommonBuiltin(eval, argIn, functionName, NLS_CELL_ARRAY_STR);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::char_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_CHAR, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::logical_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(
-        argIn, functionName, NLS_LOGICAL, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::double_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_DOUBLE, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::single_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_SINGLE, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::int8_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_INT8, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::int16_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_INT16, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::int32_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_INT32, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::int64_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_INT64, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::uint8_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_UINT8, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::uint16_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_UINT16, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::uint32_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_UINT32, mustBeSameType, nanIsSame);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::uint64_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(argIn, functionName, NLS_UINT64, mustBeSameType, nanIsSame);
-}
-//=============================================================================s
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::string_isequalCommonBuiltin(const ArrayOfVector& argIn,
-    const std::string& functionName, bool mustBeSameType, bool nanIsSame)
-{
-    return generic_isequalCommonBuiltin(
-        argIn, functionName, NLS_STRING_ARRAY, mustBeSameType, nanIsSame);
-}
-//=============================================================================s

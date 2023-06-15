@@ -28,6 +28,9 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "ClassName.hpp"
+#include "ClassToString.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -119,6 +122,33 @@ MacroFunctionDef::outputArgCount()
 ArrayOfVector
 MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    if (this->getName()[0] != OVERLOAD_SYMBOL_CHAR && eval->isOverloadAllowed()
+        && inputs.size() > 0) {
+        NelsonType destinationType = inputs[0].getDataClass();
+        std::string destinationTypeName;
+        if (destinationType >= NLS_STRUCT_ARRAY) {
+            destinationTypeName = ClassName(inputs[0]);
+        } else {
+            destinationTypeName = ClassToString(destinationType);
+        }
+
+        FunctionDef* funcDef = nullptr;
+        std::string overloadTypeName = overloadFunctionName(destinationTypeName, getName());
+        if (!FunctionsInMemory::getInstance()->find(
+                overloadTypeName, funcDef, FunctionsInMemory::ALL)) {
+            Context* context = eval->getContext();
+            context->lookupFunction(overloadTypeName, funcDef, false);
+        }
+        bool isSameMacro = false;
+        if (funcDef && funcDef->type() == NLS_MACRO_FUNCTION) {
+            MacroFunctionDef* ptrMacro = static_cast<MacroFunctionDef*>(funcDef);
+            MacroFunctionDef* ptrMacroThis = static_cast<MacroFunctionDef*>(this);
+            isSameMacro = (ptrMacro->code == ptrMacroThis->code);
+        }
+        if (funcDef && !isSameMacro) {
+            return funcDef->evaluateFunction(eval, inputs, nargout);
+        }
+    }
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();

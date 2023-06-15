@@ -10,154 +10,204 @@
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
 #include "Colon.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
+#include "ClassToString.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static ArrayOf
+colon(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
+static ArrayOf
+colon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);
+//=============================================================================
 ArrayOfVector
-Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::OperatorsGateway::colonBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    ArrayOf res;
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 2) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        res = eval->colonUnitOperator(argIn[0], argIn[1]);
-    } else if (argIn.size() == 3) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        ArrayOf C = argIn[2];
-        res = eval->colonOperator(argIn[0], argIn[1], argIn[2]);
-    } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        return colon(argIn[0], argIn[1]);
     }
-    retval << res;
-    return retval;
+    if (argIn.size() == 3) {
+        return colon(argIn[0], argIn[1], argIn[2]);
+    }
+    return {};
 }
 //=============================================================================
-static ArrayOfVector
-generic_colonBuiltin(NelsonType nlsType, int nLhs, const ArrayOfVector& argIn)
+static NelsonType
+getCommonType(NelsonType typeA, NelsonType typeB)
 {
-    ArrayOfVector retval;
+    if (typeA == typeB) {
+        return typeA;
+    }
+    if (typeA == NLS_DOUBLE || typeA == NLS_DCOMPLEX) {
+        return typeB;
+    }
+    if (typeB == NLS_DOUBLE || typeA == NLS_DCOMPLEX) {
+        return typeA;
+    }
+    return NLS_UNKNOWN;
+}
+//=============================================================================
+static NelsonType
+getCommonType(const ArrayOf& A, const ArrayOf& B)
+{
+    NelsonType commonType = NLS_UNKNOWN;
+    NelsonType classA = A.getDataClass();
+    NelsonType classB = B.getDataClass();
+
+    bool isObjectA = classA > NLS_CHAR;
+    bool isObjectB = classB > NLS_CHAR;
+    if (isObjectA || isObjectB) {
+        return NLS_UNKNOWN;
+    }
+
+    if ((classA == NLS_CHAR) && (classB != NLS_CHAR)) {
+        Error(_W("For colon operator with char operands, first and last operands must be char."),
+            L"Nelson:colon:mixedCharOperands");
+    }
+    bool isIntegerA = (classA >= NLS_INT8 && classA <= NLS_UINT64);
+    bool isIntegerB = (classB >= NLS_INT8 && classB <= NLS_UINT64);
+    bool isDoubleA = A.isDoubleClass() && A.isIntegerValue();
+    bool isDoubleB = B.isDoubleClass() && B.isIntegerValue();
+
+    bool isSupportedMixedInteger = (isIntegerA && isIntegerB && (classA == classB))
+        || (isIntegerA && isDoubleB) || (isDoubleA && isIntegerB);
+
+    if (!isSupportedMixedInteger && (isIntegerA || isIntegerB)) {
+        Error(_W("Colon operands must be all the same type, or mixed with real double scalar."),
+            L"Nelson:colon:mixedNonDoubleOperands");
+    }
+    return getCommonType(classA, classB);
+}
+//=============================================================================
+static NelsonType
+getCommonType(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
+{
+    NelsonType commonType = NLS_UNKNOWN;
+    NelsonType classA = A.getDataClass();
+    NelsonType classB = B.getDataClass();
+    NelsonType classC = C.getDataClass();
+
+    bool isObjectA = classA > NLS_CHAR;
+    bool isObjectB = classB > NLS_CHAR;
+    bool isObjectC = classC > NLS_CHAR;
+
+    if (isObjectA || isObjectB || isObjectC) {
+        return NLS_UNKNOWN;
+    }
+    if (classA == NLS_CHAR) {
+        if ((classB != NLS_DOUBLE) && (classB != NLS_DCOMPLEX) && (classB != NLS_CHAR)) {
+            Error(_W("For colon operator with char operands, second operand must be char or real "
+                     "scalar double."),
+                L"Nelson:colon:mixedCharOperand");
+        }
+        if (classC != NLS_CHAR) {
+            Error(
+                _W("For colon operator with char operands, first and last operands must be char."),
+                L"Nelson:colon:mixedCharOperand");
+        }
+    }
+    bool isIntegerA = (classA >= NLS_INT8 && classA <= NLS_UINT64);
+    bool isIntegerB = (classB >= NLS_INT8 && classB <= NLS_UINT64);
+    bool isIntegerC = (classC >= NLS_INT8 && classC <= NLS_UINT64);
+    bool isDoubleA = A.isDoubleClass() && A.isIntegerValue();
+    bool isDoubleB = B.isDoubleClass() && B.isIntegerValue();
+    bool isDoubleC = C.isDoubleClass() && C.isIntegerValue();
+
+    bool isSupportedMixedInteger = false;
+
+    if (isIntegerA && isIntegerB && isIntegerC) {
+        isSupportedMixedInteger = (classA == classB) && (classA == classC);
+    } else if (isIntegerA && isDoubleB && isIntegerC) {
+        isSupportedMixedInteger = (classA == classC);
+    } else if (isIntegerA && isIntegerB && isDoubleC) {
+        isSupportedMixedInteger = (classA == classB);
+    } else if (isIntegerA && isDoubleB && isDoubleC) {
+        isSupportedMixedInteger = true;
+    } else if (isDoubleA && isIntegerB && isDoubleC) {
+        isSupportedMixedInteger = true;
+    } else if (isDoubleA && isDoubleB && isDoubleC) {
+        isSupportedMixedInteger = true;
+    } else if (isDoubleA && isDoubleB && isIntegerC) {
+        isSupportedMixedInteger = true;
+    }
+
+    if (!isSupportedMixedInteger && (isIntegerA || isIntegerB || isIntegerC)) {
+        Error(_W("Colon operands must be all the same type, or mixed with real double scalar."),
+            L"Nelson:colon:mixedNonDoubleOperands");
+    }
+    return getCommonType(getCommonType(classA, classB), classC);
+}
+//=============================================================================
+ArrayOf
+colon(const ArrayOf& A, const ArrayOf& B)
+{
     ArrayOf res;
-    if (argIn.size() == 2) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
-            if (A.isDoubleType()) {
-                double d = A.getContentAsDoubleScalar(true);
-                if (int64(d) != d) {
-                    Error(_W("Colon input arguments must have same type."));
-                }
-            }
-            if (B.isDoubleType()) {
-                double d = B.getContentAsDoubleScalar(true);
-                if (int64(d) != d) {
-                    Error(_W("Colon input arguments must have same type."));
-                }
-            }
-        }
-        A.promoteType(nlsType);
-        B.promoteType(nlsType);
-        res = Colon(A, B);
-    } else if (argIn.size() == 3) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        ArrayOf C = argIn[2];
-        A.promoteType(nlsType);
-        B.promoteType(nlsType);
-        C.promoteType(nlsType);
-        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
-            if (A.isDoubleType()) {
-                double d = A.getContentAsDoubleScalar(true);
-                if (int64(d) != d) {
-                    Error(_W("Colon input arguments must have same type."));
-                }
-            }
-            if (B.isDoubleType()) {
-                double d = B.getContentAsDoubleScalar(true);
-                if (int64(d) != d) {
-                    Error(_W("Colon input arguments must have same type."));
-                }
-            }
-            if (C.isDoubleType()) {
-                double d = C.getContentAsDoubleScalar(true);
-                if (int64(d) != d) {
-                    Error(_W("Colon input arguments must have same type."));
-                }
-            }
-        }
-        res = Colon(A, B, C);
-    } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    NelsonType commonType = getCommonType(A, B);
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    _A.promoteType(commonType);
+    _B.promoteType(commonType);
+    switch (commonType) {
+    case NLS_DOUBLE:
+    case NLS_SINGLE:
+    case NLS_DCOMPLEX:
+    case NLS_SCOMPLEX:
+    case NLS_INT8:
+    case NLS_INT16:
+    case NLS_INT32:
+    case NLS_INT64:
+    case NLS_UINT8:
+    case NLS_UINT16:
+    case NLS_UINT32:
+    case NLS_UINT64:
+    case NLS_LOGICAL:
+    case NLS_CHAR: {
+        res = Colon(_A, _B);
+    } break;
+    default: {
+        OverloadRequired(getOperatorName(COLON_OP));
+    } break;
     }
-    retval << res;
-    return retval;
+    return res;
 }
 //=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::double_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
+ArrayOf
+colon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 {
-    return generic_colonBuiltin(NLS_DOUBLE, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::single_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_SINGLE, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::uint8_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_UINT8, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::uint16_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_UINT16, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::uint32_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_UINT32, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::uint64_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_UINT64, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::int8_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_INT8, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::int16_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_INT16, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::int32_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_INT32, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::int64_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_INT64, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::OperatorsGateway::char_colonBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_colonBuiltin(NLS_CHAR, nLhs, argIn);
+    ArrayOf res;
+    NelsonType commonType = getCommonType(A, B, C);
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    ArrayOf _C(C);
+    _A.promoteType(commonType);
+    _B.promoteType(commonType);
+    _C.promoteType(commonType);
+    switch (commonType) {
+    case NLS_DOUBLE:
+    case NLS_SINGLE:
+    case NLS_DCOMPLEX:
+    case NLS_SCOMPLEX:
+    case NLS_INT8:
+    case NLS_INT16:
+    case NLS_INT32:
+    case NLS_INT64:
+    case NLS_UINT8:
+    case NLS_UINT16:
+    case NLS_UINT32:
+    case NLS_UINT64:
+    case NLS_LOGICAL:
+    case NLS_CHAR: {
+        res = Colon(_A, _B, _C);
+    } break;
+    default: {
+        OverloadRequired(getOperatorName(COLON_OP));
+    } break;
+    }
+    return res;
 }
 //=============================================================================

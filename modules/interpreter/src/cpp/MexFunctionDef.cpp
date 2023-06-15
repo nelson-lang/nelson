@@ -18,6 +18,9 @@
 #include "ProfilerHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "CallMexBuiltin.hpp"
+#include "FunctionsInMemory.hpp"
+#include "ClassName.hpp"
+#include "ClassToString.hpp"
 //=============================================================================
 #define BUFFER_LENGTH_NAME 4096
 #define MEXFILEREQUIREDAPIVERSION_ENTRY "mexfilerequiredapiversion"
@@ -120,6 +123,39 @@ ArrayOfVector
 MexFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     lock();
+    if (this->getName()[0] != OVERLOAD_SYMBOL_CHAR && eval->isOverloadAllowed()
+        && inputs.size() > 0) {
+        NelsonType destinationType = inputs[0].getDataClass();
+        std::string destinationTypeName;
+        if (destinationType >= NLS_STRUCT_ARRAY) {
+            destinationTypeName = ClassName(inputs[0]);
+        } else {
+            destinationTypeName = ClassToString(destinationType);
+        }
+
+        FunctionDef* funcDef = nullptr;
+        std::string overloadTypeName = overloadFunctionName(destinationTypeName, getName());
+        if (!FunctionsInMemory::getInstance()->find(
+                overloadTypeName, funcDef, FunctionsInMemory::ALL)) {
+            Context* context = eval->getContext();
+            context->lookupFunction(overloadTypeName, funcDef, false);
+        }
+
+        bool isSameMex = false;
+        if (funcDef && funcDef->type() == NLS_MEX_FUNCTION) {
+            MexFunctionDef* ptrBuiltin = static_cast<MexFunctionDef*>(funcDef);
+            MexFunctionDef* ptrBuiltinThis = static_cast<MexFunctionDef*>(this);
+            isSameMex = (ptrBuiltin->mexFunctionPtr == ptrBuiltinThis->mexFunctionPtr);
+        }
+        if (funcDef && !isSameMex) {
+            return funcDef->evaluateFunction(eval, inputs, nargout);
+        }
+
+        if (funcDef) {
+            return funcDef->evaluateFunction(eval, inputs, nargout);
+        }
+    }
+
     ArrayOfVector outputs;
     eval->callstack.pushDebug(this->getName(), std::string("built-in ") + this->getName());
     size_t stackDepth = eval->callstack.size();

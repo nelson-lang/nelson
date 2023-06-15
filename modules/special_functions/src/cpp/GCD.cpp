@@ -153,8 +153,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
-        auto* ptrA = (logical*)_A.getDataPointer();
-        auto* ptrB = (logical*)_B.getDataPointer();
+        logical* ptrA = reinterpret_cast<logical*>(const_cast<void*>(_A.getDataPointer()));
+        logical* ptrB = reinterpret_cast<logical*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<logical>(NLS_LOGICAL, ptrA, ptrB, dimsA);
         } else {
@@ -166,8 +166,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_UINT8: {
-        auto* ptrA = (uint8*)_A.getDataPointer();
-        auto* ptrB = (uint8*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<uint8*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<uint8*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint8>(NLS_UINT8, ptrA, ptrB, dimsA);
         } else {
@@ -179,8 +179,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_INT8: {
-        int8* ptrA = (int8*)_A.getDataPointer();
-        int8* ptrB = (int8*)_B.getDataPointer();
+        int8* ptrA = reinterpret_cast<int8*>(const_cast<void*>(_A.getDataPointer()));
+        int8* ptrB = reinterpret_cast<int8*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int8>(NLS_INT8, ptrA, ptrB, dimsA);
         } else {
@@ -192,8 +192,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_UINT16: {
-        auto* ptrA = (uint16*)_A.getDataPointer();
-        auto* ptrB = (uint16*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<uint16*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<uint16*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint16>(NLS_UINT16, ptrA, ptrB, dimsA);
         } else {
@@ -205,8 +205,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_INT16: {
-        auto* ptrA = (int16*)_A.getDataPointer();
-        auto* ptrB = (int16*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<int16*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<int16*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int16>(NLS_INT16, ptrA, ptrB, dimsA);
         } else {
@@ -218,8 +218,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_UINT32: {
-        auto* ptrA = (uint32*)_A.getDataPointer();
-        auto* ptrB = (uint32*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<uint32*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<uint32*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint32>(NLS_UINT32, ptrA, ptrB, dimsA);
         } else {
@@ -231,8 +231,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_INT32: {
-        auto* ptrA = (int32*)_A.getDataPointer();
-        auto* ptrB = (int32*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<int32*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<int32*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int32>(NLS_INT32, ptrA, ptrB, dimsA);
         } else {
@@ -244,8 +244,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_UINT64: {
-        auto* ptrA = (uint64*)_A.getDataPointer();
-        auto* ptrB = (uint64*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<uint64*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<uint64*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint64>(NLS_UINT64, ptrA, ptrB, dimsA);
         } else {
@@ -257,8 +257,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_INT64: {
-        auto* ptrA = (int64*)_A.getDataPointer();
-        auto* ptrB = (int64*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<int64*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<int64*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int64>(NLS_INT64, ptrA, ptrB, dimsA);
         } else {
@@ -270,8 +270,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_CHAR: {
-        auto* ptrA = (charType*)_A.getDataPointer();
-        auto* ptrB = (charType*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<charType*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<charType*>(const_cast<void*>(_B.getDataPointer()));
         if (dimsA.equals(dimsB)) {
             res = integerGCD<charType>(NLS_CHAR, ptrA, ptrB, dimsA);
         } else {
@@ -283,8 +283,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_SINGLE: {
-        auto* ptrA = (single*)_A.getDataPointer();
-        auto* ptrB = (single*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<single*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<single*>(const_cast<void*>(_B.getDataPointer()));
         bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || _A.isEmpty();
         bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || _B.isEmpty();
         if (!isIntegerA || !isIntegerB) {
@@ -301,8 +301,8 @@ GCD(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     case NLS_DOUBLE: {
-        auto* ptrA = (double*)_A.getDataPointer();
-        auto* ptrB = (double*)_B.getDataPointer();
+        auto* ptrA = reinterpret_cast<double*>(const_cast<void*>(_A.getDataPointer()));
+        auto* ptrB = reinterpret_cast<double*>(const_cast<void*>(_B.getDataPointer()));
         bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || _A.isEmpty();
         bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || _B.isEmpty();
         if (!isIntegerA || !isIntegerB) {

@@ -31,7 +31,28 @@ Nelson::QmlEngineGateway::QObject_displayBuiltin(
     std::string name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsCString();
+    } else {
+        name = argIn[0].name();
     }
+    DispQObjectHandleObject(io, param1, name);
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    if (eval == nullptr) {
+        return retval;
+    }
+    Interface* io = eval->getInterface();
+    if (io == nullptr) {
+        return retval;
+    }
+    std::string name;
     DispQObjectHandleObject(io, param1, name);
     return retval;
 }

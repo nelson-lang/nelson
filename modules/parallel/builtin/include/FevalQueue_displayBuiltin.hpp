@@ -17,5 +17,8 @@ namespace Nelson::ParallelGateway {
 ArrayOfVector
 FevalQueue_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+ArrayOfVector
+FevalQueue_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

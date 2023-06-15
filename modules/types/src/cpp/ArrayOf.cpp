@@ -1064,9 +1064,7 @@ ArrayOf::isColumnVector() const
 bool
 ArrayOf::isReferenceType() const
 {
-    return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY)
-        || (dp->dataClass == NLS_STRING_ARRAY) || (dp->dataClass == NLS_HANDLE)
-        || (dp->dataClass == NLS_GO_HANDLE);
+    return (dp->dataClass > NLS_CHAR);
 }
 //=============================================================================
 /**

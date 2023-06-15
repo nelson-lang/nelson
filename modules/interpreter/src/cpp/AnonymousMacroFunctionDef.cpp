@@ -81,6 +81,7 @@ ArrayOfVector
 AnonymousMacroFunctionDef::evaluateFunction(
     Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    lock();
     updateCode(nargout);
     ArrayOfVector outputs;
     size_t minCount = 0;

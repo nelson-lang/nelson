@@ -51,6 +51,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"validators";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    //=============================================================================
+    { "mustBeFile", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeNumericOrLogical",
         (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNumericOrLogicalBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeLogical", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, -1,
@@ -70,7 +72,6 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonzeroLengthTextBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFolder", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeFile", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeVector", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeFloat", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1,

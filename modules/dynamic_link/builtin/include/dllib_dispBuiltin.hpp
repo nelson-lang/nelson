@@ -7,19 +7,17 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "realBuiltin.hpp"
-#include "RealPart.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::realBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1);
-    retval << RealPart(argIn[0]);
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace DynamicLinkGateway {
+    ArrayOfVector
+    dllib_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
