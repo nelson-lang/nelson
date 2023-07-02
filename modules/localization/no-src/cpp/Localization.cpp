@@ -68,7 +68,7 @@ Localization::initializeLocalization(const std::wstring& lang)
 bool
 Localization::isSupportedLanguage(const std::wstring& lang)
 {
-    return lang == L"en_US";
+    return wcscmp(lang.c_str(), L"en_US") == 0;
 }
 //=============================================================================
 } // namespace Nelson

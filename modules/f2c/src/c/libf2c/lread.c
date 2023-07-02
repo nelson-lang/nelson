@@ -1,5 +1,6 @@
 #include "nelson_f2c.h"
 #include "fio.h"
+#include <ctype.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4273)
@@ -28,7 +29,6 @@ int (*f__lioproc)(), (*l_getc)(), (*l_ungetc)();
 
 #include "fmt.h"
 #include "lio.h"
-#include "ctype.h"
 #include "fp.h"
 #ifdef __cplusplus
 extern "C" {

@@ -32,6 +32,12 @@ Source: {#RootPath}bin\{#BinPath}\vc_redist.x86.exe; DestDir: {app}\bin\{#BinPat
 Source: {#RootPath}bin\{#BinPath}\msvcp140.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\vcruntime140.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\libmmd.dll; DestDir: {app}\bin\{#BinPath}\ ; Components: {#COMPONENT_NELSON};
+#ifdef ICC_COMPILER
+Source: {#RootPath}bin\{#BinPath}\svml_dispmd.dll; DestDir: {app}\bin\{#BinPath}\ ; Components: {#COMPONENT_NELSON};
+#endif
+#ifdef ICX_COMPILER
+Source: {#RootPath}bin\{#BinPath}\svml_dispmd.dll; DestDir: {app}\bin\{#BinPath}\ ; Components: {#COMPONENT_NELSON};
+#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\LICENSE_1_0.txt; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 ;==============================================================================

@@ -12,6 +12,7 @@
 #pragma warning(disable : 4724)
 #endif
 //=============================================================================
+#include <cwchar>
 #include <cstring>
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>

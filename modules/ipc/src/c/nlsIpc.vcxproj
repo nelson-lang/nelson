@@ -1,253 +1,249 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{78b885d2-1630-42de-9829-e791d77bb175}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsIpc</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <OpenMPSupport>true</OpenMPSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <OpenMPSupport>true</OpenMPSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <OpenMPSupport>true</OpenMPSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <OpenMPSupport>true</OpenMPSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cpp\CompressedStringHelpers.cpp" />
-    <ClCompile Include="..\cpp\DataInterProcessToExchange.cpp" />
-    <ClCompile Include="..\cpp\FilesAssociations.cpp" />
-    <ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp" />
-    <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
-    <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
-    <ClCompile Include="..\cpp\NelsonMinimizedDynamicFunction.cpp" />
-    <ClCompile Include="..\cpp\PostCommandDynamicFunction.cpp" />
-    <ClCompile Include="..\cpp\RemoveIpcOldFiles.cpp" />
-    <ClCompile Include="..\cpp\dllMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\include\nlsIpc_exports.h" />
-    <ClInclude Include="..\include\CompressedStringHelpers.hpp" />
-    <ClInclude Include="..\include\DataInterProcessToExchange.hpp" />
-    <ClInclude Include="..\include\FilesAssociation.hpp" />
-    <ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp" />
-    <ClInclude Include="..\include\NelsonInterprocess.hpp" />
-    <ClInclude Include="..\include\NelsonPIDs.hpp" />
-    <ClInclude Include="..\include\NelsonMinimizedDynamicFunction.hpp" />
-    <ClInclude Include="..\include\PostCommandDynamicFunction.hpp" />
-    <ClInclude Include="..\include\RemoveIpcOldFiles.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\module.iss" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
-      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
-      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\file_archiver\src\c\nlsFile_archiver.vcxproj">
-      <Project>{b192ae19-f947-4900-81a6-babe8fa2b6cd}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
-      <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
-      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
-      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
-      <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
-      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\time\src\c\nlsTime.vcxproj">
-      <Project>{2391a997-6a1f-49ef-8a7a-92769f13b1f7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
-      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|Win32">
+			<Configuration>Debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Debug|x64">
+			<Configuration>Debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|Win32">
+			<Configuration>Release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|x64">
+			<Configuration>Release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{78b885d2-1630-42de-9829-e791d77bb175}</ProjectGuid>
+		<Keyword>Win32Proj</Keyword>
+		<RootNamespace>nlsIpc</RootNamespace>
+		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v143</PlatformToolset></PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v143</PlatformToolset></PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v143</PlatformToolset></PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v143</PlatformToolset></PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros"/>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<LinkIncremental>true</LinkIncremental>
+		<OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+		<TargetName>lib$(ProjectName)</TargetName>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<TargetName>lib$(ProjectName)</TargetName>
+		<LinkIncremental>true</LinkIncremental>
+		<OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<LinkIncremental>false</LinkIncremental>
+		<OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+		<TargetName>lib$(ProjectName)</TargetName>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<TargetName>lib$(ProjectName)</TargetName>
+		<LinkIncremental>false</LinkIncremental>
+		<OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<ClCompile>
+			<PrecompiledHeader>
+			</PrecompiledHeader>
+			<WarningLevel>Level3</WarningLevel>
+			<Optimization>Disabled</Optimization>
+			<PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+			<DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<OpenMPSupport>true</OpenMPSupport>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<ClCompile>
+			<PrecompiledHeader>
+			</PrecompiledHeader>
+			<WarningLevel>Level3</WarningLevel>
+			<Optimization>Disabled</Optimization>
+			<PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+			<DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
+			<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+			<OpenMPSupport>true</OpenMPSupport>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<PrecompiledHeader>
+			</PrecompiledHeader>
+			<Optimization>MaxSpeed</Optimization>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+			<DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<OpenMPSupport>true</OpenMPSupport>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<OptimizeReferences>true</OptimizeReferences>
+			<AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<PrecompiledHeader>
+			</PrecompiledHeader>
+			<Optimization>MaxSpeed</Optimization>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIPC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>$(SolutionDir)modules/ipc/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+			<DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
+			<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+			<OpenMPSupport>true</OpenMPSupport>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<OptimizeReferences>true</OptimizeReferences>
+			<AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\cpp\CompressedStringHelpers.cpp"/>
+		<ClCompile Include="..\cpp\DataInterProcessToExchange.cpp"/>
+		<ClCompile Include="..\cpp\FilesAssociations.cpp"/>
+		<ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp"/>
+		<ClCompile Include="..\cpp\NelsonInterprocess.cpp"/>
+		<ClCompile Include="..\cpp\NelsonPIDs.cpp"/>
+		<ClCompile Include="..\cpp\NelsonMinimizedDynamicFunction.cpp"/>
+		<ClCompile Include="..\cpp\PostCommandDynamicFunction.cpp"/>
+		<ClCompile Include="..\cpp\RemoveIpcOldFiles.cpp"/>
+		<ClCompile Include="..\cpp\dllMain.cpp"/>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\include\nlsIpc_exports.h"/>
+		<ClInclude Include="..\include\CompressedStringHelpers.hpp"/>
+		<ClInclude Include="..\include\DataInterProcessToExchange.hpp"/>
+		<ClInclude Include="..\include\FilesAssociation.hpp"/>
+		<ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp"/>
+		<ClInclude Include="..\include\NelsonInterprocess.hpp"/>
+		<ClInclude Include="..\include\NelsonPIDs.hpp"/>
+		<ClInclude Include="..\include\NelsonMinimizedDynamicFunction.hpp"/>
+		<ClInclude Include="..\include\PostCommandDynamicFunction.hpp"/>
+		<ClInclude Include="..\include\RemoveIpcOldFiles.hpp"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Text Include="..\..\CMakeLists.txt"/>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\module.iss"/>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="resources.rc"/>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+			<Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+			<Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+			<Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\file_archiver\src\c\nlsFile_archiver.vcxproj">
+			<Project>{b192ae19-f947-4900-81a6-babe8fa2b6cd}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
+			<Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+			<Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+			<Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
+			<Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+			<Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\time\src\c\nlsTime.vcxproj">
+			<Project>{2391a997-6a1f-49ef-8a7a-92769f13b1f7}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+			<Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+	<ImportGroup Label="ExtensionTargets">
+	</ImportGroup>
 </Project>

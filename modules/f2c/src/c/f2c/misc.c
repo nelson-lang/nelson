@@ -834,7 +834,7 @@ maxtype(t1, t2)
 int t1;
 int t2;
 #else
-maxtype(int t1, int t2)
+int maxtype(int t1, int t2)
 #endif
 {
     int t;

@@ -1,6 +1,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable : 4244 4554)
 #endif
+#include <ctype.h>
 
 #include "nelson_f2c.h"
 #include "fio.h"
@@ -18,7 +19,7 @@ extern double atof();
 
 #include "fmt.h"
 #include "fp.h"
-#include "ctype.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

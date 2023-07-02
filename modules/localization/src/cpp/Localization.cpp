@@ -220,7 +220,7 @@ bool
 Localization::isSupportedLanguage(const std::wstring& lang)
 {
     for (auto& k : LanguageSupported) {
-        if (lang == k) {
+        if (wcscmp(lang.c_str(), k.c_str()) == 0) {
             return true;
         }
     }

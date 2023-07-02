@@ -22,10 +22,14 @@
 //=============================================================================
 #pragma warning(disable : 4190)
 #ifndef lapack_complex_float
+#ifndef __INTEL_COMPILER
 #define lapack_complex_float std::complex<float>
+#endif
 #endif
 //=============================================================================
 #ifndef lapack_complex_double
+#ifndef __INTEL_COMPILER
 #define lapack_complex_double std::complex<double>
+#endif
 #endif
 //=============================================================================

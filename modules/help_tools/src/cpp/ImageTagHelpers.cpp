@@ -8,11 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
+#include <regex>
 #include "StringHelpers.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
-#include <boost/regex.hpp>
-#include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <fstream>
 #include "FileSystemWrapper.hpp"
@@ -25,10 +24,9 @@ namespace Nelson {
 bool
 isValidImageTag(const std::wstring& tag)
 {
-    boost::xpressive::wsregex token = boost::xpressive::wsregex::compile(
-        L"<img[^>]*?src\\s*=\\s*[\"\"']?([^'\"\" >]+?)[ '\"\"][^>]*?>");
-    boost::xpressive::wsregex_iterator cur(tag.begin(), tag.end(), token);
-    boost::xpressive::wsregex_iterator end;
+    std::wregex token(L"<img[^>]*?src\\s*=\\s*[\"\"']?([^'\"\" >]+?)[ '\"\"][^>]*?>");
+    std::wsregex_iterator cur(tag.begin(), tag.end(), token);
+    std::wsregex_iterator end;
     return !(cur == end);
 }
 //=============================================================================
@@ -36,12 +34,11 @@ bool
 parseImageTag(const std::wstring& tag, const std::wstring& srcDirectory, std::wstring& oldPath,
     std::wstring& newPath)
 {
-    boost::xpressive::wsregex tokenUrl = boost::xpressive::wsregex::compile(
-        L"((http(|s):\\/\\/)?[^\"'=\n\r]+\\.(jpg|png|jpeg|gif|svg))");
-    boost::xpressive::wsregex_iterator cur2(tag.begin(), tag.end(), tokenUrl);
-    boost::xpressive::wsregex_iterator end;
+    std::wregex tokenUrl(L"((http(|s):\\/\\/)?[^\"'=\n\r]+\\.(jpg|png|jpeg|gif|svg))");
+    std::wsregex_iterator cur2(tag.begin(), tag.end(), tokenUrl);
+    std::wsregex_iterator end;
     if (cur2 != end) {
-        boost::xpressive::wsmatch const& what = *cur2;
+        std::wsmatch const& what = *cur2;
         oldPath = what[0];
         std::string errorMessage;
         if (!StringHelpers::istarts_with(oldPath, L"http")) {
@@ -70,13 +67,12 @@ bool
 findImageTag(const std::wstring& text, wstringVector& imagesTag)
 {
     bool bRes = false;
-    boost::xpressive::wsregex token = boost::xpressive::wsregex::compile(
-        L"<img[^>]*?src\\s*=\\s*[\"\"']?([^'\"\" >]+?)[ '\"\"][^>]*?>");
-    boost::xpressive::wsregex_iterator cur(text.begin(), text.end(), token);
-    boost::xpressive::wsregex_iterator end;
+    std::wregex token(L"<img[^>]*?src\\s*=\\s*[\"\"']?([^'\"\" >]+?)[ '\"\"][^>]*?>");
+    std::wsregex_iterator cur(text.begin(), text.end(), token);
+    std::wsregex_iterator end;
     for (; cur != end; ++cur) {
-        boost::xpressive::wsmatch const& what = *cur;
-        std::wstring submatch = what[0];
+        std::wsmatch const& what = *cur;
+        std::wstring submatch = what.str();
         imagesTag.push_back(submatch);
         bRes = true;
     }
