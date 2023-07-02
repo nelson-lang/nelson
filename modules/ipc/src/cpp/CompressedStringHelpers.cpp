@@ -51,7 +51,7 @@ CompressedStringToArrayOf(const std::string& compressedString, bool& success)
             if (!success && !serializedVariable.isFullySerialized()) {
                 success = true;
             }
-        } catch (boost::archive::archive_exception&) {
+        } catch (std::exception&) {
             success = false;
         }
     }

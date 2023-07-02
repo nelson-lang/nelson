@@ -8,10 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include <boost/date_time/c_local_time_adjustor.hpp>
-#include <boost/date_time/local_time/local_time.hpp>
-#include <boost/date_time/local_time_adjustor.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <chrono>
+#include <sstream>
+#include <string>
+#include <ctime>
+#include <iomanip>
 #include "FileSystemWrapper.hpp"
 #include "FileInfo.hpp"
 #include "DateNumber.hpp"
@@ -19,13 +20,19 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::posix_time::ptime
-local_ptime_from_utc_time_t(std::time_t const t)
+static std::tm*
+local_tm_from_utc_time_t(std::time_t const t)
 {
-    using boost::date_time::c_local_adjustor;
-    using boost::posix_time::from_time_t;
-    using boost::posix_time::ptime;
-    return c_local_adjustor<ptime>::utc_to_local(from_time_t(t));
+    std::tm* local_time = std::localtime(&t);
+    return local_time;
+}
+//=============================================================================
+static std::wstring
+local_time_to_wstring(const std::tm* local_time)
+{
+    std::wstringstream wss;
+    wss << std::put_time(local_time, L"%Y-%m-%d %H:%M:%S");
+    return wss.str();
 }
 //=============================================================================
 FileInfo::FileInfo(const std::wstring& filename)
@@ -50,15 +57,14 @@ FileInfo::FileInfo(const std::wstring& filename)
     std::string errorMessage;
     std::time_t t = FileSystemWrapper::Path::last_write_time(_path, errorMessage);
     if (errorMessage.empty()) {
-        boost::posix_time::ptime pt = local_ptime_from_utc_time_t(t);
-        int day = pt.date().day();
-        int month = pt.date().month();
-        int year = pt.date().year();
-        auto hms = pt.time_of_day();
-        int h = (int)hms.hours();
-        int m = (int)hms.minutes();
-        int s = (int)hms.seconds();
-        this->date = boost::posix_time::to_simple_wstring(pt);
+        std::tm* pt = local_tm_from_utc_time_t(t);
+        int day = pt->tm_mday;
+        int month = pt->tm_mon + 1;
+        int year = pt->tm_year + 1900;
+        int h = (int)pt->tm_hour;
+        int m = (int)pt->tm_min;
+        int s = (int)pt->tm_sec;
+        this->date = local_time_to_wstring(pt);
         this->datenum = DateNumber(year, month, day, h, m, s);
     } else {
         this->date = std::wstring();

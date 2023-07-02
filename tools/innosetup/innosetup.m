@@ -22,6 +22,15 @@ if fp ~= -1
   if isQt6
     fprintf(fp, ['#define QT6_USED', char(10)]);
   end
+  if strcmp(compiler{1}, 'icx') == true
+    fprintf(fp, ['#define ICX_COMPILER', char(10)]);
+  end
+  if strcmp(compiler{1}, 'icc') == true
+    fprintf(fp, ['#define ICC_COMPILER', char(10)]);
+  end
+    if strcmp(compiler{1}, 'msvc') == true
+    fprintf(fp, ['#define VS_COMPILER', char(10)]);
+  end
   if strcmp(compiler{3}, '64') == true
     fprintf(fp, ['#define NELSON_X64', char(10)]);
   end

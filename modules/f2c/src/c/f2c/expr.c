@@ -2418,7 +2418,7 @@ register int op;
 register int lt;
 register int rt;
 #else
-cktype(register int op, register int lt, register int rt)
+int cktype(register int op, register int lt, register int rt)
 #endif
 {
     char *errs;
@@ -3331,7 +3331,7 @@ consbinop(int opcode, int type, Constp cpp, Constp app, Constp bpp)
 conssgn(p)
 register expptr p;
 #else
-conssgn(register expptr p)
+int conssgn(register expptr p)
 #endif
 {
     register char *s;

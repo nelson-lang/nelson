@@ -278,7 +278,6 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
         size_t s = jsVar.fieldnames.size();
         for (size_t i = 0; i < s; i++) {
             ArrayOf rval = jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[i])[j]);
-            const ArrayOf* rptr = (const ArrayOf*)rval.getDataPointer();
             ptrStruct[offset] = rval;
             offset++;
         }

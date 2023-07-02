@@ -15,9 +15,12 @@ wstringVector
 VersionCompilerFlags()
 {
     wstringVector options;
-#ifdef __INTEL_COMPILER
-    options.push_back(L"icc");
+#if defined(__INTEL_LLVM_COMPILER) && defined(__INTEL_COMPILER)
+    options.push_back(L"icx");
 #else
+#if defined(__INTEL_COMPILER)
+    options.push_back(L"icc");
+#endif
 #ifdef _MSC_VER
     options.push_back(L"msvc");
 #else

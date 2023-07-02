@@ -245,7 +245,7 @@ sigcatch(int sig)
 }
 
 
-dofork(Void)
+int dofork(Void)
 {
 #ifdef MSDOS
     Fatal("Only one Fortran input file allowed under MS-DOS");
@@ -480,7 +480,7 @@ dsort(from, to)
 char *from;
 char *to;
 #else
-dsort(char *from, char *to)
+int dsort(char *from, char *to)
 #endif
 {
     struct Memb

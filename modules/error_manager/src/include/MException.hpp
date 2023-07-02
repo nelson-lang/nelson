@@ -117,7 +117,6 @@ ArrayOfToException(const ArrayOf& arg)
     }
     e.setCause(cause);
 
-    Dimensions dimsStack = stackArrayOf.getDimensions();
     auto* stackElement = (ArrayOf*)stackArrayOf.getDataPointer();
     std::vector<PositionScript> trace;
     for (indexType k = 0; k < stackArrayOf.getElementCount(); k++) {

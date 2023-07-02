@@ -25,6 +25,7 @@ use or performance of this software.
  * is an initial attempt to gather in one place some declarations
  * that may need to be tweaked on some systems.
  */
+#pragma once
 
 #ifdef __STDC__
 #undef KR_headers
@@ -96,7 +97,7 @@ extern char *chr_fmt[], escapes[], *str_fmt[];
 
 #include <string.h>
 
-#include "ctype.h"
+#include <ctype.h>
 
 #define Bits_per_Byte 8
 #define Table_size (1 << Bits_per_Byte)
