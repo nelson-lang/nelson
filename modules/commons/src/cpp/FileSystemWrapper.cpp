@@ -600,11 +600,7 @@ Path::copy_file(Path const& p1, Path const& p2, std::string& errorMessage)
     nfs::path _p1(p1.nativePath);
     nfs::path _p2(p2.nativePath);
     try {
-#ifdef _WITH_BOOST_FILESYSTEM_
-        bRes = nfs::copy_file(_p1, _p2, nfs::copy_option::overwrite_if_exists);
-#else
         bRes = nfs::copy_file(_p1, _p2, nfs::copy_options::overwrite_existing);
-#endif
     } catch (const nfs::filesystem_error& e) {
         std::error_code error_code = e.code();
         errorMessage = error_code.message();

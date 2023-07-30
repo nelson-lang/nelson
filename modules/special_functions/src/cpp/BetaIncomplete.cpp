@@ -38,7 +38,6 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
     auto* ptrX = (T*)X.getDataPointer();
     auto* ptrY = (T*)Y.getDataPointer();
     auto* ptrZ = (T*)Z.getDataPointer();
-    bool fails = false;
     if (isLower) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -50,7 +49,7 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
             try {
                 result[i] = boost::math::ibeta(y, z, x);
             } catch (...) {
-                fails = true;
+                result[i] = 1.0;
             }
         }
     } else {
@@ -64,12 +63,9 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
             try {
                 result[i] = 1 - boost::math::ibeta(y, z, x);
             } catch (...) {
-                fails = true;
+                result[i] = 0.;
             }
         }
-    }
-    if (fails) {
-        Error(_("Error evaluating betainc."));
     }
     return res;
 }
