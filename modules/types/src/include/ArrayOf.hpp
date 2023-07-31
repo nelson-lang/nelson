@@ -77,15 +77,7 @@ private:
      * $$1,\ldots,\mathrm{maxD}$.
      */
     bool* getBinaryMap(indexType);
-    /** Get the internal index corresponding to a given field name.
-     * Get the internal index corresponding to a given field name.  This
-     * is the index into the fieldname array of the argument.  If the
-     * argument is not found, a value of -1 is returned.
-     */
-    [[nodiscard]] int64
-    getFieldIndex(const std::string& fieldName) const;
-    [[nodiscard]] int64
-    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
+
     /**
      * Copy us from the source object.
      */
@@ -96,6 +88,16 @@ private:
      */
     void
     deleteContents();
+
+    /** Get the internal index corresponding to a given field name.
+     * Get the internal index corresponding to a given field name.  This
+     * is the index into the fieldname array of the argument.  If the
+     * argument is not found, a value of -1 is returned.
+     */
+    [[nodiscard]] int64
+    getFieldIndex(const std::string& fieldName) const;
+    [[nodiscard]] int64
+    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
 
     /* Check all fieldnames are valid */
     static bool
@@ -761,38 +763,6 @@ public:
     toCell(ArrayOf m);
 
     /**
-     * Structure constructor - this is equivalent to the built in struct command.
-     * First, we have to make sure that each entry of "values" have
-     *  -  cell arrays of the same size (say MxN)
-     *  -  single element cell arrays,
-     *  -  single values.
-     * With such a setup, the output is a structure array of size MxN.  Elements
-     * which are defined by a single value or a single-element cell array are
-     * replicated throughout all MxN entries.  Remaining elements take their
-     * values from the cell-array.
-     * Throws an exception if
-     *  - the number of entries in the fieldnames vector does not match
-     *    the number of entries in the values vector
-     *  - the non-scalar values do not agree in dimension
-     */
-    static ArrayOf
-    structConstructor(const stringVector& fNames, const ArrayOfVector& values);
-    static ArrayOf
-    structConstructor(const wstringVector& fNames, const ArrayOfVector& values);
-
-    static ArrayOf
-    emptyStructWithoutFields();
-    static ArrayOf
-    emptyStructConstructor(const stringVector& fNames, Dimensions& dim);
-    static ArrayOf
-    emptyStructConstructor(const wstringVector& fNames, Dimensions& dim);
-
-    static ArrayOf
-    structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values);
-    static ArrayOf
-    structScalarConstructor(const wstringVector& fNames, const ArrayOfVector& values);
-
-    /**
      * returns value as an array =A(index)
      * simple extraction (fast used 'for' loop)
      */
@@ -846,28 +816,6 @@ public:
      */
     ArrayOf
     getNDimContents(ArrayOfVector& index);
-    /**
-     * Get the contents of a field from its field name.  Again, like
-     * getVectorContents and getNDimContents, this function is meant for
-     * assignments only, and the argument must be a scalar structure. Throws an
-     * exection if we are a vector, or if the supplied field do not exist.
-     */
-    [[nodiscard]] ArrayOf
-    getField(const std::string& fieldName) const;
-    /**
-     * Add another fieldname to our structure array.
-     */
-    indexType
-    insertFieldName(const std::string& fieldName);
-    /**
-     * Get the contents of a field as an array from its field name.  This is used
-     * when a structure array is used to supply a list of expressions.
-     * Throws an exception if
-     *   - we are not a structure array
-     *   - the field does not exist
-     */
-    ArrayOfVector
-    getFieldAsList(const std::string& fieldName);
     /**
      * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used
      * when a cell array is used to supply a list of expressions. Throws an
@@ -1151,12 +1099,6 @@ public:
     getContentAsSingleComplexScalar(bool arrayAsScalar = false) const;
 
     /**
-     * Returns true if the given Class is either NLS_CELL_ARRAY or
-     * NLS_STRUCT_ARRAY.
-     */
-    static bool isDataClassReferenceType(NelsonType);
-
-    /**
      * Returns the number of nonzero elements in the array.  For reference
      * types, this is a best-guess.
      */
@@ -1194,15 +1136,97 @@ public:
     toCellArrayOfCharacterColumnVectors(const wstringVector& elements);
 
     [[nodiscard]] bool
-    isStruct() const;
-    void
-    setStructType(const std::string& structname);
-    void
-    setStructType(const std::wstring& structname);
-    [[nodiscard]] std::string
-    getStructType() const;
+    isLogical() const;
     [[nodiscard]] bool
-    isClassStruct() const;
+    isNdArrayLogical() const;
+    [[nodiscard]] bool
+    isSparseLogicalType() const;
+
+    [[nodiscard]] bool
+    isNumeric() const;
+
+    /** Compute the maximum index.
+     * This computes the maximum value of the array as an index (meaning
+     * that it must be greater than 0.  Because this is an internal function, it
+     * assumes that the variable has already been passed through toOrdinalType()
+     * successfully.  Throws an exception if the maximum value is zero or
+     * negative.
+     */
+    indexType
+    getMaxAsIndex();
+
+    void
+    deleteArrayOf(void* dp, NelsonType dataclass);
+
+    //=========================================================================
+    // common struct, class array
+    //=========================================================================
+
+    /**
+     * Get the contents of a field from its field name.  Again, like
+     * getVectorContents and getNDimContents, this function is meant for
+     * assignments only, and the argument must be a scalar structure. Throws an
+     * exection if we are a vector, or if the supplied field do not exist.
+     */
+    [[nodiscard]] ArrayOf
+    getField(const std::string& fieldName) const;
+    /**
+     * Add another fieldname to our structure array.
+     */
+    indexType
+    insertFieldName(const std::string& fieldName);
+    /**
+     * Get the contents of a field as an array from its field name.  This is used
+     * when a structure array is used to supply a list of expressions.
+     * Throws an exception if
+     *   - we are not a structure array
+     *   - the field does not exist
+     */
+    ArrayOfVector
+    getFieldAsList(const std::string& fieldName);
+
+    //=========================================================================
+    // struct array
+    //=========================================================================
+
+    /**
+     * Structure constructor - this is equivalent to the built in struct command.
+     * First, we have to make sure that each entry of "values" have
+     *  -  cell arrays of the same size (say MxN)
+     *  -  single element cell arrays,
+     *  -  single values.
+     * With such a setup, the output is a structure array of size MxN.  Elements
+     * which are defined by a single value or a single-element cell array are
+     * replicated throughout all MxN entries.  Remaining elements take their
+     * values from the cell-array.
+     * Throws an exception if
+     *  - the number of entries in the fieldnames vector does not match
+     *    the number of entries in the values vector
+     *  - the non-scalar values do not agree in dimension
+     */
+    static ArrayOf
+    structConstructor(const stringVector& fNames, const ArrayOfVector& values);
+    static ArrayOf
+    structConstructor(const wstringVector& fNames, const ArrayOfVector& values);
+
+    static ArrayOf
+    emptyStructWithoutFields();
+    static ArrayOf
+    emptyStructConstructor(const stringVector& fNames, Dimensions& dim);
+    static ArrayOf
+    emptyStructConstructor(const wstringVector& fNames, Dimensions& dim);
+
+    static ArrayOf
+    structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values);
+    static ArrayOf
+    structScalarConstructor(const wstringVector& fNames, const ArrayOfVector& values);
+
+    [[nodiscard]] bool
+    isStruct() const;
+
+    //=========================================================================
+    // function_handle array
+    //=========================================================================
 
     static ArrayOf
     functionHandleConstructor(function_handle fptr);
@@ -1215,18 +1239,9 @@ public:
     [[nodiscard]] bool
     isFunctionHandle() const;
 
-    [[nodiscard]] bool
-    isLogical() const;
-    [[nodiscard]] bool
-    isNdArrayLogical() const;
-    [[nodiscard]] bool
-    isSparseLogicalType() const;
-
-    [[nodiscard]] bool
-    isNumeric() const;
-
-    void
-    deleteArrayOf(void* dp, NelsonType dataclass);
+    //=========================================================================
+    // handle array
+    //=========================================================================
 
     /*
      * check is handle type
@@ -1261,15 +1276,32 @@ public:
     [[nodiscard]] HandleGenericObject*
     getContentAsHandleScalar() const;
 
-    /** Compute the maximum index.
-     * This computes the maximum value of the array as an index (meaning
-     * that it must be greater than 0.  Because this is an internal function, it
-     * assumes that the variable has already been passed through toOrdinalType()
-     * successfully.  Throws an exception if the maximum value is zero or
-     * negative.
-     */
-    indexType
-    getMaxAsIndex();
+    //=========================================================================
+    // class array
+    //=========================================================================
+    [[nodiscard]] bool
+    isClassType() const;
+
+    void
+    setClassType(const std::string& structname);
+    void
+    setClassType(const std::wstring& structname);
+
+    [[nodiscard]] std::string
+    getClassType() const;
+
+    static ArrayOf
+    classConstructor(const std::wstring& classTypeName, const wstringVector& fNames,
+        const ArrayOfVector& values);
+    static ArrayOf
+    classConstructor(
+        const std::string& classTypeName, const stringVector& fNames, const ArrayOfVector& values);
+
+    static ArrayOf
+    emptyClassConstructor(
+        const std::wstring className, const wstringVector& fNames, Dimensions& dim);
+    static ArrayOf
+    emptyClassConstructor(const std::string className, const stringVector& fNames, Dimensions& dim);
 
     //=========================================================================
     // string array

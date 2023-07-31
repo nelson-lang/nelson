@@ -63,6 +63,7 @@ Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 Error(_W("Undefined function 'nnz' for input arguments of type "
                          "'struct'."));
             }
+        case NLS_CLASS_ARRAY:
         default:
             retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
             if (!bSuccess) {

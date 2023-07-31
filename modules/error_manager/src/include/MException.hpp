@@ -31,9 +31,9 @@ ExceptionToArrayOf(const Exception& e)
     fieldnames.push_back("stack");
     fieldnames.push_back("Correction");
     ArrayOf* elementRes = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.getElementCount(), fieldnames, false));
-    ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsRes, elementRes, false, fieldnames);
-    res.setStructType("MException");
+        ArrayOf::allocateArrayOf(NLS_CLASS_ARRAY, dimsRes.getElementCount(), fieldnames, false));
+    ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dimsRes, elementRes, false, fieldnames);
+    res.setClassType("MException");
 
     std::vector<Exception> causeExceptions = e.getCause();
     ArrayOf causeCell;

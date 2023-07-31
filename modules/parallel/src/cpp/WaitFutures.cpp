@@ -38,8 +38,11 @@ WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_S
     if (futures.empty()) {
         return true;
     }
-    std::chrono::nanoseconds begin_time
-        = std::chrono::high_resolution_clock::now().time_since_epoch();
+
+    int64_t timeout_ns = std::isinf(timeoutSeconds) ? std::numeric_limits<int64_t>::max()
+                                                    : int64_t(timeoutSeconds * 1e9);
+
+    auto begin_time = std::chrono::high_resolution_clock::now();
 
     while (true) {
         if (expectedState == THREAD_STATE::FINISHED) {
@@ -51,24 +54,27 @@ WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_S
                 return true;
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-        std::chrono::nanoseconds current_time
-            = std::chrono::high_resolution_clock::now().time_since_epoch();
-        std::chrono::nanoseconds difftime = (current_time - begin_time);
-        if (!std::isinf(timeoutSeconds) && (difftime.count() > int64(timeoutSeconds * 1e9))) {
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto difftime_ns
+            = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time - begin_time)
+                  .count();
+
+        if (difftime_ns > timeout_ns) {
             return false;
         }
-        if (eval != nullptr) {
-            bool isInterrupted
-                = NelsonConfiguration::getInstance()->getInterruptPending(eval->getID());
-            if (isInterrupted) {
-                return false;
-            }
+
+        if (eval != nullptr
+            && NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())) {
+            return false;
         }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
         if (eval != nullptr && eval->haveEventsLoop()) {
             ProcessEventsDynamicFunctionWithoutWait();
         }
     }
+
     return false;
 }
 //=============================================================================

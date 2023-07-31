@@ -257,7 +257,8 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
 {
     if (dp->dataClass != dstClass && !isEmpty()) {
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
-            || (dstClass == NLS_STRUCT_ARRAY)) {
+            || (dstClass == NLS_CLASS_ARRAY && dp->dataClass != NLS_STRUCT_ARRAY)
+            || (dstClass == NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY)) {
             Error(_W("Cannot convert base types to reference types."));
         }
     }
@@ -294,6 +295,20 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             return;
         }
         Error(_W("Cannot convert cell-arrays to any other type."));
+
+    } break;
+    case NLS_CLASS_ARRAY: {
+        if (dstClass == NLS_CLASS_ARRAY) {
+            if (dp->getClassTypeName() != getClassType()) {
+                Error(_W("Cannot combine classes with different types."));
+            }
+            return;
+        }
+        if (dstClass == NLS_STRUCT_ARRAY) {
+            dp->promoteClassToStruct();
+            return;
+        }
+        Error(_W("Cannot convert struct-arrays to any other type."));
 
     } break;
     case NLS_STRUCT_ARRAY: {
@@ -343,6 +358,11 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             dp = dp->putData(dp->dataClass, dp->dimensions, dstPtr, false, fNames);
             return;
         }
+        if (dstClass == NLS_CLASS_ARRAY) {
+            dp->promoteStructToClass();
+            return;
+        }
+
         Error(_W("Cannot convert struct-arrays to any other type."));
 
     } break;
@@ -1155,7 +1175,7 @@ ArrayOf::canBePromotedTo(NelsonType dstClass)
     }
     if (dp->dataClass != dstClass) {
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
-            || (dstClass == NLS_STRUCT_ARRAY)) {
+            || (dstClass == NLS_STRUCT_ARRAY) || (dstClass == NLS_CLASS_ARRAY)) {
             return false;
         }
     }
@@ -1170,15 +1190,10 @@ ArrayOf::canBePromotedTo(NelsonType dstClass)
         }
     }
     switch (dp->dataClass) {
-    case NLS_HANDLE: {
-        return false;
-    } break;
-    case NLS_CELL_ARRAY: {
-        return false;
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        return false;
-    } break;
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_CLASS_ARRAY:
+    case NLS_STRUCT_ARRAY:
     case NLS_STRING_ARRAY: {
         return false;
     } break;

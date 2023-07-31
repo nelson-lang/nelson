@@ -27,7 +27,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         }
         if (!bSuccess) {
-            if (argIn[0].isClassStruct() || argIn[0].isHandle() || argIn[0].isGraphicsObject()) {
+            if (argIn[0].isClassType() || argIn[0].isHandle() || argIn[0].isGraphicsObject()) {
                 retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
                 if (bSuccess) {
                     return retval;
@@ -46,22 +46,8 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             arg1.ensureSingleOwner();
             ArrayOf arg2 = argIn[1];
             std::string newType = arg2.getContentAsCString();
-            if ((newType == NLS_SPARSE_STR) || (newType == NLS_CELL_ARRAY_STR)
-                || (newType == NLS_STRING_ARRAY_STR) || (newType == NLS_STRUCT_ARRAY_STR)
-                || (newType == NLS_LOGICAL_STR) || (newType == NLS_UINT8_STR)
-                || (newType == NLS_INT8_STR) || (newType == NLS_UINT16_STR)
-                || (newType == NLS_INT16_STR) || (newType == NLS_UINT32_STR)
-                || (newType == NLS_INT32_STR) || (newType == NLS_UINT64_STR)
-                || (newType == NLS_INT64_STR) ||
-                //  (newType == NLS_DOUBLE_STR) ||
-                //	(newType == NLS_SINGLE_STR) ||
-                (newType == NLS_SCOMPLEX_STR) || (newType == NLS_DCOMPLEX_STR)
-                || (newType == NLS_CHAR_STR) || (newType == NLS_FUNCTION_HANDLE_STR)
-                || (newType == NLS_GO_HANDLE_STR) || (newType == NLS_HANDLE_STR)
-                || (newType == NLS_GENERIC_STR)) {
-                Error(ERROR_TYPE_ALREADY_RESERVED);
-            }
-            arg1.setStructType(newType);
+            arg1.promoteType(NLS_CLASS_ARRAY);
+            arg1.setClassType(newType);
             retval << arg1;
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);

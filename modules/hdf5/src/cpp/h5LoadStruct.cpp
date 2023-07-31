@@ -47,7 +47,8 @@ h5LoadStruct(hid_t fid, const std::string& location, const std::string& variable
         } catch (const std::bad_alloc&) {
             return false;
         }
-        VariableValue = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
+        VariableValue = ArrayOf(
+            isObject ? NLS_CLASS_ARRAY : NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         indexType length = dims.getElementCount();
         indexType offset = 0;
         for (indexType j = 0; j < length; j++) {
@@ -63,7 +64,7 @@ h5LoadStruct(hid_t fid, const std::string& location, const std::string& variable
         }
         bSuccess = true;
         if (isObject) {
-            VariableValue.setStructType(objectClassname);
+            VariableValue.setClassType(objectClassname);
         }
     }
     return bSuccess;

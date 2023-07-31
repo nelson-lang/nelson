@@ -28,7 +28,7 @@ Nelson::ElementaryFunctionsGateway::dec2baseBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isCell() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "dec2base", bSuccess);
             if (bSuccess) {
                 return retval;
@@ -68,7 +68,7 @@ Nelson::ElementaryFunctionsGateway::dec2hexBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isCell() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "dec2hex", bSuccess);
             if (bSuccess) {
                 return retval;
@@ -108,7 +108,7 @@ Nelson::ElementaryFunctionsGateway::dec2binBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isCell() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "dec2bin", bSuccess);
             if (bSuccess) {
                 return retval;

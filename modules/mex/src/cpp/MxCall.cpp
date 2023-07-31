@@ -79,9 +79,8 @@ createMexception(Nelson::Exception& e)
     Nelson::Dimensions emptyDims(1, 0);
     fieldvalues.push_back(
         Nelson::ArrayOf::emptyStructConstructor(Nelson::wstringVector(), emptyDims));
-    Nelson::ArrayOf res = Nelson::ArrayOf::structConstructor(fieldnames, fieldvalues);
-
-    res.setStructType("MException");
+    std::wstring className = L"MException";
+    Nelson::ArrayOf res = Nelson::ArrayOf::classConstructor(className, fieldnames, fieldvalues);
     return res;
 }
 //=============================================================================

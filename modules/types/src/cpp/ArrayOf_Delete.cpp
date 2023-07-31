@@ -90,9 +90,9 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
                 newDim[1] = newSize;
             }
         }
-        std::string structTypeName = dp->getStructTypeName();
+        std::string structTypeName = dp->getClassTypeName();
         dp = dp->putData(dp->dataClass, newDim, qp, dp->sparse, dp->fieldNames);
-        dp->setStructTypeName(structTypeName);
+        dp->setClassTypeName(structTypeName);
     } catch (const Exception&) {
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
@@ -265,9 +265,9 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             delete[] deletionMap;
             deletionMap = nullptr;
             retDims.simplify();
-            std::string structTypeName = dp->getStructTypeName();
+            std::string structTypeName = dp->getClassTypeName();
             dp = dp->putData(dp->dataClass, retDims, cp, dp->sparse, dp->fieldNames);
-            dp->setStructTypeName(structTypeName);
+            dp->setClassTypeName(structTypeName);
         } else {
             /* here we need to return empty mxn and not only 0x0*/
             /*
@@ -291,9 +291,9 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
                 idxm++;
             }
             newDims[idxm] = m;
-            std::string structTypeName = dp->getStructTypeName();
+            std::string structTypeName = dp->getClassTypeName();
             dp = dp->putData(dp->dataClass, newDims, nullptr, dp->sparse, dp->fieldNames);
-            dp->setStructTypeName(structTypeName);
+            dp->setClassTypeName(structTypeName);
         }
     } catch (const Exception&) {
         delete[] deletionMap;

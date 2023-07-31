@@ -94,13 +94,12 @@ ToLogical(ArrayOf A)
     case NLS_CELL_ARRAY: {
         Error(_W("Conversion to logical from cell is not possible."));
     } break;
+    case NLS_CLASS_ARRAY: {
+        Error(_("Undefined function 'logical' for input arguments of type '") + A.getClassType()
+            + "'.");
+    } break;
     case NLS_STRUCT_ARRAY: {
-        if (A.getStructType() != "struct") {
-            Error(_("Undefined function 'logical' for input arguments of type '")
-                + A.getStructType() + "'.");
-        } else {
-            Error(_W("Conversion to logical from struct is not possible."));
-        }
+        Error(_W("Conversion to logical from struct is not possible."));
     } break;
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {

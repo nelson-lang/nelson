@@ -28,7 +28,7 @@ Nelson::ElementaryFunctionsGateway::bin2decBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "bin2dec", bSuccess);
             if (bSuccess) {
                 return retval;
@@ -60,7 +60,7 @@ Nelson::ElementaryFunctionsGateway::hex2decBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "hex2dec", bSuccess);
             if (bSuccess) {
                 return retval;
@@ -94,7 +94,7 @@ Nelson::ElementaryFunctionsGateway::base2decBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "base2dec", bSuccess);
             if (bSuccess) {
                 return retval;

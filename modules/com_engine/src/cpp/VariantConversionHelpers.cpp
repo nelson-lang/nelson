@@ -511,6 +511,7 @@ NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessag
             return true;
         } break;
         case NLS_STRUCT_ARRAY:
+        case NLS_CLASS_ARRAY:
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:
         default: {
@@ -773,6 +774,7 @@ NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessag
             }
         } break;
         case NLS_STRUCT_ARRAY:
+        case NLS_CLASS_ARRAY:
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:
         default: {

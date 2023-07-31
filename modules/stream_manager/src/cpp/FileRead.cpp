@@ -93,6 +93,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         case NLS_HANDLE:
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY:
+        case NLS_CLASS_ARRAY:
         case NLS_STRING_ARRAY:
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:

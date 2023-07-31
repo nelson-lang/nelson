@@ -31,14 +31,14 @@ Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const Ar
                 return retval;
             }
         }
-        if (argIn[0].isClassStruct()) {
+        if (argIn[0].isClassType()) {
             if (argIn[0].isFunctionHandle()) {
                 Error(_("Conversion to 'struct' to 'function_handle' is not possible."),
                     "Nelson:invalidConversion");
             } else {
                 ArrayOf asStruct = argIn[0];
                 asStruct.ensureSingleOwner();
-                asStruct.setStructType(NLS_STRUCT_ARRAY_STR);
+                asStruct.promoteType(NLS_STRUCT_ARRAY);
                 retval << asStruct;
                 return retval;
             }

@@ -68,7 +68,7 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     if (dims.isEmpty(false)) {
         bSuccess = h5SaveEmptyAttribute(fid, h5path);
     }
-    if (VariableValue.isClassStruct()) {
+    if (VariableValue.isClassType()) {
         bSuccess = h5SaveUint8Attribute(fid, h5path, NELSON_OBJECT_STR, uint8(1));
     }
     return bSuccess;

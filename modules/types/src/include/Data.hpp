@@ -54,7 +54,7 @@ private:
      */
     stringVector fieldNames;
 
-    std::string structTypeName = std::string(NLS_STRUCT_ARRAY_STR);
+    std::string classTypeName = std::string(NLS_CLASS_ARRAY_STR);
     /**
      * struct class name by default "struct"
      */
@@ -110,15 +110,27 @@ private:
      */
 
     [[nodiscard]] std::string
-    getStructTypeName() const;
+    getClassTypeName() const;
     /**
      * get struct type name (by default: struct)
      */
 
     void
-    setStructTypeName(const std::string& typeName);
+    setClassTypeName(const std::string& typeName);
     /**
      * set struct type name (by default: struct)
+     */
+
+    void
+    promoteStructToClass();
+    /**
+     * promote struct to class type
+     */
+
+    void
+    promoteClassToStruct();
+    /**
+     * promote class to struct type
      */
 
     [[nodiscard]] const stringVector&

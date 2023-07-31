@@ -114,7 +114,8 @@ mxSetClassName(mxArray* array_ptr, const char* classname)
         if (array_ptr->ptr != nullptr) {
             auto* ptr = (Nelson::ArrayOf*)array_ptr->ptr;
             if (ptr->isStruct()) {
-                ptr->setStructType(classname);
+                ptr->promoteType(Nelson::NLS_CLASS_ARRAY);
+                ptr->setClassType(classname);
                 return 0;
             }
             return -3;
@@ -132,7 +133,7 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
         if (pa->ptr != nullptr) {
             auto* ptr = (Nelson::ArrayOf*)pa->ptr;
             bool isSupportedObject
-                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicsObject();
+                = ptr->isClassType() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
                 mexErrMsgTxt(_("mxGetProperty object expected.").c_str());
             }
@@ -184,7 +185,7 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
         if (pa->ptr != nullptr) {
             auto* ptr = (Nelson::ArrayOf*)pa->ptr;
             bool isSupportedObject
-                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicsObject();
+                = ptr->isClassType() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
                 mexErrMsgTxt(_("mxSetProperty object expected.").c_str());
             }

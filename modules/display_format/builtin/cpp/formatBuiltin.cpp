@@ -167,8 +167,8 @@ DisplayFormatOptionsToArray(
     fieldnames.push_back("NumericFormat");
     fieldnames.push_back("LineSpacing");
     ArrayOf* elementRes = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.getElementCount(), fieldnames, false));
-    ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsRes, elementRes, false, fieldnames);
+        ArrayOf::allocateArrayOf(NLS_CLASS_ARRAY, dimsRes.getElementCount(), fieldnames, false));
+    ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dimsRes, elementRes, false, fieldnames);
 
     ArrayOfVector numericFormatVector(
         ArrayOf::stringArrayConstructor(NumericFormatDisplayToString(currentNumericFormatDisplay)));
@@ -176,7 +176,7 @@ DisplayFormatOptionsToArray(
     ArrayOfVector lineSpacingVector(
         ArrayOf::stringArrayConstructor(LineSpacingDisplayToString(currentLineSpacingDisplay)));
     res.setFieldAsList(fieldnames[1], lineSpacingVector);
-    res.setStructType("DisplayFormatOptions");
+    res.setClassType("DisplayFormatOptions");
     return res;
 }
 //=============================================================================

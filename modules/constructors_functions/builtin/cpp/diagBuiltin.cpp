@@ -27,7 +27,7 @@ Nelson::ConstructorsGateway::diagBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "diag", bSuccess);
             if (bSuccess) {
                 return retval;

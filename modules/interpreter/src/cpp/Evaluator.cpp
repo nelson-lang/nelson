@@ -303,7 +303,8 @@ bool
 Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
-        || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle());
+        || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle()
+        || (a.getDataClass() == NLS_CLASS_ARRAY));
 }
 //=============================================================================
 ArrayOf
@@ -2014,7 +2015,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
         if (m.size() == 0) {
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
-            if (r.isClassStruct()) {
+            if (r.isClassType()) {
                 Error(ERROR_NEED_OVERLOAD);
             } else {
                 try {
@@ -2124,7 +2125,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         }
     }
     if (t->opNum == (OP_DOT)) {
-        if (r.isClassStruct()) {
+        if (r.isClassType()) {
             std::string fieldname = t->down->text;
             ArrayOfVector res = simpleAssignClass(r, fieldname, value);
             if (res.size() != 1) {
@@ -2137,6 +2138,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
             std::string fieldname = t->down->text;
             if (r.isHandle() || r.isGraphicsObject()) {
                 setHandle(r, fieldname, value);
+            } else if (r.isClassType()) {
+                r.setFieldAsList(fieldname, value);
             } else if (r.isStruct() || r.isEmpty()) {
                 r.setFieldAsList(fieldname, value);
             } else {
@@ -2154,7 +2157,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         } catch (const Exception&) {
             Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
-        if (r.isClassStruct()) {
+        if (r.isClassType()) {
             ArrayOfVector res;
             res = simpleAssignClass(r, field, value);
             if (res.size() != 1) {
@@ -2389,8 +2392,8 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     if (!lookupFunction(fAST->text, fptr)) {
         bool isVar = context->lookupVariable(fAST->text, r);
         if (isVar) {
-            if (r.isClassStruct()) {
-                std::string className = r.getStructType();
+            if (r.isClassType()) {
+                std::string className = r.getClassType();
                 std::string extractionFunctionName = className + "_extraction";
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
@@ -3059,7 +3062,7 @@ Evaluator::functionExpression(
                     ArrayOf r;
                     bool isVar = context->lookupVariable(t->text, r);
                     if (isVar) {
-                        if (r.isClassStruct()) {
+                        if (r.isClassType()) {
                             s = t->down; //-V1048
                             if (s->opNum == (OP_DOT) || s->opNum == (OP_DOTDYN)) {
                                 s = s->down;
@@ -3079,7 +3082,7 @@ Evaluator::functionExpression(
             bool haveDown = (t->down != nullptr);
             if (isVar) {
                 // if it is a class C
-                if (r.isClassStruct()) {
+                if (r.isClassType()) {
                     // C(X1, ..., XN)
                     // we call : C_extract(C, X1, ..., XN)
                     if (m.size() > 0) {
@@ -3681,7 +3684,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 }
             }
             if (r.isFunctionHandle()) {
-                std::string className = r.getStructType();
+                std::string className = r.getClassType();
                 std::string extractionFunctionName = className + "_extraction";
                 if (lookupFunction(extractionFunctionName, funcDef)) {
                     CallStack backupCallStack = this->callstack;
@@ -3701,7 +3704,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 Error(_W("index expected."));
 
             } else if (m.size() == 1) {
-                if (r.isClassStruct()) {
+                if (r.isClassType()) {
                     bool haveFunction;
                     ArrayOfVector rr = extractClass(r, std::string(), m, haveFunction);
                     if (haveFunction) {
@@ -3713,7 +3716,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                     r = r.getVectorSubset(m[0]);
                 }
             } else {
-                if (r.isClassStruct()) {
+                if (r.isClassType()) {
                     bool haveFunction;
                     ArrayOfVector rr = extractClass(r, std::string(), m, haveFunction);
                     if (haveFunction) {
@@ -3765,7 +3768,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
         }
         if (t->opNum == (OP_DOT)) {
             std::string fieldname = t->down->text;
-            if (r.isClassStruct()) {
+            if (r.isClassType()) {
                 ArrayOfVector params;
                 if (t->right != nullptr) {
                     params = expressionList(t->right->down, r);
@@ -3813,7 +3816,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             } catch (const Exception&) {
                 Error(_W("dynamic field reference to structure requires a string argument"));
             }
-            if (r.isClassStruct()) {
+            if (r.isClassType()) {
                 ArrayOfVector v;
                 bool haveFunction;
                 rv = extractClass(r, field, v, haveFunction);

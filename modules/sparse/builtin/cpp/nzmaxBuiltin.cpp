@@ -64,6 +64,7 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                          "'struct'."));
             }
             return retval;
+        case NLS_CLASS_ARRAY:
         default:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
             if (!bSuccess) {

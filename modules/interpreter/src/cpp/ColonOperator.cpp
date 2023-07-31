@@ -110,27 +110,27 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     NelsonType classB = B.getDataClass();
     NelsonType classC = C.getDataClass();
 
-    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
-    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
-    bool isObjectC = C.isClassStruct() || (classC == NLS_HANDLE);
+    bool isObjectA = A.isClassType() || (classA == NLS_HANDLE);
+    bool isObjectB = B.isClassType() || (classB == NLS_HANDLE);
+    bool isObjectC = C.isClassType() || (classC == NLS_HANDLE);
 
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
             return wstring_to_utf8(A.getHandleCategory());
         } else {
-            return A.getStructType();
+            return A.getClassType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
             return wstring_to_utf8(B.getHandleCategory());
         } else {
-            return B.getStructType();
+            return B.getClassType();
         }
     } else if (isObjectC) {
         if (classC == NLS_HANDLE) {
             return wstring_to_utf8(C.getHandleCategory());
         } else {
-            return C.getStructType();
+            return C.getClassType();
         }
     }
     NelsonType commonColonType = getColonDataType(classA, classB, classC);
@@ -147,19 +147,19 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
 
-    bool isObjectA = A.isClassStruct() || (classA == NLS_HANDLE);
-    bool isObjectB = B.isClassStruct() || (classB == NLS_HANDLE);
+    bool isObjectA = A.isClassType() || (classA == NLS_HANDLE);
+    bool isObjectB = B.isClassType() || (classB == NLS_HANDLE);
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
             return wstring_to_utf8(A.getHandleCategory());
         } else {
-            return A.getStructType();
+            return A.getClassType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
             return wstring_to_utf8(B.getHandleCategory());
         } else {
-            return B.getStructType();
+            return B.getClassType();
         }
     }
 

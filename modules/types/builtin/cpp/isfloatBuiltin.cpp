@@ -24,7 +24,7 @@ Nelson::TypeGateway::isfloatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "isfloat", bSuccess);
     }
-    if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+    if (argIn[0].isClassType() || argIn[0].isHandle()) {
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, argIn, "isfloat", bSuccess);
         if (bSuccess) {

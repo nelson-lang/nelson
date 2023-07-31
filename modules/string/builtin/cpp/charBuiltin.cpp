@@ -92,6 +92,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             Error(_W("Conversion to char from complex is not possible."));
         } break;
         default:
+        case NLS_CLASS_ARRAY:
         case NLS_STRUCT_ARRAY:
         case NLS_LOGICAL:
         case NLS_GO_HANDLE:

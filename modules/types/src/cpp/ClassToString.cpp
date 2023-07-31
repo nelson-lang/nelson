@@ -30,6 +30,7 @@ static std::vector<std::string> typeNames = {
     NLS_LOGICAL_STR,
     NLS_CHAR_STR,
     NLS_STRUCT_ARRAY_STR,
+    NLS_CLASS_ARRAY_STR,
     NLS_CELL_ARRAY_STR,
     NLS_STRING_ARRAY_STR,
     NLS_HANDLE_STR,
@@ -41,6 +42,9 @@ static std::vector<std::string> typeNames = {
 std::string
 ClassToString(NelsonType classType)
 {
+    if (classType < 0 || classType > typeNames.size()) {
+        return NLS_UNKNOWN_STR;
+    }
     return typeNames[classType];
 }
 //=============================================================================

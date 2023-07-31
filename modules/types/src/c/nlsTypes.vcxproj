@@ -233,6 +233,7 @@
     <ClCompile Include="..\cpp\ArrayOf_Allocate.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Assign.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_CellType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_ClassType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Constructors.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Delete.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_DoubleType.cpp" />
