@@ -1095,6 +1095,7 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     default: {
         Error(_W("Type conversion to QVariant not managed."));
     } break;

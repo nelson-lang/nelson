@@ -162,6 +162,7 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         complexTransposeRealTemplate<charType>(
             dimsA, (charType*)A.getDataPointer(), (charType*)Res.getDataPointer());
     } break;
+    case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_STRING_ARRAY:

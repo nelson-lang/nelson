@@ -59,6 +59,7 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     default: {
         needToOverload = true;
         return {};

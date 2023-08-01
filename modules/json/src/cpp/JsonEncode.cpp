@@ -46,6 +46,7 @@ isSupportedType(const ArrayOf& ValueToEncode)
         return false;
     }
     switch (ValueToEncode.getDataClass()) {
+    case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
     case NLS_GO_HANDLE:
     case NLS_HANDLE:

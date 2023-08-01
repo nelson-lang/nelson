@@ -20,14 +20,7 @@ Nelson::TypeGateway::isclassBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bIsClass = argIn[0].isClassType();
-    if (bIsClass) {
-        std::string structType = argIn[0].getClassType();
-        if ((structType == NLS_FUNCTION_HANDLE_STR) || (structType == NLS_GENERIC_STR)) {
-            bIsClass = false;
-        }
-    }
-    retval << ArrayOf::logicalConstructor(bIsClass);
+    retval << ArrayOf::logicalConstructor(argIn[0].isClassType());
     return retval;
 }
 //=============================================================================

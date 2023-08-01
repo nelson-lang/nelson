@@ -28,14 +28,6 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
     }
     if (!bSuccess) {
-        if (param1.isClassType() && !param1.isFunctionHandle()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_("Undefined function 'ndims' for input arguments of type") + " '"
-                + ClassName(param1) + "'.");
-        }
         switch (param1.getDataClass()) {
         case NLS_LOGICAL:
         case NLS_UINT8:
@@ -53,7 +45,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
         case NLS_CHAR:
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY:
-        case NLS_CLASS_ARRAY:
+        case NLS_FUNCTION_HANDLE:
         case NLS_STRUCT_ARRAY: {
             double ndims = static_cast<double>(param1.nDims());
             if (ndims < 2) {
@@ -61,6 +53,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
             }
             retval << ArrayOf::doubleConstructor(ndims);
         } break;
+        case NLS_CLASS_ARRAY:
         default: {
             retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
             if (bSuccess) {

@@ -453,6 +453,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     default: {
         Error(getNotSupportedTypeMessage(arrayIn, level));
     } break;

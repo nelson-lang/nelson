@@ -31,11 +31,11 @@ static std::vector<std::string> typeNames = {
     NLS_CHAR_STR,
     NLS_STRUCT_ARRAY_STR,
     NLS_CLASS_ARRAY_STR,
+    NLS_FUNCTION_HANDLE_STR,
     NLS_CELL_ARRAY_STR,
     NLS_STRING_ARRAY_STR,
     NLS_HANDLE_STR,
     NLS_GO_HANDLE_STR,
-    /* NLS_FUNCTION_HANDLE, */
     NLS_UNKNOWN_STR,
 };
 //=============================================================================

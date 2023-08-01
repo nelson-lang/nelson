@@ -114,6 +114,7 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRING_ARRAY:
     default: {
         needToOverload = true;
@@ -240,6 +241,7 @@ Flipud(const ArrayOf& arrayIn, bool& needToOverload)
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRING_ARRAY:
     default: {
         needToOverload = true;

@@ -237,7 +237,8 @@ ArrayOf::setField(const std::string& fieldName, ArrayOf& data)
     if (isSparse()) {
         Error(_W("setField not supported for sparse arrays."));
     }
-    if (dp->dataClass != NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY) {
+    if (dp->dataClass != NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY
+        && dp->dataClass != NLS_FUNCTION_HANDLE) {
         Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if (!isScalar()) {

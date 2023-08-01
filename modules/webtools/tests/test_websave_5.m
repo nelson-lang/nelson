@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://httpbin.org/get';
+url = 'https://jsonplaceholder.typicode.com/posts/1/comments';
 filename = [tempdir(), 'test.txt'];
 o = weboptions('ContentType','json');
 o.Timeout = 60;
 destination_filename = websave(filename, url, o);
 txt = fileread(filename);
 st = jsondecode(txt);
-assert_isequal(st.url, url);
+assert_isequal(st(1).email, 'Eliseo@gardner.biz');
 %=============================================================================

@@ -624,6 +624,14 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                     rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
                 }
             }
+            if (!isEmpty() && (rightData.getDataClass() == NLS_FUNCTION_HANDLE)
+                && (getDataClass() == NLS_FUNCTION_HANDLE)) {
+                if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
+                    promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
+                } else {
+                    rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+                }
+            }
         }
 
         if (isSparse()) {
@@ -743,6 +751,11 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             setNDimSubsetDispatchReal<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, advance);
+            break;
+        case NLS_FUNCTION_HANDLE:
+            setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
+                static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, dp->fieldNames.size(), advance);
             break;
         case NLS_CLASS_ARRAY:
             setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
@@ -867,6 +880,13 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
             promoteType(NLS_CLASS_ARRAY, rightData.dp->fieldNames);
         } else {
             rightData.promoteType(NLS_CLASS_ARRAY, dp->fieldNames);
+        }
+    } else if (!isEmpty() && (rightData.getDataClass() == NLS_FUNCTION_HANDLE)
+        && (getDataClass() == NLS_FUNCTION_HANDLE)) {
+        if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
+            promoteType(NLS_FUNCTION_HANDLE, rightData.dp->fieldNames);
+        } else {
+            rightData.promoteType(NLS_FUNCTION_HANDLE, dp->fieldNames);
         }
     } else {
         if (isEmpty() || rightData.getDataClass() > getDataClass()) {

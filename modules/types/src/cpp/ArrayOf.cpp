@@ -441,6 +441,9 @@ ArrayOf::toOrdinalType()
     case NLS_STRING_ARRAY: {
         Error(_W("Cannot convert string arrays to indices."));
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        Error(_W("Cannot convert function_handle arrays to indices."));
+    } break;
     case NLS_CLASS_ARRAY: {
         Error(_W("Cannot convert class arrays to indices."));
     } break;
@@ -764,6 +767,8 @@ ArrayOf::getElementSize() const
         return sizeof(ArrayOf);
     case NLS_CELL_ARRAY:
         return sizeof(ArrayOf);
+    case NLS_FUNCTION_HANDLE:
+        return (sizeof(ArrayOf) * dp->fieldNames.size());
     case NLS_CLASS_ARRAY:
         return (sizeof(ArrayOf) * dp->fieldNames.size());
     case NLS_STRUCT_ARRAY:
@@ -871,6 +876,7 @@ ArrayOf::isPositive() const
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRING_ARRAY:
     case NLS_LOGICAL:
     case NLS_SCOMPLEX:
@@ -937,6 +943,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY:
         retval = false;
         break;
@@ -1145,6 +1152,7 @@ ArrayOf::allReal() const
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     default: {
         res = false;
     }
@@ -1166,6 +1174,16 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
         ArrayOf* qp = (ArrayOf*)dstPtr;
         for (indexType i = 0; i < count; i++) {
             qp[dstIndex + i] = sp[srcIndex + i];
+        }
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        const ArrayOf* sp = (const ArrayOf*)dp->getData();
+        ArrayOf* qp = (ArrayOf*)dstPtr;
+        indexType fieldCount(dp->fieldNames.size());
+        for (indexType i = 0; i < count; i++) {
+            for (indexType j = 0; j < (indexType)fieldCount; j++) {
+                qp[(dstIndex + i) * fieldCount + j] = sp[(srcIndex + i) * fieldCount + j];
+            }
         }
     } break;
     case NLS_CLASS_ARRAY: {
@@ -1417,16 +1435,21 @@ ArrayOf::nzmax() const
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
         return numel();
-    case NLS_CELL_ARRAY:
+    case NLS_CELL_ARRAY: {
         Error(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
-    case NLS_STRING_ARRAY:
+    } break;
+    case NLS_STRING_ARRAY: {
         Error(_W("Undefined function 'nzmax' for input arguments of type 'string'."));
-    case NLS_CLASS_ARRAY:
+    } break;
+    case NLS_CLASS_ARRAY: {
         Error(_W("Undefined function 'nzmax' for input arguments of type 'class'."));
-    case NLS_STRUCT_ARRAY:
+    } break;
+    case NLS_STRUCT_ARRAY: {
         Error(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
-    default:
+    } break;
+    default: {
         Error(_W("Undefined function 'nzmax' for input arguments."));
+    } break;
     }
     return 0; // never here
 }

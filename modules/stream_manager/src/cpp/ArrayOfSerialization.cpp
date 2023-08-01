@@ -116,6 +116,7 @@ ArrayOfSerialization::set(const ArrayOf& data)
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY: {
         ArrayOf* elements = (ArrayOf*)data.getDataPointer();
         indexType nbElements = dimsData.getElementCount();
@@ -268,6 +269,7 @@ ArrayOfSerialization::get(bool& success)
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY: {
         indexType nbElements = destinationDims.getElementCount();
         ArrayOf* ptrArrayOf

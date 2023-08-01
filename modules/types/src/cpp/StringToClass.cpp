@@ -35,6 +35,7 @@ static std::unordered_map<std::wstring, NelsonType> stringToType = {
     { TOWSTRING(NLS_STRING_ARRAY_STR), NLS_STRING_ARRAY },
     { TOWSTRING(NLS_STRUCT_ARRAY_STR), NLS_STRUCT_ARRAY },
     { TOWSTRING(NLS_CLASS_ARRAY_STR), NLS_CLASS_ARRAY },
+    { TOWSTRING(NLS_FUNCTION_HANDLE_STR), NLS_FUNCTION_HANDLE },
 };
 //=============================================================================
 NelsonType

@@ -11,7 +11,10 @@ assert_isequal(nargin('str2func'), 1);
 assert_isequal(nargout('str2func'), 1);
 %=============================================================================
 FH = str2func('run');
-FHS = [FH; FH; FH];
+assert_checkerror('FHS = [FH; FH; FH];', _('Nonscalar arrays of function handles are not allowed; use cell arrays instead.'));
+%=============================================================================
+FHS = {FH; FH; FH};
+%=============================================================================
 assert_isequal(size(FH), [1 1]);
 assert_isequal(size(FHS), [3 1]);
 %=============================================================================

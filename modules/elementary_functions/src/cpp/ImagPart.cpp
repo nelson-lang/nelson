@@ -56,6 +56,7 @@ ImagPart(const ArrayOf& arrayIn)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     default: {
         Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
     } break;

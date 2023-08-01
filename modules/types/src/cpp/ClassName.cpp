@@ -42,6 +42,9 @@ ClassName(const ArrayOf& In)
         }
         return classString;
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        classString = NLS_FUNCTION_HANDLE_STR;
+    } break;
     case NLS_CLASS_ARRAY: {
         classString = In.getClassType();
     } break;

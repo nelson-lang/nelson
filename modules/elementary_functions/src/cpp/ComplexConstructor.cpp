@@ -151,6 +151,7 @@ ComplexConstructor(const ArrayOf& arrayA)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
