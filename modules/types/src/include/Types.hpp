@@ -99,6 +99,7 @@ enum NelsonType
     NLS_LOGICAL,
     NLS_CHAR,
     NLS_STRUCT_ARRAY,
+    NLS_CLASS_ARRAY,
     NLS_CELL_ARRAY,
     NLS_STRING_ARRAY,
     NLS_HANDLE,
@@ -113,6 +114,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_SPARSE_STR "sparse"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"
+#define NLS_CLASS_ARRAY_STR "class"
 #define NLS_STRING_ARRAY_STR "string"
 #define NLS_LOGICAL_STR "logical"
 #define NLS_UINT8_STR "uint8"

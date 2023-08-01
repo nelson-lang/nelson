@@ -205,7 +205,10 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
     }
     ArrayOf res;
-    if (classCommon == NLS_STRUCT_ARRAY) {
+    if (classCommon == NLS_CLASS_ARRAY) {
+        if (A.getClassType() != B.getClassType()) {
+            Error(_("Same class type expected."));
+        }
         stringVector fieldnamesA = A.getFieldNames();
         stringVector fieldnamesB = B.getFieldNames();
         if (fieldnamesA.size() != fieldnamesB.size()) {
@@ -216,13 +219,35 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 Error(ERROR_FIELDNAMES_MUST_MATCH);
             }
         }
-        bool canConcate = (A.getStructType() == B.getStructType())
-            || (A.getStructType() == NLS_STRUCT_ARRAY_STR
-                && B.getStructType() != NLS_STRUCT_ARRAY_STR)
-            || (B.getStructType() == NLS_STRUCT_ARRAY_STR
-                && A.getStructType() != NLS_STRUCT_ARRAY_STR);
-        if (!canConcate) {
-            Error(_W("Cannot concatenate differents types."));
+        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        indexType newRowsSize = dimsA.getRows();
+        indexType newSize = newColumnsSize * newRowsSize;
+        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+        void* ptrC = ArrayOf::allocateArrayOf(NLS_CLASS_ARRAY, newSize, fieldnamesA, false);
+        auto* elements = static_cast<ArrayOf*>(ptrC);
+        res = ArrayOf(NLS_CLASS_ARRAY, dimsC, elements, false, fieldnamesA);
+        for (auto& k : fieldnamesA) {
+            ArrayOfVector fieldsA = A.getFieldAsList(k);
+            ArrayOfVector fieldsB = B.getFieldAsList(k);
+            ArrayOfVector fieldsC(fieldsA);
+            fieldsC += fieldsB;
+            res.setFieldAsList(k, fieldsC);
+        }
+        bSuccess = true;
+        res.setClassType(A.getClassType());
+        return res;
+    }
+
+    if (classCommon == NLS_STRUCT_ARRAY) {
+        stringVector fieldnamesA = A.getFieldNames();
+        stringVector fieldnamesB = B.getFieldNames();
+        if (fieldnamesA.size() != fieldnamesB.size()) {
+            Error(ERROR_FIELDNAMES_MUST_MATCH);
+        }
+        for (size_t k = 0; k < fieldnamesA.size(); k++) {
+            if (fieldnamesA[k] != fieldnamesB[k]) {
+                Error(ERROR_FIELDNAMES_MUST_MATCH);
+            }
         }
         indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
         indexType newRowsSize = dimsA.getRows();
@@ -237,11 +262,6 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             ArrayOfVector fieldsC(fieldsA);
             fieldsC += fieldsB;
             res.setFieldAsList(k, fieldsC);
-        }
-        if (A.getStructType() == NLS_STRUCT_ARRAY_STR) {
-            res.setStructType(B.getStructType());
-        } else {
-            res.setStructType(A.getStructType());
         }
         bSuccess = true;
         return res;

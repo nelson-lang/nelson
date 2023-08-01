@@ -16,7 +16,7 @@ namespace Nelson {
 //=============================================================================
 WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 {
-    if (webOptionsArrayOf.getStructType() != "weboptions") {
+    if (webOptionsArrayOf.getClassType() != "weboptions") {
         Error(_W("weboptions object expected."));
     }
     ArrayOf res;

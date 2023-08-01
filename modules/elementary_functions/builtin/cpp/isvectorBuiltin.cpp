@@ -21,7 +21,7 @@ Nelson::ElementaryFunctionsGateway::isvectorBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+    if (argIn[0].isClassType() || argIn[0].isHandle()) {
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, argIn, "isvector", bSuccess);
         if (bSuccess) {

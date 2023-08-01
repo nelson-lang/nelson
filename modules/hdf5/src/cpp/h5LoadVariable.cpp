@@ -57,6 +57,7 @@ h5LoadVariable(
     case NLS_CELL_ARRAY: {
         bSuccess = h5LoadCell(fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
+    case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
         bSuccess = h5LoadStruct(
             fid, location, variableName, isEmpty, dims, isObject, className, VariableValue);

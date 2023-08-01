@@ -25,15 +25,6 @@ ArrayOf::isStruct() const
     return (this->getDataClass() == NLS_STRUCT_ARRAY);
 }
 //=============================================================================
-bool
-ArrayOf::isClassStruct() const
-{
-    if (this->isStruct()) {
-        return (getStructType() != NLS_STRUCT_ARRAY_STR);
-    }
-    return false;
-}
-//=============================================================================
 stringVector
 ArrayOf::getFieldNames() const
 {
@@ -41,30 +32,6 @@ ArrayOf::getFieldNames() const
         return dp->fieldNames;
     }
     return {};
-}
-//=============================================================================
-std::string
-ArrayOf::getStructType() const
-{
-    if (dp->dataClass != NLS_STRUCT_ARRAY) {
-        Error(ERROR_TYPE_STRUCT_EXPECTED);
-    }
-    return dp->getStructTypeName();
-}
-//=============================================================================
-void
-ArrayOf::setStructType(const std::wstring& structname)
-{
-    ArrayOf::setStructType(wstring_to_utf8(structname));
-}
-//=============================================================================
-void
-ArrayOf::setStructType(const std::string& structname)
-{
-    if (this->getDataClass() != NLS_STRUCT_ARRAY) {
-        Error(ERROR_TYPE_STRUCT_EXPECTED);
-    }
-    dp->setStructTypeName(structname);
 }
 //=============================================================================
 ArrayOf
@@ -232,7 +199,7 @@ ArrayOf::getField(const std::string& fieldName) const
 ArrayOfVector
 ArrayOf::getFieldAsList(const std::string& fieldName)
 {
-    if (!isStruct()) {
+    if (!(isStruct() || isClassType())) {
         Error(_W("Attempt to apply field-indexing to non structure-array object."));
     }
     if (isSparse()) {
@@ -270,7 +237,7 @@ ArrayOf::setField(const std::string& fieldName, ArrayOf& data)
     if (isSparse()) {
         Error(_W("setField not supported for sparse arrays."));
     }
-    if (dp->dataClass != NLS_STRUCT_ARRAY) {
+    if (dp->dataClass != NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY) {
         Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if (!isScalar()) {
@@ -315,7 +282,7 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
         //       dp = dp->putData(NLS_STRUCT_ARRAY,dp->getDimensions(),NULL,names);
         //       return;
     }
-    if (!this->isStruct()) {
+    if (!this->isStruct() && !this->isClassType()) {
         Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if ((int)data.size() < getElementCount()) {
@@ -349,7 +316,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     names.push_back(fieldName);
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
     ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getElementCount(), names, false);
-    std::string classtype = dp->getStructTypeName();
+    std::string classtype = dp->getClassTypeName();
     indexType fN = names.size();
     if (fN > 1) {
         ompIndexType nN = (ompIndexType)fN - 1;
@@ -361,7 +328,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
         }
     }
     dp = dp->putData(NLS_STRUCT_ARRAY, dp->dimensions, rp, false, names);
-    dp->setStructTypeName(classtype);
+    dp->setClassTypeName(classtype);
     return (fN - 1);
 }
 //=============================================================================

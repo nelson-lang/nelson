@@ -50,7 +50,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isClassStruct() || param1.isHandle()) {
+        if (param1.isClassType() || param1.isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "rmfield", bSuccess);
             if (bSuccess) {
                 return retval;

@@ -16,8 +16,8 @@ namespace Nelson {
 bool
 ArrayOf::isFunctionHandle() const
 {
-    if (this->isClassStruct()) {
-        std::string classString = this->getStructType();
+    if (this->isClassType()) {
+        std::string classString = this->getClassType();
         return (classString == NLS_FUNCTION_HANDLE_STR);
     }
     return false;
@@ -27,7 +27,7 @@ function_handle
 ArrayOf::getContentAsFunctionHandle() const
 {
     function_handle fh;
-    std::string classString = this->getStructType();
+    std::string classString = this->getClassType();
     if (classString == NLS_FUNCTION_HANDLE_STR) {
         ArrayOf nameField = this->getField("name");
         ArrayOf anonymousHandle = this->getField("handle");
@@ -50,10 +50,8 @@ ArrayOf::functionHandleConstructor(const std::wstring& functionName, const std::
 
     fieldvalues.push_back(ArrayOf::characterArrayConstructor(functionName));
     fieldvalues.push_back(ArrayOf::uint64Constructor(0));
-
-    ArrayOf res = structConstructor(fieldnames, fieldvalues);
-    res.setStructType(NLS_FUNCTION_HANDLE_STR);
-    return res;
+    std::string className = NLS_FUNCTION_HANDLE_STR;
+    return classConstructor(className, fieldnames, fieldvalues);
 }
 //=============================================================================
 ArrayOf
@@ -68,9 +66,8 @@ ArrayOf::functionHandleConstructor(function_handle fptr)
     nelson_handle fun_handle = reinterpret_cast<nelson_handle>(fptr.anonymousHandle);
     fieldvalues.push_back(ArrayOf::uint64Constructor(fun_handle));
 
-    ArrayOf res = structConstructor(fieldnames, fieldvalues);
-    res.setStructType(NLS_FUNCTION_HANDLE_STR);
-    return res;
+    std::string className = NLS_FUNCTION_HANDLE_STR;
+    return classConstructor(className, fieldnames, fieldvalues);
 }
 //=============================================================================
 } // namespace Nelson

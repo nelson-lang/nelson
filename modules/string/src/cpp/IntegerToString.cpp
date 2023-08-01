@@ -83,6 +83,7 @@ IntegerToString(ArrayOf A, wstringVector& result, std::wstring& error_message)
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
+    case NLS_CLASS_ARRAY:
     default: {
         error_message = _W("Type not managed in this case.");
         return false;

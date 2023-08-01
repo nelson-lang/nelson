@@ -20,8 +20,10 @@ ClassName(const ArrayOf& In)
 {
     std::string classString = {};
     if (In.isSparse()) {
-        classString = std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
-    } else if (In.getDataClass() == NLS_HANDLE) {
+        return std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
+    }
+    switch (In.getDataClass()) {
+    case NLS_HANDLE: {
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
         auto* qp = (nelson_handle*)In.getDataPointer();
@@ -38,10 +40,14 @@ ClassName(const ArrayOf& In)
                 }
             }
         }
-    } else if (In.getDataClass() == NLS_STRUCT_ARRAY) {
-        classString = In.getStructType();
-    } else {
+        return classString;
+    } break;
+    case NLS_CLASS_ARRAY: {
+        classString = In.getClassType();
+    } break;
+    default: {
         classString = ClassToString(In.getDataClass());
+    } break;
     }
     return classString;
 }

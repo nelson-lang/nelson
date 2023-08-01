@@ -21,8 +21,6 @@ R = [A; A];
 assert_isequal(size(struct(R)), [2 1])
 assert_isequal(class(R), 'weboptions')
 %=============================================================================
-
-
 R = [1 2]:3;
 REF = [1 2 3];
 assert_isequal(R, REF);

@@ -100,10 +100,10 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 MPI_Pack(
                     (void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
             }
-            int isclassstruct(static_cast<int>(A.isClassStruct()));
-            MPI_Pack(&isclassstruct, 1, MPI_INT, buffer, bufsize, packpos, comm);
-            if (A.isClassStruct()) {
-                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
+            int isclassType(static_cast<int>(A.isClassType()));
+            MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
+            if (A.isClassType()) {
+                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
                 packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
             }
             if (A.isFunctionHandle()) {
@@ -266,7 +266,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         }
         return ArrayOf(NLS_CELL_ARRAY, outDim, dp);
     }
-    if (dataClass == NLS_STRUCT_ARRAY) {
+    if (dataClass == NLS_STRUCT_ARRAY || dataClass == NLS_CLASS_ARRAY) {
         int fieldcnt = 0;
         MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
         stringVector fieldnames;
@@ -279,10 +279,10 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             fieldnames.push_back(std::string(dbuff));
             delete[] dbuff;
         }
-        int isclassstruct = 0;
-        MPI_Unpack(buffer, bufsize, packpos, &isclassstruct, 1, MPI_INT, comm);
+        int isclassType = 0;
+        MPI_Unpack(buffer, bufsize, packpos, &isclassType, 1, MPI_INT, comm);
         std::string classname;
-        if (isclassstruct) {
+        if (isclassType) {
             ArrayOf classNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
             classname = classNameAsArray.getContentAsCString();
         }
@@ -309,9 +309,12 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             for (indexType i = 0; i < elementCount; i++) {
                 dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
             }
-            ArrayOf returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+            ArrayOf returnedArray;
             if (!classname.empty()) {
-                returnedArray.setStructType(classname);
+                returnedArray = ArrayOf(NLS_CLASS_ARRAY, outDim, dp, false, fieldnames);
+                returnedArray.setClassType(classname);
+            } else {
+                returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
             }
             return returnedArray;
         }
@@ -416,6 +419,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
+    case NLS_CLASS_ARRAY:
     default: {
         Error(_W("Type not managed."));
     } break;
@@ -453,9 +457,9 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
                 + getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
         }
         fieldsize += getCanonicalSize(1, MPI_INT, comm);
-        int isclassstruct(static_cast<int>(A.isClassStruct()));
-        if (isclassstruct) {
-            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
+        int isclassType(static_cast<int>(A.isClassType()));
+        if (isclassType) {
+            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
             fieldsize += getCanonicalSize((int)classnameAsArray.getElementCount(), MPI_WCHAR, comm);
         }
         auto* dp = (ArrayOf*)A.getDataPointer();

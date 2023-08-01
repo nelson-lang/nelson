@@ -77,7 +77,7 @@ Nelson::FftwGateway::ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "ifft", bSuccess);
             if (bSuccess) {
                 return retval;

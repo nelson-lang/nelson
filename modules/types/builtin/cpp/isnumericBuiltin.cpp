@@ -24,7 +24,7 @@ Nelson::TypeGateway::isnumericBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
     }
-    if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+    if (argIn[0].isClassType() || argIn[0].isHandle()) {
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
         if (bSuccess) {

@@ -12,6 +12,7 @@
 #include "characters_encoding.hpp"
 #include "DisplayCell.hpp"
 #include "DisplayStruct.hpp"
+#include "DisplayClass.hpp"
 #include "DisplayString.hpp"
 #include "DisplayChar.hpp"
 #include "DisplayLogical.hpp"
@@ -54,6 +55,16 @@ DisplayVariable(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     } break;
     case NLS_STRING_ARRAY: {
         DisplayString(evaluatorID, io, A, name, asDisp);
+        needToOverload = false;
+    } break;
+    case NLS_CLASS_ARRAY: {
+        bool needToHideHeader = false;
+        if (asDisp) {
+            needToHideHeader = (A.isEmpty() || A.isScalar());
+        } else {
+            needToHideHeader = false;
+        }
+        DisplayClass(io, A, name, needToHideHeader);
         needToOverload = false;
     } break;
     case NLS_STRUCT_ARRAY: {

@@ -74,10 +74,8 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         }
         return R;
     } break;
-    case NLS_CELL_ARRAY: {
-        needToOverload = true;
-        return {};
-    } break;
+    case NLS_CELL_ARRAY:
+    case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
         needToOverload = true;
         return {};

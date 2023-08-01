@@ -613,6 +613,17 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                     rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
                 }
             }
+            if (!isEmpty() && (rightData.getDataClass() == NLS_CLASS_ARRAY)
+                && (getDataClass() == NLS_CLASS_ARRAY)) {
+                if (rightData.getClassType() != getClassType()) {
+                    Error(_W("Cannot promote to class array."));
+                }
+                if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
+                    promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
+                } else {
+                    rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+                }
+            }
         }
 
         if (isSparse()) {
@@ -733,6 +744,11 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, advance);
             break;
+        case NLS_CLASS_ARRAY:
+            setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
+                static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, dp->fieldNames.size(), advance);
+            break;
         case NLS_STRUCT_ARRAY:
             setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
@@ -842,8 +858,17 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         } else {
             rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
         }
+    } else if (!isEmpty() && (rightData.getDataClass() == NLS_CLASS_ARRAY)
+        && (getDataClass() == NLS_CLASS_ARRAY)) {
+        if (rightData.getClassType() != getClassType()) {
+            Error(_W("Cannot promote to another class type array."));
+        }
+        if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
+            promoteType(NLS_CLASS_ARRAY, rightData.dp->fieldNames);
+        } else {
+            rightData.promoteType(NLS_CLASS_ARRAY, dp->fieldNames);
+        }
     } else {
-
         if (isEmpty() || rightData.getDataClass() > getDataClass()) {
             bool isLeftComplex = isComplex();
             bool isRightSingle = rightData.isSingleClass();

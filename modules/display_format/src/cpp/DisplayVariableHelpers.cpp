@@ -216,12 +216,11 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     case NLS_CELL_ARRAY:
         typeAsText = L"cell";
         break;
+    case NLS_CLASS_ARRAY: {
+        typeAsText = utf8_to_wstring(A.getClassType());
+    } break;
     case NLS_STRUCT_ARRAY: {
-        if (A.isClassStruct()) {
-            typeAsText = utf8_to_wstring(A.getStructType());
-        } else {
-            typeAsText = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
-        }
+        typeAsText = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
     } break;
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
@@ -237,7 +236,9 @@ buildHeader(const ArrayOf& A)
 {
     std::wstring msg;
     std::wstring typeAsText = getClassAsWideString(A, false);
-    if (A.isScalar() && !(A.isCell() || A.isStruct() || A.isHandle() || A.isGraphicsObject())) {
+    if (A.isScalar()
+        && !(A.isCell() || A.isStruct() || A.isClassType() || A.isHandle()
+            || A.isGraphicsObject())) {
         msg = L"  " + typeAsText + L"\n";
     } else {
         std::wstring dimensions = A.getDimensions().toWideString();
@@ -251,25 +252,41 @@ buildHeader(const ArrayOf& A)
                 typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
             }
         } break;
-        case NLS_STRUCT_ARRAY: {
+        case NLS_CLASS_ARRAY: {
             stringVector fieldnames = A.getFieldNames();
             bool haveFields = !fieldnames.empty();
             bool isEmpty = A.isEmpty();
             bool isScalar = A.isScalar();
             std::wstring withPart;
 
-            if (A.isClassStruct()) {
-                if (!haveFields) {
-                    withPart = L"with no properties.";
-                } else {
-                    withPart = L"with properties:";
-                }
+            if (!haveFields) {
+                withPart = L"with no properties.";
             } else {
-                if (!haveFields) {
-                    withPart = L"with no fields.";
-                } else {
-                    withPart = L"with fields:";
-                }
+                withPart = L"with properties:";
+            }
+            dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
+            if (isEmpty) {
+                msg = fmt::sprintf(L"  %s %s %s %s %s", dimensions, L"empty", typeAsText,
+                    dimensionsForHuman, withPart);
+            } else if (isScalar) {
+                msg = fmt::sprintf(L"  %s %s", typeAsText, withPart);
+            } else {
+                msg = fmt::sprintf(
+                    L"  %s %s %s %s", dimensions, typeAsText, dimensionsForHuman, withPart);
+            }
+            msg.append(L"\n");
+            return msg;
+        } break;
+        case NLS_STRUCT_ARRAY: {
+            stringVector fieldnames = A.getFieldNames();
+            bool haveFields = !fieldnames.empty();
+            bool isEmpty = A.isEmpty();
+            bool isScalar = A.isScalar();
+            std::wstring withPart;
+            if (!haveFields) {
+                withPart = L"with no fields.";
+            } else {
+                withPart = L"with fields:";
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {
@@ -374,6 +391,7 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name,
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_LOGICAL:
     case NLS_UINT8:
@@ -502,6 +520,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
+    case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {

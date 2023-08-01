@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Boost 1.82 used on Windows.
+- Class type reworked.
 
 ## 0.7.5 (2023-05-27)
 

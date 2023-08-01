@@ -24,7 +24,7 @@ Nelson::ErrorManagerGateway::throwAsCallerBuiltin(
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    if (argIn[0].isClassStruct() && ClassName(argIn[0]) == "MException") {
+    if (argIn[0].isClassType() && ClassName(argIn[0]) == "MException") {
         if (argIn[0].isScalar()) {
             Exception mException = ArrayOfToException(argIn[0]);
             Nelson::stackTrace trace;

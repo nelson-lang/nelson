@@ -71,8 +71,8 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B)
         Aclass = NLS_DCOMPLEX;
     }
     // The output class is now the dominant class remaining:
-    bool isObjectA = A.isClassStruct() || (Aclass == NLS_HANDLE);
-    bool isObjectB = B.isClassStruct() || (Bclass == NLS_HANDLE);
+    bool isObjectA = A.isClassType() || (Aclass == NLS_HANDLE);
+    bool isObjectB = B.isClassType() || (Bclass == NLS_HANDLE);
 
     if (isObjectA) {
         return Aclass;

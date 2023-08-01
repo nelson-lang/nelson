@@ -39,13 +39,14 @@ json_append_string(const std::wstring& str)
 static bool
 isSupportedType(const ArrayOf& ValueToEncode)
 {
-    if (ValueToEncode.isClassStruct()) {
+    if (ValueToEncode.isClassType()) {
         return false;
     }
     if (ValueToEncode.isSparse()) {
         return false;
     }
     switch (ValueToEncode.getDataClass()) {
+    case NLS_CLASS_ARRAY:
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
         return false;

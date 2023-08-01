@@ -50,6 +50,19 @@ Data::putData(
     return new Data(aClass, dims, s, sparseflag, fields);
 }
 //=============================================================================
+void
+Data::promoteStructToClass()
+{
+    dataClass = NLS_CLASS_ARRAY;
+}
+//=============================================================================
+void
+Data::promoteClassToStruct()
+{
+    dataClass = NLS_STRUCT_ARRAY;
+}
+//=============================================================================
+
 indexType
 Data::deleteCopy()
 {
@@ -94,15 +107,15 @@ Data::setFieldNames(const stringVector& fields)
 }
 //=============================================================================
 std::string
-Data::getStructTypeName() const
+Data::getClassTypeName() const
 {
-    return structTypeName;
+    return classTypeName;
 }
 //=============================================================================
 void
-Data::setStructTypeName(const std::string& typeName)
+Data::setClassTypeName(const std::string& typeName)
 {
-    structTypeName = typeName;
+    classTypeName = typeName;
 }
 //=============================================================================
 indexType
@@ -130,6 +143,10 @@ Data::freeDataBlock()
         } break;
         case NLS_HANDLE: {
             auto* rp = static_cast<nelson_handle*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_CLASS_ARRAY: {
+            auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
         } break;
         case NLS_STRUCT_ARRAY: {

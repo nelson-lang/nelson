@@ -22,7 +22,7 @@ Nelson::ElementaryFunctionsGateway::isscalarBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.isClassStruct() || param1.isHandle()) {
+    if (param1.isClassType() || param1.isHandle()) {
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, argIn, "isscalar", bSuccess);
         if (bSuccess) {

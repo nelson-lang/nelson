@@ -29,12 +29,12 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
     if (!bSuccess) {
         nargincheck(argIn, 1, 1);
         ArrayOf arg1 = argIn[0];
-        if (arg1.isClassStruct() || arg1.isHandle()) {
+        if (arg1.isClassType() || arg1.isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
             if (bSuccess) {
                 return retval;
             }
-            Error(utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
+            Error(utf8_to_wstring(arg1.getClassType()) + L"_fieldnames " + _W("not defined."));
         } else {
             if (arg1.isStruct()) {
                 stringVector fieldnames = arg1.getFieldNames();

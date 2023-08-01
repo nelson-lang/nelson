@@ -72,14 +72,14 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
     }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
+            || argIn[0].isClassType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "size", bSuccess);
             if (bSuccess) {
                 return retval;
             }
         }
         ArrayOf param1 = argIn[0];
-        if (param1.isClassStruct() && !param1.isFunctionHandle()) {
+        if (param1.isClassType() && !param1.isFunctionHandle()) {
             Error(_("Undefined function 'size' for input arguments of type") + " '"
                 + ClassName(param1) + "'.");
         }

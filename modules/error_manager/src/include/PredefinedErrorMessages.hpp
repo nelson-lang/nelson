@@ -189,6 +189,7 @@
 
 #define ERROR_TYPE_LOGICAL_EXPECTED _W("logical expected.")
 #define ERROR_TYPE_STRUCT_EXPECTED _W("struct expected.")
+#define ERROR_TYPE_CLASS_EXPECTED _W("class expected.")
 #define ERROR_TYPE_CELL_OF_STRINGS_EXPECTED _W("cell of strings expected.")
 #define ERROR_TYPE_NOT_SUPPORTED _W("type not supported.")
 #define ERROR_TYPE_ALREADY_RESERVED _W("type reserved.")
