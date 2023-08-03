@@ -93,6 +93,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } break;
         default:
         case NLS_CLASS_ARRAY:
+        case NLS_FUNCTION_HANDLE:
         case NLS_STRUCT_ARRAY:
         case NLS_LOGICAL:
         case NLS_GO_HANDLE:

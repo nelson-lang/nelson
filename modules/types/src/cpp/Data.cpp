@@ -62,7 +62,12 @@ Data::promoteClassToStruct()
     dataClass = NLS_STRUCT_ARRAY;
 }
 //=============================================================================
-
+void
+Data::promoteStructToFunctionHandle()
+{
+    dataClass = NLS_FUNCTION_HANDLE;
+}
+//=============================================================================
 indexType
 Data::deleteCopy()
 {
@@ -143,6 +148,10 @@ Data::freeDataBlock()
         } break;
         case NLS_HANDLE: {
             auto* rp = static_cast<nelson_handle*>(cp);
+            delete[] rp;
+        } break;
+        case NLS_FUNCTION_HANDLE: {
+            auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
         } break;
         case NLS_CLASS_ARRAY: {

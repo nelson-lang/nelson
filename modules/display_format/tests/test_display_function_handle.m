@@ -22,7 +22,7 @@ R = evalc('display(fh)');
 REF =  '
 fh =
 
-  function_handle with properties:
+  function_handle with values:
 
       name: ''cos''
     handle: 0

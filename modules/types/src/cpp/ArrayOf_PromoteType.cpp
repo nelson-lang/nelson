@@ -256,9 +256,12 @@ void
 ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
 {
     if (dp->dataClass != dstClass && !isEmpty()) {
+        bool allowedCases = ((dstClass == NLS_CLASS_ARRAY) && (dp->dataClass == NLS_STRUCT_ARRAY))
+            || ((dstClass == NLS_STRUCT_ARRAY) && (dp->dataClass == NLS_CLASS_ARRAY))
+            || ((dstClass == NLS_FUNCTION_HANDLE) && (dp->dataClass == NLS_STRUCT_ARRAY))
+            || ((dstClass == NLS_STRUCT_ARRAY) && (dp->dataClass == NLS_FUNCTION_HANDLE));
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
-            || (dstClass == NLS_CLASS_ARRAY && dp->dataClass != NLS_STRUCT_ARRAY)
-            || (dstClass == NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY)) {
+            || (dp->dataClass <= NLS_CHAR && dstClass > NLS_CHAR) && !allowedCases) {
             Error(_W("Cannot convert base types to reference types."));
         }
     }
@@ -297,6 +300,17 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
         Error(_W("Cannot convert cell-arrays to any other type."));
 
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        if (dstClass == NLS_STRUCT_ARRAY) {
+            return;
+        }
+        if (dstClass == NLS_STRUCT_ARRAY) {
+            dp->promoteClassToStruct();
+            return;
+        }
+        Error(_W("Cannot convert struct-arrays to any other type."));
+
+    } break;
     case NLS_CLASS_ARRAY: {
         if (dstClass == NLS_CLASS_ARRAY) {
             if (dp->getClassTypeName() != getClassType()) {
@@ -309,7 +323,6 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             return;
         }
         Error(_W("Cannot convert struct-arrays to any other type."));
-
     } break;
     case NLS_STRUCT_ARRAY: {
         if (dstClass == NLS_STRUCT_ARRAY) {
@@ -360,6 +373,10 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
         }
         if (dstClass == NLS_CLASS_ARRAY) {
             dp->promoteStructToClass();
+            return;
+        }
+        if (dstClass == NLS_FUNCTION_HANDLE) {
+            dp->promoteStructToFunctionHandle();
             return;
         }
 
@@ -1175,7 +1192,8 @@ ArrayOf::canBePromotedTo(NelsonType dstClass)
     }
     if (dp->dataClass != dstClass) {
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
-            || (dstClass == NLS_STRUCT_ARRAY) || (dstClass == NLS_CLASS_ARRAY)) {
+            || (dstClass == NLS_STRUCT_ARRAY) || (dstClass == NLS_CLASS_ARRAY)
+            || (dstClass == NLS_FUNCTION_HANDLE)) {
             return false;
         }
     }
@@ -1193,6 +1211,7 @@ ArrayOf::canBePromotedTo(NelsonType dstClass)
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY:
     case NLS_STRING_ARRAY: {
         return false;

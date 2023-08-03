@@ -38,6 +38,7 @@ SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue,
     case NLS_CELL_ARRAY: {
         matVariable = SaveMatioCell(variableName, variableValue, matVersion);
     } break;
+    case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
         matVariable = SaveMatioStruct(variableName, variableValue, matVersion);

@@ -16,24 +16,18 @@ namespace Nelson {
 bool
 ArrayOf::isFunctionHandle() const
 {
-    if (this->isClassType()) {
-        std::string classString = this->getClassType();
-        return (classString == NLS_FUNCTION_HANDLE_STR);
-    }
-    return false;
+    return (this->getDataClass() == NLS_FUNCTION_HANDLE);
 }
 //=============================================================================
 function_handle
 ArrayOf::getContentAsFunctionHandle() const
 {
     function_handle fh;
-    std::string classString = this->getClassType();
-    if (classString == NLS_FUNCTION_HANDLE_STR) {
+    if (isFunctionHandle()) {
         ArrayOf nameField = this->getField("name");
         ArrayOf anonymousHandle = this->getField("handle");
         fh.name = nameField.getContentAsCString();
         fh.anonymousHandle = (nelson_handle*)anonymousHandle.getContentAsUnsignedInteger64Scalar();
-
     } else {
         Error(_W("Expected a function_handle."));
     }
@@ -50,8 +44,9 @@ ArrayOf::functionHandleConstructor(const std::wstring& functionName, const std::
 
     fieldvalues.push_back(ArrayOf::characterArrayConstructor(functionName));
     fieldvalues.push_back(ArrayOf::uint64Constructor(0));
-    std::string className = NLS_FUNCTION_HANDLE_STR;
-    return classConstructor(className, fieldnames, fieldvalues);
+    ArrayOf res = structConstructor(fieldnames, fieldvalues);
+    res.promoteType(NLS_FUNCTION_HANDLE);
+    return res;
 }
 //=============================================================================
 ArrayOf
@@ -66,8 +61,9 @@ ArrayOf::functionHandleConstructor(function_handle fptr)
     nelson_handle fun_handle = reinterpret_cast<nelson_handle>(fptr.anonymousHandle);
     fieldvalues.push_back(ArrayOf::uint64Constructor(fun_handle));
 
-    std::string className = NLS_FUNCTION_HANDLE_STR;
-    return classConstructor(className, fieldnames, fieldvalues);
+    ArrayOf res = structConstructor(fieldnames, fieldvalues);
+    res.promoteType(NLS_FUNCTION_HANDLE);
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

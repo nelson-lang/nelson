@@ -175,7 +175,7 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 B = ArrayOf::toCell(B);
             }
         } else {
-            if (classCommon != NLS_STRUCT_ARRAY) {
+            if ((classCommon != NLS_STRUCT_ARRAY) && (classCommon != NLS_FUNCTION_HANDLE)) {
                 A.promoteType(classCommon);
                 B.promoteType(classCommon);
             }
@@ -205,6 +205,10 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
     }
     ArrayOf res;
+    if (classCommon == NLS_FUNCTION_HANDLE) {
+        Error(_W("Nonscalar arrays of function handles are not allowed; use cell arrays instead."),
+            L"Nelson:err_non_scalar_function_handles");
+    }
     if (classCommon == NLS_CLASS_ARRAY) {
         if (A.getClassType() != B.getClassType()) {
             Error(_("Same class type expected."));
@@ -237,7 +241,6 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         res.setClassType(A.getClassType());
         return res;
     }
-
     if (classCommon == NLS_STRUCT_ARRAY) {
         stringVector fieldnamesA = A.getFieldNames();
         stringVector fieldnamesB = B.getFieldNames();

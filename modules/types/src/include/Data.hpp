@@ -133,6 +133,12 @@ private:
      * promote class to struct type
      */
 
+    void
+    promoteStructToFunctionHandle();
+    /**
+     * promote struct to function_handle type
+     */
+
     [[nodiscard]] const stringVector&
     getFieldNames() const;
     /**

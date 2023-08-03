@@ -304,7 +304,7 @@ Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
         || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle()
-        || (a.getDataClass() == NLS_CLASS_ARRAY));
+        || (a.getDataClass() == NLS_CLASS_ARRAY) || (a.getDataClass() == NLS_FUNCTION_HANDLE));
 }
 //=============================================================================
 ArrayOf
@@ -2392,7 +2392,13 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     if (!lookupFunction(fAST->text, fptr)) {
         bool isVar = context->lookupVariable(fAST->text, r);
         if (isVar) {
-            if (r.isClassType()) {
+            if (r.isFunctionHandle()) {
+                std::string extractionFunctionName = "function_handle_extraction";
+                bool isFun = lookupFunction(extractionFunctionName, fptr);
+                if (!isFun) {
+                    Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
+                }
+            } else if (r.isClassType()) {
                 std::string className = r.getClassType();
                 std::string extractionFunctionName = className + "_extraction";
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
@@ -3082,7 +3088,7 @@ Evaluator::functionExpression(
             bool haveDown = (t->down != nullptr);
             if (isVar) {
                 // if it is a class C
-                if (r.isClassType()) {
+                if (r.isClassType() || r.isFunctionHandle()) {
                     // C(X1, ..., XN)
                     // we call : C_extract(C, X1, ..., XN)
                     if (m.size() > 0) {
@@ -3684,8 +3690,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 }
             }
             if (r.isFunctionHandle()) {
-                std::string className = r.getClassType();
-                std::string extractionFunctionName = className + "_extraction";
+                std::string extractionFunctionName = "function_handle_extraction";
                 if (lookupFunction(extractionFunctionName, funcDef)) {
                     CallStack backupCallStack = this->callstack;
                     ArrayOfVector paramsIn(m);

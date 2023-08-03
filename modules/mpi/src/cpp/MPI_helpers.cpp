@@ -84,153 +84,174 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         int tmp = static_cast<int>(A.getDimensionLength(j));
         MPI_Pack(&tmp, 1, MPI_INT, buffer, bufsize, packpos, comm);
     }
-    if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
+    switch (dataClass) {
+    case NLS_STRING_ARRAY:
+    case NLS_CELL_ARRAY: {
+        auto* dp = (ArrayOf*)A.getDataPointer();
+        for (int i = 0; i < A.getElementCount(); i++) {
+            packMPI(dp[i], buffer, bufsize, packpos, comm);
+        }
+    } break;
+    case NLS_STRUCT_ARRAY:
+    case NLS_CLASS_ARRAY: {
+        stringVector fieldnames(A.getFieldNames());
+        int fieldcnt(static_cast<int>(fieldnames.size()));
+        MPI_Pack(&fieldcnt, 1, MPI_INT, buffer, bufsize, packpos, comm);
+        for (int i = 0; i < fieldcnt; i++) {
+            int flen = static_cast<int>(fieldnames[i].size());
+            MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
+            MPI_Pack((void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
+        }
+        int isclassType(static_cast<int>(A.isClassType()));
+        MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
+        if (A.isClassType()) {
+            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
+            packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
+        }
+        if (A.isFunctionHandle()) {
+            function_handle fh = A.getContentAsFunctionHandle();
+            ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
+            packMPI(nameAsArray, buffer, bufsize, packpos, comm);
+            AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+            std::string anonymousDef;
+            if (cp) {
+                anonymousDef = cp->getDefinition();
+            }
+            ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
+            packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
+        } else {
             auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getElementCount(); i++) {
+            for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
                 packMPI(dp[i], buffer, bufsize, packpos, comm);
             }
-        } else {
-            stringVector fieldnames(A.getFieldNames());
-            int fieldcnt(static_cast<int>(fieldnames.size()));
-            MPI_Pack(&fieldcnt, 1, MPI_INT, buffer, bufsize, packpos, comm);
-            for (int i = 0; i < fieldcnt; i++) {
-                int flen = static_cast<int>(fieldnames[i].size());
-                MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
-                MPI_Pack(
-                    (void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
-            }
-            int isclassType(static_cast<int>(A.isClassType()));
-            MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
-            if (A.isClassType()) {
-                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
-                packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
-            }
-            if (A.isFunctionHandle()) {
-                function_handle fh = A.getContentAsFunctionHandle();
-                ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
-                packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-                AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
-                std::string anonymousDef;
-                if (cp) {
-                    anonymousDef = cp->getDefinition();
-                }
-                ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
-                packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
-            } else {
-                auto* dp = (ArrayOf*)A.getDataPointer();
-                for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
-                    packMPI(dp[i], buffer, bufsize, packpos, comm);
-                }
-            }
         }
-    } else {
-        switch (dataClass) {
-        case NLS_LOGICAL:
-            if (A.isSparse()) {
-                ArrayOf I, J, V, M, N, NNZ;
-                bool needToOverload;
-                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
-                if (needToOverload) {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
-                }
-                packMPI(I, buffer, bufsize, packpos, comm);
-                packMPI(J, buffer, bufsize, packpos, comm);
-                packMPI(V, buffer, bufsize, packpos, comm);
-                packMPI(M, buffer, bufsize, packpos, comm);
-                packMPI(N, buffer, bufsize, packpos, comm);
-                packMPI(NNZ, buffer, bufsize, packpos, comm);
-            } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer,
-                    bufsize, packpos, comm);
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        stringVector fieldnames(A.getFieldNames());
+        int fieldcnt(static_cast<int>(fieldnames.size()));
+        MPI_Pack(&fieldcnt, 1, MPI_INT, buffer, bufsize, packpos, comm);
+        for (int i = 0; i < fieldcnt; i++) {
+            int flen = static_cast<int>(fieldnames[i].size());
+            MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
+            MPI_Pack((void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
+        }
+        int isclassType = 2;
+        MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
+        function_handle fh = A.getContentAsFunctionHandle();
+        ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
+        packMPI(nameAsArray, buffer, bufsize, packpos, comm);
+        AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+        std::string anonymousDef;
+        if (cp) {
+            anonymousDef = cp->getDefinition();
+        }
+        ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
+        packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
+    } break;
+    case NLS_LOGICAL:
+        if (A.isSparse()) {
+            ArrayOf I, J, V, M, N, NNZ;
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
             }
-            break;
-        case NLS_UINT8:
+            packMPI(I, buffer, bufsize, packpos, comm);
+            packMPI(J, buffer, bufsize, packpos, comm);
+            packMPI(V, buffer, bufsize, packpos, comm);
+            packMPI(M, buffer, bufsize, packpos, comm);
+            packMPI(N, buffer, bufsize, packpos, comm);
+            packMPI(NNZ, buffer, bufsize, packpos, comm);
+        } else {
             MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer,
                 bufsize, packpos, comm);
-            break;
-        case NLS_INT8:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT8_T, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_UINT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UNSIGNED_SHORT,
-                buffer, bufsize, packpos, comm);
-            break;
-        case NLS_INT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_SHORT, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_UINT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT32_T, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_INT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT32_T, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_UINT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT64_T, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_INT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT64_T, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_SINGLE:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_FLOAT, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_DOUBLE:
-            if (A.isSparse()) {
-                ArrayOf I, J, V, M, N, NNZ;
-                bool needToOverload;
-                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
-                if (needToOverload) {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
-                }
-                packMPI(I, buffer, bufsize, packpos, comm);
-                packMPI(J, buffer, bufsize, packpos, comm);
-                packMPI(V, buffer, bufsize, packpos, comm);
-                packMPI(M, buffer, bufsize, packpos, comm);
-                packMPI(N, buffer, bufsize, packpos, comm);
-                packMPI(NNZ, buffer, bufsize, packpos, comm);
-            } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_DOUBLE, buffer,
-                    bufsize, packpos, comm);
-            }
-            break;
-        case NLS_SCOMPLEX:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_FLOAT, buffer,
-                bufsize, packpos, comm);
-            break;
-        case NLS_DCOMPLEX:
-            if (A.isSparse()) {
-                ArrayOf I, J, V, M, N, NNZ;
-                bool needToOverload;
-                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
-                if (needToOverload) {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
-                }
-                packMPI(I, buffer, bufsize, packpos, comm);
-                packMPI(J, buffer, bufsize, packpos, comm);
-                packMPI(V, buffer, bufsize, packpos, comm);
-                packMPI(M, buffer, bufsize, packpos, comm);
-                packMPI(N, buffer, bufsize, packpos, comm);
-                packMPI(NNZ, buffer, bufsize, packpos, comm);
-            } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_DOUBLE,
-                    buffer, bufsize, packpos, comm);
-            }
-            break;
-        case NLS_CHAR:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_WCHAR, buffer,
-                bufsize, packpos, comm);
-            break;
-        default: {
-            Error(_("Type not managed."));
-        } break;
         }
+        break;
+    case NLS_UINT8:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_INT8:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT8_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_UINT16:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UNSIGNED_SHORT, buffer,
+            bufsize, packpos, comm);
+        break;
+    case NLS_INT16:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_SHORT, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_UINT32:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT32_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_INT32:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT32_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_UINT64:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT64_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_INT64:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT64_T, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_SINGLE:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_FLOAT, buffer, bufsize,
+            packpos, comm);
+        break;
+    case NLS_DOUBLE:
+        if (A.isSparse()) {
+            ArrayOf I, J, V, M, N, NNZ;
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
+            packMPI(I, buffer, bufsize, packpos, comm);
+            packMPI(J, buffer, bufsize, packpos, comm);
+            packMPI(V, buffer, bufsize, packpos, comm);
+            packMPI(M, buffer, bufsize, packpos, comm);
+            packMPI(N, buffer, bufsize, packpos, comm);
+            packMPI(NNZ, buffer, bufsize, packpos, comm);
+        } else {
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_DOUBLE, buffer,
+                bufsize, packpos, comm);
+        }
+        break;
+    case NLS_SCOMPLEX:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_FLOAT, buffer,
+            bufsize, packpos, comm);
+        break;
+    case NLS_DCOMPLEX:
+        if (A.isSparse()) {
+            ArrayOf I, J, V, M, N, NNZ;
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
+            packMPI(I, buffer, bufsize, packpos, comm);
+            packMPI(J, buffer, bufsize, packpos, comm);
+            packMPI(V, buffer, bufsize, packpos, comm);
+            packMPI(M, buffer, bufsize, packpos, comm);
+            packMPI(N, buffer, bufsize, packpos, comm);
+            packMPI(NNZ, buffer, bufsize, packpos, comm);
+        } else {
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_DOUBLE, buffer,
+                bufsize, packpos, comm);
+        }
+        break;
+    case NLS_CHAR:
+        MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_WCHAR, buffer, bufsize,
+            packpos, comm);
+        break;
+    default: {
+        Error(_("Type not managed."));
+    } break;
     }
 }
 //=============================================================================
@@ -250,23 +271,27 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, &tmp, 1, MPI_INT, comm);
         outDim[j] = tmp;
     }
-    if (dataClass == NLS_STRING_ARRAY) {
+
+    void* cp = nullptr;
+    switch (dataClass) {
+    case NLS_STRING_ARRAY: {
         auto* dp = new ArrayOf[outDim.getElementCount()];
         indexType elementCount = outDim.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
-    }
-    if (dataClass == NLS_CELL_ARRAY) {
+    } break;
+    case NLS_CELL_ARRAY: {
         auto* dp = new ArrayOf[outDim.getElementCount()];
         indexType elementCount = outDim.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_CELL_ARRAY, outDim, dp);
-    }
-    if (dataClass == NLS_STRUCT_ARRAY || dataClass == NLS_CLASS_ARRAY) {
+    } break;
+    case NLS_STRUCT_ARRAY:
+    case NLS_CLASS_ARRAY: {
         int fieldcnt = 0;
         MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
         stringVector fieldnames;
@@ -286,41 +311,52 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf classNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
             classname = classNameAsArray.getContentAsCString();
         }
-        if (classname == NLS_FUNCTION_HANDLE_STR) {
-            ArrayOf nameArray = unpackMPI(buffer, bufsize, packpos, comm);
-            ArrayOf anonymousArray = unpackMPI(buffer, bufsize, packpos, comm);
-            if (nameArray.isRowVectorCharacterArray()
-                && anonymousArray.isRowVectorCharacterArray()) {
-                function_handle fptr;
-                fptr.name = nameArray.getContentAsCString();
-                AnonymousMacroFunctionDef* cp
-                    = new AnonymousMacroFunctionDef(anonymousArray.getContentAsCString());
-                fptr.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
-                if (fptr.anonymousHandle == nullptr && fptr.name.empty()) {
-                    Error(_W("A valid function name expected."));
-                }
-                return ArrayOf::functionHandleConstructor(fptr);
-            }
-            Error(_W("String expected."));
-
-        } else {
-            indexType elementCount = (indexType)(fieldcnt * outDim.getElementCount());
-            auto* dp = new ArrayOf[elementCount];
-            for (indexType i = 0; i < elementCount; i++) {
-                dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
-            }
-            ArrayOf returnedArray;
-            if (!classname.empty()) {
-                returnedArray = ArrayOf(NLS_CLASS_ARRAY, outDim, dp, false, fieldnames);
-                returnedArray.setClassType(classname);
-            } else {
-                returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
-            }
-            return returnedArray;
+        indexType elementCount = (indexType)(fieldcnt * outDim.getElementCount());
+        auto* dp = new ArrayOf[elementCount];
+        for (indexType i = 0; i < elementCount; i++) {
+            dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
-    }
-    void* cp = nullptr;
-    switch (dataClass) {
+        ArrayOf returnedArray;
+        if (!classname.empty()) {
+            returnedArray = ArrayOf(NLS_CLASS_ARRAY, outDim, dp, false, fieldnames);
+            returnedArray.setClassType(classname);
+        } else {
+            returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+        }
+        return returnedArray;
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        int fieldcnt = 0;
+        MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
+        stringVector fieldnames;
+        for (int j = 0; j < fieldcnt; j++) {
+            int fieldnamelength;
+            MPI_Unpack(buffer, bufsize, packpos, &fieldnamelength, 1, MPI_INT, comm);
+            char* dbuff = new char[fieldnamelength + 1];
+            MPI_Unpack(buffer, bufsize, packpos, dbuff, fieldnamelength, MPI_CHAR, comm);
+            dbuff[fieldnamelength] = 0;
+            fieldnames.push_back(std::string(dbuff));
+            delete[] dbuff;
+        }
+        int isclassType = 0;
+        MPI_Unpack(buffer, bufsize, packpos, &isclassType, 1, MPI_INT, comm);
+        std::string classname;
+        if (isclassType != 2) {
+            Error("ICI");
+        }
+
+        ArrayOf nameArray = unpackMPI(buffer, bufsize, packpos, comm);
+        ArrayOf anonymousArray = unpackMPI(buffer, bufsize, packpos, comm);
+        function_handle fptr;
+        fptr.name = nameArray.getContentAsCString();
+        AnonymousMacroFunctionDef* cp
+            = new AnonymousMacroFunctionDef(anonymousArray.getContentAsCString());
+        fptr.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
+        if (fptr.anonymousHandle == nullptr && fptr.name.empty()) {
+            Error(_W("A valid function name expected."));
+        }
+        return ArrayOf::functionHandleConstructor(fptr);
+    } break;
     case NLS_LOGICAL:
         if (issparse) {
             ArrayOf I = unpackMPI(buffer, bufsize, packpos, comm);
@@ -419,7 +455,6 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
-    case NLS_CLASS_ARRAY:
     default: {
         Error(_W("Type not managed."));
     } break;

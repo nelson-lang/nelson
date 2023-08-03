@@ -49,3 +49,4 @@ assert_isequal(st.HeaderFields, []);
 assert_isequal(st.CertificateFilename, certificateFilename);
 %=============================================================================
 assert_checkerror('weboptions(''Password1'', ''Nelson'');',sprintf(_('%s is not a recognized parameter.'), 'Password1'))
+%=============================================================================

@@ -40,6 +40,9 @@ ToInteger(NelsonType destinationClass, const ArrayOf& A)
     case NLS_CELL_ARRAY: {
         Error(_W("Conversion to '") + destType + _W("' from cell is not possible."));
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        Error(_W("Conversion to '") + destType + _W("' from function_handle is not possible."));
+    } break;
     case NLS_CLASS_ARRAY: {
         Error(_W("Undefined function '") + destType + _W("' for input arguments of type '")
             + utf8_to_wstring(A.getClassType()) + L"'.");

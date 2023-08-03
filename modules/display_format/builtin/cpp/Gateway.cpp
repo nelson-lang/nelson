@@ -53,6 +53,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "single_display", (ptrBuiltin)Nelson::DisplayFormatGateway::generic_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "function_handle_display", (ptrBuiltin)Nelson::DisplayFormatGateway::generic_displayBuiltin,
+        0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "struct_display", (ptrBuiltin)Nelson::DisplayFormatGateway::generic_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "cell_display", (ptrBuiltin)Nelson::DisplayFormatGateway::generic_displayBuiltin, 0, 2,

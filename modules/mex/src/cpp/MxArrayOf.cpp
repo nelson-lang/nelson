@@ -589,6 +589,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         }
     } break;
     case NLS_CLASS_ARRAY:
+    case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY: {
         res = mxNewArray();
         if (res != nullptr) {

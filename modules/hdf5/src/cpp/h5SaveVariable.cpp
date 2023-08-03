@@ -36,14 +36,12 @@ h5SaveVariable(hid_t fid, const std::string& location, const std::string& variab
     case NLS_CELL_ARRAY: {
         bSuccess = h5SaveCell(fid, location, variableName, VariableValue, useCompression);
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        bSuccess = h5SaveFunctionHandle(fid, location, variableName, VariableValue, useCompression);
+    } break;
     case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
-        if (VariableValue.isFunctionHandle()) {
-            bSuccess
-                = h5SaveFunctionHandle(fid, location, variableName, VariableValue, useCompression);
-        } else {
-            bSuccess = h5SaveStruct(fid, location, variableName, VariableValue, useCompression);
-        }
+        bSuccess = h5SaveStruct(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_STRING_ARRAY: {
         bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue, useCompression);

@@ -9,11 +9,12 @@
 %=============================================================================
 o = weboptions('RequestMethod', 'patch');
 filename = [tempdir(), 'test_websave_patch.json'];
-fullname = websave(filename, 'http://httpbin.org/patch', o);
+fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1', o);
 R = jsondecode(fileread(fullname));
-assert_isequal(R.url, 'http://httpbin.org/patch');
+assert_isequal(R.id, 1);
 %=============================================================================
 filename = [tempdir(), 'test_websave_patch.json'];
-cmd = 'fullname = websave(filename, ''http://httpbin.org/patch'');';
-assert_checkerror(cmd, _('Method Not Allowed (405)'));
+fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1', o);
+R = jsondecode(fileread(fullname));
+assert_isequal(R.id, 1);
 %=============================================================================

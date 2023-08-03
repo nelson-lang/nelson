@@ -94,6 +94,9 @@ ToLogical(ArrayOf A)
     case NLS_CELL_ARRAY: {
         Error(_W("Conversion to logical from cell is not possible."));
     } break;
+    case NLS_FUNCTION_HANDLE: {
+        Error(_W("Conversion to logical from function_handle is not possible."));
+    } break;
     case NLS_CLASS_ARRAY: {
         Error(_("Undefined function 'logical' for input arguments of type '") + A.getClassType()
             + "'.");
