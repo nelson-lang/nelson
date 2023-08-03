@@ -59,7 +59,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(_W("Invalid Figure handle."));
     }
     if ((argIn.size() - pos) % 2 == 0) {
-        GraphicsObject* go = (GraphicsObject*)fig;
+        GraphicsObject* go = static_cast<GraphicsObject*>(fig);
         for (size_t k = pos; k < argIn.size(); k = k + 2) {
             if ((argIn[k].isStringArray() && argIn[k].isScalar())
                 || argIn[k].isRowVectorCharacterArray()) {

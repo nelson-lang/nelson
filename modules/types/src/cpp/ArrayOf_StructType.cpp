@@ -280,8 +280,6 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
         a[0] = 1;
         a[1] = 1;
         resize(a);
-        //       dp = dp->putData(NLS_STRUCT_ARRAY,dp->getDimensions(),NULL,names);
-        //       return;
     }
     if (!this->isStruct() && !this->isClassType()) {
         Error(ERROR_ASSIGN_TO_NON_STRUCT);

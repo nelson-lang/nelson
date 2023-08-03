@@ -31,14 +31,14 @@ mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax)
         pm->issparse = true;
         pm->iscomplex = false;
         pm->number_of_dims = 2;
-        pm->dims = (mwSize*)mxCalloc((mwSize)2, sizeof(mwSize));
+        pm->dims = static_cast<mwSize*>(mxCalloc((mwSize)2, sizeof(mwSize)));
         pm->dims[0] = m;
         pm->dims[1] = n;
-        pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+        pm->realdata = static_cast<mxDouble*>(mxCalloc(nzmax, sizeof(mxDouble)));
         pm->nIr = nzmax;
-        pm->Ir = (mwIndex*)mxCalloc(nzmax, sizeof(mwIndex));
+        pm->Ir = static_cast<mwIndex*>(mxCalloc(nzmax, sizeof(mwIndex)));
         pm->nJc = n + 1;
-        pm->Jc = (mwIndex*)mxCalloc(n + 1, sizeof(mwIndex));
+        pm->Jc = static_cast<mwIndex*>(mxCalloc(n + 1, sizeof(mwIndex)));
         pm->nzmax = nzmax;
         pm->ptr = nullptr;
     }
@@ -59,24 +59,24 @@ mxCreateSparseInternal(
             pm->iscomplex = false;
         }
         pm->number_of_dims = 2;
-        pm->dims = (mwSize*)mxCalloc((mwSize)2, sizeof(mwSize));
+        pm->dims = static_cast<mwSize*>(mxCalloc((mwSize)2, sizeof(mwSize)));
         pm->dims[0] = m;
         pm->dims[1] = n;
         pm->interleavedcomplex = interleavedcomplex;
         if (ComplexFlag == mxCOMPLEX) {
             if (interleavedcomplex) {
-                pm->realdata = (mxDouble*)mxCalloc(nzmax * 2, sizeof(mxDouble));
+                pm->realdata = static_cast<mxDouble*>(mxCalloc(nzmax * 2, sizeof(mxDouble)));
             } else {
-                pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
-                pm->imagdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+                pm->realdata = static_cast<mxDouble*>(mxCalloc(nzmax, sizeof(mxDouble)));
+                pm->imagdata = static_cast<mxDouble*>(mxCalloc(nzmax, sizeof(mxDouble)));
             }
         } else {
-            pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+            pm->realdata = static_cast<mxDouble*>(mxCalloc(nzmax, sizeof(mxDouble)));
         }
         pm->nIr = nzmax;
-        pm->Ir = (mwIndex*)mxCalloc(nzmax, sizeof(mwIndex));
+        pm->Ir = static_cast<mwIndex*>(mxCalloc(nzmax, sizeof(mwIndex)));
         pm->nJc = n + 1;
-        pm->Jc = (mwIndex*)mxCalloc(n + 1, sizeof(mwIndex));
+        pm->Jc = static_cast<mwIndex*>(mxCalloc(n + 1, sizeof(mwIndex)));
         pm->nzmax = nzmax;
         pm->ptr = nullptr;
     }

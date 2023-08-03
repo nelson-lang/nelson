@@ -30,7 +30,7 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argI
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
-    auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     ArrayOf res;
     if (!objDlsym->get(propertyName, res)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE);
