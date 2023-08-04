@@ -22,7 +22,9 @@ GOColorVectorProperty::set(ArrayOf arg)
     if (!isValid) {
         Error(_("Expect an m x 3 matrix for color orders."));
     }
-    const double* dp = (const double*)arg.getDataPointer();
+    const double* dp = static_cast<const double*>(
+        const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
+
     indexType n = arg.getElementCount();
     for (indexType i = 0; i < n; i++) {
         if ((dp[i] < 0) || (dp[i] > 1.0)) {

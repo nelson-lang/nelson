@@ -49,8 +49,10 @@ EqGraphicsObjects(const ArrayOf& A, const ArrayOf& B)
     void* Cp = new_with_exception<logical>(Clen, false);
     auto* C = static_cast<logical*>(Cp);
     if (A.isGraphicsObject() && B.isGraphicsObject()) {
-        auto* hA = (go_handle*)A.getDataPointer();
-        auto* hB = (go_handle*)B.getDataPointer();
+        auto* hA = static_cast<go_handle*>(
+            const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+        auto* hB = static_cast<go_handle*>(
+            const_cast<void*>(static_cast<const void*>(B.getDataPointer())));
         if ((Astride == 1) && (Bstride == 1)) {
             for (indexType i = 0; i < Clen; i++) {
                 C[i] = (hA[i] == hB[i]) ? 1 : 0;

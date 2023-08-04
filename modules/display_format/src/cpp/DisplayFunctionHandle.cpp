@@ -54,7 +54,8 @@ DisplayScalarFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring&
         if (!name.empty()) {
             io->outputMessage(L"\n");
         }
-        ArrayOf* ap = (ArrayOf*)A.getDataPointer();
+        ArrayOf* ap = static_cast<ArrayOf*>(
+            const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         for (size_t k = 0; k < fieldnames.size(); ++k) {
             std::wstring beginning = BLANKS_AT_BOL
                 + completeWithBlanksAtBeginning(utf8_to_wstring(fieldnames[k]), maxLen) + L": ";

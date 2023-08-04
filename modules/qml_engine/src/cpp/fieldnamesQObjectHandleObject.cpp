@@ -26,7 +26,7 @@ fieldnamesQObjectHandleObject(const ArrayOf& A, bool fullList, wstringVector& fi
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     fieldnamesQObjectHandleObject(qmlhandleobj, fullList, fieldnames);
 }
 //=============================================================================

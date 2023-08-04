@@ -41,7 +41,6 @@ split(const std::wstring& str, const std::wstring& token)
 static std::wstring
 formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotation)
 {
-    std::wstring buffer;
     if (scientificNotation) {
         std::wstring label = fmt::sprintf(L"%e", val);
         if (textFormat == TEX_MARKUP) {
@@ -96,7 +95,7 @@ formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotati
         }
         return label;
     } else {
-        buffer = fmt::sprintf(L"%f", val);
+        std::wstring buffer = fmt::sprintf(L"%f", val);
         while (buffer.back() == L'0') {
             buffer.pop_back();
         }

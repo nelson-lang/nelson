@@ -32,7 +32,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
 
     try {
         if (!argIn.empty()) {
-            mxArgsIn = (mxArray**)mxMalloc(sizeof(mxArray*) * argIn.size());
+            mxArgsIn = static_cast<mxArray**>(mxMalloc(sizeof(mxArray*) * argIn.size()));
         }
     } catch (const std::bad_alloc&) {
         Nelson::Error(ERROR_MEMORY_ALLOCATION);

@@ -41,7 +41,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     if (ptr == nullptr) {
         Error(_W("COM valid handle expected."));
     }
-    const VARIANT* pVariant = (VARIANT*)ptr;
+    const VARIANT* pVariant = static_cast<VARIANT*>(ptr);
     VARIANT* pVarResult = nullptr;
     try {
         pVarResult = new VARIANT;

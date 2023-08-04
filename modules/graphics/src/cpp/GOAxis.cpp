@@ -2039,10 +2039,12 @@ double
 GOAxis::mapX(double x, bool forceLinearScale)
 {
     GONormalReverseProperty* hp
-        = (GONormalReverseProperty*)findProperty(GO_X_DIR_PROPERTY_NAME_STR);
-    GOTwoVectorProperty* xlim = (GOTwoVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+        = static_cast<GONormalReverseProperty*>(findProperty(GO_X_DIR_PROPERTY_NAME_STR));
+    GOTwoVectorProperty* xlim
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_X_LIM_PROPERTY_NAME_STR));
     std::vector<double> lims(xlim->data());
-    GOLinearLogProperty* sp = (GOLinearLogProperty*)findProperty(GO_X_SCALE_PROPERTY_NAME_STR);
+    GOLinearLogProperty* sp
+        = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
     if (sp->isEqual(GO_PROPERTY_VALUE_LOG_STR) && !forceLinearScale) {
         x = tickLog(x);
     }

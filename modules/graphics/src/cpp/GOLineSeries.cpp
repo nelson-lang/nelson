@@ -106,10 +106,10 @@ GOLineSeries::updateState()
             zs[i] = 0.0;
         }
     }
-    GOVectorProperty* sp;
-    sp = (GOVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
+    GOVectorProperty* sp
+        = static_cast<GOVectorProperty*>(findProperty(GO_X_DATA_PROPERTY_NAME_STR));
     sp->data(xs);
-    sp = (GOVectorProperty*)findProperty(GO_Z_DATA_PROPERTY_NAME_STR);
+    sp = static_cast<GOVectorProperty*>(findProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     sp->data(zs);
 }
 //=============================================================================
@@ -128,7 +128,7 @@ GOLineSeries::paintMe(RenderInterface& gc)
         return;
     }
     std::vector<double> mxs, mys, mzs;
-    GOAxis* parent = (GOAxis*)getParentAxis();
+    GOAxis* parent = static_cast<GOAxis*>(getParentAxis());
     if (parent) {
         parent->reMap(xs, ys, zs, mxs, mys, mzs);
     }
@@ -157,8 +157,10 @@ GOLineSeries::paintMe(RenderInterface& gc)
                 n++;
         }
     }
-    GOColorProperty* ec = (GOColorProperty*)findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
-    GOColorProperty* fc = (GOColorProperty*)findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
+    GOColorProperty* ec
+        = static_cast<GOColorProperty*>(findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR));
+    GOColorProperty* fc
+        = static_cast<GOColorProperty*>(findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR));
     RenderInterface::SymbolType typ
         = StringToSymbol(findStringProperty(GO_MARKER_PROPERTY_NAME_STR));
     double sze = findScalarDoubleProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR) / 2.0;
