@@ -1356,28 +1356,7 @@ ArrayOf::getContentAsIndexPointer()
 bool
 ArrayOf::isNumeric() const
 {
-    bool bRes = false;
-    NelsonType currentclass = this->getDataClass();
-    switch (this->getDataClass()) {
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_SINGLE:
-    case NLS_DOUBLE:
-    case NLS_SCOMPLEX:
-    case NLS_DCOMPLEX:
-        bRes = true;
-        break;
-    default:
-        bRes = false;
-        break;
-    }
-    return bRes;
+    return this->getDataClass() < NLS_LOGICAL;
 }
 //=============================================================================
 template <class T>

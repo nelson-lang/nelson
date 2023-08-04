@@ -89,8 +89,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         ArrayOf lastArg = argIn[argIn.size() - 1];
         if (lastArg.isRowVectorCharacterArray() && bCheckClassName) {
-            std::wstring paramstr = lastArg.getContentAsWideString();
-            cl = StringToClass(paramstr);
+            cl = StringToClass(lastArg.getContentAsCString());
             nRhs--;
             if (cl > NLS_LOGICAL) {
                 Error(_W("A supported type expected at last argument."));

@@ -22,7 +22,7 @@ Nelson::ParallelGateway::backgroundPool_structBuiltin(int nLhs, const ArrayOfVec
     nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
         Error(_W("backgroundPool handle expected."));
     }
     auto* backgroundPool = (BackgroundPoolObject*)param1.getContentAsHandleScalar();

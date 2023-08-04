@@ -28,7 +28,7 @@ DeleteLibPointerObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR) {
+                    if (hlObj->getCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                         Error(_W("libpointer handle expected."));
                     }
                     LibPointerObject* obj = (LibPointerObject*)hlObj;

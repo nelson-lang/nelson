@@ -18,10 +18,10 @@
 AfterAllFutureObject::AfterAllFutureObject(
     const std::wstring& functionName, const std::vector<FutureObject*>& predecessors)
     : FutureObject(functionName)
-    , HandleGenericObject(std::wstring(AFTERALLFUTURE_CATEGORY_STR), this, false)
+    , HandleGenericObject(NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR, this, false)
 
 {
-    setType(AFTERALLFUTURE_CATEGORY_STR);
+    setType(NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR);
     setPredecessors(predecessors);
 }
 //=============================================================================

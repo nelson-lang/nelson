@@ -53,7 +53,7 @@ FutureObject::FutureObject(const std::wstring& functionName)
     this->_exception = Exception();
     this->_result.clear();
     this->_predecessors.clear();
-    this->_type = L"Future";
+    this->_type = "Future";
 }
 //=============================================================================
 void
@@ -404,14 +404,14 @@ FutureObject::getPredecessors()
     return _predecessors;
 }
 //=============================================================================
-std::wstring
+std::string
 FutureObject::getType()
 {
     return _type;
 }
 //=============================================================================
 void
-FutureObject::setType(const std::wstring& futureType)
+FutureObject::setType(const std::string& futureType)
 {
     _type = futureType;
 }

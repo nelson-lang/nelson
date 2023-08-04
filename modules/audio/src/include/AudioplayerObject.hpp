@@ -17,8 +17,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
-//=============================================================================
 class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {
 public:
@@ -78,7 +76,7 @@ private:
     bool _Running;
     std::wstring _Tag;
     ArrayOf _UserData;
-    std::wstring _Type;
+    std::string _Type;
     PaStream* paStream;
     uint32 firstSample;
     uint32 lastSample;
@@ -108,7 +106,7 @@ private:
     getTag();
     Nelson::ArrayOf
     getUserData();
-    std::wstring
+    std::string
     getType();
     PaStream*
     getStream();

@@ -34,7 +34,7 @@ Nelson::ParallelGateway::FevalQueue_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != FEVALQUEUE_CATEGORY_STR) {
+            if (param1.getHandleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
                 Error(_W("FevalQueue handle expected."));
             }
             auto* fevalQueueObject = (FevalQueueObject*)param1.getContentAsHandleScalar();

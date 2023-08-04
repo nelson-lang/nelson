@@ -18,20 +18,20 @@
 namespace Nelson {
 //=============================================================================
 LibPointerObject::LibPointerObject()
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, this, false)
 {
     initializeCommon();
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(void* pointer)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, this, false)
 {
     initializeCommon();
     _voidPointer = pointer;
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(const std::wstring& DataType)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, this, false)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
@@ -54,7 +54,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, this, false)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
@@ -87,7 +87,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
 //=============================================================================
 LibPointerObject::LibPointerObject(
     void* pointer, const std::wstring& DataType, NelsonType currentType)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_LIBPOINTER_CATEGORY_STR, this, false)
 {
     initializeCommon();
     this->_DataType = DataType;

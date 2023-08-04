@@ -313,10 +313,7 @@ bool
 ArrayOf::isIntegerType() const
 {
     if (dp) {
-        return ((dp->dataClass == NLS_UINT8) || (dp->dataClass == NLS_UINT16)
-            || (dp->dataClass == NLS_UINT32) || (dp->dataClass == NLS_UINT64)
-            || (dp->dataClass == NLS_INT8) || (dp->dataClass == NLS_INT16)
-            || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
+        return IS_INTEGER_TYPE(dp->dataClass);
     }
     return false;
 }
@@ -345,15 +342,13 @@ ArrayOf::isNdArrayIntegerType() const
 bool
 ArrayOf::isUnsignedIntegerType() const
 {
-    return getDataClass() == NLS_UINT8 || getDataClass() == NLS_UINT16
-        || getDataClass() == NLS_UINT32 || getDataClass() == NLS_UINT64;
+    return IS_UNSIGNED_INTEGER_TYPE(getDataClass());
 }
 //=============================================================================
 bool
 ArrayOf::isSignedIntegerType() const
 {
-    return getDataClass() == NLS_INT8 || getDataClass() == NLS_INT16 || getDataClass() == NLS_INT32
-        || getDataClass() == NLS_INT64;
+    return IS_SIGNED_INTEGER_TYPE(getDataClass());
 }
 //=============================================================================
 } // namespace Nelson

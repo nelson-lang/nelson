@@ -42,11 +42,11 @@ ArrayOfToFutures(const ArrayOf& _param)
         nelson_handle hl = qp[k];
         HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
         if (hlObj) {
-            if (_param.getHandleCategory() == FEVALFUTURE_CATEGORY_STR) {
+            if (_param.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR) {
                 futures.push_back((FevalFutureObject*)hlObj);
-            } else if (_param.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR) {
+            } else if (_param.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR) {
                 futures.push_back((AfterAllFutureObject*)hlObj);
-            } else if (_param.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR) {
+            } else if (_param.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR) {
                 futures.push_back((AfterEachFutureObject*)hlObj);
             } else {
                 futures.push_back(nullptr);

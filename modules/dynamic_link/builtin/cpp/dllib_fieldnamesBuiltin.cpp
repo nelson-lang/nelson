@@ -24,7 +24,7 @@ Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
         Error(_W("dllib handle expected."));
     }
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();

@@ -26,7 +26,7 @@ Nelson::ParallelGateway::backgroundPool_getBuiltin(int nLhs, const ArrayOfVector
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
-    if (param1.getHandleCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
         Error(_W("backgroundPool handle expected."));
     }
     ArrayOf res;

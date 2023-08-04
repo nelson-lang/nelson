@@ -34,8 +34,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         ArrayOf lastarg = argIn[nRhs - 1];
         if (lastarg.isRowVectorCharacterArray()) {
-            std::wstring strarg = lastarg.getContentAsWideString();
-            destClass = StringToClass(strarg);
+            destClass = StringToClass(lastarg.getContentAsCString());
             nRhs--;
         } else {
             double n = static_cast<double>(nRhs) - 2.;

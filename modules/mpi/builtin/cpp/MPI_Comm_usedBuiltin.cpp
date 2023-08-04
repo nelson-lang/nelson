@@ -20,7 +20,7 @@ Nelson::MpiGateway::MPI_Comm_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << usedHandle(MPI_COMM_CATEGORY_STR);
+    retval << usedHandle(NLS_HANDLE_MPI_COMM_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

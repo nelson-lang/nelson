@@ -46,7 +46,7 @@ ArrayOf
 methodsQObject(const ArrayOf& A)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;

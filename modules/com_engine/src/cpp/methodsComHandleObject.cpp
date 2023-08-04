@@ -19,7 +19,7 @@ namespace Nelson {
 void
 methodsComHandleObject(const ArrayOf& A, wstringVector& methods)
 {
-    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+    if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();

@@ -16,7 +16,7 @@
 namespace Nelson {
 //=============================================================================
 NLSPARALLEL_IMPEXP bool
-DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory);
+DeleteGenericObject(const ArrayOf& A, const std::string& handleCategory);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -15,6 +15,6 @@
 //=============================================================================
 namespace Nelson {
 NLSHANDLE_IMPEXP ArrayOf
-usedHandle(const std::wstring& category);
+usedHandle(const std::string& category);
 }
 //=============================================================================

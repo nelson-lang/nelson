@@ -116,19 +116,19 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
-            return wstring_to_utf8(A.getHandleCategory());
+            return A.getHandleCategory();
         } else {
             return A.getClassType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
-            return wstring_to_utf8(B.getHandleCategory());
+            return B.getHandleCategory();
         } else {
             return B.getClassType();
         }
     } else if (isObjectC) {
         if (classC == NLS_HANDLE) {
-            return wstring_to_utf8(C.getHandleCategory());
+            return C.getHandleCategory();
         } else {
             return C.getClassType();
         }
@@ -151,13 +151,13 @@ precedenceTypeNameColon(const ArrayOf& A, const ArrayOf& B)
     bool isObjectB = B.isClassType() || (classB == NLS_HANDLE);
     if (isObjectA) {
         if (classA == NLS_HANDLE) {
-            return wstring_to_utf8(A.getHandleCategory());
+            return A.getHandleCategory();
         } else {
             return A.getClassType();
         }
     } else if (isObjectB) {
         if (classB == NLS_HANDLE) {
-            return wstring_to_utf8(B.getHandleCategory());
+            return B.getHandleCategory();
         } else {
             return B.getClassType();
         }

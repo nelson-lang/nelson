@@ -25,7 +25,7 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
     ArrayOfVector retval;
 
     std::vector<nelson_handle> used
-        = HandleManager::getInstance()->getAllHandlesOfCategory(DLLIB_CATEGORY_STR);
+        = HandleManager::getInstance()->getAllHandlesOfCategory(NLS_HANDLE_DLLIB_CATEGORY_STR);
     size_t nbHandles = used.size();
     if (nbHandles > 0) {
         std::wstring fullLibraryName = libraryName;

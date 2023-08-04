@@ -45,10 +45,10 @@ using ompIndexType = int;
 #define SIGNED_INDEX_TYPE_MAX 2147483647UL
 #define SIGNED_INDEX_TYPE_MIN -2147483647UL
 #endif
-
+//=============================================================================
 #define SIZE_TYPE_MIN 0UL
 #define UNSIGNED_INDEX_TYPE_MIN 0UL
-
+//=============================================================================
 using logical = uint8_t;
 using int8 = int8_t;
 using uint8 = uint8_t;
@@ -57,31 +57,30 @@ using uint16 = uint16_t;
 using int32 = int32_t;
 using uint32 = uint32_t;
 using int64 = int64_t;
-
 using uint64 = uint64_t;
 using charType = wchar_t;
 using single = float;
 using constIndexPtr = const indexType*;
-
+//=============================================================================
 using nelson_handle = uint64_t;
 using go_handle = int64_t;
-
+//=============================================================================
 struct function_handle
 {
     std::string name;
     nelson_handle* anonymousHandle;
 };
-
+//=============================================================================
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
-
+//=============================================================================
 #ifndef false
 #define false 0
 #endif
 #ifndef true
 #define true 1
 #endif
-
+//=============================================================================
 enum NelsonType
 {
     NLS_DOUBLE = 0,
@@ -99,18 +98,22 @@ enum NelsonType
     NLS_LOGICAL,
     NLS_CHAR,
     NLS_STRUCT_ARRAY,
-    NLS_CLASS_ARRAY,
-    NLS_FUNCTION_HANDLE,
     NLS_CELL_ARRAY,
+    NLS_FUNCTION_HANDLE,
+    NLS_CLASS_ARRAY,
     NLS_STRING_ARRAY,
     NLS_HANDLE,
     NLS_GO_HANDLE,
     NLS_UNKNOWN,
 };
-
+//=============================================================================
+#define IS_INTEGER_TYPE(x) (x >= NLS_INT8 && x <= NLS_UINT64)
+#define IS_SIGNED_INTEGER_TYPE(x) (x >= NLS_INT8 && x <= NLS_INT64)
+#define IS_UNSIGNED_INTEGER_TYPE(x) (x >= NLS_UINT8 && x <= NLS_UINT64)
+//=============================================================================
 using stringVector = std::vector<std::string>;
 using wstringVector = std::vector<std::wstring>;
-
+//=============================================================================
 #define NLS_SPARSE_STR "sparse"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"
@@ -136,6 +139,19 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
 #define NLS_UNKNOWN_STR "unknown"
+//=============================================================================
+#define NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR "audioplayer"
+#define NLS_HANDLE_COM_CATEGORY_STR "COM"
+#define NLS_HANDLE_DLSYM_CATEGORY_STR "dlsym"
+#define NLS_HANDLE_DLLIB_CATEGORY_STR "dllib"
+#define NLS_HANDLE_LIBPOINTER_CATEGORY_STR "libpointer"
+#define NLS_HANDLE_MPI_COMM_CATEGORY_STR "MPI_Comm"
+#define NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR "backgroundPool"
+#define NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR "AfterAllFuture"
+#define NLS_HANDLE_FEVALFUTURE_CATEGORY_STR "FevalFuture"
+#define NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR "AfterEachFuture"
+#define NLS_HANDLE_FEVALQUEUE_CATEGORY_STR "FevalQueue"
+#define NLS_HANDLE_QOBJECT_CATEGORY_STR "QObject"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

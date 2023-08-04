@@ -19,7 +19,7 @@ Nelson::ComEngineGateway::COM_classBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    std::wstring classname;
+    std::string classname;
     classnameComHandle(argIn[0], classname);
     retval << ArrayOf::characterArrayConstructor(classname);
     return retval;

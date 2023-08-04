@@ -252,7 +252,7 @@ buildHeader(const ArrayOf& A)
         } break;
         case NLS_HANDLE: {
             if (A.getDataPointer() != nullptr) {
-                typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
+                typeAsText = typeAsText + L" [" + utf8_to_wstring(A.getHandleCategory()) + L"]";
             }
         } break;
         case NLS_FUNCTION_HANDLE: {

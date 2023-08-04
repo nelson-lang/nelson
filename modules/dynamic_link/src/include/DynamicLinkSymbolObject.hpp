@@ -18,8 +18,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define DLSYM_CATEGORY_STR L"dlsym"
-//=============================================================================
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject
 {
 public:

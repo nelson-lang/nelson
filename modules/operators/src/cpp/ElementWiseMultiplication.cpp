@@ -32,7 +32,7 @@ matrix_matrix_elementWiseMultiplication(
         (T*)a.getDataPointer(), 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)b.getDataPointer(), 1, Clen);
-    if (isIntegerClass(classDestination)) {
+    if (IS_INTEGER_TYPE(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
             matC = matA.template cast<long double>()
                        .cwiseProduct(matB.template cast<long double>())
@@ -87,7 +87,7 @@ scalar_matrix_elementWiseMultiplication(NelsonType classDestination, ArrayOf& a,
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)b.getDataPointer(), 1, Clen);
     T* ptrA = (T*)a.getDataPointer();
-    if (isIntegerClass(classDestination)) {
+    if (IS_INTEGER_TYPE(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
             matC = ((long double)ptrA[0] * matB.template cast<long double>().array())
                        .array()
@@ -133,7 +133,7 @@ vector_elementWiseMultiplication(
     NelsonType classDestination, T* C, const T* A, indexType NA, const T* B, indexType NB)
 {
     indexType m = 0;
-    if (isIntegerClass(classDestination)) {
+    if (IS_INTEGER_TYPE(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
             for (indexType i = 0; i < NA; i++) {
                 for (indexType j = 0; j < NB; j++) {
@@ -195,7 +195,7 @@ vector_matrix_elementWiseMultiplication(
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
 
-    if (isIntegerClass(classDestination)) {
+    if (IS_INTEGER_TYPE(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -270,7 +270,7 @@ vector_column_elementWiseMultiplication(
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
-    if (isIntegerClass(classDestination)) {
+    if (IS_INTEGER_TYPE(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -340,7 +340,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
         T* ptrB = (T*)b.getDataPointer();
         void* Cp = ArrayOf::allocateArrayOf(classDestination, 1);
         T* C = (T*)Cp;
-        if (isIntegerClass(classDestination)) {
+        if (IS_INTEGER_TYPE(classDestination)) {
             if (mustCastIntegerAsLongDouble(classDestination)) {
                 C[0] = numeric_cast<long double, T>((long double)ptrA[0] * (long double)ptrB[0]);
             } else if (mustCastIntegerAsDouble(classDestination)) {

@@ -8,11 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ComHandleObject.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ComHandleObject::ComHandleObject(void* _ptr)
-    : HandleGenericObject(std::wstring(COM_CATEGORY_STR), _ptr, false)
+    : HandleGenericObject(NLS_HANDLE_COM_CATEGORY_STR, _ptr, false)
 {
 }
 //=============================================================================

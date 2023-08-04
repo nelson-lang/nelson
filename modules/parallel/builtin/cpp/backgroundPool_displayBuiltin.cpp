@@ -34,7 +34,7 @@ Nelson::ParallelGateway::backgroundPool_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
+            if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
                 Error(_W("backgroundPool handle expected."));
             }
             auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();

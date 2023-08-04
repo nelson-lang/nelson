@@ -20,7 +20,7 @@ Nelson::ParallelGateway::backgroundPool_usedBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << usedHandle(BACKGROUNDPOOL_CATEGORY_STR);
+    retval << usedHandle(NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

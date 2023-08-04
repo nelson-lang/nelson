@@ -28,7 +28,7 @@ DeleteDynamicLinkSymbolObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != DLSYM_CATEGORY_STR) {
+                    if (hlObj->getCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
                         Error(_W("dlsym handle expected."));
                     }
                     auto* obj = (DynamicLinkSymbolObject*)hlObj;

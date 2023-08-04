@@ -16,11 +16,11 @@
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP void
-classnameComHandle(const ArrayOf& A, std::wstring& classname);
+classnameComHandle(const ArrayOf& A, std::string& classname);
 NLSCOM_ENGINE_IMPEXP void
-classnameComHandle(ComHandleObject* comHandle, std::wstring& classname);
+classnameComHandle(ComHandleObject* comHandle, std::string& classname);
 NLSCOM_ENGINE_IMPEXP void
-classnameComHandle(const ArrayOf& A, wstringVector& classname);
+classnameComHandle(const ArrayOf& A, stringVector& classname);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -27,9 +27,9 @@ Nelson::ParallelGateway::Future_getBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
-    bool isSupportedFuture = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTERALLFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == AFTEREACHFUTURE_CATEGORY_STR);
+    bool isSupportedFuture = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
+        || (param1.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
     if (!isSupportedFuture) {
         Error(_W("Future handle expected."));
     }
