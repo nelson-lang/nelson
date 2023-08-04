@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "leBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -16,11 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::leBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    ArrayOf arg1 = argIn[0];
-    ArrayOf arg2 = argIn[1];
-    retval << eval->leOperator(arg1, arg2);
-    return retval;
+    return eval->leOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

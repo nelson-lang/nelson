@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "timesBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,11 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::timesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    ArrayOf arg1 = argIn[0];
-    ArrayOf arg2 = argIn[1];
-    retval << eval->timesOperator(arg1, arg2);
-    return retval;
+    return eval->timesOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

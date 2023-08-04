@@ -9,7 +9,6 @@
 //=============================================================================
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
-#include "Colon.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,21 +16,17 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    ArrayOf res;
-    if (argIn.size() == 2) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        res = eval->colonUnitOperator(argIn[0], argIn[1]);
-    } else if (argIn.size() == 3) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        ArrayOf C = argIn[2];
-        res = eval->colonOperator(argIn[0], argIn[1], argIn[2]);
-    } else {
+    switch (argIn.size()) {
+    case 2: {
+        return eval->colonUnitOperator(argIn[0], argIn[1]);
+    } break;
+    case 3: {
+        return eval->colonOperator(argIn[0], argIn[1], argIn[2]);
+    } break;
+    default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
-    retval << res;
-    return retval;
+    return {};
 }
 //=============================================================================

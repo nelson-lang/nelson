@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "horzcatBuiltin.hpp"
-#include "Error.hpp"
 #include "HorzCatOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -17,9 +16,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::horzcatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    retval << HorzCatOperator(eval, argIn);
-    return retval;
+    return HorzCatOperator(eval, argIn);
 }
 //=============================================================================

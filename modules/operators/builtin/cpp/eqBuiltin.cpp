@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "eqBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -16,12 +15,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << eval->eqOperator(A, B);
-    return retval;
+    return eval->eqOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

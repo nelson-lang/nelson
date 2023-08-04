@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "geBuiltin.hpp"
-#include "Error.hpp"
-#include "GreaterEquals.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -18,10 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::geBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    ArrayOfVector retval(nLhs);
-    ArrayOf arg1 = argIn[0];
-    ArrayOf arg2 = argIn[1];
-    retval << eval->geOperator(arg1, arg2);
-    return retval;
+    return eval->geOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

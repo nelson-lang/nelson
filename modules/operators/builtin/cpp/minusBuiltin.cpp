@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "minusBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,10 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::minusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    ArrayOfVector retval(1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << eval->subtractionOperator(A, B);
-    return retval;
+    return eval->subtractionOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "mldivideBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,9 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::mldivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval(1);
     nargincheck(argIn, 2, 2);
-    retval << eval->leftDivideOperator(argIn[0], argIn[1]);
-    return retval;
+    return eval->leftDivideOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

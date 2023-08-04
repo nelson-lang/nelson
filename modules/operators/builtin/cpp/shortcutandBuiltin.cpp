@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "shortcutandBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -16,11 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::shortcutandBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << eval->shortCutAndOperator(A, B);
-    return retval;
+    return eval->shortCutAndOperator(argIn[0], argIn[1]);
 }
 //=============================================================================
