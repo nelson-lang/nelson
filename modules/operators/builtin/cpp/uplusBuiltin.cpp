@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uplusBuiltin.hpp"
-#include "Error.hpp"
 #include "UnaryPlus.hpp"
 #include "OverloadUnaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "gtBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,10 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::gtBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    ArrayOfVector retval(1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << eval->gtOperator(A, B);
-    return retval;
+    return eval->gtOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

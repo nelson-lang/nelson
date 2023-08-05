@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "notBuiltin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -16,11 +15,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::notBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    bool bSuccess = false;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    retval << eval->notOperator(argIn[0]);
-    return retval;
+    return eval->notOperator(argIn[0]);
 }
 //=============================================================================

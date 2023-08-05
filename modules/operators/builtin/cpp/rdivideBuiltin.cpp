@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "rdivideBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,9 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::rdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    retval << eval->dotRightDivideOperator(argIn[0], argIn[1]);
-    return retval;
+    return eval->dotRightDivideOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

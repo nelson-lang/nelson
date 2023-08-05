@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uminusBuiltin.hpp"
-#include "Error.hpp"
 #include "UnaryMinus.hpp"
 #include "OverloadUnaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

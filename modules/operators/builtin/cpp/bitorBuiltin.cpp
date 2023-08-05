@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "bitorBuiltin.hpp"
-#include "Error.hpp"
 #include "BitwiseOperators.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -17,7 +16,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::bitorBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 1);
     std::wstring assumedType = L"";
@@ -26,8 +24,7 @@ Nelson::OperatorsGateway::bitorBuiltin(int nLhs, const ArrayOfVector& argIn)
         assumedType = argIn[2].getContentAsWideString();
         withAssumedType = true;
     }
-    retval << BitwiseOperator(
+    return BitwiseOperator(
         BITWISE_OPERATOR::BIT_OR, argIn[0], argIn[1], assumedType, withAssumedType);
-    return retval;
 }
 //=============================================================================
