@@ -29,10 +29,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../types/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../operators/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../data_analysis/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -41,24 +37,17 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../string/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 
 target_link_libraries(
   ${module_library_name}
   nlsCommons
-  nlsData_analysis_builtin
-  nlsElementary_functions_builtin
   nlsError_manager
   nlsNelson_manager
-  nlsFiles_folders_functions_builtin
   nlsI18n
-  nlsOperators_builtin
-  nlsString_builtin
-  nlsTypes_builtin
+  nlsInterpreter
   nlsTypes)
 # ==============================================================================
 file(GLOB VALIDATORS_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
@@ -85,6 +74,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 

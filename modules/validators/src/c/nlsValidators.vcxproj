@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/string/builtin/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/data_analysis/builtin/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/operators/builtin/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/string/builtin/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/data_analysis/builtin/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/operators/builtin/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/string/builtin/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/data_analysis/builtin/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/operators/builtin/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -161,7 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/string/builtin/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/data_analysis/builtin/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/operators/builtin/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -189,32 +189,17 @@
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data_analysis\builtin\c\nlsData_analysis_builtin.vcxproj">
-      <Project>{5e1776d7-eddc-4aa7-a085-baefa057d5eb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\elementary_functions\builtin\c\nlsElementary_functions_builtin.vcxproj">
-      <Project>{ef56f7f5-0444-466d-a7a2-cae8d2eaabc3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\files_folders_functions\builtin\c\nlsFiles_folders_functions_builtin.vcxproj">
-      <Project>{aed644dc-e6e8-4bc0-bdec-f89d7623597e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\operators\builtin\c\nlsOperators_builtin.vcxproj">
-      <Project>{2c1aaa7d-9df4-42ca-be34-d8da6c31b849}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\string\builtin\c\nlsString_builtin.vcxproj">
-      <Project>{2513ac3a-3658-4a55-8868-ad9323508c55}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\types\builtin\c\nlsTypes_builtin.vcxproj">
-      <Project>{54a0dfbe-2fa2-4bca-ba82-887ee2cee308}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
