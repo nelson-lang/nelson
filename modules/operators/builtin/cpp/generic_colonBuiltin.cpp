@@ -22,7 +22,7 @@ generic_colonBuiltin(NelsonType nlsType, int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
+        if (IS_INTEGER_TYPE(nlsType)) {
             if (A.isDoubleType()) {
                 double d = A.getContentAsDoubleScalar(true);
                 if (int64(d) != d) {
@@ -46,7 +46,7 @@ generic_colonBuiltin(NelsonType nlsType, int nLhs, const ArrayOfVector& argIn)
         A.promoteType(nlsType);
         B.promoteType(nlsType);
         C.promoteType(nlsType);
-        if (nlsType >= NLS_INT8 && nlsType <= NLS_UINT64) {
+        if (IS_INTEGER_TYPE(nlsType)) {
             if (A.isDoubleType()) {
                 double d = A.getContentAsDoubleScalar(true);
                 if (int64(d) != d) {

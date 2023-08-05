@@ -46,25 +46,23 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         if (!param1.isEmpty()) {
             auto* qp = (nelson_handle*)param1.getDataPointer();
             if (qp) {
-                std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
+                std::string handleTypeName = NLS_HANDLE_STR;
                 Dimensions dimsParam1 = param1.getDimensions();
                 indexType elementCount = dimsParam1.getElementCount();
                 for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
                     nelson_handle hl = qp[k];
                     HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                     if (hlObj) {
-                        std::wstring currentType = hlObj->getCategory();
-                        if (!currentType.empty()
-                            || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
+                        std::string currentType = hlObj->getCategory();
+                        if (!currentType.empty() || currentType != NLS_HANDLE_STR) {
                             handleTypeName.assign(currentType);
                             break;
                         }
                     }
                 }
-                if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR)) {
+                if (handleTypeName != NLS_HANDLE_STR) {
                     bool doOverload = false;
-                    std::wstring ufunctionNameGetHandle = handleTypeName + L"_set";
-                    std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+                    std::string functionNameGetHandle = handleTypeName + "_set";
                     Context* context = eval->getContext();
                     FunctionDef* funcDef = nullptr;
                     if (context->lookupFunction(functionNameGetHandle, funcDef)) {
@@ -76,7 +74,7 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                         }
                     }
                     if (!doOverload) {
-                        std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+                        std::string msg = functionNameGetHandle + " " + _("not defined.");
                         Error(msg);
                     }
                 } else {

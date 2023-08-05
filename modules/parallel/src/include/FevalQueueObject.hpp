@@ -21,8 +21,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define FEVALQUEUE_CATEGORY_STR L"FevalQueue"
-//=============================================================================
 class NLSPARALLEL_IMPEXP FevalQueueObject : public HandleGenericObject
 {
 public:

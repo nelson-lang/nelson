@@ -21,7 +21,7 @@ Nelson::ParallelGateway::FevalQueue_deleteBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        DeleteGenericObject(param1, FEVALQUEUE_CATEGORY_STR);
+        DeleteGenericObject(param1, NLS_HANDLE_FEVALQUEUE_CATEGORY_STR);
     }
     ArrayOfVector retval;
     return retval;

@@ -28,7 +28,7 @@ DeleteDynamicLinkLibraryObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
+                    if (hlObj->getCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
                         Error(_W("dllib handle expected."));
                     }
                     auto* obj = (DynamicLinkLibraryObject*)hlObj;

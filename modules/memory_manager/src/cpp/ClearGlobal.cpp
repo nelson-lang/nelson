@@ -30,11 +30,9 @@ callClearHandle(Evaluator* eval, Scope* scope, const std::string& variable)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {
-                    std::wstring handleTypeName = hlObj->getCategory();
+                    std::string handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty()) {
-                        std::wstring ufunctionNameClearHandle = handleTypeName + L"_clear";
-                        std::string functionNameClearHandle
-                            = wstring_to_utf8(ufunctionNameClearHandle);
+                        std::string functionNameClearHandle = handleTypeName + "_clear";
                         Context* context = eval->getContext();
                         FunctionDef* funcDef = nullptr;
                         if (context->lookupFunction(functionNameClearHandle, funcDef)) {

@@ -20,7 +20,7 @@ Nelson::ParallelGateway::AfterAllFuture_usedBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << usedHandle(AFTERALLFUTURE_CATEGORY_STR);
+    retval << usedHandle(NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

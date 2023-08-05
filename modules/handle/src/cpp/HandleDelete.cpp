@@ -28,10 +28,9 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {
                 bool doOverload = false;
-                std::wstring handleTypeName = hlObj->getCategory();
+                std::string handleTypeName = hlObj->getCategory();
                 if (!handleTypeName.empty()) {
-                    std::wstring ufunctionNameClearHandle = handleTypeName + L"_delete";
-                    std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
+                    std::string functionNameClearHandle = handleTypeName + "_delete";
                     Context* context = eval->getContext();
                     FunctionDef* funcDef = nullptr;
                     if (context->lookupFunction(functionNameClearHandle, funcDef)) {
@@ -50,11 +49,11 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
                     }
                 }
                 if (!doOverload) {
-                    std::wstring msg;
+                    std::string msg;
                     if (handleTypeName.empty()) {
-                        msg = L"delete " + _W("not defined.");
+                        msg = "delete " + _("not defined.");
                     } else {
-                        msg = handleTypeName + L"_delete" + L" " + _W("not defined.");
+                        msg = handleTypeName + "_delete" + " " + _("not defined.");
                     }
                     Error(msg);
                 }

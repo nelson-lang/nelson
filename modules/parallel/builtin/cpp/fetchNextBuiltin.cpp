@@ -28,7 +28,7 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
     if (!param1.isHandle()) {
         Error(_W("FevalFuture handle expected."));
     }
-    bool isSupportedType = (param1.getHandleCategory() == FEVALFUTURE_CATEGORY_STR);
+    bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
         Error(_W("FevalFuture handle expected."));
     }

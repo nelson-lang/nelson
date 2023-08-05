@@ -20,22 +20,16 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isIntegerClass(NelsonType variableClass)
-{
-    return variableClass >= NLS_INT8 && variableClass <= NLS_UINT64;
-}
-//=============================================================================
-static bool
 mustCastIntegerAsLongDouble(NelsonType variableClass)
 {
-    return isIntegerClass(variableClass)
+    return IS_INTEGER_TYPE(variableClass)
         && ((variableClass == NLS_UINT64) || (variableClass == NLS_INT64));
 }
 //=============================================================================
 static bool
 mustCastIntegerAsDouble(NelsonType variableClass)
 {
-    return (isIntegerClass(variableClass)
+    return (IS_INTEGER_TYPE(variableClass)
         && (variableClass == NLS_UINT32 || variableClass == NLS_INT32));
 }
 //=============================================================================

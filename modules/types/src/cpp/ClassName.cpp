@@ -33,7 +33,7 @@ ClassName(const ArrayOf& In)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {
-                    std::string current = wstring_to_utf8(hlObj->getCategory());
+                    std::string current = hlObj->getCategory();
                     if (classString != current && current != NLS_HANDLE_STR) {
                         classString = std::move(current);
                     }

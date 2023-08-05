@@ -26,9 +26,9 @@ DispComHandleObject(Interface* io, ComHandleObject* comHandle)
 {
     if (comHandle != nullptr) {
         io->outputMessage("\n");
-        std::wstring fullClassName;
+        std::string fullClassName;
         classnameComHandle(comHandle, fullClassName);
-        io->outputMessage(L"\t" + fullClassName);
+        io->outputMessage("\t" + fullClassName);
         io->outputMessage("\n");
     }
 }
@@ -42,7 +42,7 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             auto* qp = (nelson_handle*)A.getDataPointer();
             nelson_handle hl = qp[0];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != COM_CATEGORY_STR) {
+            if (hlObj->getCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
                 Error(_W("COM handle expected."));
             }
             auto* comhandleobj = (ComHandleObject*)hlObj;

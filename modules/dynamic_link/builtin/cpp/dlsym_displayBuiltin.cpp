@@ -35,7 +35,7 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
+            if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
                 Error(_W("dlsym handle expected."));
             }
             auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();

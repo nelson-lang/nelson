@@ -111,7 +111,7 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
     if (destinationType == NLS_DOUBLE) {
         return BitwiseOperatorDoubleDouble(bitwiseOperator, _A, _B);
     }
-    if (destinationType >= NLS_UINT8 && destinationType <= NLS_UINT64) {
+    if (IS_INTEGER_TYPE(destinationType)) {
         std::wstring _assumedType = assumedType;
         if (!withAssumedType) {
             ClassName(_A, _assumedType);

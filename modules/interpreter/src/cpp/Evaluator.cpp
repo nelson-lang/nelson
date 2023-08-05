@@ -3791,7 +3791,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                 } catch (const Exception&) {
                     if (r.isHandle()) {
-                        Error(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
+                        Error(_("Please define: ") + r.getHandleCategory() + "_ismethod");
                     }
                     isValidMethod = false;
                 }
@@ -4403,7 +4403,7 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     if (r.isGraphicsObject()) {
         currentType = ClassToString(r.getDataClass());
     } else {
-        currentType = wstring_to_utf8(r.getHandleCategory());
+        currentType = r.getHandleCategory();
     }
     std::string functionNameSetHandle = currentType + "_set";
     Context* _context = this->getContext();
@@ -4426,14 +4426,14 @@ ArrayOfVector
 Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
 {
     ArrayOfVector argIn;
-    std::wstring currentType;
+    std::string currentType;
     std::string functionNameCurrentType;
     if (r.isGraphicsObject()) {
-        currentType = ClassToStringW(r.getDataClass());
+        currentType = ClassToString(r.getDataClass());
         functionNameCurrentType = ClassName(r) + "_" + fieldname;
     } else {
         currentType = r.getHandleCategory();
-        functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
+        functionNameCurrentType = currentType + "_" + fieldname;
     }
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
@@ -4450,7 +4450,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         }
         return funcDef->evaluateFunction(this, argIn, nLhs);
     }
-    std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
+    std::string functionNameGetHandle = currentType + "_get";
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
         Error(_("Function not found: ") + functionNameGetHandle);
     }

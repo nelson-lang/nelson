@@ -52,7 +52,7 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
 {
     ArrayOf handle;
     HandleGenericObject* hlObj = dllibObject.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
+    if (hlObj->getCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
         Error(_W("Wrong type for argument #1: dllib scalar handle expected."));
     }
     auto* obj = (DynamicLinkLibraryObject*)hlObj;

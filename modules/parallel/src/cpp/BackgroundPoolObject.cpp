@@ -74,7 +74,7 @@ BackgroundPoolObject::getNumberOfThreads()
 }
 //=============================================================================
 BackgroundPoolObject::BackgroundPoolObject()
-    : HandleGenericObject(std::wstring(BACKGROUNDPOOL_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR, this, false)
 {
     threadPool = new BS::thread_pool(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
     propertiesNames = { L"NumWorkers", L"Busy", L"FevalQueue" };

@@ -26,7 +26,7 @@ Nelson::ParallelGateway::FevalQueue_getBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
-    if (param1.getHandleCategory() != FEVALQUEUE_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
         Error(_W("FevalQueue handle expected."));
     }
     auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();

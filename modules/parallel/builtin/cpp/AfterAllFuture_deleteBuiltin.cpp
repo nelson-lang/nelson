@@ -21,7 +21,7 @@ Nelson::ParallelGateway::AfterAllFuture_deleteBuiltin(int nLhs, const ArrayOfVec
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        DeleteGenericObject(param1, AFTERALLFUTURE_CATEGORY_STR);
+        DeleteGenericObject(param1, NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR);
     }
     ArrayOfVector retval;
     return retval;

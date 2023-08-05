@@ -110,7 +110,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
 //=============================================================================
 DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, void* pointerFunction,
     const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsTypes)
-    : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
+    : HandleGenericObject(NLS_HANDLE_DLSYM_CATEGORY_STR, this, false)
 {
     _propertiesNames = { L"Prototype", L"Input", L"Output" };
     if (!ffiTypesMapInitialized) {
@@ -294,7 +294,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (size_t k = 0; k < params.size(); k++) {
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
             if (params[k].getDataClass() == NLS_HANDLE) {
-                if (params[k].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+                if (params[k].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                     Error(_W("libpointer handle expected."));
                 }
                 LibPointerObject* objLibPointer
@@ -337,7 +337,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     size_t stringPtrIndex = 0;
     for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
-            if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+            if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                 Error(_W("libpointer handle expected."));
             }
             LibPointerObject* objLibPointer
@@ -462,7 +462,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (size_t i = 0; i < _paramsTypes.size(); i++) {
         if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
-                if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+                if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                     Error(_W("libpointer handle expected."));
                 }
                 LibPointerObject* objLibPointer

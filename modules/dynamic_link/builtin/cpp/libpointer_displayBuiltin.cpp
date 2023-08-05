@@ -34,7 +34,7 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+            if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
                 Error(_W("libpointer handle expected."));
             }
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();

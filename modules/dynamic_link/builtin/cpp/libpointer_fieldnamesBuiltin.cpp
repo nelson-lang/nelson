@@ -24,7 +24,7 @@ Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
         Error(_W("libpointer handle expected."));
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();

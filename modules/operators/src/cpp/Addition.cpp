@@ -52,7 +52,7 @@ Addition(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
         }
         return res;
     }
-    if (commonClass >= NLS_INT8 && commonClass <= NLS_UINT64) {
+    if (IS_INTEGER_TYPE(commonClass)) {
         switch (commonClass) {
         case NLS_INT8:
             return integer_addition<int8>(NLS_INT8, A, B);

@@ -24,7 +24,7 @@ Nelson::AudioGateway::audioplayer_resumeBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
+    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();

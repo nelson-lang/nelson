@@ -92,7 +92,7 @@ ArrayOf::isHandleMethod(const std::wstring& methodName) const
     return isMethod;
 }
 //=============================================================================
-std::wstring
+std::string
 ArrayOf::getHandleCategory() const
 {
     if (!isHandle()) {
@@ -103,14 +103,14 @@ ArrayOf::getHandleCategory() const
         Error(_W("Expected a valid handle."));
     }
     indexType nbElements = getElementCount();
-    std::wstring category = L"handle";
+    std::string category = NLS_HANDLE_STR;
     /* handle can be 'handle' or another type but not mixed */
     for (indexType k = 0; k < nbElements; k++) {
         nelson_handle hl = qp[k];
         HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
         if (hlObj != nullptr) {
-            std::wstring current = hlObj->getCategory();
-            if (category != current && current != L"handle") {
+            std::string current = hlObj->getCategory();
+            if (category != current && current != "handle") {
                 category = std::move(current);
             }
         }

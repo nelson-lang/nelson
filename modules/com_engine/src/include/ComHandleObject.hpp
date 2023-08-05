@@ -13,8 +13,6 @@
 #include "nlsCom_engine_exports.h"
 #include <string>
 //=============================================================================
-#define COM_CATEGORY_STR L"COM"
-//=============================================================================
 namespace Nelson {
 //=============================================================================
 class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject

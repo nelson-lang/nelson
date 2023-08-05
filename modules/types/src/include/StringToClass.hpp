@@ -15,12 +15,6 @@
 namespace Nelson {
 //=============================================================================
 NLSTYPES_IMPEXP NelsonType
-StringToClass(const std::wstring& classname);
-//=============================================================================
-NLSTYPES_IMPEXP NelsonType
-StringToClass(const std::wstring& classname, bool& haveError);
-//=============================================================================
-NLSTYPES_IMPEXP NelsonType
 StringToClass(const std::string& classname);
 //=============================================================================
 NLSTYPES_IMPEXP NelsonType

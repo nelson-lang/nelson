@@ -18,6 +18,7 @@
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -66,27 +67,28 @@ getClassInfoFromVariant(VARIANT* pVariant, std::wstring& className, std::wstring
 }
 //=============================================================================
 void
-classnameComHandle(ComHandleObject* comHandle, std::wstring& classname)
+classnameComHandle(ComHandleObject* comHandle, std::string& classname)
 {
-    classname = COM_CATEGORY_STR;
+    classname = NLS_HANDLE_COM_CATEGORY_STR;
     if (comHandle) {
         VARIANT* pVariant = (VARIANT*)comHandle->getPointer();
         std::wstring className;
         std::wstring classTypeName;
         bool res = getClassInfoFromVariant(pVariant, className, classTypeName);
         if (!res) {
-            classname = COM_CATEGORY_STR + std::wstring(L".") + className + classTypeName;
+            classname = NLS_HANDLE_COM_CATEGORY_STR + std::string(".")
+                + wstring_to_utf8(className + classTypeName);
         }
     }
 }
 //=============================================================================
 void
-classnameComHandle(const ArrayOf& A, std::wstring& classname)
+classnameComHandle(const ArrayOf& A, std::string& classname)
 {
-    classname = L"handle";
-    wstringVector classnames;
+    classname = "handle";
+    stringVector classnames;
     classnameComHandle(A, classnames);
-    std::wstring common;
+    std::string common;
     for (size_t k = 0; k < classnames.size(); ++k) {
 
         if (k == 0) {
@@ -101,15 +103,15 @@ classnameComHandle(const ArrayOf& A, std::wstring& classname)
 }
 //=============================================================================
 void
-classnameComHandle(const ArrayOf& A, wstringVector& classname)
+classnameComHandle(const ArrayOf& A, stringVector& classname)
 {
     classname.clear();
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
-    std::wstring className;
+    std::string className;
     ClassName(A, className);
-    if (className != COM_CATEGORY_STR) {
+    if (className != NLS_HANDLE_COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
     Dimensions dimsA = A.getDimensions();
@@ -121,7 +123,7 @@ classnameComHandle(const ArrayOf& A, wstringVector& classname)
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {
                 auto* comhandleobj = (ComHandleObject*)hlObj;
-                std::wstring name;
+                std::string name;
                 classnameComHandle(comhandleobj, name);
                 classname.push_back(name);
             }

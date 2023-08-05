@@ -111,9 +111,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             NelsonType valueClass = paramXvalue.getDataClass();
             bool isSupportedType = (valueClass == NLS_DOUBLE || valueClass == NLS_SINGLE
-                || valueClass == NLS_INT8 || valueClass == NLS_UINT8 || valueClass == NLS_INT16
-                || valueClass == NLS_UINT16 || valueClass == NLS_INT32 || valueClass == NLS_UINT32
-                || valueClass == NLS_INT64 || valueClass == NLS_UINT64);
+                || IS_INTEGER_TYPE(valueClass));
             if (!isSupportedType) {
                 Error(_W("Unsupported value type."));
             }

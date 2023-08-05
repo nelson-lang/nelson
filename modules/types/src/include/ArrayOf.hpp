@@ -1268,7 +1268,7 @@ public:
     /*
      * get handle category
      */
-    [[nodiscard]] std::wstring
+    [[nodiscard]] std::string
     getHandleCategory() const;
     /*
      * return handle as HandleGenericObject*

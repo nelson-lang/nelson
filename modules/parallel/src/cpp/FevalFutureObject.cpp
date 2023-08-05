@@ -11,8 +11,8 @@
 //=============================================================================
 FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : FutureObject(functionName)
-    , HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
+    , HandleGenericObject(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR, this, false)
 {
-    setType(FEVALFUTURE_CATEGORY_STR);
+    setType(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
 }
 //=============================================================================

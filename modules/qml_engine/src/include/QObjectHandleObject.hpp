@@ -13,7 +13,6 @@
 #include "HandleGenericObject.hpp"
 #include "nlsQml_engine_exports.h"
 //=============================================================================
-#define QOBJECT_CATEGORY_STR L"QObject"
 #define QOBJECT_PROPERTY_PARENT_STR "parent"
 #define QOBJECT_PROPERTY_CHILDREN_STR "children"
 #define QOBJECT_PROPERTY_CLASSNAME_STR "className"
@@ -24,7 +23,7 @@ class QObjectHandleObject : public HandleGenericObject
 {
 public:
     QObjectHandleObject(void* _ptr)
-        : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr, false)
+        : HandleGenericObject(NLS_HANDLE_QOBJECT_CATEGORY_STR, _ptr, false)
     {
     }
     ~QObjectHandleObject() override = default;

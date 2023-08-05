@@ -110,11 +110,11 @@ public:
     std::vector<FutureObject*>
     getPredecessors();
 
-    std::wstring
+    std::string
     getType();
 
     void
-    setType(const std::wstring& futureType);
+    setType(const std::string& futureType);
 
 private:
     size_t ID;
@@ -124,7 +124,7 @@ private:
     Exception _exception;
     ArrayOfVector _result;
     int _nLhs;
-    std::wstring _type;
+    std::string _type;
     std::vector<FutureObject*> _predecessors;
 };
 //=============================================================================

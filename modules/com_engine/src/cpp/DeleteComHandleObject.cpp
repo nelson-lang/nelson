@@ -13,7 +13,6 @@
 #include "HandleManager.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,7 +28,7 @@ DeleteComHandleObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != COM_CATEGORY_STR) {
+                    if (hlObj->getCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
                         Error(_W("COM handle expected."));
                     }
                     auto* comhandleobj = (ComHandleObject*)hlObj;
