@@ -77,8 +77,16 @@ PathFunctionIndexerManager::refreshFunctionsMap()
         _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
         _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
     }
-    if (_userPath) { }
-    if (_currentPath) { }
+    if (_userPath) {
+        auto fileFunctions = _userPath->getAllFileFunctions();
+        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
+        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+    }
+    if (_currentPath) {
+        auto fileFunctions = _currentPath->getAllFileFunctions();
+        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
+        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+    }
 }
 //=============================================================================
 void
@@ -153,12 +161,10 @@ PathFunctionIndexerManager::find(const std::string& functionName, FileFunction**
 bool
 PathFunctionIndexerManager::find(const std::string& functionName, std::wstring& filename)
 {
-    bool res = false;
-    auto it = _pathFuncMap.find(functionName);
-    if (it != _pathFuncMap.end()) {
-        FileFunction* ff = it->second;
+    FileFunction* ff = nullptr;
+    bool res = find(functionName, &ff);
+    if (res) {
         filename = ff->getFilename();
-        res = true;
     }
     return res;
 }
