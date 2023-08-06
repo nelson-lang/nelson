@@ -12,32 +12,32 @@
 #include "Error.hpp"
 #include "GatewayInfo.hpp"
 #include "ModulesManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 wstringVector
-WhichAll(const std::wstring& functionname)
+WhichAll(const std::string& functionname)
 {
     wstringVector result;
-    PathFuncManager::getInstance()->find(functionname, result);
-    BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), result);
+    PathFunctionIndexerManager::getInstance()->find(functionname, result);
+    BuiltInFunctionDefManager::getInstance()->find(functionname, result);
     return result;
 }
 //=============================================================================
 std::wstring
-Which(const std::wstring& functionname)
+Which(const std::string& functionname)
 {
     std::wstring origin;
-    if (!PathFuncManager::getInstance()->find(functionname, origin)) {
-        BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), origin);
+    if (!PathFunctionIndexerManager::getInstance()->find(functionname, origin)) {
+        BuiltInFunctionDefManager::getInstance()->find(functionname, origin);
     }
     return origin;
 }
 //=============================================================================
 wstringVector
-WhichModule(const std::wstring& functionname)
+WhichModule(const std::string& functionname)
 {
     wstringVector res;
     wstringVector paths = WhichAll(functionname);

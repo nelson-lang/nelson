@@ -11,7 +11,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -52,7 +52,7 @@ WhatListOfBuiltin(bool bSorted)
 wstringVector
 WhatListOfMacro(Evaluator* eval)
 {
-    return PathFuncManager::getInstance()->getMacrosList();
+    return PathFunctionIndexerManager::getInstance()->getMacrosList();
 }
 //=============================================================================
 wstringVector

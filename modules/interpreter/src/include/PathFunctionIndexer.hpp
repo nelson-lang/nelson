@@ -15,11 +15,11 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-class PathFunc
+class PathFunctionIndexer
 {
 public:
-    PathFunc(const std::wstring& path, bool withWatcher = true);
-    ~PathFunc();
+    PathFunctionIndexer(const std::wstring& path, bool withWatcher = true);
+    ~PathFunctionIndexer();
     wstringVector
     getFunctionsName(const std::wstring& prefix = L"");
     wstringVector
@@ -29,13 +29,13 @@ public:
     void
     rehash();
     bool
-    findFuncName(const std::wstring& functionName, std::wstring& filename);
-    bool
-    findFuncName(const std::wstring& functionName, FileFunction** ff);
+    findFuncName(const std::string& functionName, std::wstring& filename);
+    std::unordered_map<std::string, FileFunction*>
+    getAllFileFunctions();
 
 private:
-    std::unordered_map<std::wstring, FileFunction*> mapAllFiles;
-    std::unordered_map<std::wstring, FileFunction*> mapRecentFiles;
+    std::unordered_map<std::string, FileFunction*> mapAllFiles;
+    std::unordered_map<std::string, FileFunction*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(const std::wstring& name);

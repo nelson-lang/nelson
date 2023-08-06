@@ -11,7 +11,7 @@
 #include "OverloadFunction.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

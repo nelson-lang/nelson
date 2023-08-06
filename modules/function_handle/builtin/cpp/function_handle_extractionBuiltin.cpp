@@ -12,7 +12,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================

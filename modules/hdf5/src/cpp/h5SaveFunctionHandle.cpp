@@ -10,7 +10,7 @@
 #include "h5SaveFunctionHandle.hpp"
 #include "h5SaveHelpers.hpp"
 #include "h5SaveLoadHelpers.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "h5SaveString.hpp"
 #include "h5SaveVariable.hpp"

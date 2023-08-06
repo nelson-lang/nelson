@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -23,12 +23,12 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
+    std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();
     ArrayOf param1 = argIn[0];
     if (param1.isRowVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
         if (FileSystemWrapper::Path::is_directory(pathToRemove)) {
-            if (!PathFuncManager::getInstance()->removePath(pathToRemove)) {
+            if (!PathFunctionIndexerManager::getInstance()->removePath(pathToRemove)) {
                 Warning(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
             }
         } else {

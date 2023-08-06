@@ -13,7 +13,7 @@
 #include "Scope.hpp"
 #include "ArrayOf.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

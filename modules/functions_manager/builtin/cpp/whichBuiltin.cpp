@@ -28,33 +28,33 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            std::wstring wfunctionname = argIn[0].getContentAsWideString();
+            std::string functionname = argIn[0].getContentAsCString();
             if (nLhs == 0) {
                 FunctionDefPtr fptr = nullptr;
-                bool found = BuiltInFunctionDefManager::getInstance()->find(
-                    wstring_to_utf8(wfunctionname), fptr);
-                std::wstring path = Which(wfunctionname);
+                bool found = BuiltInFunctionDefManager::getInstance()->find(functionname, fptr);
+                std::wstring path = Which(functionname);
                 if (found) {
                     NelsonPrint(_W("built-in") + L" (" + path + L")");
                 } else {
                     if (path.empty()) {
-                        NelsonPrint(L"'" + wfunctionname + L"' " + _W("not found."));
+                        NelsonPrint(
+                            L"'" + utf8_to_wstring(functionname) + L"' " + _W("not found."));
                     } else {
                         NelsonPrint(path);
                     }
                 }
             } else {
-                retval << ArrayOf::characterArrayConstructor(Which(wfunctionname));
+                retval << ArrayOf::characterArrayConstructor(Which(functionname));
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else {
         // case argIn.size() == 2
-        std::wstring wfunctionname;
+        std::string functionname;
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            wfunctionname = argIn[0].getContentAsWideString();
+            functionname = argIn[0].getContentAsCString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
@@ -66,7 +66,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         if (wparam2 == L"-all") {
-            wstringVector res = WhichAll(wfunctionname);
+            wstringVector res = WhichAll(functionname);
             if (nLhs == 0) {
                 for (size_t k = 0; k < res.size(); k++) {
                     if (k == 0) {
@@ -79,7 +79,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
             }
         } else if (wparam2 == L"-module") {
-            wstringVector res = WhichModule(wfunctionname);
+            wstringVector res = WhichModule(functionname);
             if (nLhs == 0) {
                 for (const auto& re : res) {
                     NelsonPrint(re + L"\n");

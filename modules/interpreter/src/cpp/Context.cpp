@@ -18,7 +18,7 @@
 #include "characters_encoding.hpp"
 #include "FunctionsInMemory.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -206,7 +206,7 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
         /*
         if (val->type() == NLS_MACRO_FUNCTION || val->type() == NLS_MEX_FUNCTION) {
             std::wstring pathname = val->getPath();
-            if (PathFuncManager::getInstance()->isAvailablePath(pathname)) {
+            if (PathFunctionIndexerManager::getInstance()->isAvailablePath(pathname)) {
                 return true;
             } else {
                 functionDefInMem = val;
@@ -223,7 +223,7 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
         return true;
     }
 
-    found = PathFuncManager::getInstance()->find(funcName, val);
+    found = PathFunctionIndexerManager::getInstance()->find(funcName, val);
     if (found) {
         FunctionsInMemory::getInstance()->add(funcName, val);
         return true;

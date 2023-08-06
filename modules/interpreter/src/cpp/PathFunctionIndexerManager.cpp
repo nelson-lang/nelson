@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <fstream>
 #include <nlohmann/json.hpp>
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
@@ -25,16 +25,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-PathFuncManager* PathFuncManager::m_pInstance = nullptr;
+PathFunctionIndexerManager* PathFunctionIndexerManager::m_pInstance = nullptr;
 //=============================================================================
-PathFuncManager::PathFuncManager()
+PathFunctionIndexerManager::PathFunctionIndexerManager()
 {
     _userPath = nullptr;
     _currentPath = nullptr;
     userpathCompute();
 }
 //=============================================================================
-PathFuncManager::~PathFuncManager()
+PathFunctionIndexerManager::~PathFunctionIndexerManager()
 {
     if (_userPath != nullptr) {
         delete _userPath;
@@ -46,17 +46,17 @@ PathFuncManager::~PathFuncManager()
     }
 }
 //=============================================================================
-PathFuncManager*
-PathFuncManager::getInstance()
+PathFunctionIndexerManager*
+PathFunctionIndexerManager::getInstance()
 {
     if (m_pInstance == nullptr) {
-        m_pInstance = new PathFuncManager();
+        m_pInstance = new PathFunctionIndexerManager();
     }
     return m_pInstance;
 }
 //=============================================================================
 void
-PathFuncManager::destroy()
+PathFunctionIndexerManager::destroy()
 {
     clearUserPath();
     clear();
@@ -68,30 +68,49 @@ PathFuncManager::destroy()
 }
 //=============================================================================
 void
-PathFuncManager::clear()
+PathFunctionIndexerManager::refreshFunctionsMap()
 {
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    _pathFuncMap.clear();
+    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
+        PathFunctionIndexer* pf = *it;
+        auto fileFunctions = pf->getAllFileFunctions();
+        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
+        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+    }
+    if (_userPath) {
+
+    }
+    if (_currentPath) {
+
+    }
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::clear()
+{
+    for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf) {
             delete pf;
             pf = nullptr;
         }
     }
     _pathFuncVector.clear();
+    refreshFunctionsMap();
 }
 //=============================================================================
 wstringVector
-PathFuncManager::getMacrosList(const std::wstring& prefix)
+PathFunctionIndexerManager::getMacrosList(const std::wstring& prefix)
 {
     wstringVector macros;
     if (_userPath != nullptr) {
         wstringVector userMacros = _userPath->getFunctionsName();
         macros.insert(macros.end(), userMacros.begin(), userMacros.end());
     }
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf) {
             wstringVector names = pf->getFunctionsName();
             macros.insert(macros.end(), names.begin(), names.end());
@@ -103,19 +122,18 @@ PathFuncManager::getMacrosList(const std::wstring& prefix)
 }
 //=============================================================================
 FunctionDef*
-PathFuncManager::findAndProcessFile(const std::string& name)
+PathFunctionIndexerManager::findAndProcessFile(const std::string& name)
 {
     FunctionDef* ptr = nullptr;
     FileFunction* ff = nullptr;
-    std::wstring functionName = utf8_to_wstring(name);
-    if (find(functionName, &ff)) {
+    if (find(name, &ff)) {
         ptr = processFile(ff, name);
     }
     return ptr;
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
+PathFunctionIndexerManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
     ptr = findAndProcessFile(name);
     if (ptr != nullptr) {
@@ -125,57 +143,32 @@ PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
+PathFunctionIndexerManager::find(const std::string& functionName, FileFunction** ff)
 {
     bool res = false;
-    if (_currentPath != nullptr) {
-        res = _currentPath->findFuncName(functionName, ff);
-        if (res) {
-            return res;
-        }
-    }
-    if (_userPath != nullptr) {
-        res = _userPath->findFuncName(functionName, ff);
-        if (res) {
-            return res;
-        }
-    }
-    for (auto pf : _pathFuncVector) {
-        if (pf) {
-            res = pf->findFuncName(functionName, ff);
-            if (res) {
-                return res;
-            }
-        }
+    auto it = _pathFuncMap.find(functionName);
+    if (it != _pathFuncMap.end()) {
+        *ff = it->second;
+        res = true;
     }
     return res;
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
+PathFunctionIndexerManager::find(const std::string& functionName, std::wstring& filename)
 {
-    if (_currentPath != nullptr) {
-        if (_currentPath->findFuncName(functionName, filename)) {
-            return true;
-        }
+    bool res = false;
+    auto it = _pathFuncMap.find(functionName);
+    if (it != _pathFuncMap.end()) {
+        FileFunction* ff = it->second;
+        filename = ff->getFilename();
+        res = true;
     }
-    if (_userPath != nullptr) {
-        if (_userPath->findFuncName(functionName, filename)) {
-            return true;
-        }
-    }
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
-         it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
-        if (pf->findFuncName(functionName, filename)) {
-            return true;
-        }
-    }
-    return false;
+    return res;
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
+PathFunctionIndexerManager::find(const std::string& functionName, wstringVector& filesname)
 {
     filesname.clear();
     std::wstring filename;
@@ -189,9 +182,9 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
             filesname.push_back(filename);
         }
     }
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf->findFuncName(functionName, filename)) {
             filesname.push_back(filename);
         }
@@ -200,20 +193,19 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
 }
 //=============================================================================
 bool
-PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
+PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
-
-    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(_pathFuncVector.begin(),
         _pathFuncVector.end(),
-        [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
+        [path](PathFunctionIndexer* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
     if (it != _pathFuncVector.end()) {
         return false;
     }
     bool withWatch = frozen ? false : true;
-    PathFunc* pf = nullptr;
+    PathFunctionIndexer* pf = nullptr;
     try {
-        pf = new PathFunc(FileSystemWrapper::Path::normalize(path), withWatch);
+        pf = new PathFunctionIndexer(FileSystemWrapper::Path::normalize(path), withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
@@ -225,25 +217,27 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
             _pathFuncVector.push_back(pf);
         }
         res = true;
+        refreshFunctionsMap();
     }
     return res;
 }
 //=============================================================================
 bool
-PathFuncManager::removePath(const std::wstring& path)
+PathFunctionIndexerManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(_pathFuncVector.begin(),
         _pathFuncVector.end(),
-        [path](PathFunc* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
+        [path](PathFunctionIndexer* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
 
     if (it != _pathFuncVector.end()) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf != nullptr) {
             FunctionsInMemory::getInstance()->clearMapCache();
-            PathFunc* pf = *it;
+            PathFunctionIndexer* pf = *it;
             delete pf;
             _pathFuncVector.erase(it);
+            refreshFunctionsMap();
             return true;
         }
     }
@@ -251,7 +245,7 @@ PathFuncManager::removePath(const std::wstring& path)
 }
 //=============================================================================
 wstringVector
-PathFuncManager::getPathNameVector()
+PathFunctionIndexerManager::getPathNameVector()
 {
     wstringVector list;
     if (_userPath != nullptr) {
@@ -266,7 +260,7 @@ PathFuncManager::getPathNameVector()
 }
 //=============================================================================
 std::wstring
-PathFuncManager::getUserPath()
+PathFunctionIndexerManager::getUserPath()
 {
     std::wstring _path = L"";
     if (_userPath != nullptr) {
@@ -276,7 +270,7 @@ PathFuncManager::getUserPath()
 }
 //=============================================================================
 bool
-PathFuncManager::setCurrentUserPath(const std::wstring& path)
+PathFunctionIndexerManager::setCurrentUserPath(const std::wstring& path)
 {
     const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
     if (_currentPath != nullptr) {
@@ -286,30 +280,32 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
         delete _currentPath;
     }
     try {
-        _currentPath = new PathFunc(normalizedPath);
+        _currentPath = new PathFunctionIndexer(normalizedPath);
         _currentPath->rehash();
     } catch (const std::bad_alloc&) {
         _currentPath = nullptr;
     }
+    refreshFunctionsMap();
     return false;
 }
 //=============================================================================
 bool
-PathFuncManager::setUserPath(const std::wstring& path, bool saveToFile)
+PathFunctionIndexerManager::setUserPath(const std::wstring& path, bool saveToFile)
 {
     clearUserPath();
     if (_userPath == nullptr) {
         const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
-        _userPath = new PathFunc(normalizedPath);
+        _userPath = new PathFunctionIndexer(normalizedPath);
     }
     if (saveToFile) {
         saveUserPathToFile();
     }
+    refreshFunctionsMap();
     return true;
 }
 //=============================================================================
 void
-PathFuncManager::clearUserPath(bool saveToFile)
+PathFunctionIndexerManager::clearUserPath(bool saveToFile)
 {
     if (_userPath != nullptr) {
         delete _userPath;
@@ -318,20 +314,22 @@ PathFuncManager::clearUserPath(bool saveToFile)
     if (saveToFile) {
         saveUserPathToFile();
     }
+    refreshFunctionsMap();
 }
 //=============================================================================
 void
-PathFuncManager::resetUserPath()
+PathFunctionIndexerManager::resetUserPath()
 {
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring userPathFile = prefDir + L"/userpath.conf";
     FileSystemWrapper::Path p(userPathFile);
     FileSystemWrapper::Path::remove(p);
     userpathCompute();
+    refreshFunctionsMap();
 }
 //=============================================================================
 void
-PathFuncManager::rehash()
+PathFunctionIndexerManager::rehash()
 {
     if (_currentPath != nullptr) {
         _currentPath->rehash();
@@ -339,17 +337,18 @@ PathFuncManager::rehash()
     if (_userPath != nullptr) {
         _userPath->rehash();
     }
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf) {
             pf->rehash();
         }
     }
+    refreshFunctionsMap();
 }
 //=============================================================================
 void
-PathFuncManager::rehash(const std::wstring& path)
+PathFunctionIndexerManager::rehash(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
         FileSystemWrapper::Path p1 { _currentPath->getPath() }, p2 { path };
@@ -365,9 +364,9 @@ PathFuncManager::rehash(const std::wstring& path)
             return;
         }
     }
-    for (std::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+    for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
+        PathFunctionIndexer* pf = *it;
         if (pf) {
             FileSystemWrapper::Path p1 { pf->getPath() }, p2 { path };
             if (FileSystemWrapper::Path::equivalent(p1, p2)) {
@@ -376,10 +375,11 @@ PathFuncManager::rehash(const std::wstring& path)
             }
         }
     }
+    refreshFunctionsMap();
 }
 //=============================================================================
 std::wstring
-PathFuncManager::getPathNameAsString()
+PathFunctionIndexerManager::getPathNameAsString()
 {
     std::wstring p = L"";
     if (_userPath != nullptr) {
@@ -412,7 +412,7 @@ PathFuncManager::getPathNameAsString()
 }
 //=============================================================================
 bool
-PathFuncManager::isAvailablePath(const std::wstring& path)
+PathFunctionIndexerManager::isAvailablePath(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
         if (_currentPath->getPath() == path) {
@@ -425,13 +425,13 @@ PathFuncManager::isAvailablePath(const std::wstring& path)
             return true;
         }
     }
-    std::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
+    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunctionIndexer* x) { return x->getPath() == path; });
     return (it != _pathFuncVector.end());
 }
 //=============================================================================
 FunctionDef*
-PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
+PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& functionName)
 {
     FunctionDef* ptr = nullptr;
     if (ff != nullptr) {
@@ -445,7 +445,7 @@ PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
 }
 //=============================================================================
 MexFunctionDef*
-PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
+PathFunctionIndexerManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
 {
     MexFunctionDef* fptr = nullptr;
     try {
@@ -461,7 +461,7 @@ PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring
 }
 //=============================================================================
 MacroFunctionDef*
-PathFuncManager::processMacroFile(const std::wstring& script_filename, bool withWatcher)
+PathFunctionIndexerManager::processMacroFile(const std::wstring& script_filename, bool withWatcher)
 {
     MacroFunctionDef* fptr = nullptr;
     try {
@@ -473,19 +473,21 @@ PathFuncManager::processMacroFile(const std::wstring& script_filename, bool with
 }
 //=============================================================================
 void
-PathFuncManager::clearCache()
+PathFunctionIndexerManager::clearCache()
 {
     FunctionsInMemory::getInstance()->clear();
+    refreshFunctionsMap();
 }
 //=============================================================================
 void
-PathFuncManager::clearCache(const stringVector& exceptedFunctions)
+PathFunctionIndexerManager::clearCache(const stringVector& exceptedFunctions)
 {
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
+    refreshFunctionsMap();
 }
 //=============================================================================
 void
-PathFuncManager::userpathCompute()
+PathFunctionIndexerManager::userpathCompute()
 {
     clearUserPath();
     std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
@@ -547,7 +549,7 @@ PathFuncManager::userpathCompute()
 }
 //=============================================================================
 std::wstring
-PathFuncManager::loadUserPathFromFile()
+PathFunctionIndexerManager::loadUserPathFromFile()
 {
     std::wstring preferedUserPath = L"";
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
@@ -575,7 +577,7 @@ PathFuncManager::loadUserPathFromFile()
 }
 //=============================================================================
 bool
-PathFuncManager::saveUserPathToFile()
+PathFunctionIndexerManager::saveUserPathToFile()
 {
     std::wstring up = L"";
     if (_userPath != nullptr) {

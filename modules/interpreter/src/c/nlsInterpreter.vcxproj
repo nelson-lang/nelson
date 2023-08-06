@@ -266,8 +266,8 @@
     <ClCompile Include="..\cpp\OrOperator.cpp" />
     <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
-    <ClCompile Include="..\cpp\PathFunc.cpp" />
-    <ClCompile Include="..\cpp\PathFuncManager.cpp" />
+    <ClCompile Include="..\cpp\PathFunctionIndexer.cpp" />
+    <ClCompile Include="..\cpp\PathFunctionIndexerManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\ProfilerHelpers.cpp" />
     <ClCompile Include="..\cpp\RightDivideOperator.cpp" />
@@ -366,8 +366,8 @@
     <ClInclude Include="..\include\ParseFile.hpp" />
     <ClInclude Include="..\include\ParserInterface.hpp" />
     <ClInclude Include="..\include\ParserState.hpp" />
-    <ClInclude Include="..\include\PathFunc.hpp" />
-    <ClInclude Include="..\include\PathFuncManager.hpp" />
+    <ClInclude Include="..\include\PathFunctionIndexer.hpp" />
+    <ClInclude Include="..\include\PathFunctionIndexerManager.hpp" />
     <ClInclude Include="..\include\PositionScript.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\ProfilerHelpers.hpp" />

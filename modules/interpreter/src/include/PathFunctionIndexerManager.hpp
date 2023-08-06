@@ -11,22 +11,24 @@
 //=============================================================================
 #include <vector>
 #include "FunctionDef.hpp"
-#include "PathFunc.hpp"
+#include "PathFunctionIndexer.hpp"
 #include "FileFunction.hpp"
 #include "MacroFunctionDef.hpp"
 #include "MexFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-class NLSINTERPRETER_IMPEXP PathFuncManager
+class NLSINTERPRETER_IMPEXP PathFunctionIndexerManager
 {
 private:
-    std::vector<PathFunc*> _pathFuncVector;
-    PathFuncManager();
-    ~PathFuncManager();
-    static PathFuncManager* m_pInstance;
-    PathFunc* _userPath;
-    PathFunc* _currentPath;
+    std::vector<PathFunctionIndexer*> _pathFuncVector;
+    std::unordered_map<std::string, FileFunction*> _pathFuncMap;
+
+    PathFunctionIndexerManager();
+    ~PathFunctionIndexerManager();
+    static PathFunctionIndexerManager* m_pInstance;
+    PathFunctionIndexer* _userPath;
+    PathFunctionIndexer* _currentPath;
 
     MexFunctionDef*
     processMexFile(const std::wstring& filename, const std::wstring& functionName);
@@ -47,8 +49,11 @@ private:
     bool
     saveUserPathToFile();
 
+    void
+    refreshFunctionsMap();
+
 public:
-    static PathFuncManager*
+    static PathFunctionIndexerManager*
     getInstance();
     void
     destroy();
@@ -58,11 +63,11 @@ public:
     bool
     find(const std::string& name, FunctionDefPtr& ptr);
     bool
-    find(const std::wstring& functionName, std::wstring& filename);
+    find(const std::string& functionName, std::wstring& filename);
     bool
-    find(const std::wstring& functionName, wstringVector& filesname);
+    find(const std::string& functionName, wstringVector& filesname);
     bool
-    find(const std::wstring& functionName, FileFunction** ff);
+    find(const std::string& functionName, FileFunction** ff);
 
     bool
     addPath(const std::wstring& path, bool begin, bool frozen);

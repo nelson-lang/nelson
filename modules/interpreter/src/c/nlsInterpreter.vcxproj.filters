@@ -91,10 +91,10 @@
     <ClCompile Include="..\cpp\ParseFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\PathFunc.cpp">
+    <ClCompile Include="..\cpp\PathFunctionIndexer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\PathFuncManager.cpp">
+    <ClCompile Include="..\cpp\PathFunctionIndexerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp">
@@ -283,10 +283,10 @@
     <ClInclude Include="..\include\ParserState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PathFunc.hpp">
+    <ClInclude Include="..\include\PathFunctionIndexer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PathFuncManager.hpp">
+    <ClInclude Include="..\include\PathFunctionIndexerManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PositionScript.hpp">

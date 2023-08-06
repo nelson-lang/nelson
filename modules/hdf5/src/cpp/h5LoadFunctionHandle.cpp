@@ -9,7 +9,7 @@
 //=============================================================================
 #include "h5LoadFunctionHandle.hpp"
 #include "h5LoadStruct.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "characters_encoding.hpp"
 #include "AnonymousMacroFunctionDef.hpp"

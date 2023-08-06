@@ -10,7 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "restoredefaultpathBuiltin.hpp"
 #include "ModulesManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -21,14 +21,14 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 0, 0);
-    PathFuncManager::getInstance()->clearUserPath();
-    PathFuncManager::getInstance()->resetUserPath();
-    PathFuncManager::getInstance()->clear();
+    PathFunctionIndexerManager::getInstance()->clearUserPath();
+    PathFunctionIndexerManager::getInstance()->resetUserPath();
+    PathFunctionIndexerManager::getInstance()->clear();
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
     for (const auto& path : paths) {
         std::wstring _path = path + L"/functions";
         if (FileSystemWrapper::Path::is_directory(_path)) {
-            PathFuncManager::getInstance()->addPath(_path, true, false);
+            PathFunctionIndexerManager::getInstance()->addPath(_path, true, false);
         }
     }
     return retval;

@@ -9,7 +9,7 @@
 //=============================================================================
 #include "ismacroBuiltin.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,10 +21,9 @@ Nelson::FunctionsGateway::ismacroBuiltin(Evaluator* eval, int nLhs, const ArrayO
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf param1 = argIn[0];
-    std::wstring name = param1.getContentAsWideString();
+    std::string name = argIn[0].getContentAsCString();
     wstringVector filenames;
-    bool res = PathFuncManager::getInstance()->find(name, filenames);
+    bool res = PathFunctionIndexerManager::getInstance()->find(name, filenames);
     retval << ArrayOf::logicalConstructor(res);
     return retval;
 }

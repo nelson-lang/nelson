@@ -12,7 +12,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "StringHelpers.hpp"
-#include "PathFunc.hpp"
+#include "PathFunctionIndexer.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 #include "Error.hpp"
@@ -21,7 +21,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
+PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
     if (FileSystemWrapper::Path::is_directory(path)) {
@@ -32,8 +32,14 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
     rehash();
 }
 //=============================================================================
+std::unordered_map<std::string, FileFunction*>
+PathFunctionIndexer::getAllFileFunctions()
+{
+    return mapAllFiles;
+}
+//=============================================================================
 bool
-PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
+PathFunctionIndexer::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
 
     FileSystemWrapper::Path p1(path1);
@@ -41,7 +47,7 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
     return FileSystemWrapper::Path::equivalent(p1, p2);
 }
 //=============================================================================
-PathFunc::~PathFunc()
+PathFunctionIndexer::~PathFunctionIndexer()
 {
     for (auto& mapAllFile : mapAllFiles) {
         if (mapAllFile.second) {
@@ -55,7 +61,7 @@ PathFunc::~PathFunc()
 }
 //=============================================================================
 wstringVector
-PathFunc::getFunctionsName(const std::wstring& prefix)
+PathFunctionIndexer::getFunctionsName(const std::wstring& prefix)
 {
     wstringVector functionsName;
     for (auto& mapAllFile : mapAllFiles) {
@@ -74,7 +80,7 @@ PathFunc::getFunctionsName(const std::wstring& prefix)
 }
 //=============================================================================
 wstringVector
-PathFunc::getFunctionsFilename()
+PathFunctionIndexer::getFunctionsFilename()
 {
     wstringVector functionsFilename;
     for (auto& mapAllFile : mapAllFiles) {
@@ -86,13 +92,13 @@ PathFunc::getFunctionsFilename()
 }
 //=============================================================================
 std::wstring
-PathFunc::getPath()
+PathFunctionIndexer::getPath()
 {
     return _path;
 }
 //=============================================================================
 bool
-PathFunc::isSupportedFuncFilename(const std::wstring& name)
+PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
 {
     for (int c : name) {
         bool bSupportedChar
@@ -105,7 +111,7 @@ PathFunc::isSupportedFuncFilename(const std::wstring& name)
 }
 //=============================================================================
 void
-PathFunc::rehash()
+PathFunctionIndexer::rehash()
 {
     if (!_path.empty()) {
         mapRecentFiles.clear();
@@ -128,7 +134,7 @@ PathFunc::rehash()
                             ff = nullptr;
                         }
                         if (ff) {
-                            mapAllFiles.emplace(name, ff);
+                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
                         }
                     }
                 }
@@ -139,9 +145,9 @@ PathFunc::rehash()
 }
 //=============================================================================
 bool
-PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
+PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring& filename)
 {
-    std::unordered_map<std::wstring, FileFunction*>::iterator found
+    std::unordered_map<std::string, FileFunction*>::iterator found
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
@@ -150,70 +156,15 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
         }
     }
     if (withWatcher) {
-        const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
+        const std::wstring mexFullFilename
+            = _path + L"/" + utf8_to_wstring(functionName) + L"." + getMexExtension();
         if (FileSystemWrapper::Path::is_regular_file(mexFullFilename)) {
             filename = mexFullFilename;
             return true;
         }
-        const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
+        const std::wstring macroFullFilename = _path + L"/" + utf8_to_wstring(functionName) + L".m";
         if (FileSystemWrapper::Path::is_regular_file(macroFullFilename)) {
             filename = macroFullFilename;
-            return true;
-        }
-    }
-    return false;
-}
-//=============================================================================
-bool
-PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
-{
-    std::unordered_map<std::wstring, FileFunction*>::const_iterator foundit
-        = mapRecentFiles.find(functionName);
-    if (foundit != mapRecentFiles.end()) {
-        *ff = foundit->second;
-        if (FileSystemWrapper::Path::is_regular_file(foundit->second->getFilename())) {
-            return true;
-        }
-        if (!withWatcher) {
-            std::wstring msg
-                = fmt::sprintf(_W("Previously accessible file '%s' is now inaccessible."),
-                    foundit->second->getFilename());
-            Error(msg);
-        }
-    }
-    std::unordered_map<std::wstring, FileFunction*>::iterator found
-        = mapAllFiles.find(functionName);
-    if (found != mapAllFiles.end()) {
-        *ff = found->second;
-        if (FileSystemWrapper::Path::is_regular_file(found->second->getFilename())) {
-            mapRecentFiles.emplace(functionName, *ff);
-            return true;
-        }
-        if (!withWatcher) {
-            std::wstring msg
-                = fmt::sprintf(_W("Previously accessible file '%s' is now inaccessible."),
-                    found->second->getFilename());
-            Error(msg);
-        }
-    }
-    if (withWatcher) {
-        const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
-        bool foundAsMacro = false;
-        bool foundAsMex = false;
-        foundAsMex = FileSystemWrapper::Path::is_regular_file(mexFullFilename);
-        if (!foundAsMex) {
-            const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
-            foundAsMacro = FileSystemWrapper::Path::is_regular_file(macroFullFilename);
-        }
-        if (foundAsMex || foundAsMacro) {
-            try {
-                *ff = new FileFunction(_path, functionName, foundAsMex, withWatcher);
-            } catch (const std::bad_alloc&) {
-                *ff = nullptr;
-            }
-            if (ff != nullptr) {
-                mapAllFiles.emplace(functionName, *ff);
-            }
             return true;
         }
     }
