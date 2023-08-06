@@ -11,6 +11,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <FileWatcher/FileWatcher.h>
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexer.hpp"
 #include "characters_encoding.hpp"
@@ -21,15 +22,59 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class UpdateListener : public FW::FileWatchListener
+{
+public:
+    UpdateListener() { updated = false; }
+    void
+    handleFileAction(
+        FW::WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
+    {
+        updated = true;
+    }
+
+    bool
+    readLastState()
+    {
+        if (updated) {
+            updated = false;
+            return true;
+        }
+        return false;
+    }
+
+private:
+    bool updated;
+};
+//=============================================================================
 PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
+    fileWatcher = nullptr;
+    watcherID = 0;
+    updateFileWatcherListener = nullptr;
     if (FileSystemWrapper::Path::is_directory(path)) {
         _path = path;
     } else {
         _path.clear();
     }
     rehash();
+}
+//=============================================================================
+void
+PathFunctionIndexer::startFileWatcher()
+{
+    if (withWatcher && !fileWatcher && !updateFileWatcherListener) {
+        FW::FileWatcher* _fileWatcher = new FW::FileWatcher();
+        UpdateListener* _updateListener = new UpdateListener();
+        fileWatcher = (void*)(_fileWatcher);
+        updateFileWatcherListener = (void*)(_updateListener);
+#if _MSC_VER
+        watcherID = _fileWatcher->addWatch(_path, _updateListener, false);
+#else
+        watcherID = _fileWatcher->addWatch(wstring_to_utf8(_path), _updateListener, false);
+#endif
+    }
 }
 //=============================================================================
 std::unordered_map<std::string, FileFunction*>
@@ -39,9 +84,20 @@ PathFunctionIndexer::getAllFileFunctions()
 }
 //=============================================================================
 bool
+PathFunctionIndexer::wasModified()
+{
+    if (withWatcher) {
+        if (fileWatcher && updateFileWatcherListener) {
+            static_cast<FW::FileWatcher*>(fileWatcher)->update();
+            return static_cast<UpdateListener*>(updateFileWatcherListener)->readLastState();
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
 PathFunctionIndexer::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
-
     FileSystemWrapper::Path p1(path1);
     FileSystemWrapper::Path p2(path2);
     return FileSystemWrapper::Path::equivalent(p1, p2);
@@ -58,6 +114,18 @@ PathFunctionIndexer::~PathFunctionIndexer()
     mapRecentFiles.clear();
     mapAllFiles.clear();
     _path.clear();
+    if (fileWatcher) {
+        FW::FileWatcher* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
+        _fileWatcher->removeWatch(watcherID);
+        delete _fileWatcher;
+        fileWatcher = nullptr;
+    }
+    if (updateFileWatcherListener) {
+        UpdateListener* _updateFileWatcherListener
+            = static_cast<UpdateListener*>(updateFileWatcherListener);
+        delete _updateFileWatcherListener;
+        updateFileWatcherListener = nullptr;
+    }
 }
 //=============================================================================
 wstringVector

@@ -47,6 +47,7 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "ComputeNelsonPaths.hpp"
 #include "i18n.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -211,6 +212,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
             eval->resetState();
         }
     }
+    PathFunctionIndexerManager::getInstance()->startFileWatcher();
     try {
         if (!commandToExecute.empty()) {
             EvaluateCommand(eval, commandToExecute, false);
@@ -222,6 +224,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         Interface* io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
+
     eval->isReadyToUse = true;
     OpenFilesAssociated(
         (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode(), filesToOpen,

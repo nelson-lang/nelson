@@ -59,7 +59,9 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
         PathFunctionIndexerManager::getInstance()->clear();
         wstringVector::reverse_iterator it;
         for (it = paths.rbegin(); it != paths.rend(); ++it) {
-            PathFunctionIndexerManager::getInstance()->addPath(*it, true, false);
+            if (!it->empty()) {
+                PathFunctionIndexerManager::getInstance()->addPath(*it, true, false);
+            }
         }
     }
     if (argIn.size() == 2) {

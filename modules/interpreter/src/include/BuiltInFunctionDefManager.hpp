@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include "BuiltInFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
@@ -59,6 +60,7 @@ private:
     BuiltInFunctionDefManager();
     static BuiltInFunctionDefManager* m_pInstance;
     std::vector<FunctionDefPtr> builtinVector;
+    std::unordered_map<std::string, FunctionDefPtr> builtinHashMap;
 };
 //=============================================================================
 } // namespace Nelson

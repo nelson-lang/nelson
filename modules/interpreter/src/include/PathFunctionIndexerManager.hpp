@@ -52,6 +52,11 @@ private:
     void
     refreshFunctionsMap();
 
+    void
+    rehashOnFileWatcher();
+
+    bool _filesWatcherStarted;
+
 public:
     static PathFunctionIndexerManager*
     getInstance();
@@ -103,6 +108,9 @@ public:
 
     bool
     isAvailablePath(const std::wstring& path);
+
+    void
+    startFileWatcher();
 };
 //=============================================================================
 } // namespace Nelson

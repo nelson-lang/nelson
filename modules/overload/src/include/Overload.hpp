@@ -16,7 +16,6 @@ enum OverloadClass
     FUNCTION = 0,
     UNARY,
     BINARY,
-    TERNARY
 };
 //=============================================================================
 } // namespace Nelson

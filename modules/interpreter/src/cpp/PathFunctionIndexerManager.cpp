@@ -29,6 +29,7 @@ PathFunctionIndexerManager* PathFunctionIndexerManager::m_pInstance = nullptr;
 //=============================================================================
 PathFunctionIndexerManager::PathFunctionIndexerManager()
 {
+    _filesWatcherStarted = false;
     _userPath = nullptr;
     _currentPath = nullptr;
     userpathCompute();
@@ -65,6 +66,22 @@ PathFunctionIndexerManager::destroy()
         delete m_pInstance;
         m_pInstance = nullptr;
     }
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::startFileWatcher()
+{
+    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
+        PathFunctionIndexer* pf = *it;
+        pf->startFileWatcher();
+    }
+    if (_userPath) {
+        _userPath->startFileWatcher();
+    }
+    if (_currentPath) {
+        _currentPath->startFileWatcher();
+    }
+    _filesWatcherStarted = true;
 }
 //=============================================================================
 void
@@ -139,6 +156,7 @@ PathFunctionIndexerManager::findAndProcessFile(const std::string& name)
 bool
 PathFunctionIndexerManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
+    rehashOnFileWatcher();
     ptr = findAndProcessFile(name);
     if (ptr != nullptr) {
         return true;
@@ -150,6 +168,7 @@ bool
 PathFunctionIndexerManager::find(const std::string& functionName, FileFunction** ff)
 {
     bool res = false;
+    rehashOnFileWatcher();
     auto it = _pathFuncMap.find(functionName);
     if (it != _pathFuncMap.end()) {
         *ff = it->second;
@@ -173,6 +192,7 @@ bool
 PathFunctionIndexerManager::find(const std::string& functionName, wstringVector& filesname)
 {
     filesname.clear();
+    rehashOnFileWatcher();
     std::wstring filename;
     if (_currentPath != nullptr) {
         if (_currentPath->findFuncName(functionName, filename)) {
@@ -205,10 +225,13 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
     if (it != _pathFuncVector.end()) {
         return false;
     }
-    bool withWatch = frozen ? false : true;
     PathFunctionIndexer* pf = nullptr;
     try {
-        pf = new PathFunctionIndexer(FileSystemWrapper::Path::normalize(path), withWatch);
+        pf = new PathFunctionIndexer(
+            FileSystemWrapper::Path::normalize(path), frozen ? false : true);
+        if (_filesWatcherStarted) {
+            pf->startFileWatcher();
+        }
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
@@ -286,6 +309,9 @@ PathFunctionIndexerManager::setCurrentUserPath(const std::wstring& path)
     try {
         _currentPath = new PathFunctionIndexer(normalizedPath);
         _currentPath->rehash();
+        if (_filesWatcherStarted) {
+            _currentPath->startFileWatcher();
+        }
     } catch (const std::bad_alloc&) {
         _currentPath = nullptr;
     }
@@ -300,6 +326,10 @@ PathFunctionIndexerManager::setUserPath(const std::wstring& path, bool saveToFil
     if (_userPath == nullptr) {
         const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
         _userPath = new PathFunctionIndexer(normalizedPath);
+        _userPath->rehash();
+        if (_filesWatcherStarted) {
+            _currentPath->startFileWatcher();
+        }
     }
     if (saveToFile) {
         saveUserPathToFile();
@@ -349,6 +379,36 @@ PathFunctionIndexerManager::rehash()
         }
     }
     refreshFunctionsMap();
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::rehashOnFileWatcher()
+{
+    bool needRefresh = false;
+    if (_currentPath != nullptr) {
+        if (_currentPath->wasModified()) {
+            _currentPath->rehash();
+            needRefresh = true;
+        }
+    }
+    if (_userPath != nullptr) {
+        if (_userPath->wasModified()) {
+            _userPath->rehash();
+            needRefresh = true;
+        }
+    }
+    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
+        PathFunctionIndexer* pf = *it;
+        if (pf) {
+            if (pf->wasModified()) {
+                pf->rehash();
+                needRefresh = true;
+            }
+        }
+    }
+    if (needRefresh) {
+        refreshFunctionsMap();
+    }
 }
 //=============================================================================
 void

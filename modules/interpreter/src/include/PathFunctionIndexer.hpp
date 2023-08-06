@@ -11,10 +11,12 @@
 //=============================================================================
 #include <unordered_map>
 #include <string>
+#include <filesystem>
 #include "FileFunction.hpp"
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 class PathFunctionIndexer
 {
 public:
@@ -33,17 +35,25 @@ public:
     std::unordered_map<std::string, FileFunction*>
     getAllFileFunctions();
 
+    bool
+    wasModified();
+
+    void
+    startFileWatcher();
+
 private:
     std::unordered_map<std::string, FileFunction*> mapAllFiles;
     std::unordered_map<std::string, FileFunction*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(const std::wstring& name);
-    std::wstring
-    uniformizePathName(const std::wstring& pathname);
     bool
     comparePathname(const std::wstring& path1, const std::wstring& path2);
     bool withWatcher;
+
+    void* fileWatcher;
+    void* updateFileWatcherListener;
+    unsigned long watcherID;
 };
 //=============================================================================
 } // namespace Nelson
