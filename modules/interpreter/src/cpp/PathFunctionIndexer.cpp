@@ -147,8 +147,7 @@ PathFunctionIndexer::rehash()
 bool
 PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring& filename)
 {
-    std::unordered_map<std::string, FileFunction*>::iterator found
-        = mapAllFiles.find(functionName);
+    std::unordered_map<std::string, FileFunction*>::iterator found = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
         if (FileSystemWrapper::Path::is_regular_file(filename)) {

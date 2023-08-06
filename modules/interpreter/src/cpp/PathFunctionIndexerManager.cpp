@@ -77,12 +77,8 @@ PathFunctionIndexerManager::refreshFunctionsMap()
         _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
         _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
     }
-    if (_userPath) {
-
-    }
-    if (_currentPath) {
-
-    }
+    if (_userPath) { }
+    if (_currentPath) { }
 }
 //=============================================================================
 void
@@ -196,9 +192,10 @@ bool
 PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
-    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(),
-        [path](PathFunctionIndexer* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
+    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(
+        _pathFuncVector.begin(), _pathFuncVector.end(), [path](PathFunctionIndexer* x) {
+            return FileSystemWrapper::Path::equivalent(x->getPath(), path);
+        });
     if (it != _pathFuncVector.end()) {
         return false;
     }
@@ -226,9 +223,10 @@ bool
 PathFunctionIndexerManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(),
-        [path](PathFunctionIndexer* x) { return FileSystemWrapper::Path::equivalent(x->getPath(), path); });
+    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(
+        _pathFuncVector.begin(), _pathFuncVector.end(), [path](PathFunctionIndexer* x) {
+            return FileSystemWrapper::Path::equivalent(x->getPath(), path);
+        });
 
     if (it != _pathFuncVector.end()) {
         PathFunctionIndexer* pf = *it;
@@ -445,7 +443,8 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
 }
 //=============================================================================
 MexFunctionDef*
-PathFunctionIndexerManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
+PathFunctionIndexerManager::processMexFile(
+    const std::wstring& filename, const std::wstring& functionName)
 {
     MexFunctionDef* fptr = nullptr;
     try {
