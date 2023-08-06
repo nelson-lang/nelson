@@ -140,7 +140,7 @@ GOFigure::updateState()
     m_win->updateState();
     if (hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)) {
         GOGObjectsProperty* children
-            = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
         std::vector<int64> handles(children->data());
         ArrayOf colormapAsArrayOf = findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR)->get();
         for (size_t i = 0; i < handles.size(); i++) {
@@ -276,7 +276,8 @@ GOFigure::resizeGL(int width, int height)
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, qPoint.x(), transformedY, width, height);
     _resized = true;
     updateState();
-    GOGObjectsProperty* children = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
     for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
@@ -303,12 +304,12 @@ void
 GOFigure::refreshPositionProperty()
 {
     GOFourVectorProperty* property
-        = (GOFourVectorProperty*)findProperty(GO_POSITION_PROPERTY_NAME_STR);
+        = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
     QRect qFrameGeometry = m_win->frameGeometry();
     QSize qSize = qFrameGeometry.size();
     QPoint qPoint = qFrameGeometry.topLeft();
 
-    auto* positionProperty = (GOFourVectorProperty*)property;
+    auto* positionProperty = static_cast<GOFourVectorProperty*>(property);
     int transformedY
         = transformY(qPoint.y(), m_height, Nelson::BaseFigureQt::getCurrentScreenHeight());
     positionProperty->value(qPoint.x(), transformedY, qSize.width(), qSize.height());

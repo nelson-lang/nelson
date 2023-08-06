@@ -53,7 +53,9 @@ GOGObjectsProperty::set(ArrayOf arg)
     if (!arg.isGraphicsObject()) {
         Error(_W("Expecting handle for property."));
     }
-    const int64* dp = (const int64*)arg.getDataPointer();
+    const int64* dp = static_cast<const int64*>(
+        const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
+
     for (indexType i = 0; i < arg.getElementCount(); i++) {
         validateGO(dp[i]);
     }
@@ -78,7 +80,7 @@ GOGObjectsProperty::toWideString()
         } else if (_data[k] >= HANDLE_OFFSET_OBJECT) {
             fp = findGraphicsObject(_data[k], false);
         } else {
-            fp = (GraphicsObject*)findGOFigure(_data[k]);
+            fp = static_cast<GraphicsObject*>(findGOFigure(_data[k]));
         }
         if (fp) {
             GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR);

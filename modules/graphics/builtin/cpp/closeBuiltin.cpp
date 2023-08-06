@@ -66,7 +66,8 @@ closeHelper(const ArrayOf& arg, bool asAll)
     } else if (arg.isNumeric()) {
         ArrayOf _arg(arg);
         _arg.promoteType(NLS_INT64);
-        int64* ptr = (int64*)_arg.getDataPointer();
+        int64* ptr = static_cast<int64*>(
+            const_cast<void*>(static_cast<const void*>(_arg.getDataPointer())));
         std::vector<go_handle> ids;
         for (size_t k = 0; k < arg.getElementCount(); k++) {
             GOWindow* win = getHandleWindow(ptr[k] - 1);
@@ -84,7 +85,8 @@ closeHelper(const ArrayOf& arg, bool asAll)
         }
         result = ok;
     } else if (arg.isGraphicsObject()) {
-        nelson_handle* ptr = (nelson_handle*)arg.getDataPointer();
+        nelson_handle* ptr = static_cast<nelson_handle*>(
+            const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
         std::vector<go_handle> ids;
         for (indexType k = 0; k < arg.getElementCount(); ++k) {
             GOWindow* win = getHandleWindow(ptr[k]);

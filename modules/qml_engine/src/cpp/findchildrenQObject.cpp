@@ -27,12 +27,12 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("QObject valid handle expected."));
     }
-    QObject* qobj = (QObject*)ptr;
+    QObject* qobj = static_cast<QObject*>(ptr);
     Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
     if (bRecursively) {
         option = Qt::FindChildrenRecursively;

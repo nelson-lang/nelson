@@ -104,7 +104,8 @@ static ArrayOf
 character2dArrayTotoStringArray(const ArrayOf& m)
 {
     ArrayOf res;
-    auto* ptr = (wchar_t*)m.getDataPointer();
+    auto* ptr
+        = static_cast<wchar_t*>(const_cast<void*>(static_cast<const void*>(m.getDataPointer())));
     indexType rows = m.getRows();
     indexType columns = m.getColumns();
     wstringVector v;
@@ -127,7 +128,8 @@ characterNdArrayTotoStringArray(const ArrayOf& m)
     indexType rows(dimsM.getRows());
     indexType columns(dimsM.getColumns());
     indexType nbElements = dimsM.getElementCount() / (rows * columns);
-    auto* ptr = (wchar_t*)m.getDataPointer();
+    auto* ptr
+        = static_cast<wchar_t*>(const_cast<void*>(static_cast<const void*>(m.getDataPointer())));
     indexType offset = 0;
     for (indexType k = 0; k < nbElements; k++) {
         for (indexType i = 0; i < rows; i++) {

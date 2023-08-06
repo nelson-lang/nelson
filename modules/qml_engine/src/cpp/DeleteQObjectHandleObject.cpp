@@ -35,11 +35,11 @@ DeleteQObjectHandleObject(const ArrayOf& A)
                     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
                         Error(_W("QObject handle expected."));
                     }
-                    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
+                    QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
                     void* ptr = qmlhandleobj->getPointer();
                     if (ptr) {
-                        QObject* qobj = (QObject*)ptr;
-                        QObject* qobjMainWindow = (QObject*)GetMainGuiObject();
+                        QObject* qobj = static_cast<QObject*>(ptr);
+                        QObject* qobjMainWindow = static_cast<QObject*>(GetMainGuiObject());
                         if (qobj == qobjMainWindow) {
                             qmlhandleobj->setPointer(nullptr);
                         } else {

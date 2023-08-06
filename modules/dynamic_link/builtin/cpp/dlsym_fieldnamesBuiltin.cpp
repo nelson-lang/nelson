@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
-    auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     retval << ArrayOf::toCellArrayOfCharacterColumnVectors(objDlsym->fieldnames());
     return retval;
 }

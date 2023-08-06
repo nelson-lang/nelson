@@ -119,7 +119,7 @@ h5SaveStringAttribute(hid_t fid, const std::string& location, const std::string&
     hid_t type_id = H5Tcopy(H5T_C_S1);
     H5Tset_size(type_id, content.length());
     H5Tset_strpad(type_id, H5T_STR_NULLTERM);
-    void* buffer = (void*)content.c_str();
+    void* buffer = const_cast<void*>(static_cast<const void*>(content.c_str()));
     hid_t att_id
         = H5Acreate(obj_id, attributeName.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT);
     if (att_id > 0) {

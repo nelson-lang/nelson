@@ -79,85 +79,99 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
     }
     switch (classA) {
     case NLS_LOGICAL: {
-        logical* ptrRes = (logical*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        logical* ptrRes = static_cast<logical*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<logical>(
             dimsA, (logical*)A.getDataPointer(), (logical*)Res.getDataPointer());
     } break;
     case NLS_UINT8: {
-        uint8* ptrRes = (uint8*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        uint8* ptrRes = static_cast<uint8*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<uint8>(
             dimsA, (uint8*)A.getDataPointer(), (uint8*)Res.getDataPointer());
     } break;
     case NLS_INT8: {
-        int8* ptrRes = (int8*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        int8* ptrRes = static_cast<int8*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<int8>(
             dimsA, (int8*)A.getDataPointer(), (int8*)Res.getDataPointer());
     } break;
     case NLS_UINT16: {
-        uint16* ptrRes = (uint16*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        uint16* ptrRes = static_cast<uint16*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<uint16>(
             dimsA, (uint16*)A.getDataPointer(), (uint16*)Res.getDataPointer());
     } break;
     case NLS_INT16: {
-        int16* ptrRes = (int16*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        int16* ptrRes = static_cast<int16*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<int16>(
             dimsA, (int16*)A.getDataPointer(), (int16*)Res.getDataPointer());
     } break;
     case NLS_UINT32: {
-        uint32* ptrRes = (uint32*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        uint32* ptrRes = static_cast<uint32*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<uint32>(
             dimsA, (uint32*)A.getDataPointer(), (uint32*)Res.getDataPointer());
     } break;
     case NLS_INT32: {
-        int32* ptrRes = (int32*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        int32* ptrRes = static_cast<int32*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<int32>(
             dimsA, (int32*)A.getDataPointer(), (int32*)Res.getDataPointer());
     } break;
     case NLS_UINT64: {
-        uint64* ptrRes = (uint64*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        uint64* ptrRes = static_cast<uint64*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<uint64>(
             dimsA, (uint64*)A.getDataPointer(), (uint64*)Res.getDataPointer());
     } break;
     case NLS_INT64: {
-        int64* ptrRes = (int64*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        int64* ptrRes = static_cast<int64*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<int64>(
             dimsA, (int64*)A.getDataPointer(), (int64*)Res.getDataPointer());
     } break;
     case NLS_SINGLE: {
-        single* ptrRes = (single*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        single* ptrRes = static_cast<single*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<single>(
             dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DOUBLE: {
-        double* ptrRes = (double*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        double* ptrRes = static_cast<double*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<double>(
             dimsA, (double*)A.getDataPointer(), (double*)Res.getDataPointer());
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrRes = (single*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount() * 2);
+        single* ptrRes = static_cast<single*>(const_cast<void*>(static_cast<const void*>(
+            ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount() * 2))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeComplexTemplate<single>(
             dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrRes = (double*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount() * 2);
+        double* ptrRes = static_cast<double*>(const_cast<void*>(static_cast<const void*>(
+            ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount() * 2))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeComplexTemplate<double>(
             dimsA, (double*)A.getDataPointer(), (double*)Res.getDataPointer());
     } break;
     case NLS_CHAR: {
-        charType* ptrRes = (charType*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+        charType* ptrRes = static_cast<charType*>(const_cast<void*>(
+            static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
         complexTransposeRealTemplate<charType>(
             dimsA, (charType*)A.getDataPointer(), (charType*)Res.getDataPointer());
