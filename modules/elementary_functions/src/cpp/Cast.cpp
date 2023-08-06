@@ -11,7 +11,6 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,10 +22,8 @@ evaluateFunction(
     FunctionDef* funcDef = nullptr;
     succeeded = false;
 
-    if (!FunctionsInMemory::getInstance()->find(functionName, funcDef)) {
-        Context* context = eval->getContext();
-        context->lookupFunction(functionName, funcDef);
-    }
+    Context* context = eval->getContext();
+    context->lookupFunction(functionName, funcDef);
     if (funcDef) {
         ArrayOfVector argsIn;
         argsIn << arrayIn;

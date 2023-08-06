@@ -21,8 +21,8 @@ class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
 private:
     //=============================================================================
-    std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
-    std::vector<std::pair<std::string, FunctionDefPtr>> _mexFunctionsInMemory;
+    std::unordered_map<std::string, FunctionDefPtr> _macroFunctionsInMemory;
+    std::unordered_map<std::string, FunctionDefPtr> _mexFunctionsInMemory;
     std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
     //=============================================================================
     std::unordered_map<std::string, FunctionDefPtr> _lastFunctionsInMemory;
@@ -60,10 +60,6 @@ public:
     //=============================================================================
     void
     add(const std::string& functionName, FunctionDefPtr function);
-    //=============================================================================
-    void
-    add(Overload::OverloadClass overloadClass, const std::string& functionName,
-        FunctionDefPtr function);
     //=============================================================================
     bool
     deleteMFunction(const std::string& functionName);

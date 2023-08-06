@@ -19,9 +19,6 @@ namespace Nelson {
 static bool
 OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, FunctionDef** funcDef)
 {
-    if (FunctionsInMemory::getInstance()->find(forcedFunctionName, *funcDef)) {
-        return true;
-    }
     Context* context = eval->getContext();
     return context->lookupFunction(forcedFunctionName, *funcDef);
 }
