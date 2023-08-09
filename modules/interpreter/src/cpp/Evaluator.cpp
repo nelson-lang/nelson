@@ -21,18 +21,6 @@
 #include "StringHelpers.hpp"
 #include "Evaluator.hpp"
 #include "Exception.hpp"
-#include "LessEquals.hpp"
-#include "Transpose.hpp"
-#include "DotLeftDivide.hpp"
-#include "DotRightDivide.hpp"
-#include "RightDivide.hpp"
-#include "LeftDivide.hpp"
-#include "Negate.hpp"
-#include "DotPower.hpp"
-#include "NotEquals.hpp"
-#include "And.hpp"
-#include "Not.hpp"
-#include "Or.hpp"
 #include "Keywords.hpp"
 #include "ArrayOf.hpp"
 #include "ParserInterface.hpp"
@@ -46,32 +34,20 @@
 #include "MainEvaluator.hpp"
 #include "CommandQueue.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
-#include "VertCatOperator.hpp"
-#include "HorzCatOperator.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "OverloadBinaryOperator.hpp"
-#include "OverloadUnaryOperator.hpp"
-#include "ComplexTranspose.hpp"
-#include "OverloadRequired.hpp"
-#include "NotEquals.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "VertCat.hpp"
-#include "HorzCat.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "CheckIfWhileCondition.hpp"
 #include "Warning.hpp"
 #include "characters_encoding.hpp"
-#include "UnaryMinus.hpp"
-#include "UnaryPlus.hpp"
 #include "NelsonConfiguration.hpp"
-#include "Colon.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "ClassToString.hpp"
@@ -81,10 +57,20 @@
 #include "MException.hpp"
 #include "FileSystemWrapper.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "OverloadBinaryOperator.hpp"
+#include "OverloadUnaryOperator.hpp"
+#include "OverloadRequired.hpp"
+#include "Operators.hpp"
+#include "Transpose.hpp"
+#include "ComplexTranspose.hpp"
+#include "UnaryMinus.hpp"
+#include "UnaryPlus.hpp"
+#include "Colon.hpp"
+#include "VertCatOperator.hpp"
+#include "HorzCatOperator.hpp"
+#include "DotPower.hpp"
+#include "Or.hpp"
 //=============================================================================
-#ifdef _MSC_VER
-#define strdup _strdup
-#endif
 namespace Nelson {
 //=============================================================================
 /**
@@ -378,7 +364,7 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         switch (t->opNum) {
         case OP_COLON:
             if (ticProfiling != 0U) {
-                operatorName = "colon";
+                operatorName = COLON_OPERATOR_STR;
             }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
                 retval = colonOperator(t);
@@ -402,159 +388,159 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         } break;
         case OP_PLUS: {
             if (ticProfiling != 0U) {
-                operatorName = "plus";
+                operatorName = PLUS_OPERATOR_STR;
             }
             retval = additionOperator(t);
         } break;
         case OP_SUBTRACT: {
             if (ticProfiling != 0U) {
-                operatorName = "minus";
+                operatorName = MINUS_OPERATOR_STR;
             }
             retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
             if (ticProfiling != 0U) {
-                operatorName = "mtimes";
+                operatorName = MTIMES_OPERATOR_STR;
             }
             retval = mtimesOperator(t);
         } break;
         case OP_SOR: {
             if (ticProfiling != 0U) {
-                operatorName = "shorcutor";
+                operatorName = SHORTCUTOR_OPERATOR_STR;
             }
             retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
             if (ticProfiling != 0U) {
-                operatorName = "or";
+                operatorName = OR_OPERATOR_STR;
             }
             retval = orOperator(t);
         } break;
         case OP_SAND: {
             if (ticProfiling != 0U) {
-                operatorName = "shorcutand";
+                operatorName = SHORTCUTAND_OPERATOR_STR;
             }
             retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
             if (ticProfiling != 0U) {
-                operatorName = "and";
+                operatorName = AND_OPERATOR_STR;
             }
             retval = andOperator(t);
         } break;
         case OP_LT: {
             if (ticProfiling != 0U) {
-                operatorName = "lt";
+                operatorName = LT_OPERATOR_STR;
             }
             retval = ltOperator(t);
         } break;
         case OP_LEQ: {
             if (ticProfiling != 0U) {
-                operatorName = "le";
+                operatorName = LE_OPERATOR_STR;
             }
             retval = leOperator(t);
         } break;
         case OP_GT: {
             if (ticProfiling != 0U) {
-                operatorName = "gt";
+                operatorName = GT_OPERATOR_STR;
             }
             retval = gtOperator(t);
         } break;
         case OP_GEQ: {
             if (ticProfiling != 0U) {
-                operatorName = "ge";
+                operatorName = GE_OPERATOR_STR;
             }
             retval = geOperator(t);
         } break;
         case OP_EQ: {
             if (ticProfiling != 0U) {
-                operatorName = "eq";
+                operatorName = EQ_OPERATOR_STR;
             }
             retval = eqOperator(t);
         } break;
         case OP_NEQ: {
             if (ticProfiling != 0U) {
-                operatorName = "ne";
+                operatorName = NE_OPERATOR_STR;
             }
             retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
             if (ticProfiling != 0U) {
-                operatorName = "time";
+                operatorName = TIMES_OPERATOR_STR;
             }
             retval = timesOperator(t);
         } break;
         case OP_POS: {
             bool bSuccess = false;
             if (ticProfiling != 0U) {
-                operatorName = "uplus";
+                operatorName = UPLUS_OPERATOR_STR;
             }
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "uplus", bSuccess);
+                retval = OverloadUnaryOperator(this, a, UPLUS_OPERATOR_STR, bSuccess);
             }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = UnaryPlus(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "uplus");
+                    retval = OverloadUnaryOperator(this, a, UPLUS_OPERATOR_STR);
                 }
             }
         } break;
         case OP_NEG: {
             if (ticProfiling != 0U) {
-                operatorName = "uminus";
+                operatorName = UMINUS_OPERATOR_STR;
             }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "uminus", bSuccess);
+                retval = OverloadUnaryOperator(this, a, UMINUS_OPERATOR_STR, bSuccess);
             }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = UnaryMinus(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "uminus");
+                    retval = OverloadUnaryOperator(this, a, UMINUS_OPERATOR_STR);
                 }
             }
         } break;
         case OP_NOT: {
             if (ticProfiling != 0U) {
-                operatorName = "not";
+                operatorName = NOT_OPERATOR_STR;
             }
             retval = notOperator(t);
         } break;
         case OP_TRANSPOSE: {
             if (ticProfiling != 0U) {
-                operatorName = "ctranspose";
+                operatorName = CTRANSPOSE_OPERATOR_STR;
             }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+                retval = OverloadUnaryOperator(this, a, CTRANSPOSE_OPERATOR_STR, bSuccess);
             }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = ComplexTranspose(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "ctranspose");
+                    retval = OverloadUnaryOperator(this, a, CTRANSPOSE_OPERATOR_STR);
                 }
             }
         } break;
         case OP_DOT_TRANSPOSE: {
             if (ticProfiling != 0U) {
-                operatorName = "transpose";
+                operatorName = TRANSPOSE_OPERATOR_STR;
             }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+                retval = OverloadUnaryOperator(this, a, TRANSPOSE_OPERATOR_STR, bSuccess);
             }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = Transpose(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "transpose");
+                    retval = OverloadUnaryOperator(this, a, TRANSPOSE_OPERATOR_STR);
                 }
             }
         } break;
@@ -573,34 +559,34 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         } break;
         case OP_RDIV: {
             if (ticProfiling != 0U) {
-                operatorName = "mrdivide";
+                operatorName = MRDIVIDE_OPERATOR_STR;
             }
             retval = rightDivideOperator(t);
         } break;
         case OP_LDIV: {
             if (ticProfiling != 0U) {
-                operatorName = "mldivide";
+                operatorName = MLDIVIDE_OPERATOR_STR;
             }
             retval = leftDivideOperator(t);
         } break;
         case OP_DOT_RDIV: {
             if (ticProfiling != 0U) {
-                operatorName = "rdivide";
+                operatorName = RDIVIDE_OPERATOR_STR;
             }
             retval = dotRightDivideOperator(t);
         } break;
         case OP_DOT_LDIV: {
             if (ticProfiling != 0U) {
-                operatorName = "ldivide";
+                operatorName = LDIVIDE_OPERATOR_STR;
             }
             retval = dotLeftDivideOperator(t);
         } break;
         case OP_POWER: {
             if (ticProfiling != 0U) {
-                operatorName = "mpower";
+                operatorName = MPOWER_OPERATOR_STR;
             }
             FunctionDef* mpowerFuncDef = nullptr;
-            if (!context->lookupFunction("mpower", mpowerFuncDef)) {
+            if (!context->lookupFunction(MPOWER_OPERATOR_STR, mpowerFuncDef)) {
                 Error(_W("mpower function not found."));
             }
             if (!((mpowerFuncDef->type() == NLS_BUILT_IN_FUNCTION)
@@ -619,13 +605,13 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         } break;
         case OP_DOT_POWER: {
             if (ticProfiling != 0U) {
-                operatorName = "power";
+                operatorName = POWER_OPERATOR_STR;
             }
             ArrayOf A = expression(t->down);
             ArrayOf B = expression(t->down->right);
             bool bSuccess = false;
             if (overloadOnBasicTypes) {
-                retval = OverloadBinaryOperator(this, A, B, "power", bSuccess);
+                retval = OverloadBinaryOperator(this, A, B, POWER_OPERATOR_STR, bSuccess);
             }
             if (!bSuccess) {
                 bool needToOverload;
@@ -635,7 +621,7 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
                     args.push_back(A);
                     args.push_back(B);
                     retval = OverloadBinaryOperator(
-                        this, expression(t->down), expression(t->down->right), "power");
+                        this, expression(t->down), expression(t->down->right), POWER_OPERATOR_STR);
                 }
             }
         } break;
