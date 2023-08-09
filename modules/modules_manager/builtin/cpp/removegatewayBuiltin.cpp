@@ -10,7 +10,7 @@
 #include "removegatewayBuiltin.hpp"
 #include "Error.hpp"
 #include "RemoveGateway.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

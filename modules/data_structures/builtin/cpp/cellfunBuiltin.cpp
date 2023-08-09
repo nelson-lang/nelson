@@ -18,7 +18,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ErrorToStruct.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"

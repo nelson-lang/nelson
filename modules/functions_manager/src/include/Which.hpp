@@ -9,18 +9,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "Types.hpp"
 #include "nlsFunctions_manager_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 NLSFUNCTIONS_MANAGER_IMPEXP std::wstring
-Which(const std::wstring& functionname);
+Which(const std::string& functionname);
 NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
-WhichAll(const std::wstring& functionname);
+WhichAll(const std::string& functionname);
 NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
-WhichModule(const std::wstring& functionname);
+WhichModule(const std::string& functionname);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

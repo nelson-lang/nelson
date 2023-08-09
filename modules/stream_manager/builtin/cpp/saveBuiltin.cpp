@@ -12,7 +12,7 @@
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -99,7 +99,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
 
     FunctionDef* funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find(saveFunctionName, funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find(saveFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(saveFunctionName, funcDef)) {
             Error(_W("load function expected."));
         }

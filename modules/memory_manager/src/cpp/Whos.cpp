@@ -16,7 +16,7 @@
 #include "ClassName.hpp"
 #include "Interface.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,7 +40,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     bool isMat = false;
     // try detect if it is a .nh5
     FunctionDef* funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find("isnh5file", funcDef)) {
         BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
     }
     if (funcDef != nullptr) {
@@ -55,7 +55,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     if (!isNh5) {
         // try detect if it is a .mat
         FunctionDef* funcDef = nullptr;
-        if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
+        if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }
         if (funcDef != nullptr) {
@@ -77,7 +77,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     }
 
     funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find(whosFileFunctionName, funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find(whosFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whosFileFunctionName, funcDef)) {
             Error(_W("whos file function expected."));
         }

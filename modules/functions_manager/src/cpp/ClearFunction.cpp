@@ -10,7 +10,7 @@
 #include "ClearFunction.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "MacroFunctionDef.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -32,7 +32,7 @@ bool
 ClearMacroCache(Evaluator* eval)
 {
     stringVector exceptedFunctionsName = eval->getCallers(true);
-    PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+    PathFunctionIndexerManager::getInstance()->clearCache(exceptedFunctionsName);
     return true;
 }
 //=============================================================================

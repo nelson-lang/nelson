@@ -9,7 +9,7 @@
 //=============================================================================
 #include "inmemBuiltin.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "MacroFunctionDef.hpp"
 #include "MexFunctionDef.hpp"
 #include "characters_encoding.hpp"

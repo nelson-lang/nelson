@@ -695,7 +695,6 @@ public:
 
     using UnaryFunction = ArrayOf (*)(const ArrayOf&);
     using BinaryFunction = ArrayOf (*)(ArrayOf&, ArrayOf&, bool, bool&);
-    using TernaryFunction = ArrayOf (*)(ArrayOf&, ArrayOf&, ArrayOf&, bool, bool&);
 
     ArrayOf
     doBinaryOperatorOverload(
@@ -774,9 +773,6 @@ private:
     ArrayOf
     doBinaryOperatorOverload(
         AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName);
-    ArrayOf
-    doTernaryOperatorOverload(
-        AbstractSyntaxTreePtr t, TernaryFunction functionOperator, const std::string& functionName);
 
     /**
      * Handles the logistics of shortcut evaluation

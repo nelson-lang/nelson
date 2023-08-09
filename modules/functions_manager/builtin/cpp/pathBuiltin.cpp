@@ -13,7 +13,7 @@
 #include "pathBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "NelsonPrint.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -28,7 +28,7 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 0) {
         if (nLhs == 0) {
-            wstringVector list = PathFuncManager::getInstance()->getPathNameVector();
+            wstringVector list = PathFunctionIndexerManager::getInstance()->getPathNameVector();
             if (list.empty()) {
                 NelsonPrint(_W("The path is empty. Please restore path.") + L"\n");
             } else {
@@ -40,7 +40,7 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         } else {
             retval << ArrayOf::characterArrayConstructor(
-                PathFuncManager::getInstance()->getPathNameAsString());
+                PathFunctionIndexerManager::getInstance()->getPathNameAsString());
         }
     }
     if (argIn.size() == 1) {
@@ -55,11 +55,13 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
 #else
         StringHelpers::split(paths, p, L':');
 #endif
-        PathFuncManager::getInstance()->clearUserPath();
-        PathFuncManager::getInstance()->clear();
+        PathFunctionIndexerManager::getInstance()->clearUserPath();
+        PathFunctionIndexerManager::getInstance()->clear();
         wstringVector::reverse_iterator it;
         for (it = paths.rbegin(); it != paths.rend(); ++it) {
-            PathFuncManager::getInstance()->addPath(*it, true, false);
+            if (!it->empty()) {
+                PathFunctionIndexerManager::getInstance()->addPath(*it, true, false);
+            }
         }
     }
     if (argIn.size() == 2) {
@@ -85,15 +87,15 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
 #else
         StringHelpers::split(paths2, p2, L':');
 #endif
-        PathFuncManager::getInstance()->clearUserPath();
-        PathFuncManager::getInstance()->clear();
+        PathFunctionIndexerManager::getInstance()->clearUserPath();
+        PathFunctionIndexerManager::getInstance()->clear();
         wstringVector::reverse_iterator rit;
         wstringVector::iterator it;
         for (rit = paths1.rbegin(); rit != paths1.rend(); ++rit) {
-            PathFuncManager::getInstance()->addPath(*rit, true, false);
+            PathFunctionIndexerManager::getInstance()->addPath(*rit, true, false);
         }
         for (it = paths2.begin(); it != paths2.end(); ++it) {
-            PathFuncManager::getInstance()->addPath(*it, false, false);
+            PathFunctionIndexerManager::getInstance()->addPath(*it, false, false);
         }
     }
     return retval;

@@ -14,7 +14,8 @@ set(module_library_name nlsInterpreter)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/FileWatcher/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
 list(FILTER INTERPRETER_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
@@ -29,6 +30,7 @@ target_include_directories(
   PRIVATE ${EIGEN3_INCLUDE_DIR}
           ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/
           ${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

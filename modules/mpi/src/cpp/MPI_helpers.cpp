@@ -14,7 +14,7 @@
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
 #include "StringToFunctionHandle.hpp"

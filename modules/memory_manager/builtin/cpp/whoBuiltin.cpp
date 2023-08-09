@@ -14,7 +14,7 @@
 #include "i18n.hpp"
 #include "Who.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -124,7 +124,7 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     bool isMat = false;
     // try detect if it is a .nh5
     FunctionDef* funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find("isnh5file", funcDef)) {
         BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
     }
     if (funcDef != nullptr) {
@@ -139,7 +139,7 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     if (!isNh5) {
         // try detect if it is a .mat
         FunctionDef* funcDef = nullptr;
-        if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
+        if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }
         if (funcDef != nullptr) {
@@ -161,7 +161,7 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     }
 
     funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find(whoFileFunctionName, funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find(whoFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whoFileFunctionName, funcDef)) {
             Error(_W("who file function expected."));
         }

@@ -12,7 +12,7 @@
 #include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -83,7 +83,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         bool isMat = false;
         // try detect if it is a .nh5
         FunctionDef* funcDef = nullptr;
-        if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
+        if (!PathFunctionIndexerManager::getInstance()->find("isnh5file", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
         }
         if (funcDef) {
@@ -98,7 +98,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         if (!isNh5) {
             // try detect if it is a .mat
             FunctionDef* funcDef = nullptr;
-            if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
+            if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
                 BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
             }
             if (funcDef) {
@@ -120,7 +120,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
 
     FunctionDef* funcDef = nullptr;
-    if (!PathFuncManager::getInstance()->find(loadFunctionName, funcDef)) {
+    if (!PathFunctionIndexerManager::getInstance()->find(loadFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(loadFunctionName, funcDef)) {
             Error(_W("load function expected."));
         }

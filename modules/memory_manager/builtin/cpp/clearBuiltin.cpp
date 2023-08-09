@@ -23,7 +23,7 @@
 #include "NelsonGateway.hpp"
 #include "mex.h"
 #include "MexFunctionDef.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "FunctionsInMemory.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"

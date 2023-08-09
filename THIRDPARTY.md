@@ -351,3 +351,11 @@ A C++17 cross-platform implementation for UUIDs
 - Piecewise Polynomial Package (interv)
 
 > <https://netlib.org/pppack/interv.f> > <http://www.netlib.org/pppack>
+
+- simplefilewatcher
+
+FileWatcher is a C++ wrapper for OS file monitoring systems.
+
+> <https://github.com/jameswynn/simplefilewatcher>
+
+> <https://github.com/jameswynn/simplefilewatcher/blob/master/License.txt> MIT license

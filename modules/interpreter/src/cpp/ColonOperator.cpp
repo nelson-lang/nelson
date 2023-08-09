@@ -178,10 +178,8 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     std::string typeName = precedenceTypeNameColon(A, B);
 
     std::string overloadTypeName = typeName + "_" + "colon";
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
-        Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef);
-    }
+    Context* context = this->getContext();
+    context->lookupFunction(overloadTypeName, funcDef);
     if (!funcDef) {
         Error(_("function") + " " + overloadTypeName + " " + _("undefined."));
     }
@@ -199,10 +197,8 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     std::string typeName = precedenceTypeNameColon(A, B, C);
 
     std::string overloadTypeName = typeName + "_" + "colon";
-    if (!FunctionsInMemory::getInstance()->find(overloadTypeName, funcDef)) {
-        Context* context = this->getContext();
-        context->lookupFunction(overloadTypeName, funcDef);
-    }
+    Context* context = this->getContext();
+    context->lookupFunction(overloadTypeName, funcDef);
     if (!funcDef) {
         Error(_W("colon overloading not defined."));
     }

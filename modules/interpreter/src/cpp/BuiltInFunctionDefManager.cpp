@@ -44,6 +44,7 @@ BuiltInFunctionDefManager::add(FunctionDefPtr ptr)
 {
     if (ptr != nullptr) {
         builtinVector.push_back(ptr);
+        builtinHashMap[ptr->getName()] = ptr;
         return true;
     }
     return false;
@@ -78,47 +79,62 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
 bool
 BuiltInFunctionDefManager::remove(const std::string& name)
 {
+    bool deleted = false;
+    builtinHashMap.clear();
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if ((*it)->getName() == name) {
             auto* p = (BuiltInFunctionDef*)*it;
             delete p;
             builtinVector.erase(it);
-            return true;
+            deleted = true;
+        } else {
+            builtinHashMap[(*it)->getName()] = *it;
         }
     }
-    return false;
+    return deleted;
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(FunctionDefPtr ptr)
 {
+    bool deleted = false;
+    builtinHashMap.clear();
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if (*it == ptr) {
             auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
             builtinVector.erase(it);
+            deleted = true;
+        } else {
+            builtinHashMap[(*it)->getName()] = *it;
         }
     }
-    return false;
+    return deleted;
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
 {
+    bool deleted = false;
+    builtinHashMap.clear();
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if (*it == ptr) {
             auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
             builtinVector.erase(it);
+            deleted = true;
+        } else {
+            builtinHashMap[(*it)->getName()] = *it;
         }
     }
-    return false;
+    return deleted;
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(ptrBuiltin fptr)
 {
     bool res = false;
+    builtinHashMap.clear();
     for (size_t k = 0; k < builtinVector.size(); k++) {
         auto* asBuiltInPtr = (BuiltInFunctionDef*)builtinVector[k];
         if (asBuiltInPtr != nullptr) {
@@ -126,6 +142,8 @@ BuiltInFunctionDefManager::remove(ptrBuiltin fptr)
                 delete asBuiltInPtr;
                 builtinVector.erase(builtinVector.begin() + k);
                 res = true;
+            } else {
+                builtinHashMap[builtinVector[k]->getName()] = builtinVector[k];
             }
         }
     }
@@ -139,7 +157,8 @@ BuiltInFunctionDefManager::removeAll()
         delete it;
     }
     builtinVector.clear();
-    return false;
+    builtinHashMap.clear();
+    return true;
 }
 //=============================================================================
 std::vector<FunctionDefPtr>
@@ -167,22 +186,19 @@ BuiltInFunctionDefManager::getNameList()
 bool
 BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
 {
-    bool res = false;
-    if (!builtinVector.empty()) {
-        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->getName() == name) {
-                path = ((BuiltInFunctionDef*)(*it))->getFilename();
-                return true;
-            }
-        }
+    auto it = builtinHashMap.find(name);
+    if (it != builtinHashMap.end()) {
+        path = it->second->getFilename();
+        return true;
     }
-    return res;
+    return false;
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 {
     bool res = false;
+    paths.clear();
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->getName() == name) {
@@ -197,13 +213,10 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 bool
 BuiltInFunctionDefManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
-    if (!builtinVector.empty()) {
-        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->getName() == name) {
-                ptr = static_cast<FunctionDefPtr>(*it);
-                return true;
-            }
-        }
+    auto it = builtinHashMap.find(name);
+    if (it != builtinHashMap.end()) {
+        ptr = it->second;
+        return true;
     }
     return false;
 }

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MacroCompleter.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -17,7 +17,7 @@ wstringVector
 MacroCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    wstringVector macros = PathFuncManager::getInstance()->getMacrosList();
+    wstringVector macros = PathFunctionIndexerManager::getInstance()->getMacrosList();
     for (auto& macro : macros) {
         if (StringHelpers::starts_with(macro, prefix)) {
             res.push_back(macro);

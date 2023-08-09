@@ -9,7 +9,7 @@
 //=============================================================================
 #include "rehashBuiltin.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,7 +20,7 @@ Nelson::FunctionsGateway::rehashBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 0, 0);
-    PathFuncManager::getInstance()->rehash();
+    PathFunctionIndexerManager::getInstance()->rehash();
     return retval;
 }
 //=============================================================================

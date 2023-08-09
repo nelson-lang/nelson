@@ -9,9 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Boost 1.82 used on Windows.
-- `class`, `function_handle` types reworked.
-- types order updated (internal).
-- rework validator module.
+
+- Internals:
+  - `class`, `function_handle` types reworked.
+  - types order updated.
+  - rework validator module.
+  - functions finder reworked.
+  - file watcher reworked.
 
 ## 0.7.5 (2023-05-27)
 

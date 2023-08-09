@@ -31,10 +31,6 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::Overload
     case Overload::OverloadClass::BINARY:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName + "_" + ClassName(argIn[1]);
         break;
-    case Overload::OverloadClass::TERNARY:
-        OverloadName = _functionName + "_" + ClassName(argIn[0]) + "_" + ClassName(argIn[1]) + "_"
-            + ClassName(argIn[2]);
-        break;
     case Overload::OverloadClass::UNARY:
     case Overload::OverloadClass::FUNCTION:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName;

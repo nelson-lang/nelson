@@ -11,15 +11,17 @@
 //=============================================================================
 #include <unordered_map>
 #include <string>
+#include <filesystem>
 #include "FileFunction.hpp"
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-class PathFunc
+//=============================================================================
+class PathFunctionIndexer
 {
 public:
-    PathFunc(const std::wstring& path, bool withWatcher = true);
-    ~PathFunc();
+    PathFunctionIndexer(const std::wstring& path, bool withWatcher = true);
+    ~PathFunctionIndexer();
     wstringVector
     getFunctionsName(const std::wstring& prefix = L"");
     wstringVector
@@ -29,21 +31,29 @@ public:
     void
     rehash();
     bool
-    findFuncName(const std::wstring& functionName, std::wstring& filename);
+    findFuncName(const std::string& functionName, std::wstring& filename);
+    std::unordered_map<std::string, FileFunction*>
+    getAllFileFunctions();
+
     bool
-    findFuncName(const std::wstring& functionName, FileFunction** ff);
+    wasModified();
+
+    void
+    startFileWatcher();
 
 private:
-    std::unordered_map<std::wstring, FileFunction*> mapAllFiles;
-    std::unordered_map<std::wstring, FileFunction*> mapRecentFiles;
+    std::unordered_map<std::string, FileFunction*> mapAllFiles;
+    std::unordered_map<std::string, FileFunction*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(const std::wstring& name);
-    std::wstring
-    uniformizePathName(const std::wstring& pathname);
     bool
     comparePathname(const std::wstring& path1, const std::wstring& path2);
     bool withWatcher;
+
+    void* fileWatcher;
+    void* updateFileWatcherListener;
+    unsigned long watcherID;
 };
 //=============================================================================
 } // namespace Nelson

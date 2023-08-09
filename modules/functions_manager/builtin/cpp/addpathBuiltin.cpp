@@ -13,7 +13,7 @@
 #include "FileSystemWrapper.hpp"
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -88,10 +88,10 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
         }
     }
-    std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
+    std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();
     for (const std::wstring& param : params) {
         if (FileSystemWrapper::Path::is_directory(param)) {
-            PathFuncManager::getInstance()->addPath(param, beginOption, frozenOption);
+            PathFunctionIndexerManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");
         }

@@ -11,7 +11,7 @@
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PathFuncManager.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -26,12 +26,12 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param1.isRowVectorCharacterArray()) {
             std::wstring paramstr = param1.getContentAsWideString();
             if (paramstr == L"clear") {
-                PathFuncManager::getInstance()->clearUserPath(true);
+                PathFunctionIndexerManager::getInstance()->clearUserPath(true);
             } else if (paramstr == L"reset") {
-                PathFuncManager::getInstance()->resetUserPath();
+                PathFunctionIndexerManager::getInstance()->resetUserPath();
             } else {
                 if (FileSystemWrapper::Path::is_directory(paramstr)) {
-                    PathFuncManager::getInstance()->setUserPath(paramstr, true);
+                    PathFunctionIndexerManager::getInstance()->setUserPath(paramstr, true);
                 } else {
                     Error(_W("Not an existing directory:") + L" " + paramstr);
                 }
@@ -42,7 +42,8 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         nargincheck(argIn, 0, 0);
         nargoutcheck(nLhs, 0, 1);
-        retval << ArrayOf::characterArrayConstructor(PathFuncManager::getInstance()->getUserPath());
+        retval << ArrayOf::characterArrayConstructor(
+            PathFunctionIndexerManager::getInstance()->getUserPath());
     }
     return retval;
 }
