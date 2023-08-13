@@ -18,13 +18,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isSignedInteger(NelsonType destinationClass)
-{
-    return (destinationClass == NLS_INT8 || destinationClass == NLS_INT16
-        || destinationClass == NLS_INT32 || destinationClass == NLS_INT64);
-}
-//=============================================================================
 template <class T>
 static ArrayOf
 integer_colon(NelsonType destinationClass, T low, T high, T step)
@@ -35,7 +28,7 @@ integer_colon(NelsonType destinationClass, T low, T high, T step)
         return res;
     }
     if (low < high) {
-        if (isSignedInteger(destinationClass)) {
+        if (IS_SIGNED_INTEGER_TYPE(destinationClass)) {
             if (step < 0) {
                 ArrayOf res = ArrayOf::emptyConstructor(1, 0);
                 res.promoteType(destinationClass);
@@ -178,15 +171,17 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
 }
 //=============================================================================
 ArrayOf
-Colon(const ArrayOf& J, const ArrayOf& K)
+Colon(const ArrayOf& J, const ArrayOf& K, bool& needOverload)
 {
     ArrayOf I = ArrayOf::doubleConstructor(1);
-    return Colon(J, I, K);
+    I.promoteType(J.getDataClass());
+    return Colon(J, I, K, needOverload);
 }
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
+Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
 {
+    needOverload = false;
     bool warningArrayAsScalar = false;
     switch (J.getDataClass()) {
     case NLS_UINT8: {
@@ -556,8 +551,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K)
         return char_colon(low, high, step);
     } break;
     default: {
-        std::string overloadName = ClassName(J) + "_colon";
-        Error(_("function") + " " + overloadName + " " + _("undefined."));
+        needOverload = true;
     } break;
     }
     return {};

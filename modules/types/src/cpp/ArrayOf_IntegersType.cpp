@@ -321,11 +321,14 @@ ArrayOf::isIntegerType() const
 bool
 ArrayOf::isIntegerValue() const
 {
-    if (isIntegerType()) {
+    if (!dp) {
+        return false;
+    }
+    if (IS_INTEGER_TYPE(dp->dataClass)) {
         return true;
     }
     if (dp->dataClass == NLS_DOUBLE) {
-        return IsIntegerFormOrNotFinite((double*)dp->getData(), getElementCount());
+        return IsIntegerFormOrNotFinite((double*)getDataPointer(), getElementCount());
     }
     if (dp->dataClass == NLS_SINGLE) {
         return IsIntegerFormOrNotFinite((single*)dp->getData(), getElementCount());

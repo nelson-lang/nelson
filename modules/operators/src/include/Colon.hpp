@@ -15,10 +15,10 @@
 namespace Nelson {
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-Colon(const ArrayOf& J, const ArrayOf& K);
+Colon(const ArrayOf& J, const ArrayOf& K, bool& needOverload);
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K);
+Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

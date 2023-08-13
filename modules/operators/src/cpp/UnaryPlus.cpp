@@ -16,10 +16,6 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    if (A.isSparse()) {
-        needToOverload = true;
-        return {};
-    }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
     case NLS_CHAR: {

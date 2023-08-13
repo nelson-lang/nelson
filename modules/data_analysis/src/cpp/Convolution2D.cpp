@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <complex>
+#include "nlsBuildConfig.h"
 #include "Convolution2D.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"

@@ -16,6 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::plusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    return eval->additionOperator(argIn[0], argIn[1]);
+    return eval->plusOperator(argIn[0], argIn[1]);
 }
 //=============================================================================

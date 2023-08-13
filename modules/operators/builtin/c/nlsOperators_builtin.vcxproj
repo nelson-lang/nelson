@@ -191,7 +191,6 @@
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\geBuiltin.cpp" />
-    <ClCompile Include="..\cpp\generic_colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\gtBuiltin.cpp" />
     <ClCompile Include="..\cpp\horzcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismemberBuiltin.cpp" />
@@ -256,7 +255,6 @@
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />
     <ClInclude Include="..\include\geBuiltin.hpp" />
-    <ClInclude Include="..\include\generic_colonBuiltin.hpp" />
     <ClInclude Include="..\include\gtBuiltin.hpp" />
     <ClInclude Include="..\include\horzcatBuiltin.hpp" />
     <ClInclude Include="..\include\ismemberBuiltin.hpp" />

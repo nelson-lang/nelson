@@ -8,9 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
-#include "ComplexTranspose.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "CtransposeSparseDouble.hpp"
+#include "CtransposeSparseLogical.hpp"
+#include "ComplexTranspose.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -59,7 +61,7 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
     /* Code not factorized with Transpose to speed up at runtime */
     needToOverload = false;
     NelsonType classA = A.getDataClass();
-    if ((classA > NLS_CHAR || A.isSparse()) && !(A.isCell() || A.isStruct() || A.isStringArray())) {
+    if ((classA > NLS_CHAR) && !(A.isCell() || A.isStruct() || A.isStringArray())) {
         needToOverload = true;
         return {};
     }
@@ -79,6 +81,9 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
     }
     switch (classA) {
     case NLS_LOGICAL: {
+        if (A.isSparse()) {
+            return CtransposeSparseLogical(A);
+        }
         logical* ptrRes = static_cast<logical*>(const_cast<void*>(
             static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
@@ -149,6 +154,9 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
             dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DOUBLE: {
+        if (A.isSparse()) {
+            return CtransposeSparseDouble(A);
+        }
         double* ptrRes = static_cast<double*>(const_cast<void*>(
             static_cast<const void*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()))));
         Res = ArrayOf(classA, dimsRes, ptrRes);
@@ -163,6 +171,9 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
             dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DCOMPLEX: {
+        if (A.isSparse()) {
+            return CtransposeSparseDouble(A);
+        }
         double* ptrRes = static_cast<double*>(const_cast<void*>(static_cast<const void*>(
             ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount() * 2))));
         Res = ArrayOf(classA, dimsRes, ptrRes);

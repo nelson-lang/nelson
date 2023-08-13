@@ -206,19 +206,13 @@
     <ClCompile Include="..\cpp\nnzBuiltin.cpp" />
     <ClCompile Include="..\cpp\nzmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparsedouble_ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_horzcat_sparsedoubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_realBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparsedouble_transposeBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparsedouble_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_vertcat_sparsedoubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparselogical_ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_horzcat_sparselogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_realBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparselogical_transposeBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparselogical_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_vertcat_sparselogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
@@ -232,19 +226,13 @@
     <ClInclude Include="..\include\nnzBuiltin.hpp" />
     <ClInclude Include="..\include\nzmaxBuiltin.hpp" />
     <ClInclude Include="..\include\sparseBuiltin.hpp" />
-    <ClInclude Include="..\include\sparsedouble_ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_horzcat_sparsedoubleBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_realBuiltin.hpp" />
-    <ClInclude Include="..\include\sparsedouble_transposeBuiltin.hpp" />
-    <ClInclude Include="..\include\sparsedouble_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_vertcat_sparsedoubleBuiltin.hpp" />
-    <ClInclude Include="..\include\sparselogical_ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_horzcat_sparselogicalBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_realBuiltin.hpp" />
-    <ClInclude Include="..\include\sparselogical_transposeBuiltin.hpp" />
-    <ClInclude Include="..\include\sparselogical_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_vertcat_sparselogicalBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -458,13 +458,13 @@ expr:
   | expr DOTRDIV  error {yyxpt(_("an expression after './'"),$2);}
   | expr DOTLDIV expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_LDIV,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTLDIV error {yyxpt(_("an expression after '.\\'"),$2);}
-  | '-' expr %prec NEG {$$.v.p = AbstractSyntaxTree::createNode(OP_NEG,$2.v.p,$1.v.i);}
-  | '+' expr %prec POS {$$.v.p = AbstractSyntaxTree::createNode(OP_POS, $2.v.p, $1.v.i);}
+  | '-' expr %prec NEG {$$.v.p = AbstractSyntaxTree::createNode(OP_UMINUS,$2.v.p,$1.v.i);}
+  | '+' expr %prec POS {$$.v.p = AbstractSyntaxTree::createNode(OP_UPLUS, $2.v.p, $1.v.i);}
   | '~' expr %prec NOT {$$.v.p = AbstractSyntaxTree::createNode(OP_NOT,$2.v.p,$1.v.i);}
   | '~' error %prec NOT {yyxpt(_("an expression after logical not"),$2);}
-  | expr '^' expr  {$$.v.p = AbstractSyntaxTree::createNode(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '^' expr  {$$.v.p = AbstractSyntaxTree::createNode(OP_MPOWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr '^' error  {yyxpt(_("an expression after '^'"),$2);}
-  | expr DOTPOWER expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_POWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTPOWER expr {$$.v.p = AbstractSyntaxTree::createNode(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTPOWER error {yyxpt(_("an expression after '.^'"),$2);}
   | expr '\''          {$$.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,$1.v.p,$2.v.i);}
   | expr DOTTRANSPOSE  {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}

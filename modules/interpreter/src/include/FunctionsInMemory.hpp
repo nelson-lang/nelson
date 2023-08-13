@@ -27,6 +27,8 @@ private:
     //=============================================================================
     std::unordered_map<std::string, FunctionDefPtr> _lastFunctionsInMemory;
     //=============================================================================
+    std::unordered_map<std::string, bool> _notExistingFunctionsInMemory;
+    //=============================================================================
     FunctionsInMemory();
     //=============================================================================
     ~FunctionsInMemory();
@@ -42,6 +44,9 @@ private:
     bool
     findBuiltin(const std::string& functionName, FunctionDefPtr& function);
     //=============================================================================
+    void
+    declareAsNotExistingFunction(const std::string& functionName);
+
 public:
     //=============================================================================
     enum FIND_FUNCTION_TYPE
@@ -88,6 +93,9 @@ public:
     //=============================================================================
     wstringVector
     getMexInMemory(bool withCompleteNames);
+    //=============================================================================
+    bool
+    isNotExistingFunction(const std::string& functionName);
     //=============================================================================
 };
 //=============================================================================

@@ -27,10 +27,7 @@ R = 1:int32(2):4;
 REF = int32([1 3]);
 assert_isequal(R, REF);
 %=============================================================================
-R = 1:char(2):4;
-RR = double(R);
-REF = [1:2:4];
-assert_isequal(RR, REF);
+assert_checkerror('R = 1:char(2):4;', _('For colon operator with char operands, first and last operands must be char.'));
 %=============================================================================
 R = 1:1;
 REF = 1;
@@ -120,5 +117,18 @@ assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('R = 1:1:inf;',  _('Invalid range.'));
 %=============================================================================
-assert_checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type.'));
+assert_checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type, or mixed with real double scalar.'));
+%=============================================================================
+msg = _('Check for incorrect argument data type or missing argument in call to function ''%s''.');
+msg = sprintf(msg, 'colon');
+assert_checkerror('logical(0):logical(1)', msg);
+%=============================================================================
+msg = _('For colon operator with char operands, first and last operands must be char.');
+assert_checkerror('1:''A''', msg);
+%=============================================================================
+msg = _('For colon operator with char operands, first and last operands must be char.');
+assert_checkerror('''A'':1', msg);
+%=============================================================================
+R = 'A':'C';
+assert_isequal(R, 'ABC');
 %=============================================================================
