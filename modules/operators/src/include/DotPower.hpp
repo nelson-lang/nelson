@@ -19,7 +19,7 @@ namespace Nelson {
  */
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
 DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B);

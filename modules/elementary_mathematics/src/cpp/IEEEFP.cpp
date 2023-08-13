@@ -121,16 +121,26 @@ bool
 IsIntegerFormOpenMP(const T* t, size_t nbElements)
 {
     if (t != nullptr && nbElements > 0) {
-        bool result = true;
+        switch (nbElements) {
+        case 0: {
+            return false;
+        } break;
+        case 1: {
+            return IsIntegerForm(t[0]);
+        } break;
+        default: {
+            bool result = true;
 #ifdef _NLS_WITH_OPENMP
 #pragma omp parallel for shared(result)
 #endif
-        for (long long k = 0; k < (long long)nbElements; k++) {
-            if (!IsIntegerForm(t[k])) {
-                result = false;
+            for (long long k = 0; k < (long long)nbElements; k++) {
+                if (!IsIntegerForm(t[k])) {
+                    result = false;
+                }
             }
+            return result;
+        } break;
         }
-        return result;
     }
     return false;
 }
@@ -177,22 +187,33 @@ template <class T>
 bool
 IsIntegerFormOrNotFiniteOpenMP(const T* t, size_t nbElements)
 {
-    bool result = true;
     if (t != nullptr && nbElements > 0) {
+        switch (nbElements) {
+        case 0: {
+            return false;
+        } break;
+        case 1: {
+            return IsIntegerFormOrNotFinite(t[0]);
+        } break;
+        default: {
+            bool result = true;
 #ifdef _NLS_WITH_OPENMP
 #pragma omp parallel for reduction(&& : result)
 #endif
-        for (long long k = 0; k < (long long)nbElements; k++) {
-            if (!IsIntegerFormOrNotFinite(t[k])) {
+            for (long long k = 0; k < (long long)nbElements; k++) {
+                if (!IsIntegerFormOrNotFinite(t[k])) {
 #ifdef _NLS_WITH_OPENMP
 #pragma omp critical
 #endif
-                {
-                    result = false;
+                    {
+                        result = false;
+                    }
                 }
             }
+            return result;
+
+        } break;
         }
-        return result;
     }
     return false;
 }

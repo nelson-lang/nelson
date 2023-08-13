@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uplusBuiltin.hpp"
-#include "UnaryPlus.hpp"
-#include "OverloadUnaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,26 +15,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OperatorsGateway::uplusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    ArrayOf arg1 = argIn[0];
-    bool bSuccess = false;
-    ArrayOf a = argIn[0];
-    ArrayOf res;
-    if (eval->mustOverloadBasicTypes()) {
-        res = OverloadUnaryOperator(eval, a, "uplus", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload = false;
-        res = UnaryPlus(a, needToOverload);
-        if (needToOverload) {
-            res = OverloadUnaryOperator(eval, a, "uplus");
-        } else {
-            retval << res;
-        }
-    } else {
-        retval << res;
-    }
-    return retval;
+    return eval->uplusOperator(argIn[0]);
 }
 //=============================================================================

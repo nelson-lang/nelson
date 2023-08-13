@@ -11,7 +11,7 @@ R = 1:int64(3);
 REF = int64([1 2 3]);
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = 0.1:int64(3);', _('Colon input arguments must have same type.'));
+assert_checkerror('R = 0.1:int64(3);', _('Colon operands must be all the same type, or mixed with real double scalar.'));
 %=============================================================================
 R = int64(10):int64(1):int64(15);
 REF = int64([10 11 12 13 14 15]);

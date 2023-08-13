@@ -272,6 +272,11 @@ public:
      * valid if we are a subindexing expression list (i.e.,
      * VAR(exprssionlist)), in which case dim != nullptr.
      */
+    ArrayOf
+    expressionOperator(AbstractSyntaxTreePtr t);
+    ArrayOf
+    expressionReserved(AbstractSyntaxTreePtr t);
+
     ArrayOfVector
     expressionList(AbstractSyntaxTreePtr t);
     ArrayOfVector
@@ -337,7 +342,7 @@ public:
     ArrayOf
     simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t);
     ArrayOfVector
-    subsindex(const ArrayOfVector& m);
+    subsindexOperator(const ArrayOfVector& m);
 
     indexType
     countLeftHandSides(AbstractSyntaxTreePtr t);
@@ -706,9 +711,24 @@ public:
     colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);
 
     ArrayOf
-    additionOperator(const ArrayOf& A, const ArrayOf& B);
+    uplusOperator(const ArrayOf& A);
     ArrayOf
-    subtractionOperator(const ArrayOf& A, const ArrayOf& B);
+    uminusOperator(const ArrayOf& A);
+
+    ArrayOf
+    transposeOperator(const ArrayOf& A);
+    ArrayOf
+    complexTransposeOperator(const ArrayOf& A);
+
+    ArrayOf
+    mpowerOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    powerOperator(const ArrayOf& A, const ArrayOf& B);
+
+    ArrayOf
+    plusOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    minusOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
     timesOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
@@ -786,6 +806,11 @@ private:
     ArrayOf
     andOperator(AbstractSyntaxTreePtr t);
 
+    ArrayOf
+    mpowerOperator(AbstractSyntaxTreePtr t);
+    ArrayOf
+    powerOperator(AbstractSyntaxTreePtr t);
+
     /**
      * Evaluate a unit colon expression.  The AST input should look like:
      *   :
@@ -814,9 +839,9 @@ private:
     colonOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    additionOperator(AbstractSyntaxTreePtr t);
+    plusOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    subtractionOperator(AbstractSyntaxTreePtr t);
+    minusOperator(AbstractSyntaxTreePtr t);
     ArrayOf
     timesOperator(AbstractSyntaxTreePtr t);
     ArrayOf
@@ -848,6 +873,16 @@ private:
     neOperator(AbstractSyntaxTreePtr t);
     ArrayOf
     notOperator(AbstractSyntaxTreePtr t);
+
+    ArrayOf
+    uplusOperator(AbstractSyntaxTreePtr t);
+    ArrayOf
+    uminusOperator(AbstractSyntaxTreePtr t);
+
+    ArrayOf
+    transposeOperator(AbstractSyntaxTreePtr t);
+    ArrayOf
+    complexTransposeOperator(AbstractSyntaxTreePtr t);
 
     bool
     needToOverloadOperator(const ArrayOf& a);

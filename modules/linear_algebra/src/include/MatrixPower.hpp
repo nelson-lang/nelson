@@ -18,7 +18,7 @@ namespace Nelson {
  * Matrix to matrix power.  A^B
  */
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+MatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

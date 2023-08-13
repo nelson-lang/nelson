@@ -15,10 +15,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define PLUS_OPERATOR_STR "plus"
-#define MINUS_OPERATOR_STR "minus"
+// UNARY
 #define UMINUS_OPERATOR_STR "uminus"
 #define UPLUS_OPERATOR_STR "uplus"
+#define NOT_OPERATOR_STR "not"
+#define SUBSINDEX_OPERATOR_STR "subsindex"
+#define SUBSREF_OPERATOR_STR "subsref" // not implemented
+#define SUBSASGN_OPERATOR_STR "subsasgn" // not implemented
+// BINARY
+#define PLUS_OPERATOR_STR "plus"
+#define MINUS_OPERATOR_STR "minus"
 #define TIMES_OPERATOR_STR "times"
 #define MTIMES_OPERATOR_STR "mtimes"
 #define RDIVIDE_OPERATOR_STR "rdivide"
@@ -37,17 +43,13 @@ namespace Nelson {
 #define OR_OPERATOR_STR "or"
 #define SHORTCUTAND_OPERATOR_STR "shortcutand"
 #define SHORTCUTOR_OPERATOR_STR "shortcutor"
-#define NOT_OPERATOR_STR "not"
-#define COLON_OPERATOR_STR "colon"
 #define CTRANSPOSE_OPERATOR_STR "ctranspose"
 #define TRANSPOSE_OPERATOR_STR "transpose"
+// MULTIPLE
+#define COLON_OPERATOR_STR "colon"
 #define HORZCAT_OPERATOR_STR "horzcat"
 #define VERTCAT_OPERATOR_STR "vertcat"
-#define SUBSREF_OPERATOR_STR "subsref"
-#define SUBSASGN_OPERATOR_STR "subsasgn"
-#define SUBSINDEX_OPERATOR_STR "subsindex"
 //=============================================================================
-
 enum OperatorType
 {
     PLUS = 0,

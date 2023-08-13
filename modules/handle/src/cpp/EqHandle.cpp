@@ -14,6 +14,7 @@
 #include "HandleManager.hpp"
 #include "MatrixCheck.hpp"
 #include "NewWithException.hpp"
+#include "Operators.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +28,8 @@ EqHandle(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " " + "eq");
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " "
+            + EQ_OPERATOR_STR);
     }
     int Astride = 0;
     int Bstride = 0;

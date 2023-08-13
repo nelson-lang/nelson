@@ -12,9 +12,82 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "ClassToString.hpp"
+#include "ClassName.hpp"
 #include "FunctionsInMemory.hpp"
+// #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+inline std::string
+overloadFunctionName(const std::string& destinationTypeName, const std::string& functionName)
+{
+    return destinationTypeName + "_" + functionName;
+}
+//=============================================================================
+inline ArrayOf
+callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
+    const std::string& functionName, const std::string& commonTypeName, NelsonType commonType,
+    bool& wasFound)
+{
+    if (commonType >= NLS_CLASS_ARRAY) {
+        std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
+        if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
+            FunctionDef* funcDef = nullptr;
+            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+            if (funcDef) {
+                wasFound = true;
+                return funcDef->evaluateFunction(eval, argsIn, 1)[0];
+            }
+        }
+    }
+    /*
+    switch (NelsonConfiguration::getInstance()->getOverloadLevelCompatibility()) {
+    case OverloadLevelCompatibility::NLS_OVERLOAD_ALL_TYPES: {
+        std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
+        if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
+            FunctionDef* funcDef = nullptr;
+            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+            if (funcDef) {
+                wasFound = true;
+                return funcDef->evaluateFunction(eval, argsIn, 1)[0];
+            }
+        }
+    } break;
+    case OverloadLevelCompatibility::NLS_OVERLOAD_OBJECT_TYPES_ONLY: {
+        if (commonType >= NLS_CLASS_ARRAY) {
+            std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
+            if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
+                FunctionDef* funcDef = nullptr;
+                eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+                if (funcDef) {
+                    wasFound = true;
+                    return funcDef->evaluateFunction(eval, argsIn, 1)[0];
+                }
+            }
+        }
+    } break;
+    default:
+    case OverloadLevelCompatibility::NLS_OVERLOAD_NONE: {
+    } break;
+    }
+    */
+    wasFound = false;
+    return {};
+}
+//=============================================================================
+inline void
+OverloadRequired(const std::string& functionName)
+{
+    std::string msgfmt
+        = _("Check for incorrect argument data type or missing argument in call to function '%s'.");
+    size_t size = msgfmt.size() + functionName.size();
+    std::string msg(size, '\0');
+    int nChars = std::snprintf(&msg[0], size, msgfmt.c_str(), functionName.c_str());
+    msg.resize(nChars);
+    Error(msg, "Nelson:UndefinedFunction");
+}
 //=============================================================================
 static bool
 OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, FunctionDef** funcDef)
@@ -48,5 +121,7 @@ callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
     }
     return res;
 }
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

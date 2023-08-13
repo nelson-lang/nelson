@@ -21,7 +21,7 @@ namespace Nelson {
 //=============================================================================
 enum NumericFormatDisplay
 {
-    NLS_NUMERIC_FORMAT_SHORT,
+    NLS_NUMERIC_FORMAT_SHORT = 0,
     NLS_NUMERIC_FORMAT_LONG,
     NLS_NUMERIC_FORMAT_SHORTE,
     NLS_NUMERIC_FORMAT_LONGE,
@@ -39,6 +39,13 @@ enum LineSpacingDisplay
 {
     NLS_LINE_SPACING_COMPACT,
     NLS_LINE_SPACING_LOOSE
+};
+//=============================================================================
+enum OverloadLevelCompatibility
+{
+    NLS_OVERLOAD_NONE = 0,
+    NLS_OVERLOAD_OBJECT_TYPES_ONLY,
+    NLS_OVERLOAD_ALL_TYPES
 };
 //=============================================================================
 class NLSNELSON_MANAGER_IMPEXP NelsonConfiguration
@@ -167,6 +174,11 @@ public:
     void*
     getLastWarningException(size_t ID);
     //=============================================================================
+    OverloadLevelCompatibility
+    setOverloadLevelCompatibility(OverloadLevelCompatibility desiredOverloadLevelCompatibility);
+    OverloadLevelCompatibility
+    getOverloadLevelCompatibility();
+    //=============================================================================
 private:
     NelsonConfiguration();
     //=============================================================================
@@ -209,6 +221,8 @@ private:
     int engineMode;
     //=============================================================================
     int nbOfThreadsToUse;
+    //=============================================================================
+    OverloadLevelCompatibility currentOverloadLevelCompatibility;
     //=============================================================================
 };
 //=============================================================================

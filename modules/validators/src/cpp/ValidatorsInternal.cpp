@@ -19,6 +19,7 @@
 #include "NelsonConfiguration.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "IsValidVariableName.hpp"
+#include "Operators.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -286,7 +287,7 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, "gt");
+    argOut = evaluateFunction(vAsArrayOfVector, 1, GT_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     bool isPositive = argOut[0].getContentAsLogicalScalar();
     if (!isPositive) {
@@ -314,7 +315,7 @@ mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, "le");
+    argOut = evaluateFunction(vAsArrayOfVector, 1, LE_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     bool isNonpositive = argOut[0].getContentAsLogicalScalar();
     if (!isNonpositive) {
@@ -342,7 +343,7 @@ mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, "ge");
+    argOut = evaluateFunction(vAsArrayOfVector, 1, GE_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     bool isNonnegative = argOut[0].getContentAsLogicalScalar();
     if (!isNonnegative) {
@@ -370,7 +371,7 @@ mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, "lt");
+    argOut = evaluateFunction(vAsArrayOfVector, 1, LT_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     bool isNegative = argOut[0].getContentAsLogicalScalar();
     if (!isNegative) {
@@ -411,7 +412,7 @@ mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    ArrayOfVector argOut = evaluateFunction(vAsArrayOfVector, 1, "eq");
+    ArrayOfVector argOut = evaluateFunction(vAsArrayOfVector, 1, EQ_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "any");
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be zero.");
@@ -470,7 +471,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     }
     argOut = evaluateFunction(asVector, 1, "floor");
     argOut.push_back(asVector);
-    argOut = evaluateFunction(argOut, 1, "eq");
+    argOut = evaluateFunction(argOut, 1, EQ_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
@@ -568,7 +569,7 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, "gt");
+    ArrayOfVector argOut = evaluateFunction(params, 1, GT_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     return argOut[0].getContentAsLogicalScalar();
 }
@@ -616,7 +617,7 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, "lt");
+    ArrayOfVector argOut = evaluateFunction(params, 1, LT_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     return argOut[0].getContentAsLogicalScalar();
 }
@@ -679,7 +680,7 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, "ge");
+    ArrayOfVector argOut = evaluateFunction(params, 1, GE_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     return argOut[0].getContentAsLogicalScalar();
 }
@@ -744,7 +745,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, "le");
+    ArrayOfVector argOut = evaluateFunction(params, 1, LE_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     return argOut[0].getContentAsLogicalScalar();
 }
@@ -829,7 +830,7 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
         ArrayOfVector argIn(arg);
         ArrayOfVector argOut = evaluateFunction(argIn, 1, "strlength");
         argOut.push_back(ArrayOf::doubleConstructor(0));
-        argOut = evaluateFunction(argOut, 1, "gt");
+        argOut = evaluateFunction(argOut, 1, GT_OPERATOR_STR);
         argOut.push_back(ArrayOf::characterArrayConstructor("all"));
         argOut = evaluateFunction(argOut, 1, "all");
         if (!argOut[0].getContentAsLogicalScalar()) {

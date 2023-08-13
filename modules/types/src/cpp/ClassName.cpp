@@ -19,9 +19,6 @@ std::string
 ClassName(const ArrayOf& In)
 {
     std::string classString = {};
-    if (In.isSparse()) {
-        return std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
-    }
     switch (In.getDataClass()) {
     case NLS_HANDLE: {
         classString = NLS_HANDLE_STR;
@@ -49,6 +46,9 @@ ClassName(const ArrayOf& In)
         classString = In.getClassType();
     } break;
     default: {
+        if (In.isSparse()) {
+            return std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
+        }
         classString = ClassToString(In.getDataClass());
     } break;
     }

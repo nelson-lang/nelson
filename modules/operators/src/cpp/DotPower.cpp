@@ -860,8 +860,10 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+DotPower(const ArrayOf& _A, const ArrayOf& _B, bool& needToOverload)
 {
+    ArrayOf A = _A;
+    ArrayOf B = _B;
     needToOverload = false;
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;

@@ -313,335 +313,292 @@ approximatelyEqual(double a, double b, double epsilon)
 }
 //=============================================================================
 ArrayOf
+Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
+{
+    ArrayOf retval;
+    uint64 ticProfiling = Profiler::getInstance()->tic();
+    std::string operatorName;
+    switch (t->opNum) {
+    case OP_COLON:
+        if (ticProfiling != 0U) {
+            operatorName = COLON_OPERATOR_STR;
+        }
+        if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
+            retval = colonOperator(t);
+        } else {
+            retval = colonUnitOperator(t);
+        }
+        break;
+    case OP_EMPTY: {
+        retval = ArrayOf::emptyConstructor();
+    } break;
+    case OP_EMPTY_CELL: {
+        ArrayOf a(ArrayOf::emptyConstructor());
+        a.promoteType(NLS_CELL_ARRAY);
+        retval = a;
+    } break;
+    case OP_BRACKETS: {
+        retval = matrixDefinition(t);
+    } break;
+    case OP_BRACES: {
+        retval = cellDefinition(t);
+    } break;
+    case OP_PLUS: {
+        if (ticProfiling != 0U) {
+            operatorName = PLUS_OPERATOR_STR;
+        }
+        retval = plusOperator(t);
+    } break;
+    case OP_SUBTRACT: {
+        if (ticProfiling != 0U) {
+            operatorName = MINUS_OPERATOR_STR;
+        }
+        retval = minusOperator(t);
+    } break;
+    case OP_TIMES: {
+        if (ticProfiling != 0U) {
+            operatorName = MTIMES_OPERATOR_STR;
+        }
+        retval = mtimesOperator(t);
+    } break;
+    case OP_SOR: {
+        if (ticProfiling != 0U) {
+            operatorName = SHORTCUTOR_OPERATOR_STR;
+        }
+        retval = shortCutOrOperator(t);
+    } break;
+    case OP_OR: {
+        if (ticProfiling != 0U) {
+            operatorName = OR_OPERATOR_STR;
+        }
+        retval = orOperator(t);
+    } break;
+    case OP_SAND: {
+        if (ticProfiling != 0U) {
+            operatorName = SHORTCUTAND_OPERATOR_STR;
+        }
+        retval = shortCutAndOperator(t);
+    } break;
+    case OP_AND: {
+        if (ticProfiling != 0U) {
+            operatorName = AND_OPERATOR_STR;
+        }
+        retval = andOperator(t);
+    } break;
+    case OP_LT: {
+        if (ticProfiling != 0U) {
+            operatorName = LT_OPERATOR_STR;
+        }
+        retval = ltOperator(t);
+    } break;
+    case OP_LEQ: {
+        if (ticProfiling != 0U) {
+            operatorName = LE_OPERATOR_STR;
+        }
+        retval = leOperator(t);
+    } break;
+    case OP_GT: {
+        if (ticProfiling != 0U) {
+            operatorName = GT_OPERATOR_STR;
+        }
+        retval = gtOperator(t);
+    } break;
+    case OP_GEQ: {
+        if (ticProfiling != 0U) {
+            operatorName = GE_OPERATOR_STR;
+        }
+        retval = geOperator(t);
+    } break;
+    case OP_EQ: {
+        if (ticProfiling != 0U) {
+            operatorName = EQ_OPERATOR_STR;
+        }
+        retval = eqOperator(t);
+    } break;
+    case OP_NEQ: {
+        if (ticProfiling != 0U) {
+            operatorName = NE_OPERATOR_STR;
+        }
+        retval = neOperator(t);
+    } break;
+    case OP_DOT_TIMES: {
+        if (ticProfiling != 0U) {
+            operatorName = TIMES_OPERATOR_STR;
+        }
+        retval = timesOperator(t);
+    } break;
+    case OP_UPLUS: {
+        bool bSuccess = false;
+        if (ticProfiling != 0U) {
+            operatorName = UPLUS_OPERATOR_STR;
+        }
+        retval = uplusOperator(t);
+    } break;
+    case OP_UMINUS: {
+        if (ticProfiling != 0U) {
+            operatorName = UMINUS_OPERATOR_STR;
+        }
+        retval = uminusOperator(t);
+    } break;
+    case OP_NOT: {
+        if (ticProfiling != 0U) {
+            operatorName = NOT_OPERATOR_STR;
+        }
+        retval = notOperator(t);
+    } break;
+    case OP_TRANSPOSE: {
+        if (ticProfiling != 0U) {
+            operatorName = CTRANSPOSE_OPERATOR_STR;
+        }
+        retval = complexTransposeOperator(t);
+    } break;
+    case OP_DOT_TRANSPOSE: {
+        if (ticProfiling != 0U) {
+            operatorName = TRANSPOSE_OPERATOR_STR;
+        }
+        retval = transposeOperator(t);
+    } break;
+    case OP_RHS: {
+        // Test for simple variable lookup
+        if (t->down->down == nullptr) {
+            retval = rhsExpressionSimple(t->down);
+        } else {
+            ArrayOfVector m(rhsExpression(t->down));
+            if (m.empty()) {
+                retval = ArrayOf::emptyConstructor();
+            } else {
+                retval = m[0];
+            }
+        }
+    } break;
+    case OP_RDIV: {
+        if (ticProfiling != 0U) {
+            operatorName = MRDIVIDE_OPERATOR_STR;
+        }
+        retval = rightDivideOperator(t);
+    } break;
+    case OP_LDIV: {
+        if (ticProfiling != 0U) {
+            operatorName = MLDIVIDE_OPERATOR_STR;
+        }
+        retval = leftDivideOperator(t);
+    } break;
+    case OP_DOT_RDIV: {
+        if (ticProfiling != 0U) {
+            operatorName = RDIVIDE_OPERATOR_STR;
+        }
+        retval = dotRightDivideOperator(t);
+    } break;
+    case OP_DOT_LDIV: {
+        if (ticProfiling != 0U) {
+            operatorName = LDIVIDE_OPERATOR_STR;
+        }
+        retval = dotLeftDivideOperator(t);
+    } break;
+    case OP_MPOWER: {
+        if (ticProfiling != 0U) {
+            operatorName = MPOWER_OPERATOR_STR;
+        }
+        retval = mpowerOperator(t);
+    } break;
+    case OP_POWER: {
+        if (ticProfiling != 0U) {
+            operatorName = POWER_OPERATOR_STR;
+        }
+        retval = powerOperator(t);
+    } break;
+    default: {
+        callstack.pushID((size_t)t->getContext());
+        std::wstring msg;
+        msg = ERROR_UNRECOGNIZED_EXPRESSION + L"\ncode: " + std::to_wstring(t->type);
+        if (!t->text.empty()) {
+            msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
+        }
+        Error(msg);
+        callstack.popID();
+    } break;
+    }
+    if (ticProfiling != 0 && !operatorName.empty()) {
+        internalProfileFunction stack
+            = computeProfileStack(this, operatorName, utf8_to_wstring(callstack.getLastContext()));
+        Profiler::getInstance()->toc(ticProfiling, stack);
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOf
+Evaluator::expressionReserved(AbstractSyntaxTreePtr t)
+{
+    ArrayOf retval;
+    callstack.pushID((size_t)t->getContext());
+    if (t->tokenNumber == NLS_KEYWORD_END) {
+        if (endStack.empty()) {
+            Error(ERROR_END_ILLEGAL);
+        }
+        endData enddatat(endStack.back());
+        retval = EndReference(enddatat.endArray, (indexType)enddatat.index, enddatat.count);
+    } else {
+        Error(ERROR_UNRECOGNIZED_NODE);
+    }
+    callstack.popID();
+    return retval;
+}
+//=============================================================================
+ArrayOf
 Evaluator::expression(AbstractSyntaxTreePtr t)
 {
     ArrayOf retval;
-    // by default as the target we create double
-    callstack.pushID((size_t)t->getContext());
     switch (t->type) {
     case const_double_node:
     case const_int_node: {
+        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
-    } break;
-    case const_uint64_node: {
-        char* endptr = nullptr;
-        unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
-        auto r = static_cast<uint64>(v);
-        retval = ArrayOf::uint64Constructor(r);
+        callstack.popID();
     } break;
     case const_float_node: {
+        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::singleConstructor(((float)asciiToDouble(t->text)));
+        callstack.popID();
     } break;
     case const_character_array_node: {
+        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::characterArrayConstructor(t->text);
+        callstack.popID();
     } break;
     case const_string_node: {
+        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::stringArrayConstructor(t->text);
+        callstack.popID();
     } break;
-    case const_complex_node:
-    case const_dcomplex_node: {
+    case const_dcomplex_node:
+    case const_complex_node: {
+        callstack.pushID((size_t)t->getContext());
         double val = asciiToDouble(t->text);
         if (approximatelyEqual(val, 0, std::numeric_limits<double>::epsilon())) {
             retval = ArrayOf::doubleConstructor(0.);
         } else {
             retval = ArrayOf::dcomplexConstructor(0, val);
         }
+        callstack.popID();
+    } break;
+    case const_uint64_node: {
+        callstack.pushID((size_t)t->getContext());
+        char* endptr = nullptr;
+        unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
+        auto r = static_cast<uint64>(v);
+        retval = ArrayOf::uint64Constructor(r);
+        callstack.popID();
     } break;
     case reserved_node: {
-        if (t->tokenNumber == NLS_KEYWORD_END) {
-            if (endStack.empty()) {
-                Error(ERROR_END_ILLEGAL);
-            }
-            endData enddatat(endStack.back());
-            retval = EndReference(enddatat.endArray, (indexType)enddatat.index, enddatat.count);
-        } else {
-            Error(ERROR_UNRECOGNIZED_NODE);
-        }
-    } break;
+        return expressionReserved(t);
+    }
+    case non_terminal:
+    case id_node:
+    case null_node:
     default: {
-        uint64 ticProfiling = Profiler::getInstance()->tic();
-        std::string operatorName;
-        switch (t->opNum) {
-        case OP_COLON:
-            if (ticProfiling != 0U) {
-                operatorName = COLON_OPERATOR_STR;
-            }
-            if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
-                retval = colonOperator(t);
-            } else {
-                retval = colonUnitOperator(t);
-            }
-            break;
-        case OP_EMPTY: {
-            retval = ArrayOf::emptyConstructor();
-        } break;
-        case OP_EMPTY_CELL: {
-            ArrayOf a(ArrayOf::emptyConstructor());
-            a.promoteType(NLS_CELL_ARRAY);
-            retval = a;
-        } break;
-        case OP_BRACKETS: {
-            retval = matrixDefinition(t);
-        } break;
-        case OP_BRACES: {
-            retval = cellDefinition(t);
-        } break;
-        case OP_PLUS: {
-            if (ticProfiling != 0U) {
-                operatorName = PLUS_OPERATOR_STR;
-            }
-            retval = additionOperator(t);
-        } break;
-        case OP_SUBTRACT: {
-            if (ticProfiling != 0U) {
-                operatorName = MINUS_OPERATOR_STR;
-            }
-            retval = subtractionOperator(t);
-        } break;
-        case OP_TIMES: {
-            if (ticProfiling != 0U) {
-                operatorName = MTIMES_OPERATOR_STR;
-            }
-            retval = mtimesOperator(t);
-        } break;
-        case OP_SOR: {
-            if (ticProfiling != 0U) {
-                operatorName = SHORTCUTOR_OPERATOR_STR;
-            }
-            retval = shortCutOrOperator(t);
-        } break;
-        case OP_OR: {
-            if (ticProfiling != 0U) {
-                operatorName = OR_OPERATOR_STR;
-            }
-            retval = orOperator(t);
-        } break;
-        case OP_SAND: {
-            if (ticProfiling != 0U) {
-                operatorName = SHORTCUTAND_OPERATOR_STR;
-            }
-            retval = shortCutAndOperator(t);
-        } break;
-        case OP_AND: {
-            if (ticProfiling != 0U) {
-                operatorName = AND_OPERATOR_STR;
-            }
-            retval = andOperator(t);
-        } break;
-        case OP_LT: {
-            if (ticProfiling != 0U) {
-                operatorName = LT_OPERATOR_STR;
-            }
-            retval = ltOperator(t);
-        } break;
-        case OP_LEQ: {
-            if (ticProfiling != 0U) {
-                operatorName = LE_OPERATOR_STR;
-            }
-            retval = leOperator(t);
-        } break;
-        case OP_GT: {
-            if (ticProfiling != 0U) {
-                operatorName = GT_OPERATOR_STR;
-            }
-            retval = gtOperator(t);
-        } break;
-        case OP_GEQ: {
-            if (ticProfiling != 0U) {
-                operatorName = GE_OPERATOR_STR;
-            }
-            retval = geOperator(t);
-        } break;
-        case OP_EQ: {
-            if (ticProfiling != 0U) {
-                operatorName = EQ_OPERATOR_STR;
-            }
-            retval = eqOperator(t);
-        } break;
-        case OP_NEQ: {
-            if (ticProfiling != 0U) {
-                operatorName = NE_OPERATOR_STR;
-            }
-            retval = neOperator(t);
-        } break;
-        case OP_DOT_TIMES: {
-            if (ticProfiling != 0U) {
-                operatorName = TIMES_OPERATOR_STR;
-            }
-            retval = timesOperator(t);
-        } break;
-        case OP_POS: {
-            bool bSuccess = false;
-            if (ticProfiling != 0U) {
-                operatorName = UPLUS_OPERATOR_STR;
-            }
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, UPLUS_OPERATOR_STR, bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = UnaryPlus(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, UPLUS_OPERATOR_STR);
-                }
-            }
-        } break;
-        case OP_NEG: {
-            if (ticProfiling != 0U) {
-                operatorName = UMINUS_OPERATOR_STR;
-            }
-            bool bSuccess = false;
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, UMINUS_OPERATOR_STR, bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = UnaryMinus(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, UMINUS_OPERATOR_STR);
-                }
-            }
-        } break;
-        case OP_NOT: {
-            if (ticProfiling != 0U) {
-                operatorName = NOT_OPERATOR_STR;
-            }
-            retval = notOperator(t);
-        } break;
-        case OP_TRANSPOSE: {
-            if (ticProfiling != 0U) {
-                operatorName = CTRANSPOSE_OPERATOR_STR;
-            }
-            bool bSuccess = false;
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, CTRANSPOSE_OPERATOR_STR, bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = ComplexTranspose(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, CTRANSPOSE_OPERATOR_STR);
-                }
-            }
-        } break;
-        case OP_DOT_TRANSPOSE: {
-            if (ticProfiling != 0U) {
-                operatorName = TRANSPOSE_OPERATOR_STR;
-            }
-            bool bSuccess = false;
-            ArrayOf a = expression(t->down);
-            if (overloadOnBasicTypes) {
-                retval = OverloadUnaryOperator(this, a, TRANSPOSE_OPERATOR_STR, bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload = false;
-                retval = Transpose(a, needToOverload);
-                if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, TRANSPOSE_OPERATOR_STR);
-                }
-            }
-        } break;
-        case OP_RHS: {
-            // Test for simple variable lookup
-            if (t->down->down == nullptr) {
-                retval = rhsExpressionSimple(t->down);
-            } else {
-                ArrayOfVector m(rhsExpression(t->down));
-                if (m.empty()) {
-                    retval = ArrayOf::emptyConstructor();
-                } else {
-                    retval = m[0];
-                }
-            }
-        } break;
-        case OP_RDIV: {
-            if (ticProfiling != 0U) {
-                operatorName = MRDIVIDE_OPERATOR_STR;
-            }
-            retval = rightDivideOperator(t);
-        } break;
-        case OP_LDIV: {
-            if (ticProfiling != 0U) {
-                operatorName = MLDIVIDE_OPERATOR_STR;
-            }
-            retval = leftDivideOperator(t);
-        } break;
-        case OP_DOT_RDIV: {
-            if (ticProfiling != 0U) {
-                operatorName = RDIVIDE_OPERATOR_STR;
-            }
-            retval = dotRightDivideOperator(t);
-        } break;
-        case OP_DOT_LDIV: {
-            if (ticProfiling != 0U) {
-                operatorName = LDIVIDE_OPERATOR_STR;
-            }
-            retval = dotLeftDivideOperator(t);
-        } break;
-        case OP_POWER: {
-            if (ticProfiling != 0U) {
-                operatorName = MPOWER_OPERATOR_STR;
-            }
-            FunctionDef* mpowerFuncDef = nullptr;
-            if (!context->lookupFunction(MPOWER_OPERATOR_STR, mpowerFuncDef)) {
-                Error(_W("mpower function not found."));
-            }
-            if (!((mpowerFuncDef->type() == NLS_BUILT_IN_FUNCTION)
-                    || (mpowerFuncDef->type() == NLS_MACRO_FUNCTION))) {
-                Error(_W("Type function not valid."));
-            }
-            int nLhs = 1;
-            ArrayOfVector args;
-            args.push_back(expression(t->down));
-            args.push_back(expression(t->down->right));
-            ArrayOfVector res = mpowerFuncDef->evaluateFunction(this, args, nLhs);
-            if (res.size() == 0) {
-                Error(_W("mpower returned fewer outputs than expected."));
-            }
-            retval = res[0];
-        } break;
-        case OP_DOT_POWER: {
-            if (ticProfiling != 0U) {
-                operatorName = POWER_OPERATOR_STR;
-            }
-            ArrayOf A = expression(t->down);
-            ArrayOf B = expression(t->down->right);
-            bool bSuccess = false;
-            if (overloadOnBasicTypes) {
-                retval = OverloadBinaryOperator(this, A, B, POWER_OPERATOR_STR, bSuccess);
-            }
-            if (!bSuccess) {
-                bool needToOverload;
-                retval = DotPower(A, B, needToOverload);
-                if (needToOverload) {
-                    ArrayOfVector args;
-                    args.push_back(A);
-                    args.push_back(B);
-                    retval = OverloadBinaryOperator(
-                        this, expression(t->down), expression(t->down->right), POWER_OPERATOR_STR);
-                }
-            }
-        } break;
-        default: {
-            std::wstring msg;
-            msg = ERROR_UNRECOGNIZED_EXPRESSION + L"\ncode: " + std::to_wstring(t->type);
-            if (!t->text.empty()) {
-                msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
-            }
-            Error(msg);
-        } break;
-        }
-        if (ticProfiling != 0 && !operatorName.empty()) {
-            internalProfileFunction stack = computeProfileStack(
-                this, operatorName, utf8_to_wstring(callstack.getLastContext()));
-            Profiler::getInstance()->toc(ticProfiling, stack);
-        }
+        return expressionOperator(t);
     } break;
     }
-    callstack.popID();
     return retval;
 }
 //=============================================================================
@@ -758,24 +715,6 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
     }
     callstack.popID();
     return m;
-}
-
-ArrayOfVector
-Evaluator::subsindex(const ArrayOfVector& m)
-{
-    ArrayOfVector n;
-    n.reserve(m.size());
-    for (const auto& k : m) {
-        ArrayOf t = OverloadUnaryOperator(this, k, "subsindex");
-        t.promoteType(NLS_UINT32);
-        indexType len = t.getElementCount();
-        uint32* dp = (uint32*)t.getReadWriteDataPointer();
-        for (indexType j = 0; j < len; j++) {
-            dp[j]++;
-        }
-        n.push_back(t);
-    }
-    return n;
 }
 //=============================================================================
 bool

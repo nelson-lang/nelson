@@ -14,6 +14,7 @@ set(module_library_name nlsInterpreter)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/FileWatcher/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
 list(FILTER INTERPRETER_SRC EXCLUDE REGEX
@@ -49,6 +50,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include)
 
 target_link_libraries(
@@ -63,6 +65,7 @@ target_link_libraries(
   nlsOperators
   nlsOs_functions
   nlsProfiler
+  nlsLinear_algebra
   nlsTypes)
 # ==============================================================================
 file(GLOB INTERPRETER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"

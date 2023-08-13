@@ -25,6 +25,7 @@ FunctionsInMemory::~FunctionsInMemory()
     _macroFunctionsInMemory.clear();
     _mexFunctionsInMemory.clear();
     _builtinFunctionInMemory.clear();
+    _notExistingFunctionsInMemory.clear();
 }
 //=============================================================================
 FunctionsInMemory*
@@ -61,6 +62,10 @@ FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
             _mexFunctionsInMemory.emplace(functionName, function);
         } else if (function->type() == NLS_BUILT_IN_FUNCTION) {
             _builtinFunctionInMemory.emplace(functionName, function);
+        }
+        auto it = _notExistingFunctionsInMemory.find(functionName);
+        if (it != _notExistingFunctionsInMemory.end()) {
+            _notExistingFunctionsInMemory.erase(it);
         }
     }
 }
@@ -137,6 +142,9 @@ bool
 FunctionsInMemory::find(
     const std::string& functionName, FunctionDefPtr& function, FIND_FUNCTION_TYPE functionType)
 {
+    if (isNotExistingFunction(functionName)) {
+        return false;
+    }
     switch (functionType) {
     case FIND_FUNCTION_TYPE::ALL: {
 
@@ -158,6 +166,7 @@ FunctionsInMemory::find(
             _lastFunctionsInMemory.emplace(functionName, function);
             return true;
         }
+        declareAsNotExistingFunction(functionName);
         return false;
     } break;
     case FIND_FUNCTION_TYPE::MACRO: {
@@ -305,6 +314,19 @@ FunctionsInMemory::getMexInMemory(bool withCompleteNames)
         }
     }
     return names;
+}
+//=============================================================================
+bool
+FunctionsInMemory::isNotExistingFunction(const std::string& functionName)
+{
+    auto it = _notExistingFunctionsInMemory.find(functionName);
+    return (it != _notExistingFunctionsInMemory.end());
+}
+//=============================================================================
+void
+FunctionsInMemory::declareAsNotExistingFunction(const std::string& functionName)
+{
+    _notExistingFunctionsInMemory[functionName] = true;
 }
 //=============================================================================
 }
