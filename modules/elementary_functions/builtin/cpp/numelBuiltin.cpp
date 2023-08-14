@@ -9,7 +9,6 @@
 //=============================================================================
 #include "numelBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadUnaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;

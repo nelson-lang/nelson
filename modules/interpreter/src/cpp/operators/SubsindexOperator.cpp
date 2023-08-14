@@ -7,9 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "Evaluator.hpp"
 #include "Operators.hpp"
-#include "OverloadUnaryOperator.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,14 +20,28 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
     ArrayOfVector n;
     n.reserve(m.size());
     for (const auto& k : m) {
-        ArrayOf t = OverloadUnaryOperator(this, k, SUBSINDEX_OPERATOR_STR);
-        t.promoteType(NLS_UINT32);
-        indexType len = t.getElementCount();
-        uint32* dp = (uint32*)t.getReadWriteDataPointer();
-        for (indexType j = 0; j < len; j++) {
-            dp[j]++;
+        bool wasFound = false;
+        ArrayOf res = callOverloadedFunction(
+            this, k, SUBSINDEX_OPERATOR_STR, ClassName(k), k.getDataClass(), wasFound);
+        if (wasFound) {
+            ompIndexType len = (ompIndexType)res.getElementCount();
+#ifdef NLS_INDEX_TYPE_64
+            res.promoteType(NLS_UINT64);
+            uint64* dp = (uint64*)res.getReadWriteDataPointer();
+#else
+            res.promoteType(NLS_UINT32);
+            uint32* dp = (uint32*)res.getReadWriteDataPointer();
+#endif
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < len; ++k) {
+                dp[k]++;
+            }
+            n.push_back(res);
+        } else {
+            OverloadRequired(SUBSINDEX_OPERATOR_STR);
         }
-        n.push_back(t);
     }
     return n;
 }

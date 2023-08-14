@@ -27,9 +27,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"sparse";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "sparse", (ptrBuiltin)Nelson::SparseGateway::sparseBuiltin, 1, 6,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "full", (ptrBuiltin)Nelson::SparseGateway::fullBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sparse", (ptrBuiltin)Nelson::SparseGateway::sparseBuiltin, 1, 6 },
+    { "full", (ptrBuiltin)Nelson::SparseGateway::fullBuiltin, 1, 1 },
     { "sparselogical_real", (ptrBuiltin)Nelson::SparseGateway::sparselogical_realBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sparselogical_imag", (ptrBuiltin)Nelson::SparseGateway::sparselogical_imagBuiltin, 1, 1,
@@ -51,8 +50,8 @@ static const nlsGateway gateway[] = {
     { "sparsedouble_horzcat_sparsedouble",
         (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "nnz", (ptrBuiltin)Nelson::SparseGateway::nnzBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "nzmax", (ptrBuiltin)Nelson::SparseGateway::nzmaxBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "nnz", (ptrBuiltin)Nelson::SparseGateway::nnzBuiltin, 1, 1 },
+    { "nzmax", (ptrBuiltin)Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

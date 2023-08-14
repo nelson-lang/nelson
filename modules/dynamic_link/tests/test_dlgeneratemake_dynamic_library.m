@@ -9,7 +9,7 @@
 %=============================================================================
 % <--C/C++ COMPILER REQUIRED-->
 %=============================================================================
-destinationdir = [tempdir(), 'test_cmake'];
+destinationdir = [tempdir(), 'test_cmake_3'];
 mkdir(destinationdir);
 %=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));

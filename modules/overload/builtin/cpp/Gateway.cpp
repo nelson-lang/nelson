@@ -9,6 +9,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "overloadbasictypesBuiltin.hpp"
+#include "overloadmodeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,6 +18,9 @@ const std::wstring gatewayName = L"overload";
 static const nlsGateway gateway[] = {
     { "overloadbasictypes", (ptrBuiltin)Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "overloadmode", (ptrBuiltin)Nelson::OverloadGateway::overloadmodeBuiltin, -1, -1,
+        CPP_BUILTIN },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

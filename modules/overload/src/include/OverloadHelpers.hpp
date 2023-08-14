@@ -29,7 +29,7 @@ overloadFunctionName(const std::string& destinationTypeName, const std::string& 
 inline ArrayOf
 callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
     const std::string& functionName, const std::string& commonTypeName, NelsonType commonType,
-    bool& wasFound)
+    bool& wasFound, int nargout = 1)
 {
     if (commonType >= NLS_CLASS_ARRAY) {
         std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
@@ -38,7 +38,12 @@ callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
             eval->getContext()->lookupFunction(overloadTypeName, funcDef);
             if (funcDef) {
                 wasFound = true;
-                return funcDef->evaluateFunction(eval, argsIn, 1)[0];
+                if (nargout == 0) {
+                    funcDef->evaluateFunction(eval, argsIn, nargout);
+                    return {};
+                } else {
+                    return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
+                }
             }
         }
     }

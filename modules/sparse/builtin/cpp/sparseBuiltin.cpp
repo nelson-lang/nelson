@@ -10,41 +10,33 @@
 #include "sparseBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadUnaryOperator.hpp"
 #include "SparseConstructors.hpp"
 #include "CheckIJV.hpp"
 #include "SparseType.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
-sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+sparseBuiltinOneRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "sparse", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf A(argIn[0]);
-        if (A.isSparse()
-            || (A.is2D()
-                && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
-                    || (A.getDataClass() == NLS_LOGICAL)))) {
-            retval << SparseConstructor(A);
-        } else {
-            retval << OverloadUnaryOperator(eval, A, "sparse");
-        }
+    ArrayOf A(argIn[0]);
+    if (A.isSparse()
+        || (A.is2D()
+            && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
+                || (A.getDataClass() == NLS_LOGICAL)))) {
+        retval << SparseConstructor(A);
+    } else {
+        OverloadRequired("sparse");
     }
     return retval;
 }
 //=============================================================================
 static ArrayOfVector
-sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+sparseBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
 {
     /*
     S = sparse(m, n)
@@ -59,7 +51,7 @@ sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 static ArrayOfVector
-sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+sparseBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf I(argIn[0]);
@@ -80,13 +72,13 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     } else {
-        retval << OverloadUnaryOperator(eval, argIn[2], "sparse");
+        OverloadRequired("sparse");
     }
     return retval;
 }
 //=============================================================================
 static ArrayOfVector
-sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+sparseBuiltinFiveOrSixRhs(int nLhs, const ArrayOfVector& argIn)
 {
     /*
     S = sparse(i, j, v, m, n)
@@ -114,30 +106,29 @@ sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << SparseConstructor(I, J, V, m, n);
         }
     } else {
-        retval << OverloadUnaryOperator(eval, argIn[2], "sparse");
+        OverloadRequired("sparse");
     }
     return retval;
 }
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 1:
-        return sparseBuiltinOneRhs(eval, nLhs, argIn);
+        return sparseBuiltinOneRhs(nLhs, argIn);
     case 2:
-        return sparseBuiltinTwoRhs(eval, nLhs, argIn);
+        return sparseBuiltinTwoRhs(nLhs, argIn);
     case 3:
-        return sparseBuiltinThreeRhs(eval, nLhs, argIn);
+        return sparseBuiltinThreeRhs(nLhs, argIn);
     case 5:
     case 6:
-        return sparseBuiltinFiveOrSixRhs(eval, nLhs, argIn);
+        return sparseBuiltinFiveOrSixRhs(nLhs, argIn);
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
-    return retval;
+    return {};
 }
 //=============================================================================

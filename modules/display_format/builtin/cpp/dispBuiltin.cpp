@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dispBuiltin.hpp"
-#include "OverloadDisplay.hpp"
-#include "DisplayVariable.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,18 +18,7 @@ Nelson::DisplayFormatGateway::dispBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    OverloadDisplay(eval, argIn[0], L"", true);
-    return retval;
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::generic_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    ArrayOf variable = argIn[0];
-    bool needToOverload;
-    DisplayVariable(eval->getID(), eval->getInterface(), variable, L"", true, needToOverload);
+    eval->display(argIn[0], "", true);
     return retval;
 }
 //=============================================================================

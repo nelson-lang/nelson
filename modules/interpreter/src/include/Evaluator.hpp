@@ -770,6 +770,10 @@ public:
     ArrayOf
     notOperator(const ArrayOf& A);
 
+    void
+    display(
+        const ArrayOf& A, const std::string& name, bool asDispBuiltin, bool withProfiling = false);
+
 private:
     ArrayOfVector
     simpleAssignClass(
