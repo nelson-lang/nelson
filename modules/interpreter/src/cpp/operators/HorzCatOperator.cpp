@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "HorzCatOperator.hpp"
 #include "HorzCat.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Operators.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,7 +38,7 @@ hasCell(const ArrayOfVector& v)
 }
 //=============================================================================
 ArrayOf
-HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
+Evaluator::horzcatOperator(const ArrayOfVector& v)
 {
     ArrayOf res;
     switch (v.size()) {
@@ -70,7 +70,7 @@ HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
                         Error(_("Conversion not possible."));
                     }
                 }
-                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
+                res = this->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
             }
             return res;
         }
@@ -86,7 +86,7 @@ HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
                 if ((!arg2.isCell()) && !arg2.isEmpty()) {
                     arg2 = ArrayOf::toCell(arg2);
                 }
-                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
+                res = this->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
             }
             return res;
         }
@@ -95,7 +95,7 @@ HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
         res.ensureSingleOwner();
         for (size_t k = 1; k < v.size(); k++) {
             ArrayOf arg2 = v[k];
-            res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
+            res = this->doBinaryOperatorOverload(res, arg2, HorzCat, HORZCAT_OPERATOR_STR);
         }
     } break;
     }

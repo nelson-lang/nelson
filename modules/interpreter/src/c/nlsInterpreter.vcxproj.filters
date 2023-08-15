@@ -277,9 +277,6 @@
     <ClInclude Include="..\include\FunctionDef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\HorzCatOperator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Keywords.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -329,9 +326,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\VariablesTable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\VertCatOperator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\grammar\NelSonParser.h">

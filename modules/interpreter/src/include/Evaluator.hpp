@@ -770,6 +770,11 @@ public:
     ArrayOf
     notOperator(const ArrayOf& A);
 
+    ArrayOf
+    vertcatOperator(const ArrayOfVector& v);
+    ArrayOf
+    horzcatOperator(const ArrayOfVector& v);
+
     void
     display(
         const ArrayOf& A, const std::string& name, bool asDispBuiltin, bool withProfiling = false);

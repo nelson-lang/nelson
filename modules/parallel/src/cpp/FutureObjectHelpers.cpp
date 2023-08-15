@@ -15,7 +15,6 @@
 #include "FevalFutureObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "VertCatOperator.hpp"
 #include "ParallelEvaluator.hpp"
 //=============================================================================
 namespace Nelson {
@@ -73,7 +72,7 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
         args << args1[k];
         args << args2[k];
         try {
-            result[k] = VertCatOperator(localEvaluator, args);
+            result[k] = localEvaluator->vertcatOperator(args);
         } catch (Exception& ex) {
             e = ex;
             if (localEvaluator) {

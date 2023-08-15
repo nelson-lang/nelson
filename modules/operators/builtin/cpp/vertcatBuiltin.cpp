@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "vertcatBuiltin.hpp"
-#include "VertCatOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -17,6 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::vertcatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
-    return VertCatOperator(eval, argIn);
+    return eval->vertcatOperator(argIn);
 }
 //=============================================================================

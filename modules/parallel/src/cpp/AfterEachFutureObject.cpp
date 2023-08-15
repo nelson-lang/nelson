@@ -12,7 +12,6 @@
 #include "AfterEachFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
-#include "VertCatOperator.hpp"
 #include "FutureObjectHelpers.hpp"
 //=============================================================================
 AfterEachFutureObject::AfterEachFutureObject(

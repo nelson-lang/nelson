@@ -12,7 +12,6 @@
 #include "AfterAllFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
-#include "VertCatOperator.hpp"
 #include "ParallelEvaluator.hpp"
 //=============================================================================
 AfterAllFutureObject::AfterAllFutureObject(
@@ -52,7 +51,7 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
     ArrayOf concated;
     Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);
     try {
-        concated = VertCatOperator(localEvaluator, argsToConcate);
+        concated = localEvaluator->vertcatOperator(argsToConcate);
         if (localEvaluator) {
             localEvaluator = deleteParallelEvaluator(localEvaluator, false);
         }

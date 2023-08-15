@@ -64,8 +64,6 @@
 #include "UnaryMinus.hpp"
 #include "UnaryPlus.hpp"
 #include "Colon.hpp"
-#include "VertCatOperator.hpp"
-#include "HorzCatOperator.hpp"
 #include "DotPower.hpp"
 #include "Or.hpp"
 //=============================================================================
@@ -217,9 +215,9 @@ Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
     }
     ArrayOfVector v(m.size());
     for (auto& k : m) {
-        v << HorzCatOperator(this, k);
+        v << horzcatOperator(k);
     }
-    ArrayOf res = VertCatOperator(this, v);
+    ArrayOf res = vertcatOperator(v);
     callstack.popID();
     return res;
 }
