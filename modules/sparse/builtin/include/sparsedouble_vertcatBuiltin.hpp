@@ -7,21 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_vertcat_handleBuiltin.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "VertCatHandle.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+//=============================================================================
+namespace Nelson::SparseGateway {
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_vertcat_handleBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1);
-    ArrayOfVector retval(1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << VertCatHandle(A, B);
-    return retval;
-}
+sparsedouble_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

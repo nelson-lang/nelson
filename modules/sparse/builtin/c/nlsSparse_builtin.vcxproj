@@ -209,11 +209,11 @@
     <ClCompile Include="..\cpp\sparsedouble_horzcat_sparsedoubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_realBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparsedouble_vertcat_sparsedoubleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sparsedouble_vertcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_horzcat_sparselogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_realBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparselogical_vertcat_sparselogicalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sparselogical_vertcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,11 +229,11 @@
     <ClInclude Include="..\include\sparsedouble_horzcat_sparsedoubleBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_realBuiltin.hpp" />
-    <ClInclude Include="..\include\sparsedouble_vertcat_sparsedoubleBuiltin.hpp" />
+    <ClInclude Include="..\include\sparsedouble_vertcatBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_horzcat_sparselogicalBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_realBuiltin.hpp" />
-    <ClInclude Include="..\include\sparselogical_vertcat_sparselogicalBuiltin.hpp" />
+    <ClInclude Include="..\include\sparselogical_vertcatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

@@ -51,9 +51,10 @@ StringVectorToString(wstringVector V, Dimensions& DimsV)
                         if (r == 0) {
                             strArr = ArrayOf::characterArrayConstructor(line);
                         } else {
-                            bool bSuccess;
-                            ArrayOf B = ArrayOf::characterArrayConstructor(line);
-                            strArr = VertCat(strArr, B, true, bSuccess);
+                            ArrayOfVector argIn;
+                            argIn << strArr;
+                            argIn << ArrayOf::characterArrayConstructor(line);
+                            strArr = VertCat(argIn);
                         }
                         line.clear();
                         q = 0;

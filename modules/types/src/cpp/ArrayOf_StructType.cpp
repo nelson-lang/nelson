@@ -197,7 +197,7 @@ ArrayOf::getField(const std::string& fieldName) const
 }
 //=============================================================================
 ArrayOfVector
-ArrayOf::getFieldAsList(const std::string& fieldName)
+ArrayOf::getFieldAsList(const std::string& fieldName) const
 {
     if (!(isStruct() || isClassType())) {
         Error(_W("Attempt to apply field-indexing to non structure-array object."));

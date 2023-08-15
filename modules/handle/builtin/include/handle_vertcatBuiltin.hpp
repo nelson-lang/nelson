@@ -9,16 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsOperators_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-/**
- * vertcat ([;]).
- */
+namespace Nelson::HandleGateway {
 //=============================================================================
-NLSOPERATORS_IMPEXP ArrayOf
-VertCat(const ArrayOfVector& argIn);
+ArrayOfVector
+handle_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

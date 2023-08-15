@@ -7,22 +7,31 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
-#include "VertCatSparseDouble.hpp"
+#include "sparselogical_vertcatBuiltin.hpp"
+#include "VertCatSparseLogical.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparsedouble_vertcat_sparsedoubleBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SparseGateway::sparselogical_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOfVector retval(1);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval << VertCatSparseDouble(A, B);
-    return retval;
+    if (!A.isLogical()) {
+        A.promoteType(NLS_LOGICAL);
+    }
+    if (!A.isSparse()) {
+        A.makeSparse();
+    }
+    if (!B.isLogical()) {
+        B.promoteType(NLS_LOGICAL);
+    }
+    if (!B.isSparse()) {
+        B.makeSparse();
+    }
+    return VertCatSparseLogical(A, B);
 }
 //=============================================================================

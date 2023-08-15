@@ -1183,7 +1183,7 @@ public:
      *   - the field does not exist
      */
     ArrayOfVector
-    getFieldAsList(const std::string& fieldName);
+    getFieldAsList(const std::string& fieldName) const;
 
     //=========================================================================
     // struct array

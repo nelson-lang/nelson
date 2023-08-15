@@ -7,22 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
-#include "VertCatSparseLogical.hpp"
+#include "handle_vertcatBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "VertCatHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparselogical_vertcat_sparselogicalBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::handle_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(1);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval << VertCatSparseLogical(A, B);
+    retval << VertCatHandle(A, B);
     return retval;
 }
 //=============================================================================
