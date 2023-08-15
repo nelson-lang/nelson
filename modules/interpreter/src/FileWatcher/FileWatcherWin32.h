@@ -29,11 +29,10 @@
 #define _FW_FILEWATCHERWIN32_H_
 #pragma once
 
+#include <unordered_map>
 #include "FileWatcherImpl.h"
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_WIN32
-
-#include <map>
 
 namespace FW {
 /// Implementation for Win32 based on ReadDirectoryChangesW.
@@ -42,7 +41,7 @@ class FileWatcherWin32 : public FileWatcherImpl
 {
 public:
     /// type for a map from WatchID to WatchStruct pointer
-    typedef std::map<WatchID, WatchStruct*> WatchMap;
+    typedef std::unordered_map<WatchID, WatchStruct*> WatchMap;
 
 public:
     ///

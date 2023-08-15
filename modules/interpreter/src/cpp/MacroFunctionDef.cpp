@@ -457,7 +457,6 @@ MacroFunctionDef::updateCode()
             FileSystemWrapper::Path pathFunction(this->getFilename());
             this->setName(pathFunction.stem().generic_string());
         }
-        this->setWithWatcher(withWatcher);
     } catch (const Exception&) {
         Error(_W("a valid function definition expected.") + std::wstring(L"\n")
             + this->getFilename());

@@ -28,7 +28,6 @@
 #include "Interface.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ClassName.hpp"
-#include "OverloadDisplay.hpp"
 #include "characters_encoding.hpp"
 #include "FileParser.hpp"
 #include "MainEvaluator.hpp"
@@ -58,7 +57,6 @@
 #include "FileSystemWrapper.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "OverloadBinaryOperator.hpp"
-#include "OverloadUnaryOperator.hpp"
 #include "OverloadRequired.hpp"
 #include "Operators.hpp"
 #include "Transpose.hpp"
@@ -1691,7 +1689,7 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
         var->setValue(b);
     }
     if (printIt) {
-        OverloadDisplay(this, b, utf8_to_wstring(variableName), false);
+        display(b, variableName, false, false);
     }
     if (ticProfiling != 0) {
         internalProfileFunction stack
@@ -1730,7 +1728,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (m.size() > 0) {
             context->insertVariable("ans", m[0]);
-            OverloadDisplay(this, m[0], L"ans", false);
+            display(m[0], "ans", false, true);
         }
     } else if (t->type == reserved_node) {
         switch (t->tokenNumber) {
@@ -1804,7 +1802,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 bUpdateAns = false;
             }
             if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                OverloadDisplay(this, b, L"ans", false);
+                display(b, "ans", false, true);
             }
         } else if (t->opNum == OP_RHS) {
             if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
@@ -1834,15 +1832,14 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                                 buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
                             io->outputMessage(buffer);
                         }
-                        OverloadDisplay(this, m[j],
-                            m[j].name().empty() ? L"ans" : utf8_to_wstring(m[j].name()), false);
+                        display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
                     }
                 }
             }
         } else {
             b = expression(t);
             if (printIt && (state < NLS_STATE_QUIT)) {
-                OverloadDisplay(this, b, L"ans", false);
+                display(b, "ans", false, true);
             }
         }
         if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
@@ -2402,7 +2399,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            OverloadDisplay(this, c, utf8_to_wstring(s->down->text), false);
+            display(c, s->down->text, false, true);
         }
         s = s->right;
     }

@@ -21,9 +21,6 @@
     <ClInclude Include="..\..\src\include\OverloadFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\include\OverloadUnaryOperator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\include\nlsOverload_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>

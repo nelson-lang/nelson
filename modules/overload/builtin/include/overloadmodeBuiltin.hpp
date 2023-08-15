@@ -9,15 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsInterpreter_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::OverloadGateway {
 //=============================================================================
-NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name, bool asDispBuiltin);
+ArrayOfVector
+overloadmodeBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }
 //=============================================================================

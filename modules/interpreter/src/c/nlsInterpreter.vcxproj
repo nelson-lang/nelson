@@ -229,6 +229,7 @@
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
+    <ClCompile Include="..\cpp\DisplayVariable.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
@@ -277,7 +278,6 @@
     <ClCompile Include="..\cpp\operators\UnaryMinusOperator.cpp" />
     <ClCompile Include="..\cpp\operators\UnaryPlusOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\VertCatOperator.cpp" />
-    <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
     <ClCompile Include="..\cpp\PathFunctionIndexer.cpp" />
     <ClCompile Include="..\cpp\PathFunctionIndexerManager.cpp" />
@@ -375,7 +375,6 @@
     <ClInclude Include="..\include\NelsonReadyNamedMutex.hpp" />
     <ClInclude Include="..\include\nlsInterpreter_exports.h" />
     <ClInclude Include="..\include\Operators.hpp" />
-    <ClInclude Include="..\include\OverloadDisplay.hpp" />
     <ClInclude Include="..\include\ParseFile.hpp" />
     <ClInclude Include="..\include\ParserInterface.hpp" />
     <ClInclude Include="..\include\ParserState.hpp" />

@@ -71,7 +71,7 @@ FileWatcherLinux::~FileWatcherLinux()
 
 //--------
 WatchID
-FileWatcherLinux::addWatch(const String& directory, FileWatchListener* watcher, bool recursive)
+FileWatcherLinux::addWatch(const String& directory, FileWatchListener* watcher, bool)
 {
     int wd = inotify_add_watch(mFD, directory.c_str(),
         IN_CLOSE_WRITE | IN_MOVED_TO | IN_CREATE | IN_MOVED_FROM | IN_DELETE);
@@ -138,7 +138,6 @@ FileWatcherLinux::update()
         perror("select");
     } else if (FD_ISSET(mFD, &mDescriptorSet)) {
         ssize_t len, i = 0;
-        char action[81 + FILENAME_MAX] = { 0 };
         char buff[BUFF_SIZE] = { 0 };
 
         len = read(mFD, buff, BUFF_SIZE);
@@ -146,10 +145,8 @@ FileWatcherLinux::update()
         while (i < len) {
             struct inotify_event* pevent = (struct inotify_event*)&buff[i];
 
-            auto itWatch = mWatches.find(pevent->wd);
-            if (itWatch != mWatches.end()) {
-                handleAction(itWatch->second, pevent->name, pevent->mask);
-            }
+            WatchStruct* watch = mWatches[pevent->wd];
+            handleAction(watch, pevent->name, pevent->mask);
             i += sizeof(struct inotify_event) + pevent->len;
         }
     }
@@ -176,6 +173,6 @@ FileWatcherLinux::handleAction(WatchStruct* watch, const String& filename, unsig
     }
 }
 
-}; // namespace FW
+} // namespace FW
 
 #endif // FILEWATCHER_PLATFORM_LINUX

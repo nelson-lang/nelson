@@ -124,12 +124,6 @@ public:
         return isScript;
     }
     //=============================================================================
-    void
-    setWithWatcher(bool withWatcher)
-    {
-        this->withWatcher = withWatcher;
-    }
-    //=============================================================================
     bool
     getWithWatcher()
     {

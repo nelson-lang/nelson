@@ -8,43 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "fullBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadUnaryOperator.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SparseGateway::fullBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
+    nargoutcheck(nLhs, 0, 1);
     bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_W("Undefined function 'full' for input arguments."));
-        }
-        ArrayOf R(argIn[0]);
-        try {
-            R.makeDense();
-            retval << R;
-        } catch (const Exception&) {
-            retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_W("Undefined function 'full' for input arguments."));
-        }
+    ArrayOf R(argIn[0]);
+    try {
+        R.makeDense();
+        retval << R;
+    } catch (const Exception&) {
+        OverloadRequired("sparse");
     }
     return retval;
 }
