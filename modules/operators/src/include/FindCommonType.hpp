@@ -17,8 +17,8 @@ namespace Nelson {
 //=============================================================================
 NLSOPERATORS_IMPEXP
 bool
-FindCommonConcatenateType(
-    const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, std::string& typeName);
+FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName);
 //=============================================================================
 }
 //=============================================================================

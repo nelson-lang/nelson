@@ -16,12 +16,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::HandleGateway::handle_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 1);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOfVector retval(1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << VertCatHandle(A, B);
-    return retval;
+
+    ArrayOf res = argIn[0];
+    for (size_t k = 1; k < argIn.size(); k++) {
+        res = VertCatHandle(res, argIn[k]);
+    }
+    return res;
 }
 //=============================================================================

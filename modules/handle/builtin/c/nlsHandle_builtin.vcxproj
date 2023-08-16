@@ -199,7 +199,7 @@
     <ClCompile Include="..\cpp\handle_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_vertcatBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_horzcat_handleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_horzcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\invokeBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\ispropBuiltin.cpp" />
@@ -263,7 +263,7 @@
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h" />
     <ClInclude Include="..\include\handle_displayBuiltin.hpp" />
     <ClInclude Include="..\include\handle_vertcatBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_horzcat_handleBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_horzcatBuiltin.hpp" />
     <ClInclude Include="..\include\propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\setBuiltin.hpp" />
   </ItemGroup>

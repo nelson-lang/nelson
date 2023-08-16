@@ -206,11 +206,11 @@
     <ClCompile Include="..\cpp\nnzBuiltin.cpp" />
     <ClCompile Include="..\cpp\nzmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparsedouble_horzcat_sparsedoubleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sparsedouble_horzcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_realBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_vertcatBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sparselogical_horzcat_sparselogicalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sparselogical_horzcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_realBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparselogical_vertcatBuiltin.cpp" />
@@ -226,11 +226,11 @@
     <ClInclude Include="..\include\nnzBuiltin.hpp" />
     <ClInclude Include="..\include\nzmaxBuiltin.hpp" />
     <ClInclude Include="..\include\sparseBuiltin.hpp" />
-    <ClInclude Include="..\include\sparsedouble_horzcat_sparsedoubleBuiltin.hpp" />
+    <ClInclude Include="..\include\sparsedouble_horzcatBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_realBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_vertcatBuiltin.hpp" />
-    <ClInclude Include="..\include\sparselogical_horzcat_sparselogicalBuiltin.hpp" />
+    <ClInclude Include="..\include\sparselogical_horzcatBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_imagBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_realBuiltin.hpp" />
     <ClInclude Include="..\include\sparselogical_vertcatBuiltin.hpp" />

@@ -54,7 +54,7 @@ StringVectorToString(wstringVector V, Dimensions& DimsV)
                             ArrayOfVector argIn;
                             argIn << strArr;
                             argIn << ArrayOf::characterArrayConstructor(line);
-                            strArr = VertCat(argIn);
+                            strArr = VertCat(argIn, NLS_CHAR);
                         }
                         line.clear();
                         q = 0;

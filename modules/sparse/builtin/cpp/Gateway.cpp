@@ -13,11 +13,11 @@
 #include "nnzBuiltin.hpp"
 #include "nzmaxBuiltin.hpp"
 #include "sparseBuiltin.hpp"
-#include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
+#include "sparsedouble_horzcatBuiltin.hpp"
 #include "sparsedouble_imagBuiltin.hpp"
 #include "sparsedouble_realBuiltin.hpp"
 #include "sparsedouble_vertcatBuiltin.hpp"
-#include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
+#include "sparselogical_horzcatBuiltin.hpp"
 #include "sparselogical_imagBuiltin.hpp"
 #include "sparselogical_realBuiltin.hpp"
 #include "sparselogical_vertcatBuiltin.hpp"
@@ -40,14 +40,12 @@ static const nlsGateway gateway[] = {
     { "IJV", (ptrBuiltin)Nelson::SparseGateway::IJVBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "sparselogical_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_vertcatBuiltin, 1,
         2 },
-    { "sparselogical_horzcat_sparselogical",
-        (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "sparselogical_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcatBuiltin, 1,
+        2, CPP_BUILTIN },
     { "sparsedouble_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_vertcatBuiltin, 1, 2,
         CPP_BUILTIN },
-    { "sparsedouble_horzcat_sparsedouble",
-        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "sparsedouble_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcatBuiltin, 1, 2,
+        CPP_BUILTIN },
     { "nnz", (ptrBuiltin)Nelson::SparseGateway::nnzBuiltin, 1, 1 },
     { "nzmax", (ptrBuiltin)Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
 };

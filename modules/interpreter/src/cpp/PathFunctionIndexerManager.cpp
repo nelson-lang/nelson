@@ -71,7 +71,7 @@ PathFunctionIndexerManager::destroy()
 void
 PathFunctionIndexerManager::startFileWatcher()
 {
-    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
+    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
         PathFunctionIndexer* pf = *it;
         pf->startFileWatcher();
     }
@@ -118,6 +118,7 @@ PathFunctionIndexerManager::clear()
         }
     }
     _pathFuncVector.clear();
+    _pathWatchFuncVector.clear();
     refreshFunctionsMap();
 }
 //=============================================================================
@@ -168,7 +169,6 @@ bool
 PathFunctionIndexerManager::find(const std::string& functionName, FileFunction** ff)
 {
     bool res = false;
-    rehashOnFileWatcher();
     auto it = _pathFuncMap.find(functionName);
     if (it != _pathFuncMap.end()) {
         *ff = it->second;
@@ -242,6 +242,9 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
         } else {
             _pathFuncVector.push_back(pf);
         }
+        if (!frozen) {
+            _pathWatchFuncVector.push_back(pf);
+        }
         res = true;
         refreshFunctionsMap();
     }
@@ -264,6 +267,13 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
             PathFunctionIndexer* pf = *it;
             delete pf;
             _pathFuncVector.erase(it);
+            _pathWatchFuncVector.clear();
+            for (auto itw = _pathFuncVector.begin(); itw != _pathFuncVector.end(); ++itw) {
+                PathFunctionIndexer* pf = *itw;
+                if (pf->isWithWatcher()) {
+                    _pathWatchFuncVector.push_back(pf);
+                }
+            }
             refreshFunctionsMap();
             return true;
         }
@@ -397,7 +407,7 @@ PathFunctionIndexerManager::rehashOnFileWatcher()
             needRefresh = true;
         }
     }
-    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
+    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
         PathFunctionIndexer* pf = *it;
         if (pf) {
             if (pf->wasModified()) {

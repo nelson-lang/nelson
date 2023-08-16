@@ -7,13 +7,32 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "sparselogical_horzcatBuiltin.hpp"
+#include "HorzCatSparseLogical.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson::SparseGateway {
 ArrayOfVector
-sparselogical_horzcat_sparselogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-} // namespace Nelson
+Nelson::SparseGateway::sparselogical_horzcatBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 2);
+    nargoutcheck(nLhs, 0, 1);
+
+    ArrayOfVector _argIn(argIn);
+    for (size_t k = 0; k < _argIn.size(); ++k) {
+        if (!_argIn[k].isLogical()) {
+            _argIn[k].promoteType(NLS_LOGICAL);
+        }
+        if (!_argIn[k].isSparse()) {
+            _argIn[k].makeSparse();
+        }
+    }
+
+    ArrayOf res = _argIn[0];
+    for (size_t k = 1; k < _argIn.size(); k++) {
+        res = HorzCatSparseLogical(res, _argIn[k]);
+    }
+    return res;
+}
 //=============================================================================

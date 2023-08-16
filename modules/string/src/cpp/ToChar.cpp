@@ -104,13 +104,13 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     for (size_t i = 0; i < vA.size(); i++) {
         _args << ArrayOf::characterArrayConstructor(vA[i]);
     }
-    res = VertCat(_args);
+    res = VertCat(_args, NLS_CHAR);
     _args.clear();
     _args << res;
     for (auto& i : vB) {
         _args << ArrayOf::characterArrayConstructor(i);
     }
-    res = VertCat(_args);
+    res = VertCat(_args, NLS_CHAR);
     return res;
 }
 //=============================================================================

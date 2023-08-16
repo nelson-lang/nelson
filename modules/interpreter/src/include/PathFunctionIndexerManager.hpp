@@ -22,6 +22,7 @@ class NLSINTERPRETER_IMPEXP PathFunctionIndexerManager
 {
 private:
     std::vector<PathFunctionIndexer*> _pathFuncVector;
+    std::vector<PathFunctionIndexer*> _pathWatchFuncVector;
     std::unordered_map<std::string, FileFunction*> _pathFuncMap;
 
     PathFunctionIndexerManager();
@@ -41,6 +42,9 @@ private:
 
     FunctionDef*
     findAndProcessFile(const std::string& name);
+
+    bool
+    find(const std::string& functionName, FileFunction** ff);
 
     void
     userpathCompute();
@@ -71,8 +75,6 @@ public:
     find(const std::string& functionName, std::wstring& filename);
     bool
     find(const std::string& functionName, wstringVector& filesname);
-    bool
-    find(const std::string& functionName, FileFunction** ff);
 
     bool
     addPath(const std::wstring& path, bool begin, bool frozen);

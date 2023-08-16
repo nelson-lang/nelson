@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SparseGateway {
+//=============================================================================
 ArrayOfVector
-sparsedouble_horzcat_sparsedoubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+sparselogical_horzcatBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

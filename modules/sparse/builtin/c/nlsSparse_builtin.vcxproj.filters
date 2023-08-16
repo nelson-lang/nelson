@@ -39,13 +39,13 @@
     <ClCompile Include="..\cpp\IJVBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sparsedouble_horzcat_sparsedoubleBuiltin.cpp">
+    <ClCompile Include="..\cpp\sparsedouble_horzcatBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\sparsedouble_vertcatBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sparselogical_horzcat_sparselogicalBuiltin.cpp">
+    <ClCompile Include="..\cpp\sparselogical_horzcatBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\sparselogical_vertcatBuiltin.cpp">
@@ -89,13 +89,13 @@
     <ClInclude Include="..\include\IJVBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sparsedouble_horzcat_sparsedoubleBuiltin.hpp">
+    <ClInclude Include="..\include\sparsedouble_horzcatBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\sparsedouble_vertcatBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sparselogical_horzcat_sparselogicalBuiltin.hpp">
+    <ClInclude Include="..\include\sparselogical_horzcatBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\sparselogical_vertcatBuiltin.hpp">

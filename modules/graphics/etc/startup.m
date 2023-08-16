@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('graphics', 'builtin'), 'graphics');
-addpath([modulepath('graphics', 'functions'), '/colormaps']);
-addpath(modulepath('graphics', 'functions'));
+addpath([modulepath('graphics', 'functions'), '/colormaps'], '-frozen');
+addpath(modulepath('graphics', 'functions'), '-frozen');
 %=============================================================================

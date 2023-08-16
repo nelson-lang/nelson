@@ -16,22 +16,23 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::SparseGateway::sparsedouble_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    if (!A.isDoubleClass()) {
-        A.promoteType(A.isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE);
+
+    ArrayOfVector _argIn(argIn);
+    for (size_t k = 0; k < _argIn.size(); ++k) {
+        if (!_argIn[k].isDoubleClass()) {
+            _argIn[k].promoteType(_argIn[k].isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE);
+        }
+        if (!_argIn[k].isSparse()) {
+            _argIn[k].makeSparse();
+        }
     }
-    if (!A.isSparse()) {
-        A.makeSparse();
+
+    ArrayOf res = _argIn[0];
+    for (size_t k = 1; k < _argIn.size(); k++) {
+        res = VertCatSparseDouble(res, _argIn[k]);
     }
-    if (!B.isDoubleClass()) {
-        B.promoteType(B.isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE);
-    }
-    if (!B.isSparse()) {
-        B.makeSparse();
-    }
-    return VertCatSparseDouble(A, B);
+    return res;
 }
 //=============================================================================

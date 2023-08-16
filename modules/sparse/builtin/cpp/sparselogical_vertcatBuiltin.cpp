@@ -16,22 +16,23 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::SparseGateway::sparselogical_vertcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    if (!A.isLogical()) {
-        A.promoteType(NLS_LOGICAL);
+
+    ArrayOfVector _argIn(argIn);
+    for (size_t k = 0; k < _argIn.size(); ++k) {
+        if (!_argIn[k].isLogical()) {
+            _argIn[k].promoteType(NLS_LOGICAL);
+        }
+        if (!_argIn[k].isSparse()) {
+            _argIn[k].makeSparse();
+        }
     }
-    if (!A.isSparse()) {
-        A.makeSparse();
+
+    ArrayOf res = _argIn[0];
+    for (size_t k = 1; k < _argIn.size(); k++) {
+        res = VertCatSparseLogical(res, _argIn[k]);
     }
-    if (!B.isLogical()) {
-        B.promoteType(NLS_LOGICAL);
-    }
-    if (!B.isSparse()) {
-        B.makeSparse();
-    }
-    return VertCatSparseLogical(A, B);
+    return res;
 }
 //=============================================================================

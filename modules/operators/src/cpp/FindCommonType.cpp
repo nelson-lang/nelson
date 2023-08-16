@@ -21,13 +21,14 @@ static NelsonType
 getConcatenateCommonType(NelsonType type1, NelsonType type2);
 //=============================================================================
 bool
-FindCommonConcatenateType(
-    const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, std::string& typeName)
+FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName)
 {
     bool res = false;
     commonType = NLS_UNKNOWN;
     typeName = NLS_UNKNOWN_STR;
     isSparse = false;
+    isComplex = false;
 
     bool charactersOnly = true;
     bool realOnly = true;
@@ -45,6 +46,8 @@ FindCommonConcatenateType(
         if (argIn[0].isClassType()) {
             typeName = argIn[0].getClassType();
             commonType = NLS_CLASS_ARRAY;
+            isSparse = false;
+            isComplex = false;
             return true;
         }
         if (argIn[0].isHandle()) {
@@ -54,20 +57,26 @@ FindCommonConcatenateType(
                 typeName = argIn[0].getHandleCategory();
             }
             commonType = NLS_HANDLE;
+            isSparse = false;
+            isComplex = false;
             return true;
         }
         if (argIn[0].isGraphicsObject()) {
             typeName = NLS_GO_HANDLE_STR;
             commonType = NLS_GO_HANDLE;
+            isSparse = false;
+            isComplex = false;
             return true;
         }
 
         commonType = argIn[0].getDataClass();
         if (commonType == NLS_DCOMPLEX) {
             commonType = NLS_DOUBLE;
+            isComplex = true;
         }
         if (commonType == NLS_SCOMPLEX) {
             commonType = NLS_SINGLE;
+            isComplex = true;
         }
         typeName = ClassToString(commonType);
         if (argIn[0].isSparse()) {
@@ -78,12 +87,23 @@ FindCommonConcatenateType(
     }
     if (argIn.size() == 2) {
         if (argIn[0].getDataClass() == argIn[1].getDataClass()) {
+            if (argIn[0].isHandle()) {
+                if (argIn[0].isEmpty()) {
+                    typeName = NLS_HANDLE_STR;
+                } else {
+                    typeName = argIn[0].getHandleCategory();
+                }
+                commonType = NLS_HANDLE;
+                return true;
+            }
             commonType = argIn[0].getDataClass();
             if (commonType == NLS_DCOMPLEX) {
                 commonType = NLS_DOUBLE;
+                isComplex = true;
             }
             if (commonType == NLS_SCOMPLEX) {
                 commonType = NLS_SINGLE;
+                isComplex = true;
             }
             typeName = ClassToString(commonType);
             if (argIn[0].isSparse() || argIn[1].isSparse()) {
@@ -126,6 +146,7 @@ FindCommonConcatenateType(
             break;
         }
     }
+    isComplex = !realOnly;
     if (haveString) {
         typeName = NLS_STRING_ARRAY_STR;
         commonType = NLS_STRING_ARRAY;
@@ -160,9 +181,11 @@ FindCommonConcatenateType(
     }
     if (commonType == NLS_DCOMPLEX) {
         commonType = NLS_DOUBLE;
+        isComplex = true;
     }
     if (commonType == NLS_SCOMPLEX) {
         commonType = NLS_SINGLE;
+        isComplex = true;
     }
     typeName = ClassToString(commonType);
     if (haveSparse && (commonType == NLS_DOUBLE || commonType == NLS_LOGICAL)) {

@@ -67,10 +67,14 @@ VertCatNdArray(const ArrayOf& A, const ArrayOf& B, NelsonType commonType)
 {
     ArrayOfMatrix m;
     ArrayOfVector v;
-    v.push_back(A);
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    _A.promoteType(commonType);
+    _B.promoteType(commonType);
+    v.push_back(_A);
     m.push_back(v);
     v.clear();
-    v.push_back(B);
+    v.push_back(_B);
     m.push_back(v);
     return ConcatenateNdArray(m, commonType);
 }
@@ -82,52 +86,55 @@ VertCat2DGeneric(const ArrayOf& A, const ArrayOf& B, NelsonType commonType)
     indexType newColumnsSize = A.getColumns();
     indexType newRowsSize = A.getRows() + B.getRows();
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-
-    switch (A.getDataClass()) {
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    _A.promoteType(commonType);
+    _B.promoteType(commonType);
+    switch (commonType) {
     case NLS_LOGICAL: {
-        res = VertCatTemplate<logical>(A, B, dimsC);
+        res = VertCatTemplate<logical>(_A, _B, dimsC);
     } break;
     case NLS_UINT8: {
-        res = VertCatTemplate<uint8>(A, B, dimsC);
+        res = VertCatTemplate<uint8>(_A, _B, dimsC);
     } break;
     case NLS_INT8: {
-        res = VertCatTemplate<int8>(A, B, dimsC);
+        res = VertCatTemplate<int8>(_A, _B, dimsC);
     } break;
     case NLS_UINT16: {
-        res = VertCatTemplate<uint16>(A, B, dimsC);
+        res = VertCatTemplate<uint16>(_A, _B, dimsC);
     } break;
     case NLS_INT16: {
-        res = VertCatTemplate<int16>(A, B, dimsC);
+        res = VertCatTemplate<int16>(_A, _B, dimsC);
     } break;
     case NLS_UINT32: {
-        res = VertCatTemplate<uint32>(A, B, dimsC);
+        res = VertCatTemplate<uint32>(_A, _B, dimsC);
     } break;
     case NLS_INT32: {
-        res = VertCatTemplate<int32>(A, B, dimsC);
+        res = VertCatTemplate<int32>(_A, _B, dimsC);
     } break;
     case NLS_UINT64: {
-        res = VertCatTemplate<uint64>(A, B, dimsC);
+        res = VertCatTemplate<uint64>(_A, _B, dimsC);
     } break;
     case NLS_INT64: {
-        res = VertCatTemplate<int64>(A, B, dimsC);
+        res = VertCatTemplate<int64>(_A, _B, dimsC);
     } break;
     case NLS_SINGLE: {
-        res = VertCatTemplate<single>(A, B, dimsC);
+        res = VertCatTemplate<single>(_A, _B, dimsC);
     } break;
     case NLS_DOUBLE: {
-        res = VertCatTemplate<double>(A, B, dimsC);
+        res = VertCatTemplate<double>(_A, _B, dimsC);
     } break;
     case NLS_SCOMPLEX: {
-        res = VertCatComplexTemplate<single>(A, B, dimsC);
+        res = VertCatComplexTemplate<single>(_A, _B, dimsC);
     } break;
     case NLS_DCOMPLEX: {
-        res = VertCatComplexTemplate<double>(A, B, dimsC);
+        res = VertCatComplexTemplate<double>(_A, _B, dimsC);
     } break;
     case NLS_CHAR: {
-        res = VertCatTemplate<charType>(A, B, dimsC);
+        res = VertCatTemplate<charType>(_A, _B, dimsC);
     } break;
     default: {
-        res = VertCatNdArray(A, B, commonType);
+        res = VertCatNdArray(_A, _B, commonType);
     } break;
     }
     return res;
@@ -201,7 +208,6 @@ VertCatClass(const ArrayOf& A, const ArrayOf& B)
 static ArrayOf
 VertCatStruct(const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
     stringVector fieldnamesA = A.getFieldNames();
     stringVector fieldnamesB = B.getFieldNames();
     if (fieldnamesA.size() != fieldnamesB.size()) {
@@ -218,7 +224,7 @@ VertCatStruct(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     void* ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA, false);
     auto* elements = static_cast<ArrayOf*>(ptrC);
-    res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
+    ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
     for (auto& k : fieldnamesA) {
         ArrayOfVector fieldsA = A.getFieldAsList(k);
         ArrayOfVector fieldsB = B.getFieldAsList(k);
@@ -230,10 +236,8 @@ VertCatStruct(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-VertCat(const ArrayOf& A, const ArrayOf& B)
+VertCat(const ArrayOf& A, const ArrayOf& B, NelsonType commonType)
 {
-    NelsonType commonType = A.getDataClass();
-
     if (A.isEmpty(false) && B.isEmpty(false)) {
         return VertCatEmpty(A, B, commonType);
     }
@@ -275,7 +279,7 @@ VertCat(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-VertCat(const ArrayOfVector& argIn)
+VertCat(const ArrayOfVector& argIn, NelsonType commonType)
 {
     if (argIn.size() == 0) {
         Dimensions dims(0, 0);
@@ -285,11 +289,11 @@ VertCat(const ArrayOfVector& argIn)
         return argIn[0];
     }
     if (argIn.size() == 2) {
-        return VertCat(argIn[0], argIn[1]);
+        return VertCat(argIn[0], argIn[1], commonType);
     }
     ArrayOf res = argIn[0];
     for (size_t k = 1; k < argIn.size(); k++) {
-        res = VertCat(res, argIn[k]);
+        res = VertCat(res, argIn[k], commonType);
     }
     return res;
 }

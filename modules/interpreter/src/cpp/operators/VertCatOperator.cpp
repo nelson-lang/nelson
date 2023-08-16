@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsBuildConfig.h"
 #define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
@@ -23,13 +22,9 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-integerVertCat(const ArrayOfVector& v, NelsonType commonType);
+stringVertCat(const ArrayOfVector& v, NelsonType commonType);
 static ArrayOf
-realVertCat(const ArrayOfVector& v, NelsonType destinationType, NelsonType complexType);
-static ArrayOf
-cellVertCat(const ArrayOfVector& v);
-static ArrayOf
-stringVertCat(const ArrayOfVector& v);
+cellVertCat(const ArrayOfVector& v, NelsonType commonType);
 //=============================================================================
 ArrayOf
 Evaluator::vertcatOperator(const ArrayOfVector& v)
@@ -43,12 +38,13 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         res = v[0];
     } break;
     default: {
-        NelsonType commonType;
-        bool isSparse;
-        std::string commonTypeName;
+        NelsonType commonType = NLS_DOUBLE;
+        bool isSparse = false;
+        bool isComplex = false;
+        std::string commonTypeName = NLS_DOUBLE_STR;
 
         ArrayOf res;
-        if (FindCommonConcatenateType(v, commonType, isSparse, commonTypeName)) {
+        if (FindCommonConcatenateType(v, commonType, isSparse, isComplex, commonTypeName)) {
             bool overloadWasFound = false;
             res = callOverloadedFunction(
                 this, v, VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
@@ -74,7 +70,7 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
                     OverloadRequired(VERTCAT_OPERATOR_STR);
                 }
             }
-            return integerVertCat(v, commonType);
+            return VertCat(v, commonType);
         } break;
         case NLS_DOUBLE:
         case NLS_DCOMPLEX: {
@@ -89,11 +85,11 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
                     OverloadRequired(VERTCAT_OPERATOR_STR);
                 }
             }
-            return realVertCat(v, NLS_DOUBLE, NLS_DCOMPLEX);
+            return VertCat(v, isComplex ? NLS_DCOMPLEX : NLS_DOUBLE);
         } break;
         case NLS_SINGLE:
         case NLS_SCOMPLEX: {
-            return realVertCat(v, NLS_SINGLE, NLS_SCOMPLEX);
+            return VertCat(v, isComplex ? NLS_SCOMPLEX : NLS_SINGLE);
         } break;
         case NLS_INT8:
         case NLS_INT16:
@@ -103,29 +99,28 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         case NLS_UINT16:
         case NLS_UINT32:
         case NLS_UINT64:
-        case NLS_CHAR: {
-            return integerVertCat(v, commonType);
+        case NLS_STRUCT_ARRAY:
+        case NLS_CLASS_ARRAY:
+        case NLS_GO_HANDLE: {
+            return VertCat(v, commonType);
         } break;
-        case NLS_STRUCT_ARRAY: {
-            return VertCat(v);
+        case NLS_CHAR: {
+            if (isComplex) {
+                Error(_("Complex values cannot be converted to chars."));
+            }
+            return VertCat(v, commonType);
         } break;
         case NLS_CELL_ARRAY: {
-            return cellVertCat(v);
+            return cellVertCat(v, commonType);
         } break;
         case NLS_STRING_ARRAY: {
-            return stringVertCat(v);
-        } break;
-        case NLS_GO_HANDLE: {
-            return VertCat(v);
+            return stringVertCat(v, commonType);
         } break;
         case NLS_FUNCTION_HANDLE: {
             std::string msg = _(
                 "Nonscalar arrays of function handles are not allowed; use cell arrays instead.");
             std::string id = "Nelson:err_non_scalar_function_handles";
             Error(msg, id);
-        } break;
-        case NLS_CLASS_ARRAY: {
-            return VertCat(v);
         } break;
         case NLS_HANDLE: {
             bool overloadWasFound = false;
@@ -149,58 +144,7 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
 }
 //=============================================================================
 ArrayOf
-integerVertCat(const ArrayOfVector& v, NelsonType commonType)
-{
-    ArrayOfVector _argIn(v);
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)v.size(); ++k) {
-        ArrayOf element = v[k];
-        element.promoteType(commonType);
-        _argIn[k] = element;
-    }
-    return VertCat(_argIn);
-}
-//=============================================================================
-ArrayOf
-realVertCat(const ArrayOfVector& v, NelsonType destinationType, NelsonType complexType)
-{
-    bool haveComplex = false;
-    for (auto arg : v) {
-        if (!haveComplex && arg.isComplex()) {
-            haveComplex = true;
-            break;
-        }
-    }
-    ArrayOfVector _argIn(v);
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)v.size(); ++k) {
-        ArrayOf element = v[k];
-        element.promoteType(haveComplex ? complexType : destinationType);
-        _argIn[k] = element;
-    }
-    return VertCat(_argIn);
-}
-//=============================================================================
-ArrayOf
-cellVertCat(const ArrayOfVector& v)
-{
-    ArrayOfVector _argIn(v);
-    for (ompIndexType k = 0; k < (ompIndexType)v.size(); ++k) {
-        if (v[k].isEmpty()) {
-            _argIn[k] = v[k];
-        } else {
-            _argIn[k] = ArrayOf::toCell(v[k]);
-        }
-    }
-    return VertCat(_argIn);
-}
-//=============================================================================
-ArrayOf
-stringVertCat(const ArrayOfVector& v)
+stringVertCat(const ArrayOfVector& v, NelsonType commonType)
 {
     ArrayOfVector _argIn(v);
     for (ompIndexType k = 0; k < (ompIndexType)v.size(); ++k) {
@@ -214,7 +158,22 @@ stringVertCat(const ArrayOfVector& v)
             _argIn[k] = v[k];
         }
     }
-    return VertCat(_argIn);
+    return VertCat(_argIn, commonType);
+}
+//=============================================================================
+ArrayOf
+cellVertCat(const ArrayOfVector& v, NelsonType commonType)
+{
+    ArrayOfVector _argIn;
+    _argIn.reserve(v.size());
+    for (auto k : v) {
+        if (k.isEmpty()) {
+            _argIn.push_back(k);
+        } else {
+            _argIn.push_back(ArrayOf::toCell(k));
+        }
+    }
+    return VertCat(_argIn, commonType);
 }
 //=============================================================================
 } // namespace Nelson
