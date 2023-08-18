@@ -7,21 +7,32 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_vertcat_handleBuiltin.hpp"
+#include "sparselogical_horzcatBuiltin.hpp"
+#include "HorzCatSparseLogical.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "VertCatHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_vertcat_handleBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::SparseGateway::sparselogical_horzcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOfVector retval(1);
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval << VertCatHandle(A, B);
-    return retval;
+
+    ArrayOfVector _argIn(argIn);
+    for (size_t k = 0; k < _argIn.size(); ++k) {
+        if (!_argIn[k].isLogical()) {
+            _argIn[k].promoteType(NLS_LOGICAL);
+        }
+        if (!_argIn[k].isSparse()) {
+            _argIn[k].makeSparse();
+        }
+    }
+
+    ArrayOf res = _argIn[0];
+    for (size_t k = 1; k < _argIn.size(); k++) {
+        res = HorzCatSparseLogical(res, _argIn[k]);
+    }
+    return res;
 }
 //=============================================================================

@@ -12,6 +12,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <FileWatcher/FileWatcher.h>
+#include <mutex>
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexer.hpp"
 #include "characters_encoding.hpp"
@@ -30,12 +31,14 @@ public:
     handleFileAction(
         FW::WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
     {
+        lock();
         updated = true;
     }
 
     bool
     readLastState()
     {
+        lock();
         if (updated) {
             updated = false;
             return true;
@@ -45,6 +48,12 @@ public:
 
 private:
     bool updated;
+    std::mutex m_mutex;
+    void
+    lock()
+    {
+        std::scoped_lock<std::mutex> _lock { m_mutex };
+    }
 };
 //=============================================================================
 PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatcher)
@@ -59,6 +68,12 @@ PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatc
         _path.clear();
     }
     rehash();
+}
+//=============================================================================
+bool
+PathFunctionIndexer::isWithWatcher()
+{
+    return this->withWatcher;
 }
 //=============================================================================
 void

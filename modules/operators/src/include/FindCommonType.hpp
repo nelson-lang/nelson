@@ -9,11 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
+#include "nlsOperators_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson::SparseGateway {
-ArrayOfVector
-sparselogical_horzcat_sparselogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-} // namespace Nelson
+namespace Nelson {
+//=============================================================================
+NLSOPERATORS_IMPEXP
+bool
+FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName);
+//=============================================================================
+}
 //=============================================================================

@@ -937,21 +937,7 @@ end
 function r = have_c_cpp_compiler()
   persistent compiler_detected;
   if isempty(compiler_detected)
-    if ispc()
-      have_compiler = havecompiler();
-      if (~have_compiler)
-        try
-          configuremsvc();
-          compiler_detected = havecompiler();
-        catch
-          compiler_detected = false;
-        end
-      else
-      compiler_detected = have_compiler;
-      end
-    else
-      compiler_detected = havecompiler();
-    end
+    compiler_detected = havecompiler();
   end
   r = compiler_detected;
 end

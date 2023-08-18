@@ -16,7 +16,9 @@ namespace Nelson {
 /**
  * vertcat ([;]).
  */
+//=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
+VertCat(const ArrayOfVector& argIn, NelsonType commonType);
+//=============================================================================
 }
 //=============================================================================

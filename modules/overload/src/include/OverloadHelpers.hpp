@@ -36,6 +36,23 @@ callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
         if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
             FunctionDef* funcDef = nullptr;
             eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+            if (!funcDef && commonType == NLS_HANDLE) {
+                overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
+                eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+            }
+            if (funcDef) {
+                wasFound = true;
+                if (nargout == 0) {
+                    funcDef->evaluateFunction(eval, argsIn, nargout);
+                    return {};
+                } else {
+                    return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
+                }
+            }
+        } else if (commonType == NLS_HANDLE) {
+            FunctionDef* funcDef = nullptr;
+            overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
+            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
             if (funcDef) {
                 wasFound = true;
                 if (nargout == 0) {

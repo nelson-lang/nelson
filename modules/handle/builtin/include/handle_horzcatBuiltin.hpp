@@ -9,12 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-NLSINTERPRETER_IMPEXP ArrayOf
-VertCatOperator(Evaluator* eval, const ArrayOfVector& v);
-}
+namespace Nelson::HandleGateway {
+//=============================================================================
+ArrayOfVector
+handle_horzcatBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

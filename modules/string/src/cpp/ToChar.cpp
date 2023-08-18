@@ -99,16 +99,18 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             }
         }
     }
+    ArrayOfVector _args;
     res = ArrayOf::characterArrayConstructor(vA[0]);
-    bool bSuccess;
-    for (size_t i = 1; i < vA.size(); i++) {
-        ArrayOf BA = ArrayOf::characterArrayConstructor(vA[i]);
-        res = VertCat(res, BA, true, bSuccess);
+    for (size_t i = 0; i < vA.size(); i++) {
+        _args << ArrayOf::characterArrayConstructor(vA[i]);
     }
+    res = VertCat(_args, NLS_CHAR);
+    _args.clear();
+    _args << res;
     for (auto& i : vB) {
-        ArrayOf BB = ArrayOf::characterArrayConstructor(i);
-        res = VertCat(res, BB, true, bSuccess);
+        _args << ArrayOf::characterArrayConstructor(i);
     }
+    res = VertCat(_args, NLS_CHAR);
     return res;
 }
 //=============================================================================

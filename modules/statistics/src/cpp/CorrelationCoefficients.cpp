@@ -14,7 +14,6 @@
 #include "CorrelationCoefficients.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
-#include "FindCommonClass.hpp"
 #include "RealPart.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"

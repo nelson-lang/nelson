@@ -26,7 +26,6 @@
 #include "handle_eq_handleBuiltin.hpp"
 #include "handle_fieldnamesBuiltin.hpp"
 #include "handle_getBuiltin.hpp"
-#include "handle_horzcat_handleBuiltin.hpp"
 #include "handle_invokeBuiltin.hpp"
 #include "handle_isequalBuiltin.hpp"
 #include "handle_ismethodBuiltin.hpp"
@@ -35,7 +34,8 @@
 #include "handle_methodsBuiltin.hpp"
 #include "handle_propertiesBuiltin.hpp"
 #include "handle_setBuiltin.hpp"
-#include "handle_vertcat_handleBuiltin.hpp"
+#include "handle_vertcatBuiltin.hpp"
+#include "handle_horzcatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -58,10 +58,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "ismethod", (ptrBuiltin)Nelson::HandleGateway::ismethodBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "handle_vertcat_handle", (ptrBuiltin)Nelson::HandleGateway::handle_vertcat_handleBuiltin, 1,
-        2 },
-    { "handle_horzcat_handle", (ptrBuiltin)Nelson::HandleGateway::handle_horzcat_handleBuiltin, 1,
-        2 },
+    { "handle_vertcat", (ptrBuiltin)Nelson::HandleGateway::handle_vertcatBuiltin, 1, 2 },
+    { "handle_horzcat", (ptrBuiltin)Nelson::HandleGateway::handle_horzcatBuiltin, 1, 2 },
     { "handle_eq_handle", (ptrBuiltin)Nelson::HandleGateway::handle_eq_handleBuiltin, 1, 2 },
     { "generic_eq_handle", (ptrBuiltin)Nelson::HandleGateway::generic_eq_handleBuiltin, 1, 2 },
     { "handle_eq_generic", (ptrBuiltin)Nelson::HandleGateway::handle_eq_genericBuiltin, 1, 2 },

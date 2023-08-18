@@ -41,6 +41,9 @@ public:
     void
     startFileWatcher();
 
+    bool
+    isWithWatcher();
+
 private:
     std::unordered_map<std::string, FileFunction*> mapAllFiles;
     std::unordered_map<std::string, FileFunction*> mapRecentFiles;

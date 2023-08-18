@@ -365,7 +365,6 @@
     <ClInclude Include="..\include\FunctionsInMemory.hpp" />
     <ClInclude Include="..\include\GatewayHelpers.hpp" />
     <ClInclude Include="..\include\GenericTable.hpp" />
-    <ClInclude Include="..\include\HorzCatOperator.hpp" />
     <ClInclude Include="..\include\Keywords.hpp" />
     <ClInclude Include="..\include\LexerInterface.hpp" />
     <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
@@ -386,7 +385,6 @@
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
-    <ClInclude Include="..\include\VertCatOperator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

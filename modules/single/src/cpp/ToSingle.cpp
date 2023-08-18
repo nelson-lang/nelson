@@ -16,15 +16,15 @@ template <class T>
 ArrayOf
 ToSingle(const ArrayOf& A)
 {
+    ompIndexType nbElements = A.getElementCount();
     single* pSingle
-        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, nbElements, stringVector(), false);
     ArrayOf r = ArrayOf(NLS_SINGLE, A.getDimensions(), pSingle, A.isSparse());
     T* ptrA = (T*)A.getDataPointer();
-    ompIndexType N = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < N; ++i) {
+    for (ompIndexType i = 0; i < nbElements; ++i) {
         pSingle[i] = (single)ptrA[i];
     }
     return r;
@@ -73,16 +73,16 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        ompIndexType elementCount = A.getElementCount();
-        single* pSingle = static_cast<single*>(
-            ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount, stringVector(), false));
-        ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, A.isSparse());
+        ompIndexType nbElements = A.getElementCount();
+        single* pSingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, nbElements, stringVector(), false);
+        ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, false);
         auto* pDouble = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < elementCount * 2; k++) {
-            pSingle[k] = static_cast<float>(pDouble[k]);
+        for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {
+            pSingle[k] = static_cast<single>(pDouble[k]);
         }
         return r;
     } break;

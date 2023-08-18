@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "WaitFutures.hpp"
-#include "VertCatOperator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -54,7 +53,7 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
                 argsToConcate << future->getResult()[k];
             }
         }
-        _results.push_back(VertCatOperator(eval, argsToConcate));
+        _results.push_back(eval->vertcatOperator(argsToConcate));
         argsToConcate.clear();
     }
     return _results;

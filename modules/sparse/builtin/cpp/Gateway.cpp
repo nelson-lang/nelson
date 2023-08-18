@@ -13,14 +13,14 @@
 #include "nnzBuiltin.hpp"
 #include "nzmaxBuiltin.hpp"
 #include "sparseBuiltin.hpp"
-#include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
+#include "sparsedouble_horzcatBuiltin.hpp"
 #include "sparsedouble_imagBuiltin.hpp"
 #include "sparsedouble_realBuiltin.hpp"
-#include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
-#include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
+#include "sparsedouble_vertcatBuiltin.hpp"
+#include "sparselogical_horzcatBuiltin.hpp"
 #include "sparselogical_imagBuiltin.hpp"
 #include "sparselogical_realBuiltin.hpp"
-#include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
+#include "sparselogical_vertcatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,18 +38,14 @@ static const nlsGateway gateway[] = {
     { "sparsedouble_imag", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_imagBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "IJV", (ptrBuiltin)Nelson::SparseGateway::IJVBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_vertcat_sparselogical",
-        (ptrBuiltin)Nelson::SparseGateway::sparselogical_vertcat_sparselogicalBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_horzcat_sparselogical",
-        (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_vertcat_sparsedouble",
-        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_vertcat_sparsedoubleBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_horzcat_sparsedouble",
-        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "sparselogical_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_vertcatBuiltin, 1,
+        2 },
+    { "sparselogical_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcatBuiltin, 1,
+        2, CPP_BUILTIN },
+    { "sparsedouble_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_vertcatBuiltin, 1, 2,
+        CPP_BUILTIN },
+    { "sparsedouble_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcatBuiltin, 1, 2,
+        CPP_BUILTIN },
     { "nnz", (ptrBuiltin)Nelson::SparseGateway::nnzBuiltin, 1, 1 },
     { "nzmax", (ptrBuiltin)Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
 };

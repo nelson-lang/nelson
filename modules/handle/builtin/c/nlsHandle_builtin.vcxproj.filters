@@ -27,10 +27,10 @@
     <ClCompile Include="..\cpp\handle_isvalidBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_vertcat_handleBuiltin.cpp">
+    <ClCompile Include="..\cpp\handle_vertcatBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_horzcat_handleBuiltin.cpp">
+    <ClCompile Include="..\cpp\handle_horzcatBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\setBuiltin.cpp">
@@ -116,10 +116,10 @@
     <ClInclude Include="..\include\handle_isvalidBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_vertcat_handleBuiltin.hpp">
+    <ClInclude Include="..\include\handle_vertcatBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_horzcat_handleBuiltin.hpp">
+    <ClInclude Include="..\include\handle_horzcatBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\deleteBuiltin.hpp">

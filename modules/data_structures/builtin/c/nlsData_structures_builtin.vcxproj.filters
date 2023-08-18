@@ -86,15 +86,6 @@
     <ClInclude Include="..\include\cellfunBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\struct_horzcat_structBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\struct_vertcat_structBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\cell_vertcat_cellBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\isfieldBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
