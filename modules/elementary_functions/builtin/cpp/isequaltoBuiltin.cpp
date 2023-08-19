@@ -10,10 +10,10 @@
 #include "isequaltoBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
-#include "IsEqual.hpp"
+#include "IsEqualTo.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "FindCommonType.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,45 +21,95 @@ ArrayOfVector
 Nelson::ElementaryFunctionsGateway::isequaltoBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isequalto", bSuccess);
+
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+
+    ArrayOf res;
+    if (FindCommonType(argIn, commonType, isSparse, isComplex, commonTypeName)) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(eval,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn, "isequalto",
+            commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
+        }
     }
-    if (!bSuccess) {
-        bool res = false;
-        for (size_t k = 1; k < argIn.size(); k++) {
-            bool needToOverload = false;
-            ArrayOf param1 = argIn[k - 1];
-            ArrayOf param2 = argIn[k];
-            res = IsEqual(param1, param2, true, true, needToOverload);
-            if (needToOverload) {
-                ArrayOfVector v1v2;
-                v1v2.push_back(param1);
-                v1v2.push_back(param2);
-                ArrayOfVector ret = OverloadFunction(eval, nLhs, v1v2, "isequalto", bSuccess);
-                {
-                    if (ret.size() == 1) {
-                        res = ret[0].getContentAsLogicalScalar(false) == 0 ? false : true;
-                        if (!res) {
-                            retval << ArrayOf::logicalConstructor(res);
-                            return retval;
-                        }
-                    } else {
-                        Error(_W("overload of isequalto must return a logical."));
-                    }
-                }
-            } else {
-                if (!res) {
-                    retval << ArrayOf::logicalConstructor(res);
-                    return retval;
-                }
+    if (isSparse
+        && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
+        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+    }
+
+    bool result = false;
+    bool needToOverload = false;
+
+    /*
+    switch (commonType) {
+    case NLS_STRUCT_ARRAY: {
+        result = structIsEqualTo(eval, argIn, needToOverload);
+    } break;
+    case NLS_CELL_ARRAY:
+    case NLS_FUNCTION_HANDLE:
+    case NLS_CLASS_ARRAY:
+    case NLS_HANDLE:
+    case NLS_GO_HANDLE: {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, "isequalto",
+            commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
+        } else {
+            OverloadRequired("isequalto");
+        }
+    } break;
+    default: {
+        result = IsEqualTo(argIn, needToOverload);
+    } break;
+    }
+    */
+    result = IsEqualTo(eval, argIn, needToOverload);
+    if (needToOverload) {
+        OverloadRequired("isequalto");
+    }
+    return ArrayOf::logicalConstructor(result);
+}
+//=============================================================================
+static bool
+structIsEqualTo(Evaluator* eval, const ArrayOfVector& argIn, bool& needOverload)
+{
+    /*    needOverload = false;
+    ArrayOf firstElement = argIn[0];
+    NelsonType commmonType = NLS_STRUCT_ARRAY;
+    Dimensions commonDimensions = argIn[0].getDimensions();
+    stringVector commonFieldNames = argIn[0].getFieldNames();
+    bool commonSparse = argIn[0].isSparse();
+    for (auto k = 1; k < argIn.size(); ++k) {
+        if ((argIn[k].getDataClass() != commmonType)
+            || (!argIn[k].getDimensions().equals(commonDimensions))) {
+            return false;
+        }
+        stringVector currentFieldNames = argIn[k].getFieldNames();
+
+        bool equal = std::equal(commonFieldNames.begin(), commonFieldNames.end(),
+            currentFieldNames.begin(),
+            currentFieldNames.end());
+        if (!equal) {
+            return false;
+        }
+        for (auto name : commonFieldNames) {
+            ArrayOfVector args;
+            args << firstElement.getField(name);
+            args << argIn[k].getField(name);
+            if (!IsEqualTo(args, needOverload)) {
+                return false;
             }
         }
-        retval << ArrayOf::logicalConstructor(res);
     }
-    return retval;
+    */
+    return true;
 }
 //=============================================================================

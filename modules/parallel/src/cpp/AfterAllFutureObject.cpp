@@ -48,11 +48,11 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
     for (auto& fevalFuture : fevalFutures) {
         argsToConcate << fevalFuture->getResult(false)[0];
     }
-    ArrayOf concated;
+    ArrayOf concated = {};
     Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);
     try {
-        concated = localEvaluator->vertcatOperator(argsToConcate);
         if (localEvaluator) {
+            concated = localEvaluator->vertcatOperator(argsToConcate);
             localEvaluator = deleteParallelEvaluator(localEvaluator, false);
         }
     } catch (Exception& e) {

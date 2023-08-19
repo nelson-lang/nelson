@@ -13,11 +13,11 @@ C.a = 2;C.b = 3;C.c = 1;
 %=============================================================================
 D = [A, B];
 E = [A, C];
-assert_isfalse(struct_isequalto(D, E));
-assert_istrue(struct_isequalto(D, D));
+assert_isfalse(isequalto(D, E));
+assert_istrue(isequalto(D, D));
 %=============================================================================
 D = [A; B];
 E = [A; C];
-assert_isfalse(struct_isequalto(D, E));
-assert_istrue(struct_isequalto(D, D));
+assert_isfalse(isequalto(D, E));
+assert_istrue(isequalto(D, D));
 %=============================================================================

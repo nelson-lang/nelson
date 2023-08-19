@@ -110,8 +110,9 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     ArrayOf res;
     if (findColonCommonTypeName(argIn, commonType, isSparse, commonTypeName)) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(
-            this, argIn, functionName, commonTypeName, commonType, overloadWasFound);
+        res = callOverloadedFunction(this,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn,
+            functionName, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
@@ -153,8 +154,9 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 
     if (findColonCommonTypeName(argIn, commonType, isSparse, commonTypeName)) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(
-            this, argIn, functionName, commonTypeName, commonType, overloadWasFound);
+        res = callOverloadedFunction(this,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn,
+            functionName, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }

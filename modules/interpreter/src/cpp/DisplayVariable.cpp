@@ -27,7 +27,9 @@ Evaluator::display(
     if (!name.empty()) {
         args << ArrayOf::characterArrayConstructor(name);
     }
-    callOverloadedFunction(this, args, functionName, ClassName(A), A.getDataClass(), wasFound, 0);
+    callOverloadedFunction(this,
+        NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args, functionName,
+        ClassName(A), A.getDataClass(), wasFound, 0);
     if (wasFound) {
         return;
     }
@@ -40,7 +42,11 @@ Evaluator::display(
         Profiler::getInstance()->toc(ticProfile, stack);
     }
     if (needToOverload) {
-        OverloadRequired(functionName);
+        callOverloadedFunction(this, NLS_OVERLOAD_OBJECT_TYPES_ONLY, args, functionName,
+            ClassName(A), A.getDataClass(), wasFound, 0);
+        if (!wasFound) {
+            OverloadRequired(functionName);
+        }
     }
 }
 //=============================================================================

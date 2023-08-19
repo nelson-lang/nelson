@@ -58,6 +58,7 @@ IJVToAllocatedEigenSparse(const std::vector<uint64>& I, const std::vector<uint64
         if (spMat) {
             spMat->setFromTriplets(tripletList.begin(), tripletList.end());
             spMat->reserve(nzmax);
+            spMat->finalize();
             spMat->makeCompressed();
             spMat->data().squeeze();
             return (void*)spMat;
@@ -288,7 +289,7 @@ ArrayOfSerialization::get(bool& success)
         } else {
             res = ArrayOf(NLS_LOGICAL, destinationDims,
                 IJVToAllocatedEigenSparse<logical>(
-                    I, J, asUint8, nzmax, destinationDims.getRows(), destinationDims.getColumns()),
+                    I, J, asUint8, destinationDims.getRows(), destinationDims.getColumns(), nzmax),
                 isSparse);
         }
         success = true;
@@ -365,7 +366,7 @@ ArrayOfSerialization::get(bool& success)
         } else {
             res = ArrayOf(NLS_DOUBLE, destinationDims,
                 IJVToAllocatedEigenSparse<double>(
-                    I, J, asDouble, nzmax, destinationDims.getRows(), destinationDims.getColumns()),
+                    I, J, asDouble, destinationDims.getRows(), destinationDims.getColumns(), nzmax),
                 isSparse);
         }
         success = true;
@@ -390,7 +391,7 @@ ArrayOfSerialization::get(bool& success)
             V.assign(Vz, Vz + (asDouble.size() / 2));
             res = ArrayOf(NLS_DCOMPLEX, destinationDims,
                 IJVToAllocatedEigenSparse<doublecomplex>(
-                    I, J, V, nzmax, destinationDims.getRows(), destinationDims.getColumns()),
+                    I, J, V, destinationDims.getRows(), destinationDims.getColumns(), nzmax),
                 isSparse);
         }
         success = true;

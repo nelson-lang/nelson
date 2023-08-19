@@ -128,7 +128,8 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         double* pDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), pDouble, false);
-        auto* pSingle = (single*)A.getDataPointer();
+        auto* pSingle
+            = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif

@@ -11,6 +11,6 @@ A = struct([]);
 M = 1:1e5;
 overloadbasictypes(true);
 tic;for i=M
-  isequal(A,A);
+  isequalto(A,A);
 end;
 toc()

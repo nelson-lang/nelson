@@ -27,8 +27,9 @@ ArrayOf
 Evaluator::notOperator(const ArrayOf& A)
 {
     bool wasFound = false;
-    ArrayOf res = callOverloadedFunction(
-        this, A, NOT_OPERATOR_STR, ClassName(A), A.getDataClass(), wasFound);
+    ArrayOf res = callOverloadedFunction(this,
+        NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), A, NOT_OPERATOR_STR,
+        ClassName(A), A.getDataClass(), wasFound);
     if (wasFound) {
         return res;
     }

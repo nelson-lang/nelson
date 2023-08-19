@@ -110,8 +110,7 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     for (auto& i : vB) {
         _args << ArrayOf::characterArrayConstructor(i);
     }
-    res = VertCat(_args, NLS_CHAR);
-    return res;
+    return VertCat(_args, NLS_CHAR);
 }
 //=============================================================================
 ArrayOf

@@ -16,7 +16,7 @@
 #include "ClassToString.hpp"
 #include "ClassName.hpp"
 #include "FunctionsInMemory.hpp"
-// #include "NelsonConfiguration.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,75 +27,65 @@ overloadFunctionName(const std::string& destinationTypeName, const std::string& 
 }
 //=============================================================================
 inline ArrayOf
-callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
+callOverloadedFunctionAllTypes(Evaluator* eval, const ArrayOfVector& argsIn,
     const std::string& functionName, const std::string& commonTypeName, NelsonType commonType,
     bool& wasFound, int nargout = 1)
 {
-    if (commonType >= NLS_CLASS_ARRAY) {
-        std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
-        if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
-            FunctionDef* funcDef = nullptr;
-            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-            if (!funcDef && commonType == NLS_HANDLE) {
-                overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
-                eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-            }
-            if (funcDef) {
-                wasFound = true;
-                if (nargout == 0) {
-                    funcDef->evaluateFunction(eval, argsIn, nargout);
-                    return {};
-                } else {
-                    return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
-                }
-            }
-        } else if (commonType == NLS_HANDLE) {
-            FunctionDef* funcDef = nullptr;
+    wasFound = false;
+    std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
+    if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
+        FunctionDef* funcDef = nullptr;
+        eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+        if (!funcDef && commonType == NLS_HANDLE) {
             overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
             eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-            if (funcDef) {
-                wasFound = true;
-                if (nargout == 0) {
-                    funcDef->evaluateFunction(eval, argsIn, nargout);
-                    return {};
-                } else {
-                    return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
-                }
+        }
+        if (funcDef) {
+            wasFound = true;
+            if (nargout == 0) {
+                funcDef->evaluateFunction(eval, argsIn, nargout);
+                return {};
             }
+            return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
+        }
+    } else if (commonType == NLS_HANDLE) {
+        FunctionDef* funcDef = nullptr;
+        overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
+        eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+        if (funcDef) {
+            wasFound = true;
+            if (nargout == 0) {
+                funcDef->evaluateFunction(eval, argsIn, nargout);
+                return {};
+            }
+            return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
         }
     }
-    /*
-    switch (NelsonConfiguration::getInstance()->getOverloadLevelCompatibility()) {
-    case OverloadLevelCompatibility::NLS_OVERLOAD_ALL_TYPES: {
-        std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
-        if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
-            FunctionDef* funcDef = nullptr;
-            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-            if (funcDef) {
-                wasFound = true;
-                return funcDef->evaluateFunction(eval, argsIn, 1)[0];
-            }
-        }
+    return {};
+}
+//=============================================================================
+inline ArrayOf
+callOverloadedFunction(Evaluator* eval, OverloadLevelCompatibility overloadLevelCompatibility,
+    const ArrayOfVector& argsIn, const std::string& functionName, const std::string& commonTypeName,
+    NelsonType commonType, bool& wasFound, int nargout = 1)
+{
+    switch (overloadLevelCompatibility) {
+    case NLS_OVERLOAD_ALL_TYPES: {
+        return callOverloadedFunctionAllTypes(
+            eval, argsIn, functionName, commonTypeName, commonType, wasFound, nargout);
+
     } break;
-    case OverloadLevelCompatibility::NLS_OVERLOAD_OBJECT_TYPES_ONLY: {
+    case NLS_OVERLOAD_OBJECT_TYPES_ONLY: {
         if (commonType >= NLS_CLASS_ARRAY) {
-            std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
-            if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
-                FunctionDef* funcDef = nullptr;
-                eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-                if (funcDef) {
-                    wasFound = true;
-                    return funcDef->evaluateFunction(eval, argsIn, 1)[0];
-                }
-            }
+            return callOverloadedFunctionAllTypes(
+                eval, argsIn, functionName, commonTypeName, commonType, wasFound, nargout);
         }
     } break;
     default:
-    case OverloadLevelCompatibility::NLS_OVERLOAD_NONE: {
+    case NLS_OVERLOAD_NONE: {
+        wasFound = false;
     } break;
     }
-    */
-    wasFound = false;
     return {};
 }
 //=============================================================================

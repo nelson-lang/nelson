@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FindCommonConcatenateType.hpp"
+#include "FindCommonType.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ClassToString.hpp"
@@ -21,8 +21,8 @@ static NelsonType
 getConcatenateCommonType(NelsonType type1, NelsonType type2);
 //=============================================================================
 bool
-FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
-    bool& isComplex, std::string& typeName)
+FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
+    std::string& typeName)
 {
     commonType = NLS_UNKNOWN;
     typeName = NLS_UNKNOWN_STR;
