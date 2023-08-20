@@ -200,23 +200,13 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
         return found;
     }
 
-    FunctionDefPtr functionDefInMem = nullptr;
-
     if (FunctionsInMemory::getInstance()->find(funcName, val)) {
-        /*
         if (val->type() == NLS_MACRO_FUNCTION || val->type() == NLS_MEX_FUNCTION) {
-            std::wstring pathname = val->getPath();
-            if (PathFunctionIndexerManager::getInstance()->isAvailablePath(pathname)) {
-                return true;
-            } else {
-                functionDefInMem = val;
-                val = nullptr;
-            }
-        } else {
-            return true;
+            PathFunctionIndexerManager::getInstance()->hashOnFileWatcher();
         }
-        */
         return true;
+    } else {
+        PathFunctionIndexerManager::getInstance()->hashOnFileWatcher();
     }
 
     if (scopestack.back()->lookupFunction(funcName, val)) {
@@ -233,15 +223,7 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
         FunctionsInMemory::getInstance()->add(funcName, val);
         return true;
     }
-    bool res = scopestack.front()->lookupFunction(funcName, val);
-    if (!res && functionDefInMem != nullptr) { //-V560
-        std::string utf8msg = fmt::sprintf(_("'%s' is not found in the current folder or on "
-                                             "the Nelson path, but exists in:"),
-            funcName);
-        std::wstring msg = utf8_to_wstring(utf8msg) + L"\n" + functionDefInMem->getPath();
-        Error(msg);
-    }
-    return res;
+    return scopestack.front()->lookupFunction(funcName, val);
 }
 //=============================================================================
 void

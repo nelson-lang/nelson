@@ -56,9 +56,6 @@ private:
     void
     refreshFunctionsMap();
 
-    void
-    rehashOnFileWatcher();
-
     bool _filesWatcherStarted;
 
 public:
@@ -113,6 +110,9 @@ public:
 
     void
     startFileWatcher();
+
+    bool
+    hashOnFileWatcher();
 };
 //=============================================================================
 } // namespace Nelson

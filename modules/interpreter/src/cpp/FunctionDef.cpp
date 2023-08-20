@@ -23,11 +23,6 @@ FunctionDef::setFilename(const std::wstring& filename)
     this->filename = filename;
     FileSystemWrapper::Path path(filename);
     this->pathname = path.parent_path().generic_wstring();
-    std::string errorMessage;
-    this->timestamp = FileSystemWrapper::Path::last_write_time(filename, errorMessage);
-    if (!errorMessage.empty()) {
-        this->timestamp = 0;
-    }
 }
 //=============================================================================
 }
