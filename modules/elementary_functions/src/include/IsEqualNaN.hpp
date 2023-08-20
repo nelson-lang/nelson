@@ -16,7 +16,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP bool
-IsEqual(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool isSparse,
+IsEqualNaN(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool isSparse,
     bool isComplex, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson

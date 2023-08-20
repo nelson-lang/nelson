@@ -157,9 +157,6 @@
     <ClCompile Include="..\cpp\Operators\NotOperator.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Operators\Operators.cpp">
-      <Filter>Source Files\Operators</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\Operators\OrOperator.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>

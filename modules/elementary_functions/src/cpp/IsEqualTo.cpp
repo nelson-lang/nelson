@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
+#include <cstring>
 #include "nlsBuildConfig.h"
 #include <Eigen/Sparse>
 #include "IsEqualTo.hpp"
@@ -17,49 +19,18 @@ namespace Nelson {
 static bool
 isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-static bool
-isequalornan(single a, single b)
+template <class T>
+bool
+isequalornan(T a, T b)
 {
-    if (a == b) {
-        return true;
-    }
-    return (std::isnan(a) && std::isnan(b));
-}
-//=============================================================================
-static bool
-isequalornan(double a, double b)
-{
-    if (a == b) {
-        return true;
-    }
-    return (std::isnan(a) && std::isnan(b));
+    return (std::isnan(a) && std::isnan(b)) || (a == b);
 }
 //=============================================================================
 template <class T>
 static bool
-integer_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
+integer_IsEqualto(const T* ptrA, const T* ptrB, indexType byteSize)
 {
-    if (nbElements == 1) {
-        return ptrA[0] == ptrB[0];
-    }
-#if defined(_NLS_WITH_OPENMP)
-    bool equal = true;
-#pragma omp parallel for shared(equal)
-    for (ompIndexType k = 0; k < nbElements; k++) {
-        if (equal && ptrA[k] != ptrB[k]) {
-#pragma omp critical
-            equal = false;
-        }
-    }
-    return equal;
-#else
-    for (ompIndexType k = 0; k < nbElements; ++k) {
-        if (ptrA[k] != ptrB[k]) {
-            return false;
-        }
-    }
-    return true;
-#endif
+    return (memcmp(ptrA, ptrB, byteSize) == 0);
 }
 //=============================================================================
 template <class T>
@@ -67,7 +38,7 @@ static bool
 real_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 {
     if (nbElements == 1) {
-        return isequalornan(ptrA[0], ptrB[0]);
+        return isequalornan<T>(ptrA[0], ptrB[0]);
     }
 #if defined(_NLS_WITH_OPENMP)
     bool equal = true;
@@ -75,7 +46,7 @@ real_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 #pragma omp parallel for shared(equal)
 #endif
     for (ompIndexType k = 0; k < nbElements; k++) {
-        if (equal && !isequalornan(ptrA[k], ptrB[k])) {
+        if (equal && !isequalornan<T>(ptrA[k], ptrB[k])) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp critical
 #endif
@@ -85,7 +56,7 @@ real_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
     return equal;
 #else
     for (ompIndexType k = 0; k < nbElements; ++k) {
-        if (!isequalornan(ptrA[k], ptrB[k])) {
+        if (!isequalornan<T>(ptrA[k], ptrB[k])) {
             return false;
         }
     }
@@ -98,10 +69,10 @@ static bool
 complex_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 {
     if (nbElements == 1) {
-        return isequalornan(ptrA[0], ptrB[0]) && isequalornan(ptrA[1], ptrB[1]);
+        return isequalornan<T>(ptrA[0], ptrB[0]) && isequalornan<T>(ptrA[1], ptrB[1]);
     }
     for (ompIndexType k = 0; k < nbElements * 2; ++k) {
-        if (!isequalornan(ptrA[k], ptrB[k])) {
+        if (!isequalornan<T>(ptrA[k], ptrB[k])) {
             return false;
         }
     }
@@ -175,8 +146,8 @@ sparsecomplex_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
         if (equal
-            && (!isequalornan(valuesA[k].real(), valuesB[k].real())
-                || !isequalornan(valuesA[k].imag(), valuesB[k].imag())))
+            && (!isequalornan<double>(valuesA[k].real(), valuesB[k].real())
+                || !isequalornan<double>(valuesA[k].imag(), valuesB[k].imag())))
 #pragma omp critical
             equal = false;
     }
@@ -185,8 +156,8 @@ sparsecomplex_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
     }
 #else
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if (!isequalornan(valuesA[k].real(), valuesB[k].real())
-            || !isequalornan(valuesA[k].imag(), valuesB[k].imag())) {
+        if (!isequalornan<double>(valuesA[k].real(), valuesB[k].real())
+            || !isequalornan<double>(valuesA[k].imag(), valuesB[k].imag())) {
             return false;
         }
     }
@@ -227,7 +198,7 @@ sparsereal_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if (equal && !isequalornan(valuesA[k], valuesB[k])) {
+        if (equal && !isequalornan<double>(valuesA[k], valuesB[k])) {
 #pragma omp critical
             equal = false;
         }
@@ -237,7 +208,7 @@ sparsereal_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
     }
 #else
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if (!isequalornan(valuesA[k], valuesB[k])) {
+        if (!isequalornan<double>(valuesA[k], valuesB[k])) {
             return false;
         }
     }
@@ -359,47 +330,47 @@ isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverl
             (const single*)B.getDataPointer(), A.getElementCount());
     } break;
     case NLS_INT8: {
-        return integer_IsEqualto<int8>(
-            (const int8*)A.getDataPointer(), (const int8*)B.getDataPointer(), A.getElementCount());
+        return integer_IsEqualto<int8>((const int8*)A.getDataPointer(),
+            (const int8*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT16: {
         return integer_IsEqualto<int16>((const int16*)A.getDataPointer(),
-            (const int16*)B.getDataPointer(), A.getElementCount());
+            (const int16*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT32: {
         return integer_IsEqualto<int32>((const int32*)A.getDataPointer(),
-            (const int32*)B.getDataPointer(), A.getElementCount());
+            (const int32*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT64: {
         return integer_IsEqualto<int64>((const int64*)A.getDataPointer(),
-            (const int64*)B.getDataPointer(), A.getElementCount());
+            (const int64*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT8: {
         return integer_IsEqualto<uint8>((const uint8*)A.getDataPointer(),
-            (const uint8*)B.getDataPointer(), A.getElementCount());
+            (const uint8*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT16: {
         return integer_IsEqualto<uint16>((const uint16*)A.getDataPointer(),
-            (const uint16*)B.getDataPointer(), A.getElementCount());
+            (const uint16*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT32: {
         return integer_IsEqualto<uint32>((const uint32*)A.getDataPointer(),
-            (const uint32*)B.getDataPointer(), A.getElementCount());
+            (const uint32*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT64: {
         return integer_IsEqualto<uint64>((const uint64*)A.getDataPointer(),
-            (const uint64*)B.getDataPointer(), A.getElementCount());
+            (const uint64*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             return sparselogical_IsEqualTo(A, B);
         }
         return integer_IsEqualto<logical>((const logical*)A.getDataPointer(),
-            (const logical*)B.getDataPointer(), A.getElementCount());
+            (const logical*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_CHAR: {
         return integer_IsEqualto<charType>((const charType*)A.getDataPointer(),
-            (const charType*)B.getDataPointer(), A.getElementCount());
+            (const charType*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_STRING_ARRAY: {
         return string_IsEqualto(A, B, A.getElementCount());

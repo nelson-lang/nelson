@@ -95,7 +95,7 @@ sparseBuiltinFiveOrSixRhs(int nLhs, const ArrayOfVector& argIn)
     indexType nnz = 0;
     if (argIn.size() == 6) {
         ArrayOf NNZ(argIn[5]);
-        nnz = NNZ.getContentAsScalarIndex(false);
+        nnz = NNZ.getContentAsScalarIndex(true);
     }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)
@@ -114,6 +114,7 @@ sparseBuiltinFiveOrSixRhs(int nLhs, const ArrayOfVector& argIn)
 ArrayOfVector
 Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
+    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 1:
@@ -129,6 +130,6 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
-    return {};
+    return retval;
 }
 //=============================================================================

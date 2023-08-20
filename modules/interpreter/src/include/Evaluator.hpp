@@ -698,13 +698,6 @@ public:
     void
     resetLastWarningException();
 
-    using UnaryFunction = ArrayOf (*)(const ArrayOf&);
-    using BinaryFunction = ArrayOf (*)(ArrayOf&, ArrayOf&, bool, bool&);
-
-    ArrayOf
-    doBinaryOperatorOverload(
-        ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName);
-
     ArrayOf
     colonUnitOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
@@ -795,13 +788,6 @@ private:
     EndReference(const ArrayOf& v, indexType index, size_t count);
     size_t
     countSubExpressions(AbstractSyntaxTreePtr t);
-
-    ArrayOf
-    doUnaryOperatorOverload(
-        AbstractSyntaxTreePtr t, UnaryFunction functionOperator, const std::string& functionName);
-    ArrayOf
-    doBinaryOperatorOverload(
-        AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName);
 
     /**
      * Handles the logistics of shortcut evaluation

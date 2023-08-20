@@ -265,7 +265,6 @@
     <ClCompile Include="..\cpp\Operators\MtimesOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\NeOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\NotOperator.cpp" />
-    <ClCompile Include="..\cpp\Operators\Operators.cpp" />
     <ClCompile Include="..\cpp\Operators\OrOperator.cpp" />
     <ClCompile Include="..\cpp\operators\PowerOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\RightDivideOperator.cpp" />

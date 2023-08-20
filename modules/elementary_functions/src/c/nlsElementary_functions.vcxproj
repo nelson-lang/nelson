@@ -197,6 +197,7 @@
     <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
     <ClCompile Include="..\cpp\Hypothenus.cpp" />
+    <ClCompile Include="..\cpp\IsEqualNaN.cpp" />
     <ClCompile Include="..\cpp\IsEqualTo.cpp" />
     <ClCompile Include="..\cpp\Logarithm10.cpp" />
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
     <ClInclude Include="..\include\IsEqual.hpp" />
+    <ClInclude Include="..\include\IsEqualNaN.hpp" />
     <ClInclude Include="..\include\IsEqualTo.hpp" />
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />

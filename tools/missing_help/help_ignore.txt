@@ -82,13 +82,7 @@ sparselogical_vertcat
 test_parsetags
 logical_minus_logical
 logical_plus_logical
-cell_isequal
-cell_isequaln
-cell_isequalto
 cell_vertcat_struct
-struct_isequal
-struct_isequaln
-struct_isequalto
 sparsedouble_abs
 sparsedouble_acos
 sparsedouble_asin

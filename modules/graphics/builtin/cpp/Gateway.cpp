@@ -68,6 +68,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "graphics_object_isequal",
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
+    { "graphics_object_isequaln",
+        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
     { "graphics_object_isequalto",
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
     { "graphics_object_isprop", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_ispropBuiltin,

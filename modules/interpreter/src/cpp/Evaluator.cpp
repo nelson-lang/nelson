@@ -4402,40 +4402,5 @@ Evaluator::countSubExpressions(AbstractSyntaxTreePtr t)
     return count;
 }
 //=============================================================================
-ArrayOf
-Evaluator::doBinaryOperatorOverload(
-    AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName)
-{
-    ArrayOf A(expression(t->down));
-    ArrayOf B(expression(t->down->right));
-    return doBinaryOperatorOverload(A, B, functionOperator, functionName);
-}
-//=============================================================================
-ArrayOf
-Evaluator::doBinaryOperatorOverload(
-    ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName)
-{
-    ArrayOf res;
-    bool bSuccess = false;
-    if (!overloadOnBasicTypes) {
-        res = functionOperator(A, B, false, bSuccess);
-        if (!bSuccess) {
-            res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-            if (!bSuccess) {
-                ArrayOfVector argsIn;
-                argsIn.push_back(A);
-                argsIn.push_back(B);
-                OverloadRequired(this, argsIn, Overload::OverloadClass::BINARY, functionName);
-            }
-        }
-    } else {
-        res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-        if (!bSuccess) {
-            res = functionOperator(A, B, true, bSuccess);
-        }
-    }
-    return res;
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -9,10 +9,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsInterpreter_exports.h"
-//=============================================================================
 namespace Nelson {
 //=============================================================================
 // UNARY
@@ -49,47 +45,6 @@ namespace Nelson {
 #define COLON_OPERATOR_STR "colon"
 #define HORZCAT_OPERATOR_STR "horzcat"
 #define VERTCAT_OPERATOR_STR "vertcat"
-//=============================================================================
-enum OperatorType
-{
-    PLUS = 0,
-    MINUS,
-    UMINUS,
-    UPLUS,
-    TIMES,
-    MTIMES,
-    RDIVIDE,
-    LDIVIDE,
-    MRDIVIDE,
-    MLDIVIDE,
-    POWER,
-    MPOWER,
-    LT,
-    GT,
-    LE,
-    GE,
-    NE,
-    EQ,
-    AND,
-    OR,
-    SHORTCUTAND,
-    SHORTCUTOR,
-    NOT,
-    COLON,
-    CTRANSPOSE,
-    TRANSPOSE,
-    HORZCAT,
-    VERTCAT,
-    SUBSREF,
-    SUBSASGN,
-    SUBSINDEX
-};
-//=============================================================================
-NLSINTERPRETER_IMPEXP std::string
-getOperatorName(OperatorType operatorType);
-//=============================================================================
-NLSINTERPRETER_IMPEXP std::string
-getOperatorSymbol(OperatorType operatorType);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

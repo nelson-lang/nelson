@@ -11,27 +11,34 @@
 #include <cstring>
 #include "nlsBuildConfig.h"
 #include <Eigen/Sparse>
-#include "IsEqual.hpp"
+#include "IsEqualNaN.hpp"
 #include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool
-isEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+//=============================================================================
+template <class T>
+bool
+isequalornan(T a, T b)
+{
+    return (std::isnan(a) && std::isnan(b)) || (a == b);
+}
 //=============================================================================
 template <class T>
 static bool
-integer_IsEqual(const T* ptrA, const T* ptrB, indexType byteSize)
+integer_IsEqualNaN(const T* ptrA, const T* ptrB, indexType byteSize)
 {
     return (memcmp(ptrA, ptrB, byteSize) == 0);
 }
 //=============================================================================
 template <class T>
 static bool
-real_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
+real_IsEqualNaN(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 {
     if (nbElements == 1) {
-        return (ptrA[0] == ptrB[0]);
+        return isequalornan<T>(ptrA[0], ptrB[0]);
     }
 #if defined(_NLS_WITH_OPENMP)
     bool equal = true;
@@ -39,7 +46,7 @@ real_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 #pragma omp parallel for shared(equal)
 #endif
     for (ompIndexType k = 0; k < nbElements; k++) {
-        if (equal && (ptrA[k] != ptrB[k])) {
+        if (equal && !isequalornan<T>(ptrA[k], ptrB[k])) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp critical
 #endif
@@ -49,7 +56,7 @@ real_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
     return equal;
 #else
     for (ompIndexType k = 0; k < nbElements; ++k) {
-        if (ptrA[k] != ptrB[k]) {
+        if (!isequalornan<T>(ptrA[k], ptrB[k])) {
             return false;
         }
     }
@@ -59,13 +66,13 @@ real_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 //=============================================================================
 template <class T>
 static bool
-complex_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
+complex_IsEqualNaN(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 {
     if (nbElements == 1) {
-        return (ptrA[0] == ptrB[0]) && (ptrA[1] == ptrB[1]);
+        return isequalornan<T>(ptrA[0], ptrB[0]) && isequalornan<T>(ptrA[1], ptrB[1]);
     }
     for (ompIndexType k = 0; k < nbElements * 2; ++k) {
-        if (ptrA[k] != ptrB[k]) {
+        if (!isequalornan<T>(ptrA[k], ptrB[k])) {
             return false;
         }
     }
@@ -107,7 +114,7 @@ haveSameIndexes(Eigen::SparseMatrix<T, 0, signedIndexType>* spMatA,
 }
 //=============================================================================
 static bool
-sparsecomplex_IsEqual(const ArrayOf& A, const ArrayOf& B)
+sparsecomplex_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.getSparseDataPointer();
@@ -139,8 +146,8 @@ sparsecomplex_IsEqual(const ArrayOf& A, const ArrayOf& B)
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
         if (equal
-            && ((valuesA[k].real() != valuesB[k].real())
-                || (valuesA[k].imag() != valuesB[k].imag())))
+            && (!isequalornan<double>(valuesA[k].real(), valuesB[k].real())
+                || !isequalornan<double>(valuesA[k].imag(), valuesB[k].imag())))
 #pragma omp critical
             equal = false;
     }
@@ -149,7 +156,8 @@ sparsecomplex_IsEqual(const ArrayOf& A, const ArrayOf& B)
     }
 #else
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if ((valuesA[k].real() != valuesB[k].real()) || (valuesA[k].imag() != valuesB[k].imag())) {
+        if (!isequalornan<double>(valuesA[k].real(), valuesB[k].real())
+            || !isequalornan<double>(valuesA[k].imag(), valuesB[k].imag())) {
             return false;
         }
     }
@@ -158,7 +166,7 @@ sparsecomplex_IsEqual(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 static bool
-sparsereal_IsEqual(const ArrayOf& A, const ArrayOf& B)
+sparsereal_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
@@ -190,7 +198,7 @@ sparsereal_IsEqual(const ArrayOf& A, const ArrayOf& B)
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if (equal && (valuesA[k] != valuesB[k])) {
+        if (equal && !isequalornan<double>(valuesA[k], valuesB[k])) {
 #pragma omp critical
             equal = false;
         }
@@ -200,7 +208,7 @@ sparsereal_IsEqual(const ArrayOf& A, const ArrayOf& B)
     }
 #else
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
-        if (valuesA[k] != valuesB[k]) {
+        if (!isequalornan<double>(valuesA[k], valuesB[k])) {
             return false;
         }
     }
@@ -209,7 +217,7 @@ sparsereal_IsEqual(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 static bool
-sparselogical_IsEqual(const ArrayOf& A, const ArrayOf& B)
+sparselogical_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
@@ -234,7 +242,7 @@ sparselogical_IsEqual(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 static bool
-string_IsEqual(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
+string_IsEqualNaN(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 {
     auto* elementA = (ArrayOf*)A.getDataPointer();
     auto* elementB = (ArrayOf*)B.getDataPointer();
@@ -259,12 +267,12 @@ string_IsEqual(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 }
 //=============================================================================
 static bool
-cell_IsEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+cell_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
     ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
     for (size_t k = 0; k < A.getElementCount(); ++k) {
-        bool res = isEqual(eval, elementsA[k], elementsB[k], needToOverload);
+        bool res = isEqualNaN(eval, elementsA[k], elementsB[k], needToOverload);
         if (!res) {
             return false;
         }
@@ -273,7 +281,7 @@ cell_IsEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOv
 }
 //=============================================================================
 static bool
-struct_IsEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+struct_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     stringVector fieldnamesA = A.getFieldNames();
     stringVector fieldnamesB = B.getFieldNames();
@@ -289,7 +297,7 @@ struct_IsEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needTo
         ArrayOfVector fieldsA = A.getFieldAsList(name);
         ArrayOfVector fieldsB = B.getFieldAsList(name);
         for (size_t k = 0; k < fieldsA.size(); ++k) {
-            bool res = isEqual(eval, fieldsA[k], fieldsB[k], needToOverload);
+            bool res = isEqualNaN(eval, fieldsA[k], fieldsB[k], needToOverload);
             if (!res) {
                 return false;
             }
@@ -299,83 +307,83 @@ struct_IsEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needTo
 }
 //=============================================================================
 bool
-isEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         if (A.isSparse()) {
-            return sparsereal_IsEqual(A, B);
+            return sparsereal_IsEqualNaN(A, B);
         }
-        return real_IsEqual<double>((const double*)A.getDataPointer(),
+        return real_IsEqualNaN<double>((const double*)A.getDataPointer(),
             (const double*)B.getDataPointer(), A.getElementCount());
     } break;
     case NLS_SINGLE: {
-        return real_IsEqual<single>((const single*)A.getDataPointer(),
+        return real_IsEqualNaN<single>((const single*)A.getDataPointer(),
             (const single*)B.getDataPointer(), A.getElementCount());
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
-            return sparsecomplex_IsEqual(A, B);
+            return sparsecomplex_IsEqualNaN(A, B);
         }
-        return complex_IsEqual<double>((const double*)A.getDataPointer(),
+        return complex_IsEqualNaN<double>((const double*)A.getDataPointer(),
             (const double*)B.getDataPointer(), A.getElementCount());
     } break;
     case NLS_SCOMPLEX: {
-        return complex_IsEqual<single>((const single*)A.getDataPointer(),
+        return complex_IsEqualNaN<single>((const single*)A.getDataPointer(),
             (const single*)B.getDataPointer(), A.getElementCount());
     } break;
     case NLS_INT8: {
-        return integer_IsEqual<int8>((const int8*)A.getDataPointer(),
+        return integer_IsEqualNaN<int8>((const int8*)A.getDataPointer(),
             (const int8*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT16: {
-        return integer_IsEqual<int16>((const int16*)A.getDataPointer(),
+        return integer_IsEqualNaN<int16>((const int16*)A.getDataPointer(),
             (const int16*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT32: {
-        return integer_IsEqual<int32>((const int32*)A.getDataPointer(),
+        return integer_IsEqualNaN<int32>((const int32*)A.getDataPointer(),
             (const int32*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_INT64: {
-        return integer_IsEqual<int64>((const int64*)A.getDataPointer(),
+        return integer_IsEqualNaN<int64>((const int64*)A.getDataPointer(),
             (const int64*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT8: {
-        return integer_IsEqual<uint8>((const uint8*)A.getDataPointer(),
+        return integer_IsEqualNaN<uint8>((const uint8*)A.getDataPointer(),
             (const uint8*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT16: {
-        return integer_IsEqual<uint16>((const uint16*)A.getDataPointer(),
+        return integer_IsEqualNaN<uint16>((const uint16*)A.getDataPointer(),
             (const uint16*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT32: {
-        return integer_IsEqual<uint32>((const uint32*)A.getDataPointer(),
+        return integer_IsEqualNaN<uint32>((const uint32*)A.getDataPointer(),
             (const uint32*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_UINT64: {
-        return integer_IsEqual<uint64>((const uint64*)A.getDataPointer(),
+        return integer_IsEqualNaN<uint64>((const uint64*)A.getDataPointer(),
             (const uint64*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
-            return sparselogical_IsEqual(A, B);
+            return sparselogical_IsEqualNaN(A, B);
         }
-        return integer_IsEqual<logical>((const logical*)A.getDataPointer(),
+        return integer_IsEqualNaN<logical>((const logical*)A.getDataPointer(),
             (const logical*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_CHAR: {
-        return integer_IsEqual<charType>((const charType*)A.getDataPointer(),
+        return integer_IsEqualNaN<charType>((const charType*)A.getDataPointer(),
             (const charType*)B.getDataPointer(), (indexType)A.getByteSize());
     } break;
     case NLS_STRING_ARRAY: {
-        return string_IsEqual(A, B, A.getElementCount());
+        return string_IsEqualNaN(A, B, A.getElementCount());
     } break;
     case NLS_STRUCT_ARRAY: {
-        return struct_IsEqual(eval, A, B, needToOverload);
+        return struct_IsEqualNaN(eval, A, B, needToOverload);
     } break;
     case NLS_CELL_ARRAY: {
-        return cell_IsEqual(eval, A, B, needToOverload);
+        return cell_IsEqualNaN(eval, A, B, needToOverload);
     } break;
     case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
@@ -415,7 +423,7 @@ isEqual(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverloa
 }
 //=============================================================================
 bool
-IsEqual(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool isSparse,
+IsEqualNaN(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool isSparse,
     bool isComplex, bool& needToOverload)
 {
     needToOverload = false;
@@ -461,7 +469,7 @@ IsEqual(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool 
         if (!secondElement.getDimensions().equals(commonDimensions)) {
             return false;
         }
-        if (!isEqual(eval, firstElement, secondElement, needToOverload)) {
+        if (!isEqualNaN(eval, firstElement, secondElement, needToOverload)) {
             return false;
         }
     }
