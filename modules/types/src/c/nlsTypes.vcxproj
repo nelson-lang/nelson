@@ -219,6 +219,9 @@
     <ClInclude Include="..\..\src\include\StringToClass.hpp" />
     <ClInclude Include="..\..\src\include\Types.hpp" />
     <ClInclude Include="..\include\ArrayOfVector.hpp" />
+    <ClInclude Include="..\include\FindCommonColonType.hpp" />
+    <ClInclude Include="..\include\FindCommonConcatenateType.hpp" />
+    <ClInclude Include="..\include\FindCommonType.hpp" />
     <ClInclude Include="..\include\InputOutputArgumentsCheckers.hpp" />
     <ClInclude Include="..\include\ClassToString.hpp" />
     <ClInclude Include="..\include\Decomplexify.hpp" />
@@ -256,6 +259,9 @@
     <ClCompile Include="..\cpp\Data.cpp" />
     <ClCompile Include="..\cpp\Decomplexify.cpp" />
     <ClCompile Include="..\cpp\Dimensions.cpp" />
+    <ClCompile Include="..\cpp\FindCommonColonType.cpp" />
+    <ClCompile Include="..\cpp\FindCommonConcatenateType.cpp" />
+    <ClCompile Include="..\cpp\FindCommonType.cpp" />
     <ClCompile Include="..\cpp\HandleGenericObject.cpp" />
     <ClCompile Include="..\cpp\HandleManager.cpp" />
     <ClCompile Include="..\cpp\IsValidFieldname.cpp" />
