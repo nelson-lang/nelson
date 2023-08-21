@@ -180,13 +180,11 @@
     <ClInclude Include="..\..\src\include\OverloadBinaryOperator.hpp" />
     <ClInclude Include="..\..\src\include\OverloadFunction.hpp" />
     <ClInclude Include="..\..\src\include\OverloadRequired.hpp" />
-    <ClInclude Include="..\include\FindCommonType.hpp" />
     <ClInclude Include="..\include\Overload.hpp" />
     <ClInclude Include="..\include\OverloadExtraction.hpp" />
     <ClInclude Include="..\include\OverloadHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\FindCommonType.cpp" />
     <ClCompile Include="..\cpp\OverloadFunction.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>

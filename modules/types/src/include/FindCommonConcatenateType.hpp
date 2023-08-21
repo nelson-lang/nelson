@@ -10,15 +10,15 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsOverload_exports.h"
+#include "nlsTypes_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSOVERLOAD_IMPEXP
+NLSTYPES_IMPEXP
 bool
-FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
-    std::string& typeName);
+FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName);
 //=============================================================================
 }
 //=============================================================================
