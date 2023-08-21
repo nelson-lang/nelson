@@ -84,6 +84,36 @@ PathFunctionIndexerManager::startFileWatcher()
     _filesWatcherStarted = true;
 }
 //=============================================================================
+bool
+PathFunctionIndexerManager::hashOnFileWatcher()
+{
+    bool result = false;
+    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
+        PathFunctionIndexer* pf = *it;
+        if (pf->wasModified()) {
+            pf->rehash();
+            result = true;
+        }
+    }
+    if (_userPath) {
+        if (_userPath->wasModified()) {
+            _userPath->rehash();
+            result = true;
+        };
+    }
+    if (_currentPath) {
+        if (_currentPath->wasModified()) {
+            _currentPath->rehash();
+            result = true;
+        };
+    }
+
+    if (result) {
+        refreshFunctionsMap();
+    }
+    return result;
+}
+//=============================================================================
 void
 PathFunctionIndexerManager::refreshFunctionsMap()
 {
@@ -157,7 +187,6 @@ PathFunctionIndexerManager::findAndProcessFile(const std::string& name)
 bool
 PathFunctionIndexerManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
-    rehashOnFileWatcher();
     ptr = findAndProcessFile(name);
     if (ptr != nullptr) {
         return true;
@@ -192,7 +221,6 @@ bool
 PathFunctionIndexerManager::find(const std::string& functionName, wstringVector& filesname)
 {
     filesname.clear();
-    rehashOnFileWatcher();
     std::wstring filename;
     if (_currentPath != nullptr) {
         if (_currentPath->findFuncName(functionName, filename)) {
@@ -389,36 +417,6 @@ PathFunctionIndexerManager::rehash()
         }
     }
     refreshFunctionsMap();
-}
-//=============================================================================
-void
-PathFunctionIndexerManager::rehashOnFileWatcher()
-{
-    bool needRefresh = false;
-    if (_currentPath != nullptr) {
-        if (_currentPath->wasModified()) {
-            _currentPath->rehash();
-            needRefresh = true;
-        }
-    }
-    if (_userPath != nullptr) {
-        if (_userPath->wasModified()) {
-            _userPath->rehash();
-            needRefresh = true;
-        }
-    }
-    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
-        PathFunctionIndexer* pf = *it;
-        if (pf) {
-            if (pf->wasModified()) {
-                pf->rehash();
-                needRefresh = true;
-            }
-        }
-    }
-    if (needRefresh) {
-        refreshFunctionsMap();
-    }
 }
 //=============================================================================
 void

@@ -1116,7 +1116,6 @@ void
 ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
     ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    ArrayOf* ptrVariable = nullptr;
     T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
@@ -1155,8 +1154,6 @@ void
 ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
     ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    ArrayOf* ptrVariable = nullptr;
-    T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexVarName)) {
@@ -3281,6 +3278,7 @@ Evaluator::getCallers(bool includeCurrent)
                 if (StringHelpers::ends_with(functionname, ".m")) {
                     FileSystemWrapper::Path p(functionname);
                     functionname = p.stem().generic_string();
+                    callersName.push_back(functionname);
                 }
             } else {
                 // remove all that is not functions
@@ -3920,8 +3918,8 @@ Evaluator::setLastErrorException(const Exception& e)
 Exception
 Evaluator::getLastErrorException()
 {
-    Exception* ptrException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastErrorException(getID());
+    Exception* ptrException = static_cast<Exception*>(
+        NelsonConfiguration::getInstance()->getLastErrorException(getID()));
     Exception lastException;
     if (ptrException) {
         lastException = *ptrException;
@@ -3943,8 +3941,8 @@ Evaluator::resetLastErrorException()
 Exception
 Evaluator::getLastWarningException()
 {
-    Exception* ptrException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
+    Exception* ptrException = static_cast<Exception*>(
+        NelsonConfiguration::getInstance()->getLastWarningException(getID()));
     Exception lastException;
     if (ptrException) {
         lastException = *ptrException;
@@ -3955,8 +3953,8 @@ Evaluator::getLastWarningException()
 void
 Evaluator::resetLastWarningException()
 {
-    Exception* ptrException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
+    Exception* ptrException = static_cast<Exception*>(
+        NelsonConfiguration::getInstance()->getLastWarningException(getID()));
     if (ptrException) {
         delete ptrException;
     }
@@ -3966,8 +3964,8 @@ Evaluator::resetLastWarningException()
 bool
 Evaluator::setLastWarningException(const Exception& e)
 {
-    Exception* ptrPreviousException
-        = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(getID());
+    Exception* ptrPreviousException = static_cast<Exception*>(
+        NelsonConfiguration::getInstance()->getLastWarningException(getID()));
     if (ptrPreviousException) {
         delete ptrPreviousException;
     }
@@ -4162,11 +4160,10 @@ Evaluator::evalCLI()
         AbstractSyntaxTree::clearReferences();
         setLexBuffer(commandLine);
         try {
-            int lastCount = 0;
             bool bContinueLine = lexCheckForMoreInput(0);
             AbstractSyntaxTree::deleteReferences();
             if (bContinueLine) {
-                lastCount = getContinuationCount();
+                int lastCount = getContinuationCount();
                 std::wstring lines = commandLine;
                 bool enoughInput = false;
                 while (!enoughInput) {
@@ -4403,41 +4400,6 @@ Evaluator::countSubExpressions(AbstractSyntaxTreePtr t)
         count++;
     }
     return count;
-}
-//=============================================================================
-ArrayOf
-Evaluator::doBinaryOperatorOverload(
-    AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName)
-{
-    ArrayOf A(expression(t->down));
-    ArrayOf B(expression(t->down->right));
-    return doBinaryOperatorOverload(A, B, functionOperator, functionName);
-}
-//=============================================================================
-ArrayOf
-Evaluator::doBinaryOperatorOverload(
-    ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName)
-{
-    ArrayOf res;
-    bool bSuccess = false;
-    if (!overloadOnBasicTypes) {
-        res = functionOperator(A, B, false, bSuccess);
-        if (!bSuccess) {
-            res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-            if (!bSuccess) {
-                ArrayOfVector argsIn;
-                argsIn.push_back(A);
-                argsIn.push_back(B);
-                OverloadRequired(this, argsIn, Overload::OverloadClass::BINARY, functionName);
-            }
-        }
-    } else {
-        res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-        if (!bSuccess) {
-            res = functionOperator(A, B, true, bSuccess);
-        }
-    }
-    return res;
 }
 //=============================================================================
 } // namespace Nelson

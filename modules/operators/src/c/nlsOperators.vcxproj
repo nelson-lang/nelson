@@ -277,7 +277,7 @@
     <ClInclude Include="..\include\DotRightDivide.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\FindCommonClass.hpp" />
-    <ClInclude Include="..\include\FindCommonType.hpp" />
+    <ClInclude Include="..\include\FindCommonConcatenateType.hpp" />
     <ClInclude Include="..\include\FindConcatenateClass.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />

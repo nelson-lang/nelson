@@ -11,11 +11,13 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsElementary_functions_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP bool
-IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload);
+IsEqual(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bool isSparse,
+    bool isComplex, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -148,14 +148,14 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
         if (rows * cols) {
             doublecomplex* pzMat = nullptr;
             try {
-                pMat = new double[rows * cols * 2];
+                pMat = new double[spMat->rows() * spMat->cols() * 2];
                 pzMat = reinterpret_cast<doublecomplex*>(pMat);
             } catch (const std::bad_alloc&) {
                 spMat = nullptr;
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
-                (doublecomplex*)pzMat, rows, cols);
+                (doublecomplex*)pzMat, spMat->rows(), spMat->cols());
             matA = spMat->toDense();
         }
         return pMat;

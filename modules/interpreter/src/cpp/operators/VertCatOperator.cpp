@@ -16,7 +16,7 @@
 #include "i18n.hpp"
 #include "Operators.hpp"
 #include "Evaluator.hpp"
-#include "FindCommonType.hpp"
+#include "FindCommonConcatenateType.hpp"
 #include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -46,8 +46,9 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         ArrayOf res;
         if (FindCommonConcatenateType(v, commonType, isSparse, isComplex, commonTypeName)) {
             bool overloadWasFound = false;
-            res = callOverloadedFunction(
-                this, v, VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
+            res = callOverloadedFunction(this,
+                NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), v,
+                VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
             if (overloadWasFound) {
                 return res;
             }
@@ -60,12 +61,11 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         switch (commonType) {
         case NLS_LOGICAL: {
             if (isSparse) {
-                FunctionDef* funcDef = nullptr;
-                std::string overloadTypeName
-                    = overloadFunctionName(commonTypeName, VERTCAT_OPERATOR_STR);
-                getContext()->lookupFunction(overloadTypeName, funcDef);
-                if (funcDef) {
-                    return funcDef->evaluateFunction(this, v, 1)[0];
+                bool overloadWasFound = false;
+                res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
+                    NLS_SPARSE_LOGICAL_STR, commonType, overloadWasFound);
+                if (overloadWasFound) {
+                    return res;
                 } else {
                     OverloadRequired(VERTCAT_OPERATOR_STR);
                 }
@@ -75,12 +75,11 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         case NLS_DOUBLE:
         case NLS_DCOMPLEX: {
             if (isSparse) {
-                FunctionDef* funcDef = nullptr;
-                std::string overloadTypeName
-                    = overloadFunctionName(commonTypeName, VERTCAT_OPERATOR_STR);
-                getContext()->lookupFunction(overloadTypeName, funcDef);
-                if (funcDef) {
-                    return funcDef->evaluateFunction(this, v, 1)[0];
+                bool overloadWasFound = false;
+                res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
+                    NLS_SPARSE_DOUBLE_STR, commonType, overloadWasFound);
+                if (overloadWasFound) {
+                    return res;
                 } else {
                     OverloadRequired(VERTCAT_OPERATOR_STR);
                 }
@@ -124,9 +123,11 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         } break;
         case NLS_HANDLE: {
             bool overloadWasFound = false;
-            res = callOverloadedFunction(
-                this, v, VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
-            if (!overloadWasFound) {
+            res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
+                commonTypeName, commonType, overloadWasFound);
+            if (overloadWasFound) {
+                return res;
+            } else {
                 OverloadRequired(VERTCAT_OPERATOR_STR);
             }
         } break;

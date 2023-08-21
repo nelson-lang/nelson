@@ -33,7 +33,6 @@ namespace Nelson {
 //=============================================================================
 MacroFunctionDef::MacroFunctionDef()
 {
-    this->setTimestamp(0);
     this->localFunction = false;
     this->nextFunction = nullptr;
     this->prevFunction = nullptr;
@@ -50,7 +49,6 @@ MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatche
     this->prevFunction = nullptr;
     this->code = nullptr;
     this->setFilename(filename);
-    this->setTimestamp(0);
     updateCode(); //-V1053
     this->withWatcher = withWatcher;
 }
@@ -376,13 +374,10 @@ MacroFunctionDef::updateCode()
         return false;
     }
     std::string errorMessage;
-    time_t currentFileTimestamp
-        = FileSystemWrapper::Path::last_write_time(this->getFilename(), errorMessage);
     if (errorMessage.empty()) {
-        if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
+        if (!forceUpdate) {
             return false;
         }
-        this->setTimestamp(currentFileTimestamp);
     } else {
         return false;
     }

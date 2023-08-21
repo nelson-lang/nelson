@@ -17,15 +17,20 @@ ArrayOf
 ToSingle(const ArrayOf& A)
 {
     ompIndexType nbElements = A.getElementCount();
-    single* pSingle
-        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, nbElements, stringVector(), false);
+    auto* pSingle = static_cast<single*>(const_cast<void*>(static_cast<const void*>(
+        ArrayOf::allocateArrayOf(NLS_SINGLE, nbElements, stringVector(), false))));
     ArrayOf r = ArrayOf(NLS_SINGLE, A.getDimensions(), pSingle, A.isSparse());
-    T* ptrA = (T*)A.getDataPointer();
+    T* ptrA = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+    if (nbElements == 1) {
+        pSingle[0] = static_cast<single>(ptrA[0]);
+        return r;
+    }
+
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < nbElements; ++i) {
-        pSingle[i] = (single)ptrA[i];
+        pSingle[i] = static_cast<single>(ptrA[i]);
     }
     return r;
 }

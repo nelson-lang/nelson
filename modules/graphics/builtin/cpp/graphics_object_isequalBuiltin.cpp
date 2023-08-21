@@ -18,36 +18,35 @@ ArrayOfVector
 Nelson::GraphicsGateway::graphics_object_isequalBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf paramGo1 = argIn[0];
-    ArrayOf paramGo2 = argIn[1];
-    if (paramGo1.getDataClass() != NLS_GO_HANDLE) {
-        Error(_W("graphics_object expected."));
-    }
-    if (paramGo2.getDataClass() != NLS_GO_HANDLE) {
-        Error(_W("graphics_object expected."));
-    }
 
+    ArrayOf paramGo1 = argIn[0];
+    if (!paramGo1.isGraphicsObject()) {
+        return ArrayOf::logicalConstructor(false);
+    }
     Dimensions dims1 = paramGo1.getDimensions();
-    Dimensions dims2 = paramGo2.getDimensions();
-    if (!dims1.equals(dims2)) {
-        retval << ArrayOf::logicalConstructor(false);
-        return retval;
-    }
     auto* ptrGO1 = (nelson_handle*)paramGo1.getDataPointer();
-    auto* ptrGO2 = (nelson_handle*)paramGo2.getDataPointer();
-    if (ptrGO1 == ptrGO2) {
-        retval << ArrayOf::logicalConstructor(true);
-        return retval;
-    }
-    for (indexType k = 0; k < dims1.getElementCount(); ++k) {
-        if (ptrGO1[k] != ptrGO2[k]) {
-            retval << ArrayOf::logicalConstructor(false);
-            return retval;
+
+    for (size_t k = 1; k < argIn.size(); k++) {
+        ArrayOf paramGo2 = argIn[k];
+        if (!paramGo2.isGraphicsObject()) {
+            return ArrayOf::logicalConstructor(false);
+        }
+        Dimensions dims2 = paramGo2.getDimensions();
+        if (!dims1.equals(dims2)) {
+            return ArrayOf::logicalConstructor(false);
+        }
+        auto* ptrGO2 = (nelson_handle*)paramGo2.getDataPointer();
+        if (ptrGO1 == ptrGO2) {
+            return ArrayOf::logicalConstructor(true);
+        }
+        for (indexType j = 0; j < dims1.getElementCount(); ++j) {
+            if (ptrGO1[j] != ptrGO2[j]) {
+                return ArrayOf::logicalConstructor(false);
+            }
         }
     }
-    retval << ArrayOf::logicalConstructor(true);
-    return retval;
+    return ArrayOf::logicalConstructor(true);
 }
 //=============================================================================

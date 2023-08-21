@@ -7,26 +7,18 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#pragma warning(disable : 4190)
-#endif
+#pragma once
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "singleBuiltin.hpp"
+#include <string>
+#include "nlsOverload_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"single";
+NLSOVERLOAD_IMPEXP
+bool
+FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
+    std::string& typeName);
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "single", (ptrBuiltin)Nelson::SingleGateway::singleBuiltin, 1, 1, CPP_BUILTIN },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================

@@ -10,10 +10,10 @@
 #include "isequaltoBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
-#include "IsEqual.hpp"
+#include "IsEqualTo.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "FindCommonType.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,45 +21,34 @@ ArrayOfVector
 Nelson::ElementaryFunctionsGateway::isequaltoBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isequalto", bSuccess);
-    }
-    if (!bSuccess) {
-        bool res = false;
-        for (size_t k = 1; k < argIn.size(); k++) {
-            bool needToOverload = false;
-            ArrayOf param1 = argIn[k - 1];
-            ArrayOf param2 = argIn[k];
-            res = IsEqual(param1, param2, true, true, needToOverload);
-            if (needToOverload) {
-                ArrayOfVector v1v2;
-                v1v2.push_back(param1);
-                v1v2.push_back(param2);
-                ArrayOfVector ret = OverloadFunction(eval, nLhs, v1v2, "isequalto", bSuccess);
-                {
-                    if (ret.size() == 1) {
-                        res = ret[0].getContentAsLogicalScalar(false) == 0 ? false : true;
-                        if (!res) {
-                            retval << ArrayOf::logicalConstructor(res);
-                            return retval;
-                        }
-                    } else {
-                        Error(_W("overload of isequalto must return a logical."));
-                    }
-                }
-            } else {
-                if (!res) {
-                    retval << ArrayOf::logicalConstructor(res);
-                    return retval;
-                }
-            }
+
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+
+    ArrayOf res;
+    if (FindCommonType(argIn, commonType, isSparse, isComplex, commonTypeName)) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(eval,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn, "isequalto",
+            commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
         }
-        retval << ArrayOf::logicalConstructor(res);
     }
-    return retval;
+    if (isSparse
+        && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
+        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+    }
+
+    bool needToOverload = false;
+    bool result = IsEqualTo(eval, argIn, needToOverload);
+    if (needToOverload) {
+        OverloadRequired("isequalto");
+    }
+    return ArrayOf::logicalConstructor(result);
 }
 //=============================================================================

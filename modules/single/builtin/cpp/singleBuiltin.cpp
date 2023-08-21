@@ -8,38 +8,21 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "singleBuiltin.hpp"
-#include "Error.hpp"
 #include "ToSingle.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SingleGateway::singleBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    ArrayOf A(argIn[0]);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
+    bool needToOverload;
+    ArrayOf res = ToSingle(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("single");
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = ToSingle(A, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
-            if (!bSuccess) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE);
-            }
-        } else {
-            retval << res;
-        }
-    }
-    return retval;
+    return res;
 }
 //=============================================================================

@@ -7,39 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 #include "Evaluator.hpp"
-#include "Operators.hpp"
-#include "UnaryMinus.hpp"
-#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-Evaluator::uminusOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->uminusOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
-ArrayOf
-Evaluator::uminusOperator(const ArrayOf& A)
-{
-    bool wasFound = false;
-    ArrayOf res = callOverloadedFunction(this,
-        NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), A, UMINUS_OPERATOR_STR,
-        ClassName(A), A.getDataClass(), wasFound);
-    if (wasFound) {
-        return res;
-    }
-    bool needToOverload = false;
-    res = UnaryMinus(A, needToOverload);
-    if (needToOverload) {
-        OverloadRequired(UMINUS_OPERATOR_STR);
-    }
-    return res;
-}
+NLSELEMENTARY_FUNCTIONS_IMPEXP bool
+IsEqualTo(Evaluator* eval, const ArrayOfVector& args, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

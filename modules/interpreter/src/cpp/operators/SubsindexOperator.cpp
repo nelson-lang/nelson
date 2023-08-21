@@ -21,16 +21,17 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
     n.reserve(m.size());
     for (const auto& k : m) {
         bool wasFound = false;
-        ArrayOf res = callOverloadedFunction(
-            this, k, SUBSINDEX_OPERATOR_STR, ClassName(k), k.getDataClass(), wasFound);
+        ArrayOf res = callOverloadedFunction(this,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), k,
+            SUBSINDEX_OPERATOR_STR, ClassName(k), k.getDataClass(), wasFound);
         if (wasFound) {
             ompIndexType len = (ompIndexType)res.getElementCount();
 #ifdef NLS_INDEX_TYPE_64
             res.promoteType(NLS_UINT64);
-            uint64* dp = (uint64*)res.getReadWriteDataPointer();
+            uint64* dp = static_cast<uint64*>(res.getReadWriteDataPointer());
 #else
             res.promoteType(NLS_UINT32);
-            uint32* dp = (uint32*)res.getReadWriteDataPointer();
+            uint32* dp = static_cast<uint32*>(res.getReadWriteDataPointer());
 #endif
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for

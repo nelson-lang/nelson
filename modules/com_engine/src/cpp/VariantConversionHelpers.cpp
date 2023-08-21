@@ -575,7 +575,8 @@ NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessag
             }
         } break;
         case NLS_SINGLE: {
-            auto* pSingle = (single*)A.getDataPointer();
+            auto* pSingle = static_cast<single*>(
+                const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
             Dimensions dims = A.getDimensions();
             SAFEARRAY* arr = makeSafeArrayFromDimensions(dims, VT_R4);
             if (arr) {
