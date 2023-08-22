@@ -757,9 +757,9 @@ public:
     ArrayOf
     shortCutAndOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    orOperator(const ArrayOf& A, const ArrayOf& B);
+    orOperator(const ArrayOfVector& args);
     ArrayOf
-    andOperator(const ArrayOf& A, const ArrayOf& B);
+    andOperator(const ArrayOfVector& args);
     ArrayOf
     notOperator(const ArrayOf& A);
 

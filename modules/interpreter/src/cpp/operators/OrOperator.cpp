@@ -9,31 +9,70 @@
 //=============================================================================
 #include "Or.hpp"
 #include "Evaluator.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "Operators.hpp"
+#include "FindCommonType.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::orOperator(const ArrayOf& A, const ArrayOf& B)
+Evaluator::orOperator(const ArrayOfVector& args)
 {
-    ArrayOf retval;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && isOverloadAllowed()) {
-        retval = OverloadBinaryOperator(this, A, B, OR_OPERATOR_STR);
-    } else {
-        retval = Or(A, B);
+    NelsonType commonType = NLS_DOUBLE;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName = NLS_DOUBLE_STR;
+
+    ArrayOf res;
+    if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(this,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args, "or",
+            commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
+        }
     }
-    return retval;
+    if (isComplex) {
+        Error(_("Operands must be real."));
+    }
+    if (isSparse
+        && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
+        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+    }
+    if (isSparse) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, "or",
+            commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR, commonType,
+            overloadWasFound);
+        if (!overloadWasFound) {
+            OverloadRequired("or");
+        }
+        return res;
+    }
+    bool neeDToOverload = false;
+    res = Or(args[0], args[1], commonType, neeDToOverload);
+    if (!neeDToOverload) {
+        return res;
+    }
+    bool overloadWasFound = false;
+    res = callOverloadedFunction(
+        this, NLS_OVERLOAD_ALL_TYPES, args, "or", commonTypeName, commonType, overloadWasFound);
+    if (overloadWasFound) {
+        return res;
+    }
+    OverloadRequired("or");
+    return {};
 }
 //=============================================================================
 ArrayOf
 Evaluator::orOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    const ArrayOf A = expression(t->down);
-    const ArrayOf B = expression(t->down->right);
-    ArrayOf retval = orOperator(A, B);
+    ArrayOfVector args;
+    args << expression(t->down);
+    args << expression(t->down->right);
+    ArrayOf retval = orOperator(args);
     callstack.popID();
     return retval;
 }

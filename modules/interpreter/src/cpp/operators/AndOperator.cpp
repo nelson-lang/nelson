@@ -9,31 +9,73 @@
 //=============================================================================
 #include "And.hpp"
 #include "Evaluator.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "Operators.hpp"
+#include "FindCommonType.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::andOperator(const ArrayOf& A, const ArrayOf& B)
+Evaluator::andOperator(const ArrayOfVector& args)
 {
-    ArrayOf retval;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && isOverloadAllowed()) {
-        retval = OverloadBinaryOperator(this, A, B, AND_OPERATOR_STR);
-    } else {
-        retval = And(A, B);
+    NelsonType commonType = NLS_DOUBLE;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName = NLS_DOUBLE_STR;
+
+    ArrayOf res;
+    if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(this,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args, "and",
+            commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
+        }
     }
-    return retval;
+    if (isComplex) {
+        Error(_("Operands must be real."));
+    }
+
+    if (isSparse
+        && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
+        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+    }
+
+    if (isSparse) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, "and",
+            commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR, commonType,
+            overloadWasFound);
+        if (!overloadWasFound) {
+            OverloadRequired("and");
+        }
+        return res;
+    }
+
+    bool neeDToOverload = false;
+    res = And(args[0], args[1], commonType, neeDToOverload);
+    if (!neeDToOverload) {
+        return res;
+    }
+    bool overloadWasFound = false;
+    res = callOverloadedFunction(
+        this, NLS_OVERLOAD_ALL_TYPES, args, "and", commonTypeName, commonType, overloadWasFound);
+    if (overloadWasFound) {
+        return res;
+    }
+    OverloadRequired("and");
+    return {};
 }
 //=============================================================================
 ArrayOf
 Evaluator::andOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    ArrayOf A = expression(t->down);
-    ArrayOf B = expression(t->down->right);
-    ArrayOf retval = andOperator(A, B);
+    ArrayOfVector args;
+    args << expression(t->down);
+    args << expression(t->down->right);
+    ArrayOf retval = andOperator(args);
     callstack.popID();
     return retval;
 }

@@ -14,10 +14,11 @@
 //=============================================================================
 namespace Nelson {
 /**
- * Element-wise or of two arrays: C = A or B.
- * C = A || B
+ * Element-wise or of two arrays: C = or(A, B).
+ * C = A | B
  */
 NLSOPERATORS_IMPEXP ArrayOf
-Or(ArrayOf A, ArrayOf B);
+Or(const ArrayOf& A, const ArrayOf& B, NelsonType commonType, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

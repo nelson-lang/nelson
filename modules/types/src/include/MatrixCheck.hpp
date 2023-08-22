@@ -96,6 +96,6 @@ VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname);
  *     scalar or B is a scalar.
  */
 NLSTYPES_IMPEXP void
-BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
+PromoteToLogicalVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
 } // namespace Nelson
 //=============================================================================
