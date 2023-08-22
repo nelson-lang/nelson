@@ -129,7 +129,7 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 }
 //=============================================================================
 void
-BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
+PromoteToLogicalVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
     A.promoteType(NLS_LOGICAL);
     B.promoteType(NLS_LOGICAL);

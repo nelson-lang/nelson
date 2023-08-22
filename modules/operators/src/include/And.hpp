@@ -13,11 +13,13 @@
 #include "nlsOperators_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 /**
- * Element-wise and of two arrays: C = A and B.
- * C = A && B
+ * Element-wise and of two arrays: C = and(A, B).
+ * C = A & B
  */
 NLSOPERATORS_IMPEXP ArrayOf
-And(ArrayOf A, ArrayOf B);
+And(const ArrayOf& A, const ArrayOf& B, NelsonType commonType, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

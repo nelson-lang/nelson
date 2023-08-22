@@ -7,8 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function R = sparsedouble_or_sparsedouble(A, B)
-    % internal function (overload)
-    R = sparselogical_or_sparselogical(logical(A), logical(B));
+function R = sparsedouble_or(A, B)
+  if ~islogical(A)
+    A = logical(A);
   end
+  if ~islogical(B)
+    B = logical(B);
+  end
+  R = or(A, B);
+end
 %=============================================================================

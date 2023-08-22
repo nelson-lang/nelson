@@ -56,55 +56,63 @@ boolean_and(indexType N, logical* C, const logical* A, int Astride, const logica
 }
 //=============================================================================
 ArrayOf
-And(ArrayOf A, ArrayOf B)
+And(const ArrayOf& A, const ArrayOf& B, NelsonType commonType, bool& needToOverload)
 {
+    if (commonType > NLS_CHAR) {
+        needToOverload = true;
+        return {};
+    }
+    needToOverload = false;
     int Astride;
     int Bstride;
     indexType Clen = 0;
     Dimensions Cdim;
-    BoolVectorCheck(A, B, "&");
-    if (A.isScalar()) {
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    PromoteToLogicalVectorCheck(_A, _B, "&");
+    if (_A.isScalar()) {
         Astride = 0;
         Bstride = 1;
-        Cdim = B.getDimensions();
-    } else if (B.isScalar()) {
+        Cdim = _B.getDimensions();
+    } else if (_B.isScalar()) {
         Astride = 1;
         Bstride = 0;
-        Cdim = A.getDimensions();
-    } else if (A.isVector() && B.isVector()) {
-        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+        Cdim = _A.getDimensions();
+    } else if (_A.isVector() && _B.isVector()) {
+        if ((_A.isRowVector() && _B.isRowVector())
+            || (_A.isColumnVector() && _B.isColumnVector())) {
             Astride = 1;
             Bstride = 1;
-            Cdim = A.getDimensions();
+            Cdim = _A.getDimensions();
         } else {
             Astride = 0;
             Bstride = 0;
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
+            Dimensions dimsA = _A.getDimensions();
+            Dimensions dimsB = _B.getDimensions();
             Cdim = Dimensions(
                 std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
         }
     } else {
         Astride = 1;
         Bstride = 1;
-        Cdim = A.getDimensions();
+        Cdim = _A.getDimensions();
     }
     Clen = Cdim.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen, stringVector(), true);
     if (Astride == 0 && Bstride == 0) {
-        if (A.isRowVector() && B.isColumnVector()) {
+        if (_A.isRowVector() && _B.isColumnVector()) {
             boolean_vector_and(static_cast<logical*>(Cp),
-                static_cast<const logical*>(A.getDataPointer()), A.getElementCount(),
-                static_cast<const logical*>(B.getDataPointer()), B.getElementCount());
-        } else if (A.isColumnVector() && B.isRowVector()) {
+                static_cast<const logical*>(_A.getDataPointer()), _A.getElementCount(),
+                static_cast<const logical*>(_B.getDataPointer()), _B.getElementCount());
+        } else if (_A.isColumnVector() && _B.isRowVector()) {
             boolean_vector_and(static_cast<logical*>(Cp),
-                static_cast<const logical*>(B.getDataPointer()), B.getElementCount(),
-                static_cast<const logical*>(A.getDataPointer()), A.getElementCount());
+                static_cast<const logical*>(_B.getDataPointer()), _B.getElementCount(),
+                static_cast<const logical*>(_A.getDataPointer()), _A.getElementCount());
         }
     } else {
         boolean_and(Clen, static_cast<logical*>(Cp),
-            static_cast<const logical*>(A.getDataPointer()), Astride,
-            static_cast<const logical*>(B.getDataPointer()), Bstride);
+            static_cast<const logical*>(_A.getDataPointer()), Astride,
+            static_cast<const logical*>(_B.getDataPointer()), Bstride);
     }
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }
