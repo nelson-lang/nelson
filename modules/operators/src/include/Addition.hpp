@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-Addition(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+Addition(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

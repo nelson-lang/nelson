@@ -19,7 +19,7 @@ namespace Nelson {
  */
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
-Subtraction(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+Subtraction(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

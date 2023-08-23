@@ -134,8 +134,8 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         case NLS_UNKNOWN:
         default: {
             std::string msg
-                = fmt::sprintf(_("Operator 'vertcat' is not supported for operands of type '%s'."),
-                    ClassToString(commonType));
+                = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."),
+                    VERTCAT_OPERATOR_STR, ClassToString(commonType));
             Error(msg, "Nelson:UndefinedFunction");
         } break;
         }

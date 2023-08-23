@@ -27,8 +27,8 @@ Evaluator::orOperator(const ArrayOfVector& args)
     if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
         bool overloadWasFound = false;
         res = callOverloadedFunction(this,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args, "or",
-            commonTypeName, commonType, overloadWasFound);
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args,
+            OR_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
@@ -42,11 +42,11 @@ Evaluator::orOperator(const ArrayOfVector& args)
     }
     if (isSparse) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, "or",
+        res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, OR_OPERATOR_STR,
             commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR, commonType,
             overloadWasFound);
         if (!overloadWasFound) {
-            OverloadRequired("or");
+            OverloadRequired(OR_OPERATOR_STR);
         }
         return res;
     }
@@ -56,12 +56,12 @@ Evaluator::orOperator(const ArrayOfVector& args)
         return res;
     }
     bool overloadWasFound = false;
-    res = callOverloadedFunction(
-        this, NLS_OVERLOAD_ALL_TYPES, args, "or", commonTypeName, commonType, overloadWasFound);
+    res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, OR_OPERATOR_STR,
+        commonTypeName, commonType, overloadWasFound);
     if (overloadWasFound) {
         return res;
     }
-    OverloadRequired("or");
+    OverloadRequired(OR_OPERATOR_STR);
     return {};
 }
 //=============================================================================

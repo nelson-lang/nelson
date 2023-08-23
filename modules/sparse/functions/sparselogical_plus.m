@@ -7,7 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function R = logical_plus_logical(A, B)
+function r = sparselogical_plus(a, b)
   % internal function (overload)
-  R = double(A) + double(B);
+  A = double(a);
+  B = double(b);
+  r = A + B;
 end

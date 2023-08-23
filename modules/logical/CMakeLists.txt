@@ -113,9 +113,9 @@ install(
   PATTERN "*.qch"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
+# install(
+#   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
+#   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+#   FILES_MATCHING
+#   PATTERN "*.m")
 # ==============================================================================
