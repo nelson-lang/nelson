@@ -109,7 +109,7 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
         std::string msg
-            = fmt::sprintf(_("Operator ':' is not supported for operands of type '%s'."),
+            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."), ":",
                 ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     }
@@ -153,7 +153,7 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
         std::string msg
-            = fmt::sprintf(_("Operator ':' is not supported for operands of type '%s'."),
+            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."), ":",
                 ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     }

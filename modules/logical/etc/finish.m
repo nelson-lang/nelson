@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath('logical', 'functions'));
+% rmpath(modulepath('logical', 'functions'));
 removegateway(modulepath('logical', 'builtin'));
+%=============================================================================

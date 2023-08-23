@@ -719,9 +719,9 @@ public:
     powerOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    plusOperator(const ArrayOf& A, const ArrayOf& B);
+    plusOperator(const ArrayOfVector& args);
     ArrayOf
-    minusOperator(const ArrayOf& A, const ArrayOf& B);
+    minusOperator(const ArrayOfVector& args);
     ArrayOf
     timesOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf

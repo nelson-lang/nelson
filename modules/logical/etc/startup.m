@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('logical', 'builtin'), 'logical');
-addpath(modulepath('logical', 'functions'), '-frozen');
+% addpath(modulepath('logical', 'functions'), '-frozen');
 %=============================================================================
