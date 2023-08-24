@@ -12,7 +12,6 @@
 #include "complex_abs.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "FindCommonClass.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -483,140 +482,99 @@ Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     } else {
         Error(_W("Input Arguments must have same size."));
     }
-    NelsonType outType;
-    if (A.getDataClass() != B.getDataClass()) {
-        outType = FindCommonClass(A, B, needToOverload);
-    } else {
-        if (A.getDataClass() == NLS_CHAR) {
-            outType = NLS_DOUBLE;
-        } else {
-            outType = A.getDataClass();
-        }
-    }
+
     ArrayOf res;
-    if (needToOverload) {
-        return res;
-    }
-    ArrayOf _A(A);
-    ArrayOf _B(B);
-    switch (outType) {
+    NelsonType commonType = A.getDataClass();
+    switch (A.getDataClass()) {
     case NLS_LOGICAL: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        logical* ptr = (logical*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<logical>((const logical*)_A.getDataPointer(),
-            (const logical*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        logical* ptr = (logical*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<logical>((const logical*)A.getDataPointer(),
+            (const logical*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT8: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<uint8>((const uint8*)_A.getDataPointer(), (const uint8*)_B.getDataPointer(),
+        uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<uint8>((const uint8*)A.getDataPointer(), (const uint8*)B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT8: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        int8* ptr = (int8*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<int8>((const int8*)_A.getDataPointer(), (const int8*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        int8* ptr = (int8*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<int8>((const int8*)A.getDataPointer(), (const int8*)B.getDataPointer(), ptr,
+            outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT16: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<uint16>((const uint16*)_A.getDataPointer(),
-            (const uint16*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<uint16>((const uint16*)A.getDataPointer(),
+            (const uint16*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT16: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        int16* ptr = (int16*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<int16>((const int16*)_A.getDataPointer(), (const int16*)_B.getDataPointer(),
+        int16* ptr = (int16*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<int16>((const int16*)A.getDataPointer(), (const int16*)B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT32: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<uint32>((const uint32*)_A.getDataPointer(),
-            (const uint32*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<uint32>((const uint32*)A.getDataPointer(),
+            (const uint32*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT32: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        int32* ptr = (int32*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<int32>((const int32*)_A.getDataPointer(), (const int32*)_B.getDataPointer(),
+        int32* ptr = (int32*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<int32>((const int32*)A.getDataPointer(), (const int32*)B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT64: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<uint64>((const uint64*)_A.getDataPointer(),
-            (const uint64*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<uint64>((const uint64*)A.getDataPointer(),
+            (const uint64*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT64: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        int64* ptr = (int64*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<int64>((const int64*)_A.getDataPointer(), (const int64*)_B.getDataPointer(),
+        int64* ptr = (int64*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<int64>((const int64*)A.getDataPointer(), (const int64*)B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_SINGLE: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        single* ptr = (single*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<single>(omitNaN, (const single*)_A.getDataPointer(),
-            (const single*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        single* ptr = (single*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessReal<single>(omitNaN, (const single*)A.getDataPointer(),
+            (const single*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_DOUBLE: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        double* ptr = (double*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<double>(omitNaN, (const double*)_A.getDataPointer(),
-            (const double*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        double* ptr = (double*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessReal<double>(omitNaN, (const double*)A.getDataPointer(),
+            (const double*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_SCOMPLEX: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        single* ptr = (single*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessComplex<single>(omitNaN, (const single*)_A.getDataPointer(),
-            (const single*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        single* ptr = (single*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessComplex<single>(omitNaN, (const single*)A.getDataPointer(),
+            (const single*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
         if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }
     } break;
     case NLS_DCOMPLEX: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        double* ptr = (double*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessComplex<double>(omitNaN, (const double*)_A.getDataPointer(),
-            (const double*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        double* ptr = (double*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessComplex<double>(omitNaN, (const double*)A.getDataPointer(),
+            (const double*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
         if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_CHAR: {
-        _A.promoteType(outType);
-        _B.promoteType(outType);
-        charType* ptr = (charType*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
-        res = ArrayOf(outType, outDim, ptr);
-        TMinLessInteger<charType>((const charType*)_A.getDataPointer(),
-            (const charType*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        charType* ptr = (charType*)ArrayOf::allocateArrayOf(commonType, outDim.getElementCount());
+        res = ArrayOf(commonType, outDim, ptr);
+        TMinLessInteger<charType>((const charType*)A.getDataPointer(),
+            (const charType*)B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

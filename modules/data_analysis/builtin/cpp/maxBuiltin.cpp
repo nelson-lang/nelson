@@ -9,132 +9,247 @@
 //=============================================================================
 #include "maxBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
 #include "Maximum.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadHelpers.hpp"
+#include "FindCommonType.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static ArrayOfVector
+unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+static ArrayOfVector
+binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 ArrayOfVector
 Nelson::DataAnalysisGateway::maxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    bool bSuccess = false;
     nargoutcheck(nLhs, 0, 2);
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "max", bSuccess);
+    switch (argIn.size()) {
+    case 1: {
+        // M = max(A);
+        // [M, i] = max(A);
+        return unaryMaxBuiltin(eval, nLhs, argIn);
+    } break;
+    case 2: {
+        // C = max(A, B)
+        return binaryMaxBuiltin(eval, nLhs, argIn);
+    } break;
+    case 3: {
+        // [M, I] = max(A, [], dim)
+        // [M, I] = max(A, [], nanflag)
+        // M = max(A, B, nanflag)
+        // M = max(A, [], 'all')
+        ArrayOf param1 = argIn[0];
+        ArrayOf param2 = argIn[1];
+        ArrayOf param3 = argIn[2];
+        Dimensions dimsA = param1.getDimensions();
+        Dimensions dimsB = param2.getDimensions();
+        if (dimsA.equals(dimsB)) {
+            if (param3.isRowVectorCharacterArray()) {
+                return binaryMaxBuiltin(eval, nLhs, argIn);
+            }
+            Error(_("Invalid third argument."));
+        }
+        return unaryMaxBuiltin(eval, nLhs, argIn);
+
+    } break;
+    case 4: {
+        // [M, I] = max(A, [], dim, nanflag)
+        // M = max(A, [], 'all', nanflag)
+        return unaryMaxBuiltin(eval, nLhs, argIn);
+    } break;
+    default: {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
-    if (!bSuccess) {
-        bool omitNaN = true;
-        bool needToOverload = false;
-        switch (argIn.size()) {
-        case 1: {
-            // M = max(A);
-            // [M, i] = max(A);
+    return {};
+}
+//=============================================================================
+ArrayOfVector
+unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    const std::string functionName = "max";
+    bool wasFound = false;
+    ArrayOf res = callOverloadedFunction(eval,
+        NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn, functionName,
+        ClassName(argIn[0]), argIn[0].getDataClass(), wasFound);
+    if (wasFound) {
+        return res;
+    }
+    ArrayOfVector retval;
+    bool omitNaN = true;
+    bool needToOverload = false;
+    switch (argIn.size()) {
+    case 1: {
+        // M = max(A);
+        // [M, i] = max(A);
+        retval = Maximum(omitNaN, argIn[0], nLhs, needToOverload);
+    } break;
+    case 3: {
+        if (!argIn[1].isEmpty()) {
+            Error(_("Invalid second argument."));
+        }
+        indexType dim = 0;
+        bool isAll = false;
+        if (argIn[2].isRowVectorCharacterArray()
+            || (argIn[2].isStringArray() && argIn[2].isScalar())) {
+            std::wstring s = argIn[2].getContentAsWideString();
+            if (s == L"omitnan") {
+                omitNaN = true;
+            } else if (s == L"includenan") {
+                omitNaN = false;
+            } else if (s == L"all") {
+                isAll = true;
+            } else {
+                Error(_("Invalid third argument."));
+            }
+        } else {
+            dim = argIn[2].getContentAsScalarIndex(false);
+        }
+        if (isAll) {
+            nargoutcheck(nLhs, 0, 1);
+            retval << MaximumAll(omitNaN, argIn[0], needToOverload);
+        } else if (dim == 0) {
             retval = Maximum(omitNaN, argIn[0], nLhs, needToOverload);
-        } break;
+        } else {
+            retval = Maximum(omitNaN, argIn[0], dim, nLhs, needToOverload);
+        }
+    } break;
+    case 4: {
+        ArrayOf param4 = argIn[3];
+        if (argIn[3].isRowVectorCharacterArray()
+            || (argIn[3].isStringArray() && argIn[3].isScalar())) {
+            std::wstring s = argIn[3].getContentAsWideString();
+            if (s == L"omitnan") {
+                omitNaN = true;
+            } else if (s == L"includenan") {
+                omitNaN = false;
+            } else {
+                Error(_("Invalid 4th argument."));
+            }
+        }
+        if (!argIn[1].isEmpty()) {
+            Error(_("Invalid second argument."));
+        }
+        if (argIn[2].isRowVectorCharacterArray()
+            || (argIn[2].isStringArray() && argIn[2].isScalar())) {
+            std::wstring s = argIn[2].getContentAsWideString();
+            if (s != L"all") {
+                Error(_("Invalid third argument."));
+            }
+            nargoutcheck(nLhs, 0, 1);
+            retval = MaximumAll(omitNaN, argIn[0], needToOverload);
+        } else {
+            indexType dim = argIn[2].getContentAsScalarIndex(false);
+            retval = Maximum(omitNaN, argIn[0], dim, nLhs, needToOverload);
+        }
+    } break;
+    default: {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
+    }
+
+    if (needToOverload) {
+        bool overloadWasFound = false;
+        NelsonType commonType = argIn[0].getDataClass();
+        std::string overloadTypeName;
+        if (argIn[0].isSparse()) {
+            overloadTypeName
+                = commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
+        } else {
+            overloadTypeName = ClassName(argIn[0]);
+        }
+        retval = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, functionName,
+            overloadTypeName, commonType, overloadWasFound);
+        if (!overloadWasFound) {
+            OverloadRequired(functionName);
+        }
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    const std::string functionName = "max";
+    NelsonType commonType = NLS_DOUBLE;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName = NLS_DOUBLE_STR;
+
+    ArrayOfVector args;
+    args << argIn[0];
+    args << argIn[1];
+    ArrayOf res;
+    if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
+        bool overloadWasFound = false;
+        res = callOverloadedFunction(eval,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn,
+            functionName, commonTypeName, commonType, overloadWasFound);
+        if (overloadWasFound) {
+            return res;
+        }
+    }
+
+    ArrayOfVector retval;
+    bool omitNaN = true;
+    bool needToOverload = false;
+
+    if (commonType <= NLS_CHAR && !isSparse) {
+        NelsonType _commonType = commonType;
+        if (commonType == NLS_DOUBLE && isComplex) {
+            _commonType = NLS_DCOMPLEX;
+        }
+        if (commonType == NLS_SINGLE && isComplex) {
+            _commonType = NLS_SCOMPLEX;
+        }
+
+        ArrayOf A(argIn[0]);
+        ArrayOf B(argIn[1]);
+        A.promoteType(_commonType);
+        B.promoteType(_commonType);
+
+        switch (argIn.size()) {
         case 2: {
             // C = max(A, B)
-            retval << Maximum(omitNaN, argIn[0], argIn[1], needToOverload);
+            retval = Maximum(omitNaN, A, B, needToOverload);
         } break;
         case 3: {
-            // [M, I] = max(A, [], dim)
-            // [M, I] = max(A, [], nanflag)
-            // M = max(A, B, nanflag)
-            // M = max(A, [], 'all')
-            ArrayOf param1 = argIn[0];
-            ArrayOf param2 = argIn[1];
-            ArrayOf param3 = argIn[2];
-            Dimensions dimsA = param1.getDimensions();
-            Dimensions dimsB = param2.getDimensions();
-            if (dimsA.equals(dimsB)) {
-                nargoutcheck(nLhs, 0, 1);
-                if (param3.isRowVectorCharacterArray()
-                    || (param3.isStringArray() && param3.isScalar())) {
-                    std::wstring s = param3.getContentAsWideString();
-                    if (s == L"omitnan") {
-                        omitNaN = true;
-                    } else if (s == L"includenan") {
-                        omitNaN = false;
-                    } else {
-                        Error(_("Invalid third argument."));
-                    }
-                    retval << Maximum(omitNaN, param1, param2, needToOverload);
-                } else {
-                    Error(_("Invalid third argument."));
-                }
-            } else {
-                if (!param2.isEmpty()) {
-                    Error(_("Invalid second argument."));
-                }
-                indexType dim = 0;
-                bool isAll = false;
-                if (param3.isRowVectorCharacterArray()
-                    || (param3.isStringArray() && param3.isScalar())) {
-                    std::wstring s = param3.getContentAsWideString();
-                    if (s == L"omitnan") {
-                        omitNaN = true;
-                    } else if (s == L"includenan") {
-                        omitNaN = false;
-                    } else if (s == L"all") {
-                        isAll = true;
-                    } else {
-                        Error(_("Invalid third argument."));
-                    }
-                } else {
-                    dim = param3.getContentAsScalarIndex(false);
-                }
-                if (isAll) {
-                    nargoutcheck(nLhs, 0, 1);
-                    retval << MaximumAll(omitNaN, param1, needToOverload);
-                } else if (dim == 0) {
-                    retval = Maximum(omitNaN, param1, nLhs, needToOverload);
-                } else {
-                    retval = Maximum(omitNaN, param1, dim, nLhs, needToOverload);
-                }
-            }
-        } break;
-        case 4: {
-            // [M, I] = max(A, [], dim, nanflag)
-            // M = max(A, [], 'all', nanflag)
-            ArrayOf param4 = argIn[3];
-            if (param4.isRowVectorCharacterArray()
-                || (param4.isStringArray() && param4.isScalar())) {
-                std::wstring s = param4.getContentAsWideString();
+            nargoutcheck(nLhs, 0, 1);
+            if (argIn[2].isRowVectorCharacterArray()
+                || (argIn[2].isStringArray() && argIn[2].isScalar())) {
+                std::wstring s = argIn[2].getContentAsWideString();
                 if (s == L"omitnan") {
                     omitNaN = true;
                 } else if (s == L"includenan") {
                     omitNaN = false;
                 } else {
-                    Error(_("Invalid 4th argument."));
-                }
-            }
-            ArrayOf param1 = argIn[0];
-            ArrayOf param2 = argIn[1];
-            ArrayOf param3 = argIn[2];
-            if (!param2.isEmpty()) {
-                Error(_("Invalid second argument."));
-            }
-            if (param3.isRowVectorCharacterArray()
-                || (param3.isStringArray() && param3.isScalar())) {
-                std::wstring s = param3.getContentAsWideString();
-                if (s != L"all") {
                     Error(_("Invalid third argument."));
                 }
-                nargoutcheck(nLhs, 0, 1);
-                retval = MaximumAll(omitNaN, param1, needToOverload);
+
+                retval << Maximum(omitNaN, A, B, needToOverload);
             } else {
-                indexType dim = param3.getContentAsScalarIndex(false);
-                retval = Maximum(omitNaN, param1, dim, nLhs, needToOverload);
+                Error(_("Invalid third argument."));
             }
         } break;
         default: {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
+        };
+    }
+
+    if (needToOverload) {
+        bool overloadWasFound = false;
+        commonTypeName = NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
+        if (argIn[0].isSparse()) {
+            commonTypeName = NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
         }
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "max");
+        retval = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, functionName,
+            commonTypeName, commonType, overloadWasFound);
+
+        if (!overloadWasFound) {
+            OverloadRequired(functionName);
         }
     }
     return retval;
