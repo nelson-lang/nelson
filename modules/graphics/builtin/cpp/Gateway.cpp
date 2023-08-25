@@ -20,7 +20,7 @@
 #include "graphics_object_getBuiltin.hpp"
 #include "graphics_object_isequalBuiltin.hpp"
 #include "graphics_object_propertiesBuiltin.hpp"
-#include "graphics_object_eq_graphics_objectBuiltin.hpp"
+#include "graphics_object_eqBuiltin.hpp"
 #include "graphics_object_deleteBuiltin.hpp"
 #include "isgraphicsBuiltin.hpp"
 #include "saveasBuiltin.hpp"
@@ -74,8 +74,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_isequalBuiltin, 1, 2, CPP_BUILTIN },
     { "graphics_object_isprop", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_ispropBuiltin,
         1, 2, CPP_BUILTIN },
-    { "graphics_object_eq_graphics_object",
-        (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_eq_graphics_objectBuiltin, 1, 2 },
+    { "graphics_object_eq", (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_eqBuiltin, 1, 2 },
     { "isgraphics", (ptrBuiltin)Nelson::GraphicsGateway::isgraphicsBuiltin, 1, 1, CPP_BUILTIN },
     { "saveas", (ptrBuiltin)Nelson::GraphicsGateway::saveasBuiltin, 0, 2, CPP_BUILTIN },
     { "copygraphics", (ptrBuiltin)Nelson::GraphicsGateway::copygraphicsBuiltin, 0, 1, CPP_BUILTIN },

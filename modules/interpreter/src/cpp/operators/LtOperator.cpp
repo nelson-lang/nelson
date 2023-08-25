@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Evaluator.hpp"
 #include "LessThan.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "Evaluator.hpp"
 #include "Operators.hpp"
+#include "RelationOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,28 +18,18 @@ ArrayOf
 Evaluator::ltOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->ltOperator(expression(t->down), expression(t->down->right));
+    ArrayOfVector args;
+    args << expression(t->down);
+    args << expression(t->down->right);
+    ArrayOf retval = this->ltOperator(args);
     callstack.popID();
     return retval;
 }
 //=============================================================================
 ArrayOf
-Evaluator::ltOperator(const ArrayOf& A, const ArrayOf& B)
+Evaluator::ltOperator(const ArrayOfVector& args)
 {
-    ArrayOf res;
-    bool bSuccess = false;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, LT_OPERATOR_STR, bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        res = LessThan(A, B, needToOverload);
-        if (needToOverload) {
-            res = OverloadBinaryOperator(this, A, B, LT_OPERATOR_STR);
-        }
-    }
-    return res;
+    return relationalOperator(this, LT_OPERATOR_STR, "<", args, &LessThan);
 }
 //=============================================================================
 } // namespace Nelson

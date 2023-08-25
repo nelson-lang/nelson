@@ -7,6 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = double_eq_double(A, B)
-  r = eq(A,B);
+function R = sparsedouble_eq(A, B)
+  if ~issparse(A)
+    A = sparse(A);
+  end
+  if ~issparse(B)
+    B = sparse(B);
+  end
+  R = sparse(full(A) == full(B));
 end
+%=============================================================================

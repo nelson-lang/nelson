@@ -37,10 +37,10 @@ ArrayOf
 Evaluator::plusOperator(const ArrayOfVector& args)
 {
 
-    NelsonType commonType = NLS_DOUBLE;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+    NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
     bool isComplex = false;
-    std::string commonTypeName = NLS_DOUBLE_STR;
 
     ArrayOf res;
     if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {

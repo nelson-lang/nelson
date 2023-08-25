@@ -121,7 +121,7 @@ static const nlsGateway gateway[] = {
     { "bitor", (ptrBuiltin)Nelson::OperatorsGateway::bitorBuiltin, 1, 2, CPP_BUILTIN },
     { "bitxor", (ptrBuiltin)Nelson::OperatorsGateway::bitxorBuiltin, 1, 2, CPP_BUILTIN },
     { "any", (ptrBuiltin)Nelson::OperatorsGateway::anyBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "all", (ptrBuiltin)Nelson::OperatorsGateway::allBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "all", (ptrBuiltin)Nelson::OperatorsGateway::allBuiltin, 1, 2, CPP_BUILTIN },
 
 };
 //=============================================================================

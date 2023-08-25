@@ -16,6 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::geBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    return eval->geOperator(argIn[0], argIn[1]);
+    return eval->geOperator(argIn);
 }
 //=============================================================================

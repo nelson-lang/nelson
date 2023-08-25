@@ -267,6 +267,7 @@
     <ClCompile Include="..\cpp\Operators\NotOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\OrOperator.cpp" />
     <ClCompile Include="..\cpp\operators\PowerOperator.cpp" />
+    <ClCompile Include="..\cpp\operators\RelationOperatorsHelpers.cpp" />
     <ClCompile Include="..\cpp\Operators\RightDivideOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\ShortCutAndOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\ShortCutOrOperator.cpp" />
@@ -342,6 +343,7 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
+    <ClInclude Include="..\cpp\operators\RelationOperatorsHelpers.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\grammar\ParseRHS.hpp" />
@@ -384,6 +386,7 @@
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
+    <ClInclude Include="RelationOpertorsHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

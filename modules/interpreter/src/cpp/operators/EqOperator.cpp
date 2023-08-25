@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Equals.hpp"
 #include "Evaluator.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "Operators.hpp"
+#include "Equals.hpp"
+#include "RelationOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,28 +18,18 @@ ArrayOf
 Evaluator::eqOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->eqOperator(expression(t->down), expression(t->down->right));
+    ArrayOfVector args;
+    args << expression(t->down);
+    args << expression(t->down->right);
+    ArrayOf retval = this->eqOperator(args);
     callstack.popID();
     return retval;
 }
 //=============================================================================
 ArrayOf
-Evaluator::eqOperator(const ArrayOf& A, const ArrayOf& B)
+Evaluator::eqOperator(const ArrayOfVector& args)
 {
-    ArrayOf res;
-    bool bSuccess = false;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, EQ_OPERATOR_STR, bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        res = Equals(A, B, needToOverload);
-        if (needToOverload) {
-            res = OverloadBinaryOperator(this, A, B, EQ_OPERATOR_STR);
-        }
-    }
-    return res;
+    return relationalOperator(this, EQ_OPERATOR_STR, "==", args, &Equals);
 }
 //=============================================================================
 } // namespace Nelson

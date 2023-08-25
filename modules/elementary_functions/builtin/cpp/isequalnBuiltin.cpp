@@ -24,10 +24,10 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2);
 
+    std::string commonTypeName = NLS_UNKNOWN_STR;
     NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
     bool isComplex = false;
-    std::string commonTypeName = NLS_UNKNOWN_STR;
 
     ArrayOf res;
     if (FindCommonType(argIn, commonType, isSparse, isComplex, commonTypeName)) {

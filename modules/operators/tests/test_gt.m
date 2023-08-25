@@ -10,11 +10,11 @@
 assert_isequal(nargin('gt'), 2)
 assert_isequal(nargout('gt'), 1)
 %=============================================================================
-% Nelson does not compare only real part for complex
+% Nelson compares only real part for complex
 A = 2 + i;
 B = -3-2;
 R = A > B;
-assert_isfalse(R);
+assert_istrue(R);
 %=============================================================================
 R = "Nel" > "Son";
 assert_isfalse(R);

@@ -38,10 +38,10 @@ Evaluator::horzcatOperator(const ArrayOfVector& v)
         res = v[0];
     } break;
     default: {
-        NelsonType commonType = NLS_DOUBLE;
+        std::string commonTypeName = NLS_UNKNOWN_STR;
+        NelsonType commonType = NLS_UNKNOWN;
         bool isSparse = false;
         bool isComplex = false;
-        std::string commonTypeName = NLS_DOUBLE_STR;
 
         ArrayOf res;
         if (FindCommonConcatenateType(v, commonType, isSparse, isComplex, commonTypeName)) {

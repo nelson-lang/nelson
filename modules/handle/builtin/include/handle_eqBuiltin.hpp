@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+namespace Nelson::HandleGateway {
 //=============================================================================
 ArrayOfVector
-graphics_object_eq_graphics_objectBuiltin(int nLhs, const ArrayOfVector& argIn);
+handle_eqBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}; // namespace Nelson
+} // namespace Nelson
 //=============================================================================

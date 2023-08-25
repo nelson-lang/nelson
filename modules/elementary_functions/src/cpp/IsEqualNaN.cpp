@@ -393,21 +393,7 @@ isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOver
         ArrayOfVector args;
         args << A;
         args << B;
-        std::string commonTypeName;
-        switch (A.getDataClass()) {
-        case NLS_FUNCTION_HANDLE: {
-            commonTypeName = NLS_FUNCTION_HANDLE_STR;
-        } break;
-        case NLS_CLASS_ARRAY: {
-            commonTypeName = A.getClassType();
-        } break;
-        case NLS_HANDLE: {
-            commonTypeName = A.getHandleCategory();
-        } break;
-        case NLS_GO_HANDLE: {
-            commonTypeName = NLS_GO_HANDLE_STR;
-        } break;
-        }
+        std::string commonTypeName = ClassName(A);
         ArrayOf res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, args, "isequaln",
             commonTypeName, A.getDataClass(), overloadWasFound);
         if (overloadWasFound) {

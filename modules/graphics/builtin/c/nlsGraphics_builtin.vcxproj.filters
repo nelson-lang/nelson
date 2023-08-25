@@ -52,7 +52,7 @@
     <ClCompile Include="..\cpp\graphics_object_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\graphics_object_eq_graphics_objectBuiltin.cpp">
+    <ClCompile Include="..\cpp\graphics_object_eqBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\graphics_object_getBuiltin.cpp">
@@ -177,7 +177,7 @@
     <ClInclude Include="..\include\graphics_object_getBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\graphics_object_eq_graphics_objectBuiltin.hpp">
+    <ClInclude Include="..\include\graphics_object_eqBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\graphics_object_displayBuiltin.hpp">

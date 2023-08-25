@@ -9,10 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <string>
+#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson::HandleGateway {
-ArrayOfVector
-generic_eq_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
-} // namespace Nelson
+namespace Nelson {
+//=============================================================================
+ArrayOf
+relationalOperator(Evaluator* eval, const std::string& operatorName, const std::string& symbolName,
+    const ArrayOfVector& args,
+    ArrayOf (*relationalOperator)(const ArrayOf& A, const ArrayOf& B, bool& needToOverload));
+//=============================================================================
+}
 //=============================================================================

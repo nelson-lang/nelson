@@ -14,9 +14,11 @@
 //=============================================================================
 namespace Nelson {
 /**
- * EElement-wise compare (ne) of two arrays: C = A != B
+ * Element-wise compare (ne) of two arrays: C = A != B
  */
+//=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
 NotEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+//=============================================================================
 }
 //=============================================================================
