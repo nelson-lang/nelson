@@ -208,8 +208,6 @@
     <ClCompile Include="..\cpp\plusBuiltin.cpp" />
     <ClCompile Include="..\cpp\powerBuiltin.cpp" />
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
-    <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
-    <ClCompile Include="..\cpp\shortcutorBuiltin.cpp" />
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
     <ClCompile Include="..\cpp\timesBuiltin.cpp" />
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
@@ -60,8 +61,15 @@ ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
     if (isEmpty() || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
-    auto* qp = (logical*)dp->getData();
-    return (*qp);
+    if (!isSparse()) {
+        auto* qp = (logical*)dp->getData();
+        return (*qp);
+    }
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)getSparseDataPointer();
+    spMat->finalize();
+    return spMat->coeff(0, 0);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

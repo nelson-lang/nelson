@@ -7,11 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(shortcutor(true, true));
-assert_istrue(shortcutor(true, false));
-assert_isfalse(shortcutor(false, false));
-assert_istrue(shortcutor(false, true));
-%=============================================================================
 assert_istrue(true || true);
 assert_istrue(true || false);
 assert_isfalse(false || false);

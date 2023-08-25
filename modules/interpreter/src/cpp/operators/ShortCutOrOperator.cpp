@@ -15,77 +15,44 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-Evaluator::shortCutOrOperator(const ArrayOf& A, const ArrayOf& B)
-{
-    ArrayOf retval;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
-        return OverloadBinaryOperator(this, A, B, SHORTCUTOR_OPERATOR_STR);
-    }
-    if (A.isScalar()) {
-        ArrayOf AA(A);
-        AA.promoteType(NLS_LOGICAL);
-        bool a = AA.getContentAsLogicalScalar() != 0U;
-        if (a) {
-            return ArrayOf::logicalConstructor(a);
-        }
-        if (B.isScalar()) {
-            ArrayOf BB(B);
-            BB.promoteType(NLS_LOGICAL);
-            bool b = BB.getContentAsLogicalScalar() != 0U;
-            return ArrayOf::logicalConstructor(b);
-        }
-    }
-    Error(_W("Operand to || operator must be convertible to "
-             "logical scalar values."));
-    return retval;
-}
+static ArrayOf
+shortCutOrOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t);
 //=============================================================================
 ArrayOf
 Evaluator::shortCutOrOperator(AbstractSyntaxTreePtr t)
 {
-    ArrayOf retval;
     callstack.pushID((size_t)t->getContext());
-    if (overloadOnBasicTypes && !isOverloadAllowed()) {
-        ArrayOf A = expression(t->down);
-        ArrayOf B = expression(t->down->right);
-        retval = OverloadBinaryOperator(this, A, B, SHORTCUTOR_OPERATOR_STR);
-        callstack.popID();
-        return retval;
+    ArrayOf res = shortCutOrOperatorImpl(this, t);
+    callstack.popID();
+    return res;
+}
+//=============================================================================
+ArrayOf
+shortCutOrOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t)
+{
+    ArrayOf A = eval->expression(t->down);
+    if (!A.isScalar()) {
+        Error(_W("Operand to || operator must be convertible to logical scalar values."));
     }
-    ArrayOf A = expression(t->down);
-    if (needToOverloadOperator(A) && isOverloadAllowed()) {
-        ArrayOf B = expression(t->down->right);
-        retval = OverloadBinaryOperator(this, A, B, SHORTCUTOR_OPERATOR_STR);
-        callstack.popID();
-        return retval;
-    }
-    if (A.isScalar()) {
+    try {
         A.promoteType(NLS_LOGICAL);
-        bool a = A.getContentAsLogicalScalar() != 0U;
-        if (a) {
-            retval = ArrayOf::logicalConstructor(a);
-            callstack.popID();
-            return retval;
-        }
-        ArrayOf B = expression(t->down->right);
-        if (needToOverloadOperator(B) && isOverloadAllowed()) {
-            retval = OverloadBinaryOperator(this, A, B, SHORTCUTOR_OPERATOR_STR);
-            callstack.popID();
-            return retval;
-        }
-        if (B.isScalar()) {
-            B.promoteType(NLS_LOGICAL);
-            bool b = B.getContentAsLogicalScalar() != 0U;
-            retval = ArrayOf::logicalConstructor(b);
-            callstack.popID();
-            return retval;
-        }
+    } catch (const Exception&) {
+        Error(_W("Operand to || operator must be convertible to logical scalar values."));
     }
-    Error(_W("Operand to || operator must be convertible to "
-             "logical scalar values."));
-    return retval;
+    bool a = A.getContentAsLogicalScalar() != 0U;
+    if (a) {
+        return ArrayOf::logicalConstructor(a);
+    }
+    ArrayOf B = eval->expression(t->down->right);
+    if (!B.isScalar()) {
+        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+    }
+    try {
+        B.promoteType(NLS_LOGICAL);
+    } catch (const Exception&) {
+        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+    }
+    return ArrayOf::logicalConstructor(B.getContentAsLogicalScalar() != 0U);
 }
 //=============================================================================
 } // namespace Nelson
