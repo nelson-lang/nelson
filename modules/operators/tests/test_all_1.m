@@ -92,5 +92,6 @@ R = all(ones(3, 0), 3);
 REF = logical(zeros(3, 0));
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('all(cell(0, 1))','function cell_all undefined.');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'all');
+assert_checkerror('all(cell(0, 1))', msg);
 %=============================================================================

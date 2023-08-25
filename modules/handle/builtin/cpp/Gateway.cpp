@@ -19,11 +19,9 @@
 #include "propertiesBuiltin.hpp"
 #include "setBuiltin.hpp"
 //=============================================================================
-#include "generic_eq_handleBuiltin.hpp"
+#include "handle_eqBuiltin.hpp"
 #include "handle_deleteBuiltin.hpp"
 #include "handle_displayBuiltin.hpp"
-#include "handle_eq_genericBuiltin.hpp"
-#include "handle_eq_handleBuiltin.hpp"
 #include "handle_fieldnamesBuiltin.hpp"
 #include "handle_getBuiltin.hpp"
 #include "handle_invokeBuiltin.hpp"
@@ -60,9 +58,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "handle_vertcat", (ptrBuiltin)Nelson::HandleGateway::handle_vertcatBuiltin, 1, 2 },
     { "handle_horzcat", (ptrBuiltin)Nelson::HandleGateway::handle_horzcatBuiltin, 1, 2 },
-    { "handle_eq_handle", (ptrBuiltin)Nelson::HandleGateway::handle_eq_handleBuiltin, 1, 2 },
-    { "generic_eq_handle", (ptrBuiltin)Nelson::HandleGateway::generic_eq_handleBuiltin, 1, 2 },
-    { "handle_eq_generic", (ptrBuiltin)Nelson::HandleGateway::handle_eq_genericBuiltin, 1, 2 },
+    { "handle_eq", (ptrBuiltin)Nelson::HandleGateway::handle_eqBuiltin, 1, 2 },
     { "handle_isequal", (ptrBuiltin)Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
     { "handle_isequaln", (ptrBuiltin)Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
     { "handle_isequalto", (ptrBuiltin)Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },

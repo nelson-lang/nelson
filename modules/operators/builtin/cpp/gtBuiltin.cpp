@@ -16,6 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::gtBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    return eval->gtOperator(argIn[0], argIn[1]);
+    return eval->gtOperator(argIn);
 }
 //=============================================================================

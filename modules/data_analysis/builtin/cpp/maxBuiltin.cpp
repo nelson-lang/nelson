@@ -153,13 +153,7 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (needToOverload) {
         bool overloadWasFound = false;
         NelsonType commonType = argIn[0].getDataClass();
-        std::string overloadTypeName;
-        if (argIn[0].isSparse()) {
-            overloadTypeName
-                = commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
-        } else {
-            overloadTypeName = ClassName(argIn[0]);
-        }
+        std::string overloadTypeName = ClassName(argIn[0]);
         retval = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, functionName,
             overloadTypeName, commonType, overloadWasFound);
         if (!overloadWasFound) {
@@ -173,10 +167,10 @@ ArrayOfVector
 binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     const std::string functionName = "max";
-    NelsonType commonType = NLS_DOUBLE;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+    NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
     bool isComplex = false;
-    std::string commonTypeName = NLS_DOUBLE_STR;
 
     ArrayOfVector args;
     args << argIn[0];
@@ -237,20 +231,18 @@ binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         };
+
+        if (!needToOverload) {
+            return retval;
+        }
     }
 
-    if (needToOverload) {
-        bool overloadWasFound = false;
-        commonTypeName = NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
-        if (argIn[0].isSparse()) {
-            commonTypeName = NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR;
-        }
-        retval = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, functionName,
-            commonTypeName, commonType, overloadWasFound);
+    bool overloadWasFound = false;
+    retval = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, argIn, functionName,
+        commonTypeName, commonType, overloadWasFound);
 
-        if (!overloadWasFound) {
-            OverloadRequired(functionName);
-        }
+    if (!overloadWasFound) {
+        OverloadRequired(functionName);
     }
     return retval;
 }

@@ -84,13 +84,7 @@
     <ClCompile Include="..\cpp\handle_propertiesBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_eq_handleBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\handle_eq_genericBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\generic_eq_handleBuiltin.cpp">
+    <ClCompile Include="..\cpp\handle_eqBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\handle_isequalBuiltin.cpp">
@@ -173,13 +167,10 @@
     <ClInclude Include="..\include\handle_propertiesBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_eq_handleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\generic_eq_handleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_eq_genericBuiltin.hpp">
+    <ClInclude Include="..\include\handle_eqBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\handle_isequalBuiltin.hpp">

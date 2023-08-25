@@ -10,48 +10,39 @@
 #include "allBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
+#include "OverloadHelpers.hpp"
 #include "All.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::OperatorsGateway::allBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::OperatorsGateway::allBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    bool bSuccess = false;
+    const std::string functionName = "all";
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
-    }
-    if (!bSuccess) {
-        bool doOverAllElements = false;
-        indexType d = 0;
-        ArrayOf arg1 = argIn[0];
-        if (argIn.size() > 1) {
-            ArrayOf arg2 = argIn[1];
-            if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
-                std::wstring paramAsString = arg2.getContentAsWideString();
-                if (paramAsString != L"all") {
-                    Error(_W("Wrong value for #2 argument."));
-                } else {
-                    doOverAllElements = true;
-                }
+    bool doOverAllElements = false;
+    indexType d = 0;
+    ArrayOf arg1 = argIn[0];
+    if (argIn.size() > 1) {
+        ArrayOf arg2 = argIn[1];
+        if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
+            std::wstring paramAsString = arg2.getContentAsWideString();
+            if (paramAsString != L"all") {
+                Error(_W("Wrong value for #2 argument."));
             } else {
-                d = arg2.getContentAsScalarIndex(false);
+                doOverAllElements = true;
             }
-        }
-        bool needToOverload = false;
-        ArrayOf res = All(arg1, d, doOverAllElements, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "all");
         } else {
-            retval << res;
+            d = arg2.getContentAsScalarIndex(false);
         }
     }
-    return retval;
+    bool needToOverload = false;
+    ArrayOf res = All(arg1, d, doOverAllElements, needToOverload);
+    if (needToOverload) {
+        OverloadRequired(functionName);
+    }
+    return res;
 }
 //=============================================================================

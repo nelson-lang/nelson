@@ -88,9 +88,9 @@ ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
     std::string functionName = COLON_OPERATOR_STR;
-    std::string commonTypeName;
-    NelsonType commonType;
-    bool isSparse;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
 
     ArrayOfVector argIn;
     argIn.push_back(A);
@@ -132,9 +132,9 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     ArrayOf res;
     std::string functionName = COLON_OPERATOR_STR;
 
-    std::string commonTypeName;
-    NelsonType commonType;
-    bool isSparse;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
 
     ArrayOfVector argIn;
     argIn.push_back(A);

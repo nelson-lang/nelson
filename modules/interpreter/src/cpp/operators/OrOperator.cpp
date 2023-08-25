@@ -18,10 +18,10 @@ namespace Nelson {
 ArrayOf
 Evaluator::orOperator(const ArrayOfVector& args)
 {
-    NelsonType commonType = NLS_DOUBLE;
+    std::string commonTypeName = NLS_UNKNOWN_STR;
+    NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
     bool isComplex = false;
-    std::string commonTypeName = NLS_DOUBLE_STR;
 
     ArrayOf res;
     if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
@@ -39,16 +39,6 @@ Evaluator::orOperator(const ArrayOfVector& args)
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
         Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
-    }
-    if (isSparse) {
-        bool overloadWasFound = false;
-        res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, args, OR_OPERATOR_STR,
-            commonType == NLS_LOGICAL ? NLS_SPARSE_LOGICAL_STR : NLS_SPARSE_DOUBLE_STR, commonType,
-            overloadWasFound);
-        if (!overloadWasFound) {
-            OverloadRequired(OR_OPERATOR_STR);
-        }
-        return res;
     }
     bool neeDToOverload = false;
     res = Or(args[0], args[1], commonType, neeDToOverload);

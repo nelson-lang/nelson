@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = COM_ne_COM(A, B)
-  r = handle_ne_handle(A, B);
+function r = double_eq(A, B)
+  r = eq(A,B);
 end
-%=============================================================================

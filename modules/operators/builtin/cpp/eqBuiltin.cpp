@@ -17,6 +17,6 @@ Nelson::OperatorsGateway::eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    return eval->eqOperator(argIn[0], argIn[1]);
+    return eval->eqOperator(argIn);
 }
 //=============================================================================

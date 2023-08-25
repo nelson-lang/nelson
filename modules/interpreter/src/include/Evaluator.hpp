@@ -740,17 +740,17 @@ public:
     dotLeftDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    eqOperator(const ArrayOf& A, const ArrayOf& B);
+    eqOperator(const ArrayOfVector& args);
     ArrayOf
-    gtOperator(const ArrayOf& A, const ArrayOf& B);
+    gtOperator(const ArrayOfVector& args);
     ArrayOf
-    geOperator(const ArrayOf& A, const ArrayOf& B);
+    geOperator(const ArrayOfVector& args);
     ArrayOf
-    leOperator(const ArrayOf& A, const ArrayOf& B);
+    leOperator(const ArrayOfVector& args);
     ArrayOf
-    ltOperator(const ArrayOf& A, const ArrayOf& B);
+    ltOperator(const ArrayOfVector& args);
     ArrayOf
-    neOperator(const ArrayOf& A, const ArrayOf& B);
+    neOperator(const ArrayOfVector& args);
 
     ArrayOf
     shortCutOrOperator(const ArrayOf& A, const ArrayOf& B);

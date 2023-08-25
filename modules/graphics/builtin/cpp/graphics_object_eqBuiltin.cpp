@@ -7,15 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "graphics_object_eq_graphics_objectBuiltin.hpp"
+#include "graphics_object_eqBuiltin.hpp"
 #include "EqGraphicsObjects.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::graphics_object_eq_graphics_objectBuiltin(
-    int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::graphics_object_eqBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);

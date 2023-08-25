@@ -259,4 +259,134 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
     return NLS_UNKNOWN;
 }
 //=============================================================================
+bool
+FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName)
+{
+    commonType = NLS_UNKNOWN;
+    typeName = NLS_UNKNOWN_STR;
+    ArrayOf A(args[0]);
+    ArrayOf B(args[1]);
+    NelsonType Aclass = A.getDataClass();
+    NelsonType Bclass = B.getDataClass();
+    isSparse = A.isSparse() || B.isSparse();
+
+    if ((Aclass == Bclass) && (Aclass <= NLS_CHAR)) {
+        commonType = Aclass;
+        typeName = ClassToString(commonType);
+        if (isSparse) {
+            typeName = NLS_SPARSE_STR + typeName;
+        }
+        return true;
+    }
+    // The output class is now the dominant class remaining:
+    if (isObject(A)) {
+        if (Aclass == NLS_HANDLE) {
+            if (A.isEmpty()) {
+                typeName = NLS_HANDLE_STR;
+            } else {
+                typeName = A.getHandleCategory();
+            }
+            commonType = NLS_HANDLE;
+            return true;
+        }
+        if (Aclass == NLS_GO_HANDLE) {
+            commonType = NLS_GO_HANDLE;
+            typeName = NLS_GO_HANDLE_STR;
+            return true;
+        }
+        if (Aclass == NLS_CLASS_ARRAY) {
+            commonType = NLS_CLASS_ARRAY;
+            typeName = A.getClassType();
+            return true;
+        }
+        return false;
+    }
+    if (isObject(B)) {
+        if (Bclass == NLS_HANDLE) {
+            if (B.isEmpty()) {
+                typeName = NLS_HANDLE_STR;
+            } else {
+                typeName = B.getHandleCategory();
+            }
+            commonType = NLS_HANDLE;
+            return true;
+        }
+        if (Bclass == NLS_GO_HANDLE) {
+            commonType = NLS_GO_HANDLE;
+            typeName = NLS_GO_HANDLE_STR;
+            return true;
+        }
+        if (Bclass == NLS_CLASS_ARRAY) {
+            commonType = NLS_CLASS_ARRAY;
+            typeName = B.getClassType();
+            return true;
+        }
+        return false;
+    }
+
+    if (A.isIntegerType() && B.isIntegerType()) {
+        if (Aclass > Bclass) {
+            commonType = Aclass;
+        } else {
+            commonType = Bclass;
+        }
+        typeName = ClassToString(commonType);
+        return true;
+    }
+
+    // An integer or double mixed with a complex is promoted to a dcomplex type
+    if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {
+        Bclass = NLS_DCOMPLEX;
+    }
+    if ((Bclass == NLS_SCOMPLEX) && ((Aclass == NLS_DOUBLE) || (Aclass < NLS_SINGLE))) {
+        Aclass = NLS_DCOMPLEX;
+    }
+
+    bool isDoubleTypeA = Aclass == NLS_DOUBLE || Aclass == NLS_DCOMPLEX;
+    bool isDoubleTypeB = Bclass == NLS_DOUBLE || Bclass == NLS_DCOMPLEX;
+
+    if (isDoubleTypeA) {
+        commonType = NLS_DOUBLE;
+        typeName = NLS_DOUBLE_STR;
+        return true;
+    }
+    if (isDoubleTypeB) {
+        commonType = NLS_DOUBLE;
+        typeName = NLS_DOUBLE_STR;
+        return true;
+    }
+
+    bool isSingleTypeA = Aclass == NLS_SINGLE || Aclass == NLS_SCOMPLEX;
+    bool isSingleTypeB = Bclass == NLS_SINGLE || Bclass == NLS_SCOMPLEX;
+
+    if (isSingleTypeA) {
+        commonType = NLS_SINGLE;
+        typeName = NLS_SINGLE_STR;
+        return true;
+    }
+    if (isSingleTypeB) {
+        commonType = NLS_SINGLE;
+        typeName = NLS_SINGLE_STR;
+        return true;
+    }
+
+    if (Aclass > Bclass) {
+        commonType = Aclass;
+        if (Aclass < NLS_CLASS_ARRAY) {
+            typeName = ClassToString(Aclass);
+        } else {
+            typeName = ClassName(A);
+        }
+    } else {
+        commonType = Bclass;
+        if (Bclass < NLS_CLASS_ARRAY) {
+            typeName = ClassToString(Bclass);
+        } else {
+            typeName = ClassName(B);
+        }
+    }
+    return (commonType != NLS_UNKNOWN);
+}
+//=============================================================================
 }

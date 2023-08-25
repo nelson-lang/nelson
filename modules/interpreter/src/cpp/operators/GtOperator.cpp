@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Evaluator.hpp"
 #include "GreaterThan.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "Evaluator.hpp"
 #include "Operators.hpp"
+#include "RelationOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,28 +18,18 @@ ArrayOf
 Evaluator::gtOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->gtOperator(expression(t->down), expression(t->down->right));
+    ArrayOfVector args;
+    args << expression(t->down);
+    args << expression(t->down->right);
+    ArrayOf retval = this->gtOperator(args);
     callstack.popID();
     return retval;
 }
 //=============================================================================
 ArrayOf
-Evaluator::gtOperator(const ArrayOf& A, const ArrayOf& B)
+Evaluator::gtOperator(const ArrayOfVector& args)
 {
-    ArrayOf res;
-    bool bSuccess = false;
-    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
-        && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, GT_OPERATOR_STR, bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        res = GreaterThan(A, B, needToOverload);
-        if (needToOverload) {
-            res = OverloadBinaryOperator(this, A, B, GT_OPERATOR_STR);
-        }
-    }
-    return res;
+    return relationalOperator(this, GT_OPERATOR_STR, ">", args, &GreaterThan);
 }
 //=============================================================================
 } // namespace Nelson

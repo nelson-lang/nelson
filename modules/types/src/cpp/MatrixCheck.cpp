@@ -55,59 +55,6 @@ MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
     return true;
 }
 //=============================================================================
-NelsonType
-FindCommonType(const ArrayOf& A, const ArrayOf& B)
-{
-    NelsonType Aclass = A.getDataClass();
-    NelsonType Bclass = B.getDataClass();
-    if ((Aclass == Bclass) && (Aclass <= NLS_CHAR)) {
-        return Aclass;
-    }
-    // An integer or double mixed with a complex is promoted to a dcomplex type
-    if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {
-        Bclass = NLS_DCOMPLEX;
-    }
-    if ((Bclass == NLS_SCOMPLEX) && ((Aclass == NLS_DOUBLE) || (Aclass < NLS_SINGLE))) {
-        Aclass = NLS_DCOMPLEX;
-    }
-    // The output class is now the dominant class remaining:
-    bool isObjectA = A.isClassType() || (Aclass == NLS_HANDLE);
-    bool isObjectB = B.isClassType() || (Bclass == NLS_HANDLE);
-
-    if (isObjectA) {
-        return Aclass;
-    }
-    if (isObjectB) {
-        return Bclass;
-    }
-
-    if (A.isIntegerType() && B.isIntegerType()) {
-        return (Aclass > Bclass) ? Aclass : Bclass;
-    }
-
-    bool isDoubleTypeA = Aclass == NLS_DOUBLE || Aclass == NLS_DCOMPLEX;
-    bool isDoubleTypeB = Bclass == NLS_DOUBLE || Bclass == NLS_DCOMPLEX;
-
-    if (isDoubleTypeA) {
-        return Aclass;
-    }
-    if (isDoubleTypeB) {
-        return Bclass;
-    }
-
-    bool isSingleTypeA = Aclass == NLS_SINGLE || Aclass == NLS_SCOMPLEX;
-    bool isSingleTypeB = Bclass == NLS_SINGLE || Bclass == NLS_SCOMPLEX;
-
-    if (isSingleTypeA) {
-        return Aclass;
-    }
-    if (isSingleTypeB) {
-        return Bclass;
-    }
-
-    return (Aclass > Bclass) ? Aclass : Bclass;
-}
-//=============================================================================
 bool
 SameSizeCheck(Dimensions& Adim, Dimensions& Bdim)
 {

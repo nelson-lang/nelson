@@ -202,6 +202,9 @@
     <ClCompile Include="..\cpp\DisplayVariable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\operators\RelationOperatorsHelpers.cpp">
+      <Filter>Source Files\Operators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -365,6 +368,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FileWatcher.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RelationOpertorsHelpers.hpp" />
+    <ClInclude Include="..\cpp\operators\RelationOperatorsHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

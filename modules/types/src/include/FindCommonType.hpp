@@ -20,5 +20,10 @@ bool
 FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
     std::string& typeName);
 //=============================================================================
+NLSTYPES_IMPEXP
+bool
+FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonType, bool& isSparse,
+    bool& isComplex, std::string& typeName);
+//=============================================================================
 }
 //=============================================================================

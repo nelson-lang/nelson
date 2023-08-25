@@ -56,7 +56,7 @@ boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical
 ArrayOf
 Or(const ArrayOf& A, const ArrayOf& B, NelsonType commonType, bool& needToOverload)
 {
-    if (commonType > NLS_CHAR) {
+    if (commonType > NLS_CHAR || (A.isSparse() || B.isSparse())) {
         needToOverload = true;
         return {};
     }
