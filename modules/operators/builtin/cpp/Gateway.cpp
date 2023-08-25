@@ -36,8 +36,6 @@
 #include "plusBuiltin.hpp"
 #include "powerBuiltin.hpp"
 #include "rdivideBuiltin.hpp"
-#include "shortcutandBuiltin.hpp"
-#include "shortcutorBuiltin.hpp"
 #include "subsindexBuiltin.hpp"
 #include "timesBuiltin.hpp"
 #include "transposeBuiltin.hpp"
@@ -102,10 +100,6 @@ static const nlsGateway gateway[] = {
     { POWER_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::powerBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { MPOWER_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::mpowerBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { SHORTCUTOR_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::shortcutorBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { SHORTCUTAND_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::shortcutandBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { SUBSASGN_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::subsindexBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

@@ -37,8 +37,8 @@ namespace Nelson {
 #define EQ_OPERATOR_STR "eq"
 #define AND_OPERATOR_STR "and"
 #define OR_OPERATOR_STR "or"
-#define SHORTCUTAND_OPERATOR_STR "shortcutand"
-#define SHORTCUTOR_OPERATOR_STR "shortcutor"
+#define SHORTCUTAND_OPERATOR_STR "&&"
+#define SHORTCUTOR_OPERATOR_STR "||"
 #define CTRANSPOSE_OPERATOR_STR "ctranspose"
 #define TRANSPOSE_OPERATOR_STR "transpose"
 // MULTIPLE

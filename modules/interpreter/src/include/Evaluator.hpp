@@ -753,10 +753,6 @@ public:
     neOperator(const ArrayOfVector& args);
 
     ArrayOf
-    shortCutOrOperator(const ArrayOf& A, const ArrayOf& B);
-    ArrayOf
-    shortCutAndOperator(const ArrayOf& A, const ArrayOf& B);
-    ArrayOf
     orOperator(const ArrayOfVector& args);
     ArrayOf
     andOperator(const ArrayOfVector& args);

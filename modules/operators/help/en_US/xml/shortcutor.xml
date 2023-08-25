@@ -7,7 +7,6 @@
 	<short_description>Short circuit 'OR' operator, ||</short_description>
 
 	<syntax>
-		<syntax_item>C = shortcutor(A, B)</syntax_item>
 		<syntax_item>C = A || B</syntax_item>
 	</syntax>
 
@@ -31,7 +30,7 @@
 	</param_output>
 
 	<description>
-		<p><b>C = shortcutor(A, B)</b> performs a logical <b
+		<p><b>C = A || B</b> performs a logical <b
       >OR</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
 	</description>
 
@@ -48,8 +47,7 @@
       ><![CDATA[A = [6 8 0; 0 3 89; 15 0 0]
 B = [66 56 0; 11 33 55; -11 0 0]
 C = A || B
-D = shortcutor(B, A)
-C == D]]>
+]]>
 		</example_item_data>
 	</example_item>
 
@@ -59,6 +57,10 @@ C == D]]>
 		<see_also_item>
 			<link linkend="${operators}or">or</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${operators}shortcutand">&amp;&amp;</link>
+		</see_also_item>
+
 		<see_also_item>
 			<link linkend="${operators}xor">xor</link>
 		</see_also_item>

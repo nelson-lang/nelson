@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -104,6 +105,5 @@ ArrayOf::makeSparse()
         true, dp->fieldNames);
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

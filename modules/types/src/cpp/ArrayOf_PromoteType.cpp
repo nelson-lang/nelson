@@ -304,11 +304,7 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
         if (dstClass == NLS_STRUCT_ARRAY) {
             return;
         }
-        if (dstClass == NLS_STRUCT_ARRAY) {
-            dp->promoteClassToStruct();
-            return;
-        }
-        Error(_W("Cannot convert struct-arrays to any other type."));
+        Error(_W("Cannot convert function_handle to any other type."));
 
     } break;
     case NLS_CLASS_ARRAY: {
@@ -322,7 +318,7 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             dp->promoteClassToStruct();
             return;
         }
-        Error(_W("Cannot convert struct-arrays to any other type."));
+        Error(_W("Cannot convert class to any other type."));
     } break;
     case NLS_STRUCT_ARRAY: {
         if (dstClass == NLS_STRUCT_ARRAY) {

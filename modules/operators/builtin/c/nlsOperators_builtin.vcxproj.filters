@@ -81,12 +81,6 @@
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\shortcutandBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\shortcutorBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
