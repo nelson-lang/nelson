@@ -21,7 +21,6 @@
 #include "SubtractionReal.hpp"
 #include "SubtractionComplex.hpp"
 #include "SubtractionInteger.hpp"
-#include "FindCommonClass.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
