@@ -38,6 +38,7 @@ R = int8([1 2]) .* int8([3, 4]);
 REF = int8([3 8]);
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = single(3) .* int8([1 2]);', sprintf(_('function %s undefined.'), 'single_times_int8'));
-assert_checkerror('R = int8([1 2]) .* single(3);', sprintf(_('function %s undefined.'), 'int8_times_single'));
+msg = _('Integers can only be combined with integers of the same class, or scalar doubles.');
+assert_checkerror('R = single(3) .* int8([1 2]);', msg);
+assert_checkerror('R = int8([1 2]) .* single(3);', msg);
 %=============================================================================

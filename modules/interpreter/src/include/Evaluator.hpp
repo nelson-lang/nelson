@@ -723,7 +723,7 @@ public:
     ArrayOf
     minusOperator(const ArrayOfVector& args);
     ArrayOf
-    timesOperator(const ArrayOf& A, const ArrayOf& B);
+    timesOperator(const ArrayOfVector& args);
     ArrayOf
     mtimesOperator(const ArrayOf& A, const ArrayOf& B);
 
