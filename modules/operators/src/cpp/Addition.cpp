@@ -21,7 +21,6 @@
 #include "AdditionReal.hpp"
 #include "AdditionComplex.hpp"
 #include "AdditionInteger.hpp"
-#include "FindCommonClass.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {

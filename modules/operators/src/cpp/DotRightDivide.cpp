@@ -15,7 +15,6 @@
 #include "DotRightDivideReal.hpp"
 #include "DotRightDivideComplex.hpp"
 #include "DotRightDivideInteger.hpp"
-#include "FindCommonClass.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {

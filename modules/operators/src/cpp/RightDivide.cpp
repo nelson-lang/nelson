@@ -14,7 +14,6 @@
 #include "LeftDivide.hpp"
 #include "MatrixCheck.hpp"
 #include "ComplexTranspose.hpp"
-#include "FindCommonClass.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -52,8 +51,8 @@ RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
         }
         if (dimsA[0] != 0 && dimsB[0] != 0) {
+            NelsonType commonClass = A.getDataClass();
             Dimensions dimsC(dimsA[0], dimsB[0]);
-            NelsonType commonClass = FindCommonClass(A, B, needToOverload);
             void* pT = ArrayOf::allocateArrayOf(
                 commonClass, dimsC.getElementCount(), stringVector(), true);
             return ArrayOf(commonClass, dimsC, pT, false);
