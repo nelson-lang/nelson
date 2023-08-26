@@ -731,13 +731,13 @@ public:
     rightDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    leftDivideOperator(const ArrayOf& A, const ArrayOf& B);
+    leftDivideOperator(const ArrayOfVector& args);
 
     ArrayOf
-    dotRightDivideOperator(const ArrayOf& A, const ArrayOf& B);
+    dotRightDivideOperator(const ArrayOfVector& args);
 
     ArrayOf
-    dotLeftDivideOperator(const ArrayOf& A, const ArrayOf& B);
+    dotLeftDivideOperator(const ArrayOfVector& args);
 
     ArrayOf
     eqOperator(const ArrayOfVector& args);
