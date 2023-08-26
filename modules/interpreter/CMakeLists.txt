@@ -48,7 +48,8 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include)
@@ -66,6 +67,7 @@ target_link_libraries(
   nlsOs_functions
   nlsProfiler
   nlsLinear_algebra
+  nlsElementary_mathematics
   nlsTypes)
 # ==============================================================================
 file(GLOB INTERPRETER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"

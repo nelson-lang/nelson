@@ -15,9 +15,8 @@ R = int8([1:5]).^int8(2);
 REF = int8([1    4    9   16   25]);
 assert_isequal(R, REF);
 %=============================================================================
-R = [1:5].^int8(2);
-REF = int8([1    4    9   16   25]);
-assert_isequal(R, REF);
+msg = _('Integers can only be combined with integers of the same class, or scalar doubles.');
+assert_checkerror('R = [1:5].^int8(2)', msg);
 %=============================================================================
 R = int8(128).^2;
 REF = int8(127);

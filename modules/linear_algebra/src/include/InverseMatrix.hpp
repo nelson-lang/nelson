@@ -13,7 +13,9 @@
 #include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-InverseMatrix(ArrayOf& A, bool& needToOverload);
+InverseMatrix(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 }
 //=============================================================================

@@ -71,14 +71,14 @@ Evaluator::leftDivideOperator(const ArrayOfVector& args)
         } else {
             if (commonType <= NLS_CHAR) {
                 NelsonType _commonType = commonType;
+                if (_commonType == NLS_CHAR) {
+                    _commonType = NLS_DOUBLE;
+                }
                 if (_commonType == NLS_DOUBLE && isComplex) {
                     _commonType = NLS_DCOMPLEX;
                 }
                 if (_commonType == NLS_SINGLE && isComplex) {
                     _commonType = NLS_SCOMPLEX;
-                }
-                if (_commonType == NLS_CHAR) {
-                    _commonType = NLS_DOUBLE;
                 }
                 A.promoteType(_commonType);
                 B.promoteType(_commonType);
