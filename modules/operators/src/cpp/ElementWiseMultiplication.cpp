@@ -27,6 +27,36 @@ matrix_matrix_elementWiseMultiplication(
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    ArrayOf res = ArrayOf(classDestination, dimsC, Cp, false);
+#ifdef _NLS_WITH_OPENMP
+    T* ptrA = (T*)a.getDataPointer();
+    T* ptrB = (T*)b.getDataPointer();
+    T* ptrC = (T*)Cp;
+    if (IS_INTEGER_TYPE(classDestination)) {
+        bool mustCastAsLongDouble = mustCastIntegerAsLongDouble(classDestination);
+        bool mustCastAsDouble = mustCastIntegerAsDouble(classDestination);
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
+            if (mustCastAsLongDouble) {
+                ptrC[k] = static_cast<T>(
+                    static_cast<long double>(ptrA[k]) * static_cast<long double>(ptrB[k]));
+
+            } else if (mustCastAsDouble) {
+                ptrC[k]
+                    = static_cast<T>(static_cast<double>(ptrA[k]) * static_cast<double>(ptrB[k]));
+
+            } else {
+                ptrC[k]
+                    = static_cast<T>(static_cast<single>(ptrA[k]) * static_cast<single>(ptrB[k]));
+            }
+        }
+    } else {
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
+            ptrC[k] = ptrA[k] * ptrB[k];
+        }
+    }
+#else
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)a.getDataPointer(), 1, Clen);
@@ -55,7 +85,8 @@ matrix_matrix_elementWiseMultiplication(
     } else {
         matC = matA.cwiseProduct(matB);
     }
-    return ArrayOf(classDestination, dimsC, Cp, false);
+#endif
+    return res;
 }
 //=============================================================================
 template <class T>
@@ -575,53 +606,46 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
 ArrayOf
 elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    ArrayOf res;
-    ArrayOf _A = A;
-    ArrayOf _B = B;
-    bool isDoubleA = (_A.isDoubleType() || _A.isNdArrayDoubleType());
-    bool isDoubleB = (_B.isDoubleType() || _B.isNdArrayDoubleType());
-    bool isSingleA = (_A.isSingleType() || _A.isNdArraySingleType());
-    bool isSingleB = (_B.isSingleType() || _B.isNdArraySingleType());
-    if ((isDoubleA || isSingleA) && (isDoubleB || isSingleB)) {
-        if (isDoubleA && isDoubleB) {
-            res = double_elementWiseMultiplication_double(_A, _B);
-        } else if (isSingleA && isSingleB) {
-            res = single_elementWiseMultiplication_single(_A, _B);
-        } else {
-            if (_A.getDataClass() == NLS_DOUBLE) {
-                _A.promoteType(NLS_SINGLE);
-            } else {
-                _A.promoteType(NLS_SCOMPLEX);
-            }
-            if (_B.getDataClass() == NLS_DOUBLE) {
-                _B.promoteType(NLS_SINGLE);
-            } else {
-                _B.promoteType(NLS_SCOMPLEX);
-            }
-            res = single_elementWiseMultiplication_single(_A, _B);
+    needToOverload = false;
+    switch (A.getDataClass()) {
+    case NLS_INT8:
+        return elementWiseMultiplication<int8>(NLS_INT8, A, B);
+    case NLS_UINT8:
+        return elementWiseMultiplication<uint8>(NLS_UINT8, A, B);
+    case NLS_INT16:
+        return elementWiseMultiplication<int16>(NLS_INT16, A, B);
+    case NLS_UINT16:
+        return elementWiseMultiplication<uint16>(NLS_UINT16, A, B);
+    case NLS_INT32:
+        return elementWiseMultiplication<int32>(NLS_INT32, A, B);
+    case NLS_UINT32:
+        return elementWiseMultiplication<uint32>(NLS_UINT32, A, B);
+    case NLS_INT64:
+        return elementWiseMultiplication<int64>(NLS_INT64, A, B);
+    case NLS_UINT64:
+        return elementWiseMultiplication<uint64>(NLS_UINT64, A, B);
+    case NLS_LOGICAL: {
+        if (A.isSparse() || B.isSparse()) {
+            needToOverload = true;
+            return {};
         }
-    } else {
-        bool isIntegerA = _A.isIntegerType() || _A.isNdArrayIntegerType();
-        bool isIntegerB = _B.isIntegerType() || _B.isNdArrayIntegerType();
-        if (isIntegerA && isIntegerB) {
-            if (_A.getDataClass() == _B.getDataClass()) {
-                res = integer_elementWiseMultiplication_integer(_A, _B);
-            } else {
-                Error(_W("Integers of the same class expected."));
-            }
-        } else {
-            if (isIntegerA && isDoubleB && _B.isScalar()) {
-                _B.promoteType(_A.getDataClass());
-                res = integer_elementWiseMultiplication_integer(_A, _B);
-            } else if (isIntegerB && isDoubleA && _A.isScalar()) {
-                _A.promoteType(_B.getDataClass());
-                res = integer_elementWiseMultiplication_integer(_A, _B);
-            } else {
-                needToOverload = true;
-            }
+        return elementWiseMultiplication<logical>(NLS_LOGICAL, A, B);
+    } break;
+    case NLS_DOUBLE:
+    case NLS_DCOMPLEX:
+        if (A.isSparse() || B.isSparse()) {
+            needToOverload = true;
+            return {};
         }
+        return double_elementWiseMultiplication_double(A, B);
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX:
+        return single_elementWiseMultiplication_single(A, B);
+    default: {
+        needToOverload = true;
+    } break;
     }
-    return res;
+    return {};
 }
 //=============================================================================
 } // namespace Nelson
