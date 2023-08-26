@@ -16,6 +16,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::rdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
-    return eval->dotRightDivideOperator(argIn[0], argIn[1]);
+    return eval->dotRightDivideOperator(argIn);
 }
 //=============================================================================

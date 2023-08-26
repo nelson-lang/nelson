@@ -30,7 +30,7 @@ Evaluator::timesOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::timesOperator(const ArrayOfVector& args)
 {
-    const std::string functionName = "times";
+    const std::string functionName = TIMES_OPERATOR_STR;
     std::string commonTypeName = NLS_UNKNOWN_STR;
     NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
@@ -79,8 +79,6 @@ Evaluator::timesOperator(const ArrayOfVector& args)
                 if (_commonType == NLS_CHAR) {
                     _commonType = NLS_DOUBLE;
                 }
-                ArrayOf A(args[0]);
-                ArrayOf B(args[1]);
                 A.promoteType(_commonType);
                 B.promoteType(_commonType);
             }
