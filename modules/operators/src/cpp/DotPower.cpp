@@ -860,59 +860,12 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-DotPower(const ArrayOf& _A, const ArrayOf& _B, bool& needToOverload)
+DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    ArrayOf A = _A;
-    ArrayOf B = _B;
     needToOverload = false;
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
         return {};
-    }
-    bool AsSingle = A.isSingleClass() || B.isSingleClass();
-    if (A.isCharacterArray()) {
-        A.promoteType(NLS_DOUBLE);
-    }
-    if (B.isCharacterArray()) {
-        B.promoteType(NLS_DOUBLE);
-    }
-    if (A.getDataClass() != B.getDataClass()) {
-        bool isIntegerA = (A.isIntegerType() || A.isNdArrayIntegerType());
-        bool isIntegerB = (B.isIntegerType() || B.isNdArrayIntegerType());
-        if (isIntegerA || isIntegerB) {
-            if (isIntegerA) {
-                if (B.getDataClass() == NLS_DOUBLE) {
-                    auto* ptrB = (double*)B.getDataPointer();
-                    indexType elementCount = B.getElementCount();
-                    bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
-                    if (!allIntegerValue) {
-                        Error(_W("Positive integral powers expected."));
-                    }
-                    B.promoteType(A.getDataClass());
-                } else {
-                    Error(_W("integers of the same class, or scalar doubles expected."));
-                }
-            }
-            if (isIntegerB) {
-                if (A.getDataClass() == NLS_DOUBLE) {
-                    A.promoteType(B.getDataClass());
-                } else {
-                    Error(_W("integers of the same class, or scalar doubles expected."));
-                }
-            }
-        } else if ((A.isDoubleClass() || A.isSingleClass())
-            && (B.isDoubleClass() || B.isSingleClass())) {
-            if (A.isComplex() || B.isComplex()) {
-                A.promoteType(NLS_DCOMPLEX);
-                B.promoteType(NLS_DCOMPLEX);
-            } else {
-                A.promoteType(NLS_DOUBLE);
-                B.promoteType(NLS_DOUBLE);
-            }
-        } else {
-            needToOverload = true;
-            return {};
-        }
     }
     switch (A.getDataClass()) {
     case NLS_UINT8:
@@ -926,27 +879,24 @@ DotPower(const ArrayOf& _A, const ArrayOf& _B, bool& needToOverload)
         return DoPowerTwoArgFunction(A, B);
     } break;
     case NLS_SINGLE:
+    case NLS_SCOMPLEX: {
+        ArrayOf res = DoPowerTwoArgFunction(A, B);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+        return res;
+    } break;
     case NLS_DOUBLE:
-    case NLS_SCOMPLEX:
-    case NLS_DCOMPLEX:
+    case NLS_DCOMPLEX: {
+        ArrayOf res = DoPowerTwoArgFunction(A, B);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+        return res;
+    } break;
     case NLS_CHAR: {
         ArrayOf res = DoPowerTwoArgFunction(A, B);
-        if (res.isComplex()) {
-            if (res.allReal()) {
-                if (res.isDoubleClass()) {
-                    res.promoteType(NLS_DOUBLE);
-                } else {
-                    res.promoteType(NLS_SINGLE);
-                }
-            }
-        }
-        if (AsSingle) {
-            if (res.isComplex()) {
-                res.promoteType(NLS_SCOMPLEX);
-            } else {
-                res.promoteType(NLS_SINGLE);
-            }
-        }
+        res.promoteType(NLS_DOUBLE);
         return res;
     } break;
     case NLS_LOGICAL:

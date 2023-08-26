@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- all operators were reworked to support compatible overload.
 - Boost 1.82 used on Windows.
 
 - Internals:

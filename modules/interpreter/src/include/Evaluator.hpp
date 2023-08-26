@@ -714,9 +714,9 @@ public:
     complexTransposeOperator(const ArrayOf& A);
 
     ArrayOf
-    mpowerOperator(const ArrayOf& A, const ArrayOf& B);
+    mpowerOperator(const ArrayOfVector& args);
     ArrayOf
-    powerOperator(const ArrayOf& A, const ArrayOf& B);
+    powerOperator(const ArrayOfVector& args);
 
     ArrayOf
     plusOperator(const ArrayOfVector& args);

@@ -97,10 +97,8 @@ scalarMatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 }
 //=============================================================================
 ArrayOf
-MatrixPower(const ArrayOf& _A, const ArrayOf& _B, bool& needToOverload)
+MatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    ArrayOf A(_A);
-    ArrayOf B(_B);
     needToOverload = false;
     if (A.isScalar() && B.isScalar()) {
         return DotPower(A, B, needToOverload);
@@ -146,14 +144,6 @@ MatrixPower(const ArrayOf& _A, const ArrayOf& _B, bool& needToOverload)
     if (!isSupportedType) {
         needToOverload = true;
         return {};
-    }
-
-    if (A.getDataClass() != B.getDataClass()) {
-        if (A.getDataClass() > B.getDataClass()) {
-            B.promoteType(A.getDataClass());
-        } else {
-            A.promoteType(B.getDataClass());
-        }
     }
 
     ArrayOf res;

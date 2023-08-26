@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsBuildConfig.h"
 #include "Hypothenus.hpp"
 #include "MatrixCheck.hpp"
 #include "HypothenusReal.hpp"
@@ -18,49 +17,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static NelsonType
-computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
-{
-    needToOverload = true;
-    if (A.isSparse() || B.isSparse()) {
-        return NLS_UNKNOWN;
-    }
-    if ((A.isDoubleClass() || A.isSingleClass()) && (B.isDoubleClass() || B.isSingleClass())) {
-        needToOverload = false;
-        bool asComplex = A.isComplex() || B.isComplex();
-        NelsonType destinationClass;
-        if (A.getDataClass() == B.getDataClass()) {
-            destinationClass = A.getDataClass();
-        } else {
-            if (A.isDoubleClass() && B.isDoubleClass()) {
-                if (asComplex) {
-                    destinationClass = NLS_DCOMPLEX;
-                } else {
-                    destinationClass = NLS_DOUBLE;
-                }
-            } else if (A.isSingleClass() && B.isSingleClass()) {
-                if (asComplex) {
-                    destinationClass = NLS_SCOMPLEX;
-                } else {
-                    destinationClass = NLS_SINGLE;
-                }
-            } else {
-                if (asComplex) {
-                    destinationClass = NLS_SCOMPLEX;
-                } else {
-                    destinationClass = NLS_SINGLE;
-                }
-            }
-        }
-        return destinationClass;
-    }
-    return NLS_UNKNOWN;
-}
-//=============================================================================
-static ArrayOf
-Hypothenuse(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
+ArrayOf
+Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
+    needToOverload = false;
     if (A.isEmpty() || B.isEmpty()) {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
@@ -84,7 +45,12 @@ Hypothenuse(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
         }
         return res;
     }
-    switch (commonClass) {
+    if (A.isSparse() || B.isSparse()) {
+        needToOverload = true;
+        return {};
+    }
+
+    switch (A.getDataClass()) {
     case NLS_SINGLE: {
         if (A.isScalar() && B.isScalar()) {
             res = scalar_scalar_real_hypothenuse<single>(NLS_SINGLE, A, B);
@@ -144,28 +110,8 @@ Hypothenuse(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        needToOverload = true;
     } break;
-    }
-    return res;
-}
-//=============================================================================
-ArrayOf
-Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
-{
-    needToOverload = false;
-    ArrayOf res;
-    NelsonType commonClass = computeCommonClass(A, B, needToOverload);
-    if (!needToOverload) {
-        if (A.getDataClass() == commonClass && B.getDataClass() == commonClass) {
-            res = Hypothenuse(A, B, commonClass);
-        } else {
-            ArrayOf a = A;
-            a.promoteType(commonClass);
-            ArrayOf b = B;
-            b.promoteType(commonClass);
-            res = Hypothenuse(a, b, commonClass);
-        }
     }
     return res;
 }

@@ -220,7 +220,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
 }
 //=============================================================================
 ArrayOf
-InverseMatrix(ArrayOf& A, bool& needToOverload)
+InverseMatrix(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     bool isSupportedTypes

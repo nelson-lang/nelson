@@ -35,7 +35,9 @@ function f = factor(n)
   else
     f = [];
   end
-  p = primes(cast(sqrt(double(n)), class(n)));
+  cl = class(n);
+  n = double(n);
+  p = primes(sqrt(double(n)));
   while n>1
     d = find(rem(n, p) == 0);
     if isempty(d)
@@ -47,5 +49,6 @@ function f = factor(n)
     n = n / prod(p);
   end
   f = sort(f);
+  f = cast(f, cl);
 end
 %=============================================================================
