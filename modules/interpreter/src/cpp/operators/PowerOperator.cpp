@@ -11,6 +11,7 @@
 #include "Operators.hpp"
 #include "DotPower.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================

@@ -45,7 +45,7 @@ Nelson::StringGateway::num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "num2str", bSuccess);
             if (!bSuccess) {
-                OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+                OverloadRequired("num2str");
             }
         } else {
             retval << res;

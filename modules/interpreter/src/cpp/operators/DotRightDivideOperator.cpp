@@ -12,6 +12,7 @@
 #include "Operators.hpp"
 #include "DotRightDivide.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {

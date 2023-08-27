@@ -35,7 +35,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+            OverloadRequired("svd");
         }
         SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
         if (argIn.size() == 2) {

@@ -96,5 +96,6 @@ R = num2bin(sparse(eye(2, 3)));
 assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('num2bin(i)', _('First argument must be real.'))
-assert_checkerror('num2bin(''i'')', sprintf(_('function %s_num2bin undefined.'), 'char'));
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'num2bin');
+assert_checkerror('num2bin(''i'')', msg);
 %=============================================================================

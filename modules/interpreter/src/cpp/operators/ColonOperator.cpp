@@ -19,6 +19,7 @@
 #include "Operators.hpp"
 #include "NelsonConfiguration.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonColonType.hpp"
 //=============================================================================
 namespace Nelson {

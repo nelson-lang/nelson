@@ -46,7 +46,8 @@ R = log10(single(10));
 REF = single(1);
 assert_isequal(R,REF);
 %=============================================================================
-assert_checkerror('R = log10(true);', sprintf(_('function %s_log10 undefined.'), class(true)));
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'log10');
+assert_checkerror('R = log10(true);', msg);
 %=============================================================================
 R = log10(-3);
 REF = log10(complex(-3, 0));

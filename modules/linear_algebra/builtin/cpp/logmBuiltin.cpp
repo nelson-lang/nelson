@@ -33,7 +33,7 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+            OverloadRequired("logm");
         }
         retval << LogMatrix(argIn[0]);
     }

@@ -33,7 +33,7 @@ Nelson::LinearAlgebraGateway::sqrtmBuiltin(Evaluator* eval, int nLhs, const Arra
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+            OverloadRequired("sqrtm");
         }
         retval << SqrtMatrix(argIn[0]);
     }

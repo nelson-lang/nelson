@@ -23,7 +23,7 @@ Nelson::HandleGateway::methodsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "methods", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("methods");
     }
     return retval;
 }

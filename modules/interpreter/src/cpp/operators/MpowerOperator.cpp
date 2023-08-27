@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {

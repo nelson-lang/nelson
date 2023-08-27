@@ -36,7 +36,7 @@ Nelson::DataStructuresGateway::getfieldBuiltin(
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY, "getfield");
+            OverloadRequired("getfield");
         }
         if (param1.isStruct()) {
             std::wstring fieldname = param2.getContentAsWideString();

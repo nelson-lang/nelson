@@ -23,7 +23,7 @@ Nelson::HandleGateway::isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "isvalid", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("isvalid");
     }
     return retval;
 }

@@ -51,7 +51,9 @@ REF = [72057594037927936u, 144115188075855872u, 216172782113783808u;
 288230376151711744u, 360287970189639680u, 432345564227567616u];
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = swapbytes(3+i);', sprintf(_('function %s_swapbytes undefined.'), 'double'));
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'swapbytes');
 %=============================================================================
-assert_checkerror('R = swapbytes(true)', sprintf(_('function %s_swapbytes undefined.'), 'logical'));
+assert_checkerror('R = swapbytes(3+i);', msg);
+%=============================================================================
+assert_checkerror('R = swapbytes(true)', msg);
 %=============================================================================

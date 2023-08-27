@@ -177,11 +177,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsOverload_exports.h" />
-    <ClInclude Include="..\..\src\include\OverloadBinaryOperator.hpp" />
     <ClInclude Include="..\..\src\include\OverloadFunction.hpp" />
     <ClInclude Include="..\..\src\include\OverloadRequired.hpp" />
     <ClInclude Include="..\include\Overload.hpp" />
-    <ClInclude Include="..\include\OverloadExtraction.hpp" />
     <ClInclude Include="..\include\OverloadHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>

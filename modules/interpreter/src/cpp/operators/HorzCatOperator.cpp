@@ -18,6 +18,7 @@
 #include "Evaluator.hpp"
 #include "FindCommonConcatenateType.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

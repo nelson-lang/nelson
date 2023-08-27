@@ -24,7 +24,7 @@ Nelson::AudioGateway::stopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "stop", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("stop");
     }
     return retval;
 }

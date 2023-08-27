@@ -24,7 +24,7 @@ Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "play", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("play");
     }
     return retval;
 }

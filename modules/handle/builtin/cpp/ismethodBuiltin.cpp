@@ -23,7 +23,7 @@ Nelson::HandleGateway::ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "ismethod", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("ismethod");
     }
     return retval;
 }

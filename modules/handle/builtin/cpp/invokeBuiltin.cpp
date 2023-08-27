@@ -23,7 +23,7 @@ Nelson::HandleGateway::invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "invoke", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("invoke");
     }
     return retval;
 }

@@ -55,7 +55,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY, "rmfield");
+            OverloadRequired("rmfield");
         }
         if (param1.isStruct()) {
             stringVector namesToRemove = param2.getContentAsCStringVector();

@@ -71,5 +71,7 @@ REF = 0;
 assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('R = det([1 2])', _('Square matrix expected.'));
-assert_checkerror('R = det(''hello'')', sprintf(_('function %s_det undefined.'), 'char'));
+%=============================================================================
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'det');
+assert_checkerror('R = det(''hello'')', msg);
 %=============================================================================

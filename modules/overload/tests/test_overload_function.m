@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('gamma(int32(4))', _('function int32_gamma undefined.'));
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'gamma');
+assert_checkerror('gamma(int32(4))', msg);
 assert_checkerror('gamma(4i)', _('Input argument must be dense and real.'));
 assert_checkerror('gamma(single(4i))', _('Input argument must be dense and real.'));
 addpath([nelsonroot(), '/modules/overload/tests/overload']);

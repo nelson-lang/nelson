@@ -10,6 +10,7 @@
 #include "Evaluator.hpp"
 #include "DisplayVariable.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 //=============================================================================
