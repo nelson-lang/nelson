@@ -36,7 +36,6 @@ Evaluator::plusOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::plusOperator(const ArrayOfVector& args)
 {
-
     std::string commonTypeName = NLS_UNKNOWN_STR;
     NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;

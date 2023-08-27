@@ -16,7 +16,7 @@ namespace Nelson {
 //=============================================================================
 ArrayOf
 relationalOperator(Evaluator* eval, const std::string& operatorName, const std::string& symbolName,
-    const ArrayOfVector& args,
+    bool compareAlsoImagPart, const ArrayOfVector& args,
     ArrayOf (*relationalOperator)(const ArrayOf& A, const ArrayOf& B, bool& needToOverload));
 //=============================================================================
 }

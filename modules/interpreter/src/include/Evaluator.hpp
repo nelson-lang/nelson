@@ -725,10 +725,10 @@ public:
     ArrayOf
     timesOperator(const ArrayOfVector& args);
     ArrayOf
-    mtimesOperator(const ArrayOf& A, const ArrayOf& B);
+    mtimesOperator(const ArrayOfVector& args);
 
     ArrayOf
-    rightDivideOperator(const ArrayOf& A, const ArrayOf& B);
+    rightDivideOperator(const ArrayOfVector& args);
 
     ArrayOf
     leftDivideOperator(const ArrayOfVector& args);

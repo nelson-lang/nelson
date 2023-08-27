@@ -29,7 +29,7 @@ Evaluator::eqOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::eqOperator(const ArrayOfVector& args)
 {
-    return relationalOperator(this, EQ_OPERATOR_STR, "==", args, &Equals);
+    return relationalOperator(this, EQ_OPERATOR_STR, "==", true, args, &Equals);
 }
 //=============================================================================
 } // namespace Nelson

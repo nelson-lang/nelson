@@ -24,7 +24,7 @@ static void
 complexTransposeInPlace(ArrayOf& A, bool& needToOverload);
 //=============================================================================
 ArrayOf
-RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
+RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     if (A.isEmpty() || B.isEmpty()) {
         Dimensions dimsA = A.getDimensions();
@@ -64,15 +64,15 @@ RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
         return DotRightDivide(A, B, needToOverload);
     }
     ArrayOf R;
-    A = ComplexTranspose(A, needToOverload);
+    ArrayOf _A = ComplexTranspose(A, needToOverload);
     if (needToOverload) {
         return R;
     }
-    B = ComplexTranspose(B, needToOverload);
+    ArrayOf _B = ComplexTranspose(B, needToOverload);
     if (needToOverload) {
         return R;
     }
-    R = LeftDivide(B, A, needToOverload);
+    R = LeftDivide(_B, _A, needToOverload);
     if (needToOverload) {
         return R;
     }

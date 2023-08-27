@@ -18,7 +18,7 @@ namespace Nelson {
  * via: B/A = (A'\B')'.
  */
 NLSOPERATORS_IMPEXP ArrayOf
-RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
+RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -29,7 +29,7 @@ Evaluator::gtOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::gtOperator(const ArrayOfVector& args)
 {
-    return relationalOperator(this, GT_OPERATOR_STR, ">", args, &GreaterThan);
+    return relationalOperator(this, GT_OPERATOR_STR, ">", false, args, &GreaterThan);
 }
 //=============================================================================
 } // namespace Nelson

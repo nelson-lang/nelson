@@ -29,7 +29,7 @@ Evaluator::ltOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::ltOperator(const ArrayOfVector& args)
 {
-    return relationalOperator(this, LT_OPERATOR_STR, "<", args, &LessThan);
+    return relationalOperator(this, LT_OPERATOR_STR, "<", false, args, &LessThan);
 }
 //=============================================================================
 } // namespace Nelson
