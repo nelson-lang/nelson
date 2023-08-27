@@ -29,7 +29,7 @@ Evaluator::neOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::neOperator(const ArrayOfVector& args)
 {
-    return relationalOperator(this, NE_OPERATOR_STR, "~=", args, &NotEquals);
+    return relationalOperator(this, NE_OPERATOR_STR, "~=", true, args, &NotEquals);
 }
 //=============================================================================
 } // namespace Nelson

@@ -104,8 +104,7 @@ MatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         return DotPower(A, B, needToOverload);
     }
     // Check for A & B numeric
-    bool isReference = A.isReferenceType() || B.isReferenceType();
-    if (isReference) {
+    if (A.getDataClass() > NLS_CHAR || A.isSparse()) {
         needToOverload = true;
         return {};
     }

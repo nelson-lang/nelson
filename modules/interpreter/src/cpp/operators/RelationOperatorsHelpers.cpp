@@ -20,7 +20,7 @@ namespace Nelson {
 //=============================================================================
 ArrayOf
 relationalOperator(Evaluator* eval, const std::string& operatorName, const std::string& symbolName,
-    const ArrayOfVector& args,
+    bool compareAlsoImagPart, const ArrayOfVector& args,
     ArrayOf (*relationalOperator)(const ArrayOf& A, const ArrayOf& B, bool& needToOverload))
 {
     const std::string functionName = operatorName;
@@ -42,10 +42,10 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     bool needToOverload = false;
     if (commonType == NLS_STRING_ARRAY || (commonType <= NLS_CHAR && !isSparse)) {
         NelsonType _commonType = commonType;
-        if (commonType == NLS_DOUBLE && isComplex) {
+        if (compareAlsoImagPart && commonType == NLS_DOUBLE && isComplex) {
             _commonType = NLS_DCOMPLEX;
         }
-        if (commonType == NLS_SINGLE && isComplex) {
+        if (compareAlsoImagPart && commonType == NLS_SINGLE && isComplex) {
             _commonType = NLS_SCOMPLEX;
         }
 

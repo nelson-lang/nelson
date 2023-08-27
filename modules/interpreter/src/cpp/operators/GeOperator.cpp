@@ -29,7 +29,7 @@ Evaluator::geOperator(AbstractSyntaxTreePtr t)
 ArrayOf
 Evaluator::geOperator(const ArrayOfVector& args)
 {
-    return relationalOperator(this, GE_OPERATOR_STR, ">=", args, &GreaterEquals);
+    return relationalOperator(this, GE_OPERATOR_STR, ">=", false, args, &GreaterEquals);
 }
 //=============================================================================
 } // namespace Nelson

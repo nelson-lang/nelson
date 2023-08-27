@@ -270,6 +270,7 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
     NelsonType Aclass = A.getDataClass();
     NelsonType Bclass = B.getDataClass();
     isSparse = A.isSparse() || B.isSparse();
+    isComplex = A.isComplex() || B.isComplex();
 
     if ((Aclass == Bclass) && (Aclass <= NLS_CHAR)) {
         commonType = Aclass;
