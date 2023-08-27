@@ -34,7 +34,7 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+            OverloadRequired("schur");
         }
         bool asComplex = false;
         if (argIn.size() == 2) {

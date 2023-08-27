@@ -42,7 +42,7 @@ OverloadFunction(
     bool bSuccess;
     ArrayOfVector res = OverloadFunction(eval, nLhs, argIn, functionName, bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION, functionName);
+        OverloadRequired(functionName);
     }
     return res;
 }

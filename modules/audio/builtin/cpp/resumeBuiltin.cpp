@@ -24,7 +24,7 @@ Nelson::AudioGateway::resumeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "resume", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("resume");
     }
     return retval;
 }

@@ -10,6 +10,7 @@
 #include "nnzBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

@@ -23,7 +23,7 @@ Nelson::HandleGateway::getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "get", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        OverloadRequired("get");
     }
     return retval;
 }

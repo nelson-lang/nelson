@@ -32,7 +32,7 @@ Nelson::LinearAlgebraGateway::rcondBuiltin(Evaluator* eval, int nLhs, const Arra
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+            OverloadRequired("rcond");
         }
         retval << ReciprocalConditionNumber(argIn[0]);
     }

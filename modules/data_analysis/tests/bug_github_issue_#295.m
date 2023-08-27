@@ -15,7 +15,9 @@
 % <--ENGLISH IMPOSED-->
 tests_dir = [nelsonroot(), '/modules/mex'];
 nonreg_tests = dir([tests_dir, 'test_*.m'])
-assert_checkerror('sort(nonreg_tests)', 'function struct_sort undefined.');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sort');
+
+assert_checkerror('sort(nonreg_tests)', msg);
 %=============================================================================
-assert_checkerror('sort(cell(1,1))','function cell_sort undefined.');
+assert_checkerror('sort(cell(1,1))', msg);
 %=============================================================================

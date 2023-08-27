@@ -34,7 +34,8 @@ R = log1p(3i);
 REF =  1.1513 + 1.2490i;
 assert_isapprox(R,REF, 1e-4);
 %=============================================================================
-assert_checkerror('R = log1p(true);', sprintf(_('function %s_log1p undefined.'), class(true)));
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'log1p');
+assert_checkerror('R = log1p(true);', msg);
 %=============================================================================
 R = log1p(-3);
 REF = log1p(complex(-3, 0));

@@ -9,37 +9,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "ArrayOf.hpp"
+#include <string>
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "ClassName.hpp"
-#include "Overload.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static inline void
-OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::OverloadClass otype,
-    const std::string& functionName = "")
+inline void
+OverloadRequired(const std::string& functionName)
 {
-    std::string _functionName = eval->getCurrentFunctionName();
-    if (!functionName.empty()) {
-        _functionName = functionName;
-    }
-    std::string OverloadName;
-    switch (otype) {
-    case Overload::OverloadClass::BINARY:
-        OverloadName = ClassName(argIn[0]) + "_" + _functionName + "_" + ClassName(argIn[1]);
-        break;
-    case Overload::OverloadClass::UNARY:
-    case Overload::OverloadClass::FUNCTION:
-        OverloadName = ClassName(argIn[0]) + "_" + _functionName;
-        break;
-    default:
-        Error(_W("Wrong Overloading::OverloadClass."));
-        break;
-    }
-    Error(_("function") + " " + OverloadName + " " + _("undefined."));
+    std::string msgfmt
+        = _("Check for incorrect argument data type or missing argument in call to function '%s'.");
+    size_t size = msgfmt.size() + functionName.size();
+    std::string msg(size, '\0');
+    int nChars = std::snprintf(&msg[0], size, msgfmt.c_str(), functionName.c_str());
+    msg.resize(nChars);
+    Error(msg, "Nelson:UndefinedFunction");
 }
 //=============================================================================
 } // namespace Nelson

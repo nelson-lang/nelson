@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "All.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================

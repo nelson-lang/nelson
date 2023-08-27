@@ -11,6 +11,7 @@
 #include "MatrixMultiplication.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {

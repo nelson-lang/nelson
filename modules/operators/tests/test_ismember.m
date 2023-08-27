@@ -37,13 +37,14 @@ assert_isequal(R, [false false false]);
 R = ismember('abc', 99);
 assert_isequal(R, [false false true]);
 %=============================================================================
-assert_checkerror('R = ismember([], {1, 2})', _('function double_ismember undefined.'))
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'ismember');
+assert_checkerror('R = ismember([], {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({[]}, {1, 2})', _('function cell_ismember undefined.'))
+assert_checkerror('R = ismember({[]}, {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({}, {1, 2})', _('function cell_ismember undefined.'))
+assert_checkerror('R = ismember({}, {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({1}, {''1'', ''2''})', _('function cell_ismember undefined.'))
+assert_checkerror('R = ismember({1}, {''1'', ''2''})', msg)
 %=============================================================================
 R = ismember({'1'}, {'1' '2'});
 assert_istrue(R)

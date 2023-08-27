@@ -12,6 +12,7 @@
 #include "Operators.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

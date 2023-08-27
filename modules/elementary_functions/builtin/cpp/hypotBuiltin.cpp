@@ -12,6 +12,7 @@
 #include "Hypothenus.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;

@@ -107,8 +107,7 @@ cumulativeFunctionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
         if (needOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, cumulativeFunctionName, bSuccess);
             if (!bSuccess) {
-                OverloadRequired(
-                    eval, argIn, Overload::OverloadClass::FUNCTION, cumulativeFunctionName);
+                OverloadRequired(cumulativeFunctionName);
             }
         } else {
             retval << res;

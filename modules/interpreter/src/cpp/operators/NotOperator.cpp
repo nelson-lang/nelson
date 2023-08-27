@@ -11,6 +11,7 @@
 #include "Not.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

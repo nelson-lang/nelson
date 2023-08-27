@@ -12,6 +12,7 @@
 #include "Minimum.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 //=============================================================================
 using namespace Nelson;

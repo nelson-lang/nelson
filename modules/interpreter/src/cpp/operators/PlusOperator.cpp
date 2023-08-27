@@ -15,6 +15,7 @@
 #include "Evaluator.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
+#include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"

@@ -33,7 +33,7 @@ Nelson::TrigonometricGateway::atan2Builtin(Evaluator* eval, int nLhs, const Arra
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "atan2", bSuccess);
             if (!bSuccess) {
-                OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+                OverloadRequired("atan2");
             }
         } else {
             retval << res;
