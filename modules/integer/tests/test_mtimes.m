@@ -41,8 +41,9 @@ assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('R = int8([1 2]) * int8([1;2])', _('At least one input argument must be scalar.'));
 %=============================================================================
-assert_checkerror('R = single(3) * int8([1 2]);', sprintf(_('function %s undefined.'), 'single_mtimes_int8'));
-assert_checkerror('R = int8([1 2]) * single(3);', sprintf(_('function %s undefined.'), 'int8_mtimes_single'));
+msg = _('Integers can only be combined with integers of the same class, or scalar doubles.');
+assert_checkerror('R = single(3) * int8([1 2]);', msg);
+assert_checkerror('R = int8([1 2]) * single(3);', msg);
 %=============================================================================
 R = intmax('uint8') * intmax('uint8');
 REF = intmax('uint8');

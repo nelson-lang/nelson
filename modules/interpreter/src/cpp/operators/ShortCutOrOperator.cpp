@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Evaluator.hpp"
-#include "OverloadBinaryOperator.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Operators.hpp"
