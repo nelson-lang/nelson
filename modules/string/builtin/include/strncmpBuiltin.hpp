@@ -10,12 +10,14 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::StringGateway {
+//=============================================================================
 ArrayOfVector
-strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+strncmpBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 ArrayOfVector
-strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+strncmpiBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

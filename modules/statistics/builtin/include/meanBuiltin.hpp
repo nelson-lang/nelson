@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::StatisticsGateway {
+//=============================================================================
 ArrayOfVector
-meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+meanBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -10,35 +10,24 @@
 #include "deblankBuiltin.hpp"
 #include "Error.hpp"
 #include "StringDeblank.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::deblankBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::deblankBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf A = argIn[0];
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "deblank", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = StringDeblank(A, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "deblank", bSuccess);
-            if (!bSuccess) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = StringDeblank(A, needToOverload);
+    if (needToOverload) {
+        OverloadRequired("deblank");
+    } else {
+        retval << res;
     }
     return retval;
 }

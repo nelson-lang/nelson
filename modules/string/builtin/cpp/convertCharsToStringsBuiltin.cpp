@@ -15,8 +15,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::convertCharsToStringsBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::convertCharsToStringsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > (int)argIn.size()) {
         Error(_W("Number of Input arguments must the same as output."));

@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace GuiGateway {
-    ArrayOfVector
-    uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::GuiGateway {
+//=============================================================================
+ArrayOfVector
+uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

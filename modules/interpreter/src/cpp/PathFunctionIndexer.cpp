@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -194,36 +195,55 @@ PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
 }
 //=============================================================================
 void
+PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& prefix)
+{
+    try {
+        nfs::directory_iterator end_iter;
+        FileSystemWrapper::Path path(pathToScan);
+        for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter; ++dir_iter) {
+            FileSystemWrapper::Path current(dir_iter->path().native());
+            if (current.is_directory()) {
+                std::wstring stemDirectory = current.stem().wstring();
+                if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
+                    rehash(current.generic_wstring(), stemDirectory);
+                }
+            }
+            std::wstring ext = current.extension().generic_wstring();
+            bool isMacro = ext == L".m";
+            bool isMex = ext == L"." + getMexExtension();
+            if (isMacro || isMex) {
+                std::wstring name = current.stem().generic_wstring();
+                if (isSupportedFuncFilename(name)) {
+                    FileFunction* ff = nullptr;
+                    std::wstring pathName = prefix == L""
+                        ? pathToScan
+                        : nfs::path(pathToScan).parent_path().generic_wstring();
+
+                    try {
+                        ff = new FileFunction(pathName, prefix == L"" ? name : prefix + L"/" + name,
+                            isMex, withWatcher, prefix != L"");
+                    } catch (const std::bad_alloc&) {
+                        ff = nullptr;
+                    }
+                    if (ff) {
+                        std::string _name = prefix == L""
+                            ? wstring_to_utf8(name)
+                            : wstring_to_utf8(prefix) + "/" + wstring_to_utf8(name);
+                        mapAllFiles.emplace(_name, ff);
+                    }
+                }
+            }
+        }
+    } catch (const nfs::filesystem_error&) {
+    }
+}
+//=============================================================================
+void
 PathFunctionIndexer::rehash()
 {
     if (!_path.empty()) {
         mapRecentFiles.clear();
-        try {
-            nfs::directory_iterator end_iter;
-            FileSystemWrapper::Path path(_path);
-            for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter;
-                 ++dir_iter) {
-                FileSystemWrapper::Path current(dir_iter->path().native());
-                std::wstring ext = current.extension().generic_wstring();
-                bool isMacro = ext == L".m";
-                bool isMex = ext == L"." + getMexExtension();
-                if (isMacro || isMex) {
-                    std::wstring name = current.stem().generic_wstring();
-                    if (isSupportedFuncFilename(name)) {
-                        FileFunction* ff = nullptr;
-                        try {
-                            ff = new FileFunction(_path, name, isMex, withWatcher);
-                        } catch (const std::bad_alloc&) {
-                            ff = nullptr;
-                        }
-                        if (ff) {
-                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
-                        }
-                    }
-                }
-            }
-        } catch (const nfs::filesystem_error&) {
-        }
+        rehash(_path, L"");
     }
 }
 //=============================================================================

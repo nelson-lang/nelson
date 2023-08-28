@@ -11,53 +11,42 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "IsApprox.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::isapproxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isapprox", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("isapprox");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isapprox", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
+    double precision = 0.;
+    if (argIn.size() == 3) {
+        ArrayOf param3 = argIn[2];
+        precision = param3.getContentAsDoubleScalar();
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    if (param1.isNumeric() && param2.isNumeric()) {
+        if (param1.isSparse() || param2.isSparse()) {
+            Error(_W("Sparse type not supported."));
         }
-        double precision = 0.;
-        if (argIn.size() == 3) {
-            ArrayOf param3 = argIn[2];
-            precision = param3.getContentAsDoubleScalar();
-        }
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param1.isNumeric() && param2.isNumeric()) {
-            if (param1.isSparse() || param2.isSparse()) {
-                Error(_W("Sparse type not supported."));
-            }
-            if (param1.isComplex() || param2.isComplex()) {
-                param1.promoteType(NLS_DCOMPLEX);
-                param2.promoteType(NLS_DCOMPLEX);
-            } else {
-                param1.promoteType(NLS_DOUBLE);
-                param2.promoteType(NLS_DOUBLE);
-            }
-            retval << ArrayOf::logicalConstructor(IsApprox(param1, param2, precision));
+        if (param1.isComplex() || param2.isComplex()) {
+            param1.promoteType(NLS_DCOMPLEX);
+            param2.promoteType(NLS_DCOMPLEX);
         } else {
-            Error(_W("Numerics types expected."));
+            param1.promoteType(NLS_DOUBLE);
+            param2.promoteType(NLS_DOUBLE);
         }
+        retval << ArrayOf::logicalConstructor(IsApprox(param1, param2, precision));
+    } else {
+        Error(_W("Numerics types expected."));
     }
     return retval;
 }

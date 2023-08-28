@@ -385,13 +385,6 @@ jobs:
     needs: Jammy
 
     steps:
-      - name: Trust repo directory
-        run: |
-          pacman -Sy --noconfirm
-          pacman -S git --noconfirm
-          git config --global --add safe.directory /__w/nelson/nelson
-      - name: Checkout repository
-        uses: actions/checkout@v3
       - name: Install dependencies
         run: |
           pacman -Syu --noconfirm
@@ -429,6 +422,13 @@ jobs:
           pacman -S eigen --noconfirm
           pacman -S hdf5 --noconfirm
           pacman -S libmatio --noconfirm
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Trust repo directory
+        run: |
+          git config --global --add safe.directory /__w/nelson/nelson
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
         id: json_version

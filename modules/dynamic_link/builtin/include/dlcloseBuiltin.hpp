@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace DynamicLinkGateway {
-    ArrayOfVector
-    dlcloseBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::DynamicLinkGateway {
+ArrayOfVector
+dlcloseBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

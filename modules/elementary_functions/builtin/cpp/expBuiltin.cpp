@@ -8,34 +8,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "expBuiltin.hpp"
-#include "Error.hpp"
 #include "Exponential.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::expBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::expBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "exp", bSuccess);
+    bool needToOverload;
+    ArrayOf res = Exponential(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("exp");
+    } else {
+        retval << res;
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = Exponential(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "exp");
-        } else {
-            retval << res;
-        }
-    }
+
     return retval;
 }
 //=============================================================================

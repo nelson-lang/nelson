@@ -10,7 +10,6 @@
 #include "issymmetricBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "IsSymmetric.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -18,8 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LinearAlgebraGateway::issymmetricBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
@@ -49,24 +47,13 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
             }
         }
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
+    if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {
+        OverloadRequired("issymmetric");
     }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired("issymmetric");
-        }
-        if (withTol) {
-            retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol, "issymmetric"));
-        } else {
-            retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew, "issymmetric"));
-        }
+    if (withTol) {
+        retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol, "issymmetric"));
+    } else {
+        retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew, "issymmetric"));
     }
     return retval;
 }

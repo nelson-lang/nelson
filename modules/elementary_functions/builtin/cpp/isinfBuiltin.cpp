@@ -8,34 +8,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isinfBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "IsInf.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isinfBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::isinfBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("isinf");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << IsInf(argIn[0]);
-    }
+    retval << IsInf(argIn[0]);
     return retval;
 }
 //=============================================================================

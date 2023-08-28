@@ -11,7 +11,6 @@
 #include "int2strBuiltin.hpp"
 #include "Error.hpp"
 #include "IntegerToString.hpp"
-#include "OverloadFunction.hpp"
 #include "VertCat.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -69,29 +68,19 @@ StringVectorToString(wstringVector V, Dimensions& DimsV)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::int2strBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
-    }
-    if (!bSuccess) {
-        wstringVector result;
-        std::wstring error_message;
-        bool bRes = IntegerToString(argIn[0], result, error_message);
-        if (bRes) {
-            Dimensions dims = argIn[0].getDimensions();
-            retval << StringVectorToString(result, dims);
-        } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
-            if (!bSuccess) {
-                Error(error_message);
-            }
-        }
+    wstringVector result;
+    std::wstring error_message;
+    bool bRes = IntegerToString(argIn[0], result, error_message);
+    if (bRes) {
+        Dimensions dims = argIn[0].getDimensions();
+        retval << StringVectorToString(result, dims);
+    } else {
+        Error(error_message);
     }
     return retval;
 }

@@ -20,10 +20,11 @@ private:
     std::wstring _name;
     bool _ismex;
     bool _withWatcher;
+    bool _isOverload;
 
 public:
-    FileFunction(
-        const std::wstring& directory, const std::wstring& name, bool ismex, bool withWatcher);
+    FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
+        bool withWatcher, bool isOverload);
     ~FileFunction();
     std::wstring
     getFilename();
@@ -33,6 +34,8 @@ public:
     isMex();
     bool
     getWithWatcher();
+    bool
+    isOverload();
 };
 //=============================================================================
 } // namespace Nelson

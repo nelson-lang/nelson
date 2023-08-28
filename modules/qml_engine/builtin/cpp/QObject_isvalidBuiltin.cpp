@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::QObject_isvalidBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
-    retval.push_back(IsValidHandle(eval, argIn[0]));
+    retval.push_back(IsValidHandle(argIn[0]));
     return retval;
 }
 //=============================================================================

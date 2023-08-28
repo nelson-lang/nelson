@@ -26,7 +26,7 @@ Nelson::SparseGateway::fullBuiltin(int nLhs, const ArrayOfVector& argIn)
         R.makeDense();
         retval << R;
     } catch (const Exception&) {
-        OverloadRequired("sparse");
+        OverloadRequired("full");
     }
     return retval;
 }

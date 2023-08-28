@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('dlsym_get'), 2);
-assert_isequal(nargout('dlsym_get'), 1);
+assert_isequal(nargin('@dlsym/get'), 2);
+assert_isequal(nargout('@dlsym/get'), 1);
 %=============================================================================
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);

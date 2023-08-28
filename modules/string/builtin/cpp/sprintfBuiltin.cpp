@@ -10,9 +10,9 @@
 #include "sprintfBuiltin.hpp"
 #include "Error.hpp"
 #include "StringPrintf.hpp"
-#include "OverloadFunction.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,56 +22,46 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 2);
     nargincheck(argIn, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
+    ArrayOf param1 = argIn[0];
+    bool supported = param1.isCharacterArray() || (param1.isStringArray() && param1.isScalar());
+    if (!supported) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    if (!bSuccess) {
-        ArrayOf param1 = argIn[0];
-        bool supported = param1.isCharacterArray() || (param1.isStringArray() && param1.isScalar());
-        if (!supported) {
-            retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
-            if (!bSuccess) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-            }
-            return retval;
+    if (!param1.isVector()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    }
+    std::wstring result;
+    std::wstring error_message;
+    bool bRes = StringPrintf(result, error_message, eval, argIn);
+    if (!bRes) {
+        if (nLhs > 1) {
+            Dimensions dims(1, 0);
+            ArrayOf strArr = ArrayOf::emptyConstructor(dims);
+            strArr.promoteType(NLS_CHAR);
+            retval << strArr;
+            retval << ArrayOf::characterArrayConstructor(error_message);
+        } else {
+            Error(error_message);
         }
-        if (!param1.isVector()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-        std::wstring result;
-        std::wstring error_message;
-        bool bRes = StringPrintf(result, error_message, eval, argIn);
-        if (!bRes) {
-            if (nLhs > 1) {
+    } else {
+        if (result.empty()) {
+            if (param1.getDataClass() == NLS_CHAR) {
                 Dimensions dims(1, 0);
                 ArrayOf strArr = ArrayOf::emptyConstructor(dims);
                 strArr.promoteType(NLS_CHAR);
                 retval << strArr;
-                retval << ArrayOf::characterArrayConstructor(error_message);
             } else {
-                Error(error_message);
+                retval << ArrayOf::stringArrayConstructor(result);
             }
         } else {
-            if (result.empty()) {
-                if (param1.getDataClass() == NLS_CHAR) {
-                    Dimensions dims(1, 0);
-                    ArrayOf strArr = ArrayOf::emptyConstructor(dims);
-                    strArr.promoteType(NLS_CHAR);
-                    retval << strArr;
-                } else {
-                    retval << ArrayOf::stringArrayConstructor(result);
-                }
+            if (param1.getDataClass() == NLS_CHAR) {
+                retval << ArrayOf::characterArrayConstructor(result);
             } else {
-                if (param1.getDataClass() == NLS_CHAR) {
-                    retval << ArrayOf::characterArrayConstructor(result);
-                } else {
-                    retval << ArrayOf::stringArrayConstructor(result);
-                }
+                retval << ArrayOf::stringArrayConstructor(result);
             }
-            if (nLhs > 1) {
-                retval << ArrayOf::characterArrayConstructor(L"");
-            }
+        }
+        if (nLhs > 1) {
+            retval << ArrayOf::characterArrayConstructor(L"");
         }
     }
     return retval;

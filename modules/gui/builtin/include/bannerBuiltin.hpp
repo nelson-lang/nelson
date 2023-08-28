@@ -12,10 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace GuiGateway {
-    ArrayOfVector
-    bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::GuiGateway {
+//=============================================================================
+ArrayOfVector
+bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

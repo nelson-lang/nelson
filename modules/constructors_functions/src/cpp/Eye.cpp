@@ -237,5 +237,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
     }
     return ArrayOf(classDest, dimMat, vmat, bIsSparse);
 }
-} // namespace Nelson
+//=============================================================================
+}
+// namespace Nelson
 //=============================================================================

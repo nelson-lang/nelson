@@ -11,33 +11,22 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "StringReplace.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::strrepBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 3, 3);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
-            if (!bSuccess) {
-                Error(_W("Invalid input argument(s): cell or string expected."));
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
+    if (needToOverload) {
+        Error(_W("Invalid input argument(s): cell or string expected."));
+    } else {
+        retval << res;
     }
     return retval;
 }

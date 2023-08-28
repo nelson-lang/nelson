@@ -28,10 +28,11 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-MacroFunctionDef::MacroFunctionDef()
+MacroFunctionDef::MacroFunctionDef() : FunctionDef(false)
 {
     this->localFunction = false;
     this->nextFunction = nullptr;
@@ -42,7 +43,8 @@ MacroFunctionDef::MacroFunctionDef()
     this->withWatcher = false;
 }
 //=============================================================================
-MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatcher)
+MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatcher, bool isOverload)
+    : FunctionDef(isOverload)
 {
     this->localFunction = false;
     this->nextFunction = nullptr;
@@ -117,6 +119,17 @@ MacroFunctionDef::outputArgCount()
 ArrayOfVector
 MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    if (eval->withOverload && inputs.size() > 0 && !this->isOverload()
+        && this->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
+        bool wasFound = false;
+        ArrayOfVector res = callOverloadedFunction(eval,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout, inputs,
+            getName(), ClassName(inputs[0]), inputs[0].getDataClass(), wasFound);
+        if (wasFound) {
+            return res;
+        }
+    }
+
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();

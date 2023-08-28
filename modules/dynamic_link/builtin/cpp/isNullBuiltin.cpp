@@ -8,22 +8,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isNullBuiltin.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::isNullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::isNullBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isNull", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("isNull");
-    }
+    OverloadRequired("isNull");
     return retval;
 }
 //=============================================================================

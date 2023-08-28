@@ -8,14 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "iscellBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::iscellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::iscellBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);

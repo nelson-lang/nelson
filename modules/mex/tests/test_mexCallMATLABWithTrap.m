@@ -28,6 +28,6 @@ assert_isequal(R, 'It works !!!');
 R = mexCallMATLABWithTrap('A');
 assert_isequal(class(R), 'MException');
 %=============================================================================
-REF = 'Undefined function ''sin'' for input arguments of type ''char''.';
+REF = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sin');
 assert_isequal(R.message, REF);
 %=============================================================================

@@ -9,5 +9,4 @@
 %=============================================================================
 A = struct([]);
 M = 1:1e5;
-overloadbasictypes(false);
 tic;for i=M;isequalto(A,A);end;toc()

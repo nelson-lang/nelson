@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ConstructorsGateway {
-    ArrayOfVector
-    epsBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::ConstructorsGateway {
+//=============================================================================
+ArrayOfVector
+epsBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

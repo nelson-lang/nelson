@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IJVBuiltin.hpp"
 #include "NelsonGateway.hpp"
+#include "OverloadName.hpp"
+#include "IJVBuiltin.hpp"
 #include "fullBuiltin.hpp"
 #include "nnzBuiltin.hpp"
 #include "nzmaxBuiltin.hpp"
@@ -27,27 +28,35 @@ using namespace Nelson;
 const std::wstring gatewayName = L"sparse";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_LOGICAL_STR, "real"),
+        (ptrBuiltin)Nelson::SparseGateway::sparselogical_realBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_LOGICAL_STR, "imag"),
+        (ptrBuiltin)Nelson::SparseGateway::sparselogical_imagBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_DOUBLE_STR, "real"),
+        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_realBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_DOUBLE_STR, "imag"),
+        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_imagBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_LOGICAL_STR, "vertcat"),
+        (ptrBuiltin)Nelson::SparseGateway::sparselogical_vertcatBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_LOGICAL_STR, "horzcat"),
+        (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcatBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_DOUBLE_STR, "vertcat"),
+        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_vertcatBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_SPARSE_DOUBLE_STR, "horzcat"),
+        (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcatBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
     { "sparse", (ptrBuiltin)Nelson::SparseGateway::sparseBuiltin, 1, 6 },
     { "full", (ptrBuiltin)Nelson::SparseGateway::fullBuiltin, 1, 1 },
-    { "sparselogical_real", (ptrBuiltin)Nelson::SparseGateway::sparselogical_realBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_imag", (ptrBuiltin)Nelson::SparseGateway::sparselogical_imagBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_real", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_realBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_imag", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_imagBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "IJV", (ptrBuiltin)Nelson::SparseGateway::IJVBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_vertcatBuiltin, 1,
-        2 },
-    { "sparselogical_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparselogical_horzcatBuiltin, 1,
-        2, CPP_BUILTIN },
-    { "sparsedouble_vertcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_vertcatBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "sparsedouble_horzcat", (ptrBuiltin)Nelson::SparseGateway::sparsedouble_horzcatBuiltin, 1, 2,
-        CPP_BUILTIN },
     { "nnz", (ptrBuiltin)Nelson::SparseGateway::nnzBuiltin, 1, 1 },
     { "nzmax", (ptrBuiltin)Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
+    { "IJV", (ptrBuiltin)Nelson::SparseGateway::IJVBuiltin, -1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

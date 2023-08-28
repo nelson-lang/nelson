@@ -9,13 +9,11 @@
 %=============================================================================
 % <--WINDOWS ONLY-->
 %=============================================================================
-assert_isequal(nargin('COM_class'), 1);
-assert_isequal(nargout('COM_class'), 1);
+assert_isequal(nargin('@COM/class'), 1);
+assert_isequal(nargout('@COM/class'), 1);
 %=============================================================================
 pTextToSpeech = actxserver('Sapi.SpVoice');
-c1 = COM_class(pTextToSpeech);
-c2 = class(pTextToSpeech);
-assert_isequal(c1, c2);
+c1 = class(pTextToSpeech);
 assert_isequal(c1, 'COM.SpeechLibSpVoice');
 %=============================================================================
 x = actxserver('Microsoft.XMLDOM');

@@ -10,15 +10,14 @@
 #include "sizeBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::sizeBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::sizeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool bChooseDimension = false;
@@ -65,60 +64,42 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "size", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "size", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        ArrayOf param1 = argIn[0];
-        if (param1.isClassType() && !param1.isFunctionHandle()) {
-            Error(_("Undefined function 'size' for input arguments of type") + " '"
-                + ClassName(param1) + "'.");
-        }
-        Dimensions sze(param1.getDimensions());
-        sze.simplify();
-        if (bChooseDimension) {
-            nargoutcheck(nLhs, 0, 1);
-            double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsVal.size());
-            Dimensions outDims(1, dimsVal.size());
-            ArrayOf res = ArrayOf(NLS_DOUBLE, outDims, ptr);
-            for (indexType k = 0; k < (indexType)dimsVal.size(); k++) {
-                if (dimsVal[k] - 1 >= maxDims) {
-                    ptr[k] = 1.0;
-                } else {
-                    ptr[k] = (double)(sze[dimsVal[k] - 1]);
-                }
-            }
-            retval << res;
-        } else {
-            if (nLhs > 1) {
-                for (int i = 0; i < nLhs; i++) {
-                    retval << ArrayOf::doubleConstructor(static_cast<double>(sze[i]));
-                }
+    ArrayOf param1 = argIn[0];
+    Dimensions sze(param1.getDimensions());
+    sze.simplify();
+    if (bChooseDimension) {
+        nargoutcheck(nLhs, 0, 1);
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsVal.size());
+        Dimensions outDims(1, dimsVal.size());
+        ArrayOf res = ArrayOf(NLS_DOUBLE, outDims, ptr);
+        for (indexType k = 0; k < (indexType)dimsVal.size(); k++) {
+            if (dimsVal[k] - 1 >= maxDims) {
+                ptr[k] = 1.0;
             } else {
-                double* dims = static_cast<double*>(
-                    ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength(), stringVector(), true));
-                Dimensions retDim(2);
-                if (sze.getLength() == 0) {
-                    retDim[0] = 0;
-                    retDim[1] = 0;
-                } else {
-                    for (indexType i = 0; i < sze.getLength(); i++) {
-                        dims[i] = static_cast<double>(sze[i]);
-                    }
-                    retDim[0] = 1;
-                    retDim[1] = sze.getLength();
-                }
-                retval << ArrayOf(NLS_DOUBLE, retDim, dims);
+                ptr[k] = (double)(sze[dimsVal[k] - 1]);
             }
+        }
+        retval << res;
+    } else {
+        if (nLhs > 1) {
+            for (int i = 0; i < nLhs; i++) {
+                retval << ArrayOf::doubleConstructor(static_cast<double>(sze[i]));
+            }
+        } else {
+            double* dims = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength(), stringVector(), true));
+            Dimensions retDim(2);
+            if (sze.getLength() == 0) {
+                retDim[0] = 0;
+                retDim[1] = 0;
+            } else {
+                for (indexType i = 0; i < sze.getLength(); i++) {
+                    dims[i] = static_cast<double>(sze[i]);
+                }
+                retDim[0] = 1;
+                retDim[1] = sze.getLength();
+            }
+            retval << ArrayOf(NLS_DOUBLE, retDim, dims);
         }
     }
     return retval;

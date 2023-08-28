@@ -10,13 +10,12 @@
 #include "strncmpBuiltin.hpp"
 #include "Error.hpp"
 #include "StringCompare.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
-strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
+strncmpBuiltin(int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -25,30 +24,19 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
     ArrayOf B = argIn[1];
     ArrayOf C = argIn[2];
     indexType len = C.getContentAsScalarIndex(false);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        if (bCaseSensitive) {
-            retval = OverloadFunction(eval, nLhs, argIn, "strncmp", bSuccess);
-        } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "strncmpi", bSuccess);
-        }
-    }
-    if (!bSuccess) {
-        retval << StringCompare(A, B, bCaseSensitive, len);
-    }
+    retval << StringCompare(A, B, bCaseSensitive, len);
     return retval;
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::strncmpBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    return ::strncmpBuiltin(eval, nLhs, argIn, true);
+    return ::strncmpBuiltin(nLhs, argIn, true);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::strncmpiBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    return ::strncmpBuiltin(eval, nLhs, argIn, false);
+    return ::strncmpBuiltin(nLhs, argIn, false);
 }
 //=============================================================================

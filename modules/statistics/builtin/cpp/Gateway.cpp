@@ -21,11 +21,14 @@ using namespace Nelson;
 const std::wstring gatewayName = L"statistics";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "corrcoef", (ptrBuiltin)Nelson::StatisticsGateway::corrcoefBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "var", (ptrBuiltin)Nelson::StatisticsGateway::varBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "mean", (ptrBuiltin)Nelson::StatisticsGateway::meanBuiltin, 1, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    {
+        "corrcoef",
+        (ptrBuiltin)Nelson::StatisticsGateway::corrcoefBuiltin,
+        1,
+        1,
+    },
+    { "var", (ptrBuiltin)Nelson::StatisticsGateway::varBuiltin, 1, 3 },
+    { "mean", (ptrBuiltin)Nelson::StatisticsGateway::meanBuiltin, 1, 4 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

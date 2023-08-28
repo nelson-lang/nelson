@@ -26,7 +26,8 @@ public:
     bool
     add(const std::string& name, void* fptr, int argc_in, int argc_out,
         const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
-        bool interleavedComplex);
+        bool interleavedComplex,
+        FunctionOverloadAutoMode builtinOverloadAutoMode = NLS_OVERLOAD_AUTO_ON);
 
     bool
     remove(const std::string& name);

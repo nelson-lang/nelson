@@ -229,9 +229,6 @@
     <ProjectReference Include="..\..\..\linear_algebra\src\c\nlsLinear_algebra.vcxproj">
       <Project>{0229f943-6e1a-4cdd-8a0b-cf0f211b6c13}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
-      <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>

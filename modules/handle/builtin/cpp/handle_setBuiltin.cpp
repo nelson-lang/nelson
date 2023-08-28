@@ -9,7 +9,6 @@
 //=============================================================================
 #include "handle_setBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,11 +19,7 @@ Nelson::HandleGateway::handle_setBuiltin(Evaluator* eval, int nLhs, const ArrayO
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "handle_set", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("handle_set");
-    }
+    OverloadRequired("handle_set");
     return retval;
 }
 //=============================================================================

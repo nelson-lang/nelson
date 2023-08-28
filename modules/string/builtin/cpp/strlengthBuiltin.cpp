@@ -10,41 +10,30 @@
 #include "strlengthBuiltin.hpp"
 #include "Error.hpp"
 #include "StringLength.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::strlengthBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf param = argIn[0];
-        switch (param.getDataClass()) {
-        case NLS_CHAR:
-        case NLS_STRING_ARRAY: {
+    ArrayOf param = argIn[0];
+    switch (param.getDataClass()) {
+    case NLS_CHAR:
+    case NLS_STRING_ARRAY: {
+        retval << StringLength(argIn[0]);
+    } break;
+    default:
+    case NLS_CELL_ARRAY: {
+        if (param.isCellArrayOfCharacterVectors()) {
             retval << StringLength(argIn[0]);
-        } break;
-        default:
-        case NLS_CELL_ARRAY: {
-            if (param.isCellArrayOfCharacterVectors()) {
-                retval << StringLength(argIn[0]);
-            } else {
-                retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
-                if (!bSuccess) {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
-                }
-            }
-        } break;
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
         }
+    } break;
     }
     return retval;
 }

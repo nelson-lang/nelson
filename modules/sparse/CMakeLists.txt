@@ -67,7 +67,6 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsInterpreter
-  nlsOverload
   nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
@@ -118,6 +117,16 @@ install(
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions/@sparsedouble
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/functions"
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions/@sparselogical
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/functions"
   FILES_MATCHING
   PATTERN "*.m")
 # ==============================================================================

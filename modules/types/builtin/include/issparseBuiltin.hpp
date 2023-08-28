@@ -10,14 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsTypes_builtin_exports.h"
 //=============================================================================
 namespace Nelson::TypeGateway {
 //=============================================================================
-NLSTYPES_BUILTIN_IMPEXP
 ArrayOfVector
-issparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+issparseBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

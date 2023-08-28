@@ -9,23 +9,18 @@
 //=============================================================================
 #include "stopBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::stopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::stopBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "stop", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("stop");
-    }
+    OverloadRequired("stop");
     return retval;
 }
 //=============================================================================

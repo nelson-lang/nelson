@@ -16,50 +16,68 @@
 #include "ClassToString.hpp"
 #include "ClassName.hpp"
 #include "FunctionsInMemory.hpp"
+#include "OverloadName.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-inline std::string
-overloadFunctionName(const std::string& destinationTypeName, const std::string& functionName)
-{
-    return destinationTypeName + "_" + functionName;
-}
-//=============================================================================
-inline ArrayOf
-callOverloadedFunctionAllTypes(Evaluator* eval, const ArrayOfVector& argsIn,
+inline ArrayOfVector
+callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& argsIn,
     const std::string& functionName, const std::string& commonTypeName, NelsonType commonType,
-    bool& wasFound, int nargout = 1)
+    bool& wasFound)
 {
     wasFound = false;
-    std::string overloadTypeName = overloadFunctionName(commonTypeName, functionName);
+    if (argsIn.size() == 0) {
+        return {};
+    }
+    if (functionName[0] == OVERLOAD_SYMBOL_CHAR) {
+        return {};
+    }
+    std::string overloadTypeName = getOverloadFunctionName(commonTypeName, functionName);
     if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
         FunctionDef* funcDef = nullptr;
         eval->getContext()->lookupFunction(overloadTypeName, funcDef);
         if (!funcDef && commonType == NLS_HANDLE) {
-            overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
+            overloadTypeName = getOverloadFunctionName(NLS_HANDLE_STR, functionName);
             eval->getContext()->lookupFunction(overloadTypeName, funcDef);
         }
         if (funcDef) {
             wasFound = true;
-            if (nargout == 0) {
-                funcDef->evaluateFunction(eval, argsIn, nargout);
-                return {};
-            }
-            return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
+            return funcDef->evaluateFunction(eval, argsIn, nLhs);
         }
     } else if (commonType == NLS_HANDLE) {
         FunctionDef* funcDef = nullptr;
-        overloadTypeName = overloadFunctionName(NLS_HANDLE_STR, functionName);
+        overloadTypeName = getOverloadFunctionName(NLS_HANDLE_STR, functionName);
         eval->getContext()->lookupFunction(overloadTypeName, funcDef);
         if (funcDef) {
             wasFound = true;
-            if (nargout == 0) {
-                funcDef->evaluateFunction(eval, argsIn, nargout);
-                return {};
-            }
-            return funcDef->evaluateFunction(eval, argsIn, nargout)[0];
+            return funcDef->evaluateFunction(eval, argsIn, nLhs);
         }
+    }
+    return {};
+}
+//=============================================================================
+inline ArrayOfVector
+callOverloadedFunction(Evaluator* eval, OverloadLevelCompatibility overloadLevelCompatibility,
+    int nLhs, const ArrayOfVector& argsIn, const std::string& functionName,
+    const std::string& commonTypeName, NelsonType commonType, bool& wasFound)
+{
+    switch (overloadLevelCompatibility) {
+    case NLS_OVERLOAD_ALL_TYPES: {
+        return callOverloadedFunctionAllTypes(
+            eval, nLhs, argsIn, functionName, commonTypeName, commonType, wasFound);
+
+    } break;
+    case NLS_OVERLOAD_OBJECT_TYPES_ONLY: {
+        if (commonType >= NLS_CLASS_ARRAY) {
+            return callOverloadedFunctionAllTypes(
+                eval, nLhs, argsIn, functionName, commonTypeName, commonType, wasFound);
+        }
+    } break;
+    default:
+    case NLS_OVERLOAD_NONE: {
+        wasFound = false;
+    } break;
     }
     return {};
 }
@@ -69,22 +87,14 @@ callOverloadedFunction(Evaluator* eval, OverloadLevelCompatibility overloadLevel
     const ArrayOfVector& argsIn, const std::string& functionName, const std::string& commonTypeName,
     NelsonType commonType, bool& wasFound, int nargout = 1)
 {
-    switch (overloadLevelCompatibility) {
-    case NLS_OVERLOAD_ALL_TYPES: {
-        return callOverloadedFunctionAllTypes(
-            eval, argsIn, functionName, commonTypeName, commonType, wasFound, nargout);
-
-    } break;
-    case NLS_OVERLOAD_OBJECT_TYPES_ONLY: {
-        if (commonType >= NLS_CLASS_ARRAY) {
-            return callOverloadedFunctionAllTypes(
-                eval, argsIn, functionName, commonTypeName, commonType, wasFound, nargout);
-        }
-    } break;
-    default:
-    case NLS_OVERLOAD_NONE: {
+    if (!eval->withOverload) {
         wasFound = false;
-    } break;
+        return {};
+    }
+    ArrayOfVector retval = callOverloadedFunction(eval, overloadLevelCompatibility, nargout, argsIn,
+        functionName, commonTypeName, commonType, wasFound);
+    if (wasFound && nargout > 0) {
+        return retval[0];
     }
     return {};
 }
@@ -96,32 +106,5 @@ OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, Fun
     return context->lookupFunction(forcedFunctionName, *funcDef);
 }
 //=============================================================================
-static ArrayOf
-callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
-    const std::string& OverloadNameDesired, bool wasFound, FunctionDef* funcDef, bool bRaiseError)
-{
-    ArrayOf res;
-    if (!wasFound) {
-        if (bRaiseError) {
-            Error(std::string("function ") + OverloadNameDesired + " undefined.");
-        } else {
-            res = ArrayOf::emptyConstructor();
-        }
-    } else {
-        int nargout = 1;
-        ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
-        if (val.size() != 1) {
-            if (bRaiseError) {
-                Error(std::string("function ") + funcDef->getName()
-                    + " only one output argument expected.");
-            }
-            return ArrayOf::emptyConstructor();
-        }
-        res = val[0];
-    }
-    return res;
-}
-//=============================================================================
-
 } // namespace Nelson
 //=============================================================================

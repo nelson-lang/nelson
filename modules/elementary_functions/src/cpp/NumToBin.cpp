@@ -20,7 +20,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    bool supportedType = A.isNumeric() || A.isLogical();
+    bool supportedType = (A.isNumeric() || A.isLogical());
     if (!supportedType) {
         needToOverload = true;
         return res;

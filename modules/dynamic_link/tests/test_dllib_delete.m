@@ -9,8 +9,8 @@
 %=============================================================================
 % <-- NO USER MODULES -->
 %=============================================================================
-assert_isequal(nargin('dllib_delete'), 1);
-assert_isequal(nargout('dllib_delete'), 0);
+assert_isequal(nargin('@dllib/delete'), 1);
+assert_isequal(nargout('@dllib/delete'), 0);
 %=============================================================================
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);

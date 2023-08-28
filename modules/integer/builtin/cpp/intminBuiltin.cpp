@@ -15,7 +15,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::IntegerGateway::intminBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 1);

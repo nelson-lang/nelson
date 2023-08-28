@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace QmlEngineGateway {
-    ArrayOfVector
-    qml_collectgarbageBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::QmlEngineGateway {
+//=============================================================================
+ArrayOfVector
+qml_collectgarbageBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

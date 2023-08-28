@@ -27,10 +27,35 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    std::wstring name;
+    std::wstring name = argIn[0].wname();
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
     }
+    if (param1.isHandle()) {
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
+                Error(_W("dllib handle expected."));
+            }
+            auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
+            dllibObj->disp(io);
+        }
+        DisplayVariableFooter(io, name.empty());
+    } else {
+        Error(_W("dllib handle expected."));
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    std::wstring name;
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);

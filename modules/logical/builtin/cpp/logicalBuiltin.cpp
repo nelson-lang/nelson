@@ -8,33 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "logicalBuiltin.hpp"
-#include "Error.hpp"
 #include "ToLogical.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LogicalGateway::logicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LogicalGateway::logicalBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << ToLogical(argIn[0]);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    retval << ToLogical(argIn[0]);
     return retval;
 }
 //=============================================================================

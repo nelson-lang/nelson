@@ -8,5 +8,4 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 M = 1:1e5;
-overloadbasictypes(false);
 tic;for i=M;gamma(3);end;toc()

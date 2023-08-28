@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "Operators.hpp"
+#include "OverloadName.hpp"
 #include "func2strBuiltin.hpp"
 #include "function_handle_extractionBuiltin.hpp"
 #include "function_handle_fieldnamesBuiltin.hpp"
@@ -20,23 +22,27 @@ using namespace Nelson;
 const std::wstring gatewayName = L"function_handle";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "function_handle_extraction",
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR),
         (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "isfunction_handle", (ptrBuiltin)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1,
-        1 },
-    { "function_handle_fieldnames",
-        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
-    { "function_handle_isequal",
-        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
-    { "function_handle_isequaln",
-        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
-    { "function_handle_isequalto",
-        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "fieldnames"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1,
+        CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "isequal"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2,
+        CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "isequaln"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2,
+        CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "isequalto"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2,
+        CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    //=============================================================================
     { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1 },
+    { "isfunction_handle", (ptrBuiltin)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1,
+        1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

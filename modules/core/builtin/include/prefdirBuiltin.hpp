@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace CoreGateway {
-    ArrayOfVector
-    prefdirBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::CoreGateway {
+ArrayOfVector
+prefdirBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

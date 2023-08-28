@@ -32,5 +32,6 @@ A = cosh(sparse(zeros(3,3)));
 REF = sparse(ones(3, 3));
 assert_isequal(A, REF);
 %=============================================================================
-assert_checkerror('cosh(''a'')', [_('Undefined function ''cosh'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'cosh');
+assert_checkerror('cosh(''a'')', msg);
 %=============================================================================

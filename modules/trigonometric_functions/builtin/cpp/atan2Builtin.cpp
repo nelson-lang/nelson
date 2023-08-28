@@ -9,7 +9,6 @@
 //=============================================================================
 #include "atan2Builtin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "Atan2.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -17,27 +16,17 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TrigonometricGateway::atan2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TrigonometricGateway::atan2Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "atan2", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = Atan2(argIn[0], argIn[1], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "atan2", bSuccess);
-            if (!bSuccess) {
-                OverloadRequired("atan2");
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = Atan2(argIn[0], argIn[1], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("atan2");
+    } else {
+        retval << res;
     }
 
     return retval;

@@ -37,5 +37,6 @@ A = zeros(1000, 1000);
 C = sinh(A);
 assert_isapprox(C, A);
 %=============================================================================
-assert_checkerror('sinh(''a'')', [_('Undefined function ''sinh'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sinh');
+assert_checkerror('sinh(''a'')', msg);
 %=============================================================================

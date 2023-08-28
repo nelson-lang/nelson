@@ -11,7 +11,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Interface.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,16 +19,6 @@ ArrayOfVector
 Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    // Call overload if it exists
-    if (!argIn.empty()) {
-        bool bSuccess = false;
-        if (eval->mustOverloadBasicTypes()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-    }
     Interface* io = eval->getInterface();
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
@@ -48,12 +37,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            bool bSuccess = false;
-            retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
-            if (!bSuccess) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-            }
-            return retval;
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else if (argIn.empty()) {
         nargoutcheck(nLhs, 0, 0);

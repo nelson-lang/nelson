@@ -10,11 +10,9 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsTypes_builtin_exports.h"
 //=============================================================================
 namespace Nelson::TypeGateway {
 //=============================================================================
-NLSTYPES_BUILTIN_IMPEXP
 ArrayOfVector
 isvarnameBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================

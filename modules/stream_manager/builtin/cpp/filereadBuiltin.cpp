@@ -41,7 +41,7 @@ getLines(const std::wstring& s)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 4); //-V112

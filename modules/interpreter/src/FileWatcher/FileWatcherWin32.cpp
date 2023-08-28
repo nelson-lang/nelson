@@ -25,6 +25,7 @@
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_WIN32
 
 #include <windows.h>
+#include <filesystem>
 
 #ifdef WIN_USE_WSTR
 typedef std::wstring WAPI_STR;
@@ -66,13 +67,15 @@ to_str(const WAPI_STR& str)
 #pragma warning(disable : 4996)
 #endif
 
+#define BUFFER_SIZE 32 * 1024
+
 namespace FW {
 /// Internal watch data
 struct WatchStruct
 {
     OVERLAPPED mOverlapped;
     HANDLE mDirHandle;
-    BYTE mBuffer[32 * 1024];
+    BYTE mBuffer[BUFFER_SIZE];
     LPARAM lParam;
     DWORD mNotifyFilter;
     bool mStopNow;
@@ -93,17 +96,22 @@ RefreshWatch(WatchStruct* pWatch, bool _clear = false);
 void CALLBACK
 WatchCallback(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
 {
-    TCHAR szFile[MAX_PATH];
-
-    PFILE_NOTIFY_INFORMATION pNotify;
-    WatchStruct* pWatch = (WatchStruct*)lpOverlapped;
-    size_t offset = 0;
-
-    if (dwNumberOfBytesTransfered == 0)
+    if (dwNumberOfBytesTransfered == 0) {
         return;
+    }
+    if (!lpOverlapped) {
+        return;
+    }
+    WatchStruct* pWatch = (WatchStruct*)lpOverlapped;
+    TCHAR szFile[MAX_PATH];
+    PFILE_NOTIFY_INFORMATION pNotify;
+    size_t offset = 0;
 
     if (dwErrorCode == ERROR_SUCCESS) {
         do {
+            if (offset >= BUFFER_SIZE) {
+                return;
+            }
             pNotify = (PFILE_NOTIFY_INFORMATION)&pWatch->mBuffer[offset];
             offset += pNotify->NextEntryOffset;
 
@@ -153,7 +161,7 @@ DestroyWatch(WatchStruct* pWatch)
         RefreshWatch(pWatch, true);
 
         if (!HasOverlappedIoCompleted(&pWatch->mOverlapped)) {
-            SleepEx(5, TRUE);
+            SleepEx(10, TRUE);
         }
 
         CloseHandle(pWatch->mOverlapped.hEvent);
@@ -205,6 +213,7 @@ FileWatcherWin32::~FileWatcherWin32()
     WatchMap::iterator end = mWatches.end();
     for (; iter != end; ++iter) {
         DestroyWatch(iter->second);
+        delete[] iter->second->mDirName;
     }
     mWatches.clear();
 }
@@ -272,6 +281,14 @@ FileWatcherWin32::update()
 void
 FileWatcherWin32::handleAction(WatchStruct* watch, const String& filename, unsigned long action)
 {
+    if (filename.empty()) {
+        return;
+    }
+    auto extension = std::filesystem::path(filename).extension();
+    if (extension != ".m") {
+        return;
+    }
+
     Action fwAction;
     switch (action) {
     case FILE_ACTION_RENAMED_NEW_NAME:

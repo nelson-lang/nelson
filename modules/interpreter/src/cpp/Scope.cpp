@@ -15,6 +15,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,6 +40,9 @@ Scope::insertMacroFunctionLocally(FunctionDefPtr a)
 bool
 Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
+    if (funcName[0] == OVERLOAD_SYMBOL_CHAR) {
+        return false;
+    }
     return currentLocalFunctions.find(funcName, val);
 }
 //=============================================================================

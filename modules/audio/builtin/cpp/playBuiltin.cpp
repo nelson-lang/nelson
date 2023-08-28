@@ -8,24 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "playBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::playBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 2);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "play", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("play");
-    }
+    OverloadRequired("play");
     return retval;
 }
 //=============================================================================

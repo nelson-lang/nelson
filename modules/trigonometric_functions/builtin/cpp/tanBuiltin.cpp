@@ -8,37 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "tanBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 #include "TrigonometricFunctions.hpp"
-#include "OverloadFunction.hpp"
-#include "ClassName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TrigonometricGateway::tanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TrigonometricGateway::tanBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = Tan(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function 'tan' for input arguments of type") + " '"
-                    + ClassName(argIn[0]) + "'.");
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = Tan(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("tan");
+    } else {
+        retval << res;
     }
     return retval;
 }

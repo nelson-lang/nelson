@@ -16,7 +16,7 @@ namespace Nelson {
 #define UPLUS_OPERATOR_STR "uplus"
 #define NOT_OPERATOR_STR "not"
 #define SUBSINDEX_OPERATOR_STR "subsindex"
-#define SUBSREF_OPERATOR_STR "subsref" // not implemented
+#define SUBSREF_OPERATOR_STR "subsref"
 #define SUBSASGN_OPERATOR_STR "subsasgn" // not implemented
 // BINARY
 #define PLUS_OPERATOR_STR "plus"

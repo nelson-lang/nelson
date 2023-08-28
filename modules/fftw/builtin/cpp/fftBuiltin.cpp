@@ -9,15 +9,15 @@
 //=============================================================================
 #include "fftBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "Fft.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
-fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+fftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -67,25 +67,15 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FftwGateway::fftBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("fft");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval = fftBuiltinPrivate(eval, nLhs, argIn);
-    }
+    retval = fftBuiltinPrivate(nLhs, argIn);
     return retval;
 }
 //=============================================================================

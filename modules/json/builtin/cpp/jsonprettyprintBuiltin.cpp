@@ -10,32 +10,22 @@
 #include "jsonprettyprintBuiltin.hpp"
 #include "Error.hpp"
 #include "JsonPrettyPrint.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::JsonGateway::jsonprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("jsonprettyprint");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << jsonPrettyPrint(argIn[0].getContentAsWideString());
-    }
+    retval << jsonPrettyPrint(argIn[0].getContentAsWideString());
     return retval;
 }
 //=============================================================================

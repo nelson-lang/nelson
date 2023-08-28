@@ -32,10 +32,10 @@ private:
     PathFunctionIndexer* _currentPath;
 
     MexFunctionDef*
-    processMexFile(const std::wstring& filename, const std::wstring& functionName);
+    processMexFile(const std::wstring& filename, const std::wstring& functionName, bool isOverload);
 
     MacroFunctionDef*
-    processMacroFile(const std::wstring& script_filename, bool withWatcher);
+    processMacroFile(const std::wstring& script_filename, bool withWatcher, bool isOverload);
 
     FunctionDef*
     processFile(FileFunction* ff, const std::string& functionName);

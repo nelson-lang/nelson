@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace HelpToolsGateway {
-    ArrayOfVector
-    headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::HelpToolsGateway {
+ArrayOfVector
+headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

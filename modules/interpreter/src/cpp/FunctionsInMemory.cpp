@@ -50,6 +50,7 @@ void
 FunctionsInMemory::clearMapCache()
 {
     _lastFunctionsInMemory.clear();
+    _notExistingFunctionsInMemory.clear();
 }
 //=============================================================================
 void

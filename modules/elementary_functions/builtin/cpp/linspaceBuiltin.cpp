@@ -62,10 +62,8 @@ linspaceComplex(NelsonType destinationClass, std::complex<T> startValue, std::co
     return res;
 }
 //=============================================================================
-
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::linspaceBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);

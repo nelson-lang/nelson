@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "signBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "Sign.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -17,24 +15,18 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::signBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::signBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool bSuccess = false;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "sign", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload = false;
-        ArrayOf res = Sign(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "sign");
-        } else {
-            retval << res;
-        }
+    bool needToOverload = false;
+    ArrayOf res = Sign(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("sign");
+    } else {
+        retval << res;
     }
     return retval;
 }

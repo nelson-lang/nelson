@@ -100,7 +100,7 @@ ArrayOf::getHandleCategory() const
     }
     auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
-        Error(_W("Expected a valid handle."));
+        return NLS_HANDLE_STR;
     }
     indexType nbElements = getElementCount();
     std::string category = NLS_HANDLE_STR;

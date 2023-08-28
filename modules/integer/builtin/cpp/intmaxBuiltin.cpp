@@ -16,7 +16,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::IntegerGateway::intmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 1);

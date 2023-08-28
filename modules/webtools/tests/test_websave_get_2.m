@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 o = weboptions('RequestMethod', 'get');
-filename = [tempdir(), 'test_websave_get.json'];
+filename = [tempdir(), 'test_websave_get_2.json'];
 fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1/comments', o);
 R = jsondecode(fileread(fullname));
 assert_isequal(R(5).email, 'Hayden@althea.biz');

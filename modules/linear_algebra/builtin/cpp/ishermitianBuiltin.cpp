@@ -10,7 +10,6 @@
 #include "ishermitianBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "IsHermitian.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -18,8 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LinearAlgebraGateway::ishermitianBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LinearAlgebraGateway::ishermitianBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
@@ -42,21 +40,10 @@ Nelson::LinearAlgebraGateway::ishermitianBuiltin(
             Error(_W("Second input must be 'skew' or 'nonskew'."));
         }
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "ishermitian", bSuccess);
+    if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {
+        OverloadRequired("ishermitian");
     }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "ishermitian", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired("ishermitian");
-        }
-        retval << ArrayOf::logicalConstructor(IsHermitian(argIn[0], skew, "ishermitian"));
-    }
+    retval << ArrayOf::logicalConstructor(IsHermitian(argIn[0], skew, "ishermitian"));
     return retval;
 }
 //=============================================================================

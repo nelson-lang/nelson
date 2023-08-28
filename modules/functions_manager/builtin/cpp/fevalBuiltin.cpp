@@ -48,9 +48,7 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();
-    eval->disableOverload();
     ArrayOfVector retval = funcDef->evaluateFunction(eval, newarg, nLhs);
-    eval->enableOverload();
     return retval;
 }
 //=============================================================================

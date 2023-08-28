@@ -16,12 +16,12 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"engine";
 //=============================================================================
-static const nlsGateway gateway[] = { { "getnelsonmode",
-                                          (ptrBuiltin)Nelson::EngineGateway::getnelsonmodeBuiltin,
-                                          1, 0, CPP_BUILTIN_WITH_EVALUATOR },
+static const nlsGateway gateway[] = {
+    { "getnelsonmode", (ptrBuiltin)Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0 },
     { "argv", (ptrBuiltin)Nelson::EngineGateway::argvBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
     { "isquietmode", (ptrBuiltin)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR } };
+        CPP_BUILTIN_WITH_EVALUATOR }
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

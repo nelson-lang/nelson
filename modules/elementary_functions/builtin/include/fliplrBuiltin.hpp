@@ -12,12 +12,10 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::ElementaryFunctionsGateway {
 //=============================================================================
-namespace ElementaryFunctionsGateway {
-    ArrayOfVector
-    fliplrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+ArrayOfVector
+fliplrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

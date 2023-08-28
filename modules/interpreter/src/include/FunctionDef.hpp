@@ -19,10 +19,16 @@ namespace Nelson {
 //=============================================================================
 enum FunctionType
 {
-    NLS_MACRO_FUNCTION,
+    NLS_MACRO_FUNCTION = 0,
     NLS_ANONYMOUS_MACRO_FUNCTION,
     NLS_BUILT_IN_FUNCTION,
     NLS_MEX_FUNCTION,
+};
+//=============================================================================
+enum FunctionOverloadAutoMode
+{
+    NLS_OVERLOAD_AUTO_ON = 0,
+    NLS_OVERLOAD_AUTO_OFF,
 };
 //=============================================================================
 class Evaluator;
@@ -51,6 +57,8 @@ private:
      */
     std::string name;
     //=============================================================================
+    bool _isOverload;
+    //=============================================================================
     /**
      * The filename of the function.
      */
@@ -61,6 +69,8 @@ private:
     std::mutex m_mutex;
     //=============================================================================
 public:
+    //=============================================================================
+    FunctionOverloadAutoMode overloadAutoMode = NLS_OVERLOAD_AUTO_ON;
     //=============================================================================
     void
     lock()
@@ -95,6 +105,13 @@ public:
         return this->name;
     }
     //=============================================================================
+    bool
+    isOverload()
+    {
+        return this->_isOverload;
+    }
+    //=============================================================================
+
     /**
      * The names of the arguments to the fuction (analogous to returnVals).
      * Should have "varargin" as the last entry for variable argument
@@ -105,7 +122,7 @@ public:
     /**
      * The constructor.
      */
-    FunctionDef();
+    FunctionDef(bool isOverload);
     //=============================================================================
     /**
      * The virtual destructor

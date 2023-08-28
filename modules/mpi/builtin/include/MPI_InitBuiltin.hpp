@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace MpiGateway {
-    ArrayOfVector
-    MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::MpiGateway {
+ArrayOfVector
+MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

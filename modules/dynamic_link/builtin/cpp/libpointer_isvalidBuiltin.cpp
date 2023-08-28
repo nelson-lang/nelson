@@ -20,7 +20,7 @@ Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << IsValidHandle(eval, argIn[0]);
+    retval << IsValidHandle(argIn[0]);
     return retval;
 }
 //=============================================================================

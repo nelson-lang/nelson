@@ -13,7 +13,11 @@ mkdir(path_test)
 addpath(path_test);
 assert_checkerror('to_to()', [_('Undefined variable or function:'), ' ', 'to_to'])
 M = ["function r = to_to()"; "r = 33;"; "end"];
+filewrite([path_test, '/to_to.ext1'], M);
+filewrite([path_test, '/to_to.ext2'], M);
 filewrite([path_test, '/to_to.m'], M);
+filewrite([path_test, '/to_to.ext3'], M);
+filewrite([path_test, '/to_to.ext4'], M);
 assert_isequal(to_to(), 33);
 clear to_to
 rmpath(path_test);

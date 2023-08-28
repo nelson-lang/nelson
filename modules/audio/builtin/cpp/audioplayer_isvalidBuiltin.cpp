@@ -8,21 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayer_isvalidBuiltin.hpp"
-#include "Error.hpp"
-#include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioplayer_isvalidBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioplayer_isvalidBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << IsValidHandle(eval, argIn[0]);
+    retval << IsValidHandle(argIn[0]);
     return retval;
 }
 //=============================================================================

@@ -8,25 +8,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isint64Builtin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::isint64Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isint64", bSuccess);
-    }
-    if (!bSuccess) {
-        retval << ArrayOf::logicalConstructor((argIn[0].getDataClass() == NLS_INT64));
-    }
+    retval << ArrayOf::logicalConstructor((argIn[0].getDataClass() == NLS_INT64));
     return retval;
 }
 //=============================================================================

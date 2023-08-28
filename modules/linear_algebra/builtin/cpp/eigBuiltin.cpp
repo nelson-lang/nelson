@@ -10,7 +10,6 @@
 #include "eigBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "EigenDecomposition.hpp"
 #include "GeneralizedEigenDecomposition.hpp"
@@ -29,27 +28,20 @@ using namespace Nelson;
 // [V, D ] = eig(A, B)
 //=============================================================================
 static ArrayOfVector
-eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
-    const ArrayOfVector& argIn, bool& needToOverload, bool& bSuccess, std::wstring& errorMessage);
+eigFull(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVector& argIn,
+    bool& needToOverload, bool& bSuccess, std::wstring& errorMessage);
 //=============================================================================
 static ArrayOfVector
-eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
-    const ArrayOfVector& argIn, bool& needToOverload, bool& bSuccess, std::wstring& errorMessage);
+eigCompact(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVector& argIn,
+    bool& needToOverload, bool& bSuccess, std::wstring& errorMessage);
 //=============================================================================
 ArrayOfVector
-Nelson::LinearAlgebraGateway::eigBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LinearAlgebraGateway::eigBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool balance = false;
     bool needToOverload = false;
-    nargoutcheck(nLhs, 0, 2); // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "eig", bSuccess);
-        if (bSuccess) {
-            return retval;
-        }
-    }
+    nargoutcheck(nLhs, 0, 2);
     bool compactDecomposition = (nLhs < 2);
     bool generalizedDecomposition = false;
 
@@ -71,16 +63,17 @@ Nelson::LinearAlgebraGateway::eigBuiltin(Evaluator* eval, int nLhs, const ArrayO
             generalizedDecomposition = true;
         }
     }
+    bool bSuccess;
     std::wstring errorMessage;
     if (compactDecomposition) {
-        retval = eigCompact(eval, nLhs, balance, generalizedDecomposition, argIn, needToOverload,
-            bSuccess, errorMessage);
+        retval = eigCompact(
+            nLhs, balance, generalizedDecomposition, argIn, needToOverload, bSuccess, errorMessage);
     } else {
-        retval = eigFull(eval, nLhs, balance, generalizedDecomposition, argIn, needToOverload,
-            bSuccess, errorMessage);
+        retval = eigFull(
+            nLhs, balance, generalizedDecomposition, argIn, needToOverload, bSuccess, errorMessage);
     }
     if (needToOverload) {
-        retval = OverloadFunction(eval, nLhs, argIn, "eig");
+        OverloadRequired("eig");
     } else {
         if (!bSuccess) {
             Error(errorMessage);
@@ -90,8 +83,8 @@ Nelson::LinearAlgebraGateway::eigBuiltin(Evaluator* eval, int nLhs, const ArrayO
 }
 //=============================================================================
 ArrayOfVector
-eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
-    const ArrayOfVector& argIn, bool& needToOverload, bool& bSuccess, std::wstring& errorMessage)
+eigCompact(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVector& argIn,
+    bool& needToOverload, bool& bSuccess, std::wstring& errorMessage)
 {
     ArrayOfVector retval;
     ArrayOf D;
@@ -140,8 +133,8 @@ eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecompositio
 }
 //=============================================================================
 ArrayOfVector
-eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
-    const ArrayOfVector& argIn, bool& needToOverload, bool& bSuccess, std::wstring& errorMessage)
+eigFull(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVector& argIn,
+    bool& needToOverload, bool& bSuccess, std::wstring& errorMessage)
 {
     ArrayOfVector retval;
     ArrayOf V;

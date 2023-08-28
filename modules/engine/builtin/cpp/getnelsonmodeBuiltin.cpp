@@ -17,7 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::EngineGateway::getnelsonmodeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);

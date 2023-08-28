@@ -18,7 +18,7 @@ NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 NelsonConfiguration::NelsonConfiguration()
 {
     InterruptPending.clear();
-    currentOverloadLevelCompatibility = NLS_OVERLOAD_NONE;
+    currentOverloadLevelCompatibility = NLS_OVERLOAD_ALL_TYPES;
     currentNumericFormatDisplay = NLS_NUMERIC_FORMAT_SHORT;
     currentLineSpacingDisplay = NLS_LINE_SPACING_LOOSE;
     modulesProtected = false;

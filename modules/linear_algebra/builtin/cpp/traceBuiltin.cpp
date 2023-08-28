@@ -9,7 +9,6 @@
 //=============================================================================
 #include "traceBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "TraceMatrix.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -17,26 +16,16 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LinearAlgebraGateway::traceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LinearAlgebraGateway::traceBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "trace", bSuccess);
+    nargoutcheck(nLhs, 0, 1);
+    if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+        || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+        OverloadRequired("trace");
     }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
-            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "trace", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired("trace");
-        }
-        retval << TraceMatrix(argIn[0]);
-    }
+    retval << TraceMatrix(argIn[0]);
     return retval;
 }
 //=============================================================================

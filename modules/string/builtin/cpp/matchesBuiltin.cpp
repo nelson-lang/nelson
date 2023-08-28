@@ -11,14 +11,13 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "StringMatches.hpp"
-#include "OverloadFunction.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::matchesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::matchesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -39,16 +38,7 @@ Nelson::StringGateway::matchesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "matches", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        retval << StringMatches(A, B, ignoreCase);
-    }
+    retval << StringMatches(A, B, ignoreCase);
     return retval;
 }
 //=============================================================================

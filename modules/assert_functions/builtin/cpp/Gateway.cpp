@@ -23,12 +23,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"assert_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "assert_istrue", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "assert", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "assert_isfalse", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isfalseBuiltin, 2, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "assert_istrue", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1 },
+    { "assert_isfalse", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isfalseBuiltin, 2, 1 },
+    { "assert", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1 },
     { "assert_checkerror", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin, 2,
         -2, CPP_BUILTIN_WITH_EVALUATOR },
     { "assert_isequal", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isequalBuiltin, 2, 2,

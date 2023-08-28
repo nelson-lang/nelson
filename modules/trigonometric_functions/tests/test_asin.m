@@ -52,5 +52,6 @@ assert_isequal(X, REF);
 %=============================================================================
 assert_isequal(asin([]), []);
 %=============================================================================
-assert_checkerror('asin(''a'')', [_('Undefined function ''asin'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'asin');
+assert_checkerror('asin(''a'')', msg);
 %=============================================================================

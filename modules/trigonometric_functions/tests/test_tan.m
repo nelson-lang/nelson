@@ -37,5 +37,6 @@ assert_isequal(X, REF);
 %=============================================================================
 assert_isequal(tan([]), []);
 %=============================================================================
-assert_checkerror('tan(''a'')', [_('Undefined function ''tan'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'tan');
+assert_checkerror('tan(''a'')', msg);
 %=============================================================================

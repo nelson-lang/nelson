@@ -37,5 +37,6 @@ assert_isequal(X, REF);
 %=============================================================================
 assert_isequal(tanh([]), []);
 %=============================================================================
-assert_checkerror('tanh(''a'')', [_('Undefined function ''tanh'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'tanh');
+assert_checkerror('tanh(''a'')', msg);
 %=============================================================================

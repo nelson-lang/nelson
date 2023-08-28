@@ -9,8 +9,6 @@
 //=============================================================================
 #include "sleepBuiltin.hpp"
 #include "Sleep.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,19 +20,12 @@ Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf Parameter1 = argIn[0];
-        if (Parameter1.isDoubleType()) {
-            double dValue = Parameter1.getContentAsDoubleScalar();
-            Sleep(eval, dValue);
-        } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "sleep");
-        }
+    ArrayOf Parameter1 = argIn[0];
+    if (Parameter1.isDoubleType()) {
+        double dValue = Parameter1.getContentAsDoubleScalar();
+        Sleep(eval, dValue);
+    } else {
+        OverloadRequired("sleep");
     }
     return retval;
 }

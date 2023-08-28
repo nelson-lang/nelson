@@ -12,10 +12,8 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ModulesManagerGateway {
-    ArrayOfVector
-    addmoduleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ModulesManagerGateway {
+ArrayOfVector
+addmoduleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

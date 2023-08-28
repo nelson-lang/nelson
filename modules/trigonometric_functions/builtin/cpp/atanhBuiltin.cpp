@@ -8,37 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "atanhBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 #include "TrigonometricFunctions.hpp"
-#include "OverloadFunction.hpp"
-#include "ClassName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TrigonometricGateway::atanhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TrigonometricGateway::atanhBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "atanh", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = Atanh(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "atanh", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function 'atanh' for input arguments of type") + " '"
-                    + ClassName(argIn[0]) + "'.");
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = Atanh(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("atanh");
+    } else {
+        retval << res;
     }
     return retval;
 }
