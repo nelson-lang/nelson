@@ -20,7 +20,6 @@ ArrayOfVector
 Nelson::StatisticsGateway::varBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool bSuccess = false;
     nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf A = argIn[0];

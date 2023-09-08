@@ -39,9 +39,9 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
         eval->withOverload = false;
         retval = funcDef->evaluateFunction(eval, newarg, nLhs);
         eval->withOverload = true;
-    } catch (const Exception& e) {
+    } catch (const Exception&) {
         eval->withOverload = true;
-        throw e;
+        throw;
     }
 
     return retval;

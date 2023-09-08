@@ -204,7 +204,6 @@ isObject(const ArrayOf& A)
 static NelsonType
 getConcatenateCommonType(NelsonType type1, NelsonType type2)
 {
-    NelsonType returnedType = NLS_UNKNOWN;
     if (type1 == type2) {
         return type1;
     } else if (type1 == NLS_HANDLE || type2 == NLS_HANDLE) {

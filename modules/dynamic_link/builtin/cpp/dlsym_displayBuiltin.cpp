@@ -24,10 +24,11 @@ Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    std::wstring name;
+
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
+        std::wstring name;
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
@@ -50,14 +51,14 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
-    std::wstring name;
-    if (argIn.size() == 2) {
-        name = argIn[1].getContentAsWideString();
-    } else {
-        name = argIn[0].wname();
-    }
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
+        std::wstring name;
+        if (argIn.size() == 2) {
+            name = argIn[1].getContentAsWideString();
+        } else {
+            name = argIn[0].wname();
+        }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {

@@ -19,7 +19,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::anyBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool bSuccess = false;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
     indexType d = 0;

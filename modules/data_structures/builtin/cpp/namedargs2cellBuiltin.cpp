@@ -19,7 +19,6 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
@@ -29,7 +28,8 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(int nLhs, const ArrayOfVect
         Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
     }
     stringVector fieldnames = param1.getFieldNames();
-    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, fieldnames.size() * 2);
+    ArrayOf* elements
+        = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, fieldnames.size() * 2));
     Dimensions dims(1, fieldnames.size() * 2);
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     indexType k = 0;

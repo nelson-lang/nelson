@@ -55,9 +55,9 @@ Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const A
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    std::wstring name;
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
+        std::wstring name;
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {

@@ -26,8 +26,8 @@ Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    std::wstring name;
     if (param1.isHandle()) {
+        std::wstring name;
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
@@ -52,11 +52,11 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    std::wstring name = argIn[0].wname();
-    if (argIn.size() == 2) {
-        name = argIn[1].getContentAsWideString();
-    }
     if (param1.isHandle()) {
+        std::wstring name = argIn[0].wname();
+        if (argIn.size() == 2) {
+            name = argIn[1].getContentAsWideString();
+        }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {

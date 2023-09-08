@@ -42,7 +42,6 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    bool bSuccess = false;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (param1.isClassType() || param1.isHandle()) {

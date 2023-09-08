@@ -19,8 +19,6 @@ static NelsonType
 getColonCommonBasicType(const ArrayOf& A, const ArrayOf& B);
 static NelsonType
 getColonCommonType(NelsonType typeA, NelsonType typeB);
-static NelsonType
-getColonCommonType(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);
 //=============================================================================
 bool
 findColonCommonType(
@@ -144,51 +142,6 @@ getColonCommonBasicType(const ArrayOf& A, const ArrayOf& B)
         }
     }
     return getColonCommonType(classA, classB);
-}
-//=============================================================================
-NelsonType
-getColonCommonType(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
-{
-    NelsonType classA = A.getDataClass();
-    NelsonType classB = B.getDataClass();
-    NelsonType classC = C.getDataClass();
-
-    if (classA == NLS_CHAR) {
-        if ((classB != NLS_DOUBLE) && (classB != NLS_DCOMPLEX) && (classB != NLS_CHAR)) {
-            Error(_W("For colon operator with char operands, second operand must be char or real "
-                     "scalar double."),
-                L"Nelson:colon:mixedCharOperand");
-        }
-        if (classC != NLS_CHAR) {
-            Error(_W("For colon operator with char operands, first and last operands must be "
-                     "char."),
-                L"Nelson:colon:mixedCharOperand");
-        }
-    }
-
-    bool isSupportedMixedInteger = false;
-    if (IS_INTEGER_TYPE(classA) && IS_INTEGER_TYPE(classB) && IS_INTEGER_TYPE(classC)) {
-        isSupportedMixedInteger = (classA == classB) && (classA == classC);
-    } else if (IS_INTEGER_TYPE(classA) && B.isDoubleClass() && IS_INTEGER_TYPE(classC)) {
-        isSupportedMixedInteger = (classA == classC);
-    } else if (IS_INTEGER_TYPE(classA) && IS_INTEGER_TYPE(classB) && C.isDoubleClass()) {
-        isSupportedMixedInteger = (classA == classB);
-    } else if (IS_INTEGER_TYPE(classA) && B.isDoubleClass() && C.isDoubleClass()) {
-        isSupportedMixedInteger = true;
-    } else if (A.isDoubleClass() && IS_INTEGER_TYPE(classB) && C.isDoubleClass()) {
-        isSupportedMixedInteger = true;
-    } else if (A.isDoubleClass() && B.isDoubleClass() && C.isDoubleClass()) {
-        isSupportedMixedInteger = true;
-    } else if (A.isDoubleClass() && B.isDoubleClass() && IS_INTEGER_TYPE(classC)) {
-        isSupportedMixedInteger = true;
-    }
-
-    if (!isSupportedMixedInteger
-        && (IS_INTEGER_TYPE(classA) || IS_INTEGER_TYPE(classB) || IS_INTEGER_TYPE(classC))) {
-        Error(_W("Colon operands must be all the same type, or mixed with real double scalar."),
-            L"Nelson:colon:mixedNonDoubleOperands");
-    }
-    return getColonCommonType(getColonCommonType(classA, classB), classC);
 }
 //=============================================================================
 }

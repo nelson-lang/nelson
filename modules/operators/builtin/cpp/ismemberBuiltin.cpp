@@ -19,7 +19,6 @@ ArrayOfVector
 Nelson::OperatorsGateway::ismemberBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool bSuccess = false;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
 

@@ -292,7 +292,6 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
         PathFunctionIndexer* pf = *it;
         if (pf != nullptr) {
             FunctionsInMemory::getInstance()->clearMapCache();
-            PathFunctionIndexer* pf = *it;
             delete pf;
             _pathFuncVector.erase(it);
             _pathWatchFuncVector.clear();

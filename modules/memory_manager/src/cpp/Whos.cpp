@@ -54,7 +54,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
 
     if (!isNh5) {
         // try detect if it is a .mat
-        FunctionDef* funcDef = nullptr;
+        funcDef = nullptr;
         if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }

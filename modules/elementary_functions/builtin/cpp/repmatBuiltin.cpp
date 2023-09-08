@@ -32,8 +32,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
     if (isNotSupportedType) {
         Error(ERROR_TYPE_NOT_SUPPORTED);
     }
-    switch (argIn.size()) {
-    case 2: {
+    if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (param2.isScalar()) {
             repcount[0] = (indexType)param2.getContentAsUnsignedInteger64Scalar();
@@ -52,13 +51,11 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
                 Error(_W("An row vector expected."));
             }
         }
-    } break;
-    default: {
+    } else {
         for (size_t k = 1; k < argIn.size(); ++k) {
             ArrayOf paramK = argIn[k];
             repcount[k - 1] = (indexType)paramK.getContentAsUnsignedInteger64Scalar();
         }
-    } break;
     }
     Dimensions originalSize(x.getDimensions());
     indexType outdim = (repcount.getLength()) > (originalSize.getLength())
@@ -71,7 +68,6 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
     outdims.simplify();
     void* dp = ArrayOf::allocateArrayOf(classx, outdims.getElementCount(), x.getFieldNames(), true);
     indexType colsize = originalSize[0];
-    indexType outcolsize = outdims[0];
     indexType colcount = originalSize.getElementCount() / colsize;
     Dimensions copySelection(outdim);
     Dimensions sourceDimensions(originalSize.getLength());

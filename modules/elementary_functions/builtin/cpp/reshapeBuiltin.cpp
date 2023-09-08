@@ -86,7 +86,6 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
                 }
             }
             if (bHaveAnEmptyMatrix) {
-                indexType nbElements = 0;
                 indexType nbElementsM = M.getElementCount();
                 double rest = static_cast<double>(nbElementsM)
                     / static_cast<double>(dims.getElementCount());

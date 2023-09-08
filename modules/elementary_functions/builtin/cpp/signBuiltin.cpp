@@ -18,7 +18,6 @@ ArrayOfVector
 Nelson::ElementaryFunctionsGateway::signBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool bSuccess = false;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     bool needToOverload = false;

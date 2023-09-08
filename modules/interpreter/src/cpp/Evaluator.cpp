@@ -423,7 +423,6 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         retval = timesOperator(t);
     } break;
     case OP_UPLUS: {
-        bool bSuccess = false;
         if (ticProfiling != 0U) {
             operatorName = UPLUS_OPERATOR_STR;
         }
