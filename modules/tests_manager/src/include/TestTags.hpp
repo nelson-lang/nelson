@@ -38,6 +38,7 @@ namespace Nelson {
 #define IPC_REQUIRED_TAG "<--IPC REQUIRED-->"
 #define SEQUENTIAL_TEST_REQUIRED_TAG "<--SEQUENTIAL TEST REQUIRED-->"
 #define NATIVE_ARCHITECTURE_REQUIRED_TAG "<--NATIVE ARCHITECTURE TEST REQUIRED-->"
+#define FILE_WATCHER_REQUIRED_TAG "<--FILE WATCHER REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -64,6 +65,7 @@ private:
     bool _ipcRequired;
     bool _sequentialTestRequired;
     bool _nativeArchitectureRequired;
+    bool _fileWatcherRequired;
 
 public:
     TestTags()
@@ -90,6 +92,7 @@ public:
         _ipcRequired = false;
         _sequentialTestRequired = false;
         _nativeArchitectureRequired = false;
+        _fileWatcherRequired = false;
     }
 
     bool
@@ -205,6 +208,12 @@ public:
         return _nativeArchitectureRequired;
     }
 
+    bool
+    isFileWatcherRequired()
+    {
+        return _fileWatcherRequired;
+    }
+
     void
     setWithDisplay(bool val)
     {
@@ -306,7 +315,11 @@ public:
     {
         _ipcRequired = val;
     }
-
+    void
+    setFileWatcherRequired(bool val)
+    {
+        _fileWatcherRequired = val;
+    }
     void
     setSequentialTestRequired(bool val)
     {

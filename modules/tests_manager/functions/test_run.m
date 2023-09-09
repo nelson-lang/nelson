@@ -438,6 +438,10 @@ function test_case = create_test_case(filename, classname)
       if ~test_case.options.ipc_required
         cmd = [cmd, ' ', '--noipc'];
       end
+      if ~test_case.options.file_watcher_required
+        cmd = [cmd, ' ', '--withoutfilewatcher'];
+      end
+
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       
       without_audio = ~(test_case.options.audio_input_required || test_case.options.audio_output_required) && ~endsWith(test_case.classname, '.audio');

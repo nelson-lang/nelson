@@ -103,6 +103,8 @@ public:
     haveSocketIoUri();
     bool
     haveNoIpc();
+    bool
+    haveWithoutFileWatcher();
 
 private:
     bool
@@ -122,6 +124,7 @@ private:
     bool _quietmode;
     bool _ipc;
     bool _minimize;
+    bool _withoutFileWatcher;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;

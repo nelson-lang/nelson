@@ -51,6 +51,8 @@ option(MINIMAL_BUILD "Build mininal Nelson " OFF)
 # ==============================================================================
 option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
+option(WITHOUT_FILEWATCHER "Disable File watcher" OFF)
+# ==============================================================================
 list(
   APPEND
   optional_modules

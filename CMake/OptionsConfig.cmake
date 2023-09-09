@@ -64,6 +64,12 @@ else()
   set(WITH_OPENMP 1)
 endif()
 # ==============================================================================
+if (WITHOUT_FILEWATCHER)
+  set(WITH_FILE_WATCHER 0)
+else()
+  set(WITH_FILE_WATCHER 1)
+endif()
+# ==============================================================================
 if(TAGLIB_FOUND)
   set(WITH_TAGLIB 1)
 else()

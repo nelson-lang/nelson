@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <unordered_map>
 #define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
@@ -93,335 +94,118 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
     istream.open(wstring_to_utf8(filename));
 #endif
     if (istream.is_open()) {
-        bool firstCliTag = true;
-        bool firstAdvCliTag = true;
-        bool firstGuiTag = true;
-        bool firstNotFixedTag = true;
-        bool firstInteractiveTag = true;
-        bool firstCheckRefTag = true;
-        bool firstEnglishTag = true;
-        bool firstWindowsTag = true;
-        bool firstMacTag = true;
-        bool firstLinuxTag = true;
-        bool firstWithDisplayTag = true;
-        bool firstReleaseOnlyTag = true;
-        bool firstExcelRequiredTag = true;
-        bool firstMpiModeTag = true;
-        bool firstAudioInputRequiredTag = true;
-        bool firstAudioOutputRequiredTag = true;
-        bool firstCCompilerRequiredTag = true;
-        bool firstIndex64BitRequiredTag = true;
-        bool firstNoUserModules = true;
-        bool firstIpcRequired = true;
-        bool firstSequentialTestRequired = true;
-        bool firstNativeArchitectureTestRequired = true;
+        std::vector<std::string> tags = { WITH_DISPLAY_TAG, NOT_FIXED_TAG, INTERACTIVE_TEST_TAG,
+            ENGLISH_IMPOSED_TAG, CLI_MODE_TAG, ADV_CLI_MODE_TAG, GUI_MODE_TAG, CHECK_REF_TAG,
+            WINDOWS_ONLY_TAG, MACOS_ONLY_TAG, UNIX_ONLY_TAG, RELEASE_ONLY_TAG, EXCEL_REQUIRED_TAG,
+            IPC_REQUIRED_TAG, FILE_WATCHER_REQUIRED_TAG, MPI_MODE_TAG, AUDIO_INPUT_REQUIRED_TAG,
+            AUDIO_OUTPUT_REQUIRED_TAG, C_COMPILER_REQUIRED_TAG, INDEX_64_BIT_REQUIRED_TAG,
+            NO_USER_MODULES_TAG, SEQUENTIAL_TEST_REQUIRED_TAG, NATIVE_ARCHITECTURE_REQUIRED_TAG };
+
+        std::unordered_map<std::string, bool> firstTagOccurrences;
+        std::unordered_map<std::string, bool> tagOptions;
+
+        for (const std::string& tag : tags) {
+            firstTagOccurrences[tag] = true;
+            tagOptions[tag] = false;
+        }
+
         std::string line;
-        while (!istream.eof()) {
-            std::getline(istream, line);
-            if (!isCommentedLine(line) && (!isEmptyLine(line))) {
+        while (std::getline(istream, line)) {
+            if (!isCommentedLine(line) && !isEmptyLine(line)) {
                 istream.close();
                 break;
             }
-            if (compareTag(line, WITH_DISPLAY_TAG) && firstWithDisplayTag) {
-                if (options.isWithDisplay() && !firstWithDisplayTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WITH_DISPLAY_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setWithDisplay(true);
-                firstWithDisplayTag = false;
-                continue;
-            }
-            if (compareTag(line, NOT_FIXED_TAG) && firstNotFixedTag) {
-                if (options.isNotFixed() && !firstNotFixedTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(NOT_FIXED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setNotFixed(true);
-                firstNotFixedTag = false;
-                continue;
-            }
-            if (compareTag(line, INTERACTIVE_TEST_TAG) && firstInteractiveTag) {
-                if (options.isInteractiveTest() && !firstInteractiveTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(INTERACTIVE_TEST_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setInteractiveTest(true);
-                firstInteractiveTag = false;
-                continue;
-            }
-            if (compareTag(line, ENGLISH_IMPOSED_TAG) && firstEnglishTag) {
-                if (options.isEnglishImposed() && !firstEnglishTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(ENGLISH_IMPOSED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setEnglishImposed(true);
-                firstEnglishTag = false;
-                continue;
-            }
-            if (compareTag(line, CLI_MODE_TAG) && firstCliTag) {
-                if ((options.isAdvCliMode() && !firstAdvCliTag)
-                    || (options.isGuiMode() && !firstGuiTag)) {
-                    msg = _W("Check tags used.");
-                    istream.close();
-                    return false;
-                }
-                if (options.isCliMode() && !firstCliTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(CLI_MODE_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setCliMode(true);
-                options.setAdvCliMode(false);
-                options.setGuiMode(false);
-                firstCliTag = false;
-                continue;
-            }
-            if (compareTag(line, ADV_CLI_MODE_TAG) && firstAdvCliTag) {
-                if ((options.isCliMode() && !firstCliTag)
-                    || (options.isGuiMode() && !firstGuiTag)) {
-                    msg = _W("Check tags used.");
-                    istream.close();
-                    return false;
-                }
-                if (options.isAdvCliMode() && firstAdvCliTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(ADV_CLI_MODE_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setAdvCliMode(true);
-                options.setCliMode(false);
-                options.setGuiMode(false);
-                firstAdvCliTag = false;
-                continue;
-            }
-            if (compareTag(line, GUI_MODE_TAG) && firstGuiTag) {
-                if ((options.isCliMode() && !firstCliTag)
-                    || (options.isAdvCliMode() && !firstAdvCliTag)) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(GUI_MODE_TAG));
-                    istream.close();
-                    return false;
-                }
-                if (options.isGuiMode() && firstGuiTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(GUI_MODE_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setGuiMode(true);
-                options.setAdvCliMode(false);
-                options.setCliMode(false);
-                firstGuiTag = false;
-                continue;
-            }
-            if (compareTag(line, CHECK_REF_TAG) && firstCheckRefTag) {
-                if (options.isCheckRef() && !firstAdvCliTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(CHECK_REF_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setCheckRef(true);
-                firstCheckRefTag = false;
-                continue;
-            }
-            if (compareTag(line, WINDOWS_ONLY_TAG) && firstWindowsTag) {
-                if ((options.isUnixOnly() && !firstLinuxTag)
-                    || (options.isMacOnly() && !firstMacTag)) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WINDOWS_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                if (options.isWindowsOnly() && !firstWindowsTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WINDOWS_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setWindowsOnly(true);
-                firstWindowsTag = false;
-                continue;
-            }
-            if (compareTag(line, MACOS_ONLY_TAG) && firstMacTag) {
-                if ((options.isUnixOnly() && !firstLinuxTag)
-                    || (options.isWindowsOnly() && !firstWindowsTag)) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MACOS_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                if (options.isMacOnly() && !firstMacTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MACOS_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setMacOnly(true);
-                firstMacTag = false;
-                continue;
-            }
-            if (compareTag(line, UNIX_ONLY_TAG) && firstLinuxTag) {
-                if ((options.isMacOnly() && !firstMacTag)
-                    || (options.isWindowsOnly() && !firstWindowsTag)) {
-                    msg = fmt::sprintf(
-                        _W("Multiple exclusive tags detected: %s"), utf8_to_wstring(UNIX_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                if (options.isUnixOnly() && !firstLinuxTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(UNIX_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setUnixOnly(true);
-                firstLinuxTag = false;
-                continue;
-            }
-            if (compareTag(line, RELEASE_ONLY_TAG) && firstReleaseOnlyTag) {
-                if (!firstReleaseOnlyTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(RELEASE_ONLY_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setReleaseOnly(true);
-                firstReleaseOnlyTag = false;
-                continue;
-            }
-            if (compareTag(line, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag) {
-                if (!firstExcelRequiredTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(EXCEL_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setExcelRequired(true);
-                firstExcelRequiredTag = false;
-                continue;
-            }
-            if (compareTag(line, IPC_REQUIRED_TAG) && firstIpcRequired) {
-                if (!firstIpcRequired) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(IPC_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setIpcRequired(true);
-                firstIpcRequired = false;
-                continue;
-            }
+            for (const std::string& tag : tags) {
+                if (compareTag(line, tag) && firstTagOccurrences[tag]) {
+                    if (tagOptions[tag]) {
+                        msg = fmt::sprintf(_W("Duplicated tag detected: %s"), utf8_to_wstring(tag));
+                        istream.close();
+                        return false;
+                    }
+                    tagOptions[tag] = true;
+                    firstTagOccurrences[tag] = false;
 
-            if (compareTag(line, MPI_MODE_TAG) && firstMpiModeTag) {
-                if (!firstMpiModeTag) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MPI_MODE_TAG));
-                    istream.close();
-                    return false;
+                    if (tag == WITH_DISPLAY_TAG) {
+                        options.setWithDisplay(true);
+                    } else if (tag == NOT_FIXED_TAG) {
+                        options.setNotFixed(true);
+                    } else if (tag == INTERACTIVE_TEST_TAG) {
+                        options.setInteractiveTest(true);
+                    } else if (tag == ENGLISH_IMPOSED_TAG) {
+                        options.setEnglishImposed(true);
+                    } else if (tag == CLI_MODE_TAG) {
+                        options.setCliMode(true);
+                        options.setAdvCliMode(false);
+                        options.setGuiMode(false);
+                    } else if (tag == ADV_CLI_MODE_TAG) {
+                        options.setCliMode(false);
+                        options.setAdvCliMode(true);
+                        options.setGuiMode(false);
+                    } else if (tag == GUI_MODE_TAG) {
+                        options.setCliMode(false);
+                        options.setAdvCliMode(false);
+                        options.setGuiMode(true);
+                    } else if (tag == CHECK_REF_TAG) {
+                        options.setCheckRef(true);
+                    } else if (tag == WINDOWS_ONLY_TAG) {
+                        options.setWindowsOnly(true);
+                    } else if (tag == MACOS_ONLY_TAG) {
+                        options.setMacOnly(true);
+                    } else if (tag == UNIX_ONLY_TAG) {
+                        options.setUnixOnly(true);
+                    } else if (tag == RELEASE_ONLY_TAG) {
+                        options.setReleaseOnly(true);
+                    } else if (tag == EXCEL_REQUIRED_TAG) {
+                        options.setExcelRequired(true);
+                    } else if (tag == IPC_REQUIRED_TAG) {
+                        options.setIpcRequired(true);
+                    } else if (tag == FILE_WATCHER_REQUIRED_TAG) {
+                        options.setFileWatcherRequired(true);
+                    } else if (tag == MPI_MODE_TAG) {
+                        options.setMpiMode(true);
+                    } else if (tag == AUDIO_INPUT_REQUIRED_TAG) {
+                        options.setAudioInputRequired(true);
+                    } else if (tag == AUDIO_OUTPUT_REQUIRED_TAG) {
+                        options.setAudioOutputRequired(true);
+                    } else if (tag == C_COMPILER_REQUIRED_TAG) {
+                        options.setCCompilerRequired(true);
+                    } else if (tag == INDEX_64_BIT_REQUIRED_TAG) {
+                        options.setIndex64BitRequired(true);
+                    } else if (tag == NO_USER_MODULES_TAG) {
+                        options.setNoUserModules(true);
+                    } else if (tag == SEQUENTIAL_TEST_REQUIRED_TAG) {
+                        options.setSequentialTestRequired(true);
+                    } else if (tag == NATIVE_ARCHITECTURE_REQUIRED_TAG) {
+                        options.setNativeArchitecturedRequired(true);
+                    } else {
+                        break;
+                    }
                 }
-                options.setMpiMode(true);
-                options.setCliMode(true);
-                firstCliTag = false;
-                firstMpiModeTag = false;
-                continue;
-            }
-            if (compareTag(line, AUDIO_INPUT_REQUIRED_TAG) && firstAudioInputRequiredTag) {
-                if (!firstAudioInputRequiredTag) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(AUDIO_INPUT_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setAudioInputRequired(true);
-                firstAudioInputRequiredTag = false;
-                continue;
-            }
-            if (compareTag(line, AUDIO_OUTPUT_REQUIRED_TAG) && firstAudioOutputRequiredTag) {
-                if (!firstAudioOutputRequiredTag) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(AUDIO_OUTPUT_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setAudioOutputRequired(true);
-                firstAudioOutputRequiredTag = false;
-                continue;
-            }
-            if (compareTag(line, C_COMPILER_REQUIRED_TAG) && firstCCompilerRequiredTag) {
-                if (!firstCCompilerRequiredTag) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(C_COMPILER_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setCCompilerRequired(true);
-                firstCCompilerRequiredTag = false;
-                continue;
-            }
-            if (compareTag(line, INDEX_64_BIT_REQUIRED_TAG) && firstIndex64BitRequiredTag) {
-                if (!firstIndex64BitRequiredTag) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(INDEX_64_BIT_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setIndex64BitRequired(true);
-                firstIndex64BitRequiredTag = false;
-                continue;
-            }
-            if (compareTag(line, NO_USER_MODULES_TAG) && firstNoUserModules) {
-                if (!firstNoUserModules) {
-                    msg = fmt::sprintf(
-                        _W("Duplicated tag detected: %s"), utf8_to_wstring(NO_USER_MODULES_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setNoUserModules(true);
-                firstNoUserModules = false;
-                continue;
-            }
-            if (compareTag(line, SEQUENTIAL_TEST_REQUIRED_TAG) && firstSequentialTestRequired) {
-                if (!firstSequentialTestRequired) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(SEQUENTIAL_TEST_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setSequentialTestRequired(true);
-                firstSequentialTestRequired = false;
-                continue;
-            }
-            if (compareTag(line, NATIVE_ARCHITECTURE_REQUIRED_TAG)
-                && firstNativeArchitectureTestRequired) {
-                if (!firstNativeArchitectureTestRequired) {
-                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
-                        utf8_to_wstring(NATIVE_ARCHITECTURE_REQUIRED_TAG));
-                    istream.close();
-                    return false;
-                }
-                options.setNativeArchitecturedRequired(true);
-                firstNativeArchitectureTestRequired = false;
-                continue;
             }
         }
         istream.close();
-        if (options.isGuiMode() || options.isAdvCliMode()) {
-            options.setWithDisplay(true);
-        }
-        if (!options.isGuiMode() && !options.isAdvCliMode()) {
-            options.setCliMode(true);
-        }
+    }
+
+    int countMode = 0;
+    if (options.isGuiMode()) {
+        countMode++;
+    }
+    if (options.isAdvCliMode()) {
+        countMode++;
+    }
+    if (options.isCliMode()) {
+        countMode++;
+    }
+    if (countMode > 1) {
+        msg = _W("Check tags used.");
+        return false;
+    }
+
+    if (options.isGuiMode() || options.isAdvCliMode()) {
+        options.setWithDisplay(true);
+    }
+    if (!options.isGuiMode() && !options.isAdvCliMode()) {
+        options.setCliMode(true);
     }
     return true;
 }

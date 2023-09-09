@@ -282,6 +282,11 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         displayVersion(_mode);
         return 0;
     }
+    if (po.haveWithoutFileWatcher()) {
+        NelsonConfiguration::getInstance()->disableFileWatcher();
+    } else {
+        NelsonConfiguration::getInstance()->enableFileWatcher();
+    }
     if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {
         bool wasSent = false;
         if (po.haveFileToExecuteIPC()) {

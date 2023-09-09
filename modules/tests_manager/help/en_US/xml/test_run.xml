@@ -128,6 +128,8 @@
       >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> This test will be executed sequentialy (1 worker).</p>
   <p><b
       >&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if application's build and architecture are same.</p>
+ <p><b
+      >&lt;--FILE WATCHER REQUIRED--&gt;</b> This test will be executed if file watcher is available.</p>
 
   <p />
   <p
