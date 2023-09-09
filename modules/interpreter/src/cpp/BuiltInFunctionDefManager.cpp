@@ -9,6 +9,7 @@
 //=============================================================================
 #include "BuiltInFunctionDefManager.hpp"
 #include "characters_encoding.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,11 +54,11 @@ BuiltInFunctionDefManager::add(FunctionDefPtr ptr)
 bool
 BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in, int argc_out,
     const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
-    bool interleavedComplex)
+    bool interleavedComplex, FunctionOverloadAutoMode builtinOverloadAutoMode)
 {
     BuiltInFunctionDef* f2def;
     try {
-        f2def = new BuiltInFunctionDef();
+        f2def = new BuiltInFunctionDef(name[0] == OVERLOAD_SYMBOL_CHAR);
     } catch (const std::bad_alloc&) {
         f2def = nullptr;
     }
@@ -71,6 +72,7 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
         f2def->interleavedComplex = interleavedComplex;
         f2def->arguments = std::move(args);
         f2def->builtinPrototype = builtinPrototype;
+        f2def->overloadAutoMode = builtinOverloadAutoMode;
         return add(f2def);
     }
     return false;

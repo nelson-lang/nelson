@@ -9,8 +9,8 @@
 %=============================================================================
 % <--WINDOWS ONLY-->
 %=============================================================================
-assert_isequal(nargin('COM_methods'), 1);
-assert_isequal(nargout('COM_methods'), 1);
+assert_isequal(nargin('@COM/methods'), 1);
+assert_isequal(nargout('@COM/methods'), 1);
 %=============================================================================
 pTextToSpeech = actxserver('Sapi.SpVoice');
 m = methods(pTextToSpeech);

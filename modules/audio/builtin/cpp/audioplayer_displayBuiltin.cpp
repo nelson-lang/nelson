@@ -19,6 +19,31 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
+Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 1);
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle()) {
+        std::wstring name;
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+                Error(_W("audioplayer handle expected."));
+            }
+            auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+            objPlayer->disp(io);
+        }
+        DisplayVariableFooter(io, name.empty());
+    } else {
+        Error(_W("audioplayer handle expected."));
+    }
+    return retval;
+}
+//=============================================================================
+ArrayOfVector
 Nelson::AudioGateway::audioplayer_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -27,7 +52,7 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
     nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        std::wstring name;
+        std::wstring name = argIn[0].wname();
         if (argIn.size() == 2) {
             name = argIn[1].getContentAsWideString();
         }

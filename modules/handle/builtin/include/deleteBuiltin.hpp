@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::HandleGateway {
+//=============================================================================
 ArrayOfVector
-deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+deleteBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

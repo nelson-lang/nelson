@@ -11,10 +11,9 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace HelpBrowserGateway {
-    ArrayOfVector
-    helpbrowserBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::HelpBrowserGateway {
+ArrayOfVector
+helpbrowserBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

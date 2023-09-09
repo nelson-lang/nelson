@@ -97,7 +97,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 
         if (!isNh5) {
             // try detect if it is a .mat
-            FunctionDef* funcDef = nullptr;
+            funcDef = nullptr;
             if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
                 BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
             }

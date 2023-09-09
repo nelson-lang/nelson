@@ -44,8 +44,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 {
     wstringVector commandLineArguments;
 
-    bool bAllowOverload;
-
     /**
      * The context that the intepreter operates in.
      */
@@ -89,12 +87,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool bQuietMode = false;
 
-    // by default, overload on basic types is called after hardcoded operators.
-    // faster but double, single, char, logical, integers does not allow overload.
-    // "overloadbasictypes(true)" modify this behavior.
-    // overload on basic types can be usefull (example: code generator).
-    bool overloadOnBasicTypes = false;
-
 public:
     size_t
     getID();
@@ -104,6 +96,8 @@ public:
     bool isReadyToUse = false;
 
     CallStack callstack;
+
+    bool withOverload = true;
 
     void
     setCLI(bool bCLI);
@@ -180,36 +174,6 @@ public:
      */
     State
     getState();
-    /**
-     * Get current overload state (enabled by default)
-     */
-    bool
-    isOverloadAllowed();
-    /**
-     * disable overload
-     */
-    void
-    disableOverload();
-    /**
-     * enable overload
-     */
-    void
-    enableOverload();
-    /**
-     *  return current overload basic types
-     */
-    bool
-    mustOverloadBasicTypes();
-    /**
-     * enable overload basic type
-     */
-    void
-    enableOverloadBasicTypes();
-    /**
-     * disable overload basic type
-     */
-    void
-    disableOverloadBasicTypes();
     /**
      * Get exit code.
      */

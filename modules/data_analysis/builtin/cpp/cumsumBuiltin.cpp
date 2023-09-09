@@ -14,11 +14,11 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataAnalysisGateway::cumsumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataAnalysisGateway::cumsumBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     // B = cumsum(A)
     // B = cumsum(A, dim)
     // B = cumsum(A, [dim], nanflag)
-    return cumulativeFunctionBuiltin(eval, nLhs, argIn, "cumsum", CumSum);
+    return cumulativeFunctionBuiltin(nLhs, argIn, "cumsum", CumSum);
 }
 //=============================================================================

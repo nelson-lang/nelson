@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace AudioGateway {
-    ArrayOfVector
-    beepBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::AudioGateway {
+ArrayOfVector
+beepBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

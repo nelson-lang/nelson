@@ -8,13 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isuint64Builtin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isuint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::isuint64Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);

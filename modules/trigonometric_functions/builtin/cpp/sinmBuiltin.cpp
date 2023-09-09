@@ -8,36 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sinmBuiltin.hpp"
-#include "Error.hpp"
 #include "MatrixSinus.hpp"
-#include "OverloadFunction.hpp"
-#include "ClassName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TrigonometricGateway::sinmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TrigonometricGateway::sinmBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "sinm", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = MatrixSin(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "sinm", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function 'sinm' for input arguments of type") + " '"
-                    + ClassName(argIn[0]) + "'.");
-            }
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = MatrixSin(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("sinm");
+    } else {
+        retval << res;
     }
     return retval;
 }

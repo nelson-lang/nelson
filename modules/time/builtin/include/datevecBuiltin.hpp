@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::TimeGateway {
+//=============================================================================
 ArrayOfVector
-datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+datevecBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

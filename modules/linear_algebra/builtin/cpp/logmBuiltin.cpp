@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "logmBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "LogMatrix.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -17,26 +15,16 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LinearAlgebraGateway::logmBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+    nargoutcheck(nLhs, 0, 1);
+    if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+        || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+        OverloadRequired("logm");
     }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
-            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired("logm");
-        }
-        retval << LogMatrix(argIn[0]);
-    }
+    retval << LogMatrix(argIn[0]);
     return retval;
 }
 //=============================================================================

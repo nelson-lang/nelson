@@ -8,37 +8,28 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ismissingBuiltin.hpp"
-#include "Error.hpp"
 #include "IsMissing.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataAnalysisGateway::ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataAnalysisGateway::ismissingBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "ismissing", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("ismissing");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "ismissing", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        bool needToOverload = false;
-        retval << isMissing(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "ismissing");
-        }
+    bool needToOverload = false;
+    retval << isMissing(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("ismissing");
     }
+
     return retval;
 }
 //=============================================================================

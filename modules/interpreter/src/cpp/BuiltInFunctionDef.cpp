@@ -12,10 +12,11 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "NelsonGateway.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-BuiltInFunctionDef::BuiltInFunctionDef()
+BuiltInFunctionDef::BuiltInFunctionDef(bool isOverload) : FunctionDef(isOverload)
 {
     fileName.clear();
     retCount = 0;
@@ -31,6 +32,17 @@ ArrayOfVector
 BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     lock();
+    if (eval->withOverload && inputs.size() > 0 && !this->isOverload()
+        && this->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
+        bool wasFound = false;
+        ArrayOfVector res = callOverloadedFunction(eval,
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout, inputs,
+            getName(), ClassName(inputs[0]), inputs[0].getDataClass(), wasFound);
+        if (wasFound) {
+            return res;
+        }
+    }
+
     ArrayOfVector outputs;
     eval->callstack.pushDebug(this->getName(), std::string("built-in ") + this->getName());
     size_t stackDepth = eval->callstack.size();

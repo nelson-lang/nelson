@@ -9,30 +9,21 @@
 //=============================================================================
 #include "findBuiltin.hpp"
 #include "Find.hpp"
-#include "ClassName.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::findBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::findBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 3);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "find", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        retval = Find(argIn, nLhs, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "find");
-        }
+    bool needToOverload;
+    retval = Find(argIn, nLhs, needToOverload);
+    if (needToOverload) {
+        OverloadRequired("find");
     }
     return retval;
 }

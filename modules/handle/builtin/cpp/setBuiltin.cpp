@@ -8,88 +8,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "setBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
-#include "characters_encoding.hpp"
-#include "ClassToString.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::setBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 1);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOf param1 = argIn[0];
-    if (param1.isGraphicsObject()) {
-        bool doOverload = false;
-        std::string functionNameGetHandle = ClassToString(param1.getDataClass()) + "_set";
-        Context* context = eval->getContext();
-        FunctionDef* funcDef = nullptr;
-        if (context->lookupFunction(functionNameGetHandle, funcDef)) {
-            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
-                || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-                ArrayOfVector argInCopy(argIn);
-                funcDef->evaluateFunction(eval, argInCopy, nLhs);
-                doOverload = true;
-            }
-        }
-        if (!doOverload) {
-            std::wstring msg = utf8_to_wstring(functionNameGetHandle) + L" " + _W("not defined.");
-            Error(msg);
-        }
-    } else {
-        if (!param1.isEmpty()) {
-            auto* qp = (nelson_handle*)param1.getDataPointer();
-            if (qp) {
-                std::string handleTypeName = NLS_HANDLE_STR;
-                Dimensions dimsParam1 = param1.getDimensions();
-                indexType elementCount = dimsParam1.getElementCount();
-                for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj) {
-                        std::string currentType = hlObj->getCategory();
-                        if (!currentType.empty() || currentType != NLS_HANDLE_STR) {
-                            handleTypeName.assign(currentType);
-                            break;
-                        }
-                    }
-                }
-                if (handleTypeName != NLS_HANDLE_STR) {
-                    bool doOverload = false;
-                    std::string functionNameGetHandle = handleTypeName + "_set";
-                    Context* context = eval->getContext();
-                    FunctionDef* funcDef = nullptr;
-                    if (context->lookupFunction(functionNameGetHandle, funcDef)) {
-                        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
-                            || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-                            ArrayOfVector argInCopy(argIn);
-                            funcDef->evaluateFunction(eval, argInCopy, nLhs);
-                            doOverload = true;
-                        }
-                    }
-                    if (!doOverload) {
-                        std::string msg = functionNameGetHandle + " " + _("not defined.");
-                        Error(msg);
-                    }
-                } else {
-                    Error(_W("Invalid handle."));
-                }
-            } else {
-                Error(_W("Invalid handle."));
-            }
-        } else {
-            if (nLhs > 0) {
-                Dimensions dims(0, 0);
-                retval << ArrayOf::emptyConstructor(dims);
-            }
-        }
-    }
-    return retval;
+    OverloadRequired("set");
+    return {};
 }
 //=============================================================================

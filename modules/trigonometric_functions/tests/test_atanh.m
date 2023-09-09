@@ -34,5 +34,6 @@ assert_isapprox(R, REF, 1e-3);
 %=============================================================================
 assert_isequal(atanh([]), []);
 %=============================================================================
-assert_checkerror('atanh(''a'')', [_('Undefined function ''atanh'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'atanh');
+assert_checkerror('atanh(''a'')', msg);
 %=============================================================================

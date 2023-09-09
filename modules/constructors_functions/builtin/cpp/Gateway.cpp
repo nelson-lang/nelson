@@ -38,8 +38,7 @@ static const nlsGateway gateway[]
           { "pi", (ptrBuiltin)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
           { "ones", (ptrBuiltin)Nelson::ConstructorsGateway::onesBuiltin, -1, 1 },
           { "zeros", (ptrBuiltin)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 },
-          { "diag", (ptrBuiltin)Nelson::ConstructorsGateway::diagBuiltin, 1, 2,
-              CPP_BUILTIN_WITH_EVALUATOR } };
+          { "diag", (ptrBuiltin)Nelson::ConstructorsGateway::diagBuiltin, 1, 2 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

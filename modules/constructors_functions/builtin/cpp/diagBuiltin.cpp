@@ -10,56 +10,42 @@
 #include "diagBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ConstructorsGateway::diagBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "diag", bSuccess);
+    ArrayOf b;
+    int64* dp;
+    int64 diagonalOrder;
+    if (argIn.size() == 1) {
+        diagonalOrder = 0;
+    } else {
+        b = argIn[1];
+        if (!b.isScalar()) {
+            Error(_W("Second argument must be a scalar."));
+        }
+        b.promoteType(NLS_INT64);
+        dp = (int64*)b.getDataPointer();
+        diagonalOrder = dp[0];
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "diag", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        ArrayOf b;
-        int64* dp;
-        int64 diagonalOrder;
-        if (argIn.size() == 1) {
-            diagonalOrder = 0;
-        } else {
-            b = argIn[1];
-            if (!b.isScalar()) {
-                Error(_W("Second argument must be a scalar."));
-            }
-            b.promoteType(NLS_INT64);
-            dp = (int64*)b.getDataPointer();
-            diagonalOrder = dp[0];
-        }
 
-        ArrayOf a = argIn[0];
-        if (!a.is2D()) {
-            Error(_W("First argument to 'diag' function must be 2D."));
-        }
-        ArrayOf diag;
-        if ((a.getDimensionLength(1) == 1) || (a.getDimensionLength(0) == 1)) {
-            diag = ArrayOf::diagonalConstructor(a, diagonalOrder);
-        } else {
-            diag = a.getDiagonal(diagonalOrder);
-        }
-        retval << diag;
+    ArrayOf a = argIn[0];
+    if (!a.is2D()) {
+        Error(_W("First argument to 'diag' function must be 2D."));
     }
+    ArrayOf diag;
+    if ((a.getDimensionLength(1) == 1) || (a.getDimensionLength(0) == 1)) {
+        diag = ArrayOf::diagonalConstructor(a, diagonalOrder);
+    } else {
+        diag = a.getDiagonal(diagonalOrder);
+    }
+    retval << diag;
     return retval;
 }
 //=============================================================================

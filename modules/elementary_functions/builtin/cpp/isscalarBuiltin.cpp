@@ -9,26 +9,18 @@
 //=============================================================================
 #include "isscalarBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isscalarBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::isscalarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.isClassType() || param1.isHandle()) {
-        bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, "isscalar", bSuccess);
-        if (bSuccess) {
-            return retval;
-        }
-    }
     retval << ArrayOf::logicalConstructor(param1.isScalar());
     return retval;
 }

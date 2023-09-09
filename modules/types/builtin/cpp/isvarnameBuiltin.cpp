@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isvarnameBuiltin.hpp"
-#include "Error.hpp"
 #include "IsValidVariableName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================

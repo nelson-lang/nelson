@@ -10,30 +10,20 @@
 #include "uint8Builtin.hpp"
 #include "ToInteger.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::IntegerGateway::uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::IntegerGateway::uint8Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "uint8", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("uint8");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "uint8", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << ToInteger(NLS_UINT8, argIn[0]);
-    }
+    retval << ToInteger(NLS_UINT8, argIn[0]);
     return retval;
 }
 //=============================================================================

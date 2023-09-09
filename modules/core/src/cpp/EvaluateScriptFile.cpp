@@ -128,7 +128,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     bool needThrowException = false;
     MacroFunctionDef* fptr = nullptr;
     try {
-        fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true);
+        fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true, false);
         try {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);

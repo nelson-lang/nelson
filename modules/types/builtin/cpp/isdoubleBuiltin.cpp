@@ -8,27 +8,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isdoubleBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isdoubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::isdoubleBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isint8", bSuccess);
-    }
-    if (!bSuccess) {
-        bool bRes
-            = (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX);
-        retval << ArrayOf::logicalConstructor(bRes);
-    }
+    retval << ArrayOf::logicalConstructor(argIn[0].isDoubleClass());
     return retval;
 }
 //=============================================================================

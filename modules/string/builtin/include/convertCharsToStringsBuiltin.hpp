@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::StringGateway {
+//=============================================================================
 ArrayOfVector
-convertCharsToStringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+convertCharsToStringsBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

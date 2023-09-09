@@ -8,34 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "remBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "Remainder.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::remBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::remBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "rem", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("rem");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "rem", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << Remainder(argIn[0], argIn[1]);
-    }
+    retval << Remainder(argIn[0], argIn[1]);
+
     return retval;
 }
 //=============================================================================

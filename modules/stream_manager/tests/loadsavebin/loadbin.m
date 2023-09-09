@@ -70,7 +70,7 @@ function loadbin(varargin)
   
 end
 %=============================================================================
-function res = complex_load_data(fr, typestr)
+function res = load_data_complex(fr, typestr)
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
@@ -89,15 +89,15 @@ function res = complex_load_data(fr, typestr)
   res = reshape(res, dim);
 end
 %=============================================================================
-function res = double_load_data(fr)
-  res = complex_load_data(fr, 'double');
+function res = load_data_double(fr)
+  res = load_data_complex(fr, 'double');
 end
 %=============================================================================
-function res = single_load_data(fr)
-  res = complex_load_data(fr, 'single');
+function res = load_data_single(fr)
+  res = load_data_complex(fr, 'single');
 end
 %=============================================================================
-function res = sparsegeneric_load_data(fr)
+function res = load_data_sparsegeneric(fr)
   I = load_data(fr);
   J = load_data(fr);
   V = load_data(fr);
@@ -107,12 +107,12 @@ function res = sparsegeneric_load_data(fr)
   res = sparse(I, J, V, m, n, nzmax);
 end
 %=============================================================================
-function res = sparsedouble_load_data(fr)
-  res = sparsegeneric_load_data(fr);
+function res = load_data_sparsedouble(fr)
+  res = load_data_sparsegeneric(fr);
 end
 %=============================================================================
-function res = sparselogical_load_data(fr)
-  res = sparsegeneric_load_data(fr);
+function res = load_data_sparselogical(fr)
+  res = load_data_sparsegeneric(fr);
 end
 %=============================================================================
 function res = ndarraygeneric_load_data(fr)
@@ -123,55 +123,55 @@ function res = ndarraygeneric_load_data(fr)
   res = reshape(res, dim);
 end
 %=============================================================================
-function res = ndarraylogical_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarraylogical(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayuint8_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayuint8(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayint8_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayint8(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayuint16_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayuint16(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayint16_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayint16(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayuint32_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayuint32(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayint32_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayint32(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayuint64_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayuint64(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarrayint64_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarrayint64(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarraysingle_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarraysingle(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarraydouble_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarraydouble(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = ndarraychar_load_data(fr)
-  res = ndarraygeneric_load_data(fr);
+function res = load_data_ndarraychar(fr)
+  res = load_data_ndarraygeneric(fr);
 end
 %=============================================================================
-function res = generic_cell_load_data(fr)
+function res = load_data_generic_cell(fr)
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
@@ -186,15 +186,15 @@ function res = generic_cell_load_data(fr)
   res = reshape(res, dim);
 end
 %=============================================================================
-function res = ndarraycell_load_data(fr)
-  res = generic_cell_load_data(fr);
+function res = load_data_ndarraycell(fr)
+  res = load_data_generic_cell(fr);
 end
 %=============================================================================
-function res = cell_load_data(fr);
-  res = generic_cell_load_data(fr);
+function res = load_data_cell(fr);
+  res = load_data_generic_cell(fr);
 end
 %=============================================================================
-function res = string_load_data(fr);
+function res = load_data_string(fr);
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
@@ -209,7 +209,7 @@ function res = string_load_data(fr);
   res = reshape(res, dim);
 end
 %=============================================================================
-function res = struct_load_data(fr)
+function res = load_data_struct(fr)
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
@@ -231,7 +231,7 @@ function res = struct_load_data(fr)
   end
 end
 %=============================================================================
-function res = generic_notcomplex_load_data(fr, typestr)
+function res = load_data_generic_notcomplex(fr, typestr)
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
@@ -243,68 +243,68 @@ function res = generic_notcomplex_load_data(fr, typestr)
   res = reshape(res, dim);
 end
 %=============================================================================
-function res = logical_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'logical');
+function res = load_data_logical(fr)
+  res = load_data_generic_notcomplex(fr, 'logical');
 end
 %=============================================================================
-function res = uint8_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'uint8');
+function res = load_data_uint8(fr)
+  res = load_data_generic_notcomplex(fr, 'uint8');
 end
 %=============================================================================
-function res = int8_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'int8');
+function res = load_data_int8(fr)
+  res = load_data_generic_notcomplex(fr, 'int8');
 end
 %=============================================================================
-function res = uint16_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'uint16');
+function res = load_data_uint16(fr)
+  res = load_data_generic_notcomplex(fr, 'uint16');
 end
 %=============================================================================
-function res = int16_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'int16');
+function res = load_data_int16(fr)
+  res = load_data_generic_notcomplex(fr, 'int16');
 end
 %=============================================================================
-function res = uint32_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'uint32');
+function res = load_data_uint32(fr)
+  res = load_data_generic_notcomplex(fr, 'uint32');
 end
 %=============================================================================
-function res = int32_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'int32');
+function res = load_data_int32(fr)
+  res = load_data_generic_notcomplex(fr, 'int32');
 end
 %=============================================================================
-function res = uint64_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'uint64');
+function res = load_data_uint64(fr)
+  res = load_data_generic_notcomplex(fr, 'uint64');
 end
 %=============================================================================
-function res = int64_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'int64');
+function res = load_data_int64(fr)
+  res = load_data_generic_notcomplex(fr, 'int64');
 end
 %=============================================================================
-function res = char_load_data(fr)
-  res = generic_notcomplex_load_data(fr, 'uint32');
+function res = load_data_char(fr)
+  res = load_data_generic_notcomplex(fr, 'uint32');
   res = char(res);
 end
 %=============================================================================
-function res = function_handle_load_data(fr)
+function res = load_data_function_handle(fr)
   str = load_data(fr);
   res = str2func(str);
 end
 %=============================================================================
-function res = handle_load_data(fr)
+function res = load_data_handle(fr)
   error(_('not yet implemented.'));
 end
 %=============================================================================
-function res = generic_load_data(fr)
+function res = load_data_generic(fr)
   error(_('not yet implemented.'));
 end
 %=============================================================================
-function res = class_load_data(fr)
+function res = load_data_class(fr)
   error(_('not yet implemented.'));
 end
 %=============================================================================
 function res = load_data(fr)
   typenum = fread(fr, 1, 'int64', 'l');
   classstr = typeofbin(typenum);
-  function_load = [classstr, '_load_data'];
+  function_load = ['load_data_', classstr];
   res = feval(function_load, fr);
 end
 %=============================================================================

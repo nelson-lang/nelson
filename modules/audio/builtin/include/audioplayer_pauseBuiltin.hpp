@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace AudioGateway {
-    ArrayOfVector
-    audioplayer_pauseBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::AudioGateway {
+ArrayOfVector
+audioplayer_pauseBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

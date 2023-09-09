@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('dllib_get'), 2);
-assert_isequal(nargout('dllib_get'), 1);
+assert_isequal(nargin('@dllib/get'), 2);
+assert_isequal(nargout('@dllib/get'), 1);
 %=============================================================================
 path_ref = modulepath('dynamic_link', 'builtin');
 lib = dlopen(path_ref);

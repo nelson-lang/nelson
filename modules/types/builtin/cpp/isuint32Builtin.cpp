@@ -8,13 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isuint32Builtin.hpp"
-#include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isuint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::isuint32Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);

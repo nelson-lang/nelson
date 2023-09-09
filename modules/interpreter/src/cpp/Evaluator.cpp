@@ -64,6 +64,7 @@
 #include "Colon.hpp"
 #include "DotPower.hpp"
 #include "Or.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -422,7 +423,6 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         retval = timesOperator(t);
     } break;
     case OP_UPLUS: {
-        bool bSuccess = false;
         if (ticProfiling != 0U) {
             operatorName = UPLUS_OPERATOR_STR;
         }
@@ -1685,8 +1685,8 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
         display(b, variableName, false, false);
     }
     if (ticProfiling != 0) {
-        internalProfileFunction stack
-            = computeProfileStack(this, "assign", utf8_to_wstring(callstack.getLastContext()));
+        internalProfileFunction stack = computeProfileStack(
+            this, SUBSASGN_OPERATOR_STR, utf8_to_wstring(callstack.getLastContext()));
         Profiler::getInstance()->toc(ticProfiling, stack);
     }
 }
@@ -2308,14 +2308,16 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         bool isVar = context->lookupVariable(fAST->text, r);
         if (isVar) {
             if (r.isFunctionHandle()) {
-                std::string extractionFunctionName = "function_handle_extraction";
+                std::string extractionFunctionName
+                    = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
                     Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
                 }
             } else if (r.isClassType()) {
                 std::string className = r.getClassType();
-                std::string extractionFunctionName = className + "_extraction";
+                std::string extractionFunctionName
+                    = getOverloadFunctionName(className, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
                     Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
@@ -3606,7 +3608,8 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                 }
             }
             if (r.isFunctionHandle()) {
-                std::string extractionFunctionName = "function_handle_extraction";
+                std::string extractionFunctionName
+                    = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
                 if (lookupFunction(extractionFunctionName, funcDef)) {
                     CallStack backupCallStack = this->callstack;
                     ArrayOfVector paramsIn(m);
@@ -3778,7 +3781,6 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLo
     Exception e;
     this->setLastErrorException(e);
     this->setLastWarningException(e);
-    bAllowOverload = true;
     context = aContext;
     resetState();
     depth = 0;
@@ -4065,42 +4067,6 @@ Evaluator::getCLI()
     return InCLI;
 }
 //=============================================================================
-bool
-Evaluator::isOverloadAllowed()
-{
-    return bAllowOverload;
-}
-//=============================================================================
-void
-Evaluator::disableOverload()
-{
-    bAllowOverload = false;
-}
-//=============================================================================
-void
-Evaluator::enableOverload()
-{
-    bAllowOverload = true;
-}
-//=============================================================================
-bool
-Evaluator::mustOverloadBasicTypes()
-{
-    return overloadOnBasicTypes;
-}
-//=============================================================================
-void
-Evaluator::enableOverloadBasicTypes()
-{
-    overloadOnBasicTypes = true;
-}
-//=============================================================================
-void
-Evaluator::disableOverloadBasicTypes()
-{
-    overloadOnBasicTypes = false;
-}
-//=============================================================================
 std::wstring
 Evaluator::buildPrompt()
 {
@@ -4257,7 +4223,8 @@ Evaluator::simpleAssignClass(
     }
     std::string currentClass;
     ClassName(r, currentClass);
-    std::string functionNamesimpleAssignClass = currentClass + "_assign";
+    std::string functionNamesimpleAssignClass
+        = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNamesimpleAssignClass, funcDef)) {
@@ -4285,7 +4252,8 @@ Evaluator::extractClass(
     std::string currentClass = ClassName(r);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string functionNamesimpleExtractClass = currentClass + "_extraction";
+    std::string functionNamesimpleExtractClass
+        = getOverloadFunctionName(currentClass, SUBSREF_OPERATOR_STR);
     if (_context->lookupFunction(functionNamesimpleExtractClass, funcDef)) {
         haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
@@ -4320,7 +4288,7 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     } else {
         currentType = r.getHandleCategory();
     }
-    std::string functionNameSetHandle = currentType + "_set";
+    std::string functionNameSetHandle = getOverloadFunctionName(currentType, "set");
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
@@ -4345,10 +4313,10 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     std::string functionNameCurrentType;
     if (r.isGraphicsObject()) {
         currentType = ClassToString(r.getDataClass());
-        functionNameCurrentType = ClassName(r) + "_" + fieldname;
+        functionNameCurrentType = getOverloadFunctionName(ClassName(r), fieldname);
     } else {
         currentType = r.getHandleCategory();
-        functionNameCurrentType = currentType + "_" + fieldname;
+        functionNameCurrentType = getOverloadFunctionName(currentType, fieldname);
     }
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
@@ -4365,7 +4333,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         }
         return funcDef->evaluateFunction(this, argIn, nLhs);
     }
-    std::string functionNameGetHandle = currentType + "_get";
+    std::string functionNameGetHandle = getOverloadFunctionName(currentType, "get");
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
         Error(_("Function not found: ") + functionNameGetHandle);
     }

@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace TextEditorGateway {
-    ArrayOfVector
-    smartindentBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::TextEditorGateway {
+//=============================================================================
+ArrayOfVector
+smartindentBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

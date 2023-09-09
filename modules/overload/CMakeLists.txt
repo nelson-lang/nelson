@@ -13,71 +13,70 @@ set(module_name overload)
 set(module_library_name nlsOverload)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB OVERLOAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
-list(FILTER OVERLOAD_SRC EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
+# file(GLOB OVERLOAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+# list(FILTER OVERLOAD_SRC EXCLUDE REGEX
+#     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_name} ${OVERLOAD_SRC})
+# add_library(${module_library_name} ${OVERLOAD_SRC})
 # ==============================================================================
-target_include_directories(
-  ${module_library_name}
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
-  PRIVATE ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+# target_include_directories(
+#   ${module_library_name}
+#   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+#          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+# target_include_directories(
+#   ${module_library_name}
+#   PRIVATE ${Boost_INCLUDE_DIRS}
+#           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
-target_link_libraries(${module_library_name} nlsError_manager nlsI18n
-                      nlsInterpreter nlsTypes nlsNelson_manager)
+# target_link_libraries(${module_library_name} nlsError_manager nlsI18n
+#                       nlsInterpreter nlsTypes nlsNelson_manager)
 # ==============================================================================
-file(GLOB OVERLOAD_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER OVERLOAD_BUILTIN EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
+# file(GLOB OVERLOAD_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+# list(FILTER OVERLOAD_BUILTIN EXCLUDE REGEX
+#      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_builtin_name} ${OVERLOAD_BUILTIN})
-target_include_directories(
-  ${module_library_builtin_name}
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+# add_library(${module_library_builtin_name} ${OVERLOAD_BUILTIN})
+# target_include_directories(
+#   ${module_library_builtin_name}
+#   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
+#          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+# target_include_directories(
+#   ${module_library_builtin_name}
+#   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+#           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+# target_link_libraries(${module_library_builtin_name} nlsError_manager nlsI18n nlsInterpreter nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
-install(
-  TARGETS ${module_library_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# install(
+#   TARGETS ${module_library_name}
+#   EXPORT ${PROJECT_NAME}-targets
+#   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
+#   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#   PUBLIC_HEADER
+#     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
-install(
-  TARGETS ${module_library_builtin_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+# install(
+#   TARGETS ${module_library_builtin_name}
+#   EXPORT ${PROJECT_NAME}-targets
+#   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
+#   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#   PUBLIC_HEADER
+#     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

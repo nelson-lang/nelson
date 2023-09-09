@@ -8,31 +8,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "doubleBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "ToDouble.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DoubleGateway::doubleBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = ToDouble(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "double");
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = ToDouble(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("double");
+    } else {
+        retval << res;
     }
     return retval;
 }

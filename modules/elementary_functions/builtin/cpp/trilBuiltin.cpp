@@ -12,14 +12,13 @@
 #include "LowerTrianglePart.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::trilBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::trilBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -45,7 +44,7 @@ Nelson::ElementaryFunctionsGateway::trilBuiltin(
     bool needToOverload;
     ArrayOf res = LowerTrianglePart(A, offset, needToOverload);
     if (needToOverload) {
-        retval = OverloadFunction(eval, nLhs, argIn, "tril");
+        OverloadRequired("tril");
     } else {
         retval << res;
     }

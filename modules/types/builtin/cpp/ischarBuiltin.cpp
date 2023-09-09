@@ -8,14 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ischarBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::ischarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::ischarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);

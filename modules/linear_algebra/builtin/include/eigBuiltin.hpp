@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::LinearAlgebraGateway {
 //=============================================================================
 ArrayOfVector
-eigBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+eigBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -10,7 +10,6 @@
 #include "__num2cell__Builtin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "nlsBuildConfig.h"
 #include "NewWithException.hpp"
@@ -18,17 +17,11 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::__num2cell__Builtin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::__num2cell__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "num2cell", bSuccess);
-    if (bSuccess) {
-        return retval;
-    }
     indexType nbElements = argIn[0].getElementCount();
     Dimensions dims = argIn[0].getDimensions();
     auto* dp = new_with_exception<ArrayOf>(nbElements, false);

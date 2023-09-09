@@ -9,7 +9,6 @@
 //=============================================================================
 #include "propertiesBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,11 +19,7 @@ Nelson::HandleGateway::propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayO
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "properties", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("properties");
-    }
+    OverloadRequired("properties");
     return retval;
 }
 //=============================================================================

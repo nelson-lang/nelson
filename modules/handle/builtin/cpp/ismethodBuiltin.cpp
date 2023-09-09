@@ -9,22 +9,17 @@
 //=============================================================================
 #include "ismethodBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::ismethodBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "ismethod", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("ismethod");
-    }
+    OverloadRequired("ismethod");
     return retval;
 }
 //=============================================================================

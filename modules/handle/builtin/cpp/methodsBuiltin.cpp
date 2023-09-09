@@ -9,22 +9,17 @@
 //=============================================================================
 #include "methodsBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::methodsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::methodsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "methods", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("methods");
-    }
+    OverloadRequired("methods");
     return retval;
 }
 //=============================================================================

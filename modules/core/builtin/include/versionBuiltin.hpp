@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace CoreGateway {
-    ArrayOfVector
-    versionBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::CoreGateway {
+ArrayOfVector
+versionBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

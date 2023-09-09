@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace HelpToolsGateway {
-    ArrayOfVector
-    xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::HelpToolsGateway {
+ArrayOfVector
+xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

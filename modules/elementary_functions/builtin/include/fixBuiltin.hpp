@@ -10,9 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::ElementaryFunctionsGateway {
+//=============================================================================
 ArrayOfVector
-fixBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+fixBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

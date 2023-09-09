@@ -63,7 +63,7 @@ public:
      * constructors.
      */
     MacroFunctionDef();
-    MacroFunctionDef(const std::wstring& filename, bool withWatcher);
+    MacroFunctionDef(const std::wstring& filename, bool withWatcher, bool isOverload);
 
     /**
      * The destructor

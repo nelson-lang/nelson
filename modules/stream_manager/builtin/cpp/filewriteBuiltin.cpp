@@ -22,7 +22,7 @@ using namespace Nelson;
 // filewrite(filename, txt [, eol, encoding])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
 ArrayOfVector
-Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 4); //-V112

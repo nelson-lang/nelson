@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
 ArrayOfVector
-sortBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+sortBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

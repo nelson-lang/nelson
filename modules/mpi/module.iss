@@ -21,6 +21,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_MPI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_MPI};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@MPI_Comm\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@MPI_Comm\;Components: {#COMPONENT_MPI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_MPI} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================

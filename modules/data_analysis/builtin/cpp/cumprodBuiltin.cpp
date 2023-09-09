@@ -14,11 +14,11 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataAnalysisGateway::cumprodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataAnalysisGateway::cumprodBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     // B = cumprod(A)
     // B = cumprod(A, dim)
     // B = cumprod(A, [dim], nanflag)
-    return cumulativeFunctionBuiltin(eval, nLhs, argIn, "cumprod", CumProd);
+    return cumulativeFunctionBuiltin(nLhs, argIn, "cumprod", CumProd);
 }
 //=============================================================================

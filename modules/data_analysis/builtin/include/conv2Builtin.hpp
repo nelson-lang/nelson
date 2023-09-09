@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
 ArrayOfVector
-conv2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+conv2Builtin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

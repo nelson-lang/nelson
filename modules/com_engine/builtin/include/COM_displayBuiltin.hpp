@@ -13,7 +13,12 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::ComEngineGateway {
+//=============================================================================
 ArrayOfVector
 COM_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+COM_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

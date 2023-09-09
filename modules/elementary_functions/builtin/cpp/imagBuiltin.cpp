@@ -10,32 +10,22 @@
 #include "imagBuiltin.hpp"
 #include "Error.hpp"
 #include "ImagPart.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::imagBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::imagBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "imag", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("imag");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "imag", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << ImagPart(argIn[0]);
-    }
+    retval << ImagPart(argIn[0]);
     return retval;
 }
 //=============================================================================

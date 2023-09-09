@@ -8,23 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "getBuiltin.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "get", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("get");
-    }
+    OverloadRequired("get");
     return retval;
 }
 //=============================================================================

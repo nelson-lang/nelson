@@ -28,6 +28,7 @@
 namespace Nelson {
 //=============================================================================
 AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& content)
+    : FunctionDef(false)
 {
     this->anonymousContent = content;
     this->previousLhs = -1;

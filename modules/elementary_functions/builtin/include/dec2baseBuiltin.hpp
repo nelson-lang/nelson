@@ -10,20 +10,19 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace ElementaryFunctionsGateway {
     //=============================================================================
     ArrayOfVector
-    dec2baseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dec2baseBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
     ArrayOfVector
-    dec2hexBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dec2hexBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
     ArrayOfVector
-    dec2binBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dec2binBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

@@ -34,9 +34,16 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();
-    eval->disableOverload();
-    ArrayOfVector retval = funcDef->evaluateFunction(eval, newarg, nLhs);
-    eval->enableOverload();
+    ArrayOfVector retval;
+    try {
+        eval->withOverload = false;
+        retval = funcDef->evaluateFunction(eval, newarg, nLhs);
+        eval->withOverload = true;
+    } catch (const Exception&) {
+        eval->withOverload = true;
+        throw;
+    }
+
     return retval;
 }
 //=============================================================================

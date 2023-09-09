@@ -42,7 +42,7 @@ public:
     /**
      * Default constructor.
      */
-    MexFunctionDef(const std::wstring& filename, const std::wstring& name);
+    MexFunctionDef(const std::wstring& filename, const std::wstring& name, bool isOverload);
     //=============================================================================
     /**
      * Default destructor.

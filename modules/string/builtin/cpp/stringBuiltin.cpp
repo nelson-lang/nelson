@@ -9,13 +9,13 @@
 //=============================================================================
 #include "stringBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::stringBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -23,18 +23,12 @@ Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.empty()) {
         retval << ArrayOf::stringArrayConstructor(std::string());
     } else {
-        bool bSuccess = false;
-        if (eval->mustOverloadBasicTypes()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "string", bSuccess);
-        }
-        if (!bSuccess) {
-            bool needToOverload = false;
-            ArrayOf res = ArrayOf::toStringArray(argIn[0], needToOverload);
-            if (needToOverload) {
-                retval = OverloadFunction(eval, nLhs, argIn, "string");
-            } else {
-                retval << res;
-            }
+        bool needToOverload = false;
+        ArrayOf res = ArrayOf::toStringArray(argIn[0], needToOverload);
+        if (needToOverload) {
+            OverloadRequired("string");
+        } else {
+            retval << res;
         }
     }
     return retval;

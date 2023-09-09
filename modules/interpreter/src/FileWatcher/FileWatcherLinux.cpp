@@ -23,6 +23,7 @@
 */
 
 #include <FileWatcher/FileWatcherLinux.h>
+#include <filesystem>
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_LINUX
 
@@ -158,6 +159,14 @@ FileWatcherLinux::handleAction(WatchStruct* watch, const String& filename, unsig
 {
     if (!watch->mListener)
         return;
+
+    if (filename.empty()) {
+        return;
+    }
+    auto extension = std::filesystem::path(filename).extension();
+    if (extension != ".m") {
+        return;
+    }
 
     if (IN_CLOSE_WRITE & action) {
         watch->mListener->handleFileAction(

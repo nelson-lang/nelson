@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::TrigonometricGateway {
+//=============================================================================
 ArrayOfVector
-coshBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+coshBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace AudioGateway {
-    ArrayOfVector
-    stopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::AudioGateway {
+//=============================================================================
+ArrayOfVector
+stopBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

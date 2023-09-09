@@ -9,41 +9,28 @@
 //=============================================================================
 #include "bin2numBuiltin.hpp"
 #include "BinToNum.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::bin2numBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::bin2numBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "bin2num", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("bin2num");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "bin2num", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        nargincheck(argIn, 1, 1);
-        if (!bSuccess) {
-            bool needToOverload;
-            ArrayOf res = BinToNum(argIn[0], needToOverload);
-            if (needToOverload) {
-                retval = OverloadFunction(eval, nLhs, argIn, "bin2num");
-            } else {
-                retval << res;
-            }
-        }
+    nargincheck(argIn, 1, 1);
+    bool needToOverload;
+    ArrayOf res = BinToNum(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("bin2num");
+    } else {
+        retval << res;
     }
     return retval;
 }

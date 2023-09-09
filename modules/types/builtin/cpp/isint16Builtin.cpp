@@ -8,26 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isint16Builtin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TypeGateway::isint16Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isint16", bSuccess);
-    }
-    if (!bSuccess) {
-        bool bRes = (argIn[0].getDataClass() == NLS_INT16);
-        retval << ArrayOf::logicalConstructor(bRes);
-    }
+    bool bRes = (argIn[0].getDataClass() == NLS_INT16);
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

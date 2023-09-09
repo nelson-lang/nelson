@@ -8,35 +8,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "log2Builtin.hpp"
-#include "Error.hpp"
 #include "Logarithm2.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::log2Builtin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::log2Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 2);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "log2", bSuccess);
+    bool needToOverload;
+    if (nLhs < 2) {
+        retval << Logarithm2(argIn[0], needToOverload);
+    } else {
+        retval = Frexp(argIn[0], needToOverload);
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        if (nLhs < 2) {
-            retval << Logarithm2(argIn[0], needToOverload);
-        } else {
-            retval = Frexp(argIn[0], needToOverload);
-        }
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "log2");
-        }
+    if (needToOverload) {
+        OverloadRequired("log2");
     }
     return retval;
 }

@@ -27,22 +27,22 @@ R2.Filename = [currentpath, '/script_to_profile.m'];
 R2.LinePosition = 11;
 R2.NumCalls = 10;
 %=============================================================================
-R3.FunctionName = 'assign';
+R3.FunctionName = 'plus';
 R3.Filename = [currentpath, '/script_to_profile.m'];
 R3.LinePosition = 12;
 R3.NumCalls = 5;
 %=============================================================================
-R4.FunctionName = 'plus'
+R4.FunctionName = 'subsasgn'
 R4.Filename = [currentpath, '/script_to_profile.m'];
 R4.LinePosition = 12;
 R4.NumCalls = 5;
 %=============================================================================
-R5.FunctionName = 'assign'
+R5.FunctionName = 'minus'
 R5.Filename = [currentpath, '/script_to_profile.m']
 R5.LinePosition = 14;
 R5.NumCalls = 5;
 %=============================================================================
-R6.FunctionName = 'minus';
+R6.FunctionName = 'subsasgn';
 R6.Filename = [currentpath, '/script_to_profile.m']
 R6.LinePosition = 14;
 R6.NumCalls = 5;

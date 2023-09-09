@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ComEngineGateway {
-    ArrayOfVector
-    COM_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+namespace Nelson::ComEngineGateway {
+//=============================================================================
+ArrayOfVector
+COM_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

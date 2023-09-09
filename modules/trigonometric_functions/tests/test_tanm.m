@@ -52,5 +52,7 @@ assert_isapprox(abs(R), abs(REF), 1e-4);
 assert_isequal(class(R), 'single');
 %=============================================================================
 assert_checkerror('tanm([1 , 2])', _('Square matrix expected.'));
-assert_checkerror('tanm(''a'')', [_('Undefined function ''tanm'' for input arguments of type '''), class('a'), '''.']);
+%=============================================================================
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'tanm');
+assert_checkerror('tanm(''a'')', msg);
 %=============================================================================

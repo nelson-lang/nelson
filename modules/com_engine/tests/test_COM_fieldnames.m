@@ -9,8 +9,8 @@
 %=============================================================================
 % <--WINDOWS ONLY-->
 %=============================================================================
-assert_isequal(nargin('COM_fieldnames'), 1);
-assert_isequal(nargout('COM_fieldnames'), 1);
+assert_isequal(nargin('@COM/fieldnames'), 1);
+assert_isequal(nargout('@COM/fieldnames'), 1);
 %=============================================================================
 pTextToSpeech = actxserver('Sapi.SpVoice');
 m = fieldnames(pTextToSpeech);

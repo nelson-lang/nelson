@@ -10,11 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-namespace ElementaryFunctionsGateway {
-    ArrayOfVector
-    isapproxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::ElementaryFunctionsGateway {
+//=============================================================================
+ArrayOfVector
+isapproxBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

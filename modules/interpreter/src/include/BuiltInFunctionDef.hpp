@@ -54,7 +54,7 @@ public:
     /**
      * Default constructor.
      */
-    BuiltInFunctionDef();
+    BuiltInFunctionDef(bool isOverload);
     //=============================================================================
     /**
      * Default destructor.

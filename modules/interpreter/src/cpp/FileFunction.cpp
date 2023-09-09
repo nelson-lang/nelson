@@ -16,10 +16,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FileFunction::FileFunction(
-    const std::wstring& directory, const std::wstring& name, bool ismex, bool withWatcher)
+FileFunction::FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
+    bool withWatcher, bool isOverload)
 {
     this->_withWatcher = withWatcher;
+    this->_isOverload = isOverload;
 
     _ismex = ismex;
     _fullfilename = directory;
@@ -69,6 +70,12 @@ bool
 FileFunction::getWithWatcher()
 {
     return _withWatcher;
+}
+//=============================================================================
+bool
+FileFunction::isOverload()
+{
+    return _isOverload;
 }
 //=============================================================================
 } // namespace Nelson

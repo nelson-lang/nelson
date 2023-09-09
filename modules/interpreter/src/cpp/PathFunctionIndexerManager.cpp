@@ -292,7 +292,6 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
         PathFunctionIndexer* pf = *it;
         if (pf != nullptr) {
             FunctionsInMemory::getInstance()->clearMapCache();
-            PathFunctionIndexer* pf = *it;
             delete pf;
             _pathFuncVector.erase(it);
             _pathWatchFuncVector.clear();
@@ -508,9 +507,9 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
     FunctionDef* ptr = nullptr;
     if (ff != nullptr) {
         if (ff->isMex()) {
-            ptr = processMexFile(ff->getFilename(), ff->getName());
+            ptr = processMexFile(ff->getFilename(), ff->getName(), ff->isOverload());
         } else {
-            ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher());
+            ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher(), ff->isOverload());
         }
     }
     return ptr;
@@ -518,11 +517,11 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
 //=============================================================================
 MexFunctionDef*
 PathFunctionIndexerManager::processMexFile(
-    const std::wstring& filename, const std::wstring& functionName)
+    const std::wstring& filename, const std::wstring& functionName, bool isOverload)
 {
     MexFunctionDef* fptr = nullptr;
     try {
-        fptr = new MexFunctionDef(filename, functionName);
+        fptr = new MexFunctionDef(filename, functionName, isOverload);
         if (!fptr->isLoaded()) {
             delete fptr;
             fptr = nullptr;
@@ -534,11 +533,12 @@ PathFunctionIndexerManager::processMexFile(
 }
 //=============================================================================
 MacroFunctionDef*
-PathFunctionIndexerManager::processMacroFile(const std::wstring& script_filename, bool withWatcher)
+PathFunctionIndexerManager::processMacroFile(
+    const std::wstring& script_filename, bool withWatcher, bool isOverload)
 {
     MacroFunctionDef* fptr = nullptr;
     try {
-        fptr = new MacroFunctionDef(script_filename, withWatcher);
+        fptr = new MacroFunctionDef(script_filename, withWatcher, isOverload);
     } catch (const std::bad_alloc&) {
         fptr = nullptr;
     }

@@ -11,10 +11,10 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace AudioGateway {
-    ArrayOfVector
-    audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::AudioGateway {
+//=============================================================================
+ArrayOfVector
+audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

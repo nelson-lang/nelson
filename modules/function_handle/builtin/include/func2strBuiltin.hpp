@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::FunctionHandleGateway {
+//=============================================================================
 ArrayOfVector
-func2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+func2strBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

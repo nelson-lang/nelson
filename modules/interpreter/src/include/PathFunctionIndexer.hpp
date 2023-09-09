@@ -52,6 +52,10 @@ private:
     isSupportedFuncFilename(const std::wstring& name);
     bool
     comparePathname(const std::wstring& path1, const std::wstring& path2);
+
+    void
+    rehash(const std::wstring& pathToScan, const std::wstring& prefix);
+
     bool withWatcher;
 
     void* fileWatcher;

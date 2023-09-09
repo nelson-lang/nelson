@@ -8,37 +8,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "xorBuiltin.hpp"
-#include "Error.hpp"
 #include "XorLogical.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LogicalGateway::xorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LogicalGateway::xorBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+    nargoutcheck(nLhs, 0, 1);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("xor");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        A.promoteType(NLS_LOGICAL);
-        B.promoteType(NLS_LOGICAL);
-        retval << XorLogical(A, B);
-    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    A.promoteType(NLS_LOGICAL);
+    B.promoteType(NLS_LOGICAL);
+    retval << XorLogical(A, B);
     return retval;
 }
 //=============================================================================

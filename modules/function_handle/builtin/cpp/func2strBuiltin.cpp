@@ -8,11 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "func2strBuiltin.hpp"
-#include "OverloadFunction.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PathFunctionIndexerManager.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -20,37 +17,26 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionHandleGateway::func2strBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf arg1 = argIn[0];
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
-    }
-    if (!bSuccess) {
-        if (arg1.isFunctionHandle()) {
-            function_handle fh = arg1.getContentAsFunctionHandle();
-            if (!fh.name.empty()) {
-                retval << ArrayOf::characterArrayConstructor(fh.name);
-            } else {
-                AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
-                if (cp) {
-                    retval << ArrayOf::characterArrayConstructor(cp->getDefinition());
-                } else {
-                    Error(_W("Invalid anonymous function."));
-                }
-            }
+    if (arg1.isFunctionHandle()) {
+        function_handle fh = arg1.getContentAsFunctionHandle();
+        if (!fh.name.empty()) {
+            retval << ArrayOf::characterArrayConstructor(fh.name);
         } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
-            if (bSuccess) {
-                return retval;
+            AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+            if (cp) {
+                retval << ArrayOf::characterArrayConstructor(cp->getDefinition());
+            } else {
+                Error(_W("Invalid anonymous function."));
             }
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
+    } else {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     return retval;
 }

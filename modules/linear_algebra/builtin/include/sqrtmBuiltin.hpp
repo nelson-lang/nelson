@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::LinearAlgebraGateway {
+//=============================================================================
 ArrayOfVector
-sqrtmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+sqrtmBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

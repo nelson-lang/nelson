@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SparseGateway {
+//=============================================================================
 ArrayOfVector
-IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+IJVBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -27,24 +27,17 @@ using namespace Nelson;
 const std::wstring gatewayName = L"data_analysis";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "prod", (ptrBuiltin)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sum", (ptrBuiltin)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "cumprod", (ptrBuiltin)Nelson::DataAnalysisGateway::cumprodBuiltin, 1, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "max", (ptrBuiltin)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "min", (ptrBuiltin)Nelson::DataAnalysisGateway::minBuiltin, 2, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "max", (ptrBuiltin)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "min", (ptrBuiltin)Nelson::DataAnalysisGateway::minBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "prod", (ptrBuiltin)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3 },
+    { "sum", (ptrBuiltin)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3 },
+    { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4 },
+    { "cumprod", (ptrBuiltin)Nelson::DataAnalysisGateway::cumprodBuiltin, 1, 4 },
+    { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1 },
+    { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1 },
+    { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4 },
 
 };
 //=============================================================================

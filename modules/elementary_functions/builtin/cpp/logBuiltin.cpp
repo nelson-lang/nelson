@@ -8,34 +8,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "logBuiltin.hpp"
-#include "Error.hpp"
 #include "NaturalLogarithm.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::logBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::logBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "log", bSuccess);
+    bool needToOverload;
+    ArrayOf res = NaturalLogarithm(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("log");
+    } else {
+        retval << res;
     }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = NaturalLogarithm(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "log");
-        } else {
-            retval << res;
-        }
-    }
+
     return retval;
 }
 //=============================================================================

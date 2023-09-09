@@ -12,6 +12,7 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "OverloadName.hpp"
 #include "errorBuiltin.hpp"
 #include "lasterrorBuiltin.hpp"
 #include "lastwarnBuiltin.hpp"
@@ -28,6 +29,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"error_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { OVERLOAD_FUNCTION_NAME("MException", "fieldnames"),
+        (ptrBuiltin)Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    //=============================================================================
     { "error", (ptrBuiltin)Nelson::ErrorManagerGateway::errorBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "warning", (ptrBuiltin)Nelson::ErrorManagerGateway::warningBuiltin, 1, -1,
@@ -45,8 +50,6 @@ static const nlsGateway gateway[] = {
     { "throwAsCaller", (ptrBuiltin)Nelson::ErrorManagerGateway::throwAsCallerBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "rethrow", (ptrBuiltin)Nelson::ErrorManagerGateway::rethrowBuiltin, 0, 1, CPP_BUILTIN },
-    { "MException_fieldnames",
-        (ptrBuiltin)Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin, 1, 1, CPP_BUILTIN }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -8,23 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "deleteBuiltin.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "delete", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired("delete");
-    }
+    OverloadRequired("delete");
     return retval;
 }
 //=============================================================================

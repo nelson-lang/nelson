@@ -10,14 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "nlsOperators_builtin_exports.h"
 //=============================================================================
 namespace Nelson::OperatorsGateway {
 //=============================================================================
-NLSOPERATORS_BUILTIN_IMPEXP
 ArrayOfVector
-anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+anyBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('libpointer_plus'), 2);
-assert_isequal(nargout('libpointer_plus'), 1);
+assert_isequal(nargin('@libpointer/plus'), 2);
+assert_isequal(nargout('@libpointer/plus'), 1);
 %=============================================================================
 x = [1 2 3 4 5];
 xPtr = libpointer('doublePtr', x);

@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "NelsonGateway.hpp"
+#include "OverloadName.hpp"
 #include "MPI_AllreduceBuiltin.hpp"
 #include "MPI_BarrierBuiltin.hpp"
 #include "MPI_BcastBuiltin.hpp"
@@ -30,20 +32,26 @@
 #include "MPI_RecvBuiltin.hpp"
 #include "MPI_ReduceBuiltin.hpp"
 #include "MPI_SendBuiltin.hpp"
-#include "NelsonGateway.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"mpi";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "display"),
+        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "disp"),
+        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "isvalid"),
+        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_MPI_COMM_CATEGORY_STR, "delete"),
+        (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    //=============================================================================
     { "MPI_Init", (ptrBuiltin)Nelson::MpiGateway::MPI_InitBuiltin, 0, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "MPI_Comm_display", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "MPI_Comm_disp", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "MPI_Comm_isvalid", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "MPI_Initialized", (ptrBuiltin)Nelson::MpiGateway::MPI_InitializedBuiltin, 1, 0 },
     { "MPI_Finalize", (ptrBuiltin)Nelson::MpiGateway::MPI_FinalizeBuiltin, 0, 0 },
@@ -64,7 +72,6 @@ static const nlsGateway gateway[] = {
     { "MPI_Probe", (ptrBuiltin)Nelson::MpiGateway::MPI_ProbeBuiltin, 1, 2 },
     { "MPI_Iprobe", (ptrBuiltin)Nelson::MpiGateway::MPI_IprobeBuiltin, 1, 3 },
     { "MPI_Comm_get_name", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
-    { "MPI_Comm_delete", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1 },
     { "MPI_Comm_used", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_usedBuiltin, 1, 0 },
     { "MPI_Comm_split", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
 };

@@ -17,7 +17,7 @@ else
 end
 qobj1 = qml_loadfile(qml_file);
 %=============================================================================
-R1 = QObject_fieldnames(qobj1);
+R1 = fieldnames(qobj1);
 R2 = fieldnames(qobj1);
 assert_isequal(R1, R2);
 %=============================================================================

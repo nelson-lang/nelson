@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SparseGateway {
+//=============================================================================
 ArrayOfVector
-sparsedouble_realBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+sparsedouble_realBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

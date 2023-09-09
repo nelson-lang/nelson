@@ -11,10 +11,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-namespace MpiGateway {
-    ArrayOfVector
-    MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
+namespace Nelson::MpiGateway {
+ArrayOfVector
+MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn);
 } // namespace Nelson
 //=============================================================================

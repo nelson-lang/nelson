@@ -19,6 +19,7 @@
 */
 
 #include <FileWatcher/FileWatcherOSX.h>
+#include <filesystem>
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_KQUEUE
 
@@ -209,6 +210,13 @@ struct WatchStruct
     void
     handleAction(const String& filename, FW::Action action)
     {
+        if (filename.empty()) {
+            return;
+        }
+        auto extension = std::filesystem::path(filename).extension();
+        if (extension != ".m") {
+            return;
+        }
         mListener->handleFileAction(mWatchID, mDirName, filename, action);
     }
 

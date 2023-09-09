@@ -14,11 +14,11 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::handle_isvalidBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
-    retval << IsValidHandle(eval, argIn[0]);
+    retval << IsValidHandle(argIn[0]);
     return retval;
 }
 //=============================================================================

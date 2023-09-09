@@ -16,8 +16,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 2);

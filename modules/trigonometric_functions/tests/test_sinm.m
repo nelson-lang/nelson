@@ -52,5 +52,6 @@ assert_isapprox(R, REF, 1e-4);
 assert_isequal(class(R), 'single');
 %=============================================================================
 assert_checkerror('sinm([1 , 2])', _('Square matrix expected.'));
-assert_checkerror('sinm(''a'')', [_('Undefined function ''sinm'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sinm');
+assert_checkerror('sinm(''a'')', msg);
 %=============================================================================

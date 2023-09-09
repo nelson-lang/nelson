@@ -31,6 +31,7 @@ using nlsGateway = struct nlsGatewayStructType
     int nLhs;
     int nRhs;
     BUILTIN_PROTOTYPE builtinPrototype;
+    FunctionOverloadAutoMode builtinOverloadAutoMode;
 };
 //=============================================================================
 } // namespace Nelson

@@ -16,8 +16,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparsedouble_realBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SparseGateway::sparsedouble_realBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);

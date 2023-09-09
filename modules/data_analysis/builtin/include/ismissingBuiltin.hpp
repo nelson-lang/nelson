@@ -10,14 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsData_analysis_builtin_exports.h"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
-NLSDATA_ANALYSIS_BUILTIN_IMPEXP
 ArrayOfVector
-ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ismissingBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

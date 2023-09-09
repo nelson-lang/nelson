@@ -41,5 +41,6 @@ assert_isequal(X, REF);
 %=============================================================================
 assert_isequal(acos([]), []);
 %=============================================================================
-assert_checkerror('acos(''a'')', [_('Undefined function ''acos'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'acos');
+assert_checkerror('acos(''a'')', msg);
 %=============================================================================

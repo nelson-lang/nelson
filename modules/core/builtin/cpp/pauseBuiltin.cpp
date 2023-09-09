@@ -9,7 +9,6 @@
 //=============================================================================
 #include "pauseBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "Pause.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -89,11 +88,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             Pause(eval, val);
         } else {
-            bool bSuccess = false;
-            retval = OverloadFunction(eval, nLhs, argIn, "pause", bSuccess);
-            if (!bSuccess) {
-                OverloadRequired("pause");
-            }
+            OverloadRequired("pause");
         }
     }
     return retval;

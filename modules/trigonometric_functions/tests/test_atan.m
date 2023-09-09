@@ -40,5 +40,6 @@ assert_isequal(X, REF);
 %=============================================================================
 assert_isequal(atan([]), []);
 %=============================================================================
-assert_checkerror('atan(''a'')', [_('Undefined function ''atan'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'atan');
+assert_checkerror('atan(''a'')', msg);
 %=============================================================================

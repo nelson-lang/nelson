@@ -82,8 +82,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsError_manager
   nlsI18n
-  nlsInterpreter
-  nlsOverload)
+  nlsInterpreter)
 # ==============================================================================
 file(GLOB TYPES_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

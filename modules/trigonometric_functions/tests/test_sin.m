@@ -54,5 +54,6 @@ A = zeros(1000, 1000);
 C = sin(A);
 assert_isapprox(C, A);
 %=============================================================================
-assert_checkerror('sin(''a'')', [_('Undefined function ''sin'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sin');
+assert_checkerror('sin(''a'')', msg);
 %=============================================================================

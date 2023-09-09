@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::JsonGateway {
+//=============================================================================
 ArrayOfVector
-jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+jsondecodeBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

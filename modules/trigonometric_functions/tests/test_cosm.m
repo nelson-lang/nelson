@@ -54,5 +54,6 @@ assert_isapprox(R, REF, 1e-4);
 assert_isequal(class(R), 'single');
 %=============================================================================
 assert_checkerror('cosm([1 , 2])', _('Square matrix expected.'));
-assert_checkerror('cosm(''a'')', [_('Undefined function ''cosm'' for input arguments of type '''), class('a'), '''.']);
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'cosm');
+assert_checkerror('cosm(''a'')', msg);
 %=============================================================================

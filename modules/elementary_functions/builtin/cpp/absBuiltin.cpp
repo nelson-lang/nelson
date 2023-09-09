@@ -9,32 +9,23 @@
 //=============================================================================
 #include "absBuiltin.hpp"
 #include "AbsoluteValue.hpp"
-#include "ClassName.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::absBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::absBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        ArrayOf res = AbsoluteValue(argIn[0], needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "abs");
-        } else {
-            retval << res;
-        }
+    bool needToOverload;
+    ArrayOf res = AbsoluteValue(argIn[0], needToOverload);
+    if (needToOverload) {
+        OverloadRequired("abs");
+    } else {
+        retval << res;
     }
     return retval;
 }

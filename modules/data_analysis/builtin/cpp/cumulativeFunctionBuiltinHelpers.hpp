@@ -11,15 +11,14 @@
 //=============================================================================
 #include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
 using callback_cumulative_function = ArrayOf (*)(const ArrayOf&, indexType, bool, bool, bool&);
 //=============================================================================
 ArrayOfVector
-cumulativeFunctionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
-    std::string cumulativeFunctionName, callback_cumulative_function pFunction);
+cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumulativeFunctionName,
+    callback_cumulative_function pFunction);
 //=============================================================================
 }
 //=============================================================================

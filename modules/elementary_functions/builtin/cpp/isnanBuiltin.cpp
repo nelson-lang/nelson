@@ -8,34 +8,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isnanBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "IsNaN.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isnanBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::isnanBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isnan", bSuccess);
+    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+        || argIn[0].isClassType()) {
+        OverloadRequired("isnan");
     }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isnan", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << IsNaN(argIn[0]);
-    }
+    retval << IsNaN(argIn[0]);
+
     return retval;
 }
 //=============================================================================

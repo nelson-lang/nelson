@@ -283,7 +283,7 @@ ArrayOfVector
 DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
 {
     ArrayOfVector retval;
-    ArrayOf isValidAsArray = IsValidHandle(eval, _dllibObject);
+    ArrayOf isValidAsArray = IsValidHandle(_dllibObject);
     logical isValid = isValidAsArray.getContentAsLogicalScalar();
     if (!isValid) {
         Error(_W("dllib valid handle expected."));

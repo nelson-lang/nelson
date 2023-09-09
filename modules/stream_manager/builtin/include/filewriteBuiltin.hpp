@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::StreamGateway {
+//=============================================================================
 ArrayOfVector
-filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+filewriteBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

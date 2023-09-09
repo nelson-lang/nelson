@@ -14,47 +14,37 @@
 #include "StringCount.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadFunction.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StringGateway::countBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::countBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) { //-V112
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
-    }
-    if (!bSuccess) {
-        bool bCaseSensitive = true;
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        if (A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors()) {
-            if (argIn.size() == 4) { //-V112
-                ArrayOf param3 = argIn[2];
-                std::wstring fieldname = param3.getContentAsWideString();
-                if (fieldname != L"IgnoreCase") {
-                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
-                }
-                ArrayOf param4 = argIn[3];
-                logical fieldvalue = param4.getContentAsLogicalScalar();
-                bCaseSensitive = (fieldvalue == 0);
+    bool bCaseSensitive = true;
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    if (A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors()) {
+        if (argIn.size() == 4) { //-V112
+            ArrayOf param3 = argIn[2];
+            std::wstring fieldname = param3.getContentAsWideString();
+            if (fieldname != L"IgnoreCase") {
+                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
             }
-            retval << StringCount(A, B, bCaseSensitive);
-        } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
-            if (!bSuccess) {
-                Error(_W("char vector or cell of strings expected."));
-            }
+            ArrayOf param4 = argIn[3];
+            logical fieldvalue = param4.getContentAsLogicalScalar();
+            bCaseSensitive = (fieldvalue == 0);
         }
+        retval << StringCount(A, B, bCaseSensitive);
+    } else {
+        OverloadRequired("count");
     }
     return retval;
 }

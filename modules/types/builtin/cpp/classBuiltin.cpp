@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "classBuiltin.hpp"
-#include "OverloadFunction.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -22,20 +21,8 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
-        bool bSuccess = false;
-        if (eval->mustOverloadBasicTypes()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
-        }
-        if (!bSuccess) {
-            if (argIn[0].isClassType() || argIn[0].isHandle() || argIn[0].isGraphicsObject()) {
-                retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
-                if (bSuccess) {
-                    return retval;
-                }
-            }
-            std::string str = ClassName(argIn[0]);
-            retval << ArrayOf::characterArrayConstructor(str);
-        }
+        std::string str = ClassName(argIn[0]);
+        retval << ArrayOf::characterArrayConstructor(str);
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
         if (ctx->getCurrentScope()->getName() == "base") {

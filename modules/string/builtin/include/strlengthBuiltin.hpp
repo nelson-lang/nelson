@@ -10,14 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsString_builtin_exports.h"
 //=============================================================================
 namespace Nelson::StringGateway {
 //=============================================================================
-NLSSTRING_BUILTIN_IMPEXP
 ArrayOfVector
-strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+strlengthBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

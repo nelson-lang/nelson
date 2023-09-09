@@ -16,7 +16,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-IsValidHandle(Evaluator* eval, const ArrayOf& A)
+IsValidHandle(const ArrayOf& A)
 {
     ArrayOf res;
     if (A.isHandle()) {

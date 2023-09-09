@@ -67,7 +67,6 @@ target_link_libraries(
   ${module_library_name}
   nlsError_manager
   nlsInterpreter
-  nlsOverload
   nlsTypes
   nlsI18n)
 # ==============================================================================

@@ -20,13 +20,12 @@ Nelson::SparseGateway::fullBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    bool bSuccess = false;
     ArrayOf R(argIn[0]);
     try {
         R.makeDense();
         retval << R;
     } catch (const Exception&) {
-        OverloadRequired("sparse");
+        OverloadRequired("full");
     }
     return retval;
 }

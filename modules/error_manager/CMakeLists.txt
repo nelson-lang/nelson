@@ -72,7 +72,6 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsInterpreter
-  nlsOverload
   nlsDebugger
   nlsTypes
   nlsI18n)
@@ -122,4 +121,9 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions/@MException
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/functions"
+    FILES_MATCHING
+    PATTERN "*.m")
 # ==============================================================================

@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::TypeGateway {
+//=============================================================================
 ArrayOfVector
-isintegerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+isintegerBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
