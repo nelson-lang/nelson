@@ -3,8 +3,95 @@ name: "C/C++ CI"
 on: [push]
 
 jobs:
+  Ventura:
+    name: macOS X Ventura
+    runs-on: macos-13
+    timeout-minutes: 120
+
+    steps:
+      - name: install dependencies
+        run: |
+          brew --version
+          brew cleanup
+          brew install coreutils
+          brew install zlib
+          brew install libtool
+          brew install automake
+          brew install libffi
+          brew install icu4c
+          brew info open-mpi
+          brew install openmpi
+          brew install pkg-config
+          brew install pkgconfig
+          brew install gettext
+          brew link gettext --force
+          echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+          source ~/.zshrc
+          brew install boost
+          brew install libxml2
+          brew upgrade cmake
+          brew install fftw
+          brew install portaudio
+          brew install libsndfile
+          brew install taglib
+          brew install libgit2
+          brew install hdf5
+          brew install libmatio
+          brew install eigen
+          brew install libomp
+          brew link libomp --force
+          brew install openblas
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "6.4.2"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@1.2.0
+        id: json_version
+
+      - name: Update version
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+
+      - name: CMake
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+      - name: make
+        run: cmake --build . -- -j$(nproc)
+      - name: get module skeleton
+        run: cmake --build . -- get_module_skeleton
+      - name: build help
+        run: |
+          cmake --build . -- buildhelp
+      - name: minimal tests
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- tests_minimal
+      - name: package
+        run: cmake --build . -- package
+      - name: Install
+        run: sudo make install
+      - name: all benchs
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- benchs_all
+      - name: all tests
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- tests_all
+      - name: Copy artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+      - uses: actions/upload-artifact@v1
+        with:
+          name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+
   Monterey:
-    name: MacOS X Monterey
+    name: macOS X Monterey
     runs-on: macos-12
     timeout-minutes: 120
 
@@ -90,10 +177,9 @@ jobs:
           path: artifacts/
 
   BigSur:
-    name: MacOS X BigSur
+    name: macOS X BigSur
     runs-on: macos-11
     timeout-minutes: 120
-    needs: Monterey
 
     steps:
       - name: install dependencies
@@ -268,7 +354,6 @@ jobs:
     name: Ubuntu-20.04 Focal (BLAS - LAPACK)
     runs-on: ubuntu-20.04
     timeout-minutes: 120
-    needs: Jammy
 
     steps:
       - name: install dependencies
@@ -382,7 +467,6 @@ jobs:
     runs-on: ubuntu-latest
     container: archlinux:latest
     timeout-minutes: 120
-    needs: Jammy
 
     steps:
       - name: Install dependencies
@@ -457,7 +541,6 @@ jobs:
     runs-on: ubuntu-latest
     container: fedora:37
     timeout-minutes: 120
-    needs: Jammy
 
     steps:
       - name: Install dependencies
@@ -544,7 +627,6 @@ jobs:
       run:
         shell: cmd
     timeout-minutes: 120
-    needs: Windows_win64
 
     steps:
       - name: Add msbuild to PATH
