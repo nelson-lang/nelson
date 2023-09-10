@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--FILE WATCHER REQUIRED-->
 clear to_to
 path_test = [tempdir(), createGUID()];
 mkdir(path_test)

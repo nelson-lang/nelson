@@ -11,8 +11,11 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "nlsBuildConfig.h"
+#if WITH_FILE_WATCHER
 #include <FileWatcher/FileWatcher.h>
 #include <mutex>
+#endif
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexer.hpp"
 #include "characters_encoding.hpp"
@@ -21,9 +24,11 @@
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "OverloadName.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#if WITH_FILE_WATCHER
 class UpdateListener : public FW::FileWatchListener
 {
 public:
@@ -56,6 +61,7 @@ private:
         std::scoped_lock<std::mutex> _lock { m_mutex };
     }
 };
+#endif
 //=============================================================================
 PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatcher)
 {
@@ -74,13 +80,15 @@ PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatc
 bool
 PathFunctionIndexer::isWithWatcher()
 {
-    return this->withWatcher;
+    return NelsonConfiguration::getInstance()->isFileWatcherEnabled() && this->withWatcher;
 }
 //=============================================================================
 void
 PathFunctionIndexer::startFileWatcher()
 {
-    if (withWatcher && !fileWatcher && !updateFileWatcherListener) {
+#if WITH_FILE_WATCHER
+    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher && !fileWatcher
+        && !updateFileWatcherListener) {
         FW::FileWatcher* _fileWatcher = new FW::FileWatcher();
         UpdateListener* _updateListener = new UpdateListener();
         fileWatcher = (void*)(_fileWatcher);
@@ -91,6 +99,7 @@ PathFunctionIndexer::startFileWatcher()
         watcherID = _fileWatcher->addWatch(wstring_to_utf8(_path), _updateListener, false);
 #endif
     }
+#endif
 }
 //=============================================================================
 std::unordered_map<std::string, FileFunction*>
@@ -102,12 +111,14 @@ PathFunctionIndexer::getAllFileFunctions()
 bool
 PathFunctionIndexer::wasModified()
 {
-    if (withWatcher) {
+#if WITH_FILE_WATCHER
+    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher) {
         if (fileWatcher && updateFileWatcherListener) {
             static_cast<FW::FileWatcher*>(fileWatcher)->update();
             return static_cast<UpdateListener*>(updateFileWatcherListener)->readLastState();
         }
     }
+#endif
     return false;
 }
 //=============================================================================
@@ -130,6 +141,7 @@ PathFunctionIndexer::~PathFunctionIndexer()
     mapRecentFiles.clear();
     mapAllFiles.clear();
     _path.clear();
+#if WITH_FILE_WATCHER
     if (fileWatcher) {
         FW::FileWatcher* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
         _fileWatcher->removeWatch(watcherID);
@@ -142,6 +154,7 @@ PathFunctionIndexer::~PathFunctionIndexer()
         delete _updateFileWatcherListener;
         updateFileWatcherListener = nullptr;
     }
+#endif
 }
 //=============================================================================
 wstringVector

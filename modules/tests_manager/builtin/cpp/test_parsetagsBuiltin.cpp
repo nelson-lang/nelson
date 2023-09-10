@@ -76,6 +76,8 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isSequentialTestRequired()));
     fieldnames.push_back(L"native_architecture_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNativeArchitecturedRequired()));
+    fieldnames.push_back(L"file_watcher_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isFileWatcherRequired()));
 
     retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     return retval;

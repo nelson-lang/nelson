@@ -23,6 +23,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - operators reworked.
 - Boost 1.82 used on Windows.
 
+### Added
+
+- `--withoutfilewatcher` executable argument. disable file watcher for current session.
+- `<--FILE WATCHER REQUIRED -->` test_run option.
+
 ## 0.7.5 (2023-05-27)
 
 ### Changed

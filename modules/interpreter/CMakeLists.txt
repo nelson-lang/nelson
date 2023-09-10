@@ -13,10 +13,16 @@ set(module_name interpreter)
 set(module_library_name nlsInterpreter)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+if(WITHOUT_FILEWATCHER)
+  file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
+else()
+  file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/FileWatcher/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
+endif()
 list(FILTER INTERPRETER_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================

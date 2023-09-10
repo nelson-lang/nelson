@@ -24,6 +24,7 @@ NelsonConfiguration::NelsonConfiguration()
     modulesProtected = false;
     nelsonRootPath = L"";
     ipcEnabled = false;
+    fileWatcherEnabled = true;
     mainGuiObject = nullptr;
     mainEvaluator = nullptr;
     FileManager = nullptr;
@@ -117,6 +118,24 @@ bool
 NelsonConfiguration::isModulesProtected()
 {
     return modulesProtected;
+}
+//=============================================================================
+void
+NelsonConfiguration::enableFileWatcher()
+{
+    fileWatcherEnabled = true;
+}
+//=============================================================================
+void
+NelsonConfiguration::disableFileWatcher()
+{
+    fileWatcherEnabled = false;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isFileWatcherEnabled()
+{
+    return fileWatcherEnabled;
 }
 //=============================================================================
 void
