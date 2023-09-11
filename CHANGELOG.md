@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - overload is now fully compatible using '@' syntax and precedence.
   - all operators were reworked to support compatible overload.
 
+- Boost 1.82 used on Windows.
+
 - Internals:
   - `class`, `function_handle` types reworked.
   - types order updated.
@@ -21,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - functions finder reworked.
   - file watcher reworked.
   - operators reworked.
-- Boost 1.82 used on Windows.
+  - `repmat`, `ones`, `NaN`, `Inf` reworked.
 
 ### Added
 
