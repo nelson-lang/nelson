@@ -6,6 +6,7 @@ dependencies:
   - cmake
   - cxx-compiler
   # Host dependencies
+  - libgfortran
   - mesalib
   - qt-main
   - boost

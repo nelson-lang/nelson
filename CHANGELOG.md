@@ -29,6 +29,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `<--FILE WATCHER REQUIRED -->` test_run option.
 - [#853](http://github.com/Nelson-numerical-software/nelson/issues/853) MacOs 13 ventura CI
 
+### Fixed
+
+- [#916](http://github.com/Nelson-numerical-software/nelson/issues/916) openblas micromamba on macos required to link libgfortran
+
 ## 0.7.5 (2023-05-27)
 
 ### Changed

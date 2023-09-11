@@ -9,18 +9,16 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: install micromamba
-        uses: mamba-org/provision-with-micromamba@main
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: environment-linux-dev.yml
           environment-name: nelson
 
       - name: cmake configure
         run: |
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           mkdir -p build
           cd build
           cmake .. \
@@ -29,41 +27,37 @@ jobs:
             -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
             -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
             -DCMAKE_INSTALL_LIBDIR=lib
+        shell: micromamba-shell {0}
 
       - name: make
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- -j $(nproc)
+        shell: micromamba-shell {0}
 
       - name: get module skeleton
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- get_module_skeleton
+        shell: micromamba-shell {0}
 
       - name: build help
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- buildhelp
+        shell: micromamba-shell {0}
 
       - name: install
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- install
+        shell: micromamba-shell {0}
 
       - name: all tests
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           xvfb-run cmake --build . -- tests_all
+        shell: micromamba-shell {0}
 
   Micromamba_macos:
     name: Micromamba (macOS 12)
@@ -71,62 +65,57 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get number of CPU cores
         uses: SimenB/github-actions-cpu-cores@v1
 
       - name: install micromamba
-        uses: mamba-org/provision-with-micromamba@main
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: environment-macos-dev.yml
           environment-name: nelson
 
       - name: cmake configure
         run: |
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           mkdir -p build
           cd build
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
+            -DFORCE_LIBGFORTRAN_LINK=ON\
             -DWITHOUT_SLICOT_MODULE=ON \
             -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
             -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
             -DCMAKE_INSTALL_LIBDIR=lib
+        shell: micromamba-shell {0}
 
       - name: make
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- -j ${{ steps.cpu-cores.outputs.count }}
+        shell: micromamba-shell {0}
 
       - name: get module skeleton
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- get_module_skeleton
+        shell: micromamba-shell {0}
 
       - name: build help
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- buildhelp
+        shell: micromamba-shell {0}
 
       - name: install
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           cmake --build . -- install
+        shell: micromamba-shell {0}
 
       - name: all tests
         run: |
           cd build
-          eval "$(micromamba shell hook --shell=bash)"
-          micromamba activate nelson  
           export OMP_NUM_THREADS=1
           cmake --build . -- tests_all
+        shell: micromamba-shell {0}
