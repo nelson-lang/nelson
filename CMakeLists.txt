@@ -53,6 +53,8 @@ option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
 option(WITHOUT_FILEWATCHER "Disable File watcher" OFF)
 # ==============================================================================
+option(FORCE_LIBGFORTRAN_LINK "Force libgfortran link" OFF)
+# ==============================================================================
 list(
   APPEND
   optional_modules
@@ -97,6 +99,7 @@ foreach(mod ${optional_modules})
 endforeach(mod)
 # ==============================================================================
 if(MINIMAL_BUILD)
+  set(WITHOUT_FILEWATCHER ON)
   set(WITHOUT_OPENMP ON)
   foreach(mod ${optional_modules})
     set(WITHOUT_${mod}_MODULE ON)
@@ -239,7 +242,11 @@ else()
       endif()
       set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} ${LAPACKE_LIBRARIES})
     else()
-      set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB})
+      if (FORCE_LIBGFORTRAN_LINK)
+        set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} -lgfortran)
+      else()
+        set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB})
+      endif()
     endif()
   else()
     if(NOT BLAS_FOUND)

@@ -47,7 +47,7 @@ jobs:
         with:
           version: "6.4.2"
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -134,7 +134,7 @@ jobs:
         with:
           version: "6.4.2"
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -215,7 +215,7 @@ jobs:
           brew link libomp --force          
           brew install openblas
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -312,7 +312,7 @@ jobs:
           sudo apt -y install qt6-tools-dev;
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -429,7 +429,7 @@ jobs:
           sudo make install;
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -508,7 +508,7 @@ jobs:
           pacman -S libmatio --noconfirm
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Trust repo directory
         run: |
@@ -588,7 +588,7 @@ jobs:
           dnf install -y hdf5-devel
           dnf install -y eigen3-devel
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
         id: json_version
@@ -644,7 +644,7 @@ jobs:
         shell: powershell
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
@@ -768,7 +768,7 @@ jobs:
         shell: powershell
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@1.2.0
