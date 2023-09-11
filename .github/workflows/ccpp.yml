@@ -683,7 +683,7 @@ jobs:
           set QTDIR=%QTDIR32%
           SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-          cd nelson
+          cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
       - name: Download module skeleton
@@ -806,8 +806,8 @@ jobs:
           set QTDIR64=C:\install\QT6\Qt\6.5.0\msvc2019_64
           set QTDIR=%QTDIR64%
           SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvar64.bat"
-          cd nelson
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
       - name: Download module skeleton
