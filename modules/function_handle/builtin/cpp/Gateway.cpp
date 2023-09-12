@@ -38,8 +38,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2,
         CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
-    { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
     { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1 },
     { "isfunction_handle", (ptrBuiltin)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1,
         1 },

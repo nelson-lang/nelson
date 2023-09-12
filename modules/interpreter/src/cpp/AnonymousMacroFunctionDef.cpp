@@ -11,7 +11,6 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include <regex>
 #include "AnonymousMacroFunctionDef.hpp"
 #include "StringHelpers.hpp"
 #include "Context.hpp"
@@ -227,11 +226,16 @@ AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
             outputVariablesList += "] = ";
         }
     }
-    std::regex rx("@\\s*\\(");
-    std::string replaceBy = "function " + outputVariablesList + "anonymousFunction(";
-    modified = std::regex_replace(modified, rx, replaceBy, std::regex_constants::format_first_only);
-    StringHelpers::replace_first(modified, ")", ")\n" + outputVariablesList);
-    modified = modified + "\n";
+    if (modified[0] == '@') {
+        modified.erase(0, 1);
+        StringHelpers::trim_left(modified);
+        if (modified[0] == '(') {
+            std::string replaceBy = "function " + outputVariablesList + "anonymousFunction";
+            modified = replaceBy + modified;
+            StringHelpers::replace_first(modified, ")", ")\n" + outputVariablesList);
+            modified = modified + "\n";
+        }
+    }
     return modified;
 }
 //=============================================================================
