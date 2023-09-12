@@ -34,7 +34,20 @@ Inf(Dimensions& dims)
     if (nbElements != 0) {
         mat = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false));
-        std::fill_n(mat, nbElements, std::numeric_limits<double>::infinity());
+        constexpr double value = std::numeric_limits<double>::infinity();
+        if (nbElements == 1) {
+            mat[0] = value;
+        } else {
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+            for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
+                mat[k] = value;
+            }
+#else
+            std::fill_n(mat, nbElements, value);
+#endif
+        }
     }
     return ArrayOf(NLS_DOUBLE, dims, mat, false);
 }
