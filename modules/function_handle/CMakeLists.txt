@@ -44,6 +44,8 @@ target_link_libraries(${module_library_name}
   nlsInterpreter
   nlsTypes 
   nlsError_manager 
+  nlsDisplay_format
+  nlsNelson_manager
   nlsI18n)
 # ==============================================================================
 file(GLOB FUNCTION_HANDLE_BUILTIN

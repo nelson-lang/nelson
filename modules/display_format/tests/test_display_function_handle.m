@@ -7,25 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% function handle will be reworked with new anonymous functions
 format('short')
+format('loose')
 fh = str2func('cos');
 %=============================================================================
 R = evalc('disp(fh)');
-REF =  '      name: ''cos''
-    handle: 0
+REF =  '    @cos
 
 ';
 assert_isequal(R, REF);
 %=============================================================================
 R = evalc('display(fh)');
-REF =  '
+REF =   '
 fh =
 
-  function_handle with values:
+  function_handle with value:
 
-      name: ''cos''
-    handle: 0
+    @cos
 
 ';
 assert_isequal(R, REF);

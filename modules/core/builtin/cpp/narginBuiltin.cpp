@@ -49,7 +49,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 
             } else {
                 AnonymousMacroFunctionDef* anonymousFunction
-                    = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+                    = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
                 if (anonymousFunction) {
                     retval << ArrayOf::doubleConstructor(anonymousFunction->nargin());
                 }

@@ -13,6 +13,7 @@
 #include "NargOut.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,13 +37,25 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         std::wstring name;
         if (param1.isRowVectorCharacterArray()) {
             name = param1.getContentAsWideString();
+            retval << ArrayOf::doubleConstructor(NargOut(eval, name));
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            name = utf8_to_wstring(fh.name);
+            if (fh.anonymousHandle == nullptr && fh.name.empty()) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+            }
+            if (!fh.name.empty()) {
+                name = utf8_to_wstring(fh.name);
+                retval << ArrayOf::doubleConstructor(NargOut(eval, name));
+            } else {
+                AnonymousMacroFunctionDef* anonymousFunction
+                    = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+                if (anonymousFunction) {
+                    retval << ArrayOf::doubleConstructor(anonymousFunction->nargout());
+                }
+            }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
         }
-        retval << ArrayOf::doubleConstructor(NargOut(eval, name));
     }
     return retval;
 }

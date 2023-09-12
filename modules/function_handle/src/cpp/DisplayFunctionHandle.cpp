@@ -7,16 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define FMT_HEADER_ONLY
-#include <fmt/printf.h>
-#include <fmt/format.h>
-#include <fmt/xchar.h>
-#include "DisplayClass.hpp"
+#include "DisplayFunctionHandle.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,6 +31,10 @@ DisplayFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring& name,
 
     DisplayVariableHeader(io, A, name, asDisp);
     if (A.isScalar()) {
+        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE
+            && !asDisp) {
+            io->outputMessage(L"\n");
+        }
         DisplayScalarFunctionHandle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
         Error(_W("Case not managed. Please report."));
@@ -45,25 +46,18 @@ void
 DisplayScalarFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    stringVector fieldnames = A.getFieldNames();
-    size_t maxLen = 0;
-    for (const auto& fieldname : fieldnames) {
-        maxLen = std::max(fieldname.length(), maxLen);
+
+    function_handle fh = A.getContentAsFunctionHandle();
+    std::string content;
+    if (!fh.name.empty()) {
+        content = '@' + fh.name;
+    } else {
+        AnonymousMacroFunctionDef* anonymousFunction
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+        content = anonymousFunction->getDefinition();
     }
-    if (!fieldnames.empty()) {
-        if (!name.empty()) {
-            io->outputMessage(L"\n");
-        }
-        ArrayOf* ap = static_cast<ArrayOf*>(
-            const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
-        for (size_t k = 0; k < fieldnames.size(); ++k) {
-            std::wstring beginning = BLANKS_AT_BOL
-                + completeWithBlanksAtBeginning(utf8_to_wstring(fieldnames[k]), maxLen) + L": ";
-            std::wstring valueAsString = summarizeCellEntry(ap[k], 0, io->getTerminalWidth(),
-                NelsonConfiguration::getInstance()->getNumericFormatDisplay(), false);
-            io->outputMessage(beginning + valueAsString + L"\n");
-        }
-    }
+    std::wstring data = BLANKS_AT_BOL + utf8_to_wstring(content) + L"\n";
+    io->outputMessage(data);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
         io->outputMessage(L"\n");
     }

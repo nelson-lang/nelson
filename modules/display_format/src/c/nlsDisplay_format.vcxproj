@@ -227,7 +227,6 @@
     <ClInclude Include="..\include\DisplayClass.hpp" />
     <ClInclude Include="..\include\DisplayDouble.hpp" />
     <ClInclude Include="..\include\DisplayDoubleComplex.hpp" />
-    <ClInclude Include="..\include\DisplayFunctionHandle.hpp" />
     <ClInclude Include="..\include\DisplayInteger.hpp" />
     <ClInclude Include="..\include\DisplayIntegerHelpers.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
@@ -256,7 +255,6 @@
     <ClCompile Include="..\cpp\DisplayClass.cpp" />
     <ClCompile Include="..\cpp\DisplayDouble.cpp" />
     <ClCompile Include="..\cpp\DisplayDoubleComplex.cpp" />
-    <ClCompile Include="..\cpp\DisplayFunctionHandle.cpp" />
     <ClCompile Include="..\cpp\DisplayInteger.cpp" />
     <ClCompile Include="..\cpp\DisplayIntegerHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />

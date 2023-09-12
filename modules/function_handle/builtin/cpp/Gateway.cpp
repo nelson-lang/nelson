@@ -16,6 +16,7 @@
 #include "function_handle_isequalBuiltin.hpp"
 #include "isfunction_handleBuiltin.hpp"
 #include "str2funcBuiltin.hpp"
+#include "function_handle_displayBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,6 +38,12 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "isequalto"),
         (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2,
         CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "display"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_FUNCTION_HANDLE_STR, "disp"),
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_dispBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
     { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1 },
