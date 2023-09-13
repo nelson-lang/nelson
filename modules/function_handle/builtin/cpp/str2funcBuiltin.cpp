@@ -17,8 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionHandleGateway::str2funcBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionHandleGateway::str2funcBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -29,7 +28,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    function_handle fptr = StringToFunctionHandle(eval, wfunctionname);
+    function_handle fptr = StringToFunctionHandle(wfunctionname);
     if (fptr.name.empty() && fptr.anonymousHandle == nullptr) {
         Error(_W("A valid function name expected."));
     }

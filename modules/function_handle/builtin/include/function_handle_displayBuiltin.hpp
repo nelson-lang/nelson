@@ -9,12 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsFunction_handle_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-NLSFUNCTION_HANDLE_IMPEXP function_handle
-StringToFunctionHandle(const std::wstring& functionName);
-}
+namespace Nelson::FunctionHandleGateway {
+//=============================================================================
+ArrayOfVector
+function_handle_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+function_handle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

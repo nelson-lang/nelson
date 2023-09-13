@@ -38,9 +38,15 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
 
-target_link_libraries(${module_library_name} nlsCharacters_encoding nlsCommons
-                      nlsInterpreter nlsTypes)
-
+target_link_libraries(${module_library_name} 
+  nlsCharacters_encoding 
+  nlsCommons
+  nlsInterpreter
+  nlsTypes 
+  nlsError_manager 
+  nlsDisplay_format
+  nlsNelson_manager
+  nlsI18n)
 # ==============================================================================
 file(GLOB FUNCTION_HANDLE_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")

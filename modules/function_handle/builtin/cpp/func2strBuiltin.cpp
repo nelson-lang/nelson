@@ -28,7 +28,8 @@ Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& ar
         if (!fh.name.empty()) {
             retval << ArrayOf::characterArrayConstructor(fh.name);
         } else {
-            AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+            AnonymousMacroFunctionDef* cp
+                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
             if (cp) {
                 retval << ArrayOf::characterArrayConstructor(cp->getDefinition());
             } else {

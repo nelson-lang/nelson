@@ -59,7 +59,7 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     std::string anonymousContent;
     if (fh.anonymousHandle) {
         AnonymousMacroFunctionDef* anonymousFunction
-            = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         anonymousContent = anonymousFunction->getDefinition();
     }
     ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);

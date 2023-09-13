@@ -11,11 +11,11 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
-#include "nlsDisplay_format_exports.h"
+#include "nlsFunction_handle_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP void
+NLSFUNCTION_HANDLE_IMPEXP void
 DisplayFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
 //=============================================================================
 } // namespace Nelson

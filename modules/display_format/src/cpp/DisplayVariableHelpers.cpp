@@ -265,7 +265,7 @@ buildHeader(const ArrayOf& A)
             if (!haveFields) {
                 withPart = L"with no value.";
             } else {
-                withPart = L"with values:";
+                withPart = L"with value:";
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {

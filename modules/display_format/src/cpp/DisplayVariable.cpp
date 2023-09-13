@@ -12,7 +12,6 @@
 #include "DisplayCell.hpp"
 #include "DisplayStruct.hpp"
 #include "DisplayClass.hpp"
-#include "DisplayFunctionHandle.hpp"
 #include "DisplayString.hpp"
 #include "DisplayChar.hpp"
 #include "DisplayLogical.hpp"
@@ -70,14 +69,7 @@ DisplayVariable(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         needToOverload = false;
     } break;
     case NLS_FUNCTION_HANDLE: {
-        bool needToHideHeader = false;
-        if (asDisp) {
-            needToHideHeader = (A.isEmpty() || A.isScalar());
-        } else {
-            needToHideHeader = false;
-        }
-        DisplayFunctionHandle(io, A, wname, needToHideHeader);
-        needToOverload = false;
+        needToOverload = true;
     } break;
     case NLS_STRUCT_ARRAY: {
         bool needToHideHeader = false;

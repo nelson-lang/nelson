@@ -113,7 +113,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             function_handle fh = A.getContentAsFunctionHandle();
             ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
             packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-            AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+            AnonymousMacroFunctionDef* cp
+                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
             std::string anonymousDef;
             if (cp) {
                 anonymousDef = cp->getDefinition();
@@ -141,7 +142,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         function_handle fh = A.getContentAsFunctionHandle();
         ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
         packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-        AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+        AnonymousMacroFunctionDef* cp
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         std::string anonymousDef;
         if (cp) {
             anonymousDef = cp->getDefinition();
