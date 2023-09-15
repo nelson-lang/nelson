@@ -812,9 +812,9 @@ end
 %=============================================================================
 function list = readAvailableModulesFromFile()
   run([nelsonroot(), '/modules/modules.m']);
-  funcList = str2func('@(x) x{1}');
+  funcList = @(x) x{1};
   list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
-  funcAvailable = str2func('@(x) x{2}');
+  funcAvailable = @(x) x{2};
   available = cellfun(funcAvailable, modules_list, 'UniformOutput', true);
   list(~available) = [];
 end

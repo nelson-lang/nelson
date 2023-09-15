@@ -13,6 +13,7 @@
 #include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
 #include "FunctionsInMemory.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,7 +33,8 @@ callClearHandle(Evaluator* eval, Scope* scope, const std::string& variable)
                 if (hlObj != nullptr) {
                     std::string handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty()) {
-                        std::string functionNameClearHandle = handleTypeName + "_clear";
+                        std::string functionNameClearHandle
+                            = getOverloadFunctionName(handleTypeName, "clear");
                         Context* context = eval->getContext();
                         FunctionDef* funcDef = nullptr;
                         if (context->lookupFunction(functionNameClearHandle, funcDef)) {

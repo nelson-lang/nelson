@@ -9,13 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <matio.h>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson::FunctionHandleGateway {
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-str2funcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+matvar_t*
+SaveMatioFunctionHandle(
+    const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

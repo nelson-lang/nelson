@@ -19,7 +19,7 @@ function buildhelpmd(varargin)
   if nargin() == 1
     helpForNelsonOnly(destinationdir);
     run([nelsonroot() '/modules/' 'modules.m']);
-    funcList = str2func('@(x) x{1}');
+    funcList = @(x) x{1};
     modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
     locales = {};
     for m = modules_help_list(:)'

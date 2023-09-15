@@ -62,5 +62,5 @@ str = '@(x)7*x-13+a';
 fh = str2func(str);
 assert_checkerror('fh(3)', [_('Undefined variable:'), ' ', 'a']);
 %=============================================================================
-assert_checkerror('F = str2func(''@ (y) x= y+1'');', _('A valid function name expected.'))
+assert_checkerror('F = str2func(''@ (y) x= y+1'');', _('A valid function handle expected.'))
 %=============================================================================

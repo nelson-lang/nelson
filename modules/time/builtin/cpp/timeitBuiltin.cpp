@@ -13,16 +13,17 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static double
-evaluateFunctionWithTimerRaw(
-    Evaluator* eval, FunctionDef* funcDef, int nLhs, const ArrayOfVector& inputVariables);
+evaluateFunctionWithTimerRaw(Evaluator* eval, AnonymousMacroFunctionDef* funcDef, int nLhs,
+    const ArrayOfVector& inputVariables);
 //=============================================================================
 static double
-evaluateFunctionWithTimerNth(
-    Evaluator* eval, FunctionDef* funcDef, int nLhs, int Nth, const ArrayOfVector& inputVariables);
+evaluateFunctionWithTimerNth(Evaluator* eval, AnonymousMacroFunctionDef* funcDef, int nLhs, int Nth,
+    const ArrayOfVector& inputVariables);
 //=============================================================================
 ArrayOfVector
 Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -45,19 +46,13 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (eval == nullptr) {
         Error(_W("evaluator is not defined."));
     }
-    Context* context = eval->getContext();
-
-    FunctionDef* funcDef = nullptr;
-    std::string fname;
+    AnonymousMacroFunctionDef* funcDef = nullptr;
     function_handle fh = argIn[0].getContentAsFunctionHandle();
-    if (fh.anonymousHandle == nullptr && fh.name.empty()) {
+    if (fh.anonymousHandle == nullptr) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
-    if (!fh.name.empty()) {
-        fname = fh.name;
-        context->lookupFunction(fname, funcDef);
-    } else if (fh.anonymousHandle != nullptr) {
-        funcDef = (FunctionDef*)fh.anonymousHandle;
+    if (fh.anonymousHandle != nullptr) {
+        funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     }
     if (funcDef == nullptr) {
         Error(_W("Function not found."));
@@ -107,8 +102,8 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 }
 //=============================================================================
 double
-evaluateFunctionWithTimerRaw(
-    Evaluator* eval, FunctionDef* funcDef, int nLhs, const ArrayOfVector& inputVariables)
+evaluateFunctionWithTimerRaw(Evaluator* eval, AnonymousMacroFunctionDef* funcDef, int nLhs,
+    const ArrayOfVector& inputVariables)
 {
     std::vector<double> runtime;
     double timeThreshold = 3;
@@ -137,8 +132,8 @@ evaluateFunctionWithTimerRaw(
 }
 //=============================================================================
 static double
-evaluateFunctionWithTimerNth(
-    Evaluator* eval, FunctionDef* funcDef, int nLhs, int Nth, const ArrayOfVector& inputVariables)
+evaluateFunctionWithTimerNth(Evaluator* eval, AnonymousMacroFunctionDef* funcDef, int nLhs, int Nth,
+    const ArrayOfVector& inputVariables)
 {
     std::chrono::nanoseconds begin_time
         = std::chrono::high_resolution_clock::now().time_since_epoch();

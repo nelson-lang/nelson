@@ -17,7 +17,6 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
-#include "StringToFunctionHandle.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -109,47 +108,43 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
             packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
         }
-        if (A.isFunctionHandle()) {
-            function_handle fh = A.getContentAsFunctionHandle();
-            ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
-            packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-            AnonymousMacroFunctionDef* cp
-                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-            std::string anonymousDef;
-            if (cp) {
-                anonymousDef = cp->getDefinition();
-            }
-            ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
-            packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
-        } else {
-            auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
-                packMPI(dp[i], buffer, bufsize, packpos, comm);
-            }
+        auto* dp = (ArrayOf*)A.getDataPointer();
+        for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
+            packMPI(dp[i], buffer, bufsize, packpos, comm);
         }
     } break;
     case NLS_FUNCTION_HANDLE: {
-        stringVector fieldnames(A.getFieldNames());
-        int fieldcnt(static_cast<int>(fieldnames.size()));
-        MPI_Pack(&fieldcnt, 1, MPI_INT, buffer, bufsize, packpos, comm);
-        for (int i = 0; i < fieldcnt; i++) {
-            int flen = static_cast<int>(fieldnames[i].size());
-            MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
-            MPI_Pack((void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
-        }
-        int isclassType = 2;
-        MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
         function_handle fh = A.getContentAsFunctionHandle();
-        ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
-        packMPI(nameAsArray, buffer, bufsize, packpos, comm);
         AnonymousMacroFunctionDef* cp
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-        std::string anonymousDef;
-        if (cp) {
-            anonymousDef = cp->getDefinition();
+
+        std::string anonymousContent = cp->getContent();
+        ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
+        packMPI(anonymousElement, buffer, bufsize, packpos, comm);
+
+        int isFunctionHandle = (int)(cp->isFunctionHandle());
+        MPI_Pack(&isFunctionHandle, 1, MPI_INT, buffer, bufsize, packpos, comm);
+
+        if (!isFunctionHandle) {
+            stringVector arguments = cp->getArguments();
+            stringVector names = cp->getVariableNames();
+            std::vector<ArrayOf> variables = cp->getVariables();
+            Dimensions dimsNames(1, names.size());
+            ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+            Dimensions dimsArguments(1, arguments.size());
+            ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+            Dimensions dimsVariables(1, variables.size());
+            ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+                NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+            ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
+            for (size_t k = 0; k < variables.size(); k++) {
+                cell[k] = variables[k];
+            }
+
+            packMPI(argumentsArrayOf, buffer, bufsize, packpos, comm);
+            packMPI(fieldnames, buffer, bufsize, packpos, comm);
+            packMPI(cellArrayOf, buffer, bufsize, packpos, comm);
         }
-        ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
-        packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
     } break;
     case NLS_LOGICAL:
         if (A.isSparse()) {
@@ -329,32 +324,37 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         return returnedArray;
     } break;
     case NLS_FUNCTION_HANDLE: {
-        int fieldcnt = 0;
-        MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
-        stringVector fieldnames;
-        for (int j = 0; j < fieldcnt; j++) {
-            int fieldnamelength;
-            MPI_Unpack(buffer, bufsize, packpos, &fieldnamelength, 1, MPI_INT, comm);
-            char* dbuff = new char[fieldnamelength + 1];
-            MPI_Unpack(buffer, bufsize, packpos, dbuff, fieldnamelength, MPI_CHAR, comm);
-            dbuff[fieldnamelength] = 0;
-            fieldnames.push_back(std::string(dbuff));
-            delete[] dbuff;
+        function_handle fh;
+        fh.anonymousHandle = nullptr;
+        ArrayOf anonymousElement = unpackMPI(buffer, bufsize, packpos, comm);
+        std::string anonymousContent = anonymousElement.getContentAsCString();
+
+        int isFunctionHandle = 0;
+        MPI_Unpack(buffer, bufsize, packpos, &isFunctionHandle, 1, MPI_INT, comm);
+        if (isFunctionHandle) {
+            fh.anonymousHandle
+                = reinterpret_cast<nelson_handle*>(new AnonymousMacroFunctionDef(anonymousContent));
+        } else {
+            ArrayOf argumentsArrayOf = unpackMPI(buffer, bufsize, packpos, comm);
+            ArrayOf names = unpackMPI(buffer, bufsize, packpos, comm);
+            ArrayOf cellArrayOf = unpackMPI(buffer, bufsize, packpos, comm);
+
+            stringVector fieldnames = names.getContentAsCStringVector(false);
+            stringVector arguments = argumentsArrayOf.getContentAsCStringVector(false);
+            std::vector<ArrayOf> variables;
+            variables.reserve(cellArrayOf.getElementCount());
+            ArrayOf* cell = static_cast<ArrayOf*>(
+                const_cast<void*>(static_cast<const void*>(cellArrayOf.getDataPointer())));
+            for (indexType k = 0; k < cellArrayOf.getElementCount(); k++) {
+                variables.push_back(cell[k]);
+            }
+            fh.anonymousHandle = reinterpret_cast<nelson_handle*>(
+                new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables));
         }
-        int isclassType = 0;
-        MPI_Unpack(buffer, bufsize, packpos, &isclassType, 1, MPI_INT, comm);
-        std::string classname;
-        ArrayOf nameArray = unpackMPI(buffer, bufsize, packpos, comm);
-        ArrayOf anonymousArray = unpackMPI(buffer, bufsize, packpos, comm);
-        function_handle fptr;
-        fptr.name = nameArray.getContentAsCString();
-        AnonymousMacroFunctionDef* amf
-            = new AnonymousMacroFunctionDef(anonymousArray.getContentAsCString());
-        fptr.anonymousHandle = reinterpret_cast<nelson_handle*>(amf);
-        if (fptr.anonymousHandle == nullptr && fptr.name.empty()) {
+        if (fh.anonymousHandle == nullptr) {
             Error(_W("A valid function name expected."));
         }
-        return ArrayOf::functionHandleConstructor(fptr);
+        return ArrayOf::functionHandleConstructor(fh);
     } break;
     case NLS_LOGICAL:
         if (issparse) {
@@ -474,35 +474,6 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
 {
     unsigned int overhead = getCanonicalSize(maxDims + 1, MPI_INT, comm);
     NelsonType dataClass(A.getDataClass());
-    if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
-            int total = 0;
-            auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getElementCount(); i++) {
-                total += getArrayOfFootPrint(dp[i], comm);
-            }
-            return (total + overhead);
-        }
-        stringVector fieldnames(A.getFieldNames());
-        int fieldcount = static_cast<int>(fieldnames.size());
-        int fieldsize = getCanonicalSize(1, MPI_INT, comm);
-        for (int j = 0; j < fieldcount; j++) {
-            fieldsize += getCanonicalSize(1, MPI_INT, comm)
-                + getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
-        }
-        fieldsize += getCanonicalSize(1, MPI_INT, comm);
-        int isclassType(static_cast<int>(A.isClassType()));
-        if (isclassType) {
-            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
-            fieldsize += getCanonicalSize((int)classnameAsArray.getElementCount(), MPI_WCHAR, comm);
-        }
-        auto* dp = (ArrayOf*)A.getDataPointer();
-        int total = 0;
-        for (int i = 0; i < A.getElementCount() * fieldcount; i++) {
-            total += getArrayOfFootPrint(dp[i], comm);
-        }
-        return (total + overhead + fieldsize + 1);
-    }
     switch (dataClass) {
     case NLS_LOGICAL:
         if (A.isSparse()) {
@@ -580,6 +551,74 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         }
     case NLS_CHAR:
         return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_WCHAR, comm));
+    case NLS_STRUCT_ARRAY:
+    case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_CLASS_ARRAY: {
+        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
+            int total = 0;
+            auto* dp = (ArrayOf*)A.getDataPointer();
+            for (int i = 0; i < A.getElementCount(); i++) {
+                total += getArrayOfFootPrint(dp[i], comm);
+            }
+            return (total + overhead);
+        }
+        stringVector fieldnames(A.getFieldNames());
+        int fieldcount = static_cast<int>(fieldnames.size());
+        int fieldsize = getCanonicalSize(1, MPI_INT, comm);
+        for (int j = 0; j < fieldcount; j++) {
+            fieldsize += getCanonicalSize(1, MPI_INT, comm)
+                + getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
+        }
+        fieldsize += getCanonicalSize(1, MPI_INT, comm);
+        int isclassType(static_cast<int>(A.isClassType()));
+        if (isclassType) {
+            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
+            fieldsize += getCanonicalSize((int)classnameAsArray.getElementCount(), MPI_WCHAR, comm);
+        }
+        auto* dp = (ArrayOf*)A.getDataPointer();
+        int total = 0;
+        for (int i = 0; i < A.getElementCount() * fieldcount; i++) {
+            total += getArrayOfFootPrint(dp[i], comm);
+        }
+        return (total + overhead + fieldsize + 1);
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        int total = overhead;
+        function_handle fh = A.getContentAsFunctionHandle();
+        AnonymousMacroFunctionDef* cp
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+        std::string anonymousContent = cp->getContent();
+        ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
+        total += getArrayOfFootPrint(anonymousElement, comm);
+
+        int isFunctionHandle = (int)(cp->isFunctionHandle());
+        total += 1;
+        if (!isFunctionHandle) {
+            stringVector arguments = cp->getArguments();
+            stringVector names = cp->getVariableNames();
+            std::vector<ArrayOf> variables = cp->getVariables();
+            Dimensions dimsNames(1, names.size());
+            ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+            Dimensions dimsArguments(1, arguments.size());
+            ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+            Dimensions dimsVariables(1, variables.size());
+            ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+                NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+            ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
+            for (size_t k = 0; k < variables.size(); k++) {
+                cell[k] = variables[k];
+            }
+            total += getArrayOfFootPrint(argumentsArrayOf, comm);
+            total += getArrayOfFootPrint(fieldnames, comm);
+            total += getArrayOfFootPrint(cellArrayOf, comm);
+        }
+        return total;
+
+    } break;
+    case NLS_HANDLE:
+    case NLS_GO_HANDLE:
+    case NLS_UNKNOWN:
     default: {
     } break;
     }

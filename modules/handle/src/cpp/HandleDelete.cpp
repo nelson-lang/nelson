@@ -13,6 +13,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +31,8 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
                 bool doOverload = false;
                 std::string handleTypeName = hlObj->getCategory();
                 if (!handleTypeName.empty()) {
-                    std::string functionNameClearHandle = handleTypeName + "_delete";
+                    std::string functionNameClearHandle
+                        = getOverloadFunctionName(handleTypeName, "delete");
                     Context* context = eval->getContext();
                     FunctionDef* funcDef = nullptr;
                     if (context->lookupFunction(functionNameClearHandle, funcDef)) {
@@ -53,7 +55,9 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
                     if (handleTypeName.empty()) {
                         msg = "delete " + _("not defined.");
                     } else {
-                        msg = handleTypeName + "_delete" + " " + _("not defined.");
+                        std::string overloadName
+                            = getOverloadFunctionName(handleTypeName, "delete");
+                        msg = overloadName + " " + _("not defined.");
                     }
                     Error(msg);
                 }

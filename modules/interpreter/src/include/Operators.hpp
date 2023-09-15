@@ -45,6 +45,8 @@ namespace Nelson {
 #define COLON_OPERATOR_STR "colon"
 #define HORZCAT_OPERATOR_STR "horzcat"
 #define VERTCAT_OPERATOR_STR "vertcat"
+#define FUNCTION_HANDLE_NAMED_STR "@"
+#define FUNCTION_HANDLE_ANONYMOUS_STR "@"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

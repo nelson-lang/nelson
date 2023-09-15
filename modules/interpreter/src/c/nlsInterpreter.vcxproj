@@ -218,6 +218,7 @@
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp" />
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\AsciiToDouble.cpp" />
@@ -249,6 +250,7 @@
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp" />
     <ClCompile Include="..\cpp\operators\ComplexTransposeOperator.cpp" />
+    <ClCompile Include="..\cpp\operators\FunctionHandleOperator.cpp" />
     <ClCompile Include="..\cpp\operators\MpowerOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\PlusOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\AndOperator.cpp" />

@@ -9,7 +9,9 @@
 %=============================================================================
 matver = {'-v7', '-v7.3'};
 %=============================================================================
-f = str2func('cos');
+a = 1;
+b = 2;
+f = @(x) x + 1;
 %=============================================================================
 for v = matver
   test_file_mat = [tempdir(), 'test_save_function_handle', v{1}, '.mat'];
@@ -17,9 +19,9 @@ for v = matver
   clear f;
   loadmat(test_file_mat);
   assert_istrue(isstruct(f));
-  assert_isequal(fieldnames(f), {'name'; 'handle'});
   assert_isequal(size(f), [1 1]);
-  assert_isequal(f.name, 'cos');
-  assert_isequal(f.handle, uint64(0));
+  assert_isequal(f.function_handle, '@(x)x+1');
+  assert_isequal(f.a, 1);
+  assert_isequal(f.b, 2);
 end
 %=============================================================================

@@ -160,7 +160,6 @@ argument:
   IDENT
   ;
 
-
 statementList:
    statement {$$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,$1.v.p,$1.v.p->getContext());} |
    statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
@@ -468,9 +467,7 @@ expr:
   | expr DOTPOWER error {yyxpt(_("an expression after '.^'"),$2);}
   | expr '\''          {$$.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,$1.v.p,$2.v.i);}
   | expr DOTTRANSPOSE  {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}
-  | '(' expr ')'  {$$.v.p = $2.v.p;}
-  | '(' expr error  {yyxpt(_("a right parenthesis after expression to match this one"),$1);}
-  | '(' error  {yyxpt(_("an expression after left parenthesis"),$1);}
+  | parenExpr
   ;
 
 terminal:
@@ -478,6 +475,9 @@ terminal:
   | CHARACTER
   | STRING
   | MAGICEND
+  | '@' IDENT {$$.v.p =  AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_NAMED, $2.v.p, $2.v.i);}
+  | '@' '(' argumentList ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$3.v.p,$5.v.p, $3.v.p->getContext());}
+  | '@' '(' ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$4.v.p, $4.v.p->getContext());}
   | symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_RHS,$1.v.p,$1.v.p->getContext());}
   | '[' matrixDef ']' {$$.v.p = $2.v.p;}
   | '[' error {yyxpt(_("a matrix definition followed by a right bracket"),$1);}
@@ -534,13 +534,18 @@ rowSeperator:
        ;
 
 columnSep:
-       ','
-       ;
+  ','
+  ;
 
 rowDef:
-       expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,$1.v.p,$1.v.p->getContext());} |
-       rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
+  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,$1.v.p,$1.v.p->getContext());} 
+  | rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
 
+parenExpr:
+  '(' expr ')' {$$.v.p = $2.v.p;}
+  | '(' expr error  {yyxpt(_("a right parenthesis after expression to match this one"),$1);}
+  | '(' error  {yyxpt(_("an expression after left parenthesis"),$1);}
+  ;
 %%
 //=============================================================================
 namespace Nelson {

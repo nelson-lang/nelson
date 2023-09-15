@@ -501,6 +501,18 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         }
         retval = powerOperator(t);
     } break;
+    case OP_FUNCTION_HANDLE_NAMED: {
+        if (ticProfiling != 0U) {
+            operatorName = FUNCTION_HANDLE_NAMED_STR;
+        }
+        retval = functionHandleNamedOperator(t);
+    } break;
+    case OP_FUNCTION_HANDLE_ANONYMOUS: {
+        if (ticProfiling != 0U) {
+            operatorName = FUNCTION_HANDLE_ANONYMOUS_STR;
+        }
+        retval = functionHandleAnonymousOperator(t);
+    } break;
     default: {
         callstack.pushID((size_t)t->getContext());
         std::wstring msg;
@@ -3710,7 +3722,8 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                 } catch (const Exception&) {
                     if (r.isHandle()) {
-                        Error(_("Please define: ") + r.getHandleCategory() + "_ismethod");
+                        Error(_("Please define: ")
+                            + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
                     }
                     isValidMethod = false;
                 }

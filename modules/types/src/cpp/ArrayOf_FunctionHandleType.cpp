@@ -24,9 +24,7 @@ ArrayOf::getContentAsFunctionHandle() const
 {
     function_handle fh;
     if (isFunctionHandle()) {
-        ArrayOf nameField = this->getField("name");
         ArrayOf anonymousHandle = this->getField("handle");
-        fh.name = nameField.getContentAsCString();
         fh.anonymousHandle = (nelson_handle*)anonymousHandle.getContentAsUnsignedInteger64Scalar();
     } else {
         Error(_W("Expected a function_handle."));
@@ -54,10 +52,8 @@ ArrayOf::functionHandleConstructor(function_handle fptr)
 {
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
-    fieldnames.push_back("name");
     fieldnames.push_back("handle");
 
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(fptr.name));
     nelson_handle fun_handle = reinterpret_cast<nelson_handle>(fptr.anonymousHandle);
     fieldvalues.push_back(ArrayOf::uint64Constructor(fun_handle));
 

@@ -14,5 +14,5 @@ F = str2func('@cos');
 assert_isequal(func2str(F), 'cos');
 %=============================================================================
 F = str2func('@(x) x*sqrt(x);    ');
-assert_isequal(func2str(F), '@(x) x*sqrt(x);');
+assert_isequal(func2str(F), '@(x)x*sqrt(x)');
 %=============================================================================

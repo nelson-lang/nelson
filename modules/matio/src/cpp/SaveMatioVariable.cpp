@@ -22,6 +22,7 @@
 #include "SaveMatioSparseDouble.hpp"
 #include "SaveMatioSparseDoubleComplex.hpp"
 #include "SaveMatioHandle.hpp"
+#include "SaveMatioFunctionHandle.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,7 +39,9 @@ SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue,
     case NLS_CELL_ARRAY: {
         matVariable = SaveMatioCell(variableName, variableValue, matVersion);
     } break;
-    case NLS_FUNCTION_HANDLE:
+    case NLS_FUNCTION_HANDLE: {
+        matVariable = SaveMatioFunctionHandle(variableName, variableValue, matVersion);
+    } break;
     case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
         matVariable = SaveMatioStruct(variableName, variableValue, matVersion);

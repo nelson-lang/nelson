@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#define EIGEN_NO_DEBUG
 #include <Eigen/Dense>
 #include "repmatBuiltin.hpp"
 #include "Error.hpp"

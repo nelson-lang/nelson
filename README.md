@@ -55,6 +55,7 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
   - string array (UNICODE supported).
   - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   - handle objects.
+  - anonymous functions,
   - all types can be overloaded.
 
 - `OpenMP` and `SIMD` extensions used.

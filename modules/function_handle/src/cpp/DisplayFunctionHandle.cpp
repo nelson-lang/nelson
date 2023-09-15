@@ -48,16 +48,11 @@ DisplayScalarFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring&
 {
 
     function_handle fh = A.getContentAsFunctionHandle();
-    std::string content;
-    if (!fh.name.empty()) {
-        content = '@' + fh.name;
-    } else {
-        AnonymousMacroFunctionDef* anonymousFunction
-            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-        content = anonymousFunction->getDefinition();
-    }
-    std::wstring data = BLANKS_AT_BOL + utf8_to_wstring(content) + L"\n";
-    io->outputMessage(data);
+    AnonymousMacroFunctionDef* anonymousFunction
+        = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+    std::string content = anonymousFunction->getDefinition();
+    std::wstring formatedContent = BLANKS_AT_BOL + utf8_to_wstring(content) + L"\n";
+    io->outputMessage(formatedContent);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
         io->outputMessage(L"\n");
     }

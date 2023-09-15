@@ -22,13 +22,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     ArrayOf param1 = argIn[0];
-    std::string fname;
-    if (param1.isFunctionHandle()) {
-        function_handle fh = param1.getContentAsFunctionHandle();
-        fname = fh.name;
-    } else {
-        fname = argIn[0].getContentAsCString();
-    }
+    std::string fname = argIn[0].getContentAsCString();
     if (!context->lookupFunction(fname, funcDef, true)) {
         Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
     }

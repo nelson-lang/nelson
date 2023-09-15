@@ -66,8 +66,9 @@ I_REF = ['NelSon';
 assert_isequal(I, I_REF);
 %=============================================================================
 % function_handle
-J_REF = str2func('sin');
-assert_isequal(J, J_REF);
+assert_isequal(func2str(J), 'sin');
+%=============================================================================
+assert_isequal(func2str(JJ), '@(x)x+1');
 %=============================================================================
 % sparse double
 K_REF = sparse(eye(3,3));

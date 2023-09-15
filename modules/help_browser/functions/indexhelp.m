@@ -48,7 +48,7 @@ end
 %=============================================================================
 function modules_help_list = getModulesHelpList()
   run([nelsonroot(), '/modules/modules.m']);
-  funcList = str2func('@(x) x{1}');
+  funcList = @(x) x{1};
   modules_help_list = [cellfun(funcList, modules_list, 'UniformOutput', false); getExternalModules()];
 end
 %=============================================================================

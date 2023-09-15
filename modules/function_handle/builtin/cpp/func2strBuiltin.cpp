@@ -25,16 +25,12 @@ Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOf arg1 = argIn[0];
     if (arg1.isFunctionHandle()) {
         function_handle fh = arg1.getContentAsFunctionHandle();
-        if (!fh.name.empty()) {
-            retval << ArrayOf::characterArrayConstructor(fh.name);
+        AnonymousMacroFunctionDef* cp
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+        if (cp) {
+            retval << ArrayOf::characterArrayConstructor(cp->toString());
         } else {
-            AnonymousMacroFunctionDef* cp
-                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-            if (cp) {
-                retval << ArrayOf::characterArrayConstructor(cp->getDefinition());
-            } else {
-                Error(_W("Invalid anonymous function."));
-            }
+            Error(_W("Invalid anonymous function."));
         }
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);

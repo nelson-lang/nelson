@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- [#491](http://github.com/Nelson-numerical-software/nelson/issues/491) Anonymous functions
 - `--withoutfilewatcher` executable argument. disable file watcher for current session.
 - `<--FILE WATCHER REQUIRED -->` test_run option.
 - [#853](http://github.com/Nelson-numerical-software/nelson/issues/853) MacOs 13 ventura CI

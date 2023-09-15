@@ -18,6 +18,7 @@
 #include "h5LoadHandle.hpp"
 #include "h5LoadCell.hpp"
 #include "h5LoadStruct.hpp"
+#include "h5LoadFunctionHandle.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,7 +39,9 @@ h5LoadVariable(
     }
 
     NelsonType clDest;
-    if (isObject) {
+    if (className == NLS_FUNCTION_HANDLE_STR) {
+        clDest = NLS_FUNCTION_HANDLE;
+    } else if (isObject) {
         clDest = NLS_STRUCT_ARRAY;
     } else {
         bool haveError;
@@ -57,7 +60,9 @@ h5LoadVariable(
     case NLS_CELL_ARRAY: {
         bSuccess = h5LoadCell(fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
-    case NLS_FUNCTION_HANDLE:
+    case NLS_FUNCTION_HANDLE: {
+        bSuccess = h5LoadFunctionHandle(fid, location, variableName, isEmpty, dims, VariableValue);
+    } break;
     case NLS_CLASS_ARRAY:
     case NLS_STRUCT_ARRAY: {
         bSuccess = h5LoadStruct(

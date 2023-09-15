@@ -48,8 +48,9 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             }
         } else if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            std::string name = fh.name;
-            FunctionDefPtr fun = nullptr;
+            FunctionDefPtr fun = reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
+            std::string name = fun->getName();
+
             if (!eval->getContext()->lookupFunction(name, fun)) {
                 Error(_W("function does not exist."));
             }
@@ -57,7 +58,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                 auto* fm = (MacroFunctionDef*)fun;
                 filename = fm->getFilename();
             } else {
-                Error(_W("built-in have no comments."));
+                Error(_W("built-in, mex, anonymous function have no comments."));
             }
         }
         HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
