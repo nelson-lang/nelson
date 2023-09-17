@@ -17,12 +17,13 @@ end
 p = str2func('pause');
 b = backgroundPool();
 NumWorkers = b.NumWorkers;
-totalWorkers = (NumWorkers*2) + 2
+assert_isequal(NumWorkers, maxNumCompThreads());
+totalWorkers = (NumWorkers * 100) + 2;
 for k = 1:totalWorkers
   f(k) = parfeval(b, p, 0, Inf);
 end
 %=============================================================================
-assert_isequal(class(f), 'FevalFuture')
+assert_isequal(class(f), 'FevalFuture');
 %=============================================================================
 wait(f(1), 'running');
 K =  b.FevalQueue;
@@ -38,5 +39,5 @@ assert_isequal(size(K), [1 1]);
 %=============================================================================
 assert_isequal(LEN_R1, NumWorkers);
 %=============================================================================
-assert_isequal(LEN_R2, NumWorkers + 2);
+assert_isequal(LEN_R2, NumWorkers * 100);
 %=============================================================================

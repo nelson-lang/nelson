@@ -14,6 +14,7 @@
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,7 +44,7 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
             }
             if (handleTypeName != NLS_HANDLE_STR) {
                 bool doOverload = false;
-                std::string functionNameGetHandle = handleTypeName + "_set";
+                std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "set");
                 Context* context = eval->getContext();
                 FunctionDef* funcDef = nullptr;
                 if (context->lookupFunction(functionNameGetHandle, funcDef)) {

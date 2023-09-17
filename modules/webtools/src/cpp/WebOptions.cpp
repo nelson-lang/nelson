@@ -86,7 +86,6 @@ WebOptions::~WebOptions()
     _keyValue = ArrayOf::emptyConstructor();
     _headerFields.clear();
     _contentType.clear();
-    _contentReader.name.clear();
     _contentReader.anonymousHandle = nullptr;
     _mediaType.clear();
     _requestMethod.clear();

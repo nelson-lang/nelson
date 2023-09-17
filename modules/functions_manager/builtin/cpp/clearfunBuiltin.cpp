@@ -11,8 +11,10 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "ClearFunction.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,7 +30,13 @@ Nelson::FunctionsGateway::clearfunBuiltin(int nLhs, const ArrayOfVector& argIn)
         functionname = argIn[0].getContentAsWideString();
     } else if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
-        functionname = utf8_to_wstring(fh.name);
+        if (fh.anonymousHandle) {
+            AnonymousMacroFunctionDef* anonymousFunction
+                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+            if (anonymousFunction->isFunctionHandle()) {
+                functionname = utf8_to_wstring(anonymousFunction->getContent());
+            }
+        }
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

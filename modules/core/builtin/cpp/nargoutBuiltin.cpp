@@ -31,25 +31,24 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             int nargout = context->getCurrentScope()->getNargOut();
             retval << ArrayOf::doubleConstructor(nargout);
         }
-    } else // argIn.size() == 1
-    {
+    } else {
+        // argIn.size() == 1
         ArrayOf param1 = argIn[0];
-        std::wstring name;
         if (param1.isRowVectorCharacterArray()) {
-            name = param1.getContentAsWideString();
+            std::wstring name = param1.getContentAsWideString();
             retval << ArrayOf::doubleConstructor(NargOut(eval, name));
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            if (fh.anonymousHandle == nullptr && fh.name.empty()) {
+            if (fh.anonymousHandle == nullptr) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
             }
-            if (!fh.name.empty()) {
-                name = utf8_to_wstring(fh.name);
-                retval << ArrayOf::doubleConstructor(NargOut(eval, name));
-            } else {
-                AnonymousMacroFunctionDef* anonymousFunction
-                    = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-                if (anonymousFunction) {
+            AnonymousMacroFunctionDef* anonymousFunction
+                = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+            if (anonymousFunction) {
+                if (anonymousFunction->isFunctionHandle()) {
+                    retval << ArrayOf::doubleConstructor(
+                        NargOut(eval, utf8_to_wstring(anonymousFunction->getName())));
+                } else {
                     retval << ArrayOf::doubleConstructor(anonymousFunction->nargout());
                 }
             }

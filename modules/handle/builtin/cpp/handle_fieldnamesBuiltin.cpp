@@ -14,6 +14,7 @@
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +30,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     if (handleTypeName == NLS_HANDLE_STR || handleTypeName.empty()) {
         Error(_W("Invalid handle."));
     }
-    std::string functionNameGetHandle = handleTypeName + "_fieldnames";
+    std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "fieldnames");
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {

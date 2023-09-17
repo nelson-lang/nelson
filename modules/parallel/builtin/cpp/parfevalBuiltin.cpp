@@ -18,7 +18,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::parfevalBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 3, std::numeric_limits<int>::max());
     nargoutcheck(nLhs, 0, 1);
@@ -35,27 +35,19 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("function handle handle expected."));
     }
     function_handle fh = param2.getContentAsFunctionHandle();
-    if (fh.anonymousHandle == nullptr && fh.name.empty()) {
+    if (fh.anonymousHandle == nullptr) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
-    std::string fname = fh.name;
-    Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     ArrayOfVector args;
     for (size_t k = 3; k < argIn.size(); ++k) {
         args << argIn[k];
     }
-    if (!fh.name.empty()) {
-        context->lookupFunction(fname, funcDef);
-    } else if (fh.anonymousHandle != nullptr) {
+    if (fh.anonymousHandle != nullptr) {
         funcDef = (FunctionDef*)fh.anonymousHandle;
     }
     if (!funcDef) {
-        if (!fh.name.empty()) {
-            Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
-        } else {
-            Error(_W("Invalid anonymous function."));
-        }
+        Error(_W("Invalid anonymous function."));
     }
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;

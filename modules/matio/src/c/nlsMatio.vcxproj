@@ -238,6 +238,7 @@
     <ClCompile Include="..\cpp\SaveMatioDouble.cpp" />
     <ClCompile Include="..\cpp\SaveMatioDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\SaveMatioFile.cpp" />
+    <ClCompile Include="..\cpp\SaveMatioFunctionHandle.cpp" />
     <ClCompile Include="..\cpp\SaveMatioHandle.cpp" />
     <ClCompile Include="..\cpp\SaveMatioInteger.cpp" />
     <ClCompile Include="..\cpp\SaveMatioLogical.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="..\cpp\SaveMatioCharacterArray.hpp" />
     <ClInclude Include="..\cpp\SaveMatioDouble.hpp" />
     <ClInclude Include="..\cpp\SaveMatioDoubleComplex.hpp" />
+    <ClInclude Include="..\cpp\SaveMatioFunctionHandle.hpp" />
     <ClInclude Include="..\cpp\SaveMatioHandle.hpp" />
     <ClInclude Include="..\cpp\SaveMatioInteger.hpp" />
     <ClInclude Include="..\cpp\SaveMatioLogical.hpp" />

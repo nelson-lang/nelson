@@ -72,13 +72,13 @@ All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload)
                 = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, nA, stringVector(), false);
             Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(
                 logicalarray, 1, nA);
-            matC = matA.colwise().all();
+            matC = matA.colwise().all().cast<logical>();
             res = ArrayOf(NLS_LOGICAL, Dimensions(1, nA), logicalarray);
         } else if (dim == 2) {
             logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, mA);
             Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(
                 logicalarray, mA, 1);
-            matC = matA.rowwise().all();
+            matC = matA.rowwise().all().cast<logical>();
             res = ArrayOf(NLS_LOGICAL, Dimensions(mA, 1), logicalarray);
         } else {
             res = A;

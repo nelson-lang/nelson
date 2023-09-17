@@ -766,6 +766,11 @@ private:
     ArrayOf
     powerOperator(AbstractSyntaxTreePtr t);
 
+    ArrayOf
+    functionHandleNamedOperator(AbstractSyntaxTreePtr t);
+    ArrayOf
+    functionHandleAnonymousOperator(AbstractSyntaxTreePtr t);
+
     /**
      * Evaluate a unit colon expression.  The AST input should look like:
      *   :

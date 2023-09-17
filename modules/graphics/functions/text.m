@@ -131,9 +131,9 @@ function labelArray = stringToLabel(value, len)
   %=============================================================================
 function labelArray = cellToLabel(value, len)
   cellstr = value;
-  fnum = str2func('isnumeric');
+  fnum = @isnumeric;
   idx = cellfun(fnum, value);
-  fcell = str2func('@(x) sprintf (''%g'', x)');
+  fcell = @(x) sprintf ('%g', x);
   cellstr(idx) = cellfun (fcell, value(idx), 'UniformOutput', false);
   labelArray = cellStringToLabel(cellstr, len);
 end

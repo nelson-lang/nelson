@@ -14,7 +14,10 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "h5SaveString.hpp"
 #include "h5SaveVariable.hpp"
+#include "h5SaveCell.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,7 +26,6 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
-    function_handle fh = VariableValue.getContentAsFunctionHandle();
     std::string h5path;
     if (location == "/") {
         h5path = location + variableName;
@@ -38,40 +40,71 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     if (status < 0) {
         return false;
     }
-    stringVector fNames;
-    fNames.push_back("name");
-    fNames.push_back("anonymous");
-    Dimensions dimsNames(1, fNames.size());
-    ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
-    bSuccess = h5SaveStringArray(
-        fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames, useCompression);
+
+    function_handle fh = VariableValue.getContentAsFunctionHandle();
+    if (!fh.anonymousHandle) {
+        Error(_("Invalid function handle."));
+    }
+    AnonymousMacroFunctionDef* anonymousFunction
+        = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+    std::string anonymousContent = anonymousFunction->getContent();
+    bool isFunctionHandle = anonymousFunction->isFunctionHandle();
+
+    ArrayOf isFunctionHandleArrayOf = ArrayOf::logicalConstructor(isFunctionHandle);
+    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), "is_function_handle",
+        isFunctionHandleArrayOf, useCompression);
     if (!bSuccess) {
         return false;
     }
-    ArrayOf nameElement = ArrayOf::characterArrayConstructor(fh.name);
-    Dimensions dims(1, 1);
-    std::string name = std::to_string(0);
-    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, nameElement, useCompression);
-    if (!bSuccess) {
-        return false;
-    }
-    name = std::to_string(1);
-    std::string anonymousContent;
-    if (fh.anonymousHandle) {
-        AnonymousMacroFunctionDef* anonymousFunction
-            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-        anonymousContent = anonymousFunction->getDefinition();
-    }
+
     ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
-    bSuccess
-        = h5SaveVariable(fid, h5path + std::string("/"), name, anonymousElement, useCompression);
+    bSuccess = h5SaveVariable(
+        fid, h5path + std::string("/"), "function_handle", anonymousElement, useCompression);
     if (!bSuccess) {
         return false;
     }
+
+    if (!isFunctionHandle) {
+        stringVector arguments = anonymousFunction->getArguments();
+        stringVector names = anonymousFunction->getVariableNames();
+        std::vector<ArrayOf> variables = anonymousFunction->getVariables();
+
+        Dimensions dimsNames(1, names.size());
+        ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+        bSuccess = h5SaveStringArray(
+            fid, h5path + std::string("/"), "variable_names", fieldnames, useCompression);
+        if (!bSuccess) {
+            return false;
+        }
+
+        Dimensions dimsArguments(1, arguments.size());
+        ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+        bSuccess = h5SaveStringArray(
+            fid, h5path + std::string("/"), "arguments", argumentsArrayOf, useCompression);
+        if (!bSuccess) {
+            return false;
+        }
+
+        Dimensions dimsVariables(1, variables.size());
+        ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+            NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+        ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
+        for (size_t k = 0; k < variables.size(); k++) {
+            cell[k] = variables[k];
+        }
+
+        bSuccess
+            = h5SaveCell(fid, h5path + std::string("/"), "variables", cellArrayOf, useCompression);
+        if (!bSuccess) {
+            return false;
+        }
+    }
+
     bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
     if (!bSuccess) {
         return false;
     }
+    Dimensions dims(1, 1);
     bSuccess = h5SaveDimensionsAttribute(fid, h5path, dims);
     if (!bSuccess) {
         return false;

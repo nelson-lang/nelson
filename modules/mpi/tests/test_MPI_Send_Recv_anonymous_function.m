@@ -7,14 +7,29 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
+% <--MPI MODE-->
 %=============================================================================
-% function_handle
-% variables environment for function_handle not saved here
-A = @(x) x + 1;
-savebin([tempdir(), 'test_saveload_fh.bin'], 'A');
-REF = A;
-clear A;
-loadbin([tempdir(), 'test_saveload_fh.bin']);
-assert_isequal(func2str(A), '@(x)x+1');
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank ();
+num_ranks = MPI_Comm_size();
+a = 10
+b = 100;
+A = @(x) a + b + x;
+TAG= 1;
+if (my_rank != 0)
+  rankvect = 0;
+  MPI_Send(A, rankvect, TAG)
+else
+  for source = 1:num_ranks - 1
+    receive = MPI_Recv (source, TAG);
+    assert_istrue(isa(receive, 'function_handle'));
+    assert_isequal(func2str(receive), '@(x)a+b+x');
+    assert_isequal(receive(1), 111);
+  end
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
 %=============================================================================

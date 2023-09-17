@@ -26,25 +26,77 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& content)
+AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& functionHandle)
     : FunctionDef(false)
 {
-    this->anonymousContent = content;
-    this->previousLhs = -1;
-    updateCode();
+    this->code = nullptr;
+    this->isFunctionHandleOnly = true;
+    this->functionHandleContent = functionHandle;
+    if (!functionHandle.empty()) {
+        StringHelpers::trim_left(functionHandleContent);
+        StringHelpers::trim_right(functionHandleContent);
+        if (!functionHandleContent.empty() && functionHandleContent[0] == '@') {
+            functionHandleContent.erase(functionHandleContent.begin());
+        }
+        setName(functionHandleContent);
+    }
+    arguments.clear();
+}
+//=============================================================================
+AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymousContent,
+    const stringVector& arguments, const stringVector& variableNames,
+    const std::vector<ArrayOf>& variables)
+    : FunctionDef(false)
+{
+    this->code = nullptr;
+    this->isFunctionHandleOnly = false;
+    this->anonymousContent = anonymousContent;
+    this->arguments = arguments;
+    this->variableNames = variableNames;
+    this->variables = variables;
 }
 //=============================================================================
 AnonymousMacroFunctionDef::~AnonymousMacroFunctionDef()
 {
     this->anonymousContent.clear();
+    this->functionHandleContent.clear();
     this->previousLhs = -1;
-    code = nullptr;
+    this->code = nullptr;
+    this->isFunctionHandleOnly = false;
+    this->arguments.clear();
+    this->variableNames.clear();
+    this->variables.clear();
 }
 //=============================================================================
 std::string
 AnonymousMacroFunctionDef::getDefinition()
 {
-    return this->anonymousContent;
+    if (isFunctionHandleOnly) {
+        return "@" + functionHandleContent;
+    }
+    std::string content = "@(";
+    size_t nbArguments = arguments.size();
+    for (size_t k = 0; k < arguments.size(); ++k) {
+        content = content + arguments[k];
+        if (k < nbArguments - 1) {
+            content = content + ",";
+        }
+    }
+    content = content + ")";
+    content = content + anonymousContent;
+    return content;
+}
+//=============================================================================
+stringVector
+AnonymousMacroFunctionDef::getVariableNames()
+{
+    return variableNames;
+}
+//=============================================================================
+std::vector<ArrayOf>
+AnonymousMacroFunctionDef::getVariables()
+{
+    return variables;
 }
 //=============================================================================
 int
@@ -56,6 +108,9 @@ AnonymousMacroFunctionDef::nargin()
 int
 AnonymousMacroFunctionDef::inputArgCount()
 {
+    if (isFunctionHandleOnly) {
+        return -1;
+    }
     if (arguments.empty()) {
         return 0;
     }
@@ -68,7 +123,7 @@ AnonymousMacroFunctionDef::inputArgCount()
 int
 AnonymousMacroFunctionDef::nargout()
 {
-    return -1;
+    return outputArgCount();
 }
 //=============================================================================
 int
@@ -81,6 +136,16 @@ ArrayOfVector
 AnonymousMacroFunctionDef::evaluateFunction(
     Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    if (isFunctionHandleOnly) {
+        FunctionDef* funcDef = nullptr;
+        eval->lookupFunction(functionHandleContent, funcDef);
+        if (funcDef) {
+            return funcDef->evaluateFunction(eval, inputs, nargout);
+        }
+        std::string msg = _("Undefined variable or function:") + functionHandleContent;
+        std::string id = "Nelson:UndefinedFunction";
+        Error(msg, id);
+    }
     updateCode(nargout);
     ArrayOfVector outputs;
     size_t minCount = 0;
@@ -148,6 +213,10 @@ AnonymousMacroFunctionDef::evaluateFunction(
         varg.name("varargin");
         context->insertVariableLocally("varargin", varg);
     }
+    for (size_t k = 0; k < variableNames.size(); k++) {
+        context->insertVariableLocally(variableNames[k], variables[k]);
+    }
+
     context->getCurrentScope()->setNargOut(nargout);
     uint64 tic = 0;
     bool backupEcho = eval->getEchoMode();
@@ -189,6 +258,7 @@ AnonymousMacroFunctionDef::evaluateFunction(
                     a = ArrayOf::emptyConstructor();
                 }
                 outputs[i] = a;
+                outputs[i].name("");
             }
         }
 
@@ -208,40 +278,46 @@ AnonymousMacroFunctionDef::evaluateFunction(
 std::string
 AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
 {
-    std::string modified = this->anonymousContent;
-    std::string outputVariablesList;
-    if (nLhs == 1) {
-        outputVariablesList = "_VAR_ANONYMOUS_";
-        outputVariablesList += " = ";
+    if (!isFunctionHandleOnly) {
+        std::string functionReworked;
+        std::string outputVariablesList;
+        if (nLhs == 1) {
+            outputVariablesList = "_VAR_ANONYMOUS_";
+            outputVariablesList += " = ";
 
-    } else {
-        for (int k = 0; k < nLhs; ++k) {
-            if (k == 0) {
-                outputVariablesList = "[_VAR_ANONYMOUS_" + std::to_string(k);
-            } else {
-                outputVariablesList += ", _VAR_ANONYMOUS_" + std::to_string(k);
+        } else {
+            for (int k = 0; k < nLhs; ++k) {
+                if (k == 0) {
+                    outputVariablesList = "[_VAR_ANONYMOUS_" + std::to_string(k);
+                } else {
+                    outputVariablesList += ", _VAR_ANONYMOUS_" + std::to_string(k);
+                }
+            }
+            if (nLhs > 0) {
+                outputVariablesList += "] = ";
             }
         }
-        if (nLhs > 0) {
-            outputVariablesList += "] = ";
+        functionReworked = "function " + outputVariablesList + "anonymousFunction(";
+        size_t nbArguments = arguments.size();
+        for (size_t k = 0; k < arguments.size(); ++k) {
+            functionReworked = functionReworked + arguments[k];
+            if (k < nbArguments - 1) {
+                functionReworked = functionReworked + ",";
+            }
         }
+        functionReworked = functionReworked + ")" + "\n";
+        functionReworked = functionReworked + outputVariablesList + anonymousContent + ";" + "\n";
+        return functionReworked;
     }
-    if (modified[0] == '@') {
-        modified.erase(0, 1);
-        StringHelpers::trim_left(modified);
-        if (modified[0] == '(') {
-            std::string replaceBy = "function " + outputVariablesList + "anonymousFunction";
-            modified = replaceBy + modified;
-            StringHelpers::replace_first(modified, ")", ")\n" + outputVariablesList);
-            modified = modified + "\n";
-        }
-    }
-    return modified;
+    return "";
 }
 //=============================================================================
 bool
 AnonymousMacroFunctionDef::updateCode(int nLhs)
 {
+    if (isFunctionHandleOnly) {
+        return true;
+    }
     bool needToUpdate = (code == nullptr) || (this->previousLhs != nLhs);
     if (!needToUpdate) {
         return false;
@@ -295,6 +371,9 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
 bool
 AnonymousMacroFunctionDef::updateCode()
 {
+    if (isFunctionHandleOnly) {
+        return true;
+    }
     return updateCode(1);
 }
 //=============================================================================

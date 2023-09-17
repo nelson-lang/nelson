@@ -205,6 +205,12 @@
     <ClCompile Include="..\cpp\operators\RelationOperatorsHelpers.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\operators\FunctionHandleOperator.cpp">
+      <Filter>Source Files\Operators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />

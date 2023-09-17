@@ -10,6 +10,7 @@ _Main Features_:
 
 - String array type (DONE v0.2.10),
 - Overloading: all types can be overloaded (DONE v0.7.9),
+- Anonymous functions (DONE v0.7.9),
 - Foreign Function Interface (DONE v0.2.4),
 - Audio module (read, play DONE v0.2.1),
 - JSON File I/O module (DONE v0.2.1),

@@ -11,6 +11,7 @@ assert_isequal(nargin('assert_isequal'), 2);
 assert_isequal(nargout('assert_isequal'), 2);
 %=============================================================================
 assert_isequal('A', 'A')
+%=============================================================================
 A = str2func('cos');
 B = str2func('cos');
 assert_isequal(A, B)

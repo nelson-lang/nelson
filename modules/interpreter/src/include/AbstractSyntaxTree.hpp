@@ -78,18 +78,16 @@ enum OP_TYPE
     OP_BRACKETS,
     OP_DOT,
     OP_ALL,
-    OP_INDEX_LIST,
-    OP_ROW_DEF,
     OP_SEMICOLON,
     OP_NULL,
     OP_RSTATEMENT,
     OP_QSTATEMENT,
     OP_SCALL,
-    OP_CCALL,
-    OP_SAVE,
-    OP_LOAD,
     OP_KEYWORD,
-    OP_DOTDYN
+    OP_DOTDYN,
+    OP_FUNCTION_HANDLE_ANONYMOUS,
+    OP_FUNCTION_HANDLE_NAMED
+
 };
 //=============================================================================
 class AbstractSyntaxTree;
@@ -188,6 +186,10 @@ public:
      */
     stringVector
     toStringList();
+
+    std::string
+    toString();
+
     /** Test for an empty tree
      * Returns true if the current node is unallocated or is not a reserved node
      * with an empty text string.

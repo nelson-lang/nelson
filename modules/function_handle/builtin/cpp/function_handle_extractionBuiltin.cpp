@@ -27,13 +27,7 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
         ArrayOf Arg1 = argIn[0];
         if (Arg1.isFunctionHandle()) {
             function_handle fh = Arg1.getContentAsFunctionHandle();
-            FunctionDef* funcDef = nullptr;
-            std::wstring functionName;
-            if (!fh.name.empty()) {
-                eval->getContext()->lookupFunction(fh.name, funcDef);
-            } else {
-                funcDef = (FunctionDef*)fh.anonymousHandle;
-            }
+            FunctionDef* funcDef = reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
             if (funcDef != nullptr) {
                 ArrayOfVector m;
                 for (size_t k = 1; k < argIn.size(); k++) {

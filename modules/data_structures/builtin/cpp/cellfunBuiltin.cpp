@@ -339,6 +339,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     bool bHaveUniformOutputArgs = false;
     bool isUniformOutput = true;
     function_handle errorFunc;
+    errorFunc.anonymousHandle = nullptr;
     if (nbElementsInput - 2 > 0) {
         if (argIn[(indexType)nbElementsInput - (indexType)2].isRowVectorCharacterArray()) {
             std::wstring argName
@@ -445,9 +446,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
-            if (!fh.name.empty()) {
-                eval->getContext()->lookupFunction(fh.name, funcDef);
-            } else if (fh.anonymousHandle != nullptr) {
+            if (fh.anonymousHandle != nullptr) {
                 funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {
@@ -483,8 +482,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         nargin -= 2;
     }
     FunctionDefPtr fptrHandleError = nullptr;
-    if (!errorFunc.name.empty()) {
-        eval->getContext()->lookupFunction(errorFunc.name, fptrHandleError);
+    if (errorFunc.anonymousHandle) {
+        fptrHandleError = reinterpret_cast<FunctionDef*>(errorFunc.anonymousHandle);
     }
     if (isUniformOutput) {
         retval = cellfun_uniformBuiltin(

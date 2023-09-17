@@ -18,55 +18,63 @@
    know about them.  */
 enum yytokentype
 {
-    IDENT = 258,
-    NUMERIC = 259,
-    ENDQSTMNT = 260,
-    ENDSTMNT = 261,
-    LE = 262,
-    GE = 263,
-    EQ = 264,
-    DOTTIMES = 265,
-    DOTRDIV = 266,
-    DOTLDIV = 267,
-    DOTPOWER = 268,
-    DOTTRANSPOSE = 269,
-    CHARACTER = 270,
-    STRING = 271,
-    SPECIALCALL = 272,
-    END = 273,
-    IF = 274,
-    FUNCTION = 275,
-    FOR = 276,
-    BREAK = 277,
-    MAGICEND = 278,
-    WHILE = 279,
-    ELSE = 280,
-    ELSEIF = 281,
-    SWITCH = 282,
-    CASE = 283,
-    OTHERWISE = 284,
-    CONTINUE = 285,
-    TRY = 286,
-    CATCH = 287,
-    FIELD = 288,
-    REFLPAREN = 289,
-    REFRPAREN = 290,
-    KEYBOARD = 291,
-    RETURN = 292,
-    VARARGIN = 293,
-    VARARGOUT = 294,
-    QUIT = 295,
-    ABORT = 296,
-    ENDFUNCTION = 297,
-    SOR = 298,
-    SAND = 299,
-    NE = 300,
-    POS = 301,
-    NEG = 302,
-    NOT = 303
+    YYEMPTY = -2,
+    YYEOF = 0, /* "end of file"  */
+    YYerror = 256, /* error  */
+    YYUNDEF = 257, /* "invalid token"  */
+    IDENT = 258, /* IDENT  */
+    NUMERIC = 259, /* NUMERIC  */
+    ENDQSTMNT = 260, /* ENDQSTMNT  */
+    ENDSTMNT = 261, /* ENDSTMNT  */
+    LE = 262, /* LE  */
+    GE = 263, /* GE  */
+    EQ = 264, /* EQ  */
+    DOTTIMES = 265, /* DOTTIMES  */
+    DOTRDIV = 266, /* DOTRDIV  */
+    DOTLDIV = 267, /* DOTLDIV  */
+    DOTPOWER = 268, /* DOTPOWER  */
+    DOTTRANSPOSE = 269, /* DOTTRANSPOSE  */
+    CHARACTER = 270, /* CHARACTER  */
+    STRING = 271, /* STRING  */
+    SPECIALCALL = 272, /* SPECIALCALL  */
+    END = 273, /* END  */
+    IF = 274, /* IF  */
+    FUNCTION = 275, /* FUNCTION  */
+    FOR = 276, /* FOR  */
+    BREAK = 277, /* BREAK  */
+    MAGICEND = 278, /* MAGICEND  */
+    WHILE = 279, /* WHILE  */
+    ELSE = 280, /* ELSE  */
+    ELSEIF = 281, /* ELSEIF  */
+    SWITCH = 282, /* SWITCH  */
+    CASE = 283, /* CASE  */
+    OTHERWISE = 284, /* OTHERWISE  */
+    CONTINUE = 285, /* CONTINUE  */
+    TRY = 286, /* TRY  */
+    CATCH = 287, /* CATCH  */
+    FIELD = 288, /* FIELD  */
+    REFLPAREN = 289, /* REFLPAREN  */
+    REFRPAREN = 290, /* REFRPAREN  */
+    KEYBOARD = 291, /* KEYBOARD  */
+    RETURN = 292, /* RETURN  */
+    VARARGIN = 293, /* VARARGIN  */
+    VARARGOUT = 294, /* VARARGOUT  */
+    QUIT = 295, /* QUIT  */
+    ABORT = 296, /* ABORT  */
+    ENDFUNCTION = 297, /* ENDFUNCTION  */
+    SOR = 298, /* SOR  */
+    SAND = 299, /* SAND  */
+    NE = 300, /* NE  */
+    POS = 301, /* POS  */
+    NEG = 302, /* NEG  */
+    NOT = 303 /* NOT  */
 };
 #endif
 //=============================================================================
+#define YYEMPTY -2
+#define YYEOF 0
+#define YYerror 256
+#define YYUNDEF 257
 #define IDENT 258
 #define NUMERIC 259
 #define ENDQSTMNT 260
