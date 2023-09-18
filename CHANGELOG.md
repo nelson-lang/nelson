@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.7.X (UNRELEASED)
+## 0.7.X (2023-09-18)
 
 ### Changed
 
@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - overload is now fully compatible using '@' syntax and precedence.
   - all operators were reworked to support compatible overload.
 
+- `.*` operator optimized.
+- `conv2` optimized.
 - Boost 1.82 used on Windows.
 
 - Internals:
