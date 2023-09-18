@@ -465,9 +465,6 @@ msgstr ""
 msgid "cell expected."
 msgstr ""
 
-msgid "not defined."
-msgstr ""
-
 msgid "Wrong type for argument #1. struct expected."
 msgstr ""
 
@@ -643,19 +640,15 @@ msgstr ""
 msgid "Only numericPtr can be reshaped."
 msgstr ""
 
+msgid ""
+"Integers can only be combined with integers of the same class, or scalar "
+"doubles."
+msgstr ""
+
 msgid "Numerics types expected."
 msgstr ""
 
-msgid "overload of isequal must return a logical."
-msgstr ""
-
-msgid "overload of isequaln must return a logical."
-msgstr ""
-
-msgid "overload of isequalto must return a logical."
-msgstr ""
-
-msgid "Undefined function 'length' for input arguments of type"
+msgid "Attempt to convert to unimplemented sparse type"
 msgstr ""
 
 msgid "Inputs parameters must be scalars."
@@ -710,9 +703,6 @@ msgstr ""
 msgid "Wrong size for argument #2. row vector or scalar expected"
 msgstr ""
 
-msgid "Undefined function 'size' for input arguments of type"
-msgstr ""
-
 msgid "K-th diagonal input must be an integer scalar."
 msgstr ""
 
@@ -731,7 +721,7 @@ msgstr ""
 msgid "Invalid string length: 1, 32, 64 expected."
 msgstr ""
 
-msgid "Invalid conversion from complex."
+msgid "Unsupported data conversion."
 msgstr ""
 
 msgid "Undefined function 'conj' for input arguments of type"
@@ -763,9 +753,6 @@ msgid "Invalid third input argument. 'first' or 'last' expected."
 msgstr ""
 
 msgid "Arrays have incompatible sizes for this operation."
-msgstr ""
-
-msgid "Type not managed."
 msgstr ""
 
 msgid "Undefined function '"
@@ -802,6 +789,9 @@ msgid "Undefined function 'rem' for complex input argument."
 msgstr ""
 
 msgid "Undefined function 'rem' for sparse input argument."
+msgstr ""
+
+msgid "Type not managed."
 msgstr ""
 
 msgid "Input argument #1: scalar integer value expected."
@@ -853,6 +843,9 @@ msgid "minimize main window (GUI only)"
 msgstr ""
 
 msgid "no ipc features"
+msgstr ""
+
+msgid "without file watcher"
 msgstr ""
 
 msgid "command to execute"
@@ -1102,9 +1095,6 @@ msgstr ""
 msgid "' is not a builtin."
 msgstr ""
 
-msgid "' is not a function."
-msgstr ""
-
 msgid "Invalid anonymous function."
 msgstr ""
 
@@ -1139,6 +1129,12 @@ msgid "Function does not exist."
 msgstr ""
 
 msgid "Argument #1 must be a valid function_handle."
+msgstr ""
+
+msgid "Case not managed. Please report."
+msgstr ""
+
+msgid "A valid function handle expected."
 msgstr ""
 
 msgid "single argument to axes function must be handle for an axes."
@@ -1550,6 +1546,9 @@ msgstr ""
 msgid "Stop execution"
 msgstr ""
 
+msgid "not defined."
+msgstr ""
+
 msgid "handle expected."
 msgstr ""
 
@@ -1670,6 +1669,9 @@ msgstr ""
 msgid "Cannot save variable:"
 msgstr ""
 
+msgid "Invalid function handle."
+msgstr ""
+
 msgid "Valid text encoding expected."
 msgstr ""
 
@@ -1728,6 +1730,9 @@ msgid "built-in have no comments."
 msgstr ""
 
 msgid "function does not exist."
+msgstr ""
+
+msgid "built-in, mex, anonymous function have no comments."
 msgstr ""
 
 msgid "A valid function expected."
@@ -1911,6 +1916,9 @@ msgstr ""
 msgid "' from cell is not possible."
 msgstr ""
 
+msgid "' from function_handle is not possible."
+msgstr ""
+
 msgid "' for input arguments of type '"
 msgstr ""
 
@@ -1926,6 +1934,9 @@ msgstr ""
 msgid "Argument #1: valid value expected."
 msgstr ""
 
+msgid "Undefined variable or function:"
+msgstr ""
+
 #, c-format
 msgid "Function : '%s'."
 msgstr ""
@@ -1937,11 +1948,6 @@ msgid "Complex cannot be converted to logical."
 msgstr ""
 
 msgid "Unable to convert variable type to test for if/while statement"
-msgstr ""
-
-#, c-format
-msgid ""
-"'%s' is not found in the current folder or on the Nelson path, but exists in:"
 msgstr ""
 
 msgid "System error detected: "
@@ -1956,15 +1962,6 @@ msgstr ""
 
 #, c-format
 msgid "System error detected: Error code: %s"
-msgstr ""
-
-msgid "mpower function not found."
-msgstr ""
-
-msgid "Type function not valid."
-msgstr ""
-
-msgid "mpower returned fewer outputs than expected."
 msgstr ""
 
 msgid "Illegal use of the ':' operator"
@@ -2044,9 +2041,6 @@ msgstr ""
 msgid "Undefined function:"
 msgstr ""
 
-msgid "Undefined variable or function:"
-msgstr ""
-
 msgid "Cannot reindex an expression that returns multiple values."
 msgstr ""
 
@@ -2068,13 +2062,13 @@ msgstr ""
 msgid "Function not found:"
 msgstr ""
 
+msgid "Type function not valid."
+msgstr ""
+
 msgid "Function not found."
 msgstr ""
 
 msgid "Function not found: "
-msgstr ""
-
-msgid "Conversion not possible."
 msgstr ""
 
 msgid "The special variable 'varargout' was not defined as a cell-array."
@@ -2143,14 +2137,31 @@ msgstr ""
 msgid "malformed floating point constant"
 msgstr ""
 
-#, c-format
-msgid "Previously accessible file '%s' is now inaccessible."
+msgid "Operands must be real."
 msgstr ""
 
-msgid "Complex values cannot converted to logicals."
+#, c-format
+msgid "Operator '%s' is not supported for operands of type '%s'."
+msgstr ""
+
+msgid "Complex values cannot be converted to chars."
+msgstr ""
+
+msgid ""
+"Nonscalar arrays of function handles are not allowed; use cell arrays "
+"instead."
+msgstr ""
+
+msgid "Cannot promote to string array."
+msgstr ""
+
+msgid "Positive integral powers expected."
 msgstr ""
 
 msgid "Operand to && operator must be convertible to logical scalar values."
+msgstr ""
+
+msgid "Complex values cannot converted to logicals."
 msgstr ""
 
 msgid "Operand to || operator must be convertible to logical scalar values."
@@ -2312,12 +2323,6 @@ msgstr ""
 msgid "an expression after '.^'"
 msgstr ""
 
-msgid "a right parenthesis after expression to match this one"
-msgstr ""
-
-msgid "an expression after left parenthesis"
-msgstr ""
-
 msgid "a matrix definition followed by a right bracket"
 msgstr ""
 
@@ -2331,6 +2336,12 @@ msgid "expecting expression after '=' in keyword assignment"
 msgstr ""
 
 msgid "expecting keyword identifier after '/' in keyword assignment"
+msgstr ""
+
+msgid "a right parenthesis after expression to match this one"
+msgstr ""
+
+msgid "an expression after left parenthesis"
 msgstr ""
 
 #, c-format, python-format
@@ -2557,6 +2568,9 @@ msgstr ""
 msgid "Conversion to logical from cell is not possible."
 msgstr ""
 
+msgid "Conversion to logical from function_handle is not possible."
+msgstr ""
+
 msgid "Undefined function 'logical' for input arguments of type '"
 msgstr ""
 
@@ -2582,6 +2596,9 @@ msgid "Unknown save format."
 msgstr ""
 
 msgid "Cannot append variable (-v7.3 required)."
+msgstr ""
+
+msgid "invalid function handle."
 msgstr ""
 
 msgid "handle not saved."
@@ -2819,10 +2836,10 @@ msgstr ""
 msgid "MPI_Comm valid handle expected."
 msgstr ""
 
-msgid "String expected."
+msgid "Invalid communicator"
 msgstr ""
 
-msgid "Invalid communicator"
+msgid "Same types expected."
 msgstr ""
 
 msgid "finite integer values expected."
@@ -2843,9 +2860,6 @@ msgstr ""
 msgid "Input arguments must have the same class or scalar doubles."
 msgstr ""
 
-msgid "Colon input arguments must have same type."
-msgstr ""
-
 msgid "Array used as scalar."
 msgstr ""
 
@@ -2864,34 +2878,10 @@ msgstr ""
 msgid "Unhandled type combination for A^B"
 msgstr ""
 
-msgid "Positive integral powers expected."
-msgstr ""
-
-msgid "integers of the same class, or scalar doubles expected."
-msgstr ""
-
 msgid "Integer type not managed."
 msgstr ""
 
-msgid "Integers of the same class expected."
-msgstr ""
-
-msgid "Complex values cannot be converted to chars."
-msgstr ""
-
-msgid "Complex values cannot be converted to integers."
-msgstr ""
-
-msgid "Conversion to char from logical is not possible."
-msgstr ""
-
-msgid "Conversion to char from complex is not possible."
-msgstr ""
-
-msgid "Cannot promote to string array."
-msgstr ""
-
-msgid "Cannot concatenate differents types."
+msgid "Same class type expected."
 msgstr ""
 
 msgid "Matrix is rank deficient to machine precision:"
@@ -3329,33 +3319,6 @@ msgstr ""
 msgid "Input argument #16: scalar expected."
 msgstr ""
 
-msgid "Undefined function 'full' for input arguments."
-msgstr ""
-
-msgid "Undefined function 'nnz' for input arguments of type 'string'."
-msgstr ""
-
-msgid "Undefined function 'nnz' for input arguments of type 'cell'."
-msgstr ""
-
-msgid "Undefined function 'nnz' for input arguments of type 'struct'."
-msgstr ""
-
-msgid "Undefined function 'nnz' for input arguments."
-msgstr ""
-
-msgid "Undefined function 'nzmax' for input arguments of type 'string'."
-msgstr ""
-
-msgid "Undefined function 'nzmax' for input arguments of type 'cell'."
-msgstr ""
-
-msgid "Undefined function 'nzmax' for input arguments of type 'struct'."
-msgstr ""
-
-msgid "Undefined function 'nzmax' for input arguments."
-msgstr ""
-
 msgid "Sparse matrix indices must be positive integers."
 msgstr ""
 
@@ -3456,9 +3419,6 @@ msgstr ""
 msgid "'linear' method expected."
 msgstr ""
 
-msgid "Error evaluating betainc."
-msgstr ""
-
 msgid "Wrong size for #1 argument."
 msgstr ""
 
@@ -3481,11 +3441,6 @@ msgid "Inputs must be the same size."
 msgstr ""
 
 msgid "Inputs must be real integers."
-msgstr ""
-
-msgid ""
-"Integers can only be combined with integers of the same class, or scalar "
-"doubles."
 msgstr ""
 
 msgid "'double' or 'single' type for all input arguments expected."
@@ -3689,19 +3644,13 @@ msgstr ""
 msgid "Expected a integer value."
 msgstr ""
 
-msgid "Attempt to convert to unimplemented sparse type."
-msgstr ""
-
-msgid "Undefined function 'char' for input arguments."
-msgstr ""
-
-msgid "Undefined function 'char' for input arguments of type"
-msgstr ""
-
-msgid "char vector or cell of strings expected."
+msgid "Conversion to char from complex is not possible."
 msgstr ""
 
 msgid "Number of Input arguments must the same as output."
+msgstr ""
+
+msgid "char vector or cell of strings expected."
 msgstr ""
 
 msgid "'class' argument expected."
@@ -3769,10 +3718,6 @@ msgid "Duplicated tag detected: %s"
 msgstr ""
 
 msgid "Check tags used."
-msgstr ""
-
-#, c-format
-msgid "Multiple exclusive tags detected: %s"
 msgstr ""
 
 msgid "Cannot edit the directory: %1"
@@ -4002,45 +3947,6 @@ msgstr ""
 msgid "Dec"
 msgstr ""
 
-msgid "Undefined function 'acos' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'asin' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'atan' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'atanh' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'cos' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'cosh' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'cosm' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'sin' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'sinh' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'sinm' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'tan' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'tanh' for input arguments of type"
-msgstr ""
-
-msgid "Undefined function 'tanm' for input arguments of type"
-msgstr ""
-
 msgid "This declaration is only allowed from a class constructor."
 msgstr ""
 
@@ -4075,6 +3981,12 @@ msgid "Cannot convert cell arrays to indices."
 msgstr ""
 
 msgid "Cannot convert string arrays to indices."
+msgstr ""
+
+msgid "Cannot convert function_handle arrays to indices."
+msgstr ""
+
+msgid "Cannot convert class arrays to indices."
 msgstr ""
 
 msgid "Cannot convert structure arrays to indices."
@@ -4148,6 +4060,36 @@ msgstr ""
 msgid "Expected integer index."
 msgstr ""
 
+msgid "Undefined function 'nzmax' for input arguments of type 'cell'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'string'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'class'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'struct'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'cell'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'string'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'class'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'struct'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments."
+msgstr ""
+
 msgid "Index exceeds array bounds."
 msgstr ""
 
@@ -4166,12 +4108,18 @@ msgstr ""
 msgid "Cannot promote to function_handle array."
 msgstr ""
 
+msgid "Cannot promote to class array."
+msgstr ""
+
 msgid ""
 "Multidimensional indexing not legal for sparse arrays in assignment A(I1,"
 "I2,...,IN) = B"
 msgstr ""
 
 msgid "Assignment A(:) = B requires A and B to be the same size"
+msgstr ""
+
+msgid "Cannot promote to another class type array."
 msgstr ""
 
 msgid "Cell definition must have same number of elements in each row"
@@ -4270,6 +4218,18 @@ msgstr ""
 msgid "A column vector expected."
 msgstr ""
 
+msgid ""
+"Number of field names must match number of values in structure constructor."
+msgstr ""
+
+msgid ""
+"ArrayOf dimensions of non-scalar entries must agree in structure "
+"construction."
+msgstr ""
+
+msgid "Invalid dimensions."
+msgstr ""
+
 msgid "Input must be 2-D"
 msgstr ""
 
@@ -4277,9 +4237,6 @@ msgid "Sparse matrix not managed."
 msgstr ""
 
 msgid "Argument to diagonal constructor must by a vector!"
-msgstr ""
-
-msgid "Invalid dimensions."
 msgstr ""
 
 msgid "Statement A(...) = [] can only contain one non-colon index."
@@ -4335,6 +4292,15 @@ msgstr ""
 msgid "Cannot convert cell-arrays to any other type."
 msgstr ""
 
+msgid "Cannot convert function_handle to any other type."
+msgstr ""
+
+msgid "Cannot combine classes with different types."
+msgstr ""
+
+msgid "Cannot convert class to any other type."
+msgstr ""
+
 msgid ""
 "Cannot combine structures with different fields if the combination requires "
 "fields to be deleted from one of the structures."
@@ -4346,22 +4312,13 @@ msgstr ""
 msgid "Cannot convert string-arrays to any other type."
 msgstr ""
 
-msgid "Cannot make n-dimensional arrays sparse."
+msgid "Cannot make sparse."
 msgstr ""
 
 msgid "Cannot make strings or reference types sparse."
 msgstr ""
 
-msgid "Cannot make sparse."
-msgstr ""
-
-msgid ""
-"Number of field names must match number of values in structure constructor."
-msgstr ""
-
-msgid ""
-"ArrayOf dimensions of non-scalar entries must agree in structure "
-"construction."
+msgid "Cannot make n-dimensional arrays sparse."
 msgstr ""
 
 msgid "Cannot dereference a field of a multi-element structure array."
@@ -4398,6 +4355,14 @@ msgid "Illegal argument to Dimensions constructor"
 msgstr ""
 
 msgid "Invalid dimension position."
+msgstr ""
+
+msgid ""
+"For colon operator with char operands, first and last operands must be char."
+msgstr ""
+
+msgid ""
+"Colon operands must be all the same type, or mixed with real double scalar."
 msgstr ""
 
 msgid "handle must have a type."
@@ -4529,9 +4494,6 @@ msgstr ""
 msgid "Inputs to function 'mustBeGreaterThan' must be numeric or logical."
 msgstr ""
 
-msgid "Value must be numeric or logical."
-msgstr ""
-
 msgid "Inputs to function 'mustBeGreaterThan' must be real."
 msgstr ""
 
@@ -4546,6 +4508,9 @@ msgid "Second input to function 'mustBeLessThan' must be a scalar."
 msgstr ""
 
 msgid "Inputs to function 'mustBeLessThan' must be numeric or logical."
+msgstr ""
+
+msgid "Value must be numeric or logical."
 msgstr ""
 
 msgid "Inputs to function 'mustBeLessThan' must be real."
@@ -5067,6 +5032,9 @@ msgstr ""
 msgid "struct expected."
 msgstr ""
 
+msgid "class expected."
+msgstr ""
+
 msgid "cell of strings expected."
 msgstr ""
 
@@ -5204,7 +5172,10 @@ msgstr ""
 msgid "Invalid Graphics Object."
 msgstr ""
 
-msgid "Wrong Overloading::OverloadClass."
+#, c-format
+msgid ""
+"Check for incorrect argument data type or missing argument in call to "
+"function '%s'."
 msgstr ""
 
 msgid "Builtin"
@@ -5304,6 +5275,12 @@ msgstr ""
 msgid "invalid argument: descend, ascend expected."
 msgstr ""
 
+#, python-format
+msgid ""
+"Check for incorrect argument data type or missing argument in call to "
+"function %s."
+msgstr ""
+
 msgid "Cannot convert missing element."
 msgstr ""
 
@@ -5311,9 +5288,6 @@ msgid "Cell must be string scalars or character arrays."
 msgstr ""
 
 msgid "Matrix 2D expected."
-msgstr ""
-
-msgid "vertcat does not support cell-struct."
 msgstr ""
 
 msgid "Invalid Input struct expected."
@@ -5472,22 +5446,6 @@ msgid "Input argument must be a vector."
 msgstr ""
 
 msgid "Column wins diagonal conflict."
-msgstr ""
-
-#, python-format
-msgid "function %s_log10 undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_log1p undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_num2bin undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_swapbytes undefined."
 msgstr ""
 
 msgid "warning(query) does not require an second argument."
@@ -5726,22 +5684,6 @@ msgstr ""
 msgid "helpproject.qhp is missing."
 msgstr ""
 
-msgid "function single_minus_int16 undefined."
-msgstr ""
-
-msgid "function int16_minus_single undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s undefined."
-msgstr ""
-
-msgid "function single_plus_int16 undefined."
-msgstr ""
-
-msgid "function int16_plus_single undefined."
-msgstr ""
-
 msgid "Expecting statement list or function definition"
 msgstr ""
 
@@ -5774,10 +5716,6 @@ msgid "Input argument must be a real numeric scalar tolerance"
 msgstr ""
 
 msgid "First input must be a column vector of length 2."
-msgstr ""
-
-#, python-format
-msgid "function %s_det undefined."
 msgstr ""
 
 msgid "#2 argument: characters expected."
@@ -5848,6 +5786,9 @@ msgstr ""
 msgid "nmm required json module."
 msgstr ""
 
+msgid "Wrong type for argument #1: MPI_Comm expected."
+msgstr ""
+
 msgid "#2 argument: integer value expected."
 msgstr ""
 
@@ -5855,9 +5796,6 @@ msgid "A existing filename expected."
 msgstr ""
 
 msgid "An .m filename extension expected."
-msgstr ""
-
-msgid "Wrong type for argument #1: MPI_Comm expected."
 msgstr ""
 
 msgid "Dimension argument must be a real, positive, integer scalar."
@@ -5869,16 +5807,7 @@ msgstr ""
 msgid "Size mismatch on arguments to arithmetic operator >="
 msgstr ""
 
-msgid "function double_ismember undefined."
-msgstr ""
-
-msgid "function cell_ismember undefined."
-msgstr ""
-
 msgid "Size mismatch on arguments to arithmetic operator <="
-msgstr ""
-
-msgid "function int32_gamma undefined."
 msgstr ""
 
 msgid "Argument must be a vector or a square matrix."
@@ -5960,9 +5889,6 @@ msgid "not yet implemented."
 msgstr ""
 
 msgid "Impossible to open: "
-msgstr ""
-
-msgid "Undefined function char for input arguments of type"
 msgstr ""
 
 msgid "Wrong value for #3: IgnoreCase expected."
@@ -6058,45 +5984,6 @@ msgid "Three input arguments expected to return three ouput arguments."
 msgstr ""
 
 msgid "Input must be single or double."
-msgstr ""
-
-msgid "Undefined function acos for input arguments of type "
-msgstr ""
-
-msgid "Undefined function asin for input arguments of type "
-msgstr ""
-
-msgid "Undefined function atan for input arguments of type "
-msgstr ""
-
-msgid "Undefined function atanh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cos for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cosh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cosm for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sin for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sinh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sinm for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tan for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tanh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tanm for input arguments of type "
 msgstr ""
 
 #, python-format
