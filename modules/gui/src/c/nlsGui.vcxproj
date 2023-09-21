@@ -38,6 +38,7 @@
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
     <ClCompile Include="..\cpp\QuestionBox.cpp" />
+    <ClCompile Include="..\cpp\ForceWindowsTitleBarToDark.cpp" />
     <ClCompile Include="..\cpp\UiGetDirectory.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
@@ -54,6 +55,7 @@
     <ClInclude Include="..\include\QtLookAndFeel.hpp" />
     <ClInclude Include="..\include\QtTranslation.hpp" />
     <ClInclude Include="..\include\QuestionBox.hpp" />
+    <ClInclude Include="..\include\ForceWindowsTitleBarToDark.hpp" />
     <ClInclude Include="..\include\UiGetDirectory.hpp" />
     <CustomBuild Include="..\cpp\QtTerminal.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>

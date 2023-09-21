@@ -10,6 +10,7 @@
 #include "TextEditor.hpp"
 #include "QStringConverter.hpp"
 #include "QtTextEditor.h"
+#include "ForceWindowsTitleBarToDark.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,6 +23,10 @@ editor(Evaluator* eval)
     if (edit == nullptr) {
         edit = new QtTextEditor(eval);
     }
+#ifdef _MSC_VER
+    forceWindowsTitleBarToDark(edit->winId());
+#endif
+
     edit->showNormal();
     edit->activateWindow();
     edit->raise();

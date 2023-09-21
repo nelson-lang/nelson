@@ -35,6 +35,7 @@
 #include "NelsonPalette.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "ForceWindowsTitleBarToDark.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -134,6 +135,9 @@ QtMainWindow::QtMainWindow(bool minimized)
     setCentralWidget(qtTerminal);
     statusBar()->showMessage("");
     setPalette(getNelsonPalette());
+#ifdef _MSC_VER
+    forceWindowsTitleBarToDark(this->winId());
+#endif
     createMenus();
     createToolbars();
     setWindowTitle(TR("Nelson"));

@@ -42,8 +42,9 @@ table.revhistory
 }
 
 pre {
-	display: inline;
+  display: inline;
   background: #eaeef3;
+  color:#181414;
 }
 
 

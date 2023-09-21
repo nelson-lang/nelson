@@ -30,10 +30,10 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include "StringHelpers.hpp"
 #include "QtTextEditor.h"
 #include "PostCommand.hpp"
@@ -47,8 +47,8 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PostCommand.hpp"
-#include "NelsonPalette.hpp"
 #include "i18n.hpp"
+#include "NelsonPalette.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
