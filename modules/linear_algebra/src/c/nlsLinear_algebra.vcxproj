@@ -202,6 +202,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Balance.hpp" />
     <ClInclude Include="..\include\CholeskyFactorization.hpp" />
     <ClInclude Include="..\include\DeterminantMatrix.hpp" />
     <ClInclude Include="..\include\EigenDecomposition.hpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\include\TraceMatrix.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\Balance.cpp" />
     <ClCompile Include="..\cpp\CholeskyFactorization.cpp" />
     <ClCompile Include="..\cpp\DeterminantMatrix.cpp" />
     <ClCompile Include="..\cpp\EigenDecomposition.cpp" />

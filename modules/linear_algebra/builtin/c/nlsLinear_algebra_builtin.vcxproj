@@ -180,6 +180,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\balanceBuiltin.cpp" />
     <ClCompile Include="..\cpp\cholBuiltin.cpp" />
     <ClCompile Include="..\cpp\detBuiltin.cpp" />
     <ClCompile Include="..\cpp\eigBuiltin.cpp" />
@@ -226,6 +227,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\balanceBuiltin.hpp" />
     <ClInclude Include="..\include\cholBuiltin.hpp" />
     <ClInclude Include="..\include\detBuiltin.hpp" />
     <ClInclude Include="..\include\eigBuiltin.hpp" />

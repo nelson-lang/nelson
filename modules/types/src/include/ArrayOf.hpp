@@ -737,6 +737,13 @@ public:
     doubleMatrix2dConstructor(indexType m, indexType n);
 
     /**
+     * Single matrix constructor - Construct an NLS_SINGLE object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    singleMatrix2dConstructor(indexType m, indexType n);
+
+    /**
      * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either
      * vertical or horizontal) corresponding to minval:stepsize:maxval, with an
      * optional transpose.
