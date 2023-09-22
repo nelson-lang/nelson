@@ -17,6 +17,7 @@
 #include <QtQml/QQmlProperty>
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
+#include <QtWidgets/QDialog>
 #include "QmlEngine.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -26,6 +27,7 @@
 #include "characters_encoding.hpp"
 #include "nelsonObject.h"
 #include "QObjectHandleObjectAllocator.hpp"
+#include "ForceWindowsTitleBarToDark.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -108,6 +110,12 @@ QmlEngine::loadQmlFile(const std::wstring& filename)
         if (topLevel != nullptr) {
             std::string classname = std::string(topLevel->metaObject()->className());
             if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
+                if (topLevel->isWindowType()) {
+#ifdef _MSC_VER
+                    QWindow* qWindow = qobject_cast<QWindow*>(topLevel);
+                    forceWindowsTitleBarToDark(qWindow->winId());
+#endif
+                }
                 QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
                 topLevel->setParent(QMainWindowParent);
             }
@@ -128,6 +136,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         qmlengine->clearComponentCache();
         QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
         QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
+
         try {
             view->setSource(qUrlLocal);
         } catch (std::runtime_error&) {
@@ -137,6 +146,9 @@ QmlEngine::createQQuickView(const std::wstring& filename)
             view->deleteLater();
             Error(_W("Cannot create QQuickView."));
         }
+#ifdef _MSC_VER
+        Nelson::forceWindowsTitleBarToDark(view->winId());
+#endif
         topLevel->setParent(view); //-V595
         view->show();
         if (topLevel != nullptr) {

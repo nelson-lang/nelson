@@ -30,6 +30,8 @@
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 #include "GOHelpers.hpp"
+#include "ForceWindowsTitleBarToDark.hpp"
+#include "NelsonPalette.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,6 +53,9 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     setFocusPolicy(Qt::ClickFocus);
     qtchild = new BaseFigureQt(NULL, goFig);
     setCentralWidget(qtchild);
+#ifdef _MSC_VER
+    forceWindowsTitleBarToDark(this->winId());
+#endif
     resize(600, 400);
     createActions();
     createMenuBar();

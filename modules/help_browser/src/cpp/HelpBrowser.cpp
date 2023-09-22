@@ -16,6 +16,7 @@
 #include "HelpCollection.hpp"
 #include "HelpViewerWindow.h"
 #include "i18n.hpp"
+#include "ForceWindowsTitleBarToDark.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -126,6 +127,9 @@ HelpBrowser::startBrowser(std::wstring& msg)
             return false;
         }
     }
+#ifdef _MSC_VER
+    Nelson::forceWindowsTitleBarToDark(helpWindow->winId());
+#endif
     helpWindow->show();
     return true;
 }

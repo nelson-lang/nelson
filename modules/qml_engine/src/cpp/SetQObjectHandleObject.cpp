@@ -25,6 +25,7 @@
 #include <QtGui/qmatrix4x4.h>
 #include <QtQml/QQmlComponent>
 #include <QtQuick/QQuickItem>
+#include "ForceWindowsTitleBarToDark.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -81,6 +82,12 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
             QVariant v = ArrayOfToQVariant(B, id);
             if (v.isValid()) {
                 qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+#ifdef _MSC_VER
+                if (qobj->isWindowType() && propertyName == L"visible") {
+                    QWindow* qWindow = qobject_cast<QWindow*>(qobj);
+                    forceWindowsTitleBarToDark(qWindow->winId());
+                }
+#endif
             } else {
                 Error(_W("QVariant invalid."));
             }

@@ -1177,7 +1177,7 @@ GOAxis::rePackFigure()
     double posy0 = outerpos[3] * 0.1 + outerpos[1];
     double poswidth = outerpos[2] * 0.8;
     double posheight = outerpos[3] * .8;
-    maxLabelHeight = (int)(maxLabelHeight * 1.2 + tickHeight);
+    maxLabelHeight = (int)(maxLabelHeight * 2.0 + tickHeight);
     if (posx0 < maxLabelHeight) {
         posx0 = maxLabelHeight;
     }
