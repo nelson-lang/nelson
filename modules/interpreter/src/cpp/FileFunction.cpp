@@ -17,17 +17,24 @@
 namespace Nelson {
 //=============================================================================
 FileFunction::FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
-    bool withWatcher, bool isOverload)
+    bool withWatcher, bool isOverload, bool isPrivate)
 {
     this->_withWatcher = withWatcher;
     this->_isOverload = isOverload;
-
     _ismex = ismex;
     _fullfilename = directory;
-    if (ismex) {
-        _fullfilename = _fullfilename + L"/" + name + L"." + getMexExtension();
+    if (isPrivate) {
+        if (ismex) {
+            _fullfilename = name + L"." + getMexExtension();
+        } else {
+            _fullfilename = name + L".m";
+        }
     } else {
-        _fullfilename = _fullfilename + L"/" + name + L".m";
+        if (ismex) {
+            _fullfilename = _fullfilename + L"/" + name + L"." + getMexExtension();
+        } else {
+            _fullfilename = _fullfilename + L"/" + name + L".m";
+        }
     }
     _name = name;
     std::ifstream inFile;

@@ -8,7 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- private functions/folders support (to limit the scope of a function).
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
+
+### Changed
+
+- some modules (nig, modules_manager, help_browser) reworked to use private functions.
 
 ### Fixed
 

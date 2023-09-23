@@ -47,6 +47,13 @@ class NLSINTERPRETER_IMPEXP Context
 
     size_t currentrecursiondepth;
 
+private:
+    std::string
+    getMangledPrivateFunction(const std::wstring& directory, const std::string& functionName);
+
+    bool
+    isInMacroFile();
+
 public:
     /**
      * Create a context and initialize it with a global scope and a
@@ -62,6 +69,10 @@ public:
      */
     void
     pushScope(const std::string& name);
+
+    void
+    pushScope(const std::string& name, const std::wstring& fullfilename);
+
     /**
      * Pop the bottom scope off of the scope stack.  The scope is
      * deleted.

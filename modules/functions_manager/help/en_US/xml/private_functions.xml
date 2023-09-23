@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>private functions</keyword>
+	<short_description>Private functions.</short_description>
+
+	<description>
+		<p
+    >Private functions serve a valuable purpose when you wish to restrict the accessibility of a function.</p>
+		<p
+    >In numerous instances, a single function may require access to one or more auxiliary functions.</p>
+		<p
+    >when a solitary auxiliary function is utilized by multiple functions, it becomes necessary to relocate these auxiliary functions to a dedicated subdirectory named "private", positioned within the directory where the functions that require access to these auxiliary functions are located.</p>
+		<p>To illustrate this concept, consider a function, let's call it <b
+      >function1</b>, that relies on a helper function, <b
+      >function2</b>, to perform a substantial portion of its tasks, as shown in below example.</p>
+		<p>In this scenario, if the path to func1 is <b>directory/function1.m</b> and <b
+      >function2</b> is found in the directory <b
+      >directory/private/function2.m</b>, then <b
+      >function2</b> is only accessible to functions within <b
+      >directory</b>, such as <b>function1</b>.</p>
+	</description>
+
+	<used_function />
+	<bibliography />
+
+<examples>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>directory/function1.m</example_item_description>
+		<example_item_data
+      ><![CDATA[function y = function1(x)
+  y = function2(x)  +  1;
+end
+]]>
+		</example_item_data>
+	</example_item>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description
+      >directory/private/function2.m</example_item_description>
+		<example_item_data><![CDATA[function y = function2(x)
+  y = 41;
+end
+]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+		<link linkend="${functions_manager}addpath">addpath</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
