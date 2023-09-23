@@ -75,6 +75,13 @@ ArrayOf::singleVectorConstructor(indexType len)
 }
 //=============================================================================
 ArrayOf
+ArrayOf::singleMatrix2dConstructor(indexType m, indexType n)
+{
+    single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
+    return ArrayOf(NLS_SINGLE, Dimensions(m, n), data);
+}
+//=============================================================================
+ArrayOf
 ArrayOf::complexConstructor(float aval, float bval)
 {
     Dimensions dim;
