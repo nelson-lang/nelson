@@ -16,6 +16,8 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadName.hpp"
+#include "FileSystemWrapper.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,6 +25,23 @@ Scope::Scope(const std::string& scopeName)
 {
     name = scopeName;
     loopLevel = 0;
+    filename = L"";
+    directory = L"";
+    isInMacro = false;
+}
+//=============================================================================
+Scope::Scope(const std::string& scopeName, const std::wstring& fullfilename)
+{
+    name = scopeName;
+    loopLevel = 0;
+    filename = fullfilename;
+    isInMacro = StringHelpers::ends_with(filename, L".m");
+    FileSystemWrapper::Path fullPath(fullfilename);
+    directory = fullPath.parent_path().generic_wstring();
+    std::wstring privateStr = L"/private";
+    if (StringHelpers::ends_with(directory, privateStr)) {
+        directory.erase(directory.size() - privateStr.size(), privateStr.size());
+    }
 }
 //=============================================================================
 Scope::~Scope()
@@ -267,6 +286,24 @@ bool
 Scope::isVariable(const std::string& varname)
 {
     return variablesTab.isVariable(varname);
+}
+//=============================================================================
+std::wstring
+Scope::getFilename()
+{
+    return filename;
+}
+//=============================================================================
+std::wstring
+Scope::getDirectory()
+{
+    return directory;
+}
+//=============================================================================
+bool
+Scope::isInMacroFile()
+{
+    return isInMacro;
 }
 //=============================================================================
 } // namespace Nelson

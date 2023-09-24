@@ -24,7 +24,7 @@ private:
 
 public:
     FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
-        bool withWatcher, bool isOverload);
+        bool withWatcher, bool isOverload, bool isPrivate);
     ~FileFunction();
     std::wstring
     getFilename();

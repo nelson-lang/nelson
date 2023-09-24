@@ -208,7 +208,8 @@ PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
 }
 //=============================================================================
 void
-PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& prefix)
+PathFunctionIndexer::rehash(
+    const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate)
 {
     try {
         nfs::directory_iterator end_iter;
@@ -218,7 +219,10 @@ PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& 
             if (current.is_directory()) {
                 std::wstring stemDirectory = current.stem().wstring();
                 if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
-                    rehash(current.generic_wstring(), stemDirectory);
+                    rehash(current.generic_wstring(), stemDirectory, false);
+                }
+                if (stemDirectory == L"private") {
+                    rehash(current.generic_wstring(), current.generic_wstring(), true);
                 }
             }
             std::wstring ext = current.extension().generic_wstring();
@@ -234,7 +238,7 @@ PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& 
 
                     try {
                         ff = new FileFunction(pathName, prefix == L"" ? name : prefix + L"/" + name,
-                            isMex, withWatcher, prefix != L"");
+                            isMex, withWatcher, prefix != L"" && !isPrivate, isPrivate);
                     } catch (const std::bad_alloc&) {
                         ff = nullptr;
                     }
@@ -256,7 +260,7 @@ PathFunctionIndexer::rehash()
 {
     if (!_path.empty()) {
         mapRecentFiles.clear();
-        rehash(_path, L"");
+        rehash(_path, L"", false);
     }
 }
 //=============================================================================

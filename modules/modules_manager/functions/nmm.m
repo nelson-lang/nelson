@@ -26,7 +26,6 @@ function varargout = nmm(varargin)
   if ~isSupportedFirstParameter(firstParameter)
     error('#1 value or type not managed.');
   end
-  addpath([modulepath('modules_manager', 'functions'), '/internal']);
   try
     switch firstParameter
       case 'list'
@@ -50,10 +49,8 @@ function varargout = nmm(varargin)
       otherwise
         error('#1 value or type not managed.')
       end
-      rmpath([modulepath('modules_manager', 'functions'), '/internal']);
     catch
       e = lasterror();
-      rmpath([modulepath('modules_manager', 'functions'), '/internal']);
       error(e);
     end
   end

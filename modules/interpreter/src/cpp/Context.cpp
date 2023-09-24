@@ -68,6 +68,21 @@ Context::pushScope(const std::string& name)
 }
 //=============================================================================
 void
+Context::pushScope(const std::string& name, const std::wstring& fullfilename)
+{
+    Scope* sc = nullptr;
+    if (scopestack.size() > getRecursionDepth()) {
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
+    }
+    try {
+        sc = new Scope(name, fullfilename);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
+    }
+    scopestack.push_back(sc);
+}
+//=============================================================================
+void
 Context::popScope()
 {
     if (scopestack.size() == 1) {
@@ -212,12 +227,23 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
     if (scopestack.back()->lookupFunction(funcName, val)) {
         return true;
     }
-
     found = PathFunctionIndexerManager::getInstance()->find(funcName, val);
     if (found) {
         FunctionsInMemory::getInstance()->add(funcName, val);
         return true;
     }
+
+    if (isInMacroFile()) {
+        std::wstring directory = scopestack.back()->getDirectory();
+        found = PathFunctionIndexerManager::getInstance()->find(
+            getMangledPrivateFunction(directory, funcName), val);
+        if (found) {
+            FunctionsInMemory::getInstance()->add(
+                getMangledPrivateFunction(directory, funcName), val);
+            return true;
+        }
+    }
+
     found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
     if (found) {
         FunctionsInMemory::getInstance()->add(funcName, val);
@@ -387,6 +413,22 @@ size_t
 Context::getMaximumRecursionDepth()
 {
     return MAX_RECURSION_FUNCTION_CALL;
+}
+//=============================================================================
+std::string
+Context::getMangledPrivateFunction(const std::wstring& directory, const std::string& functionName)
+{
+    return wstring_to_utf8(directory) + "/private/" + functionName;
+}
+//=============================================================================
+bool
+Context::isInMacroFile()
+{
+    Scope* scope = getCurrentScope();
+    if (scope) {
+        return scope->isInMacroFile();
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

@@ -133,7 +133,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();
-    context->pushScope(this->getName());
+    context->pushScope(this->getName(), this->getFilename());
 
     std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
     eval->callstack.pushDebug(filenameUtf8, this->getName());

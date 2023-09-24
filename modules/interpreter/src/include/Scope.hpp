@@ -84,11 +84,18 @@ private:
      */
     std::vector<int> IDstack;
 
+    std::wstring filename;
+    std::wstring directory;
+    bool isInMacro;
+
 public:
     /**
      * Construct a scope with the given name.
      */
     Scope(const std::string& scopeName);
+
+    Scope(const std::string& scopeName, const std::wstring& fullfilename);
+
     /**
      * Default destructor.
      */
@@ -230,6 +237,14 @@ public:
 
     bool
     isVariable(const std::string& varname);
+
+    std::wstring
+    getFilename();
+    std::wstring
+    getDirectory();
+
+    bool
+    isInMacroFile();
 };
 //=============================================================================
 } // namespace Nelson

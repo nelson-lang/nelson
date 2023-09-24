@@ -54,7 +54,7 @@ private:
     comparePathname(const std::wstring& path1, const std::wstring& path2);
 
     void
-    rehash(const std::wstring& pathToScan, const std::wstring& prefix);
+    rehash(const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate);
 
     bool withWatcher;
 
