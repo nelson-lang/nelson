@@ -101,6 +101,7 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_MEX}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_SIO_CLIENT}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_SLICOT}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_FFTW}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GUI}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HELP_BROWSER}'));
@@ -365,6 +366,15 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_MATIO}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HDF5_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
+        if ( 
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_SLICOT}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_SLICOT_REQUIRED'),
                 mbError, MB_OK, MB_OK );
             Result := false;
           end;

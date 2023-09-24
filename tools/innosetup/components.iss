@@ -25,6 +25,9 @@ Name: {#COMPONENT_SIGNAL_PROCESSING}; Description:{cm:SIGNAL_PROCESSING_MODULE};
 #define COMPONENT_DATA_ANALYSIS 'DATA_ANALYSIS'
 Name: {#COMPONENT_DATA_ANALYSIS}; Description:{cm:DATA_ANALYSIS_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_CONTROL_SYSTEM 'CONTROL_SYSTEM'
+Name: {#COMPONENT_CONTROL_SYSTEM}; Description:{cm:CONTROL_SYSTEM_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_TRIGONOMETRIC_FUNCTIONS 'TRIGONOMETRIC_FUNCTIONS'
 Name: {#COMPONENT_TRIGONOMETRIC_FUNCTIONS}; Description:{cm:TRIGONOMETRIC_FUNCTIONS_MODULE}; Types: full custom;
 ;==============================================================================

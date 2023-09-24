@@ -75,6 +75,7 @@ list(
   HDF5
   MATIO
   SLICOT
+  CONTROL_SYSTEM
   HELP_TOOLS
   HELP_BROWSER
   TEXT_EDITOR
@@ -125,6 +126,10 @@ endif()
 if(LGPL_ONLY)
   set(WITHOUT_FFTW_MODULE ON)
   set(WITHOUT_SLICOT_MODULE ON)
+endif()
+# ==============================================================================
+if (WITHOUT_SLICOT_MODULE)
+  set(WITHOUT_CONTROL_SYSTEM_MODULE ON)
 endif()
 # ==============================================================================
 option(FORCE_QT5 "Force to use Qt5." OFF)

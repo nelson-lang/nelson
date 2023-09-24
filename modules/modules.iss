@@ -83,4 +83,5 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "parallel/module.iss"
 #include "signal_processing/module.iss"
 #include "geometry/module.iss"
+#include "control_system/module.iss"
 ;==============================================================================
