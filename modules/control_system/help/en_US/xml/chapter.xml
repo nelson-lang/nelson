@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>control_system</module_name>
+  <chapter>Control System</chapter>
+  <chapter_description
+  >Algorithms for designing, analyzing and tuning linear control systems.</chapter_description>
+  
+</xmldoc>

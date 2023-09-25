@@ -76,5 +76,6 @@ modules_list = {
 {'webtools', true};
 {'geometry', true};
 {'com_engine', true};
+{'control_system', true};
 };
 % ============================================================================

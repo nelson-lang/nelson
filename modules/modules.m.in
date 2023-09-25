@@ -76,5 +76,6 @@ modules_list = {
 {'webtools', @WITH_WEBTOOLS_MODULE@};
 {'geometry', @WITH_GEOMETRY_MODULE@};
 {'com_engine', false};
+{'control_system', @WITH_CONTROL_SYSTEM_MODULE@};
 };
 % ============================================================================

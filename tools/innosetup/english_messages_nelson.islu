@@ -15,6 +15,7 @@ english.MINIMAL_INSTALL_TYPE=Minimal install (no gui)
 ;==============================================================================
 english.FFTW_MODULE=Fastest Fourier Transform module(FFTW)
 english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory (GPL v2 license)
+english.CONTROL_SYSTEM_MODULE=Control System Module
 english.SIO_CLIENT_MODULE=Nelson in the cloud (server)
 english.TESTS_MANAGER_MODULE=Testing Framework
 english.UNIT_TESTS=Unit testing files
@@ -55,6 +56,7 @@ english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.
 english.MESSAGEBOX_HELP_BROWSER_REQUIRED=help_browser module must be selected.
 english.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=data_analysis module must be selected.
+english.MESSAGEBOX_SLICOT_REQUIRED=slicot module must be selected.
 english.MESSAGEBOX_F2C_REQUIRED=f2c module must be selected.
 english.MESSAGEBOX_JSON_REQUIRED=json module must be selected.
 english.MESSAGEBOX_HDF5_REQUIRED=hdf5 module must be selected.

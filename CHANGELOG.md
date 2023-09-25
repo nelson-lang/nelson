@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - private functions/folders support (to limit the scope of a function).
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
 
+- control system module (part 1):
+  - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
+  - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
+
 ### Changed
 
 - some modules (nig, modules_manager, help_browser) reworked to use private functions.

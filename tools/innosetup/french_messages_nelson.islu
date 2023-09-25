@@ -14,6 +14,7 @@ french.CUSTOM_INSTALL_TYPE=Installation personalisée
 french.MINIMAL_INSTALL_TYPE=Installation minimale (sans interface graphique)
 ;==============================================================================
 french.SLICOT_MODULE=SLICOT module (GPL v2 license)
+french.CONTROL_SYSTEM_MODULE=Controle de systemes
 french.SIO_CLIENT_MODULE=Nelson dans le Cloud (serveur)
 french.FFTW_MODULE=Transformée de Fourier module (FFTW)
 french.TESTS_MANAGER_MODULE=Module de framework de tests
@@ -55,6 +56,7 @@ french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.
 french.MESSAGEBOX_HELP_BROWSER_REQUIRED=Le module help_browser doit être sélectionné.
 french.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=Le module data_analysis doit être sélectionné.
+french.MESSAGEBOX_SLICOT_REQUIRED=Le module slicot doit être sélectionné.
 french.MESSAGEBOX_F2C_REQUIRED=Le module f2c doit être sélectionné.
 french.MESSAGEBOX_JSON_REQUIRED=Le module json doit être sélectionné.
 french.MESSAGEBOX_HDF5_REQUIRED=Le module hdf5 doit être sélectionné.
