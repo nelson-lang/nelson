@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - control system module (part 1):
   - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
   - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
+  - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
 
 ### Changed
 
