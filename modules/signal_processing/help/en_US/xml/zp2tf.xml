@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>zp2tf</keyword>
+  <short_description
+  >Zero-pole to transfer function conversion.</short_description>
+
+  <syntax>
+    <syntax_item>[NUM, DEN] = zp2tf(Z, P, K)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description
+      >Locations of zeros, organized in columns for each system output.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>P</param_name>
+      <param_description
+      >Locations of poles, recorded as a column vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>K</param_name>
+      <param_description>Gains.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>NUM</param_name>
+      <param_description
+      >Coefficients in the numerator, organized by rows corresponding to each system output.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>DEN</param_name>
+      <param_description
+      >Coefficients in the denominator, arranged as a row vector.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b
+      >[NUM, DEN] = zp2tf(Z, P, K)</b> returns polynomial transfer function representation from zeros and poles.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[p = [0.5;0.45+0.5i;0.45-0.5i];
+z = [-1;i;-i];       
+k = 1;
+[n, d] = zp2tf(z, p, k)]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}tf2zpk">tf2zpk</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
