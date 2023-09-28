@@ -8,3 +8,4 @@ that actually holds the copyright for their contributions.
 Those individuals should have their names indented and be marked with a '-'
 
 - Allan CORNET (nelson.numerical.computation@gmail.com)
+- Daniel Mårtensson who has developed the original algorithms in GNU Octave (MIT License).

@@ -359,3 +359,11 @@ FileWatcher is a C++ wrapper for OS file monitoring systems.
 > <https://github.com/jameswynn/simplefilewatcher>
 
 > <https://github.com/jameswynn/simplefilewatcher/blob/master/License.txt> MIT license
+
+- Swedish Embedded Control Systems Toolbox
+
+Original library is based on excellent work by Daniel Mårtensson who has developed the original algorithms in C and GNU Octave.
+
+> <https://github.com/swedishembedded/control>
+
+> <https://github.com/swedishembedded/control/blob/main/LICENSE> MIT license
