@@ -1,66 +1,116 @@
-% SPDX-License-Identifier: MIT
-% Generates a state space model from matrix A, B, C, D
-% Input: delay, A, B, C(optional), D(optional)
-% Example 1: sys = ss(delay, A, B)				 % C set to diagnoal matrix
-% Example 2: sys = ss(delay, A, B, C)			% D set to zero matrix
-% Example 3: sys = ss(delay, A, B, C, D)
-% Author: Daniel Mårtensson, 2017 September
-
-function [sys] = ss(varargin)
-
-	if(length(varargin) < 1)
-		error('Missing delaytime, A-matrix and B-matrix')
-	end
-
-	if(length(varargin) < 2)
-		error('Missing A-matrix and B-matrix')
-	else
-		sys.A = varargin{2};
-		% Check if sys.A is square matrix
-		if(size(sys.A,1) ~= size(sys.A,2))
-			error('A is not a square');
-		end
-	end
-
-	if(length(varargin) < 3)
-		error('Missing B-matrix')
-	else
-		sys.B = varargin{3};
-		% Check if sys.A and sys.B have the same lenght of rows
-		if(size(sys.A, 1) ~= size(sys.B, 1))
-			error('A and B have not the same row length');
-		end
-	end
-
-	if(length(varargin) < 4)
-		% sprintf('C matrix assumed to be a diagonal %ix%i matrix', size(varargin{2}, 1),size(varargin{2}, 2))
-		sys.C = eye(size(varargin{2}, 1));
-	else
-		sys.C = varargin{4};
-		% Check if sys.A and sys.C have the same lenght of columns
-		if(size(sys.A, 2) ~= size(sys.C, 2))
-			error('A and C have not the same column length');
-		end
-	end
-
-	if(length(varargin) < 5)
-		% sprintf('D matrix assumed to be a zero %ix%i matrix', size(sys.C, 1), size(sys.B, 2))
-		sys.D = zeros(size(sys.C, 1), size(sys.B, 2));
-	else
-		sys.D = varargin{5};
-		% Check if sys.C and sys.D have the same lenght of rows
-		if(size(sys.C, 1) ~= size(sys.D, 1))
-			error('C and D have not the same row length');
-		end
-		% and check if sys.B and sys.D have the same lenght of columns
-		if(size(sys.B, 2) ~= size(sys.D, 2))
-			error('D and B have not the same columns length');
-		end
-	end
-
-	% Delay time
-	sys.delay = varargin{1};
-	sys.type = 'SS';
-	%Sampel time
-	sys.sampleTime = 0;
+%=============================================================================
+% Copyright (c) 2017 September Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: MIT OR LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = ss(varargin)
+  % Generates a state space model from matrix A, B, C, D
+  % Input: A, B, C, D, Ts
+  % sys = ss(A, B, C, D)
+  % sys = ss(A, B, C, D, Ts)
+  % sys = ss(D)
+  
+  nargoutchk(0, 1);
+  
+  sys = [];
+  if (nargin == 0)
+    sys = ss_no_rhs();
+  end
+  if (nargin == 1)
+    sys = ss_one_rhs(varargin{1});
+  end
+  if (nargin == 4 || nargin == 5)
+    Ts = 0;
+    if (nargin == 5)
+      Ts = varargin{5};
+      isValidTs = isempty(Ts) || (isscalar(Ts) && (Ts == -1 || Ts >= 0));
+      if ~isValidTs
+        error(_('Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.'));
+      end
+    end
+    A = varargin{1};
+    B = varargin{2};
+    C = varargin{3};
+    D = varargin{4};
+    sys = ss_ABCD(A, B, C, D, Ts);
+  end
+  if (~isa(sys, 'ss'))
+    error(_('Wrong number of input arguments.'));
+  end
+  varargout{1} = sys;
 end
+%=============================================================================
+function sys = ss_no_rhs()
+  ss = {};
+  ss.A = [];
+  ss.B = [];
+  ss.C = [];
+  ss.D = [];
+  ss.E = [];
+  ss.Scaled = false;
+  ss.Ts = 0;
+  ss.Internal = [];
+  ss.Internal.Version = 1;
+  ss.Internal.Ts = 0;
+  ss.TimeUnit = 'seconds';
+  ss.UserData = [];
+  sys = class(ss, 'ss');
+end
+%=============================================================================
+function sys = ss_one_rhs(D)
+  sys = ss_no_rhs();
+  sys.B = zeros(0, size(D, 2));
+  sys.C = zeros(size(D, 1),0);
+  sys.D = D;
+  sys.Internal.Ts = -2;
+end
+%=============================================================================
+function sys = ss_ABCD(A, B, C, D, Ts)
+  [A, B, C, D, Ts] = adapt_ABCD(A, B, C, D, Ts);
+  msg = checkABCDE(A, B, C, D);
+  
+  if ~isempty(msg)
+    error(msg.identifier, msg.message);
+  end
+  
+  sys = ss_no_rhs();
+  
+  sys.A = A;
+  sys.B = B;
+  sys.C = C;
+  sys.D = D;
+  
+  if isequal(Ts, -1)
+    sys.Ts = 0;
+    sys.Internal.Ts = -1;
+  end
+  if isequal(Ts, -2)
+    sys.Ts = 0;
+    sys.Internal.Ts = -2;
+  end
+end
+%=============================================================================
+function [A, B, C, D, Ts] = adapt_ABCD(A, B, C, D, Ts)
+  isDZero = (isscalar(D) && D(1) == 0);
+  if isempty(A) && isempty(B) && isempty(C)
+    [m, n] = size(D);
+    A = [];
+    B = zeros(0, n);
+    C = zeros(m, 0);
+    Ts = -2;
+    return;
+  end
+  new_row_for_C_or_D = max(size(C, 1), size(D, 1));
+  if isempty(C)
+    C = eye(new_row_for_C_or_D, size(A, 1));
+  end
+  if (isempty(D) || isDZero)
+    D = zeros(new_row_for_C_or_D, size(B, 2));
+  end
+end
+%=============================================================================

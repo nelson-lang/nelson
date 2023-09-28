@@ -14,7 +14,7 @@
 namespace Nelson::DataStructuresGateway {
 //=============================================================================
 ArrayOfVector
-cellBuiltin(int nLhs, const ArrayOfVector& argIn);
+class_subsagnBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

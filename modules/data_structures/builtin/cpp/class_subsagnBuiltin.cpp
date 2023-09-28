@@ -7,14 +7,29 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "class_subsagnBuiltin.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "characters_encoding.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson::DataStructuresGateway {
+using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-cellBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-} // namespace Nelson
+Nelson::DataStructuresGateway::class_subsagnBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 3, 3);
+    if (!argIn[0].isClassType()) {
+        Error(_W("Wrong type for argument #1. struct expected."));
+    }
+    std::string fieldname = argIn[1].getContentAsCString();
+    ArrayOf res = argIn[0];
+    ArrayOfVector value;
+    value << argIn[2];
+    res.setFieldAsList(fieldname, value);
+    retval << res;
+    return retval;
+}
 //=============================================================================

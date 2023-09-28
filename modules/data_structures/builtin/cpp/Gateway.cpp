@@ -12,7 +12,10 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "OverloadName.hpp"
+#include "Operators.hpp"
 #include "structBuiltin.hpp"
+#include "class_subsagnBuiltin.hpp"
 #include "iscellstrBuiltin.hpp"
 #include "cellBuiltin.hpp"
 #include "fieldnamesBuiltin.hpp"
@@ -30,6 +33,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"data_structures";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { OVERLOAD_FUNCTION_NAME(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR),
+        (ptrBuiltin)Nelson::DataStructuresGateway::class_subsagnBuiltin, 1, 3, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
     { "isfield", (ptrBuiltin)Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
     { "fieldnames", (ptrBuiltin)Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1 },
     { "cellfun", (ptrBuiltin)Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1,
@@ -42,6 +48,7 @@ static const nlsGateway gateway[] = {
     { "iscellstr", (ptrBuiltin)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
     { "cell", (ptrBuiltin)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
     { "struct2cell", (ptrBuiltin)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
+    { "cell2struct", (ptrBuiltin)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
     { "cell2struct", (ptrBuiltin)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
 };
 //=============================================================================
