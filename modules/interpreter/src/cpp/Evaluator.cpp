@@ -4240,7 +4240,13 @@ Evaluator::simpleAssignClass(
         = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    if (!_context->lookupFunction(functionNamesimpleAssignClass, funcDef)) {
+    _context->lookupFunction(functionNamesimpleAssignClass, funcDef);
+    if (!funcDef) {
+        std::string functionNamesimpleAssignDefault
+            = getOverloadFunctionName(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR);
+        _context->lookupFunction(functionNamesimpleAssignDefault, funcDef);
+    }
+    if (!funcDef) {
         Error(_("Function not found:") + " " + functionNamesimpleAssignClass);
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
