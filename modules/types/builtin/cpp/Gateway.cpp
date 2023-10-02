@@ -38,6 +38,7 @@
 #include "isuint8Builtin.hpp"
 #include "isstringBuiltin.hpp"
 #include "isvarnameBuiltin.hpp"
+#include "isobjectBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -70,6 +71,8 @@ static const nlsGateway gateway[] = {
     { "isclass", (ptrBuiltin)Nelson::TypeGateway::isclassBuiltin, 1, 1 },
     { "ishandle", (ptrBuiltin)Nelson::TypeGateway::ishandleBuiltin, 1, 1 },
     { "isvarname", (ptrBuiltin)Nelson::TypeGateway::isvarnameBuiltin, 1, 1 },
+    { "isobject", (ptrBuiltin)Nelson::TypeGateway::isobjectBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
