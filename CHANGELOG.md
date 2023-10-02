@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - private functions/folders support (to limit the scope of a function).
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
+- `isobject` Check whether the input is an object.
+- `cell2mat` Convert cell array of matrices to single matrix.
 
 - control system module (part 1):
   - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
