@@ -88,10 +88,12 @@ function sys = ss_ABCD(A, B, C, D, Ts)
   if isequal(Ts, -1)
     sys.Ts = 0;
     sys.Internal.Ts = -1;
-  end
-  if isequal(Ts, -2)
+  elseif isequal(Ts, -2)
     sys.Ts = 0;
     sys.Internal.Ts = -2;
+  else
+    sys.Ts = Ts;
+    sys.Internal.Ts = Ts;
   end
 end
 %=============================================================================

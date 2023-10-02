@@ -19,6 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
   - `ss`: State-space model.
+  - `tf`: Transfer function model (display, horzcat, vertcat, size).
+  - `isct`: checks if dynamic system model is in continuous time.
+  - `isdt`: checks if dynamic system model is in discret time.
+  - `isstatic`: checks if model is static or dynamic.
+  - `islti`: checks if variable is an linear model tf, ss or zpk.
 
 ### Changed
 
