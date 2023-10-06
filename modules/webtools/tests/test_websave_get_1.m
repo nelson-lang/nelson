@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/stsci-h-p2016a-m-2000x1374.png';
-filename = [tempdir(), 'p0714aa.jpg'];
+url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
+filename = [tempdir(), 'MoValleyEclipse_1.jpg'];
 outfilename = websave(filename, url);
 %=============================================================================
