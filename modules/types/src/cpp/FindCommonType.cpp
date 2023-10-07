@@ -94,6 +94,14 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
                 commonType = NLS_HANDLE;
                 return true;
             }
+            if (argIn[0].isClassType()) {
+                typeName = argIn[0].getClassType();
+                commonType = NLS_CLASS_ARRAY;
+                isSparse = false;
+                isComplex = false;
+                return true;
+            }
+
             commonType = argIn[0].getDataClass();
             if (commonType == NLS_DCOMPLEX) {
                 commonType = NLS_DOUBLE;

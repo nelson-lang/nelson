@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
 - `isobject` Check whether the input is an object.
 - `cell2mat` Convert cell array of matrices to single matrix.
+- [#948](http://github.com/Nelson-numerical-software/nelson/issues/948) `blkdiag` Create a block diagonal matrix from 2D matrices of different sizes.
 
 - control system module (part 1):
   - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
@@ -24,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `isdt`: checks if dynamic system model is in discret time.
   - `isstatic`: checks if model is static or dynamic.
   - `islti`: checks if variable is an linear model tf, ss or zpk.
+  - `issiso`: checks if dynamic system model is a single input and single output.
 
 ### Changed
 
