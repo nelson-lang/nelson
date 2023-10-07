@@ -18,6 +18,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@char\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@char\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@tf\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@tf\;Components: {#COMPONENT_CONTROL_SYSTEM};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@ss\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@ss\;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_CONTROL_SYSTEM} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
