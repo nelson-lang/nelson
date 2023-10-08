@@ -19,10 +19,14 @@ function varargout = tf(varargin)
     sys = tf_one_rhs(varargin{1});
   end
   if (nargin == 2)
-    sys = tf_two_rhs(varargin{1}, varargin{2});
+    Ts = 0;
+    [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(varargin{1}, varargin{2}, Ts);
+    sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
   end
   if (nargin == 3)
-    sys = tf_three_rhs(varargin{1}, varargin{2}, varargin{3});
+    Ts = varargin{3};
+    [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(varargin{1}, varargin{2}, Ts);
+    sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
   end
   if (~isa(sys, 'tf'))
     error(_('Wrong number of input arguments.'));
@@ -51,40 +55,6 @@ function sys = tf_one_rhs(m)
   sys.Denominator = num2cell(ones(size(m)));
   sys.Numerator = num2cell(m);
   sys.Ts = -2;
-end
-%=============================================================================
-function sys = tf_two_rhs(numerator, denominator)
-  numerator = checkFractionPart(numerator);
-  denominator = checkFractionPart(denominator);
-  if (length(numerator) == 1)
-    for k = 2:length(denominator)
-      numerator{k} = numerator{1};
-    end
-  end
-  if (length(denominator) == 1)
-    for k = 2:length(numerator)
-      denominator{k} = denominator{1};
-    end
-  end
-  if (length(numerator) ~= length(denominator))
-    error(_('Numerator and Denominator must have compatible sizes.'));
-  end
-  for k = 1:length(numerator)
-    [N, D] = arrangeVectors(numerator{k}, denominator{k});
-    numerator{k} = N;
-    denominator{k} = D;
-  end
-  sys = tf_no_rhs();
-  sys.Denominator = denominator;
-  sys.Numerator = numerator;
-end
-%=============================================================================
-function sys = tf_three_rhs(numerator, denominator, Ts)
-  sys = tf_two_rhs(numerator, denominator);
-  if (Ts > 0)
-    sys.Variable = 'z';
-    sys.Ts = Ts;
-  end
 end
 %=============================================================================
 function modifiedPart = checkFractionPart(part)
@@ -130,5 +100,67 @@ function [v1, v2] = arrangeVectors(v1, v2)
       v2 = [zeros(1, lenDiff) , v2];
     end
   end
+end
+%=============================================================================
+function [numerator, denominator, variableName] = adjustTransferFunctionParameters(numerator, denominator, Ts)
+  variableName = '';
+  isStaticGain = false;
+  if (isempty(denominator))
+    if (isempty(numerator))
+      numerator = {}; 
+      denominator = {};
+      isStaticGain = true;
+    elseif (isnumeric(numerator) && ismatrix(numerator) && isreal(numerator))
+      numerator = num2cell(numerator);
+      denominator = num2cell(ones(size(numerator)));
+      isStaticGain = true;
+    end
+  end
+
+  if (~iscell (numerator))
+    numerator = {numerator};
+  end
+  if (~iscell (denominator))
+    denominator = {denominator};
+  end
+  checkisScalarFunction = @(x) (find (x ~= 0, 1) == length (x)) || (length (find (x ~= 0, 1)) == 0);
+  isAllScalarNumerator = all(cellfun(checkisScalarFunction, numerator));
+  isAllScalarDenominator = all(cellfun(checkisScalarFunction, denominator));
+  if (all (isAllScalarNumerator) && all(isAllScalarDenominator))
+    isStaticGain = true;
+  end 
+  if (isStaticGain || (Ts == 0))
+    variableName = 's';
+  else
+    variableName = 'z';
+  end
+end
+%=============================================================================
+function sys = tf_constructor(numeratorerator, denominator, Ts, variableName)
+  numeratorerator = checkFractionPart(numeratorerator);
+  denominator = checkFractionPart(denominator);
+  if (length(numeratorerator) == 1)
+    for k = 2:length(denominator)
+      numeratorerator{k} = numeratorerator{1};
+    end
+  end
+  if (length(denominator) == 1)
+    for k = 2:length(numeratorerator)
+      denominator{k} = denominator{1};
+    end
+  end
+  if (length(numeratorerator) ~= length(denominator))
+    error(_('Numerator and Denominator must have compatible sizes.'));
+  end
+  for k = 1:length(numeratorerator)
+    [N, D] = arrangeVectors(numeratorerator{k}, denominator{k});
+    numeratorerator{k} = N;
+    denominator{k} = D;
+  end
+  sys = tf_no_rhs();
+  sys.Denominator = denominator;
+  sys.Numerator = numeratorerator;
+  sys.Variable = variableName;
+  sys.Ts = Ts;
 end
 %=============================================================================
