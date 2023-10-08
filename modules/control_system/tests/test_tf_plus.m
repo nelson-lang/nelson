@@ -12,7 +12,7 @@ sysB = tf(4);
 sys = sysA + sysB;
 assert_isequal(sys.Numerator, {7});
 assert_isequal(sys.Denominator, {1});
-assert_isequal(sys.Ts, 0);
+assert_isequal(sys.Ts, -2);
 %=============================================================================
 num = [3 4];
 den = [3 1 5];

@@ -152,9 +152,47 @@ sys1 = tf([1 -1],[1 1]);
 sys2 = tf([1 2],[1 4 5]);
 sys = [sys1; sys2];
 R = evalc('display(sys)');
+REF =  ' 
+sys =
+ 
+  1:
+    s - 1
+  ————————
+    s + 1
+ 
+  2:
+       s + 2
+  ———————————————
+   s^2 + 4 s + 5
+ 
+Continuous-time transfer function.
+ 
+';
+assert_isequal(R, REF)
 %=============================================================================
 sys1 = tf([1 -1],[1 1]);
 sys2 = tf([1 2],[1 4 5]);
 sys = [sys1, sys2];
 R = evalc('display(sys)');
+REF =  ' 
+sys =
+ 
+  From input 1 to output:
+    s - 1
+  ————————
+    s + 1
+ 
+  From input 2 to output:
+       s + 2
+  ———————————————
+   s^2 + 4 s + 5
+ 
+Continuous-time transfer function.
+ 
+';
+assert_isequal(R, REF)
+%=============================================================================
+nums = {[1 -1], [1 7.5];[1 0], 6.5};
+dens = {[1 1 6.5]};
+% sys = tf(nums, dens)
 %=============================================================================
