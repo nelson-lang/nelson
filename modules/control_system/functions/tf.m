@@ -123,9 +123,13 @@ function [numerator, denominator, variableName] = adjustTransferFunctionParamete
   if (~iscell (denominator))
     denominator = {denominator};
   end
+  checkisAllZerosFunction = @(x) all(x == 0.);
+  isAllZeroNumerator = all(cellfun(checkisAllZerosFunction, numerator));
+  isAllZeroDenominator = all(cellfun(checkisAllZerosFunction, denominator));
+
   checkisScalarFunction = @(x) (find (x ~= 0, 1) == length (x)) || (length (find (x ~= 0, 1)) == 0);
-  isAllScalarNumerator = all(cellfun(checkisScalarFunction, numerator));
-  isAllScalarDenominator = all(cellfun(checkisScalarFunction, denominator));
+  isAllScalarNumerator = ~isAllZeroNumerator && all(cellfun(checkisScalarFunction, numerator));
+  isAllScalarDenominator = ~isAllZeroDenominator && all(cellfun(checkisScalarFunction, denominator));
   if (all (isAllScalarNumerator) && all(isAllScalarDenominator))
     isStaticGain = true;
   end 

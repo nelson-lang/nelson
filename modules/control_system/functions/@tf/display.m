@@ -42,6 +42,7 @@ function display(varargin)
     end
     for k = 1:m
       numeratorString = stringPoly(numerators{k, q}, TF.Variable);
+      haveNoNumerator = isempty(numeratorString);
       denominatorString = stringPoly(denominator{k, q}, TF.Variable);
       lengthDiff = length(denominatorString) - length(numeratorString);
       if (lengthDiff > 0)
@@ -49,20 +50,36 @@ function display(varargin)
         numeratorString = [spacesToAdd, numeratorString];
       end
       dashString = getDashedLine(numeratorString, denominatorString);
+
       if (m ~= 1)
         if (strcmp(denominatorString, ' 1') == true)
-          disp(['  ',sprintf(_('%d:'), k), '  ', numeratorString]);
+          if ~haveNoNumerator
+            disp(['  ',sprintf(_('%d:'), k), '  ', numeratorString]);
+          else
+            disp(['  ',sprintf(_('%d:'), k), '  ', '0']);
+          end
         else
-          disp(['  ',sprintf(_('%d:'), k)])
-          disp(['  ', numeratorString]);
-       end
+            disp(['  ',sprintf(_('%d:'), k)])        
+            if haveNoNumerator
+              disp(['  ', '0']);
+            else
+              disp(['  ', numeratorString]);
+            end
+        end
       else
-        disp(['  ', numeratorString]);
+        if haveNoNumerator
+          disp(['  ', '0']);
+        else
+            disp(['  ', numeratorString]);
+        end
       end
-      if (strcmp(denominatorString, ' 1') ~= true)
+
+
+      if (strcmp(denominatorString, ' 1') == false && ~haveNoNumerator)
         disp(['  ', dashString]);
         disp(['  ', denominatorString]);
       end
+
       if strcmp(currentFormat.LineSpacing, 'loose')
         disp(' ');
       end
