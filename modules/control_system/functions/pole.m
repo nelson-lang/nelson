@@ -1,28 +1,38 @@
-% SPDX-License-Identifier: MIT
-% Generates poles from transfer functions or state space models
-% Input: TF or SS
-% Example 1: p = pole(G)
-% Example 2: p = pole(sys)
-% Author: Daniel Mårtensson 2017 September
-
-function [p] = pole(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error ('Missing input')
-	end
-
-	% Get model type
-	type = varargin{1}.type;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% Get poles
-		A = varargin{1}.A;
-		p = eig(A); % Eigenvalues
-	elseif(strcmp(type, 'TF' ))
-		% Get poles
-		G = varargin{1};
-		p = roots(G.den);
-	else
-		error('This is not TF or SS');
-	end
+%=============================================================================
+% Copyright (c) 2017 September Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = pole(varargin)
+  % Generates poles from transfer functions or state space models
+  % p = pole(sys)
+  
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  
+  sys = varargin{1};
+  if ~islti(sys)
+    error(_('LTI model expected.'));
+  end
+  if ~issiso(sys)
+    error(_('SISO LTI model expected.'));
+  end
+  
+  if isa(sys, 'ss')
+    p = eig(sys.A); % Eigenvalues
+  elseif isa(sys, 'tf')
+    denominators = sys.Denominator;
+    denominator = denominators{1};
+    p = roots(denominator);
+  elseif isa(sys, 'zpk')
+    p = pole(zpk2tf(sys));
+  else
+    error(_('LTI model expected.'));
+  end
+  varargout{1} = p;
 end

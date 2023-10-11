@@ -1,42 +1,52 @@
-% SPDX-License-Identifier: MIT
-% Generates the low frequency gain of a state space model or a transfer function
-% Input: sys, G
-% Example 1: dc = dcgain(sys)
-% Example 2: dc = dcgain(G)
-% Author: Daniel Mårtensson 2017 September
-
-function [dc] = dcgain(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error ('Missing input')
-	end
-
-	% Get the type
-	type = varargin{1}.type;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% Get necessary info
-		A = varargin{1}.A;
-		B = varargin{1}.B;
-		C = varargin{1}.C;
-		D = varargin{1}.D;
-		dc = C*inv(-A)*B + D;
-	elseif(strcmp(type, 'TF' ))
-		% Get necessary info
-		for i = 1:size(varargin{1},1)
-			for j = 1:size(varargin{1},2)
-				% Get necessary info
-				G = varargin{1}(i, j);
-				% Get the static gain
-				dc(i, j) = G.num(length(G.num))/G.den(length(G.den));
-				% If divided by zero - Is not a number
-				if isnan(dc(i, j))
-					disp(sprintf('Divided my zero - dcgain (%i, %i) set to 0', i, j))
-					dc(i, j) = 0;
-				end
-			end
-		end
-	else
-		error('This is not TF or SS');
-	end
+%=============================================================================
+% Copyright (c) 2017 September Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = dcgain(varargin)
+  % Generates the low frequency gain of a state space model or a transfer function
+  % dc = dcgain(sys)
+  
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  
+  sys = varargin{1};
+  if ~islti(sys)
+    error(_('LTI model expected.'));
+  end
+  
+  if isa(sys, 'tf')
+    for i = 1:size(sys, 1)
+      for j = 1:size(sys,2)
+        % Get necessary info
+        % Get the static gain
+        numerators = sys.Numerator;
+        denominators = sys.Denominator;
+        numerator = numerators{i, j};
+        denominator = denominators{i, j};
+        dc(i, j) = numerator(length(numerator)) / denominator(length(denominator));
+        % If divided by zero - Is not a number
+        if isnan(dc(i, j))
+          disp(sprintf('Divided my zero - dcgain (%i, %i) set to 0', i, j))
+          dc(i, j) = 0;
+        end
+      end
+    end
+  elseif isa(sys, 'ss')
+    A = sys.A;
+    B = sys.B;
+    C = sys.C;
+    D = sys.D;
+    dc = C * inv(-A) * B + D;
+  elseif isa(sys, 'zpk')
+    dc = dcgain(zpk2tf(sys));
+  else
+    error(_('LTI model expected.'));
+  end
+  varargout{1} = dc;
 end
