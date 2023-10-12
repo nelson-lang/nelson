@@ -13,8 +13,7 @@
 % Ts = -1: Discrete-time model with unspecified sampling time.
 % Ts = -2: Static gain model.
 function res = isstatic(sys)
-    msg = sprintf(_('Ensure that the data type of the argument is correct in the function call to ''%s''.'), 'isstatic');
-    error(msg);
+    res = isempty (sys.A);
 end
 %=============================================================================
 
