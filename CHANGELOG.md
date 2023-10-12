@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
   - [#954](http://github.com/Nelson-numerical-software/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
+  - [#962](http://github.com/Nelson-numerical-software/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
+  - `dlyap`: Discret Lyapunov equation solution.
   - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
   - `ss`: State-space model.
   - `tf`: Transfer function model (display, horzcat, vertcat, size).

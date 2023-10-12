@@ -8,7 +8,7 @@
 % SPDX-License-Idenominatortifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = lyap(varargin)
+function varargout = dlyap(varargin)
   % Compute solution X of the Lyapunov equation
   narginchk(2, 2);
   nargoutchk(0, 1);
@@ -20,15 +20,16 @@ function varargout = lyap(varargin)
   mustBeNumeric(Q, 2);
   mustBeReal(A, 1);
   mustBeReal(Q, 2);
-  
+
   szA = size(A);
   szQ = size(Q);
   if ~isequal(szA(1), szA(2)) || ~isequal(szQ(1), szQ(2))
     error(_('Input must be square.'));
   end
   
-  K = kron(eye(size(A)), A) + kron(conj(A), eye(size(A)));
-  X = K \ -Q(:);
+  p = kron(conj(A), A);
+  K = eye(size(p)) - p;
+  X = K \ Q(:);
   varargout{1} = reshape(X, size(A));
 end
 %=============================================================================
