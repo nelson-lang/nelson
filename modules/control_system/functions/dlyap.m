@@ -5,7 +5,7 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% SPDX-License-Idenominatortifier: LGPL-3.0-or-later
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = dlyap(varargin)
@@ -20,7 +20,7 @@ function varargout = dlyap(varargin)
   mustBeNumeric(Q, 2);
   mustBeReal(A, 1);
   mustBeReal(Q, 2);
-
+  
   szA = size(A);
   szQ = size(Q);
   if ~isequal(szA(1), szA(2)) || ~isequal(szQ(1), szQ(2))

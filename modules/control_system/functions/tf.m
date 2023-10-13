@@ -5,7 +5,7 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% SPDX-License-Identifier: MIT OR LGPL-3.0-or-later
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = tf(varargin)
@@ -116,7 +116,7 @@ function [numerator, denominator, variableName] = adjustTransferFunctionParamete
       isStaticGain = true;
     end
   end
-
+  
   if (~iscell (numerator))
     numerator = {numerator};
   end
@@ -126,7 +126,7 @@ function [numerator, denominator, variableName] = adjustTransferFunctionParamete
   checkisAllZerosFunction = @(x) all(x == 0.);
   isAllZeroNumerator = all(cellfun(checkisAllZerosFunction, numerator));
   isAllZeroDenominator = all(cellfun(checkisAllZerosFunction, denominator));
-
+  
   checkisScalarFunction = @(x) (find (x ~= 0, 1) == length (x)) || (length (find (x ~= 0, 1)) == 0);
   isAllScalarNumerator = ~isAllZeroNumerator && all(cellfun(checkisScalarFunction, numerator));
   isAllScalarDenominator = ~isAllZeroDenominator && all(cellfun(checkisScalarFunction, denominator));

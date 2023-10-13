@@ -4,7 +4,7 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% SPDX-License-Identifier: MIT OR LGPL-3.0-or-later
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 % Convention used:
@@ -13,8 +13,8 @@
 % Ts = -1: Discrete-time model with unspecified sampling time.
 % Ts = -2: Static gain model.
 function res = isstatic(sys)
-    msg = sprintf(_('Ensure that the data type of the argument is correct in the function call to ''%s''.'), 'isstatic');
-    error(msg);
+  msg = sprintf(_('Ensure that the data type of the argument is correct in the function call to ''%s''.'), 'isstatic');
+  error(msg);
 end
 %=============================================================================
 

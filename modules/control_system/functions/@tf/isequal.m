@@ -7,7 +7,31 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function sysOut = tf(sysIn)
-    sysOut = sysIn;
+function varargout = isequal(varargin)
+  % compares two tf model
+  narginchk(2, 1000);
+  nargoutchk(0, 1);
+  
+  sysA = varargin{1};
+  typenameA = class(sysA);
+  for k = 2:nargin
+    sysB = varargin{k};
+    typenameB = class(sysB);
+    if ~strcmp(typenameA, typenameB)
+      varargout{1} = false;
+      return
+    end
+    if isa(sysA, 'tf') || isa(sysB, 'tf')
+      R = isequal(struct(sysA), struct(sysB));
+      if ~R
+        varargout{1} = R;
+        return
+      end
+    else
+      varargout{1} = false;
+      return
+    end
+  end
+  varargout{1} = true;
 end
 %=============================================================================

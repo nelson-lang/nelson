@@ -7,13 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Convention used:
-% Ts > 0: Discrete-time model.
-% Ts = 0: Continuous-time model.
-% Ts = -1: Discrete-time model with unspecified sampling time.
-% Ts = -2: Static gain model.
-function res = isstatic(sys)
-  res = isequal(sys.Ts, -2);
-end
+sys1 = tf(1);
+sys2 = tf(2);
+assert_istrue(isequal(sys1, sys1))
+assert_isfalse(isequal(sys1, sys2))
+assert_isfalse(isequal(sys1, 1))
+assert_isfalse(isequal(1, sys1))
 %=============================================================================
-
