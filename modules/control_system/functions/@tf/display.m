@@ -5,7 +5,7 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% SPDX-License-Identifier: MIT OR LGPL-3.0-or-later
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 function display(varargin)
@@ -50,7 +50,7 @@ function display(varargin)
         numeratorString = [spacesToAdd, numeratorString];
       end
       dashString = getDashedLine(numeratorString, denominatorString);
-
+      
       if (m ~= 1)
         if (strcmp(denominatorString, ' 1') == true)
           if ~haveNoNumerator
@@ -59,27 +59,27 @@ function display(varargin)
             disp(['  ',sprintf(_('%d:'), k), '  ', '0']);
           end
         else
-            disp(['  ',sprintf(_('%d:'), k)])        
-            if haveNoNumerator
-              disp(['  ', '0']);
-            else
-              disp(['  ', numeratorString]);
-            end
+          disp(['  ',sprintf(_('%d:'), k)])        
+          if haveNoNumerator
+            disp(['  ', '0']);
+          else
+            disp(['  ', numeratorString]);
+          end
         end
       else
         if haveNoNumerator
           disp(['  ', '0']);
         else
-            disp(['  ', numeratorString]);
+          disp(['  ', numeratorString]);
         end
       end
-
-
+      
+      
       if (strcmp(denominatorString, ' 1') == false && ~haveNoNumerator)
         disp(['  ', dashString]);
         disp(['  ', denominatorString]);
       end
-
+      
       if strcmp(currentFormat.LineSpacing, 'loose')
         disp(' ');
       end

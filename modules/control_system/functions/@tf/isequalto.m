@@ -7,13 +7,31 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Convention used:
-% Ts > 0: Discrete-time model.
-% Ts = 0: Continuous-time model.
-% Ts = -1: Discrete-time model with unspecified sampling time.
-% Ts = -2: Static gain model.
-function res = isstatic(sys)
-  res = isequal(sys.Ts, -2);
+function varargout = isequalto(varargin)
+  % compares two tf model
+  narginchk(2, 1000);
+  nargoutchk(0, 1);
+  
+  sysA = varargin{1};
+  typenameA = class(sysA);
+  for k = 2:nargin
+    sysB = varargin{k};
+    typenameB = class(sysB);
+    if ~strcmp(typenameA, typenameB)
+      varargout{1} = false;
+      return
+    end
+    if isa(sysA, 'tf') || isa(sysB, 'tf')
+      R = isequalto(struct(sysA), struct(sysB));
+      if ~R
+        varargout{1} = R;
+        return
+      end
+    else
+      varargout{1} = false;
+      return
+    end
+  end
+  varargout{1} = true;
 end
 %=============================================================================
-

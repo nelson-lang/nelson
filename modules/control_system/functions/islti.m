@@ -4,10 +4,10 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% SPDX-License-Identifier: MIT OR LGPL-3.0-or-later
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 function res = islti(sys)
-    res = isa(sys, 'tf') || isa(sys, 'ss') || isa(sys, 'zpk');
+  res = isa(sys, 'tf') || isa(sys, 'ss') || isa(sys, 'zpk');
 end
 %=============================================================================
