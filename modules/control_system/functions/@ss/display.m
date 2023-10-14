@@ -54,7 +54,7 @@ function displayMatrix(M, name, format)
   if isempty(M)
     return
   end
-  if numel(M) > 10
+  if numel(M) > 17
     disp(['   ', name, ' = ', sizeToString(size(M))])
   else
     display(M, ['   ', name])
