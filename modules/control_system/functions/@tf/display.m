@@ -44,15 +44,22 @@ function display(varargin)
       numeratorString = stringPoly(numerators{k, q}, TF.Variable);
       haveNoNumerator = isempty(numeratorString);
       denominatorString = stringPoly(denominator{k, q}, TF.Variable);
-      lengthDiff = length(denominatorString) - length(numeratorString);
-      if (lengthDiff > 0)
-        spacesToAdd = repmat(' ', 1, floor(lengthDiff / 2));
-        numeratorString = [spacesToAdd, numeratorString];
-      end
+      isOneString = strcmp(denominatorString, ' 1');
+
+      maxLen = max([length(denominatorString), length(numeratorString)]);
+      spacesToAdd = repmat(' ', 1, maxLen - length(numeratorString));
+      numeratorString = [spacesToAdd, numeratorString];
+      spacesToAdd = repmat(' ', 1, maxLen - length(denominatorString));
+      denominatorString = [spacesToAdd, denominatorString];
+      ce = strjust({numeratorString, denominatorString}, 'center');
+      numeratorString = ce{1};
+      denominatorString = ce{2};
+      numeratorString = deblank(numeratorString);
+      denominatorString = deblank(denominatorString);
       dashString = getDashedLine(numeratorString, denominatorString);
-      
+  
       if (m ~= 1)
-        if (strcmp(denominatorString, ' 1') == true)
+        if isOneString
           if ~haveNoNumerator
             disp(['  ',sprintf(_('%d:'), k), '  ', numeratorString]);
           else
@@ -74,8 +81,7 @@ function display(varargin)
         end
       end
       
-      
-      if (strcmp(denominatorString, ' 1') == false && ~haveNoNumerator)
+      if (~isOneString && ~haveNoNumerator)
         disp(['  ', dashString]);
         disp(['  ', denominatorString]);
       end
@@ -103,7 +109,10 @@ end
 %=============================================================================
 function dash = getDashedLine(numeratorString, denominatorString)
   dash = '';
-  lenDash = max(length(numeratorString), length(denominatorString)) + 1;
+  lenDash = max(length(numeratorString), length(denominatorString));
+  if ~mod(lenDash, 2)
+    lenDash = lenDash + 1;
+  end
   for i = 1:lenDash
     dash = strcat(dash, '—');
   end

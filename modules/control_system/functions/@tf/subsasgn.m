@@ -36,13 +36,21 @@ function varargout = subsasgn(varargin)
   %=============================================================================
 function objOut = updateNumerator(objIn, value)
   st = struct(objIn);
-  st.Numerator = value;
+  if ~iscell(value)
+    st.Numerator = {value};
+  else
+    st.Numerator = value;
+  end
   objOut = class(st, 'tf');
 end
 %=============================================================================
 function objOut = updateDenominator(objIn, value)
   st = struct(objIn);
-  st.Denominator = value;
+  if ~iscell(value)
+    st.Denominator = {value};
+  else
+    st.Denominator = value;
+  end
   objOut = class(st, 'tf');
 end
 %=============================================================================
