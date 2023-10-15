@@ -14,9 +14,9 @@ R = evalc('display(sys)');
 REF =  ' 
 sys =
  
-         2 s
-  —————————————————
-   4 s^3 + 3 s - 1
+        2 s
+  ———————————————
+  4 s^3 + 3 s - 1
  
 Continuous-time transfer function.
  
@@ -31,9 +31,9 @@ R = evalc('display(sys)');
 REF =  ' 
 sys =
  
-         2 z
-  —————————————————
-   4 z^3 + 3 z - 1
+        2 z
+  ———————————————
+  4 z^3 + 3 z - 1
  
 Sample time: 1.5000 seconds
 Discrete-time transfer function.
@@ -49,14 +49,14 @@ REF =  '
 sys =
  
   From input 1 to output:
-         2 s
-  —————————————————
-   4 s^3 + 3 s - 1
+        2 s
+  ———————————————
+  4 s^3 + 3 s - 1
  
   From input 2 to output:
-       s + 3
-  ———————————————
-   s^2 + 3 s + 5
+      s + 3
+  —————————————
+  s^2 + 3 s + 5
  
 Continuous-time transfer function.
  
@@ -78,32 +78,32 @@ REF = '
 sys =
  
   From input 1 to output:
-  1:   1
+  1:  1
  
-  2:   5
+  2:  5
  
-  3:   8
+  3:  8
  
   From input 2 to output:
-  1:   2
+  1:  2
  
-  2:   6
+  2:  6
  
-  3:   9
+  3:  9
  
   From input 3 to output:
-  1:   3
+  1:  3
  
-  2:   7
+  2:  7
  
-  3:   10
+  3:  10
  
   From input 4 to output:
-  1:   4
+  1:  4
  
-  2:   8
+  2:  8
  
-  3:   11
+  3:  11
  
      Static gain.
  
@@ -116,11 +116,11 @@ Ts = 0.2;
 sys = tf(num, den, Ts);
 sys.Variable = 'z^-1';
 R = evalc('display(sys)');
-REF =  ' 
+REF =   ' 
 sys =
  
    3 z^-1 + 4 z^-2
-  ——————————————————
+  —————————————————
   3 + z^-1 + 5 z^-2
  
 Sample time: 0.2000 seconds
@@ -138,14 +138,14 @@ R = evalc('display(sys)');
 REF = ' 
 sys =
  
-   - 1 + 3 z^-1 - 4 z^-2
-  ———————————————————————
-   - 1 + 5 z^-1 - 7 z^-2
+  - 1 + 3 z^-1 - 4 z^-2
+  —————————————————————
+  - 1 + 5 z^-1 - 7 z^-2
  
 Sample time: 0.2000 seconds
 Discrete-time transfer function.
  
-';
+' ;
 assert_isequal(R, REF);
 %=============================================================================
 sys1 = tf([1 -1],[1 1]);
@@ -156,14 +156,14 @@ REF =  '
 sys =
  
   1:
-    s - 1
-  ————————
-    s + 1
+   s - 1
+  ———————
+   s + 1
  
   2:
-       s + 2
-  ———————————————
-   s^2 + 4 s + 5
+      s + 2
+  —————————————
+  s^2 + 4 s + 5
  
 Continuous-time transfer function.
  
@@ -178,14 +178,14 @@ REF =  '
 sys =
  
   From input 1 to output:
-    s - 1
-  ————————
-    s + 1
+   s - 1
+  ———————
+   s + 1
  
   From input 2 to output:
-       s + 2
-  ———————————————
-   s^2 + 4 s + 5
+      s + 2
+  —————————————
+  s^2 + 4 s + 5
  
 Continuous-time transfer function.
  
