@@ -306,6 +306,9 @@ bool
 isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
+    if (A.getElementCount() != B.getElementCount()) {
+        return false;
+    }
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         if (A.isSparse()) {
