@@ -41,7 +41,12 @@ function display(varargin)
       disp(['  ',sprintf(_('From input %d to output:'), q)]);
     end
     for k = 1:m
-      numeratorString = stringPoly(numerators{k, q}, TF.Variable);
+      numerator = numerators{k, q};
+      if (strcmp(TF.Variable, 'z^-1') || strcmp(TF.Variable, 'q^-1')) 
+        nonZeroIndices = find(numerator);
+        numerator = numerator(1:nonZeroIndices(end));
+      end 
+      numeratorString = stringPoly(numerator, TF.Variable);
       haveNoNumerator = isempty(numeratorString);
       denominatorString = stringPoly(denominator{k, q}, TF.Variable);
       isOneString = strcmp(denominatorString, ' 1');

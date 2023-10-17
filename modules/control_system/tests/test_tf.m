@@ -192,7 +192,37 @@ Continuous-time transfer function.
 ';
 assert_isequal(R, REF)
 %=============================================================================
-nums = {[1 -1], [1 7.5];[1 0], 6.5};
-dens = {[1 1 6.5]};
-% sys = tf(nums, dens)
+numerator = [1,0,0];
+denominator = [1,2,3];
+ts = 0.1;
+sys1 = tf(numerator,denominator,ts);
+R = evalc('display(sys1)');
+REF = ' 
+sys1 =
+ 
+       z^2
+  —————————————
+  z^2 + 2 z + 3
+ 
+Sample time: 0.1000 seconds
+Discrete-time transfer function.
+ 
+';
+assert_isequal(R, REF)
+%=============================================================================
+sys2 = sys1;
+sys2.Variable = 'z^-1';
+R = evalc('display(sys2)');
+REF =  ' 
+sys2 =
+ 
+           1
+  ———————————————————
+  1 + 2 z^-1 + 3 z^-2
+ 
+Sample time: 0.1000 seconds
+Discrete-time transfer function.
+ 
+';
+assert_isequal(R, REF)
 %=============================================================================
