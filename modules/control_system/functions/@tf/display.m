@@ -50,7 +50,7 @@ function display(varargin)
       haveNoNumerator = isempty(numeratorString);
       denominatorString = stringPoly(denominator{k, q}, TF.Variable);
       isOneString = strcmp(denominatorString, ' 1');
-
+      
       maxLen = max([length(denominatorString), length(numeratorString)]);
       spacesToAdd = repmat(' ', 1, maxLen - length(numeratorString));
       numeratorString = [spacesToAdd, numeratorString];
@@ -62,7 +62,7 @@ function display(varargin)
       numeratorString = deblank(numeratorString);
       denominatorString = deblank(denominatorString);
       dashString = getDashedLine(numeratorString, denominatorString);
-  
+      
       if (m ~= 1)
         if isOneString
           if ~haveNoNumerator

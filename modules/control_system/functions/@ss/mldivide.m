@@ -8,11 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = mldivide(varargin)
-    narginchk(2, 2),
-    nargoutchk(0, 1);
-    sysA = ss(varargin{1});
-    sysB = ss(varargin{2});
-    sys = inv(sysA) * sysB;
-    varargout{1} = sys;
+  narginchk(2, 2),
+  nargoutchk(0, 1);
+  sysA = ss(varargin{1});
+  sysB = ss(varargin{2});
+  sys = inv(sysA) * sysB;
+  varargout{1} = sys;
 end
 %=============================================================================
