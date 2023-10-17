@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function sys = plus(sysA, sysB)
-  sys_tfA = tf(sysA);
-  sys_tfB = tf(sysB);
-  if ~issiso(sysA) || ~issiso(sysA)
+  sysA = tf(sysA);
+  sysB = tf(sysB);
+  if ~issiso(sysA) || ~issiso(sysB)
     error(_('SISO lti expected.'));
   end
   
@@ -39,7 +39,6 @@ function sys = plus(sysA, sysB)
   if ~isempty(UserData)
     sys.UserData = UserData;
   end
-  
 end
 %=============================================================================
 function sys = plus_siso(sysA, sysB)
