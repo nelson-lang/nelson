@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#940](http://github.com/Nelson-numerical-software/nelson/issues/940) title bar on dark theme on Windows.
 - help viewer using dark theme.
 - adjust position `xlabel` on `figure`.
+- [#976](http://github.com/Nelson-numerical-software/nelson/issues/976) wrong output when reading a file with fscanf with size argument.
 
 ## 0.7.9 (2023-09-18)
 

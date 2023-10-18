@@ -53,6 +53,7 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
                     if (m < 0) {
                         Error(_W("Wrong value >= 0 expected."));
                     }
+                    n = 1;
                 } else {
                     double* ptr = (double*)param3.getDataPointer();
                     m = ptr[0];
