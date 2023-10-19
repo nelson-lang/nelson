@@ -607,43 +607,93 @@ ArrayOf
 elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    switch (A.getDataClass()) {
-    case NLS_INT8:
-        return elementWiseMultiplication<int8>(NLS_INT8, A, B);
-    case NLS_UINT8:
-        return elementWiseMultiplication<uint8>(NLS_UINT8, A, B);
-    case NLS_INT16:
-        return elementWiseMultiplication<int16>(NLS_INT16, A, B);
-    case NLS_UINT16:
-        return elementWiseMultiplication<uint16>(NLS_UINT16, A, B);
-    case NLS_INT32:
-        return elementWiseMultiplication<int32>(NLS_INT32, A, B);
-    case NLS_UINT32:
-        return elementWiseMultiplication<uint32>(NLS_UINT32, A, B);
-    case NLS_INT64:
-        return elementWiseMultiplication<int64>(NLS_INT64, A, B);
-    case NLS_UINT64:
-        return elementWiseMultiplication<uint64>(NLS_UINT64, A, B);
-    case NLS_LOGICAL: {
-        if (A.isSparse() || B.isSparse()) {
+    if (A.getDataClass() == B.getDataClass()) {
+        switch (A.getDataClass()) {
+        case NLS_INT8:
+            return elementWiseMultiplication<int8>(NLS_INT8, A, B);
+        case NLS_UINT8:
+            return elementWiseMultiplication<uint8>(NLS_UINT8, A, B);
+        case NLS_INT16:
+            return elementWiseMultiplication<int16>(NLS_INT16, A, B);
+        case NLS_UINT16:
+            return elementWiseMultiplication<uint16>(NLS_UINT16, A, B);
+        case NLS_INT32:
+            return elementWiseMultiplication<int32>(NLS_INT32, A, B);
+        case NLS_UINT32:
+            return elementWiseMultiplication<uint32>(NLS_UINT32, A, B);
+        case NLS_INT64:
+            return elementWiseMultiplication<int64>(NLS_INT64, A, B);
+        case NLS_UINT64:
+            return elementWiseMultiplication<uint64>(NLS_UINT64, A, B);
+        case NLS_LOGICAL: {
+            if (A.isSparse() || B.isSparse()) {
+                needToOverload = true;
+                return {};
+            }
+            return elementWiseMultiplication<logical>(NLS_LOGICAL, A, B);
+        } break;
+        case NLS_DOUBLE:
+        case NLS_DCOMPLEX:
+            if (A.isSparse() || B.isSparse()) {
+                needToOverload = true;
+                return {};
+            }
+            return double_elementWiseMultiplication_double(A, B);
+        case NLS_SINGLE:
+        case NLS_SCOMPLEX:
+            return single_elementWiseMultiplication_single(A, B);
+        default: {
             needToOverload = true;
-            return {};
+        } break;
         }
-        return elementWiseMultiplication<logical>(NLS_LOGICAL, A, B);
-    } break;
-    case NLS_DOUBLE:
-    case NLS_DCOMPLEX:
-        if (A.isSparse() || B.isSparse()) {
-            needToOverload = true;
-            return {};
+    } else {
+        if ((A.isDoubleClass() && B.isSingleClass()) || (A.isSingleClass() && B.isDoubleClass())) {
+            bool isComplex = A.isComplex() || B.isComplex();
+            ArrayOf AA = A;
+            ArrayOf BB = B;
+            if (isComplex) {
+                AA.promoteType(NLS_SCOMPLEX);
+                BB.promoteType(NLS_SCOMPLEX);
+            } else {
+                AA.promoteType(NLS_SINGLE);
+                BB.promoteType(NLS_SINGLE);
+            }
+            return elementWiseMultiplication(AA, BB, needToOverload);
         }
-        return double_elementWiseMultiplication_double(A, B);
-    case NLS_SINGLE:
-    case NLS_SCOMPLEX:
-        return single_elementWiseMultiplication_single(A, B);
-    default: {
-        needToOverload = true;
-    } break;
+
+        if (A.isIntegerType()) {
+            bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (B.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+            }
+            ArrayOf AA = A;
+            AA.promoteType(B.getDataClass());
+            ArrayOf res = elementWiseMultiplication(AA, B, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(A.getDataClass());
+            }
+            return res;
+        } else if (B.isIntegerType()) {
+            bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (A.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+            }
+            ArrayOf BB = B;
+            BB.promoteType(A.getDataClass());
+            ArrayOf res = elementWiseMultiplication(A, BB, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(B.getDataClass());
+            }
+            return res;
+        }
     }
     return {};
 }

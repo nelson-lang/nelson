@@ -867,6 +867,57 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return {};
     }
+
+    if (A.getDataClass() != B.getDataClass()) {
+        if ((A.isDoubleClass() && B.isSingleClass()) || (A.isSingleClass() && B.isDoubleClass())) {
+            bool isComplex = A.isComplex() || B.isComplex();
+            ArrayOf AA = A;
+            ArrayOf BB = B;
+            if (isComplex) {
+                AA.promoteType(NLS_SCOMPLEX);
+                BB.promoteType(NLS_SCOMPLEX);
+            } else {
+                AA.promoteType(NLS_SINGLE);
+                BB.promoteType(NLS_SINGLE);
+            }
+            return DotPower(AA, BB, needToOverload);
+        }
+
+        if (A.isIntegerType()) {
+            bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (B.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+            }
+            ArrayOf AA = A;
+            AA.promoteType(B.getDataClass());
+            ArrayOf res = DotPower(AA, B, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(A.getDataClass());
+            }
+            return res;
+        } else if (B.isIntegerType()) {
+            bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (A.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+            }
+            ArrayOf BB = B;
+            BB.promoteType(A.getDataClass());
+            ArrayOf res = DotPower(A, BB, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(B.getDataClass());
+            }
+            return res;
+        }
+    }
+
     switch (A.getDataClass()) {
     case NLS_UINT8:
     case NLS_INT8:
