@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>numeric types</keyword>
+  <short_description>About integer and floating-point data.</short_description>
+
+<description>
+
+<p
+    >In Nelson you can specify the data type of a numeric literal by using a suffix or a type specifier. </p>
+<p
+    >Here are some common suffixes for specifying the data type of numeric literals:</p>
+<p />
+<table>
+<tr>
+    <th>literal number suffix</th>
+    <th>Nelson type</th>
+</tr>
+<tr>
+    <td>f32</td>
+    <td>single (float single precision)</td>
+</tr>
+<tr>
+    <td>f64</td>
+    <td>double (float double precision)</td>
+</tr>
+<tr>
+    <td>i8</td>
+    <td>int8 (8-bit signed integer)</td>
+</tr>
+<tr>
+    <td>i16</td>
+    <td>int16 (16-bit signed integer)</td>
+</tr>
+<tr>
+    <td>i32</td>
+    <td>int32 (32-bit signed integer)</td>
+</tr>
+<tr>
+    <td>i64</td>
+    <td>int64 (64-bit signed integer)</td>
+</tr>
+<tr>
+    <td>u8</td>
+    <td>uint8 (8-bit unsigned integer)</td>
+</tr>
+<tr>
+    <td>u16</td>
+    <td>uint16 (16-bit unsigned integer)</td>
+</tr>
+<tr>
+    <td>u32</td>
+    <td>uint32 (32-bit unsigned integer)</td>
+</tr>
+<tr>
+    <td>u64</td>
+    <td>uint64 (64-bit unsigned integer)</td>
+</tr>
+</table>
+
+<p />
+<p
+    >i64: To specify a 64-bit signed integer, you can use the i64 suffix. example: A = 42i64</p>
+<p
+    >f32: To specify a 32-bit floating-point number (single precision), you can use the f64 suffix. example: 3.14f32</p>
+
+<p
+    >These suffixes help the Nelson infer the correct data type for the literal.</p>
+<p
+    >Nelson automatically infer data type by default as double and you don't need to specify this suffixe explicitly. example: A = 3.14</p>
+<p
+    >Unless you have specific requirements or need to disambiguate between data types, you often don't need to explicitly specify the type of numeric literals.</p>
+<p
+    >But when you create a numeric array of large integers in Nelson, especially when they exceed the maximum precision representable by double (larger than flintmax), Nelson initially stores these values as double-precision floating-point numbers by default.</p>
+
+
+
+</description>
+
+<examples>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>explicit single number</example_item_description>
+    <example_item_data><![CDATA[
+single(3.1415)
+3.1415f32
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description
+      >implicit-explicit double number</example_item_description>
+    <example_item_data><![CDATA[
+3.1415
+3.1415f64
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description
+      >values exceed maximum precision representable by double</example_item_description>
+    <example_item_data
+      ><![CDATA[
+R1 = uint64([72057594035891654 81997179153022975])
+R2 = [72057594035891654u64 81997179153022975u64]
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <used_function />
+  <bibliography />
+
+  	<see_also>
+		<see_also_item>
+			<link linkend="${double}double">double</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${single}single">single</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${integer}int8">int8</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${integer}int16">int16</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${integer}int32">int32</link>
+		</see_also_item>
+        		<see_also_item>
+			<link linkend="${integer}int64">int64</link>
+		</see_also_item>                
+		<see_also_item>
+			<link linkend="${integer}uint8">uint8</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${integer}uint16">uint16</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${integer}uint32">uint32</link>
+		</see_also_item>
+        <see_also_item>
+			<link linkend="${integer}uint64">uint64</link>
+		</see_also_item>                
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

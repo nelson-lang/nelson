@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `strjust` Justify strings.
 
 - control system module (part 1):
+
   - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
   - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
@@ -33,6 +34,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `issiso`: checks if dynamic system model is a single input and single output.
   - `zero`: Zeros and gain of SISO dynamic system.
   - `pole`: Poles of dynamic system.
+
+- `flintmax('like', p)` syntax added.
+- `int64`, `uint64` warning about double-precision.
+- syntax extended to facilitate the creation of literal integers without loss of precision:
+  - example: `18446744073709551615u64`, `18446744073709551615i64` (similar to rust syntax)
 
 ### Changed
 

@@ -221,7 +221,7 @@
     <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp" />
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
-    <ClCompile Include="..\cpp\AsciiToDouble.cpp" />
+    <ClCompile Include="..\cpp\TextToNumber.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
@@ -346,7 +346,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
+    <ClInclude Include="..\cpp\TextToNumber.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\cpp\operators\RelationOperatorsHelpers.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />

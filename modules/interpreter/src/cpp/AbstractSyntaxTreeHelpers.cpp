@@ -50,6 +50,13 @@ expression(AbstractSyntaxTreePtr expr)
     } break;
     case const_int_node:
     case const_uint64_node:
+    case const_uint32_node:
+    case const_uint16_node:
+    case const_uint8_node:
+    case const_int64_node:
+    case const_int32_node:
+    case const_int16_node:
+    case const_int8_node:
     case const_float_node:
     case const_double_node: {
         res = expr->text;

@@ -88,7 +88,7 @@
     <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\AsciiToDouble.cpp">
+    <ClCompile Include="..\cpp\TextToNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\grammar\NelsonParserHelpers.cpp">
@@ -355,7 +355,7 @@
     <ClInclude Include="..\include\CallStack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\AsciiToDouble.hpp">
+    <ClInclude Include="..\cpp\TextToNumber.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp">

@@ -512,11 +512,11 @@ lexIdentifier()
 int
 lexNumber()
 {
+    bool isNegative = (tokenType == '-');
     int state = 0;
     indexType cp = 0;
     char buffer[DEFAULT_BUFFER_SIZE_LEXER];
     int intonly = 1;
-    int vtype;
     // Initialize the state...
     state = 0;
     while (state != 7) {
@@ -608,20 +608,74 @@ lexNumber()
             }
         }
     }
-    if ((datap[cp] == 'f') || (datap[cp] == 'F')) {
-        cp++;
-        vtype = 1;
-    } else if ((datap[cp] == 'u') || (datap[cp] == 'U')) {
-        cp++;
-        vtype = 4; //-V112
-    } else if ((datap[cp] == 'd') || (datap[cp] == 'D')) {
-        cp++;
-        vtype = 2;
-    } else if (intonly == 0) {
-        vtype = 2;
+
+    NODE_TYPE nodeType = null_node;
+    if (datap[cp] == 'f') {
+        // f32 --> single
+        if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+            cp = cp + 3;
+            nodeType = const_float_node;
+        }
+        // f64 --> double
+        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+            cp = cp + 3;
+            nodeType = const_double_node;
+        } else {
+            LexerException(_("Malformed floating point constant."));
+        }
+    } else if (datap[cp] == 'i') {
+        // i8 --> int8
+        if (datap[cp + 1] == '8') {
+            cp = cp + 2;
+            nodeType = const_int8_node;
+        }
+        // i16 --> int16
+        else if ((datap[cp + 1] == '1') && (datap[cp + 2] == '6')) {
+            cp = cp + 3;
+            nodeType = const_int16_node;
+        }
+        // i32 --> int32
+        else if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+            cp = cp + 3;
+            nodeType = const_int32_node;
+        }
+        // i64 --> int32
+        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+            cp = cp + 3;
+            nodeType = const_int64_node;
+        }
+    } else if (datap[cp] == 'u') {
+        if (intonly == 0) {
+            LexerException(_("Malformed unsigned integer constant."));
+        }
+        // u8 --> uint8
+        if (datap[cp + 1] == '8') {
+            cp = cp + 2;
+            nodeType = const_uint8_node;
+        }
+        // u16 --> uint16
+        else if ((datap[cp + 1] == '1') && (datap[cp + 2] == '6')) {
+            cp = cp + 3;
+            nodeType = const_uint16_node;
+        }
+        // u32 --> uint32
+        else if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+            cp = cp + 3;
+            nodeType = const_uint32_node;
+        }
+        // u64 --> uint64
+        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+            cp = cp + 3;
+            nodeType = const_uint64_node;
+        } else {
+            LexerException(_("Malformed unsigned integer constant."));
+        }
+    } else if (intonly) {
+        nodeType = const_int_node;
     } else {
-        vtype = 3;
+        nodeType = const_double_node;
     }
+
     for (indexType i = 0; i < cp; i++) {
         buffer[i] = datap[i];
     }
@@ -629,52 +683,77 @@ lexNumber()
         discardChar();
     }
     buffer[cp] = '\0';
+    std::string content = std::string(buffer);
     setTokenType(NUMERIC);
-    switch (vtype) {
-    case 1:
+
+    switch (nodeType) {
+    case const_int_node: {
         tokenValue.isToken = false;
-        if ((currentChar() == 'i') || (currentChar() == 'I')) {
+        if (currentChar() == 'i') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_complex_node, buffer, static_cast<int>(ContextInt()));
+                const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();
         } else {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_float_node, buffer, static_cast<int>(ContextInt()));
+                const_double_node, content, static_cast<int>(ContextInt()));
         }
-        break;
-    case 2:
+    } break;
+    case const_double_node: {
         tokenValue.isToken = false;
-        if ((currentChar() == 'i') || (currentChar() == 'I')) {
+        if (currentChar() == 'i') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
+                const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();
         } else {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_double_node, buffer, static_cast<int>(ContextInt()));
+                const_double_node, content, static_cast<int>(ContextInt()));
         }
-        break;
-    case 3:
+    } break;
+    case const_float_node: {
         tokenValue.isToken = false;
-        if ((currentChar() == 'i') || (currentChar() == 'I')) {
+        if (currentChar() == 'i') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
+                const_complex_node, content, static_cast<int>(ContextInt()));
             discardChar();
         } else {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_int_node, buffer, static_cast<int>(ContextInt()));
+                const_float_node, content, static_cast<int>(ContextInt()));
         }
-        break;
-    case 4:
+    } break;
+    case const_int8_node:
+    case const_int16_node:
+    case const_int32_node:
+    case const_int64_node: {
         tokenValue.isToken = false;
-        if ((currentChar() == 'i') || (currentChar() == 'I')) {
+        if (isNegative) {
+            content = "-" + content;
+        }
+        tokenValue.v.p
+            = AbstractSyntaxTree::createNode(nodeType, content, static_cast<int>(ContextInt()));
+
+    } break;
+    case const_uint8_node:
+    case const_uint16_node:
+    case const_uint32_node:
+    case const_uint64_node: {
+        if (isNegative) {
+            LexerException(_("Malformed unsigned integer constant with unary operator '-'."));
+        }
+        tokenValue.isToken = false;
+        tokenValue.v.p
+            = AbstractSyntaxTree::createNode(nodeType, content, static_cast<int>(ContextInt()));
+    } break;
+    default: {
+        tokenValue.isToken = false;
+        if (currentChar() == 'i') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
+                const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();
         } else {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_uint64_node, buffer, static_cast<int>(ContextInt()));
+                const_double_node, content, static_cast<int>(ContextInt()));
         }
-        break;
+    } break;
     }
     return 1;
 }

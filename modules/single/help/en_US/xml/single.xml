@@ -60,6 +60,9 @@
 		<see_also_item>
 			<link linkend="${double}double">double</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${interpreter}numeric_types">numeric types</link>
+		</see_also_item>
 	</see_also>
 
 	<history>
