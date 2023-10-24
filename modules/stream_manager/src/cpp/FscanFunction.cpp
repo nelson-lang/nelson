@@ -154,7 +154,13 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     ArrayOfVector values;
     bool bContinue = true;
     int resf = 0;
+    bool noSize = (m == -1) && (n == -1);
+
     while (bContinue) {
+        if ((values.size() >= (m * n)) && !noSize) {
+            bContinue = false;
+            break;
+        }
         if (feof(filepointer)) {
             bContinue = false;
             break;
