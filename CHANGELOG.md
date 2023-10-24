@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `issiso`: checks if dynamic system model is a single input and single output.
   - `zero`: Zeros and gain of SISO dynamic system.
   - `pole`: Poles of dynamic system.
+  - `bode`: Bode plot of frequency response, magnitude and phase data.
 
 ### Changed
 
