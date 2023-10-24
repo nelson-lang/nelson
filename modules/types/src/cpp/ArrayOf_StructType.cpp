@@ -296,6 +296,7 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
     ArrayOf* qp = (ArrayOf*)getReadWriteDataPointer();
     for (indexType i = 0; i < indexLength; i++) {
         qp[i * fieldCount + field_ndx] = data.front();
+        qp[i * fieldCount + field_ndx].name("");
         data.pop_front();
     }
     dp->dimensions.simplify();

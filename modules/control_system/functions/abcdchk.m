@@ -1,5 +1,5 @@
 %=============================================================================
-% Copyright (c) 2016-present Allan CORNET (Nelson)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
 %=============================================================================
 % This file is part of the Nelson.
 %=============================================================================
@@ -52,20 +52,15 @@ function varargout = abcdchk(varargin)
   msg.identifier = '';
   msg = msg(zeros(0, 1));
   if (MA ~= NA) && (nargin >= 1)
-    msg.message = 'Nelson:control_system:AMustBeSquare';
-    msg.identifier = _('Matrix A must be square.');
+    msg = checkABCDE(A, B, C, D, E);
   elseif (MA ~= MB) && (nargin >= 2)
-    msg.message = 'Nelson:control_system:AAndBNumRowsMismatch';
-    msg.identifier = _('The number of rows in matrices A and B must be equal.');
+    msg = checkABCDE(A, B, C, D, E);
   elseif (NA ~= NC) && (nargin >= 3)
-    msg.message = _('Matrices A and C should have an identical number of columns.');
-    msg.identifier = 'Nelson:control_system:AAndCNumColumnsMismatch';
+    msg = checkABCDE(A, B, C, D, E);
   elseif (MD ~= MC) && (nargin >= 4)
-    msg.message = _('The number of rows in matrices C and D must be equal.');
-    msg.identifier = 'Nelson:control_system:CAndDNumRowsMismatch';
+    msg = checkABCDE(A, B, C, D, E);
   elseif (ND ~= NB) && (nargin >= 4)
-    msg.message = _('Matrices B and D should have an identical number of columns.');
-    msg.identifier = 'Nelson:control_system:BAndDNumColumnsMismatch';
+    msg = checkABCDE(A, B, C, D, E);
   end
   
   if (nargin > 4)
@@ -76,7 +71,7 @@ function varargout = abcdchk(varargin)
   else
     ME = MA;
     NE = NA; 
-    E_MODIFIED = zeros(ME, NE, 'like', A);
+    E_MODIFIED = zeros(MA, NA, 'like', A);
   end
   
   varargout{1} = msg;

@@ -196,6 +196,7 @@
     <ClCompile Include="..\cpp\isintegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\islogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnumericBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isobjectBuiltin.cpp" />
     <ClCompile Include="..\cpp\isrealBuiltin.cpp" />
     <ClCompile Include="..\cpp\issingleBuiltin.cpp" />
     <ClCompile Include="..\cpp\issparseBuiltin.cpp" />
@@ -232,6 +233,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\classBuiltin.hpp" />
     <ClInclude Include="..\include\isaBuiltin.hpp" />
+    <ClInclude Include="..\include\isobjectBuiltin.hpp" />
     <ClInclude Include="..\include\isvarnameBuiltin.hpp" />
     <ClInclude Include="..\include\iscellBuiltin.hpp" />
     <ClInclude Include="..\include\ischarBuiltin.hpp" />

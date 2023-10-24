@@ -522,6 +522,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         Dimensions outDims;
         bool anyEmpty;
         indexType colonIndex;
+
         indx = ProcessNDimIndexes(true, myDims, index, anyEmpty, colonIndex, outDims, false);
         if (anyEmpty) {
             delete[] indx;

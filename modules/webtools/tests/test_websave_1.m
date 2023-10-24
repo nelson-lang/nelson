@@ -10,8 +10,8 @@
 assert_isequal(nargin('websave'), -1);
 assert_isequal(nargout('websave'), 1);
 %=============================================================================
-url = 'https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/stsci-h-p2016a-m-2000x1374.png';
-filename = [tempdir(), 'image.jpg'];
+url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
+filename = [tempdir(), 'MoValleyEclipse_2.jpg'];
 destination_filename = websave(filename, url);
 assert_istrue(isfile(destination_filename))
 %=============================================================================

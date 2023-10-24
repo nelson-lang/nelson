@@ -10,12 +10,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - private functions/folders support (to limit the scope of a function).
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
+- `isobject` Check whether the input is an object.
+- `cell2mat` Convert cell array of matrices to single matrix.
+- [#948](http://github.com/Nelson-numerical-software/nelson/issues/948) `blkdiag` Create a block diagonal matrix from 2D matrices of different sizes.
+- `kron` Kronecker tensor product.
+- `strjust` Justify strings.
 
 - control system module (part 1):
   - [#967](http://github.com/Nelson-numerical-software/nelson/issues/967) control system module template.
-  - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
   - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
+  - [#954](http://github.com/Nelson-numerical-software/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
+  - [#962](http://github.com/Nelson-numerical-software/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
+  - `dlyap`: Discret Lyapunov equation solution.
+  - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
+  - `ss`: State-space model.
+  - `tf`: Transfer function model (display, horzcat, vertcat, size).
+  - `isct`: checks if dynamic system model is in continuous time.
+  - `isdt`: checks if dynamic system model is in discret time.
+  - `isstatic`: checks if model is static or dynamic.
+  - `islti`: checks if variable is an linear model tf, ss or zpk.
+  - `issiso`: checks if dynamic system model is a single input and single output.
+  - `zero`: Zeros and gain of SISO dynamic system.
+  - `pole`: Poles of dynamic system.
 
 ### Changed
 
@@ -27,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - help viewer using dark theme.
 - adjust position `xlabel` on `figure`.
 - [#976](http://github.com/Nelson-numerical-software/nelson/issues/976) wrong output when reading a file with fscanf with size argument.
+- [#975](http://github.com/Nelson-numerical-software/nelson/issues/975) Legend color (and width) is not matching that of curve in figure.
 
 ## 0.7.9 (2023-09-18)
 

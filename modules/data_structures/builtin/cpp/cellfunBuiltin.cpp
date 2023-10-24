@@ -344,7 +344,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         if (argIn[(indexType)nbElementsInput - (indexType)2].isRowVectorCharacterArray()) {
             std::wstring argName
                 = argIn[(indexType)nbElementsInput - (indexType)2].getContentAsWideString();
-            if (argName == L"UniformOutput") {
+            if (StringHelpers::iequals(argName, L"UniformOutput")) {
                 if (argIn[(indexType)nbElementsInput - (indexType)1].isLogical()) {
                     if (argIn[(indexType)nbElementsInput - (indexType)1].isScalar()) {
                         bHaveUniformOutputArgs = true;
@@ -356,7 +356,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 } else {
                     Error(_W("Error wrong type expected."));
                 }
-            } else if (argName == L"ErrorHandler") {
+            } else if (StringHelpers::iequals(argName, L"ErrorHandler")) {
                 ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)1];
                 if (param.isFunctionHandle()) {
                     errorFunc = param.getContentAsFunctionHandle();
@@ -372,7 +372,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         if (argIn[(indexType)nbElementsInput - (indexType)4].isRowVectorCharacterArray()) {
             std::wstring argName
                 = argIn[(indexType)nbElementsInput - (indexType)4].getContentAsWideString();
-            if (argName == L"UniformOutput") {
+            if (StringHelpers::iequals(argName, L"UniformOutput")) {
                 if (argIn[(indexType)nbElementsInput - (indexType)5].isLogical()) {
                     if (argIn[(indexType)nbElementsInput - (indexType)5].isScalar()) {
                         if (bHaveUniformOutputArgs) {
@@ -388,7 +388,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 } else {
                     Error(_W("Error wrong type expected."));
                 }
-            } else if (argName == L"ErrorHandler") {
+            } else if (StringHelpers::iequals(argName, L"ErrorHandler")) {
                 ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)3];
                 if (param.isFunctionHandle()) {
                     if (bHaveErrorHandlerArgs) {
