@@ -52,6 +52,7 @@ Evaluator::dotRightDivideOperator(const ArrayOfVector& args)
     bool needToOverload = false;
     ArrayOf A(args[0]);
     ArrayOf B(args[1]);
+
     if (A.getDataClass() != B.getDataClass()) {
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
@@ -59,33 +60,28 @@ Evaluator::dotRightDivideOperator(const ArrayOfVector& args)
                 Error(_W("Integers can only be combined with integers of the same class, or scalar "
                          "doubles."));
             }
-            A.promoteType(commonType);
-            B.promoteType(commonType);
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
                 Error(_W("Integers can only be combined with integers of the same class, or scalar "
                          "doubles."));
             }
-            A.promoteType(commonType);
-            B.promoteType(commonType);
-        } else {
-            if (commonType <= NLS_CHAR) {
-                NelsonType _commonType = commonType;
-                if (_commonType == NLS_CHAR) {
-                    _commonType = NLS_DOUBLE;
-                }
-                if (_commonType == NLS_DOUBLE && isComplex) {
-                    _commonType = NLS_DCOMPLEX;
-                }
-                if (_commonType == NLS_SINGLE && isComplex) {
-                    _commonType = NLS_SCOMPLEX;
-                }
-                A.promoteType(_commonType);
-                B.promoteType(_commonType);
+        } else if (commonType <= NLS_CHAR) {
+            NelsonType _commonType = commonType;
+            if (_commonType == NLS_CHAR) {
+                _commonType = NLS_DOUBLE;
             }
+            if (_commonType == NLS_DOUBLE && isComplex) {
+                _commonType = NLS_DCOMPLEX;
+            }
+            if (_commonType == NLS_SINGLE && isComplex) {
+                _commonType = NLS_SCOMPLEX;
+            }
+            A.promoteType(_commonType);
+            B.promoteType(_commonType);
         }
     }
+
     res = DotRightDivide(A, B, needToOverload);
 
     if (needToOverload) {

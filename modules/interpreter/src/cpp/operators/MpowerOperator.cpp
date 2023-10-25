@@ -15,6 +15,7 @@
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
+#include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -59,6 +60,12 @@ Evaluator::mpowerOperator(const ArrayOfVector& args)
             if (!isCompatible) {
                 Error(_W("Integers can only be combined with integers of the same class, or scalar "
                          "doubles."));
+            }
+            auto* ptrB = (double*)B.getDataPointer();
+            indexType elementCount = B.getElementCount();
+            bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
+            if (!allIntegerValue) {
+                Error(_W("Positive integral powers expected."));
             }
             A.promoteType(commonType);
             B.promoteType(commonType);

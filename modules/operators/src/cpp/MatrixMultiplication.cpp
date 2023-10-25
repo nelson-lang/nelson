@@ -435,6 +435,7 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return {};
     }
+
     if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_mtimes_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
     }
@@ -446,55 +447,65 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     }
     if (A.isDoubleClass() && B.isSingleClass()) {
         return T_mtimes_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);
-    } else {
-        bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
-        bool isIntegerB = B.isIntegerType() || B.isNdArrayIntegerType();
-        if (isIntegerA && (B.isDoubleType() && B.isScalar())) {
-            if (B.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
-            }
-            ArrayOf BB = B;
-            BB.promoteType(A.getDataClass());
-            return matrixMultiplication(A, BB, needToOverload);
+    }
+    if (A.getDataClass() == B.getDataClass()) {
+        switch (A.getDataClass()) {
+        case NLS_UINT8:
+            return integer_mtimes_integer<uint8>(A, B);
+        case NLS_INT8:
+            return integer_mtimes_integer<int8>(A, B);
+        case NLS_UINT16:
+            return integer_mtimes_integer<uint16>(A, B);
+        case NLS_INT16:
+            return integer_mtimes_integer<int16>(A, B);
+        case NLS_UINT32:
+            return integer_mtimes_integer<uint32>(A, B);
+        case NLS_INT32:
+            return integer_mtimes_integer<int32>(A, B);
+        case NLS_UINT64:
+            return integer_mtimes_integer<uint64>(A, B);
+        case NLS_INT64:
+            return integer_mtimes_integer<int64>(A, B);
+        default:
+            needToOverload = true;
+            break;
         }
-        if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
-            if (A.isComplex()) {
+    } else {
+        if (A.isIntegerType()) {
+            bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (B.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
-            return matrixMultiplication(AA, B, needToOverload);
-        }
-        if (isIntegerA && isIntegerB) {
-            if (A.getDataClass() != B.getDataClass()) {
-                needToOverload = true;
-            } else {
-                switch (A.getDataClass()) {
-                case NLS_UINT8:
-                    return integer_mtimes_integer<uint8>(A, B);
-                case NLS_INT8:
-                    return integer_mtimes_integer<int8>(A, B);
-                case NLS_UINT16:
-                    return integer_mtimes_integer<uint16>(A, B);
-                case NLS_INT16:
-                    return integer_mtimes_integer<int16>(A, B);
-                case NLS_UINT32:
-                    return integer_mtimes_integer<uint32>(A, B);
-                case NLS_INT32:
-                    return integer_mtimes_integer<int32>(A, B);
-                case NLS_UINT64:
-                    return integer_mtimes_integer<uint64>(A, B);
-                case NLS_INT64:
-                    return integer_mtimes_integer<int64>(A, B);
-                default:
-                    needToOverload = true;
-                    break;
-                }
+            ArrayOf res = matrixMultiplication(AA, B, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(A.getDataClass());
             }
-        } else {
-            needToOverload = true;
+            return res;
+        } else if (B.isIntegerType()) {
+            bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
+            if (!isCompatible) {
+                Error(_W("Integers can only be combined with integers of the same class, or scalar "
+                         "doubles."));
+            }
+            if (A.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+            }
+            ArrayOf BB = B;
+            BB.promoteType(A.getDataClass());
+            ArrayOf res = matrixMultiplication(A, BB, needToOverload);
+            if (!needToOverload) {
+                res.promoteType(B.getDataClass());
+            }
+            return res;
         }
     }
+    needToOverload = true;
     return {};
 }
 //=============================================================================
