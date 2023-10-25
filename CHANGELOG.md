@@ -27,6 +27,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
   - [#954](http://github.com/Nelson-numerical-software/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
   - [#965](http://github.com/Nelson-numerical-software/nelson/issues/965) `padecoef`: Padé approximation of time delays.
+  - [#958](http://github.com/Nelson-numerical-software/nelson/issues/958) `esort`: Sort continuous-time poles by real part.
+  - `dsort`: Sort discrete-time poles by magnitude.
   - [#962](http://github.com/Nelson-numerical-software/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
   - `dlyap`: Discret Lyapunov equation solution.
   - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
