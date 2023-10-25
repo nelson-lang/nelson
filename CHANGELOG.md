@@ -52,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - adjust position `xlabel` on `figure`.
 - [#976](http://github.com/Nelson-numerical-software/nelson/issues/976) wrong output when reading a file with fscanf with size argument.
 - [#975](http://github.com/Nelson-numerical-software/nelson/issues/975) Legend color (and width) is not matching that of curve in figure.
+- [#988](http://github.com/Nelson-numerical-software/nelson/issues/988) anonymous function serialization '.^' and '^' are inversed.
 
 ## 0.7.9 (2023-09-18)
 
