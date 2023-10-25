@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - some modules (nig, modules_manager, help_browser) reworked to use private functions.
+- Windows 64 bit CI and release use Qt 6.6.0
 
 ### Fixed
 
