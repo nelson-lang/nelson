@@ -197,10 +197,10 @@ expression(AbstractSyntaxTreePtr expr)
             res = expression(expr->down) + ".\\" + expression(expr->down->right);
         } break;
         case OP_POWER: {
-            res = expression(expr->down) + "^" + expression(expr->down->right);
+            res = expression(expr->down) + ".^" + expression(expr->down->right);
         } break;
         case OP_MPOWER: {
-            res = expression(expr->down) + ".^" + expression(expr->down->right);
+            res = expression(expr->down) + "^" + expression(expr->down->right);
         } break;
         case OP_FUNCTION_HANDLE_ANONYMOUS: {
             res = "@(";
