@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - private functions/folders support (to limit the scope of a function).
+- syntax extended to facilitate the creation of literal integers without loss of precision:
+  - example: `18446744073709551615u64`, `18446744073709551615i64` (similar to rust syntax)
+- `flintmax('like', p)` syntax added.
+- `int64`, `uint64` warning about double-precision.
 - [#570](http://github.com/Nelson-numerical-software/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
 - `isobject` Check whether the input is an object.
 - `cell2mat` Convert cell array of matrices to single matrix.
@@ -22,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - [#944](http://github.com/Nelson-numerical-software/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
   - [#968](http://github.com/Nelson-numerical-software/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
   - [#954](http://github.com/Nelson-numerical-software/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
+  - [#965](http://github.com/Nelson-numerical-software/nelson/issues/965) `padecoef`: Padé approximation of time delays.
   - [#962](http://github.com/Nelson-numerical-software/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
   - `dlyap`: Discret Lyapunov equation solution.
   - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
@@ -35,11 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `zero`: Zeros and gain of SISO dynamic system.
   - `pole`: Poles of dynamic system.
   - `bode`: Bode plot of frequency response, magnitude and phase data.
-
-- `flintmax('like', p)` syntax added.
-- `int64`, `uint64` warning about double-precision.
-- syntax extended to facilitate the creation of literal integers without loss of precision:
-  - example: `18446744073709551615u64`, `18446744073709551615i64` (similar to rust syntax)
 
 ### Changed
 
