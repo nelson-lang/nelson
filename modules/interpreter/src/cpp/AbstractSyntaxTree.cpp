@@ -49,7 +49,7 @@ AbstractSyntaxTree::getReferences()
 //=============================================================================
 
 AbstractSyntaxTreePtr
-AbstractSyntaxTree::createNode(NODE_TYPE ntype, const char* name, int context)
+AbstractSyntaxTree::createNode(NODE_TYPE ntype, const std::string& name, int context)
 {
     AbstractSyntaxTreePtr p;
     try {
@@ -126,7 +126,7 @@ AbstractSyntaxTree::AbstractSyntaxTree()
     opNum = OP_NULL;
 }
 //=============================================================================
-AbstractSyntaxTree::AbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context)
+AbstractSyntaxTree::AbstractSyntaxTree(NODE_TYPE ntype, const std::string& name, int context)
     : type(ntype), text(name), m_context(context)
 {
     tokenNumber = 0;

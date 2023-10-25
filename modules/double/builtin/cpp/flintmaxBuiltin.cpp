@@ -19,7 +19,7 @@ ArrayOfVector
 Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 0, 1);
+    nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
@@ -29,11 +29,30 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 double intmax = (1ULL << DBL_MANT_DIG);
                 retval << ArrayOf::doubleConstructor(intmax);
             } else {
-                single intmax = (1ULL << FLT_MANT_DIG);
+                single intmax = (1UL << FLT_MANT_DIG);
                 retval << ArrayOf::singleConstructor(intmax);
             }
         } else {
             Error(_W("#1 'double' or 'single' expected."));
+        }
+    } else if (argIn.size() == 2) {
+        if (argIn[0].isRowVectorCharacterArray()) {
+            std::wstring param = argIn[0].getContentAsWideString();
+            if (param == L"like") {
+                if (argIn[1].isDoubleType()) {
+                    double intmax = (1ULL << DBL_MANT_DIG);
+                    retval << ArrayOf::doubleConstructor(intmax);
+                } else if (argIn[1].isSingleType()) {
+                    single intmax = (1UL << FLT_MANT_DIG);
+                    retval << ArrayOf::singleConstructor(intmax);
+                } else {
+                    Error(_("Second argument must a double or single variable."));
+                }
+            } else {
+                Error(_("First argument must be 'like'."));
+            }
+        } else {
+            Error(_("First argument must be 'like'."));
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);

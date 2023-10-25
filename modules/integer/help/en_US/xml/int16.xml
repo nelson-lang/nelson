@@ -55,6 +55,9 @@ B = int16(A)]]>
 		<see_also_item>
 			<link linkend="${integer}intmax">intmin</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${interpreter}numeric_types">numeric types</link>
+		</see_also_item>
 	</see_also>
 
 	<history>

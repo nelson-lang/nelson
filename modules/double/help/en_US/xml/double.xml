@@ -71,6 +71,9 @@ B = double(A)]]>
 		<see_also_item>
 			<link linkend="${single}single">single</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${interpreter}numeric_types">numeric types</link>
+		</see_also_item>
 	</see_also>
 
 	<history>

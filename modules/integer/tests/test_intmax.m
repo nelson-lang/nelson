@@ -17,8 +17,8 @@ assert_isequal(intmax('uint8'), uint8(255));
 assert_isequal(intmax('int16'), int16(32767));
 assert_isequal(intmax('uint16'), uint16(65535));
 assert_isequal(intmax('uint32'), uint32(4294967295));
-assert_isequal(intmax('int64'), int64(9223372036854775807U));
-assert_isequal(intmax('uint64'), uint64(18446744073709551615U));
+assert_isequal(intmax('int64'), int64(9223372036854775807i64));
+assert_isequal(intmax('uint64'), uint64(18446744073709551615u64));
 %=============================================================================
 assert_checkerror('intmax(''uint64'', 3)', _('Wrong number of input arguments.'));
 assert_checkerror('intmax(3)', _('Wrong type for argument #1: string expected.'));

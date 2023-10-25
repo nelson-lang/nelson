@@ -24,12 +24,19 @@ enum NODE_TYPE
 {
     const_double_node = 0,
     const_int_node,
+    const_int8_node,
+    const_uint8_node,
+    const_int16_node,
+    const_uint16_node,
+    const_int32_node,
+    const_uint32_node,
+    const_int64_node,
+    const_uint64_node,
     const_float_node,
     const_character_array_node,
     const_string_node,
     const_dcomplex_node,
     const_complex_node,
-    const_uint64_node,
     reserved_node,
     non_terminal,
     id_node,
@@ -113,7 +120,7 @@ public:
     static AbstractSyntaxTreePtrVector astUsedAsVector;
     //=============================================================================
     static AbstractSyntaxTreePtr
-    createNode(NODE_TYPE ntype, const char* name, int context);
+    createNode(NODE_TYPE ntype, const std::string& name, int context);
     //=============================================================================
     static AbstractSyntaxTreePtr
     createNode(NODE_TYPE ntype, int token, int context);
@@ -211,7 +218,7 @@ private:
      * Creates a node of the specified type with the text field set to a copy
      * of the name argument.
      */
-    AbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
+    AbstractSyntaxTree(NODE_TYPE ntype, const std::string& name, int context);
     /** Token constructor
      * Creates a node of the specified type with the tokenNumber field set to
      * the token argument.  This constructor is useful for nodes that are represented

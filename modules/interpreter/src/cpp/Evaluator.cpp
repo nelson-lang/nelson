@@ -52,7 +52,7 @@
 #include "ClassToString.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonReadyNamedMutex.hpp"
-#include "AsciiToDouble.hpp"
+#include "TextToNumber.hpp"
 #include "MException.hpp"
 #include "FileSystemWrapper.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -555,15 +555,59 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
 {
     ArrayOf retval;
     switch (t->type) {
-    case const_double_node:
-    case const_int_node: {
+    case const_double_node: {
         callstack.pushID((size_t)t->getContext());
-        retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
+        retval = ArrayOf::doubleConstructor(textToDouble(t->text));
         callstack.popID();
     } break;
     case const_float_node: {
         callstack.pushID((size_t)t->getContext());
-        retval = ArrayOf::singleConstructor(((float)asciiToDouble(t->text)));
+        retval = ArrayOf::singleConstructor((textToSingle(t->text)));
+        callstack.popID();
+    } break;
+    case const_uint8_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::uint8Constructor(textToUint8(t->text));
+        callstack.popID();
+    } break;
+    case const_int8_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::int8Constructor(textToInt8(t->text));
+        callstack.popID();
+    } break;
+    case const_uint16_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::uint16Constructor(textToUint16(t->text));
+        callstack.popID();
+    } break;
+    case const_int16_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::int16Constructor(textToInt16(t->text));
+        callstack.popID();
+    } break;
+    case const_uint32_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::uint32Constructor(textToUint32(t->text));
+        callstack.popID();
+    } break;
+    case const_int32_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::int32Constructor(textToInt32(t->text));
+        callstack.popID();
+    } break;
+    case const_int64_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::int64Constructor(textToInt64(t->text));
+        callstack.popID();
+    } break;
+    case const_uint64_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::uint64Constructor(textToUint64(t->text));
+        callstack.popID();
+    } break;
+    case const_int_node: {
+        callstack.pushID((size_t)t->getContext());
+        retval = ArrayOf::doubleConstructor(textToDouble(t->text));
         callstack.popID();
     } break;
     case const_character_array_node: {
@@ -576,10 +620,9 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         retval = ArrayOf::stringArrayConstructor(t->text);
         callstack.popID();
     } break;
-    case const_dcomplex_node:
-    case const_complex_node: {
+    case const_dcomplex_node: {
         callstack.pushID((size_t)t->getContext());
-        double val = asciiToDouble(t->text);
+        double val = textToDouble(t->text);
         if (approximatelyEqual(val, 0, std::numeric_limits<double>::epsilon())) {
             retval = ArrayOf::doubleConstructor(0.);
         } else {
@@ -587,12 +630,14 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
         }
         callstack.popID();
     } break;
-    case const_uint64_node: {
+    case const_complex_node: {
         callstack.pushID((size_t)t->getContext());
-        char* endptr = nullptr;
-        unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
-        auto r = static_cast<uint64>(v);
-        retval = ArrayOf::uint64Constructor(r);
+        single val = textToSingle(t->text);
+        if (approximatelyEqual(val, 0, std::numeric_limits<single>::epsilon())) {
+            retval = ArrayOf::singleConstructor(0.);
+        } else {
+            retval = ArrayOf::complexConstructor(0, val);
+        }
         callstack.popID();
     } break;
     case reserved_node: {
