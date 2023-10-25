@@ -49,8 +49,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,7,9,0
- PRODUCTVERSION 0,7,9,0
+ FILEVERSION 0,7,10,0
+ PRODUCTVERSION 0,7,10,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -69,8 +69,8 @@ BEGIN
             VALUE "InternalName", "fftw_builtin"
             VALUE "OriginalFilename", "libnlsfftw_builtin.dll"
             VALUE "ProductName", "Nelson (fftw_builtin)"
-            VALUE "ProductVersion", "0,7,9,0"
-            VALUE "FileVersion", "0,7,9,0"
+            VALUE "ProductVersion", "0,7,10,0"
+            VALUE "FileVersion", "0,7,10,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"

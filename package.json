@@ -1,6 +1,6 @@
 {
   "name": "nelson",
-  "version": "0.7.9",
+  "version": "0.7.10",
   "description": "Nelson, an array programming language",
   "copyright": "Copyright 2018-present Allan CORNET",
   "scripts": {
