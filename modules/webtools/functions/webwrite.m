@@ -28,7 +28,7 @@ function varargout = webwrite(varargin)
       options = weboptions();
     case 3
       if ~isWebOptions(varargin{3})
-        error(_W('Invalid #3 Argument: weboptions expected.'));
+        error(_('Invalid #3 Argument: weboptions expected.'));
       end
       options = varargin{3};
       if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
@@ -84,7 +84,7 @@ function varargout = webwrite(varargin)
         varargout{1} = res{1};
         varargout{2} = res{2};
       otherwise
-        error(_W('unmanaged case.'));
+        error(_('unmanaged case.'));
       end
     end
     %=============================================================================
