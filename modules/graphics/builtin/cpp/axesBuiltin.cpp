@@ -99,6 +99,7 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     children.insert(children.begin(), 1, handle);
     cp->data(children);
+    fig->repaint();
     return ArrayOfVector();
 }
 //=============================================================================

@@ -12,7 +12,7 @@
       <syntax_item>quiver(..., LineSpec)</syntax_item>
       <syntax_item>quiver(..., propertyName, propertyValue)</syntax_item>
       <syntax_item>quiver(parent, ...)</syntax_item>
-      <syntax_item>go = quiver(...)</syntax_item>
+      <syntax_item>gr = quiver(...)</syntax_item>
   </syntax>
 	
 	<param_input>
@@ -56,8 +56,8 @@
 
   <param_output>
     <param_output_item>
-      <param_name>ax</param_name>
-      <param_description>list of graphics object: arrows.</param_description>
+      <param_name>gr</param_name>
+      <param_description>group of graphics object: arrows.</param_description>
     </param_output_item>
   </param_output>
 

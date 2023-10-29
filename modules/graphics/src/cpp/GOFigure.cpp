@@ -251,9 +251,20 @@ GOFigure::paintMe(RenderInterface& gc)
         gc.clear(color->data());
         GOGObjectsProperty* children
             = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-        std::vector<int64> handles(children->data());
-        for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
-            GraphicsObject* fp = findGraphicsObject(handles[i], false);
+        GOGObjectsProperty* currentAxes
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR));
+        std::vector<int64> handlesCurrentAxes(currentAxes->data());
+        std::vector<int64> handlesChildren(children->data());
+        for (ompIndexType i = 0; i < (ompIndexType)handlesChildren.size(); i++) {
+            if (handlesChildren[i] != handlesCurrentAxes[0]) {
+                GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
+                if (fp) {
+                    fp->paintMe(gc);
+                }
+            }
+        }
+        if (!handlesCurrentAxes.empty()) {
+            GraphicsObject* fp = findGraphicsObject(handlesCurrentAxes[0], false);
             if (fp) {
                 fp->paintMe(gc);
             }

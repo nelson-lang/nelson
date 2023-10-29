@@ -1217,26 +1217,58 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
 
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
-        std::vector<double> child_limits(fp->getLimits());
         std::wstring goType = fp->getType();
-        if (!child_limits.empty()) {
-            if (first) {
-                limits = child_limits;
-                if (goType == GO_PROPERTY_VALUE_PATCH_STR) {
-                    limits[6] = std::min(limits[6], clim[0]);
-                    limits[7] = std::max(limits[7], clim[1]);
-                    limits[8] = std::min(limits[8], alim[0]);
-                    limits[9] = std::max(limits[9], alim[1]);
-                }
-                first = false;
-            } else {
+        if (goType == GO_PROPERTY_VALUE_HGGROUP_STR) {
+            auto childrenHgGroup
+                = static_cast<GOGObjectsProperty*>(fp->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+            std::vector<int64> handlesHgGroup(childrenHgGroup->data());
+            for (size_t k = 0; k < handlesHgGroup.size(); ++k) {
+                GraphicsObject* hp = findGraphicsObject(handlesHgGroup[k]);
+                std::vector<double> child_limits(hp->getLimits());
+                if (!child_limits.empty()) {
+                    if (first) {
+                        limits = child_limits;
+                        if (hp->getType() == GO_PROPERTY_VALUE_PATCH_STR) {
+                            limits[6] = std::min(limits[6], clim[0]);
+                            limits[7] = std::max(limits[7], clim[1]);
+                            limits[8] = std::min(limits[8], alim[0]);
+                            limits[9] = std::max(limits[9], alim[1]);
+                        }
+                        first = false;
+                    } else {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-                for (ompIndexType i = 0;
-                     i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
-                    limits[i] = std::min(limits[i], child_limits[i]);
-                    limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
+                        for (ompIndexType i = 0;
+                             i < (ompIndexType)std::min(limits.size(), child_limits.size());
+                             i += 2) {
+                            limits[i] = std::min(limits[i], child_limits[i]);
+                            limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
+                        }
+                    }
+                }
+            }
+        } else {
+            std::vector<double> child_limits(fp->getLimits());
+            if (!child_limits.empty()) {
+                if (first) {
+                    limits = child_limits;
+                    if (goType == GO_PROPERTY_VALUE_PATCH_STR) {
+                        limits[6] = std::min(limits[6], clim[0]);
+                        limits[7] = std::max(limits[7], clim[1]);
+                        limits[8] = std::min(limits[8], alim[0]);
+                        limits[9] = std::max(limits[9], alim[1]);
+                    }
+                    first = false;
+                } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                    for (ompIndexType i = 0;
+                         i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
+                        limits[i] = std::min(limits[i], child_limits[i]);
+                        limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
+                    }
                 }
             }
         }

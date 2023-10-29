@@ -124,3 +124,13 @@ REF = {'ALim';
 'ZTickMode'};
 assert_isequal(R, REF);
 %=============================================================================
+f = figure();
+ax1 = axes('Position',[0.1 0.1 .6 .6],'Box','on');
+ax2 = axes('Position',[.35 .35 .6 .6],'Box','on');
+assert_isequal(f.CurrentAxes, ax2);
+axes(ax1);
+x = linspace(0,10);
+y = sin(x);
+plot(x,y)
+assert_isequal(f.CurrentAxes, ax1);
+%=============================================================================

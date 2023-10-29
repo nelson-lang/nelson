@@ -14,9 +14,8 @@ void
 DrawSymbol(RenderInterface& gc, RenderInterface::SymbolType symb, double x, double y, double z,
     double sze, std::vector<double> edgecolor, std::vector<double> fillcolor, double width)
 {
-    bool stroke, fill;
-    stroke = edgecolor[0] != -1;
-    fill = fillcolor[0] != -1;
+    bool stroke = edgecolor[0] != -1;
+    bool fill = fillcolor[0] != -1;
     gc.lineWidth(width);
     gc.setLineStyle(L"-");
     switch (symb) {

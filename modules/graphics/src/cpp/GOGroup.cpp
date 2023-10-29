@@ -55,15 +55,28 @@ GOGroup::getType()
 void
 GOGroup::updateState()
 {
+    if (hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
+        GOGObjectsProperty* cp
+            = static_cast<GOGObjectsProperty*>(this->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+        std::vector<int64> children(cp->data());
+        bool turnOff = stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+        for (auto child : children) {
+            GraphicsObject* cp = findGraphicsObject(child, false);
+            if (cp) {
+                auto property = cp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false);
+                if (property) {
+                    property->set(ArrayOf::characterArrayConstructor(
+                        turnOff ? GO_PROPERTY_VALUE_OFF_STR : GO_PROPERTY_VALUE_ON_STR));
+                }
+            }
+        }
+    }
 }
 //=============================================================================
 void
 GOGroup::paintMe(RenderInterface& gc)
 {
     updateState();
-    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
-        return;
-    }
     GOGObjectsProperty* cp
         = static_cast<GOGObjectsProperty*>(this->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> children(cp->data());

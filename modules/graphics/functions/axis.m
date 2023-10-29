@@ -138,9 +138,9 @@ function axisAutoMode(ax, mode)
   xActive = any(find(mode == 'x'));
   yActive = any(find(mode == 'y'));
   zActive = any(find(mode == 'z'));
-  if (allActive | xActive), ax.XLimMode = 'auto', end
-  if (allActive | yActive), ax.YLimMode = 'auto', end
-  if (allActive | zActive), ax.ZLimMode ='auto', end
+  if (allActive | xActive), ax.XLimMode = 'auto'; end
+  if (allActive | yActive), ax.YLimMode = 'auto'; end
+  if (allActive | zActive), ax.ZLimMode ='auto'; end
 end
 %=============================================================================
 function axisNumericMode(ax, mode)
@@ -160,7 +160,7 @@ function axisNumericMode(ax, mode)
     ax.ZLim = mode(5:6);
     ax.CLim = mode(7:8);
   else
-    error(_W('Vector must have 4, 6, or 8 elements.'));
+    error(_('Vector must have 4, 6, or 8 elements.'));
   end
 end
 %=============================================================================

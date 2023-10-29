@@ -13,6 +13,9 @@ function varargout = quiver(varargin)
   inputArguments = varargin;
   if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
+    if isgraphics(ax, 'hggroup')
+      ax = ancestor(ax, 'axes');
+    end
     inputArguments = inputArguments(2:end);
   else
     ax = gca();
@@ -58,14 +61,15 @@ function varargout = quiver(varargin)
   t2 = length .* sin(phi);
   X = [x(:), x(:)+t1]';
   Y = [y(:), y(:)+t2]';
-  go1 = plot(X, Y, inputArguments{:});
-  hold on
+  h = hggroup(ax);
+  h.Visible = 'off';
+  go1 = plot(h, X, Y, inputArguments{:}, 'Visible', 'off');
   X = [x(:) + t1 - 0.2 * length .* cos(phi - pi / 8), x(:) + t1, x(:) + t1 - 0.2 * length .* cos(phi + pi / 8)]';
   Y = [y(:) + t2 - 0.2 * length .* sin(phi - pi / 8), y(:) + t2, y(:) + t2 - 0.2 * length .* sin(phi + pi / 8)]';
-  go2 = plot(ax, X, Y, inputArguments{:});
-  hold off
+  go2 = plot(h, X, Y, inputArguments{:}, 'Visible', 'off');
+  h.Visible = 'on';
   if nargout > 0
-    varargout{1} = [go1, go2];
+    varargout{1} = h;
   end
 end
 %=============================================================================
