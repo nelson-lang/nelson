@@ -16,9 +16,6 @@ function varargout = newplot(varargin)
   if (isempty (fig))
     fig = figure();
   end
-  if (strcmp(fig.NextPlot, 'replace'))
-    clf();
-  end
   if (nargin() == 1)
     ax = varargin{1};
     if isempty(ax)

@@ -114,7 +114,7 @@ void
 RenderQt::lineWidth(double n)
 {
     QPen pen(pnt->pen());
-    pen.setWidthF(n);
+    pen.setWidthF(n + 0.2);
     pnt->setPen(pen);
 }
 //=============================================================================

@@ -21,7 +21,12 @@ function varargout = plot3(varargin)
     end
   end
   backupCurrentAxis = gca();
-  axes(go);
+  if isgraphics(go, 'hggroup')
+    ax = ancestor(go, 'axes');
+    axes(ax);
+  else
+    axes(go);
+  end
   propertyIndex = 0;
   if (nbInputArguments > 2)
     propertyIndex = nbInputArguments - 1;
@@ -139,7 +144,7 @@ function color = getColorAndUpdateIndex(go)
     lineStyleOrderIndex = go.LineStyleOrderIndex;
     go.LineStyleOrderIndex = lineStyleOrderIndex + 1;
   else
-     colorIndex = colorIndex + 1;
+    colorIndex = colorIndex + 1;
   end
   go.ColorOrderIndex = colorIndex;
 end
@@ -165,11 +170,16 @@ function lineStyle = getLineStyleAndUpdateIndex(go)
 end
 %=============================================================================
 function hl = plotVector(go, x, y, z, lineProperties)
-  lineStyle = getLineStyleAndUpdateIndex(go);
-  color = getColorAndUpdateIndex(go);
+  if isgraphics(go, 'hggroup')
+    ax = ancestor(go, 'axes');
+  else
+    ax = go;
+  end  
+  lineStyle = getLineStyleAndUpdateIndex(ax);
+  color = getColorAndUpdateIndex(ax);
   if (~any(strcmp(lineProperties, 'LineStyle')))
     lineProperties = [lineProperties, {'LineStyle', lineStyle}];
   end  
-  hl = __line__('XData', x, 'YData', y, 'ZData', z, 'Color', color, lineProperties{:});
+  hl = __line__('Parent', go, 'XData', x, 'YData', y, 'ZData', z, 'Color', color, lineProperties{:});
 end
 %=============================================================================

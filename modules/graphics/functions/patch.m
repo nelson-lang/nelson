@@ -31,7 +31,7 @@ function args = parsePatchArguments(inputArguments)
     % patch(S)
     if isstruct(inputArguments{1})
       S = inputArguments{1};
-      inputArguments = reshape([fieldnames(S)'; struct2cell(S)'], 1, []);      
+      inputArguments = reshape([fieldnames(S)'; struct2cell(S)'], 1, []);
     else
       error(_('struct type expected.'));
     end

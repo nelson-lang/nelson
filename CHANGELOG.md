@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.7.X (UNRELEASED)
+
+### Added
+
+- `stem` Plot discrete sequence data.
+
+### Changed
+
+- axis limits recalculate with `hggroup`.
+- `axes` forces focus on current axe.
+
 ## 0.7.10 (2023-10-27)
 
 ### Added

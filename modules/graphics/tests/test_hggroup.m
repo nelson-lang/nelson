@@ -45,3 +45,11 @@ assert_isequal(h.Parent, g);
 %=============================================================================
 assert_checkerror('g = hggroup(gcf());', _('Group can be only a child of axes or hggroup.'));
 %============================================================================= 
+figure();
+hg = hggroup;
+plot(hg, 1:2,1:2);
+plot(hg, 4:5,4:5);
+ax = gca();
+assert_isequal(ax.XLim, [1 5]);
+assert_isequal(ax.YLim, [1 5]);
+%=============================================================================

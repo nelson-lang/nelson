@@ -29,7 +29,12 @@ function varargout = surface(varargin)
     go = newplot();
   end
   saveca = gca();
-  axes(go);
+  if isgraphics(go, 'hggroup')
+    ax = ancestor(go, 'axes');
+    axes(ax);
+  else
+    axes(go);
+  end
   propertiesList = {};
   firstString = find (cellfun ('isclass', inputArguments, 'char'), 1);
   if (isempty(firstString))
