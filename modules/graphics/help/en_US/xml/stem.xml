@@ -43,6 +43,11 @@
 			<param_description>a value.</param_description>
 		</param_input_item>
 
+		<param_input_item>
+			<param_name>ax</param_name>
+			<param_description>Axes object.</param_description>
+		</param_input_item>
+
 	</param_input>
 
   <param_output>

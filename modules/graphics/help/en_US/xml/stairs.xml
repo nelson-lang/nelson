@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>stairs</keyword>
+  <short_description>Stairstep graph.</short_description>
+
+  <syntax>
+     <syntax_item>stairs(Y)</syntax_item>
+     <syntax_item>stairs(X, Y)</syntax_item>
+     <syntax_item>stairs(..., LineSpec)</syntax_item>
+     <syntax_item>stairs(..., Name, Value)</syntax_item>
+     <syntax_item>stairs(ax, ...)</syntax_item>
+     <syntax_item>h = stairs(...)</syntax_item>
+     <syntax_item>[xb, yb] = stairs(...)</syntax_item>
+
+  </syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>X</param_name>
+			<param_description>x values.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>Y</param_name>
+			<param_description>y values.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>LineSpec</param_name>
+			<param_description
+      >Line style, marker and/or color: character vector or scalar string.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description>a scalar string or row vector character.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description>a value.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>ax</param_name>
+			<param_description>Axes object.</param_description>
+		</param_input_item>
+
+	</param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>line object.</param_description>
+    </param_output_item>
+
+    <param_output_item>
+      <param_name>xb</param_name>
+      <param_description>x values for use with plot</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>yb</param_name>
+      <param_description>y values for use with plot</param_description>
+    </param_output_item>
+
+  </param_output>
+
+<description>
+  <p
+    >Stairstep graphs are a valuable tool for creating time-history plots of digitally sampled data.</p>
+  <p><b
+      >stairs(Y)</b> function is used to generate such graphs by plotting the elements of the vector <b
+      >Y.</b></p>
+  <p>If <b
+      >Y</b> is a matrix, it draws one line for each column, with the color of the lines determined by the ColorOrder property of the axes.</p>
+  <p>In the case of a vector <b
+      >Y</b>, the x-axis scale spans from 1 to the length of <b
+      >Y</b>, while for a matrix <b
+      >Y</b>, the x-axis scale ranges from 1 to the number of rows in <b
+      >Y</b>.</p>
+  <p><b>stairs(X, Y)</b> allows you to plot the elements in <b
+      >Y</b> at specific locations defined by the vector <b>X</b>.</p>
+  <p>It's important to note that the elements in <b
+      >X</b> must be in a monotonic order to create a valid stairstep graph.</p>
+</description>
+
+  <used_function />
+  <bibliography />
+  
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description> 
+    </example_item_description>
+    <example_item_data
+      ><![CDATA[f = figure();
+f = figure();
+x1 = linspace(0,2*pi)';
+x2 = linspace(0,pi)';
+X = [x1,x2];
+Y = [sin(5*x1),exp(x2).*sin(5*x2)];
+ax = gca();
+stairs(ax, X,Y)
+]]>
+    </example_item_data>
+    <example_item_img src="../images/stairs_1.svg" align="middle" />
+  </example_item>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description> 
+    </example_item_description>
+    <example_item_data
+      ><![CDATA[X = linspace(0,1,45)';
+Y = [cos(3*X), exp(X).*sin(9*X)];
+h = stairs(X,Y);
+h(1).Marker = 'o';
+h(1).MarkerSize = 5;
+h(2).Marker = '+';
+h(2).MarkerFaceColor = 'm';
+]]>
+    </example_item_data>
+    <example_item_img src="../images/stairs_2.svg" align="middle" />
+  </example_item>
+ 
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

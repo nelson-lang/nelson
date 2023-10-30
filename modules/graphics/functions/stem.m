@@ -57,8 +57,6 @@ function group = stemInternal(ax, X, Y, color, filled, propertiesLineA, properti
   group = hggroup('Parent', ax);
   group.Visible = 'off';
 
-  
-
   if isempty(propertiesLineA.Color) 
     propertiesLineA.Color = color;
   end
