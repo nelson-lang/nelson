@@ -15,7 +15,7 @@ end
 %=============================================================================
 A = 1;
 B = 2;
-C = @(x) x + A + B;
+C = @(x) (x + A) + B;
 %=============================================================================
 savenh5(test_h5save_file, 'C');
 R = h5readatt(test_h5save_file, '/C', 'NELSON_class');
@@ -27,7 +27,7 @@ assert_isequal(R, uint8(1));
 R = h5read(test_h5save_file, '/C/is_function_handle');
 assert_isequal(R, uint8(0));
 R = h5read(test_h5save_file, '/C/function_handle');
-assert_isequal(char(R), 'x+A+B');
+assert_isequal(char(R), '(x+A)+B');
 R = h5read(test_h5save_file, '/C/arguments/0');
 assert_isequal(char(R), 'x');
 %=============================================================================

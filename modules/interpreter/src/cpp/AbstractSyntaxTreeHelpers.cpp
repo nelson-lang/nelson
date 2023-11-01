@@ -25,7 +25,7 @@ static std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BREAK, "b
     { NLS_KEYWORD_ENDFUNCTION, "endfunction" } };
 //=============================================================================
 static std::string
-expression(AbstractSyntaxTreePtr expr)
+expression(AbstractSyntaxTreePtr expr, bool firstLevel)
 {
     if (expr == nullptr) {
         return "";
@@ -37,9 +37,9 @@ expression(AbstractSyntaxTreePtr expr)
     switch (expr->type) {
     case id_node: {
         if (expr->down) {
-            res = expr->text + expression(expr->down);
+            res = expr->text + expression(expr->down, false);
         } else {
-            res = expr->text + expression(expr->right);
+            res = expr->text + expression(expr->right, false);
         }
     } break;
     case const_character_array_node: {
@@ -75,24 +75,25 @@ expression(AbstractSyntaxTreePtr expr)
         switch (expr->opNum) {
         case OP_COLON: {
             if ((expr->down != nullptr) && (expr->down->opNum == (OP_COLON))) {
-                res = expression(expr->down->down) + ":" + expression(expr->down->down->right) + ":"
-                    + expression(expr->down->right);
+                res = expression(expr->down->down, false) + ":"
+                    + expression(expr->down->down->right, false) + ":"
+                    + expression(expr->down->right, false);
             } else {
-                res = expression(expr->down) + ":" + expression(expr->down->right);
+                res = expression(expr->down, false) + ":" + expression(expr->down->right, false);
             }
         } break;
         case OP_SEMICOLON: {
             if (expr->right != nullptr) {
-                std::string left = expression(expr->down);
-                std::string right = expression(expr->right);
+                std::string left = expression(expr->down, false);
+                std::string right = expression(expr->right, false);
                 if (right.empty()) {
                     res = left;
                 } else {
                     res = left + ";" + right;
                 }
             } else {
-                std::string left = expression(expr->down);
-                std::string right = expression(expr->down->right);
+                std::string left = expression(expr->down, false);
+                std::string right = expression(expr->down->right, false);
                 if (right.empty()) {
                     res = left;
                 } else {
@@ -107,16 +108,16 @@ expression(AbstractSyntaxTreePtr expr)
             res = "{}";
         } break;
         case OP_BRACKETS: {
-            res = "[" + expression(expr->down) + "]";
+            res = "[" + expression(expr->down, false) + "]";
         } break;
         case OP_BRACES: {
-            res = "{" + expression(expr->down) + "}";
+            res = "{" + expression(expr->down, false) + "}";
         } break;
         case OP_PARENS: {
             res = "(";
             expr = expr->down;
             while (expr != nullptr) {
-                res = res + expression(expr) + ",";
+                res = res + expression(expr, false) + ",";
                 expr = expr->right;
             }
             if (StringHelpers::ends_with(res, ",")) {
@@ -125,82 +126,142 @@ expression(AbstractSyntaxTreePtr expr)
             res = res + ")";
         } break;
         case OP_PLUS: {
-            res = expression(expr->down) + "+" + expression(expr->down->right);
+            res = expression(expr->down, false) + "+" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_SUBTRACT: {
-            res = expression(expr->down) + "-" + expression(expr->down->right);
+            res = expression(expr->down, false) + "-" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_TIMES: {
-            res = expression(expr->down) + "*" + expression(expr->down->right);
+            res = expression(expr->down, false) + "*" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_SOR: {
-            res = expression(expr->down) + "||" + expression(expr->down->right);
+            res = expression(expr->down, false) + "||" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_OR: {
-            res = expression(expr->down) + "|" + expression(expr->down->right);
+            res = expression(expr->down, false) + "|" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_SAND: {
-            res = expression(expr->down) + "&&" + expression(expr->down->right);
+            res = expression(expr->down, false) + "&&" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_AND: {
-            res = expression(expr->down) + "&" + expression(expr->down->right);
+            res = expression(expr->down, false) + "&" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_LT: {
-            res = expression(expr->down) + "<" + expression(expr->down->right);
+            res = expression(expr->down, false) + "<" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_LEQ: {
-            res = expression(expr->down) + "<=" + expression(expr->down->right);
+            res = expression(expr->down, false) + "<=" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_GT: {
-            res = expression(expr->down) + ">" + expression(expr->down->right);
+            res = expression(expr->down, false) + ">" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_GEQ: {
-            res = expression(expr->down) + ">=" + expression(expr->down->right);
+            res = expression(expr->down, false) + ">=" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_EQ: {
-            res = expression(expr->down) + "==" + expression(expr->down->right);
+            res = expression(expr->down, false) + "==" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_NEQ: {
-            res = expression(expr->down) + "~=" + expression(expr->down->right);
+            res = expression(expr->down, false) + "~=" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_DOT_TIMES: {
-            res = expression(expr->down) + ".*" + expression(expr->down->right);
+            res = expression(expr->down, false) + ".*" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_UPLUS: {
-            res = "+" + expression(expr->down);
+            res = "+" + expression(expr->down, false);
         } break;
         case OP_UMINUS: {
-            res = "-" + expression(expr->down);
+            res = "-" + expression(expr->down, false);
         } break;
         case OP_NOT: {
-            res = "~" + expression(expr->down);
+            res = "~" + expression(expr->down, false);
         } break;
         case OP_TRANSPOSE: {
-            res = expression(expr->down) + "'";
+            res = expression(expr->down, false) + "'";
         } break;
         case OP_DOT_TRANSPOSE: {
-            res = expression(expr->down) + ".'";
+            res = expression(expr->down, false) + ".'";
         } break;
         case OP_RHS: {
-            res = expression(expr->down);
+            res = expression(expr->down, false);
         } break;
         case OP_RDIV: {
-            res = expression(expr->down) + "/" + expression(expr->down->right);
+            res = expression(expr->down, false) + "/" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_LDIV: {
-            res = expression(expr->down) + "\\" + expression(expr->down->right);
+            res = expression(expr->down, false) + "\\" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_DOT_RDIV: {
-            res = expression(expr->down) + "./" + expression(expr->down->right);
+            res = expression(expr->down, false) + "./" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_DOT_LDIV: {
-            res = expression(expr->down) + ".\\" + expression(expr->down->right);
+            res = expression(expr->down, false) + ".\\" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_POWER: {
-            res = expression(expr->down) + ".^" + expression(expr->down->right);
+            res = expression(expr->down, false) + ".^" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_MPOWER: {
-            res = expression(expr->down) + "^" + expression(expr->down->right);
+            res = expression(expr->down, false) + "^" + expression(expr->down->right, false);
+            if (!firstLevel) {
+                res = "(" + res + ")";
+            }
         } break;
         case OP_FUNCTION_HANDLE_ANONYMOUS: {
             res = "@(";
@@ -219,7 +280,7 @@ expression(AbstractSyntaxTreePtr expr)
                 }
                 res = res + ")";
             }
-            res = res + expression(expr);
+            res = res + expression(expr, false);
         } break;
         case OP_FUNCTION_HANDLE_NAMED: {
             res = res + "@";
@@ -235,8 +296,8 @@ expression(AbstractSyntaxTreePtr expr)
 std::string
 AbstractSyntaxTree::toString()
 {
-    return expression(this);
+    return expression(this, true);
 }
 //=============================================================================
 } // namespace Nelson
-  //=============================================================================
+//=============================================================================
