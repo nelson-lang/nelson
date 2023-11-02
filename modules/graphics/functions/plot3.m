@@ -120,55 +120,6 @@ function x = resizeMatrix(a, rows, cols)
   end
 end
 %=============================================================================
-function color = getColorAndUpdateIndex(go)
-  colorOrder = go.ColorOrder;
-  if isempty (colorOrder)
-    color = [0 0 0];
-    return;
-  end
-  colorIndex = go.ColorOrderIndex;
-  nbColors = size (colorOrder, 1);
-  colorIndex = mod (colorIndex, nbColors);
-  if (colorIndex == 0)
-    colorIndex = nbColors;
-  elseif (colorIndex < 0)
-    colorIndex = 1;
-  end
-  color = colorOrder(colorIndex, :);
-  if (colorIndex >= nbColors)
-    colorIndex = colorIndex + 1;
-    colorIndex = mod (colorIndex, nbColors);
-    if (colorIndex == 0)
-      colorIndex = 1;
-    end
-    lineStyleOrderIndex = go.LineStyleOrderIndex;
-    go.LineStyleOrderIndex = lineStyleOrderIndex + 1;
-  else
-    colorIndex = colorIndex + 1;
-  end
-  go.ColorOrderIndex = colorIndex;
-end
-%=============================================================================
-function lineStyle = getLineStyleAndUpdateIndex(go)
-  lineStyleOrder = go.LineStyleOrder;
-  if isempty (lineStyleOrder)
-    lineStyle = '-';
-    return;
-  end
-  if ischar(lineStyleOrder)
-    lineStyleOrder = cellstr(lineStyleOrder);
-  end
-  LineStyleOrderIndex = go.LineStyleOrderIndex;
-  numberOfStyles = size(lineStyleOrder, 1);
-  LineStyleOrderIndex = mod (LineStyleOrderIndex, numberOfStyles);
-  if (LineStyleOrderIndex == 0)
-    LineStyleOrderIndex = numberOfStyles;
-  elseif (LineStyleOrderIndex < 0)
-    LineStyleOrderIndex = 1;
-  end
-  lineStyle = lineStyleOrder{LineStyleOrderIndex};
-end
-%=============================================================================
 function hl = plotVector(go, x, y, z, lineProperties)
   if isgraphics(go, 'hggroup')
     ax = ancestor(go, 'axes');

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>scatter</keyword>
+  <short_description>Scatter plot.</short_description>
+
+  <syntax>
+      <syntax_item>scatter(x, y)</syntax_item>
+      <syntax_item>scatter(x, y, sz)</syntax_item>
+      <syntax_item>scatter(x, y, sz, c)</syntax_item>
+      <syntax_item>scatter(..., 'filled')</syntax_item>
+      <syntax_item>scatter(..., marker)</syntax_item>
+      <syntax_item>scatter(ax, ...)</syntax_item>
+      <syntax_item>scatter(..., propertyName, propertyValue)</syntax_item>
+      <syntax_item>s = scatter(...)</syntax_item>
+  </syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>X</param_name>
+			<param_description>x-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Y</param_name>
+			<param_description>y-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>sz</param_name>
+			<param_description
+      >Marker size: numeric scalar, vector, [] (default: 36)</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>c</param_name>
+			<param_description
+      >Marker color: color name, RGB triplet or vector of colormap indices</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>ax</param_name>
+			<param_description
+      >a scalar graphics object value: parent container, specified as a axes.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description
+      >a scalar string or row vector character. see help of 'line' for property list.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description>a value.</param_description>
+		</param_input_item>
+
+	</param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >a graphics object: line type or group of line.</param_description>
+    </param_output_item>
+  </param_output>
+
+<description>
+
+<p><b
+      >scatter(x, y)</b> generates a scatter plot by placing circular markers at the coordinates defined by the vectors <b
+      >x</b> and <b>y</b>.</p>
+<p>If you intend to display a single dataset, ensure that both <b>x</b> and <b
+      >y</b> are vectors of the same length.</p>
+<p
+    >To visualize multiple datasets on a shared set of axes, you can achieve this by using a matrix for either <b
+      >x</b> or <b>y</b>, while keeping the other as a vector.</p>
+<p
+    >This allows you to overlay or compare multiple datasets within the same plot.</p>
+<p />
+<p>marker specifies the symbol to be drawn at each data point:</p>
+<p><b>'o'</b>: Circle symbol</p>
+<p><b>'x'</b>: Times symbol</p>
+<p><b>'+'</b>: Plus symbol</p>
+<p><b>'*'</b>: Asterisk symbol</p>
+<p><b>'.'</b>: Dot symbol</p>
+<p><b>'s'</b>: Square symbol</p>
+<p><b>'d'</b>: Diamond symbol</p>
+<p><b>'v'</b>: Downward-pointing triangle symbol</p>
+<p><b>'^'</b>: Upward-pointing triangle symbol</p>
+<p><b>'&#62;'</b>: Left-pointing triangle symbol</p>
+<p><b>'&#60;'</b>: Right-pointing triangle symbol</p>
+<p />
+
+<p>The ColorSpec specifies the marker color to use for each data series:</p>
+<p><b>'k'</b>: Color Black</p>
+<p><b>'y'</b>: Color Yellow</p>
+<p><b>'m'</b>: Color Magenta</p>
+<p><b>'c'</b>: Color Cyan</p>
+<p><b>'r'</b>: Color Red</p>
+<p><b>'b'</b>: Color Blue</p>
+<p><b>'g'</b>: Color Green</p>
+<p />
+<p>see <b>line</b> for more information about properties</p>
+</description>
+
+  <used_function />
+  <bibliography />
+  
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure();
+theta = linspace(0,1,600);
+x = exp(theta).*sin(110*theta);
+y = exp(theta).*cos(110*theta);
+s = scatter(x,y ,'filled');]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_1.svg" align="middle" />
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure();
+x = linspace(0,3*pi,255);
+y = cos(x) + rand(1,255);
+sz = 1:255;
+c = 1:length(x);
+scatter(x, y, sz, c, 'd', 'filled')
+]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_2.svg" align="middle" />
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure();
+x = linspace(0, 3*pi, 255);
+y = cos(x) + rand(1, 255);
+c = linspace(1,10,length(x));
+scatter(x, y, [], c, 'filled')
+]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_3.svg" align="middle" />
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure();
+theta = linspace(0,2*pi,244);
+x = sin(theta) + 0.75*rand(1,244);
+y = cos(theta) + 0.75*rand(1,244);  
+sz = 45;
+scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineWidth',3.5)
+]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_4.svg" align="middle" />
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure(),
+x = linspace(0,3*pi,200);
+y = cos(x) + rand(1,200);
+% Top plot
+ax1 = subplot(2,1, 1);
+scatter(ax1,x,y)
+% Bottom plot
+ax2 = subplot(2,1, 2);
+scatter(ax2,x,y,'filled','d')
+]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_5.svg" align="middle" />
+  </example_item>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[
+f = figure();
+x = rand(500,5);
+y = randn(500,5) + (5:5:25);
+s = scatter(x,y, 'filled');
+]]>
+    </example_item_data>
+    <example_item_img src="../images/scatter_6.svg" align="middle" />
+  </example_item>
+
+   
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}line">line</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

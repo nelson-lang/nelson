@@ -120,6 +120,13 @@ function [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArgumen
   [linespec, colorspec, markerspec, msg] = colstyle ('-o', 'plot');
 
   filled = false;
+  isFilled = @(x) (ischar(x) || isStringScalar(x)) && strcmp(convertStringsToChars(x), 'filled');
+  filledDectected = find (cellfun(isFilled, inputArguments));
+  if (~isempty(filledDectected))
+      filled = true;
+      inputArguments(filledDectected) = [];
+      nbInputArguments = length(inputArguments);
+  end
   nbInputArguments = length(inputArguments);
   if (nbInputArguments > 0)
     if ~isValidGraphicsProperty('line', inputArguments{1})
@@ -146,25 +153,6 @@ function [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArgumen
   propertiesLineA.MarkerEdgeColor = colorspec;
   propertiesLineA.Marker = markerspec;
   propertiesLineA.MarkerSize = 6;
-
-  if ((nbInputArguments > 0) && (mod(nbInputArguments, 2) ~= 0))
-    if ischar(inputArguments{1}) || isStringScalar(inputArguments{1})
-      if strcmp(inputArguments{1}, 'filled')
-        filled = true;
-        inputArguments = inputArguments(2:end);
-        nbInputArguments = length(inputArguments);
-      end
-    end
-  end
-  if ((nbInputArguments > 0) && (mod(nbInputArguments, 2) ~= 0))
-    if ischar(inputArguments{end}) || isStringScalar(inputArguments{end})
-      if strcmp(inputArguments{1}, 'filled')
-        filled = true;
-        inputArguments = inputArguments(1:end-1);
-        nbInputArguments = length(inputArguments)
-      end
-    end
-  end
 
   for k = 1:2:nbInputArguments
     propertiesLineA.(inputArguments{k}) = inputArguments{k + 1};
