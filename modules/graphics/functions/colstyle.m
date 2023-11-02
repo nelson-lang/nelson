@@ -51,16 +51,16 @@ function [linespec, colorspec, markerspec, msg] = colstyle (varargin)
   orig_t = style;
   while (~giveup && length(style)>0)
     giveup = 1;
-    if (matchit(style,colorset()))
-      [colorspec, style] = parseit(style,colorset);
+    if (matchit(style, getColorShortNameList()))
+      [colorspec, style] = parseit(style, getColorShortNameList());
       giveup = 0;
     end;
-    if (matchit(style,markerset()))
-      [markerspec, style] = parseit(style,markerset);
+    if (matchit(style, getMarkerNameList()))
+      [markerspec, style] = parseit(style, getMarkerNameList());
       giveup = 0;
     end
     if (matchit(style,styleset()))
-      [linespec, style] = parseit(style,styleset);
+      [linespec, style] = parseit(style, styleset());
       giveup = 0;
     end
   end
@@ -94,16 +94,8 @@ function [b, t] = parseit(t, dictionary)
   t(1:length(b)) = [];
 end
 %=============================================================================
-function c = colorset()
-  c = {'y','m','c','r','g','b','w','k'};
-end
-%=============================================================================
 function c = styleset()
   c = {'--',':','-.','-'};
-end
-%=============================================================================
-function c = markerset()
-  c = {'+','o','*','.','x','square','s','diamond','d','^','v','>','<'};
 end
 %=============================================================================
 function b = stcmp(source,pattern)

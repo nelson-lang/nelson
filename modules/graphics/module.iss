@@ -23,6 +23,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.nh5; DestDir: {app}\modules
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\colormaps\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\colormaps;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_GRAPHICS} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
