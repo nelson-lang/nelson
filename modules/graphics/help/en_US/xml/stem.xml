@@ -11,7 +11,7 @@
      <syntax_item>stem(X, Y)</syntax_item>
      <syntax_item>stem(..., 'filled')</syntax_item>
      <syntax_item>stem(..., LineSpec)</syntax_item>
-     <syntax_item>stem(..., Name, Value)</syntax_item>
+     <syntax_item>stem(..., propertyName, propertyValue)</syntax_item>
      <syntax_item>stem(ax, ...)</syntax_item>
      <syntax_item>go = stem(...)</syntax_item>
   </syntax>
