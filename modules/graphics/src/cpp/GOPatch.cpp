@@ -229,9 +229,8 @@ inline const double*
 getVerticesData(const double* pVertData, indexType i, indexType j, indexType nVertices,
     indexType nbColumnsVerticesData)
 {
-    return ((i < nVertices && j < nbColumnsVerticesData)
-            ? (pVertData + i + nVertices * j)
-            : (Error(_W("Out of bounds.")), pVertData));
+    return ((i < nVertices && j < nbColumnsVerticesData) ? (pVertData + i + nVertices * j)
+                                                         : (pVertData));
 }
 //=============================================================================
 inline const double*
@@ -240,7 +239,7 @@ getVerticesColor(const double* pVertColor, indexType i, indexType j,
 {
     return ((i < nbRowsFaceVertexCdata && j < nbColumnsFaceVertexCdata)
             ? (pVertColor + i + (int)nbRowsFaceVertexCdata * j)
-            : (Error(_W("Out of bounds.")), pVertColor));
+            : (pVertColor));
 }
 //=============================================================================
 void
@@ -292,6 +291,10 @@ GOPatch::buildPolygons(FaceList& faces)
     const double* pVertData = static_cast<const double*>(verticesdata.getDataPointer());
     const double* pVertColor = static_cast<const double*>(faceVertexCdata.getDataPointer());
 
+    GOFaceAlphaProperty* fa
+        = static_cast<GOFaceAlphaProperty*>(findProperty(GO_FACE_ALPHA_PROPERTY_NAME_STR));
+    double alphaLevel = fa->scalar();
+
     indexType nbColumnsFaceVertexCdata = faceVertexCdata.getColumns();
     indexType nbRowsFaceVertexCdata = faceVertexCdata.getRows();
 
@@ -312,18 +315,9 @@ GOPatch::buildPolygons(FaceList& faces)
                 Error(_W("Invalid Face Colorspec."));
             } else {
                 std::vector<double> colorspec = fc->colorSpec();
-                face.FaceColor = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], 1);
+                face.FaceColor
+                    = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], alphaLevel);
             }
-        }
-
-        if (face.FaceColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
-            && ((nbRowsFaceVertexCdata != 1) || ((nbRowsFaceVertexCdata != nVertices)))) {
-            Error(_W("Invalid FaceVertexCData parameter with FaceColor to 'flat'."));
-        }
-
-        if (face.FaceColorMode == ColorMode::Interp && (nbColumnsFaceVertexCdata != 3)
-            && (nbRowsFaceVertexCdata != nVertices)) {
-            Error(_W("Invalid FaceVertexCData parameter with FaceColor to 'interp'."));
         }
 
         if (face.EdgeColorMode == ColorMode::ColorSpec) {
@@ -369,19 +363,25 @@ GOPatch::buildPolygons(FaceList& faces)
                 double R = 0;
                 double G = 0;
                 double B = 0;
-                double A = 1;
+                double A = alphaLevel;
                 if (face.FaceColorMode == ColorMode::Flat) {
-                    indexType firstVertIndex = (nbRowsFaceVertexCdata != 1)
-                        ? (indexType)(*(pVertOrder + j + k * nFaces) - 1)
-                        : 0;
-                    firstVertIndex = (nbRowsFaceVertexCdata == nFaces) ? j : firstVertIndex;
+                    if (nbRowsFaceVertexCdata == 3) {
+                        R = pVertColor[0];
+                        G = pVertColor[1];
+                        B = pVertColor[2];
+                    } else {
+                        indexType firstVertIndex = (nbRowsFaceVertexCdata != 1)
+                            ? (indexType)(*(pVertOrder + j + k * nFaces) - 1)
+                            : 0;
+                        firstVertIndex = (nbRowsFaceVertexCdata == nFaces) ? j : firstVertIndex;
 
-                    R = *(getVerticesColor(pVertColor, firstVertIndex, 0, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
-                    G = *(getVerticesColor(pVertColor, firstVertIndex, 1, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
-                    B = *(getVerticesColor(pVertColor, firstVertIndex, 2, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
+                        R = *(getVerticesColor(pVertColor, firstVertIndex, 0, nbRowsFaceVertexCdata,
+                            nbColumnsFaceVertexCdata));
+                        G = *(getVerticesColor(pVertColor, firstVertIndex, 1, nbRowsFaceVertexCdata,
+                            nbColumnsFaceVertexCdata));
+                        B = *(getVerticesColor(pVertColor, firstVertIndex, 2, nbRowsFaceVertexCdata,
+                            nbColumnsFaceVertexCdata));
+                    }
                     RGBAColorData vertColor(R, G, B, A);
                     face.vertexcolors.push_back(vertColor);
                 } else if (face.FaceColorMode == ColorMode::Interp) {

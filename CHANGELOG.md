@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `scatter` Scatter plot.
 - `stem` Plot discrete sequence data.
 - `stairs` Stairstep graph.
+- `fill` 2-D patch.
 
 ### Changed
 
@@ -20,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `axes` forces focus on current axe.
 - function_handle parenthese precedence.
 - [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
+- `patch` and `fill` manages `FaceAlpha`.
 
 ## 0.7.10 (2023-10-27)
 

@@ -51,8 +51,8 @@ REF = {'AlphaDataMapping'; ...
 'Visible'};
 assert_isequal(names, REF);
 assert_isequal(p.Visible, 'on');
-assert_isequal(p.XData, [0; 1; 0]);
-assert_isequal(p.YData, [1; 1; 0]);
-assert_isequal(p.ZData, [1; 1; 1]);
+assert_isequal(p.XData, [0; 0; 1; 0]);
+assert_isequal(p.YData, [1; 1; 1; 0]);
+assert_isequal(p.ZData, [1; 1; 1; 1]);
 assert_isequal(p.LineStyle, '-');
 %=============================================================================

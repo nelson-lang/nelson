@@ -182,7 +182,8 @@ function varargout = legend(varargin)
   for k = 1:length(lineHandles)
     lineHandles(k).Visible = 'on';
   end
-  axes(ax);
+  parentFigure = ancestor(ax, 'figure');
+  parentFigure.CurrentAxes = ax;
   if nargout > 0
     varargout{1} = cba;
   end
