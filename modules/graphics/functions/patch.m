@@ -52,7 +52,7 @@ function args = parsePatchArguments(inputArguments)
   if (isempty(firstString))
     firstString = nbInputArguments + 1;
   end
-  
+
   if ((nbInputArguments >= 3) && (firstString == 3)) || ((nbInputArguments >= 4) && (firstString == 4))
     % h = patch(X, Y, C) or h = patch(X, Y, Z, C)
     str = inputArguments{firstString};
@@ -66,8 +66,8 @@ function args = parsePatchArguments(inputArguments)
         else
           C = validatecolor(str);
         end
-        inputArguments = [inputArguments(1:firstString-1), C];
-        propertiesList = inputArguments(firstString+1:end);
+         propertiesList = inputArguments(firstString+1:end);
+         inputArguments = [inputArguments(1:firstString-1), C];
       end
     else
       propertiesList = inputArguments(firstString:end);
@@ -77,7 +77,7 @@ function args = parsePatchArguments(inputArguments)
     propertiesList = inputArguments(firstString:end);
     inputArguments = inputArguments(1:firstString-1);
   end
-  
+
   nbInputArguments = length(inputArguments);
   ax = [];
   XData = [];
@@ -152,7 +152,12 @@ function args = parsePatchArguments(inputArguments)
   if isfield(args, 'Faces')
     rmfield(args, 'Faces');
   end
-  
+
+  FaceAlphasAsProperty = getValueFromStruct(args, 'FaceAlpha');
+  if isfield(args, 'FaceAlpha')
+    rmfield(args, 'FaceAlpha');
+  end
+
   VerticesAsProperty = getValueFromStruct(args, 'Vertices');
   if isfield(args, 'Vertices')
     rmfield(args, 'Vertices');
@@ -268,8 +273,8 @@ function args = parsePatchArguments(inputArguments)
   end
   
   if ~isempty(FaceVertexCDataAsProperty)
-    FaceVertexCData = FaceVertexCDataAsProperty;
-  else
+          FaceVertexCData = FaceVertexCDataAsProperty;
+      else
     if isnumeric(CData)
       FaceVertexCData = CData;
     elseif ischar(CData)
@@ -301,7 +306,19 @@ function args = parsePatchArguments(inputArguments)
   else
     EdgeColor = EdgeColorDefault;
   end
-  
+
+  if ~isempty(FaceAlphasAsProperty)
+    FaceAlpha = FaceAlphasAsProperty;
+  else
+    FaceAlpha = 1;
+  end
+
+  if (isvector(XData) && (length(XData) == 3))
+    XData = [XData(1), XData(:)']';
+    YData = [YData(1), YData(:)']';
+    ZData = [ZData(1), ZData(:)']';
+  end
+
   args.Parent = Parent;
   args.XData = XData;
   args.YData = YData;
@@ -312,6 +329,7 @@ function args = parsePatchArguments(inputArguments)
   args.FaceVertexCData = FaceVertexCData;
   args.FaceColor = FaceColor;
   args.EdgeColor = EdgeColor;
+  args.FaceAlpha = FaceAlpha;
   
   args = reshape([fieldnames(args)'; struct2cell(args)'], 1, []);
   

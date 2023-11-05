@@ -255,11 +255,21 @@ GOFigure::paintMe(RenderInterface& gc)
             = static_cast<GOGObjectsProperty*>(findProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR));
         std::vector<int64> handlesCurrentAxes(currentAxes->data());
         std::vector<int64> handlesChildren(children->data());
+        std::vector<GraphicsObject*> legendObjects;
         for (ompIndexType i = 0; i < (ompIndexType)handlesChildren.size(); i++) {
             if (handlesChildren[i] != handlesCurrentAxes[0]) {
                 GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
                 if (fp) {
                     fp->paintMe(gc);
+                    GOStringProperty* ft = static_cast<GOStringProperty*>(
+                        fp->findProperty(GO_TAG_PROPERTY_NAME_STR, false));
+                    GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                        fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                    if (ft && fv) {
+                        if (ft->data() == L"legend" && fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                            legendObjects.push_back(fp);
+                        }
+                    }
                 }
             }
         }
@@ -267,6 +277,13 @@ GOFigure::paintMe(RenderInterface& gc)
             GraphicsObject* fp = findGraphicsObject(handlesCurrentAxes[0], false);
             if (fp) {
                 fp->paintMe(gc);
+            }
+        }
+        if (!legendObjects.empty()) {
+            for (auto l : legendObjects) {
+                if (l) {
+                    l->paintMe(gc);
+                }
             }
         }
         _resized = false;

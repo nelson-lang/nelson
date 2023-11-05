@@ -3,19 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>patch</keyword>
-  <short_description>Create patches of colored polygons</short_description>
+  <keyword>fill</keyword>
+  <short_description>Create  filled 2-D patches.</short_description>
 
   <syntax>
-    <syntax_item>patch(X, Y, C)</syntax_item>
-    <syntax_item>patch(X, Y, Z, C)</syntax_item>
-    <syntax_item>patch('XData', X, 'YData', Y)</syntax_item>
-    <syntax_item>patch('XData', X, 'YData', Y, 'ZData', Z)</syntax_item>
-    <syntax_item>patch('Faces', F, 'Vertices', V)</syntax_item>
-    <syntax_item>patch(S)</syntax_item>
-    <syntax_item>patch(..., propertyName, propertyValue)</syntax_item>
-    <syntax_item>patch(ax, ...)</syntax_item>
-    <syntax_item>go = patch(...)</syntax_item>
+    <syntax_item>fill(X, Y, C)</syntax_item>
+    <syntax_item>fill(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fill(ax, ...)</syntax_item>
+    <syntax_item>go = fill(...)</syntax_item>
   </syntax>
 	
 	<param_input>
@@ -26,10 +21,6 @@
 		<param_input_item>
 			<param_name>Y</param_name>
 			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Z</param_name>
-			<param_description>z-coordinates: vector or matrix.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>C</param_name>
@@ -49,12 +40,6 @@
 			<param_name>propertyValue</param_name>
 			<param_description>a value.</param_description>
 		</param_input_item>
-		<param_input_item>
-			<param_name>S</param_name>
-			<param_description
-      >a structure with fields that correspond patch property names and field values.</param_description>
-		</param_input_item>
-
 	</param_input>
 
   <param_output>
@@ -66,17 +51,12 @@
 
 <description>
   <p><b
-      >patch(X, Y, C)</b> creates a 2D polygonal shape with vertices defined by <b
+      >fill(X, Y, C)</b> creates a 2D polygonal shape with vertices defined by <b
       >X</b> and <b>Y</b> coordinates, and fills the shape with color <b
       >C</b>.</p>
   <p><b
-      >patch(X, Y, Z, C)</b> creates a 3D polygonal shape with vertices defined by <b
-      >X</b>, <b>Y</b>, and <b
-      >Z</b> coordinates, and fills the shape with color <b>C</b>.</p>
-  <p><b
-      >patch(..., PropertyName, PropertyValue, ...)</b> sets optional properties for the patch object using name-value pairs.</p>
-  <p><b>patch('Faces', F, 'Vertices', V)</b> creates one or more polygons .</p>
-  <p><b>go = patch(...)</b> returns the handle <b
+      >fill(..., PropertyName, PropertyValue, ...)</b> sets optional properties for the fill/patch object using name-value pairs.</p>
+  <p><b>go = fill(...)</b> returns the handle <b
       >go</b> to the created patch object.</p>
 
 <p>Property Name-Value Pairs:</p>
@@ -115,22 +95,15 @@
     <example_item_description> 
     </example_item_description>
     <example_item_data
-      ><![CDATA[fig = figure('Color', 'k');
-ax.Color = 'k';  
-f=0.1;
-t=0:f^2:2*pi;
-r=pi/4;
-p=r*t+r;
-patch([cos(p), 0], [sin(p), 0], 'y');
-c = eye(3);
-for a=2:2:6
-  patch([t/4+a, a+r*(1+cos(t/2)),a], [-f*cos(3*(a+t))-r,r*sin(t/2),-1], c(a/2,:));
-  patch(a +f*cos(t)'+r./[1,0.65], f*(2+sin(t)').*[1,1], 'k', 'EdgeColor', 'w', 'LineWidth', pi)
-end
-axis equal
-axis off]]>
+      ><![CDATA[f = figure();
+outerX = [0, 0.3, 1, 0.7, 1, 0.3, 0, -0.3, -1, -0.7, -1, -0.3, 0];
+outerY = [1, 0.3, 0.3, 0, -0.3, -1, -0.3, -1, -0.3, 0, 0.3, 0.3, 1];
+innerX = [0, 0.2, 0.5, 0.35, 0.5, 0.2, 0, -0.2, -0.5, -0.35, -0.5, -0.2, 0];
+innerY = [0.6, 0.3, 0.3, 0, -0.3, -0.6, -0.3, -0.6, -0.3, 0, 0.3, 0.3, 0.6];
+fill(outerX, outerY, 'y');
+fill(innerX, innerY, 'r');]]>
     </example_item_data>
-    <example_item_img src="../images/patch_1.svg" align="middle" />
+    <example_item_img src="../images/fill_1.svg" align="middle" />
 </example_item>
  
 <example_item>
@@ -138,65 +111,58 @@ axis off]]>
     <example_item_description> 
     </example_item_description>
     <example_item_data
-      ><![CDATA[f =figure('Color', 'w');
-x = [-1 1 0 -1];
-y = [-1/sqrt(3) -1/sqrt(3) 2*sqrt(3)/3 -1/sqrt(3)];
-plot(x,y,'k','LineWidth',3);
-t = 0:0.001:2*pi;
-xc = cos(t)/3+x';
-yc = sin(t)/3-y';
-for i = 1:3
-    patch(xc(i,:),yc(i,:),'k');
-end
-patch(x,-y,'w','EdgeColor','w');
-axis('equal')
-axis('off')]]>
-    </example_item_data>
-    <example_item_img src="../images/patch_2.svg" align="middle" />
-</example_item>
+      ><![CDATA[% Define the vertices of a colorful geometric pattern
+x1 = [0, 1, 1, 0];
+y1 = [0, 0, 1, 1];
+x2 = [0.5, 1.5, 1.5, 0.5];
+y2 = [0.5, 0.5, 1.5, 1.5];
+x3 = [1, 2, 2, 1];
+y3 = [1, 1, 2, 2];
 
-<example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description>Nerfertiti 3D mask</example_item_description>
-    <example_item_data
-      ><![CDATA[nefertiti_directory = [modulepath('graphics', 'root'), '/examples/nefertiti-mask/'];
-load([nefertiti_directory, 'nefertiti-mask.nh5']);
-figure('Color', [1, 1, 1]);
-patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
-      'EdgeColor', 'none', ...
-      'FaceColor', 'interp', 'FaceAlpha', 1);
-axis equal
-axis off 
-view([0, 0, 1]);]]>
+% Define colors for the polygons
+colors = ['r', 'g', 'b'];
+
+% Create a figure with a white background
+figure('Color', 'w');
+
+% Fill the polygons with different colors
+fill(x1, y1, colors(1));
+hold on;
+fill(x2, y2, colors(2));
+fill(x3, y3, colors(3));
+
+% Add labels to distinguish the regions
+text(0.5, 0.5, 'Polygon 1', 'Color', 'w', 'HorizontalAlignment', 'center', 'FontWeight', 'bold');
+text(1.25, 1.25, 'Polygon 2', 'Color', 'w', 'HorizontalAlignment', 'center', 'FontWeight', 'bold');
+text(1.5, 0.5, 'Polygon 3', 'Color', 'w', 'HorizontalAlignment', 'center', 'FontWeight', 'bold');
+
+axis equal;
+title('Colorful Geometric Pattern');
+]]>
     </example_item_data>
-    <example_item_img src="../images/patch_3.svg" align="middle" />
+    <example_item_img src="../images/fill_2.svg" align="middle" />
 </example_item>
 
 <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>Alpha channel</example_item_description>
     <example_item_data
-      ><![CDATA[x = [1 3 4 3 1 0];
-y = [0 0 2 4 4 2];
-z = [0 0 0 0 0 0];
-figure();
+      ><![CDATA[f = figure();
+x = [10 30 40 30 10 0];
+y = [0 0 20 40 40 20];
 hold on
-patch(x,y,z,'cyan','FaceAlpha',0.3)
-patch(x+2,y,z,'magenta','FaceAlpha',0.3)
-patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]>
+fill(x, y, 'cyan', 'FaceAlpha', 0.3);
+fill(x + 2, y, 'magenta', 'FaceAlpha', 0.3);
+fill(x + 1, y + 2, 'yellow', 'FaceAlpha', 0.3);]]>
     </example_item_data>
-    <example_item_img src="../images/patch_4.svg" align="middle" />
+    <example_item_img src="../images/fill_3.svg" align="middle" />
 </example_item>
-
-  
+ 
 </examples>
 
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}surf">surf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
+      <link linkend="${graphics}patch">patch</link>
     </see_also_item>
   </see_also>
 
