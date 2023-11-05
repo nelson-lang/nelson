@@ -1,81 +1,161 @@
-% SPDX-License-Identifier: MIT
-% Plot the nyquist diagram of a state space model or a transfer function
-% between given frequencies w1 and w2
-% Input: sys, G
-% Example 1:	nyquist(sys, w1, w2)
-% Example 2:	nyquist(G, w1, w2)
-% Author: Daniel Mårtensson, 2017 Oktober
-
-function [reval] = nyquist(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error('Missing model')
-	end
-
-	% Check if there is any input
-	if(length(varargin) < 3)
-		w1 = 0.01;
-		w2 = 100;
-	else
-		w1 = varargin{2};
-		w2 = varargin{3};
-	end
-
-	 % Get the type
-	type = varargin{1}.type;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% SS to TF
-		G = ss2tf(varargin{1});
-		% Call nyquist
-		nyquist(G, w1, w2);
-	elseif(strcmp(type, 'TF' ))
-		% If there is a MIMO TF
-		G = varargin{1};
-		for i = 1:size(G,1)
-			for j = 1:size(G,2)
-				% Get numerator vector and denomerator vector
-				a = G(i,j).num;
-				b = G(i,j).den;
-				% Get delay
-				delay = G(i,j).delay;
-				% Get sample time
-				sampleTime = G(i,j).sampleTime;
-
-				% Numerator and denomerator need to be the same length
-				if(length(a) > length(b))
-					b = [zeros(1, size(a,2) - size(b,2)) b];
-				elseif(length(a) < length(b))
-					a = [zeros(1, size(b,2) - size(a,2)) a];
-				end
-
-				L = 10000;  % Number of frequency elements - Need to be 10000 for the nyquist plot
-				N = length(b);  % Number of denomerators
-				w = logspace(log10(w1), log10(w2), L); % Angular frequencies
-				% Evaluate transfer function
-				H = zeros(1, L);
-				h = sampleTime;
-				if(sampleTime > 0) % Discrete model
-					for k = 1 : L
-						H(k) = (a*fliplr((exp(1i*w(k)*h)).^(0 : N-1)).')/(b*fliplr((exp(1i*w(k)*h)).^(0 : N-1)).')*exp(-delay*exp(1i*w(k)*h));
-					end
-				else
-					for k = 1 : L
-						H(k) = (a*fliplr((1i*w(k)).^(0 : N-1)).')/(b*fliplr((1i*w(k)).^(0 : N-1)).')*exp(-delay*1i*w(k));
-					end
-				end
-				% Done!
-				% Plot nyquist diagram
-
-				figure('Name', sprintf(strcat('Transfer function: ', num2str(i), 'x', num2str(j))))
-				plot([real(H) nan real(H)], [imag(H) nan -imag(H)],-1, 0 ,'+')
-				title('Nyquist diagram')
-				xlabel('Real axis')
-				ylabel('Imaginary axis')
-				grid on
-			end
-		end
-	else
-		error('Only transfer functions and state space models allowed')
-	end
+%=============================================================================
+% Copyright (c) 2017 Oktober Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = nyquist(varargin)
+  % nyquist(sys)
+  % nyquist(sys, w)
+  % [re, im, w] = nyquist(...)
+  
+  narginchk(1, 2);
+  nargoutchk(0, 3);
+  
+  sys = varargin{1};
+  if ~islti(sys)
+    error(_('LTI model expected.'));
+  end
+  
+  sys = tf(sys);
+  if ~issiso(sys)
+    error(_('SISO LTI model expected.'));
+  end
+  numerator = sys.Numerator{1, 1};
+  denominator = sys.Denominator{1, 1};
+  Ts = sys.Ts;
+  L = 500;  % Number of frequency elements - Need to be 500 for the nyquist plot
+  N = length(denominator);  % Number of denomerators
+  
+  % Check if there is any input
+  if(nargin > 1)
+    W = varargin{2};
+    isCellW = (iscell(W) && length(W) == 2) && isscalar(W{1}) && isscalar(W{2}) && isnumeric(W{1}) && isnumeric(W{2}); 
+    isVectorW = isnumeric(W) && isvector(W);
+    haveW = isCellW || isVectorW; 
+    if (haveW)
+      if isVectorW
+        w = W;
+      else
+        w1 = W{1};
+        w2 = W{2};
+        w = logspace(log10(w1), log10(w2), L); % Angular frequencies
+      end
+    else
+      error('Invalid parameter w.');
+    end
+  else
+    zeroPole = [roots(numerator(:)); roots(denominator(:))];
+    if isdt(sys)
+      zeroPoleIndex = find(abs(zeroPole-1.0) > norm(zeroPole)*eps & abs(zeroPole) > norm(zeroPole)*eps);
+      zeroPole = zp(zeroPoleIndex);
+      zeroPole = min(abs(log(zeroPole)/(2*pi*sys.Ts)));
+      wmin = floor(log10(zeroPole));
+      wmax = log10(1/(2*sys.Ts));	% Nyquist
+    else
+      zeroPoleIndex = find (abs(zeroPole) > norm(zeroPole)*eps);			
+      zeroPole = zeroPole(zeroPoleIndex);
+      wmin = min(abs(zeroPole));
+      wmin = floor(log10(wmin));
+      wmax = max(abs(zeroPole));
+      wmax = ceil(log10(wmax));
+    end
+    
+    if abs(denominator(end)) < norm(denominator) * eps
+      wmin = wmin - 0.5;
+      if isct(sys)
+        wmax = wmax + 2.0;
+      end
+    else
+      wmin = wmin - 2.0;
+      if isct(sys)
+        wmax = wmax + 2.0;
+      end
+    end
+    w = logspace(wmin, wmax, L);
+  end
+  
+  % Numerator and denomerator need to be the same length
+  if(length(numerator) > length(denominator))
+    denominator = [zeros(1, size(numerator, 2) - size(denominator, 2)) denominator];
+  elseif(length(numerator) < length(denominator))
+    numerator = [zeros(1, size(denominator, 2) - size(numerator, 2)) numerator];
+  end
+  
+  L = length(w);
+  % Evaluate transfer function
+  H = zeros(1, L);
+  h = Ts;
+  delay = 0;
+  if(Ts > 0) % Discrete model
+    for k = 1 : L
+      H(k) = (numerator*fliplr((exp(1i*w(k)*h)).^(0 : N-1)).')/(denominator*fliplr((exp(1i*w(k)*h)).^(0 : N-1)).')*exp(-delay*exp(1i*w(k)*h));
+    end
+  else
+    for k = 1 : L
+      H(k) = (numerator*fliplr((1i*w(k)).^(0 : N-1)).')/(denominator*fliplr((1i*w(k)).^(0 : N-1)).')*exp(-delay*1i*w(k));
+    end
+  end
+  if nargout == 0
+    nyquistplot(H, i, j)
+  else
+    varargout{1} = reshape(real(H)', 1, 1, length(H));
+    if nargout > 1
+      varargout{2} = reshape(imag(H)', 1, 1, length(H));
+    end
+    if nargout > 2
+      varargout{3} = w';
+    end
+  end
 end
+%=============================================================================
+function nyquistplot(H, i, j)
+  c = [0 0 1];
+  ax = gca();
+  cla(ax);
+  hold on
+  plot(ax, real(H), imag(H), '-', 'Color', c);
+  plot(ax, real(H), -imag(H), '-', 'Color', c);
+  [X, Y] = computesArrowsPositions(H);
+  if ~isnan(X)
+    scatter(ax, X, Y, '<', 'Color', c, 'MarkerFaceColor', c);
+    scatter(ax, X, -Y , '>', 'Color', c, 'MarkerFaceColor', c);
+  end
+  plot(ax, -1, 0 , 'r+');
+  if (min(real(H)) > - 1)
+    ax.XLim = [min(real(H) - 2 ), ax.XLim(2)];
+  end
+  hold off
+  title(_('Nyquist Diagram'));
+  xlabel(_('Real axis'));
+  ylabel(_('Imaginary axis')); 
+end
+%=============================================================================
+function [X, Y] = computesArrowsPositions(H)
+  X = NaN;
+  Y = NaN;
+  realValues = [real(H), nan, real(H)];
+  imagValues = [imag(H), nan, -imag(H)];
+  if (length(realValues) >= 2)
+    realMean = mean([min(realValues), max(realValues)]);
+    realLess = find(realValues <= realMean);
+    index = realLess(1);
+    if (realLess(1) == 1)
+      index = realLess(end);
+    end
+    if (index + 1) > length(realValues)
+      index = length(realValues) - 2;
+    end
+    if (abs(imagValues(index)) < max(abs(imagValues)) / 5)
+      index = floor(index / 2);
+    end
+    index = index - 1;
+    X = realValues(index);
+    Y = imagValues(index);
+  end
+end
+%=============================================================================

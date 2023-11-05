@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>nyquist</keyword>
+  <short_description>Nyquist plot of frequency response.</short_description>
+
+  <syntax>
+    <syntax_item>nyquist(sys)</syntax_item>
+    <syntax_item>nyquist(sys, w)</syntax_item>
+    <syntax_item>[re, im, wout] = nyquist(sys)</syntax_item>
+    <syntax_item>[re, im, wout] = nyquist(sys, w)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>Dynamic system</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>Frequencies: vector or {wmin,wmax}</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>re</param_name>
+      <param_description>Real part of system response</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>im</param_name>
+      <param_description>Imaginary part of system response</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>wout</param_name>
+      <param_description>Frequencies</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+    <p>The Nyquist function, <b
+      >nyquist(sys)</b>, generates a graphical representation known as a Nyquist plot, illustrating the frequency response of a dynamic system model represented by sys.</p>
+    <p
+    >This plot visualizes both the real and imaginary components of the system's response across varying frequencies.</p>
+    <p
+    >The contour depicted by nyquist encompasses both positive and negative frequencies.</p>
+    <p
+    >Additionally, the plot incorporates arrows that signify the direction of increasing frequency for each branch.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[f = figure();
+sys = tf([1, 1, 3, 3], [1, -3, 3, -1])
+nyquist(sys);
+]]>
+    </example_item_data>
+    <example_item_img src="../images/nyquist_1.svg" align="middle" />
+
+  </example_item>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[H = tf([2 5 1], [1 2 3]);
+[re, im, wout] = nyquist(H);
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[f = figure();
+      H = tf([2 5 1], [1 2 3]);
+nyquist(H);
+]]>
+    </example_item_data>
+    <example_item_img src="../images/nyquist_2.svg" align="middle" />
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

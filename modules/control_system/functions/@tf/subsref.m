@@ -30,8 +30,7 @@ function varargout = subsref(varargin)
           st = struct(obj);
           name = s(1).subs;
           indices = s(2).subs;
-          
-          varargout{1} = obj.(name){indices{:}};
+          varargout{1} = st.(name){indices{:}};
         else
           error(_('Not a valid indexing expression'));
         end
