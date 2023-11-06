@@ -35,12 +35,12 @@ modules_list = {
 {'operators', true};
 {'elementary_functions', true};
 {'data_analysis', @WITH_DATA_ANALYSIS_MODULE@};
-{'special_functions', @WITH_SPECIAL_FUNCTIONS_MODULE@};
 {'trigonometric_functions', @WITH_TRIGONOMETRIC_FUNCTIONS_MODULE@};
 {'linear_algebra', true};
 {'statistics', @WITH_STATISTICS_MODULE@};
 {'polynomial_functions', @WITH_POLYNOMIAL_FUNCTIONS_MODULE@};
 {'signal_processing', @WITH_SIGNAL_PROCESSING_MODULE@};
+{'special_functions', @WITH_SPECIAL_FUNCTIONS_MODULE@};
 {'slicot', @WITH_SLICOT_MODULE@};
 {'fftw', @WITH_FFTW_MODULE@};
 {'os_functions', true};

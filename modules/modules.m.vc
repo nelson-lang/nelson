@@ -35,13 +35,13 @@ modules_list = {
 {'operators', true};
 {'elementary_functions', true};
 {'data_analysis', true};
-{'special_functions', true};
 {'trigonometric_functions', true};
 {'linear_algebra', true};
 {'statistics', true};
 {'polynomial_functions', true};
 {'signal_processing', true};
 {'slicot', true};
+{'special_functions', true};
 {'fftw', true};
 {'os_functions', true};
 {'files_folders_functions', true};

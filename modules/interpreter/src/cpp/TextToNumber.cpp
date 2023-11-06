@@ -66,9 +66,7 @@ textToDouble(const std::string& str)
 single
 textToSingle(const std::string& str)
 {
-    single value;
-    auto answer = fast_float::from_chars(str.data(), str.data() + str.size(), value);
-    return abs(value);
+    return static_cast<single>(textToDouble(str));
 }
 //=============================================================================
 uint8
