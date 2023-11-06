@@ -34,6 +34,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include

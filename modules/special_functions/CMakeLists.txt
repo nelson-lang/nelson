@@ -26,6 +26,7 @@ target_include_directories(
 target_include_directories(
   ${module_library_name}
   PRIVATE ${EIGEN3_INCLUDE_DIR}
+          ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -36,8 +37,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-          ${Boost_INCLUDE_DIRS})
+          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
 
 target_link_libraries(${module_library_name} nlsElementary_mathematics
                       nlsError_manager nlsI18n nlsTypes)

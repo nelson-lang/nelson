@@ -10,6 +10,10 @@
 #include <map>
 #include <utility>
 #include <boost/dll/library_info.hpp>
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -75,7 +79,7 @@ GatewaysManager::addGateway(
     filename = p.filename().generic_wstring();
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
-        errorMessage = _W("File not found.");
+        errorMessage = fmt::sprintf(_W("File not found: %s"), p.generic_wstring());
         return false;
     } else {
         FileSystemWrapper::Path currentdirbackup = FileSystemWrapper::Path::current_path();
