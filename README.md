@@ -159,7 +159,6 @@ The systems listed here without CI or binaries are known to build and operate, b
 |                  |  i686 (32-bit)  |  ✓  |    ✓     |
 |  macOS Ventura   | x86-64 (64-bit) |  ✓  |          |
 |  macOS Monterey  | x86-64 (64-bit) |  ✓  |          |
-|   macOS BigSur   | x86-64 (64-bit) |  ✓  |          |
 |   Ubuntu 22.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 18.04   | x86-64 (64-bit) |     | ✓ (snap) |

@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - axis limits recalculate with `hggroup`.
 - `axes` forces focus on current axe.
 - function_handle parenthese precedence.
+- [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
 
 ## 0.7.10 (2023-10-27)
 
