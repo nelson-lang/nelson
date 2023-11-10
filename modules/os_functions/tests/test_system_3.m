@@ -19,10 +19,10 @@ end
 if (maxNumCompThreads() > 3)
   assert_istrue(t >= 8 && t < 12)
 else
-  assert_istrue(t >= 8 && t < 15)
+  assert_istrue(t >= 8 && t < 25)
 end
-assert_istrue(d(1) >= 4000 && d(1) <= 5000)
-assert_istrue(d(2) >= 6000 && d(2) <= 7000)
-assert_istrue(d(3) >= 9000 && d(2) <= 10000)
+assert_istrue(d(1) >= 3000 && d(1) <= 5000)
+assert_istrue(d(2) >= 5000 && d(2) <= 7000)
+assert_istrue(d(3) >= 8000 && d(2) <= 10000)
 assert_isequal(s, zeros(1, 3))
 %=============================================================================

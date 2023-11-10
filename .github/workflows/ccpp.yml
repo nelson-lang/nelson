@@ -647,6 +647,7 @@ jobs:
 
       - name: Benchs
         run: |
+          set OMP_NUM_THREADS=1
           set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
@@ -654,6 +655,7 @@ jobs:
 
       - name: Tests
         run: |
+          set OMP_NUM_THREADS=1
           set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts

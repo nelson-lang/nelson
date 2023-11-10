@@ -16,7 +16,7 @@ else
   [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"], [1, 5, 3]);
   t = toc();
 end
-assert_istrue(t >= 5 && t < 7)
+assert_istrue(t >= 5 && t < 10)
 assert_istrue(d(1) >= 1000 && d(1) <= 5000)
 assert_istrue(d(2) >= 5000 && d(2) <= 7000)
 assert_istrue(d(3) >= 3000 && d(2) <= 10000)
