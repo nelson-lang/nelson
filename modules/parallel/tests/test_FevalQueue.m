@@ -39,5 +39,10 @@ assert_isequal(size(K), [1 1]);
 %=============================================================================
 assert_isequal(LEN_R1, NumWorkers);
 %=============================================================================
-assert_isequal(LEN_R2, NumWorkers * 100);
+if maxNumCompThreads() == 1
+  expected = 101;
+else
+  expected = 100;
+end
+assert_isequal(LEN_R2, NumWorkers * expected);
 %=============================================================================
