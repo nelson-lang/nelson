@@ -61,7 +61,7 @@ const int MAX_MINI_TICK_COUNT = 10;
 std::wstring
 GOAxis::getType()
 {
-    return L"axes";
+    return GO_PROPERTY_VALUE_AXES_STR;
 }
 //=============================================================================
 void
@@ -1173,10 +1173,10 @@ GOAxis::rePackFigure()
             outerpos[0] / width, outerpos[1] / height, outerpos[2] / width, outerpos[3] / height);
         return;
     }
-    double posx0 = outerpos[2] * 0.1 + outerpos[0];
-    double posy0 = outerpos[3] * 0.1 + outerpos[1];
-    double poswidth = outerpos[2] * 0.8;
-    double posheight = outerpos[3] * .8;
+    double posx0 = outerpos[2] * 0.13 + outerpos[0];
+    double posy0 = outerpos[3] * 0.11 + outerpos[1];
+    double poswidth = outerpos[2] * 0.775;
+    double posheight = outerpos[3] * 0.815;
     maxLabelHeight = (int)(maxLabelHeight * 2.0 + tickHeight);
     if (posx0 < maxLabelHeight) {
         posx0 = maxLabelHeight;
@@ -1192,8 +1192,8 @@ GOAxis::rePackFigure()
     }
     GOFourVectorProperty* hp
         = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
-    hp->value((double)(posx0 / width), double(posy0 / height), double(poswidth / width),
-        double(posheight / height));
+    hp->value((double)(posx0) / double(width), double(posy0) / double(height),
+        double(poswidth) / double(width), double(posheight) / double(height));
     hp->clearModified();
 }
 //=============================================================================
@@ -1277,16 +1277,16 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         return;
     }
     if (limits[1] == limits[0]) {
-        limits[0] = limits[0] - 0.5;
-        limits[1] = limits[0] + 1;
+        limits[0] = limits[0] - 1;
+        limits[1] = limits[0] + 1.9;
     }
     if (limits[3] == limits[2]) {
-        limits[2] = limits[2] - 0.5;
-        limits[3] = limits[2] + 1;
+        limits[2] = limits[2] - 1;
+        limits[3] = limits[2] + 1.9;
     }
     if (limits[5] == limits[4]) {
-        limits[4] = limits[4] - 0.5;
-        limits[5] = limits[4] + 1;
+        limits[4] = limits[4] - 1;
+        limits[5] = limits[4] + 1.9;
     }
     hp->value(limits[0], limits[1], limits[2], limits[3], limits[4], limits[5]);
     if (x) {
@@ -1433,43 +1433,45 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
     if (norm > 0) {
         delx /= norm;
         dely /= norm;
-        for (int i = 0; i < minortics.size(); i++) {
-            double t = minortics[i];
-            double x1, y1, x2, y2;
-            gc.toPixels(t * unitx + px1, t * unity + py1, t * unitz + pz1, x1, y1);
-            x2 = delx * ticlen * ticdir * 0.6 + x1;
-            y2 = dely * ticlen * ticdir * 0.6 + y1;
-            gc.setupDirectDraw();
-            gc.line(x1, y1, x2, y2);
-            gc.releaseDirectDraw();
-        }
-        for (int i = 0; i < maptics.size(); i++) {
-            double t = maptics[i];
-            double x1, y1, x2, y2;
-            gc.toPixels(t * unitx + px1, t * unity + py1, t * unitz + pz1, x1, y1);
-            x2 = delx * ticlen * ticdir + x1;
-            y2 = dely * ticlen * ticdir + y1;
-            gc.setupDirectDraw();
-            gc.line(x1, y1, x2, y2);
-            gc.releaseDirectDraw();
-            double x3, y3;
-            if (ticdir > 0) {
-                x3 = -delx * 0.015 * norm + x1;
-                y3 = -dely * 0.015 * norm + y1;
-            } else {
-                x3 = -delx * 0.015 * norm + x2;
-                y3 = -dely * 0.015 * norm + y2;
-            }
-            if (!labels.empty()) {
-                drawLabel(gc, -delx, -dely, x3, y3, color, labels[i % labels.size()]);
-            }
-            if (is2DView()) {
-                gc.toPixels(t * unitx + px2, t * unity + py2, t * unitz + pz2, x1, y1);
-                x2 = -delx * ticlen * ticdir + x1;
-                y2 = -dely * ticlen * ticdir + y1;
+        if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
+            for (int i = 0; i < minortics.size(); i++) {
+                double t = minortics[i];
+                double x1, y1, x2, y2;
+                gc.toPixels(t * unitx + px1, t * unity + py1, t * unitz + pz1, x1, y1);
+                x2 = delx * ticlen * ticdir * 0.6 + x1;
+                y2 = dely * ticlen * ticdir * 0.6 + y1;
                 gc.setupDirectDraw();
                 gc.line(x1, y1, x2, y2);
                 gc.releaseDirectDraw();
+            }
+            for (int i = 0; i < maptics.size(); i++) {
+                double t = maptics[i];
+                double x1, y1, x2, y2;
+                gc.toPixels(t * unitx + px1, t * unity + py1, t * unitz + pz1, x1, y1);
+                x2 = delx * ticlen * ticdir + x1;
+                y2 = dely * ticlen * ticdir + y1;
+                gc.setupDirectDraw();
+                gc.line(x1, y1, x2, y2);
+                gc.releaseDirectDraw();
+                double x3, y3;
+                if (ticdir > 0) {
+                    x3 = -delx * 0.015 * norm + x1;
+                    y3 = -dely * 0.015 * norm + y1;
+                } else {
+                    x3 = -delx * 0.015 * norm + x2;
+                    y3 = -dely * 0.015 * norm + y2;
+                }
+                if (!labels.empty()) {
+                    drawLabel(gc, -delx, -dely, x3, y3, color, labels[i % labels.size()]);
+                }
+                if (is2DView()) {
+                    gc.toPixels(t * unitx + px2, t * unity + py2, t * unitz + pz2, x1, y1);
+                    x2 = -delx * ticlen * ticdir + x1;
+                    y2 = -dely * ticlen * ticdir + y1;
+                    gc.setupDirectDraw();
+                    gc.line(x1, y1, x2, y2);
+                    gc.releaseDirectDraw();
+                }
             }
         }
         double maxx, maxy;
@@ -1497,6 +1499,7 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
         } else {
             ly = 1e10;
         }
+
         double lmax = std::min(lx, ly);
         GOGObjectsProperty* lbl = static_cast<GOGObjectsProperty*>(findProperty(labelname));
         if (!lbl->data().empty()) {
@@ -1578,22 +1581,38 @@ GOAxis::drawAxisLabels(RenderInterface& gc)
         lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_X_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
-            fp->paintMe(gc);
+            GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+            if (fv) {
+                if (fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                    fp->paintMe(gc);
+                }
+            }
         }
     }
     if (yvisible) {
         lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Y_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
-            fp->paintMe(gc);
+            GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+            if (fv) {
+                if (fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                    fp->paintMe(gc);
+                }
+            }
         }
     }
     if (zvisible) {
         lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Z_LABEL_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
-            GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
-            if (fp) {
-                fp->paintMe(gc);
+            GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+            GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+            if (fv) {
+                if (fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                    fp->paintMe(gc);
+                }
             }
         }
     }
@@ -1601,7 +1620,14 @@ GOAxis::drawAxisLabels(RenderInterface& gc)
     if (!lbl->data().empty()) {
         GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
         if (fp) {
-            fp->paintMe(gc);
+            GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+            GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+            if (fv) {
+                if (fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                    fp->paintMe(gc);
+                }
+            }
         }
     }
     setupProjection(gc);
@@ -1879,6 +1905,57 @@ GOAxis::updateState()
         fp->updateState();
     }
 
+    if (hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
+        bool isVisible = stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+
+        GOGObjectsProperty* lbl;
+        if (xvisible) {
+            lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_X_LABEL_PROPERTY_NAME_STR));
+            if (!lbl->data().empty()) {
+                GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+                GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                    fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                if (fv) {
+                    fv->data(isVisible ? GO_PROPERTY_VALUE_ON_STR : GO_PROPERTY_VALUE_OFF_STR);
+                }
+            }
+        }
+        if (yvisible) {
+            lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Y_LABEL_PROPERTY_NAME_STR));
+            if (!lbl->data().empty()) {
+                GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+                GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                    fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                if (fv) {
+                    fv->data(isVisible ? GO_PROPERTY_VALUE_ON_STR : GO_PROPERTY_VALUE_OFF_STR);
+                }
+            }
+        }
+        if (zvisible) {
+            lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_Z_LABEL_PROPERTY_NAME_STR));
+            if (!lbl->data().empty()) {
+                GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+                GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                    fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                if (fv) {
+                    fv->data(isVisible ? GO_PROPERTY_VALUE_ON_STR : GO_PROPERTY_VALUE_OFF_STR);
+                }
+            }
+        }
+        lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_TITLE_PROPERTY_NAME_STR));
+        if (!lbl->data().empty()) {
+            GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
+            if (!lbl->data().empty()) {
+                GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
+                GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                    fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                if (fv) {
+                    fv->data(isVisible ? GO_PROPERTY_VALUE_ON_STR : GO_PROPERTY_VALUE_OFF_STR);
+                }
+            }
+        }
+    }
+
     rePackFigure();
     recalculateTicks();
     rePackFigure();
@@ -1915,9 +1992,9 @@ GOAxis::paintMe(RenderInterface& gc)
 
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
         drawAxisLines(gc);
-        drawTickMarks(gc);
-        drawAxisLabels(gc);
     }
+    drawTickMarks(gc);
+    drawAxisLabels(gc);
 }
 //=============================================================================
 bool

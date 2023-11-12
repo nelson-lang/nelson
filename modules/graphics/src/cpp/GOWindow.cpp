@@ -56,9 +56,9 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(this->winId());
 #endif
-    resize(600, 400);
     createActions();
     createMenuBar();
+    resize(560, 445);
     initialized = true;
 }
 //=============================================================================

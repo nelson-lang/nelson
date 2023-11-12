@@ -27,8 +27,8 @@ GOFigure::getType()
 //=============================================================================
 GOFigure::GOFigure(GOWindow* win, int number)
 {
-    m_width = 640;
-    m_height = 480;
+    m_width = 560;
+    m_height = 445;
     m_win = win;
     registerProperties();
     initializeProperties();
