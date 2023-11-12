@@ -72,9 +72,10 @@ function varargout = text(varargin)
       rmfield(inputAsStruct, 'Parent');
     end
     inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
+    visibility = parent.Visible;
     H = [];
     for (i=1:numel(x))
-      H = [H, __text__('Parent', parent, 'Position', [x(i), y(i), z(i)], 'String', labelArray{i}, inputArguments{1:end})];
+      H = [H, __text__('Parent', parent, 'Visible', visibility, 'Position', [x(i), y(i), z(i)], 'String', labelArray{i}, inputArguments{1:end})];
     end
     if (nargout == 1)
       varargout{1} = H;

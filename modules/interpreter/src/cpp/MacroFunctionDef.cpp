@@ -269,6 +269,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
                     Error(_W("Not enough outputs in varargout to satisfy call."));
                 }
                 outputs[0] = dp[0];
+                outputs[0].name("");
             } else {
                 outputs.resize(nargout);
                 // For each explicit argument (that we have), insert it

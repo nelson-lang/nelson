@@ -11,6 +11,7 @@ function varargout = subplot(varargin)
   m = 1;
   n = 1;
   p = 1;
+  ax = [];
   if ((nargin == 2) && ischar(varargin{1}))
     if (strcmp(lower(varargin{1}), 'position'))
       ax = axes('OuterPosition', varargin{2});
@@ -74,7 +75,7 @@ function varargout = subplot(varargin)
   end
   children(childrenToDelete) = [];
   fig.Children = children;
-  if (~found)
+  if (~found || isempty(ax))
     ax = axes('OuterPosition', position, 'LineStyleOrder', '-');
   end
   fig.NextPlot = 'add';
