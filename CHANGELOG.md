@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `stem` Plot discrete sequence data.
 - `stairs` Stairstep graph.
 - `fill` 2-D patch.
+- `subsref` Subscripted reference.
 
 ### Changed
 
