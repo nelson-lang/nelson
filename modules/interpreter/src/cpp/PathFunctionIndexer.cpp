@@ -207,6 +207,15 @@ PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
     return true;
 }
 //=============================================================================
+inline std::wstring
+getFunctionName(const std::wstring& objectName, const std::wstring& name)
+{
+    if (objectName.empty() || objectName == name) {
+        return name;
+    }
+    return L"@" + objectName + L"/" + name;
+}
+//=============================================================================
 void
 PathFunctionIndexer::rehash(
     const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate)
@@ -222,31 +231,39 @@ PathFunctionIndexer::rehash(
                     rehash(current.generic_wstring(), stemDirectory, false);
                 }
                 if (stemDirectory == L"private") {
-                    rehash(current.generic_wstring(), current.generic_wstring(), true);
+                    rehash(current.generic_wstring(), L"", true);
                 }
             }
             std::wstring ext = current.extension().generic_wstring();
             bool isMacro = ext == L".m";
             bool isMex = ext == L"." + getMexExtension();
+            std::wstring objectName;
+            if (prefix.length() > 1) {
+                objectName = prefix;
+                objectName.erase(0, 1);
+            }
             if (isMacro || isMex) {
-                std::wstring name = current.stem().generic_wstring();
-                if (isSupportedFuncFilename(name)) {
+                std::wstring name = getFunctionName(objectName, current.stem().generic_wstring());
+                if (isSupportedFuncFilename(current.stem().generic_wstring())) {
                     FileFunction* ff = nullptr;
                     std::wstring pathName = prefix == L""
                         ? pathToScan
                         : nfs::path(pathToScan).parent_path().generic_wstring();
 
                     try {
-                        ff = new FileFunction(pathName, prefix == L"" ? name : prefix + L"/" + name,
-                            isMex, withWatcher, prefix != L"" && !isPrivate, isPrivate);
+                        ff = new FileFunction(pathName, objectName, name, isMex, withWatcher,
+                            prefix != L"" && !isPrivate, isPrivate);
                     } catch (const std::bad_alloc&) {
                         ff = nullptr;
                     }
                     if (ff) {
-                        std::string _name = prefix == L""
-                            ? wstring_to_utf8(name)
-                            : wstring_to_utf8(prefix) + "/" + wstring_to_utf8(name);
-                        mapAllFiles.emplace(_name, ff);
+                        if (isPrivate) {
+                            name = pathName + L"/" + name;
+                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
+
+                        } else {
+                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
+                        }
                     }
                 }
             }

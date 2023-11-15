@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
 - `patch` and `fill` manages `FaceAlpha`.
 - visibility title and labels.
+- object constructor must be in '@' directory and no more in parent directory (compatibility).
 
 ### Fixed
 

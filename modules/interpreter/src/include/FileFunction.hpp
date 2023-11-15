@@ -22,9 +22,13 @@ private:
     bool _withWatcher;
     bool _isOverload;
 
+    std::wstring
+    buildFullFilename(const std::wstring& directory, const std::wstring& objectName,
+        const std::wstring& name, bool ismex, bool isPrivate);
+
 public:
-    FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
-        bool withWatcher, bool isOverload, bool isPrivate);
+    FileFunction(const std::wstring& directory, const std::wstring& objectName,
+        const std::wstring& name, bool ismex, bool withWatcher, bool isOverload, bool isPrivate);
     ~FileFunction();
     std::wstring
     getFilename();
