@@ -16,36 +16,37 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FileFunction::FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex,
-    bool withWatcher, bool isOverload, bool isPrivate)
+FileFunction::FileFunction(const std::wstring& directory, const std::wstring& objectName,
+    const std::wstring& name, bool ismex, bool withWatcher, bool isOverload, bool isPrivate)
 {
     this->_withWatcher = withWatcher;
     this->_isOverload = isOverload;
     _ismex = ismex;
-    _fullfilename = directory;
+    _fullfilename = buildFullFilename(directory, objectName, name, ismex, isPrivate);
+    _name = objectName.empty() ? name : L"@" + objectName + L"/" + name;
+}
+//=============================================================================
+std::wstring
+FileFunction::buildFullFilename(const std::wstring& directory, const std::wstring& objectName,
+    const std::wstring& name, bool ismex, bool isPrivate)
+{
+    std::wstring _fullfilename;
+    std::wstring extension = ismex ? L"." + getMexExtension() : L".m";
+
     if (isPrivate) {
-        if (ismex) {
-            _fullfilename = name + L"." + getMexExtension();
+        if (objectName.empty()) {
+            _fullfilename = directory + L"/" + name + extension;
         } else {
-            _fullfilename = name + L".m";
+            _fullfilename = directory + L"/" + L"@" + objectName + L"/" + extension;
         }
     } else {
-        if (ismex) {
-            _fullfilename = _fullfilename + L"/" + name + L"." + getMexExtension();
+        if (objectName.empty() || objectName != name) {
+            _fullfilename = directory + L"/" + name + extension;
         } else {
-            _fullfilename = _fullfilename + L"/" + name + L".m";
+            _fullfilename = directory + L"/" + L"@" + objectName + L"/" + name + extension;
         }
     }
-    _name = name;
-    std::ifstream inFile;
-#ifdef _MSC_VER
-    inFile.open(_fullfilename);
-#else
-    inFile.open(wstring_to_utf8(_fullfilename));
-#endif
-    if (inFile.is_open()) {
-        inFile.close();
-    }
+    return _fullfilename;
 }
 //=============================================================================
 FileFunction::~FileFunction()
