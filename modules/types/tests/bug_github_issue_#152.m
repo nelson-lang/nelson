@@ -134,3 +134,11 @@ assert_checkerror('A(2) = single([])', _('Empty matrix of type double expected.'
 A = 1:3;
 assert_checkerror('A(2, 1) = single([])', _('Empty matrix of type double expected.'));
 %=============================================================================
+A = [];
+A(false) = zeros(3, 0);
+assert_isequal(A, []);
+%=============================================================================
+A = [2 3];
+A([false, false]) = zeros(3, 0);
+assert_isequal(A, [2 3]);
+%=============================================================================

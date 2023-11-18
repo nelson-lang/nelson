@@ -7,10 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = sind (x)
-  I = x * inv(180);
-  r = sin (I .* pi);
-  IDX = I == fix(I) & isfinite (I);
-  r(IDX) = 0;
+function r = sind(x)
+  if isreal(x)
+    r = sindReal(x);
+  else
+    r = sindComplex(x);
+  end
+end
+%=============================================================================
+function r = sindReal(x)
+  x = mod (real(x) - 180, 360) - 180;
+  r = sin (x / 180 * pi);
+  r(x == -180) = 0;
+end
+%=============================================================================
+function r = sindComplex(x)
+  ix = imag(x);
+  x = mod(real(x) - 180, 360) - 180;
+  r = sin(complex (x, ix) / 180 * pi);
+  r(x == -180) = complex (0, imag (r(x == -180)));
 end
 %=============================================================================

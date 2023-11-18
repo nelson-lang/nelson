@@ -24,6 +24,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `patch` and `fill` manages `FaceAlpha`.
 - visibility title and labels.
 
+### Fixed
+
+- `A = []; A(false) = zeros(3, 0)` did not return an empty matrix but an error.
+
 ## 0.7.10 (2023-10-27)
 
 ### Added

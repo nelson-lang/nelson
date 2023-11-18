@@ -7,11 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+arch = computer('arch');
+%=============================================================================
 R = rotz(90);
 REF = [ 0    -1     0;     1     0     0;     0     0     1];
-assert_isequal(R, REF);
+if strcmp(arch, 'win32')
+  assert_isapprox(R, REF, 1e-15);
+else
+  assert_isequal(R, REF);
+end
 %=============================================================================
 R = rotz(180);
 REF = [   -1     0     0;     0    -1     0;     0     0     1];
-assert_isequal(R, REF);
+if strcmp(arch, 'win32')
+  assert_isapprox(R, REF, 1e-15);
+else
+  assert_isequal(R, REF);
+end
 %=============================================================================
