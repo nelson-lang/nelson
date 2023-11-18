@@ -13,5 +13,10 @@ assert_isequal(nargout('cospi'), 1);
 X = [0 1/2 1 3/2 2];
 R = cospi(X);
 REF = [1     0    -1     0     1];
-assert_isequal(R, REF);
+arch = computer('arch');
+if strcmp(arch, 'win32')
+  assert_isapprox(R, REF, 1e-15);
+else
+  assert_isequal(R, REF);
+end
 %=============================================================================

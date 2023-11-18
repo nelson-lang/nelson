@@ -478,7 +478,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 {
     constIndexPtr* indx = nullptr;
     if (rightData.isEmpty()) {
-        bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
+        bool deleteAllowed
+            = (rightData.getDataClass() == NLS_DOUBLE || rightData.getDataClass() == NLS_DCOMPLEX)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
             Error(_W("Empty matrix of type double expected."));
@@ -796,10 +797,26 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     // Check the right-hand-side - if it is empty, then
     // we have a delete command in disguise.
     if (rightData.isEmpty()) {
-        if (!rightData.isEmpty(true)) {
+        bool isIndexAllFalse = false;
+        if (index.getDataClass() == NLS_LOGICAL) {
+            indexType nbIndex = index.getElementCount();
+            logical* mat = (logical*)index.getDataPointer();
+            isIndexAllFalse = true;
+            if (mat[0] == false) {
+                for (indexType k = 1; k < nbIndex; k++) {
+                    if (mat[0] != mat[k]) {
+                        isIndexAllFalse = false;
+                        break;
+                    }
+                }
+            }
+        }
+        bool lhsAndRhsEmpty = isEmpty() && rightData.isEmpty();
+        if (!rightData.isEmpty(true) && !lhsAndRhsEmpty && !isIndexAllFalse) {
             Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
-        bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
+        bool deleteAllowed
+            = (rightData.getDataClass() == NLS_DOUBLE || rightData.getDataClass() == NLS_DCOMPLEX)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
             Error(_W("Empty matrix of type double expected."));
