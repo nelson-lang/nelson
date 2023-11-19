@@ -208,6 +208,7 @@
     <ClCompile Include="..\cpp\plusBuiltin.cpp" />
     <ClCompile Include="..\cpp\powerBuiltin.cpp" />
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
+    <ClCompile Include="..\cpp\subsasgnBuiltin.cpp" />
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
     <ClCompile Include="..\cpp\timesBuiltin.cpp" />
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
+    <ClInclude Include="..\include\subsasgnBuiltin.hpp" />
     <ClInclude Include="..\include\subsindexBuiltin.hpp" />
     <ClInclude Include="..\include\timesBuiltin.hpp" />
     <ClInclude Include="..\include\transposeBuiltin.hpp" />
