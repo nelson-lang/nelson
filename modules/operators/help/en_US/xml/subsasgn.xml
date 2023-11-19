@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>subsasgn</keyword>
+	<short_description>Redefine subscripted assignment.</short_description>
+
+	<syntax>
+		<syntax_item>B = subsasgn(A, S, B)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>A</param_name>
+			<param_description>Object used in indexing operation</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>S</param_name>
+			<param_description
+      >Structure with two fields: 'type' and 'subs'.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>B</param_name>
+			<param_description
+      >The assigned value, located on the right side of the assignment statement.</param_description>
+		</param_input_item>
+
+	</param_input>
+	<param_output>
+		<param_output_item>
+			<param_name>R</param_name>
+			<param_description
+      >The outcome of the assignment statement is the object that has been modified, and this modified object is provided as the first argument.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+		<p><b
+      >B = subsasgn(A, S, B)</b> assigns a value to an element of a cell or matrix.</p>
+	</description>
+
+	<used_function />
+	<bibliography />
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>Parentheses Indexing</example_item_description>
+		<example_item_data
+      ><![CDATA[R1 = {1, 'GoodBye', [1, 2;3, 4]};
+S = substruct('{}', {1, 3});
+R2 = subsasgn(R1, S, 'Hello')]]>
+		</example_item_data>
+	</example_item>
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${elementary_functions}substruct">substruct</link>
+		</see_also_item>
+	</see_also>
+
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

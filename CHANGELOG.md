@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `fill` 2-D patch.
 - `subsref` Subscripted reference.
 - `substruct` Create structure argument for subsasgn or subsref.
+- `subsasgn` Redefine subscripted assignment.
 - `deal` Distribute inputs to outputs.
 - Intel compiler support.
 
