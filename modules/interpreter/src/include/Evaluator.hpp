@@ -734,10 +734,11 @@ public:
 
 private:
     ArrayOfVector
-    simpleAssignClass(
-        const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
+    simpleClassAssign(
+        const std::string& subtype, const ArrayOf& r, const ArrayOfVector& m, ArrayOfVector& value);
+
     ArrayOfVector
-    extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params,
+    extractClass(const ArrayOf& r, const stringVector& subtypes, const ArrayOfVector& subsindices,
         bool& haveFunction);
 
     void

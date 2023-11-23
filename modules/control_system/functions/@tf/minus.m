@@ -47,10 +47,10 @@ function sys = minus_siso(sysA, sysB)
   numerator = [];
   denominator = [];
   for idx = 1:size(sysA.Numerator{1}, 1)
-    numeratorA = sysA.Numerator{1}{1};
-    numeratorB = sysB.Numerator{1}{1};
-    denominatorA = sysA.Denominator{1}{1};
-    denominatorB = sysB.Denominator{1}{1};
+    numeratorA = sysA.Numerator{1};
+    numeratorB = sysB.Numerator{1};
+    denominatorA = sysA.Denominator{1};
+    denominatorB = sysB.Denominator{1};
     
     numerator1 = conv(numeratorA(idx, :), denominatorB);
     numerator2 = conv(numeratorB(idx, :), denominatorA);

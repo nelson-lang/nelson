@@ -16,9 +16,9 @@ sys2 = tf(numerator2, denominator2);
 sys = [sys1; sys2];
 %=============================================================================
 sys3 = -sys1;
-assert_isequal(sys3.Numerator{1}{1}, - sys1.Numerator{1}{1})
+assert_isequal(sys3.Numerator{1}, - sys1.Numerator{1})
 %=============================================================================
 sys4 = -sys;
-assert_isequal(sys4.Numerator{1}{1}, - sys.Numerator{1}{1})
-assert_isequal(sys4.Numerator{1}{2}, - sys.Numerator{1}{2})
+assert_isequal(sys4.Numerator{1}, - sys.Numerator{1})
+assert_isequal(sys4.Numerator{1}, - sys.Numerator{1})
 %=============================================================================
