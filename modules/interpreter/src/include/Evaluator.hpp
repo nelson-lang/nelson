@@ -848,6 +848,17 @@ private:
     bool
     needToOverloadOperator(const ArrayOf& a);
 
+    ArrayOfVector
+    rhsExpressionParens(
+        AbstractSyntaxTreePtr t, ArrayOf& r, int nLhs, bool& resolved);
+    ArrayOfVector
+    rhsExpressionBraces(AbstractSyntaxTreePtr t, ArrayOf& r, int nLhs);
+    ArrayOfVector
+    rhsExpressionDot(AbstractSyntaxTreePtr t, ArrayOf& r, int nLhs);
+    ArrayOfVector
+    rhsExpressionDynDot(AbstractSyntaxTreePtr t, ArrayOf& r, int nLhs);
+
+
     bool _haveEventsLoop;
 
     size_t ID;
