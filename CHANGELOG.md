@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `patch` and `fill` manages `FaceAlpha`.
 - visibility title and labels.
 - object constructor must be in '@' directory and no more in parent directory (compatibility).
+- Qt 6.6.1 on win64 CI build.
 
 ### Fixed
 
