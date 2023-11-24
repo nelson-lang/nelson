@@ -64,7 +64,8 @@ function objOut = updateVariable(objIn, value)
   supportedVariables = {'s', 'z', 'p', 'q', 'z^-1', 'q^-1'};
   isSupported = any(strcmp(supportedVariables, value));
   if ~isSupported
-    error(_('''s'', ''p'', ''z'', ''q'', ''z^-1'', or ''q^-1'' expected.'));
+    msg = _("'s', 'p', 'z', 'q', 'z^-1', or 'q^-1' expected.");
+    error(msg);
   else
     st = struct(objIn);
     st.Variable = value;
