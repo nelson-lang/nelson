@@ -3684,21 +3684,15 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             callstack.popID();
             return ArrayOfVector(r);
         }
-        AbstractSyntaxTreePtr tt;
-        tt = t->down;
-        if (tt->opNum == OP_PARENS) {
-            if (tt->down == nullptr) {
-                if (tt->right != nullptr) {
-                    tt = tt->right;
-                    if (tt->opNum == OP_DOT) {
-                        ArrayOfVector rv(r.getField(tt->down->text));
-                        callstack.popID();
-                        return rv;
-                    }
-                }
+        AbstractSyntaxTreePtr tt = t->down;
+        if (tt->opNum == OP_PARENS && tt->down == nullptr && tt->right != nullptr) {
+            tt = tt->right;
+            if (tt->opNum == OP_DOT) {
+                ArrayOfVector rv(r.getField(tt->down->text));
+                callstack.popID();
+                return rv;
             }
         }
-
     } else {
         if (lookupFunction(t->text, funcDef)) {
             if (funcDef->outputArgCount() == 0) {
@@ -3710,6 +3704,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
         }
         Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
     }
+
     t = t->down;
     while (t != nullptr) {
         rhsDimensions = r.getDimensions();
@@ -3717,224 +3712,20 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             Error(_W("Cannot reindex an expression that returns multiple values."));
         }
         if (t->opNum == (OP_PARENS)) {
-            m = expressionList(t->down, r);
-            if (rhsDimensions.getLength() > (indexType)m.size()) {
-                Dimensions nDim;
-                if (m.size() >= 2) {
-                    size_t d = 0;
-                    for (d = 0; d < m.size() - 1; d++) {
-                        nDim[d] = rhsDimensions[d];
-                    }
-                    indexType L = 1;
-                    for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                        L = L * rhsDimensions[k];
-                    }
-                    nDim[d] = L;
-                    r.reshape(nDim);
-                    rhsDimensions = r.getDimensions();
-                    m = expressionList(t->down, r);
-                }
-            }
-            if (r.isFunctionHandle()) {
-                std::string extractionFunctionName
-                    = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
-                if (lookupFunction(extractionFunctionName, funcDef)) {
-                    CallStack backupCallStack = this->callstack;
-                    ArrayOfVector paramsIn(m);
-                    paramsIn.push_front(r);
-                    ArrayOfVector rr = funcDef->evaluateFunction(this, paramsIn, nLhs);
-                    callstack = backupCallStack;
-                    callstack.popID();
-                    return rr;
-                }
-            }
-            if (m.size() == 0) {
-                if (t->right == nullptr) {
-                    callstack.popID();
-                    return ArrayOfVector(r);
-                }
-                Error(_W("index expected."));
-
-            } else if (m.size() == 1) {
-                if (r.isClassType()) {
-                    stringVector substype;
-                    ArrayOfVector subsindices;
-                    substype.push_back("()");
-                    ArrayOf* elements
-                        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-                    ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-                    for (size_t k = 0; k < m.size(); k++) {
-                        elements[k] = m[k];
-                    }
-                    subsindices.push_back(cell);
-
-                    bool haveFunction;
-                    ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-                    if (haveFunction) {
-                        r = rr[0];
-                    } else {
-                        r = r.getVectorSubset(m[0]);
-                    }
-                } else {
-                    r = r.getVectorSubset(m[0]);
-                }
-            } else {
-                if (r.isClassType()) {
-                    stringVector substype;
-                    ArrayOfVector subsindices;
-                    substype.push_back("()");
-                    ArrayOf* elements
-                        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-                    ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-                    for (size_t k = 0; k < m.size(); k++) {
-                        elements[k] = m[k];
-                    }
-                    subsindices.push_back(cell);
-
-                    bool haveFunction;
-                    ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-                    if (haveFunction) {
-                        r = rr[0];
-                    } else {
-                        r = r.getNDimSubset(m);
-                    }
-                } else {
-                    r = r.getNDimSubset(m);
-                }
+            bool isFinished = false;
+            rhsExpressionParens(rhsDimensions, rv, t, r, nLhs, isFinished);
+            if (isFinished) {
+                return rv;
             }
         }
         if (t->opNum == (OP_BRACES)) {
-            m = expressionList(t->down, r);
-            if (rhsDimensions.getLength() > (indexType)m.size()) {
-                Dimensions nDim;
-                if (m.size() >= 2) {
-                    size_t d = 0;
-                    for (d = 0; d < m.size() - 1; d++) {
-                        nDim[d] = rhsDimensions[d];
-                    }
-                    indexType L = 1;
-                    for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                        L = L * rhsDimensions[k];
-                    }
-                    nDim[d] = L;
-                    r.reshape(nDim);
-                    rhsDimensions = r.getDimensions();
-                    m = expressionList(t->down, r);
-                }
-            }
-            if (m.size() == 0) {
-                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-            } else if (m.size() == 1) {
-                rv = r.getVectorContentsAsList(m[0]);
-            } else {
-                rv = r.getNDimContentsAsList(m);
-            }
-            if (rv.size() == 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            } else if (rv.size() == 0) {
-                r = ArrayOf::emptyConstructor();
-
-                if (nLhs == 1) {
-                    Error(ERROR_EMPTY_EXPRESSION);
-                }
-            }
+            rhsExpressionBraces(rhsDimensions, rv, t, r, nLhs);
         }
         if (t->opNum == (OP_DOT)) {
-            std::string fieldname = t->down->text;
-
-            if (r.isClassType()) {
-
-                stringVector substype;
-                ArrayOfVector subsindices;
-
-                substype.push_back(".");
-                subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
-                if (t->right != nullptr) {
-                    if (t->right->opNum == OP_DOT) {
-                        substype.push_back(".");
-                    } else if (t->right->opNum == OP_BRACES) {
-                        substype.push_back("{}");
-                    } else if (t->right->opNum == OP_PARENS) {
-                        substype.push_back("()");
-                    }
-                    ArrayOfVector childrendIndices = expressionList(t->right->down, r);
-                    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-                        NLS_CELL_ARRAY, childrendIndices.size());
-                    ArrayOf cell
-                        = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, childrendIndices.size()), elements);
-                    for (size_t k = 0; k < childrendIndices.size(); k++) {
-                        elements[k] = childrendIndices[k];
-                    }
-                    subsindices.push_back(cell);
-                    t = t->right;
-                }
-                bool haveFunction;
-                rv = extractClass(r, substype, subsindices, haveFunction);
-                if (!haveFunction) {
-                    rv = r.getFieldAsList(fieldname);
-                }
-            } else if (r.isHandle() || r.isGraphicsObject()) {
-                ArrayOfVector params;
-                logical isValidMethod = false;
-                try {
-                    isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
-                } catch (const Exception&) {
-                    if (r.isHandle()) {
-                        Error(_("Please define: ")
-                            + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
-                    }
-                    isValidMethod = false;
-                }
-                if (isValidMethod != 0U) {
-                    if (t->right != nullptr) {
-                        params = expressionList(t->right->down, r);
-                        t = t->right;
-                    }
-                }
-                rv = getHandle(r, fieldname, params);
-            } else {
-                rv = r.getFieldAsList(fieldname);
-            }
-            if (rv.size() == 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            } else if (rv.size() == 0) {
-                r = ArrayOf::emptyConstructor();
-                rv = ArrayOfVector();
-            }
+            rhsExpressionDot(rv, t, r, nLhs);
         }
         if (t->opNum == (OP_DOTDYN)) {
-            std::string field;
-            try {
-                ArrayOf fname(expression(t->down));
-                field = fname.getContentAsCString();
-            } catch (const Exception&) {
-                Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-            }
-            if (r.isClassType()) {
-                ArrayOfVector v;
-
-                stringVector substype;
-                ArrayOfVector subsindices;
-                substype.push_back(".");
-                subsindices.push_back(ArrayOf::characterArrayConstructor(field));
-
-                bool haveFunction;
-                rv = extractClass(r, substype, subsindices, haveFunction);
-                if (!haveFunction) {
-                    rv = r.getFieldAsList(field);
-                }
-            } else if (r.isHandle()) {
-                ArrayOfVector v;
-                rv = getHandle(r, field, v);
-            } else {
-                rv = r.getFieldAsList(field);
-            }
-            if (rv.size() <= 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            }
+            rhsExpressionDynDot(rv, t, r, nLhs);
         }
         t = t->right;
     }
@@ -3945,6 +3736,283 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
     }
     callstack.popID();
     return rv;
+}
+//=============================================================================
+void
+Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
+    AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs, bool& isFinished)
+{
+    isFinished = false;
+    ArrayOfVector m = expressionList(t->down, r);
+    if (rhsDimensions.getLength() > (indexType)m.size()) {
+        Dimensions nDim;
+        if (m.size() >= 2) {
+            size_t d = 0;
+            for (d = 0; d < m.size() - 1; d++) {
+                nDim[d] = rhsDimensions[d];
+            }
+            indexType L = 1;
+            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
+                L = L * rhsDimensions[k];
+            }
+            nDim[d] = L;
+            r.reshape(nDim);
+            rhsDimensions = r.getDimensions();
+            m = expressionList(t->down, r);
+        }
+    }
+    if (r.isFunctionHandle()) {
+        std::string extractionFunctionName
+            = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
+        FunctionDef* funcDef = nullptr;
+        if (lookupFunction(extractionFunctionName, funcDef)) {
+            CallStack backupCallStack = this->callstack;
+            ArrayOfVector paramsIn(m);
+            paramsIn.push_front(r);
+            rv = funcDef->evaluateFunction(this, paramsIn, nLhs);
+            callstack = backupCallStack;
+            callstack.popID();
+            isFinished = true;
+            return;
+        }
+    }
+    if (m.size() == 0) {
+        if (t->right == nullptr) {
+            callstack.popID();
+            rv = ArrayOfVector(r);
+            isFinished = true;
+            return;
+        }
+        Error(_W("index expected."));
+
+    } else if (m.size() == 1) {
+        if (r.isClassType()) {
+            stringVector substype;
+            ArrayOfVector subsindices;
+            substype.push_back("()");
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
+            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
+            for (size_t k = 0; k < m.size(); k++) {
+                elements[k] = m[k];
+            }
+            subsindices.push_back(cell);
+
+            bool haveFunction;
+            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
+            if (haveFunction) {
+                r = rr[0];
+            } else {
+                r = r.getVectorSubset(m[0]);
+            }
+        } else {
+            r = r.getVectorSubset(m[0]);
+        }
+    } else {
+        if (r.isClassType()) {
+            stringVector substype;
+            ArrayOfVector subsindices;
+            substype.push_back("()");
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
+            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
+            for (size_t k = 0; k < m.size(); k++) {
+                elements[k] = m[k];
+            }
+            subsindices.push_back(cell);
+
+            bool haveFunction;
+            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
+            if (haveFunction) {
+                r = rr[0];
+            } else {
+                r = r.getNDimSubset(m);
+            }
+        } else {
+            r = r.getNDimSubset(m);
+        }
+    }
+}
+//=============================================================================
+void
+Evaluator::rhsExpressionBraces(
+    Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
+{
+    ArrayOfVector m = expressionList(t->down, r);
+    if (rhsDimensions.getLength() > (indexType)m.size()) {
+        Dimensions nDim;
+        if (m.size() >= 2) {
+            size_t d = 0;
+            for (d = 0; d < m.size() - 1; d++) {
+                nDim[d] = rhsDimensions[d];
+            }
+            indexType L = 1;
+            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
+                L = L * rhsDimensions[k];
+            }
+            nDim[d] = L;
+            r.reshape(nDim);
+            rhsDimensions = r.getDimensions();
+            m = expressionList(t->down, r);
+        }
+    }
+    if (m.size() == 0) {
+        Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+        if (r.isClassType()) {
+            stringVector substype;
+            ArrayOfVector subsindices;
+            substype.push_back("{}");
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
+            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
+            for (size_t k = 0; k < m.size(); k++) {
+                elements[k] = m[k];
+            }
+            subsindices.push_back(cell);
+
+            bool haveFunction;
+            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
+            if (haveFunction) {
+                rv = rr[0];
+            } else {
+                rv = r.getVectorContentsAsList(m[0]);
+            }
+        } else {
+            rv = r.getVectorContentsAsList(m[0]);
+        }
+    } else {
+        if (r.isClassType()) {
+            stringVector substype;
+            ArrayOfVector subsindices;
+            substype.push_back("{}");
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
+            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
+            for (size_t k = 0; k < m.size(); k++) {
+                elements[k] = m[k];
+            }
+            subsindices.push_back(cell);
+
+            bool haveFunction;
+            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
+            if (haveFunction) {
+                rv = rr[0];
+            } else {
+                rv = r.getNDimContentsAsList(m);
+            }
+        } else {
+            rv = r.getNDimContentsAsList(m);
+        }
+    }
+
+    if (rv.size() == 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+    } else if (rv.size() == 0) {
+        r = ArrayOf::emptyConstructor();
+
+        if (nLhs == 1) {
+            Error(ERROR_EMPTY_EXPRESSION);
+        }
+    }
+}
+//=============================================================================
+void
+Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
+{
+    std::string fieldname = t->down->text;
+
+    if (r.isClassType()) {
+        stringVector substype;
+        ArrayOfVector subsindices;
+
+        substype.push_back(".");
+        subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
+        if (t->right != nullptr) {
+            if (t->right->opNum == OP_DOT) {
+                substype.push_back(".");
+            } else if (t->right->opNum == OP_BRACES) {
+                substype.push_back("{}");
+            } else if (t->right->opNum == OP_PARENS) {
+                substype.push_back("()");
+            }
+            ArrayOfVector childrendIndices = expressionList(t->right->down, r);
+            ArrayOf* elements
+                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, childrendIndices.size());
+            ArrayOf cell
+                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, childrendIndices.size()), elements);
+            for (size_t k = 0; k < childrendIndices.size(); k++) {
+                elements[k] = childrendIndices[k];
+            }
+            subsindices.push_back(cell);
+            t = t->right;
+        }
+        bool haveFunction;
+        rv = extractClass(r, substype, subsindices, haveFunction);
+        if (!haveFunction) {
+            rv = r.getFieldAsList(fieldname);
+        }
+    } else if (r.isHandle() || r.isGraphicsObject()) {
+        ArrayOfVector params;
+        logical isValidMethod = false;
+        try {
+            isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
+        } catch (const Exception&) {
+            if (r.isHandle()) {
+                Error(_("Please define: ")
+                    + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
+            }
+            isValidMethod = false;
+        }
+        if (isValidMethod != 0U) {
+            if (t->right != nullptr) {
+                params = expressionList(t->right->down, r);
+                t = t->right;
+            }
+        }
+        rv = getHandle(r, fieldname, params);
+    } else {
+        rv = r.getFieldAsList(fieldname);
+    }
+    if (rv.size() == 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+    } else if (rv.size() == 0) {
+        r = ArrayOf::emptyConstructor();
+        rv = ArrayOfVector();
+    }
+}
+//=============================================================================
+void
+Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
+{
+    std::string field;
+    try {
+        ArrayOf fname(expression(t->down));
+        field = fname.getContentAsCString();
+    } catch (const Exception&) {
+        Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+    }
+    if (r.isClassType()) {
+        ArrayOfVector v;
+
+        stringVector substype;
+        ArrayOfVector subsindices;
+        substype.push_back(".");
+        subsindices.push_back(ArrayOf::characterArrayConstructor(field));
+
+        bool haveFunction;
+        rv = extractClass(r, substype, subsindices, haveFunction);
+        if (!haveFunction) {
+            rv = r.getFieldAsList(field);
+        }
+    } else if (r.isHandle()) {
+        ArrayOfVector v;
+        rv = getHandle(r, field, v);
+    } else {
+        rv = r.getFieldAsList(field);
+    }
+    if (rv.size() <= 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+    }
 }
 //=============================================================================
 size_t
