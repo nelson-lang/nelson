@@ -542,6 +542,12 @@ msgstr ""
 msgid "#1 'double' or 'single' expected."
 msgstr ""
 
+msgid "Second argument must a double or single variable."
+msgstr ""
+
+msgid "First argument must be 'like'."
+msgstr ""
+
 msgid "dlsym handle expected."
 msgstr ""
 
@@ -1266,19 +1272,10 @@ msgid ""
 "array of character vectors."
 msgstr ""
 
-msgid "Out of bounds."
-msgstr ""
-
 msgid "Nx3 dimensional matrix expected for 'Vertices'."
 msgstr ""
 
 msgid "Invalid Face Colorspec."
-msgstr ""
-
-msgid "Invalid FaceVertexCData parameter with FaceColor to 'flat'."
-msgstr ""
-
-msgid "Invalid FaceVertexCData parameter with FaceColor to 'interp'."
 msgstr ""
 
 msgid "Invalid EdgeColor parameter."
@@ -1889,6 +1886,11 @@ msgstr ""
 msgid "History manager not enabled."
 msgstr ""
 
+msgid ""
+"Numbers representing integers greater than or equal to flintmax might not be "
+"represented exactly as double-precision floating-point values."
+msgstr ""
+
 msgid "The name of an integer class expected."
 msgstr ""
 
@@ -2135,6 +2137,15 @@ msgid "This statement is not inside any function."
 msgstr ""
 
 msgid "malformed floating point constant"
+msgstr ""
+
+msgid "Malformed floating point constant."
+msgstr ""
+
+msgid "Malformed unsigned integer constant."
+msgstr ""
+
+msgid "Malformed unsigned integer constant with unary operator '-'."
 msgstr ""
 
 msgid "Operands must be real."
@@ -2438,6 +2449,18 @@ msgstr ""
 msgid "Unsupported type to convert as JSON."
 msgstr ""
 
+msgid "Second argument must be 'noperm'."
+msgstr ""
+
+msgid "Input must be 2-D."
+msgstr ""
+
+msgid "Use balance(full(S))."
+msgstr ""
+
+msgid "First argument must be single or double."
+msgstr ""
+
 msgid "option #2 must be 'balance', or 'nobalance'."
 msgstr ""
 
@@ -2451,6 +2474,15 @@ msgid "Second input argument must be 'real' or 'complex'."
 msgstr ""
 
 msgid "svd(X, 0) or svd(X, 'econ') expected."
+msgstr ""
+
+msgid "Matrix must be square."
+msgstr ""
+
+msgid "Input to BALANCE must not contain NaN or Inf."
+msgstr ""
+
+msgid "Invalid arguments for LAPACKE_dgebal"
 msgstr ""
 
 msgid "Square matrix expected."
@@ -2776,6 +2808,10 @@ msgstr ""
 msgid "Module not loaded: library not loaded."
 msgstr ""
 
+#, c-format
+msgid "File not found: %s"
+msgstr ""
+
 msgid "Module not loaded: library not loaded.\n"
 msgstr ""
 
@@ -2839,6 +2875,23 @@ msgstr ""
 msgid "Invalid communicator"
 msgstr ""
 
+msgid ""
+"Second argument must be a structure with two fields whose names are 'type' "
+"and 'subs'."
+msgstr ""
+
+msgid "No support for index chaining."
+msgstr ""
+
+msgid "'subs' field must be a cell array or string."
+msgstr ""
+
+msgid "First argument must be a struct."
+msgstr ""
+
+msgid "Illegal indexing structure argument: type '.', '{}' or '()' expected."
+msgstr ""
+
 msgid "Same types expected."
 msgstr ""
 
@@ -2878,6 +2931,9 @@ msgstr ""
 msgid "Unhandled type combination for A^B"
 msgstr ""
 
+msgid "Complex integer not allowed for arithmetic operator "
+msgstr ""
+
 msgid "Integer type not managed."
 msgstr ""
 
@@ -2900,9 +2956,6 @@ msgstr ""
 msgid ""
 "using operator '*' \n"
 " Matrix dimensions must agree."
-msgstr ""
-
-msgid "Complex integer not allowed for arithmetic operator "
 msgstr ""
 
 msgid "Input argument must be real."
@@ -5248,6 +5301,165 @@ msgstr ""
 msgid "Only 2D matrix supported."
 msgstr ""
 
+msgid "Invalid syntax: s, z, p, q expected."
+msgstr ""
+
+msgid "Invalid syntax: sexpected."
+msgstr ""
+
+msgid "Ts property must be 0, a positive scalar, or  -1."
+msgstr ""
+
+msgid "     Static gain."
+msgstr ""
+
+#, python-format
+msgid "Sample time: %.4f %s"
+msgstr ""
+
+msgid "Discrete-time state-space model."
+msgstr ""
+
+msgid "Continuous-time state-space model."
+msgstr ""
+
+msgid "Matrix dimensions must agree."
+msgstr ""
+
+msgid "Sampling times must agree."
+msgstr ""
+
+#, python-format
+msgid "State-space model with %d outputs, %d inputs, and %d states."
+msgstr ""
+
+msgid "Second argument must be a positive integer."
+msgstr ""
+
+msgid ""
+"Ts property should be either a positive scalar, 0, or -1 to indicate that it "
+"is unspecified."
+msgstr ""
+
+msgid "Supported LTI model expected."
+msgstr ""
+
+msgid "Matrix A must be square."
+msgstr ""
+
+msgid "The number of rows in matrices A and B must be equal."
+msgstr ""
+
+msgid "Matrices A and C should have an identical number of columns."
+msgstr ""
+
+msgid "Matrices B and D should have an identical number of columns."
+msgstr ""
+
+msgid "The number of rows in matrices C and D must be equal."
+msgstr ""
+
+msgid "Matrices A and E should have an identical size."
+msgstr ""
+
+msgid "Empty transfer function."
+msgstr ""
+
+#, python-format
+msgid "From input %d to output:"
+msgstr ""
+
+#, python-format
+msgid "%d:"
+msgstr ""
+
+msgid "Discrete-time transfer function."
+msgstr ""
+
+msgid "Continuous-time transfer function."
+msgstr ""
+
+msgid "dimensions of systems output is incompatible."
+msgstr ""
+
+msgid "SISO LTI model expected."
+msgstr ""
+
+msgid "SISO lti expected."
+msgstr ""
+
+#, python-format
+msgid "Transfer function with %d outputs and %d inputs."
+msgstr ""
+
+#, python-format
+msgid "No property of the class %s matches the identifier %s."
+msgstr ""
+
+#, python-format
+msgid "Unsupported parameter: %s."
+msgstr ""
+
+msgid "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1' expected."
+msgstr ""
+
+msgid "TimeUnit property must be a valid time unit."
+msgstr ""
+
+msgid "Invalid syntax."
+msgstr ""
+
+msgid "Numerator and Denominator must have compatible sizes."
+msgstr ""
+
+msgid "dimensions of systems input is incompatible."
+msgstr ""
+
+msgid "bode without input argument does not return output arguments."
+msgstr ""
+
+msgid "Call bode using the following command:"
+msgstr ""
+
+msgid "invalid line specification."
+msgstr ""
+
+msgid "LTI model expected."
+msgstr ""
+
+msgid "Bode Diagram"
+msgstr ""
+
+msgid "Magnitude [dB]"
+msgstr ""
+
+msgid "Phase [deg]"
+msgstr ""
+
+msgid "Frequency [rad/s]"
+msgstr ""
+
+msgid " frequency interval must be specified as {wmin, wmax} real."
+msgstr ""
+
+msgid "real expected."
+msgstr ""
+
+msgid "Input must be square."
+msgstr ""
+
+#, python-format
+msgid ""
+"Ensure that the data type of the argument is correct in the function call to "
+"%s."
+msgstr ""
+
+#, python-format
+msgid ""
+"Check for incorrect argument data type or missing argument in call to "
+"function %s."
+msgstr ""
+
 #, python-format
 msgid "\"%s\" is not a recognized parameter."
 msgstr ""
@@ -5275,10 +5487,16 @@ msgstr ""
 msgid "invalid argument: descend, ascend expected."
 msgstr ""
 
-#, python-format
-msgid ""
-"Check for incorrect argument data type or missing argument in call to "
-"function %s."
+msgid "First input argument must be a cell array."
+msgstr ""
+
+msgid "Cell with cells or object not supported."
+msgstr ""
+
+msgid "All elements of cell array must have same type."
+msgstr ""
+
+msgid "All structures must have same fieldnames"
 msgstr ""
 
 msgid "Cannot convert missing element."
@@ -5387,6 +5605,9 @@ msgstr ""
 msgid "Incompatible types doublePtr --> int32Ptr"
 msgstr ""
 
+msgid "all arguments must numeric matrix."
+msgstr ""
+
 msgid "N must be a scalar if DIM is specified."
 msgstr ""
 
@@ -5394,6 +5615,9 @@ msgid "All values of N must be integer values."
 msgstr ""
 
 msgid "N must be a vector."
+msgstr ""
+
+msgid "The number of outputs should match the number of inputs."
 msgstr ""
 
 msgid "#1 input argument: must be real positive integer values."
@@ -5442,6 +5666,12 @@ msgstr ""
 msgid "Indexing arguments are out of range of an array of the given size."
 msgstr ""
 
+msgid "At least two arguments."
+msgstr ""
+
+msgid "An even number of arguments."
+msgstr ""
+
 msgid "Input argument must be a vector."
 msgstr ""
 
@@ -5472,16 +5702,28 @@ msgstr ""
 msgid "Too many input arguments."
 msgstr ""
 
+msgid "'toplevel' expected as third argumnent."
+msgstr ""
+
 msgid "Unknown command option:"
 msgstr ""
 
 msgid "Vector must have 4, 6, or 8 elements."
 msgstr ""
 
+msgid "Unrecognized option for second argument."
+msgstr ""
+
+msgid "Unrecognized option for third argument."
+msgstr ""
+
 msgid "\"manual\" or \"auto\" argument expected."
 msgstr ""
 
 msgid "Error setting property"
+msgstr ""
+
+msgid "'off' expected."
 msgstr ""
 
 msgid "\"plot\" argument expected."
@@ -5494,6 +5736,12 @@ msgid "Invalid LineSpec string."
 msgstr ""
 
 msgid "Group can be only a child of axes or hggroup."
+msgstr ""
+
+msgid "Second argument must be positive."
+msgstr ""
+
+msgid "Second argument must be a scalar or vector."
 msgstr ""
 
 msgid "First argument must be an axes object."
@@ -5569,7 +5817,7 @@ msgstr ""
 msgid "struct type expected."
 msgstr ""
 
-msgid "CDataMapping scaled or direct value expected"
+msgid "CDataMapping scaled or direct value expected."
 msgstr ""
 
 msgid "Size of data mismatch."
@@ -5596,6 +5844,18 @@ msgstr ""
 msgid ""
 "X must have the same dimensions as Y or be a vector with the same number of "
 "rows as Y."
+msgstr ""
+
+msgid "X and Y must have the same size."
+msgstr ""
+
+msgid "size of S must match X, Y."
+msgstr ""
+
+msgid "number of colors in C must match number of points in X."
+msgstr ""
+
+msgid "Y must be a vector or matrix."
 msgstr ""
 
 msgid "X, C arguments must be real."
@@ -5691,13 +5951,14 @@ msgstr ""
 msgid "Function %s has already been declared within this scope."
 msgstr ""
 
+msgid ""
+"Lexical error Malformed unsigned integer constant with unary operator -."
+msgstr ""
+
 msgid "A must be a 2-D numeric or logical matrix."
 msgstr ""
 
 msgid "TYPE must be lower or upper."
-msgstr ""
-
-msgid "Input must be square."
 msgstr ""
 
 msgid "A must be a square numeric matrix."
@@ -5716,6 +5977,18 @@ msgid "Input argument must be a real numeric scalar tolerance"
 msgstr ""
 
 msgid "First input must be a column vector of length 2."
+msgstr ""
+
+msgid "nmm required webtools module."
+msgstr ""
+
+msgid "nmm required file_archiver module."
+msgstr ""
+
+msgid "nmm required json module."
+msgstr ""
+
+msgid "module.json is missing."
 msgstr ""
 
 msgid "#2 argument: characters expected."
@@ -5767,23 +6040,11 @@ msgstr ""
 msgid "loader.m is missing."
 msgstr ""
 
-msgid "module.json is missing."
-msgstr ""
-
 #, python-format
 msgid "%s already loaded."
 msgstr ""
 
 msgid "an valid module name expected."
-msgstr ""
-
-msgid "nmm required webtools module."
-msgstr ""
-
-msgid "nmm required file_archiver module."
-msgstr ""
-
-msgid "nmm required json module."
 msgstr ""
 
 msgid "Wrong type for argument #1: MPI_Comm expected."
@@ -5802,6 +6063,9 @@ msgid "Dimension argument must be a real, positive, integer scalar."
 msgstr ""
 
 msgid "Dimensions of arrays being concatenated are not consistent."
+msgstr ""
+
+msgid "Illegal indexing structure argument: type ., {} or () expected."
 msgstr ""
 
 msgid "Size mismatch on arguments to arithmetic operator >="
@@ -5832,6 +6096,18 @@ msgid "M must be a positive integer."
 msgstr ""
 
 msgid "\"periodic\" or \"symmetric\" expected."
+msgstr ""
+
+msgid "Input argument value must be non-negative."
+msgstr ""
+
+msgid "Third argument must be a vector."
+msgstr ""
+
+msgid "Input argument #1 and #3 should have the same column size."
+msgstr ""
+
+msgid "First argument must be a column vector."
 msgstr ""
 
 msgid "library slicot not loaded."
@@ -5889,6 +6165,9 @@ msgid "not yet implemented."
 msgstr ""
 
 msgid "Impossible to open: "
+msgstr ""
+
+msgid "String, cell of chars or characters vector expected."
 msgstr ""
 
 msgid "Wrong value for #3: IgnoreCase expected."

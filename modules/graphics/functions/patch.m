@@ -214,7 +214,7 @@ function args = parsePatchArguments(inputArguments)
     elseif strcmp(CDataMapping, 'direct')
       CData = CData;
     else
-      error(_('CDataMapping scaled or direct value expected'));
+      error(_('CDataMapping scaled or direct value expected.'));
     end
   end
   

@@ -25,7 +25,7 @@ function p = ancestor(varargin)
     if (ischar (toplevel) && strcmpi (toplevel, 'toplevel'))
       do_once = false;
     else
-      error(_('''toplevel'' expected as third argumnent.'));
+      error(_("'toplevel' expected as third argumnent."));
     end
   end
   

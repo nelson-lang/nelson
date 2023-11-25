@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - visibility title and labels.
 - object constructor must be in '@' directory and no more in parent directory (compatibility).
 - `subsref`, `subsasgn` compatibility with `substruct`.
+- French translation updated (100%, Thanks to weblate contributors)
 
 ### Fixed
 
