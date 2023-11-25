@@ -9,8 +9,12 @@
 %=============================================================================
 function varargout = subsasgn(varargin)
   objIn = varargin{1};
-  name = varargin{2};
+  S = varargin{2};
   value = varargin{3};
+  name = S.subs;
+  if strcmp(S.type, '.') == false
+    error(_('Illegal indexing structure argument: type ''.'' expected.'));
+  end
   if ~isprop(objIn, name)
     msg = _('No property of the class ''%s'' matches the identifier ''%s''.');
     error(sprintf(msg, 'tf', name));

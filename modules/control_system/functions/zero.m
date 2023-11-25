@@ -24,11 +24,11 @@ function varargout = zero(varargin)
   end
   
   if isa(sys, 'ss')
-    A = sys.A{1};
+    A = sys.A;
     sizeOrginalA = size(A, 2);
-    B = sys.B{1};
-    C = sys.C{1};
-    D = sys.D{1};
+    B = sys.B;
+    C = sys.C;
+    D = sys.D;
     z = eig([A, B; C, D], [eye(size(A,1)), B*0; C*0, D*0]); % Get zeros
     z = z(isfinite(z)); % Remove the inf and zero values from z
     % check the lengt of z so we can remove some 0 0 0 from z
