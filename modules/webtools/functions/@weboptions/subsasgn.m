@@ -7,7 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = subsasgn(cl, key, value)
+function r = subsasgn(varargin)
+  cl = varargin{1};
+  S = varargin{2};
+  value = varargin{3};
+  if strcmp(S.type, '.') == false
+    error(_('Illegal indexing structure argument: type ''.'' expected.'));
+  end
+  key = S.subs;
   if ~isSupportedFieldNames(key)
     error(sprintf(_('"%s" is not a recognized parameter.'), key));
   end

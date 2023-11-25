@@ -15,10 +15,10 @@ function sys = mtimes(sys1, sys2)
     error(_('SISO LTI model expected.'));
   end
   
-  numeratorA = sysA.Numerator{1}{1};
-  denominatorA = sysA.Denominator{1}{1};
-  numeratorB = sysB.Numerator{1}{1};
-  denominatorB = sysB.Denominator{1}{1};
+  numeratorA = sysA.Numerator{1};
+  denominatorA = sysA.Denominator{1};
+  numeratorB = sysB.Numerator{1};
+  denominatorB = sysB.Denominator{1};
   
   numerator = conv(numeratorA, numeratorB);
   denominator = conv(denominatorA, denominatorB);

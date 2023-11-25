@@ -27,7 +27,6 @@ A = struct('number', 10);
 S = [];
 S.type = '.';
 S.subs = 'number';
-R = subsref(A, S)
+R = subsref(A, S);
 assert_isequal(R, 10);
 %=============================================================================
-

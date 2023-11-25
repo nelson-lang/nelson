@@ -734,10 +734,11 @@ public:
 
 private:
     ArrayOfVector
-    simpleAssignClass(
-        const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
+    simpleClassAssign(
+        const std::string& subtype, const ArrayOf& r, const ArrayOfVector& m, ArrayOfVector& value);
+
     ArrayOfVector
-    extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params,
+    extractClass(const ArrayOf& r, const stringVector& subtypes, const ArrayOfVector& subsindices,
         bool& haveFunction);
 
     void
@@ -850,6 +851,17 @@ private:
     bool _haveEventsLoop;
 
     size_t ID;
+
+    void
+    rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t,
+        ArrayOf& r, int nLhs, bool& isFinished);
+    void
+    rhsExpressionBraces(Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t,
+        ArrayOf& r, int nLhs);
+    void
+    rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
+    void
+    rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);
