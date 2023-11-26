@@ -185,8 +185,8 @@ function [res, lineSpec] = checkLineSpec(var)
 end
 %=============================================================================
 function w = computesW(sys, N)
-  numerator = sys.Numerator{1}{1};
-  denominator = sys.Denominator{1}{1};
+  numerator = sys.Numerator{1};
+  denominator = sys.Denominator{1};
   zp = [roots(numerator(:)); roots(denominator(:))];
   
   if ~isdt(sys)

@@ -22,9 +22,31 @@ Nelson::DataStructuresGateway::class_subsagnBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 3, 3);
     if (!argIn[0].isClassType()) {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        Error(_W("Wrong type for argument #1. class expected."));
     }
-    std::string fieldname = argIn[1].getContentAsCString();
+    if (!argIn[1].isStruct()) {
+        Error(_W("Wrong type for argument #2. struct expected."));
+    }
+    stringVector fieldnames = argIn[1].getFieldNames();
+    bool isSupportedStruct = (fieldnames.size() == 2)
+        && ((fieldnames[0] == "type" && fieldnames[1] == "subs")
+            || (fieldnames[0] == "subs" && fieldnames[1] == "type"));
+    if (!isSupportedStruct) {
+        Error(_("Second argument must be a structure with two fields whose names are 'type' and "
+                "'subs'."));
+    }
+
+    ArrayOfVector typeFields = argIn[1].getFieldAsList("type");
+    ArrayOfVector subsFields = argIn[1].getFieldAsList("subs");
+
+    if (typeFields.empty()) {
+        Error(_("Illegal indexing structure argument: type '.' expected."));
+    }
+    std::string typeFieldStr = typeFields[0].getContentAsCString();
+    if (typeFieldStr != ".") {
+        Error(_("Illegal indexing structure argument: type '.' expected."));
+    }
+    std::string fieldname = subsFields[0].getContentAsCString();
     ArrayOf res = argIn[0];
     ArrayOfVector value;
     value << argIn[2];

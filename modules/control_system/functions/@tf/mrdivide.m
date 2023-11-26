@@ -17,10 +17,10 @@ function varargout = mrdivide(varargin)
   end
   Ts = mrdivide_timesample(sysA.Ts, sysB.Ts);
   
-  numeratorA = sysA.Numerator{1}{1};
-  denominatorA = sysA.Denominator{1}{1};
-  numeratorB = sysB.Numerator{1}{1};
-  denominatorB = sysB.Denominator{1}{1};
+  numeratorA = sysA.Numerator{1};
+  denominatorA = sysA.Denominator{1};
+  numeratorB = sysB.Numerator{1};
+  denominatorB = sysB.Denominator{1};
   
   if isempty(numeratorA) || isempty(numeratorB) || isempty(denominatorA) || isempty(denominatorB)
     error(_('Matrix dimensions must agree.'));

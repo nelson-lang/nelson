@@ -53,7 +53,7 @@ function checkStructFieldnames(C)
       names{k} = fieldnames(c{k});
     end
     if ~isequal(names{:})
-      error(_('All strutmpSize must have same fieldnames'));
+      error(_('All structures must have same fieldnames'));
     end
   end
 end

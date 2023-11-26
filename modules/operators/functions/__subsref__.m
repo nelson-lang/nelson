@@ -7,11 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = subsref(varargin)
-  narginchk(2, 2);
+function varargout = __subsref__(varargin)
   A = varargin{1};
   S = varargin{2};
-  mustBeA(S, 'struct', 2);
   for k = 1:numel(S)
     switch (S(k).type)
       case '()'

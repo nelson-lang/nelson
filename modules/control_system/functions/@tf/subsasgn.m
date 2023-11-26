@@ -9,8 +9,12 @@
 %=============================================================================
 function varargout = subsasgn(varargin)
   objIn = varargin{1};
-  name = varargin{2};
+  S = varargin{2};
   value = varargin{3};
+  name = S.subs;
+  if strcmp(S.type, '.') == false
+    error(_('Illegal indexing structure argument: type ''.'' expected.'));
+  end
   if ~isprop(objIn, name)
     msg = _('No property of the class ''%s'' matches the identifier ''%s''.');
     error(sprintf(msg, 'tf', name));
@@ -64,7 +68,8 @@ function objOut = updateVariable(objIn, value)
   supportedVariables = {'s', 'z', 'p', 'q', 'z^-1', 'q^-1'};
   isSupported = any(strcmp(supportedVariables, value));
   if ~isSupported
-    error(_('''s'', ''p'', ''z'', ''q'', ''z^-1'', or ''q^-1'' expected.'));
+    msg = _("'s', 'p', 'z', 'q', 'z^-1', or 'q^-1' expected.");
+    error(msg);
   else
     st = struct(objIn);
     st.Variable = value;

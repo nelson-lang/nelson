@@ -47,6 +47,7 @@
 #include "bitorBuiltin.hpp"
 #include "bitxorBuiltin.hpp"
 #include "subsasgnBuiltin.hpp"
+#include "subsrefBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -109,6 +110,8 @@ static const nlsGateway gateway[] = {
     { VERTCAT_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::vertcatBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "subsasgn", (ptrBuiltin)Nelson::OperatorsGateway::subsasgnBuiltin, 1, 3 },
+    { "subsref", (ptrBuiltin)Nelson::OperatorsGateway::subsrefBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "ismember", (ptrBuiltin)Nelson::OperatorsGateway::ismemberBuiltin, 1, 2 },
     { "bitand", (ptrBuiltin)Nelson::OperatorsGateway::bitandBuiltin, 1, 2, CPP_BUILTIN },
     { "bitor", (ptrBuiltin)Nelson::OperatorsGateway::bitorBuiltin, 1, 2, CPP_BUILTIN },

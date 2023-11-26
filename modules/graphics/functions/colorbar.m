@@ -32,7 +32,8 @@ function varargout = colorbar(varargin)
     if ischar(param) && strcmp(param, 'off') == true
       cba =   colorBarOff(ax, cba, width);
     else
-      error(_('''off'' expected.'));
+      msg = _("'off' expected.");
+      error(msg);
     end
   else
     % Name,Value, ...

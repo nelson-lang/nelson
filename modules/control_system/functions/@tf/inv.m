@@ -13,7 +13,7 @@ function res = inv(sys)
   end
   res = sys;
   if isstatic(sys)
-    res.Numerator = 1 / sys.Numerator{1}{1};
+    res.Numerator = 1 / sys.Numerator{1};
   else 
     res.Numerator = sys.Denominator{1};
     res.Denominator = sys.Numerator{1};
