@@ -32,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `subsref`, `subsasgn` compatibility with `substruct`.
 - French translation updated (100%, Thanks to weblate contributors)
 - [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
+- Qt 6.6.1 on win64 CI build.
 
 ### Fixed
 
