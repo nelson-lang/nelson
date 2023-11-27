@@ -66,7 +66,11 @@ formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotati
                 if (sign == L"-") {
                     exponent = sign + exponent;
                 }
-                label = mantissa + L"^{" + exponent + L"}";
+                if (exponent == L"0") {
+                    label = mantissa;
+                } else {
+                    label = mantissa + L"^{" + exponent + L"}";
+                }
             }
         } else {
             size_t ePtr = label.size() - 1;
