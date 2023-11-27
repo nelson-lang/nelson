@@ -14,9 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `stem` Plot discrete sequence data.
 - `stairs` Stairstep graph.
 - `fill` 2-D patch.
+- `pie` legacy pie chart.
 - `subsref` Subscripted reference.
-- `substruct` Create structure argument for subsasgn or subsref.
 - `subsasgn` Redefine subscripted assignment.
+- `substruct` Create structure argument for subsasgn or subsref.
 - `deal` Distribute inputs to outputs.
 - Intel compiler support.
 
@@ -25,12 +26,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - axis limits recalculate with `hggroup`.
 - `axes` forces focus on current axe.
 - function_handle parenthese precedence.
-- [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
 - `patch` and `fill` manages `FaceAlpha`.
 - visibility title and labels.
 - object constructor must be in '@' directory and no more in parent directory (compatibility).
 - `subsref`, `subsasgn` compatibility with `substruct`.
 - French translation updated (100%, Thanks to weblate contributors)
+- [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
 - Qt 6.6.1 on win64 CI build.
 
 ### Fixed
