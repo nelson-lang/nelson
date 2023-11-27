@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - visibility title and labels.
 - object constructor must be in '@' directory and no more in parent directory (compatibility).
 - `subsref`, `subsasgn` compatibility with `substruct`.
+- To display a percent sign, you need to use a double percent sign (%%) in the format string (compatibility).
 - French translation updated (100%, Thanks to weblate contributors)
 - [#997](http://github.com/Nelson-numerical-software/nelson/issues/997) Macos BigSur Github CI support removed.
 - Qt 6.6.1 on win64 CI build.

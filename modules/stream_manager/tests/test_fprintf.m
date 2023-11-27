@@ -51,3 +51,7 @@ assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
 assert_istrue(any(contains(ce, 'windows-1251')));
 %=============================================================================
+R = evalc('fprintf(1,''%d%%.'',50)')
+REF = '50%.';
+assert_isequal(R, REF);
+%=============================================================================

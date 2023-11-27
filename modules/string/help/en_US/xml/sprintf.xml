@@ -117,7 +117,8 @@
 <td>Character vector.</td>
 </tr>
      </table>
-
+  <p
+    >To display a percent sign, you need to use a double percent sign (%%) in the format string.</p>
   </description>
 
   <used_function />
@@ -146,10 +147,14 @@
     <example_item_description />
     <example_item_data><![CDATA[sprintf('an value %g.', pi)]]>
     </example_item_data>
-  
   </example_item>
 
-
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>Display a percent sign</example_item_description>
+    <example_item_data><![CDATA[sprintf('%d%%.', 95)]]>
+    </example_item_data>
+  </example_item>
 </examples>
 
   <see_also>
