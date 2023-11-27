@@ -19,9 +19,16 @@ function varargout = tf(varargin)
     sys = tf_one_rhs(varargin{1});
   end
   if (nargin == 2)
-    Ts = 0;
-    [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(varargin{1}, varargin{2}, Ts);
-    sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
+    m = varargin{1};
+    if (ischar(m) || isStringScalar(m))
+      Ts = varargin{2};
+      sys = tf_one_rhs_char(m);
+      sys.Ts = Ts;
+    else 
+      Ts = 0;
+      [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(m, varargin{2}, Ts);
+      sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
+    end
   end
   if (nargin == 3)
     Ts = varargin{3};
@@ -57,6 +64,9 @@ function sys = tf_one_rhs(m)
       error(_('Supported LTI model expected.'))
     end
     return,
+  elseif (ischar(m) || isStringScalar(m))
+    sys = tf_one_rhs_char(m);
+    return
   elseif ~isnumeric(m)
     error('numeric value expected.');
   end
@@ -64,6 +74,34 @@ function sys = tf_one_rhs(m)
   sys.Denominator = num2cell(ones(size(m)));
   sys.Numerator = num2cell(m);
   sys.Ts = -2;
+end
+%=============================================================================
+function sys = tf_one_rhs_char(m)
+  m = convertStringsToChars(m);
+  isInvalid = true;
+  if strcmp(m, 's')
+    sys = tf([1 0], [0 1]);
+    sys.Variable = 's';
+    isInvalid = false;
+  end
+  if strcmp(m, 'z')
+    sys = tf([1 0], [0 1]);
+    sys.Variable = 'z';
+    isInvalid = false;
+  end
+  if strcmp(m, 'p')
+    sys = tf([1 0], [0 1]);
+    sys.Variable = 'p';
+    isInvalid = false;
+  end
+  if strcmp(m, 'q')
+    sys = tf([1 0], [0 1]);
+    sys.Variable = 'q';
+    isInvalid = false;
+  end
+  if isInvalid
+    error(_('Invalid syntax: ''s'', ''z'', ''p'', ''q'' expected.'));
+  end
 end
 %=============================================================================
 function modifiedPart = checkFractionPart(part)

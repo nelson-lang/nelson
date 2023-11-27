@@ -15,7 +15,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_CONTROL_SYSTEM};
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@char\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@char\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@tf\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@tf\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@ss\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@ss\;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================

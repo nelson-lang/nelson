@@ -26,7 +26,7 @@ function varargout = mrdivide(varargin)
     error(_('Matrix dimensions must agree.'));
   end
   
-  if isstatic(sysA) && isstatic(sysA)
+  if isstatic(sysA) && isstatic(sysB)
     numerator = numeratorA / numeratorB;
     sys = tf(numerator, 1, Ts);
   else
