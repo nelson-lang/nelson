@@ -94,7 +94,7 @@ function labels = createLabels(X, normalize)
   end
   
   for i = 1:length(X)
-    labels{i} = sprintf('%d%', XL(i));
+    labels{i} = sprintf('%d%%', XL(i));
   end
 end
 %=============================================================================

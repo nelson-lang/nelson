@@ -90,6 +90,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
             if (*(dp + 1) == L'\0') {
                 return true;
             }
+            dp += 2;
         }
         if (*dp == L'%' && *(dp + 1)) {
             np = PrintfHelper::validateFormatSpec(dp + 1);

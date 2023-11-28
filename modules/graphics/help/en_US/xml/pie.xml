@@ -29,7 +29,8 @@
 
 		<param_input_item>
 			<param_name>labels</param_name>
-			<param_description>'%.0f%' (default) or array of text labels</param_description>
+			<param_description
+      >'%.0f%%' (default) or array of text labels</param_description>
 		</param_input_item>
 
 		<param_input_item>
