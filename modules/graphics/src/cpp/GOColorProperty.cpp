@@ -18,7 +18,10 @@ namespace Nelson {
 bool
 GOColorProperty::isNone()
 {
-    return (_data[0] < 0);
+    if (_data.size() > 0) {
+        return (_data[0] < 0);
+    }
+    return true;
 }
 //=============================================================================
 void
