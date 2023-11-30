@@ -8,6 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ENGLISH IMPOSED-->
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
 %=============================================================================
 if exist('mxAssert') == 0
   test_dir = [tempdir(), 'mxAssert'];

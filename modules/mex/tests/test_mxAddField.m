@@ -7,6 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
+%=============================================================================
 if exist('mxAddField') == 0
   test_dir = [tempdir(), 'mxAddField'];
   if isdir(test_dir)

@@ -7,7 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--C/C++ COMPILER REQUIRED-->
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
+%=============================================================================
 destinationdir = [tempdir(), 'test_engine/'];
 if isdir(destinationdir)
   rmdir(destinationdir, 's');
