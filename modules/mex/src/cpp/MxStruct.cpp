@@ -36,7 +36,8 @@ mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** f
         mwSize num_dim;
         mwSize* dim_vec = GetDimensions(s, num_dim);
         ret->number_of_dims = num_dim;
-        ret->dims = dim_vec;
+        ret->dims = copyDims(num_dim, dim_vec);
+        free(dim_vec);
         ret->classID = mxSTRUCT_CLASS;
         ret->issparse = false;
         ret->iscomplex = false;

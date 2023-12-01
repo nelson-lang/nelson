@@ -28,7 +28,7 @@ mxIsRegisteredPointer(void* ptr)
 static void
 registerMexPointer(void* ptr)
 {
-    if (ptr != nullptr) {
+    if (ptr != nullptr && !mxIsRegisteredPointer(ptr)) {
         registeredMxPointers.insert(ptr);
     }
 }
@@ -121,6 +121,7 @@ mxDestroyArray(mxArray* pm)
                 mxArray* p = gp[i];
                 mxDestroyArray(p);
             }
+            pm->realdata = nullptr;
         }
         if (pm->classID == mxOBJECT_CLASS) {
             auto* ptr = (Nelson::ArrayOf*)pm->ptr;
@@ -137,8 +138,11 @@ mxDestroyArray(mxArray* pm)
             mxFree(pm->Ir);
         }
         mxFree(pm->realdata);
+        pm->realdata = nullptr;
         mxFree(pm->imagdata);
-        mxFree(pm->dims);
+        pm->imagdata = nullptr;
+        free(pm->dims);
+        pm->dims = nullptr;
         mxFree(pm);
     }
 }
@@ -159,7 +163,8 @@ mxDuplicateArray(const mxArray* in)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
             ret->number_of_dims = num_dim;
-            ret->dims = dim_vec;
+            ret->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             ret->classID = mxOBJECT_CLASS;
             ret->interleavedcomplex = in->interleavedcomplex;
             ret->issparse = in->issparse;
@@ -210,7 +215,8 @@ mxDuplicateArray(const mxArray* in)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
             ret->number_of_dims = num_dim;
-            ret->dims = dim_vec;
+            ret->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             ret->classID = mxSTRUCT_CLASS;
             ret->interleavedcomplex = in->interleavedcomplex;
             ret->issparse = false;
