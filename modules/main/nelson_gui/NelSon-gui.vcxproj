@@ -180,7 +180,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />

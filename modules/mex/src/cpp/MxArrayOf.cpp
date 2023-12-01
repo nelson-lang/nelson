@@ -115,7 +115,6 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxREAL);
-    mxFree(dim_vec);
     dim_vec = nullptr;
     if (ret) {
         auto* sp = (nlsType*)array.getDataPointer();
