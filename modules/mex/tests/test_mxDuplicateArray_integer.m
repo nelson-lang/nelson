@@ -7,7 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
 %=============================================================================
 if exist('mxDuplicateArray') == 0
   test_dir = [tempdir(), 'mxDuplicateArray_integer'];

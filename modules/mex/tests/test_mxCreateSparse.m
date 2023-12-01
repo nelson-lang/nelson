@@ -7,6 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
+%=============================================================================
 if exist('mxCreateSparse') == 0
   test_dir = [tempdir(), 'mxCreateSparse'];
   if isdir(test_dir)

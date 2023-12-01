@@ -9,6 +9,10 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
+%=============================================================================
 if exist('mexCallMATLABWithTrap') == 0
   test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
   if isdir(test_dir)

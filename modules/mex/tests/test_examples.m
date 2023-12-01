@@ -7,7 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--C/C++ COMPILER REQUIRED-->
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
 %=============================================================================
 run([modulepath('mex'), '/examples/mex_engine_demo_1.m'])
 filename = [tempdir(), 'mex_engine_demo_1/mex_engine_demo_1'];

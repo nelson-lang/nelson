@@ -8,6 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ENGLISH IMPOSED-->
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
 %=============================================================================
 if exist('mexEvalStringWithTrap') == 0
   test_dir = [tempdir(), 'mexEvalStringWithTrap'];

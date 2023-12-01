@@ -7,6 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+if ispc() && ~havecompiler()
+    configuremsvc();
+  end
+%=============================================================================
 tmpPath = tempname();
 mkdir(tmpPath);
 status = copyfile('mexInterleavedComplex.c', tmpPath);
