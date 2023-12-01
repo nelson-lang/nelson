@@ -24,8 +24,8 @@ namespace Nelson {
 static mwSize*
 GetDimensions(const ArrayOf& array, mwSize& numdims)
 {
-    numdims = (int)array.nDims();
-    auto* dim_vec = (mwSize*)mxCalloc(numdims, sizeof(mwSize));
+    numdims = (mwSize)array.nDims();
+    auto* dim_vec = (mwSize*)malloc(numdims * sizeof(mwSize));
     if (dim_vec != nullptr) {
         for (mwSize i = 0; i < numdims; i++) {
             dim_vec[i] = array.getDimensions()[i];
@@ -90,7 +90,7 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID, bool interleav
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxCOMPLEX);
-    mxFree(dim_vec);
+    free(dim_vec);
     dim_vec = nullptr;
     if (ret) {
         auto* sp = (nlsType*)array.getDataPointer();
@@ -115,6 +115,7 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxREAL);
+    free(dim_vec);
     dim_vec = nullptr;
     if (ret) {
         auto* sp = (nlsType*)array.getDataPointer();
@@ -529,7 +530,8 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             res->number_of_dims = num_dim;
-            res->dims = dim_vec;
+            res->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             res->classID = mxOBJECT_CLASS;
             res->issparse = false;
             res->interleavedcomplex = interleavedComplex;
@@ -552,7 +554,8 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             res->number_of_dims = num_dim;
-            res->dims = dim_vec;
+            res->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             res->classID = mxOBJECT_CLASS;
             res->issparse = false;
             res->interleavedcomplex = interleavedComplex;
@@ -573,8 +576,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         mwSize num_dim;
         mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
         res = mxCreateCellArray(num_dim, dim_vec);
-        mxFree(dim_vec);
-        dim_vec = nullptr;
+        free(dim_vec);
         if (res != nullptr) {
             auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
             auto** dp = (mxArray**)res->realdata;
@@ -595,7 +597,8 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             res->number_of_dims = num_dim;
-            res->dims = dim_vec;
+            res->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             res->classID = mxSTRUCT_CLASS;
             res->issparse = false;
             res->interleavedcomplex = interleavedComplex;
@@ -616,7 +619,8 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             res->number_of_dims = num_dim;
-            res->dims = dim_vec;
+            res->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             res->classID = mxSTRUCT_CLASS;
             res->issparse = false;
             res->interleavedcomplex = interleavedComplex;
@@ -695,7 +699,8 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             res->number_of_dims = num_dim;
-            res->dims = dim_vec;
+            res->dims = copyDims(num_dim, dim_vec);
+            free(dim_vec);
             res->classID = mxOBJECT_CLASS;
             res->issparse = false;
             res->interleavedcomplex = interleavedComplex;
