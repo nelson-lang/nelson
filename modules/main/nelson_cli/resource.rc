@@ -61,6 +61,48 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,7,11,0
+ PRODUCTVERSION 0,7,11,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040c04b0"
+        BEGIN
+            VALUE "FileDescription", "Nelson Application"
+            VALUE "InternalName", "Nelson"
+            VALUE "OriginalFilename", "nelson-cli.exe"
+            VALUE "ProductName", "Nelson"
+            VALUE "ProductVersion", "0,7,11,0"
+            VALUE "FileVersion", "0,7,11,0"
+            VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
+            VALUE "Comments", "All rights reserved."
+            VALUE "CompanyName", "Allan CORNET"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x40c, 1200
+    END
+END
+
+
+
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////
 
