@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## UNRELEASED
+
+### Changed
+
+- JSON for Modern C++ version 3.11.3 used on all platforms.
+
 ## 0.7.11 (2023-11-29)
 
 ### Added
