@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/975
+% https://github.com/nelson-lang/nelson/issues/975
 % <-- Short Description -->
 % Legend color is not matching that of curve in figure.
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/93
+% https://github.com/nelson-lang/nelson/issues/93
 % <-- Short Description -->
 % playblocking updated to manage range.
 %=============================================================================

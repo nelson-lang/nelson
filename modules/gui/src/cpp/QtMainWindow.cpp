@@ -224,14 +224,14 @@ QtMainWindow::about()
 void
 QtMainWindow::website()
 {
-    QString link = "https://nelson-numerical-software.github.io/nelson-website/";
+    QString link = "https://nelson-lang.github.io/nelson-website/";
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
 void
 QtMainWindow::bugAndRequest()
 {
-    QString link = "https://github.com/Nelson-numerical-software/nelson/issues";
+    QString link = "https://github.com/nelson-lang/nelson/issues";
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================

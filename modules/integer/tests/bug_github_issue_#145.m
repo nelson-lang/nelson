@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/145
+% https://github.com/nelson-lang/nelson/issues/145
 % <-- Short Description -->
 % int32(NaN) did not return 0
 %=============================================================================

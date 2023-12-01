@@ -37,7 +37,7 @@
   <screenshots>
     <screenshot type="default">
       <image
-      >https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/desktop/images/screenshot-linux.png</image>
+      >https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/images/screenshot-linux.png</image>
     </screenshot>
   </screenshots>
 
@@ -48,16 +48,16 @@
 
   <url
     type="homepage"
-  >https://nelson-numerical-software.github.io/nelson-website/</url>
+  >https://nelson-lang.github.io/nelson-website/</url>
   <url
     type="bugtracker"
-  >https://github.com/Nelson-numerical-software/nelson/issues/</url>
+  >https://github.com/nelson-lang/nelson/issues/</url>
   <url
     type="donation"
-  >https://github.com/Nelson-numerical-software/nelson/</url>
+  >https://github.com/nelson-lang/nelson/</url>
   <url
     type="faq"
-  >https://nelson-numerical-software.github.io/nelson-website/</url>
+  >https://nelson-lang.github.io/nelson-website/</url>
   <update_contact>nelson.numerical.computation@gmail.com</update_contact>
   <project_group>Nelson</project_group>
   <developer_name>Allan CORNET and others</developer_name>

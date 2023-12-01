@@ -1,6 +1,6 @@
 ### Linux
 
-- You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is up-to-date about how to build Nelson on each platform.
+- You can also see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is up-to-date about how to build Nelson on each platform.
 
 - You can also build nelson with a micromamba environment
 
@@ -11,7 +11,7 @@ micromamba env create -f environment-linux-dev.yml
 micromamba activate nelson
 ```
 
-see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) with micromamba job.
+see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) with micromamba job.
 
 - CMake options:
 

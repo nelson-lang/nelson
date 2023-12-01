@@ -10,7 +10,7 @@
 % <--NO USER MODULES-->
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/10
+% https://github.com/nelson-lang/nelson/issues/10
 % <-- Short Description -->
 % module_skeleton does not build/load
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/78
+% https://github.com/nelson-lang/nelson/issues/78
 % <-- Short Description -->
 % [p,f,e]=fileparts('c:/') did not return the good result
 %=============================================================================

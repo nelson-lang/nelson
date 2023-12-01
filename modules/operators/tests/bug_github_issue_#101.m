@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/101
+% https://github.com/nelson-lang/nelson/issues/101
 % <-- Short Description -->
 % Allows cell_vertcat_generic & cell_horzcat_generic
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/739
+% https://github.com/nelson-lang/nelson/issues/739
 % <-- Short Description -->
 % special case with empty cell.
 %=============================================================================

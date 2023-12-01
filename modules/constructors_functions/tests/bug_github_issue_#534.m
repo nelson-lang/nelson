@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/534
+% https://github.com/nelson-lang/nelson/issues/534
 % <-- Short Description -->
 % diag(ones(0,1),-1) must return a value 0.
 %=============================================================================

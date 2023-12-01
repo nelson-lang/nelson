@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/516
+% https://github.com/nelson-lang/nelson/issues/516
 % <-- Short Description -->
 % 'ind = 2; ind(false)' logical extraction on scalar should return empty matrix
 %=============================================================================

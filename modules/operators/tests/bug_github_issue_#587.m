@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/587
+% https://github.com/nelson-lang/nelson/issues/587
 % <-- Short Description -->
 % implicit cast to string array for horzcat and vertcat operators
 %=============================================================================

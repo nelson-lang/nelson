@@ -10,7 +10,7 @@
 assert_isequal(nargin('repo'), 2);
 assert_isequal(nargout('repo'), 1);
 %=============================================================================
-GIT_REPOSITORY = 'https://github.com/Nelson-numerical-software/repo_builtin_tests.git';
+GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
 LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
 if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');
@@ -65,7 +65,7 @@ if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');
 end
 %=============================================================================
-GIT_REPOSITORY = 'https://github.com/Nelson-numerical-software/repo_builtin_tests.git';
+GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
 LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
 if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');

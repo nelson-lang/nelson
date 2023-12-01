@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/142
+% https://github.com/nelson-lang/nelson/issues/142
 % <-- Short Description -->
 % clear('functionName') clears all persistent variables of functionName function
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/134
+% https://github.com/nelson-lang/nelson/issues/134
 % <-- Short Description -->
 % Evaluation of Non-Scalar If-Condition Expression was not managed.
 %=============================================================================

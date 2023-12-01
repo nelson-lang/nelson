@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/224
+% https://github.com/nelson-lang/nelson/issues/224
 % <-- Short Description -->
 % cd 當第一個按讚的人 crashed Nelson.
 %=============================================================================

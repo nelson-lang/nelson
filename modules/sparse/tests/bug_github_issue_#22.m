@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/22
+% https://github.com/nelson-lang/nelson/issues/22
 % <-- Short Description -->
 % last output argument of 'IJV' did not return nzmax.
 %=============================================================================

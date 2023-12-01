@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/30
+% https://github.com/nelson-lang/nelson/issues/30
 % <-- Short Description -->
 % search path order for functions was wrong.
 %=============================================================================

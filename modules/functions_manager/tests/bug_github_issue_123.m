@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/123
+% https://github.com/nelson-lang/nelson/issues/123
 % <-- Short Description -->
 % addpath stopped to work after repeatedly call to the same path.
 %=============================================================================

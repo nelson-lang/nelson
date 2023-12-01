@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/495
+% https://github.com/nelson-lang/nelson/issues/495
 % <-- Short Description -->
 % some mtimes call failed
 %=============================================================================

@@ -3,7 +3,7 @@
 ## Code of Conduct
 
 Please read the
-[Code of Conduct](https://github.com/Nelson-numerical-software/nelson/blob/master/CODE_OF_CONDUCT.md)
+[Code of Conduct](https://github.com/nelson-lang/nelson/blob/master/CODE_OF_CONDUCT.md)
 which explains the minimum behavior expectations for Nelson contributors.
 
 ## Issue Contributions
@@ -17,7 +17,7 @@ This section will guide you through the contribution process.
 
 ### Step 1: Fork
 
-Fork the project [on GitHub](https://github.com/Nelson-numerical-software/nelson.git) and clone your fork
+Fork the project [on GitHub](https://github.com/nelson-lang/nelson.git) and clone your fork
 locally.
 
 #### Which branch?
@@ -222,5 +222,5 @@ By making a contribution to this project, I certify that:
   maintained indefinitely and may be redistributed consistent with
   this project or the open source license(s) involved.
 
-- (e) As contributor, you must agree a [Contributor Licensing Agreement](https://cla-assistant.io/Nelson-numerical-software/nelson).
+- (e) As contributor, you must agree a [Contributor Licensing Agreement](https://cla-assistant.io/nelson-lang/nelson).
   This CLA allows to main author(s) to re-licensing Nelson (GPLv3, LGPL, ...) without need to ask all others contributors.

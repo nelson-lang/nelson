@@ -40,11 +40,11 @@
 <p>{</p>
 <p>"name": "Allan CORNET",</p>
 <p>"email": "nelson.numerical.computation@gmail.com",</p>
-<p>"url": "https://nelson-numerical-software.github.io/nelson-website/"</p>
+<p>"url": "https://nelson-lang.github.io/nelson-website/"</p>
 <p>}</p>
 <p />
 <p><b
-      >homepage</b>: homepage of the module, example "https://github.com/Nelson-numerical-software/module_skeleton_basic" </p>
+      >homepage</b>: homepage of the module, example "https://github.com/nelson-lang/module_skeleton_basic" </p>
 <p><b
       >description</b>: full description of the module, markdown format supported, example: "nelson's module skeleton (macros only)" </p>
 <p><b
@@ -74,10 +74,10 @@
       >Deploy module_skeleton and module_skeleton_basic template</example_item_description>
     <example_item_data
       ><![CDATA[if ~ismodule('module_skeleton_basic')
-    nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v1.0.0');
+    nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
 end
 if ~ismodule('module_skeleton')
-    nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton.git#v1.0.0');
+    nmm('install', 'https://github.com/nelson-lang/module_skeleton.git#v1.0.0');
 end
 modules_installed = nmm('list');
 edit([modules_installed.module_skeleton.path, 'module.json']);

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/138
+% https://github.com/nelson-lang/nelson/issues/138
 % <-- Short Description -->
 % colon operator did not return expected for non scalar element
 %=============================================================================

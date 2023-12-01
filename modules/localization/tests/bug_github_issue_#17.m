@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/17
+% https://github.com/nelson-lang/nelson/issues/17
 % <-- Short Description -->
 % 'locales' directory renamed as 'locale' (more standard).
 %=============================================================================

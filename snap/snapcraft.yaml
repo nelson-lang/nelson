@@ -46,7 +46,7 @@ environment:
 parts:
   nelson:
     plugin: nil
-    source: https://github.com/Nelson-numerical-software/nelson
+    source: https://github.com/nelson-lang/nelson
     source-type: git
     source-branch: master
 

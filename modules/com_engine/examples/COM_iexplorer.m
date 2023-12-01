@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 pIE = actxserver('InternetExplorer.Application')
-invoke(pIE, 'Navigate', 'https://nelson-numerical-software.github.io/nelson-website/')
+invoke(pIE, 'Navigate', 'https://nelson-lang.github.io/nelson-website/')
 pIE.Visible = true
 sleep(5)
 invoke(pIE,'Quit')

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/159
+% https://github.com/nelson-lang/nelson/issues/159
 % <-- Short Description -->
 % addpath must return an warning and not an error for an non existing path.
 %=============================================================================

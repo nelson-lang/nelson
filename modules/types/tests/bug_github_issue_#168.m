@@ -9,7 +9,7 @@
 %=============================================================================
 % <--INTERACTIVE TEST-->
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/168
+% https://github.com/nelson-lang/nelson/issues/168
 % <-- Short Description -->
 % integer display was not interruptable.
 %=============================================================================

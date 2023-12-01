@@ -12,12 +12,12 @@ authors:
     family-names: CORNET
     email: nelson.numerical.computation@gmail.com
     orcid: 'https://orcid.org/0000-0001-7383-8929'
-repository-code: 'https://github.com/Nelson-numerical-software/nelson'
+repository-code: 'https://github.com/nelson-lang/nelson'
 url: >-
-  https://nelson-numerical-software.github.io/nelson-website/
-repository: 'https://github.com/Nelson-numerical-software/nelson'
+  https://nelson-lang.github.io/nelson-website/
+repository: 'https://github.com/nelson-lang/nelson'
 repository-artifact: >-
-  https://github.com/Nelson-numerical-software/nelson/releases
+  https://github.com/nelson-lang/nelson/releases
 abstract: >-
   Let's Nelson! Matrix language for engineering and
   scientific applications.

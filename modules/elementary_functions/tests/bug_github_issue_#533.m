@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/533
+% https://github.com/nelson-lang/nelson/issues/533
 % <-- Short Description -->
 % find does not consider complex number correctly
 %=============================================================================

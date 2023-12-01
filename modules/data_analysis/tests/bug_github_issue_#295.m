@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/295
+% https://github.com/nelson-lang/nelson/issues/295
 % <-- Short Description -->
 % sort did not return an wrong error message for struct
 %=============================================================================

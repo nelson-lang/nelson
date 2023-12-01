@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/60
+% https://github.com/nelson-lang/nelson/issues/60
 % <-- Short Description -->
 % Y = complex(rand(500), rand(500)) crashed Nelson
 %=============================================================================

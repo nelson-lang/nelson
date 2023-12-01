@@ -30,13 +30,13 @@
 
 ## Bug Fixes:
 
-[#85](http://github.com/Nelson-numerical-software/nelson/issues/85): paste in text editor should be limited to the text only.
+[#85](http://github.com/nelson-lang/nelson/issues/85): paste in text editor should be limited to the text only.
 
-[#84](http://github.com/Nelson-numerical-software/nelson/issues/84): CTRL + A action in text editor.
+[#84](http://github.com/nelson-lang/nelson/issues/84): CTRL + A action in text editor.
 
-[#83](http://github.com/Nelson-numerical-software/nelson/issues/83): save action in text editor do a popup to reload file.
+[#83](http://github.com/nelson-lang/nelson/issues/83): save action in text editor do a popup to reload file.
 
-[#82](http://github.com/Nelson-numerical-software/nelson/issues/82): home, end, page down, page up keys shorcut not implement in editor.
+[#82](http://github.com/nelson-lang/nelson/issues/82): home, end, page down, page up keys shorcut not implement in editor.
 
 ## Compilation:
 
@@ -46,9 +46,9 @@
 
 ## Features:
 
-- [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can be used to replace OpenBLAS and FFTW on Windows.
+- [#75](http://github.com/nelson-lang/nelson/issues/75): Intel Math Kernel Library can be used to replace OpenBLAS and FFTW on Windows.
 
-- [#72](http://github.com/Nelson-numerical-software/nelson/issues/72): Add a script to check missing help files.
+- [#72](http://github.com/nelson-lang/nelson/issues/72): Add a script to check missing help files.
 
 - add an embedded script editor for Nelson:
 
@@ -66,9 +66,9 @@
 
 ## Bug Fixes:
 
-[#80](http://github.com/Nelson-numerical-software/nelson/issues/80): code editor: keys up, down, left, right behavior
+[#80](http://github.com/nelson-lang/nelson/issues/80): code editor: keys up, down, left, right behavior
 
-[#78](http://github.com/Nelson-numerical-software/nelson/issues/78): [p,f,e]=fileparts('c:/') did not return the good result
+[#78](http://github.com/nelson-lang/nelson/issues/78): [p,f,e]=fileparts('c:/') did not return the good result
 
 ## Compilation:
 
@@ -126,13 +126,13 @@
 
 ## Bug Fixes:
 
-[#74](http://github.com/Nelson-numerical-software/nelson/issues/74): A=[]; A(end + 1) = 8 failed.
+[#74](http://github.com/nelson-lang/nelson/issues/74): A=[]; A(end + 1) = 8 failed.
 
-[#71](http://github.com/Nelson-numerical-software/nelson/issues/71): unix & dos did not have help files.
+[#71](http://github.com/nelson-lang/nelson/issues/71): unix & dos did not have help files.
 
-[#68](http://github.com/Nelson-numerical-software/nelson/issues/68): display of nd array of integer were not defined.
+[#68](http://github.com/nelson-lang/nelson/issues/68): display of nd array of integer were not defined.
 
-[#14](http://github.com/Nelson-numerical-software/nelson/issues/14): error(error_struct) throws an error using the fields of error_struct.
+[#14](http://github.com/nelson-lang/nelson/issues/14): error(error_struct) throws an error using the fields of error_struct.
 
 ## Compilation:
 
@@ -170,9 +170,9 @@
 
 ## Bug Fixes:
 
-[#60](http://github.com/Nelson-numerical-software/nelson/issues/60): Y = complex(rand(500), rand(500)) crashed Nelson.
+[#60](http://github.com/nelson-lang/nelson/issues/60): Y = complex(rand(500), rand(500)) crashed Nelson.
 
-[#58](http://github.com/Nelson-numerical-software/nelson/issues/58): Manages ICU4C 59.1 on macos X.
+[#58](http://github.com/nelson-lang/nelson/issues/58): Manages ICU4C 59.1 on macos X.
 
 ## 0.1.8 alpha (2017-08-15)
 
@@ -218,9 +218,9 @@
 
 ## Bug Fixes:
 
-[#53](http://github.com/Nelson-numerical-software/nelson/issues/53): COM_xlsread did not support path with dot '.'
+[#53](http://github.com/nelson-lang/nelson/issues/53): COM_xlsread did not support path with dot '.'
 
-[#50](http://github.com/Nelson-numerical-software/nelson/issues/50): qml demos did not start on adv-cli mode.
+[#50](http://github.com/nelson-lang/nelson/issues/50): qml demos did not start on adv-cli mode.
 
 ## 0.1.6 alpha (2017-06-19)
 
@@ -247,11 +247,11 @@
 
 ## Bug Fixes:
 
-[#47](http://github.com/Nelson-numerical-software/nelson/issues/47): add isfinite builtin.
+[#47](http://github.com/nelson-lang/nelson/issues/47): add isfinite builtin.
 
-[#43](http://github.com/Nelson-numerical-software/nelson/issues/43): rename getContentsAsWideString to getContentAsWideString.
+[#43](http://github.com/nelson-lang/nelson/issues/43): rename getContentsAsWideString to getContentAsWideString.
 
-[#27](http://github.com/Nelson-numerical-software/nelson/issues/27): >= operator was not implemented.
+[#27](http://github.com/nelson-lang/nelson/issues/27): >= operator was not implemented.
 
 ## 0.1.5 alpha (2017-04-17)
 
@@ -264,13 +264,13 @@
 
 ## Bug Fixes:
 
-[#41](http://github.com/Nelson-numerical-software/nelson/issues/41): test_makeref starts a new clear session to create a ref file.
+[#41](http://github.com/nelson-lang/nelson/issues/41): test_makeref starts a new clear session to create a ref file.
 
-[#39](http://github.com/Nelson-numerical-software/nelson/issues/39): inv([0 0;i() 3]) did not return [Inf, Inf; Inf, Inf] on ARM platform.
+[#39](http://github.com/nelson-lang/nelson/issues/39): inv([0 0;i() 3]) did not return [Inf, Inf; Inf, Inf] on ARM platform.
 
-[#25](http://github.com/Nelson-numerical-software/nelson/issues/25): ndims added.
+[#25](http://github.com/nelson-lang/nelson/issues/25): ndims added.
 
-[#24](http://github.com/Nelson-numerical-software/nelson/issues/24): isnan & isinf added.
+[#24](http://github.com/nelson-lang/nelson/issues/24): isnan & isinf added.
 
 ## 0.1.4 alpha (2017-03-19)
 
@@ -295,11 +295,11 @@ LAPACKE used for linear algebra functions. On Windows, OpenBLAS used. On others 
 
 ## Bug Fixes:
 
-[#34](http://github.com/Nelson-numerical-software/nelson/issues/34): Windows installer did not copy module_skeleton help files at the good place.
+[#34](http://github.com/nelson-lang/nelson/issues/34): Windows installer did not copy module_skeleton help files at the good place.
 
-[#31](http://github.com/Nelson-numerical-software/nelson/issues/31): doc function was too slow (indexing at each restart).
+[#31](http://github.com/nelson-lang/nelson/issues/31): doc function was too slow (indexing at each restart).
 
-[#30](http://github.com/Nelson-numerical-software/nelson/issues/30): Search path order for functions was wrong.
+[#30](http://github.com/nelson-lang/nelson/issues/30): Search path order for functions was wrong.
 
 ## 0.1.3 alpha (2017-02-11)
 
@@ -315,33 +315,33 @@ LAPACKE used for linear algebra functions. On Windows, OpenBLAS used. On others 
 
 ## Bug Fixes:
 
-[#28](http://github.com/Nelson-numerical-software/nelson/issues/28): Each public builtin have a help file.
+[#28](http://github.com/nelson-lang/nelson/issues/28): Each public builtin have a help file.
 
-[#26](http://github.com/Nelson-numerical-software/nelson/issues/26): 7.853981633974482790D-01 was not correctly parsed.
+[#26](http://github.com/nelson-lang/nelson/issues/26): 7.853981633974482790D-01 was not correctly parsed.
 
-[#22](http://github.com/Nelson-numerical-software/nelson/issues/22): last output argument of 'IJV' did not return nzmax.
+[#22](http://github.com/nelson-lang/nelson/issues/22): last output argument of 'IJV' did not return nzmax.
 
-[#19](http://github.com/Nelson-numerical-software/nelson/issues/19): rand & randn did not use Column-major order.
+[#19](http://github.com/nelson-lang/nelson/issues/19): rand & randn did not use Column-major order.
 
-[#17](http://github.com/Nelson-numerical-software/nelson/issues/17): 'locales' directory renamed as 'locale' (more standard).
+[#17](http://github.com/nelson-lang/nelson/issues/17): 'locales' directory renamed as 'locale' (more standard).
 
-[#13](http://github.com/Nelson-numerical-software/nelson/issues/13): mldivide and mrdivide builtin were missing.
+[#13](http://github.com/nelson-lang/nelson/issues/13): mldivide and mrdivide builtin were missing.
 
 ## 0.1.2 alpha (2017-01-01)
 
 ## Bug Fixes:
 
-[#11](http://github.com/Nelson-numerical-software/nelson/issues/11): colon constructor failed with some special values.
+[#11](http://github.com/nelson-lang/nelson/issues/11): colon constructor failed with some special values.
 
-[#10](http://github.com/Nelson-numerical-software/nelson/issues/10): module_skeleton did not build/load.
+[#10](http://github.com/nelson-lang/nelson/issues/10): module_skeleton did not build/load.
 
-[#8](http://github.com/Nelson-numerical-software/nelson/issues/8): test_nargin & test_nargout failed in Windows binary version.
+[#8](http://github.com/nelson-lang/nelson/issues/8): test_nargin & test_nargout failed in Windows binary version.
 
 ## 0.1.1 alpha (2016-12-30)
 
 ## Bug Fixes:
 
-[#5](http://github.com/Nelson-numerical-software/nelson/issues/5): help browser did not work on some Windows
+[#5](http://github.com/nelson-lang/nelson/issues/5): help browser did not work on some Windows
 
 ## 0.1.0 alpha (2016-12-28)
 

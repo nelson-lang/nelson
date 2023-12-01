@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/8
+% https://github.com/nelson-lang/nelson/issues/8
 % <-- Short Description -->
 % test_nargin & test_nargout failed in Windows binary version
 %=============================================================================

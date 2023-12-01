@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/823
+% https://github.com/nelson-lang/nelson/issues/823
 % <-- Short Description -->
 % default LineStyle for a line is wrong with marker.
 %=============================================================================

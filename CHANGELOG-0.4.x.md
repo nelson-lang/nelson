@@ -38,15 +38,15 @@
 
 ## Bug Fixes:
 
-- [#364](http://github.com/Nelson-numerical-software/nelson/issues/364): `isinf`, `isnan`, `conj`, `double`, `single`, `real`, `imag` are faster.
+- [#364](http://github.com/nelson-lang/nelson/issues/364): `isinf`, `isnan`, `conj`, `double`, `single`, `real`, `imag` are faster.
 
-- [#361](http://github.com/Nelson-numerical-software/nelson/issues/361): `abs` is faster.
+- [#361](http://github.com/nelson-lang/nelson/issues/361): `abs` is faster.
 
-- [#360](http://github.com/Nelson-numerical-software/nelson/issues/360): `ctranpose` and `transpose` are faster.
+- [#360](http://github.com/nelson-lang/nelson/issues/360): `ctranpose` and `transpose` are faster.
 
-- [#353](http://github.com/Nelson-numerical-software/nelson/issues/353): `N = i; N(1)` returned wrong value.
+- [#353](http://github.com/nelson-lang/nelson/issues/353): `N = i; N(1)` returned wrong value.
 
-- [#351](http://github.com/Nelson-numerical-software/nelson/issues/351): binary operators and empty matrix (behavior described in book of Carl de Boor in An Empty Exercise)
+- [#351](http://github.com/nelson-lang/nelson/issues/351): binary operators and empty matrix (behavior described in book of Carl de Boor in An Empty Exercise)
 
 ## Compilation:
 
@@ -69,11 +69,11 @@
 
 ## Bug Fixes:
 
-- [#342](http://github.com/Nelson-numerical-software/nelson/issues/342): disable slicot on Macos CI.
+- [#342](http://github.com/nelson-lang/nelson/issues/342): disable slicot on Macos CI.
 
-- [#341](http://github.com/Nelson-numerical-software/nelson/issues/341): extend `ipc(pid, 'post', cmd, scope)` to manage scope destination.
+- [#341](http://github.com/nelson-lang/nelson/issues/341): extend `ipc(pid, 'post', cmd, scope)` to manage scope destination.
 
-- [#314](http://github.com/Nelson-numerical-software/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
+- [#314](http://github.com/nelson-lang/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
 
 ## Compilation:
 
@@ -98,13 +98,13 @@
 
 ## Bug Fixes:
 
-- [#340](http://github.com/Nelson-numerical-software/nelson/issues/340): `evalin` did not restore correctly variables after call.
+- [#340](http://github.com/nelson-lang/nelson/issues/340): `evalin` did not restore correctly variables after call.
 
-- [#339](http://github.com/Nelson-numerical-software/nelson/issues/339): `cd`, `dir`, `ls` had some compatibility troubles.
+- [#339](http://github.com/nelson-lang/nelson/issues/339): `cd`, `dir`, `ls` had some compatibility troubles.
 
-- [#332](http://github.com/Nelson-numerical-software/nelson/issues/332): removes connect(2) call to /dev/shm/jack-0/default/jack_0 failed (err=No such file or directory).
+- [#332](http://github.com/nelson-lang/nelson/issues/332): removes connect(2) call to /dev/shm/jack-0/default/jack_0 failed (err=No such file or directory).
 
-- [#331](http://github.com/Nelson-numerical-software/nelson/issues/331): move ipc features to detected module
+- [#331](http://github.com/nelson-lang/nelson/issues/331): move ipc features to detected module
 
 ## Compilation:
 
@@ -136,11 +136,11 @@
 
 ## Bug Fixes:
 
-- [#330](http://github.com/Nelson-numerical-software/nelson/issues/330): removes ALSA errors and warnings on linux.
+- [#330](http://github.com/nelson-lang/nelson/issues/330): removes ALSA errors and warnings on linux.
 
 ## Compilation:
 
-- [#322](http://github.com/Nelson-numerical-software/nelson/issues/322): fix build with gcc 4.8 (ubuntu 14.04).
+- [#322](http://github.com/nelson-lang/nelson/issues/322): fix build with gcc 4.8 (ubuntu 14.04).
 
   Nelson 0.4.9 will be last to support gcc 4.8
 
@@ -185,17 +185,17 @@
 
 # 0.4.7 (2020-07-31)
 
-- [#311](http://github.com/Nelson-numerical-software/nelson/issues/311): betainc builtin: Incomplete beta function.
+- [#311](http://github.com/nelson-lang/nelson/issues/311): betainc builtin: Incomplete beta function.
 
 - add icon to figure
 
 - some doxygen comments about mex functions.
 
-- [#299](http://github.com/Nelson-numerical-software/nelson/issues/299): extends "complex" to manage sparse matrix.
+- [#299](http://github.com/nelson-lang/nelson/issues/299): extends "complex" to manage sparse matrix.
 
 ## Bug Fixes:
 
-- [#300](http://github.com/Nelson-numerical-software/nelson/issues/300): nmm returns wrong error.
+- [#300](http://github.com/nelson-lang/nelson/issues/300): nmm returns wrong error.
 
 ## Compilation:
 
@@ -269,7 +269,7 @@
 
 ## Bug Fixes:
 
-- [#295](http://github.com/Nelson-numerical-software/nelson/issues/295): sort did not return an wrong error message for struct.
+- [#295](http://github.com/nelson-lang/nelson/issues/295): sort did not return an wrong error message for struct.
 
 ## Compilation:
 
@@ -313,11 +313,11 @@
 
 ## Bug Fixes:
 
-- [#287](http://github.com/Nelson-numerical-software/nelson/issues/287): Parser error message are not localized.
+- [#287](http://github.com/nelson-lang/nelson/issues/287): Parser error message are not localized.
 
-- [#286](http://github.com/Nelson-numerical-software/nelson/issues/286): [end] = sin(1) did not return an syntax error.
+- [#286](http://github.com/nelson-lang/nelson/issues/286): [end] = sin(1) did not return an syntax error.
 
-- [#284](http://github.com/Nelson-numerical-software/nelson/issues/284): Nth dimensions assignation of an empty array with 2d matrix did not work.
+- [#284](http://github.com/nelson-lang/nelson/issues/284): Nth dimensions assignation of an empty array with 2d matrix did not work.
 
 ## Compilation:
 

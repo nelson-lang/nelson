@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/514
+% https://github.com/nelson-lang/nelson/issues/514
 % <-- Short Description -->
 % C{3}=4 should create a cell with good dimensions. 
 %=============================================================================

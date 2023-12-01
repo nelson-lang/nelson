@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/80
+% https://github.com/nelson-lang/nelson/issues/80
 % <-- Short Description -->
 % code editor and keys up, down, left, right behavior
 %=============================================================================

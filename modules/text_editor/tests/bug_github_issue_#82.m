@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/82
+% https://github.com/nelson-lang/nelson/issues/82
 % <-- Short Description -->
 % home, end, page down, page up keys shorcut not implement in editor
 %=============================================================================

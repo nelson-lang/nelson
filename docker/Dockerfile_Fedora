@@ -58,7 +58,7 @@ RUN dnf install -y matio-devel
 RUN dnf install -y hdf5-devel
 RUN dnf install -y eigen3-devel
 
-RUN git clone https://github.com/Nelson-numerical-software/nelson.git
+RUN git clone https://github.com/nelson-lang/nelson.git
 WORKDIR "/nelson"
 RUN cd "/nelson" && git checkout ${BRANCH_NAME}
 

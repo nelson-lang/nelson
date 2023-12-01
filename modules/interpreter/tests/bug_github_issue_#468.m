@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/468
+% https://github.com/nelson-lang/nelson/issues/468
 % <-- Short Description -->
 % A(':') = [] was not managed. 
 %=============================================================================

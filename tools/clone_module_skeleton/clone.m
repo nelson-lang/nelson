@@ -13,7 +13,7 @@ if isdir(DESTINATION)
 end
 mkdir(DESTINATION);
 
-URL = 'https://github.com/Nelson-numerical-software/module_skeleton.git';
+URL = 'https://github.com/nelson-lang/module_skeleton.git';
 try
   repo('clone', URL, DESTINATION);
   bSuccess = true;

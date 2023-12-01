@@ -596,7 +596,7 @@ jobs:
           set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
           set QTDIR=%QTDIR32%
           cd ..
-          git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git
+          git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
           cd nelson-thirdparty-win32
           install.bat
           cd ..
@@ -722,7 +722,7 @@ jobs:
           set QTDIR64=C:\install\QT6\Qt\6.6.1\msvc2019_64
           set QTDIR=%QTDIR64%
           cd ..
-          git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
+          git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
           cd nelson-thirdparty-x64
           install.bat
           cd ..

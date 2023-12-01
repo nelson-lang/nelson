@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/622
+% https://github.com/nelson-lang/nelson/issues/622
 % <-- Short Description -->
 % isreal(sqrt(i^4)) did not return true
 %=============================================================================

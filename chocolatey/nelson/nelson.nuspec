@@ -23,15 +23,15 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <owners>Allan CORNET</owners>
     <title>nelson</title>
     <authors>Nelson numerical software</authors>
-    <projectUrl>https://nelson-numerical-software.github.io/nelson-website/</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/desktop/icons/hicolor/256x256/apps/nelson.png</iconUrl>
+    <projectUrl>https://nelson-lang.github.io/nelson-website/</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/icons/hicolor/256x256/apps/nelson.png</iconUrl>
     <copyright>2016-present</copyright>
-    <projectSourceUrl>https://github.com/Nelson-numerical-software/nelson</projectSourceUrl>
+    <projectSourceUrl>https://github.com/nelson-lang/nelson</projectSourceUrl>
     <docsUrl>https://nelson-9.gitbook.io/nelson/</docsUrl>
     <!--<mailingListUrl></mailingListUrl>-->
-    <bugTrackerUrl>https://github.com/Nelson-numerical-software/nelson/issues</bugTrackerUrl>
-    <licenseUrl>https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/lgpl-3.0.md</licenseUrl>
-    <packageSourceUrl>https://github.com/Nelson-numerical-software/nelson/tree/master/chocolatey</packageSourceUrl>
+    <bugTrackerUrl>https://github.com/nelson-lang/nelson/issues</bugTrackerUrl>
+    <licenseUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/lgpl-3.0.md</licenseUrl>
+    <packageSourceUrl>https://github.com/nelson-lang/nelson/tree/master/chocolatey</packageSourceUrl>
     <tags>nelson development science education matrix</tags>
     <summary>Let's Nelson! matrix language for engineering and scientific application</summary>
     <description>
@@ -45,7 +45,7 @@ an interpreter and a high level programming language.
 Nelson has been developed to be an open/modular system where an user can define
 these own data types and operations on these data types by using overload.
 
-![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
+![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
 ## Features
 
@@ -116,13 +116,13 @@ these own data types and operations on these data types by using overload.
 
 - Module skeleton to extend Nelson available here:
 
-  - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
-  - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
+  - [template macros and builtin](https://github.com/nelson-lang/module_skeleton),
+  - [basic template macros only](https://github.com/nelson-lang/module_skeleton_basic).
 
 - Nelson Modules Manager (nmm) : package manager for Nelson
 
 
-Author(s): Allan CORNET (https://github.com/Nelson-numerical-software)
+Author(s): Allan CORNET (https://github.com/nelson-lang)
 
     </description>
 
