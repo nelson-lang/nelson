@@ -34,7 +34,7 @@ if(UNIX)
         set(CPACK_GENERATOR "DEB")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Allan CORNET")
         set(CPACK_DEBIAN_PACKAGE_HOMEPAGE
-            "https://nelson-numerical-software.github.io/nelson-website/")
+            "https://nelson-lang.github.io/nelson-website/")
         set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
         # set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
         set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")

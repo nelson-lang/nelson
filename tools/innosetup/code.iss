@@ -225,7 +225,7 @@ Procedure URLLabelOnClick(Sender: TObject);
 var
   ErrorCode: Integer;
 begin
-  ShellExec('open', 'https://nelson-numerical-software.github.io/nelson-website/', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+  ShellExec('open', 'https://nelson-lang.github.io/nelson-website/', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 //=============================================================================
 Procedure InitializeWizard;

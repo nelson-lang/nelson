@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/83
+% https://github.com/nelson-lang/nelson/issues/83
 % <-- Short Description -->
 % save action in text editor do a popup to reopen file.
 %=============================================================================

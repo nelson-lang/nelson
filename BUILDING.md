@@ -5,7 +5,7 @@ differ slightly. After you've successfully built a binary, running the
 test suite to validate that the binary works as intended is a good next step.
 
 If you consistently can reproduce a test failure, search for it in the
-[Nelson issue tracker](https://github.com/Nelson-numerical-software/nelson/issues) or
+[Nelson issue tracker](https://github.com/nelson-lang/nelson/issues) or
 file a new issue.
 
 ## How to build Nelson ?
@@ -19,7 +19,7 @@ Qt 5.15 or more required.
 
 ### [Windows](BUILDING_Windows.md)
 
-You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is always the most up-to-date than this help.
+You can also see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is always the most up-to-date than this help.
 
 ## Code formatter
 

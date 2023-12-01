@@ -8,7 +8,7 @@ Nelson is an extendable and modern numerical computing environment.
 
 Try it !
 
-[Web site](https://nelson-numerical-software.github.io/nelson-website/)
+[Web site](https://nelson-lang.github.io/nelson-website/)
 
 ## Features
 
@@ -79,8 +79,8 @@ Try it !
 
 - Module skeleton to extend Nelson available here:
 
-  - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
-  - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
+  - [template macros and builtin](https://github.com/nelson-lang/module_skeleton),
+  - [basic template macros only](https://github.com/nelson-lang/module_skeleton_basic).
 
 - Nelson Modules Manager (nmm) : package manager for Nelson
 

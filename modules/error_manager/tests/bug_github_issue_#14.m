@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/14
+% https://github.com/nelson-lang/nelson/issues/14
 % <-- Short Description -->
 % error(error_struct) did not return an error.
 %=============================================================================

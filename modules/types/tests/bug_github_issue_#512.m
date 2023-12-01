@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/512
+% https://github.com/nelson-lang/nelson/issues/512
 % <-- Short Description -->
 % Assign must not change left assign type when it is possible
 %=============================================================================

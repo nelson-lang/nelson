@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-GIT_REPOSITORY = 'https://github.com/Nelson-numerical-software/repo_builtin_tests.git';
+GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
 LOCAL_DIRECTORY = [tempdir(), 'test_repo_export', '_', createGUID()];
 if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');

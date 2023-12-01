@@ -79,8 +79,7 @@ InitGuiObjects(void)
         NelSonQtApp = new QApplication(argc, argv);
         createNelsonPalette();
         QCoreApplication::setApplicationName("Nelson");
-        QCoreApplication::setOrganizationDomain(
-            "https://nelson-numerical-software.github.io/nelson-website/");
+        QCoreApplication::setOrganizationDomain("https://nelson-lang.github.io/nelson-website/");
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
         configureDefaultFont();
     }

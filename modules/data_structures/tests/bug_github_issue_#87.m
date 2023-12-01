@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/87
+% https://github.com/nelson-lang/nelson/issues/87
 % <-- Short Description -->
 % struct did not support sparse matrix.
 %=============================================================================

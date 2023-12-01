@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/5
+% https://github.com/nelson-lang/nelson/issues/5
 % <-- Short Description -->
 % Help browser did not work on some Windows platforms
 %=============================================================================

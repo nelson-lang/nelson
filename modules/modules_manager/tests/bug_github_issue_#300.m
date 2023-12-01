@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/300
+% https://github.com/nelson-lang/nelson/issues/300
 % <-- Short Description -->
 % nmm returns wrong error
 %=============================================================================

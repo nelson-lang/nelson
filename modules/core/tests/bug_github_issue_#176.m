@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/176
+% https://github.com/nelson-lang/nelson/issues/176
 % <-- Short Description -->
 % nfilename did not return canonical path name in some cases.
 %=============================================================================

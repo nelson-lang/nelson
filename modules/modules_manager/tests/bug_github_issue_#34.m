@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/34
+% https://github.com/nelson-lang/nelson/issues/34
 % <-- Short Description -->
 % Windows installer did not copy module_skeleton help files at the good place.
 %=============================================================================

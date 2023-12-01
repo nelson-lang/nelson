@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/809
+% https://github.com/nelson-lang/nelson/issues/809
 % <-- Short Description -->
 % add 'NumberTitle' property to figure graphics object.
 %=============================================================================

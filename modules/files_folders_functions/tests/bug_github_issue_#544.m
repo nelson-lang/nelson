@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/544
+% https://github.com/nelson-lang/nelson/issues/544
 % <-- Short Description -->
 % add 'folder' fieldname to 'dir' output
 %=============================================================================

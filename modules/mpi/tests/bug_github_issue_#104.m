@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/104
+% https://github.com/nelson-lang/nelson/issues/104
 % <-- Short Description -->
 % mpiexec did not work on some linux
 % <--SEQUENTIAL TEST REQUIRED-->

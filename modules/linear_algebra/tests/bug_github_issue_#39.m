@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/39
+% https://github.com/nelson-lang/nelson/issues/39
 % <-- Short Description -->
 % inv([0 0;i() 3]) did not return [Inf, Inf; Inf, Inf] on ARM platform.
 %=============================================================================

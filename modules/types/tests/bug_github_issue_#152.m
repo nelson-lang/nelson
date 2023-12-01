@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/152
+% https://github.com/nelson-lang/nelson/issues/152
 % <-- Short Description -->
 % insertion did not return expected result for empty matrix.
 %=============================================================================

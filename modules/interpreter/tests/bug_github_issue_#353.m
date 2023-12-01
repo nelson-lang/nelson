@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/353
+% https://github.com/nelson-lang/nelson/issues/353
 % <-- Short Description -->
 % N = i; N(1) returned wrong value.
 %=============================================================================

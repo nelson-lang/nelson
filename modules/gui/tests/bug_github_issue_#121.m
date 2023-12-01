@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/121
+% https://github.com/nelson-lang/nelson/issues/121
 % <-- Short Description -->
 % home Key did not work in GUI terminal
 %=============================================================================

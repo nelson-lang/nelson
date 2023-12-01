@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/561
+% https://github.com/nelson-lang/nelson/issues/561
 % <-- Short Description -->
 % 0^0 did not return expected value.
 %=============================================================================

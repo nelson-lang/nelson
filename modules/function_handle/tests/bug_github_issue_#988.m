@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/988
+% https://github.com/nelson-lang/nelson/issues/988
 % <-- Short Description -->
 % anonymous function serialization '.^' and '^' were inversed.
 %=============================================================================

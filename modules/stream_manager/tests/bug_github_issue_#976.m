@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/976
+% https://github.com/nelson-lang/nelson/issues/976
 % <-- Short Description -->
 % wrong output when reading a file with fscanf.
 %=============================================================================

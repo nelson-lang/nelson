@@ -1,18 +1,18 @@
-![Nelson logo](https://github.com/Nelson-numerical-software/nelson/blob/master/resources/banner_nelson_small.png?raw=true)
+![Nelson logo](https://github.com/nelson-lang/nelson/blob/master/resources/banner_nelson_small.png?raw=true)
 
-![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Nelson-numerical-software.nelson)
+![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=nelson-lang.nelson)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d5f82474da134d979b472fa5fbe7b5b9)](https://www.codacy.com/gh/Nelson-numerical-software/nelson/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=Badge_Grade)
-[![CodeQL analysis (C/C++)](https://github.com/Nelson-numerical-software/nelson/actions/workflows/codeql-analysis-cpp.yml/badge.svg)](https://github.com/Nelson-numerical-software/nelson/actions/workflows/codeql-analysis-cpp.yml)[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d5f82474da134d979b472fa5fbe7b5b9)](https://www.codacy.com/gh/nelson-lang/nelson/dashboard?utm_source=github.com&utm_medium=referral&utm_content=nelson-lang/nelson&utm_campaign=Badge_Grade)
+[![CodeQL analysis (C/C++)](https://github.com/nelson-lang/nelson/actions/workflows/codeql-analysis-cpp.yml/badge.svg)](https://github.com/nelson-lang/nelson/actions/workflows/codeql-analysis-cpp.yml)[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
 
-[![Build Status](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)
+[![Build Status](https://github.com/nelson-lang/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)](https://github.com/nelson-lang/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)
 
-[![GitHub license](https://img.shields.io/badge/license-LGPL3.0-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/lgpl-3.0.md)
-[![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
+[![GitHub license](https://img.shields.io/badge/license-LGPL3.0-blue.svg)](https://github.com/nelson-lang/nelson/blob/master/lgpl-3.0.md)
+[![CLA assistant](https://cla-assistant.io/readme/badge/nelson-lang/nelson)](https://cla-assistant.io/nelson-lang/nelson)
 [![Open Hub](https://img.shields.io/badge/Open-Hub-blue.svg)](https://www.openhub.net/p/nelson-interpreter)
 [![Weblate](https://img.shields.io/badge/Weblate--green.svg)](https://hosted.weblate.org/projects/nelson/)
 
-[![Join the chat at https://gitter.im/nelson-numerical-software/Lobby](https://badges.gitter.im/nelson-numerical-software/Lobby.svg)](https://gitter.im/nelson-numerical-software/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/nelson-lang/Lobby](https://badges.gitter.im/nelson-lang/Lobby.svg)](https://gitter.im/nelson-lang/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Nelson is an array programming language providing a powerful open computing environment for
 engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
@@ -24,21 +24,21 @@ an interpreter and a high level programming language.
 Nelson has been developed to be an open/modular system where an user can define
 these own data types and operations on these data types by using overload.
 
-![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
+![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
 ## Website dedicated to users
 
-For more information go to [https://nelson-numerical-software.github.io/nelson-website/](https://nelson-numerical-software.github.io/nelson-website/).
+For more information go to [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 
 ## Starring the repository
 
-If you found this project useful, please consider [starring it on GitHub !!!](https://github.com/Nelson-numerical-software/nelson/stargazers) This allows me to see how many people are using my code, and motivates me to keep working to improve it.
+If you found this project useful, please consider [starring it on GitHub !!!](https://github.com/nelson-lang/nelson/stargazers) This allows me to see how many people are using my code, and motivates me to keep working to improve it.
 
 ## Download
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/nelson)
 
-[Latest Windows Installer](https://github.com/Nelson-numerical-software/nelson/releases)
+[Latest Windows Installer](https://github.com/nelson-lang/nelson/releases)
 
 [Get it from the Windows Package Manager](https://winstall.app/apps/NelsonNumericalSoftware.Nelson)
 
@@ -117,8 +117,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - Module skeleton to extend Nelson available here:
 
-  - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
-  - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
+  - [template macros and builtin](https://github.com/nelson-lang/module_skeleton),
+  - [basic template macros only](https://github.com/nelson-lang/module_skeleton_basic).
 
 - Nelson Modules Manager (nmm) : package manager for Nelson
 
@@ -134,20 +134,20 @@ Nelson is delivered under dual-license:
 
 ## Resources
 
-- **Homepage:** <https://nelson-numerical-software.github.io/nelson-website/>
-- **Source code:** <https://github.com/Nelson-numerical-software/nelson>
-- **Binaries:** <https://github.com/Nelson-numerical-software/nelson/releases>
+- **Homepage:** <https://nelson-lang.github.io/nelson-website/>
+- **Source code:** <https://github.com/nelson-lang/nelson>
+- **Binaries:** <https://github.com/nelson-lang/nelson/releases>
 - **Docker:** <https://hub.docker.com/r/nelsonsoftware/nelson/>
-- **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
+- **Documentation:** <https://nelson-lang.github.io/nelson-website/help/en_US/>
 - **GitBook:**
   <https://nelson-9.gitbook.io/nelson/>
-- **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
+- **Gitter:** <https://gitter.im/nelson-lang/Lobby>
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
 
 ## Tested and supported platforms
 
-Systems with ✓ downloads are available on [downloads](https://github.com/Nelson-numerical-software/nelson/releases) page.
+Systems with ✓ downloads are available on [downloads](https://github.com/nelson-lang/nelson/releases) page.
 
 Systems with ✓ for CI are tested with continuous integration for every commit.
 

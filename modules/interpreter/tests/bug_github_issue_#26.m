@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/26
+% https://github.com/nelson-lang/nelson/issues/26
 % <-- Short Description -->
 % 7.853981633974482790D-01 was not correctly parsed.
 %=============================================================================

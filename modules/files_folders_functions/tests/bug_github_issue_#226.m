@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/226
+% https://github.com/nelson-lang/nelson/issues/226
 % <-- Short Description -->
 % tempdir() did not include a final slash
 %=============================================================================

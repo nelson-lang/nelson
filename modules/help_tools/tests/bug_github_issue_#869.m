@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/869
+% https://github.com/nelson-lang/nelson/issues/869
 % <-- Short Description -->
 % missing help files in linux package
 %=============================================================================

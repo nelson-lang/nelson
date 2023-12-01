@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/74
+% https://github.com/nelson-lang/nelson/issues/74
 % <-- Short Description -->
 % A=[]; A(end + 1) = 8 failed.
 %=============================================================================

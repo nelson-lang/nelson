@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/528
+% https://github.com/nelson-lang/nelson/issues/528
 % <-- Short Description -->
 % Assignment in cell did not work in this case [c{:}] = ind2sub (dv, i)
 %=============================================================================

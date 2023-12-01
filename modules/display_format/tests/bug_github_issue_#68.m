@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <-- Issue URL -->
-% https://github.com/Nelson-numerical-software/nelson/issues/68
+% https://github.com/nelson-lang/nelson/issues/68
 % <-- Short Description -->
 % display of nd array of integer were not defined.
 %=============================================================================
