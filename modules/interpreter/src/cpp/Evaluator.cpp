@@ -3762,6 +3762,9 @@ Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
         }
     }
     if (r.isFunctionHandle()) {
+        if (t->right != nullptr && t->right->opNum != OP_PARENS) {
+            Error(_("Invalid indexing."));
+        }
         std::string extractionFunctionName
             = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
         FunctionDef* funcDef = nullptr;

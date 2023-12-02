@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## UNRELEASED
 
+### Fixed
+
+- [#674](http://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
+
 ### Changed
 
 - [#674](http://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
