@@ -12,12 +12,12 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "quitBuiltin.hpp"
 #include "bannerBuiltin.hpp"
 #include "evalBuiltin.hpp"
 #include "evalcBuiltin.hpp"
 #include "evalinBuiltin.hpp"
 #include "execstrBuiltin.hpp"
-#include "exitBuiltin.hpp"
 #include "maxNumCompThreadsBuiltin.hpp"
 #include "namelengthmaxBuiltin.hpp"
 #include "narginBuiltin.hpp"
@@ -38,7 +38,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"core";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "exit", (ptrBuiltin)Nelson::CoreGateway::exitBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "exit", (ptrBuiltin)Nelson::CoreGateway::quitBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "quit", (ptrBuiltin)Nelson::CoreGateway::quitBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "run", (ptrBuiltin)Nelson::CoreGateway::runBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "nfilename", (ptrBuiltin)Nelson::CoreGateway::nfilenameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

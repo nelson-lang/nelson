@@ -30,10 +30,7 @@
     <ClCompile Include="..\cpp\RecursionStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FinishNelsonUserScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\StartNelsonUserScript.cpp">
+    <ClCompile Include="..\cpp\RunFinishScripts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ProgramOptions.cpp">
@@ -63,6 +60,9 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\RunStartupScripts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\StartNelson.h">
@@ -86,10 +86,7 @@
     <ClInclude Include="..\include\RecursionStack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FinishNelsonUserScript.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\StartNelsonUserScript.hpp">
+    <ClInclude Include="..\include\RunFinishScripts.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ProgramOptions.hpp">
@@ -114,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PostCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\RunStartupScripts.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

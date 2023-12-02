@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - [#674](http://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
+- [#775](http://github.com/nelson-lang/nelson/issues/775) `quit`, `exit`, `startup.m`, `finish.m` behavior reworked for compatibility.
 - JSON for Modern C++ version 3.11.3 used on all platforms.
 
 ## 0.7.11 (2023-11-29)

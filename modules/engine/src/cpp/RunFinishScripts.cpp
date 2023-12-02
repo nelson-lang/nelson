@@ -7,23 +7,30 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
-#include "FinishNelsonUserScript.hpp"
+#include "RunFinishScripts.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-FinishNelsonUserScript(Evaluator* eval)
+RunFinishScripts(Evaluator* eval)
 {
-    Context* ctx = eval->getContext();
-    if (ctx != nullptr) {
-        std::wstring prefPath = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-        FileSystemWrapper::Path path(prefPath);
+    if ((eval == nullptr) || (eval->getContext() == nullptr)) {
+        return false;
+    }
+    wstringVector listPath = PathFunctionIndexerManager::getInstance()->getPathNameVector();
+    for (auto elementPath : listPath) {
+        FileSystemWrapper::Path path(elementPath);
         path += L"/finish.m";
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(path);
         if (bIsFile) {
@@ -31,22 +38,22 @@ FinishNelsonUserScript(Evaluator* eval)
             try {
                 EvaluateScriptFile(eval, wstr);
             } catch (const Exception& e) {
+                eval->setState(NLS_STATE_CANCEL_QUIT);
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = _W("User finish.m failed to run.");
+                std::wstring errmsg = fmt::sprintf(_W("'%s' failed to run."), wstr);
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
+                    return false;
                 } else {
                     errmsg = errmsg + L"\n";
                     fwprintf(stderr, L"%ls", errmsg.c_str());
                 }
             }
-            return true;
         }
-        return false;
     }
-    return false;
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

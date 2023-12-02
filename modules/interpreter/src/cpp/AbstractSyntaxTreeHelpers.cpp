@@ -20,7 +20,7 @@ static std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BREAK, "b
     { NLS_KEYWORD_ELSEIF, "elseif" }, { NLS_KEYWORD_END, "end" }, { NLS_KEYWORD_FOR, "for" },
     { NLS_KEYWORD_FUNCTION, "function" }, { NLS_KEYWORD_IF, "if" },
     { NLS_KEYWORD_KEYBOARD, "keyboard" }, { NLS_KEYWORD_OTHERWISE, "otherwise" },
-    { NLS_KEYWORD_QUIT, "quit" }, { NLS_KEYWORD_ABORT, "abort" }, { NLS_KEYWORD_RETURN, "return" },
+    { NLS_KEYWORD_ABORT, "abort" }, { NLS_KEYWORD_RETURN, "return" },
     { NLS_KEYWORD_SWITCH, "switch" }, { NLS_KEYWORD_TRY, "try" }, { NLS_KEYWORD_WHILE, "while" },
     { NLS_KEYWORD_ENDFUNCTION, "endfunction" } };
 //=============================================================================

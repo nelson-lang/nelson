@@ -59,7 +59,6 @@ enum yytokentype
     RETURN = 292, /* RETURN  */
     VARARGIN = 293, /* VARARGIN  */
     VARARGOUT = 294, /* VARARGOUT  */
-    QUIT = 295, /* QUIT  */
     ABORT = 296, /* ABORT  */
     ENDFUNCTION = 297, /* ENDFUNCTION  */
     SOR = 298, /* SOR  */
@@ -112,15 +111,14 @@ enum yytokentype
 #define RETURN 292
 #define VARARGIN 293
 #define VARARGOUT 294
-#define QUIT 295
-#define ABORT 296
-#define ENDFUNCTION 297
-#define SOR 298
-#define SAND 299
-#define NE 300
-#define POS 301
-#define NEG 302
-#define NOT 303
+#define ABORT 295
+#define ENDFUNCTION 296
+#define SOR 297
+#define SAND 298
+#define NE 299
+#define POS 300
+#define NEG 301
+#define NOT 302
 //=============================================================================
 #if !defined(YYSTYPE) && !defined(YYSTYPE_IS_DECLARED)
 using YYSTYPE = int;
