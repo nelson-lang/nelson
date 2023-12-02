@@ -50,7 +50,7 @@ using namespace Nelson;
 %token TRY CATCH
 %token FIELD REFLPAREN REFRPAREN
 %token KEYBOARD RETURN VARARGIN VARARGOUT
-%token QUIT ABORT
+%token ABORT
 %token ENDFUNCTION
 
 %left SOR
@@ -195,7 +195,6 @@ statementType:
    | pauseStatement
    | returnStatement
    | specialSyntaxStatement
-   | QUIT
    | ABORT
    | endfunctionStatement
 ;

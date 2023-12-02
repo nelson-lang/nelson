@@ -14,6 +14,6 @@
 //=============================================================================
 namespace Nelson {
 NLSENGINE_IMPEXP bool
-StartNelsonUserScript(Evaluator* eval);
+RunFinishScripts(Evaluator* eval);
 }
 //=============================================================================

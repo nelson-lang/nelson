@@ -27,9 +27,8 @@ keywordStruct keyWord[KEYWORDCOUNT] = { { "abort", ABORT, NLS_KEYWORD_ABORT },
     { "for", FOR, NLS_KEYWORD_FOR }, { "function", FUNCTION, NLS_KEYWORD_FUNCTION },
     { "if", IF, NLS_KEYWORD_IF }, { "keyboard", KEYBOARD, NLS_KEYWORD_KEYBOARD },
     { "otherwise", OTHERWISE, NLS_KEYWORD_OTHERWISE }, { "parfor", FOR, NLS_KEYWORD_FOR },
-    { "quit", QUIT, NLS_KEYWORD_QUIT }, { "return", RETURN, NLS_KEYWORD_RETURN },
-    { "switch", SWITCH, NLS_KEYWORD_SWITCH }, { "try", TRY, NLS_KEYWORD_TRY },
-    { "while", WHILE, NLS_KEYWORD_WHILE } };
+    { "return", RETURN, NLS_KEYWORD_RETURN }, { "switch", SWITCH, NLS_KEYWORD_SWITCH },
+    { "try", TRY, NLS_KEYWORD_TRY }, { "while", WHILE, NLS_KEYWORD_WHILE } };
 //=============================================================================
 int
 compareKeyword(const void* a, const void* b)

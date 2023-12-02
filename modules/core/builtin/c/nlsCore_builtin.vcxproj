@@ -197,7 +197,6 @@
     <ClCompile Include="..\cpp\evalcBuiltin.cpp" />
     <ClCompile Include="..\cpp\evalinBuiltin.cpp" />
     <ClCompile Include="..\cpp\execstrBuiltin.cpp" />
-    <ClCompile Include="..\cpp\exitBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\inputnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxNumCompThreadsBuiltin.cpp" />
@@ -210,6 +209,7 @@
     <ClCompile Include="..\cpp\nfilenameBuiltin.cpp" />
     <ClCompile Include="..\cpp\pauseBuiltin.cpp" />
     <ClCompile Include="..\cpp\prefdirBuiltin.cpp" />
+    <ClCompile Include="..\cpp\quitBuiltin.cpp" />
     <ClCompile Include="..\cpp\runBuiltin.cpp" />
     <ClCompile Include="..\cpp\sha256builtin.cpp" />
     <ClCompile Include="..\cpp\versionBuiltin.cpp" />
@@ -250,7 +250,6 @@
     <ClInclude Include="..\include\evalcBuiltin.hpp" />
     <ClInclude Include="..\include\evalinBuiltin.hpp" />
     <ClInclude Include="..\include\execstrBuiltin.hpp" />
-    <ClInclude Include="..\include\exitBuiltin.hpp" />
     <ClInclude Include="..\include\inputnameBuiltin.hpp" />
     <ClInclude Include="..\include\maxNumCompThreadsBuiltin.hpp" />
     <ClInclude Include="..\include\namelengthmaxBuiltin.hpp" />
@@ -263,6 +262,7 @@
     <ClInclude Include="..\include\nlsCore_builtin_exports.h" />
     <ClInclude Include="..\include\pauseBuiltin.hpp" />
     <ClInclude Include="..\include\prefdirBuiltin.hpp" />
+    <ClInclude Include="..\include\quitBuiltin.hpp" />
     <ClInclude Include="..\include\runBuiltin.hpp" />
     <ClInclude Include="..\include\sha256Builtin.hpp" />
     <ClInclude Include="..\include\versionBuiltin.hpp" />

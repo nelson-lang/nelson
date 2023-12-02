@@ -4,41 +4,22 @@
 
 	<language>en_US</language>
 	<keyword>exit</keyword>
-	<short_description>Exit from current Nelson application</short_description>
+	<short_description>Terminate Nelson program (same as quit)</short_description>
 
 	<syntax>
-		<syntax_item>exit</syntax_item>
-		<syntax_item>exit(status)</syntax_item>
+        <syntax_item>exit</syntax_item>
+        <syntax_item>exit(status)</syntax_item>       
+		<syntax_item>exit('force')</syntax_item>
+		<syntax_item>exit('cancel')</syntax_item>
+		<syntax_item>exit(status, 'force')</syntax_item>
 	</syntax>
 
-	<param_output>
-
-		<param_output_item>
-			<param_name>status</param_name>
-			<param_description
-      >an optional integer value passed to the operating system as Nelson’s exit status code.</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description><p><b>exit</b> terminates the current session of Nelson.</p>
-	<p>The default value is zero.</p>
-</description>
-
+	<description>
+		<p> This function is equivalent to the <b>quit</b> function.</p>
+	</description>
 
 	<used_function />
 	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description
-      >Beware this example will close Nelson</example_item_description>
-		<example_item_data><![CDATA[exit(33)]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
 
 	<see_also>
 		<see_also_item>

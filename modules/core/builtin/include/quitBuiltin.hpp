@@ -13,7 +13,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::CoreGateway {
+//=============================================================================
 ArrayOfVector
-exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -36,13 +36,12 @@ const unsigned int NLS_KEYWORD_FUNCTION = 8;
 const unsigned int NLS_KEYWORD_IF = 9;
 const unsigned int NLS_KEYWORD_KEYBOARD = 10;
 const unsigned int NLS_KEYWORD_OTHERWISE = 11;
-const unsigned int NLS_KEYWORD_QUIT = 12;
-const unsigned int NLS_KEYWORD_ABORT = 13;
-const unsigned int NLS_KEYWORD_RETURN = 14;
-const unsigned int NLS_KEYWORD_SWITCH = 15;
-const unsigned int NLS_KEYWORD_TRY = 16;
-const unsigned int NLS_KEYWORD_WHILE = 17;
-const unsigned int NLS_KEYWORD_ENDFUNCTION = 18;
+const unsigned int NLS_KEYWORD_ABORT = 12;
+const unsigned int NLS_KEYWORD_RETURN = 13;
+const unsigned int NLS_KEYWORD_SWITCH = 14;
+const unsigned int NLS_KEYWORD_TRY = 15;
+const unsigned int NLS_KEYWORD_WHILE = 16;
+const unsigned int NLS_KEYWORD_ENDFUNCTION = 17;
 
 /**
  * Each reserved word structure has three attributes,
@@ -56,7 +55,7 @@ struct keywordStruct
     int ordinal;
 };
 //=============================================================================
-#define KEYWORDCOUNT 20
+#define KEYWORDCOUNT 19
 extern keywordStruct keyWord[KEYWORDCOUNT];
 //=============================================================================
 /**

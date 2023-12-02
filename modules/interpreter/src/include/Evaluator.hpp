@@ -31,7 +31,9 @@ enum State
     NLS_STATE_CONTINUE = 2,
     NLS_STATE_RETURN = 3,
     NLS_STATE_QUIT = 4,
-    NLS_STATE_ABORT = 5
+    NLS_STATE_FORCE_QUIT = 5,
+    NLS_STATE_CANCEL_QUIT = 6,
+    NLS_STATE_ABORT = 7
 };
 
 class Context;
@@ -174,6 +176,11 @@ public:
      */
     State
     getState();
+    /**
+     * check if state is QUIT or FORCE_QUIT
+     */
+    bool
+    isQuitOrForceQuitState();
     /**
      * Get exit code.
      */

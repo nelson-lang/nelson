@@ -21,10 +21,10 @@
 #include "FileSystemWrapper.hpp"
 #include "StartNelson.h"
 #include "StartNelsonMainScript.hpp"
-#include "StartNelsonUserScript.hpp"
+#include "RunStartupScripts.hpp"
 #include "StartNelsonUserModules.hpp"
 #include "FinishNelsonMainScript.hpp"
-#include "FinishNelsonUserScript.hpp"
+#include "RunFinishScripts.hpp"
 #include "AddGateway.hpp"
 #include "EvaluateCommand.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -186,11 +186,12 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     bool haveNoUserModules, const std::wstring& commandToExecute, const std::wstring& fileToExecute,
     const wstringVector& filesToOpen, const wstringVector& filesToLoad)
 {
+    bool isForceQuit = false;
     eval->resetState();
     if (!haveNoStartup) {
         StartNelsonMainScript(eval);
         eval->clearStacks();
-        if (eval->getState() == NLS_STATE_QUIT) {
+        if (eval->isQuitOrForceQuitState()) {
             goto FINISH;
         }
         eval->resetState();
@@ -198,15 +199,15 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         if (!haveNoUserModules) {
             loadUserModulesSucceeced = StartNelsonUserModules(eval);
             eval->clearStacks();
-            if (eval->getState() == NLS_STATE_QUIT) {
+            if (eval->isQuitOrForceQuitState()) {
                 goto FINISH;
             }
             eval->resetState();
         }
         if (!haveNoUserStartup && loadUserModulesSucceeced) {
-            StartNelsonUserScript(eval);
+            RunStartupScripts(eval);
             eval->clearStacks();
-            if (eval->getState() == NLS_STATE_QUIT) {
+            if (eval->isQuitOrForceQuitState()) {
                 goto FINISH;
             }
             eval->resetState();
@@ -232,23 +233,30 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     LoadFilesAssociated(
         (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode(), filesToLoad,
         false);
-    while (eval->getState() != NLS_STATE_QUIT) {
+LOOP_EVAL:
+    while (!eval->isQuitOrForceQuitState()) {
         if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
         }
         eval->resetState();
         eval->evalCLI();
     }
-    closeIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
+    isForceQuit = eval->getState() == NLS_STATE_FORCE_QUIT;
     eval->resetState();
 FINISH:
     if (!haveNoStartup) {
-        if (!haveNoUserStartup) {
-            FinishNelsonUserScript(eval);
+        if (!haveNoUserStartup && !isForceQuit) {
+            RunFinishScripts(eval);
+
+            if (eval->getState() == NLS_STATE_CANCEL_QUIT) {
+                eval->resetState();
+                goto LOOP_EVAL;
+            }
             eval->resetState();
         }
+        closeIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
         FinishNelsonMainScript(eval);
-        if (eval->getState() == NLS_STATE_QUIT) {
+        if (eval->isQuitOrForceQuitState()) {
             goto EXIT;
         }
     }

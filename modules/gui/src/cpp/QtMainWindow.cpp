@@ -466,23 +466,17 @@ QtMainWindow::closeEvent(QCloseEvent* event)
 {
     if (!qtTerminal->isAtPrompt()) {
         if (!bClosed) {
-            event->ignore();
             QMessageBox::StandardButton reply
                 = QMessageBox::question(this, _("Close confirmation").c_str(),
                     _("Are you sure to quit?").c_str(), QMessageBox::Yes | QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-                event->accept();
-                QWidget* qwidgetConsole = this->focusProxy();
-                bClosed = true;
-                QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
+            if (reply == QMessageBox::No) {
+                event->ignore();
                 return;
             }
-            return;
         }
     }
-    event->accept();
-    QWidget* qwidgetConsole = this->focusProxy();
-    QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
+    event->ignore();
+    postCommand(L"exit");
 }
 //=============================================================================
 QtTerminal*
@@ -533,3 +527,4 @@ QtMainWindow::declareAsClosed()
 {
     bClosed = true;
 }
+//=============================================================================
