@@ -1846,6 +1846,32 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         if (t->opNum == (OP_RHS) && !context->lookupVariable(t->down->text, b)
             && lookupFunction(t->down->text, fdef)) {
             m = functionExpression(fdef, t->down, 0, true);
+            if (t->down && t->down->down && t->down->down->right) {
+                ArrayOf r = m[0];
+                t = t->down->down->right;
+                Dimensions rhsDimensions = r.getDimensions();
+                if (t->opNum == OP_PARENS) {
+                    bool isFinished = false;
+                    rhsExpressionParens(rhsDimensions, m, t, r, 1, isFinished);
+                    m.clear();
+                    m.push_back(r);
+                } else if (t->opNum == OP_BRACES) {
+                    bool isFinished = false;
+                    rhsExpressionBraces(rhsDimensions, m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                } else if (t->opNum == OP_DOT) {
+                    bool isFinished = false;
+                    rhsExpressionDot(m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                } else if (t->opNum == OP_DOTDYN) {
+                    bool isFinished = false;
+                    rhsExpressionDynDot(m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                }
+            }
             if (m.size() > 0) {
                 b = m[0];
             } else {
@@ -3700,6 +3726,66 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             }
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
+            if (t->down->right) {
+                ArrayOf r = m[0];
+                if (t->down->right->opNum == OP_PARENS) {
+                    rhsDimensions = r.getDimensions();
+                    t = t->down->right;
+                    ArrayOf r = m[0];
+                    bool isFinished = false;
+                    rhsExpressionParens(rhsDimensions, m, t, r, 1, isFinished);
+                    m.clear();
+                    m.push_back(r);
+                    t = t->down;
+                    while (t) {
+                        t->opNum;
+                        t = t->down;
+                    }
+                }
+                else if (t->down->right->opNum == OP_DOT) {
+                    t = t->down->right;
+                    ArrayOf r = m[0];
+                    bool isFinished = false;
+                    rhsExpressionDot(m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                    while (t) {
+                        t = t->right;
+                        if (t && t->opNum == OP_PARENS) {
+                            rhsDimensions = r.getDimensions();
+                            rhsExpressionParens(rhsDimensions, m, t, r, 1, isFinished);
+                            m.clear();
+                            m.push_back(r);
+                        }
+                    }
+                }
+                else if (t->down->right->opNum == OP_DOTDYN) {
+                    t = t->down->right;
+                    ArrayOf r = m[0];
+                    bool isFinished = false;
+                    rhsExpressionDynDot(m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                    while (t) {
+                        t->opNum;
+                        t = t->down;
+                    }
+                }
+                else if (t->down->right->opNum == OP_BRACES) {
+                    rhsDimensions = r.getDimensions();
+                    t = t->down->right;
+                    ArrayOf r = m[0];
+                    bool isFinished = false;
+                    rhsExpressionBraces(rhsDimensions, m, t, r, 1);
+                    m.clear();
+                    m.push_back(r);
+                    while (t) {
+                        t->opNum;
+                        t = t->down;
+                    }
+                }
+            }
+
             return m;
         }
         Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
