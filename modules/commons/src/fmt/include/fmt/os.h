@@ -13,11 +13,13 @@
 #include <cstdio>
 #include <system_error>  // std::system_error
 
-#if defined __APPLE__ || defined(__FreeBSD__)
-#  include <xlocale.h>  // for LC_NUMERIC_MASK on OS X
-#endif
-
 #include "format.h"
+
+#if defined __APPLE__ || defined(__FreeBSD__)
+#  if FMT_HAS_INCLUDE(<xlocale.h>)
+#    include <xlocale.h>  // for LC_NUMERIC_MASK on OS X
+#  endif
+#endif
 
 #ifndef FMT_USE_FCNTL
 // UWP doesn't provide _pipe.
@@ -46,6 +48,7 @@
 
 // Calls to system functions are wrapped in FMT_SYSTEM for testability.
 #ifdef FMT_SYSTEM
+#  define FMT_HAS_SYSTEM
 #  define FMT_POSIX_CALL(call) FMT_SYSTEM(call)
 #else
 #  define FMT_SYSTEM(call) ::call
@@ -123,10 +126,10 @@ using wcstring_view = basic_cstring_view<wchar_t>;
 #ifdef _WIN32
 FMT_API const std::error_category& system_category() noexcept;
 
-FMT_BEGIN_DETAIL_NAMESPACE
+namespace detail {
 FMT_API void format_windows_error(buffer<char>& out, int error_code,
                                   const char* message) noexcept;
-FMT_END_DETAIL_NAMESPACE
+}
 
 FMT_API std::system_error vwindows_error(int error_code, string_view format_str,
                                          format_args args);
@@ -328,7 +331,7 @@ class FMT_API file {
 // Returns the memory page size.
 long getpagesize();
 
-FMT_BEGIN_DETAIL_NAMESPACE
+namespace detail {
 
 struct buffer_size {
   buffer_size() = default;
@@ -387,7 +390,7 @@ class file_buffer final : public buffer<char> {
   }
 };
 
-FMT_END_DETAIL_NAMESPACE
+}  // namespace detail
 
 // Added {} below to work around default constructor error known to
 // occur in Xcode versions 7.2.1 and 8.2.1.
@@ -419,7 +422,7 @@ class FMT_API ostream {
     output to the file.
    */
   template <typename... T> void print(format_string<T...> fmt, T&&... args) {
-    vformat_to(detail::buffer_appender<char>(buffer_), fmt,
+    vformat_to(std::back_inserter(buffer_), fmt,
                fmt::make_format_args(args...));
   }
 };
