@@ -334,6 +334,9 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval(nLhs);
     nargincheck(argIn, 2);
+    if (!argIn[1].isCell()) {
+        Error(_("cellfun works only on cells."), "Nelson:cellfun:InvalidSecondInput");
+    }
     int nbElementsInput = static_cast<int>(argIn.size());
     bool bHaveErrorHandlerArgs = false;
     bool bHaveUniformOutputArgs = false;

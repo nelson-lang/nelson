@@ -74,3 +74,6 @@ assert_istrue(all(cellfun('isnumeric', {}, 'UniformOutput', true)));
 R = cellfun('isnumeric', {}, 'UniformOutput', false)
 assert_isequal(R, {});
 %=============================================================================
+inputArguments = 'Faces';
+assert_checkerror('cellfun(''isclass'', inputArguments, ''char'')', _('cellfun works only on cells.'));
+%=============================================================================
