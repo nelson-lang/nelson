@@ -30,7 +30,7 @@ end
 function args = parsePatchArguments(inputArguments)
   if (length(inputArguments) > 0 &&isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
-    inputArguments = inputArguments{2:end};
+    inputArguments = inputArguments(2:end);
   else
     ax = [];
   end

@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [#674](http://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
+- `cellfun` did not check type of second input argument.
 
 ### Changed
 

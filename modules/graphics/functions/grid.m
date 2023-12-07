@@ -19,7 +19,7 @@ function varargout = grid(varargin)
   inputArguments = varargin;
   if isgraphics(inputArguments{1})
     ax = inputArguments{1};
-    inputArguments = inputArguments{2:end};
+    inputArguments = inputArguments(2:end);
   else
     ax = gca();
    end
