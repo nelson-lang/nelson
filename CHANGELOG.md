@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - control system module (part 2):
   - `nyquist` Nyquist plot of frequency response.
+  - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
+  - [#949](http://github.com/nelson-lang/nelson/issues/949) `acker` Pole placement gain selection using Ackermann's formula.
 
 ### Changed
 

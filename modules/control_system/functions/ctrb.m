@@ -1,39 +1,45 @@
-% SPDX-License-Identifier: MIT
-% Generates the controllability matrix of a state space model
-% Input: sys, n(optinal)
-% Example 1: [Cs] = ctrb(sys)
-% Example 1: [Cs] = ctrb(sys, n)
-% Author: Daniel Mårtensson, Oktober 2017
-
-function [Cs] = ctrb(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error ('Missing input')
-	end
-
-	% Get model type
-	type = varargin{1}.type;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% Get SS
-		sys = varargin{1};
-
-		% Check if we got variable n for minimal realization
-		if(length(varargin) > 1)
-			n = varargin{2};
-		else
-			n = size(sys.A, 1); % Else, we only check the dimension of A
-		end
-
-		% Compute the controllability matrix now!
-		Cs = [];
-		for i = 0:(n-1)
-			Cs = [Cs sys.A^i*sys.B];
-		end
-	elseif(strcmp(type, 'TF' ))
-		% Get TF
-		error('Model must be a state space model');
-	else
-		error('This is not TF or SS');
-	end
+%=============================================================================
+% Copyright (c) 2017 October Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = ctrb(varargin)
+  % Generates the controllability matrix of a state space model
+  % Co = ctrb(A,B)
+  % Co = ctrb(sys)
+  narginchk(1, 2);
+  nargoutchk(0, 1);
+  
+  if nargin == 1
+    sys = varargin{1};
+    sys = ss(sys);
+    A = sys.A;
+    B = sys.B;
+  else
+    A = varargin{1};
+    B = varargin{2};
+    [mA, nA] = size(A);
+    [mB, nB] = size(B);
+    if (mA ~= nA)
+      error('Nelson:control_system:AMustBeSquare', _('Matrix A must be square.'));
+    end
+    
+    if (mB ~= mA)
+      error('Nelson:control_system:AAndBNumRowsMismatch', _('The number of rows in matrices A and B must be equal.'));
+    end
+  end        
+  
+  n = size(A, 1); % We only check the dimension of A
+  % Compute the controllability matrix now!
+  Cs = [];
+  for i = 0:(n-1)
+    Cs = [Cs, A^i*B];
+  end
+  varargout{1} = Cs;
 end
+%=============================================================================
