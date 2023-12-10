@@ -24,7 +24,7 @@ function varargout = subsref(varargin)
         % obj.name(), {}, .
         if strcmp(s(2).type, '()')
           st = struct(obj);
-          indices = s(2).sub;
+          indices = s(2).subs;
           varargout{1} = obj.(name)(indices{:});
         elseif strcmp(s(2).type, '{}')
           st = struct(obj);

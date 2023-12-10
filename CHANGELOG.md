@@ -15,11 +15,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - control system module (part 2):
   - `nyquist` Nyquist plot of frequency response.
+  - `ord2` Generate continuous second-order systems.
+  - `append` Group models by appending their inputs and outputs.
+  - `feedback` Feedback connection of multiple models.
+  - `series` Series connection of two models.
+  - `ssdelete` Remove inputs, outputs and states from state-space system.
+  - `ssselect` Extract subsystem from larger system.
   - [#945](http://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
   - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
   - [#963](http://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
   - [#964](http://github.com/nelson-lang/nelson/issues/964) `obsvf` Compute observability staircase form.
   - [#949](http://github.com/nelson-lang/nelson/issues/949) `acker` Pole placement gain selection using Ackermann's formula.
+  - [#952](http://github.com/nelson-lang/nelson/issues/952) `cloop` Close unity feedback loops.
 
 ### Changed
 

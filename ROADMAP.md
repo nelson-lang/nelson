@@ -31,9 +31,9 @@ _Main Features_:
 - dynamic link functions (Nelson external modules) (DONE v0.2.6),
 - Nelson on cloud (DONE v0.2.11),
 - RESTful API web service (DONE v0.3.9),
-- linear algebra module,
-- Computer Aided Control Systems Design module,
-- completion,
+- linear algebra module (DONE v0.7.12),
+- Computer Aided Control Systems Design module (DONE v0.7.12),
+- completion (DONE v0.1.11 for editor),
 - graphics output, 2D-3D plot functions (v0.6.12),
 - imread, imwrite, imshow functions (v0.7.1).
 
