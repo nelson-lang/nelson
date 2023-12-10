@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `series` Series connection of two models.
   - `ssdelete` Remove inputs, outputs and states from state-space system.
   - `ssselect` Extract subsystem from larger system.
+  - `tzero` Invariant zeros of linear system.
   - [#945](http://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
   - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
   - [#963](http://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
