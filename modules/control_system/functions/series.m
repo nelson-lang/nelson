@@ -1,84 +1,80 @@
-% SPDX-License-Identifier: MIT
-% Do a serial connection of transfer functions or state space models
-% Input: G, sys
-% Example 1: G = series(G1, G2)
-% Example 2: sys = series(sys1, sys2)
-% Author: Daniel Mårtensson, 2017 Oktober
-
-function [model] = series(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error ('Missing input')
-	end
-
-	% Check if there is a second input
-	if(isempty(varargin{2}))
-		error ('Missing second model')
-	end
-
-	% Get model type
-	type = varargin{1}.type;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% Get info
-		sys1 = varargin{1};
-		sys2 = varargin{2};
-		if(sys1.sampleTime == sys2.sampleTime)
-			% Get matrecies
-			A1 = sys1.A;
-			A2 = sys2.A;
-			B1 = sys1.B;
-			B2 = sys2.B;
-			C1 = sys1.C;
-			C2 = sys2.C;
-			D1 = sys1.D;
-			D2 = sys2.D;
-
-			% Get big state space
-			A = [A1 zeros(size(A1, 1), size(A2, 2)); B2*C1 A2];
-			B = [B1; B2*D1];
-			C = [D2*C1 C2];
-			D = D2*D1;
-			delay = sys1.delay + sys2.delay;
-			model = ss(delay, A, B, C, D);
-			model.sampleTime = sys1.sampleTime;
-		else
-			error('Need to have the same sampling time')
-		end
-	elseif(strcmp(type, 'TF' ))
-		% Get TF
-		G1 = varargin{1};
-		G2 = varargin{2};
-		if(G1.sampleTime == G2.sampleTime)
-			% Get num and den
-			num1 = G1.num;
-			den1 = G1.den;
-			num2 = G2.num;
-			den2 = G2.den;
-			% Get delay
-			delay = G1.delay + G2.delay;
-			num = conv(num1, num2);
-			den = conv(den1, den2);
-			if(delay > 0)
-				model = tf(num, den, delay);
-			else
-				model = tf(num, den);
-			end
-			model.sampleTime = G1.sampleTime;
-
-			% Discrete or not?
-			if (model.sampleTime > 0)
-				% Replace the delaytime to discrete delay time
-				model.tfdash = strrep(model.tfdash, 'e', 'z');
-				model.tfdash = strrep(model.tfdash, 's', '');
-				% Remove all s -> s
-				model.tfnum = strrep(model.tfnum, 's', 'z');
-				model.tfden = strrep(model.tfden, 's', 'z');
-			end
-		else
-			error('Need to have the same sampling time')
-		end
-	else
-		error('This is not TF or SS');
-	end
+%=============================================================================
+% Copyright (c) 2017 October Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function model = series(varargin)
+  narginchk(2, 4);
+  nargoutchk(0, 1);
+  sys1 = varargin{1};
+  sys2 = varargin{2};
+  if ~islti(sys1) || ~islti(sys2)
+    error(_('LTI model expected.'));
+  end
+  if (nargin == 3)
+    error(_('Wrong number of input arguments.'), 'Nelson:narginchk:notEnoughInputs')
+  end
+  if (nargin == 2)
+    if isa(sys1, 'ss')
+      sys2 = ss(sys2);
+      if(sys1.Ts == sys2.Ts)
+        model = sys2 * sys1;
+      else
+        error(_('Sampling times must agree.'));
+      end
+    elseif isa(sys1, 'tf')
+      sys2 = tf(sys2);
+      if(sys1.Ts == sys2.Ts)
+        model = sys2 * sys1;
+      else
+        error(_('Sampling times must agree.'));
+      end
+    end
+    return
+  end
+  outputs1 = varargin{3};
+  if ~isvector(outputs1)
+    error(_('Wrong size for argument #2: a vector expected'));
+  end
+  inputs2 = varargin{4};
+  if ~isnumeric(inputs2)
+    error(_('Wrong type for argument #2: real expected'));
+  end
+  if isa(sys1, 'ss')
+    sys2 = ss(sys2);
+  elseif isa(sys1, 'tf')
+    sys2 = tf(sys2);
+  end
+  [p1, m1] = size(sys1);
+  [p2, m2] = size(sys2);
+  lenOut1 = length (outputs1);
+  lenIn2 = length (inputs2);
+  
+  if lenIn2 ~= lenOut1
+    error(_('OUTPUTS1 and INPUTS2 must be vectors of the same length.'));
+  elseif lenIn2 > m2
+    error(_('length of INPUTS2 cannot exceed the number of inputs in SYS2.'));
+  elseif lenOut1 > p1
+    error(_('length of OUTPUTS1 cannot exceed the number of outputs in SYS1.'));
+  elseif any(inputs2 <= 0) || any(inputs2 > m2)
+    error(_('some index in INPUTS2 is out of range.'));
+  elseif any(outputs1 <= 0) || any(outputs1 > p1)
+    error(_('some index in OUTPUTS1 is out of range.'));
+  end
+  
+  outModel = zeros(lenOut1, p1);
+  inModel = zeros(m2, lenIn2);
+  outModel([1:lenOut1], outputs1) = 1;
+  inModel(inputs2, [1:lenOut1]) = 1;
+  
+  for k = 1: lenOut1
+    outModel(k, outputs1(k)) = 1;
+    inModel(inputs2(k), k) = 1;
+  end
+  model = sys2 * ((inModel * outModel) * sys1);
 end

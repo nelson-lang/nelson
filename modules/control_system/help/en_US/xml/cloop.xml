@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>cloop</keyword>
+  <short_description>Feedback connection of multiple models.</short_description>
+
+  <syntax>
+  <syntax_item>model = cloop(sys)</syntax_item>
+  <syntax_item>model = cloop(sys, sign)</syntax_item>
+  <syntax_item> model = cloop(sys, outputs, inputs)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>LTI model.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sign</param_name>
+      <param_description
+      >Type of feedback: -1 (default) or +1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputs</param_name>
+      <param_description>vector indexes into the outputs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>vector indexes into the inputs.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>sys</param_name>
+      <param_description> Closed-loop system.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b
+      >cloop</b> forms the closed-loop system when unity feedback is used.</p>
+    <p>This function is deprecated and has limitations, please see <b
+      >feedback</b>. It is only applicable when the block in the feedback path is unity. Furthermore, its usage is restricted to system models expressed solely in transfer function form, and not in the more general "system".</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[m = 1000;
+b = 50;
+u = 500;
+A = [0 1; 0 -b/m];
+B = [0; 1/m];
+C = [0 1];
+D = 0;
+OUTPUTS = -1;
+INPUTS = 1;
+sys = ss(A, B, C, D);
+
+R = cloop(sys, OUTPUTS, INPUTS)
+]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}cloop">cloop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}append">append</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ssselect">ssselect</link>
+    </see_also_item>
+
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
