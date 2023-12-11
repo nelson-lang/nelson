@@ -109,6 +109,7 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
         ArrayOfVector retval;
         Dimensions dims(0, 0);
         ArrayOf emptyMatrix = ArrayOf::emptyConstructor(dims);
+        needToOverload = false;
         if (A.isSingleClass()) {
             emptyMatrix.promoteType(NLS_SINGLE);
         }
