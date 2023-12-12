@@ -1,75 +1,72 @@
-% SPDX-License-Identifier: MIT
-% Generates a signal of sin, square or pulse
-% Input: type, amp, Tf, Ts
-% Example 1: [u, t] = gensig(type, amp, Tf, Ts)
-% Author: Daniel Mårtensson, Oktober 2017
-
-function [u, t] = gensig(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error('Missing input')
-	end
-	% Get type
-	if(length(varargin) > 0)
-		type = varargin{1};
-	else
-		error('Missing type')
-	end
-	% Get the amplitude
-	if(length(varargin) > 1)
-		amp = varargin{2};
-	else
-		amp = 1;
-	end
-	% Get the Tf
-	if(length(varargin) > 2)
-		Tf = varargin{3};
-	else
-		Tf = 1;
-	end
-	% Get time
-	if(length(varargin) > 3)
-		Ts = varargin{4};
-	else
-		Ts = 10;
-	end
-
-	switch type
-		case 'sin'
-			t = linspace(0,Ts, 1000);
-			u = amp*sin(Tf*t + Ts);
-		case 'square'
-			t = linspace(0,Ts, 1000);
-			u = [];
-			n = 1;
-			if(Tf == 1)
-				Tf = 2;
-			end
-			for i = 1:length(t)
-				if(i >= length(t)/(Tf)*n)
-					u(i) = amp;
-					if(i >= length(t)/(Tf)*(n + 1))
-						n = n + 2;
-					end
-				else
-					u(i) = 0;
-				end
-			end
-		case 'pulse'
-			t = linspace(0,Ts, 1000);
-			u = [];
-			n = 1;
-			if(Tf == 1)
-				Tf = 2;
-			end
-			for i = 1:length(t)
-				if(i >= length(t)/(Tf)*n)
-					u(i) = amp;
-					n = n + 1;
-				else
-					u(i) = 0;
-				end
-			end
-			u(end) = 0; % Remove the last peak
-	end
-end
+%=============================================================================
+% Copyright (c) 2017 October Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = gensig(varargin)
+  % Generates a signal of sin, square or pulse
+  % [u, t] = gensig(type, tau)
+  % [u, t] = gensig(type, tau, Tf)
+  % [u, t] = gensig(type, tau, Tf, Ts)
+  narginchk(2, 4);
+  nargoutchk(0, 2);
+  
+  type = convertStringsToChars(varargin{1});
+  type = lower(type);
+  if length(type) < 2
+    error(_("first input argument must be one of the following: 'tan', 'cos', 'sin', 'square', or 'pulse'."));
+  end
+  type = tolower(type(1:2));
+  
+  tau = varargin{2};
+  Tf = [];
+  
+  if (nargin > 2)
+    Tf = varargin{3};
+  end
+  if (nargin > 3)
+    Ts = varargin{4};
+  end
+  
+  if isempty(Tf) || (nargin < 3)
+    Tf = 5 * tau;
+  end
+  if (nargin < 4)
+    Ts = tau / 64;
+  end
+  
+  if isempty(Ts) || (Ts <= 0)
+    varargout{1} = zeros(0, 1);
+    if nargout > 1
+      varargout{2} = zeros(0, 1);
+    end
+    return
+  end
+  
+  t = 0:Ts:Tf;
+  t = t';
+  
+  switch type
+    case 'pu'
+      u = +(rem(t, tau) < (1 - 1000 * eps) * Ts);
+    case 'sq'
+      u = +(rem(t, tau) >= tau / 2);
+    case 'si'
+      u = sin((2 * pi / tau) * t);
+    case 'co'
+      u = cos((2 * pi / tau) * t);
+    case 'ta'
+      u = tan((2 * pi / tau) * t);
+     otherwise
+      error(_("first input argument must be one of the following: 'tan', 'cos', 'sin', 'square', or 'pulse'."));
+    end
+    varargout{1} = u;
+    if nargout > 1
+      varargout{2} = t;
+    end
+  end
