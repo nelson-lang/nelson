@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - [#949](http://github.com/nelson-lang/nelson/issues/949) `acker` Pole placement gain selection using Ackermann's formula.
   - [#952](http://github.com/nelson-lang/nelson/issues/952) `cloop` Close unity feedback loops.
   - [#953](http://github.com/nelson-lang/nelson/issues/953) `compreal` Companion realization of transfer functions.
+  - [#959](http://github.com/nelson-lang/nelson/issues/959) `gensig` Create periodic signals for simulating system response.
 
 ### Changed
 
