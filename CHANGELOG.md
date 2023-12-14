@@ -24,6 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `tzero` Invariant zeros of linear system.
   - `tf2ss` Convert transfer function filter parameters to state-space form.
   - `ss2tf` Convert state-space representation to transfer function.
+  - `minreal` Minimal realization or pole-zero cancellation.
+  - `ssdata` Access state-space model data.
+  - `tfdata` Access transfer function data.
   - [#945](http://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
   - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
   - [#963](http://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
