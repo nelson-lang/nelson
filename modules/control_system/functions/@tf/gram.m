@@ -9,11 +9,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = gram(varargin)
-  narginchk(2, 2);
-  nargoutchk(0, 1);
-  A = varargin{1};
-  B = varargin{2};
-  sysIn = ss(A, B, [], []);
-  option = 'c';
-  varargout{1} = gram(sysIn, option);
+    error(_("Command cannot be used for models of class 'tf'."));
 end
+%=============================================================================
