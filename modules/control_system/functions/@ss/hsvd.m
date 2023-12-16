@@ -11,9 +11,12 @@
 function varargout = hsvd(varargin)
     narginchk(1, 1);
     nargoutchk(0, 1);
-    sys = varargin{1};
-    if ~islti(sys)
-        error(_('LTI model expected.'));
-    end
+	sys = varargin{1};
+	% Get gramians
+	P = gram(sys, 'c');
+	Q = gram(sys, 'o');
+	% Get hankel singular values
+    hsvd = sqrt(eig(P * Q));
+    varargout{1} = hsvd;
 end
 %=============================================================================
