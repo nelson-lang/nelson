@@ -1,49 +1,18 @@
-% SPDX-License-Identifier: MIT
-% Generates zeros from transfer functions or state space models
-% Input: G, sys
-% Example 1: [Frequency, Damping, Poles, TimeConstant]	= damp(G)
-% Example 2: [Frequency, Damping, Poles, TimeConstant]	= damp(sys)
-% Author: Daniel Mårtensson, September 2017
-
-function [Frequency, Damping, Poles] = damp(varargin)
-	% Check if there is any input
-	if(isempty(varargin))
-		error ('Missing input')
-	end
-	% Get model type
-	type = varargin{1}.type;
-	% Get sampleTime
-	sampleTime = varargin{1}.sampleTime;
-	% Check if there is a TF or SS model
-	if(strcmp(type, 'SS' ))
-		% Check if it's discrete
-		if(sampleTime == 0)
-			Poles = pole(varargin{1})
-			Frequency = abs(Poles)
-			Damping = -cos(angle(Poles))
-			TimeConstant = (1./(Frequency.*Damping))
-		else
-			% Discrete
-			Poles = pole(varargin{1})
-			Frequency = abs(log(Poles)/sampleTime)
-			Damping = -cos(angle(log(Poles)))
-			TimeConstant = (1./(Frequency.*Damping))
-		end
-	elseif(strcmp(type, 'TF' ))
-		% Check if it's discrete
-		if(sampleTime == 0)
-			Poles = pole(varargin{1})
-			Frequency = abs(Poles)
-			Damping = -cos(angle(Poles))
-			TimeConstant = (1./(Frequency.*Damping))
-		else
-			% Discrete
-			Poles = pole(varargin{1})
-			Frequency = abs(log(Poles)/sampleTime)
-			Damping = -cos(angle(log(Poles)))
-			TimeConstant = (1./(Frequency.*Damping))
-		end
-	else
-		error('This is not TF or SS');
-	end
+%=============================================================================
+% Copyright (c) 2017 September Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = damp(varargin)
+  narginchk(1, 1);
+  nargoutchk(0, 4);
+  sys = varargin{1};
+  if ~islti(sys)
+    error(_('LTI model expected.'));
+  end
 end
