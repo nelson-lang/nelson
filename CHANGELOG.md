@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `tfdata` Access transfer function data.
   - `gram` Controllability and observability Gramians.
   - `hsvd` Hankel singular values of a state-space or transfer function model.
+  - `damp` Natural frequency and damping ratio.
   - [#945](http://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
   - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
   - [#963](http://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
