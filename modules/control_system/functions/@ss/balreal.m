@@ -9,34 +9,44 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = balreal(varargin)
-  narginchk(3,3);
-  nargoutchk(0, 6);
+  narginchk(1, 1);
+  nargoutchk(0, 4);
   
-  A = varargin{1};
-  B = varargin{2};
-  C = varargin{3};
-  rD = size(C, 1);
-  cD = size(D, 2);
-  D = zeros(rD, cD);
-  sysIn = ss(A, B, C, D);
+  sys = varargin{1};
+  Ts = sys.Ts;
+  D = sys.D;
   
-  [sysOut, g, Ti, T] = balreal(sysIn);
-  [abal, bbal, cbal] = ssdata(sysOut);
+  G = gram(sys, 'c');
+  [V, S] = svd(G);
+  T1 = V * sqrt(S);
   
-  varargout{1} = abal;
+  A = inv(T1) * sys.A * T1;
+  B = inv(T1) * sys.B;
+  C = sys.C * T1;
+  
+  sys = ss(A', C', [], []);
+  G = gram(sys, 'c');
+  [V, S] = svd(G);
+  T2 = V * (S ^ (-1/4));
+  
+  A = inv(T2) * A * T2;
+  B = inv(T2) * B;
+  C = C * T2;
+  
+  sysOut = ss(A, B, C, D);
+  
+  varargout{1} = sysOut;
   if nargout > 1
-    varargout{2} = bbal;
+    W = gram(ss(sysOut.A, sysOut.B, [], []), 'c');
+    G = diag(W);
+    varargout{2} = G;
   end
   if nargout > 2
-    varargout{3} = cbal;
+    Ti = T1 * T2;
+    T = inv(Ti);
+    varargout{3} = T;
   end
   if nargout > 3
-    varargout{4} = g;
-  end
-  if nargout > 4
-    varargout{5} = T;
-  end
-  if nargout > 5
-    varargout{6} = Ti;
+    varargout{4} = Ti;
   end
 end
