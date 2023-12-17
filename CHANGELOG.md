@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - control system module (part 2):
+  - `evalfr` Evaluate system response at specific frequency.
   - `nyquist` Nyquist plot of frequency response.
   - `ord2` Generate continuous second-order systems.
   - `append` Group models by appending their inputs and outputs.

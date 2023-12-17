@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>evalfr</keyword>
+  <short_description
+  >Evaluate frequency response at given frequency.</short_description>
+
+  <syntax>
+    <syntax_item>frsp = evalfr(sys, f)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>LTI model</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>single frequency</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>frsp</param_name>
+      <param_description>frequency response</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p>The function <b
+      >evalfr(sys, f)</b> computes the value of the transfer function for a given system model represented by <b
+      >sys</b> at the complex number <b>f</b>.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[numerator = {[2, 0], [1, 3]};
+denominator = {[4, 0, 3, -1], [1 , 3, 5]};
+sys = tf(numerator, denominator);
+z = 1 + j;
+frsp = evalfr(sys, z)]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}freqresp">freqresp</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
