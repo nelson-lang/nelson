@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `hsvd` Hankel singular values of a state-space or transfer function model.
   - `damp` Natural frequency and damping ratio.
   - `balreal` Gramian-based balancing of state-space realizations.
+  - [#957](http://github.com/nelson-lang/nelson/issues/957) `dlqr` Linear-quadratic (LQ) state-feedback regulator for discrete-time state-space system.
   - [#961](http://github.com/nelson-lang/nelson/issues/961) `lqed` Discrete Kalman estimator design from continuous cost function.
   - [#960](http://github.com/nelson-lang/nelson/issues/960) `lqe` Kalman estimator design for continuous-time systems.
   - [#955](http://github.com/nelson-lang/nelson/issues/955) `lqr` Linear-Quadratic Regulator (LQR) design.
