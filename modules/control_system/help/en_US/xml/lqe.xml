@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>lqe</keyword>
+  <short_description
+  >Kalman estimator design for continuous-time systems..</short_description>
+
+  <syntax>
+      <syntax_item>[L, P, E] = lqe(A, G, C, Q, R, N)</syntax_item>
+      <syntax_item>[L, P, E] = lqe(A, G, C, Q, R)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>State matrix: n x n matrix.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>G</param_name>
+      <param_description
+      >Defines a matrix linking the process noise to the states.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
+      >The output matrix, with dimensions (q x n), where q is the number of outputs.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description>State-cost weighted matrix</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description>Input-cost weighted matrix</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description
+      >Optional cross term matrix: 0 by default.</param_description>
+    </param_input_item>
+   
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Kalman gain matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description
+      >Solution of the Discrete Algebraic Riccati Equation.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>E</param_name>
+      <param_description>Closed-loop pole locations</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+    <p
+    >The function computes the optimal steady-state feedback gain matrix, denoted as <b
+      >L</b>, minimizing a quadratic cost function for a linear discrete state-space system model.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[c = 1;
+m = 1;
+k = 1;
+A = [0, 2; -k/m, -c/m];
+B = [0; 2/m];
+G = [2 0 ; 0 2];
+C = [2 0];
+Q = [0.02 0; 0 0.02];
+R = 0.02;
+[l, p, e] = lqe(A, G, C, Q, R)]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}lqr">lqr</link>
+    </see_also_item>
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

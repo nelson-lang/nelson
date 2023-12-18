@@ -10,28 +10,18 @@
 %=============================================================================
 function varargout = lqr(varargin)
   % Compute the LQR gain matrix control law L with the weighing matricies Q and R
-  % [K, S, e] = LQR(A, B, Q, R, N)
-  
-  narginchk(4, 5);
+  % [K, S, e] = lqr(SYS, Q, R, N)
+  narginchk(3, 4);
   nargoutchk(0, 3);
-  
-  A = varargin{1};
-  B = varargin{2};
-  Q = varargin{3};
-  R = varargin{4};
-  
-  msg = abcdchk(A, B);
-  if ~isempty(msg)
-    error(msg.id, msg.message);
-  end
-  sys = ss(A, B, [], []);
-  if nargin > 4
-    N = varargin{5};
+  sys = ss(varargin{1});
+  Q = varargin{2};
+  R = varargin{3};
+  if nargin > 3
+    N = varargin{4};
     [K, S, e] = lqr(sys, Q, R, N);
   else
     [K, S, e] = lqr(sys, Q, R);
   end
-  
   varargout{1} = K;
   if nargout > 1
     varargout{2} = S;
@@ -40,3 +30,4 @@ function varargout = lqr(varargin)
     varargout{3} = e;
   end
 end
+

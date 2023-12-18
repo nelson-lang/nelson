@@ -16,7 +16,7 @@ function varargout = minreal(varargin)
   nargoutchk(0, 4);
   [msg, A, B, C, D] = abcdchk(varargin{:});
   if ~isempty(msg)
-    error(msg);
+    error(msg.id, msg.message);
   end
   
   if nargin < 5
