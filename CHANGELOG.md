@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- `filter` 1-D digital filter.
+
 - control system module (part 2):
   - `evalfr` Evaluate system response at specific frequency.
   - `nyquist` Nyquist plot of frequency response.
