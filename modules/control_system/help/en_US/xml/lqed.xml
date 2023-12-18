@@ -2,13 +2,12 @@
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 	<language>en_US</language>
-	<keyword>lqe</keyword>
+	<keyword>lqed</keyword>
   <short_description
-  >Kalman estimator design for continuous-time systems.</short_description>
+  >Calculates the discrete Kalman estimator configuration based on a continuous cost function.</short_description>
 
   <syntax>
-      <syntax_item>[L, P, E] = lqe(A, G, C, Q, R, N)</syntax_item>
-      <syntax_item>[L, P, E] = lqe(A, G, C, Q, R)</syntax_item>
+      <syntax_item>[L, P, Z, E] = LQED(A, G, C, Q, R, Ts)</syntax_item>
   </syntax>
 
   <param_input>
@@ -43,6 +42,10 @@
       <param_description
       >Optional cross term matrix: 0 by default.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>Ts</param_name>
+      <param_description>sample time: scalare.</param_description>
+    </param_input_item>
    
   </param_input>
 
@@ -60,13 +63,18 @@
       <param_name>E</param_name>
       <param_description>Closed-loop pole locations</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>Z</param_name>
+      <param_description>Discrete estimator poles</param_description>
+    </param_output_item>
+    	
 
   </param_output>
 
   <description>
-    <p
-    >The function computes the optimal steady-state feedback gain matrix, denoted as <b
-      >L</b>, minimizing a quadratic cost function for a linear discrete state-space system model.</p>
+    <p><b
+      >[L, P, Z, E] = LQED(A, G, C, Q, R, Ts)</b> Calculates the discrete Kalman gain matrix <b
+      >L</b> to minimize the discrete estimation error, equivalent to the estimation error in the continuous system.</p>
   </description>
 
 <examples>
@@ -74,16 +82,16 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data
-      ><![CDATA[c = 1;
-m = 1;
-k = 1;
-A = [0, 2; -k/m, -c/m];
-B = [0; 2/m];
-G = [2 0 ; 0 2];
-C = [2 0];
-Q = [0.02 0; 0 0.02];
-R = 0.02;
-[l, p, e] = lqe(A, G, C, Q, R)]]>
+      ><![CDATA[A = [10     1.2;  3.3     4];
+B = [5     0;   0     6];
+C = B;
+D = [0,0;0,0];
+R = [2,0;0,3];
+Q = [5,0;0,4];
+G = [6,0;0,7];
+Ts = 0.004;
+
+[L, P, Z, E] = lqed(A, G, C, Q, R, Ts)]]>
     </example_item_data>
   </example_item>
 </examples>
@@ -92,6 +100,10 @@ R = 0.02;
     <see_also_item>
       <link linkend="${control_system}lqr">lqr</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lqe">lqe</link>
+    </see_also_item>
+
   </see_also>
 
 
