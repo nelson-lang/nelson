@@ -11,7 +11,5 @@ addgateway(modulepath('slicot', 'builtin'), 'slicot');
 if ~SLICOTWrapper('load')
   warning('Nelson:slicot:loadingFails', _('library slicot not loaded.'))
   removemodule('slicot');
-else
-  addpath(modulepath('slicot', 'functions'), '-frozen');
 end
 %=============================================================================

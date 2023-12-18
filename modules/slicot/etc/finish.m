@@ -8,6 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 SLICOTWrapper('free');
-rmpath(modulepath('slicot', 'functions'));
 removegateway(modulepath('slicot', 'builtin'));
 %=============================================================================
