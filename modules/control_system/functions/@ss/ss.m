@@ -77,6 +77,7 @@ function sys = ss_one_rhs(D)
   sys.B = zeros(0, size(D, 2));
   sys.C = zeros(size(D, 1),0);
   sys.D = D;
+  sys.Ts = 0;
   sys.Internal.Ts = -2;
 end
 %=============================================================================
@@ -94,9 +95,9 @@ function sys = ss_ABCD(A, B, C, D, Ts)
   sys.B = B;
   sys.C = C;
   sys.D = D;
-  
+    
   if isequal(Ts, -1)
-    sys.Ts = 0;
+    sys.Ts = -1;
     sys.Internal.Ts = -1;
   elseif isequal(Ts, -2)
     sys.Ts = 0;

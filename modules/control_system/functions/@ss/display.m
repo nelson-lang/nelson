@@ -38,7 +38,11 @@ function display(varargin)
     disp(_('     Static gain.'));
   else
     if isdt(SS)
-      disp(sprintf(_('Sample time: %.4f %s'), SS.Ts, SS.TimeUnit)); 
+      if SS.Ts == -1
+        disp(sprintf(_('Sample time: %s'), _('unspecified'))); 
+      else
+        disp(sprintf(_('Sample time: %.4f %s'), SS.Ts, SS.TimeUnit)); 
+      end
       disp(_('Discrete-time state-space model.'));
     end
     if isct(SS)

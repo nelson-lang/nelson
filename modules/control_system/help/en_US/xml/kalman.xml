@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>kalman</keyword>
+  <short_description
+  >Design Kalman filter for state estimation.</short_description>
+
+  <syntax>
+   <syntax_item>[kalmf, L, P, M, Z] = kalman(sys, Q, R, N)</syntax_item>
+   <syntax_item
+    >[kalmf, L, P, M, Z] = kalman(sys, Q, R, N, sensors, known)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description
+      >Plant model with process noise: state-space model.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description
+      >Process noise covariance: scalar or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description
+      >Measurement noise covariance: scalar or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description
+      >Noise cross covariance: scalar or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sensors</param_name>
+      <param_description>Measured outputs of sys: vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>known</param_name>
+      <param_description>Known inputs of sys: vector.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>kalmf</param_name>
+      <param_description>Kalman estimator: state-space model</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Filter gains: matrix</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>P</param_name>
+      <param_description
+      >Steady-state error covariances: matrix</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>M</param_name>
+      <param_description
+      >Innovation gains of state estimators: matrix</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>Z</param_name>
+      <param_description
+      >Steady-state error covariances: matrix</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+    <p><b
+      >[kalmf, L, P] = kalman(sys, Q, R, N)</b> generates a Kalman filter using the provided plant model <b
+      >sys</b> and noise covariance matrices <b>Q</b>, <b>R</b>, and <b
+      >N</b>.</p>
+    <p
+    >The function calculates a Kalman filter suitable for application in a Kalman estimator, as depicted in the following diagram.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = [11.269   -0.4940    1.129; 1.0000         0         0;0    1.0000         0];
+B = [-0.3832;  0.5919;  0.5191];
+C = [1 0 0];
+sys = ss(A,[B, B], C, 0);
+Q = 1;
+R = 1;
+[kEst, l, p, m, z] = kalman(sys, Q, R, [])]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}care">care</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dare">dare</link>
+    </see_also_item>
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

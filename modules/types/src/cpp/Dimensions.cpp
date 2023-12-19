@@ -308,26 +308,7 @@ Dimensions::toWideString() const
 std::string
 Dimensions::toString() const
 {
-#define MULTIPLY_SYMBOL "\U000000D7"
-    std::string text;
-    if (length > 4) {
-        text.append(std::to_string(length) + "-D");
-    } else {
-        if (length > 0) {
-            for (indexType i = 0; i < length - 1; i++) {
-                unsigned long long int val = static_cast<unsigned long long int>(data[i]);
-                text.append(std::to_string(val));
-                if (length >= 1) {
-                    text.append(MULTIPLY_SYMBOL);
-                }
-            }
-        }
-        if (length >= 1) {
-            unsigned long long int val = static_cast<unsigned long long int>(data[length - 1]);
-            text.append(std::to_string(val));
-        }
-    }
-    return text;
+    return wstring_to_utf8(toWideString());
 }
 //=============================================================================
 void
