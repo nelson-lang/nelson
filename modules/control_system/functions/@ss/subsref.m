@@ -16,7 +16,7 @@ function varargout = subsref(varargin)
           name = s(1).subs;
           if ~isprop(obj, name)
             msg = _('No property of the class ''%s'' matches the identifier ''%s''.');
-            error(sprintf(msg, 'tf', name));
+            error(sprintf(msg, 'ss', name));
           end
           st = struct(obj);
           varargout{1} = st.(name);

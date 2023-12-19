@@ -105,6 +105,8 @@ function varargout = dare(varargin)
   end
   
   if isempty(E)
+    SCAL = 'N';
+    ACC = 'N';
     [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, SorB, TOL);
     if (INFO(1) ~= 0)
       error(_('Unable to solve the specified Riccati equation.'));
