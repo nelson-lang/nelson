@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>B</param_name>
       <param_description
-      > Input-to-state matrix: Nx-by-Nu matrix.</param_description>
+      >Input-to-state matrix: Nx-by-Nu matrix.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C</param_name>
