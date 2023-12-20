@@ -51,5 +51,5 @@ l_REF = [0; 0];
 g_REF = [0     0];
 
 assert_isapprox(x, x_REF, 1e-4);
-assert_isapprox(g, g_REF, 1e-4);
+assert_istrue(all(g - g_REF < eps()));
 %=============================================================================
