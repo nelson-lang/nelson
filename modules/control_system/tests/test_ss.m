@@ -73,3 +73,21 @@ assert_isequal(sys.C, zeros(2, 0));
 assert_isequal(sys.D, D);
 assert_isequal(sys.Ts, 0);
 %=============================================================================
+num = [3 4];
+den = [3 1 5];
+Ts = 0.2;
+sysIn = tf(num, den, Ts)
+sys = ss(sysIn);
+
+A_REF = [-0.3333   -1.6667;  1.0000         0];
+B_REF = [2;   0];
+C_REF = [0.5000    0.6667];
+D_REF = 0;
+Ts_REF = Ts; 
+
+assert_isapprox(sys.A, A_REF, 1e-4);
+assert_isapprox(sys.B, B_REF, 1e-4);
+assert_isapprox(sys.C, C_REF, 1e-4);
+assert_isapprox(sys.D, D_REF, 1e-4);
+assert_isapprox(Ts, Ts_REF, 1e-4);
+%=============================================================================

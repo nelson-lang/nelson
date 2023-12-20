@@ -9,6 +9,7 @@
     <syntax_item>sys = ss(A, B, C, D)</syntax_item>
     <syntax_item>sys = ss(A, B, C, D, TS)</syntax_item>
     <syntax_item>sys = ss(D)</syntax_item>
+    <syntax_item>sys = ss(sysIn)</syntax_item>
   </syntax>
 
   <param_input>
@@ -34,6 +35,10 @@
     <param_input_item>
       <param_name>TS</param_name>
       <param_description>Sample time: scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sysIn</param_name>
+      <param_description>SISO LTI model.</param_description>
     </param_input_item>
 
   </param_input>
@@ -63,6 +68,19 @@ D = 0;
 sys = ss(A, B, C, D)]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[num = [3 4];
+den = [3 1 5];
+Ts = 0.2;
+sysIn = tf(num, den, Ts)
+sys = ss(sysIn)]]>
+    </example_item_data>
+  </example_item>
+
 </examples>
 
   <see_also>

@@ -62,12 +62,32 @@ function sys = ss_no_rhs()
   sys = class(ss, 'ss');
 end
 %=============================================================================
+function sysOut = tf_to_ss(sysIn)
+  if ~issiso(sysIn)
+    error(_('SISO LTI model expected.'));
+  end
+  Ts = sysIn.Ts;
+  [ny, nu] = size(sysIn.Numerator{1});
+  isemptytf = (isempty(sysIn.Numerator{1}) && isempty(sysIn.Denominator{1})) || ((ny == 0) || (nu == 0)); 
+  A = [];
+  B = [];
+  C = [];
+  D = [];
+
+  if ~isemptytf
+    numerator = sysIn.Numerator{1};
+    denominator = sysIn.Denominator{1};
+    [A, B, C, D] = compreal(numerator, denominator);
+  end
+  sysOut = ss(A, B, C, D, Ts);
+end
+%=============================================================================
 function sys = ss_one_rhs(D)
   if islti(D)
     if isa(D, 'ss')
       sys = D;
     elseif isa(D, 'tf')
-      error(_('Supported LTI model expected.'))
+      sys = tf_to_ss(D);
     else
       error(_('Supported LTI model expected.'))
     end
