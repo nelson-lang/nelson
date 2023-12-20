@@ -4,7 +4,7 @@
 	<language>en_US</language>
 	<keyword>c2d</keyword>
   <short_description
-  >Appends the inputs and outputs of the two models.</short_description>
+  >Convert model from continuous to discrete time.</short_description>
 
   <syntax>
    <syntax_item>[P, G] = c2d(A, B, Ts)</syntax_item>

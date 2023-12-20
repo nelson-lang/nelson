@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `filter` 1-D digital filter.
 
 - control system module (part 2):
+  - `dc2` Convert model from discrete to continuous time.
   - `c2d` Convert model from continuous to discrete time.
   - `kalman` Design Kalman filter for state estimation.
   - `evalfr` Evaluate system response at specific frequency.
