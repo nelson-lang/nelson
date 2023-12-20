@@ -19,25 +19,35 @@ namespace Nelson {
 static int64
 textToInt64Converter(const std::string& str)
 {
-    int64 res = static_cast<int64>(0);
-    char* endptr = nullptr;
-    if (str[0] == '-') {
-        std::string withNeg = str.substr(1);
-        unsigned long long int v = strtoull(withNeg.c_str(), &endptr, 10);
-        if (v > -std::numeric_limits<int64>::min()) {
-            res = std::numeric_limits<int64>::min();
+    int64 result = static_cast<int64>(0);
+    size_t idx;
+    size_t startPos = (str[0] == '-') ? 1 : 0;
+    unsigned long long int v = std::stoull(str.substr(startPos), &idx, 10);
+
+    try {
+        if (startPos == 1) {
+            if (v > (unsigned long long int)(-std::numeric_limits<int64>::min())) {
+                result = std::numeric_limits<int64>::min();
+            } else {
+                result = -static_cast<int64>(v);
+            }
         } else {
-            res = -static_cast<int64>(v);
+            if (v > (unsigned long long int)(std::numeric_limits<int64>::max())) {
+                result = std::numeric_limits<int64>::max();
+            } else {
+                result = static_cast<int64>(v);
+            }
         }
-    } else {
-        unsigned long long int v = strtoull(str.c_str(), &endptr, 10);
-        if (v > std::numeric_limits<int64>::max()) {
-            res = std::numeric_limits<int64>::max();
+    } catch (const std::out_of_range&) {
+        if (startPos == 1) {
+            result = std::numeric_limits<int64>::min();
         } else {
-            res = static_cast<int64>(v);
+            result = std::numeric_limits<int64>::max();
         }
+    } catch (const std::invalid_argument&) {
+        throw;
     }
-    return res;
+    return result;
 }
 //=============================================================================
 template <class T>
@@ -115,8 +125,20 @@ textToInt64(const std::string& str)
 uint64
 textToUint64(const std::string& str)
 {
-    char* endptr = nullptr;
-    unsigned long long int v = strtoull(str.c_str(), &endptr, 10);
+    size_t idx;
+    unsigned long long int v = 0;
+    try {
+        v = std::stoull(str, &idx, 10);
+    } catch (const std::out_of_range&) {
+        size_t startPos = (str[0] == '-') ? 1 : 0;
+        if (startPos == 1) {
+            return std::numeric_limits<uint64>::min();
+        } else {
+            return std::numeric_limits<uint64>::max();
+        }
+    } catch (const std::invalid_argument&) {
+        throw;
+    }
     return static_cast<uint64>(v);
 }
 //=============================================================================
