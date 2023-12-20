@@ -14,9 +14,9 @@ function varargout = c2d(varargin)
   % sysd = c2d(sysc, Ts, method)
   % sysd = c2d(sysc, Ts, 'prewarp', W)
   
-  sys = varargin{1};
   narginchk(2, 4);
-  nargoutchk(0, 2);
+  nargoutchk(0, 1);
+  sys = varargin{1};
  
   if ~isct(sys)
     error(_('Continuous model expected.'));
