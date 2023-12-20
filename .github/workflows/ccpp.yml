@@ -463,7 +463,7 @@ jobs:
 
   Fedora:
     runs-on: ubuntu-latest
-    container: fedora:37
+    container: fedora:39
     timeout-minutes: 120
 
     steps:
