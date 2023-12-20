@@ -226,3 +226,38 @@ Discrete-time transfer function.
 ';
 assert_isequal(R, REF)
 %=============================================================================
+Fs = 5;
+dt = 1/Fs;
+A = [cos(dt) sin(dt);-sin(dt) cos(dt)];
+B = [1-cos(dt);sin(dt)];
+C = [-1 0];
+D = 1;
+sysIn = ss(A, B, C, D);
+
+sys = tf(sysIn);
+[N, D] = tfdata(sys);
+
+N_REF = [1.0000   -1.9801    0.9801];
+D_REF = [1.0000   -1.9601    1.0000];
+
+assert_isapprox(N, N_REF, 1e-4);
+assert_isapprox(D, D_REF, 1e-4);
+%=============================================================================
+A = [-1     0     0;   0    -4  -2.5;   0     2     0];
+B = [2   0; 0   2; 0   0];
+C = [-1  0.5  0.5];
+D = [ 1   0];
+sysIn = ss(A, B, C, D);
+
+sys = tf(sysIn);
+[N, D] = tfdata(sys);
+
+N_REF = {[1  -1], [1.0000  5.0000  7.0000]};
+D_REF = {[1  1], [1.0000  4.0000  5.0000]};
+
+assert_isapprox(N{1}, N_REF{1}, 1e-4);
+assert_isapprox(D{1}, D_REF{1}, 1e-4);
+assert_isapprox(N{2}, N_REF{2}, 1e-4);
+assert_isapprox(D{2}, D_REF{2}, 1e-4);
+
+%=============================================================================

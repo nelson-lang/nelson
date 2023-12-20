@@ -54,12 +54,31 @@ function sys = tf_no_rhs()
   sys = class(tf, 'tf');
 end
 %=============================================================================
+function sys = ss_to_tf(sysIn)
+  if isstatic(sysIn)
+    sys = tf(1, sysIn.D, sysIn.Ts);
+  else
+    [A, B, C, D, Ts] = ssdata(sysIn);
+    sys = tf();
+    for i = 1:size(B, 2)
+      for j = 1:size(C, 1)
+        % sminreal will be better here :(
+        [a, b, c, d] = minreal(A, B(:, i), C(j, :), D(j ,i));
+        [N, D] = ss2tf(a, b, c, d);
+        partialG = tf(N, D, Ts);
+        sys.Numerator(j, i) = partialG.Numerator;
+        sys.Denominator(j, i) = partialG.Denominator;
+      end
+      sys.Ts = sysIn.Ts;
+  end
+end
+%=============================================================================
 function sys = tf_one_rhs(m)
   if islti(m)
     if isa(m, 'tf')
       sys = m;
     elseif isa(m, 'ss')
-      error(_('Supported LTI model expected.'))
+      sys = ss_to_tf(m);
     else
       error(_('Supported LTI model expected.'))
     end

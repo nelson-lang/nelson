@@ -19,13 +19,13 @@ function varargout = pole(varargin)
   if ~islti(sys)
     error(_('LTI model expected.'));
   end
-  if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
-  end
   
   if isa(sys, 'ss')
     p = eig(sys.A); % Eigenvalues
   elseif isa(sys, 'tf')
+    if ~issiso(sys)
+      error(_('SISO LTI model expected.'));
+    end
     denominators = sys.Denominator;
     denominator = denominators{1};
     p = roots(denominator);
