@@ -61,6 +61,7 @@ x_REF = [0.1000;
  assert_isapprox(t, t_REF, 1e-3);
  assert_isapprox(y, y_REF, 1e-3);
 %=============================================================================
+f = figure();
 lsim(sys, U, T, X0);
 %=============================================================================
 % Plot simulated time response of dynamic
@@ -82,8 +83,10 @@ Ts = 0.1;
 [uSq,t] = gensig("square",4,Tf,Ts);
 uP = gensig("pulse",3,Tf,Ts);
 u = [uSq uP];
-lsim(sys,u,t)
+f = figure();
+lsim(sys,u,t);
 %=============================================================================
+f = figure();
 A = [-1.5 -3;
       3   -1];
 B = [1.3; 0];
