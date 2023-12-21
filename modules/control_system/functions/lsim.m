@@ -70,36 +70,6 @@ function varargout = lsim(varargin)
     x = (Ad * x)  +  (Bd * q);
   end
   
-  % If we have a sample time bigger that 0, then we need to make sure
-  % that the signal look like it's in discrete form.
-  % If the model has the sample time t(2) - t(1)
-  % the model will be inteprented as time continous
-  if (Ts > 0)
-    % Change t, u and y vector so the plot look like it is discrete
-    for(i = 1:2:length(y)*2)
-      leftPart = y(:, 1:i);
-      rightPart = y(:, (i+1):end);
-      y = [leftPart, y(:, i), rightPart];
-    end
-    for(i = 1:2:length(U)*2)
-      leftPart = U(:, 1:i);
-      rightPart = U(:, (i+1):end);
-      U = [leftPart, U(:, i), rightPart];
-    end
-    for(i = 1:2:length(T)*2)
-      leftPart = T(1:i);
-      rightPart = T((i+1):end);
-      T = [leftPart, T(i), rightPart];
-    end
-
-    % Just remove the first one 
-    T = T(:, 2:length(T));
-    % And the last one
-    Y = Y(:, 1:(length(Y)-1));
-    u = u(:, 1:(length(U)-1));
-    % Now we have three vectors which look like a discrete signal
-  end
-
   % This is for the sub plot - How many max rows should we have
   if nargout == 0
     varargout = {};

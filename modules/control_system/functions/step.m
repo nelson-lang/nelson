@@ -63,7 +63,7 @@ function varargout = step(varargin)
   % Call lsim!
   if nargout == 0
     lsim(sys, u, t, x0);
-    title('Step response');
+    title(_('Step response'));
   else
     [Y, T, X] = lsim(sys, u, t, x0);
     varargout{1} = Y;
