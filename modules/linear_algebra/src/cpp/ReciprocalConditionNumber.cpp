@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL
 #undef EIGEN_USE_MKL_VML
@@ -56,7 +60,7 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_dgetrf error."));
+                Error(fmt::sprintf(_("LAPACK_dgetrf error code: %d."), info));
             }
             info = 0;
             double* work = new_with_exception<double>(4 * n, false);
@@ -69,7 +73,7 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_dgecon error."));
+                Error(fmt::sprintf(_("LAPACK_dgecon error code: %d."), info));
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -113,7 +117,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_zgetrf error."));
+                Error(fmt::sprintf(_("LAPACK_zgetrf error code: %d."), info));
             }
             info = 0;
             doublecomplex* work = new_with_exception<doublecomplex>(4 * n, false);
@@ -125,7 +129,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_zgecon error."));
+                Error(fmt::sprintf(_("LAPACK_zgecon error code: %d."), info));
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -169,7 +173,7 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_sgetrf error."));
+                Error(fmt::sprintf(_("LAPACK_sgetrf error code: %d."), info));
             }
             info = 0;
             single* work = new_with_exception<single>(4 * n, false);
@@ -182,7 +186,7 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_sgecon error."));
+                Error(fmt::sprintf(_("LAPACK_sgecon error code: %d."), info));
             }
             rcond = ArrayOf::singleConstructor(res);
         }
@@ -228,7 +232,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_cgetrf error."));
+                Error(fmt::sprintf(_("LAPACK_cgetrf error code: %d."), info));
             }
             info = 0;
             singlecomplex* work = new_with_exception<singlecomplex>(4 * n, false);
@@ -240,7 +244,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                Error(_("LAPACK_cgecon error."));
+                Error(fmt::sprintf(_("LAPACK_cgecon error code: %d."), info));
             }
             rcond = ArrayOf::singleConstructor(res);
         }

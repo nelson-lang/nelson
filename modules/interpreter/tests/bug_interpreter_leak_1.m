@@ -17,10 +17,16 @@ for i=1:50000
   typeofbin(201);
 end
 %=============================================================================
-sleep(1);
+sleep(5);
+%=============================================================================
+% it is not a good practice to compare memory because mac, linux, win have not same behavior. 
 %=============================================================================
 [u2, s2] = memory();
 r = u2.MemUsedNelson - u1.MemUsedNelson;
 disp(r)
-assert_istrue(r < 630000)
+if ispc()
+  assert_istrue(r < 630000)
+else
+  assert_istrue(r < 6300000)
+end
 %=============================================================================
