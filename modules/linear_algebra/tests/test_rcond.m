@@ -20,7 +20,14 @@ assert_isequal(rcond([2 NaN;2 3]), NaN);
 assert_isapprox(rcond([1, 2; 3, 4]), 0.0476, 1e-3);
 assert_isapprox(rcond([i, 2; i, 4]), 0.0667, 1e-3);
 %=============================================================================
-assert_isequal(rcond([2 Inf;2 3]), NaN);
+if ispc()
+  % mkl 
+  assert_isequal(rcond([2 Inf;2 3]), NaN);
+else
+  % blas, openblas or apple
+  R = isequaln(rcond([2 Inf;2 3]), NaN) || isequaln(rcond([2 Inf;2 3]), 0);
+  assert_istrue(R);
+end
 assert_isequal(rcond([0 Inf;2 3]), 0);
 assert_isequal(rcond([0 0;i() 3]), 0);
 assert_isequal(rcond([i Inf;2 3]), 0);
