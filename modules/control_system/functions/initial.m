@@ -1,54 +1,78 @@
-% SPDX-License-Identifier: MIT
-% Simulate a transfer function or state space model with initial state vector x0
-% and time constant t, not time vector
-% Input: sys, t, x0
-% Example 1: [y,t,x] = initial(sys, t, x0)
-% Author: Daniel Mårtensson, September 2017
+%=============================================================================
+% Copyright (c) 2017 September Daniel Mårtensson (Swedish Embedded Control Systems Toolbox)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function varargout = initial(varargin)
+  % Simulate a transfer function or state space model with initial state vector x0
+  % [y,t,x] = initial(sys,x0)
+  % [y,t,x] = initial(sys,x0,Tfinal)
+  % [y,t,x] = initial(sys,x0,t)
+  % [y,t,x] = initial(sys, x0, [t0, tFinal])
+  
+  narginchk(2, 3);
+  nargoutchk(0, 3);
+  
+  sys = varargin{1};
+  if ~islti(sys)
+    error(_('LTI model expected.'));
+  end
+  if ~isa(sys, 'ss')
+    sys = ss(sys);
+  end
+  
+  if ~issiso(sys)
+    error(_('SISO LTI model expected.'));
+  end
 
-function [y,t,X] = initial(varargin)
-	% Check if there is some input arguments or it's not a model
-	if(isempty(varargin{1}))
-		error ('Missing input')
-	end
-
-	% Check if there is a model
-	if(strcmp(varargin{1}.type,'SS'))
-
-		% Get time
-		if(length(varargin) >= 2)
-			t = varargin{2};
-		else
-			disp('Time assumed to be 10 seconds');
-			t = 10;
-		end
-
-		% Get sample time to compute the new time vector
-		sampleTime = varargin{1}.sampleTime;
-		if(sampleTime > 0)
-			t = 0:sampleTime:t;
-		else
-			t = 0:0.01:t; % Sample time assumed to be 0.01
-		end
-
-		% Multiple signals...or not!
-		u = zeros(size(varargin{1}.B, 2), length(t)); % Creates 0 0 0 0 0 0 0
-
-		% Get initial conditions
-		if(length(varargin) >= 3)
-			x0 = varargin{3};
-			x0 = x0(:); % Turn them into a vector
-			if(size(varargin{1}.A, 1) ~= size(x0, 1))
-				error('The initial conditions vector has not the same row length as matrix A')
-			end
-		else
-			error('Missing initial conditions');
-		end
-
-		% Call lsim!
-		[y,t,X] = lsim(varargin{1}, u, t, x0);
-	elseif(strcmp(varargin{1}.type,'TF'))
-		error('Only for state space models')
-	else
-		error('Not a state space model or a transfer function')
-	end
+  Ts = sys.Ts;
+  
+  x0 = varargin{2};
+  x0 = x0(:); % Turn them into a vector
+  if (size(sys.A, 1) ~= size(x0, 1))
+    error(_('The initial conditions vector has not the same row length as matrix A.'));
+  end
+  
+  if nargin > 2
+    t = varargin{3};
+  else
+    t = 10;
+  end
+  
+  if isvector(t) && ~isscalar(t) 
+    if (numel(t) == 2)
+      if (Ts > 0)
+        t = t(1):Ts:t(2);
+      else
+        t = t(1):0.01:t(2); % Sample time assumed to be 0.01
+      end
+    end
+  else
+    if (Ts > 0)
+      t = 0:Ts:t;
+    else
+      t = 0:0.01:t; % Sample time assumed to be 0.01
+    end
+  end
+  % Multiple signals...or not!
+  u = zeros(size(sys.B, 2), length(t)); % Creates 0 0 0 0 0 0 0
+ 
+  if nargout == 0
+    lsim(sys, u, t, x0);
+    title(_('Response to initial Conditions'));
+  else
+    [Y, T, X] = lsim(sys, u, t, x0);
+    varargout{1} = Y;
+    if nargout > 1
+      varargout{2} = T;
+    end
+    if nargout > 2        
+      varargout{3} = X;
+    end
+  end    
 end
