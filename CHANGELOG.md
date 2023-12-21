@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `filter` 1-D digital filter.
 
 - control system module (part 2):
+  - `lsim` Plot simulated time response of dynamic system to arbitrary inputs.
   - `dc2` Convert model from discrete to continuous time.
   - `c2d` Convert model from continuous to discrete time.
   - `augstate` Append state vector to output vector.
