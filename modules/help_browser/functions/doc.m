@@ -18,6 +18,11 @@ function doc(varargin)
   end
   name = varargin{1};
   mustBeTextScalar(name, 1);
+  if ismacro(name) || isbuiltin(name)
+    helpbrowser('-name', name);
+    helpbrowser('-show');
+    return
+  end
   if ismodule(name)
     helpbrowser('-module', name);
     helpbrowser('-show');
