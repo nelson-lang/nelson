@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>initial</keyword>
+  <short_description
+  >System response to initial states of state-space model.</short_description>
+
+  <syntax>
+    <syntax_item>[y, t, x] = initial(sys, x0)</syntax_item>
+    <syntax_item>[y, t, x] = initial(sys, x0, Tfinal)</syntax_item>
+    <syntax_item>[y, t, x] = initial(sys, x0, t)</syntax_item>
+    <syntax_item>[y, t, x] = initial(sys, x0, [t0, tFinal])</syntax_item>
+    <syntax_item>initial(...)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>a lti model.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>Initial state values: vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Time samples: vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tFinal</param_name>
+      <param_description>End time for step response: scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[t0, tFinal]</param_name>
+      <param_description
+      >Time range for step response: two-element vector.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+     <param_output_item>
+      <param_name>y</param_name>
+      <param_description
+      >Simulated response data: matrix or vector.</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>tOut</param_name>
+      <param_description>Time vector: vector.</param_description>
+    </param_output_item>
+     <param_output_item>
+      <param_name>x</param_name>
+      <param_description
+      >State trajectories: matrix or vector.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+
+<p><b
+      >[y, tOut] = initial(sys, x0)</b> calculates the unforced initial response (y) of the dynamic system <b
+      >sys</b> from the specified initial state <b>x0</b>.</p>
+<p>The time vector <b>tOut</b> is provided in the time units of <b
+      >sys</b>, and the initial function automatically adapts time steps and simulation duration based on the system dynamics.</p>
+<p>When you use <b
+      >[y, tOut] = initial(sys, x0, tFinal)</b>, the function simulates the response from t = 0 to the final time t = tFinal.</p>
+<p>Similarly, <b
+      >[y, tOut] = initial(sys, x0, [t0, tFinal])</b> simulates the response from t0 to tFinal.</p>
+<p>Additionally, <b
+      >[y, tOut] = initial(sys, x0, t)</b> returns the initial response of <b
+      >sys</b> at the specified times provided in the vector <b>t</b>.</p>
+
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
+B = [1;   0;   0];
+C = [0   0   1];
+D = 0;
+T = [0:0.1:1];
+U = zeros(size(T, 1), size(T, 2));    
+X0 = [0.1 0.1 0.1];
+sys = ss(A, B, C, D);    
+initial(sys, X0);
+]]>
+    </example_item_data>
+    <example_item_img src="../images/initial.svg" align="middle" />
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}gensig">step</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}step">lsim</link>
+    </see_also_item>
+
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
