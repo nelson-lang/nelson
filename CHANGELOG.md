@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `ord2` Generate continuous second-order systems.
   - `append` Group models by appending their inputs and outputs.
   - `feedback` Feedback connection of multiple models.
+  - `parallel` Parallel connection of two models.
   - `series` Series connection of two models.
   - `ssdelete` Remove inputs, outputs and states from state-space system.
   - `ssselect` Extract subsystem from larger system.
