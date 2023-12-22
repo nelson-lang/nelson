@@ -31,7 +31,7 @@ endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 0)
 set(Nelson_VERSION_MINOR_DEFAULT 7)
-set(Nelson_VERSION_MAINTENANCE_DEFAULT 11)
+set(Nelson_VERSION_MAINTENANCE_DEFAULT 12)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================
 include(VersionConfig)
