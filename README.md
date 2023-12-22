@@ -68,6 +68,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
 
+- Control System module.
+
 - Message Passing Interface (MPI): functions for parallel computing.
 
 - JSON decode/encode data support.
