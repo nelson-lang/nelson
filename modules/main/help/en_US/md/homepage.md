@@ -21,14 +21,20 @@ Try it !
   - string array (UNICODE supported).
   - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   - handle objects.
+  - anonymous functions,
+  - all types can be overloaded.
 
 - `OpenMP` and `SIMD` extensions used.
 
 - 2D and 3D plotting with high-level plot commands.
 
+- Parallel Computing Module.
+
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
 
 - SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
+
+- Control System module.
 
 - Message Passing Interface (MPI): functions for parallel computing.
 
