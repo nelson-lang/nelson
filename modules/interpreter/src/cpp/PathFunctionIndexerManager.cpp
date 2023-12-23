@@ -309,11 +309,19 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
 }
 //=============================================================================
 wstringVector
-PathFunctionIndexerManager::getPathNameVector()
+PathFunctionIndexerManager::getPathNameVector(bool watchedOnly)
 {
     wstringVector list;
     if (_userPath != nullptr) {
         list.emplace_back(_userPath->getPath());
+    }
+    if (watchedOnly) {
+        for (auto pf : _pathWatchFuncVector) {
+            if (pf) {
+                list.emplace_back(pf->getPath());
+            }
+        }
+        return list;
     }
     for (auto pf : _pathFuncVector) {
         if (pf) {

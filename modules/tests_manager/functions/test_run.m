@@ -72,21 +72,18 @@ function r = getStatusCharacter(status)
     r = status;
     return
   end
-  if strcmp(status, 'Fail') == true
-    r = ' 🔴 ';
-    return
+  switch status
+    case 'Fail'
+      r = ' 🔴 ';
+    case 'Pass'
+      r = ' ✅ ';
+    case {'Skip', 'Interactive', 'No display'}
+      r = ' ⭕ ';
+    otherwise
+      r = status;
+    end
   end
-  if strcmp(status, 'Pass') == true
-    r = ' ✅ ';
-    return
-  end 
-  if contains(status, {'Skip', 'Interactive', 'No display'})
-    r = ' ⭕ ';
-    return
-  end
-  r = status;
-end
-%=============================================================================
+  %=============================================================================
 function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalTests, initialIndex)
   accumulator = [];
   test_cases_updated = [];
@@ -118,7 +115,7 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
         test_cases_updated = [test_cases_updated; accumulator(i)];
         startChars = sprintf(fmtStart, indexTest, nbTotalTests,  accumulator(i).name);
         statusChars = getStatusCharacter(accumulator(i).status);
-        nb_spaces = 80 - length(startChars) - length(statusChars) + 1;
+        nb_spaces = max(0, 80 - length(startChars) - length(statusChars) + 1);
         fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), statusChars, newline);
         displayTestCaseFail(accumulator(i))
         indexTest = indexTest + 1;
@@ -151,7 +148,8 @@ function displayFilenameAndLine(msg)
       disp(['      ', _('Line:'), ' ', num2str(msg.stack(pos).line)]);
     end
   end
-  %=============================================================================
+end
+%=============================================================================
 function displayTestCaseFail(test_case)
   if strcmp(test_case.status, 'Fail') == true
     disp(['    run(''', test_case.filename, ''')']);
@@ -208,20 +206,21 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
   test_cases = [test_cases_sequential; test_cases_parallel];
   time_test = 0;
   for test_case = test_cases(:)'
+    test_suite.tests = test_suite.tests + 1;
     if test_case.isbench
-      test_suite.bench = test_suite.bench + 1;
-    elseif strcmp(test_case.status, 'Fail')
-      test_suite.tests = test_suite.tests + 1;
-      test_suite.errors = test_suite.errors + 1;
-    elseif strcmp(test_case.status, 'Pass')
-      test_suite.tests = test_suite.tests + 1;
-      test_suite.passed = test_suite.passed + 1;
-    elseif strcmp(test_case.status, 'Skip') || strcmp(test_case.status, 'Interactive') || strcmp(test_case.status, 'No display')
-      test_suite.tests = test_suite.tests + 1;
-      test_suite.disabled = test_suite.disabled + 1;
+        test_suite.bench = test_suite.bench + 1;
+    else
+        switch test_case.status
+            case 'Fail'
+                test_suite.errors = test_suite.errors + 1;
+            case 'Pass'
+                test_suite.passed = test_suite.passed + 1;
+            case {'Skip', 'Interactive', 'No display'}
+                test_suite.disabled = test_suite.disabled + 1;
+        end
     end
     time_test = time_test + test_case.time;
-  end
+  end 
   test_suite.test_cases_list = test_cases;
   test_suite.time = test_suite.time + time_test;
 end
@@ -425,7 +424,7 @@ function test_case = create_test_case(filename, classname)
       if test_case.options.mpi_mode
         content = [content; 'exit();'];
       else
-        content = [content; 'exit(double(res_struct.r));'];
+        content = [content; 'exit(double(res_struct.r), ''force'');'];
       end
       filewrite(command_filename, content);
       
@@ -441,7 +440,7 @@ function test_case = create_test_case(filename, classname)
       if ~test_case.options.file_watcher_required
         cmd = [cmd, ' ', '--withoutfilewatcher'];
       end
-
+      
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       
       without_audio = ~(test_case.options.audio_input_required || test_case.options.audio_output_required) && ~endsWith(test_case.classname, '.audio');
