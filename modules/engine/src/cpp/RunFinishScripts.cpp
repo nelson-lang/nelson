@@ -28,7 +28,7 @@ RunFinishScripts(Evaluator* eval)
     if ((eval == nullptr) || (eval->getContext() == nullptr)) {
         return false;
     }
-    wstringVector listPath = PathFunctionIndexerManager::getInstance()->getPathNameVector();
+    wstringVector listPath = PathFunctionIndexerManager::getInstance()->getPathNameVector(true);
     for (auto elementPath : listPath) {
         FileSystemWrapper::Path path(elementPath);
         path += L"/finish.m";

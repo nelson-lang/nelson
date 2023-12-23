@@ -78,7 +78,7 @@ public:
     bool
     removePath(const std::wstring& path);
     wstringVector
-    getPathNameVector();
+    getPathNameVector(bool watchedOnly = false);
     std::wstring
     getPathNameAsString();
     wstringVector

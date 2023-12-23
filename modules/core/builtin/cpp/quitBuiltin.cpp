@@ -59,9 +59,10 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     } break;
     case 2: {
         // quit(code, "force")
-        bool isParam2String = ((argIn[1].isStringArray() && argIn[1].isScalar())
-            || argIn[1].isRowVectorCharacterArray());
-        if (!isParam2String || (argIn[1].getContentAsWideString() != L"force")) {
+        bool isForce = ((argIn[1].isStringArray() && argIn[1].isScalar())
+                           || argIn[1].isRowVectorCharacterArray())
+            && (argIn[1].getContentAsWideString() == L"force");
+        if (!isForce) {
             Error(_("Unknown option."));
         }
         iValue = getExitCodeFromVariable(argIn);
