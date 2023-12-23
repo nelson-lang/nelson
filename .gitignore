@@ -232,3 +232,7 @@ modules/mex/examples/rust-mex-builder/helloworld/Cargo.lock
 modules/mex/examples/rust-mex-builder/helloworld/build.rs
 modules/mex/examples/rust-mex-builder/helloworld/target/
 ################################################################################
+parts/
+prime/
+stage/
+################################################################################
