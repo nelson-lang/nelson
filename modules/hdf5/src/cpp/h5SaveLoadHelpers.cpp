@@ -204,7 +204,10 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
     hid_t memtype = H5Tcopy(H5T_C_S1);
     status = H5Tset_size(memtype, (size_t)sDim);
     if (status < 0) {
-        delete[] pClassname;
+        if (pClassname) {
+            delete[] pClassname;
+            pClassname = nullptr;
+        }
         H5Aclose(attr_id);
         H5Tclose(memtype);
         H5Sclose(aspace);
@@ -214,7 +217,10 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
 
     status = H5Aread(attr_id, memtype, pClassname);
     if (status < 0) {
-        delete[] pClassname;
+        if (pClassname) {
+            delete[] pClassname;
+            pClassname = nullptr;
+        }
         H5Tclose(memtype);
         H5Sclose(aspace);
         H5Aclose(attr_id);

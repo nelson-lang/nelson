@@ -250,7 +250,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
 //=============================================================================
 template <class T>
 static void
-toUint8(ArrayOf A)
+toUint8(const ArrayOf& A)
 {
     T* ptrA = (T*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)

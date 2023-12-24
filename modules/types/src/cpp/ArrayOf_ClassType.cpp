@@ -152,7 +152,7 @@ ArrayOf::classConstructor(
 //=============================================================================
 ArrayOf
 ArrayOf::emptyClassConstructor(
-    const std::wstring className, const wstringVector& fNames, Dimensions& dim)
+    const std::wstring& className, const wstringVector& fNames, Dimensions& dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());
@@ -164,7 +164,7 @@ ArrayOf::emptyClassConstructor(
 //=============================================================================
 ArrayOf
 ArrayOf::emptyClassConstructor(
-    const std::string className, const stringVector& fNames, Dimensions& dim)
+    const std::string& className, const stringVector& fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
         Error(_W("Invalid dimensions."));

@@ -13,7 +13,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsWarningStruct(ArrayOf arg, wstringVector& identifiers, wstringVector& states)
+IsWarningStruct(const ArrayOf& arg, wstringVector& identifiers, wstringVector& states)
 {
     identifiers.clear();
     states.clear();

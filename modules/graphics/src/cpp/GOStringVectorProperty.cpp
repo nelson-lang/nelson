@@ -44,7 +44,7 @@ GOStringVector::data()
 }
 //=============================================================================
 void
-GOStringVector::data(std::vector<std::wstring> m)
+GOStringVector::data(const std::vector<std::wstring>& m)
 {
     _data = m;
 }

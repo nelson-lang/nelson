@@ -253,7 +253,7 @@ promoteComplexAsInteger(NelsonType dstClass, const TIN* ptr, indexType count)
 }
 //=============================================================================
 void
-ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
+ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
 {
     if (dp->dataClass != dstClass && !isEmpty()) {
         bool allowedCases = ((dstClass == NLS_CLASS_ARRAY) && (dp->dataClass == NLS_STRUCT_ARRAY))

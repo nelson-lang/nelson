@@ -87,7 +87,7 @@ RenderQt::color(std::vector<double> col)
 }
 //=============================================================================
 void
-RenderQt::setLineStyle(QPen& _pen, std::wstring style)
+RenderQt::setLineStyle(QPen& _pen, const std::wstring& style)
 {
     if (style == L"-") {
         _pen.setStyle(Qt::SolidLine);
@@ -103,7 +103,7 @@ RenderQt::setLineStyle(QPen& _pen, std::wstring style)
 }
 //=============================================================================
 void
-RenderQt::setLineStyle(std::wstring style)
+RenderQt::setLineStyle(const std::wstring& style)
 {
     QPen pen(pnt->pen());
     setLineStyle(pen, style);
@@ -197,7 +197,8 @@ RenderQt::map(double x, double y, double z)
 }
 //=============================================================================
 QVector<QPointF>
-RenderQt::map(std::vector<double> xs, std::vector<double> ys, std::vector<double> zs)
+RenderQt::map(
+    const std::vector<double>& xs, const std::vector<double>& ys, const std::vector<double>& zs)
 {
     QVector<QPointF> retval;
     retval.resize(xs.size());

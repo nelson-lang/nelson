@@ -41,7 +41,7 @@ public:
     paintMe(RenderInterface& gc) override;
     //=============================================================================
     std::vector<double>
-    reMap(std::vector<double>, bool forceLinearScale);
+    reMap(const std::vector<double>&, bool forceLinearScale);
     //=============================================================================
     void
     reMap(std::vector<double>, std::vector<double>, std::vector<double>, std::vector<double>&,
@@ -70,7 +70,7 @@ private:
     //=============================================================================
     void
     getMaxTickMetric(
-        RenderInterface& gc, std::vector<std::wstring> labs, double& maxx, double& maxy);
+        RenderInterface& gc, const std::vector<std::wstring>& labs, double& maxx, double& maxy);
     //=============================================================================
     void
     drawLabel(RenderInterface& gc, double dx, double dy, double x2, double y2,
@@ -96,7 +96,7 @@ private:
     drawYGridLine(RenderInterface& gc, double t, std::vector<double> limits);
     //=============================================================================
     void
-    drawZGridLine(RenderInterface& gc, double t, std::vector<double> limits);
+    drawZGridLine(RenderInterface& gc, double t, const std::vector<double>& limits);
     //=============================================================================
     double
     flipX(double t);

@@ -495,7 +495,7 @@ public:
      *   - we try to convert any numerical types to a reference type.
      */
     void
-    promoteType(NelsonType new_type, stringVector fieldNames);
+    promoteType(NelsonType new_type, const stringVector& fieldNames);
     /**
      * Promote our array to a new type.  This is a shortcut for when new_type is
      * not NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
@@ -1306,9 +1306,10 @@ public:
 
     static ArrayOf
     emptyClassConstructor(
-        const std::wstring className, const wstringVector& fNames, Dimensions& dim);
+        const std::wstring& className, const wstringVector& fNames, Dimensions& dim);
     static ArrayOf
-    emptyClassConstructor(const std::string className, const stringVector& fNames, Dimensions& dim);
+    emptyClassConstructor(
+        const std::string& className, const stringVector& fNames, Dimensions& dim);
 
     //=========================================================================
     // string array

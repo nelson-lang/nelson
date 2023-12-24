@@ -199,7 +199,7 @@ public:
     virtual void color(std::vector<double>) = 0;
     //=============================================================================
     virtual void
-    setLineStyle(std::wstring style)
+    setLineStyle(const std::wstring& style)
         = 0;
     //=============================================================================
     void
