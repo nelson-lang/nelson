@@ -148,7 +148,7 @@ displayVersion(NELSON_ENGINE_MODE _mode)
 }
 //=============================================================================
 static void
-displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
+displayHelp(const std::wstring& description, NELSON_ENGINE_MODE _mode)
 {
     std::wstring msg = L"Nelson options:";
 #ifdef _MSC_VER

@@ -21,7 +21,7 @@ protected:
     std::vector<std::wstring> m_dictionary;
 
 public:
-    GORestrictedStringProperty(std::vector<std::wstring> dict) : m_dictionary(dict)
+    GORestrictedStringProperty(const std::vector<std::wstring>& dict) : m_dictionary(dict)
     {
         _data = dict[0];
     }

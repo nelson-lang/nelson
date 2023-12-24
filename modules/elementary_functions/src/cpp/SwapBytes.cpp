@@ -42,7 +42,7 @@ swapSingle(single a)
 }
 //=============================================================================
 ArrayOf
-SwapBytes(ArrayOf A, bool& needToOverload)
+SwapBytes(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

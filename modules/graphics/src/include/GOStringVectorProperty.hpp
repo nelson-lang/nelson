@@ -28,7 +28,7 @@ public:
     std::vector<std::wstring>
     data();
     void
-    data(std::vector<std::wstring> m);
+    data(const std::vector<std::wstring>& m);
     std::wstring
     toWideString() override;
 };

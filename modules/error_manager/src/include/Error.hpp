@@ -15,10 +15,10 @@
 namespace Nelson {
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
+Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false) noexcept(false);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
+Error(const std::string& msg, const std::string& id = "", bool asCaller = false) noexcept(false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

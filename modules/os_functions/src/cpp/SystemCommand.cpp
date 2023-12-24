@@ -157,7 +157,7 @@ public:
             } else {
                 outputResult = readFile(tempOutputFile);
             }
-            _message = outputResult.c_str();
+            _message = outputResult;
         }
         FileSystemWrapper::Path::remove(tempOutputFile);
         FileSystemWrapper::Path::remove(tempErrorFile);

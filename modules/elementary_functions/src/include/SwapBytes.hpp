@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-SwapBytes(ArrayOf arrayIn, bool& needToOverload);
+SwapBytes(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
 }
 //=============================================================================

@@ -507,7 +507,7 @@ GOAxis::recalculateTicks()
 }
 //=============================================================================
 void
-GOAxis::drawZGridLine(RenderInterface& gc, double t, std::vector<double> limits)
+GOAxis::drawZGridLine(RenderInterface& gc, double t, const std::vector<double>& limits)
 {
     std::vector<double> m;
     gc.getModelviewMatrix(m);
@@ -699,7 +699,7 @@ GOAxis::drawGridLines(RenderInterface& gc)
 //=============================================================================
 void
 GOAxis::getMaxTickMetric(
-    RenderInterface& gc, std::vector<std::wstring> labs, double& maxx, double& maxy)
+    RenderInterface& gc, const std::vector<std::wstring>& labs, double& maxx, double& maxy)
 {
     maxx = 0;
     maxy = 0;
@@ -2111,7 +2111,7 @@ GOAxis::setupProjection(RenderInterface& gc)
 }
 //=============================================================================
 std::vector<double>
-GOAxis::reMap(std::vector<double> t, bool forceLinearScale)
+GOAxis::reMap(const std::vector<double>& t, bool forceLinearScale)
 {
     std::vector<double> s;
     s.reserve(t.size() * 3);

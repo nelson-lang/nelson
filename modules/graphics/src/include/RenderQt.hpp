@@ -54,7 +54,8 @@ private:
     map(double x, double y, double z);
     //=============================================================================
     QVector<QPointF>
-    map(std::vector<double> xs, std::vector<double> ys, std::vector<double> zs);
+    map(const std::vector<double>& xs, const std::vector<double>& ys,
+        const std::vector<double>& zs);
     //=============================================================================
     std::vector<quad3D>
     mapQuads(std::vector<std::vector<coloredPoint>>& faces,
@@ -73,7 +74,7 @@ private:
     boundingRectMultiLine(const std::wstring& text, QFont fnt, size_t& nbLines);
     //=============================================================================
     void
-    setLineStyle(QPen& _pen, std::wstring style);
+    setLineStyle(QPen& _pen, const std::wstring& style);
     //=============================================================================
 public:
     //=============================================================================
@@ -151,7 +152,7 @@ public:
     void color(std::vector<double>) override;
     //=============================================================================
     void
-    setLineStyle(std::wstring style) override;
+    setLineStyle(const std::wstring& style) override;
     //=============================================================================
     void
     lineWidth(double n) override;
