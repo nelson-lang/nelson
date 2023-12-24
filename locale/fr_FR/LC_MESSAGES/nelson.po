@@ -6765,10 +6765,6 @@ msgstr "isequalto doit renvoyer un booléen."
 msgid "Cannot convert to unicode."
 msgstr "Impossible de convertir en Unicode."
 
-msgid "Wrong value for #1 argument, 'fullpathext' or 'fullpath' expected."
-msgstr ""
-"Mauvaise valeur pour l'argument #1, 'fullpathext' ou 'fullpath' attendu."
-
 msgid "Input function not allowed from evalc."
 msgstr "La fonction d'entrée n'est pas autorisée depuis evalc."
 
@@ -7201,3 +7197,323 @@ msgstr ""
 msgid "pcolor requires either X,Y,C, or C arguments."
 msgstr "pcolor nécessite soit des arguments X,Y,C, soit C."
 
+msgid "Cannot set a read only property."
+msgstr "Impossible de définir une propriété en lecture seule."
+
+msgid "Wrong value for #1 argument, 'fullpathext' or 'fullpath' expected."
+msgstr "Valeur incorrecte pour l'argument #1, 'fullpathext' ou 'fullpath' attendu."
+
+msgid "cellfun works only on cells."
+msgstr "cellfun fonctionne uniquement sur des cellules."
+
+msgid "Wrong type for argument #1. class expected."
+msgstr "Type incorrect pour l'argument #1. Classe attendue."
+
+msgid "Illegal indexing structure argument: type '.' expected."
+msgstr "Argument de structure d'indexation illégal : type '.' attendu."
+
+msgid "Second argument must be a double or single variable."
+msgstr "Le deuxième argument doit être une variable double ou simple."
+
+#, c-format
+msgid "'%s' failed to run."
+msgstr "'%s' n'a pas réussi à s'exécuter."
+
+msgid "Invalid indexing."
+msgstr "Indexation invalide."
+
+#, c-format
+msgid "LAPACK_dgetrf error code: %d."
+msgstr "Code d'erreur LAPACK_dgetrf : %d."
+
+#, c-format
+msgid "LAPACK_dgecon error code: %d."
+msgstr "Code d'erreur LAPACK_dgecon : %d."
+
+#, c-format
+msgid "LAPACK_zgetrf error code: %d."
+msgstr "Code d'erreur LAPACK_zgetrf : %d."
+
+#, c-format
+msgid "LAPACK_zgecon error code: %d."
+msgstr "Code d'erreur LAPACK_zgecon : %d."
+
+#, c-format
+msgid "LAPACK_sgetrf error code: %d."
+msgstr "Code d'erreur LAPACK_sgetrf : %d."
+
+#, c-format
+msgid "LAPACK_sgecon error code: %d."
+msgstr "Code d'erreur LAPACK_sgecon : %d."
+
+#, c-format
+msgid "LAPACK_cgetrf error code: %d."
+msgstr "Code d'erreur LAPACK_cgetrf : %d."
+
+#, c-format
+msgid "LAPACK_cgecon error code: %d."
+msgstr "Code d'erreur LAPACK_cgecon : %d."
+
+msgid "' not available."
+msgstr "' non disponible."
+
+msgid "Wrong size for input argument #2: scalar expected."
+msgstr "Taille incorrecte pour l'argument d'entrée #2 : un scalaire est attendu."
+
+msgid "Continuous model expected."
+msgstr "Modèle continu attendu."
+
+msgid "Ts must be a finite positive scalar."
+msgstr "Ts doit être un scalaire positif fini."
+
+msgid "Wrong value for #3 input argument: valid method expected."
+msgstr "Valeur incorrecte pour l'argument d'entrée #3 : une méthode valide est attendue."
+
+msgid "Wrong value for #3 argument: 'prewarp' method expected."
+msgstr "Valeur incorrecte pour l'argument #3 : méthode 'prewarp' attendue."
+
+msgid "Wrong size for input argument #4: scalar expected."
+msgstr "Taille incorrecte pour l'argument d'entrée #4 : un scalaire est attendu."
+
+msgid ""
+"The prewarp frequency, also known as the critical frequency, should be less "
+"than the Nyquist frequency."
+msgstr ""
+"La fréquence de pré-distorsion, également connue sous le nom de fréquence critique, devrait être inférieure "
+"à la fréquence de Nyquist."
+
+msgid "slicot_ab04md fails."
+msgstr "Échec de slicot_ab04md."
+
+msgid "Discret model expected."
+msgstr "Modèle discret attendu."
+
+msgid "Wrong value for #2 argument: 'prewarp' method expected."
+msgstr "Valeur incorrecte pour l'argument #2 : méthode 'prewarp' attendue."
+
+msgid "Wrong size for input argument #3: scalar expected."
+msgstr "Taille incorrecte pour l'argument d'entrée #3 : un scalaire est attendu."
+
+#, python-format
+msgid "Sample time: %s"
+msgstr "Temps d'échantillonnage : %s"
+
+msgid "unspecified"
+msgstr "non spécifié"
+
+msgid "'o', 'c' second argument expected."
+msgstr "Deuxième argument attendu : 'o', 'c'."
+
+msgid "Wrong value for argument #1: sys.E must not be singular."
+msgstr "Valeur incorrecte pour l'argument #1 : sys.E ne doit pas être singulier."
+
+msgid ""
+"Wrong value for input arguments #5 or #6: result must be positive definite."
+msgstr ""
+"Valeur incorrecte pour les arguments d'entrée #5 ou #6 : le résultat doit être défini positif."
+
+msgid "Not a valid indexing expression"
+msgstr "Expression d'indexation non valide"
+
+msgid "Illegal indexing structure argument: type . expected."
+msgstr "Argument de structure d'indexation illégal : type . attendu."
+
+msgid "Command cannot be used for models of class 'tf'."
+msgstr "La commande ne peut pas être utilisée pour les modèles de classe 'tf'."
+
+msgid "Illegal indexing structure argument: type . or () expected."
+msgstr "Argument de structure d'indexation illégal : type . ou () attendu."
+
+#, python-format
+msgid "Pole locations are in more than 10% error"
+msgstr "Les emplacements des pôles sont en erreur de plus de 10%"
+
+msgid "Wrong size for input argument #1: square matrix expected."
+msgstr "Taille incorrecte pour l'argument d'entrée #1 : une matrice carrée est attendue."
+
+#, python-format
+msgid "slicot_mb03rd returned info = %d"
+msgstr "slicot_mb03rd a retourné l'information = %d"
+
+msgid "Wrong value for argument #4: Symmetric matrix expected."
+msgstr "Valeur incorrecte pour l'argument #4 : une matrice symétrique est attendue."
+
+msgid "Wrong size for argument #1: Square matrix expected."
+msgstr "Taille incorrecte pour l'argument #1 : une matrice carrée est attendue."
+
+msgid "Wrong size for arguments: Q, R square matrix expected."
+msgstr "Taille incorrecte pour les arguments : Q, R doivent être des matrices carrées."
+
+msgid "Wrong size for arguments #1 and #2: Same number of rows expected."
+msgstr "Taille incorrecte pour les arguments #1 et #2 : le même nombre de lignes est attendu."
+
+msgid "Wrong size for arguments #2 and #4: Same number of columns expected."
+msgstr "Taille incorrecte pour les arguments #2 et #4 : le même nombre de colonnes est attendu."
+
+msgid "Wrong size for arguments #2 and #5: Same size expected."
+msgstr "Taille incorrecte pour les arguments #2 et #5 : la même taille est attendue."
+
+msgid "Wrong size for arguments #1 and #6: Same number of rows expected."
+msgstr "Taille incorrecte pour les arguments #1 et #6 : le même nombre de lignes est attendu."
+
+msgid "Wrong size for arguments #1 and #3: Same size expected."
+msgstr "Taille incorrecte pour les arguments #1 et #3 : la même taille est attendue."
+
+msgid "Unable to solve the specified Riccati equation."
+msgstr "Impossible de résoudre l'équation de Riccati spécifiée."
+
+msgid ""
+"The accuracy of the solution could be compromised by inadequate scaling or "
+"eigenvalues that are in close proximity to the stability domain's boundary."
+msgstr ""
+"L'exactitude de la solution pourrait être compromise par une mise à l'échelle inadéquate ou "
+"des valeurs propres qui sont proches de la limite du domaine de stabilité."
+
+msgid "The number of feedback inputs and outputs are not equal."
+msgstr "Le nombre d'entrées et de sorties de rétroaction n'est pas égal."
+
+msgid ""
+"First input argument must be one of the following: 'tan', 'cos', 'sin', "
+"'square', or 'pulse'."
+msgstr ""
+"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', 'sin', "
+"'square', ou 'pulse'."
+
+msgid "Impulse response"
+msgstr "Réponse à l'impulsion"
+
+msgid "The initial conditions vector has not the same row length as matrix A."
+msgstr "Le vecteur des conditions initiales n'a pas la même longueur de ligne que la matrice A."
+
+msgid "Response to initial Conditions"
+msgstr "Réponse aux conditions initiales"
+
+msgid "Wrong value for argument #1: sys.E matrix must be positive definite."
+msgstr "Valeur incorrecte pour l'argument #1 : la matrice sys.E doit être définie positive."
+
+msgid "Wrong size for argument #2: real square matrix expected."
+msgstr "Taille incorrecte pour l'argument #2 : une matrice carrée réelle est attendue."
+
+#, python-format
+msgid ""
+"Wrong value or size in arguments #%d: valid index expected and expected "
+"length %d expected."
+msgstr ""
+"Valeur ou taille incorrecte dans les arguments #%d : un index valide est attendu et une longueur attendue de %d."
+
+msgid "Wrong type for argument #1: state space model expected."
+msgstr "Type incorrect pour l'argument #1 : un modèle d'espace d'état est attendu."
+
+msgid "Wrong size for argument #5: vector expected."
+msgstr "Taille incorrecte pour l'argument #5 : un vecteur est attendu."
+
+msgid "Wrong value in argument #1: sys.E is a singular matrix."
+msgstr "Valeur incorrecte dans l'argument #1 : sys.E est une matrice singulière."
+
+msgid "Wrong size for input argument #2 and #4."
+msgstr "Taille incorrecte pour l'argument d'entrée #2 et #4."
+
+msgid "Wrong size for input argument #2 and #5."
+msgstr "Taille incorrecte pour l'argument d'entrée #2 et #5."
+
+msgid "Linear Simulation Results"
+msgstr "Résultats de simulation linéaire"
+
+#, python-format
+msgid "Time (%s)"
+msgstr "Temps (%s)"
+
+msgid "Amplitude"
+msgstr "Amplitude"
+
+#, python-format
+msgid "%d states removed."
+msgstr "%d états supprimés."
+
+#, python-format
+msgid "%d state removed."
+msgstr "%d état supprimé."
+
+msgid "Nyquist Diagram"
+msgstr "Diagramme de Nyquist"
+
+msgid "Real axis"
+msgstr "Axe réel"
+
+msgid "Imaginary axis"
+msgstr "Axe imaginaire"
+
+msgid "Wrong size for argument #2: a vector expected"
+msgstr "Taille incorrecte pour l'argument #2 : un vecteur est attendu"
+
+msgid "Wrong type for argument #2: real expected"
+msgstr "Type incorrect pour l'argument #2 : un réel est attendu"
+
+msgid "OUTPUTS1 and INPUTS2 must be vectors of the same length."
+msgstr "OUTPUTS1 et INPUTS2 doivent être des vecteurs de la même longueur."
+
+msgid "length of INPUTS2 cannot exceed the number of inputs in SYS2."
+msgstr "La longueur de INPUTS2 ne peut pas dépasser le nombre d'entrées dans SYS2."
+
+msgid "length of OUTPUTS1 cannot exceed the number of outputs in SYS1."
+msgstr "La longueur de OUTPUTS1 ne peut pas dépasser le nombre de sorties dans SYS1."
+
+msgid "some index in INPUTS2 is out of range."
+msgstr "Certains indices dans INPUTS2 sont hors de portée."
+
+msgid "some index in OUTPUTS1 is out of range."
+msgstr "Certains indices dans OUTPUTS1 sont hors de portée."
+
+msgid "Single input system expected."
+msgstr "Un système à entrée unique est attendu."
+
+msgid "Index out of bounds or not a scalar."
+msgstr "Indice hors limites ou non un scalaire."
+
+msgid "Step response"
+msgstr "Réponse indicielle"
+
+msgid "A and E must have the same size."
+msgstr "A et E doivent avoir la même taille."
+
+msgid "all arguments must be numeric matrices."
+msgstr "tous les arguments doivent être des matrices numériques."
+
+msgid "Input Data"
+msgstr "Données d'entrée"
+
+msgid "Filtered Data"
+msgstr "Données filtrées"
+
+msgid "border option not yet implemented."
+msgstr "l'option de bordure n'est pas encore implémentée."
+
+msgid "initialMagnification option not yet implemented."
+msgstr "l'option initialMagnification n'est pas encore implémentée."
+
+msgid "labels values already defined."
+msgstr "les valeurs des étiquettes sont déjà définies."
+
+msgid "explode values already defined."
+msgstr "les valeurs de l'éclatement sont déjà définies."
+
+msgid "Size mismatch of X and labels on arguments."
+msgstr "Taille incorrecte de X et des étiquettes sur les arguments."
+
+msgid "Size mismatch of X and explode on arguments."
+msgstr "Taille incorrecte de X et de l'éclatement sur les arguments."
+
+msgid "explode or labels values expected."
+msgstr "des valeurs d'éclatement ou d'étiquettes sont attendues."
+
+msgid "Wrong size for input arguments: vectors with the same size expected."
+msgstr "Taille incorrecte des arguments d'entrée : des vecteurs de la même taille sont attendus."
+
+msgid "Two indices expected."
+msgstr "Deux indices attendus."
+
+msgid "Illegal indexing structure argument: type () expected."
+msgstr "Argument de structure d'indexation illégal : type () attendu."
+
+msgid "Three input arguments expected to return three output arguments."
+msgstr "Trois arguments d'entrée sont attendus pour retourner trois arguments de sortie."

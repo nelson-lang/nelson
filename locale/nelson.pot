@@ -289,9 +289,6 @@ msgstr ""
 msgid "#2 'errcatch' or 'nocatch' expected."
 msgstr ""
 
-msgid "Value between 0 and 255 expected."
-msgstr ""
-
 msgid "Cannot return input name if not in an active function."
 msgstr ""
 
@@ -332,6 +329,12 @@ msgid "Too many output arguments."
 msgstr ""
 
 msgid "Wrong value for #1 argument, 'fullpathext' or  'fullpath' expected."
+msgstr ""
+
+msgid "Unknown option."
+msgstr ""
+
+msgid "Value between 0 and 255 expected."
 msgstr ""
 
 msgid "Unknow option."
@@ -450,6 +453,9 @@ msgstr ""
 msgid "function returned non-scalar result"
 msgstr ""
 
+msgid "cellfun works only on cells."
+msgstr ""
+
 msgid "Error wrong type expected."
 msgstr ""
 
@@ -463,6 +469,20 @@ msgid "A valid function name expected."
 msgstr ""
 
 msgid "cell expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. class expected."
+msgstr ""
+
+msgid "Wrong type for argument #2. struct expected."
+msgstr ""
+
+msgid ""
+"Second argument must be a structure with two fields whose names are 'type' "
+"and 'subs'."
+msgstr ""
+
+msgid "Illegal indexing structure argument: type '.' expected."
 msgstr ""
 
 msgid "Wrong type for argument #1. struct expected."
@@ -809,9 +829,6 @@ msgstr ""
 msgid "Main finish.m failed to run."
 msgstr ""
 
-msgid "User finish.m failed to run."
-msgstr ""
-
 msgid "This mode is not yet implemented.\n"
 msgstr ""
 
@@ -896,6 +913,10 @@ msgstr ""
 msgid "Error: could not find the function NtOpenFile in library ntdll.dll.\n"
 msgstr ""
 
+#, c-format
+msgid "'%s' failed to run."
+msgstr ""
+
 msgid "'nostartup' and  'startup' are mutual exclusive.\n"
 msgstr ""
 
@@ -935,9 +956,6 @@ msgid "Impossible to load module: "
 msgstr ""
 
 msgid "Impossible to read modules.json"
-msgstr ""
-
-msgid "User startup.m failed to run."
 msgstr ""
 
 msgid "First input argument must be a valid message identifier."
@@ -1992,6 +2010,15 @@ msgstr ""
 msgid "Execution of the future was cancelled."
 msgstr ""
 
+msgid "Right hand values must satisfy left hand side expression."
+msgstr ""
+
+msgid "Function not found:"
+msgstr ""
+
+msgid "Type function not valid."
+msgstr ""
+
 msgid "Invalid LHS."
 msgstr ""
 
@@ -2046,25 +2073,16 @@ msgstr ""
 msgid "Cannot reindex an expression that returns multiple values."
 msgstr ""
 
+msgid "Invalid indexing."
+msgstr ""
+
 msgid "index expected."
 msgstr ""
 
 msgid "Please define: "
 msgstr ""
 
-msgid "dynamic field reference to structure requires a string argument"
-msgstr ""
-
 msgid "a valid script expected."
-msgstr ""
-
-msgid "Right hand values must satisfy left hand side expression."
-msgstr ""
-
-msgid "Function not found:"
-msgstr ""
-
-msgid "Type function not valid."
 msgstr ""
 
 msgid "Function not found."
@@ -2519,28 +2537,36 @@ msgstr ""
 msgid "Power (^) operator can only be applied to scalar and square arguments."
 msgstr ""
 
-msgid "LAPACK_dgetrf error."
+#, c-format
+msgid "LAPACK_dgetrf error code: %d."
 msgstr ""
 
-msgid "LAPACK_dgecon error."
+#, c-format
+msgid "LAPACK_dgecon error code: %d."
 msgstr ""
 
-msgid "LAPACK_zgetrf error."
+#, c-format
+msgid "LAPACK_zgetrf error code: %d."
 msgstr ""
 
-msgid "LAPACK_zgecon error."
+#, c-format
+msgid "LAPACK_zgecon error code: %d."
 msgstr ""
 
-msgid "LAPACK_sgetrf error."
+#, c-format
+msgid "LAPACK_sgetrf error code: %d."
 msgstr ""
 
-msgid "LAPACK_sgecon error."
+#, c-format
+msgid "LAPACK_sgecon error code: %d."
 msgstr ""
 
-msgid "LAPACK_cgetrf error."
+#, c-format
+msgid "LAPACK_cgetrf error code: %d."
 msgstr ""
 
-msgid "LAPACK_cgecon error."
+#, c-format
+msgid "LAPACK_cgecon error code: %d."
 msgstr ""
 
 msgid "Undefined function 'rcond' for input arguments of type"
@@ -2875,11 +2901,6 @@ msgstr ""
 msgid "Invalid communicator"
 msgstr ""
 
-msgid ""
-"Second argument must be a structure with two fields whose names are 'type' "
-"and 'subs'."
-msgstr ""
-
 msgid "No support for index chaining."
 msgstr ""
 
@@ -2890,6 +2911,9 @@ msgid "First argument must be a struct."
 msgstr ""
 
 msgid "Illegal indexing structure argument: type '.', '{}' or '()' expected."
+msgstr ""
+
+msgid "' not available."
 msgstr ""
 
 msgid "Same types expected."
@@ -4845,6 +4869,9 @@ msgstr ""
 msgid "Need to Overload!"
 msgstr ""
 
+msgid "dynamic field reference to structure requires a string argument"
+msgstr ""
+
 msgid "NEED TO IMPLEMENT ASSIGNATION FOR OBJECT."
 msgstr ""
 
@@ -5059,9 +5086,6 @@ msgid "Wrong type for argument #1. cell expected."
 msgstr ""
 
 msgid "Wrong type for argument #2. cell expected."
-msgstr ""
-
-msgid "Wrong type for argument #2. struct expected."
 msgstr ""
 
 msgid "Wrong types for inputs arguments."
@@ -5301,16 +5325,55 @@ msgstr ""
 msgid "Only 2D matrix supported."
 msgstr ""
 
-msgid "Invalid syntax: s, z, p, q expected."
+msgid "Sampling times must agree."
 msgstr ""
 
-msgid "Invalid syntax: sexpected."
+msgid "Wrong size for input argument #2: scalar expected."
 msgstr ""
 
-msgid "Ts property must be 0, a positive scalar, or  -1."
+msgid "Continuous model expected."
+msgstr ""
+
+msgid "Ts must be finite positive scalar."
+msgstr ""
+
+msgid "Wrong value for #3 input argument: valid method expected."
+msgstr ""
+
+msgid "Wrong value for #3 argument: 'prewarp' method expected."
+msgstr ""
+
+msgid "Wrong size for input argument #4: scalar expected."
+msgstr ""
+
+msgid ""
+"The prewarp frequency, also known as the critical frequency, should be less "
+"than the Nyquist frequency."
+msgstr ""
+
+msgid "slicot_ab04md fails."
+msgstr ""
+
+msgid "Discret model expected."
+msgstr ""
+
+msgid "SISO LTI model expected."
+msgstr ""
+
+msgid "Wrong value for #2 argument: 'prewarp' method expected."
+msgstr ""
+
+msgid "Wrong size for input argument #3: scalar expected."
 msgstr ""
 
 msgid "     Static gain."
+msgstr ""
+
+#, python-format
+msgid "Sample time: %s"
+msgstr ""
+
+msgid "unspecified"
 msgstr ""
 
 #, python-format
@@ -5323,10 +5386,17 @@ msgstr ""
 msgid "Continuous-time state-space model."
 msgstr ""
 
-msgid "Matrix dimensions must agree."
+msgid "'o', 'c' second argument expected."
 msgstr ""
 
-msgid "Sampling times must agree."
+msgid "Wrong value for argument #1: sys.E must not be singular."
+msgstr ""
+
+msgid ""
+"Wrong value for input arguments #5 or #6: result must be positive definite."
+msgstr ""
+
+msgid "Matrix dimensions must agree."
 msgstr ""
 
 #, python-format
@@ -5362,6 +5432,16 @@ msgstr ""
 msgid "Matrices A and E should have an identical size."
 msgstr ""
 
+#, python-format
+msgid "No property of the class %s matches the identifier %s."
+msgstr ""
+
+msgid "Not a valid indexing expression"
+msgstr ""
+
+msgid "Illegal indexing structure argument: type . expected."
+msgstr ""
+
 msgid "Empty transfer function."
 msgstr ""
 
@@ -5379,10 +5459,10 @@ msgstr ""
 msgid "Continuous-time transfer function."
 msgstr ""
 
-msgid "dimensions of systems output is incompatible."
+msgid "Command cannot be used for models of class 'tf'."
 msgstr ""
 
-msgid "SISO LTI model expected."
+msgid "dimensions of systems output is incompatible."
 msgstr ""
 
 msgid "SISO lti expected."
@@ -5390,10 +5470,6 @@ msgstr ""
 
 #, python-format
 msgid "Transfer function with %d outputs and %d inputs."
-msgstr ""
-
-#, python-format
-msgid "No property of the class %s matches the identifier %s."
 msgstr ""
 
 #, python-format
@@ -5406,6 +5482,12 @@ msgstr ""
 msgid "TimeUnit property must be a valid time unit."
 msgstr ""
 
+msgid "Illegal indexing structure argument: type . or () expected."
+msgstr ""
+
+msgid "Invalid syntax: s, z, p, q expected."
+msgstr ""
+
 msgid "Invalid syntax."
 msgstr ""
 
@@ -5413,6 +5495,17 @@ msgid "Numerator and Denominator must have compatible sizes."
 msgstr ""
 
 msgid "dimensions of systems input is incompatible."
+msgstr ""
+
+#, python-format
+msgid "Pole locations are in more that 10% error"
+msgstr ""
+
+msgid "Wrong size for input argument #1: square matrix expected."
+msgstr ""
+
+#, python-format
+msgid "slicot_mb03rd returned info = %d"
 msgstr ""
 
 msgid "bode without input argument does not return output arguments."
@@ -5445,7 +5538,56 @@ msgstr ""
 msgid "real expected."
 msgstr ""
 
+msgid "Wrong value for argument #4: Symmetric matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #1: Square matrix expected."
+msgstr ""
+
+msgid "Wrong size for arguments: Q, R square matrix expected."
+msgstr ""
+
+msgid "Wrong size for arguments #1 and #2: Same number of rows expected."
+msgstr ""
+
+msgid "Wrong size for arguments #2 and #4: Same number of columns expected."
+msgstr ""
+
+msgid "Wrong size for arguments #2 and #5: Same size expected."
+msgstr ""
+
+msgid "Wrong size for arguments #1 and #6: Same number of rows expected."
+msgstr ""
+
+msgid "Wrong size for arguments #1 and #3: Same size expected."
+msgstr ""
+
+msgid "Unable to solve the specified Riccati equation."
+msgstr ""
+
+msgid ""
+"The accuracy of the solution could be compromised by inadequate scaling or "
+"eigenvalues that are in close proximity to the stability domain's boundary."
+msgstr ""
+
+msgid "The number of feedback inputs and outputs are not equal."
+msgstr ""
+
 msgid "Input must be square."
+msgstr ""
+
+msgid ""
+"first input argument must be one of the following: 'tan', 'cos', 'sin', "
+"'square', or 'pulse'."
+msgstr ""
+
+msgid "Impulse response"
+msgstr ""
+
+msgid "The initial conditions vector has not the same row length as matrix A."
+msgstr ""
+
+msgid "Response to initial Conditions"
 msgstr ""
 
 #, python-format
@@ -5458,6 +5600,93 @@ msgstr ""
 msgid ""
 "Check for incorrect argument data type or missing argument in call to "
 "function %s."
+msgstr ""
+
+msgid "Wrong value for argument #1: sys.E matrix must be positive definite."
+msgstr ""
+
+msgid "Wrong size for argument #2: real square matrix expected."
+msgstr ""
+
+#, python-format
+msgid ""
+"Wrong value or size in arguments #%d: valid index expected and expected "
+"length %d expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: state space model expected."
+msgstr ""
+
+msgid "Wrong size for argument #5: vector expected."
+msgstr ""
+
+msgid "Wrong value in argument #1: sys.E is a singular matrix."
+msgstr ""
+
+msgid "Wrong size for input argument #2 and #4."
+msgstr ""
+
+msgid "Wrong size for input argument #2 and #5."
+msgstr ""
+
+msgid "Linear Simulation Results"
+msgstr ""
+
+#, python-format
+msgid "Time (%s)"
+msgstr ""
+
+msgid "Amplitude"
+msgstr ""
+
+#, python-format
+msgid "%d states removed."
+msgstr ""
+
+#, python-format
+msgid "%d state removed."
+msgstr ""
+
+msgid "Nyquist Diagram"
+msgstr ""
+
+msgid "Real axis"
+msgstr ""
+
+msgid "Imaginary axis"
+msgstr ""
+
+msgid "Wrong size for argument #2: a vector expected"
+msgstr ""
+
+msgid "Wrong type for argument #2: real expected"
+msgstr ""
+
+msgid "OUTPUTS1 and INPUTS2 must be vectors of the same length."
+msgstr ""
+
+msgid "length of INPUTS2 cannot exceed the number of inputs in SYS2."
+msgstr ""
+
+msgid "length of OUTPUTS1 cannot exceed the number of outputs in SYS1."
+msgstr ""
+
+msgid "some index in INPUTS2 is out of range."
+msgstr ""
+
+msgid "some index in OUTPUTS1 is out of range."
+msgstr ""
+
+msgid "Single input system expected."
+msgstr ""
+
+msgid "Index out of bounds or not a scalar."
+msgstr ""
+
+msgid "Step response"
+msgstr ""
+
+msgid "A and E must have the same size."
 msgstr ""
 
 #, python-format
@@ -5678,6 +5907,12 @@ msgstr ""
 msgid "Column wins diagonal conflict."
 msgstr ""
 
+msgid "Input Data"
+msgstr ""
+
+msgid "Filtered Data"
+msgstr ""
+
 msgid "warning(query) does not require an second argument."
 msgstr ""
 
@@ -5827,6 +6062,21 @@ msgid "String color or numeric value expected."
 msgstr ""
 
 msgid "pcolor requires either X,Y,C, or C arguments."
+msgstr ""
+
+msgid "labels values already defined."
+msgstr ""
+
+msgid "explode values already defined."
+msgstr ""
+
+msgid "Size mismatch of X and labels on arguments."
+msgstr ""
+
+msgid "Size mismatch of X and explode on arguments."
+msgstr ""
+
+msgid "explode or labels values expected."
 msgstr ""
 
 msgid "Dimensions do not match."
@@ -6072,6 +6322,12 @@ msgid "Size mismatch on arguments to arithmetic operator >="
 msgstr ""
 
 msgid "Size mismatch on arguments to arithmetic operator <="
+msgstr ""
+
+msgid "Two indices expected."
+msgstr ""
+
+msgid "Illegal indexing structure argument: type () expected."
 msgstr ""
 
 msgid "Argument must be a vector or a square matrix."
