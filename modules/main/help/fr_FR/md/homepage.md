@@ -1,16 +1,16 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.7.12.0
+### Nelson 1.0.0.0
 
-Ceci est une version alpha de Nelson.
+Ceci est la première version stable du logiciel Nelson.
 
-Nelson est un environnement open source de calcul numerique extensible et moderne.
-
+Nelson est un environnement interactif et entièrement fonctionnel pour les applications techniques et scientifiques. Il implémente un langage matriciel (qui est largement compatible avec MATLAB et GNU Octave), avec des fonctionnalités avancées telles que le traçage 2D 3D, la manipulation et la visualisation d'images, une interface sans code vers des bibliothèques externes C/C++/FORTRAN, une interface native prise en charge de divers types C et d'une foule d'autres fonctionnalités.
 Essayez-le !
 
 ---
 
 - [Journal des modifications](CHANGELOG.md)
+- [Journal des modifications v0.7.x](CHANGELOG-0.7.x.md)
 - [Journal des modifications v0.6.x](CHANGELOG-0.6.x.md)
 - [Journal des modifications v0.5.x](CHANGELOG-0.5.x.md)
 - [Journal des modifications v0.4.x](CHANGELOG-0.4.x.md)

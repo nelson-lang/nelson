@@ -75,6 +75,7 @@ end
 %=============================================================================
 function helpForNelsonOnly()
   changes_md = {[nelsonroot(), '/CHANGELOG.md'];
+  [nelsonroot(), '/CHANGELOG-0.7.x.md'];
   [nelsonroot(), '/CHANGELOG-0.6.x.md'];
   [nelsonroot(), '/CHANGELOG-0.5.x.md'];
   [nelsonroot(), '/CHANGELOG-0.4.x.md'];
@@ -100,6 +101,7 @@ function helpForNelsonOnly()
           if strcmp(md_filename{1}, 'homepage.md') || strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
             content = strrep(content, '(CHANGELOG.md)', '(CHANGELOG.html)');
+            content = strrep(content, '(CHANGELOG-0.7.x.md)', '(CHANGELOG-0.7.x.html)');
             content = strrep(content, '(CHANGELOG-0.6.x.md)', '(CHANGELOG-0.6.x.html)');
             content = strrep(content, '(CHANGELOG-0.5.x.md)', '(CHANGELOG-0.5.x.html)');
             content = strrep(content, '(CHANGELOG-0.4.x.md)', '(CHANGELOG-0.4.x.html)');
@@ -125,6 +127,7 @@ function helpForNelsonOnly()
         if needTobeGenerated(md{1}, destination)
           txt = fileread(md{1});
           txt = strrep(txt, '(CHANGELOG.md)', '(CHANGELOG.html)');
+          txt = strrep(txt, '(CHANGELOG-0.7.x.md)', '(CHANGELOG-0.7.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.6.x.md)', '(CHANGELOG-0.6.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.5.x.md)', '(CHANGELOG-0.5.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.4.x.md)', '(CHANGELOG-0.4.x.html)');

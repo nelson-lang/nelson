@@ -1,10 +1,10 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.7.12.0
+### Nelson 1.0.0.0
 
-This is an pre-release of Nelson.
+This is the first stable version of Nelson software.
 
-Nelson is an extendable and modern numerical computing environment.
+Nelson is an interactive, fully functional environment for engineering and scientific applications. It implements a matrix-driven language (which is largely compatible with MATLAB and GNU Octave), with advanced features such as 2-D 3-D plotting, image manipulation and viewing, a codeless interface to external C/C++/FORTRAN libraries, native support for various C types, and a host of other features.
 
 Try it !
 
@@ -93,6 +93,7 @@ Try it !
 ---
 
 - [Changelog](CHANGELOG.md)
+- [Changelog v0.7.x](CHANGELOG-0.7.x.md)
 - [Changelog v0.6.x](CHANGELOG-0.6.x.md)
 - [Changelog v0.5.x](CHANGELOG-0.5.x.md)
 - [Changelog v0.4.x](CHANGELOG-0.4.x.md)

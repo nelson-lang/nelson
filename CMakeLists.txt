@@ -29,9 +29,9 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
   set(default_build_type "Debug")
 endif()
 # ==============================================================================
-set(Nelson_VERSION_MAJOR_DEFAULT 0)
-set(Nelson_VERSION_MINOR_DEFAULT 7)
-set(Nelson_VERSION_MAINTENANCE_DEFAULT 12)
+set(Nelson_VERSION_MAJOR_DEFAULT 1)
+set(Nelson_VERSION_MINOR_DEFAULT 0)
+set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================
 include(VersionConfig)
@@ -360,6 +360,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.4.x.md
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.5.x.md
         DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.6.x.md
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.7.x.md
         DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
 install(FILES ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md
         DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
