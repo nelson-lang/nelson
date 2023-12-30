@@ -92,6 +92,8 @@ public:
     /**
      * Construct a scope with the given name.
      */
+    Scope(const Scope& scopeOrigin);
+
     Scope(const std::string& scopeName);
 
     Scope(const std::string& scopeName, const std::wstring& fullfilename);
