@@ -26,6 +26,8 @@ namespace Nelson {
 //=============================================================================
 Context::Context()
 {
+    scopestack.reserve(1024);
+    bypassstack.reserve(1024);
     currentrecursiondepth = DEFAULT_RECURSION_FUNCTION_CALL;
     scopestack.reserve(DEFAULT_RECURSION_FUNCTION_CALL);
     pushScope("global");
@@ -75,7 +77,16 @@ Context::pushScope(const std::string& name, const std::wstring& fullfilename)
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
-        sc = new Scope(name, fullfilename);
+        if (!scopestack.empty()) {
+            if (scopestack.back()->getName() == name
+                && scopestack.back()->getFilename() == fullfilename) {
+                sc = new Scope(*scopestack.back());
+            } else {
+                sc = new Scope(name, fullfilename);
+            }
+        } else {
+            sc = new Scope(name, fullfilename);
+        }
     } catch (const std::bad_alloc&) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }

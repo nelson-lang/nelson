@@ -21,6 +21,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+Scope::Scope(const Scope& scopeOrigin)
+{
+    name = scopeOrigin.name;
+    loopLevel = 0;
+    filename = scopeOrigin.filename;
+    isInMacro = scopeOrigin.isInMacro;
+    directory = scopeOrigin.directory;
+}
+//=============================================================================
 Scope::Scope(const std::string& scopeName)
 {
     name = scopeName;
