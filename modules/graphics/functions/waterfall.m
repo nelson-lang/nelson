@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = waterfall(varargin)
-    % waterfall(X, Y, Z)
-    % waterfall(X, Y, Z, C)
-    % waterfall(Z)
-    % waterfall(Z, C)
-    % waterfall(ax, ...)
-    % p = waterfall(...)
-    h = meshz (varargin{:});
-    h.MeshStyle = 'row';
-    varargout = {};
-    if nargout > 0
-        varargout{1} = h;
-    end
+  % waterfall(X, Y, Z)
+  % waterfall(X, Y, Z, C)
+  % waterfall(Z)
+  % waterfall(Z, C)
+  % waterfall(ax, ...)
+  % p = waterfall(...)
+  h = meshz (varargin{:});
+  h.MeshStyle = 'row';
+  varargout = {};
+  if nargout > 0
+    varargout{1} = h;
+  end
 end    
 %=============================================================================

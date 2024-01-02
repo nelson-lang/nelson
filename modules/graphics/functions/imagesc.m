@@ -27,11 +27,11 @@ function varargout = imagesc(varargin)
   end
   
   handle = image(varargin{:}, 'CDataMapping', 'scaled');
-
+  
   if ~isempty(lim),
     clim(lim);
   end
-    
+  
   if (nargout > 0)
     varargout{1} = handle;
   end

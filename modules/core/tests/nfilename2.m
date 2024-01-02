@@ -9,9 +9,9 @@
 %=============================================================================
 
 function r = nfilename2(a, b)
-	r = titi(a,b) + 2;
+  r = titi(a,b) + 2;
   nfilename('fullpath');
-
+  
 function x = titi(a, b)
- x = a - b;
- nfilename('fullpathext');
+  x = a - b;
+  nfilename('fullpathext');

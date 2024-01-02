@@ -11,7 +11,7 @@ function varargout = pow2db(varargin)
   narginchk(1 ,1);
   nargoutchk(0, 1);
   if (any(varargin{1} < 0))
-     error('Nelson:signal:pow2db:InvalidInput', _('Input argument value must be non-negative.'));
+    error('Nelson:signal:pow2db:InvalidInput', _('Input argument value must be non-negative.'));
   end
   varargout{1} = 10 .* log10(varargin{1});
 end

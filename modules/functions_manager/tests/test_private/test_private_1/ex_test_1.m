@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = ex_test_1()
-    r = 1 + findprivate();
+  r = 1 + findprivate();
 end

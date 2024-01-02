@@ -70,6 +70,7 @@ function sys = ss_to_tf(sysIn)
         sys.Denominator(j, i) = partialG.Denominator;
       end
       sys.Ts = sysIn.Ts;
+    end
   end
 end
 %=============================================================================

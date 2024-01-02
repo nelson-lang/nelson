@@ -14,9 +14,9 @@
 %=============================================================================
 [p, f, e] = fileparts('c:/');
 if ispc()
- assert_isequal(p, 'c:/');
- assert_isequal(f, '');
- assert_isequal(e, '');
+  assert_isequal(p, 'c:/');
+  assert_isequal(f, '');
+  assert_isequal(e, '');
 else
   assert_isequal('c:', p);
   assert_isequal('', f);

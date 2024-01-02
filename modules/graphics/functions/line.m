@@ -26,7 +26,7 @@ function varargout = line(varargin)
   else
     ax = gca();
   end
-
+  
   if (ischar(inputArguments{1}))
     handle = __line__('Parent', ax, inputArguments{:});
   elseif (numel(inputArguments) == 2)

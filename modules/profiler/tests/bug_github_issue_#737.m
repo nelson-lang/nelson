@@ -19,4 +19,3 @@ p = [tempdir(), 'profile_results_',  createGUID()];
 profsave(profile('info'), p)
 assert_istrue(isfile([p,'/index.html']))
 %=============================================================================
- 

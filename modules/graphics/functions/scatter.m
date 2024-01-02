@@ -30,7 +30,7 @@ function varargout = scatter(varargin)
   if (size(markerColor, 1) > 1 && size(markerColor, 1) ~= size(X, 1))
     error(_('number of colors in C must match number of points in X.'));
   end
-
+  
   if isscalar(markerSize) && (isscalar(markerColor) || isempty(markerColor)) 
     if isvector(X) && isvector(Y)
       if isempty(markerColor)
@@ -82,14 +82,14 @@ function varargout = scatter(varargin)
     group.Visible = 'on';
     h = group;      
   end
- 
+  
   if (nargout == 1)
     varargout{1} = h;
   end
 end
 %=============================================================================
 function h = scatterPlot(parent, x, y, color, markerSize, marker, filled, otherProperties)
-
+  
   markerFaceColor = 'none';
   if filled
     markerFaceColor = color;
@@ -104,7 +104,7 @@ function h = scatterPlot(parent, x, y, color, markerSize, marker, filled, otherP
   for name = fieldnames(otherProperties)'
     scatterProperties.(name{1}) = otherProperties.(name{1});
   end
-      
+  
   scatterProperties = reshape([fieldnames(scatterProperties)'; struct2cell(scatterProperties)'], 1, []);
   h = line(parent, x, y, scatterProperties{:});
 end
@@ -139,9 +139,9 @@ function [parent, X, Y, filled, marker, markerSize, markerColor, otherProperties
   isMarker = @(x) (ischar(x) || isStringScalar(x)) && matches(convertCharsToStrings(x), supportedMarkers);
   markerDetected = find (cellfun(isMarker, inputArguments));
   if (~isempty(markerDetected))
-      marker = inputArguments{markerDetected(end)};
-      inputArguments(markerDetected) = [];
-      nbInputArguments = length(inputArguments);
+    marker = inputArguments{markerDetected(end)};
+    inputArguments(markerDetected) = [];
+    nbInputArguments = length(inputArguments);
   end
   
   supportedColorString = string(getColorShortNameList());

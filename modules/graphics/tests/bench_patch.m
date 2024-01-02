@@ -23,10 +23,10 @@ z0=r.*exp(theta*i);
 
 hold on;
 for s=1:-0.005:0.01
-    z=exp(i*0.2*sin(10*s))*z0;
-    xr=real(z);
-    yr=imag(z);
-    p = patch(s*xr, s*yr, s, 'EdgeColor', 'none');
+  z=exp(i*0.2*sin(10*s))*z0;
+  xr=real(z);
+  yr=imag(z);
+  p = patch(s*xr, s*yr, s, 'EdgeColor', 'none');
 end
 hold off;
 axis off;

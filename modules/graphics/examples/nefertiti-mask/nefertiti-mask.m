@@ -11,8 +11,8 @@ nefertiti_directory = [modulepath('graphics', 'root'), '/examples/nefertiti-mask
 load([nefertiti_directory, 'nefertiti-mask.nh5']);
 figure('Color', [1, 1, 1]);
 patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
-      'EdgeColor', 'none', ...
-      'FaceColor', 'interp', 'FaceAlpha', 1);
+'EdgeColor', 'none', ...
+'FaceColor', 'interp', 'FaceAlpha', 1);
 axis equal
 axis off 
 view([0, 0, 1]);

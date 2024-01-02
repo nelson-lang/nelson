@@ -30,8 +30,8 @@ assert_isequal(info.TotalSamples, [73113.000000]);
 assert_isapprox(info.Duration, [8.924927], 1e-5);
 isvalid = (isempty(info.Title) || strcmp(info.Title, 'handel (title)'));
 if ~isvalid
-    assert_isequal(info.Title, 'handel (title)');
-    assert_isequal(info.Comment, 'some comments');
+  assert_isequal(info.Title, 'handel (title)');
+  assert_isequal(info.Comment, 'some comments');
 end
 assert_isequal(info.Artist, []);
 assert_isequal(info.BitsPerSample, [16.000000]);

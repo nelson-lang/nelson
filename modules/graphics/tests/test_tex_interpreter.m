@@ -121,13 +121,13 @@ i = 1;
 line = [];
 
 for t = tex'
-    line = [line, t{1}];
-    if (j == 10)
-        text(30, i*10, line);
-        line = [];
-        i = i + 1;
-        j = 1;
-    else
-        j = j + 1;
-    end
+  line = [line, t{1}];
+  if (j == 10)
+    text(30, i*10, line);
+    line = [];
+    i = i + 1;
+    j = 1;
+  else
+    j = j + 1;
+  end
 end

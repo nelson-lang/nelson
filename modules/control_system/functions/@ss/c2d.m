@@ -45,32 +45,32 @@ function varargout = c2d(varargin)
   if nargin > 3 
     if ~strcmp(method, 'P')
       error(_("Wrong value for #3 argument: 'prewarp' method expected."));
-    end
-    w0 = varargin{4};
-    mustBeNumeric(w0, 4);
-    if ~isscalar(w0)
-      error(_('Wrong size for input argument #4: scalar expected.'));
-    end
-    mustBePositive(w0, 4);
-    mustBeFinite(w0, 4);
-  end
-  
-  if (method == 'Z')
-    sysd = c2d_zoh(sys, Ts);
-  else
-    if (method == 'T')
-      beta = 2 / Ts;
-    else
-      beta = w0 / tan (w0 * (Ts / 2));
-      if (w0 >= pi / Ts)
-        error(_('The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.'));
       end
+      w0 = varargin{4};
+      mustBeNumeric(w0, 4);
+      if ~isscalar(w0)
+        error(_('Wrong size for input argument #4: scalar expected.'));
+      end
+      mustBePositive(w0, 4);
+      mustBeFinite(w0, 4);
     end
-    sysd = c2d_bilinear(sys, beta, Ts);
+    
+    if (method == 'Z')
+      sysd = c2d_zoh(sys, Ts);
+    else
+      if (method == 'T')
+        beta = 2 / Ts;
+      else
+        beta = w0 / tan (w0 * (Ts / 2));
+        if (w0 >= pi / Ts)
+          error(_('The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.'));
+        end
+      end
+      sysd = c2d_bilinear(sys, beta, Ts);
+    end
+    varargout{1} = sysd;
   end
-  varargout{1} = sysd;
-end
-%=============================================================================
+  %=============================================================================
 function sysd = c2d_zoh(sys, Ts)
   % Get info
   A = sys.A;

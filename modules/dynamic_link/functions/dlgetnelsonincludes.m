@@ -14,7 +14,7 @@ function c = dlgetnelsonincludes()
     [modulepath('error_manager'), '/src/include']; ...
     [modulepath('i18n'), '/src/include']; ...
     [modulepath('stream_manager'), '/src/include']};
-
+    
     if (ismodule('f2c'))
       c = [c; [modulepath('f2c'), '/src/include']];
     end
@@ -25,19 +25,19 @@ function c = dlgetnelsonincludes()
     if (isdir([modulepath('nelson', 'builtin'), '/../../include/Nelson/interpreter']))
       includeRootPath = fullpath([modulepath('nelson', 'builtin'), '/../../include/Nelson/']);
       c = {[includeRootPath, '/interpreter']; ...
-    [includeRootPath, '/types']; ...
-    [includeRootPath, '/error_manager']; ...
-    [includeRootPath, '/i18n']; ...
-    [includeRootPath, '/stream_manager']};
-
-    if (ismodule('f2c'))
-      c = [c; [includeRootPath, '/f2c']];
+      [includeRootPath, '/types']; ...
+      [includeRootPath, '/error_manager']; ...
+      [includeRootPath, '/i18n']; ...
+      [includeRootPath, '/stream_manager']};
+      
+      if (ismodule('f2c'))
+        c = [c; [includeRootPath, '/f2c']];
+      end
+      if (ismodule('validators'))
+        c = [c; [includeRootPath, '/validators']];
+      end
+      
     end
-    if (ismodule('validators'))
-      c = [c; [includeRootPath, '/validators']];
-    end
-
-   end
   end
 end
 %=============================================================================

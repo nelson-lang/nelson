@@ -14,12 +14,12 @@ o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args_3.json'];
 M = [1 2 3; 4 5 6];
 while (~ok && cnt < 10)
-    try
-        fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
-        ok = true;
-    catch
-        cnt = cnt + 1;
-    end
+  try
+    fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
+    ok = true;
+  catch
+    cnt = cnt + 1;
+  end
 end
 R = jsondecode(fileread(fullname))
 %=============================================================================

@@ -21,7 +21,7 @@ function varargout = __subsref__(varargin)
       otherwise
         error(_('Illegal indexing structure argument: type ''.'', ''{}'' or ''()'' expected.'));
     end
-   end
+  end
    varargout = R;
 end
 %=============================================================================

@@ -18,6 +18,6 @@ p = patch('Faces', teapotFaces, 'Vertices', teapotVertices, 'FaceColor','none');
 view(0, 360);
 f.DrawLater = 'off';
 for k = 0:9:720
-    view(k, 360);
+  view(k, 360);
 end
 %=============================================================================

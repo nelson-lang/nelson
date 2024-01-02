@@ -18,12 +18,12 @@ y = linspace(-1.4, .6, N);
 Z = X + i*Y;
 Zn = Z;
 for j=1:n
- Zn = -i*(Zn).^2 + (rand(N,N).^(1/5)).*Z;
- M = abs(Zn);
- ind1 = find(M<2);
- ind2 = find(M>=2);
- M(ind1) = 0;
- M(ind2) = -1;
+  Zn = -i*(Zn).^2 + (rand(N,N).^(1/5)).*Z;
+  M = abs(Zn);
+  ind1 = find(M<2);
+  ind2 = find(M>=2);
+  M(ind1) = 0;
+  M(ind2) = -1;
 end
 im = imagesc(x, y, M);
 assert_isequal(length(im.XData), 200);

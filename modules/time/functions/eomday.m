@@ -24,7 +24,7 @@ function d = eomday(varargin)
   numberDaysInMonth = [31 28 31 30 31 30 31 31 30 31 30 31]';
   d = y - m;
   d(:) = numberDaysInMonth(m);
-
+  
   is29 = (m == 2) & ((rem(y,4) == 0 & rem(y, 100) ~= 0) | rem(y, 400) == 0);
   d(is29) = 29;
 end

@@ -38,7 +38,7 @@ function view(varargin)
 end
 %=============================================================================
 function applyView(ax, az, el)
-    az = az * (pi / 180);
+  az = az * (pi / 180);
   if (el == 0)
     el = 0.001;
   end
@@ -63,7 +63,7 @@ function applyView(ax, az, el)
   else
     ax.CameraUpVector = [0, 0, 1];
   end
-
+  
 end
 %=============================================================================
 function [az, el] = viewValue(ax, value)

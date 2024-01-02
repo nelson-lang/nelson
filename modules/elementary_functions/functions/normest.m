@@ -10,17 +10,17 @@
 function varargout = normest(varargin)
   nargoutchk(0, 2);
   narginchk(1, 2);
-
+  
   A = varargin{1};
-
+  
   if (~isnumeric(A) || (ndims(A) ~= 2))
     error(_('An numeric 2-D matrix expected.'));
   end
-
+  
   if nargin == 2
     tolerance = varargin{2};
     if (~ (isscalar (tolerance) && isreal(tolerance)))
-        error (_('tolerance must be a real scalar.'));
+      error (_('tolerance must be a real scalar.'));
     end
   else 
     tolerance = 1.e-6;

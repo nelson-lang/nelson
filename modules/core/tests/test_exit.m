@@ -11,7 +11,7 @@ assert_isequal(nargin('exit'), 2);
 assert_isequal(nargout('exit'), 0);
 %=============================================================================
 if ~ispc()
-    assert_checkerror('exit(300)', _('Value between 0 and 255 expected.'))
+  assert_checkerror('exit(300)', _('Value between 0 and 255 expected.'))
 end
 %=============================================================================
 binpath = modulepath('nelson', 'bin');

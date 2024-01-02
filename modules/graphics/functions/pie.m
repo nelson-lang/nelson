@@ -145,66 +145,66 @@ function p = drawSliceOfPie(ax, xphi, i, refinement, explode, labels)
 end 
 %=============================================================================
 function [ax, X, labels, explode, normalize] = checkPieInputArguments(inputArguments)
-    nbInputArguments = length(inputArguments);
-    if (nbInputArguments >= 2)
-      if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
-        ax = inputArguments{1}(1);
-        inputArguments(1) = [];
-        nbInputArguments = nbInputArguments - 1;
-      else   
-        ax = newplot();
-      end
-    else
+  nbInputArguments = length(inputArguments);
+  if (nbInputArguments >= 2)
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+      ax = inputArguments{1}(1);
+      inputArguments(1) = [];
+      nbInputArguments = nbInputArguments - 1;
+    else   
       ax = newplot();
     end
-    if nbInputArguments < 1 || nbInputArguments >  3
-      error('Nelson:narginchk:notEnoughInputs', _('Wrong number of input arguments.'));
+  else
+    ax = newplot();
+  end
+  if nbInputArguments < 1 || nbInputArguments >  3
+    error('Nelson:narginchk:notEnoughInputs', _('Wrong number of input arguments.'));
+  end
+  haveExplode = false;
+  haveLabels = false;
+  
+  X = inputArguments{1};
+  X = X(:)';
+  if (nbInputArguments > 1)
+    arg = inputArguments{2};
+    if iscell(arg)
+      labels = arg;
+      haveLabels = true;
+    elseif(isnumeric(arg) || islogical(arg))
+      explode = arg;
+      haveExplode = true;
+    else
+      error(_("explode or labels values expected."));
     end
-    haveExplode = false;
-    haveLabels = false;
-    
-    X = inputArguments{1};
-    X = X(:)';
-    if (nbInputArguments > 1)
-      arg = inputArguments{2};
-      if iscell(arg)
-        labels = arg;
-        haveLabels = true;
-      elseif(isnumeric(arg) || islogical(arg))
-        explode = arg;
-        haveExplode = true;
-      else
-        error(_("explode or labels values expected."));
-      end
+  end
+  if (nbInputArguments > 2)
+    arg = inputArguments{3};
+    if iscell(arg) || isstring(arg)
+      validateLabels(haveLabels)
+      labels = arg;
+      haveLabels = true;
+    elseif(isnumeric(arg) || islogical(arg))
+      validateExplode(haveExplode)
+      explode = arg;
+      haveExplode = true;
+    else
+      error(_("explode or labels values expected."));
     end
-    if (nbInputArguments > 2)
-      arg = inputArguments{3};
-      if iscell(arg) || isstring(arg)
-        validateLabels(haveLabels)
-        labels = arg;
-        haveLabels = true;
-      elseif(isnumeric(arg) || islogical(arg))
-        validateExplode(haveExplode)
-        explode = arg;
-        haveExplode = true;
-      else
-        error(_("explode or labels values expected."));
-      end
-    end
-    
-    if (~haveExplode)
-      explode = zeros(size(X));
-    end
-    
-    normalize = true;
-    if (sum (X(:)) < 1)
-      normalize = false;
-    end
-    
-    if (~haveLabels)
-      labels = createLabels(X, normalize);
-    end
-    
-    validateSizes(X, labels, explode);
- end
- %=============================================================================
+  end
+  
+  if (~haveExplode)
+    explode = zeros(size(X));
+  end
+  
+  normalize = true;
+  if (sum (X(:)) < 1)
+    normalize = false;
+  end
+  
+  if (~haveLabels)
+    labels = createLabels(X, normalize);
+  end
+  
+  validateSizes(X, labels, explode);
+end
+%=============================================================================

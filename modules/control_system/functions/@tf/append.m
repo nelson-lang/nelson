@@ -11,7 +11,7 @@
 function sys = append(varargin)
   for i = 1:length(varargin)
     if ~isa(varargin{i}, 'tf')
-       sys = tf(varargin{i});
+      sys = tf(varargin{i});
     else
       sys = varargin{i};
     end

@@ -29,7 +29,7 @@ function varargout = initial(varargin)
   if ~issiso(sys)
     error(_('SISO LTI model expected.'));
   end
-
+  
   Ts = sys.Ts;
   
   x0 = varargin{2};
@@ -61,7 +61,7 @@ function varargout = initial(varargin)
   end
   % Multiple signals...or not!
   u = zeros(size(sys.B, 2), length(t)); % Creates 0 0 0 0 0 0 0
- 
+  
   if nargout == 0
     lsim(sys, u, t, x0);
     title(_('Response to initial Conditions'));

@@ -10,28 +10,28 @@
 function varargout = lqed(varargin)
   narginchk(6, 6);
   nargoutchk(0, 4);
-
+  
   A = varargin{1};
   G = varargin{2};
   C = varargin{3};
   Q = varargin{4};
   R = varargin{5};
   Ts = varargin{6};
-
+  
   msg = abcdchk(A, [], C, []);
   if ~isempty(msg)
     error(msg.id, msg.message);
   end
-
+  
   validateInput(A, G, C, Q, R);
-
+  
   [Qd, Rd] = computeDiscreteCostMatrices(A, G, Q, R, Ts);
   [p, e, k] = dare(expm(A * Ts)', C', Qd, Rd);
   
   l = p * C' / (Rd + C * p * C');
   z = (eye(size(A, 1)) - l * C) * p;
   z = symmetrize(z);
-
+  
   varargout{1} = l;
   if nargout > 1
     varargout{2} = p;
@@ -48,13 +48,13 @@ function validateInput(A, G, C, Q, R)
   rA = size(A, 1);
   [rG, cG] = size(G);
   rC = size(C, 1);
-
+  
   if rA ~= rG
-     error('A and G matrices should possess an identical number of rows.');
+    error('A and G matrices should possess an identical number of rows.');
   elseif any(size(Q) ~= cG)
-     error('Q should be a square matrix with the same number of columns as G.');
+    error('Q should be a square matrix with the same number of columns as G.');
   elseif any(size(R) ~= rC)
-     error('The matrix R must be square and have the same number of rows as C.');
+    error('The matrix R must be square and have the same number of rows as C.');
   end
 end
 %=============================================================================

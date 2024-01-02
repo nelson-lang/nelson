@@ -34,35 +34,35 @@ function varargout = d2c(varargin)
   if nargin > 2 
     if ~strcmp(method, 'P')
       error(_("Wrong value for #2 argument: 'prewarp' method expected."));
+      end
+      w0 = varargin{3};
+      mustBeNumeric(w0, 3);
+      if ~isscalar(w0)
+        error(_('Wrong size for input argument #3: scalar expected.'));
+      end
+      mustBePositive(w0, 3);
+      mustBeFinite(w0, 3);
     end
-    w0 = varargin{3};
-    mustBeNumeric(w0, 3);
-    if ~isscalar(w0)
-      error(_('Wrong size for input argument #3: scalar expected.'));
-    end
-    mustBePositive(w0, 3);
-    mustBeFinite(w0, 3);
-  end
     
-  if strcmp(method, 'Z')
-    sysc = d2c_zoh(sys);
-  else
-    Ts = sys.Ts;
-    if strcmp(method, 'P')
-      beta = w0 / tan (w0 * Ts/2);
-    else % 'T'
-      beta = 2 / Ts;
-    end
-      
-    if isempty(sys.E)
-      sysc = d2c_prewarp(sys, beta);
+    if strcmp(method, 'Z')
+      sysc = d2c_zoh(sys);
     else
-      sysc = d2c_bilinear(sys, beta)
+      Ts = sys.Ts;
+      if strcmp(method, 'P')
+        beta = w0 / tan (w0 * Ts/2);
+      else % 'T'
+        beta = 2 / Ts;
+      end
+      
+      if isempty(sys.E)
+        sysc = d2c_prewarp(sys, beta);
+      else
+        sysc = d2c_bilinear(sys, beta)
+      end
     end
-   end
-   varargout{1} = sysc;
-end
-%=============================================================================
+    varargout{1} = sysc;
+  end
+  %=============================================================================
 function sysc = d2c_zoh(sys)
   A = sys.A;
   B = sys.B;

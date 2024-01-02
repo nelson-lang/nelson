@@ -48,6 +48,6 @@ function varargout = subsref(varargin)
       error(_('Illegal indexing structure argument: type ''.'' or ''()'' expected.'));
     otherwise
       error(_('Not a valid indexing expression'));
-    end
+  end
 end
 %=============================================================================

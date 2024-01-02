@@ -23,11 +23,11 @@ function varargout = mesh(varargin)
     go = newplot();
   end
   nextplot = go.NextPlot;
-
+  
   args = {'FaceColor', 'w', 'EdgeColor', 'flat', 'FaceLighting', 'none', 'EdgeLighting', 'flat'};
   args = [inputArguments{:}, args];
   h = surface(go, args{:});
-
+  
   if (~ishold(go))
     view(go, 3);
     grid(go, 'on');

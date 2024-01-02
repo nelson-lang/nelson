@@ -22,8 +22,8 @@ function varargout = grid(varargin)
     inputArguments = inputArguments(2:end);
   else
     ax = gca();
-   end
-
+  end
+  
   if length(inputArguments) == 0
     gridToggle(ax);
   else
@@ -42,6 +42,7 @@ function varargout = grid(varargin)
       else
         error(_('Unknown command option.'));
       end 
+    end
   end
 end
 %=============================================================================

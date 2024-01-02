@@ -11,7 +11,7 @@ function R = and(A, B)
   if ~issparse(A) || ~islogical(A)
     A = sparse(logical(A));
   end
-   if ~issparse(B) || ~islogical(B)
+  if ~issparse(B) || ~islogical(B)
     B = sparse(logical(B));
   end
   R = and(A, B);

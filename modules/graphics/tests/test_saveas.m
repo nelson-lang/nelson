@@ -11,7 +11,7 @@
 %=============================================================================
 TMPDIR = [tempdir, 'saveas_test/'];
 if isdir(TMPDIR)
-    rmdir(TMPDIR, 's');
+  rmdir(TMPDIR, 's');
 end
 mkdir(TMPDIR);
 %=============================================================================
@@ -24,11 +24,11 @@ F = X.*exp(-X.^2-Y.^2);
 surf(X,Y,F);
 %=============================================================================
 for ex = extensions
-    filename = [TMPDIR, 'export_image.', char(ex)];
-    saveas(gcf(), filename);
-    assert_istrue(isfile(filename));
-    fileinfo = dir(filename);
-    assert_istrue(fileinfo.bytes > 0);
+  filename = [TMPDIR, 'export_image.', char(ex)];
+  saveas(gcf(), filename);
+  assert_istrue(isfile(filename));
+  fileinfo = dir(filename);
+  assert_istrue(fileinfo.bytes > 0);
 end
 %=============================================================================
 filename = [TMPDIR, 'export_image.', 'blob'];
@@ -36,13 +36,13 @@ assert_checkerror('saveas(gcf(), filename)', [_('Unsupported format:'), 'blob'])
 %=============================================================================
 filename = [TMPDIR, 'export_no_extension'];
 for ex = extensions
-    saveas(gcf(), filename, ex);
-    assert_istrue(isfile([filename, '.', char(ex)]));
-    fileinfo = dir([filename, '.', char(ex)]);
-    assert_istrue(fileinfo.bytes > 0);
+  saveas(gcf(), filename, ex);
+  assert_istrue(isfile([filename, '.', char(ex)]));
+  fileinfo = dir([filename, '.', char(ex)]);
+  assert_istrue(fileinfo.bytes > 0);
 end
 %=============================================================================
 if isdir(TMPDIR)
-    rmdir(TMPDIR, 's');
+  rmdir(TMPDIR, 's');
 end
 %=============================================================================

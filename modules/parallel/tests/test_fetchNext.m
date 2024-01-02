@@ -16,13 +16,13 @@ pool = backgroundPool();
 N = pool.NumWorkers;
 %=============================================================================
 for idx = 1:N
-    f(idx) = parfeval(backgroundPool, str2func('pause'), 0, idx); 
+  f(idx) = parfeval(backgroundPool, str2func('pause'), 0, idx); 
 end
 %=============================================================================
 for idx = 1:N
-    tic(), dd = fetchNext(f), t = toc();
-    assert_istrue(t > 0 && t <= 3);
-    assert_isequal(dd, idx);
+  tic(), dd = fetchNext(f), t = toc();
+  assert_istrue(t > 0 && t <= 3);
+  assert_isequal(dd, idx);
 end
 %=============================================================================
 assert_checkerror('dd = fetchNext(f)', _('There are no unread Futures to fetch.'));

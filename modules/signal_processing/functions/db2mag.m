@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = db2mag (varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-    varargout{1} = 10 .^ (varargin{1} ./ 20);
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  varargout{1} = 10 .^ (varargin{1} ./ 20);
 end
 %=============================================================================

@@ -73,7 +73,7 @@ function sysOut = tf_to_ss(sysIn)
   B = [];
   C = [];
   D = [];
-
+  
   if ~isemptytf
     numerator = sysIn.Numerator{1};
     denominator = sysIn.Denominator{1};
@@ -115,7 +115,7 @@ function sys = ss_ABCD(A, B, C, D, Ts)
   sys.B = B;
   sys.C = C;
   sys.D = D;
-    
+  
   if isequal(Ts, -1)
     sys.Ts = -1;
     sys.Internal.Ts = -1;
