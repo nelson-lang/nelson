@@ -795,7 +795,7 @@ lexScanningState()
     }
     if (currentChar() == '\'') {
         if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
-            || ((isalnum(previousChar())) != 0)) {
+            || (previousChar() == '.') || ((isalnum(previousChar())) != 0)) {
             /* Not a string... */
             setTokenType(static_cast<int>('\''));
             discardChar();
