@@ -13,7 +13,7 @@
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 #include "nlsInterpreter_exports.h"
-
+#include "GenericTable.hpp"
 //=============================================================================
 namespace Nelson {
 class NLSINTERPRETER_IMPEXP VariablesTable
@@ -23,7 +23,7 @@ private:
     using key_type = std::string;
     using value_type = ArrayOf;
     stringVector lockedVariables;
-    void* variablesTable;
+    GenericTable<std::string, ArrayOf> variablesTable;
     volatile bool lockedAccess = false;
     //=============================================================================
 public:

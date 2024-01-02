@@ -50,9 +50,6 @@ public:
         context.clear();
         detail.clear();
         id.clear();
-        context.reserve(4096);
-        detail.reserve(4096);
-        id.reserve(4096);
         IDX = 0;
     }
     //=============================================================================
