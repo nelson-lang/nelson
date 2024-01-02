@@ -110,11 +110,11 @@ function h = stairsPlot(varargin)
     [XB, YB] = stairsImplementation(X, Y);
   else
     if isnumeric(inputArguments{1})
-        Y = inputArguments{1};
-        inputArguments = inputArguments(2:end);
-        [XB, YB] = stairsImplementation(Y);
+      Y = inputArguments{1};
+      inputArguments = inputArguments(2:end);
+      [XB, YB] = stairsImplementation(Y);
     else
-        error(_('Wrong number of output arguments.'));
+      error(_('Wrong number of output arguments.'));
     end
   end
   h = plot(parent, XB, YB, inputArguments{:});

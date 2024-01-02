@@ -10,18 +10,18 @@
 function varargout = pcolor(varargin)
   inputArguments = varargin;
   if (length(inputArguments) >= 2)
-     if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
-        ax = inputArguments{1}(1);
-        inputArguments = inputArguments(2:end);
-     else   
-        ax = newplot();
-     end
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+      ax = inputArguments{1}(1);
+      inputArguments = inputArguments(2:end);
+    else   
+      ax = newplot();
+    end
   else
     ax = newplot();
   end
   nextPlot = ax.NextPlot;
   ax = cla(ax);
-   
+  
   if (length(inputArguments) == 1)
     C = inputArguments{1};
     h = surface(ax, C);
@@ -42,10 +42,10 @@ function varargout = pcolor(varargin)
   axis('tight');
   if ismember(nextPlot, {'replace', 'replaceall'})
     if xlims(2) <= xlims(1)
-        xlims(2) = xlims(1) + 1;
+      xlims(2) = xlims(1) + 1;
     end
     if ylims(2) <= ylims(1)
-        ylims(2) = ylims(1) + 1;
+      ylims(2) = ylims(1) + 1;
     end
     xlim(ax, xlims);
     ylim(ax, ylims);

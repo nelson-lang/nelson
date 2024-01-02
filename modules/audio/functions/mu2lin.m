@@ -8,15 +8,15 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function y = mu2lin(mu)
-    % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm
-    mu = 255 - mu;
-    sig = double(mu > 127);
-    f = rem(mu, 16);
-    e = fix(mu / 16) - 8 * sig + 1;    
-    y = pow2(f, e + 2);
-    e_table = [0 132 396 924 1980 4092 8316 16764];    
-    e(:) = e_table(e);
-    scale_factor = 1 / 32768;    
-    y = scale_factor * (1 - 2 * sig) .* (e + y);
+  % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm
+  mu = 255 - mu;
+  sig = double(mu > 127);
+  f = rem(mu, 16);
+  e = fix(mu / 16) - 8 * sig + 1;    
+  y = pow2(f, e + 2);
+  e_table = [0 132 396 924 1980 4092 8316 16764];    
+  e(:) = e_table(e);
+  scale_factor = 1 / 32768;    
+  y = scale_factor * (1 - 2 * sig) .* (e + y);
 end
 %=============================================================================

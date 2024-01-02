@@ -20,7 +20,7 @@ function varargout = nmm(varargin)
   if ~ismodule('json')
     error(_('nmm required json module.'));
   end
-
+  
   varargout = {};
   firstParameter = varargin{1};
   if ~isSupportedFirstParameter(firstParameter)

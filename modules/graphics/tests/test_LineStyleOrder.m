@@ -26,11 +26,11 @@ expectedColorIndex =  [2, 1, 2, 1, 2, 1];
 expectedLineStyleIndex = [1, 2, 2, 3, 3, 4];
 
 for i = 1:6
- H = plot( rand( 1, 10 ) );
- assert_isequal(ax.ColorOrderIndex, expectedColorIndex(i));
- assert_isequal(ax.LineStyleOrderIndex, expectedLineStyleIndex(i));
- assert_isequal(H.LineStyle, expectedLineStyle{i})
- assert_isapprox(H.Color, expectedColor{i}, 1e-2);
+  H = plot( rand( 1, 10 ) );
+  assert_isequal(ax.ColorOrderIndex, expectedColorIndex(i));
+  assert_isequal(ax.LineStyleOrderIndex, expectedLineStyleIndex(i));
+  assert_isequal(H.LineStyle, expectedLineStyle{i})
+  assert_isapprox(H.Color, expectedColor{i}, 1e-2);
 end
 %=============================================================================
 f = figure();
@@ -40,10 +40,10 @@ hold on
 expected = [1, 1, 1, 1, 1, 1, 2, 2, 2];
 
 for r = 1:9
-    x = linspace(0,r,500);
-    y = sqrt(r.^2-x.^2);
-    plot(x, y, 'LineWidth', 2);
-    assert_isequal(ax.LineStyleOrderIndex, expected(r));
+  x = linspace(0,r,500);
+  y = sqrt(r.^2-x.^2);
+  plot(x, y, 'LineWidth', 2);
+  assert_isequal(ax.LineStyleOrderIndex, expected(r));
 end
 %=============================================================================
 f = figure();
@@ -53,8 +53,8 @@ ax.LineStyleOrder = {'-','--'};
 hold on
 expected = [1, 2, 2, 3, 3];
 for i = 1:5
-   plot([i i+2])
-   assert_isequal(ax.LineStyleOrderIndex, expected(i));
+  plot([i i+2])
+  assert_isequal(ax.LineStyleOrderIndex, expected(i));
 end
 hold off
 %=============================================================================

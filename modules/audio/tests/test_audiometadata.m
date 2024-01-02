@@ -16,11 +16,11 @@ wav_file = [modulepath('audio'), '/tests/6_Channel_ID.wav'];
 try
   info = audiometadata(wav_file);
 catch ex
-    if strcmp(ex.message, _('Taglib not available.'))
-        return
-    else
-        throw(ex);
-    end
+  if strcmp(ex.message, _('Taglib not available.'))
+    return
+  else
+    throw(ex);
+  end
 end
 assert_isequal(size(info), [1 1]);
 assert_istrue(isempty(fieldnames(info)));

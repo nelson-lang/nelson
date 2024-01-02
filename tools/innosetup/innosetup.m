@@ -28,7 +28,7 @@ if fp ~= -1
   if strcmp(compiler{1}, 'icc') == true
     fprintf(fp, ['#define ICC_COMPILER', char(10)]);
   end
-    if strcmp(compiler{1}, 'msvc') == true
+  if strcmp(compiler{1}, 'msvc') == true
     fprintf(fp, ['#define VS_COMPILER', char(10)]);
   end
   if strcmp(compiler{3}, '64') == true

@@ -42,46 +42,45 @@ function varargout = text(varargin)
     z = zeros(size (x));
   end
 
-
   if (length(x) ~= length(y))
     error(_('Vectors x and y must be the same length.'));
   end
   if (length(x) ~= length(z))
     error(_('Vectors x and z must be the same length.'));
   end
-    
+  
   if numel(inputArguments) == 0
     error(_('last argument must be a string or cell of strings.'))
   end
   labelArray = [];
   if ischar(inputArguments{1})
     labelArray = charToLabel(inputArguments{1}, length(x));
-    elseif iscellstr(inputArguments{1})
-      labelArray = cellStringToLabel(inputArguments{1}, length(x));
-    elseif iscell(inputArguments{1})
-      labelArray = cellToLabel(inputArguments{1}, length(x));
-    elseif isstring(inputArguments{1})
-      labelArray = stringToLabel(inputArguments{1}, length(x));
-    else
-      error(_('last argument must be a string or cell of strings.'))
-    end
-    inputArguments = inputArguments(2:end);
-    inputAsStruct = struct(inputArguments{:});
-    if isfield(inputAsStruct, 'Parent')
-      parent = inputAsStruct.Parent;
-      rmfield(inputAsStruct, 'Parent');
-    end
-    inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
-    visibility = parent.Visible;
-    H = [];
-    for (i=1:numel(x))
-      H = [H, __text__('Parent', parent, 'Visible', visibility, 'Position', [x(i), y(i), z(i)], 'String', labelArray{i}, inputArguments{1:end})];
-    end
-    if (nargout == 1)
-      varargout{1} = H;
-    end
+  elseif iscellstr(inputArguments{1})
+    labelArray = cellStringToLabel(inputArguments{1}, length(x));
+  elseif iscell(inputArguments{1})
+    labelArray = cellToLabel(inputArguments{1}, length(x));
+  elseif isstring(inputArguments{1})
+    labelArray = stringToLabel(inputArguments{1}, length(x));
+  else
+    error(_('last argument must be a string or cell of strings.'))
   end
-  %=============================================================================
+  inputArguments = inputArguments(2:end);
+  inputAsStruct = struct(inputArguments{:});
+  if isfield(inputAsStruct, 'Parent')
+    parent = inputAsStruct.Parent;
+    rmfield(inputAsStruct, 'Parent');
+  end
+  inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
+  visibility = parent.Visible;
+  H = [];
+  for (i=1:numel(x))
+    H = [H, __text__('Parent', parent, 'Visible', visibility, 'Position', [x(i), y(i), z(i)], 'String', labelArray{i}, inputArguments{1:end})];
+  end
+  if (nargout == 1)
+    varargout{1} = H;
+  end
+end
+%=============================================================================
 function labelArray = charToLabel(value, len)
   label = value;
   labelArray = repmat({label}, [len, 1]);

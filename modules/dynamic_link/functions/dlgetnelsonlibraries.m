@@ -13,15 +13,15 @@ function c = dlgetnelsonlibraries()
   [nelsonLibrariesPath, '/libnlsError_manager']; ...
   [nelsonLibrariesPath, '/libnlsI18n']; ...
   [nelsonLibrariesPath, '/libnlsTypes']};
-
+  
   if (ismodule('validators'))
     c = [c; [nelsonLibrariesPath, '/libnlsValidators']];
   end
-
+  
   if (ismodule('f2c'))
     c = [c; [nelsonLibrariesPath, '/libnlsF2C']];
   end
-
+  
   if (ispc())
     c = [c; [nelsonLibrariesPath, '/libnlsblaslapack']];
   end

@@ -10,7 +10,7 @@
 function varargout = ord2(varargin)
   narginchk(2,2);
   nargoutchk(2, 4);
-
+  
   wn = varargin{1};
   z = varargin{2};
   if (nargout == 2)

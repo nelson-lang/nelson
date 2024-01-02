@@ -15,7 +15,7 @@ clear f
 nLhs = 1;
 f1 = str2func('@(x) x * 10');
 for idx = 1:100
-    f(idx) = parfeval(pool, f1, nLhs, idx);
+  f(idx) = parfeval(pool, f1, nLhs, idx);
 end
 f2 = str2func('@(x) x / 10');
 c = afterAll(f, f2, nLhs);

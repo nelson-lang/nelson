@@ -37,7 +37,7 @@ function varargout = clim(varargin)
     end
     msg = _('"manual" or "auto" argument expected.');
     error(msg);
-
+    
   elseif (isnumeric(varargin{1}) && numel(varargin{1})==2)
     ax = gca();
     ax.CLim = varargin{1};

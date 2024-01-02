@@ -8,9 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if strcmp(getenv('AUDIODEV'), 'null') == false && ~any(contains(argv(), '--noaudio'))
-    delete(audioplayer_used());
-    rmpath(modulepath('audio', 'functions'));
-    removegateway(modulepath('audio', 'builtin'));
+  delete(audioplayer_used());
+  rmpath(modulepath('audio', 'functions'));
+  removegateway(modulepath('audio', 'builtin'));
 end
 %=============================================================================
-  

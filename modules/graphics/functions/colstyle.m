@@ -18,7 +18,7 @@ function [linespec, colorspec, markerspec, msg] = colstyle (varargin)
       error(_('"plot" argument expected.'));
     end
     option = convertStringsToChars(varargin{2});
-
+    
     if strcmp('plot', option) || strcmp('', option)
       emptyAsNone = strcmp('plot', option);
     else 

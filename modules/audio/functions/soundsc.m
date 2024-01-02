@@ -34,7 +34,7 @@ function soundsc(varargin)
   if (~(isscalar (fs) && (fs > 0)))
     error (_('Sample rate FS must be a positive number.'));
   end
-    isSupportedBits = isscalar(nbits) && ((nbits == 8) || (nbits == 16) || (nbits == 24));
+  isSupportedBits = isscalar(nbits) && ((nbits == 8) || (nbits == 16) || (nbits == 24));
   if (~isSupportedBits)
     error (_('NBITS must be 8, 16, or 24.'));
   end

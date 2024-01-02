@@ -9,14 +9,14 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = hsvd(varargin)
-    narginchk(1, 1);
-    nargoutchk(0, 1);
-	sys = varargin{1};
-	% Get gramians
-	P = gram(sys, 'c');
-	Q = gram(sys, 'o');
-	% Get hankel singular values
-    hsvd = sqrt(eig(P * Q));
-    varargout{1} = hsvd;
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  sys = varargin{1};
+  % Get gramians
+  P = gram(sys, 'c');
+  Q = gram(sys, 'o');
+  % Get hankel singular values
+  hsvd = sqrt(eig(P * Q));
+  varargout{1} = hsvd;
 end
 %=============================================================================

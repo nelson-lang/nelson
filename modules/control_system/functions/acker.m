@@ -30,7 +30,7 @@ function varargout = acker(varargin)
   if nB ~= 1
     error(_('SISO LTI model expected.'));
   end
-
+  
   % Vectorize P
   P = P(:);
   if(size(A,1) ~= length(P))

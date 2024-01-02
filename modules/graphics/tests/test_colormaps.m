@@ -29,13 +29,13 @@ colormaps = {'autumn';
 
 k = 1;
 for map = colormaps'
-    subplot(4, 4, k);
-    surf(peaks);
-    ax = gca();
-    colormap(ax, map{1});
-    title(map{1});
-    k = k + 1;
-    grid off
-    view(-30, 10)
+  subplot(4, 4, k);
+  surf(peaks);
+  ax = gca();
+  colormap(ax, map{1});
+  title(map{1});
+  k = k + 1;
+  grid off
+  view(-30, 10)
 end
 f.DrawLater = 'off';

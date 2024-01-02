@@ -13,12 +13,12 @@ o = weboptions('RequestMethod', 'get');
 o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args_1.json'];
 while (~ok && cnt < 10)
-    try
-        fullname = websave(filename, 'http://httpbin.org/get', 'r', i, "b+", 3, o);
-        ok = true;
-    catch
-        cnt = cnt + 1;
-    end
+  try
+    fullname = websave(filename, 'http://httpbin.org/get', 'r', i, "b+", 3, o);
+    ok = true;
+  catch
+    cnt = cnt + 1;
+  end
 end
 R = jsondecode(fileread(fullname));
 assert_istrue(isstruct(R.args));

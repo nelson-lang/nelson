@@ -12,16 +12,16 @@
 g = groot();
 R =  properties(g);
 REF = {'Children';
- 'CurrentFigure'; 
- 'Parent';
- 'PointerLocation';
- 'ScreenDepth';
- 'ScreenPixelsPerInch';
- 'ScreenSize';
- 'Tag';
- 'Type';
- 'Units';
- 'UserData'};
+'CurrentFigure'; 
+'Parent';
+'PointerLocation';
+'ScreenDepth';
+'ScreenPixelsPerInch';
+'ScreenSize';
+'Tag';
+'Type';
+'Units';
+'UserData'};
 assert_isequal(R, REF);
 %=============================================================================
 assert_isequal(g.Type, 'root');

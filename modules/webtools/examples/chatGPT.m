@@ -10,7 +10,7 @@
 %=============================================================================
 APIKey = getenv('CHATGPT_API_KEY', '');
 if isempty(APIKey)
-    warning(_('Please define CHATGPT_API_KEY environment variable with your private API Key.'));
+  warning(_('Please define CHATGPT_API_KEY environment variable with your private API Key.'));
 end
 APIUrl ='https://api.openai.com/v1/completions';
 GPTModel = "text-davinci-003";

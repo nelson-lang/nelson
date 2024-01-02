@@ -12,8 +12,8 @@ bunny_directory = [modulepath('graphics', 'root'), '/examples/stanford-bunny/'];
 load([bunny_directory, 'stanford-bunny.nh5']);
 f = figure('Visible', 'off', 'DrawLater', 'on', 'Color', [1, 1, 1]);
 patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
-      'EdgeColor', 'none', ...
-      'FaceColor', 'interp', 'FaceAlpha', 1);
+'EdgeColor', 'none', ...
+'FaceColor', 'interp', 'FaceAlpha', 1);
 axis equal
 axis off 
 view([0, 0, 1]);

@@ -15,11 +15,11 @@ function varargout = stem(varargin)
   % h = stem(ax, X, Y, LineSpec)
   nargoutchk(0, 1);
   narginchk(1, 20);
-
+  
   [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArguments(varargin);
   n =  size(Y, 2);
   G = [];
-
+  
   if isgraphics(parent, 'hggroup') 
     ax = ancestor(parent, 'axes');
   else
@@ -43,27 +43,28 @@ function varargout = stem(varargin)
         colorIndex = 1;
       end
     else
-       colorIndex = colorIndex + 1;
+      colorIndex = colorIndex + 1;
     end
     g = stemInternal(ax, X(:, k), Y(:,k), color, filled, propertiesLineA, propertiesLineB);
     G = [G, g];
   end
   if (nargout == 1)
     varargout{1} = G;
+  end
 end
 %=============================================================================
 function group = stemInternal(ax, X, Y, color, filled, propertiesLineA, propertiesLineB)
   axis(ax, 'auto');
   group = hggroup('Parent', ax);
   group.Visible = 'off';
-
+  
   if isempty(propertiesLineA.Color) 
     propertiesLineA.Color = color;
   end
   if isempty(propertiesLineA.MarkerEdgeColor)
     propertiesLineA.MarkerEdgeColor = color;
   end
-
+  
   if ~isfield(propertiesLineA, 'MarkerFaceColor')
     if filled
       propertiesLineA.MarkerFaceColor = propertiesLineA.Color;
@@ -71,13 +72,13 @@ function group = stemInternal(ax, X, Y, color, filled, propertiesLineA, properti
       propertiesLineA.MarkerFaceColor = 'none';
     end
   end 
-
+  
   if isempty(propertiesLineB.Color) 
     propertiesLineB.Color = color;
   end
   propertiesLineA = reshape([fieldnames(propertiesLineA)'; struct2cell(propertiesLineA)'], 1, []);
   propertiesLineB = reshape([fieldnames(propertiesLineB)'; struct2cell(propertiesLineB)'], 1, []);
-
+  
   H = plot(group, X, Y, propertiesLineA{:});
   for i = 1:length(X)
     plot(group, [X(i) X(i)], [0 Y(i)], propertiesLineB{:});
@@ -116,16 +117,16 @@ function [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArgumen
   else
     error(_('Not enough input arguments.'));
   end
-
+  
   [linespec, colorspec, markerspec, msg] = colstyle ('-o', 'plot');
-
+  
   filled = false;
   isFilled = @(x) (ischar(x) || isStringScalar(x)) && strcmp(convertStringsToChars(x), 'filled');
   filledDectected = find (cellfun(isFilled, inputArguments));
   if (~isempty(filledDectected))
-      filled = true;
-      inputArguments(filledDectected) = [];
-      nbInputArguments = length(inputArguments);
+    filled = true;
+    inputArguments(filledDectected) = [];
+    nbInputArguments = length(inputArguments);
   end
   nbInputArguments = length(inputArguments);
   if (nbInputArguments > 0)
@@ -143,23 +144,22 @@ function [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArgumen
       nbInputArguments = length(inputArguments);
     end
   end
-
+  
   if min(size(X)) == 1, X = X(:); end
   if min(size(Y)) == 1, Y = Y(:); end
-
-
+  
   propertiesLineA = struct();
   propertiesLineA.Color = colorspec;
   propertiesLineA.MarkerEdgeColor = colorspec;
   propertiesLineA.Marker = markerspec;
   propertiesLineA.MarkerSize = 6;
-
+  
   for k = 1:2:nbInputArguments
     propertiesLineA.(inputArguments{k}) = inputArguments{k + 1};
   end
   propertiesLineA.LineStyle = 'none';
 
-
+  
   propertiesLineB = struct();
   propertiesLineB.Color = colorspec;
   propertiesLineB.LineStyle = linespec;

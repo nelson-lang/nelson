@@ -28,11 +28,11 @@ function varargout = tzero(varargin)
     D = varargin{4};
     sys = ss(A, B, C, D);
     if nargin == 5
-        E = varargin{5};
-        if ~isequal(size(A), size(E))
-          error(_('A and E must have the same size.'));
-        end
-        sys.E = E;
+      E = varargin{5};
+      if ~isequal(size(A), size(E))
+        error(_('A and E must have the same size.'));
+      end
+      sys.E = E;
     end
     if nargout == 2
       [z, nrank] = tzero(sys);

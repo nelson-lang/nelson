@@ -8,13 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = loglog(varargin)
-    go = plot(varargin{:});
-    ax = go.Parent;
-    ax.XScale = 'log';
-    ax.YScale = 'log';
-    if (nargout > 0)
-      varargout{1} = go;
-    end
+  go = plot(varargin{:});
+  ax = go.Parent;
+  ax.XScale = 'log';
+  ax.YScale = 'log';
+  if (nargout > 0)
+    varargout{1} = go;
+  end
 end
 %=============================================================================
-  

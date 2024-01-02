@@ -62,7 +62,7 @@ function varargout = gensig(varargin)
       u = cos((2 * pi / tau) * t);
     case 'ta'
       u = tan((2 * pi / tau) * t);
-     otherwise
+    otherwise
       error(_("first input argument must be one of the following: 'tan', 'cos', 'sin', 'square', or 'pulse'."));
     end
     varargout{1} = u;

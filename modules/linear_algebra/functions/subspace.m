@@ -10,7 +10,7 @@
 function t = subspace(varargin)
   narginchk(2, 2);
   nargoutchk(0, 1);
-
+  
   A = orth(varargin{1});
   B = orth(varargin{2});
   if size(A, 2) < size(B, 2)

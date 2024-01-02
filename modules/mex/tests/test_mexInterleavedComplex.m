@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc() && ~havecompiler()
-    configuremsvc();
-  end
+  configuremsvc();
+end
 %=============================================================================
 tmpPath = tempname();
 mkdir(tmpPath);

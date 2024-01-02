@@ -16,7 +16,7 @@ function d = addtodate (d, q, f)
     error('Nelson:addtodate:InputDateField', _('Date field must be a character vector or string scalar.'));
   end
   f = convertStringsToChars(f);
- 
+  
   if (isscalar (d) && ~ isscalar (q))
     d = repmat (d, size (q));
   end
@@ -56,5 +56,5 @@ function d = addtodate (d, q, f)
       msg = sprintf(_('Date field "%s" is invalid.'), f);
       error (msg);
     end
-end
-%=============================================================================
+  end
+  %=============================================================================

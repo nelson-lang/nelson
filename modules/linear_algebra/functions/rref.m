@@ -21,7 +21,7 @@ function varargout = rref (varargin)
   else
     tol = max(rows, cols) * eps(class(A)) * norm(A, inf);
   end
-
+  
   if isempty(A)
     varargout{1} = A;
     if nargout > 1

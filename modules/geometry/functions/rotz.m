@@ -14,7 +14,7 @@ function res = rotz(varargin)
     error('Nelson:rotz:kNonScalar', _('Input argument #1: scalar expected.'));
   end
   res = [cosd(angle_degree), -sind(angle_degree), 0;
-   sind(angle_degree), cosd(angle_degree), 0;
-   0, 0, 1];
+  sind(angle_degree), cosd(angle_degree), 0;
+  0, 0, 1];
 end
 %=============================================================================

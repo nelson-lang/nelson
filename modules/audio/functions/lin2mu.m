@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function mu = lin2mu(y)
-    % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm    
+  % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm    
   y = 32768 * y;
   sig = sign(y) + double(y == 0);
   y = min(abs(y), 32635);

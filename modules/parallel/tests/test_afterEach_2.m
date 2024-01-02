@@ -15,7 +15,7 @@ clear f
 fn1 = str2func('@(x) [x:-1:1]''');
 fn2 = str2func('max');
 for idx= 1:10
-    f(idx) = parfeval(pool, fn1, 1, 1000);
+  f(idx) = parfeval(pool, fn1, 1, 1000);
 end
 C = afterEach(f, fn2, 2);
 [R, I] = fetchOutputs(C);
