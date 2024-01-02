@@ -206,10 +206,10 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
   test_cases = [test_cases_sequential; test_cases_parallel];
   time_test = 0;
   for test_case = test_cases(:)'
-    test_suite.tests = test_suite.tests + 1;
     if test_case.isbench
         test_suite.bench = test_suite.bench + 1;
     else
+        test_suite.tests = test_suite.tests + 1;
         switch test_case.status
             case 'Fail'
                 test_suite.errors = test_suite.errors + 1;
