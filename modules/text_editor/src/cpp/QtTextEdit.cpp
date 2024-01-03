@@ -12,8 +12,8 @@
 #include "CompleterHelper.hpp"
 #include "FileCompleter.hpp"
 #include "MacroCompleter.hpp"
-#include "QStringConverter.hpp"
 #include "VariableCompleter.hpp"
+#include "QStringConverter.hpp"
 #include "i18n.hpp"
 #include <QtCore/QStringListModel>
 #include <QtGui/QKeyEvent>
@@ -159,8 +159,10 @@ QtTextEdit::complete(QString prefix)
                 wstringVector builtin = BuiltinCompleter(textpart);
                 wstringVector macros = MacroCompleter(textpart);
                 wstringVector variables = VariableCompleter(textpart);
-                updateModel(textpart, files, builtin, macros, variables);
-                showpopup = true;
+                if (!builtin.empty() || !files.empty() || !macros.empty() || !variables.empty()) {
+                    updateModel(textpart, files, builtin, macros, variables);
+                    showpopup = true;
+                }
             }
         }
     }
