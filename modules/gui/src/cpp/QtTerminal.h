@@ -12,7 +12,11 @@
 #include "nlsGui_exports.h"
 #include <QtGui/QTextBlock>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QCompleter>
 #include <string>
+#include "Types.hpp"
+//=============================================================================
+using namespace Nelson;
 //=============================================================================
 class NLSGUI_IMPEXP QtTerminal : public QTextBrowser
 {
@@ -54,6 +58,10 @@ public slots:
 
     void
     sendKeyEvent(QKeyEvent* event);
+
+private slots:
+    void
+    insertCompletion(const QString& completion);
 
 private:
     enum DISP_MODE
@@ -113,6 +121,22 @@ private:
     QAction* selectAllAction;
     QAction* clcAction;
     QAction* stopAction;
+
+    QCompleter* qCompleter;
+
+    void
+    complete(QString prefix);
+    void
+    updateModel(const std::wstring& prefix, const wstringVector& filesList,
+        const wstringVector& builtinList, const wstringVector& macroList,
+        const wstringVector& variableList);
+
+    QAbstractItemModel*
+    modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
+        const wstringVector& macroList, const wstringVector& variableList);
+
+    void
+    createCompleter();
 
 public Q_SLOTS:
     void

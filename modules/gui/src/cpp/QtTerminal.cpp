@@ -27,6 +27,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QScrollBar>
+#include <QtCore/QStringListModel>
+#include <QtWidgets/QAbstractItemView>
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
 #include "NelsonHistory.hpp"
@@ -40,12 +42,21 @@
 #include "NelsonColors.hpp"
 #include "DefaultFont.hpp"
 #include "StringHelpers.hpp"
+
+#include "BuiltinCompleter.hpp"
+#include "CompleterHelper.hpp"
+#include "FileCompleter.hpp"
+#include "MacroCompleter.hpp"
+#include "VariableCompleter.hpp"
+#include "QStringConverter.hpp"
+
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
+    qCompleter = nullptr;
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
@@ -68,7 +79,6 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard
         | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard | Qt::TextEditable);
     setOpenExternalLinks(true);
-    mCommandLineReady = true;
     document()->setMaximumBlockCount(0);
     nelsonPath = Nelson::wstringToQString(
         Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory());
@@ -80,6 +90,23 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     clcAction = nullptr;
     stopAction = nullptr;
     contextMenu = nullptr;
+    mCommandLineReady = true;
+}
+//=============================================================================
+void
+QtTerminal::createCompleter()
+{
+    if (!qCompleter) {
+        qCompleter = new QCompleter(this);
+
+        qCompleter->setWidget(this);
+        qCompleter->setModelSorting(QCompleter::UnsortedModel);
+        qCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+        qCompleter->setCaseSensitivity(Qt::CaseSensitive);
+        qCompleter->setWrapAround(false);
+        QObject::connect(
+            qCompleter, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+    }
 }
 //=============================================================================
 QtTerminal::~QtTerminal()
@@ -111,6 +138,10 @@ QtTerminal::~QtTerminal()
     if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
+    }
+    if (qCompleter) {
+        delete qCompleter;
+        qCompleter = nullptr;
     }
 }
 //=============================================================================
@@ -342,6 +373,23 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
             return;
         }
     }
+    if (qCompleter) {
+        if (qCompleter->popup()->isVisible()) {
+            // The following keys are forwarded by the completer to the widget
+            switch (event->key()) {
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+            case Qt::Key_Escape:
+            case Qt::Key_Tab:
+            case Qt::Key_Backtab:
+                event->ignore();
+                return; // let the completer do default behavior
+            default:
+                qCompleter->popup()->hide();
+                break;
+            }
+        }
+    }
     if (event->matches(QKeySequence::MoveToStartOfLine)) {
         handleHomePress();
         return;
@@ -358,32 +406,55 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         if (handleBackspaceKeyPress()) {
             return;
         }
-    } else if (event->key() == Qt::Key_Backspace) {
-        if (handleBackspaceKeyPress()) {
-            return;
-        }
-        updateHistoryToken();
-    } else if (event->key() == Qt::Key_Delete) {
-        updateHistoryToken();
-        if (!isInEditionZone()) {
-            return;
-        }
-        ensureInputColor();
-    } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-        if (isInEditionZone()) {
-            QString cmd = getCurrentCommandLine();
-            lineToSend = Nelson::QStringTowstring(cmd) + L"\n";
-            QTextCursor cur(document()->lastBlock());
-            cur.movePosition(QTextCursor::EndOfBlock);
-            cur.insertBlock();
-            setTextCursor(cur);
-        }
-        return;
     } else if (event->matches(QKeySequence::Copy)) {
         if (!mCommandLineReady) {
             NelsonConfiguration::getInstance()->setInterruptPending(true);
         }
+    } else {
+        switch (event->key()) {
+        case Qt::Key_Tab: {
+            if (isInEditionZone()) {
+                bool backup = mCommandLineReady;
+                createCompleter();
+                QString completionPrefix = getCurrentCommandLine();
+                mCommandLineReady = backup;
+                complete(completionPrefix);
+                event->accept();
+                return;
+            }
+        } break;
+        case Qt::Key_Backspace: {
+            if (handleBackspaceKeyPress()) {
+                return;
+            }
+            updateHistoryToken();
+
+        } break;
+        case Qt::Key_Delete: {
+            updateHistoryToken();
+            if (!isInEditionZone()) {
+                return;
+            }
+            ensureInputColor();
+        } break;
+        case Qt::Key_Return:
+        case Qt::Key_Enter: {
+            if (isInEditionZone()) {
+                QString cmd = getCurrentCommandLine();
+                lineToSend = Nelson::QStringTowstring(cmd) + L"\n";
+                QTextCursor cur(document()->lastBlock());
+                cur.movePosition(QTextCursor::EndOfBlock);
+                cur.insertBlock();
+                setTextCursor(cur);
+            }
+            return;
+        } break;
+        default: {
+
+        } break;
+        }
     }
+
     if (isInEditionZone()) {
         QTextBrowser::keyPressEvent(event);
     }
@@ -703,5 +774,129 @@ QtTerminal::updateHistoryToken()
         return true;
     }
     return false;
+}
+//=============================================================================
+void
+QtTerminal::complete(QString prefix)
+{
+    if (prefix.isEmpty()) {
+        return;
+    }
+    bool showpopup = false;
+    if (!prefix.isEmpty()) {
+        std::wstring completionPrefixW = QStringTowstring(prefix);
+        std::wstring filepart = getPartialLineAsPath(completionPrefixW);
+        wstringVector files;
+        bool doFullSearch = true;
+        if (!filepart.empty()) {
+            files = FileCompleter(filepart);
+            if (!files.empty()) {
+                updateModel(
+                    completionPrefixW, files, wstringVector(), wstringVector(), wstringVector());
+                showpopup = true;
+                doFullSearch = false;
+            }
+        }
+        if (doFullSearch) {
+            std::wstring textpart = getPartialLine(completionPrefixW);
+            if (!textpart.empty()) {
+                wstringVector builtin = BuiltinCompleter(textpart);
+                wstringVector macros = MacroCompleter(textpart);
+                wstringVector variables = VariableCompleter(textpart);
+                if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()) {
+                    updateModel(textpart, files, builtin, macros, variables);
+                    showpopup = true;
+                }
+            }
+        }
+    }
+
+    if (showpopup) {
+        QRect cr = cursorRect();
+        cr.setWidth(qCompleter->popup()->sizeHintForColumn(0)
+            + qCompleter->popup()->verticalScrollBar()->sizeHint().width());
+        cr.setHeight(10);
+        qCompleter->complete(cr);
+        qCompleter->setCurrentRow(0);
+        qCompleter->popup()->setCurrentIndex(qCompleter->completionModel()->index(0, 0));
+        qCompleter->popup()->setVisible(true);
+    } else {
+        if (qCompleter->popup()->isVisible()) {
+            qCompleter->popup()->close();
+        }
+    }
+}
+//=============================================================================
+void
+QtTerminal::updateModel(const std::wstring& prefix, const wstringVector& filesList,
+    const wstringVector& builtinList, const wstringVector& macroList,
+    const wstringVector& variableList)
+{
+
+    if (qCompleter != nullptr) {
+        qCompleter->setModel(modelFromNelson(filesList, builtinList, macroList, variableList));
+        qCompleter->setCompletionPrefix(wstringToQString(prefix));
+    }
+}
+//=============================================================================
+QAbstractItemModel*
+QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
+    const wstringVector& macroList, const wstringVector& variableList)
+{
+    QStringList words;
+    for (const auto& k : filesList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
+    }
+    for (const auto& k : builtinList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
+    }
+    for (const auto& k : macroList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
+    }
+    for (const auto& k : variableList) {
+        words.append(wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_VARIABLE)
+            + QString(")"));
+    }
+    words.sort();
+    return new QStringListModel(words, qCompleter);
+}
+//=============================================================================
+void
+QtTerminal::insertCompletion(const QString& completion)
+{
+    QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
+    bool isPathCompletion = (completion.lastIndexOf(FILE_OR_DIR) != -1);
+    QString cleanedCompletion = completion;
+    QString beforeString = QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")");
+    cleanedCompletion = cleanedCompletion.replace(
+        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+    beforeString = QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")");
+    cleanedCompletion = cleanedCompletion.replace(
+        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+    beforeString = QString(" (") + wstringToQString(POSTFIX_VARIABLE) + QString(")");
+    cleanedCompletion = cleanedCompletion.replace(
+        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+    cleanedCompletion = cleanedCompletion.replace(
+        cleanedCompletion.lastIndexOf(FILE_OR_DIR), FILE_OR_DIR.size(), QString());
+    if (qCompleter->widget() != this) {
+        return;
+    }
+    QTextCursor tc = textCursor();
+    QString completionPrefix = qCompleter->completionPrefix();
+    bool backup = mCommandLineReady;
+    std::wstring currentLineW = QStringTowstring(getCurrentCommandLine());
+    mCommandLineReady = backup;
+
+    std::wstring cleanedCompletionW = QStringTowstring(cleanedCompletion);
+    std::wstring fileSearchedPattern = getPartialLineAsPath(currentLineW);
+    std::wstring searchedPattern = getPartialLine(currentLineW);
+    std::wstring newLine = completerLine(
+        currentLineW, cleanedCompletionW, fileSearchedPattern, searchedPattern, isPathCompletion);
+
+    replaceCurrentCommandLine(newLine);
+    updateHistoryToken();
 }
 //=============================================================================
