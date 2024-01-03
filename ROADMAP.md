@@ -1,10 +1,10 @@
-    # Roadmap
+# Roadmap
 
 The roadmap is a living document, and it is likely that priorities will change, but the list below should give some indication of our plans for the next major release, and for the future.
 
 Please feel free to file issues on this repository if you have questions, concerns, or suggestions.
 
-## Nelson 1.0
+## Nelson 1.0.0
 
 _Main Features_:
 

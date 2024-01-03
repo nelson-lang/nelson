@@ -117,7 +117,8 @@ function helpForNelsonOnly(destinationdir)
     'CHANGELOG-0.3.x.md', ...
     'CHANGELOG-0.4.x.md', ...
     'CHANGELOG-0.5.x.md', ...
-    'CHANGELOG-0.6.x.md'};
+    'CHANGELOG-0.6.x.md', ...
+    'CHANGELOG-0.7.x.md'};
     changelogs_dir = [dir_dst, '/changelogs'];
     mkdir(changelogs_dir);
     for k = 1:length(changelogs)
@@ -132,6 +133,7 @@ function helpForNelsonOnly(destinationdir)
     end
     content = fileread([dir_dst, '/', 'README.md']);
     content = strrep(content, '(CHANGELOG.md)', '(./changelogs/CHANGELOG.md)');
+    content = strrep(content, '(CHANGELOG-0.7.x.md)', '(./changelogs/CHANGELOG-0.7.x.md)');
     content = strrep(content, '(CHANGELOG-0.6.x.md)', '(./changelogs/CHANGELOG-0.6.x.md)');
     content = strrep(content, '(CHANGELOG-0.5.x.md)', '(./changelogs/CHANGELOG-0.5.x.md)');
     content = strrep(content, '(CHANGELOG-0.4.x.md)', '(./changelogs/CHANGELOG-0.4.x.md)');
