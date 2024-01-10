@@ -190,6 +190,7 @@
     <ClCompile Include="..\cpp\ishermitianBuiltin.cpp" />
     <ClCompile Include="..\cpp\issymmetricBuiltin.cpp" />
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
+    <ClCompile Include="..\cpp\luBuiltin.cpp" />
     <ClCompile Include="..\cpp\rcondBuiltin.cpp" />
     <ClCompile Include="..\cpp\schurBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtmBuiltin.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="..\include\ishermitianBuiltin.hpp" />
     <ClInclude Include="..\include\issymmetricBuiltin.hpp" />
     <ClInclude Include="..\include\logmBuiltin.hpp" />
+    <ClInclude Include="..\include\luBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />
     <ClInclude Include="..\include\rcondBuiltin.hpp" />
     <ClInclude Include="..\include\schurBuiltin.hpp" />

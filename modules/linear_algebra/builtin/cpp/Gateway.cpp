@@ -26,6 +26,7 @@
 #include "eigBuiltin.hpp"
 #include "cholBuiltin.hpp"
 #include "balanceBuiltin.hpp"
+#include "luBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -46,7 +47,7 @@ static const nlsGateway gateway[] = {
     { "eig", (ptrBuiltin)Nelson::LinearAlgebraGateway::eigBuiltin, 2, 2 },
     { "chol", (ptrBuiltin)Nelson::LinearAlgebraGateway::cholBuiltin, 1, 1 },
     { "balance", (ptrBuiltin)Nelson::LinearAlgebraGateway::balanceBuiltin, 3, 2 },
-
+    { "lu", (ptrBuiltin)Nelson::LinearAlgebraGateway::luBuiltin, 3, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
