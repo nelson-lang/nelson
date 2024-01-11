@@ -215,6 +215,7 @@
     <ClInclude Include="..\include\IsSymmetric.hpp" />
     <ClInclude Include="..\include\lapack_eigen.hpp" />
     <ClInclude Include="..\include\LogMatrix.hpp" />
+    <ClInclude Include="..\include\LUMatrixFactorization.hpp" />
     <ClInclude Include="..\include\MatrixPower.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_exports.h" />
     <ClInclude Include="..\include\ReciprocalConditionNumber.hpp" />
@@ -239,6 +240,7 @@
     <ClCompile Include="..\cpp\IsHermitian.cpp" />
     <ClCompile Include="..\cpp\IsSymmetric.cpp" />
     <ClCompile Include="..\cpp\LogMatrix.cpp" />
+    <ClCompile Include="..\cpp\LUMatrixFactorization.cpp" />
     <ClCompile Include="..\cpp\MatrixPower.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
