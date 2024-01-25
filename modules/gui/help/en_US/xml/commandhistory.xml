@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>commandhistory</keyword>
+  <short_description>Command History</short_description>
+
+  <syntax>
+  <syntax_item>commandhistory</syntax_item>
+   </syntax>
+  
+  <description>
+    <p
+    >The Command History window presents a record of statements executed in both the current and past Nelson sessions.</p>
+    <p
+    >Each session is timestamped with the short date format of your operating system, followed by the corresponding statements.</p>
+    <p
+    > Entries within the Command History window can be selected for various actions and operations.</p>
+    <p><img src="../images/commandhistory.png" align="middle" /></p>
+  </description>
+
+
+  <used_function />
+  <bibliography />
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}workspace">workspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}filebrowser">filebrowser</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.1.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

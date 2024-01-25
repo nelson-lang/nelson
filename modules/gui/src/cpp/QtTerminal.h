@@ -71,7 +71,10 @@ private:
         STDERR_DISP,
         STDIN_DISP,
     };
+    QString lineBuffer;
+
     QString nelsonPath;
+    bool isFirstPrompt;
     void
     keyPressEvent(QKeyEvent* event) override;
     void
@@ -155,5 +158,13 @@ public Q_SLOTS:
     sendReturnKey();
     void
     helpOnSelection();
+
+    void
+    onCommandsReceived(const QStringList& commands);
+    void
+    onPostCommandReceived(const QString& command);
+
+    void
+    onToTextEditorReceived();
 };
 //=============================================================================

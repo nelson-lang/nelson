@@ -20,7 +20,7 @@ const std::wstring gatewayName = L"history_manager";
 static const nlsGateway gateway[] = {
     { "history_manager", (ptrBuiltin)Nelson::HistoryManagerGateway::history_managerBuiltin, 1, 1,
         CPP_BUILTIN },
-    { "history", (ptrBuiltin)Nelson::HistoryManagerGateway::historyBuiltin, 0, 0,
+    { "history", (ptrBuiltin)Nelson::HistoryManagerGateway::historyBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================

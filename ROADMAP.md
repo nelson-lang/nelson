@@ -34,8 +34,9 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### User Interface (GUI)
 
-- History browser,
-- File browser,
+- History browser (DONE v1.1),
+- File browser (DONE v1.1),
+- Workspace browser (DONE v1.1),
 - Variable browser,
 - RSS viewer,
 - Demo viewer,

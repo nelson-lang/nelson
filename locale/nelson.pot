@@ -1396,6 +1396,105 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "File Browser"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Script"
+msgstr ""
+
+msgid "Function"
+msgstr ""
+
+msgid "Directory"
+msgstr ""
+
+msgid "Show in explorer"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Run"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Open with Default Application"
+msgstr ""
+
+msgid "Indicate files not in path"
+msgstr ""
+
+msgid "Add to Path"
+msgstr ""
+
+msgid "Remove to Path"
+msgstr ""
+
+msgid "Collapse All"
+msgstr ""
+
+msgid "Rename Directory"
+msgstr ""
+
+msgid "Rename File"
+msgstr ""
+
+msgid "New Name:"
+msgstr ""
+
+msgid "Create New Directory"
+msgstr ""
+
+msgid "New Directory Name:"
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "New script name:"
+msgstr ""
+
+msgid "New function name:"
+msgstr ""
+
+msgid "History Browser"
+msgstr ""
+
+msgid "Execute selection"
+msgstr ""
+
+msgid "Clear all"
+msgstr ""
+
+msgid "Delete selection"
+msgstr ""
+
+msgid "Copy selection"
+msgstr ""
+
+msgid "Create Script"
+msgstr ""
+
+msgid "Are you certain you wish to clear the history?"
+msgstr ""
+
+msgid "Please note that this action cannot be undone."
+msgstr ""
+
+msgid "Clear history"
+msgstr ""
+
 msgid "Nelson"
 msgstr ""
 
@@ -1501,6 +1600,42 @@ msgstr ""
 msgid "Clear console"
 msgstr ""
 
+msgid "&Text editor"
+msgstr ""
+
+msgid "&Windows"
+msgstr ""
+
+msgid "&Layout"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "&Command line only"
+msgstr ""
+
+msgid "&Two columns"
+msgstr ""
+
+msgid "&History browser"
+msgstr ""
+
+msgid "History browser"
+msgstr ""
+
+msgid "&File browser"
+msgstr ""
+
+msgid "File browser"
+msgstr ""
+
+msgid "&Workspace browser"
+msgstr ""
+
+msgid "Workspace browser"
+msgstr ""
+
 msgid "&Help"
 msgstr ""
 
@@ -1526,9 +1661,6 @@ msgid "&About"
 msgstr ""
 
 msgid "About"
-msgstr ""
-
-msgid "&Text editor"
 msgstr ""
 
 msgid "Close confirmation"
@@ -1559,6 +1691,45 @@ msgid "Clear Command Window"
 msgstr ""
 
 msgid "Stop execution"
+msgstr ""
+
+msgid "Workspace Browser"
+msgstr ""
+
+msgid "Save As"
+msgstr ""
+
+msgid "Plot Gallery"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Class"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "global"
+msgstr ""
+
+msgid "Rename Variable"
+msgstr ""
+
+msgid "Enter a new name:"
+msgstr ""
+
+msgid "Save Variable As"
+msgstr ""
+
+msgid "Nelson Files (*.nh5)"
 msgstr ""
 
 msgid "not defined."
@@ -1723,16 +1894,7 @@ msgstr ""
 msgid "Your variables are:"
 msgstr ""
 
-msgid "Name"
-msgstr ""
-
-msgid "Size"
-msgstr ""
-
 msgid "Bytes"
-msgstr ""
-
-msgid "Class"
 msgstr ""
 
 msgid "Attributes"
@@ -2038,9 +2200,6 @@ msgid "Insufficient number of outputs."
 msgstr ""
 
 msgid "Case not managed."
-msgstr ""
-
-msgid "Function"
 msgstr ""
 
 msgid "out-of-order argument /"
@@ -2488,6 +2647,12 @@ msgstr ""
 msgid "Second input must be finite and >= 0."
 msgstr ""
 
+msgid "Not yet implemented."
+msgstr ""
+
+msgid "single or double type expected."
+msgstr ""
+
 msgid "Second input argument must be 'real' or 'complex'."
 msgstr ""
 
@@ -2529,6 +2694,9 @@ msgid "Input must be finite."
 msgstr ""
 
 msgid "Undefined function 'sqrtm' for input arguments of type"
+msgstr ""
+
+msgid "Input to LU must not contain NaN or Inf."
 msgstr ""
 
 msgid "Cannot apply exponential operation to N-Dimensional arrays."
@@ -3097,9 +3265,6 @@ msgid "Summary"
 msgstr ""
 
 msgid "Profile Summary"
-msgstr ""
-
-msgid "Filename"
 msgstr ""
 
 msgid "Number of Calls"
@@ -3858,9 +4023,6 @@ msgid "Print"
 msgstr ""
 
 msgid "Evaluate selection"
-msgstr ""
-
-msgid "Edit"
 msgstr ""
 
 msgid "Ready"
@@ -6195,6 +6357,9 @@ msgid "helpproject.qhp is missing."
 msgstr ""
 
 msgid "Expecting statement list or function definition"
+msgstr ""
+
+msgid "Lexical error unterminated character array"
 msgstr ""
 
 #, python-format
