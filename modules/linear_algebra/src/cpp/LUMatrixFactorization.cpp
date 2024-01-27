@@ -157,7 +157,6 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        ompIndexType ucols = ncols;
         auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
         auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
 #if defined(_NLS_WITH_OPENMP)
@@ -527,8 +526,9 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
         retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        double* piv = (double*)ArrayOf::allocateArrayOf(
-            A.getDataClass(), nrows * nrows, stringVector(), true);
+        indexType length = (indexType)(nrows * nrows);
+        double* piv
+            = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), length, stringVector(), true);
 
         ArrayOf AA(A);
         AA.ensureSingleOwner();
