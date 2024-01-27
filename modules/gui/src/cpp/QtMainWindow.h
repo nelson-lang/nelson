@@ -10,10 +10,13 @@
 #pragma once
 //=============================================================================
 #include "QtTerminal.h"
+#include "QtHistoryBrowser.h"
+#include "Context.hpp"
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QToolBar>
+#include <QtCore/QVariant>
 //=============================================================================
 class QtMainWindow : public QMainWindow
 {
@@ -28,6 +31,10 @@ public:
 
     void
     declareAsClosed();
+
+    void
+    createDockWigdets(Context* context);
+
 private slots:
     void
     about();
@@ -66,11 +73,29 @@ private slots:
     void
     editor();
 
+    void
+    historyBrowserToggle();
+    void
+    fileBrowserToggle();
+    void
+    workspaceBrowserToggle();
+
+    void
+    onLayoutTerminalOnly();
+    void
+    onLayoutDefaultAction();
+    void
+    onLayoutTwoColumnsAction();
+
 private:
     void
     createMenus();
     void
     createToolbars();
+
+    void
+    destroyDockWigdets();
+
     void
     closeEvent(QCloseEvent* event) override;
 
@@ -93,6 +118,16 @@ private:
     QAction* emptyClipboardAction;
     QAction* clearConsoleAction;
 
+    QMenu* windowsMenu;
+    QAction* historyBrowserAction;
+    QAction* fileBrowserAction;
+    QAction* workspaceBrowserAction;
+
+    QMenu* layoutMenu;
+    QAction* layoutTerminalOnlyAction;
+    QAction* layoutDefaultAction;
+    QAction* layoutTwoColumnsAction;
+
     QMenu* helpMenu;
     QAction* helpAction;
     QAction* webAction;
@@ -112,5 +147,19 @@ private:
     dragEnterEvent(QDragEnterEvent* event) override;
     void
     dropEvent(QDropEvent* event) override;
+
+    void
+    saveDockWidgetPositions();
+    void
+    restoreDockWidgetPositions();
+
+public Q_SLOTS:
+
+    void
+    onCloseWorkspaceBrowser();
+    void
+    onCloseHistoryBrowser();
+    void
+    onCloseFileBrowser();
 };
 //=============================================================================

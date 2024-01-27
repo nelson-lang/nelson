@@ -49,13 +49,19 @@
 #include "MacroCompleter.hpp"
 #include "VariableCompleter.hpp"
 #include "QStringConverter.hpp"
-
+#include "HistoryBrowser.hpp"
+#include "QtHistoryBrowser.h"
+#include "FileBrowser.hpp"
+#include "QtFileBrowser.h"
+#include "WorkspaceBrowser.hpp"
+#include "QtWorkspaceBrowser.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
+    isFirstPrompt = true;
     qCompleter = nullptr;
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
@@ -151,7 +157,7 @@ QtTerminal::banner()
     mCommandLineReady = false;
     QString _nelsonPath = Nelson::wstringToQString(
         Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory());
-    QString fileName = _nelsonPath + "/resources/banner_nelson.png";
+    QString fileName = _nelsonPath + "/resources/banner_nelson_small.png";
     textCursor().insertBlock();
     QFile qfile(fileName);
     if (qfile.exists()) {
@@ -184,6 +190,28 @@ QtTerminal::printPrompt(QString prompt)
     cur.insertText(mPrompt);
     cur.setCharFormat(QTextCharFormat());
     setTextCursor(cur);
+
+    if (isFirstPrompt) {
+        QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
+        QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+        QtWorkspaceBrowser* qtWorkspaceBrowser
+            = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
+
+        QObject::connect(qtHistoryBrowser, SIGNAL(sendCommands(const QStringList&)), this,
+            SLOT(onCommandsReceived(const QStringList&)));
+        QObject::connect(
+            qtHistoryBrowser, SIGNAL(sendToTextEditor()), this, SLOT(onToTextEditorReceived()));
+
+        QObject::connect(qtFileBrowser, SIGNAL(postCommand(const QString&)), this,
+            SLOT(onPostCommandReceived(const QString&)));
+
+        QObject::connect(qtWorkspaceBrowser, SIGNAL(postCommand(const QString&)), this,
+            SLOT(onPostCommandReceived(const QString&)));
+
+        QObject::connect(qtWorkspaceBrowser, SIGNAL(sendCommands(const QStringList&)), this,
+            SLOT(onCommandsReceived(const QStringList&)));
+    }
+    isFirstPrompt = false;
     mCommandLineReady = true;
 }
 //=============================================================================
@@ -206,10 +234,12 @@ std::wstring
 QtTerminal::getLine(const std::wstring& prompt)
 {
     printPrompt(Nelson::wstringToQString(prompt));
+    FileBrowser::updateFileBrowser();
     promptBlock = document()->lastBlock();
     // enable cursor text
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
     // restore default icon cursor
+    WorkspaceBrowser::updateWorkspaceBrowser();
     QApplication::restoreOverrideCursor();
     void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
     Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
@@ -221,13 +251,18 @@ QtTerminal::getLine(const std::wstring& prompt)
             wasInterruptByAction = true;
             break;
         }
-    } while (!wasInterruptByAction && lineToSend.empty());
+    } while (!wasInterruptByAction && lineToSend.empty() && lineBuffer.isEmpty());
     std::wstring line;
     if (wasInterruptByAction) {
         clearLine();
         line = L"\n";
     } else {
-        line = lineToSend;
+        if (!lineBuffer.isEmpty()) {
+            line = QStringTowstring(lineBuffer);
+            lineBuffer.clear();
+        } else {
+            line = lineToSend;
+        }
         while (lineToSend.empty()) {
             Nelson::ProcessEvents(true);
         }
@@ -898,5 +933,35 @@ QtTerminal::insertCompletion(const QString& completion)
 
     replaceCurrentCommandLine(newLine);
     updateHistoryToken();
+}
+//=============================================================================
+void
+QtTerminal::onPostCommandReceived(const QString& command)
+{
+    postCommand(QStringTowstring(command));
+}
+//=============================================================================
+void
+QtTerminal::onCommandsReceived(const QStringList& commands)
+{
+    if (isInEditionZone()) {
+        std::wstring line;
+        for (auto command : commands) {
+            line = line + QStringTowstring(command) + L"\n";
+        }
+        line.pop_back();
+        QTextCursor tc = textCursor();
+        bool backup = mCommandLineReady;
+        replaceCurrentCommandLine(line);
+        mCommandLineReady = backup;
+        QKeyEvent keyPressEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+        sendKeyEvent(&keyPressEvent);
+    }
+}
+//=============================================================================
+void
+QtTerminal::onToTextEditorReceived()
+{
+    postCommand(L"editor('new_file', [])");
 }
 //=============================================================================

@@ -188,32 +188,14 @@ bool
 IsIntegerFormOrNotFiniteOpenMP(const T* t, size_t nbElements)
 {
     if (t != nullptr && nbElements > 0) {
-        switch (nbElements) {
-        case 0: {
-            return false;
-        } break;
-        case 1: {
-            return IsIntegerFormOrNotFinite(t[0]);
-        } break;
-        default: {
-            bool result = true;
-#ifdef _NLS_WITH_OPENMP
-#pragma omp parallel for reduction(&& : result)
-#endif
-            for (long long k = 0; k < (long long)nbElements; k++) {
-                if (!IsIntegerFormOrNotFinite(t[k])) {
-#ifdef _NLS_WITH_OPENMP
-#pragma omp critical
-#endif
-                    {
-                        result = false;
-                    }
-                }
+        bool result = true;
+#pragma omp parallel for reduction(&& : result) schedule(static)
+        for (long long k = 0; k < nbElements; k++) {
+            if (!IsIntegerFormOrNotFinite(t[k])) {
+                result = false;
             }
-            return result;
-
-        } break;
         }
+        return result;
     }
     return false;
 }

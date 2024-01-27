@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath('gui', 'functions'));
-removegateway(modulepath('gui', 'builtin'));
+% <--ADV-CLI MODE-->
+%=============================================================================
+c = history('get');
+assert_istrue(iscell(c));
 %=============================================================================

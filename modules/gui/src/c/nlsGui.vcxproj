@@ -21,7 +21,14 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Console.cpp" />
     <ClCompile Include="..\cpp\DefaultFont.cpp" />
+    <ClCompile Include="..\cpp\FileBrowser.cpp" />
     <ClCompile Include="..\cpp\GetQtPath.cpp" />
+    <ClCompile Include="..\cpp\HistoryBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_QtFileBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_QtHistoryBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_QtWorkspaceBrowser.cpp" />
+    <ClCompile Include="..\cpp\QtFileBrowser.cpp" />
+    <ClCompile Include="..\cpp\QtHistoryBrowser.cpp" />
     <ClCompile Include="..\cpp\HtmlToPdf.cpp" />
     <ClCompile Include="..\cpp\MainGuiObject.cpp" />
     <ClCompile Include="..\cpp\MessageBox.cpp" />
@@ -37,21 +44,80 @@
     <ClCompile Include="..\cpp\QtTerminal.cpp" />
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
+    <ClCompile Include="..\cpp\QtWorkspaceBrowser.cpp" />
     <ClCompile Include="..\cpp\QuestionBox.cpp" />
     <ClCompile Include="..\cpp\ForceWindowsTitleBarToDark.cpp" />
     <ClCompile Include="..\cpp\UiGetDirectory.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\WorkspaceBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Console.hpp" />
     <ClInclude Include="..\include\DefaultFont.hpp" />
+    <ClInclude Include="..\include\FileBrowser.hpp" />
     <ClInclude Include="..\include\GetQtPath.hpp" />
+    <ClInclude Include="..\include\WorkspaceBrowser.hpp" />
+    <CustomBuild Include="..\cpp\QtWorkspaceBrowser.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\QtHistoryBrowser.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</DeploymentContent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\include\HistoryBrowser.hpp" />
     <ClInclude Include="..\include\HtmlToPdf.hpp" />
     <ClInclude Include="..\include\MessageBox.hpp" />
     <ClInclude Include="..\include\NelsonColors.hpp" />
     <ClInclude Include="..\include\NelsonPalette.hpp" />
     <ClInclude Include="..\include\NelsonMinimized.hpp" />
     <ClInclude Include="..\include\QStringConverter.hpp" />
+    <CustomBuild Include="..\cpp\QtFileBrowser.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="..\include\QtLookAndFeel.hpp" />
     <ClInclude Include="..\include\QtTranslation.hpp" />
     <ClInclude Include="..\include\QuestionBox.hpp" />

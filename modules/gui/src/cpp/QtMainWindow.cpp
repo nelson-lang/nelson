@@ -9,6 +9,7 @@
 //=============================================================================
 #include <QtCore/QtGlobal>
 #include <QtCore/QMimeData>
+#include <QtCore/QSettings>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDesktopServices>
@@ -36,8 +37,18 @@
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
+#include "Evaluator.hpp"
+#include "QtWorkspaceBrowser.h"
+#include "QtHistoryBrowser.h"
+#include "QtFileBrowser.h"
+#include "HistoryBrowser.hpp"
+#include "FileBrowser.hpp"
+#include "WorkspaceBrowser.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+const QString SETTING_MAIN_WINDOW_GEOMETRY = "mw_Geometry";
+const QString SETTING_MAIN_WINDOW_Window_State = "mw_WindowState";
 //=============================================================================
 QtMainWindow::~QtMainWindow()
 {
@@ -109,6 +120,10 @@ QtMainWindow::~QtMainWindow()
         mainMenuBar->deleteLater();
         mainMenuBar = nullptr;
     }
+    if (windowsMenu) {
+        windowsMenu->deleteLater();
+        windowsMenu = nullptr;
+    }
     if (qtTerminal) {
         qtTerminal = nullptr;
     }
@@ -151,7 +166,6 @@ QtMainWindow::QtMainWindow(bool minimized)
     }
     qtTerminal->show();
     qApp->processEvents(QEventLoop::WaitForMoreEvents);
-
     bClosed = false;
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon icon(fileNameIcon);
@@ -311,6 +325,77 @@ QtMainWindow::editor()
 }
 //=============================================================================
 void
+QtMainWindow::historyBrowserToggle()
+{
+    postCommand(L"commandhistory('visible', 'toggle')");
+}
+//=============================================================================
+void
+QtMainWindow::fileBrowserToggle()
+{
+    postCommand(L"filebrowser('visible', 'toggle')");
+}
+//=============================================================================
+void
+QtMainWindow::workspaceBrowserToggle()
+{
+    postCommand(L"workspace('visible', 'toggle')");
+}
+//=============================================================================
+void
+QtMainWindow::createDockWigdets(Context* context)
+{
+    FileBrowser::createFileBrowser();
+    HistoryBrowser::createHistoryBrowser();
+    WorkspaceBrowser::createWorkspaceBrowser(context);
+
+    QtWorkspaceBrowser* qtWorkspaceBrowser
+        = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
+    QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
+    QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+
+    addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
+    addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
+    addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtHistoryBrowser);
+
+    restoreDockWidgetPositions();
+
+    connect(
+        qtWorkspaceBrowser, SIGNAL(closeWorkspaceBrowser()), this, SLOT(onCloseWorkspaceBrowser()));
+    connect(qtFileBrowser, SIGNAL(closeFileBrowser()), this, SLOT(onCloseFileBrowser()));
+    connect(qtHistoryBrowser, SIGNAL(closeHistoryBrowser()), this, SLOT(onCloseHistoryBrowser()));
+
+    workspaceBrowserAction->setChecked(WorkspaceBrowser::isWorkspaceBrowserVisible());
+    historyBrowserAction->setChecked(HistoryBrowser::isHistoryBrowserVisible());
+    fileBrowserAction->setChecked(FileBrowser::isFileBrowserVisible());
+}
+//=============================================================================
+void
+QtMainWindow::destroyDockWigdets()
+{
+    saveDockWidgetPositions();
+    FileBrowser::destroyFileBrowser();
+    HistoryBrowser::destroyHistoryBrowser();
+    WorkspaceBrowser::destroyWorkspaceBrowser();
+}
+//=============================================================================
+void
+QtMainWindow::saveDockWidgetPositions()
+{
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    settings.setValue(SETTING_MAIN_WINDOW_GEOMETRY, saveGeometry());
+    settings.setValue(SETTING_MAIN_WINDOW_Window_State, saveState());
+}
+//=============================================================================
+void
+QtMainWindow::restoreDockWidgetPositions()
+{
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    restoreGeometry(settings.value(SETTING_MAIN_WINDOW_GEOMETRY).toByteArray());
+    restoreState(settings.value(SETTING_MAIN_WINDOW_Window_State).toByteArray());
+}
+//=============================================================================
+void
 QtMainWindow::createToolbars()
 {
     toolBar = addToolBar(TR("Text editor"));
@@ -426,7 +511,64 @@ QtMainWindow::createMenus()
     clearConsoleAction->setStatusTip(TR("Clear console"));
     connect(clearConsoleAction, SIGNAL(triggered()), this, SLOT(clearConsole()));
     editMenu->addAction(clearConsoleAction);
-    //
+
+    // editor
+    fileNameIcon = nelsonPath + QString("/resources/textedit-icon.svg");
+    editorAction = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
+    editorAction->setStatusTip(TR("Text editor"));
+    connect(editorAction, SIGNAL(triggered()), this, SLOT(editor()));
+
+    // Windows Menu
+    windowsMenu = mainMenuBar->addMenu(TR("&Windows"));
+    fileNameIcon = nelsonPath + QString("/resources/layout-default.png");
+    layoutMenu = windowsMenu->addMenu(QIcon(fileNameIcon), TR("&Layout"));
+
+    fileNameIcon = nelsonPath + QString("/resources/layout-default.png");
+    layoutDefaultAction = new QAction(QIcon(fileNameIcon), TR("Default"), this);
+    connect(layoutDefaultAction, SIGNAL(triggered()), this, SLOT(onLayoutDefaultAction()));
+    layoutMenu->addAction(layoutDefaultAction);
+
+    fileNameIcon = nelsonPath + QString("/resources/layout-terminal-only.png");
+    layoutTerminalOnlyAction = new QAction(QIcon(fileNameIcon), TR("&Command line only"), this);
+    connect(layoutTerminalOnlyAction, SIGNAL(triggered()), this, SLOT(onLayoutTerminalOnly()));
+    layoutMenu->addAction(layoutTerminalOnlyAction);
+
+    fileNameIcon = nelsonPath + QString("/resources/layout-two-columns.png");
+    layoutTwoColumnsAction = new QAction(QIcon(fileNameIcon), TR("&Two columns"), this);
+    connect(layoutTwoColumnsAction, SIGNAL(triggered()), this, SLOT(onLayoutTwoColumnsAction()));
+    layoutMenu->addAction(layoutTwoColumnsAction);
+
+    fileNameIcon = nelsonPath + QString("/resources/appointment-new.svg");
+    historyBrowserAction = new QAction(QIcon(fileNameIcon), TR("&History browser"), this);
+    historyBrowserAction->setStatusTip(TR("History browser"));
+    historyBrowserAction->setCheckable(true);
+    connect((QDockWidget*)(HistoryBrowser::getHistoryBrowser()), &QDockWidget::visibilityChanged,
+        this, [=](bool visible) { historyBrowserAction->setChecked(visible); });
+    connect(historyBrowserAction, SIGNAL(triggered()), this, SLOT(historyBrowserToggle()));
+    windowsMenu->addAction(historyBrowserAction);
+
+    fileNameIcon = nelsonPath + QString("/resources/folder.svg");
+    fileBrowserAction = new QAction(QIcon(fileNameIcon), TR("&File browser"), this);
+    fileBrowserAction->setStatusTip(TR("File browser"));
+    fileBrowserAction->setCheckable(true);
+    connect((QDockWidget*)(FileBrowser::getFileBrowser()), &QDockWidget::visibilityChanged, this,
+        [=](bool visible) { fileBrowserAction->setChecked(visible); });
+    connect(fileBrowserAction, SIGNAL(triggered()), this, SLOT(fileBrowserToggle()));
+    windowsMenu->addAction(fileBrowserAction);
+
+    fileNameIcon = nelsonPath + QString("/resources/spreadsheet.svg");
+    workspaceBrowserAction = new QAction(QIcon(fileNameIcon), TR("&Workspace browser"), this);
+    workspaceBrowserAction->setStatusTip(TR("Workspace browser"));
+    workspaceBrowserAction->setCheckable(true);
+    connect((QDockWidget*)(WorkspaceBrowser::getWorkspaceBrowser()),
+        &QDockWidget::visibilityChanged, this,
+        [=](bool visible) { workspaceBrowserAction->setChecked(visible); });
+    connect(workspaceBrowserAction, SIGNAL(triggered()), this, SLOT(workspaceBrowserToggle()));
+    windowsMenu->addAction(workspaceBrowserAction);
+
+    windowsMenu->addSeparator();
+    windowsMenu->addAction(editorAction);
+
     // Help menu
     helpMenu = mainMenuBar->addMenu(TR("&Help"));
     // documentation
@@ -454,11 +596,6 @@ QtMainWindow::createMenus()
     aboutAction->setStatusTip(TR("About"));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     helpMenu->addAction(aboutAction);
-    // editor
-    fileNameIcon = nelsonPath + QString("/resources/textedit-icon.svg");
-    editorAction = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
-    editorAction->setStatusTip(TR("Text editor"));
-    connect(editorAction, SIGNAL(triggered()), this, SLOT(editor()));
 }
 //=============================================================================
 void
@@ -526,5 +663,106 @@ void
 QtMainWindow::declareAsClosed()
 {
     bClosed = true;
+    destroyDockWigdets();
+}
+//=============================================================================
+void
+QtMainWindow::onCloseWorkspaceBrowser()
+{
+    workspaceBrowserAction->setChecked(false);
+}
+//=============================================================================
+void
+QtMainWindow::onCloseHistoryBrowser()
+{
+    historyBrowserAction->setChecked(false);
+}
+//=============================================================================
+void
+QtMainWindow::onCloseFileBrowser()
+{
+    fileBrowserAction->setChecked(false);
+}
+//=============================================================================
+void
+QtMainWindow::onLayoutTerminalOnly()
+{
+    QtWorkspaceBrowser* qtWorkspaceBrowser
+        = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
+    QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
+    QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+
+    qtWorkspaceBrowser->hide();
+    qtWorkspaceBrowser->setFloating(false);
+    qtFileBrowser->hide();
+    qtFileBrowser->setFloating(false);
+    qtHistoryBrowser->hide();
+    qtHistoryBrowser->setFloating(false);
+
+    historyBrowserAction->setChecked(false);
+    fileBrowserAction->setChecked(false);
+    workspaceBrowserAction->setChecked(false);
+
+    saveDockWidgetPositions();
+}
+//=============================================================================
+void
+QtMainWindow::onLayoutDefaultAction()
+{
+    QtWorkspaceBrowser* qtWorkspaceBrowser
+        = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
+    QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
+    QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+
+    qtWorkspaceBrowser->hide();
+    qtWorkspaceBrowser->setFloating(false);
+    qtFileBrowser->hide();
+    qtFileBrowser->setFloating(false);
+    qtHistoryBrowser->hide();
+    qtHistoryBrowser->setFloating(false);
+
+    addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
+    addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
+    addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtHistoryBrowser);
+
+    qtWorkspaceBrowser->show();
+    qtFileBrowser->show();
+    qtHistoryBrowser->show();
+
+    historyBrowserAction->setChecked(true);
+    fileBrowserAction->setChecked(true);
+    workspaceBrowserAction->setChecked(true);
+
+    saveDockWidgetPositions();
+}
+//=============================================================================
+void
+QtMainWindow::onLayoutTwoColumnsAction()
+{
+    QtWorkspaceBrowser* qtWorkspaceBrowser
+        = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
+    QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
+    QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+
+    qtWorkspaceBrowser->hide();
+    qtWorkspaceBrowser->setFloating(false);
+    qtFileBrowser->hide();
+    qtFileBrowser->setFloating(false);
+    qtHistoryBrowser->hide();
+    qtHistoryBrowser->setFloating(false);
+
+    addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
+    addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
+    addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtHistoryBrowser);
+
+    qtWorkspaceBrowser->show();
+    qtFileBrowser->show();
+    qtHistoryBrowser->show();
+
+    historyBrowserAction->setChecked(true);
+    fileBrowserAction->setChecked(true);
+    workspaceBrowserAction->setChecked(true);
+
+    saveDockWidgetPositions();
 }
 //=============================================================================

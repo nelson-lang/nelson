@@ -15,6 +15,13 @@
 #include "lookandfeelBuiltin.hpp"
 #include "msgboxBuiltin.hpp"
 #include "questdlgBuiltin.hpp"
+#include "historybrowserBuiltin.hpp"
+#include "filebrowserBuiltin.hpp"
+#include "workspacebrowserBuiltin.hpp"
+//=============================================================================
+#include "NelsonConfiguration.hpp"
+#include "NelSon_engine_mode.h"
+#include "HistoryBrowser.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,13 +36,33 @@ static const nlsGateway gateway[] = {
     { "qt_verbose", (ptrBuiltin)Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
     { "msgbox", (ptrBuiltin)Nelson::GuiGateway::msgboxBuiltin, 1, 4 },
     { "questdlg", (ptrBuiltin)Nelson::GuiGateway::questdlgBuiltin, 1, 6 },
+    { "commandhistory", (ptrBuiltin)Nelson::GuiGateway::historybrowserBuiltin, 0, 2 },
+    { "filebrowser", (ptrBuiltin)Nelson::GuiGateway::filebrowserBuiltin, 0, 2 },
+    { "workspace", (ptrBuiltin)Nelson::GuiGateway::workspacebrowserBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeGuiModule(Nelson::Evaluator* eval)
+{
+    auto engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+    if (engineMode == GUI) {
+        HistoryBrowser::synchronizeHistoryBrowser();
+    }
+    return true;
+}
+//=============================================================================
+static bool
+finishGuiModule(Nelson::Evaluator* eval)
+{
+    return true;
+}
+//=============================================================================
+NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeGuiModule)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishGuiModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

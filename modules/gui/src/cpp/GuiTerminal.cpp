@@ -14,6 +14,7 @@
 #include "QtTerminal.h"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
+#include "HistoryBrowser.hpp"
 //=============================================================================
 static QtTerminal* qtterm = nullptr;
 static QtMainWindow* qtMainWindow = nullptr;
@@ -59,6 +60,7 @@ GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
     } else {
         if (line != L"\n") {
             Nelson::History::addLine(line);
+            Nelson::HistoryBrowser::addLine(line);
         }
     }
     return line;

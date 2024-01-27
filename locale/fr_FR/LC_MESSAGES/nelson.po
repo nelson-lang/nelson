@@ -7516,4 +7516,210 @@ msgid "Illegal indexing structure argument: type () expected."
 msgstr "Argument de structure d'indexation illégal : type () attendu."
 
 msgid "Three input arguments expected to return three output arguments."
+msgstr ""
+"Trois arguments d'entrée sont attendus pour retourner trois arguments de "
+"sortie."
+
+
+msgid "File Browser"
+msgstr "Explorateur de fichiers"
+
+msgid "New"
+msgstr "Nouveau"
+
+msgid "Script"
+msgstr "Script"
+
+msgid "Directory"
+msgstr "Répertoire"
+
+msgid "Show in explorer"
+msgstr "Afficher dans l'explorateur"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Run"
+msgstr "Exécuter"
+
+msgid "Rename"
+msgstr "Renommer"
+
+msgid "Refresh"
+msgstr "Actualiser"
+
+msgid "Open with Default Application"
+msgstr "Ouvrir avec l'application par défaut"
+
+msgid "Indicate files not in path"
+msgstr "Indiquer les fichiers qui ne sont pas dans le chemin d'accès"
+
+msgid "Add to Path"
+msgstr "Ajouter au chemin d'accès"
+
+msgid "Remove to Path"
+msgstr "Supprimer du chemin d'accès"
+
+msgid "Collapse All"
+msgstr "Réduire tout"
+
+msgid "Rename Directory"
+msgstr "Renommer le répertoire"
+
+msgid "Rename File"
+msgstr "Renommer le fichier"
+
+msgid "New Name:"
+msgstr "Nouveau nom :"
+
+msgid "Create New Directory"
+msgstr "Créer un nouveau répertoire"
+
+msgid "New Directory Name:"
+msgstr "Nom du nouveau répertoire :"
+
+msgid "New script name:"
+msgstr "Nom du nouveau script :"
+
+msgid "New function name:"
+msgstr "Nom de la nouvelle fonction :"
+
+msgid "History Browser"
+msgstr "Historique du navigateur"
+
+msgid "Execute selection"
+msgstr "Exécuter la sélection"
+
+msgid "Clear all"
+msgstr "Tout effacer"
+
+msgid "Delete selection"
+msgstr "Supprimer la sélection"
+
+msgid "Copy selection"
+msgstr "Copier la sélection"
+
+msgid "Create Script"
+msgstr "Créer un script"
+
+msgid "Are you certain you wish to clear the history?"
+msgstr "Êtes-vous certain de vouloir effacer l'historique ?"
+
+msgid "Please note that this action cannot be undone."
+msgstr "Veuillez noter que cette action est irréversible."
+
+msgid "Clear history"
+msgstr "Effacer l'historique"
+
+msgid "&Windows"
+msgstr "&Fenêtres"
+
+msgid "&Layout"
+msgstr "&Disposition"
+
+msgid "Default"
+msgstr "Défaut"
+
+msgid "&Command line only"
+msgstr "&Ligne de commande uniquement"
+
+msgid "&Two columns"
+msgstr "&Deux colonnes"
+
+msgid "&History browser"
+msgstr "&Navigateur d'historique"
+
+msgid "History browser"
+msgstr "Navigateur d'historique"
+
+msgid "&File browser"
+msgstr "&Explorateur de fichiers"
+
+msgid "File browser"
+msgstr "Explorateur de fichiers"
+
+msgid "&Workspace browser"
+msgstr "&Navigateur de l'espace de travail"
+
+msgid "Workspace browser"
+msgstr "Navigateur de l'espace de travail"
+
+msgid "Workspace Browser"
+msgstr "Navigateur de l'espace de travail"
+
+msgid "Save As"
+msgstr "Enregistrer sous"
+
+msgid "Plot Gallery"
+msgstr "Galerie de graphiques"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Scope"
+msgstr "Portée"
+
+msgid "global"
+msgstr "global"
+
+msgid "Rename Variable"
+msgstr "Renommer la variable"
+
+msgid "Enter a new name:"
+msgstr "Entrer un nouveau nom :"
+
+msgid "Save Variable As"
+msgstr "Enregistrer la variable sous"
+
+msgid "Nelson Files (*.nh5)"
+msgstr "Fichiers Nelson (*.nh5)"
+
+msgid "Not yet implemented."
+msgstr "Pas encore implémenté."
+
+msgid "single or double type expected."
+msgstr "Type simple ou double attendu."
+
+msgid "Input to LU must not contain NaN or Inf."
+msgstr "L'entrée de LU ne doit pas contenir NaN ou Inf."
+
+#, python-format
+msgid "Pole locations are in more that 10% error"
+msgstr "Les emplacements des pôles comportent une erreur de plus de 10%"
+
+msgid ""
+"first input argument must be one of the following: 'tan', 'cos', 'sin', "
+"'square', or 'pulse'."
+msgstr ""
+"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', 'sin', "
+"'square' ou 'pulse'."
+
+msgid "All elements of cell array must have same type."
+msgstr "Tous les éléments du tableau de cellules doivent avoir le même type."
+
+msgid "All structures must have same fieldnames"
+msgstr "Toutes les structures doivent avoir les mêmes noms de champs"
+
+msgid "all arguments must numeric matrix."
+msgstr "tous les arguments doivent être des matrices numériques."
+
+msgid "warning(query) does not require an second argument."
+msgstr "warning(query) ne nécessite pas de second argument."
+
+msgid "'toplevel' expected as third argumnent."
+msgstr "'toplevel' attendu comme troisième argument."
+
+msgid "border option not yet implement."
+msgstr "l'option de bordure n'est pas encore implémentée."
+
+msgid "initialMagnification option not yet implement."
+msgstr "l'option initialMagnification n'est pas encore implémentée."
+
+msgid "Wrong size for input arguments: vectors with same size expected."
+msgstr "Taille incorrecte des arguments d'entrée : des vecteurs de même taille sont attendus."
+
+msgid "Lexical error unterminated character array"
+msgstr "Erreur lexicale : tableau de caractères non terminé"
+
+msgid "Three input arguments expected to return three ouput arguments."
 msgstr "Trois arguments d'entrée sont attendus pour retourner trois arguments de sortie."

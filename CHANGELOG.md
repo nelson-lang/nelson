@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Nelson Desktop environment: file browser, command history, workspace browser, desktop layout.
 - [#1074](http://github.com/nelson-lang/nelson/issues/1074) Roadmap v2.0.0
 - [#1044](http://github.com/nelson-lang/nelson/issues/1044): LU matrix factorization.
 

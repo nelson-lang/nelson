@@ -738,6 +738,14 @@ QtTextEditor::addTabUntitled()
 }
 //=============================================================================
 void
+QtTextEditor::createTabUntitledWithText(const QString& text)
+{
+    addTabUntitled();
+    currentEditor()->setPlainText(text);
+}
+//=============================================================================
+
+void
 QtTextEditor::addTab()
 {
     QtEditPane* editPane = new QtEditPane();

@@ -63,6 +63,9 @@ public:
     void
     contextMenuEvent(QContextMenuEvent* event);
 
+    void
+    createTabUntitledWithText(const QString& text);
+
 private:
     Evaluator* nlsEvaluator;
     std::wstring textEditorRootPath;

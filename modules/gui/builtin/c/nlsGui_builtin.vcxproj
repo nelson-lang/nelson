@@ -185,7 +185,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\bannerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\filebrowserBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\historybrowserBuiltin.cpp" />
     <ClCompile Include="..\cpp\inserthtmlBuiltin.cpp" />
     <ClCompile Include="..\cpp\lookandfeelBuiltin.cpp" />
     <ClCompile Include="..\cpp\msgboxBuiltin.cpp" />
@@ -193,6 +195,7 @@
     <ClCompile Include="..\cpp\questdlgBuiltin.cpp" />
     <ClCompile Include="..\cpp\uigetdirBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\workspacebrowserBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\core\src\c\nlsCore.vcxproj">
@@ -222,6 +225,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\bannerBuiltin.hpp" />
+    <ClInclude Include="..\include\filebrowserBuiltin.hpp" />
+    <ClInclude Include="..\include\historybrowserBuiltin.hpp" />
     <ClInclude Include="..\include\inserthtmlBuiltin.hpp" />
     <ClInclude Include="..\include\lookandfeelBuiltin.hpp" />
     <ClInclude Include="..\include\msgboxBuiltin.hpp" />
@@ -229,6 +234,7 @@
     <ClInclude Include="..\include\qt_verboseBuiltin.hpp" />
     <ClInclude Include="..\include\questdlgBuiltin.hpp" />
     <ClInclude Include="..\include\uigetdirBuiltin.hpp" />
+    <ClInclude Include="..\include\workspacebrowserBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

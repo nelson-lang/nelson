@@ -11,6 +11,7 @@
 #include "QStringConverter.hpp"
 #include "QtTextEditor.h"
 #include "ForceWindowsTitleBarToDark.hpp"
+#include "HistoryBrowser.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,11 +27,30 @@ editor(Evaluator* eval)
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(edit->winId());
 #endif
-
     edit->showNormal();
     edit->activateWindow();
     edit->raise();
     return res;
+}
+//=============================================================================
+bool
+editor(Evaluator* eval, bool importSharedText)
+{
+    if (edit == nullptr) {
+        edit = new QtTextEditor(eval);
+    }
+#ifdef _MSC_VER
+    forceWindowsTitleBarToDark(edit->winId());
+#endif
+
+    edit->showNormal();
+    edit->activateWindow();
+    edit->raise();
+    if (importSharedText) {
+        edit->createTabUntitledWithText(
+            wstringToQString(HistoryBrowser::getTextForTextEditor(true)));
+    }
+    return true;
 }
 //=============================================================================
 bool
@@ -40,6 +60,9 @@ editor(Evaluator* eval, const std::wstring& filename)
     if (edit == nullptr) {
         edit = new QtTextEditor(eval);
     }
+#ifdef _MSC_VER
+    forceWindowsTitleBarToDark(edit->winId());
+#endif
     edit->loadOrCreateFile(wstringToQString(filename));
     edit->showNormal();
     edit->activateWindow();

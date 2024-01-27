@@ -8,20 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-#include "Evaluator.hpp"
-#include "nlsText_editor_exports.h"
-#include <string>
 //=============================================================================
-namespace Nelson {
-NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval);
-NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, const std::wstring& filename);
-NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, const wstringVector& filenames);
-NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, bool importSharedText);
-NLSTEXT_EDITOR_IMPEXP bool
-closeEditor();
-} // namespace Nelson
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson::GuiGateway {
+//=============================================================================
+ArrayOfVector
+workspacebrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================
