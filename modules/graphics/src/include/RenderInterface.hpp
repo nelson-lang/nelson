@@ -279,7 +279,8 @@ public:
     //=============================================================================
     virtual void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle)
+        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle,
+        double lineWidth, const std::wstring& lineStyle)
         = 0;
     //=============================================================================
     virtual void
