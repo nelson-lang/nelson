@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1074](http://github.com/nelson-lang/nelson/issues/1074) Roadmap v2.0.0
 - [#1044](http://github.com/nelson-lang/nelson/issues/1044): LU matrix factorization.
 - [#1080](http://github.com/nelson-lang/nelson/issues/1080) `LineStyle`, `LineWidth` properties were not implemented for surface objects.
+- `sky`, `abyss` colormaps.
 
 ## 1.0.0 (2024-01-04)
 
