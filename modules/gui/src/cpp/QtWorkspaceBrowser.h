@@ -94,8 +94,9 @@ public:
     QtWorkspaceBrowser(QWidget* parent);
 
     void
-    restorePositionAndVisibility();
-
+    restorePosition();
+    void
+    restoreVisibility();
     void
     savePositionAndVisibility();
 

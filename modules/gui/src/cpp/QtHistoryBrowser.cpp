@@ -262,13 +262,18 @@ QtHistoryBrowser::keyPressEvent(QKeyEvent* event)
 }
 //=============================================================================
 void
-QtHistoryBrowser::restorePositionAndVisibility()
+QtHistoryBrowser::restorePosition()
+{
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    restoreGeometry(settings.value(SETTING_HISTORY_BROWSER_GEOMETRY).toByteArray());
+}
+//=============================================================================
+void
+QtHistoryBrowser::restoreVisibility()
 {
     QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
     bool savedVisibility = settings.value(SETTING_HISTORY_BROWSER_VISIBILITY, true).toBool();
     setVisible(savedVisibility);
-
-    restoreGeometry(settings.value(SETTING_HISTORY_BROWSER_GEOMETRY).toByteArray());
 }
 //=============================================================================
 void

@@ -38,7 +38,9 @@ public:
     synchronizeHistoryManager(SYNC_DIRECTION direction);
 
     void
-    restorePositionAndVisibility();
+    restorePosition();
+    void
+    restoreVisibility();
 
     void
     savePositionAndVisibility();

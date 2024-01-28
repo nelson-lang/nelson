@@ -126,7 +126,10 @@ public:
     QtFileBrowser(QWidget* parent);
 
     void
-    restorePositionAndVisibility();
+    restoreVisibility();
+
+    void
+    restorePosition();
 
     void
     savePositionAndVisibility();

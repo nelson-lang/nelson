@@ -358,12 +358,16 @@ QtMainWindow::createDockWigdets(Context* context)
     addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
     addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtHistoryBrowser);
 
-    restoreDockWidgetPositions();
-
     connect(
         qtWorkspaceBrowser, SIGNAL(closeWorkspaceBrowser()), this, SLOT(onCloseWorkspaceBrowser()));
     connect(qtFileBrowser, SIGNAL(closeFileBrowser()), this, SLOT(onCloseFileBrowser()));
     connect(qtHistoryBrowser, SIGNAL(closeHistoryBrowser()), this, SLOT(onCloseHistoryBrowser()));
+
+    restoreDockWidgetPositions();
+
+    qtWorkspaceBrowser->restoreVisibility();
+    qtHistoryBrowser->restoreVisibility();
+    qtFileBrowser->restoreVisibility();
 
     workspaceBrowserAction->setChecked(WorkspaceBrowser::isWorkspaceBrowserVisible());
     historyBrowserAction->setChecked(HistoryBrowser::isHistoryBrowserVisible());

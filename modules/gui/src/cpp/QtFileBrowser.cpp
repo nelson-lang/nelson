@@ -145,15 +145,19 @@ QtFileBrowser::updatePathFromLineEdit()
 }
 //=============================================================================
 void
-QtFileBrowser::restorePositionAndVisibility()
+QtFileBrowser::restorePosition()
+{
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    restoreGeometry(settings.value(SETTING_FILE_BROWSER_GEOMETRY).toByteArray());
+    loadHeaderSettings();
+}
+//=============================================================================
+void
+QtFileBrowser::restoreVisibility()
 {
     QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
     bool savedVisibility = settings.value(SETTING_FILE_BROWSER_VISIBILITY, true).toBool();
     setVisible(savedVisibility);
-
-    restoreGeometry(settings.value(SETTING_FILE_BROWSER_GEOMETRY).toByteArray());
-
-    loadHeaderSettings();
 }
 //=============================================================================
 void

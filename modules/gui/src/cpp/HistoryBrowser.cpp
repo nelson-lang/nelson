@@ -72,7 +72,7 @@ createHistoryBrowser()
         wstringVector lines;
         qtHistoryBrowser = new QtHistoryBrowser(nullptr);
         textForEditor.clear();
-        qtHistoryBrowser->restorePositionAndVisibility();
+        qtHistoryBrowser->restorePosition();
         return synchronizeHistoryBrowser();
     }
     return false;

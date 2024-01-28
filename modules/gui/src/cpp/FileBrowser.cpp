@@ -66,7 +66,7 @@ createFileBrowser()
 {
     if (!qtFileBrowser) {
         qtFileBrowser = new QtFileBrowser(nullptr);
-        qtFileBrowser->restorePositionAndVisibility();
+        qtFileBrowser->restorePosition();
         return true;
     }
     return false;
