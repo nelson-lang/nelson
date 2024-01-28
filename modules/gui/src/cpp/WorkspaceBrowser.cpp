@@ -67,7 +67,7 @@ createWorkspaceBrowser(Context* context)
     if (!qtWorkspaceBrowser) {
         qtWorkspaceBrowser = new QtWorkspaceBrowser(nullptr);
         qtWorkspaceBrowser->setContext(context);
-        qtWorkspaceBrowser->restorePositionAndVisibility();
+        qtWorkspaceBrowser->restorePosition();
         return true;
     }
     return false;

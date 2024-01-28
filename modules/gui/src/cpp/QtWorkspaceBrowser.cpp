@@ -83,12 +83,11 @@ QtWorkspaceBrowser::setContext(Context* context)
 }
 //=============================================================================
 void
-QtWorkspaceBrowser::restorePositionAndVisibility()
+QtWorkspaceBrowser::restorePosition()
 {
     QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
-    bool savedVisibility = settings.value(SETTING_WORKSPACE_BROWSER_VISIBILITY, true).toBool();
-    setVisible(savedVisibility);
     restoreGeometry(settings.value(SETTING_WORKSPACE_BROWSER_GEOMETRY).toByteArray());
+
     QByteArray headerOrderData
         = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_ORDER).toByteArray();
     m_tableWidget->horizontalHeader()->restoreState(headerOrderData);
@@ -103,6 +102,14 @@ QtWorkspaceBrowser::restorePositionAndVisibility()
     QByteArray headerSizesData
         = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_SIZES).toByteArray();
     m_tableWidget->horizontalHeader()->restoreState(headerSizesData);
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::restoreVisibility()
+{
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    bool savedVisibility = settings.value(SETTING_WORKSPACE_BROWSER_VISIBILITY, true).toBool();
+    setVisible(savedVisibility);
 }
 //=============================================================================
 void
