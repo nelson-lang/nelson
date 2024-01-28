@@ -2,8 +2,6 @@
 
 ### Nelson 1.1.0.0
 
-This is the first stable version of Nelson software.
-
 Nelson is an interactive, fully functional environment for engineering and scientific applications. It implements a matrix-driven language (which is largely compatible with MATLAB and GNU Octave), with advanced features such as 2-D 3-D plotting, image manipulation and viewing, a codeless interface to external C/C++/FORTRAN libraries, native support for various C types, and a host of other features.
 
 Try it !
@@ -27,6 +25,8 @@ Try it !
 - `OpenMP` and `SIMD` extensions used.
 
 - 2D and 3D plotting with high-level plot commands.
+
+- Desktop environment with history, file and workspace browser.
 
 - Parallel Computing Module.
 

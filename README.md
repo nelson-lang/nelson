@@ -62,6 +62,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - 2D and 3D plotting with high-level plot commands.
 
+- Desktop environment with history, file and workspace browser.
+
 - Parallel Computing Module.
 
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
