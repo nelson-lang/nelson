@@ -351,9 +351,18 @@ GOSurface::paintMe(RenderInterface& gc)
     } else {
         meshstyle = meshStyle::Column;
     }
+    std::wstring lineStyle
+        = ((GORestrictedStringColorProperty*)findProperty(GO_LINE_STYLE_PROPERTY_NAME_STR))->data();
+
+    if (stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
+        lineStyle = GO_PROPERTY_VALUE_NONE_STR;
+    }
+
+    double lineWidth = findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR);
     gc.quadStrips(surfquads,
         stringCheck(GO_FACE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR), edgequads,
-        stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR), meshstyle);
+        stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR), meshstyle,
+        lineWidth, lineStyle);
 }
 //=============================================================================
 std::vector<double>

@@ -327,10 +327,13 @@ RenderQt::drawImage(const std::vector<double>& xp, const std::vector<double>& yp
 //=============================================================================
 void
 RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-    std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle)
+    std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle,
+    double lineWidth, const std::wstring& lineStyle)
 {
     std::vector<quad3D> mapqds(mapQuads(faces, edges));
     std::sort(mapqds.begin(), mapqds.end());
+    bool isLineStyleNone = (lineStyle == GO_PROPERTY_VALUE_NONE_STR);
+
     for (size_t k = 0; k < mapqds.size(); k++) {
         quad3D mapqd = mapqds[k];
         QPolygonF poly;
@@ -339,15 +342,29 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
         poly.push_back(QPointF(mapqd.pts[1].x, mapqd.pts[1].y));
         poly.push_back(QPointF(mapqd.pts[3].x, mapqd.pts[3].y));
         poly.push_back(QPointF(mapqd.pts[2].x, mapqd.pts[2].y));
-        pnt->setBrush(QColor((int)(mapqd.r * 255), (int)(mapqd.g * 255), (int)(mapqd.b * 255),
-            (int)(mapqd.a * 255)));
-        if (meshstyle == meshStyle::Both) {
-            pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255), (int)(mapqd.eb * 255),
-                (int)(mapqd.ea * 255)));
+
+        QColor faceColor(
+            (int)(mapqd.r * 255), (int)(mapqd.g * 255), (int)(mapqd.b * 255), (int)(mapqd.a * 255));
+
+        QColor edgeColor(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255), (int)(mapqd.eb * 255),
+            (int)(mapqd.ea * 255)));
+
+        pnt->setBrush(faceColor);
+        if (isLineStyleNone) {
+            pnt->setPen(QPen(faceColor));
         } else {
-            pnt->setPen(QPen(Qt::NoPen));
+            QPen pen = pnt->pen();
+            setLineStyle(pen, lineStyle);
+            QColor penColor = Qt::NoPen;
+            if (meshstyle == meshStyle::Both) {
+                penColor = edgeColor;
+            }
+            pen.setColor(penColor);
+            pen.setWidth(lineWidth);
+            pnt->setPen(pen);
         }
         pnt->drawPolygon(poly);
+
         if (meshstyle != meshStyle::Both) {
             size_t idx1, idx2;
             if (meshstyle == meshStyle::Row) {
@@ -359,8 +376,7 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
             }
             for (int i = 0; i < poly.size(); i++) {
                 if (i == idx1 || i == idx2) {
-                    pnt->setPen(QColor((int)(mapqd.er * 255), (int)(mapqd.eg * 255),
-                        (int)(mapqd.eb * 255), (int)(mapqd.ea * 255)));
+                    pnt->setPen(edgeColor);
                     pnt->drawLine(poly[i], poly[(i + 1) % poly.size()]);
                 }
             }

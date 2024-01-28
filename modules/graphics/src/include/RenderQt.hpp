@@ -208,7 +208,8 @@ public:
     //=============================================================================
     void
     quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatfaces,
-        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle) override;
+        std::vector<std::vector<coloredPoint>> edges, bool flatedges, meshStyle meshstyle,
+        double lineWidth, const std::wstring& lineStyle) override;
     //=============================================================================
     void
     drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle);
