@@ -44,7 +44,8 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
             }
             if (handleTypeName != NLS_HANDLE_STR) {
                 bool doOverload = false;
-                std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "set");
+                std::string functionNameGetHandle
+                    = getOverloadFunctionName(handleTypeName, "invoke");
                 Context* context = eval->getContext();
                 FunctionDef* funcDef = nullptr;
                 if (context->lookupFunction(functionNameGetHandle, funcDef)) {

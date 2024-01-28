@@ -109,6 +109,18 @@ LibPointerObject::initializeCommon()
     _currentType = NelsonType::NLS_UNKNOWN;
 }
 //=============================================================================
+wstringVector
+LibPointerObject::getProperties()
+{
+    return _propertiesNames;
+}
+//=============================================================================
+wstringVector
+LibPointerObject::getMethods()
+{
+    return _methodsNames;
+}
+//=============================================================================
 LibPointerObject::~LibPointerObject()
 {
     _propertiesNames.clear();

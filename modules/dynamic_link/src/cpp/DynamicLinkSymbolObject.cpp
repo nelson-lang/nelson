@@ -530,5 +530,17 @@ DynamicLinkSymbolObject::isMethod(const std::wstring& methodName)
     return false;
 }
 //=============================================================================
+wstringVector
+DynamicLinkSymbolObject::getProperties()
+{
+    return _propertiesNames;
+}
+//=============================================================================
+wstringVector
+DynamicLinkSymbolObject::getMethods()
+{
+    return {};
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

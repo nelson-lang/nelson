@@ -45,13 +45,17 @@ std::wstring
 getPartialLine(const std::wstring& line)
 {
     std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:\'><~@\t";
-    size_t index = -1;
+    size_t index = std::wstring::npos;
     for (wchar_t symbol : symbols) {
         size_t len = 0;
         size_t pch = line.rfind(symbol);
         if (pch != std::wstring::npos) {
             len = pch;
-            index = std::max(index, len);
+            if (index == std::wstring::npos) {
+                index = len;
+            } else {
+                index = std::max(index, len);
+            }
         }
     }
     return line.substr(index + 1);

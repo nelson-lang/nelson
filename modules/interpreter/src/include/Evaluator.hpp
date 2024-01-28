@@ -757,6 +757,11 @@ private:
     size_t
     countSubExpressions(AbstractSyntaxTreePtr t);
 
+    bool
+    isObjectMethod(const ArrayOf& r, const std::string& methodName);
+    ArrayOfVector
+    invokeMethod(const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params);
+
     /**
      * Handles the logistics of shortcut evaluation
      */

@@ -47,6 +47,11 @@ public:
     wstringVector
     fieldnames();
 
+    wstringVector
+    getProperties() override;
+    wstringVector
+    getMethods() override;
+
     void
     resetThreadPool();
 

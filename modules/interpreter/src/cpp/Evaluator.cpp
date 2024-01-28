@@ -3959,7 +3959,7 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
         ArrayOfVector params;
         logical isValidMethod = false;
         try {
-            isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
+            isValidMethod = isObjectMethod(r, fieldname);
         } catch (const Exception&) {
             if (r.isHandle()) {
                 Error(_("Please define: ")
@@ -3973,7 +3973,12 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
                 t = t->right;
             }
         }
-        rv = getHandle(r, fieldname, params);
+        if (isValidMethod) {
+            rv = invokeMethod(r, fieldname, params);
+        } else {
+            rv = getHandle(r, fieldname, params);
+        }
+
     } else {
         rv = r.getFieldAsList(fieldname);
     }
@@ -4546,6 +4551,59 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     argIn.push_back(fieldvalue[0]);
     funcDef->evaluateFunction(this, argIn, nLhs);
+}
+//=============================================================================
+bool
+Evaluator::isObjectMethod(const ArrayOf& r, const std::string& methodName)
+{
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    if (_context->lookupFunction("ismethod", funcDef)) {
+        int nLhs = 1;
+        ArrayOfVector argIn;
+        argIn.push_back(r);
+        argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
+        ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
+        if (res.size() != 1) {
+            return false;
+        }
+        if (res[0].isLogical() && res[0].isScalar()) {
+            return res[0].getContentAsLogicalScalar();
+        }
+    }
+    if (r.isHandle()) {
+        return r.isHandleMethod(utf8_to_wstring(methodName));
+    }
+    return false;
+}
+//=============================================================================
+ArrayOfVector
+Evaluator::invokeMethod(
+    const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params)
+{
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+
+    std::string currentType = r.isHandle() ? r.getHandleCategory()
+        : r.isClassType()                  ? r.getClassType()
+                                           : "";
+
+    if (!currentType.empty()) {
+        std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
+        if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
+            ArrayOfVector argIn;
+            int nLhs = 1;
+            argIn.push_back(r);
+            argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
+            for (const ArrayOf& a : params) {
+                argIn.push_back(a);
+            }
+            return funcDef->evaluateFunction(this, argIn, nLhs);
+        }
+        return getHandle(r, methodName, params);
+    }
+    Error(_("Function not found: ") + "invoke");
+    return {};
 }
 //=============================================================================
 ArrayOfVector

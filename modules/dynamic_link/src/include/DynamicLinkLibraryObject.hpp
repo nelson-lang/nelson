@@ -43,6 +43,11 @@ public:
     std::wstring
     getLibraryPath();
 
+    wstringVector
+    getProperties() override;
+    wstringVector
+    getMethods() override;
+
 private:
     wstringVector _propertiesNames;
     boost::dll::shared_library _shared_library;

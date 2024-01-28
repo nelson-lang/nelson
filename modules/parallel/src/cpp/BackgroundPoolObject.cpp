@@ -80,6 +80,18 @@ BackgroundPoolObject::BackgroundPoolObject()
     propertiesNames = { L"NumWorkers", L"Busy", L"FevalQueue" };
 }
 //=============================================================================
+wstringVector
+BackgroundPoolObject::getProperties()
+{
+    return propertiesNames;
+}
+//=============================================================================
+wstringVector
+BackgroundPoolObject::getMethods()
+{
+    return {};
+}
+//=============================================================================
 void
 BackgroundPoolObject::display(Interface* io)
 {

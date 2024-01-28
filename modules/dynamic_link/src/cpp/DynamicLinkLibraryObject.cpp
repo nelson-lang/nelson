@@ -134,6 +134,18 @@ DynamicLinkLibraryObject::isProperty(const std::wstring& propertyName)
     return (it != _propertiesNames.end());
 }
 //=============================================================================
+wstringVector
+DynamicLinkLibraryObject::getProperties()
+{
+    return _propertiesNames;
+}
+//=============================================================================
+wstringVector
+DynamicLinkLibraryObject::getMethods()
+{
+    return {};
+}
+//=============================================================================
 bool
 DynamicLinkLibraryObject::isMethod(const std::wstring& propertyName)
 {

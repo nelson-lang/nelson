@@ -48,6 +48,9 @@
 #include "FileCompleter.hpp"
 #include "MacroCompleter.hpp"
 #include "VariableCompleter.hpp"
+#include "PropertyCompleter.hpp"
+#include "MethodCompleter.hpp"
+#include "FieldCompleter.hpp"
 #include "QStringConverter.hpp"
 #include "HistoryBrowser.hpp"
 #include "QtHistoryBrowser.h"
@@ -826,8 +829,8 @@ QtTerminal::complete(QString prefix)
         if (!filepart.empty()) {
             files = FileCompleter(filepart);
             if (!files.empty()) {
-                updateModel(
-                    completionPrefixW, files, wstringVector(), wstringVector(), wstringVector());
+                updateModel(completionPrefixW, files, wstringVector(), wstringVector(),
+                    wstringVector(), wstringVector(), wstringVector(), wstringVector());
                 showpopup = true;
                 doFullSearch = false;
             }
@@ -838,8 +841,14 @@ QtTerminal::complete(QString prefix)
                 wstringVector builtin = BuiltinCompleter(textpart);
                 wstringVector macros = MacroCompleter(textpart);
                 wstringVector variables = VariableCompleter(textpart);
-                if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()) {
-                    updateModel(textpart, files, builtin, macros, variables);
+                wstringVector fields = FieldCompleter(textpart);
+                wstringVector properties = PropertyCompleter(textpart);
+                wstringVector methods = MethodCompleter(textpart);
+
+                if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()
+                    || !fields.empty() || !properties.empty() || !methods.empty()) {
+                    updateModel(
+                        textpart, files, builtin, macros, variables, fields, properties, methods);
                     showpopup = true;
                 }
             }
@@ -865,36 +874,39 @@ QtTerminal::complete(QString prefix)
 void
 QtTerminal::updateModel(const std::wstring& prefix, const wstringVector& filesList,
     const wstringVector& builtinList, const wstringVector& macroList,
-    const wstringVector& variableList)
+    const wstringVector& variableList, const wstringVector& fieldList,
+    const wstringVector& propertyList, const wstringVector& methodList)
 {
 
     if (qCompleter != nullptr) {
-        qCompleter->setModel(modelFromNelson(filesList, builtinList, macroList, variableList));
+        qCompleter->setModel(modelFromNelson(
+            filesList, builtinList, macroList, variableList, fieldList, propertyList, methodList));
         qCompleter->setCompletionPrefix(wstringToQString(prefix));
     }
 }
 //=============================================================================
 QAbstractItemModel*
 QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
-    const wstringVector& macroList, const wstringVector& variableList)
+    const wstringVector& macroList, const wstringVector& variableList,
+    const wstringVector& fieldList, const wstringVector& propertyList,
+    const wstringVector& methodList)
 {
     QStringList words;
-    for (const auto& k : filesList) {
-        words.append(
-            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
-    }
-    for (const auto& k : builtinList) {
-        words.append(
-            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
-    }
-    for (const auto& k : macroList) {
-        words.append(
-            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
-    }
-    for (const auto& k : variableList) {
-        words.append(wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_VARIABLE)
-            + QString(")"));
-    }
+
+    auto appendItemsWithPostfix = [&](const wstringVector& list, const std::wstring& postfix) {
+        for (const auto& k : list) {
+            words.append(
+                wstringToQString(k) + QString(" (") + wstringToQString(postfix) + QString(")"));
+        }
+    };
+
+    appendItemsWithPostfix(filesList, POSTFIX_FILES);
+    appendItemsWithPostfix(builtinList, POSTFIX_BUILTIN);
+    appendItemsWithPostfix(macroList, POSTFIX_MACRO);
+    appendItemsWithPostfix(variableList, POSTFIX_VARIABLE);
+    appendItemsWithPostfix(fieldList, POSTFIX_FIELD);
+    appendItemsWithPostfix(methodList, POSTFIX_METHOD);
+    appendItemsWithPostfix(propertyList, POSTFIX_PROPERTY);
     words.sort();
     return new QStringListModel(words, qCompleter);
 }
@@ -904,18 +916,23 @@ QtTerminal::insertCompletion(const QString& completion)
 {
     QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
     bool isPathCompletion = (completion.lastIndexOf(FILE_OR_DIR) != -1);
+    wstringVector postfixStrings;
+    postfixStrings.push_back(POSTFIX_BUILTIN);
+    postfixStrings.push_back(POSTFIX_MACRO);
+    postfixStrings.push_back(POSTFIX_VARIABLE);
+    postfixStrings.push_back(POSTFIX_FIELD);
+    postfixStrings.push_back(POSTFIX_PROPERTY);
+    postfixStrings.push_back(POSTFIX_METHOD);
+
     QString cleanedCompletion = completion;
-    QString beforeString = QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")");
-    cleanedCompletion = cleanedCompletion.replace(
-        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
-    beforeString = QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")");
-    cleanedCompletion = cleanedCompletion.replace(
-        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
-    beforeString = QString(" (") + wstringToQString(POSTFIX_VARIABLE) + QString(")");
-    cleanedCompletion = cleanedCompletion.replace(
-        cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+    for (const std::wstring& postfix : postfixStrings) {
+        QString beforeString = wstringToQString(std::wstring(L" (") + postfix + std::wstring(L")"));
+        cleanedCompletion = cleanedCompletion.replace(
+            cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+    }
     cleanedCompletion = cleanedCompletion.replace(
         cleanedCompletion.lastIndexOf(FILE_OR_DIR), FILE_OR_DIR.size(), QString());
+
     if (qCompleter->widget() != this) {
         return;
     }

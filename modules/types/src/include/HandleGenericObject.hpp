@@ -14,6 +14,7 @@
 #endif
 //=============================================================================
 #include <string>
+#include "Types.hpp"
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -47,6 +48,17 @@ public:
     {
         return false;
     };
+
+    virtual wstringVector
+    getProperties()
+    {
+        return {};
+    }
+    virtual wstringVector
+    getMethods()
+    {
+        return {};
+    }
 };
 //=============================================================================
 } // namespace Nelson
