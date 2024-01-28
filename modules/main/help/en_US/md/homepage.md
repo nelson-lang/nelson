@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 1.0.0.0
+### Nelson 1.1.0.0
 
 This is the first stable version of Nelson software.
 
