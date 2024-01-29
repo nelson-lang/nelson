@@ -8,7 +8,7 @@ snapcraft
 # Test locally
 
 ```
-sudo snap install nelson_1.0.0.0_amd64.snap --dangerous
+sudo snap install nelson_1.1.0.0_amd64.snap --dangerous
 ```
 
 Debug:
@@ -20,7 +20,7 @@ snap run --shell nelson.nelson
 # Push
 
 ```
-snapcraft upload nelson_1.0.0.0_amd64.snap
+snapcraft upload nelson_1.1.0.0_amd64.snap
 ```
 
 # Connection
