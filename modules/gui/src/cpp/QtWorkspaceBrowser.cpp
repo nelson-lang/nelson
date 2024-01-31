@@ -48,6 +48,7 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
     m_tableWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_tableWidget->setSortingEnabled(true);
     m_tableWidget->verticalHeader()->setVisible(false);
+    m_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
     mainLayout->addWidget(m_tableWidget);
     setLayout(mainLayout);
