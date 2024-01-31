@@ -132,11 +132,14 @@ private:
     void
     updateModel(const std::wstring& prefix, const wstringVector& filesList,
         const wstringVector& builtinList, const wstringVector& macroList,
-        const wstringVector& variableList);
+        const wstringVector& variableList, const wstringVector& fieldList,
+        const wstringVector& propertyList, const wstringVector& methodList);
 
     QAbstractItemModel*
     modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
-        const wstringVector& macroList, const wstringVector& variableList);
+        const wstringVector& macroList, const wstringVector& variableList,
+        const wstringVector& fieldList, const wstringVector& propertyList,
+        const wstringVector& methodList);
 
     void
     createCompleter();

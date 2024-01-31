@@ -17,6 +17,9 @@
 #define POSTFIX_MACRO _W("Macro")
 #define POSTFIX_VARIABLE _W("Variable")
 #define POSTFIX_FILES _W("File or directory")
+#define POSTFIX_FIELD _W("Field")
+#define POSTFIX_METHOD _W("Method")
+#define POSTFIX_PROPERTY _W("Property")
 //=============================================================================
 namespace Nelson {
 //=============================================================================

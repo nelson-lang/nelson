@@ -45,7 +45,7 @@ Nelson::ComEngineGateway::COM_displayBuiltin(Evaluator* eval, int nLhs, const Ar
     ArrayOf param1 = argIn[0];
     std::string name = param1.name();
     if (argIn.size() == 2) {
-        name = argIn[0].getContentAsCString();
+        name = argIn[1].getContentAsCString();
     }
     Interface* io = nullptr;
     if (eval) {

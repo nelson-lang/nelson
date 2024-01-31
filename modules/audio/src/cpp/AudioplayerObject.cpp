@@ -243,6 +243,18 @@ AudioplayerObject::isMethod(const std::wstring& propertyName)
     return false;
 }
 //=============================================================================
+wstringVector
+AudioplayerObject::getProperties()
+{
+    return propertiesNames;
+}
+//=============================================================================
+wstringVector
+AudioplayerObject::getMethods()
+{
+    return {};
+}
+//=============================================================================
 bool
 AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {

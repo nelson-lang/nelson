@@ -42,6 +42,11 @@ public:
     bool
     isMethod(const std::wstring& methodName) override;
 
+    wstringVector
+    getProperties() override;
+    wstringVector
+    getMethods() override;
+
     bool
     isWriteableProperty(const std::wstring& propertyName);
     bool

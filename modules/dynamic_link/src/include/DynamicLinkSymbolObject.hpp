@@ -42,6 +42,10 @@ public:
     isProperty(const std::wstring& propertyName) override;
     bool
     isMethod(const std::wstring& methodName) override;
+    wstringVector
+    getProperties() override;
+    wstringVector
+    getMethods() override;
 
 private:
     ArrayOf _dllibObject;
