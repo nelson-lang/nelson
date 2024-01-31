@@ -19,6 +19,19 @@
      	<p><b>MacOS X:</b></p>
         <p>- XCode C/C++ compilers.</p>
 	</description>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}configuremsvc">configuremsvc</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}vswhere">vswhere</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}configuremingw">configuremingw</link>
+		</see_also_item>
+	</see_also>
+
 	<authors>
 		<author_item>Allan CORNET</author_item>
 	</authors>

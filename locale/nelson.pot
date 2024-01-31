@@ -5429,6 +5429,15 @@ msgstr ""
 msgid "File or directory"
 msgstr ""
 
+msgid "Field"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
 msgid "assert_checkerror fails."
 msgstr ""
 
@@ -5927,6 +5936,9 @@ msgstr ""
 msgid "environment variable does not exist."
 msgstr ""
 
+msgid "msvc compiler detected and configured."
+msgstr ""
+
 msgid "does not exist."
 msgstr ""
 
@@ -5978,7 +5990,7 @@ msgstr ""
 msgid "CMakeLists.txt is missing."
 msgstr ""
 
-msgid "No compiler configured."
+msgid "No compiler configured. doc supported_compiler for more information."
 msgstr ""
 
 msgid "vswhere not found."

@@ -49,6 +49,8 @@
 
 	<description>
 		<p
+    >To use mex, C/C++ compiler must be available and configured. See Supported C/C++ compilers section for more information.</p>
+		<p
     >Nelson includes an interface to allow legacy mex-files to be compiled and linked with Nelson.</p>
 		<p
     >A mex file is a type of computer file that provides an interface between Octave or the reference commercial software and functions written in C, C++.</p>
@@ -87,6 +89,11 @@
 
 </examples>
 	<see_also>
+		<see_also_item>
+			<link
+        linkend="${dynamic_link}supported_compilers"
+      >Supported C/C++ compilers</link>
+		</see_also_item>
 		<see_also_item>
 			<link linkend="${dynamic_link}dlgenerategateway">dlgenerategateway</link>
 		</see_also_item>
