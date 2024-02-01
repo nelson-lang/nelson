@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Recursive completion on Graphic handle, struct, handle , class (properties, methods).
 
+### Fixed
+
+- Change directory with file browser line editor did not work as expected.
+- Template to create a function with file browser was wrong.
+- Do not allow to select multiple variable in workspace browser.
+
 ## 1.1.0 (2024-01-29)
 
 ### Added

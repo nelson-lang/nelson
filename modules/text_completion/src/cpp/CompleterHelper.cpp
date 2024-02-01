@@ -97,14 +97,15 @@ getPartialLineAsPath(const std::wstring& line)
     }
     if (symbol_found) {
         index++;
-        while (lineWithoutSpaceAtBeginning[index] == L' ') {
-            if (index + 1 >= lengthLine) {
-                break;
-            }
-            index++;
-        }
-        returnedLine = lineWithoutSpaceAtBeginning.substr(index);
     }
+    while (lineWithoutSpaceAtBeginning[index] == L' ') {
+        if (index + 1 >= lengthLine) {
+            break;
+        }
+        index++;
+    }
+    returnedLine = lineWithoutSpaceAtBeginning.substr(index);
+
     return returnedLine;
 }
 //=============================================================================

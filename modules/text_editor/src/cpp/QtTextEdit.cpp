@@ -144,36 +144,32 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
 void
 QtTextEdit::complete(QString prefix)
 {
+    if (prefix.isEmpty()) {
+        return;
+    }
     bool showpopup = false;
     if (!prefix.isEmpty()) {
         std::wstring completionPrefixW = QStringTowstring(prefix);
         std::wstring filepart = getPartialLineAsPath(completionPrefixW);
-        wstringVector files;
-        bool doFullSearch = true;
-        if (!filepart.empty()) {
-            files = FileCompleter(filepart);
-            if (!files.empty()) {
-                updateModel(completionPrefixW, files, wstringVector(), wstringVector(),
-                    wstringVector(), wstringVector(), wstringVector(), wstringVector());
+        wstringVector files = FileCompleter(filepart);
+        std::wstring textpart = getPartialLine(completionPrefixW);
+        if (!filepart.empty() && !files.empty() && (filepart != textpart)) {
+            updateModel(completionPrefixW, files, wstringVector(), wstringVector(), wstringVector(),
+                wstringVector(), wstringVector(), wstringVector());
+            showpopup = true;
+        } else if (!textpart.empty()) {
+            wstringVector builtin = BuiltinCompleter(textpart);
+            wstringVector macros = MacroCompleter(textpart);
+            wstringVector variables = VariableCompleter(textpart);
+            wstringVector fields = FieldCompleter(textpart);
+            wstringVector properties = PropertyCompleter(textpart);
+            wstringVector methods = MethodCompleter(textpart);
+
+            if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()
+                || !fields.empty() || !properties.empty() || !methods.empty()) {
+                updateModel(
+                    textpart, files, builtin, macros, variables, fields, properties, methods);
                 showpopup = true;
-                doFullSearch = false;
-            }
-        }
-        if (doFullSearch) {
-            std::wstring textpart = getPartialLine(completionPrefixW);
-            if (!textpart.empty()) {
-                wstringVector builtin = BuiltinCompleter(textpart);
-                wstringVector macros = MacroCompleter(textpart);
-                wstringVector variables = VariableCompleter(textpart);
-                wstringVector fields = FieldCompleter(textpart);
-                wstringVector methods = MethodCompleter(textpart);
-                wstringVector properties = PropertyCompleter(textpart);
-                if (!builtin.empty() || !files.empty() || !macros.empty() || !variables.empty()
-                    || !fields.empty() || !properties.empty() || !methods.empty()) {
-                    updateModel(
-                        textpart, files, builtin, macros, variables, fields, properties, methods);
-                    showpopup = true;
-                }
             }
         }
     }

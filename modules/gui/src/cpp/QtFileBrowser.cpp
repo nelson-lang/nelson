@@ -141,6 +141,9 @@ QtFileBrowser::updatePathFromLineEdit()
         model->setRootPath(newPath);
         modelBar->setRootPath(newPath);
         tree->setRootIndex(model->index(newPath));
+        if (QFileInfo(newPath).isDir()) {
+            emit postCommand("cd('" + newPath + "')");
+        }
     }
 }
 //=============================================================================
@@ -615,7 +618,7 @@ QtFileBrowser::createNewFileFunction()
             QFile file(fileName);
             if (file.open(QIODevice::WriteOnly)) {
                 QTextStream stream(&file);
-                stream << "varargout = function " + functionName + " (varargin)\n";
+                stream << "function varargout = " + functionName + " (varargin)\n";
                 stream << "  varargout = {};\n";
                 stream << "end\n";
 
