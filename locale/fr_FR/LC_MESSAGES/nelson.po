@@ -5653,9 +5653,6 @@ msgstr "Le fichier modèle est manquant."
 msgid "CMakeLists.txt is missing."
 msgstr "CMakeLists.txt est manquant."
 
-msgid "No compiler configured."
-msgstr "Aucun compilateur configuré."
-
 msgid "Vswhere not found."
 msgstr "Vswhere non trouvé."
 
@@ -7267,7 +7264,8 @@ msgid "Ts must be a finite positive scalar."
 msgstr "Ts doit être un scalaire positif fini."
 
 msgid "Wrong value for #3 input argument: valid method expected."
-msgstr "Valeur incorrecte pour l'argument d'entrée #3 : une méthode valide est attendue."
+msgstr "Valeur incorrecte pour l'argument d'entrée #3 : une méthode valide est "
+"attendue."
 
 msgid "Wrong value for #3 argument: 'prewarp' method expected."
 msgstr "Valeur incorrecte pour l'argument #3 : méthode 'prewarp' attendue."
@@ -7691,8 +7689,8 @@ msgid ""
 "first input argument must be one of the following: 'tan', 'cos', 'sin', "
 "'square', or 'pulse'."
 msgstr ""
-"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', 'sin', "
-"'square' ou 'pulse'."
+"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', "
+"'sin', 'square' ou 'pulse'."
 
 msgid "All elements of cell array must have same type."
 msgstr "Tous les éléments du tableau de cellules doivent avoir le même type."
@@ -7716,10 +7714,24 @@ msgid "initialMagnification option not yet implement."
 msgstr "l'option initialMagnification n'est pas encore implémentée."
 
 msgid "Wrong size for input arguments: vectors with same size expected."
-msgstr "Taille incorrecte des arguments d'entrée : des vecteurs de même taille sont attendus."
+msgstr ""
+"Taille incorrecte des arguments d'entrée : des vecteurs de même taille sont "
+"attendus."
 
 msgid "Lexical error unterminated character array"
 msgstr "Erreur lexicale : tableau de caractères non terminé"
 
 msgid "Three input arguments expected to return three ouput arguments."
 msgstr "Trois arguments d'entrée sont attendus pour retourner trois arguments de sortie."
+
+msgid "No compiler configured. doc supported_compiler for more information."
+msgstr "Aucun compilateur configuré. doc support_compiler pour plus d'informations."
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "Method"
+msgstr "Methode"
+
+msgid "Property"
+msgstr "Propriété"

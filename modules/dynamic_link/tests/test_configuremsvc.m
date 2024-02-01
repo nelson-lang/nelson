@@ -9,7 +9,7 @@
 %=============================================================================
 [status, message] = configuremsvc();
 if status == true
-  assert_isequal(message, '');
+  assert_isequal(message, _('msvc compiler detected and configured.'));
 else
   assert_isequal(message, _('Not implemented on this platform.'));
 end

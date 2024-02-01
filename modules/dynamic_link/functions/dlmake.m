@@ -18,7 +18,7 @@ function [status, message] = dlmake(destinationdir)
   end
   [status, compiler] = havecompiler();
   if ~status
-    message = _('No compiler configured.');
+    message = _('No compiler configured. doc supported_compiler for more information.');
     return
   end
   currentdir = pwd();

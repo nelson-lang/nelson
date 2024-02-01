@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function [status, message] = configuremsvc()
+function varargout = configuremsvc()
   % currently only VS 2017, VS 2019 and VS 2022
   status = false;
   message = '';
@@ -19,10 +19,11 @@ function [status, message] = configuremsvc()
   end
   try
     vsjon = vswhere();
-    status = true;
+    varargout{1} = true;
   catch
     e = lasterror();
-    message = e.message;
+    varargout{1} = false;
+    varargout{2} = e.message;
     return
   end
   
@@ -35,6 +36,8 @@ function [status, message] = configuremsvc()
   end
   [status, message] = checkExistFile(vsconfig);
   if ~status
+    varargout{1} = status;
+    varargout{2} = message;
     return
   end
   txt = fileread(vsconfig);
@@ -54,10 +57,14 @@ function [status, message] = configuremsvc()
   vcinfo_batchfullfilename = [vcinfo_batchpath, '/', vcinfo_batch];
   [status, message] = checkExistFile(vcinfo_batchfullfilename);
   if ~status
+    varargout{1} = status;
+    varargout{2} = message;
     return
   end
   [status, message] = checkExistFile(vcvarsbatfullfilename);
   if ~status
+    varargout{1} = status;
+    varargout{2} = message;
     return
   end
   current_PATH = getenv('PATH');
@@ -73,8 +80,8 @@ function [status, message] = configuremsvc()
     cmd = [vcinfo_batch, ' ', vcvarsbat, ' ', k{1}];
     [s, m] = unix(cmd);
     if (s ~= 0)
-      status = false;
-      message = [k{1}, ' ', _('environment variable does not exist.')];
+      varargout{1} = false;
+      varargout{2} = [k{1}, ' ', _('environment variable does not exist.')];
       return
     end
     % ack to remove '\n' at the end
@@ -91,8 +98,11 @@ function [status, message] = configuremsvc()
   json = jsonprettyprint(json);
   filewrite([prefdir(), '/compiler_', arch, '.json'], json);
   loadcompilerconf();
-  status = true;
-  msg = '';
+  if nargout == 0
+    disp(_('msvc compiler detected and configured.'))
+  end
+  varargout{1} = true;
+  varargout{2} = _('msvc compiler detected and configured.');
 end
 %=============================================================================
 function [status, message] = checkExistFile(filename, errormsg)
