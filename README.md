@@ -161,6 +161,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 | :--------------: | :-------------: | :-: | :------: |
 | Windows 7 to 11  | x86-64 (64-bit) |  ✓  |    ✓     |
 |                  |  i686 (32-bit)  |  ✓  |    ✓     |
+|   macOS Sonoma   |   arm64 (M1)    |  ✓  |          |
 |  macOS Ventura   | x86-64 (64-bit) |  ✓  |          |
 |  macOS Monterey  | x86-64 (64-bit) |  ✓  |          |
 |   Ubuntu 22.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
@@ -169,6 +170,5 @@ The systems listed here without CI or binaries are known to build and operate, b
 |    ArchLinux     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |    Fedora 36     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |     Raspbian     | ARM v8 (64-bit) |     |          |
-|  MacOS Ventura   |   arm64 (M1)    |     |          |
 
 Allan CORNET (nelson.numerical.computation@gmail.com)

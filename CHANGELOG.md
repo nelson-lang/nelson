@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Recursive completion on Graphic handle, struct, handle , class (properties, methods).
 - adding links between documents about mex and supported compilers.
+- GitHub CI for macOS Sonoma (Apple Silicon) support.
 
 ### Fixed
 
