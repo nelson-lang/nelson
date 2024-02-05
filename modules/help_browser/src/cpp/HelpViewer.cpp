@@ -66,13 +66,27 @@ HelpViewer::wheelEvent(QWheelEvent* wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         if (wheelEvent->angleDelta().y() > 0) {
-            this->zoomIn();
+            setZoomIn();
         } else {
-            this->zoomOut();
+            setZoomOut();
         }
         wheelEvent->accept();
     } else {
         QTextEdit::wheelEvent(wheelEvent);
+    }
+}
+//=============================================================================
+void
+HelpViewer::keyPressEvent(QKeyEvent* event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        if (event->key() == Qt::Key_Plus || event->key() == Qt::Key_Equal) {
+            setZoomOut();
+        } else if (event->key() == Qt::Key_Minus) {
+            setZoomIn();
+        }
+        event->accept();
+        return;
     }
 }
 //=============================================================================

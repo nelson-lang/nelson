@@ -11,6 +11,7 @@
 #include <QtCore/QLocale>
 #include <QtCore/QMimeData>
 #include <QtCore/QFile>
+#include <QtCore/QSettings>
 #include <QtGui/QClipboard>
 #include <QtGui/QImageReader>
 #include <QtGui/QKeyEvent>
@@ -18,6 +19,8 @@
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtGui/QTextImageFormat>
+#include <QtWidgets/QFileDialog>
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
 #else
@@ -29,6 +32,10 @@
 #include <QtWidgets/QScrollBar>
 #include <QtCore/QStringListModel>
 #include <QtWidgets/QAbstractItemView>
+#include <QtGui/QTextDocumentFragment>
+#include <QtGui/QPainter>
+#include <QtPrintSupport/QPrinter>
+#include "Nelson_VERSION.h"
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
 #include "NelsonHistory.hpp"
@@ -42,7 +49,6 @@
 #include "NelsonColors.hpp"
 #include "DefaultFont.hpp"
 #include "StringHelpers.hpp"
-
 #include "BuiltinCompleter.hpp"
 #include "CompleterHelper.hpp"
 #include "FileCompleter.hpp"
@@ -135,6 +141,10 @@ QtTerminal::~QtTerminal()
     if (selectAllAction) {
         delete selectAllAction;
         selectAllAction = nullptr;
+    }
+    if (exportContentAction) {
+        delete exportContentAction;
+        exportContentAction = nullptr;
     }
     if (clcAction) {
         delete clcAction;
@@ -401,6 +411,15 @@ QtTerminal::sendKeyEvent(QKeyEvent* event)
 void
 QtTerminal::keyPressEvent(QKeyEvent* event)
 {
+    if (event->modifiers() & Qt::ControlModifier) {
+        if (event->key() == Qt::Key_Plus || event->key() == Qt::Key_Equal) {
+            this->zoomOut();
+        } else if (event->key() == Qt::Key_Minus) {
+            this->zoomIn();
+        }
+        event->accept();
+        return;
+    }
     if (!isInEditionZone()) {
         QTextCursor cur = textCursor();
         cur.movePosition(QTextCursor::End);
@@ -672,6 +691,113 @@ QtTerminal::clc()
 }
 //=============================================================================
 void
+QtTerminal::onExportContentAction()
+{
+#define PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML "preferedDirectoryExportPdfHtmlTo"
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+
+    QString currentDir = QDir::currentPath();
+    if (settings.contains(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML)) {
+        currentDir = settings.value(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML).toString();
+        QFileInfo fileinfo(currentDir);
+        if (!fileinfo.isDir()) {
+            currentDir = QDir::homePath();
+        }
+    } else {
+        currentDir = QDir::homePath();
+    }
+    QString defaultFilePath = currentDir + "/document";
+
+    bool haveTextSelected = textCursor().hasSelection();
+    if (haveTextSelected) {
+        QTextCursor cursor = textCursor();
+        QString textSelected = cursor.selectedText();
+        if (textSelected.isEmpty()) {
+            return;
+        }
+    }
+    QString exportTypeMessage
+        = haveTextSelected ? TR("Export selected text to ...") : TR("Export console text to ...");
+    QString filePath = QFileDialog::getSaveFileName(
+        this, exportTypeMessage, defaultFilePath, TR("PDF Files (*.pdf);;HTML Files (*.html)"));
+
+    if (filePath.isEmpty()) {
+        return;
+    }
+    settings.setValue(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML, QFileInfo(filePath).absolutePath());
+
+    QString fileExtension = QFileInfo(filePath).suffix();
+    bool isPDF = (fileExtension.toLower() == "pdf");
+    if (isPDF) {
+        exportToPdf(filePath);
+    } else {
+        exportToHtml(filePath);
+    }
+}
+//=============================================================================
+void
+QtTerminal::exportToPdf(const QString& filename)
+{
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(filename);
+    QTextDocument doc;
+    if (textCursor().hasSelection()) {
+        QTextCursor cursor = textCursor();
+        QTextDocumentFragment fragment = cursor.selection();
+        doc.setHtml(fragment.toHtml());
+    } else {
+        doc.setHtml(toHtml());
+    }
+    QPainter painter;
+    if (painter.begin(&printer)) {
+        doc.drawContents(&painter);
+        painter.end();
+    }
+}
+//=============================================================================
+void
+QtTerminal::exportToHtml(const QString& filename)
+{
+    QTextCursor cursor = textCursor();
+    QString htmlContent;
+    if (textCursor().hasSelection()) {
+        QTextDocumentFragment fragment = cursor.selection();
+        htmlContent = fragment.toHtml();
+    } else {
+        htmlContent = toHtml();
+    }
+
+    QFileInfo fileInfo(filename);
+    QString directoryPath = fileInfo.absolutePath();
+
+    QRegularExpression imgSrcRegex(
+        "src=[\"'](.+?)[\"']", QRegularExpression::CaseInsensitiveOption);
+
+    QRegularExpressionMatchIterator matchIter = imgSrcRegex.globalMatch(htmlContent);
+    while (matchIter.hasNext()) {
+        QRegularExpressionMatch match = matchIter.next();
+        QString originalImagePath = match.captured(1);
+        if (originalImagePath.startsWith("qrc:")) {
+            originalImagePath = originalImagePath.remove(0, 3);
+            originalImagePath = ":/" + originalImagePath;
+        }
+        QImage image(originalImagePath);
+        QString imageName = QFileInfo(originalImagePath).fileName();
+        QString newImagePath = directoryPath + "/" + imageName;
+        image.save(newImagePath);
+        htmlContent.replace(originalImagePath, newImagePath);
+    }
+
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << htmlContent;
+        file.close();
+    }
+}
+//=============================================================================
+void
 QtTerminal::clearLine()
 {
     QTextCursor cursor = textCursor();
@@ -732,6 +858,13 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
             selectAllAction->setShortcut(TR("Ctrl + A"));
             contextMenu->addAction(selectAllAction);
             connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+        }
+        contextMenu->addSeparator();
+        if (exportContentAction == nullptr) {
+            fileNameIcon = nelsonPath + QString("/resources/export-to.svg");
+            exportContentAction = new QAction(QIcon(fileNameIcon), TR("Export to ..."), this);
+            contextMenu->addAction(exportContentAction);
+            connect(exportContentAction, SIGNAL(triggered()), this, SLOT(onExportContentAction()));
         }
         contextMenu->addSeparator();
         if (clcAction == nullptr) {
@@ -953,6 +1086,11 @@ QtTerminal::onPostCommandReceived(const QString& command)
 void
 QtTerminal::onCommandsReceived(const QStringList& commands)
 {
+    if (isAtPrompt() && !isInEditionZone()) {
+        QTextCursor cur(document()->lastBlock());
+        cur.movePosition(QTextCursor::EndOfBlock);
+        setTextCursor(cur);
+    }
     if (isInEditionZone()) {
         std::wstring line;
         for (auto command : commands) {
@@ -972,5 +1110,20 @@ void
 QtTerminal::onToTextEditorReceived()
 {
     postCommand(L"editor('new_file', [])");
+}
+//=============================================================================
+void
+QtTerminal::wheelEvent(QWheelEvent* wheelEvent)
+{
+    if (wheelEvent->modifiers() == Qt::ControlModifier) {
+        if (wheelEvent->angleDelta().y() > 0) {
+            this->zoomIn();
+        } else {
+            this->zoomOut();
+        }
+        wheelEvent->accept();
+    } else {
+        QTextEdit::wheelEvent(wheelEvent);
+    }
 }
 //=============================================================================

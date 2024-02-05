@@ -338,3 +338,18 @@ QtTextEdit::insertFromMimeData(const QMimeData* source)
     }
 }
 //=============================================================================
+void
+QtTextEdit::wheelEvent(QWheelEvent* wheelEvent)
+{
+    if (wheelEvent->modifiers() == Qt::ControlModifier) {
+        if (wheelEvent->angleDelta().y() > 0) {
+            this->zoomIn();
+        } else {
+            this->zoomOut();
+        }
+        wheelEvent->accept();
+    } else {
+        QTextEdit::wheelEvent(wheelEvent);
+    }
+}
+//=============================================================================
