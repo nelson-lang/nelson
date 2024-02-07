@@ -11,9 +11,11 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
 #include <QtCore/QTextStream>
+#include <QtCore/QSettings>
 #include <QtGui/QClipboard>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QTextDocumentFragment>
+#include <QtGui/QPainter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
@@ -49,6 +51,7 @@
 #include "PostCommand.hpp"
 #include "i18n.hpp"
 #include "NelsonPalette.hpp"
+#include "Nelson_VERSION.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -205,6 +208,10 @@ QtTextEditor::createActions()
     connect(printAction, SIGNAL(triggered()), this, SLOT(printDocument()));
     evaluateSelectionAction = new QAction(TR("Evaluate selection"), this);
     connect(evaluateSelectionAction, SIGNAL(triggered()), this, SLOT(evaluateSelection()));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/export-to.svg"));
+    exportToAction = new QAction(QIcon(fileNameIcon), TR("Export to PDF ..."), this);
+    connect(exportToAction, SIGNAL(triggered()), this, SLOT(onExportToAction()));
 }
 //=============================================================================
 void
@@ -218,6 +225,7 @@ QtTextEditor::createMenus()
     fileMenu->addAction(saveAsAction);
     fileMenu->addAction(saveAllAction);
     fileMenu->addSeparator();
+    fileMenu->addAction(exportToAction);
     fileMenu->addAction(printAction);
     fileMenu->addSeparator();
     fileMenu->addAction(closeAction);
@@ -238,6 +246,8 @@ QtTextEditor::createMenus()
     editMenu->addAction(copyAction);
     editMenu->addAction(pasteAction);
     editMenu->addAction(cutAction);
+    editMenu->addSeparator();
+    editMenu->addAction(exportToAction);
     editMenu->addSeparator();
     editMenu->addAction(commentAction);
     editMenu->addAction(uncommentAction);
@@ -744,7 +754,6 @@ QtTextEditor::createTabUntitledWithText(const QString& text)
     currentEditor()->setPlainText(text);
 }
 //=============================================================================
-
 void
 QtTextEditor::addTab()
 {
@@ -898,6 +907,48 @@ void
 QtTextEditor::uncomment()
 {
     currentEditor()->uncomment();
+}
+//=============================================================================
+void
+QtTextEditor::onExportToAction()
+{
+#define PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML "preferedDirectoryExportPdfHtmlTo"
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+
+    QString currentDir = QDir::currentPath();
+    if (settings.contains(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML)) {
+        currentDir = settings.value(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML).toString();
+        QFileInfo fileinfo(currentDir);
+        if (!fileinfo.isDir()) {
+            currentDir = QDir::homePath();
+        }
+    } else {
+        currentDir = QDir::homePath();
+    }
+    QString defaultFilePath = currentDir + "/document";
+
+    QString exportTypeMessage = TR("Export to PDF ...");
+    QString filePath = QFileDialog::getSaveFileName(
+        this, exportTypeMessage, defaultFilePath, TR("PDF Files (*.pdf)"));
+
+    if (filePath.isEmpty()) {
+        return;
+    }
+    settings.setValue(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML, QFileInfo(filePath).absolutePath());
+
+    QString fileExtension = QFileInfo(filePath).suffix();
+    exportToPdf(filePath);
+}
+//=============================================================================
+void
+QtTextEditor::exportToPdf(const QString& filename)
+{
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(filename);
+    printer.setPageSize(QPageSize(QPageSize::A4));
+    printer.setPageOrientation(QPageLayout::Portrait);
+    currentEditor()->print(&printer);
 }
 //=============================================================================
 int

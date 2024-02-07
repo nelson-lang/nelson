@@ -123,6 +123,7 @@ private:
     QAction* pasteAction;
     QAction* selectAllAction;
     QAction* clcAction;
+    QAction* exportContentAction;
     QAction* stopAction;
 
     QCompleter* qCompleter;
@@ -143,6 +144,10 @@ private:
 
     void
     createCompleter();
+    void
+    exportToPdf(const QString& filename);
+    void
+    exportToHtml(const QString& filename);
 
 public Q_SLOTS:
     void
@@ -161,6 +166,8 @@ public Q_SLOTS:
     sendReturnKey();
     void
     helpOnSelection();
+    void
+    onExportContentAction();
 
     void
     onCommandsReceived(const QStringList& commands);
@@ -169,5 +176,8 @@ public Q_SLOTS:
 
     void
     onToTextEditorReceived();
+
+    void
+    wheelEvent(QWheelEvent* wheelEvent);
 };
 //=============================================================================

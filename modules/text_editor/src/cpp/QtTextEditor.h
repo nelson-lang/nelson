@@ -46,6 +46,7 @@ class QtTextEditor : public QMainWindow
     QAction* uncommentAction;
     QAction* gotoLineAction;
 
+    QAction* exportToAction;
     QAction* runFileAction;
     QAction* stopRunAction;
     QAction* evaluateSelectionAction;
@@ -126,6 +127,9 @@ private:
     bool
     gotoLineNumber(int lineNumber);
 
+    void
+    exportToPdf(const QString& filename);
+
 private Q_SLOTS:
     bool
     save();
@@ -166,6 +170,9 @@ private Q_SLOTS:
     comment();
     void
     uncomment();
+
+    void
+    onExportToAction();
 
     void
     gotoLine();

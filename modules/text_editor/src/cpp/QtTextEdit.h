@@ -62,6 +62,9 @@ private slots:
     void
     insertCompletion(const QString& completion);
 
+    void
+    wheelEvent(QWheelEvent* wheelEvent);
+
 signals:
     void
     indent();

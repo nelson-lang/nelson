@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48">
+  <defs>
+    <linearGradient id="c">
+      <stop offset="0" stop-color="#f0eff1"/>
+      <stop offset=".59928656" stop-color="#e8e6ea"/>
+      <stop offset=".82758623" stop-color="#fff"/>
+      <stop offset="1" stop-color="#d6d3da"/>
+    </linearGradient>
+    <linearGradient id="d">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="a">
+      <stop offset="0" stop-color="#7a7187"/>
+      <stop offset="1" stop-color="#b7b2be"/>
+    </linearGradient>
+    <linearGradient xlink:href="#a" id="i" x1="35.996582" x2="33.664921" y1="40.458221" y2="37.770721" gradientTransform="translate(6.161836 4.033411)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient id="b">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient xlink:href="#b" id="j" x1="33.396004" x2="34.170048" y1="36.921333" y2="38.070381" gradientTransform="translate(6.161836 3.658411)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#c" id="e" x1="22.308331" x2="35.785294" y1="18.99214" y2="39.498238" gradientTransform="matrix(1.0657 0 0 .9876 -8.54832 -4.891713)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#d" id="f" x1="26.076092" x2="30.811172" y1="26.696676" y2="42.007351" gradientTransform="matrix(.9985 0 0 .99825 -6.970391 -4.892901)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#d" id="h" x1="26.076092" x2="30.811172" y1="26.696676" y2="42.007351" gradientTransform="matrix(.99942 0 0 1 5.991319 4.033411)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#c" id="g" x1="22.308331" x2="35.785294" y1="18.99214" y2="39.498238" gradientTransform="matrix(1.06724 0 0 .98928 4.391684 4.035227)" gradientUnits="userSpaceOnUse"/>
+  </defs>
+  <g transform="matrix(1.0015 0 0 1.00062 -.05002205 -.06304895)">
+    <path fill-rule="evenodd" d="M20.161837 34.033413h13v2h-13z" color="#000" opacity=".17045452" overflow="visible" style="marker:none"/>
+    <rect width="30.951559" height="35.976688" x="1.5484408" y="1.5629303" fill="url(#e)" fill-rule="evenodd" stroke="#8b7d95" stroke-width=".99893923" rx=".56565511" ry=".56615961"/>
+    <rect width="28.970741" height="33.981056" x="2.5325129" y="2.5605955" fill="none" stroke="url(#f)" stroke-width=".99893963" rx="0" ry="0"/>
+    <path fill="#ada7b7" fill-rule="evenodd" d="M7.016119 10.033414h21v2h-21zm0 4h20v2h-20zm0 4.000001h18v2h-18zm0 4h21v2h-21zm0 3.999998h13v2h-13z" color="#000" overflow="visible" style="marker:none"/>
+  </g>
+  <g transform="translate(.746114 -.01554371)">
+    <path fill="url(#g)" fill-rule="evenodd" stroke="#8b7d95" stroke-width="1.0000002" d="M15.072946 10.500852h29.856385c.31574 0 .569926.253093.569926.567472v27.167362c0 2.476452-6.87981 8.303087-9.267932 8.303087H15.072946c-.31574 0-.569926-.253092-.569926-.567473V11.068324c0-.314379.254186-.567472.569926-.567472z"/>
+    <rect width="28.997349" height="34.040764" x="15.502951" y="11.5" fill="none" stroke="url(#h)" stroke-width="1.0000008" rx="0" ry="0"/>
+    <path fill="url(#i)" fill-rule="evenodd" stroke="#8b7d95" stroke-width="1.0000002" d="M36.220918 46.536966c2.030418.329898 9.588793-4.529929 9.284411-8.497844-1.563262 2.423097-4.758522 1.286738-8.86728 1.445748 0 0 .395369 6.552096-.417131 7.052096z" color="#000" overflow="visible" style="marker:none"/>
+    <path fill="none" stroke="url(#j)" stroke-width=".99999982" d="M37.671355 44.345464c1.369779-.683829 4.428249-2.146465 5.72763-4.027469-1.596094.680055-2.94781.209496-5.702334.190405 0 0 .162322 3.062094-.025296 3.837064z" color="#000" opacity=".36931816" overflow="visible" style="marker:none"/>
+    <path fill="#ada7b7" fill-rule="evenodd" d="M20 19.033415h21v2H20zm0 4h19.992233v2H20zm0 4h17.976702v2H20zm0 4h21v2H20z" color="#000" overflow="visible" style="marker:none"/>
+  </g>
+</svg>

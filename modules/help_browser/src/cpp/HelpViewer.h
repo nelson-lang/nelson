@@ -57,5 +57,7 @@ private:
 protected:
     void
     wheelEvent(QWheelEvent* we) override;
+    void
+    keyPressEvent(QKeyEvent* event) override;
 };
 //=============================================================================
