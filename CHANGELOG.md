@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub CI for macOS Sonoma (Apple Silicon) support.
 - `Export to ...` context menu for console and text editor as pdf.
 - `CTRL + Mouse wheel` or `CTRL + +/-` to zoom in/out on console, editor, help.
+- toolbar for figure with print, zoom in, zoom out, rotation, pan, restore axes.
+- `MenuBar`, `ToolBar` figure properties.
+- `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
+
+### Changed
+
+- Clicking on an axis automatically sets it as the current axes object.
+- Clicking on an figure automatically sets it as the current figure object.
+- `saveas` exports the figure as a PDF page with centered alignment.
 
 ### Fixed
 

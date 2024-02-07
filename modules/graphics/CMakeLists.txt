@@ -57,6 +57,7 @@ target_link_libraries(
   nlsError_manager
   nlsGui
   nlsI18n
+  nlsEngine
   nlsElementary_functions
   nlsNelson_manager
   nlsTypes

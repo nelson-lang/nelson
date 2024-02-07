@@ -1045,8 +1045,13 @@ QtTextEditor::printDocument()
     QPrinter printer;
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setPageOrientation(QPageLayout::Portrait);
-    QPrintPreviewDialog* printPreview = new QPrintPreviewDialog(
-        &printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+    QPrintPreviewDialog* printPreview = nullptr;
+    try {
+        printPreview = new QPrintPreviewDialog(
+            &printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+    } catch (std::bad_alloc&) {
+        printPreview = nullptr;
+    }
     if (printPreview != nullptr) {
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
         printPreview->exec();

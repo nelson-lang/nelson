@@ -13,20 +13,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-enum class TEXT_INTERPRETER_FORMAT
-{
-    TEX_MARKUP,
-    LATEX_MARKUP,
-    NONE
-};
-//=============================================================================
-class GOTextInterpreterProperty : public GORestrictedStringProperty
+class GOMenuBarProperty : public GORestrictedStringProperty
 {
 public:
-    GOTextInterpreterProperty();
-    ~GOTextInterpreterProperty() override = default;
-    TEXT_INTERPRETER_FORMAT
-    getAsEnum();
+    GOMenuBarProperty();
+    ~GOMenuBarProperty() override = default;
 };
 //=============================================================================
 };

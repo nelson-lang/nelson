@@ -33,6 +33,8 @@ NelsonConfiguration::NelsonConfiguration()
     engineMode = 0;
     lastErrorException.clear();
     lastWarningException.clear();
+    currentAxesOnClick = true;
+    currentFigureOnClick = true;
 }
 //=============================================================================
 NelsonConfiguration*
@@ -346,5 +348,30 @@ NelsonConfiguration::getOverloadLevelCompatibility()
     return currentOverloadLevelCompatibility;
 }
 //=============================================================================
+bool
+NelsonConfiguration::isCurrentFigureOnClick()
+{
+    return currentFigureOnClick;
+}
+//=============================================================================
+void
+NelsonConfiguration::setCurrentFigureOnClick(bool on)
+{
+    currentFigureOnClick = on;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isCurrentAxesOnClick()
+{
+    return currentAxesOnClick;
+}
+//=============================================================================
+void
+NelsonConfiguration::setCurrentAxesOnClick(bool on)
+{
+    currentAxesOnClick = on;
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

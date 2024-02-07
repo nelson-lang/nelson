@@ -9,25 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GORestrictedStringProperty.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::CoreGateway {
 //=============================================================================
-enum class TEXT_INTERPRETER_FORMAT
-{
-    TEX_MARKUP,
-    LATEX_MARKUP,
-    NONE
-};
+ArrayOfVector
+featureBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-class GOTextInterpreterProperty : public GORestrictedStringProperty
-{
-public:
-    GOTextInterpreterProperty();
-    ~GOTextInterpreterProperty() override = default;
-    TEXT_INTERPRETER_FORMAT
-    getAsEnum();
-};
-//=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

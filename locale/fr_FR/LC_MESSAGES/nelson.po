@@ -7735,3 +7735,27 @@ msgstr "Methode"
 
 msgid "Property"
 msgstr "Propriété"
+
+msgid "&New Figure"
+msgstr "&Nouvelle Figure"
+
+msgid "&Rotate"
+msgstr "&Rotation"
+
+msgid "&Pan"
+msgstr "&Déplacer"
+
+msgid "Zoom &In"
+msgstr "Zoom A&vant"
+
+msgid "Zoom &Out"
+msgstr "Zoom A&rrière"
+
+msgid "&Restore View"
+msgstr "R&estaurer la Vue"
+
+msgid "&Graphics help"
+msgstr "&Aide sur les Graphiques"
+
+msgid "Graphics tools"
+msgstr "Outils de Graphiques"

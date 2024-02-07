@@ -50,7 +50,21 @@ public:
     bool
     is2D();
     //=============================================================================
+    std::vector<double>
+    getClientAreaAsPixels()
+    {
+        return m_box;
+    }
+    //=============================================================================
+    std::vector<double>
+    getPropertyVectorAsPixels(RenderInterface& gc, const std::wstring& name);
+    //=============================================================================
+    std::vector<double>
+    reInterpUnits(RenderInterface& gc, std::vector<double> a);
+    //=============================================================================
 private:
+    //=============================================================================
+    std::vector<double> m_box;
     //=============================================================================
     void
     loadParulaColorMap();

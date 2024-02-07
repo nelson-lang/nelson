@@ -90,8 +90,19 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
         QPrinter printer(QPrinter::ScreenResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(wstringToQString(filename));
-        QPainter pnt(&printer);
-        RenderQt gc(&pnt, 0, 0, f->width(), f->height());
+        QPainter painter;
+        painter.begin(&printer);
+        const auto pageLayout = printer.pageLayout();
+        const auto pageRect = pageLayout.paintRectPixels(printer.resolution());
+        const auto paperRect = pageLayout.fullRectPixels(printer.resolution());
+        double xscale = pageRect.width() / double(f->width());
+        double yscale = pageRect.height() / double(f->height());
+        double scale = qMin(xscale, yscale);
+        painter.translate(
+            pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
+        painter.scale(scale, scale);
+        painter.translate(-f->width() / 2., -f->height() / 2.);
+        RenderQt gc(&painter, 0, 0, f->width(), f->height());
         hf->paintMe(gc);
         result = true;
     } break;
@@ -119,6 +130,7 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
     } break;
     }
     hf->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, cr, cg, cb);
+    hf->updateState();
     return result;
 }
 //=============================================================================

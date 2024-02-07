@@ -188,6 +188,17 @@ public:
     OverloadLevelCompatibility
     getOverloadLevelCompatibility();
     //=============================================================================
+    bool
+    isCurrentFigureOnClick();
+    void
+    setCurrentFigureOnClick(bool on);
+    //=============================================================================
+    bool
+    isCurrentAxesOnClick();
+    void
+    setCurrentAxesOnClick(bool on);
+    //=============================================================================
+
 private:
     NelsonConfiguration();
     //=============================================================================
@@ -234,6 +245,10 @@ private:
     int nbOfThreadsToUse;
     //=============================================================================
     OverloadLevelCompatibility currentOverloadLevelCompatibility;
+    //=============================================================================
+    bool currentFigureOnClick = true;
+    //=============================================================================
+    bool currentAxesOnClick = true;
     //=============================================================================
 };
 //=============================================================================

@@ -414,11 +414,13 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
     if (event->modifiers() & Qt::ControlModifier) {
         if (event->key() == Qt::Key_Plus || event->key() == Qt::Key_Equal) {
             this->zoomOut();
+            event->accept();
+            return;
         } else if (event->key() == Qt::Key_Minus) {
             this->zoomIn();
+            event->accept();
+            return;
         }
-        event->accept();
-        return;
     }
     if (!isInEditionZone()) {
         QTextCursor cur = textCursor();

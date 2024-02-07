@@ -43,7 +43,7 @@ formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotati
 {
     if (scientificNotation) {
         std::wstring label = fmt::sprintf(L"%e", val);
-        if (textFormat == TEX_MARKUP) {
+        if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
             std::wstring copyLabel(label);
             wstringVector elements = split(copyLabel, L"e");
             if (elements.size() == 2) {

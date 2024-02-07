@@ -18,6 +18,9 @@ function struct_res = test_runfile(varargin)
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end
+
+  feature('currentAxesOnClick', false);
+  feature('currentFigureOnClick', false);
   
   r = false;
   msg = '';

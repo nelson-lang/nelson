@@ -28,6 +28,9 @@
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\engine\src\c\nlsEngine.vcxproj">
+      <Project>{b6946bbd-72c9-4257-aa48-535ae9b4d776}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -75,6 +78,7 @@
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
     <ClInclude Include="..\include\GOGroup.hpp" />
+    <ClInclude Include="..\include\GOMenuBarProperty.hpp" />
     <ClInclude Include="..\include\GOPatch.hpp" />
     <ClInclude Include="..\include\GORestrictedStringColorProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringProperty.hpp" />
@@ -120,6 +124,7 @@
     <ClInclude Include="..\include\GOSymbolProperty.hpp" />
     <ClInclude Include="..\include\GOText.hpp" />
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
+    <ClInclude Include="..\include\GOToolBarProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
     <ClInclude Include="..\include\GOVectorFourDoubleProperty.hpp" />
@@ -157,6 +162,7 @@
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOGroup.cpp" />
+    <ClCompile Include="..\cpp\GOMenuBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOPatch.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringColorProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringProperty.cpp" />
@@ -198,6 +204,7 @@
     <ClCompile Include="..\cpp\GOSymbolProperty.cpp" />
     <ClCompile Include="..\cpp\GOText.cpp" />
     <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp" />
+    <ClCompile Include="..\cpp\GOToolBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
     <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
