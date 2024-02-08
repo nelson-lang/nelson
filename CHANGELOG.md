@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `CTRL + Mouse wheel` or `CTRL + +/-` to zoom in/out on console, editor, help.
 - toolbar for figure with print, zoom in, zoom out, rotation, pan, restore axes.
 - `MenuBar`, `ToolBar` figure properties.
+- Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
 
 ### Changed

@@ -7,22 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "TextEditor.hpp"
 //=============================================================================
-#include <QtWidgets/QWidget>
-#include "QtTextEdit.h"
+namespace Nelson {
 //=============================================================================
-class QtLineNumber : public QWidget
+bool
+isTextEditorVisible()
 {
-    Q_OBJECT
-public:
-    QtLineNumber(QtTextEdit* textEditor);
-
-protected:
-    virtual void
-    paintEvent(QPaintEvent* paintEvent);
-
-private:
-    QtTextEdit* tEditor;
-};
+    return false;
+}
+//=============================================================================
+void
+showTextEditor()
+{
+}
+//=============================================================================
+}
 //=============================================================================

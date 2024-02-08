@@ -247,8 +247,6 @@ QtTextEditor::createMenus()
     editMenu->addAction(pasteAction);
     editMenu->addAction(cutAction);
     editMenu->addSeparator();
-    editMenu->addAction(exportToAction);
-    editMenu->addSeparator();
     editMenu->addAction(commentAction);
     editMenu->addAction(uncommentAction);
     editMenu->addAction(smartIndentAction);

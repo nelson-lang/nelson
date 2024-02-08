@@ -7,22 +7,22 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 //=============================================================================
-#include <QtWidgets/QWidget>
-#include "QtTextEdit.h"
-//=============================================================================
-class QtLineNumber : public QWidget
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
-    Q_OBJECT
-public:
-    QtLineNumber(QtTextEdit* textEditor);
-
-protected:
-    virtual void
-    paintEvent(QPaintEvent* paintEvent);
-
-private:
-    QtTextEdit* tEditor;
-};
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
+}
 //=============================================================================

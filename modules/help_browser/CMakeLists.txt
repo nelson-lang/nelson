@@ -17,12 +17,30 @@ set(CMAKE_AUTOMOC ON)
 add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
+if(WITHOUT_HELP_BROWSER_MODULE)
+file(GLOB HELP_BROWSER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+list(FILTER HELP_BROWSER_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/dllMain.cpp")
+else()
 file(GLOB HELP_BROWSER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 list(FILTER HELP_BROWSER_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} ${HELP_BROWSER_SRC})
 # ==============================================================================
+if(WITHOUT_HELP_BROWSER_MODULE)
+target_include_directories(
+  ${module_library_name}
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_name}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
+
+target_link_libraries(${module_library_name})
+else()
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -55,11 +73,17 @@ target_link_libraries(
   ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
   ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::PrintSupport)
+endif()
 # ==============================================================================
+if(WITHOUT_HELP_BROWSER_MODULE)
+else()
 file(GLOB HELP_BROWSER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER HELP_BROWSER_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
+endif()
 # ==============================================================================
+if(WITHOUT_HELP_BROWSER_MODULE)
+else()
 add_library(${module_library_builtin_name} ${HELP_BROWSER_BUILTIN})
 target_include_directories(
   ${module_library_builtin_name}
@@ -81,6 +105,7 @@ target_link_libraries(
   nlsI18n
   nlsInterpreter
   nlsTypes)
+endif()
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
@@ -93,6 +118,8 @@ install(
   PUBLIC_HEADER
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
+if(WITHOUT_HELP_BROWSER_MODULE)
+else()
 install(
   TARGETS ${module_library_builtin_name}
   EXPORT ${PROJECT_NAME}-targets
@@ -101,6 +128,7 @@ install(
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   PUBLIC_HEADER
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+endif()
 # ==============================================================================
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

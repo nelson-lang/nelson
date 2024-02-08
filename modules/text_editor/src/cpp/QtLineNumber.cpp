@@ -14,7 +14,7 @@
 #include <QtGui/QTextLayout>
 #include <QtWidgets/QScrollBar>
 //=============================================================================
-QtLineNumber::QtLineNumber(QtTextEdit* editor) : QWidget(), tEditor(editor)
+QtLineNumber::QtLineNumber(QtTextEdit* textEditor) : QWidget(), tEditor(textEditor)
 {
     int width;
     width = QFontMetrics(font()).horizontalAdvance(QLatin1String("0000")) + 5;

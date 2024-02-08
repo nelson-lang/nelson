@@ -29,7 +29,7 @@ NLSGATEWAYINFO(gateway)
 static bool
 finishTextEditorModule(Nelson::Evaluator* eval)
 {
-    closeEditor();
+    closeTextEditor();
     return true;
 }
 //=============================================================================

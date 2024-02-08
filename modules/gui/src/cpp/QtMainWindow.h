@@ -71,7 +71,7 @@ private slots:
     changeDir();
 
     void
-    editor();
+    textEditor();
 
     void
     historyBrowserToggle();

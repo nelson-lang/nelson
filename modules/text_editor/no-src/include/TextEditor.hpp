@@ -8,21 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
+#include "nlsText_editor_exports.h"
 //=============================================================================
-#include <QtWidgets/QWidget>
-#include "QtTextEdit.h"
+namespace Nelson {
 //=============================================================================
-class QtLineNumber : public QWidget
-{
-    Q_OBJECT
-public:
-    QtLineNumber(QtTextEdit* textEditor);
-
-protected:
-    virtual void
-    paintEvent(QPaintEvent* paintEvent);
-
-private:
-    QtTextEdit* tEditor;
-};
+NLSTEXT_EDITOR_IMPEXP bool
+isTextEditorVisible();
+NLSTEXT_EDITOR_IMPEXP void
+showTextEditor();
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
