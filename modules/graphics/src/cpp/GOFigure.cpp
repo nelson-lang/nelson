@@ -15,7 +15,10 @@
 #include "GORoot.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOStringOnOffProperty.hpp"
+#include "GOToolBarProperty.hpp"
+#include "GOMenuBarProperty.hpp"
 #include "BaseFigureQt.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,6 +58,8 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
+    registerProperty(new GOToolBarProperty, GO_TOOL_BAR_PROPERTY_NAME_STR);
+    registerProperty(new GOMenuBarProperty, GO_MENU_BAR_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -70,7 +75,8 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-
+    setRestrictedStringDefault(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
     loadParulaColorMap();
     _resized = false;
 }
@@ -80,7 +86,9 @@ GOFigure::setFocus()
 {
     GOScalarProperty* hp = (GOScalarProperty*)findProperty(GO_NUMBER_PROPERTY_NAME_STR);
     int figureNumber = (int)hp->data();
-    notifyCurrentFigureChanged(figureNumber - 1);
+    if (NelsonConfiguration::getInstance()->isCurrentFigureOnClick()) {
+        notifyCurrentFigureChanged(figureNumber - 1);
+    }
 }
 //=============================================================================
 void

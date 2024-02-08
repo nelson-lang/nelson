@@ -13,8 +13,8 @@ function varargout = configuremsvc()
   message = '';
   clear('havecompiler');  % clear persistent variable
   if ~ispc()
-    status = false;
-    message = _('Not implemented on this platform.');
+    varargout{1} = false;
+    varargout{2} = _('Not implemented on this platform.');
     return
   end
   try

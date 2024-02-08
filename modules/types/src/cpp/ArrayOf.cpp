@@ -457,11 +457,7 @@ ArrayOf::toOrdinalType()
     }
 }
 //=============================================================================
-ArrayOf::ArrayOf()
-{
-    Dimensions dims(0, 0);
-    dp = nullptr;
-}
+ArrayOf::ArrayOf() { dp = new Data(NLS_DOUBLE, Dimensions(0, 0), nullptr); }
 //=============================================================================
 /**
  * Create a variable with the specified contents.

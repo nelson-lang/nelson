@@ -122,7 +122,7 @@ clear('R');
 REF = figure();
 ipc(getpid, 'put', REF, 'R')
 q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal([],size(R));
+assert_isequal(size(R), size([]));
 L = lastwarn();
 assert_isequal(L, _('Variable not fully serialized.'));
 %=============================================================================

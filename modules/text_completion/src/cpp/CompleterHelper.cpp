@@ -10,6 +10,7 @@
 #include "CompleterHelper.hpp"
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,21 +45,26 @@ searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFi
 std::wstring
 getPartialLine(const std::wstring& line)
 {
-    std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:\'><~@\t";
+    std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:'><~@\t";
     size_t index = std::wstring::npos;
     for (wchar_t symbol : symbols) {
-        size_t len = 0;
         size_t pch = line.rfind(symbol);
         if (pch != std::wstring::npos) {
-            len = pch;
             if (index == std::wstring::npos) {
-                index = len;
+                index = pch;
             } else {
-                index = std::max(index, len);
+                index = std::max(index, pch);
             }
         }
     }
-    return line.substr(index + 1);
+
+    if (index != std::wstring::npos && index + 1 < line.length()) {
+        std::wstring prefix = line.substr(0, index);
+        if (!IsValidVariableName(prefix) || (line[index] == L' ')) {
+            return line.substr(index + 1);
+        }
+    }
+    return line;
 }
 //=============================================================================
 std::wstring

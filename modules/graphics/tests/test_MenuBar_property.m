@@ -8,16 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ADV-CLI MODE-->
-% <--IPC REQUIRED-->
-% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-% NOT SERIALIZABLE
-%=============================================================================
-clear('R');
-REF = figure();
-ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(size(R), size([]));
-L = lastwarn();
-assert_isequal(L, _('Variable not fully serialized.'));
+f = figure();
+assert_isequal(f.MenuBar, 'figure');
+f.MenuBar = 'none';
+sleep(1);
+assert_isequal(f.MenuBar, 'none');
+sleep(1);
 %=============================================================================

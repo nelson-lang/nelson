@@ -7,27 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "GORestrictedStringProperty.hpp"
+#include "GOMenuBarProperty.hpp"
+#include "GOPropertyValues.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-enum class TEXT_INTERPRETER_FORMAT
-{
-    TEX_MARKUP,
-    LATEX_MARKUP,
-    NONE
-};
+static const wchar_t* MENU_BAR_DICT[3]
+    = { GO_PROPERTY_VALUE_NONE_STR, GO_PROPERTY_VALUE_FIGURE_STR, 0 };
 //=============================================================================
-class GOTextInterpreterProperty : public GORestrictedStringProperty
-{
-public:
-    GOTextInterpreterProperty();
-    ~GOTextInterpreterProperty() override = default;
-    TEXT_INTERPRETER_FORMAT
-    getAsEnum();
-};
+GOMenuBarProperty::GOMenuBarProperty() : GORestrictedStringProperty(MENU_BAR_DICT) { }
 //=============================================================================
-};
+}
 //=============================================================================

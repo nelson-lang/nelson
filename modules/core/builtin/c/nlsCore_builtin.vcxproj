@@ -197,6 +197,7 @@
     <ClCompile Include="..\cpp\evalcBuiltin.cpp" />
     <ClCompile Include="..\cpp\evalinBuiltin.cpp" />
     <ClCompile Include="..\cpp\execstrBuiltin.cpp" />
+    <ClCompile Include="..\cpp\featureBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\inputnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxNumCompThreadsBuiltin.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="..\include\evalcBuiltin.hpp" />
     <ClInclude Include="..\include\evalinBuiltin.hpp" />
     <ClInclude Include="..\include\execstrBuiltin.hpp" />
+    <ClInclude Include="..\include\featureBuiltin.hpp" />
     <ClInclude Include="..\include\inputnameBuiltin.hpp" />
     <ClInclude Include="..\include\maxNumCompThreadsBuiltin.hpp" />
     <ClInclude Include="..\include\namelengthmaxBuiltin.hpp" />

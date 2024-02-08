@@ -1320,6 +1320,30 @@ msgstr ""
 msgid "&Close"
 msgstr ""
 
+msgid "&New Figure"
+msgstr ""
+
+msgid "&Rotate"
+msgstr ""
+
+msgid "&Pan"
+msgstr ""
+
+msgid "Zoom &In"
+msgstr ""
+
+msgid "Zoom &Out"
+msgstr ""
+
+msgid "&Restore View"
+msgstr ""
+
+msgid "&Graphics help"
+msgstr ""
+
+msgid "Graphics tools"
+msgstr ""
+
 #, c-format
 msgid "Unrecognized property '%s' for class '%s'."
 msgstr ""

@@ -1684,7 +1684,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
     GOStringVector* qp
         = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> xlabeltxt;
-    if (textFormat == TEX_MARKUP) {
+    if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         xlabeltxt = texToUnicode(qp->data());
     } else {
         xlabeltxt = qp->data();
@@ -1692,7 +1692,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
 
     qp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> ylabeltxt;
-    if (textFormat == TEX_MARKUP) {
+    if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         ylabeltxt = texToUnicode(qp->data());
     } else {
         ylabeltxt = qp->data();
@@ -1700,7 +1700,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
 
     qp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> zlabeltxt;
-    if (textFormat == TEX_MARKUP) {
+    if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         zlabeltxt = texToUnicode(qp->data());
     } else {
         zlabeltxt = qp->data();
@@ -1995,6 +1995,35 @@ GOAxis::paintMe(RenderInterface& gc)
     }
     drawTickMarks(gc);
     drawAxisLabels(gc);
+
+    m_box = getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR);
+}
+//=============================================================================
+std::vector<double>
+GOAxis::getPropertyVectorAsPixels(RenderInterface& gc, const std::wstring& name)
+{
+    GOFourVectorProperty* hp = (GOFourVectorProperty*)findProperty(name);
+    return (reInterpUnits(gc, hp->data()));
+}
+//=============================================================================
+std::vector<double>
+GOAxis::reInterpUnits(RenderInterface& gc, std::vector<double> a)
+{
+    unsigned width = gc.width();
+    unsigned height = gc.height();
+    GOUnitsProperty* hp = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
+    if (hp->isEqual(GO_PROPERTY_VALUE_NORMALIZED_STR)) {
+        for (int i = 0; i < a.size(); i += 2) {
+            a[i] *= width;
+            a[i + 1] *= height;
+        }
+        return a;
+    } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
+        return a;
+    } else {
+        Error("unit not managed.");
+    }
+    return a;
 }
 //=============================================================================
 bool

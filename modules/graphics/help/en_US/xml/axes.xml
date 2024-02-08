@@ -46,6 +46,7 @@
 <p><b
       >axes</b> creates axes in the current figure and set it as the current axes.</p>
 <p><b>axes(cax)</b> set current axes.</p>
+<p>Clicking on an axis automatically sets it as the current axes object.</p>
 
 <p>Properties:</p>
 <p />
@@ -236,8 +237,12 @@ plot(ax2, x, y2);]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >Clicking on an axis automatically sets it as the current axes object.</history_description>
+      </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

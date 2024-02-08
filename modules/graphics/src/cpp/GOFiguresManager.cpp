@@ -134,9 +134,7 @@ getCurrentFigure()
 void
 notifyCurrentFigureChanged(int64 figNum)
 {
-    // Currently commented, need a function to disable notification
-    // without this, tests are unpredictable ...
-    // GOCurrentFig = figNum;
+    GOCurrentFig = figNum;
 }
 //=============================================================================
 GOWindow*
