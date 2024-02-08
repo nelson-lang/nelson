@@ -108,7 +108,7 @@ void
 GOImage::updateCAlphadata()
 {
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
-    if (cdata.isEmpty()) {
+    if (cdata.isEmpty() || !cdata.isNumeric()) {
         return;
     }
     bool cdata_is_integer = cdata.isIntegerValue();
