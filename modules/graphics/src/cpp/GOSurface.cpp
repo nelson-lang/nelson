@@ -323,6 +323,9 @@ GOSurface::paintMe(RenderInterface& gc)
     ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     ydata.promoteType(NLS_DOUBLE);
     ArrayOf zdata(findArrayOfProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    if (!zdata.isNumeric()) {
+        return;
+    }
     zdata.promoteType(NLS_DOUBLE);
     if (zdata.isEmpty()) {
         return;
