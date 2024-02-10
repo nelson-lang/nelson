@@ -17,12 +17,30 @@ set(CMAKE_AUTOMOC ON)
 add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
+if(WITHOUT_TEXT_EDITOR_MODULE)
+file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
+list(FILTER MEX_SRC EXCLUDE REGEX
+     "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/dllMain.cpp")
+else()
 file(GLOB TEXT_EDITOR_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 list(FILTER TEXT_EDITOR_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
+endif()
 # ==============================================================================
 add_library(${module_library_name} ${TEXT_EDITOR_SRC})
 # ==============================================================================
+if(WITHOUT_TEXT_EDITOR_MODULE)
+target_include_directories(
+  ${module_library_name}
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
+target_include_directories(
+  ${module_library_name}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include)
+
+target_link_libraries(${module_library_name})
+else()
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -62,7 +80,10 @@ target_link_libraries(
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::PrintSupport)
+endif()
 # ==============================================================================
+if(WITHOUT_TEXT_EDITOR_MODULE)
+else()
 file(GLOB TEXT_EDITOR_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER TEXT_EDITOR_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
@@ -85,6 +106,8 @@ target_include_directories(
 target_link_libraries(${module_library_builtin_name} ${module_library_name}
                       nlsError_manager nlsI18n nlsInterpreter nlsTypes)
 # ==============================================================================
+endif()
+# ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
 install(
@@ -96,6 +119,8 @@ install(
   PUBLIC_HEADER
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
 # ==============================================================================
+if(WITHOUT_TEXT_EDITOR_MODULE)
+else()
 install(
   TARGETS ${module_library_builtin_name}
   EXPORT ${PROJECT_NAME}-targets
@@ -104,6 +129,7 @@ install(
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   PUBLIC_HEADER
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
+endif()
 # ==============================================================================
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m

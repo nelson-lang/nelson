@@ -14,14 +14,19 @@
 //=============================================================================
 namespace Nelson {
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval);
+textEditor(Evaluator* eval);
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, const std::wstring& filename);
+textEditor(Evaluator* eval, const std::wstring& filename);
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, const wstringVector& filenames);
+textEditor(Evaluator* eval, const wstringVector& filenames);
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, bool importSharedText);
+textEditor(Evaluator* eval, bool importSharedText);
 NLSTEXT_EDITOR_IMPEXP bool
-closeEditor();
+closeTextEditor();
+//=============================================================================
+NLSTEXT_EDITOR_IMPEXP bool
+isTextEditorVisible();
+NLSTEXT_EDITOR_IMPEXP void
+showTextEditor();
 } // namespace Nelson
 //=============================================================================

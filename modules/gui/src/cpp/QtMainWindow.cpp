@@ -319,7 +319,7 @@ QtMainWindow::changeDir()
 }
 //=============================================================================
 void
-QtMainWindow::editor()
+QtMainWindow::textEditor()
 {
     postCommand(L"edit()");
 }
@@ -520,7 +520,7 @@ QtMainWindow::createMenus()
     fileNameIcon = nelsonPath + QString("/resources/textedit-icon.svg");
     editorAction = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
     editorAction->setStatusTip(TR("Text editor"));
-    connect(editorAction, SIGNAL(triggered()), this, SLOT(editor()));
+    connect(editorAction, SIGNAL(triggered()), this, SLOT(textEditor()));
 
     // Windows Menu
     windowsMenu = mainMenuBar->addMenu(TR("&Windows"));

@@ -9,6 +9,7 @@
 ;==============================================================================
 #define MODULE_NAME "text_editor"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libno-nlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsText_editor.dll;Components: not {#COMPONENT_TEXT_EDITOR};
 Source: {#RootPath}bin\{#BinPath}\libnlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\libnlsText_editor_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
 ;==============================================================================

@@ -9,6 +9,7 @@
 ;==============================================================================
 #define MODULE_NAME "help_browser"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libno-nlsHelp_browser.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsHelp_browser.dll;Components: not {#COMPONENT_HELP_BROWSER};
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================

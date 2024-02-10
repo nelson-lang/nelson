@@ -23,17 +23,17 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 0);
     switch (argIn.size()) {
     case 0: {
-        editor(eval);
+        textEditor(eval);
     } break;
     case 1: {
         std::wstring filename = argIn[0].getContentAsWideString();
-        editor(eval, filename);
+        textEditor(eval, filename);
     } break;
     case 2: {
         std::wstring option = argIn[0].getContentAsWideString();
         if (option == L"new_file") {
             if (argIn[1].isEmpty() && argIn[1].isDoubleClass()) {
-                editor(eval, true);
+                textEditor(eval, true);
             } else {
                 Error(_W("Wrong value for #2 argument."));
             }

@@ -46,6 +46,9 @@
 #include "ExportGraphics.hpp"
 #include "FileSystemWrapper.hpp"
 #include "Nelson_VERSION.h"
+#include "HelpBrowser.hpp"
+#include "TextEditor.hpp"
+#include "MainGuiObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -252,8 +255,11 @@ GOWindow::createActions()
 void
 GOWindow::createMenuBar()
 {
-    fileMenu = this->menuBar()->addMenu("&File");
+    fileMenu = this->menuBar()->addMenu(TR("&File"));
     fileMenu->addAction(closeAction);
+    windowMenu = this->menuBar()->addMenu(TR("&Window"));
+    updateWindowMenuItems();
+    connect(windowMenu, &QMenu::aboutToShow, this, &GOWindow::refreshWindowMenuItems);
 }
 //=============================================================================
 void
@@ -273,6 +279,83 @@ GOWindow::createToolbars()
     toolBar->addSeparator();
     toolBar->addAction(helpAction);
     toolBar->addSeparator();
+}
+//=============================================================================
+void
+GOWindow::updateWindowMenuItems()
+{
+    windowMenu->clear();
+    std::map<int64, GOWindow*> figureList = getFigureList();
+    QString fileNameIcon
+        = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+            + L"/modules/graphics/resources/icon-mathematical-plot.svg");
+
+    for (const auto& pair : figureList) {
+        if (pair.second && this->getHandle() != pair.second->getHandle()) {
+            GOFigure* fig = pair.second->getGOFigure();
+            std::wstring nameFigure = fig->findStringProperty(GO_NAME_PROPERTY_NAME_STR);
+            QString menuItem;
+            bool withNumberTitle
+                = (goFig->stringCheck(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR));
+            int figureId = pair.second->getHandle() + 1;
+            if (withNumberTitle) {
+                if (nameFigure.empty()) {
+                    menuItem
+                        = wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId));
+                } else {
+                    menuItem = wstringToQString(fmt::sprintf(
+                        TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT, figureId, nameFigure));
+                }
+            } else {
+                menuItem = wstringToQString(nameFigure);
+            }
+            QAction* action = new QAction(QIcon(fileNameIcon), menuItem, this);
+            connect(action, &QAction::triggered, [pair]() {
+                pair.second->activateWindow();
+                pair.second->raise();
+                pair.second->setFocus();
+            });
+            windowMenu->addAction(action);
+        }
+    }
+    QMainWindow* mainWindow = (QMainWindow*)GetMainGuiObject();
+    if (mainWindow && mainWindow->isVisible()) {
+        fileNameIcon = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+            + L"/resources/console-clear.svg");
+        QString menuItem = TR("&Command Window");
+        QAction* action = new QAction(QIcon(fileNameIcon), menuItem, this);
+        connect(action, &QAction::triggered, [mainWindow]() {
+            mainWindow->activateWindow();
+            mainWindow->raise();
+            mainWindow->setFocus();
+        });
+        windowMenu->addSeparator();
+        windowMenu->addAction(action);
+    }
+    if (HelpBrowser::getInstance()->isVisible()) {
+        fileNameIcon = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+            + L"/resources/help-icon.svg");
+        QString menuItem = TR("&Help");
+        QAction* action = new QAction(QIcon(fileNameIcon), menuItem, this);
+        connect(action, &QAction::triggered, []() { HelpBrowser::getInstance()->show(); });
+        windowMenu->addSeparator();
+        windowMenu->addAction(action);
+    }
+    if (isTextEditorVisible()) {
+        QString menuItem = TR("&Editor");
+        fileNameIcon = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+            + L"/resources/document-open.svg");
+        QAction* action = new QAction(QIcon(fileNameIcon), menuItem, this);
+        connect(action, &QAction::triggered, []() { showTextEditor(); });
+        windowMenu->addSeparator();
+        windowMenu->addAction(action);
+    }
+}
+//=============================================================================
+void
+GOWindow::refreshWindowMenuItems()
+{
+    updateWindowMenuItems();
 }
 //=============================================================================
 void

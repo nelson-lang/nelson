@@ -48,6 +48,8 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../text_editor/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../help_browser/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 
 target_link_libraries(
@@ -60,6 +62,8 @@ target_link_libraries(
   nlsEngine
   nlsElementary_functions
   nlsNelson_manager
+  nlsText_editor
+  nlsHelp_browser
   nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Svg

@@ -9,20 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QWidget>
-#include "QtTextEdit.h"
-//=============================================================================
-class QtLineNumber : public QWidget
-{
-    Q_OBJECT
-public:
-    QtLineNumber(QtTextEdit* textEditor);
-
-protected:
-    virtual void
-    paintEvent(QPaintEvent* paintEvent);
-
-private:
-    QtTextEdit* tEditor;
-};
+#ifdef _MSC_VER
+#ifdef NLSTEXT_EDITOR_EXPORTS
+#define NLSTEXT_EDITOR_IMPEXP __declspec(dllexport)
+#else
+#define NLSTEXT_EDITOR_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSTEXT_EDITOR_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

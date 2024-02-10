@@ -46,6 +46,7 @@ protected:
     //=============================================================================
     QAction* closeAction;
     QMenu* fileMenu;
+    QMenu* windowMenu;
     void
     createActions();
     void
@@ -121,7 +122,9 @@ private:
     void
     contextMenuEvent(QContextMenuEvent* event);
     //=============================================================================
-
+    void
+    updateWindowMenuItems();
+    //=============================================================================
 private slots:
     void
     onNewFigureAction();
@@ -141,6 +144,8 @@ private slots:
     onRestoreViewAction();
     void
     onHelpAction();
+    void
+    refreshWindowMenuItems();
 
 public:
     GOWindow(int64 ahandle);
