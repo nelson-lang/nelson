@@ -49,6 +49,9 @@
 #include "HelpBrowser.hpp"
 #include "TextEditor.hpp"
 #include "MainGuiObject.hpp"
+#include "GOFixedVectorProperty.hpp"
+#include "GOVectorThreeDoubleProperty.hpp"
+#include "GOVectorTwoDoubleProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -92,7 +95,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     createActions();
     createMenuBar();
     createToolbars();
-    resize(560, 445);
+    resize(560, 470);
     setMouseTracking(true);
     statusBar()->setVisible(false);
     initialized = true;
@@ -266,7 +269,7 @@ void
 GOWindow::createToolbars()
 {
     toolBar = addToolBar(TR("Graphics tools"));
-    toolBar->setIconSize(QSize(16, 16));
+    toolBar->setIconSize(QSize(18, 18));
     toolBar->addAction(newFigureAction);
     toolBar->addAction(printAction);
     toolBar->addAction(exportAction);
@@ -421,31 +424,6 @@ void
 GOWindow::mousePressEventHandleRotate(QMouseEvent* e)
 {
     mousePositionOrigin = e->pos();
-    QRect plot_region(qtchild->geometry());
-    int x, y;
-    qtGetPosition(e, x, y);
-    GOAxis* h = findContainingAxis(goFig, remapX(x), remapY(y));
-    if (h) {
-        rotateCamera
-            = ((GOVectorProperty*)h->findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR))->data();
-        rotateUp
-            = ((GOVectorProperty*)h->findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR))->data();
-        rotateTarget
-            = ((GOVectorProperty*)h->findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR))->data();
-        rotateForward = rotateTarget;
-        rotateForward[0] -= rotateCamera[0];
-        rotateForward[1] -= rotateCamera[1];
-        rotateForward[2] -= rotateCamera[2];
-        rotateSourceCameraDistance = sqrt(rotateForward[0] * rotateForward[0]
-            + rotateForward[1] * rotateForward[1] + rotateForward[2] * rotateForward[2]);
-        rotateForward[0] /= rotateSourceCameraDistance;
-        rotateForward[1] /= rotateSourceCameraDistance;
-        rotateForward[2] /= rotateSourceCameraDistance;
-        rotateRight = rotateUp;
-        rotateRight[0] = (rotateForward[1] * rotateUp[2]) - (rotateForward[2] * rotateUp[1]);
-        rotateRight[1] = (rotateForward[2] * rotateUp[0]) - (rotateForward[0] * rotateUp[2]);
-        rotateRight[2] = (rotateForward[0] * rotateUp[1]) - (rotateForward[1] * rotateUp[0]);
-    }
 }
 //=============================================================================
 void
@@ -491,44 +469,24 @@ GOWindow::mouseMoveEventHandleRotate(QMouseEvent* e)
 {
     QPoint dest(e->pos());
     QRect plot_region(qtchild->geometry());
-    GOAxis* h = findContainingAxis(
+    GOAxis* axis = findContainingAxis(
         goFig, remapX(mousePositionOrigin.x()), remapY(mousePositionOrigin.y()));
-    if (h) {
+    if (axis) {
         int x, y;
         qtGetPosition(e, x, y);
 
-        double az = -(x - mousePositionOrigin.x()) / 180.0 * M_PI;
-        double el = (y - mousePositionOrigin.y()) / 180.0 * M_PI;
+        axis->rotateCamera(
+            mousePositionOrigin.x(), e->pos().x(), mousePositionOrigin.y(), e->pos().y());
+        mousePositionOrigin = e->pos();
 
-        std::vector<double> camera_position(rotateTarget);
-        camera_position[0] += rotateSourceCameraDistance
-            * (cos(el) * sin(az) * rotateRight[0] + -cos(el) * cos(az) * rotateForward[0]
-                + sin(el) * rotateUp[0]);
-        camera_position[1] += rotateSourceCameraDistance
-            * (cos(el) * sin(az) * rotateRight[1] + -cos(el) * cos(az) * rotateForward[1]
-                + sin(el) * rotateUp[1]);
-        camera_position[2] += rotateSourceCameraDistance
-            * (cos(el) * sin(az) * rotateRight[2] + -cos(el) * cos(az) * rotateForward[2]
-                + sin(el) * rotateUp[2]);
-        std::vector<double> camera_up(rotateTarget);
-        camera_up[0] = (cos(el + M_PI / 2.0) * sin(az) * rotateRight[0]
-            + -cos(el + M_PI / 2.0) * cos(az) * rotateForward[0]
-            + sin(el + M_PI / 2.0) * rotateUp[0]);
-        camera_up[1] = (cos(el + M_PI / 2.0) * sin(az) * rotateRight[1]
-            + -cos(el + M_PI / 2.0) * cos(az) * rotateForward[1]
-            + sin(el + M_PI / 2.0) * rotateUp[1]);
-        camera_up[2] = (cos(el + M_PI / 2.0) * sin(az) * rotateRight[2]
-            + -cos(el + M_PI / 2.0) * cos(az) * rotateForward[2]
-            + sin(el + M_PI / 2.0) * rotateUp[2]);
-        h->setThreeVectorDefault(GO_CAMERA_POSITION_PROPERTY_NAME_STR, camera_position[0],
-            camera_position[1], camera_position[2]);
-        h->setRestrictedStringDefault(
-            GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-        h->setThreeVectorDefault(
-            GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR, camera_up[0], camera_up[1], camera_up[2]);
-        h->setRestrictedStringDefault(
-            GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-        h->updateState();
+        GOTwoVectorProperty* view
+            = static_cast<GOTwoVectorProperty*>(axis->findProperty(GO_VIEW_PROPERTY_NAME_STR));
+        double azimuth = view->data()[0];
+        double elevation = view->data()[1];
+
+        QString message = wstringToQString(
+            L"Az: " + std::to_wstring(azimuth) + L" el: " + std::to_wstring(elevation));
+        statusBar()->showMessage(message);
     }
 }
 //=============================================================================
@@ -582,6 +540,8 @@ GOWindow::mouseReleaseEvent(QMouseEvent* e)
         mousePressEventHandleZoomOutMode(e);
     }
     if (mouseMode == MOUSE_MODE::ROTATION && isRotateRunning) {
+        QPoint dest(e->pos());
+        QRect plot_region(qtchild->geometry());
         isRotateRunning = false;
     }
 }
@@ -868,10 +828,12 @@ GOWindow::onRotateAction()
 {
     setCursor(Qt::ArrowCursor);
     if (mouseMode == MOUSE_MODE::ROTATION) {
+        statusBar()->setVisible(false);
         rotateAction->setChecked(false);
         mouseMode = MOUSE_MODE::NONE;
     } else {
         setCursor(rotateCursor);
+        statusBar()->setVisible(true);
         rotateAction->setChecked(true);
         mouseMode = MOUSE_MODE::ROTATION;
     }
@@ -885,6 +847,7 @@ GOWindow::onPanAction()
 {
     isPanRunning = false;
     setCursor(Qt::ArrowCursor);
+    statusBar()->setVisible(false);
     if (mouseMode == MOUSE_MODE::PAN) {
         panAction->setChecked(false);
         mouseMode = MOUSE_MODE::NONE;
@@ -902,6 +865,7 @@ void
 GOWindow::onZoomInAction()
 {
     setCursor(Qt::ArrowCursor);
+    statusBar()->setVisible(false);
     if (mouseMode == MOUSE_MODE::ZOOM_IN) {
         zoomInAction->setChecked(false);
         mouseMode = MOUSE_MODE::NONE;
@@ -919,6 +883,7 @@ void
 GOWindow::onZoomOutAction()
 {
     setCursor(Qt::ArrowCursor);
+    statusBar()->setVisible(false);
     if (mouseMode == MOUSE_MODE::ZOOM_OUT) {
         zoomOutAction->setChecked(false);
         mouseMode = MOUSE_MODE::NONE;

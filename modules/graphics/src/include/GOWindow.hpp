@@ -90,13 +90,6 @@ private:
     //=============================================================================
     bool isRotateRunning = false;
     //=============================================================================
-    std::vector<double> rotateUp;
-    std::vector<double> rotateTarget;
-    std::vector<double> rotateCamera;
-    std::vector<double> rotateForward;
-    std::vector<double> rotateRight;
-    double rotateSourceCameraDistance;
-    //=============================================================================
     void
     mouseMoveEventHandlePanMode(QMouseEvent* e);
     void

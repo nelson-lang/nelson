@@ -18,11 +18,15 @@ namespace Nelson {
 //=============================================================================
 class NLSGRAPHICS_IMPEXP GOVectorProperty : public GOGenericProperty
 {
+private:
+    bool _finiteOnly = false;
+
 protected:
     std::vector<double> _data;
 
 public:
     GOVectorProperty() = default;
+    GOVectorProperty(bool finiteOnly);
     ~GOVectorProperty() override = default;
     ArrayOf
     get() override;

@@ -167,6 +167,7 @@ GOAxis::constructProperties()
     registerProperty(new GOColorVectorProperty, GO_COLOR_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+    registerProperty(new GOVectorProperty(true), GO_VIEW_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -292,6 +293,7 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setTwoVectorDefault(GO_C_LIM_PROPERTY_NAME_STR, 0, 1);
     setStringDefault(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
+    setTwoVectorDefault(GO_VIEW_PROPERTY_NAME_STR, 0, 90);
 
     loadParulaColorMap();
     updateAxisFont();
@@ -1236,9 +1238,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                         }
                         first = false;
                     } else {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
                         for (ompIndexType i = 0;
                              i < (ompIndexType)std::min(limits.size(), child_limits.size());
                              i += 2) {
@@ -1261,9 +1260,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                     }
                     first = false;
                 } else {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
                     for (ompIndexType i = 0;
                          i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
                         limits[i] = std::min(limits[i], child_limits[i]);
@@ -1801,8 +1797,159 @@ GOAxis::drawChildren(RenderInterface& gc)
 }
 //=============================================================================
 void
+GOAxis::rotateCamera(
+    double previousMouseX, double currentMouseX, double previousMouseY, double currentMouseY)
+{
+    GOTwoVectorProperty* viewProperty
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    double azimuth = viewProperty->data()[0];
+    double elevation = viewProperty->data()[1];
+
+    azimuth += (previousMouseX - currentMouseX);
+    elevation += (currentMouseY - previousMouseY);
+
+    elevation = std::min(elevation, 90.0);
+    elevation = std::max(elevation, -90.0);
+    if (azimuth > 180.0) {
+        azimuth -= 360.0;
+    } else if (azimuth < -180.0) {
+        azimuth += 360.0;
+    }
+    double margin = 1.0;
+    for (int angle = -90; angle <= 90; angle += 90) {
+        if ((angle - margin) < elevation && elevation < (angle + margin)) {
+            elevation = angle;
+            break;
+        }
+    }
+
+    for (int angle = -180; angle <= 180; angle += 180) {
+        if ((angle - margin) < azimuth && azimuth < (angle + margin)) {
+            if (angle == 180) {
+                azimuth = -180;
+            } else {
+                azimuth = angle;
+            }
+            break;
+        }
+    }
+    viewProperty->value(azimuth, elevation);
+    updateState();
+}
+//=============================================================================
+void
+GOAxis::updateCamera()
+{
+    // Direction variables for x, y, and z axes
+    double xDir
+        = (findStringProperty(GO_X_DIR_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_NORMAL_STR) ? 1 : -1;
+    double yDir
+        = (findStringProperty(GO_Y_DIR_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_NORMAL_STR) ? 1 : -1;
+    double zDir
+        = (findStringProperty(GO_Z_DIR_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_NORMAL_STR) ? 1 : -1;
+
+    // Extracting limits for x, y, and z axes
+    std::vector<std::vector<double>> limits(3);
+    limits[0] = {
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_X_LIM_PROPERTY_NAME_STR))->data()[0],
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_X_LIM_PROPERTY_NAME_STR))->data()[1]
+    };
+    limits[1] = {
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_Y_LIM_PROPERTY_NAME_STR))->data()[0],
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_Y_LIM_PROPERTY_NAME_STR))->data()[1]
+    };
+    limits[2] = {
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_Z_LIM_PROPERTY_NAME_STR))->data()[0],
+        static_cast<GOTwoVectorProperty*>(findProperty(GO_Z_LIM_PROPERTY_NAME_STR))->data()[1]
+    };
+
+    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
+    }
+    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
+    }
+    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
+    }
+
+    // Calculating camera center
+    std::vector<double> cameraCenter(3);
+    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
+        cameraCenter[0] = (limits[0][0] + limits[0][1]) / 2.0;
+        cameraCenter[1] = (limits[1][0] + limits[1][1]) / 2.0;
+        cameraCenter[2] = (limits[2][0] + limits[2][1]) / 2.0;
+        static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
+            ->value(cameraCenter[0], cameraCenter[1], cameraCenter[2]);
+    } else {
+        GOThreeVectorProperty* tv
+            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
+        cameraCenter[0] = tv->data()[0];
+        cameraCenter[1] = tv->data()[1];
+        cameraCenter[2] = tv->data()[2];
+    }
+
+    GOThreeVectorProperty* plotBoxAspectRatio = static_cast<GOThreeVectorProperty*>(
+        findProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR));
+
+    // Calculating camera position
+    std::vector<double> cameraEye(3);
+    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
+        GOTwoVectorProperty* view
+            = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+        double az = view->data()[0];
+        double el = view->data()[1];
+
+        double d = 5
+            * sqrt(plotBoxAspectRatio->data()[0] * plotBoxAspectRatio->data()[0]
+                + plotBoxAspectRatio->data()[1] * plotBoxAspectRatio->data()[1]
+                + plotBoxAspectRatio->data()[2] * plotBoxAspectRatio->data()[2]);
+        if (el == 90 || el == -90) {
+            cameraCenter[2] = d * ((el > 0) ? 1 : -1);
+        } else {
+            az *= M_PI / 180.0;
+            el *= M_PI / 180.0;
+            cameraEye[0] = d * cos(el) * sin(az);
+            cameraEye[1] = -d * cos(el) * cos(az);
+            cameraEye[2] = d * sin(el);
+        }
+        cameraEye[0]
+            = cameraEye[0] * (limits[0][1] - limits[0][0]) / (xDir * plotBoxAspectRatio->data()[0])
+            + cameraCenter[0];
+        cameraEye[1]
+            = cameraEye[1] * (limits[1][1] - limits[1][0]) / (yDir * plotBoxAspectRatio->data()[1])
+            + cameraCenter[1];
+        cameraEye[2]
+            = cameraEye[2] * (limits[2][1] - limits[2][0]) / (zDir * plotBoxAspectRatio->data()[2])
+            + cameraCenter[2];
+        static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR))
+            ->value(cameraEye[0], cameraEye[1], cameraEye[2]);
+    }
+
+    // Calculating camera up vector
+    std::vector<double> cameraUpVector(3);
+    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
+        GOTwoVectorProperty* view
+            = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+        double az = view->data()[0];
+        double el = view->data()[1];
+        if (el == 90 || el == -90) {
+            cameraUpVector[0] = ((el > 0) ? -1 : 1) * sin(az * M_PI / 180.0)
+                * (limits[0][1] - limits[0][0]) / plotBoxAspectRatio->data()[0];
+            cameraUpVector[1] = ((el > 0) ? 1 : -1) * cos(az * M_PI / 180.0)
+                * (limits[1][1] - limits[1][0]) / plotBoxAspectRatio->data()[1];
+        } else {
+            cameraUpVector[2] = 1;
+        }
+        static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR))
+            ->value(cameraUpVector[0], cameraUpVector[1], cameraUpVector[2]);
+    }
+}
+//=============================================================================
+void
 GOAxis::updateState()
 {
+
     std::vector<std::wstring> tset;
     if (hasChanged(GO_X_LIM_PROPERTY_NAME_STR)) {
         toManual(GO_X_LIM_MODE_PROPERTY_NAME_STR);
@@ -1870,40 +2017,7 @@ GOAxis::updateState()
 
     handlePlotBoxFlags();
 
-    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
-        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
-    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0,
-            (limits[4] + limits[5]) / 2.0);
-    }
-    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0, limits[5] + 1);
-    }
-    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-        tv->value(0, 1, 0);
-    }
-
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> handles(children->data());
-    for (int i = 0; i < handles.size(); i++) {
-        GraphicsObject* fp = findGraphicsObject(handles[i]);
-        fp->updateState();
-    }
+    updateCamera();
 
     if (hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
         bool isVisible = stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
@@ -1954,6 +2068,14 @@ GOAxis::updateState()
                 }
             }
         }
+    }
+
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+    std::vector<int64> handles(children->data());
+    for (int i = 0; i < handles.size(); i++) {
+        GraphicsObject* fp = findGraphicsObject(handles[i]);
+        fp->updateState();
     }
 
     rePackFigure();

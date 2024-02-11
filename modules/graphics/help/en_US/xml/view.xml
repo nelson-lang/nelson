@@ -7,11 +7,13 @@
   <short_description>Camera line of sigh.</short_description>
 
  <syntax>
-    <syntax_item>view(dim)</syntax_item>
-    <syntax_item>view(az, el)</syntax_item>
-    <syntax_item>view(ax, ...)</syntax_item>
-
- </syntax>
+  <syntax_item>view(az, el)</syntax_item>
+  <syntax_item>view([az, el])</syntax_item>
+  <syntax_item>view([x, y, z])</syntax_item>
+  <syntax_item>view(dim)</syntax_item>
+  <syntax_item>view(ax, ...)</syntax_item>
+  <syntax_item>[az, el] = view(...)</syntax_item>
+</syntax>
 	
 	<param_input>
 		<param_input_item>
@@ -97,6 +99,12 @@ view(2)]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >azimuth and elevation as output arguments.</history_description>
+    </history_item>
+
   </history>
 
   <authors>

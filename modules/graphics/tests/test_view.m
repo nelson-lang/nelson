@@ -15,12 +15,12 @@ f.ToolBar = 'none';
 surf(X, Y, Z);
 ax = gca();
 % To change
-assert_isapprox(ax.CameraPosition, [-5.7269   -7.4634    5.4314], 1e-4);
+assert_isapprox(ax.CameraPosition, [-44.5633  -58.0760   43.0281], 1e-4);
 assert_isequal(ax.CameraUpVector, [0 0 1]);
 view(90,0)
-assert_isapprox(ax.CameraPosition, [10.6301   -0.0000    1.0002], 1e-4);
+assert_isapprox(ax.CameraPosition, [ 84.5277   -0.0000    0.7643], 1e-4);
 assert_isequal(ax.CameraUpVector, [0 0 1]);
 view(2)
-assert_isapprox(ax.CameraPosition, [ 0   -0.0000   11.7238], 1e-4);
-assert_isequal(ax.CameraUpVector, [0     1     0])
+assert_isapprox(ax.CameraPosition, [ 0         0   14.0880], 1e-4);
+assert_isequal(ax.CameraUpVector, [0     6     0])
 %=============================================================================

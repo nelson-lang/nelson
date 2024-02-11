@@ -10,8 +10,12 @@
 #include "nlsBuildConfig.h"
 #include <limits>
 #include "GOVectorProperty.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+GOVectorProperty::GOVectorProperty(bool finiteOnly) { _finiteOnly = finiteOnly; }
 //=============================================================================
 ArrayOf
 GOVectorProperty::get()
@@ -30,13 +34,29 @@ GOVectorProperty::get()
 void
 GOVectorProperty::set(ArrayOf num)
 {
-    GOGenericProperty::set(num);
-    num.promoteType(NLS_DOUBLE);
-    const double* dp = (const double*)num.getDataPointer();
-    _data.clear();
-    _data.reserve(num.getElementCount());
-    for (indexType i = 0; i < num.getElementCount(); i++) {
-        _data.push_back(dp[i]);
+    if (_finiteOnly) {
+        ArrayOf asDouble(num);
+        asDouble.promoteType(NLS_DOUBLE);
+        std::vector<double> values;
+        values.reserve(asDouble.getElementCount());
+        const double* dp = (const double*)asDouble.getDataPointer();
+        for (indexType i = 0; i < asDouble.getElementCount(); i++) {
+            if (!std::isfinite(dp[i])) {
+                Error(_W("Finite value expected."));
+            }
+            values.push_back(dp[i]);
+        }
+        _data = values;
+        GOGenericProperty::set(num);
+    } else {
+        GOGenericProperty::set(num);
+        num.promoteType(NLS_DOUBLE);
+        const double* dp = (const double*)num.getDataPointer();
+        _data.clear();
+        _data.reserve(num.getElementCount());
+        for (indexType i = 0; i < num.getElementCount(); i++) {
+            _data.push_back(dp[i]);
+        }
     }
 }
 //=============================================================================
@@ -65,6 +85,13 @@ GOVectorProperty::data()
 void
 GOVectorProperty::data(const std::vector<double>& m)
 {
+    if (_finiteOnly) {
+        for (auto v : m) {
+            if (!std::isfinite(v)) {
+                Error(_W("Finite value expected."));
+            }
+        }
+    }
     _data = m;
 }
 //=============================================================================
