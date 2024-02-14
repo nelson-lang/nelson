@@ -1236,9 +1236,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                         }
                         first = false;
                     } else {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
                         for (ompIndexType i = 0;
                              i < (ompIndexType)std::min(limits.size(), child_limits.size());
                              i += 2) {
@@ -1261,9 +1258,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                     }
                     first = false;
                 } else {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
                     for (ompIndexType i = 0;
                          i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
                         limits[i] = std::min(limits[i], child_limits[i]);
