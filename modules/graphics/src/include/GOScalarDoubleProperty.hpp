@@ -15,8 +15,26 @@ namespace Nelson {
 //=============================================================================
 class GOScalarProperty : public GOFixedVectorProperty
 {
+private:
+    bool haveLimits = false;
+    double _minValue;
+    double _maxValue;
+
 public:
-    GOScalarProperty() : GOFixedVectorProperty(1) { }
+    GOScalarProperty() : GOFixedVectorProperty(1)
+    {
+        haveLimits = false;
+        _minValue = std::nan("NaN");
+        _maxValue = std::nan("NaN");
+    }
+    GOScalarProperty(double minValue, double maxValue) : GOFixedVectorProperty(1)
+    {
+        haveLimits = true;
+        _minValue = minValue;
+        _maxValue = maxValue;
+    }
+    void set(ArrayOf) override;
+
     ~GOScalarProperty() override = default;
     void
     data(double x);
