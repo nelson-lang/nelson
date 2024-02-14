@@ -1035,7 +1035,7 @@ GOAxis::updateAxisFont()
 }
 //=============================================================================
 bool
-GOAxis::is2DView()
+GOAxis::is2D()
 {
     return (!(xvisible && yvisible && zvisible));
 }
@@ -1057,7 +1057,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(limits[0], x2pos[1], x2pos[2], px0, py0);
             gc.toPixels(limits[1], x2pos[1], x2pos[2], px1, py1);
             gc.setupDirectDraw();
@@ -1073,7 +1073,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(y2pos[0], limits[2], y2pos[2], px0, py0);
             gc.toPixels(y2pos[0], limits[3], y2pos[2], px1, py1);
             gc.setupDirectDraw();
@@ -1089,7 +1089,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(z2pos[0], z2pos[1], limits[4], px0, py0);
             gc.toPixels(z2pos[0], z2pos[1], limits[5], px1, py1);
             gc.setupDirectDraw();
@@ -1464,7 +1464,7 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
                 if (!labels.empty()) {
                     drawLabel(gc, -delx, -dely, x3, y3, color, labels[i % labels.size()]);
                 }
-                if (is2DView()) {
+                if (is2D()) {
                     gc.toPixels(t * unitx + px2, t * unity + py2, t * unitz + pz2, x1, y1);
                     x2 = -delx * ticlen * ticdir + x1;
                     y2 = -dely * ticlen * ticdir + y1;
@@ -1656,14 +1656,14 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         = static_cast<GOTwoVectorProperty*>(findProperty(GO_TICK_LENGTH_PROPERTY_NAME_STR));
     std::vector<double> ticklen(kp->data());
     int ticlen;
-    if (is2DView()) {
+    if (is2D()) {
         ticlen = (int)(maxlen * ticklen[0]);
     } else {
         ticlen = (int)(maxlen * ticklen[1]);
     }
     float ticdir;
     if (isAuto(GO_TICK_DIR_MODE_PROPERTY_NAME_STR)) {
-        if (is2DView()) {
+        if (is2D()) {
             ticdir = 1;
         } else {
             ticdir = -1;
