@@ -102,7 +102,7 @@ function q = completeProperties(cs, ms, ps, p)
   if (strcmp(cs, ''))
     q = {'Marker', ms, 'LineStyle', ps, p{:}};
   else
-    q = {'Color', cs, 'Marker', ms, 'LineStyle', ps, 'MarkerEdgeColor', cs, 'MarkerFaceColor', cs, p{:}};
+    q = {'Color', cs, 'Marker', ms, 'LineStyle', ps, 'MarkerEdgeColor', cs, p{:}};
   end
 end
 %=============================================================================
@@ -115,7 +115,7 @@ function k = plotVector(go, x, y, lineProperties)
   lineStyle = getLineStyleAndUpdateIndex(ax);
   color = getColorAndUpdateIndex(ax);
   if (~any(strcmp(lineProperties, 'Color')))
-    lineProperties = [lineProperties, {'MarkerEdgeColor', color, 'MarkerFaceColor', color}];
+    lineProperties = [lineProperties, {'MarkerEdgeColor', color}];
   end
   if (~any(strcmp(lineProperties, 'LineStyle')))
     lineProperties = [lineProperties, {'LineStyle', lineStyle}];
@@ -181,4 +181,3 @@ function h = plot_Y(Y, go, lineProperties)
   end
 end
 %=============================================================================
-
