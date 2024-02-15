@@ -72,7 +72,7 @@ GOLineSeries::setupDefaults()
     setScalarDoubleDefault(GO_LINE_WIDTH_PROPERTY_NAME_STR, 0.5);
     setRestrictedStringDefault(GO_MARKER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     setThreeVectorDefault(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR, 0, 0, 0);
-    setThreeVectorDefault(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR, 0, 0, 0);
+    setThreeVectorDefault(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR, -1, -1, -1);
     setScalarDoubleDefault(GO_MARKER_SIZE_PROPERTY_NAME_STR, 6);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);

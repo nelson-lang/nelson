@@ -41,7 +41,7 @@ assert_isequal(L.LineStyle, '-');
 assert_isapprox(L.LineWidth, 0.5000, 1e-4);
 assert_isequal(L.Marker, 'none')
 assert_isequal(L.MarkerEdgeColor, [0 0.447000 0.741000]);
-assert_isequal(L.MarkerFaceColor, [0 0.447000 0.741000])
+assert_isequal(L.MarkerFaceColor, 'none');
 assert_isequal(L.MarkerSize, 6);
 assert_isequal(L.Parent, gca());
 assert_isequal(L.Tag, '');
