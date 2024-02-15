@@ -1468,9 +1468,15 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     historyItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ")
-                    + std::to_wstring(currentItemNode->line) //-V522
-                    + _W(": ") + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" " + _W("missing."));
+                std::wstring message;
+                if (currentItemNode == nullptr) {
+                    message = utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" " + _W("missing.");
+                } else {
+                    message = _W("line ") + std::to_wstring(currentItemNode->line) //-V522
+                        + _W(": ") + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" "
+                        + _W("missing.");
+                }
+                this->errorMessage.push_back(message);
                 this->bReadOk = false;
                 return false;
             }

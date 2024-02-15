@@ -74,11 +74,19 @@ RenderQt::color(std::vector<double> col)
 {
     QPen pen(pnt->pen());
     QBrush brush(pnt->brush());
+
     int R = (int)(col[0] * 255);
     int G = (int)(col[1] * 255);
     int B = (int)(col[2] * 255);
-    pen.setColor(QColor::fromRgb(R, G, B));
-    brush.setColor(QColor::fromRgb(R, G, B));
+
+    QColor color = QColor::fromRgb(R, G, B);
+    if (col.size() == 4) {
+        int A = (int)(col[3] * 255);
+        color.setAlpha(A);
+    }
+
+    pen.setColor(color);
+    brush.setColor(color);
     pnt->setPen(pen);
     QColor C = pen.color();
     int r, g, b;

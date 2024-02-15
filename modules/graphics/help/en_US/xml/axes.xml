@@ -90,6 +90,11 @@
 <p><b
       >FontUnits</b> Font size units: 'inches', 'centimeters', 'normalized', 'pixels' or 'points' (default).</p>
 <p><b>FontWeight</b> Character thickness: 'bold' or 'normal' (default).</p>
+
+<p><b
+      >GridAlpha</b> Grid-line transparency (0.15 (default) or value in the range [0, 1]).</p>
+<p><b
+      >GridColor</b> Color of grid lines ([0.15, 0.15, 0.15] (default) or RGB triplet).</p>
 <p><b
       >GridLineStyle</b> Line style for grid lines: '--' , ':', '-.', 'none' or '-' (default).</p>
 <p><b
@@ -233,15 +238,23 @@ plot(ax2, x, y2);]]>
   </see_also>
 
   <history>
+
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+
     <history_item>
       <history_version>1.2.0</history_version>
       <history_description
       >Clicking on an axis automatically sets it as the current axes object.</history_description>
-      </history_item>
+    </history_item>
+   <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >GridAlpha, GridColor propertiew for Axes.</history_description>
+    </history_item>
+
   </history>
   <authors>
     <author_item>Allan CORNET</author_item>

@@ -18,12 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MenuBar`, `ToolBar` figure properties.
 - Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
+- `GridAlpha`, `GridColor` propertiew for Axes.
 
 ### Changed
 
 - Clicking on an axis automatically sets it as the current axes object.
 - Clicking on an figure automatically sets it as the current figure object.
 - `saveas` exports the figure as a PDF page with centered alignment.
+- default color of grid for axes.
 
 ### Fixed
 

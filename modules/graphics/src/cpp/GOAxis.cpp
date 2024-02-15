@@ -95,6 +95,8 @@ GOAxis::constructProperties()
     registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOFontUnitsProperty, GO_FONT_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty(0, 1), GO_GRID_ALPHA_PROPERTY_NAME_STR);
+    registerProperty(new GOColorProperty, GO_GRID_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleProperty, GO_GRID_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_HIT_TEST_PROPERTY_NAME_STR);
@@ -167,6 +169,7 @@ GOAxis::constructProperties()
     registerProperty(new GOColorVectorProperty, GO_COLOR_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+
     sortProperties();
 }
 //=============================================================================
@@ -292,6 +295,8 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setTwoVectorDefault(GO_C_LIM_PROPERTY_NAME_STR, 0, 1);
     setStringDefault(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
+    setScalarDoubleDefault(GO_GRID_ALPHA_PROPERTY_NAME_STR, 0.15);
+    setThreeVectorDefault(GO_GRID_COLOR_PROPERTY_NAME_STR, 0.15, 0.15, 0.15);
 
     loadParulaColorMap();
     updateAxisFont();
@@ -510,6 +515,10 @@ void
 GOAxis::drawZGridLine(RenderInterface& gc, double t, const std::vector<double>& limits)
 {
     std::vector<double> m;
+    std::vector<double> color = findVectorDoubleProperty(GO_GRID_COLOR_PROPERTY_NAME_STR);
+    double alpha = findScalarDoubleProperty(GO_GRID_ALPHA_PROPERTY_NAME_STR);
+    color.push_back(alpha);
+    gc.color(color);
     gc.getModelviewMatrix(m);
     if (m[6] > 0) {
         gc.line(limits[0], limits[2], t, limits[1], limits[2], t);
@@ -527,6 +536,10 @@ void
 GOAxis::drawYGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 {
     std::vector<double> m;
+    std::vector<double> color = findVectorDoubleProperty(GO_GRID_COLOR_PROPERTY_NAME_STR);
+    double alpha = findScalarDoubleProperty(GO_GRID_ALPHA_PROPERTY_NAME_STR);
+    color.push_back(alpha);
+    gc.color(color);
     gc.getModelviewMatrix(m);
     if (m[10] > 0) {
         gc.line(limits[0], t, limits[4], limits[1], t, limits[4]);
@@ -544,6 +557,10 @@ void
 GOAxis::drawXGridLine(RenderInterface& gc, double t, std::vector<double> limits)
 {
     std::vector<double> m;
+    std::vector<double> color = findVectorDoubleProperty(GO_GRID_COLOR_PROPERTY_NAME_STR);
+    double alpha = findScalarDoubleProperty(GO_GRID_ALPHA_PROPERTY_NAME_STR);
+    color.push_back(alpha);
+    gc.color(color);
     gc.getModelviewMatrix(m);
     if (m[10] > 0) {
         gc.line(t, limits[2], limits[4], t, limits[3], limits[4]);
