@@ -92,7 +92,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     createActions();
     createMenuBar();
     createToolbars();
-    resize(560, 445);
+    resize(560, 470);
     setMouseTracking(true);
     statusBar()->setVisible(false);
     initialized = true;
@@ -266,7 +266,7 @@ void
 GOWindow::createToolbars()
 {
     toolBar = addToolBar(TR("Graphics tools"));
-    toolBar->setIconSize(QSize(16, 16));
+    toolBar->setIconSize(QSize(18, 18));
     toolBar->addAction(newFigureAction);
     toolBar->addAction(printAction);
     toolBar->addAction(exportAction);

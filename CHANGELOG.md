@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Clicking on an figure automatically sets it as the current figure object.
 - `saveas` exports the figure as a PDF page with centered alignment.
 - default color of grid for axes.
+- default figure size updated.
 
 ### Fixed
 
