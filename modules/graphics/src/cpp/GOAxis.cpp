@@ -1812,6 +1812,38 @@ GOAxis::drawChildren(RenderInterface& gc)
 }
 //=============================================================================
 void
+GOAxis::updateCamera()
+{
+    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
+        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
+    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
+        GOThreeVectorProperty* tv
+            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
+        std::vector<double> limits(getAxisLimits());
+        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0,
+            (limits[4] + limits[5]) / 2.0);
+    }
+    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
+    }
+    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
+        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
+        std::vector<double> limits(getAxisLimits());
+        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0, limits[5] + 1);
+    }
+
+    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
+    }
+    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
+        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
+        tv->value(0, 1, 0);
+    }
+}
+//=============================================================================
+void
 GOAxis::updateState()
 {
     std::vector<std::wstring> tset;
@@ -1881,32 +1913,7 @@ GOAxis::updateState()
 
     handlePlotBoxFlags();
 
-    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
-        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
-    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0,
-            (limits[4] + limits[5]) / 2.0);
-    }
-    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0, limits[5] + 1);
-    }
-    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-        tv->value(0, 1, 0);
-    }
+    updateCamera();
 
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
@@ -2107,15 +2114,20 @@ GOAxis::getAxisLimits()
 void
 GOAxis::setupProjection(RenderInterface& gc)
 {
-    GOThreeVectorProperty* tv1
+    GOThreeVectorProperty* cameraPositionVector
         = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-    GOThreeVectorProperty* tv2
+    GOThreeVectorProperty* cameraTargetVector
         = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-    GOThreeVectorProperty* tv3
+    GOThreeVectorProperty* cameraUpVector
         = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-    gc.lookAt(tv1->data()[0], tv1->data()[1], tv1->data()[2], tv2->data()[0], tv2->data()[1],
-        tv2->data()[2], tv3->data()[0], tv3->data()[1], tv3->data()[2]);
+
+    gc.lookAt(cameraPositionVector->data()[0], cameraPositionVector->data()[1],
+        cameraPositionVector->data()[2], cameraTargetVector->data()[0],
+        cameraTargetVector->data()[1], cameraTargetVector->data()[2], cameraUpVector->data()[0],
+        cameraUpVector->data()[1], cameraUpVector->data()[2]);
+
     std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
+
     gc.scale(1.0 / dar[0], 1.0 / dar[1], 1.0 / dar[2]);
     std::vector<double> limits(getAxisLimits());
     double xvals[8];

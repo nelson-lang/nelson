@@ -380,6 +380,7 @@ GOWindow::forceCurrentAxes(QMouseEvent* e)
 void
 GOWindow::mousePressEvent(QMouseEvent* e)
 {
+    e->accept();
     if (NelsonConfiguration::getInstance()->isCurrentAxesOnClick()) {
         forceCurrentAxes(e);
     }
@@ -474,6 +475,7 @@ GOWindow::mousePressEventHandlePanMode(QMouseEvent* e)
 void
 GOWindow::mouseMoveEvent(QMouseEvent* e)
 {
+    e->accept();
     if (mouseMode == MOUSE_MODE::PAN && isPanRunning) {
         mouseMoveEventHandlePanMode(e);
     }
@@ -483,7 +485,6 @@ GOWindow::mouseMoveEvent(QMouseEvent* e)
     if (mouseMode == MOUSE_MODE::ROTATION && isRotateRunning) {
         mouseMoveEventHandleRotate(e);
     }
-    e->accept();
 }
 //=============================================================================
 void
@@ -544,8 +545,8 @@ GOWindow::mouseMoveEventHandlePanMode(QMouseEvent* e)
         int x, y;
         qtGetPosition(e, x, y);
 
-        double delx = -(x - mousePositionOrigin.x()) / position[2];
-        double dely = (y - mousePositionOrigin.y()) / position[3];
+        double delx = -(e->pos().x() - mousePositionOrigin.x()) / position[2];
+        double dely = (e->pos().y() - mousePositionOrigin.y()) / position[3];
 
         if (axis->stringCheck(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
             delx = (x - mousePositionOrigin.x()) / position[2];
@@ -559,11 +560,13 @@ GOWindow::mouseMoveEventHandlePanMode(QMouseEvent* e)
             panXMean + panXRange * delx + panXRange / 2);
         axis->setRestrictedStringDefault(
             GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+
         axis->setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR,
             panYMean + panYRange * dely - panYRange / 2,
             panYMean + panYRange * dely + panYRange / 2);
         axis->setRestrictedStringDefault(
             GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+
         axis->updateState();
     }
 }
@@ -571,6 +574,7 @@ GOWindow::mouseMoveEventHandlePanMode(QMouseEvent* e)
 void
 GOWindow::mouseReleaseEvent(QMouseEvent* e)
 {
+    e->accept();
     if (mouseMode == MOUSE_MODE::PAN && isPanRunning) {
         setCursor(Qt::OpenHandCursor);
         isPanRunning = false;

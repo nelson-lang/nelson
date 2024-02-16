@@ -157,6 +157,7 @@ RenderQt::debug()
 void
 RenderQt::setupDirectDraw()
 {
+    pnt->save();
     for (int i = 0; i < 16; i++) {
         save_model[i] = model[i];
         model[i] = 0;
@@ -177,6 +178,7 @@ RenderQt::setupDirectDraw()
 void
 RenderQt::releaseDirectDraw()
 {
+    pnt->restore();
     for (int i = 0; i < 16; i++) {
         model[i] = save_model[i];
         proj[i] = save_proj[i];
