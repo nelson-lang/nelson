@@ -85,6 +85,7 @@ REF = {'ALim';
 'Type';
 'Units';
 'UserData';
+'View';
 'Visible';
 'XAxisLocation';
 'XColor';

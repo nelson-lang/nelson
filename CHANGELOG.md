@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MenuBar`, `ToolBar` figure properties.
 - Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
-- `GridAlpha`, `GridColor` propertiew for Axes.
+- `GridAlpha`, `GridColor`, `View` properties for Axes.
 
 ### Changed
 
@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default color of grid for axes.
 - default figure size updated.
 - default `MarkerFaceColor` value for compatibility.
+- view function returns azimuth and elevation values.
+- camera view reworked.
 
 ### Fixed
 

@@ -141,6 +141,7 @@
 <p><b
       >Units</b>  Position units: 'inches', 'centimeters', 'points', 'pixels', 'characters' or 'normalized' (default).</p>
 <p><b>UserData</b> User data: array or []</p>
+<p><b>View</b> Azimuth and elevation of view (default: [0 90])</p>
 <p><b>Visible</b> State of visibility: 'on' (default) or 'off'.</p>
 <p><b
       >XAxisLocation</b> x-axis location: 'top', 'origin' or 'bottom' (default).</p>

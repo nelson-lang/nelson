@@ -9,6 +9,7 @@
 //=============================================================================
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <math.h>
 #include <QtWidgets/QApplication>
 #include <QtGui/QPainter>
 #include "nlsBuildConfig.h"
@@ -169,6 +170,7 @@ GOAxis::constructProperties()
     registerProperty(new GOColorVectorProperty, GO_COLOR_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
+    registerProperty(new GOVectorProperty(true), GO_VIEW_PROPERTY_NAME_STR);
 
     sortProperties();
 }
@@ -297,6 +299,7 @@ GOAxis::setupDefaults()
     setStringDefault(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
     setScalarDoubleDefault(GO_GRID_ALPHA_PROPERTY_NAME_STR, 0.15);
     setThreeVectorDefault(GO_GRID_COLOR_PROPERTY_NAME_STR, 0.15, 0.15, 0.15);
+    setTwoVectorDefault(GO_VIEW_PROPERTY_NAME_STR, 0, 90);
 
     loadParulaColorMap();
     updateAxisFont();
@@ -1051,12 +1054,6 @@ GOAxis::updateAxisFont()
     setScalarDoubleDefault(GO_TEXT_HEIGHT_PROPERTY_NAME_STR, sze.height());
 }
 //=============================================================================
-bool
-GOAxis::is2DView()
-{
-    return (!(xvisible && yvisible && zvisible));
-}
-//=============================================================================
 void
 GOAxis::drawAxisLines(RenderInterface& gc)
 {
@@ -1074,7 +1071,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(limits[0], x2pos[1], x2pos[2], px0, py0);
             gc.toPixels(limits[1], x2pos[1], x2pos[2], px1, py1);
             gc.setupDirectDraw();
@@ -1090,7 +1087,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(y2pos[0], limits[2], y2pos[2], px0, py0);
             gc.toPixels(y2pos[0], limits[3], y2pos[2], px1, py1);
             gc.setupDirectDraw();
@@ -1106,7 +1103,7 @@ GOAxis::drawAxisLines(RenderInterface& gc)
         gc.setupDirectDraw();
         gc.line(px0, py0, px1, py1);
         gc.releaseDirectDraw();
-        if (is2DView()) {
+        if (is2D()) {
             gc.toPixels(z2pos[0], z2pos[1], limits[4], px0, py0);
             gc.toPixels(z2pos[0], z2pos[1], limits[5], px1, py1);
             gc.setupDirectDraw();
@@ -1475,7 +1472,7 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
                 if (!labels.empty()) {
                     drawLabel(gc, -delx, -dely, x3, y3, color, labels[i % labels.size()]);
                 }
-                if (is2DView()) {
+                if (is2D()) {
                     gc.toPixels(t * unitx + px2, t * unity + py2, t * unitz + pz2, x1, y1);
                     x2 = -delx * ticlen * ticdir + x1;
                     y2 = -dely * ticlen * ticdir + y1;
@@ -1667,14 +1664,14 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         = static_cast<GOTwoVectorProperty*>(findProperty(GO_TICK_LENGTH_PROPERTY_NAME_STR));
     std::vector<double> ticklen(kp->data());
     int ticlen;
-    if (is2DView()) {
+    if (is2D()) {
         ticlen = (int)(maxlen * ticklen[0]);
     } else {
         ticlen = (int)(maxlen * ticklen[1]);
     }
     float ticdir;
     if (isAuto(GO_TICK_DIR_MODE_PROPERTY_NAME_STR)) {
-        if (is2DView()) {
+        if (is2D()) {
             ticdir = 1;
         } else {
             ticdir = -1;
@@ -1812,38 +1809,6 @@ GOAxis::drawChildren(RenderInterface& gc)
 }
 //=============================================================================
 void
-GOAxis::updateCamera()
-{
-    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
-        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
-    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0,
-            (limits[4] + limits[5]) / 2.0);
-    }
-    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        std::vector<double> limits(getAxisLimits());
-        tv->value((limits[0] + limits[1]) / 2.0, (limits[2] + limits[3]) / 2.0, limits[5] + 1);
-    }
-
-    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* tv = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-        tv->value(0, 1, 0);
-    }
-}
-//=============================================================================
-void
 GOAxis::updateState()
 {
     std::vector<std::wstring> tset;
@@ -1912,6 +1877,14 @@ GOAxis::updateState()
         toManual(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
 
     handlePlotBoxFlags();
+
+    if (hasChanged(GO_VIEW_PROPERTY_NAME_STR)) {
+        GOTwoVectorProperty* viewProperty
+            = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+        double azimuth = viewProperty->data()[0];
+        double elevation = viewProperty->data()[1];
+        setView(azimuth, elevation);
+    }
 
     updateCamera();
 
@@ -2257,6 +2230,155 @@ GOAxis::mapZ(double z, bool forceLinearScale)
         return (zmin + zmax - z);
     }
     return (z);
+}
+//=============================================================================
+void
+GOAxis::getView(double& azimuth, double& elevation)
+{
+    GOTwoVectorProperty* viewProperty
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    azimuth = viewProperty->data()[0];
+    elevation = viewProperty->data()[1];
+}
+//=============================================================================
+void
+GOAxis::getNormalizedView(double& azimuth, double& elevation)
+{
+    GOTwoVectorProperty* viewProperty
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    azimuth = viewProperty->data()[0];
+    elevation = viewProperty->data()[1];
+
+    if (elevation > 180.0) {
+        elevation -= 360.0;
+    } else if (elevation < -180.0) {
+        elevation += 360.0;
+    }
+
+    if (azimuth > 180.0) {
+        azimuth -= 360.0;
+    } else if (azimuth < -180.0) {
+        azimuth += 360.0;
+    }
+}
+//=============================================================================
+void
+GOAxis::updateCamera()
+{
+    GOThreeVectorProperty* plotBoxAspectRatio = static_cast<GOThreeVectorProperty*>(
+        findProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR));
+
+    double azimuth;
+    double elevation;
+    getNormalizedView(azimuth, elevation);
+
+    double azimuthRadians = azimuth * M_PI / 180.;
+    double elevationRadians = elevation * M_PI / 180.;
+
+    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
+        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
+
+    std::vector<double> cameraCenter(3);
+    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
+        std::vector<double> limits(getAxisLimits());
+
+        cameraCenter[0] = (limits[0] + limits[1]) / 2.0;
+        cameraCenter[1] = (limits[2] + limits[3]) / 2.0;
+        cameraCenter[2] = (limits[4] + limits[5]) / 2.0;
+
+        GOThreeVectorProperty* cameraTargetProperty
+            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
+        cameraTargetProperty->value(cameraCenter[0], cameraCenter[1], cameraCenter[2]);
+    } else {
+        GOThreeVectorProperty* cameraTargetProperty
+            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
+        cameraCenter = cameraTargetProperty->data();
+    }
+
+    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
+    }
+    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
+
+        std::vector<double> limits(getAxisLimits());
+
+        std::vector<double> cameraPosition(3);
+        if (azimuth == 0. && (elevation == 90. || elevation == -90.)) {
+            cameraPosition[0] = (limits[0] + limits[1]) / 2.0;
+            cameraPosition[1] = (limits[2] + limits[3]) / 2.0;
+            cameraPosition[2] = (elevation > 0) ? limits[5] + 1 : -(limits[5] + 1);
+        } else {
+            double xmax = std::max(
+                std::abs(limits[0] - cameraCenter[0]), std::abs(limits[1] - cameraCenter[0]));
+            double ymax = std::max(
+                std::abs(limits[2] - cameraCenter[1]), std::abs(limits[3] - cameraCenter[1]));
+            double zmax = std::max(
+                std::abs(limits[4] - cameraCenter[2]), std::abs(limits[5] - cameraCenter[2]));
+
+            double r = std::sqrt(std::pow(xmax, 2) + std::pow(ymax, 2) + std::pow(zmax, 2));
+            cameraPosition[0]
+                = std::cos(elevationRadians) * std::sin(azimuthRadians) * r + cameraCenter[0];
+            cameraPosition[1]
+                = -std::cos(elevationRadians) * std::cos(azimuthRadians) * r + cameraCenter[1];
+            cameraPosition[2] = std::sin(elevationRadians) * r + cameraCenter[2];
+        }
+
+        GOThreeVectorProperty* cameraPositionProperty = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
+        cameraPositionProperty->value(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
+    }
+
+    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
+        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
+    }
+    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
+        GOThreeVectorProperty* cameraUpProperty = static_cast<GOThreeVectorProperty*>(
+            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
+        std::vector<double> cameraUp(3);
+
+        std::vector<double> limits(getAxisLimits());
+
+        if (elevation == 90 || elevation == -90) {
+            if (azimuth == 0. || (abs(elevationRadians - M_PI / 2) < .001)) {
+                cameraUp[0] = 0;
+                cameraUp[1] = (elevation > 0) ? 1 : -1;
+                cameraUp[2] = 0;
+            } else {
+                cameraUp[0] = ((elevation > 0) ? -1 : 1) * sin(azimuth * M_PI / 180.0)
+                    * (limits[1] - limits[0]) / plotBoxAspectRatio->data()[0];
+                cameraUp[1] = ((elevation > 0) ? 1 : -1) * cos(azimuth * M_PI / 180.0)
+                    * (limits[3] - limits[2]) / plotBoxAspectRatio->data()[1];
+            }
+        } else {
+            cameraUp[0] = 0;
+            cameraUp[1] = 0;
+            cameraUp[2] = 1;
+        }
+
+        cameraUpProperty->value(cameraUp[0], cameraUp[1], cameraUp[2]);
+    }
+}
+//=============================================================================
+void
+GOAxis::setView(double azimuth, double elevation)
+{
+    GOTwoVectorProperty* viewProperty
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    viewProperty->value(azimuth, elevation);
+}
+//=============================================================================
+void
+GOAxis::rotateCamera(
+    double previousMouseX, double currentMouseX, double previousMouseY, double currentMouseY)
+{
+    GOTwoVectorProperty* viewProperty
+        = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    double azimuth = viewProperty->data()[0];
+    double elevation = viewProperty->data()[1];
+
+    azimuth += (previousMouseX - currentMouseX);
+    elevation += (currentMouseY - previousMouseY);
+    setView(azimuth, elevation);
 }
 //=============================================================================
 }

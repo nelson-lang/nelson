@@ -9,39 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
 #include "ArrayOf.hpp"
-#include "GOGenericProperty.hpp"
-#include "nlsGraphics_exports.h"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOVectorProperty : public GOGenericProperty
-{
-private:
-    bool _finiteOnly = false;
-
-protected:
-    std::vector<double> _data;
-
-public:
-    GOVectorProperty() = default;
-    GOVectorProperty(bool finiteOnly);
-    ~GOVectorProperty() override = default;
-    ArrayOf
-    get() override;
-    void set(ArrayOf) override;
-    double&
-    operator[](int ndx);
-    double&
-    at(int ndx);
-    std::vector<double>
-    data();
-    void
-    data(const std::vector<double>& m);
-    std::wstring
-    toWideString() override;
-};
+ArrayOfVector
+__view__Builtin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-};
+}
 //=============================================================================
