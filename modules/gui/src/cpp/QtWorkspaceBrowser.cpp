@@ -246,37 +246,38 @@ QtWorkspaceBrowser::updateVariables()
         bool isPersistent = m_context->isVariablePersistent(wstring_to_utf8(variablesList[i]));
         bool isGlobal = m_context->isVariableGlobal(wstring_to_utf8(variablesList[i]));
         ArrayOf* variable = m_context->lookupVariable(wstring_to_utf8(variablesList[i]));
+        if (variable) {
+            QString variableName(wstringToQString(variablesList[i]));
+            std::wstring variableClassname = ClassToStringW(variable->getDataClass());
+            if (variable->getDataClass() == NLS_HANDLE) {
+                variableClassname = utf8_to_wstring(variable->getHandleCategory());
+            }
+            if (variable->getDataClass() == NLS_CLASS_ARRAY) {
+                variableClassname = utf8_to_wstring(variable->getClassType());
+            }
 
-        QString variableName(wstringToQString(variablesList[i]));
-        std::wstring variableClassname = ClassToStringW(variable->getDataClass());
-        if (variable->getDataClass() == NLS_HANDLE) {
-            variableClassname = utf8_to_wstring(variable->getHandleCategory());
-        }
-        if (variable->getDataClass() == NLS_CLASS_ARRAY) {
-            variableClassname = utf8_to_wstring(variable->getClassType());
-        }
+            QString value(getVariableAsQString(variable));
+            QString complexStr = variable->isComplex() ? QString("complex") : QString("");
+            QString sparseStr = variable->isSparse() ? QString(NLS_SPARSE_STR) : QString("");
+            QString subTypeStr = sparseStr + " " + complexStr;
+            if (!complexStr.isEmpty() && !sparseStr.isEmpty()) {
+                subTypeStr = sparseStr + " " + complexStr;
+            } else {
+                subTypeStr = complexStr + sparseStr;
+            }
+            QString type(wstringToQString(variableClassname));
+            if (!subTypeStr.isEmpty()) {
+                type = type + " (" + subTypeStr + ")";
+            }
+            QString flags = isGlobal ? TR("global") : "";
+            QString size(wstringToQString(variable->getDimensions().toWideString()));
 
-        QString value(getVariableAsQString(variable));
-        QString complexStr = variable->isComplex() ? QString("complex") : QString("");
-        QString sparseStr = variable->isSparse() ? QString(NLS_SPARSE_STR) : QString("");
-        QString subTypeStr = sparseStr + " " + complexStr;
-        if (!complexStr.isEmpty() && !sparseStr.isEmpty()) {
-            subTypeStr = sparseStr + " " + complexStr;
-        } else {
-            subTypeStr = complexStr + sparseStr;
+            m_tableWidget->setItem(i, 0, new QTableWidgetItem(variableName));
+            m_tableWidget->setItem(i, 1, new QTableWidgetItem(value));
+            m_tableWidget->setItem(i, 2, new QTableWidgetItem(type));
+            m_tableWidget->setItem(i, 3, new QTableWidgetItem(size));
+            m_tableWidget->setItem(i, 4, new QTableWidgetItem(flags));
         }
-        QString type(wstringToQString(variableClassname));
-        if (!subTypeStr.isEmpty()) {
-            type = type + " (" + subTypeStr + ")";
-        }
-        QString flags = isGlobal ? TR("global") : "";
-        QString size(wstringToQString(variable->getDimensions().toWideString()));
-
-        m_tableWidget->setItem(i, 0, new QTableWidgetItem(variableName));
-        m_tableWidget->setItem(i, 1, new QTableWidgetItem(value));
-        m_tableWidget->setItem(i, 2, new QTableWidgetItem(type));
-        m_tableWidget->setItem(i, 3, new QTableWidgetItem(size));
-        m_tableWidget->setItem(i, 4, new QTableWidgetItem(flags));
     }
 }
 //=============================================================================
