@@ -29,8 +29,6 @@ static void
 xyzToAzimuthElevation(double x, double y, double z, double& azimuth, double& elevation)
 {
     double hypotxy = hypot(x, y);
-    // Calculate the distance r
-    double r = hypot(hypotxy, z);
     // Calculate elevation angle
     elevation = atan2(z, hypotxy);
     // Calculate azimuth angle
@@ -101,7 +99,6 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
             } else {
                 Error(_W("Vector [az, el] or [x, y, z] expected."));
             }
-        } else {
         }
     } break;
     case 3: {
