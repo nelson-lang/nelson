@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Recursive completion on Graphic handle, struct, handle , class (properties, methods).
+- Recursive completion on Graphic handle, struct, handle, class (properties, methods).
 - adding links between documents about mex and supported compilers.
 - GitHub CI for macOS Sonoma (Apple Silicon) support.
 - `Export to ...` context menu for console and text editor as pdf.
