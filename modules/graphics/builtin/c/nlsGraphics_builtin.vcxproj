@@ -217,6 +217,7 @@
     <ClCompile Include="..\cpp\__patch__Builtin.cpp" />
     <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
     <ClCompile Include="..\cpp\__text__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__view__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -283,6 +284,7 @@
     <ClInclude Include="..\include\__patch__Builtin.hpp" />
     <ClInclude Include="..\include\__surf__Builtin.hpp" />
     <ClInclude Include="..\include\__text__Builtin.hpp" />
+    <ClInclude Include="..\include\__view__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

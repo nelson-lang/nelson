@@ -14,6 +14,7 @@
 #include "__surf__Builtin.hpp"
 #include "__image__Builtin.hpp"
 #include "__patch__Builtin.hpp"
+#include "__view__Builtin.hpp"
 #include "__hggroup__Builtin.hpp"
 #include "figureBuiltin.hpp"
 #include "graphics_object_displayBuiltin.hpp"
@@ -52,6 +53,7 @@ static const nlsGateway gateway[] = {
     { "__image__", (ptrBuiltin)Nelson::GraphicsGateway::__image__Builtin, -1, 1, CPP_BUILTIN },
     { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN },
     { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN },
+    { "__view__", (ptrBuiltin)Nelson::GraphicsGateway::__view__Builtin, -1, 4, CPP_BUILTIN },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_GO_HANDLE_STR, "display"),
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_displayBuiltin, 0, 2,
