@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
 - `GridAlpha`, `GridColor`, `View` properties for Axes.
+- CTRL+C in help viewer, copy selected text.
 
 ### Changed
 
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Template to create a function with file browser was wrong.
 - Do not allow to select multiple variable in workspace browser.
 - file browser checks if files with the extension ".m" have a valid name before enable 'run' context menu.
+- paste in editor with multiple tab.
 
 ## 1.1.0 (2024-01-29)
 

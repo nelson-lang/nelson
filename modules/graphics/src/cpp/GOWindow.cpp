@@ -942,11 +942,8 @@ GOWindow::keyPressEvent(QKeyEvent* event)
         axis->updateState();
     } break;
     case MOUSE_MODE::PAN: {
-        int x = mousePositionOrigin.x();
-        int y = mousePositionOrigin.y();
         double delx = 0.0;
         double dely = 0.0;
-        double delz = 0.0;
 
         if (event->key() == Qt::Key_Left) {
             delx = step;

@@ -334,7 +334,9 @@ void
 QtTextEdit::insertFromMimeData(const QMimeData* source)
 {
     if (source->hasText()) {
-        setPlainText(source->text());
+        QTextCursor cursor(textCursor());
+        cursor.insertText(source->text());
+        setTextCursor(cursor);
     }
 }
 //=============================================================================

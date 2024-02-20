@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtGui/QDesktopServices>
+#include <QtGui/QGuiApplication>
+#include <QtGui/QClipboard>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include "HelpViewer.h"
@@ -84,6 +86,13 @@ HelpViewer::keyPressEvent(QKeyEvent* event)
             setZoomOut();
         } else if (event->key() == Qt::Key_Minus) {
             setZoomIn();
+        }
+        if (event->key() == Qt::Key_C) {
+            QString selectedText = this->textCursor().selectedText();
+            if (!selectedText.isEmpty()) {
+                QClipboard* clipboard = QGuiApplication::clipboard();
+                clipboard->setText(selectedText);
+            }
         }
         event->accept();
         return;

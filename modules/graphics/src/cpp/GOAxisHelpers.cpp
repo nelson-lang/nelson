@@ -12,6 +12,8 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <cmath>
+#include <sstream>
+#include <iomanip>
 #include "GOAxisHelpers.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -39,38 +41,55 @@ split(const std::wstring& str, const std::wstring& token)
 }
 //=============================================================================
 static std::wstring
+stripTrailingZeros(const std::wstring& input)
+{
+    size_t dotPos = input.find_last_of(L'.');
+    if (dotPos == std::wstring::npos) {
+        return input;
+    }
+    size_t lastNonZero = input.find_last_not_of(L'0');
+    size_t length = (lastNonZero == dotPos) ? lastNonZero : lastNonZero + 1;
+    return input.substr(0, length);
+}
+
+static std::wstring
 formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotation)
 {
     if (scientificNotation) {
         std::wstring label = fmt::sprintf(L"%e", val);
         if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
-            std::wstring copyLabel(label);
-            wstringVector elements = split(copyLabel, L"e");
+            wstringVector elements = split(label, L"e");
             if (elements.size() == 2) {
-                std::wstring mantissa = elements[0];
-                size_t dotPtr = mantissa.size() - 1;
-                while (mantissa[dotPtr] != L'.') {
-                    mantissa.erase(dotPtr, 1);
-                    dotPtr--;
-                }
-                mantissa.erase(dotPtr, 1);
-                mantissa += L"0";
-                std::wstring sign = elements[1].substr(0, 1);
-                std::wstring exponent = elements[1].substr(1, elements[1].size() - 1);
-                while (!exponent.empty() && *exponent.begin() == L'0') {
-                    exponent.erase(0, 1);
+                std::wstring& mantissa = elements[0];
+                std::wstring& exponent = elements[1];
+                mantissa = stripTrailingZeros(mantissa);
+                wchar_t sign = L'+';
+                if (!exponent.empty() && (exponent[0] == L'+' || exponent[0] == L'-')) {
+                    sign = exponent[0];
+                    exponent = exponent.substr(1);
                 }
                 if (exponent.empty()) {
                     exponent = L"0";
                 }
-                if (sign == L"-") {
-                    exponent = sign + exponent;
+
+                int expValue = std::stoi(exponent);
+                exponent = std::to_wstring(expValue);
+
+                if (sign == L'-' && expValue != 0) {
+                    exponent = L"-" + exponent;
                 }
+
+                std::wostringstream labelBuilder;
                 if (exponent == L"0") {
-                    label = mantissa;
+                    labelBuilder << L"10^{0}";
                 } else {
-                    label = mantissa + L"^{" + exponent + L"}";
+                    if (mantissa == L"1") {
+                        labelBuilder << L"10^{" << exponent << L"}";
+                    } else {
+                        labelBuilder << mantissa << L"×10^{" << exponent << L"}";
+                    }
                 }
+                label = labelBuilder.str();
             }
         } else {
             size_t ePtr = label.size() - 1;
