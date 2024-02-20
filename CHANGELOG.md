@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change directory with file browser line editor did not work as expected.
 - Template to create a function with file browser was wrong.
 - Do not allow to select multiple variable in workspace browser.
+- file browser checks if files with the extension ".m" have a valid name before enable 'run' context menu.
 
 ## 1.1.0 (2024-01-29)
 

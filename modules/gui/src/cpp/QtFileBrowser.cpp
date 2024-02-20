@@ -15,6 +15,7 @@
 #include "QStringConverter.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include "IsValidVariableName.hpp"
 #include <QtCore/QSettings>
 #include <QtCore/QTextStream>
 #include <QtWidgets/QVBoxLayout>
@@ -295,7 +296,8 @@ QtFileBrowser::contextMenuEvent(QContextMenuEvent* event)
     contextMenu.addAction(editFileAction);
     editFileAction->setEnabled(isFile);
 
-    if (isFile && fileInfo.suffix() == "m") {
+    if (isFile && fileInfo.suffix() == "m"
+        && IsValidVariableName(QStringTowstring(fileInfo.baseName()))) {
         QAction* runFileAction = new QAction(TR("Run"), this);
         connect(runFileAction, &QAction::triggered, this, &QtFileBrowser::runSelectedFile);
         contextMenu.addAction(runFileAction);
