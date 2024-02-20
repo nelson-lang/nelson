@@ -1878,13 +1878,13 @@ GOAxis::updateState()
 
     handlePlotBoxFlags();
 
-    if (hasChanged(GO_VIEW_PROPERTY_NAME_STR)) {
-        GOTwoVectorProperty* viewProperty
-            = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
-        double azimuth = viewProperty->data()[0];
-        double elevation = viewProperty->data()[1];
-        setView(azimuth, elevation);
-    }
+    // if (hasChanged(GO_VIEW_PROPERTY_NAME_STR)) {
+    //     GOTwoVectorProperty* viewProperty
+    //         = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
+    //     double azimuth = viewProperty->data()[0];
+    //     double elevation = viewProperty->data()[1];
+    //     setView(azimuth, elevation);
+    // }
 
     updateCamera();
 
