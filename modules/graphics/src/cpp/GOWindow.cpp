@@ -95,6 +95,8 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     resize(560, 470);
     setMouseTracking(true);
     statusBar()->setVisible(false);
+    mousePositionOrigin.setX(width() / 2);
+    mousePositionOrigin.setY(height() / 2);
     initialized = true;
 }
 //=============================================================================
@@ -642,40 +644,6 @@ GOWindow::mousePressEventHandleZoomOutMode(QMouseEvent* e)
     isZoomOutRunning = false;
 }
 //=============================================================================
-void
-GOWindow::wheelEvent(QWheelEvent* event)
-{
-    double scaleFactor = 1.15;
-
-    if (event->angleDelta().y() >= 0) {
-        scaleFactor = 1.0 / scaleFactor;
-    }
-
-    QPointF mousePos = event->position();
-    int click_x = (int)mousePos.x();
-    int click_y = (int)mousePos.y();
-
-    GOAxis* h = findContainingAxis(goFig, remapX(click_x), remapY(click_y));
-    if (h) {
-        GOVectorProperty* hp = (GOVectorProperty*)h->findProperty(GO_X_LIM_PROPERTY_NAME_STR);
-        double range = (hp->data()[1] - hp->data()[0]) / 2;
-        double mean = (hp->data()[1] + hp->data()[0]) / 2;
-        h->setTwoVectorDefault(
-            GO_X_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-        h->setRestrictedStringDefault(
-            GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-
-        hp = (GOVectorProperty*)h->findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-        range = (hp->data()[1] - hp->data()[0]) / 2;
-        mean = (hp->data()[1] + hp->data()[0]) / 2;
-        h->setTwoVectorDefault(
-            GO_Y_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-        h->setRestrictedStringDefault(
-            GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-        h->updateState();
-    }
-}
-//=============================================================================
 GOAxis*
 GOWindow::findContainingAxis(GOFigure* fig, int x, int y)
 {
@@ -924,6 +892,94 @@ GOWindow::qtGetPosition(QMouseEvent* e, int& x, int& y)
     x = (int)e->x();
     y = (int)e->y();
 #endif
+}
+//=============================================================================
+void
+GOWindow::wheelEvent(QWheelEvent* event)
+{
+    double scaleFactor = 1.15;
+
+    if (event->angleDelta().y() >= 0) {
+        scaleFactor = 1.0 / scaleFactor;
+    }
+
+    QPointF mousePos = event->position();
+    int click_x = (int)mousePos.x();
+    int click_y = (int)mousePos.y();
+
+    GOAxis* axis = findContainingAxis(goFig, remapX(click_x), remapY(click_y));
+    if (axis) {
+        axis->zoom(scaleFactor);
+    }
+}
+//=============================================================================
+void
+GOWindow::keyPressEvent(QKeyEvent* event)
+{
+    event->accept();
+    GOAxis* axis = findContainingAxis(
+        goFig, remapX(mousePositionOrigin.x()), remapY(mousePositionOrigin.y()));
+
+    if (!axis) {
+        return;
+    }
+
+    int step = 4;
+    switch (mouseMode) {
+    case MOUSE_MODE::ROTATION: {
+        QPoint newPoint = mousePositionOrigin;
+        if (event->key() == Qt::Key_Left) {
+            newPoint.setX(newPoint.x() - step);
+        } else if (event->key() == Qt::Key_Right) {
+            newPoint.setX(newPoint.x() + step);
+        } else if (event->key() == Qt::Key_Up) {
+            newPoint.setY(newPoint.y() - step);
+        } else if (event->key() == Qt::Key_Down) {
+            newPoint.setY(newPoint.y() + step);
+        }
+        axis->rotateCamera(
+            mousePositionOrigin.x(), newPoint.x(), mousePositionOrigin.y(), newPoint.y());
+        axis->updateState();
+    } break;
+    case MOUSE_MODE::PAN: {
+        int x = mousePositionOrigin.x();
+        int y = mousePositionOrigin.y();
+        double delx = 0.0;
+        double dely = 0.0;
+        double delz = 0.0;
+
+        if (event->key() == Qt::Key_Left) {
+            delx = step;
+        } else if (event->key() == Qt::Key_Right) {
+            delx = -step;
+        } else if (event->key() == Qt::Key_Up) {
+            dely = -step;
+        } else if (event->key() == Qt::Key_Down) {
+            dely = step;
+        }
+
+        if (delx != 0.0 || dely != 0.0) {
+            axis->pan(delx, dely);
+            axis->updateState();
+        }
+    } break;
+    case MOUSE_MODE::ZOOM_IN:
+    case MOUSE_MODE::ZOOM_OUT: {
+        double scaleFactor = 0.;
+        if (event->key() == Qt::Key_Up) {
+            scaleFactor = 1.0 / 1.15;
+        }
+        if (event->key() == Qt::Key_Down) {
+            scaleFactor = 1.15;
+        }
+        if (scaleFactor != 0.) {
+            axis->zoom(scaleFactor);
+            axis->updateState();
+        }
+    } break;
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 }

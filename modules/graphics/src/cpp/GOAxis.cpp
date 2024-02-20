@@ -1878,14 +1878,6 @@ GOAxis::updateState()
 
     handlePlotBoxFlags();
 
-    // if (hasChanged(GO_VIEW_PROPERTY_NAME_STR)) {
-    //     GOTwoVectorProperty* viewProperty
-    //         = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
-    //     double azimuth = viewProperty->data()[0];
-    //     double elevation = viewProperty->data()[1];
-    //     setView(azimuth, elevation);
-    // }
-
     updateCamera();
 
     GOGObjectsProperty* children
@@ -2379,6 +2371,46 @@ GOAxis::rotateCamera(
     azimuth += (previousMouseX - currentMouseX);
     elevation += (currentMouseY - previousMouseY);
     setView(azimuth, elevation);
+}
+//=============================================================================
+void
+GOAxis::zoom(double scaleFactor)
+{
+    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+    double range = (hp->data()[1] - hp->data()[0]) / 2;
+    double mean = (hp->data()[1] + hp->data()[0]) / 2;
+    setTwoVectorDefault(
+        GO_X_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
+    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+
+    hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+    range = (hp->data()[1] - hp->data()[0]) / 2;
+    mean = (hp->data()[1] + hp->data()[0]) / 2;
+    setTwoVectorDefault(
+        GO_Y_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
+    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    updateState();
+}
+//=============================================================================
+void
+GOAxis::pan(double stepX, double stepY)
+{
+    std::vector<double> xLim = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
+    std::vector<double> yLim = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+
+    std::vector<double> position(getClientAreaAsPixels());
+
+    double delx = stepX * (xLim[1] - xLim[0]) / position[2];
+    double dely = stepY * (yLim[1] - yLim[0]) / position[3];
+
+    // Update the axis limits
+    setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, xLim[0] + delx, xLim[1] + delx);
+    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+
+    setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, yLim[0] + dely, yLim[1] + dely);
+    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+
+    updateState();
 }
 //=============================================================================
 }

@@ -160,6 +160,8 @@ public:
     void
     closeEvent(QCloseEvent* e) override;
     void
+    keyPressEvent(QKeyEvent* event) override;
+    void
     mousePressEvent(QMouseEvent* e) override;
     void
     mouseMoveEvent(QMouseEvent* e) override;

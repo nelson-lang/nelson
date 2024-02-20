@@ -75,6 +75,12 @@ public:
     rotateCamera(
         double previousMouseX, double currentMouseX, double previousMouseY, double currentMouseY);
     //=============================================================================
+    void
+    zoom(double scaleFactor);
+    //=============================================================================
+    void
+    pan(double stepX, double stepY);
+    //=============================================================================
 private:
     //=============================================================================
     std::vector<double> m_box;
