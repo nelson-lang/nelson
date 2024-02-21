@@ -1314,21 +1314,59 @@ public:
     //=========================================================================
     // string array
     //=========================================================================
+    /**
+     * @brief Checks if the array is a string array.
+     * @return true if the array is a string array, false otherwise.
+     */
     [[nodiscard]] bool
     isStringArray() const;
 
+    /**
+     * @brief Checks if the array is an NdArray of strings.
+     * @return true if the array is an NdArray of strings, false otherwise.
+     */
     [[nodiscard]] bool
     isNdArrayString() const;
 
+    /**
+     * @brief Checks if the array is a scalar string array.
+     * @param withMissing Flag indicating whether to consider missing values.
+     * @return true if the array is a scalar string array, false otherwise.
+     */
+    [[nodiscard]] bool
+    isScalarStringArray(bool withMissing = false) const;
+
+    /**
+     * @brief Constructs a string array from a std::string value.
+     * @param value The std::string value to be converted to a string array.
+     * @return An ArrayOf object representing the string array.
+     */
     static ArrayOf
     stringArrayConstructor(const std::string& value);
 
+    /**
+     * @brief Constructs a string array from a std::wstring value.
+     * @param value The std::wstring value to be converted to a string array.
+     * @return An ArrayOf object representing the string array.
+     */
     static ArrayOf
     stringArrayConstructor(const std::wstring& value);
 
+    /**
+     * @brief Constructs a string array from a vector of strings and dimensions.
+     * @param values The vector of strings to be converted to a string array.
+     * @param dims The dimensions of the string array.
+     * @return An ArrayOf object representing the string array.
+     */
     static ArrayOf
     stringArrayConstructor(const stringVector& values, Dimensions& dims);
 
+    /**
+     * @brief Constructs a string array from a vector of wstrings and dimensions.
+     * @param values The vector of wstrings to be converted to a string array.
+     * @param dims The dimensions of the string array.
+     * @return An ArrayOf object representing the string array.
+     */
     static ArrayOf
     stringArrayConstructor(const wstringVector& values, Dimensions& dims);
 

@@ -32,6 +32,21 @@ ArrayOf::isStringArray() const
 }
 //=============================================================================
 bool
+ArrayOf::isScalarStringArray(bool withMissing) const
+{
+    if (isScalar() && isStringArray()) {
+        if (!withMissing) {
+            ArrayOf* ptr = (ArrayOf*)getDataPointer();
+            if (ptr && ptr->isDoubleClass()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+bool
 ArrayOf::isNdArrayString() const
 {
     if (dp) {

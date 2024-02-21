@@ -7518,7 +7518,6 @@ msgstr ""
 "Trois arguments d'entrée sont attendus pour retourner trois arguments de "
 "sortie."
 
-
 msgid "File Browser"
 msgstr "Explorateur de fichiers"
 
@@ -7759,3 +7758,95 @@ msgstr "&Aide sur les Graphiques"
 
 msgid "Graphics tools"
 msgstr "Outils de Graphiques"
+
+msgid "Axes graphic object expected."
+msgstr "Objet graphique de type axes attendu."
+
+msgid "Single scalar argument must be 2 or 3."
+msgstr "L'argument scalaire unique doit être de 2 ou 3."
+
+msgid "Vector [az, el] or [x, y, z] expected."
+msgstr "Vecteur [az, el] ou [x, y, z] attendu."
+
+#, c-format
+msgid "Value is out of range %f <= value <= %f."
+msgstr "La valeur est hors de la plage %f <= valeur <= %f."
+
+msgid "Value should be an positive integer value > 0."
+msgstr "La valeur doit être une valeur entière positive > 0."
+
+msgid "&Print"
+msgstr "&Imprimer"
+
+msgid "&Export to ..."
+msgstr "&Exporter vers ..."
+
+msgid "&Window"
+msgstr "&Fenêtre"
+
+msgid "&Command Window"
+msgstr "&Fenêtre de commande"
+
+msgid "&Editor"
+msgstr "&Éditeur"
+
+msgid "Export Image to ..."
+msgstr "Exporter l'image vers ..."
+
+msgid "PNG File (*.png);;JPG File (*.jpg);;SVG File (*.svg);;PDF File (*.pdf)"
+msgstr "Fichier PNG (*.png);;Fichier JPG (*.jpg);;Fichier SVG (*.svg);;Fichier PDF (*.pdf)"
+
+msgid "&Check for updates"
+msgstr "&Vérifier les mises à jour"
+
+msgid "Check for updates"
+msgstr "Vérifier les mises à jour"
+
+msgid "Export selected text to ..."
+msgstr "Exporter le texte sélectionné vers ..."
+
+msgid "Export console text to ..."
+msgstr "Exporter le texte de la console vers ..."
+
+msgid "PDF Files (*.pdf);;HTML Files (*.html)"
+msgstr "Fichiers PDF (*.pdf);;Fichiers HTML (*.html)"
+
+msgid "Export to ..."
+msgstr "Exporter vers ..."
+
+msgid "Export to PDF ..."
+msgstr "Exporter vers PDF ..."
+
+msgid "PDF Files (*.pdf)"
+msgstr "Fichiers PDF (*.pdf)"
+
+msgid "Ts must be finite positive scalar."
+msgstr "Ts doit être un scalaire positif fini."
+
+msgid "msvc compiler detected and configured."
+msgstr "Le compilateur msvc a été détecté et configuré."
+
+msgid "Wrong number of input arguments. Inputs must be name-value pairs."
+msgstr "Nombre incorrect d'arguments d'entrée. Les entrées doivent être des paires nom-valeur."
+
+#, python-format
+msgid "Unexpected input name: '%s'."
+msgstr "Nom d'entrée inattendu : '%s'."
+
+msgid "Would you like to open your web browser to access the download page?"
+msgstr "Souhaitez-vous ouvrir votre navigateur Web pour accéder à la page de téléchargement ?"
+
+msgid "Update Available"
+msgstr "Mise à jour disponible"
+
+msgid "Check Update"
+msgstr "Vérifier la mise à jour"
+
+msgid "Current version is up-to-date."
+msgstr "La version actuelle est à jour."
+
+msgid "A new version is available:"
+msgstr "Une nouvelle version est disponible :"
+
+msgid "Please check url or your internet connection."
+msgstr "Veuillez vérifier l'URL ou votre connexion Internet."

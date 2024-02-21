@@ -44,7 +44,8 @@ private slots:
     website();
     void
     bugAndRequest();
-
+    void
+    checkUpdate();
     void
     cutText();
     void
@@ -132,6 +133,7 @@ private:
     QAction* helpAction;
     QAction* webAction;
     QAction* bugAction;
+    QAction* checkUpdateAction;
 
     QAction* aboutAction;
 

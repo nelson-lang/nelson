@@ -17,6 +17,9 @@
 #include "HandleManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PredefinedErrorMessages.hpp"
+#ifdef _MSC_VER
+#include "ForceWindowsTitleBarToDark.hpp"
+#endif
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,6 +60,9 @@ MessageBox(const std::wstring& message, const std::wstring& title, const std::ws
     QMessageBox* msgBox = nullptr;
     try {
         msgBox = new QMessageBox(nullptr);
+#ifdef _MSC_VER
+        forceWindowsTitleBarToDark(msgBox->winId());
+#endif
     } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }

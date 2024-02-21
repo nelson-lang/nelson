@@ -66,6 +66,8 @@ protected:
     closeEvent(QCloseEvent*);
 public slots:
     void
+    addCommand(const QStringList& lines);
+    void
     addCommand(const QString& text);
     void
     doubleClicked(QListWidgetItem* item);

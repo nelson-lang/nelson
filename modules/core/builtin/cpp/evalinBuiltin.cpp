@@ -21,7 +21,7 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargincheck(argIn, 2, 2);
     SCOPE_LEVEL scope = SCOPE_LEVEL::LOCAL_SCOPE;
     std::wstring command;
-    if (argIn[0].isRowVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         std::wstring scopeName = argIn[0].getContentAsWideString();
         if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local") {
             if (scopeName == L"caller") {
@@ -39,7 +39,7 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     } else {
         Error(_W("#1 string expected."));
     }
-    if (argIn[1].isRowVectorCharacterArray()) {
+    if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
         command = argIn[1].getContentAsWideString();
     } else {
         Error(_W("#2 string expected."));
