@@ -799,6 +799,8 @@ QtTextEditor::closeTab(int indexTab)
 void
 QtTextEditor::tabChanged(int indexTab)
 {
+    disconnect(cutAction, SIGNAL(triggered()), nullptr, nullptr);
+    disconnect(pasteAction, SIGNAL(triggered()), nullptr, nullptr);
     disconnect(copyAction, SIGNAL(triggered()), nullptr, nullptr);
     connect(cutAction, SIGNAL(triggered()), currentEditor(), SLOT(cut()));
     connect(copyAction, SIGNAL(triggered()), currentEditor(), SLOT(copy()));
