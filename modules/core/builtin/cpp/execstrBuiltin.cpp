@@ -27,13 +27,14 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
     std::wstring line;
-    if (argIn[0].isRowVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
         line = argIn[0].getContentAsWideString();
     } else {
         Error(_W("#1 string expected."));
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isRowVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()
+            || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
             if ((catchstr == L"errcatch") || (catchstr == L"nocatch")) {

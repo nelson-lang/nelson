@@ -39,7 +39,9 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (option == L"-date") {
+        if (option == L"-semantic") {
+            retval << ArrayOf::characterArrayConstructor(NELSON_SEMANTIC_VERSION_STRING);
+        } else if (option == L"-date") {
             retval << ArrayOf::characterArrayConstructor(
                 std::string(__DATE__) + " " + std::string(__TIME__));
         } else if (option == L"-description") {

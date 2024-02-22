@@ -26,6 +26,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\@weboptions\*.m; DestDir: {a
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.json; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

@@ -25,6 +25,8 @@ target_include_directories(
 target_include_directories(
   ${module_library_name}
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 
 target_link_libraries(${module_library_name} nlsCharacters_encoding)

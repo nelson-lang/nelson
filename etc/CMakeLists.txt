@@ -15,6 +15,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.m
         DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/languages.conf
         DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
+install(FILES ${CMAKE_SOURCE_DIR}/etc/defaults.conf
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/startup.m
         DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/etc)
 # ==============================================================================

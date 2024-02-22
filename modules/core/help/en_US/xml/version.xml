@@ -31,6 +31,11 @@
 		</param_input_item>
 
 		<param_input_item>
+			<param_name>'-semantic'</param_name>
+			<param_description>a string to get semantic version</param_description>
+		</param_input_item>
+
+		<param_input_item>
 			<param_name>'-release'</param_name>
 			<param_description>a string to get release number</param_description>
 		</param_input_item>
@@ -131,11 +136,16 @@
 		</example_item_data>
 	</example_item>
 
+<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description />
+		<example_item_data><![CDATA[ver_version_vector] = version('-semantic')]]>
+		</example_item_data>
+	</example_item>
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description />
-		<example_item_data
-      ><![CDATA[[ver_major, ver_minor, ver_maintenance, ver_build] = version('-number')]]>
+		<example_item_data><![CDATA[ver_version_vector = version('-number')]]>
 		</example_item_data>
 	</example_item>
 
@@ -166,6 +176,11 @@
 			<history_version>1.0.0</history_version>
 			<history_description>initial version</history_description>
 		</history_item>
+		<history_item>
+			<history_version>1.2.0</history_version>
+			<history_description>`-semantic` option added.</history_description>
+		</history_item>
+
 	</history>
 
 	<authors>

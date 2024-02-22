@@ -10,27 +10,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Recursive completion on Graphic handle, struct, handle, class (properties, methods).
-- adding links between documents about mex and supported compilers.
+- Adding links between documents about mex and supported compilers.
 - GitHub CI for macOS Sonoma (Apple Silicon) support.
 - `Export to ...` context menu for console and text editor as pdf.
 - `CTRL + Mouse wheel` or `CTRL + +/-` to zoom in/out on console, editor, help.
-- toolbar for figure with print, zoom in, zoom out, rotation, pan, restore axes.
+- Toolbar for figure with print, zoom in, zoom out, rotation, pan, restore axes.
 - `MenuBar`, `ToolBar` figure properties.
 - Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.
 - `GridAlpha`, `GridColor`, `View` properties for Axes.
 - CTRL+C in help viewer, copy selected text.
+- `checkupdate` function and check update menu.
+- `isScalarStringArray` iinternal API C++ method.
 
 ### Changed
 
 - Clicking on an axis automatically sets it as the current axes object.
 - Clicking on an figure automatically sets it as the current figure object.
 - `saveas` exports the figure as a PDF page with centered alignment.
-- default color of grid for axes.
-- default figure size updated.
-- default `MarkerFaceColor` value for compatibility.
+- Default color of grid for axes.
+- Default figure size updated.
+- Default `MarkerFaceColor` value for compatibility.
 - view function returns azimuth and elevation values.
-- camera view reworked.
+- Camera view reworked.
 - Minimal screen resolution supported 800x600.
 
 ### Fixed
@@ -38,8 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change directory with file browser line editor did not work as expected.
 - Template to create a function with file browser was wrong.
 - Do not allow to select multiple variable in workspace browser.
-- file browser checks if files with the extension ".m" have a valid name before enable 'run' context menu.
-- paste in editor with multiple tab.
+- File browser checks if files with the extension ".m" have a valid name before enable 'run' context menu.
+- Paste in editor with multiple tab.
+- Starting the Nelson desktop was taking longer than necessary.
 
 ## 1.1.0 (2024-01-29)
 

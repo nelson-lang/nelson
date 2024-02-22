@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtCore/QtGlobal>
 #include <QtCore/QMimeData>
 #include <QtCore/QSettings>
+#include <QtCore/QtGlobal>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDesktopServices>
@@ -17,6 +17,7 @@
 #include <QtGui/QAction>
 #else
 #include <QtWidgets/QAction>
+#include <QtWidgets/QDesktopWidget>
 #endif
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
@@ -44,6 +45,7 @@
 #include "HistoryBrowser.hpp"
 #include "FileBrowser.hpp"
 #include "WorkspaceBrowser.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -250,21 +252,35 @@ QtMainWindow::about()
     std::string version
         = std::string(NELSON_PRODUCT_NAME) + " " + std::string(NELSON_VERSION_STRING);
     std::string aboutText = version + "\n" + "Copyright 2016-present Allan CORNET";
-    QMessageBox::about(this, _("About Nelson...").c_str(), aboutText.c_str());
+    try {
+        QMessageBox* msgBox = new QMessageBox(this);
+#ifdef _MSC_VER
+        forceWindowsTitleBarToDark(msgBox->winId());
+#endif
+        msgBox->about(this, _("About Nelson...").c_str(), aboutText.c_str());
+        delete msgBox;
+    } catch (std::bad_alloc&) {
+    }
 }
 //=============================================================================
 void
 QtMainWindow::website()
 {
-    QString link = "https://nelson-lang.github.io/nelson-website/";
+    QString link = wstringToQString(NelsonConfiguration::getInstance()->getWebsiteUrl());
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
 void
 QtMainWindow::bugAndRequest()
 {
-    QString link = "https://github.com/nelson-lang/nelson/issues";
+    QString link = wstringToQString(NelsonConfiguration::getInstance()->getBugTrackerUrl());
     QDesktopServices::openUrl(QUrl(link));
+}
+//=============================================================================
+void
+QtMainWindow::checkUpdate()
+{
+    postCommand(L"checkupdate()");
 }
 //=============================================================================
 void
@@ -612,6 +628,16 @@ QtMainWindow::createMenus()
     bugAction->setStatusTip(TR("Bugs and Requests"));
     connect(bugAction, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
     helpMenu->addAction(bugAction);
+
+#ifdef WITH_WEBTOOLS_MODULE
+    // check update
+    fileNameIcon = nelsonPath + QString("/resources/system-software-update.svg");
+    checkUpdateAction = new QAction(QIcon(fileNameIcon), TR("&Check for updates"), this);
+    checkUpdateAction->setStatusTip(TR("Check for updates"));
+    connect(checkUpdateAction, SIGNAL(triggered()), this, SLOT(checkUpdate()));
+    helpMenu->addAction(checkUpdateAction);
+#endif
+
     // about
     fileNameIcon = nelsonPath + QString("/resources/information-icon.svg");
     aboutAction = new QAction(QIcon(fileNameIcon), TR("&About"), this);
