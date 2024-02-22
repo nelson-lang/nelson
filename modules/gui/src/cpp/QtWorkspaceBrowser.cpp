@@ -437,6 +437,10 @@ QString
 QtWorkspaceBrowser::handleStringArray(const ArrayOf* variable) const
 {
     if (variable->isScalar()) {
+        ArrayOf* ptr = (ArrayOf*)variable->getDataPointer();
+        if (ptr && ptr->isDoubleClass()) {
+            return wstringToQString(L"<missing>");
+        }
         return wstringToQString(L"\"" + variable->getContentAsWideString() + L"\"");
     } else {
         return handleDefaultCase(variable);

@@ -215,6 +215,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\commons\src\include\nlsBuildConfig.h</Outputs>
     </CustomBuild>
+    <None Include="..\include\Nelson_VERSION.h.in" />
     <None Include="..\include\nlsBuildConfig.h.in" />
   </ItemGroup>
   <ItemGroup>

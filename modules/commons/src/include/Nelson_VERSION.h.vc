@@ -11,7 +11,7 @@
 #pragma once
 
 #define NELSON_PRODUCT_NAME "Nelson"
-#define NELSON_RELEASE_NAME "Freedom"
+#define NELSON_RELEASE_NAME "Fortitude"
 #define NELSON_VERSION_MAJOR 1
 #define NELSON_VERSION_MINOR 1
 #define NELSON_VERSION_MAINTENANCE 0

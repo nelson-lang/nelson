@@ -1258,6 +1258,15 @@ msgid ""
 "vectors or a string array expected."
 msgstr ""
 
+msgid "Axes graphic object expected."
+msgstr ""
+
+msgid "Single scalar argument must be 2 or 3."
+msgstr ""
+
+msgid "Vector [az, el] or [x, y, z] expected."
+msgstr ""
+
 msgid "Size mismatch on arguments to arithmetic operator"
 msgstr ""
 
@@ -1314,13 +1323,29 @@ msgstr ""
 msgid "Illegal selection for property."
 msgstr ""
 
+msgid "Scalar value expected."
+msgstr ""
+
+#, c-format
+msgid "Value is out of range %f <= value <= %f."
+msgstr ""
+
 msgid "Value should be an positive integer value > 0."
+msgstr ""
+
+msgid "Finite value expected."
 msgstr ""
 
 msgid "&Close"
 msgstr ""
 
 msgid "&New Figure"
+msgstr ""
+
+msgid "&Print"
+msgstr ""
+
+msgid "&Export to ..."
 msgstr ""
 
 msgid "&Rotate"
@@ -1341,7 +1366,28 @@ msgstr ""
 msgid "&Graphics help"
 msgstr ""
 
+msgid "&File"
+msgstr ""
+
+msgid "&Window"
+msgstr ""
+
 msgid "Graphics tools"
+msgstr ""
+
+msgid "&Command Window"
+msgstr ""
+
+msgid "&Help"
+msgstr ""
+
+msgid "&Editor"
+msgstr ""
+
+msgid "Export Image to ..."
+msgstr ""
+
+msgid "PNG File (*.png);;JPG File (*.jpg);;SVG File (*.svg);;PDF File (*.pdf)"
 msgstr ""
 
 #, c-format
@@ -1546,9 +1592,6 @@ msgstr ""
 msgid "Text editor"
 msgstr ""
 
-msgid "&File"
-msgstr ""
-
 msgid "&Execute..."
 msgstr ""
 
@@ -1660,9 +1703,6 @@ msgstr ""
 msgid "Workspace browser"
 msgstr ""
 
-msgid "&Help"
-msgstr ""
-
 msgid "&Documentation"
 msgstr ""
 
@@ -1681,6 +1721,12 @@ msgstr ""
 msgid "Bugs and Requests"
 msgstr ""
 
+msgid "&Check for updates"
+msgstr ""
+
+msgid "Check for updates"
+msgstr ""
+
 msgid "&About"
 msgstr ""
 
@@ -1691,6 +1737,15 @@ msgid "Close confirmation"
 msgstr ""
 
 msgid "Are you sure to quit?"
+msgstr ""
+
+msgid "Export selected text to ..."
+msgstr ""
+
+msgid "Export console text to ..."
+msgstr ""
+
+msgid "PDF Files (*.pdf);;HTML Files (*.html)"
 msgstr ""
 
 msgid "Help on Selection"
@@ -1709,6 +1764,9 @@ msgid "Select All"
 msgstr ""
 
 msgid "Ctrl + A"
+msgstr ""
+
+msgid "Export to ..."
 msgstr ""
 
 msgid "Clear Command Window"
@@ -1763,9 +1821,6 @@ msgid "handle expected."
 msgstr ""
 
 msgid "Handles being catenated have incompatible classes."
-msgstr ""
-
-msgid "Scalar value expected."
 msgstr ""
 
 msgid "Unsupported value type."
@@ -4049,6 +4104,9 @@ msgstr ""
 msgid "Evaluate selection"
 msgstr ""
 
+msgid "Export to PDF ..."
+msgstr ""
+
 msgid "Ready"
 msgstr ""
 
@@ -4095,6 +4153,9 @@ msgid "All files"
 msgstr ""
 
 msgid "Open file ..."
+msgstr ""
+
+msgid "PDF Files (*.pdf)"
 msgstr ""
 
 msgid "Go To Line ..."
@@ -6735,6 +6796,31 @@ msgstr ""
 
 #, python-format
 msgid "%s is not a recognized parameter."
+msgstr ""
+
+msgid "Wrong number of input arguments. Inputs must be name-value pairs."
+msgstr ""
+
+#, python-format
+msgid "Unexpected input name: '%s'."
+msgstr ""
+
+msgid "Would you like to open your web browser to access the download page?"
+msgstr ""
+
+msgid "Update Available"
+msgstr ""
+
+msgid "Check Update"
+msgstr ""
+
+msgid "Current version is up-to-date."
+msgstr ""
+
+msgid "A new version is available:"
+msgstr ""
+
+msgid "Please check url or your internet connection."
 msgstr ""
 
 msgid "weboptions must be last argument."

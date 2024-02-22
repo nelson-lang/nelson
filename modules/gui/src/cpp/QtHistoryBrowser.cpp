@@ -111,26 +111,36 @@ splitOnCarriageReturnAndRemoveIt(const QString& t)
 }
 //=============================================================================
 void
+QtHistoryBrowser::addCommand(const QStringList& lines)
+{
+    m_listWidget->clearSelection();
+    if (lines.isEmpty()) {
+        return;
+    }
+    QString previous;
+    QColor color(37, 150, 190);
+    QBrush brush(color);
+    for (const QString& line : lines) {
+        if (line == previous) {
+            continue;
+        }
+        previous = line;
+        QListWidgetItem* item = new QListWidgetItem(line, m_listWidget);
+        if (line.startsWith("%% --") && line.endsWith("-- %%")) {
+            item->setForeground(brush);
+        }
+        m_listWidget->addItem(item);
+    }
+    m_listWidget->setCurrentRow(m_listWidget->count() - 1);
+    m_listWidget->scrollToBottom();
+}
+//=============================================================================
+void
 QtHistoryBrowser::addCommand(const QString& text)
 {
     m_listWidget->clearSelection();
     QStringList lines = splitOnCarriageReturnAndRemoveIt(text);
-    for (auto line : lines) {
-        if ((m_listWidget->count() > 0)
-            && (line == m_listWidget->item(m_listWidget->count() - 1)->text())) {
-            return;
-        }
-        if (line.startsWith("%% --") && line.endsWith("-- %%")) {
-            QColor color(37, 150, 190);
-            QBrush brush(color);
-            auto item = new QListWidgetItem(line, m_listWidget);
-            item->setForeground(brush);
-        } else {
-            new QListWidgetItem(line, m_listWidget);
-        }
-    }
-    m_listWidget->setCurrentRow(m_listWidget->count() - 1);
-    m_listWidget->scrollToBottom();
+    addCommand(lines);
 }
 //=============================================================================
 void
@@ -235,9 +245,12 @@ QtHistoryBrowser::synchronizeHistoryManager(SYNC_DIRECTION direction)
         case SYNC_HM_TO_HB: {
             m_listWidget->clear();
             Nelson::wstringVector lines = hist->get();
+            QStringList content;
+            content.reserve(lines.size());
             for (auto line : lines) {
-                this->addCommand(Nelson::wstringToQString(line));
+                content.push_back(Nelson::wstringToQString(line));
             }
+            this->addCommand(content);
             return true;
         } break;
         default: {

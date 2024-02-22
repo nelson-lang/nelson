@@ -7,9 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fstream>
+#include <nlohmann/json.hpp>
 #include <new>
 #include "NelsonConfiguration.hpp"
 #include "NelSon_engine_mode.h"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -372,6 +375,56 @@ NelsonConfiguration::setCurrentAxesOnClick(bool on)
     currentAxesOnClick = on;
 }
 //=============================================================================
-
+std::wstring
+NelsonConfiguration::getDefaultFromConfFile(const std::wstring& name)
+{
+    std::wstring defaultsFile = getNelsonRootDirectory() + L"/etc/defaults.conf";
+#ifdef _MSC_VER
+    std::ifstream jsonFile(defaultsFile);
+#else
+    std::ifstream jsonFile(wstring_to_utf8(defaultsFile));
+#endif
+    std::wstring valueReturned;
+    if (jsonFile.is_open()) {
+        nlohmann::json data;
+        try {
+            data = nlohmann::json::parse(jsonFile);
+            std::string _value = data[wstring_to_utf8(name)];
+            valueReturned = utf8_to_wstring(_value);
+        } catch (const nlohmann::json::exception&) {
+            valueReturned.clear();
+        }
+        jsonFile.close();
+    }
+    return valueReturned;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getUpdateUrl()
+{
+    if (updateUrl.empty()) {
+        updateUrl = getDefaultFromConfFile(L"update_url");
+    }
+    return updateUrl;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getWebsiteUrl()
+{
+    if (websiteUrl.empty()) {
+        websiteUrl = getDefaultFromConfFile(L"website_url");
+    }
+    return websiteUrl;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getBugTrackerUrl()
+{
+    if (bugTrackerUrl.empty()) {
+        bugTrackerUrl = getDefaultFromConfFile(L"issues_url");
+    }
+    return bugTrackerUrl;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Include="..\..\module.iss" />
     <None Include="..\include\nlsBuildConfig.h.in" />
+    <None Include="..\include\Nelson_VERSION.h.in" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
