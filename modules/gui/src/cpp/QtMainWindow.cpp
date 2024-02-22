@@ -156,8 +156,26 @@ QtMainWindow::QtMainWindow(bool minimized)
     createMenus();
     createToolbars();
     setWindowTitle(TR("Nelson"));
-    setMinimumSize(640, 480);
-    resize(840, 600);
+#define WIDTH_MIN 800
+#define HEIGHT_MIN 600
+    setMinimumSize(WIDTH_MIN, HEIGHT_MIN);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QRect desktopRect = QGuiApplication::primaryScreen()->geometry();
+#else
+    QRect desktopRect = QApplication::desktop()->availableGeometry(this);
+#endif
+    QPoint center = desktopRect.center();
+    int widthCentered = desktopRect.width() * .66;
+    int heightCentered = desktopRect.height() * .66;
+    if (widthCentered < WIDTH_MIN) {
+        widthCentered = WIDTH_MIN;
+    }
+    if (heightCentered < WIDTH_MIN) {
+        heightCentered = HEIGHT_MIN;
+    }
+    setGeometry(0, 0, widthCentered, heightCentered);
+    move(center.x() - width() / 2, center.y() - height() / 2);
+
     // https://bugreports.qt.io/browse/QTBUG-76354
     if (minimized) {
         showMinimized();

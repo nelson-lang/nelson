@@ -97,6 +97,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     statusBar()->setVisible(false);
     mousePositionOrigin.setX(width() / 2);
     mousePositionOrigin.setY(height() / 2);
+    zoomInRubberBand = nullptr;
     initialized = true;
 }
 //=============================================================================

@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default `MarkerFaceColor` value for compatibility.
 - view function returns azimuth and elevation values.
 - camera view reworked.
+- Minimal screen resolution supported 800x600.
 
 ### Fixed
 
