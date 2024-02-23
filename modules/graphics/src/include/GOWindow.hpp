@@ -76,7 +76,7 @@ private:
     //=============================================================================
     QPoint mousePositionOrigin;
     //=============================================================================
-    QRubberBand* zoomInRubberBand;
+    QRubberBand* zoomInRubberBand = nullptr;
     //=============================================================================
     bool isPanRunning = false;
     double panXRange;
