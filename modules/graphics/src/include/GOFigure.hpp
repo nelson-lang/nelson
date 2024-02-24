@@ -66,6 +66,9 @@ public:
 
     void
     refreshPositionProperty();
+
+    GOWindow*
+    getGOWindow();
 };
 //=============================================================================
 }

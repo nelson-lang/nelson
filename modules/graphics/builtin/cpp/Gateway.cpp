@@ -16,6 +16,9 @@
 #include "__patch__Builtin.hpp"
 #include "__view__Builtin.hpp"
 #include "__hggroup__Builtin.hpp"
+#include "__zoom__Builtin.hpp"
+#include "__pan__Builtin.hpp"
+#include "__rotate3d__Builtin.hpp"
 #include "figureBuiltin.hpp"
 #include "graphics_object_displayBuiltin.hpp"
 #include "graphics_object_setBuiltin.hpp"
@@ -54,6 +57,10 @@ static const nlsGateway gateway[] = {
     { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN },
     { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN },
     { "__view__", (ptrBuiltin)Nelson::GraphicsGateway::__view__Builtin, -1, 4, CPP_BUILTIN },
+    { "__zoom__", (ptrBuiltin)Nelson::GraphicsGateway::__zoom__Builtin, -1, 2, CPP_BUILTIN },
+    { "__pan__", (ptrBuiltin)Nelson::GraphicsGateway::__pan__Builtin, -1, 2, CPP_BUILTIN },
+    { "__rotate3d__", (ptrBuiltin)Nelson::GraphicsGateway::__rotate3d__Builtin, -1, 2,
+        CPP_BUILTIN },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_GO_HANDLE_STR, "display"),
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_displayBuiltin, 0, 2,
@@ -108,7 +115,6 @@ static const nlsGateway gateway[] = {
     { "validatecolor", (ptrBuiltin)Nelson::GraphicsGateway::validatecolorBuiltin, 1, 2,
         CPP_BUILTIN },
     { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
-
 };
 //=============================================================================
 static bool

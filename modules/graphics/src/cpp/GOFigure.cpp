@@ -38,6 +38,12 @@ GOFigure::GOFigure(GOWindow* win, int number)
     setScalarDoubleDefault(GO_NUMBER_PROPERTY_NAME_STR, (double)number);
 }
 //=============================================================================
+GOWindow*
+GOFigure::getGOWindow()
+{
+    return m_win;
+}
+//=============================================================================
 void
 GOFigure::registerProperties()
 {

@@ -177,6 +177,13 @@ GOAxis::constructProperties()
 //=============================================================================
 GOAxis::GOAxis()
 {
+    zoomXOn = true;
+    zoomYOn = true;
+    panXOn = true;
+    panYOn = true;
+    zoomXStore.clear();
+    zoomYStore.clear();
+
     constructProperties();
     setupDefaults();
 }
@@ -2374,43 +2381,135 @@ GOAxis::rotateCamera(
 }
 //=============================================================================
 void
+GOAxis::resetView()
+{
+    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    setRestrictedStringDefault(GO_Z_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    updateState();
+}
+//=============================================================================
+void
 GOAxis::zoom(double scaleFactor)
 {
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
-    double range = (hp->data()[1] - hp->data()[0]) / 2;
-    double mean = (hp->data()[1] + hp->data()[0]) / 2;
-    setTwoVectorDefault(
-        GO_X_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-
-    hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-    range = (hp->data()[1] - hp->data()[0]) / 2;
-    mean = (hp->data()[1] + hp->data()[0]) / 2;
-    setTwoVectorDefault(
-        GO_Y_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    if (zoomXOn) {
+        GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+        double range = (hp->data()[1] - hp->data()[0]) / 2;
+        double mean = (hp->data()[1] + hp->data()[0]) / 2;
+        setTwoVectorDefault(
+            GO_X_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
+        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
+    if (zoomYOn) {
+        GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        double range = (hp->data()[1] - hp->data()[0]) / 2;
+        double mean = (hp->data()[1] + hp->data()[0]) / 2;
+        setTwoVectorDefault(
+            GO_Y_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
+        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
     updateState();
 }
 //=============================================================================
 void
 GOAxis::pan(double stepX, double stepY)
 {
-    std::vector<double> xLim = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
-    std::vector<double> yLim = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-
     std::vector<double> position(getClientAreaAsPixels());
-
-    double delx = stepX * (xLim[1] - xLim[0]) / position[2];
-    double dely = stepY * (yLim[1] - yLim[0]) / position[3];
-
     // Update the axis limits
-    setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, xLim[0] + delx, xLim[1] + delx);
-    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-
-    setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, yLim[0] + dely, yLim[1] + dely);
-    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-
+    if (panXOn) {
+        std::vector<double> xLim = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
+        double delx = stepX * (xLim[1] - xLim[0]) / position[2];
+        setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, xLim[0] + delx, xLim[1] + delx);
+        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
+    if (panYOn) {
+        std::vector<double> yLim = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        double dely = stepY * (yLim[1] - yLim[0]) / position[3];
+        setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, yLim[0] + dely, yLim[1] + dely);
+        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
+    if (panXOn || panYOn) {
+        updateState();
+    };
+}
+//=============================================================================
+void
+GOAxis::zoomXMode()
+{
+    zoomXOn = true;
+    zoomYOn = false;
+}
+//=============================================================================
+void
+GOAxis::zoomYMode()
+{
+    zoomYOn = true;
+    zoomXOn = false;
+}
+//=============================================================================
+void
+GOAxis::zoomOn()
+{
+    zoomXOn = true;
+    zoomYOn = true;
+}
+//=============================================================================
+void
+GOAxis::zoomOff()
+{
+    zoomXOn = false;
+    zoomYOn = false;
+}
+//=============================================================================
+void
+GOAxis::zoomOut()
+{
+    if (!zoomXStore.empty()) {
+        setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, zoomXStore[0], zoomXStore[1]);
+        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
+    if (!zoomYStore.empty()) {
+        setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, zoomYStore[0], zoomYStore[1]);
+        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
+    }
     updateState();
+}
+//=============================================================================
+void
+GOAxis::zoomReset()
+{
+    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
+    zoomXStore = hp->data();
+    hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+    zoomYStore = hp->data();
+}
+//=============================================================================
+void
+GOAxis::panXMode()
+{
+    panXOn = true;
+    panYOn = false;
+}
+//=============================================================================
+void
+GOAxis::panYMode()
+{
+    panXOn = false;
+    panYOn = true;
+}
+//=============================================================================
+void
+GOAxis::panOn()
+{
+    panXOn = true;
+    panYOn = true;
+}
+//=============================================================================
+void
+GOAxis::panOff()
+{
+    panXOn = false;
+    panYOn = false;
 }
 //=============================================================================
 }
