@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 1.1.0.0
+### Nelson 1.2.0.0
 
 Nelson est un environnement interactif et entièrement fonctionnel pour les applications techniques et scientifiques. Il implémente un langage matriciel (qui est largement compatible avec MATLAB et GNU Octave), avec des fonctionnalités avancées telles que le traçage 2D 3D, la manipulation et la visualisation d'images, une interface sans code vers des bibliothèques externes C/C++/FORTRAN, une interface native prise en charge de divers types C et d'une foule d'autres fonctionnalités.
 Essayez-le !
