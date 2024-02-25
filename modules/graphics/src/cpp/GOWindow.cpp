@@ -864,14 +864,7 @@ GOWindow::onRestoreViewAction()
             GraphicsObject* fp = findGraphicsObject(handlesCurrentAxes[0], false);
             if (fp) {
                 GOAxis* axis = (GOAxis*)fp;
-                axis->setRestrictedStringDefault(
-                    GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-                axis->setRestrictedStringDefault(
-                    GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-                axis->setRestrictedStringDefault(
-                    GO_Z_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-
-                axis->updateState();
+                axis->resetView();
             }
         }
     }
@@ -972,7 +965,6 @@ GOWindow::keyPressEvent(QKeyEvent* event)
         }
         if (scaleFactor != 0.) {
             axis->zoom(scaleFactor);
-            axis->updateState();
         }
     } break;
     default: {
@@ -980,5 +972,9 @@ GOWindow::keyPressEvent(QKeyEvent* event)
     }
 }
 //=============================================================================
+MOUSE_MODE
+GOWindow::getCurrentMouseMode() { return mouseMode; }
+//=============================================================================
+
 }
 //=============================================================================

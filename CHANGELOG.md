@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Export to ...` context menu for console and text editor as pdf.
 - `CTRL + Mouse wheel` or `CTRL + +/-` to zoom in/out on console, editor, help.
 - Toolbar for figure with print, zoom in, zoom out, rotation, pan, restore axes.
+- `zoom `, `pan `, `rotate3d ` functions.
 - `MenuBar`, `ToolBar` figure properties.
 - Window menu on graphic window, list all others available windows.
 - `feature` builtin (undocument features, debug, tests, ...) content can change with next releases.

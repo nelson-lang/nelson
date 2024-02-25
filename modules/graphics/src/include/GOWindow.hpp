@@ -23,6 +23,7 @@
 #include <QtWidgets/QRubberBand>
 #include <QtPrintSupport/QPrinter>
 #include "GOFigure.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,7 +36,7 @@ enum class MOUSE_MODE
     PAN,
 };
 //=============================================================================
-class GOWindow : public QMainWindow
+class NLSGRAPHICS_IMPEXP GOWindow : public QMainWindow
 {
     //=============================================================================
 protected:
@@ -118,6 +119,14 @@ private:
     void
     updateWindowMenuItems();
     //=============================================================================
+public slots:
+    void
+    onZoomInAction();
+    void
+    onPanAction();
+    void
+    onRotateAction();
+
 private slots:
     void
     onNewFigureAction();
@@ -126,19 +135,13 @@ private slots:
     void
     onExportAction();
     void
-    onRotateAction();
-    void
-    onPanAction();
-    void
-    onZoomInAction();
-    void
     onZoomOutAction();
-    void
-    onRestoreViewAction();
     void
     onHelpAction();
     void
     refreshWindowMenuItems();
+    void
+    onRestoreViewAction();
 
 public:
     GOWindow(int64 ahandle);
@@ -178,6 +181,9 @@ public:
     {
         return qtchild;
     }
+
+    MOUSE_MODE
+    getCurrentMouseMode();
 };
 //=============================================================================
 }
