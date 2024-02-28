@@ -21,10 +21,11 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nelson-${CPACK_PACKAGE_VERSION}")
 set(CPACK_PACKAGE_CONTACT "nelson.numerical.computation@gmail.com")
 
 if(UNIX)
-  set(CPACK_GENERATOR "TGZ")
   if(APPLE)
     # later
+    set(CPACK_GENERATOR "TGZ")
   else(APPLE)
+    set(CPACK_GENERATOR "TGZ")
     find_file(DEBIAN_FOUND debian_version debconf.conf PATHS /etc)
     find_file(FEDORA_FOUND fedora-release PATHS /etc)
     find_file(REDHAT_FOUND redhat-release inittab.RH PATHS /etc)

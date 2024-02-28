@@ -9,20 +9,20 @@
 if(PORTAUDIO_FOUND)
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     # workaround for github CI with catalina
-    if(EXISTS "/usr/local/Cellar/portaudio/19.7.0/include")
-      set(PORTAUDIO_INCLUDE_DIRS /usr/local/Cellar/portaudio/19.7.0/include)
-    elseif(EXISTS "/usr/local/Cellar/portaudio/19.6.0/include")
-      set(PORTAUDIO_INCLUDE_DIRS /usr/local/Cellar/portaudio/19.6.0/include)
+    if(EXISTS "$ENV{HOMEBREW_CELLAR}/portaudio/19.7.0/include")
+      set(PORTAUDIO_INCLUDE_DIRS $ENV{HOMEBREW_CELLAR}/portaudio/19.7.0/include)
+    elseif(EXISTS "$ENV{HOMEBREW_CELLAR}/portaudio/19.6.0/include")
+      set(PORTAUDIO_INCLUDE_DIRS $ENV{HOMEBREW_CELLAR}/portaudio/19.6.0/include)
     endif()
 
-    if(EXISTS "/opt/homebrew/lib/libportaudio.dylib")
-      set(PORTAUDIO_LIBRARIES /opt/homebrew/lib/libportaudio.dylib)
-    elseif(EXISTS "/usr/local/Cellar/portaudio/19.7.0/lib/libportaudio.dylib")
+    if(EXISTS "$ENV{HOMEBREW_PREFIX}/lib/libportaudio.dylib")
+      set(PORTAUDIO_LIBRARIES $ENV{HOMEBREW_PREFIX}/lib/libportaudio.dylib)
+    elseif(EXISTS "$ENV{HOMEBREW_CELLAR}/portaudio/19.7.0/lib/libportaudio.dylib")
       set(PORTAUDIO_LIBRARIES
-          /usr/local/Cellar/portaudio/19.7.0/lib/libportaudio.dylib)
-    elseif(EXISTS "/usr/local/Cellar/portaudio/19.6.0/lib/libportaudio.dylib")
+        $ENV{HOMEBREW_CELLAR}/portaudio/19.7.0/lib/libportaudio.dylib)
+    elseif(EXISTS "$ENV{HOMEBREW_CELLAR}/portaudio/19.6.0/lib/libportaudio.dylib")
       set(PORTAUDIO_LIBRARIES
-          /usr/local/Cellar/portaudio/19.6.0/lib/libportaudio.dylib)
+        $ENV{HOMEBREW_CELLAR}/portaudio/19.6.0/lib/libportaudio.dylib)
     endif()
 
     message(STATUS "Found portaudio (MacOs): ${PORTAUDIO_LIBRARIES}")
