@@ -62,9 +62,9 @@ if test -d "/usr/local/opt/qt5/bin"; then
     export PATH=/usr/local/opt/qt5/bin:$PATH
 fi
 #==============================================================================
-if test -d "/opt/homebrew/lib"; then
-    export LD_LIBRARY_PATH="/opt/homebrew/lib:$LD_LIBRARY_PATH"
-    export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+if test -d "$HOMEBREW_PREFIX/lib"; then
+    export LD_LIBRARY_PATH="$HOMEBREW_PREFIX/lib:$LD_LIBRARY_PATH"
+    export DYLD_LIBRARY_PATH="$HOMEBREW_PREFIX/lib:$DYLD_LIBRARY_PATH"
 fi
 #==============================================================================
 export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
