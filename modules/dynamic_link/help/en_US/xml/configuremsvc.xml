@@ -52,7 +52,7 @@
 	<see_also>
 		<see_also_item>
 			<link
-        linkend="${dynamic_link}supported_compilers"
+        linkend="${dynamic_link}2_supported_compilers"
       >Supported C/C++ compilers</link>
 		</see_also_item>
 		<see_also_item>
