@@ -70,6 +70,7 @@
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
     <ClInclude Include="..\include\CloseFigure.hpp" />
     <ClInclude Include="..\include\ColoredPoint.hpp" />
+    <ClInclude Include="..\include\ContourPoint.hpp" />
     <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
     <ClInclude Include="..\include\ExportGraphics.hpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOContour.hpp" />
     <ClInclude Include="..\include\GOGroup.hpp" />
     <ClInclude Include="..\include\GOMenuBarProperty.hpp" />
     <ClInclude Include="..\include\GOPatch.hpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOContour.cpp" />
     <ClCompile Include="..\cpp\GOGroup.cpp" />
     <ClCompile Include="..\cpp\GOMenuBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOPatch.cpp" />

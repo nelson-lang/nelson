@@ -7,8 +7,8 @@
   <short_description>Prepare to produce a new plot.</short_description>
 
   <syntax>
-  <syntax_item>h = newplot()</syntax_item>
-  <syntax_item>h = newplot(ax)</syntax_item>
+  <syntax_item>go = newplot()</syntax_item>
+  <syntax_item>go = newplot(ax)</syntax_item>
   </syntax>
 	
 	<param_input>
