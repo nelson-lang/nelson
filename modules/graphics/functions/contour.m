@@ -52,8 +52,8 @@ function varargout = contour(varargin)
   if (length(inputArguments) == 2)
     if (numel(inputArguments{2}) == 1)
       propertiesList.ZData = inputArguments{1};
-      zMin = min(propertiesList.ZData);
-      zMax = max(propertiesList.ZData);
+      zMin = min(propertiesList.ZData, [], 'all');
+      zMax = max(propertiesList.ZData, [], 'all');
       propertiesList.LevelList = linspace(zMin, zMax, inputArguments{2});
     else
       propertiesList.ZData = inputArguments{1};

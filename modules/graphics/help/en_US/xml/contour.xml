@@ -183,6 +183,9 @@ contour(Z)
 
   <see_also>
     <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${graphics}surf">surf</link>
     </see_also_item>
     <see_also_item>
@@ -192,7 +195,7 @@ contour(Z)
 
   <history>
     <history_item>
-      <history_version>1.0.0</history_version>
+      <history_version>1.3.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>
