@@ -14,6 +14,7 @@
 #include "__surf__Builtin.hpp"
 #include "__image__Builtin.hpp"
 #include "__patch__Builtin.hpp"
+#include "__contour__Builtin.hpp"
 #include "__view__Builtin.hpp"
 #include "__hggroup__Builtin.hpp"
 #include "__zoom__Builtin.hpp"
@@ -55,6 +56,7 @@ static const nlsGateway gateway[] = {
     { "__surf__", (ptrBuiltin)Nelson::GraphicsGateway::__surf__Builtin, -1, 1, CPP_BUILTIN },
     { "__image__", (ptrBuiltin)Nelson::GraphicsGateway::__image__Builtin, -1, 1, CPP_BUILTIN },
     { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN },
+    { "__contour__", (ptrBuiltin)Nelson::GraphicsGateway::__contour__Builtin, -1, 1, CPP_BUILTIN },
     { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN },
     { "__view__", (ptrBuiltin)Nelson::GraphicsGateway::__view__Builtin, -1, 4, CPP_BUILTIN },
     { "__zoom__", (ptrBuiltin)Nelson::GraphicsGateway::__zoom__Builtin, -1, 2, CPP_BUILTIN },
@@ -106,7 +108,6 @@ static const nlsGateway gateway[] = {
     { "gcf", (ptrBuiltin)Nelson::GraphicsGateway::gcfBuiltin, -1, 0, CPP_BUILTIN },
     { "gca", (ptrBuiltin)Nelson::GraphicsGateway::gcaBuiltin, -1, 0, CPP_BUILTIN },
     { "close", (ptrBuiltin)Nelson::GraphicsGateway::closeBuiltin, -1, 0, CPP_BUILTIN },
-    { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
     { "is2D", (ptrBuiltin)Nelson::GraphicsGateway::is2DBuiltin, 1, 1, CPP_BUILTIN },
     { "refresh", (ptrBuiltin)Nelson::GraphicsGateway::refreshBuiltin, 0, 1, CPP_BUILTIN },
     { "drawnow", (ptrBuiltin)Nelson::GraphicsGateway::drawnowBuiltin, 0, 0, CPP_BUILTIN },

@@ -70,6 +70,7 @@ using namespace Nelson;
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
+    completionDisabled = true;
     isFirstPrompt = true;
     qCompleter = nullptr;
     QLocale us(QLocale::English, QLocale::UnitedStates);
@@ -105,6 +106,7 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     clcAction = nullptr;
     stopAction = nullptr;
     contextMenu = nullptr;
+    completionDisabled = false;
     mCommandLineReady = true;
 }
 //=============================================================================
@@ -434,18 +436,22 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
     }
     if (qCompleter) {
         if (qCompleter->popup()->isVisible()) {
-            // The following keys are forwarded by the completer to the widget
-            switch (event->key()) {
-            case Qt::Key_Enter:
-            case Qt::Key_Return:
-            case Qt::Key_Escape:
-            case Qt::Key_Tab:
-            case Qt::Key_Backtab:
-                event->ignore();
-                return; // let the completer do default behavior
-            default:
+            if (completionDisabled) {
                 qCompleter->popup()->hide();
-                break;
+            } else {
+                // The following keys are forwarded by the completer to the widget
+                switch (event->key()) {
+                case Qt::Key_Enter:
+                case Qt::Key_Return:
+                case Qt::Key_Escape:
+                case Qt::Key_Tab:
+                case Qt::Key_Backtab:
+                    event->ignore();
+                    return; // let the completer do default behavior
+                default:
+                    qCompleter->popup()->hide();
+                    break;
+                }
             }
         }
     }
@@ -472,6 +478,10 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
     } else {
         switch (event->key()) {
         case Qt::Key_Tab: {
+            if (completionDisabled) {
+                event->accept();
+                return;
+            }
             if (isInEditionZone()) {
                 bool backup = mCommandLineReady;
                 createCompleter();
@@ -675,8 +685,10 @@ QtTerminal::paste()
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
     }
+    completionDisabled = true;
     QTextBrowser::paste();
     updateHistoryToken();
+    completionDisabled = false;
 }
 //=============================================================================
 void

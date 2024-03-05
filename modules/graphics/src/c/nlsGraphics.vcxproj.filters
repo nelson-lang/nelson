@@ -284,6 +284,12 @@
     <ClInclude Include="..\include\GOMenuBarProperty.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOContour.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ContourPoint.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -521,6 +527,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOMenuBarProperty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOContour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.3.0 (UNRELEASED)
 
+### Added
+
+- `contour` Contour plot of matrix.
+- `contour3` 3-D contour plot.
+
 ### Fixed
 
 - [#1110](http://github.com/nelson-lang/nelson/issues/1110) add help about build and use C/C++ on fly.
+- Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 
 ## 1.2.0 (2024-02-25)
 

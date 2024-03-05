@@ -69,6 +69,8 @@ public:
     hasChanged(const std::wstring& name);
     void
     toManual(const std::wstring& name);
+    void
+    toAuto(const std::wstring& name);
     bool
     isType(const std::wstring& name);
     void

@@ -210,6 +210,7 @@
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
     <ClCompile Include="..\cpp\refreshBuiltin.cpp" />
     <ClCompile Include="..\cpp\validatecolorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__contour__Builtin.cpp" />
     <ClCompile Include="..\cpp\__hggroup__Builtin.cpp" />
     <ClCompile Include="..\cpp\__image__Builtin.cpp" />
     <ClCompile Include="..\cpp\__line__Builtin.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
     <ClInclude Include="..\include\refreshBuiltin.hpp" />
     <ClInclude Include="..\include\validatecolorBuiltin.hpp" />
+    <ClInclude Include="..\include\__contour__Builtin.hpp" />
     <ClInclude Include="..\include\__hggroup__Builtin.hpp" />
     <ClInclude Include="..\include\__image__Builtin.hpp" />
     <ClInclude Include="..\include\__line__Builtin.hpp" />

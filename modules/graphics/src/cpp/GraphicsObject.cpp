@@ -349,6 +349,14 @@ GraphicsObject::toManual(const std::wstring& name)
     qp->data(GO_PROPERTY_VALUE_MANUAL_STR);
 }
 //=============================================================================
+void
+GraphicsObject::toAuto(const std::wstring& name)
+{
+    GOAutoManualProperty* qp = static_cast<GOAutoManualProperty*>(findProperty(name));
+    qp->data(GO_PROPERTY_VALUE_AUTO_STR);
+}
+//=============================================================================
+
 bool
 GraphicsObject::hasChanged(const std::vector<std::wstring>& names)
 {

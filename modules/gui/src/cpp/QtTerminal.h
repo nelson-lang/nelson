@@ -128,6 +128,8 @@ private:
 
     QCompleter* qCompleter;
 
+    bool completionDisabled;
+
     void
     complete(QString prefix);
     void
