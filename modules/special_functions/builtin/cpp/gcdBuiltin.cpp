@@ -24,6 +24,8 @@ Nelson::SpecialFunctionsGateway::gcdBuiltin(Evaluator* eval, int nLhs, const Arr
     NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
     bool isComplex = false;
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 3);
 
     ArrayOf res;
     if (FindCommonType(argIn, commonType, isSparse, isComplex, commonTypeName)) {
