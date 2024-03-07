@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `shiftdim` Shift array dimensions.
 - `xcorr2` 2-D cross-correlation.
 - [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
+- ArchLinux packaging.
 
 ### Fixed
 

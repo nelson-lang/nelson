@@ -9,7 +9,11 @@ Please feel free to file issues on this repository if you have questions, concer
 ### Core Improvements
 
 - Bug resolution and ongoing maintenance,
-- Native package development/support for macOS, Fedora, Arch, etc.,
+- Native package development/support:
+  - ArchLinux (Done v1.3.0)
+  - macOs,
+  - Fedora,
+  - etc ...
 - Integration of Windows ARM64 support,
 - Performance optimization for increased speed,
 - Code factorization for improved maintainability,
@@ -45,8 +49,8 @@ Please feel free to file issues on this repository if you have questions, concer
 ### Plotting Features
 
 - Introduction of uicontrol,
-- Implementation of contour plots,
-- Enhancement of plot interaction features (e.g., zoom functionality, etc.).
+- Implementation of contour plots (Done v1.3.0),
+- Enhancement of plot interaction features (e.g., zoom functionality, etc.) (Done v1.2.0).
 
 ### Data Handling and Compatibility
 
