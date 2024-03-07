@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `contour3` 3-D contour plot.
 - `shiftdim` Shift array dimensions.
 - `xcorr2` 2-D cross-correlation.
+- ArchLinux packaging.
 
 ### Fixed
 
