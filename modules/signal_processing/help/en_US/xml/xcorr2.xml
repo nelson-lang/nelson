@@ -62,7 +62,7 @@ C = xcorr2(H, X)]]>
 
   <history>
     <history_item>
-      <history_version>1.0.0</history_version>
+      <history_version>1.3.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>

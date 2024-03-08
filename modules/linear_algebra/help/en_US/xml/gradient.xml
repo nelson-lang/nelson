@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>gradient</keyword>
+  <short_description>Numerical gradient.</short_description>
+
+  <syntax>
+  <syntax_item>FX = gradient(F)</syntax_item>
+  <syntax_item>[FX, FY] = gradient(F)</syntax_item>
+  <syntax_item>[FX, FY, FZ, ..., FN] = gradient(F)</syntax_item>
+  <syntax_item>[...] = gradient(F, h)</syntax_item>
+  <syntax_item>[...] = gradient(F, hx, hy, ... , hN)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description
+      >Input array: vector, matrix or multidimensional array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description
+      >Uniform spacing between points: scalar or 1 (default).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>hx, hy, ..., hN</param_name>
+      <param_description
+      >Spacing between points: vector, scalar or 1 (default).</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>FX, FY, FZ, ..., FN</param_name>
+      <param_description>Numerical gradients: array.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b
+      >gradient(F)</b> calculates the one-dimensional numerical gradient of the vector or matrix F.</p>
+    <p
+    >The output FX represents the differences in the x (horizontal) direction, corresponding to ∂F/∂x.</p>
+    <p>It assumes that the spacing between points is 1.</p>
+    <p><b
+      >gradient(F, h)</b> allows for specifying a uniform spacing h between points in each direction.</p>
+    <p
+    >This uniform spacing can also be individually specified for each dimension of F using <b
+      >gradient(F, hx, hy, ..., hN)</b>.</p>
+  </description>
+
+  <used_function />
+  <bibliography />
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[[X, Y] = meshgrid(-2:0.2:2);
+Z = X .* exp(-X.^2 - Y.^2);
+[U, V] = gradient(Z, 0.2, 0.2);
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${linear_algebra}diff">diff</link>
+		</see_also_item>
+	</see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
