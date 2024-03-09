@@ -11,6 +11,8 @@
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "IsValidVariableName.hpp"
+#include <algorithm>
+#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,6 +44,12 @@ searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFi
     return lineLength;
 }
 //=============================================================================
+static inline bool
+isCharacterInSymbols(wchar_t character, const std::wstring& symbols)
+{
+    return std::find(symbols.begin(), symbols.end(), character) != symbols.end();
+}
+//=============================================================================
 std::wstring
 getPartialLine(const std::wstring& line)
 {
@@ -60,7 +68,7 @@ getPartialLine(const std::wstring& line)
 
     if (index != std::wstring::npos && index + 1 < line.length()) {
         std::wstring prefix = line.substr(0, index);
-        if (!IsValidVariableName(prefix) || (line[index] == L' ')) {
+        if (!IsValidVariableName(prefix) || isCharacterInSymbols(line[index], symbols)) {
             return line.substr(index + 1);
         }
     }
@@ -164,3 +172,4 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================
