@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
+
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -21,7 +23,6 @@
 #if defined(_NLS_WITH_OPENMP)
 #include <omp.h>
 #endif
-#include <Eigen/Dense>
 #include <algorithm>
 #include "StringHelpers.hpp"
 #include "ComputionalThreads.hpp"
