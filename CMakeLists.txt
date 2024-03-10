@@ -94,7 +94,8 @@ list(
   SPECIAL_FUNCTIONS
   TEXT_COMPLETION
   CHARACTERS_ENCODING
-  GEOMETRY)
+  GEOMETRY
+  PYTHON_ENGINE)
 foreach(mod ${optional_modules})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)
 endforeach(mod)
@@ -162,6 +163,28 @@ if(POLICY CMP0068)
 endif()
 # ==============================================================================
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+# ==============================================================================
+if(NOT WITHOUT_PYTHON_ENGINE_MODULE)
+  find_package (Python3 COMPONENTS Interpreter Development)
+  if (NOT Python3_Development_FOUND)
+    set(WITHOUT_PYTHON_ENGINE_MODULE ON)
+    set(WITHOUT_NUMPY_SUPPORT ON)
+    message(STATUS "Python Developpment not found.")
+  else()
+    message(STATUS "Found Python include dirs: ${Python3_INCLUDE_DIRS}")
+    message(STATUS "Found Python library dirs: ${Python3_LIBRARY_DIRS}")
+    find_package (Python3 COMPONENTS NumPy QUIET)
+    if(Python3_NumPy_FOUND)
+      message(STATUS "Found NumPy: ${Python3_NumPy_INCLUDE_DIRS}")
+      set(WITHOUT_NUMPY_SUPPORT OFF)
+    else()
+      message(STATUS "NumPy NOT FOUND.")
+      set(WITHOUT_NUMPY_SUPPORT ON)
+    endif()
+  endif()
+else()
+  set(WITHOUT_NUMPY_SUPPORT ON)
+endif()
 # ==============================================================================
 include(OptionsConfig)
 # ==============================================================================

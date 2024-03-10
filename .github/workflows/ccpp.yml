@@ -43,6 +43,7 @@ jobs:
           brew install openblas
           brew install qt
           brew link icu4c --force
+          brew install numpy
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -216,6 +217,7 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew link icu4c --force
+          brew install numpy
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -322,6 +324,8 @@ jobs:
           sudo apt -y install qml6-module-qtqml-workerscript;
           sudo apt -y install qml6-module-qtquick-layouts;
           sudo apt -y install qt6-tools-dev;
+          sudo apt -y install python3;
+          sudo apt -y install python3-numpy;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -439,6 +443,8 @@ jobs:
           ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/usr/local;
           make;
           sudo make install;
+          sudo apt -y install python3;
+          sudo apt -y install python3-numpy;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -515,6 +521,7 @@ jobs:
           pacman -S curl --noconfirm
           pacman -S libgit2 --noconfirm
           pacman -S python3 --noconfirm
+          pacman -S python-numpy --noconfirm
           pacman -S eigen --noconfirm
           pacman -S hdf5 --noconfirm
           pacman -S libmatio --noconfirm
@@ -602,6 +609,8 @@ jobs:
           dnf install -y matio-devel
           dnf install -y hdf5-devel
           dnf install -y eigen3-devel
+          dnf install -y python3-devel
+          dnf install -y python3-numpy
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Get package version
@@ -646,6 +655,10 @@ jobs:
     steps:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1.3
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install Inno-setup
         run: |
@@ -772,6 +785,10 @@ jobs:
     steps:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1.3
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install Inno-setup
         run: |
