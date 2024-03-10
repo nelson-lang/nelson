@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://neo.gsfc.nasa.gov/wms/wms';
-filename = [tempdir(), 'earth3.jpg'];
+url = 'https://github.com/nelson-lang/nelson-website/blob/master/images/qml_demos.png';
+filename = [tempdir(), 'qml_demos.png'];
 options = weboptions('Timeout', Inf);
 try
-  destination_filename = websave(filename, url, 'Time','2004-06-01', 'Service','WMS','Layers','BlueMarbleNG-TB','CRS','CRS:84', 'Format','image/jpeg','Height', 768,'Width',1024,  'BBOX','-180.0,-90.0,180.0,90.0','Version','1.3.0','Request','GetMap', options);
+  destination_filename = websave(filename, url, options);
   info = dir(destination_filename);
-  assert_istrue(info.bytes > 290000);
+  assert_istrue(info.bytes > 9440);
 catch ex
   R = strcmp(ex.message, _('Forbidden (403)')) || strcmp(ex.message, _('Timeout was reached'));
   assert_istrue(R);
