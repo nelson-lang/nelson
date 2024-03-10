@@ -51,6 +51,7 @@ english.WEBTOOLS_MODULE=IOT functions
 english.MATIO_MODULE=MAT file I/O module 
 english.HDF5_MODULE=HDF5 module
 english.GEOMETRY_MODULE=Geometry module
+english.PYTHON_ENGINE_MODULE=Python engine module
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.

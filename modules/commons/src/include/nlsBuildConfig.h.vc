@@ -58,6 +58,9 @@
 #define WITH_TEXT_COMPLETION_MODULE 1
 #define WITH_CHARACTERS_ENCODING_MODULE 1
 #define WITH_GEOMETRY_MODULE 1
+#define WITH_PYTHON_ENGINE_MODULE 1
+//=============================================================================
+#define WITH_NUMPY_SUPPORT 1
 //=============================================================================
 #if WITH_OPENMP
 #define _NLS_WITH_OPENMP
