@@ -18,7 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
 - [#1126](http://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
 - ArchLinux packaging.
-- Optional Python3 detection.
+- Python interface (part 1):
+  - Optional Python3 detection.
+  - `pyenv` Change default environment of Python interpreter.
 
 ### Fixed
 

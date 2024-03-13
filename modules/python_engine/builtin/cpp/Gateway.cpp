@@ -8,7 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "OverloadName.hpp"
 #include "pyrunBuiltin.hpp"
+#include "__pyenv__Builtin.hpp"
+#include "PythonEnvironment_displayBuiltin.hpp"
+#include "PythonEnvironment_getBuiltin.hpp"
+#include "PythonEnvironment_setBuiltin.hpp"
+#include "PythonEnvironment_structBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,6 +23,23 @@ const std::wstring gatewayName = L"python_engine";
 static const nlsGateway gateway[] = {
     { "pyrun", (ptrBuiltin)Nelson::Python_engineGateway::pyrunBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "__pyenv__", (ptrBuiltin)Nelson::Python_engineGateway::__pyenv__Builtin, -1, 2, CPP_BUILTIN },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "display"),
+        (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "disp"),
+        (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "get"),
+        (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_getBuiltin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "set"),
+        (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_setBuiltin, 0, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "struct"),
+        (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_structBuiltin, 0, 1,
+        CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+
 };
 //=============================================================================
 static bool

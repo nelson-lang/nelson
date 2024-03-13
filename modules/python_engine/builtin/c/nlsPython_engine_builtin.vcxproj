@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSPYTHON_ENGINE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSPYTHON_ENGINE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSPYTHON_ENGINE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -167,7 +167,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSPYTHON_ENGINE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/python_engine/builtin/include;$(SolutionDir)modules/python_engine/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -186,8 +186,16 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\pyrunBuiltin.cpp" />
+    <ClCompile Include="..\cpp\PythonEnvironment_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\PythonEnvironment_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\PythonEnvironment_setBuiltin.cpp" />
+    <ClCompile Include="..\cpp\PythonEnvironment_structBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__pyenv__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\display_format\src\c\nlsDisplay_format.vcxproj">
+      <Project>{2469b77e-f2b0-4b0e-b814-bb57747e0865}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -196,6 +204,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
@@ -215,6 +226,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsPython_engine_builtin_exports.h" />
+    <ClInclude Include="..\include\pyrunBuiltin.hpp" />
+    <ClInclude Include="..\include\PythonEnvironment_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\PythonEnvironment_getBuiltin.hpp" />
+    <ClInclude Include="..\include\PythonEnvironment_setBuiltin.hpp" />
+    <ClInclude Include="..\include\PythonEnvironment_structBuiltin.hpp" />
+    <ClInclude Include="..\include\__pyenv__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

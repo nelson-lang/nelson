@@ -7,30 +7,29 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_propertiesBuiltin.hpp"
+#include "PythonEnvironment_setBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PythonEnvironment.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_propertiesBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::Python_engineGateway::PythonEnvironment_setBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle()) {
-        auto* obj = (HandleGenericObject*)param1.getContentAsHandleScalar();
-        if (obj) {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getProperties());
-        } else {
-            Error(_W("Invalid handle."));
-        }
-    } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+
+    if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
+        Error(_W("PythonEnvironment object expected."));
     }
-    return retval;
+
+    std::wstring msg = _W("Unable to set property of class 'PythonEnvironment' it is read-only.");
+    Error(msg, L"Nelson:class:SetProhibited");
+
+    return {};
 }
 //=============================================================================

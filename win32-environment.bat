@@ -9,4 +9,15 @@ rem # SPDX-License-Identifier: LGPL-3.0-or-later
 rem # LICENCE_BLOCK_END
 rem =============================================================================
 set QTDIR=%QTDIR32%
+if not defined QTDIR (
+    echo QTDIR64 not defined.
+    exit /b 1
+)
+rem =============================================================================
+for /f "delims=" %%a in ('python -c "import sys;print(sys.prefix)"') do set NELSON_EMBEDDED_PYTHON_PATH=%%a
+if not defined NELSON_EMBEDDED_PYTHON_PATH (
+    echo Python command failed.
+    exit /b 1
+)
+rem =============================================================================
 start NelSon.sln

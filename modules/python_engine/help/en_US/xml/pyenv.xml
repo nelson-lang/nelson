@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>pyenv</keyword>
+  <short_description
+  >Change default environment of Python interpreter.</short_description>
+
+  <syntax>
+    <syntax_item>pyenv</syntax_item>
+    <syntax_item>pe = pyenv('Version', python_path)</syntax_item>
+    <syntax_item>pe = pyenv(...)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>python_path</param_name>
+      <param_description
+      >a string, or row characters array: executable file name of Python.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>pe</param_name>
+      <param_description>PythonEnvironment object.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p>Use <b
+      >pyenv</b> to modify the default version or execution mode of the Python interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
+  <p>The value set by <b>pyenv</b> is persistent across MATLAB sessions.</p>
+  <p />
+  <p>Properties:</p>
+  <p><b>Version</b>: string: Python version</p>
+  <p><b>Executable</b>: string: Name of Python executable file</p>
+  <p><b>Library</b>: string: Shared library file</p>
+  <p><b>Home</b>: string: Home folder</p>
+  <p><b>Status</b>: Process status: (0: default), 1: Loaded, 2: Terminated</p>
+  <p><b
+      >ExecutionMode</b>: Execution mode: InProcess (0: default) or OutOfProcess (1)</p>
+
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data><![CDATA[pe = pyenv]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

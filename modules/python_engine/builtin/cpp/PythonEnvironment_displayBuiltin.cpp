@@ -7,29 +7,41 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_propertiesBuiltin.hpp"
+#include "PythonEnvironment_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
+#include "DisplayVariableHelpers.hpp"
+
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PythonEnvironment.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_propertiesBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::Python_engineGateway::PythonEnvironment_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        auto* obj = (HandleGenericObject*)param1.getContentAsHandleScalar();
-        if (obj) {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getProperties());
-        } else {
-            Error(_W("Invalid handle."));
+        std::wstring name;
+        if (argIn.size() == 2) {
+            name = argIn[1].getContentAsWideString();
         }
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        if (param1.isScalar()) {
+
+            auto* pythonEnvironment = (PythonEnvironment*)param1.getContentAsHandleScalar();
+            pythonEnvironment->display(io);
+        }
+        DisplayVariableFooter(io, name.empty());
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(_W("PythonEnvironment object expected."));
     }
     return retval;
 }

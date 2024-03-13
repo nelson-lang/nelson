@@ -58,13 +58,17 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
+  nlsDisplay_format
   nlsError_manager
+  nlsNelson_manager
   nlsI18n
   nlsInterpreter
   nlsTypes)
@@ -97,6 +101,11 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/python
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/resources"
+  FILES_MATCHING
+  PATTERN "*.py")
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"

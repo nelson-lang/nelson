@@ -18,6 +18,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_PYTHON_ENGINE};
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\python\*.py; DestDir: {app}\modules\{#MODULE_NAME}\resources\python\;Components: {#COMPONENT_PYTHON_ENGINE};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_PYTHON_ENGINE} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_PYTHON_ENGINE} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};

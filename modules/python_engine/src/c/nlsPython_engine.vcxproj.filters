@@ -24,12 +24,18 @@
     <ClCompile Include="..\cpp\PyRun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\PythonEnvironment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsPython_engine_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PyRun.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PythonEnvironment.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
