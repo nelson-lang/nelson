@@ -11,6 +11,13 @@
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "IsValidVariableName.hpp"
+#include "BuiltinCompleter.hpp"
+#include "FileCompleter.hpp"
+#include "MacroCompleter.hpp"
+#include "VariableCompleter.hpp"
+#include "FieldCompleter.hpp"
+#include "MethodCompleter.hpp"
+#include "PropertyCompleter.hpp"
 #include <algorithm>
 #include <string>
 //=============================================================================
@@ -169,6 +176,42 @@ completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
     lineModified = currentLine.substr(0, iposInsert);
     lineModified = lineModified + stringToAdd;
     return lineModified;
+}
+//=============================================================================
+bool
+computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstringVector& files,
+    wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,
+    wstringVector& properties, wstringVector& methods)
+{
+    bool showpopup = false;
+    completionPrefix = line;
+    std::wstring filepart = getPartialLineAsPath(completionPrefix);
+    files = FileCompleter(filepart);
+    std::wstring textpart = getPartialLine(completionPrefix);
+    if (!filepart.empty() && !files.empty() && (filepart != textpart)) {
+        showpopup = true;
+    } else if (!textpart.empty()) {
+        size_t index = completionPrefix.size() - textpart.size();
+        std::wstring prefix;
+        if ((index > 1) && (completionPrefix[index - 1] == L'.')) {
+            prefix = completionPrefix.substr(0, index);
+        }
+
+        builtin = BuiltinCompleter(prefix + textpart);
+        macros = MacroCompleter(prefix + textpart);
+        variables = VariableCompleter(prefix + textpart);
+
+        fields = FieldCompleter(prefix + textpart);
+        properties = PropertyCompleter(prefix + textpart);
+        methods = MethodCompleter(prefix + textpart);
+
+        if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()
+            || !fields.empty() || !properties.empty() || !methods.empty()) {
+            completionPrefix = textpart;
+            showpopup = true;
+        }
+    }
+    return showpopup;
 }
 //=============================================================================
 } // namespace Nelson
