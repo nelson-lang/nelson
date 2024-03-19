@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `deconv` Deconvolution and polynomial division.
 - `vecnorm` Vector-wise norm.
 - [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
+- [#1126](http://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
 - ArchLinux packaging.
 
 ### Fixed
