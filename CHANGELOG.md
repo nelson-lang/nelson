@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [#1110](http://github.com/nelson-lang/nelson/issues/1110) add help about build and use C/C++ on fly.
+- [#1127](http://github.com/nelson-lang/nelson/issues/1127) Nelson could crash if an mxn characters is displayed in the variable browser.
 - Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 - `gcd` without argument returned wrong error message.
 
