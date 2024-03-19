@@ -56,7 +56,7 @@ integer_colon(NelsonType destinationClass, T low, T high, T step)
 }
 //=============================================================================
 static ArrayOf
-char_colon(charType low, charType high, charType step)
+char_colon(charType low, charType high, int64 step)
 {
     if (step == 0) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
@@ -174,7 +174,9 @@ ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& K, bool& needOverload)
 {
     ArrayOf I = ArrayOf::doubleConstructor(1);
-    I.promoteType(J.getDataClass());
+    if (!J.isCharacterArray()) {
+        I.promoteType(J.getDataClass());
+    }
     return Colon(J, I, K, needOverload);
 }
 //=============================================================================
@@ -521,7 +523,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
         return real_colon<double>(NLS_DOUBLE, low, high, step);
     } break;
     case NLS_CHAR: {
-        charType step;
+        int64 step;
         charType low;
         charType high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
@@ -529,12 +531,11 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             low = static_cast<charType>(1);
             high = static_cast<charType>(0);
         } else {
-            std::wstring content = I.getContentAsWideString();
-            step = content[0];
+            step = I.getContentAsInteger64Scalar(true);
             if (!I.isScalar()) {
                 warningArrayAsScalar = true;
             }
-            content = J.getContentAsWideString();
+            std::wstring content = J.getContentAsWideString();
             low = content[0];
             if (!J.isScalar()) {
                 warningArrayAsScalar = true;
