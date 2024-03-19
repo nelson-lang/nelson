@@ -420,10 +420,14 @@ QtWorkspaceBrowser::handleLogicalVariable(const ArrayOf* variable) const
 QString
 QtWorkspaceBrowser::handleCharVariable(const ArrayOf* variable) const
 {
-    if (variable->isScalar()) {
+    if (variable->isEmpty()) {
         return "''";
     } else {
-        return wstringToQString(L"\'" + variable->getContentAsWideString() + L"\'");
+        if (variable->isRowVector() || variable->isScalar()) {
+            return wstringToQString(L"\'" + variable->getContentAsWideString() + L"\'");
+        } else {
+            return wstringToQString(variable->getDimensions().toWideString() + L" char");
+        }
     }
 }
 //=============================================================================
