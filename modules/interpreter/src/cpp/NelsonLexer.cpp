@@ -780,8 +780,10 @@ lexScanningState()
         while (isNewline() == 0) {
             discardChar();
         }
+        setTokenType(WS);
         NextLine();
         continuationCount++;
+        return;
     }
     // comments suppported
     if (currentChar() == '%') {
