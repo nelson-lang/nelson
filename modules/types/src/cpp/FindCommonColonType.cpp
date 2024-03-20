@@ -19,6 +19,14 @@ static NelsonType
 getColonCommonBasicType(const ArrayOf& A, const ArrayOf& B);
 static NelsonType
 getColonCommonType(NelsonType typeA, NelsonType typeB);
+static void
+validateCharacterOperands(const ArrayOfVector& argIn);
+static void
+validateCharacterOperandsForTwoArgs(const ArrayOfVector& argIn);
+static void
+validateCharacterOperandsForThreeArgs(const ArrayOfVector& argIn);
+static NelsonType
+determineCommonType(const ArrayOfVector& argIn);
 //=============================================================================
 bool
 findColonCommonType(
@@ -83,19 +91,62 @@ findColonCommonType(
     }
 
     if (!hasReference) {
-        commonType = getColonCommonBasicType(argIn[0], argIn[1]);
-        if (numArgs > 2) {
-            NelsonType commonType2 = getColonCommonBasicType(argIn[1], argIn[2]);
-            commonType = getColonCommonType(commonType, commonType2);
+        validateCharacterOperands(argIn);
+        commonType = determineCommonType(argIn);
+
+        if (commonType == NLS_UNKNOWN) {
+            Error(
+                _W("Colon operands must be all the same type, or mixed with real scalar doubles."),
+                L"Nelson:colon:mixedCharOperands");
         }
     }
-
     typeName = ClassToString(commonType);
     if (isSparse) {
         typeName = NLS_SPARSE_STR + typeName;
     }
 
     return commonType != NLS_UNKNOWN;
+}
+//=============================================================================
+void
+validateCharacterOperands(const ArrayOfVector& argIn)
+{
+    if (argIn.size() == 2) {
+        validateCharacterOperandsForTwoArgs(argIn);
+    } else {
+        // numArgs == 3
+        validateCharacterOperandsForThreeArgs(argIn);
+    }
+}
+//=============================================================================
+void
+validateCharacterOperandsForTwoArgs(const ArrayOfVector& argIn)
+{
+    if (argIn[0].isCharacterArray() || argIn[1].isCharacterArray()) {
+        Error(_W("For colon operator with char operands, first and last operands must be char."),
+            L"Nelson:colon:mixedCharOperands");
+    }
+}
+//=============================================================================
+void
+validateCharacterOperandsForThreeArgs(const ArrayOfVector& argIn)
+{
+    if (argIn[1].isCharacterArray()) {
+        Error(_W("For colon operator with char operands, first and last operands must be char."),
+            L"Nelson:colon:mixedCharOperands");
+    }
+}
+//=============================================================================
+NelsonType
+determineCommonType(const ArrayOfVector& argIn)
+{
+    if (argIn.size() == 2) {
+        return getColonCommonBasicType(argIn[0], argIn[1]);
+    } else {
+        // numArgs == 3
+        NelsonType commonType2 = getColonCommonBasicType(argIn[1], argIn[2]);
+        return getColonCommonType(getColonCommonBasicType(argIn[0], argIn[1]), commonType2);
+    }
 }
 //=============================================================================
 NelsonType
@@ -119,11 +170,6 @@ getColonCommonBasicType(const ArrayOf& A, const ArrayOf& B)
     NelsonType commonType = NLS_UNKNOWN;
     NelsonType classA = A.getDataClass();
     NelsonType classB = B.getDataClass();
-
-    if (classA == NLS_CHAR || classB == NLS_CHAR) {
-        Error(_W("For colon operator with char operands, first and last operands must be char."),
-            L"Nelson:colon:mixedCharOperands");
-    }
 
     if (IS_INTEGER_TYPE(classA) || IS_INTEGER_TYPE(classB)) {
         bool isIntegerA = IS_INTEGER_TYPE(classA) || (A.isDoubleClass() && A.isIntegerValue());

@@ -159,12 +159,20 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
         Error(msg, "Nelson:UndefinedFunction");
     }
     bool needToOverload;
+
     ArrayOf _A(argIn[0]);
     ArrayOf _B(argIn[1]);
     ArrayOf _C(argIn[2]);
-    _A.promoteType(commonType);
-    _B.promoteType(commonType);
-    _C.promoteType(commonType);
+
+    if (commonType == NLS_CHAR) {
+        _A.promoteType(commonType);
+        _B.promoteType(NLS_DOUBLE);
+        _C.promoteType(commonType);
+    } else {
+        _A.promoteType(commonType);
+        _B.promoteType(commonType);
+        _C.promoteType(commonType);
+    }
 
     res = Colon(_A, _B, _C, needToOverload);
     if (needToOverload) {

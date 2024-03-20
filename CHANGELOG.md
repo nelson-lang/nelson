@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1110](http://github.com/nelson-lang/nelson/issues/1110) add help about build and use C/C++ on fly.
 - [#1124](http://github.com/nelson-lang/nelson/issues/1124) unexpected result from long statements on Multiple Lines.
 - [#1127](http://github.com/nelson-lang/nelson/issues/1127) Nelson could crash if an mxn characters is displayed in the variable browser.
+- [#1125](http://github.com/nelson-lang/nelson/issues/1125) Unsupported colon operator with char operands.
 - Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 - `gcd` without argument returned wrong error message.
 
