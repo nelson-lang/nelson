@@ -28,7 +28,7 @@ function varargout = pyenv(varargin)
       pythonExecutablePath = varargin{2};
       mustBeTextScalar(pythonExecutablePath, 2);
 
-      if currentPythonEnvironment.Status ~= 0
+      if currentPythonEnvironment.Status ~= "NotLoaded"
         error(_('The Python path cannot be modified if Python library is loaded.'));
       end
 
@@ -61,7 +61,7 @@ function varargout = pyenv(varargin)
 end
 %=============================================================================
 function result = getPythonCommandResult(python, pythonScript)
-  [status, result] = unix([python, ' ', pythonScript]);
+  [status, result] = unix([convertStringsToChars(python), ' ', convertStringsToChars(pythonScript)]);
   if (status ~= 0)
     error(_('Impossible to call Python. Check path.'));
   end

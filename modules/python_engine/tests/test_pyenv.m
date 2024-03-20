@@ -17,6 +17,9 @@ assert_isequal(R, REF);
 assert_isequal(class(A.Version), 'string');
 assert_isequal(class(A.Executable), 'string');
 assert_isequal(class(A.Library), 'string');
-assert_isequal(class(A.Status), 'double');
-assert_isequal(class(A.ExecutionMode), 'double');
+assert_isequal(class(A.Status), 'string');
+assert_isequal(class(A.ExecutionMode), 'string');
+%=============================================================================
+assert_isequal(A.Status, "NotLoaded");
+assert_isequal(A.ExecutionMode, "InProcess");
 %=============================================================================

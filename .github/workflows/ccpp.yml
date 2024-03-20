@@ -75,6 +75,8 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
+      - name: Setup Python environment for Nelson
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: all benchs
         run: |
           export OMP_NUM_THREADS=1
@@ -100,6 +102,9 @@ jobs:
   #       run: |
   #         brew --version
   #         brew cleanup
+  #         brew uninstall --ignore-dependencies php
+  #         brew update
+  #         brew upgrade
   #         brew install coreutils
   #         brew install zlib
   #         brew install libtool
@@ -129,6 +134,7 @@ jobs:
   #         brew link libomp --force
   #         brew install openblas
   #         brew link icu4c --force
+  #         brew install numpy
 
   #     - name: Install Qt
   #       uses: jurplel/install-qt-action@v3
@@ -163,6 +169,8 @@ jobs:
   #       run: cmake --build . -- package
   #     - name: Install
   #       run: sudo make install
+  #     - name: Setup Python environment for Nelson
+  #       run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
   #     - name: all benchs
   #       run: |
   #         export OMP_NUM_THREADS=1
@@ -252,6 +260,8 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
+      - name: Setup Python environment for Nelson
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: all benchs
         run: |
           cmake --build . -- benchs_all
@@ -353,6 +363,8 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo ninja install
+      - name: Setup Python environment for Nelson
+        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: all benchs
         run: |
           xvfb-run -a ninja benchs_all
@@ -443,8 +455,10 @@ jobs:
           ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/usr/local;
           make;
           sudo make install;
-          sudo apt -y install python3;
-          sudo apt -y install python3-numpy;
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.13"
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -457,7 +471,7 @@ jobs:
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
-        run: source /opt/qt515/bin/qt515-env.sh && cmake -DCMAKE_BUILD_TYPE=Release -G "Ninja" .
+        run: source /opt/qt515/bin/qt515-env.sh && cmake -DWITHOUT_PYTHON_ENGINE_MODULE=ON -DCMAKE_BUILD_TYPE=Release -G "Ninja" .
       - name: make with Ninja
         run: cmake --build . -- -j $(nproc)
       - name: get module skeleton
@@ -551,6 +565,8 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo cmake --build . -- install
+      - name: Setup Python environment for Nelson
+        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: Benchs
         run: cmake --build . -- benchs_all_no_display
       - name: Tests
@@ -639,6 +655,11 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo cmake --build . -- install
+      - name: Setup Python environment for Nelson
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH
+          nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: Benchs
         run: cmake --build . -- benchs_all_no_display
       - name: Tests
@@ -659,6 +680,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          architecture: "x86"
 
       - name: Install Inno-setup
         run: |
@@ -713,6 +735,10 @@ jobs:
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
+
+      - name: Set Default Python Environment for Nelson
+        run: |
+          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
 
       - name: Download module skeleton
         run: |
@@ -843,6 +869,10 @@ jobs:
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
+
+      - name: Set Default Python Environment for Nelson
+        run: |
+          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
 
       - name: Download module skeleton
         run: |

@@ -190,6 +190,10 @@
     <ClCompile Include="..\cpp\PythonEnvironment_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\PythonEnvironment_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\PythonEnvironment_structBuiltin.cpp" />
+    <ClCompile Include="..\cpp\py_classBuiltin.cpp" />
+    <ClCompile Include="..\cpp\py_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\py_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\py_invokeBuiltin.cpp" />
     <ClCompile Include="..\cpp\__pyenv__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +235,10 @@
     <ClInclude Include="..\include\PythonEnvironment_getBuiltin.hpp" />
     <ClInclude Include="..\include\PythonEnvironment_setBuiltin.hpp" />
     <ClInclude Include="..\include\PythonEnvironment_structBuiltin.hpp" />
+    <ClInclude Include="..\include\py_classBuiltin.hpp" />
+    <ClInclude Include="..\include\py_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\py_getBuiltin.hpp" />
+    <ClInclude Include="..\include\py_invokeBuiltin.hpp" />
     <ClInclude Include="..\include\__pyenv__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>

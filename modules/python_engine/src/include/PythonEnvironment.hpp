@@ -38,6 +38,12 @@ private:
     bool
     loadPreviousState();
     //=============================================================================
+    std::wstring
+    getStatusString();
+    //=============================================================================
+    std::wstring
+    getExecutionModeString();
+    //=============================================================================
 public:
     static PythonEnvironment*
     getInstance()

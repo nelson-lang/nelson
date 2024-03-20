@@ -24,8 +24,9 @@ namespace Nelson {
 static int
 get_dlopen_flag(const std::string& library_name)
 {
-    // MPI needs to load library as DLD_GLOBAL
-    if (library_name.find("nlsMpi") != std::string::npos) {
+    // MPI, Python needs to load library as DLD_GLOBAL
+    if (library_name.find("nlsMpi") != std::string::npos
+        || library_name.find("ython") != std::string::npos) {
         return RTLD_NOW | RTLD_GLOBAL;
     }
     return RTLD_NOW | RTLD_LOCAL;

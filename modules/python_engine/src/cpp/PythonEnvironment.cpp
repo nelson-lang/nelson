@@ -184,6 +184,41 @@ PythonEnvironment::getMethods()
     return {};
 }
 //=============================================================================
+std::wstring
+PythonEnvironment::getStatusString()
+{
+    switch (getStatus()) {
+    case 0: {
+        return L"NotLoaded";
+    } break;
+    case 1: {
+        return L"Loaded";
+    } break;
+    case 2: {
+        return L"Terminated";
+    } break;
+    default: {
+    } break;
+    }
+    return L"ERROR";
+}
+//=============================================================================
+std::wstring
+PythonEnvironment::getExecutionModeString()
+{
+    switch (getExecutionMode()) {
+    case 0: {
+        return L"InProcess";
+    } break;
+    case 1: {
+        return L"OutOfProcess";
+    } break;
+    default: {
+    } break;
+    }
+    return L"ERROR";
+}
+//=============================================================================
 bool
 PythonEnvironment::get(const std::wstring& propertyName, ArrayOf& result)
 {
@@ -204,11 +239,11 @@ PythonEnvironment::get(const std::wstring& propertyName, ArrayOf& result)
         return true;
     }
     if (propertyName == L"Status") {
-        result = ArrayOf::doubleConstructor(getStatus());
+        result = ArrayOf::stringArrayConstructor(getStatusString());
         return true;
     }
     if (propertyName == L"ExecutionMode") {
-        result = ArrayOf::doubleConstructor(getExecutionMode());
+        result = ArrayOf::stringArrayConstructor(getExecutionModeString());
         return true;
     }
     return false;
@@ -232,30 +267,10 @@ PythonEnvironment::display(Interface* io)
     io->outputMessage(BLANKS_AT_BOL + L"Library: \t\"" + getLibrary() + L"\"\n");
     io->outputMessage(BLANKS_AT_BOL + L"Home: \t\"" + getHome() + L"\"\n");
 
-    std::wstring status;
-    switch (getStatus()) {
-    case 0: {
-        status = L"NotLoaded";
-    } break;
-    case 1: {
-        status = L"Loaded";
-    } break;
-    default: {
-    } break;
-    }
+    std::wstring status = getExecutionModeString();
     io->outputMessage(BLANKS_AT_BOL + L"Status: \t" + status + L"\n");
 
-    std::wstring executionMode;
-    switch (getExecutionMode()) {
-    case 0: {
-        executionMode = L"InProcess";
-    } break;
-    case 1: {
-        executionMode = L"OutOfProcess";
-    } break;
-    default: {
-    } break;
-    }
+    std::wstring executionMode = getExecutionModeString();
     io->outputMessage(BLANKS_AT_BOL + L"ExecutionMode: \t" + executionMode + L"\n");
 }
 //=============================================================================
