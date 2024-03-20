@@ -8,14 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QtTextEdit.h"
-#include "BuiltinCompleter.hpp"
 #include "CompleterHelper.hpp"
-#include "FileCompleter.hpp"
-#include "MacroCompleter.hpp"
-#include "VariableCompleter.hpp"
-#include "FieldCompleter.hpp"
-#include "MethodCompleter.hpp"
-#include "PropertyCompleter.hpp"
 #include "QStringConverter.hpp"
 #include "i18n.hpp"
 #include <QtCore/QStringListModel>
@@ -147,33 +140,23 @@ QtTextEdit::complete(QString prefix)
     if (prefix.isEmpty()) {
         return;
     }
-    bool showpopup = false;
-    if (!prefix.isEmpty()) {
-        std::wstring completionPrefixW = QStringTowstring(prefix);
-        std::wstring filepart = getPartialLineAsPath(completionPrefixW);
-        wstringVector files = FileCompleter(filepart);
-        std::wstring textpart = getPartialLine(completionPrefixW);
-        if (!filepart.empty() && !files.empty() && (filepart != textpart)) {
-            updateModel(completionPrefixW, files, wstringVector(), wstringVector(), wstringVector(),
-                wstringVector(), wstringVector(), wstringVector());
-            showpopup = true;
-        } else if (!textpart.empty()) {
-            wstringVector builtin = BuiltinCompleter(textpart);
-            wstringVector macros = MacroCompleter(textpart);
-            wstringVector variables = VariableCompleter(textpart);
-            wstringVector fields = FieldCompleter(textpart);
-            wstringVector properties = PropertyCompleter(textpart);
-            wstringVector methods = MethodCompleter(textpart);
 
-            if (!files.empty() || !builtin.empty() || !macros.empty() || !variables.empty()
-                || !fields.empty() || !properties.empty() || !methods.empty()) {
-                updateModel(
-                    textpart, files, builtin, macros, variables, fields, properties, methods);
-                showpopup = true;
-            }
-        }
-    }
+    std::wstring line = QStringTowstring(prefix);
+    std::wstring completionPrefix;
+    wstringVector files;
+    wstringVector builtin;
+    wstringVector macros;
+    wstringVector variables;
+    wstringVector fields;
+    wstringVector properties;
+    wstringVector methods;
+
+    bool showpopup = computeCompletion(
+        line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
+
     if (showpopup) {
+        updateModel(
+            completionPrefix, files, builtin, macros, variables, fields, properties, methods);
         QRect cr = cursorRect();
         cr.setWidth(qCompleter->popup()->sizeHintForColumn(0)
             + qCompleter->popup()->verticalScrollBar()->sizeHint().width());

@@ -11,6 +11,7 @@
 //=============================================================================
 #include "i18n.hpp"
 #include "nlsText_completion_exports.h"
+#include "Types.hpp"
 #include <string>
 //=============================================================================
 #define POSTFIX_BUILTIN _W("Builtin")
@@ -32,6 +33,11 @@ getPartialLineAsPath(const std::wstring& line);
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
 getPartialLine(const std::wstring& line);
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP bool
+computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstringVector& files,
+    wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,
+    wstringVector& properties, wstringVector& methods);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
