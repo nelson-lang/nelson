@@ -30,5 +30,17 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods = false);
 PyObject*
 deepCopyPyObject(PyObject* obj);
 //=============================================================================
+bool
+isArrayArrayOfTypeCode(const char* typeName, PyObject* pyObject);
+//=============================================================================
+const char*
+getArrayArrayTypeCode(PyObject* pyObject);
+//=============================================================================
+NelsonType
+PyTypecodeToNelsonType(const char* memoryViewType);
+//=============================================================================
+char*
+nelsonTypeToTypeCode(NelsonType nelsonType);
+//=============================================================================
 }
 //=============================================================================

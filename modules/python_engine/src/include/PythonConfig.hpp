@@ -17,4 +17,5 @@
 #undef PyBool_Type
 #undef PyComplex_Type
 #undef PyFloat_Type
+#undef PyNone
 //=============================================================================

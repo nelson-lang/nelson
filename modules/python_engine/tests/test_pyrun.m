@@ -22,3 +22,8 @@ code = ["import math";
 power = pyrun(code, 'power');
 assert_isequal(power, 4.2^3);
 %=============================================================================
+C = pyrun('A', 'A', 'A', 1);
+assert_isequal(C, 1);
+%=============================================================================
+assert_checkerror('C = pyrun(''A = 1'', ''A'', 1, ''A'')', _('Field names must be string scalars or character vectors.'));
+%=============================================================================

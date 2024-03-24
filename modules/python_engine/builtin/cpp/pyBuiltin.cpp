@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "py_classBuiltin.hpp"
+#include "pyBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -17,16 +17,17 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::Python_engineGateway::py_classBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::Python_engineGateway::pyBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
-    if (hgo && hgo->getCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
-        PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
-        retval << ArrayOf::characterArrayConstructor(poh->getClassName());
-    }
+
+    initializePythonEngine();
+
+    PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(getPythonInterpreter());
+    retval << ArrayOf::handleConstructor(pythonObjectHandle);
+
     return retval;
 }
 //=============================================================================

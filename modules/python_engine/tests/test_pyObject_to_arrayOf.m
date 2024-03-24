@@ -32,3 +32,13 @@ assert_isequal(C.char, '鍝堝搱');
 C = pyrun("A = dict(); A['a'] = 1; A['b'] = True; A['c'] = 3.14;", 'A');
 assert_isequal(class(C), 'py.dict');
 %=============================================================================
+C = pyrun('', 'A', 'A', {1 2});
+assert_isequal(C.double(),  [1 2]);
+%=============================================================================
+C = pyrun('', 'A', 'A', {1, 'nelson', 2});
+R = C.cell();
+assert_istrue(iscell(R));
+assert_isequal(R{1},  1);
+assert_isequal(R{2}.char(),  'nelson');
+assert_isequal(R{3},  2);
+%=============================================================================

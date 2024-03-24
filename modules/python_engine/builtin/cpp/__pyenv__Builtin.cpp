@@ -25,7 +25,7 @@ Nelson::Python_engineGateway::__pyenv__Builtin(int nLhs, const ArrayOfVector& ar
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();
 
     if (argIn.size() == 0) {
-
+        // Do nothing when no arguments are provided
     } else if (argIn.size() == 4) {
         pythonEnvironment->setVersion(argIn[0].getContentAsWideString());
         pythonEnvironment->setExecutable(argIn[1].getContentAsWideString());

@@ -39,6 +39,9 @@ Nelson::Python_engineGateway::py_displayBuiltin(
     if (param1.isHandle() && param1.getHandleCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
         Interface* io = eval->getInterface();
         PythonObjectHandle* poh = (PythonObjectHandle*)param1.getContentAsHandleScalar();
+        if (poh->isMainPythonInterpreter()) {
+            return {};
+        }
         DisplayPyVariableHeader(io, poh, name, name.empty());
 
         if (poh) {

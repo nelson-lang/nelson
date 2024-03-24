@@ -19,6 +19,7 @@
 #include "py_getBuiltin.hpp"
 #include "py_invokeBuiltin.hpp"
 #include "py_classBuiltin.hpp"
+#include "pyBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,6 +29,7 @@ static const nlsGateway gateway[] = {
     { "pyrun", (ptrBuiltin)Nelson::Python_engineGateway::pyrunBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "__pyenv__", (ptrBuiltin)Nelson::Python_engineGateway::__pyenv__Builtin, -1, 2, CPP_BUILTIN },
+    { "py", (ptrBuiltin)Nelson::Python_engineGateway::pyBuiltin, -1, 0, CPP_BUILTIN },
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR, "display"),
         (ptrBuiltin)Nelson::Python_engineGateway::PythonEnvironment_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },

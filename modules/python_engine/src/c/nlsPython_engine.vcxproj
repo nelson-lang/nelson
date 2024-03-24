@@ -221,7 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\PyArgs.cpp" />
     <ClCompile Include="..\cpp\PyObjectHelpers.cpp" />
     <ClCompile Include="..\cpp\PyRun.cpp" />
     <ClCompile Include="..\cpp\PythonEngine.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="..\cpp\PythonRunner.hpp" />
     <ClInclude Include="..\cpp\PythonTypesWrapper.hpp" />
     <ClInclude Include="..\include\nlsPython_engine_exports.h" />
-    <ClInclude Include="..\include\PyArgs.hpp" />
     <ClInclude Include="..\include\PythonConfig.hpp" />
     <ClInclude Include="..\include\PythonEngine.hpp" />
     <ClInclude Include="..\include\PythonEnvironment.hpp" />

@@ -267,7 +267,7 @@ PythonEnvironment::display(Interface* io)
     io->outputMessage(BLANKS_AT_BOL + L"Library: \t\"" + getLibrary() + L"\"\n");
     io->outputMessage(BLANKS_AT_BOL + L"Home: \t\"" + getHome() + L"\"\n");
 
-    std::wstring status = getExecutionModeString();
+    std::wstring status = getStatusString();
     io->outputMessage(BLANKS_AT_BOL + L"Status: \t" + status + L"\n");
 
     std::wstring executionMode = getExecutionModeString();

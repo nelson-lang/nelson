@@ -17,7 +17,7 @@ PyObjectToStringRepresentation(PyObject* po)
 {
     std::wstring rep;
     if (po) {
-        PyObject* poRep = NLSPyObject_Str(po);
+        PyObject* poRep = NLSPyObject_Repr(po);
         if (poRep) {
             const char* c_str = NLSPyUnicode_AsUTF8(poRep);
             rep = utf8_to_wstring(c_str);
@@ -56,8 +56,7 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods)
                     NLSPy_DECREF(method);
                     if (callable) {
                         std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind("__", 0) == 0);
-                        bool addName = true;
+                        bool startWithUnderscore = (attributName.rfind("_", 0) == 0);
                         if (withUnderscoreMethods) {
                             methodNames.push_back(utf8_to_wstring(attributName));
                         } else {
@@ -92,8 +91,7 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods)
                     NLSPy_DECREF(method);
                     if (!callable) {
                         std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind("__", 0) == 0);
-                        bool addName = true;
+                        bool startWithUnderscore = (attributName.rfind("_", 0) == 0);
                         if (withUnderscoreMethods) {
                             propertiesNames.push_back(utf8_to_wstring(attributName));
                         } else {
@@ -127,6 +125,147 @@ deepCopyPyObject(PyObject* obj)
     NLSPy_DECREF(copy_module);
     NLSPy_DECREF(deepcopy_func);
     return copied_object;
+}
+//=============================================================================
+const char*
+getArrayArrayTypeCode(PyObject* pyObject)
+{
+    PyObject* arrayModule = NLSPyImport_ImportModule("array");
+    if (!arrayModule) {
+        return nullptr;
+    }
+    PyObject* arrayType = NLSPyObject_GetAttrString(arrayModule, "array");
+    if (!arrayType) {
+        NLSPy_XDECREF(arrayModule);
+        return nullptr;
+    }
+    bool isInstanceArrayArray = NLSPyObject_IsInstance(pyObject, arrayType);
+    if (!isInstanceArrayArray) {
+        NLSPy_XDECREF(arrayType);
+        NLSPy_XDECREF(arrayModule);
+        return nullptr;
+    }
+
+    PyObject* typeChar = NLSPyObject_GetAttrString(pyObject, "typecode");
+    if (typeChar) {
+        PyObject* typeStr = NLSPyUnicode_AsUTF8String(typeChar);
+        if (typeStr) {
+            const char* typeCode = NLSPyBytes_AsString(typeStr);
+            NLSPy_DECREF(typeStr);
+            return typeCode;
+        }
+    }
+    NLSPy_XDECREF(typeChar);
+    NLSPy_XDECREF(arrayType);
+    NLSPy_XDECREF(arrayModule);
+
+    return nullptr;
+}
+//=============================================================================
+bool
+isArrayArrayOfTypeCode(const char* typeName, PyObject* pyObject)
+{
+    const char* typecode = getArrayArrayTypeCode(pyObject);
+    if (typecode) {
+        return (strcmp(typecode, typeName) == 0);
+    }
+    return false;
+}
+//=============================================================================
+char*
+nelsonTypeToTypeCode(NelsonType nelsonType)
+{
+    switch (nelsonType) {
+    case NLS_DOUBLE: {
+        return (char*)"d";
+    } break;
+    case NLS_SINGLE: {
+        return (char*)"f";
+    } break;
+    case NLS_DCOMPLEX: {
+        return (char*)"Zd";
+    } break;
+    case NLS_SCOMPLEX: {
+        return (char*)"Zf";
+    } break;
+    case NLS_INT8: {
+        return (char*)"b";
+    } break;
+    case NLS_INT16: {
+        return (char*)"h";
+    } break;
+    case NLS_INT32: {
+        return (char*)"i";
+    } break;
+    case NLS_INT64: {
+        return (char*)"q";
+    } break;
+    case NLS_UINT8: {
+        return (char*)"B";
+    } break;
+    case NLS_UINT16: {
+        return (char*)"H";
+    } break;
+    case NLS_UINT32: {
+        return (char*)"I";
+    } break;
+    case NLS_UINT64: {
+        return (char*)"Q";
+    } break;
+    case NLS_LOGICAL: {
+        return (char*)"?";
+    } break;
+    default: {
+        return (char*)"";
+    }
+    }
+    return (char*)"";
+}
+//=============================================================================
+NelsonType
+PyTypecodeToNelsonType(const char* memoryViewType)
+{
+    if (strcmp(memoryViewType, "?") == 0) {
+        return NLS_LOGICAL;
+    }
+    if (strcmp(memoryViewType, "d") == 0) {
+        return NLS_DOUBLE;
+    }
+    if (strcmp(memoryViewType, "f") == 0) {
+        return NLS_SINGLE;
+    }
+    if (strcmp(memoryViewType, "Zd") == 0) {
+        return NLS_DCOMPLEX;
+    }
+    if (strcmp(memoryViewType, "Zf") == 0) {
+        return NLS_SCOMPLEX;
+    }
+    if (strcmp(memoryViewType, "q") == 0) {
+        return NLS_INT64;
+    }
+    if (strcmp(memoryViewType, "Q") == 0) {
+        return NLS_UINT64;
+    }
+    if (strcmp(memoryViewType, "i") == 0) {
+        return NLS_INT32;
+    }
+    if (strcmp(memoryViewType, "I") == 0) {
+        return NLS_UINT32;
+    }
+    if (strcmp(memoryViewType, "h") == 0) {
+        return NLS_INT16;
+    }
+    if (strcmp(memoryViewType, "H") == 0) {
+        return NLS_UINT16;
+    }
+    if (strcmp(memoryViewType, "b") == 0) {
+        return NLS_INT8;
+    }
+    if (strcmp(memoryViewType, "B") == 0) {
+        return NLS_UINT8;
+    }
+
+    return NLS_UNKNOWN;
 }
 //=============================================================================
 }

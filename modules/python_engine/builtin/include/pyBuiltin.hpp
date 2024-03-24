@@ -9,14 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsPython_engine_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::Python_engineGateway {
 //=============================================================================
-NLSPYTHON_ENGINE_IMPEXP ArrayOf
-PyArgs(const ArrayOfVector& values);
+ArrayOfVector
+pyBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -38,7 +38,7 @@ PyRun(Interface* io, bool haveEventsLoop, const wstringVector& commands,
         std::wstring name = names[k];
         ArrayOf value = values[k];
         PyObject* pyValue = arrayOfToPyObject(values[k]);
-        int result = NLSPyObject_SetAttrString(
+        NLSPyObject_SetAttrString(
             (PyObject*)getPythonInterpreter(), wstring_to_utf8(name).c_str(), pyValue);
     }
     PythonRunner runner;
@@ -68,7 +68,11 @@ PyRun(Interface* io, bool haveEventsLoop, const wstringVector& commands,
     for (auto output : outputs) {
         PyObject* pythonObj = NLSPyObject_GetAttrString(
             (PyObject*)getPythonInterpreter(), wstring_to_utf8(output).c_str());
-        retval << PyObjectToArrayOf(pythonObj);
+        bool needDecreaseReference;
+        retval << PyObjectToArrayOf(pythonObj, needDecreaseReference);
+        if (needDecreaseReference) {
+            NLSPy_DECREF(pythonObj);
+        }
     }
 
     return retval;

@@ -15,11 +15,24 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+ArrayOf
+PyObjectToArrayOf(PyObject* pyObject, bool& needToDecreaseReference);
+//=============================================================================
+ArrayOf
+PyArrayArrayToArrayOf(PyObject* pyObject);
+//=============================================================================
+PyObject*
+arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dims);
+//=============================================================================
 PyObject*
 arrayOfToPyObject(const ArrayOf& A);
 //=============================================================================
-ArrayOf
-PyObjectToArrayOf(PyObject* pyObject);
+PyObject*
+PyArgsArrayOfToPyObject(const ArrayOf& A);
 //=============================================================================
+ArrayOf
+PyMemoryViewToArrayOf(PyObject* pyObject);
+//=============================================================================
+
 }
 //=============================================================================

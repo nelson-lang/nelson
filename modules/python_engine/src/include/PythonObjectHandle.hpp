@@ -9,11 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsPython_engine_exports.h"
 #include "Interface.hpp"
 #include "ArrayOf.hpp"
+#include <functional>
+#include <map>
+#include <string>
+
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,12 +26,6 @@ public:
     //=============================================================================
     PythonObjectHandle(void* _ptr);
     ~PythonObjectHandle() override;
-    //=============================================================================
-    void
-    declareAsKwargs();
-    //=============================================================================
-    bool
-    isKwargs();
     //=============================================================================
     void
     display(Interface* io);
@@ -58,6 +55,9 @@ public:
     invoke(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
         ArrayOfVector& results);
     //=============================================================================
+    bool
+    isMainPythonInterpreter();
+    //=============================================================================
 private:
     //=============================================================================
     wstringVector
@@ -66,7 +66,59 @@ private:
     bool
     isCastMethod(const std::wstring& methodName);
     //=============================================================================
-    bool _isKwargs;
+    bool
+    invokeCastMethod(const std::wstring& methodName, ArrayOfVector& results);
+    //=============================================================================
+    using MethodMap = std::map<std::wstring, std::function<bool(ArrayOfVector&)>>;
+    MethodMap methodMap;
+    //=============================================================================
+    bool
+    invokeCastCellMethod(ArrayOfVector& results);
+    bool
+    invokeCastStructMethod(ArrayOfVector& results);
+    bool
+    invokeCastNumericMethod(ArrayOfVector& results);
+    bool
+    invokeCastCharMethod(ArrayOfVector& results);
+    bool
+    invokeCastStringMethod(ArrayOfVector& results);
+    bool
+    invokeCastDoubleMethod(ArrayOfVector& results);
+    bool
+    invokeCastSingleMethod(ArrayOfVector& results);
+    bool
+    invokeCastLogicalMethod(ArrayOfVector& results);
+    bool
+    invokeCastInt8Method(ArrayOfVector& results);
+    bool
+    invokeCastInt16Method(ArrayOfVector& results);
+    bool
+    invokeCastInt32Method(ArrayOfVector& results);
+    bool
+    invokeCastInt64Method(ArrayOfVector& results);
+    bool
+    invokeCastUInt8Method(ArrayOfVector& results);
+    bool
+    invokeCastUInt16Method(ArrayOfVector& results);
+    bool
+    invokeCastUInt32Method(ArrayOfVector& results);
+    bool
+    invokeCastUInt64Method(ArrayOfVector& results);
+    //=============================================================================
+    bool
+    invokeMethodNoArgument(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
+        ArrayOfVector& results);
+    bool
+    invokeMethodOneArgument(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
+        ArrayOfVector& results);
+    bool
+    invokeMethodMultipleArguments(const std::wstring& methodName, const ArrayOfVector& inputs,
+        int nLhs, ArrayOfVector& results);
+    //=============================================================================
+    bool
+    invokeFunction(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
+        ArrayOfVector& results);
+    //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson

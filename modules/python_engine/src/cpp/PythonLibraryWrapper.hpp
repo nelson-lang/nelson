@@ -32,6 +32,7 @@ extern PyObject* _Py_NoneStructPtr;
 #define PyDict_Type *PyDict_TypePtr
 //=============================================================================
 #define _Py_NoneStruct *_Py_NoneStructPtr
+#define Py_None (&_Py_NoneStruct)
 //=============================================================================
 bool
 isPythonLibraryLoaded();
@@ -96,6 +97,12 @@ NLSPyObject_IsTrue(PyObject* ob);
 void
 NLSPy_DECREF(PyObject* op);
 //=============================================================================
+void
+NLSPy_INCREF(PyObject* op);
+//=============================================================================
+void
+NLSPy_XDECREF(PyObject* op);
+//=============================================================================
 double
 NLSPyFloat_AsDouble(PyObject* pyfloat);
 //=============================================================================
@@ -143,4 +150,107 @@ NLSPyUnicode_FromString(const char* str);
 //=============================================================================
 PyObject*
 NLSPyDict_New();
+//=============================================================================
+PyObject*
+NLSPyFloat_FromDouble(double v);
+//=============================================================================
+PyObject*
+NLSPy_BuildValue(const char* format, ...);
+//=============================================================================
+PyObject*
+NLSPyObject_CallOneArg(PyObject* callable, PyObject* arg);
+//=============================================================================
+PyObject*
+NLSPyObject_CallMethodOneItem(PyObject* obj, const char* name, const char* format, PyObject* item);
+//=============================================================================
+int
+NLSPyObject_IsInstance(PyObject* object, PyObject* typeorclass);
+//=============================================================================
+char*
+NLSPyBytes_AsString(PyObject*);
+//=============================================================================
+PyObject*
+NLSPySequence_GetItem(PyObject* o, Py_ssize_t i);
+//=============================================================================
+Py_ssize_t
+NLSPySequence_Size(PyObject* o);
+//=============================================================================
+PyObject*
+NLSPyObject_Repr(PyObject*);
+//=============================================================================
+int
+NLSPyBuffer_FillInfo(
+    Py_buffer* view, PyObject* o, void* buf, Py_ssize_t len, int readonly, int flags);
+//=============================================================================
+PyObject*
+NLSPyMemoryView_FromBuffer(const Py_buffer* info);
+//=============================================================================
+void
+NLSPyBuffer_Release(Py_buffer* view);
+//=============================================================================
+PyObject*
+NLSPyTuple_New(Py_ssize_t size);
+//=============================================================================
+PyObject* NLSPyLong_FromSize_t(size_t);
+//=============================================================================
+int
+NLSPyTuple_SetItem(PyObject* p, Py_ssize_t pos, PyObject* o);
+//=============================================================================
+int
+NLSPyObject_GetBuffer(PyObject* obj, Py_buffer* view, int flags);
+//=============================================================================
+PyObject*
+NLSPyComplex_FromCComplex(Py_complex cplx);
+//=============================================================================
+PyObject*
+NLSPyLong_FromLongLong(long long);
+//=============================================================================
+PyObject*
+NLSPyLong_FromUnsignedLongLong(unsigned long long);
+//=============================================================================
+PyObject*
+NLSPyBool_FromLong(long v);
+//=============================================================================
+PyObject*
+NLSPyLong_FromUnsignedLong(unsigned long);
+//=============================================================================
+PyObject*
+NLSPyLong_FromLong(long v);
+//=============================================================================
+PyObject*
+NLSPyObject_CallMethodOneArg(PyObject* self, PyObject* name, PyObject* arg);
+//=============================================================================
+PyObject*
+NLSPyObject_VectorcallMethod(
+    PyObject* name, PyObject* const* args, size_t nargsf, PyObject* kwnames);
+//=============================================================================
+long long
+NLSPyLong_AsLongLong(PyObject*);
+//=============================================================================
+unsigned long long
+NLSPyLong_AsUnsignedLongLong(PyObject*);
+//=============================================================================
+double
+NLSPyComplex_RealAsDouble(PyObject* op);
+//=============================================================================
+double
+NLSPyComplex_ImagAsDouble(PyObject* op);
+//=============================================================================
+Py_ssize_t
+NLSPyTuple_Size(PyObject*);
+//=============================================================================
+PyObject*
+NLSPyTuple_GetItem(PyObject*, Py_ssize_t);
+//=============================================================================
+PyObject*
+NLSPyEval_GetBuiltins(void);
+//=============================================================================
+PyObject*
+NLSPyDict_GetItemString(PyObject* dp, const char* key);
+//=============================================================================
+int
+NLSPyDict_SetItemString(PyObject* dp, const char* key, PyObject* item);
+//=============================================================================
+PyObject*
+NLSPyDict_Keys(PyObject* mp);
 //=============================================================================

@@ -28,28 +28,34 @@ Nelson::Python_engineGateway::pyrunBuiltin(Evaluator* eval, int nLhs, const Arra
     wstringVector names;
     ArrayOfVector values;
     // pyrun(code)
-    // outvars = pyrun(code, outputs)
-    // outvars = pyrun(code, outputs, pyName, pyValue)
-    // outvars = pyrun(code, pyName, pyValue)
-    // outvars = pyrun(code, outputs, pyName, pyValue, pyName, pyValue)
-    // outvars = pyrun(code, pyName, pyValue, pyName, pyValue)
     size_t positionNameValue = argIn.size();
     if (argIn.size() == 2) {
+        // outvars = pyrun(code, outputs)
         outputs = argIn[1].getContentAsWideStringVector(false);
         positionNameValue = argIn.size();
     } else if (argIn.size() == 3) {
+        // outvars = pyrun(code, pyName, pyValue)
         positionNameValue = 1;
     } else if (argIn.size() > 3) {
-        if (argIn.size() % 2) {
+        if (argIn.size() % 2 == 0) {
+            // outvars = pyrun(code, outputs, pyName, pyValue)
+            // outvars = pyrun(code, outputs, pyName, pyValue, pyName, pyValue)
             outputs = argIn[1].getContentAsWideStringVector(false);
             positionNameValue = 2;
         } else {
+            // outvars = pyrun(code, pyName, pyValue, pyName, pyValue)
             positionNameValue = 1;
         }
     }
+
     for (size_t k = positionNameValue; k < argIn.size(); k = k + 2) {
-        names.push_back(argIn[k].getContentAsWideString());
-        values.push_back(argIn[k + 1]);
+        if (argIn[k].isRowVectorCharacterArray() || argIn[k].isScalarStringArray()) {
+            names.push_back(argIn[k].getContentAsWideString());
+            values.push_back(argIn[k + 1]);
+        } else {
+            Error(_W("Field names must be string scalars or character vectors."),
+                L"Nelson:Pyrun:NonStringFieldNames");
+        }
     }
 
     if (nLhs > outputs.size()) {
