@@ -547,7 +547,10 @@ jobs:
       - name: Benchs
         run: cmake --build . -- benchs_all_no_display
       - name: Tests
-        run: cmake --build . -- tests_all_no_display
+        run: |
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+          cmake --build . -- tests_all_no_display
 
   Fedora:
     runs-on: ubuntu-latest
