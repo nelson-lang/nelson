@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1125](http://github.com/nelson-lang/nelson/issues/1125) Unsupported colon operator with char operands.
 - Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 - `gcd` without argument returned wrong error message.
+- [#1133](http://github.com/nelson-lang/nelson/issues/1133) [CI] [ARCH LINUX] Warning about MPI.
 
 ### Changed
 
