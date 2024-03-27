@@ -89,93 +89,93 @@ jobs:
           name: nelson-github-action-artifacts-macOS-sonoma-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
 
-  Ventura:
-    name: macOS X Ventura
-    runs-on: macos-13
-    timeout-minutes: 120
+  # Ventura:
+  #   name: macOS X Ventura
+  #   runs-on: macos-13
+  #   timeout-minutes: 120
 
-    steps:
-      - name: install dependencies
-        run: |
-          brew --version
-          brew cleanup
-          brew install coreutils
-          brew install zlib
-          brew install libtool
-          brew install automake
-          brew install libffi
-          brew install icu4c
-          brew info open-mpi
-          brew install openmpi
-          brew install pkg-config
-          brew install pkgconfig
-          brew install gettext
-          brew link gettext --force
-          echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
-          source ~/.zshrc
-          brew install boost
-          brew install libxml2
-          brew upgrade cmake
-          brew install fftw
-          brew install portaudio
-          brew install libsndfile
-          brew install taglib
-          brew install libgit2
-          brew install hdf5
-          brew install libmatio
-          brew install eigen
-          brew install libomp
-          brew link libomp --force
-          brew install openblas
-          brew link icu4c --force
+  #   steps:
+  #     - name: install dependencies
+  #       run: |
+  #         brew --version
+  #         brew cleanup
+  #         brew install coreutils
+  #         brew install zlib
+  #         brew install libtool
+  #         brew install automake
+  #         brew install libffi
+  #         brew install icu4c
+  #         brew info open-mpi
+  #         brew install openmpi
+  #         brew install pkg-config
+  #         brew install pkgconfig
+  #         brew install gettext
+  #         brew link gettext --force
+  #         echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+  #         source ~/.zshrc
+  #         brew install boost
+  #         brew install libxml2
+  #         brew upgrade cmake
+  #         brew install fftw
+  #         brew install portaudio
+  #         brew install libsndfile
+  #         brew install taglib
+  #         brew install libgit2
+  #         brew install hdf5
+  #         brew install libmatio
+  #         brew install eigen
+  #         brew install libomp
+  #         brew link libomp --force
+  #         brew install openblas
+  #         brew link icu4c --force
 
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: "6.4.2"
-      - name: Checkout
-        uses: actions/checkout@v4
+  #     - name: Install Qt
+  #       uses: jurplel/install-qt-action@v3
+  #       with:
+  #         version: "6.4.2"
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
-        id: json_version
+  #     - name: Get package version
+  #       uses: myrotvorets/info-from-package-json-action@2.0.0
+  #       id: json_version
 
-      - name: Update version
-        run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+  #     - name: Update version
+  #       run: |
+  #         python $GITHUB_WORKSPACE/tools/update_version/update_version.py
 
-      - name: CMake
-        run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
-      - name: make
-        run: cmake --build . -- -j$(nproc)
-      - name: get module skeleton
-        run: cmake --build . -- get_module_skeleton
-      - name: build help
-        run: |
-          cmake --build . -- buildhelp
-      - name: minimal tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_minimal
-      - name: package
-        run: cmake --build . -- package
-      - name: Install
-        run: sudo make install
-      - name: all benchs
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- benchs_all
-      - name: all tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_all
-      - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-      - uses: actions/upload-artifact@v1
-        with:
-          name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
-          path: artifacts/
+  #     - name: CMake
+  #       run: |
+  #         cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+  #     - name: make
+  #       run: cmake --build . -- -j$(nproc)
+  #     - name: get module skeleton
+  #       run: cmake --build . -- get_module_skeleton
+  #     - name: build help
+  #       run: |
+  #         cmake --build . -- buildhelp
+  #     - name: minimal tests
+  #       run: |
+  #         export OMP_NUM_THREADS=1
+  #         cmake --build . -- tests_minimal
+  #     - name: package
+  #       run: cmake --build . -- package
+  #     - name: Install
+  #       run: sudo make install
+  #     - name: all benchs
+  #       run: |
+  #         export OMP_NUM_THREADS=1
+  #         cmake --build . -- benchs_all
+  #     - name: all tests
+  #       run: |
+  #         export OMP_NUM_THREADS=1
+  #         cmake --build . -- tests_all
+  #     - name: Copy artifacts
+  #       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+  #         path: artifacts/
 
   Monterey:
     name: macOS X Monterey
