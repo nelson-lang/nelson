@@ -1261,6 +1261,9 @@ msgstr ""
 msgid "Axes graphic object expected."
 msgstr ""
 
+msgid "wrong type for #2 argument."
+msgstr ""
+
 msgid "Single scalar argument must be 2 or 3."
 msgstr ""
 
@@ -3427,6 +3430,81 @@ msgstr ""
 msgid "Filename:LinePosition(FunctionName)"
 msgstr ""
 
+msgid "Evaluator not available."
+msgstr ""
+
+msgid "Field names must be string scalars or character vectors."
+msgstr ""
+
+msgid "Wrong number of output arguments."
+msgstr ""
+
+msgid "PythonEnvironment object expected."
+msgstr ""
+
+msgid "Unable to set property of class 'PythonEnvironment' it is read-only."
+msgstr ""
+
+msgid "Python object expected."
+msgstr ""
+
+msgid "Same name, value numbers expected."
+msgstr ""
+
+msgid "Impossible to load Python library."
+msgstr ""
+
+msgid "Cannot initialize python environment."
+msgstr ""
+
+#, c-format
+msgid "  Python %s with no properties."
+msgstr ""
+
+#, c-format
+msgid "  Python %s with values:"
+msgstr ""
+
+#, c-format
+msgid "  Python %s:"
+msgstr ""
+
+msgid "Error calling property."
+msgstr ""
+
+msgid "Invalid Python object."
+msgstr ""
+
+msgid "Cannot convert to "
+msgstr ""
+
+msgid "Method does not exist."
+msgstr ""
+
+msgid "Error calling method."
+msgstr ""
+
+msgid "Failed to convert input argument to Python object."
+msgstr ""
+
+msgid "Conversion to Python is not supported."
+msgstr ""
+
+msgid "Conversion of 'char' to Python is only supported for 1-N vectors."
+msgstr ""
+
+msgid "Type not supported"
+msgstr ""
+
+msgid "Cannot create MemoryView."
+msgstr ""
+
+msgid "Failed to get buffer from memory view."
+msgstr ""
+
+msgid "Unsupported data format."
+msgstr ""
+
 msgid "QObject handle expected."
 msgstr ""
 
@@ -4682,6 +4760,10 @@ msgid "Invalid dimension position."
 msgstr ""
 
 msgid ""
+"Colon operands must be all the same type, or mixed with real scalar doubles."
+msgstr ""
+
+msgid ""
 "For colon operator with char operands, first and last operands must be char."
 msgstr ""
 
@@ -5152,9 +5234,6 @@ msgid "Invalid file id."
 msgstr ""
 
 msgid "Memory allocation error... You may have run out of memory!"
-msgstr ""
-
-msgid "Wrong number of output arguments."
 msgstr ""
 
 msgid "Wrong number of input arguments."
@@ -6308,6 +6387,9 @@ msgstr ""
 msgid "Invalid parameter/value pair arguments."
 msgstr ""
 
+msgid "Wrong type for input arguments."
+msgstr ""
+
 msgid "struct type expected."
 msgstr ""
 
@@ -6479,6 +6561,9 @@ msgstr ""
 msgid "Difference order N must be a positive integer scalar."
 msgstr ""
 
+msgid "The number of spacing values do not match."
+msgstr ""
+
 msgid "LOWER must be non-negative integers."
 msgstr ""
 
@@ -6592,6 +6677,12 @@ msgstr ""
 msgid "Illegal indexing structure argument: type () expected."
 msgstr ""
 
+msgid "B and A must be vectors."
+msgstr ""
+
+msgid "First coefficient of A must be non-zero."
+msgstr ""
+
 msgid "Argument must be a vector or a square matrix."
 msgstr ""
 
@@ -6608,6 +6699,42 @@ msgid "Input must be a vector."
 msgstr ""
 
 msgid "Input to roots function must not contain NaN or Inf."
+msgstr ""
+
+msgid "horzcat not allowed for class pyargs."
+msgstr ""
+
+msgid "NAME, VALUE pairs of arguments expected."
+msgstr ""
+
+msgid "subsasgn not allowed for class pyargs."
+msgstr ""
+
+msgid "subsref not allowed for class pyargs."
+msgstr ""
+
+msgid "vertcat not allowed for class pyargs."
+msgstr ""
+
+msgid "Python scripts are missing."
+msgstr ""
+
+msgid "The Python path cannot be modified if Python library is loaded."
+msgstr ""
+
+msgid "valid executable filename expected."
+msgstr ""
+
+msgid "Python version is not supported (at least 3.10.0 expected)."
+msgstr ""
+
+msgid "Python and Nelson must use the same architecture."
+msgstr ""
+
+msgid "Impossible to call Python. Check path."
+msgstr ""
+
+msgid "Python returns no value."
 msgstr ""
 
 msgid "M must be a positive integer."
