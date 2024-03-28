@@ -182,6 +182,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\betaincBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gammalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gcdBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -213,6 +214,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\betaincBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
+    <ClInclude Include="..\include\gammalnBuiltin.hpp" />
     <ClInclude Include="..\include\gcdBuiltin.hpp" />
     <ClInclude Include="..\include\__interp1__Builtin.hpp" />
     <ClInclude Include="..\include\nlsSpecial_functions_builtin_exports.h" />

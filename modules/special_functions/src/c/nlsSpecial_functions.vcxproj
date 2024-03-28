@@ -185,12 +185,14 @@
     <ClCompile Include="..\cpp\GCD.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\LinearInterpolation1D.cpp" />
+    <ClCompile Include="..\cpp\LogarithmGamma.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BetaIncomplete.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GCD.hpp" />
     <ClInclude Include="..\include\LinearInterpolation1D.hpp" />
+    <ClInclude Include="..\include\LogarithmGamma.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\elementary_mathematics\src\c\nlsElementary_mathematics.vcxproj">

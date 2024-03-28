@@ -30,6 +30,9 @@
     <ClCompile Include="..\cpp\LinearInterpolation1D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\LogarithmGamma.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Gamma.hpp">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\LinearInterpolation1D.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LogarithmGamma.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,11 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>gamma</keyword>
-  <short_description>Gamma special function</short_description>
+  <keyword>gammaln</keyword>
+  <short_description>Logarithm of gamma function
+</short_description>
 
   <syntax>
-    <syntax_item>R = gamma(M)</syntax_item>
+    <syntax_item>R = gammaln(M)</syntax_item>
   </syntax>
   
   <param_input>
@@ -22,13 +23,18 @@
 
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>result of gamma function.</param_description>
+      <param_description>result of gammaln function.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-    <p><b>gamma</b> computes the gamma function.</p>
-    <p><b>gamma</b> is an extension of the <b>factorial</b> function.</p>
+    <p>The function <b
+      >gammaln(A)</b> computes the natural logarithm of the gamma function for a given input <b
+      >A</b>, expressed as <b>gammaln(A) = log(gamma(A))</b>.</p>
+    <p>It's important to note that A must be a nonnegative real number.</p>
+    <p
+    >Using gammaln helps prevent potential underflow and overflow issues that might arise if directly computing <b
+      >log(gamma(A))</b>.</p>
   </description>
 
 
@@ -41,7 +47,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data>
-      <![CDATA[R = gamma([-pi:0.1:pi])]]>
+      <![CDATA[R = gammaln([0:0.1:pi])]]>
     </example_item_data>
   </example_item>
 
@@ -50,10 +56,7 @@
 
   <see_also>
     <see_also_item>
-      <link linkend="${special_functions}gammaln">gammaln</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}factorial">factorial</link>
+      <link linkend="${special_functions}gamma">gamma</link>
     </see_also_item>
   </see_also>
 

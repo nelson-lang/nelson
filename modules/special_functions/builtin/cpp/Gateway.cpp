@@ -9,6 +9,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "gammaBuiltin.hpp"
+#include "gammalnBuiltin.hpp"
 #include "betaincBuiltin.hpp"
 #include "gcdBuiltin.hpp"
 #include "__interp1__Builtin.hpp"
@@ -21,6 +22,7 @@ static const nlsGateway gateway[] = {
     { "gcd", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "gamma", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1 },
+    { "gammaln", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammalnBuiltin, 1, 1 },
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3 },
     { "__interp1__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interp1__Builtin, 1, 3,
         CPP_BUILTIN },
