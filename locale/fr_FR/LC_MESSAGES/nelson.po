@@ -7277,8 +7277,8 @@ msgid ""
 "The prewarp frequency, also known as the critical frequency, should be less "
 "than the Nyquist frequency."
 msgstr ""
-"La fréquence de pré-distorsion, également connue sous le nom de fréquence critique, devrait être inférieure "
-"à la fréquence de Nyquist."
+"La fréquence de pré-distorsion, également connue sous le nom de fréquence "
+"critique, devrait être inférieure à la fréquence de Nyquist."
 
 msgid "slicot_ab04md fails."
 msgstr "Échec de slicot_ab04md."
@@ -7827,14 +7827,18 @@ msgid "msvc compiler detected and configured."
 msgstr "Le compilateur msvc a été détecté et configuré."
 
 msgid "Wrong number of input arguments. Inputs must be name-value pairs."
-msgstr "Nombre incorrect d'arguments d'entrée. Les entrées doivent être des paires nom-valeur."
+msgstr ""
+"Nombre incorrect d'arguments d'entrée. Les entrées doivent être des paires "
+"nom-valeur."
 
 #, python-format
 msgid "Unexpected input name: '%s'."
 msgstr "Nom d'entrée inattendu : '%s'."
 
 msgid "Would you like to open your web browser to access the download page?"
-msgstr "Souhaitez-vous ouvrir votre navigateur Web pour accéder à la page de téléchargement ?"
+msgstr ""
+"Souhaitez-vous ouvrir votre navigateur Web pour accéder à la page de "
+"téléchargement ?"
 
 msgid "Update Available"
 msgstr "Mise à jour disponible"
@@ -7850,3 +7854,138 @@ msgstr "Une nouvelle version est disponible :"
 
 msgid "Please check url or your internet connection."
 msgstr "Veuillez vérifier l'URL ou votre connexion Internet."
+
+msgid "Second argument must a double or single variable."
+msgstr "Le deuxième argument doit être une variable double ou simple."
+
+msgid "'nostartup' and 'startup' are mutual exclusive.\n"
+msgstr "'nostartup' et 'startup' sont mutuellement exclusifs.\n"
+
+msgid "warning('query') does not require an second argument."
+msgstr "warning('query') ne nécessite pas de deuxième argument."
+
+msgid "wrong type for #2 argument."
+msgstr "mauvais type pour l'argument #2."
+
+msgid "Evaluator not available."
+msgstr "Évaluateur non disponible."
+
+msgid "Field names must be string scalars or character vectors."
+msgstr "Les noms de champ doivent être des scalaires de chaîne de caractères ou des vecteurs de caractères."
+
+msgid "PythonEnvironment object expected."
+msgstr "Objet PythonEnvironment attendu."
+
+msgid "Unable to set property of class 'PythonEnvironment' it is read-only."
+msgstr "Impossible de définir la propriété de la classe 'PythonEnvironment' elle est en lecture seule."
+
+msgid "Python object expected."
+msgstr "Objet Python attendu."
+
+msgid "Same name, value numbers expected."
+msgstr "Mêmes noms, nombres de valeurs attendus."
+
+msgid "Impossible to load Python library."
+msgstr "Impossible de charger la bibliothèque Python."
+
+msgid "Cannot initialize python environment."
+msgstr "Impossible d'initialiser l'environnement Python."
+
+#, c-format
+msgid "  Python %s with no properties."
+msgstr "  Python %s sans propriétés."
+
+#, c-format
+msgid "  Python %s with values:"
+msgstr "  Python %s avec les valeurs :"
+
+#, c-format
+msgid "  Python %s:"
+msgstr "  Python %s :"
+
+msgid "Error calling property."
+msgstr "Erreur lors de l'appel de la propriété."
+
+msgid "Invalid Python object."
+msgstr "Objet Python invalide."
+
+msgid "Cannot convert to "
+msgstr "Impossible de convertir en "
+
+msgid "Method does not exist."
+msgstr "La méthode n'existe pas."
+
+msgid "Error calling method."
+msgstr "Erreur lors de l'appel de la méthode."
+
+msgid "Failed to convert input argument to Python object."
+msgstr "Échec de la conversion de l'argument d'entrée en objet Python."
+
+msgid "Conversion to Python is not supported."
+msgstr "La conversion en Python n'est pas prise en charge."
+
+msgid "Conversion of 'char' to Python is only supported for 1-N vectors."
+msgstr "La conversion de 'char' en Python n'est prise en charge que pour les vecteurs 1-N."
+
+msgid "Type not supported"
+msgstr "Type non pris en charge"
+
+msgid "Cannot create MemoryView."
+msgstr "Impossible de créer MemoryView."
+
+msgid "Failed to get buffer from memory view."
+msgstr "Impossible d'obtenir le tampon depuis la vue mémoire."
+
+msgid "Unsupported data format."
+msgstr "Format de données non pris en charge."
+
+msgid "Colon operands must be all the same type, or mixed with real scalar doubles."
+msgstr "Les opérandes de deux-points doivent être tous du même type, ou mélangés avec des doubles scalaires réels."
+
+msgid "Wrong type for input arguments."
+msgstr "Mauvais type pour les arguments d'entrée."
+
+msgid "The number of spacing values do not match."
+msgstr "Le nombre de valeurs d'espacement ne correspond pas."
+
+msgid "B and A must be vectors."
+msgstr "B et A doivent être des vecteurs."
+
+msgid "First coefficient of A must be non-zero."
+msgstr "Le premier coefficient de A doit être non nul."
+
+msgid "horzcat not allowed for class pyargs."
+msgstr "horzcat n'est pas autorisé pour la classe pyargs."
+
+msgid "NAME, VALUE pairs of arguments expected."
+msgstr "Paires d'arguments NOM, VALEUR attendues."
+
+msgid "subsasgn not allowed for class pyargs."
+msgstr "subsasgn n'est pas autorisé pour la classe pyargs."
+
+msgid "subsref not allowed for class pyargs."
+msgstr "subsref n'est pas autorisé pour la classe pyargs."
+
+msgid "vertcat not allowed for class pyargs."
+msgstr "vertcat n'est pas autorisé pour la classe pyargs."
+
+msgid "Python scripts are missing."
+msgstr "Les scripts Python sont manquants."
+
+msgid "The Python path cannot be modified if Python library is loaded."
+msgstr "Le chemin Python ne peut pas être modifié si la bibliothèque Python est chargée."
+
+msgid "valid executable filename expected."
+msgstr "nom de fichier exécutable valide attendu."
+
+msgid "Python version is not supported (at least 3.10.0 expected)."
+msgstr "La version de Python n'est pas prise en charge (au moins 3.10.0 attendue)."
+
+msgid "Python and Nelson must use the same architecture."
+msgstr "Python et Nelson doivent utiliser la même architecture."
+
+msgid "Impossible to call Python. Check path."
+msgstr "Impossible d'appeler Python. Vérifiez le chemin."
+
+msgid "Python returns no value."
+msgstr "Python ne renvoie aucune valeur."

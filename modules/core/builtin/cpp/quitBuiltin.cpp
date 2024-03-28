@@ -80,7 +80,7 @@ int
 getExitCodeFromVariable(const ArrayOfVector& argIn)
 {
     int iValue = 0;
-    if (argIn[0].isNumeric() && argIn[0].isScalar()) {
+    if ((argIn[0].isNumeric() || argIn[0].isLogical()) && argIn[0].isScalar()) {
         // quit code
         double dValue = argIn[0].getContentAsDoubleScalar();
         iValue = static_cast<int>(dValue);

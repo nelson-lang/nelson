@@ -60,6 +60,8 @@ RUN apt-get install -y qttools5-dev-tools;
 RUN apt-get install -y libqt5opengl5-dev;
 RUN apt-get install -y libqt5help5;
 RUN apt-get install -y libqt5svg5-dev;
+RUN apt-get install -y python3;
+RUN apt-get install -y python3-numpy;
 
 
 RUN rm -rf /var/lib/apt/lists/*

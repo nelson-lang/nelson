@@ -77,5 +77,6 @@ modules_list = {
 {'geometry', true};
 {'com_engine', true};
 {'control_system', true};
+{'python_engine', true};
 };
 % ============================================================================

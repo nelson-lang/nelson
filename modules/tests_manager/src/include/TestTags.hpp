@@ -39,6 +39,7 @@ namespace Nelson {
 #define SEQUENTIAL_TEST_REQUIRED_TAG "<--SEQUENTIAL TEST REQUIRED-->"
 #define NATIVE_ARCHITECTURE_REQUIRED_TAG "<--NATIVE ARCHITECTURE TEST REQUIRED-->"
 #define FILE_WATCHER_REQUIRED_TAG "<--FILE WATCHER REQUIRED-->"
+#define PYTHON_ENVIRONMENT_REQUIRED_TAG "<--PYTHON ENVIRONMENT REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -66,6 +67,7 @@ private:
     bool _sequentialTestRequired;
     bool _nativeArchitectureRequired;
     bool _fileWatcherRequired;
+    bool _pythonEnvironmentRequired;
 
 public:
     TestTags()
@@ -93,6 +95,7 @@ public:
         _sequentialTestRequired = false;
         _nativeArchitectureRequired = false;
         _fileWatcherRequired = false;
+        _pythonEnvironmentRequired = false;
     }
 
     bool
@@ -214,6 +217,12 @@ public:
         return _fileWatcherRequired;
     }
 
+    bool
+    isPythonEnvironmentRequired()
+    {
+        return _pythonEnvironmentRequired;
+    }
+
     void
     setWithDisplay(bool val)
     {
@@ -320,6 +329,13 @@ public:
     {
         _fileWatcherRequired = val;
     }
+
+    void
+    setPythonEnvironmentRequired(bool val)
+    {
+        _pythonEnvironmentRequired = val;
+    }
+
     void
     setSequentialTestRequired(bool val)
     {

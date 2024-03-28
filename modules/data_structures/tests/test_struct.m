@@ -62,3 +62,7 @@ obj = weboptions();
 assert_isequal(class(obj), 'weboptions');
 assert_isequal(class(struct(obj)), 'struct');
 %=============================================================================
+R1 = struct('A', 1);
+R2 = struct("A", 1);
+assert_isequal(R1, R2);
+%=============================================================================

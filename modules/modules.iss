@@ -84,4 +84,5 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "signal_processing/module.iss"
 #include "geometry/module.iss"
 #include "control_system/module.iss"
+#include "python_engine/module.iss"
 ;==============================================================================

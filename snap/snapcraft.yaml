@@ -126,6 +126,8 @@ parts:
       - qt6-tools-dev
       - qmlscene
       - cmake
+      - python3-dev
+
 
     stage-packages:
       - libc6
@@ -199,6 +201,9 @@ parts:
       - libboost-regex1.74.0
       - libboost-serialization1.74.0
       - libboost-thread1.74.0
+      - python3
+      - python-numpy
+
 
 apps:
   nelson:

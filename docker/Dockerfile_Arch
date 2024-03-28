@@ -15,8 +15,6 @@ ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
 
 
-
-
 RUN pacman -Syu --noconfirm
 RUN pacman -S base-devel --noconfirm
 RUN pacman -S git --noconfirm       
@@ -49,6 +47,7 @@ RUN pacman -S zlib --noconfirm
 RUN pacman -S curl --noconfirm
 RUN pacman -S libgit2 --noconfirm
 RUN pacman -S python3 --noconfirm
+RUN pacman -S python-numpy --noconfirm
 RUN pacman -S eigen --noconfirm
 RUN pacman -S hdf5 --noconfirm
 RUN pacman -S libmatio --noconfirm

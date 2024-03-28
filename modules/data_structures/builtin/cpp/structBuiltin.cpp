@@ -54,7 +54,7 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
             values.push_back(ArrayOf());
         }
         for (size_t i = 0; i < pairCount * 2; i += 2) {
-            if (!(argIn[i].isRowVectorCharacterArray())) {
+            if (!(argIn[i].isRowVectorCharacterArray() || argIn[i].isScalarStringArray())) {
                 Error(_W("requires pairs of field names and values."));
             }
             std::string field = argIn[i].getContentAsCString();
