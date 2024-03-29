@@ -49,10 +49,10 @@ C = cov(M)]]>
 
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}var">var</link>
+      <link linkend="${statistics}var">var</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}mean">mean</link>
+      <link linkend="${statistics}mean">mean</link>
     </see_also_item>
 
   </see_also>
