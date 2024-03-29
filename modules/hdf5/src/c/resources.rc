@@ -49,8 +49,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,0
- PRODUCTVERSION 1,2,0,0
+ FILEVERSION 1,3,0,0
+ PRODUCTVERSION 1,3,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -69,8 +69,8 @@ BEGIN
             VALUE "InternalName", "hdf5"
             VALUE "OriginalFilename", "libnlshdf5.dll"
             VALUE "ProductName", "Nelson (hdf5)"
-            VALUE "ProductVersion", "1,2,0,0"
-            VALUE "FileVersion", "1,2,0,0"
+            VALUE "ProductVersion", "1,3,0,0"
+            VALUE "FileVersion", "1,3,0,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
