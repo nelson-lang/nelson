@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Python interface (part 1):
+
+  - CMake: Optional Python3 detection.
+  - `pyenv` Change default environment of Python interpreter.
+  - `pyrun` Run Python statements from Nelson.
+  - Major types conversions are compatible (numpy in the next upcoming version).
+
+- ArchLinux packaging (https://aur.archlinux.org/packages/nelson-git).
 - `contour` Contour plot of matrix.
 - `contour3` 3-D contour plot.
 - `shiftdim` Shift array dimensions.
@@ -17,7 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `vecnorm` Vector-wise norm.
 - [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
 - [#1126](http://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
-- ArchLinux packaging.
+
+### Changed
+
+- [#1110](http://github.com/nelson-lang/nelson/issues/1110) Eigen master branch (352ede96e4c331daae4e1be9a5f3f50fff951b8d) ready to use.
+- [#1134](http://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura disabled (Install dependencies fails)
+- `struct` supports scalar string array as field name.
 
 ### Fixed
 
@@ -28,11 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 - `gcd` without argument returned wrong error message.
 - [#1133](http://github.com/nelson-lang/nelson/issues/1133) [CI] [ARCH LINUX] Warning about MPI.
-
-### Changed
-
-- [#1110](http://github.com/nelson-lang/nelson/issues/1110) Eigen master branch (352ede96e4c331daae4e1be9a5f3f50fff951b8d) ready to use.
-- [#1134](http://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura disabled (Install dependencies fails)
 
 ## 1.2.0 (2024-02-25)
 

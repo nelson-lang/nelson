@@ -27,7 +27,7 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     if (!ParseTags(value, tags, msg)) {
         Error(msg);
     }
-    size_t nbFields = 64;
+    size_t nbFields = 65;
     wstringVector fieldnames;
     fieldnames.reserve(nbFields);
     ArrayOfVector fieldvalues;
@@ -78,6 +78,8 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNativeArchitecturedRequired()));
     fieldnames.push_back(L"file_watcher_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isFileWatcherRequired()));
+    fieldnames.push_back(L"python_environment_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isPythonEnvironmentRequired()));
 
     retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     return retval;

@@ -31,6 +31,9 @@
     ],
     "excludePathContains": [
       ".git",
+      "parts/",
+      "prime/",
+      "stage/",
       "modules/commons/src/include/nlohmann",
       "modules/f2c/src/c/libf2c",
       "modules/f2c/tests/dgemm.c",

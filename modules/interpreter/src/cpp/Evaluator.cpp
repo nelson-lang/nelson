@@ -65,6 +65,7 @@
 #include "DotPower.hpp"
 #include "Or.hpp"
 #include "OverloadName.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -3122,6 +3123,14 @@ Evaluator::functionExpression(
                                 s = s->down;
                                 return scalarArrayOfToArrayOfVector(r.getField(s->text));
                             }
+                        }
+                    }
+                    // exception for "py" name, need to be more generic
+                    if (t->text == "py") {
+                        FunctionDefPtr fdef;
+                        if (BuiltInFunctionDefManager::getInstance()->find(t->text, fdef)) {
+                            ArrayOfVector inputs;
+                            return fdef->evaluateFunction(this, inputs, 1);
                         }
                     }
                     Error(ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);

@@ -221,7 +221,7 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
       end
       time_test = time_test + test_case.time;
     end 
-
+    
     test_suite.test_cases_list = test_cases;
     test_suite.time = test_suite.time + time_test;
   end
@@ -403,6 +403,19 @@ function test_case = create_test_case(filename, classname)
     test_case.status = 'Interactive';
     test_case.skip = true;
   end
+  if ismodule('python_engine')
+    pe = pyenv();
+    if (test_case.options.python_environment_required && (pe.Version == ""))
+      test_case.status = 'Skip';
+      test_case.skip = true;
+    end
+  else
+   if (test_case.options.python_environment_required)
+    test_case.status = 'Skip';
+    test_case.skip = true;
+   end
+  end
+  
   test_case.command = 'echo skip';
   test_case.outputfile = '';
   test_case.redirect_err = '';

@@ -90,9 +90,10 @@ list(
   RANDOM
   TEXT_COMPLETION
   GEOMETRY
-  CONTROL_SYSTEM)
+  CONTROL_SYSTEM
+  PYTHON_ENGINE)
 
-foreach(mod ${modules_fully_disabled})
+  foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)
     string(TOLOWER ${mod} mod)
     list(APPEND moduleslist ${mod})

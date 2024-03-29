@@ -46,7 +46,8 @@ list(APPEND
   SPECIAL_FUNCTIONS
   TEXT_COMPLETION
   CHARACTERS_ENCODING
-  GEOMETRY)
+  GEOMETRY
+  PYTHON_ENGINE)
 
 foreach(mod ${without_module})
   if (WITHOUT_${mod}_MODULE)
@@ -55,6 +56,12 @@ foreach(mod ${without_module})
     set(WITH_${mod}_MODULE "true")
   endif()
 endforeach(mod)
+
+if (WITHOUT_NUMPY_SUPPORT)
+  set(WITH_NUMPY_SUPPORT 0)
+else()
+  set(WITH_NUMPY_SUPPORT 1)
+endif()
 
 configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
               "${CMAKE_SOURCE_DIR}/modules/modules.m")

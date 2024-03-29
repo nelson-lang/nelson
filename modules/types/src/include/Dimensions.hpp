@@ -95,7 +95,7 @@ public:
      * Throws an exception if the argument is bigger tha maxIndex or length.
      */
     indexType
-    getAt(indexType i, bool checkLength = true);
+    getAt(indexType i, bool checkLength = true) const;
     //=============================================================================
     /**
      * Return dimensions as vector;
