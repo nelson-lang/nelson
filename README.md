@@ -90,6 +90,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
 
+- Call Python from Nelson.
+
 - RESTful API web service.
 
 - Inter-process communication between Nelson's process.

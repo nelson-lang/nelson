@@ -22,7 +22,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### Modules and Extensions
 
-- Compatible python interface,
+- Compatible python interface (Part 1 v1.3.0),
 - Incorporate an Image Processing module,
 - Optimization of code execution using NPU/GPU arrays,
 - Integrate additional numerical methods,
@@ -49,7 +49,7 @@ Please feel free to file issues on this repository if you have questions, concer
 ### Plotting Features
 
 - Introduction of uicontrol,
-- Implementation of contour plots (Done v1.3.0),
+- Implementation of contour plots (DONE v1.3.0),
 - Enhancement of plot interaction features (e.g., zoom functionality, etc.) (Done v1.2.0).
 
 ### Data Handling and Compatibility
