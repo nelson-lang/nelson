@@ -66,7 +66,7 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
 
       craftctl set grade=stable
-      craftctl set version=1.2.0.0
+      craftctl set version=1.3.0.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
@@ -202,8 +202,6 @@ parts:
       - libboost-serialization1.74.0
       - libboost-thread1.74.0
       - python3
-      - python-numpy
-
 
 apps:
   nelson:
