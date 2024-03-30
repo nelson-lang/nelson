@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `xcorr2` 2-D cross-correlation.
 - `deconv` Deconvolution and polynomial division.
 - `vecnorm` Vector-wise norm.
+- `normpdf` Normal probability density function.
 - [#310](http://github.com/nelson-lang/nelson/issues/310) `gammaln` Logarithm of gamma function.
 - [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
 - [#1126](http://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
