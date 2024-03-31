@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.0 (UNRELEASED)
 
+### Added
+
+- [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
+
 ### Changed
 
 - [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
