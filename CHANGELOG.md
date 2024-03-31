@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.4.0 (UNRELEASED)
+
+### Changed
+
+- [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
+
 ## 1.3.0 (2024-03-30)
 
 ### Added

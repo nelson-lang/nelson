@@ -87,7 +87,7 @@ jobs:
           cmake --build . -- tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-sonoma-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -181,7 +181,7 @@ jobs:
   #         cmake --build . -- tests_all
   #     - name: Copy artifacts
   #       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-  #     - uses: actions/upload-artifact@v1
+  #     - uses: actions/upload-artifact@v4
   #       with:
   #         name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
   #         path: artifacts/
@@ -271,7 +271,7 @@ jobs:
           cmake --build . -- tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-Monterey-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -373,7 +373,7 @@ jobs:
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson_*.deb artifacts
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
           path: artifacts/
@@ -675,7 +675,7 @@ jobs:
 
     steps:
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1.3
+        uses: microsoft/setup-msbuild@v2
 
       - uses: actions/setup-python@v5
         with:
@@ -795,7 +795,7 @@ jobs:
         run: |
           mv Nelson-*.exe artifacts
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-windows-win32-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -810,7 +810,7 @@ jobs:
 
     steps:
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1.3
+        uses: microsoft/setup-msbuild@v2
 
       - uses: actions/setup-python@v5
         with:
@@ -927,7 +927,7 @@ jobs:
         run: |
           mv Nelson-*.exe artifacts
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-windows-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
