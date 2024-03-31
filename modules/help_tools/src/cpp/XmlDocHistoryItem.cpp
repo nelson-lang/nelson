@@ -61,7 +61,6 @@ XmlDocHistoryItem::writeAsMarkdown(std::string& utf8stream)
 {
     utf8stream = utf8stream + "|" + wstring_to_utf8(this->_version);
     utf8stream = utf8stream + "|" + wstring_to_utf8(this->_description) + "|" + "\n";
-    utf8stream = utf8stream + "\n";
     return true;
 }
 //=============================================================================
