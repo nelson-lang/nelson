@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
 
+### Fixed
+
+- [#1144](http://github.com/nelson-lang/nelson/issues/1144) test_run markdown help file had a typo.
+
 ## 1.3.0 (2024-03-30)
 
 ### Added
