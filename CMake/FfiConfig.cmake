@@ -16,35 +16,37 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_STRIP_TRAILING_WHITESPACE)
   if(NOT (NONZERO_BREW_EXIT_CODE))
     set(CMAKE_LIBFFI_PATH ${BREW_LIBFFI_PREFIX})
-  else()
-    message(
-      FATAL_ERROR
-        "Brew reported an error:\n${BREW_ERROR}.\nPlease resolve this error.")
   endif()
+
+  # If not found via Homebrew, try default paths
   if(NOT LIBFFI_INCLUDE_DIR)
-    if(EXISTS "$ENV{HOMEBREW_PREFIX}/opt/libffi/include/ffi.h")
-      set(LIBFFI_INCLUDE_DIR $ENV{HOMEBREW_PREFIX}/opt/libffi/include)
-    endif()
+    set(POSSIBLE_LIBFFI_PATHS
+      "$ENV{HOMEBREW_PREFIX}/opt/libffi/include"
+      "$ENV{HOMEBREW_CELLAR}/opt/libffi/include"
+      "/usr/local/opt/libffi/include"
+      "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/include"
+      )
+    foreach(PATH ${POSSIBLE_LIBFFI_PATHS})
+      if(EXISTS "${PATH}")
+        set(LIBFFI_INCLUDE_DIR ${PATH})
+        break()
+      endif()
+    endforeach()
   endif()  
-  if(NOT LIBFFI_INCLUDE_DIR)
-    if(EXISTS "/usr/local/opt/libffi/include/ffi.h")
-      set(LIBFFI_INCLUDE_DIR /usr/local/opt/libffi/include)
-    endif()
-  endif()
-  if(NOT LIBFFI_INCLUDE_DIR)
-    if(EXISTS "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/include")
-      set(LIBFFI_INCLUDE_DIR ${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/include)
-    endif()
-  endif()
+
   if(NOT LIBFFI_LIBRARY)
-    if(EXISTS "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/lib/libffi.dylib")
-      set(LIBFFI_LIBRARY
-          "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/lib/libffi.dylib")
-    endif()
-    if(EXISTS "${CMAKE_LIBFFI_PATH}/lib/libffi.dylib")
-      set(LIBFFI_LIBRARY ${CMAKE_LIBFFI_PATH}/lib/libffi.dylib)
-    endif()
+    set(POSSIBLE_LIBFFI_LIBRARIES
+      "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/lib/libffi.dylib"
+      "${CMAKE_LIBFFI_PATH}/lib/libffi.dylib"
+      )
+      foreach(PATH ${POSSIBLE_LIBFFI_LIBRARIES})
+        if(EXISTS "${PATH}")
+          set(LIBFFI_LIBRARY ${PATH})
+          break()
+        endif()
+      endforeach()
   endif()
+
 endif()
 # ==============================================================================
 if(NOT LIBFFI_LIBRARY)
