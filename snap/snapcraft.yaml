@@ -48,7 +48,7 @@ parts:
     plugin: nil
     source: https://github.com/nelson-lang/nelson
     source-type: git
-    source-branch: pyenv_snapcraft
+    source-branch: master
 
     override-build: |
       craftctl default
@@ -66,7 +66,7 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
 
       craftctl set grade=stable
-      craftctl set version=1.3.1.0
+      craftctl set version=1.3.0.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
