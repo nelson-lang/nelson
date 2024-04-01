@@ -36,6 +36,7 @@ function varargout = pyenv(varargin)
         varargout{1} = __pyenv__('', '', '', '');    
         return
       end
+
       if ~isfile(pythonExecutablePath)
         error(_('valid executable filename expected.'));
       end

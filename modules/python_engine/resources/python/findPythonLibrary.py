@@ -22,7 +22,11 @@ def findFolder(folder, libName):
             slExt = ('.dll', '.so', '.dylib')
             return name.startswith(slName) and name.endswith(slExt)
         # Get the list of files in the folder that match the criteria.
-        names = [n for n in os.listdir(folder) if isMatch(n)]
+        names = []
+        try:
+            names = [n for n in os.listdir(folder) if isMatch(n)]
+        except PermissionError:
+            pass
         # If matching files are found, return the path of the first one.
         if names:
             return os.path.join(folder, names[0])

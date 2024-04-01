@@ -107,6 +107,7 @@ static std::unordered_map<std::string, void*> pythonSymbols;
     pythonSymbols[#symbol_name]                                                                    \
         = reinterpret_cast<void*>(Nelson::get_function(python3XX_handle, #symbol_name));           \
     if (!pythonSymbols[#symbol_name]) {                                                            \
+        printf("Python Symbol not found: %s\n", #symbol_name);                                     \
         return false;                                                                              \
     }
 //=============================================================================
@@ -175,7 +176,6 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyDict_New);
     LOAD_PYTHON_SYMBOL(PyFloat_FromDouble);
     LOAD_PYTHON_SYMBOL(Py_VaBuildValue);
-    LOAD_PYTHON_SYMBOL(PyObject_CallOneArg);
     LOAD_PYTHON_SYMBOL(PyObject_CallMethod);
     LOAD_PYTHON_SYMBOL(PyObject_IsInstance);
     LOAD_PYTHON_SYMBOL(PyBytes_AsString);
@@ -481,13 +481,6 @@ NLSPy_BuildValue(const char* format, ...)
         = reinterpret_cast<PROC_Py_VaBuildValue>(pythonSymbols["Py_VaBuildValue"])(format, args);
     va_end(args);
     return result;
-}
-//=============================================================================
-PyObject*
-NLSPyObject_CallOneArg(PyObject* callable, PyObject* arg)
-{
-    return reinterpret_cast<PROC_PyObject_CallOneArg>(pythonSymbols["PyObject_CallOneArg"])(
-        callable, arg);
 }
 //=============================================================================
 PyObject*
