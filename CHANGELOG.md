@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
 - `getenv`: Retrieve the values of several environment variables.
+- `pyenv`: can use environment variables to set values.
 
 ### Changed
 
@@ -19,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [#1144](http://github.com/nelson-lang/nelson/issues/1144) test_run markdown help file had a typo.
-- [#1143](http://github.com/nelson-lang/nelson/issues/1143) Linux Snapcraft version does not allow to use python.
+- [#1143](http://github.com/nelson-lang/nelson/issues/1143) Linux Snapcraft version did not allow to use python.
 
 ## 1.3.0 (2024-03-30)
 
