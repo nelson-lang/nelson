@@ -779,7 +779,6 @@ PythonObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVect
     if (it != methodMap.end()) {
         return it->second(results);
     }
-    Error(_W("Cannot convert to ") + methodName);
     return false;
 }
 //=============================================================================

@@ -158,9 +158,6 @@ PyObject*
 NLSPy_BuildValue(const char* format, ...);
 //=============================================================================
 PyObject*
-NLSPyObject_CallOneArg(PyObject* callable, PyObject* arg);
-//=============================================================================
-PyObject*
 NLSPyObject_CallMethodOneItem(PyObject* obj, const char* name, const char* format, PyObject* item);
 //=============================================================================
 int

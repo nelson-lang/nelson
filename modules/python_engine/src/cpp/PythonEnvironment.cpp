@@ -11,6 +11,7 @@
 #include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
 #include "FileSystemWrapper.hpp"
+#include "GetVariableEnvironment.hpp"
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -27,7 +28,35 @@ PythonEnvironment::PythonEnvironment()
 
     _status = 0;
     _executionMode = 0;
-    loadPreviousState();
+    if (!loadPreviousStateFromEnvironmentVariables()) {
+        loadPreviousState();
+    }
+}
+//=============================================================================
+bool
+PythonEnvironment::loadPreviousStateFromEnvironmentVariables()
+{
+    std::wstring pythonVersion = GetVariableEnvironment(L"__NELSON_PYTHON_VERSION__", L"");
+    if (pythonVersion.empty()) {
+        return false;
+    }
+    std::wstring pythonExecutable = GetVariableEnvironment(L"__NELSON_PYTHON_EXECUTABLE__", L"");
+    if (!FileSystemWrapper::Path::is_regular_file(pythonExecutable)) {
+        return false;
+    }
+    std::wstring pythonLibrary = GetVariableEnvironment(L"__NELSON_PYTHON_LIBRARY__", L"");
+    if (pythonLibrary.empty()) {
+        return false;
+    }
+    std::wstring pythonHome = GetVariableEnvironment(L"__NELSON_PYTHON_HOME__", L"");
+    if (!FileSystemWrapper::Path::is_directory(pythonHome)) {
+        return false;
+    }
+    setVersion(pythonVersion);
+    setExecutable(pythonExecutable);
+    setLibrary(pythonLibrary);
+    setHome(pythonHome);
+    return true;
 }
 //=============================================================================
 bool
@@ -57,8 +86,7 @@ PythonEnvironment::loadPreviousState()
                 std::wstring executableW = utf8_to_wstring(executable);
                 std::wstring libraryW = utf8_to_wstring(library);
                 std::wstring homeW = utf8_to_wstring(home);
-                if (FileSystemWrapper::Path::is_regular_file(executableW)
-                    && FileSystemWrapper::Path::is_regular_file(libraryW)
+                if (FileSystemWrapper::Path::is_regular_file(executableW) && !libraryW.empty()
                     && FileSystemWrapper::Path::is_directory(homeW)) {
                     setVersion(versionW);
                     setExecutable(executableW);
