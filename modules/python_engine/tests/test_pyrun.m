@@ -27,3 +27,13 @@ assert_isequal(C, 1);
 %=============================================================================
 assert_checkerror('C = pyrun(''A = 1'', ''A'', 1, ''A'')', _('Field names must be string scalars or character vectors.'));
 %=============================================================================
+PYCODE = pyrun('x = compile(''print(55)'', ''test'', ''eval'')', 'x');
+assert_isequal(class(PYCODE), 'py.code');
+R = strtrim(evalc('pyrun(PYCODE)'));
+assert_isequal(R, '55');
+%=============================================================================
+PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X');
+assert_isequal(class(PYCODE), 'py.code');
+R = pyrun(PYCODE, 'Y');
+assert_isequal(R.char(), '3');
+%=============================================================================

@@ -17,18 +17,29 @@
 #include "characters_encoding.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "PythonTypesWrapper.hpp"
+#include "PythonObjectHandle.hpp"
 #include <thread>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOfVector
-PyRun(Interface* io, bool haveEventsLoop, const wstringVector& commands,
-    const wstringVector& outputs, const wstringVector& names, const ArrayOfVector& values)
+PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
+    const wstringVector& commands, const wstringVector& outputs, const wstringVector& names,
+    const ArrayOfVector& values)
 {
     initializePythonEngine();
 
     if (names.size() != values.size()) {
         Error(_W("Same name, value numbers expected."));
+    }
+
+    PyObject* pyCode = nullptr;
+    if (voidPythonObjectHandle) {
+        PythonObjectHandle* poh = (PythonObjectHandle*)voidPythonObjectHandle;
+        if (poh->getTypeName() != L"code") {
+            Error(_W("Valid Python code object expected."));
+        }
+        pyCode = (PyObject*)poh->getPointer();
     }
 
     ArrayOfVector retval = {};
@@ -45,8 +56,9 @@ PyRun(Interface* io, bool haveEventsLoop, const wstringVector& commands,
 
     PyThreadState* _save = NLSPyEval_SaveThread();
 
-    std::thread thread(
-        [&runner, &globalDict, &commands]() { runner.runPythonCode(globalDict, commands); });
+    std::thread thread([&runner, &globalDict, &pyCode, &commands]() {
+        runner.runPythonCode(globalDict, pyCode, commands);
+    });
     thread.detach();
 
     while (!runner.isResultReady()) {

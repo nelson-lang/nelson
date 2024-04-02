@@ -16,7 +16,7 @@
     <param_input_item>
       <param_name>code</param_name>
       <param_description
-      >a string scalar, string array, character vector or character array.</param_description>
+      >a string scalar, string array, character vector, character array or python code object.</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -81,6 +81,17 @@ r = pyrun('d = a + c', 'd')]]>
     </example_item_data>
   </example_item>
 
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description
+      >Python code object representing a script generated through the built-in compile function in Python</example_item_description>
+    <example_item_data
+      ><![CDATA[PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X')
+y = pyrun(PYCODE, 'Y')]]>
+    </example_item_data>
+  </example_item>
+
+
 </examples>
 
   <see_also>
@@ -96,6 +107,11 @@ r = pyrun('d = a + c', 'd')]]>
     <history_item>
       <history_version>1.3.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
+      >Python code object allowed as first input argument</history_description>
     </history_item>
   </history>
 

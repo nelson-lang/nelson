@@ -15,15 +15,15 @@
 namespace Nelson {
 //=============================================================================
 void
-PythonRunner::runPythonCode(PyObject* globalDict, const wstringVector& commands)
+PythonRunner::runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstringVector& commands)
 {
     outputMessage = L"";
     errorMessage = L"";
     PyGILState_STATE gstate = NLSPyGILState_Ensure();
-    for (auto command : commands) {
-        int res = NLSPyRun_SimpleStringFlags(wstring_to_utf8(command).c_str(), NULL);
+    if (pyCode) {
+        PyObject* result = NLSPyEval_EvalCode(pyCode, globalDict, nullptr);
         outputMessage += getPythonStandardOutput();
-        if (res != 0) {
+        if (result == NULL) {
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
             resultReady = true;
@@ -31,7 +31,22 @@ PythonRunner::runPythonCode(PyObject* globalDict, const wstringVector& commands)
             resultCondition.notify_one();
             return;
         }
+        NLSPy_DECREF(result);
+    } else {
+        for (auto command : commands) {
+            int res = NLSPyRun_SimpleStringFlags(wstring_to_utf8(command).c_str(), NULL);
+            outputMessage += getPythonStandardOutput();
+            if (res != 0) {
+                errorMessage = getPythonStandardError();
+                NLSPyErr_Clear();
+                resultReady = true;
+                NLSPyGILState_Release(gstate);
+                resultCondition.notify_one();
+                return;
+            }
+        }
     }
+
     NLSPyGILState_Release(gstate);
     resultReady = true;
     resultCondition.notify_one();

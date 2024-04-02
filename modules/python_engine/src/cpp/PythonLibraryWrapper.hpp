@@ -261,3 +261,6 @@ NLSPyBytes_AsStringAndSize(PyObject* obj, char** s, Py_ssize_t* len);
 char*
 NLSPyByteArray_AsString(PyObject* obj);
 //=============================================================================
+PyObject*
+NLSPyEval_EvalCode(PyObject* co, PyObject* globals, PyObject* locals);
+//=============================================================================
