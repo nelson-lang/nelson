@@ -142,7 +142,7 @@ convertDoubleArray(const ArrayOf& A)
     }
     if (A.isScalar()) {
         pyObj = NLSPyFloat_FromDouble(A.getContentAsDoubleScalar());
-    } else if (A.isEmpty() || A.isVector()) {
+    } else if (!A.isComplex() && (A.isEmpty() || A.isVector())) {
         pyObj = rowVectorToPyArray(
             A.getDataPointer(), A.getElementCount(), nelsonTypeToTypeCode(A.getDataClass()));
     } else {
@@ -157,7 +157,7 @@ convertSingleArray(const ArrayOf& A)
     PyObject* pyObj = nullptr;
     if (A.isScalar()) {
         pyObj = NLSPyFloat_FromDouble((double)A.getContentAsSingleScalar());
-    } else if (A.isEmpty() || A.isVector()) {
+    } else if (!A.isComplex() && (A.isEmpty() || A.isVector())) {
         pyObj = rowVectorToPyArray(
             A.getDataPointer(), A.getElementCount(), nelsonTypeToTypeCode(A.getDataClass()));
     } else {
@@ -179,9 +179,6 @@ convertDoubleComplexArray(const ArrayOf& A)
         pyCplx.imag = cplx.imag();
         pyCplx.real = cplx.real();
         pyObj = NLSPyComplex_FromCComplex(pyCplx);
-    } else if (A.isEmpty() || A.isVector()) {
-        pyObj = rowVectorToPyArray(
-            A.getDataPointer(), A.getElementCount() * 2, nelsonTypeToTypeCode(A.getDataClass()));
     } else {
         pyObj = arrayToMemoryView(A.getDataPointer(), A.getDataClass(), A.getDimensions());
     }
@@ -198,9 +195,6 @@ convertSingleComplexArray(const ArrayOf& A)
         pyCplx.imag = cplx.imag();
         pyCplx.real = cplx.real();
         pyObj = NLSPyComplex_FromCComplex(pyCplx);
-    } else if (A.isEmpty() || A.isVector()) {
-        pyObj = rowVectorToPyArray(
-            A.getDataPointer(), A.getElementCount() * 2, nelsonTypeToTypeCode(A.getDataClass()));
     } else {
         pyObj = arrayToMemoryView(A.getDataPointer(), A.getDataClass(), A.getDimensions());
     }
@@ -372,12 +366,14 @@ rowVectorToPyArray(const void* ptrValues, size_t len, const char* dataType)
     for (size_t k = 0; k < len; k++) {
         PyObject* item = nullptr;
         if (!item && strcmp(dataType, "Zf") == 0) {
+            // not supported
             Py_complex pyCplx;
             pyCplx.real = ((const single*)ptrValues)[k];
             pyCplx.imag = ((const single*)ptrValues)[k + 1];
             item = NLSPyComplex_FromCComplex(pyCplx);
         }
         if (!item && strcmp(dataType, "Zd") == 0) {
+            // not supported
             Py_complex pyCplx
                 = { ((const double*)ptrValues)[k], ((const double*)ptrValues)[k + 1] };
             item = NLSPyComplex_FromCComplex(pyCplx);
@@ -397,17 +393,25 @@ rowVectorToPyArray(const void* ptrValues, size_t len, const char* dataType)
         if (!item && strcmp(dataType, "I") == 0) {
             item = NLSPyLong_FromUnsignedLong((unsigned long)((const uint32*)ptrValues)[k]);
         }
+        if (!item && strcmp(dataType, "L") == 0) {
+            item = NLSPyLong_FromUnsignedLong((unsigned long)((const uint32*)ptrValues)[k]);
+        }
         if (!item && strcmp(dataType, "Q") == 0) {
             item
                 = NLSPyLong_FromUnsignedLongLong((unsigned long long)((const uint64*)ptrValues)[k]);
         }
         if (!item && strcmp(dataType, "b") == 0) {
-            item = NLSPyLong_FromLong((long)((const int8*)ptrValues)[k]);
+            int8* ptr = (int8*)(ptrValues);
+            int8 i8value = ptr[k];
+            item = NLSPyLong_FromLong((long)(i8value));
         }
         if (!item && strcmp(dataType, "h") == 0) {
             item = NLSPyLong_FromLong((long)((const int16*)ptrValues)[k]);
         }
         if (!item && strcmp(dataType, "i") == 0) {
+            item = NLSPyLong_FromLong((long)((const int32*)ptrValues)[k]);
+        }
+        if (!item && strcmp(dataType, "l") == 0) {
             item = NLSPyLong_FromLong((long)((const int32*)ptrValues)[k]);
         }
         if (!item && strcmp(dataType, "q") == 0) {
@@ -495,7 +499,7 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
     }
     pyBuffer.ndim = (int)dims.getLength();
 
-    Py_ssize_t* shape = new Py_ssize_t[dims.getLength()];
+    Py_ssize_t* shape = (Py_ssize_t*)malloc(sizeof(Py_ssize_t) * dims.getLength());
     for (size_t k = 0; k < dims.getLength(); ++k) {
         shape[k] = dims.getAt(k);
     }
@@ -508,15 +512,10 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
     }
 
     Py_ssize_t sz = getTypeSize(nelsonType);
-
-    if (nelsonType == NLS_SCOMPLEX || nelsonType == NLS_DCOMPLEX) {
-        memcpy(ptr, data, sz * dims.getElementCount() * 2);
-    } else {
-        memcpy(ptr, data, sz * dims.getElementCount());
-    }
+    memcpy(ptr, data, sz * dims.getElementCount());
     pyBuffer.buf = ptr;
 
-    Py_ssize_t* strides = new Py_ssize_t[dims.getLength()];
+    Py_ssize_t* strides = (Py_ssize_t*)malloc(sizeof(Py_ssize_t) * dims.getLength());
     for (size_t k = 0; k < dims.getLength(); ++k) {
         strides[k] = sz;
     }
@@ -544,40 +543,30 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     if (NLSPyObject_GetBuffer(pyObject, &pyBuffer, PyBUF_FORMAT | PyBUF_STRIDES) == -1) {
         Error(_W("Failed to get buffer from memory view."));
     }
+    size_t nbElements = pyBuffer.len / pyBuffer.itemsize;
+
     size_t ndim = pyBuffer.ndim;
     std::vector<indexType> dimsVector;
     dimsVector.reserve(ndim);
     for (size_t k = 0; k < ndim; ++k) {
         dimsVector.push_back(pyBuffer.shape[k]);
     }
-
+    if (nbElements > 0 && dimsVector.empty()) {
+        dimsVector.push_back(1);
+        dimsVector.push_back(nbElements);
+    }
+    if (dimsVector.size() == 1) {
+        indexType d = dimsVector[0];
+        dimsVector[0] = 1;
+        dimsVector.push_back(d);
+    }
     Dimensions dims(dimsVector);
     NelsonType nelsonType = PyTypecodeToNelsonType(pyBuffer.format);
     switch (nelsonType) {
-    case NLS_DOUBLE: {
-        double* data = (double*)pyBuffer.buf;
-        double* ptr = (double*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
-        memcpy(ptr, data, dims.getElementCount() * sizeof(double));
-        return ArrayOf(nelsonType, dims, ptr);
-    } break;
-    case NLS_SINGLE: {
-        single* data = (single*)pyBuffer.buf;
-        single* ptr = (single*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
-        memcpy(ptr, data, dims.getElementCount() * sizeof(single));
-        return ArrayOf(nelsonType, dims, ptr);
-    } break;
-    case NLS_DCOMPLEX: {
-        double* data = (double*)pyBuffer.buf;
-        double* ptr = (double*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
-        memcpy(ptr, data, 2 * dims.getElementCount() * sizeof(double));
-        return ArrayOf(nelsonType, dims, ptr);
-    } break;
-    case NLS_SCOMPLEX: {
-        single* data = (single*)pyBuffer.buf;
-        single* ptr = (single*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
-        memcpy(ptr, data, 2 * dims.getElementCount() * sizeof(single));
-        return ArrayOf(nelsonType, dims, ptr);
-    } break;
+    case NLS_DCOMPLEX:
+    case NLS_SCOMPLEX:
+    case NLS_DOUBLE:
+    case NLS_SINGLE:
     case NLS_INT8:
     case NLS_INT16:
     case NLS_INT32:
@@ -587,14 +576,13 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     case NLS_UINT32:
     case NLS_UINT64:
     case NLS_LOGICAL: {
-        logical* data = (logical*)pyBuffer.buf;
-        logical* ptr = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.getElementCount());
-        memcpy(ptr, data, dims.getElementCount() * sizeof(logical));
-        return ArrayOf(NLS_LOGICAL, dims, ptr);
+        void* data = (void*)pyBuffer.buf;
+        void* ptr = (void*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
+        ArrayOf res = ArrayOf(nelsonType, dims, ptr);
+        memcpy(ptr, data, res.getByteSize());
+        return res;
     } break;
-    case NLS_CHAR: {
-    } break;
-
+    case NLS_CHAR:
     case NLS_STRUCT_ARRAY:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
@@ -732,9 +720,8 @@ PyArrayArrayToDoubleArrayOf(NelsonType nelsonType, PyObject* pyObject, Py_ssize_
 {
     Dimensions dimsVector(1, vectorSize);
     void* ptr = ArrayOf::allocateArrayOf(nelsonType, dimsVector.getElementCount());
-    double* ptrRes = (double*)ptr;
     ArrayOf res = ArrayOf(nelsonType, dimsVector, ptr);
-
+    double* ptrRes = (double*)ptr;
     for (Py_ssize_t i = 0; i < vectorSize; ++i) {
         PyObject* item = NLSPySequence_GetItem(pyObject, i);
         ptrRes[i] = NLSPyFloat_AsDouble(item);

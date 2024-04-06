@@ -17,6 +17,8 @@ PyTypeObject* PyBool_TypePtr = nullptr;
 PyTypeObject* PyComplex_TypePtr = nullptr;
 PyTypeObject* PyFloat_TypePtr = nullptr;
 PyTypeObject* PyLong_TypePtr = nullptr;
+PyTypeObject* PyBytes_TypePtr = nullptr;
+PyTypeObject* PyByteArray_TypePtr = nullptr;
 PyTypeObject* PyMemoryView_TypePtr = nullptr;
 PyTypeObject* PyUnicode_TypePtr = nullptr;
 PyTypeObject* PyDict_TypePtr = nullptr;
@@ -83,7 +85,7 @@ using PROC_PyLong_FromSize_t = PyObject* (*)(size_t sz);
 using PROC_PyTuple_SetItem = int (*)(PyObject* p, Py_ssize_t pos, PyObject* o);
 using PROC_PyObject_GetBuffer = int (*)(PyObject* obj, Py_buffer* view, int flags);
 using PROC_PyComplex_FromCComplex = PyObject* (*)(Py_complex cplx);
-using PROC_PyLong_FromLongLong = PyObject* (*)(long long);
+using PROC_PyLong_FromLongLong = PyObject* (*)(long long v);
 using PROC_PyLong_FromUnsignedLongLong = PyObject* (*)(unsigned long long);
 using PROC_PyBool_FromLong = PyObject* (*)(long v);
 using PROC_PyLong_FromUnsignedLong = PyObject* (*)(unsigned long v);
@@ -100,6 +102,8 @@ using PROC_PyEval_GetBuiltins = PyObject* (*)(void);
 using PROC_PyDict_GetItemString = PyObject* (*)(PyObject* dp, const char* key);
 using PROC_PyDict_SetItemString = int (*)(PyObject* dp, const char* key, PyObject* item);
 using PROC_PyDict_Keys = PyObject* (*)(PyObject* mp);
+using PROC_PyBytes_AsStringAndSize = int (*)(PyObject* obj, char** s, Py_ssize_t* len);
+using PROC_PyByteArray_AsString = char* (*)(PyObject* obj);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -127,15 +131,20 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyComplex_Type);
     LOAD_PYTHON_SYMBOL(PyFloat_Type);
     LOAD_PYTHON_SYMBOL(PyLong_Type);
+    LOAD_PYTHON_SYMBOL(PyBytes_Type);
+    LOAD_PYTHON_SYMBOL(PyByteArray_Type);
     LOAD_PYTHON_SYMBOL(PyMemoryView_Type);
     LOAD_PYTHON_SYMBOL(PyUnicode_Type);
     LOAD_PYTHON_SYMBOL(PyDict_Type);
     LOAD_PYTHON_SYMBOL(_Py_NoneStruct);
-
+    //=============================================================================
     PyBool_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyBool_Type"]);
     PyComplex_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyComplex_Type"]);
     PyFloat_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyFloat_Type"]);
     PyLong_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyLong_Type"]);
+    PyBytes_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyBytes_Type"]);
+    PyByteArray_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyByteArray_Type"]);
+
     PyMemoryView_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyMemoryView_Type"]);
     PyUnicode_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyUnicode_Type"]);
     PyDict_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyDict_Type"]);
@@ -191,10 +200,10 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyObject_GetBuffer);
     LOAD_PYTHON_SYMBOL(PyComplex_FromCComplex);
     LOAD_PYTHON_SYMBOL(PyLong_FromLongLong);
+    LOAD_PYTHON_SYMBOL(PyLong_FromLong);
     LOAD_PYTHON_SYMBOL(PyLong_FromUnsignedLongLong);
     LOAD_PYTHON_SYMBOL(PyBool_FromLong);
     LOAD_PYTHON_SYMBOL(PyLong_FromUnsignedLong);
-    LOAD_PYTHON_SYMBOL(PyLong_FromLong);
     LOAD_PYTHON_SYMBOL(PyObject_VectorcallMethod);
     LOAD_PYTHON_SYMBOL(PyLong_AsLongLong);
     LOAD_PYTHON_SYMBOL(PyLong_AsUnsignedLongLong);
@@ -206,6 +215,8 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyDict_GetItemString);
     LOAD_PYTHON_SYMBOL(PyDict_SetItemString);
     LOAD_PYTHON_SYMBOL(PyDict_Keys);
+    LOAD_PYTHON_SYMBOL(PyBytes_AsStringAndSize);
+    LOAD_PYTHON_SYMBOL(PyByteArray_AsString);
 
     return true;
 }
@@ -236,6 +247,8 @@ unloadPythonLibrary()
     PyComplex_TypePtr = nullptr;
     PyFloat_TypePtr = nullptr;
     PyLong_TypePtr = nullptr;
+    PyBytes_TypePtr = nullptr;
+    PyByteArray_TypePtr = nullptr;
     PyMemoryView_TypePtr = nullptr;
     PyUnicode_TypePtr = nullptr;
     _Py_NoneStructPtr = nullptr;
@@ -604,7 +617,7 @@ NLSPyLong_FromUnsignedLong(unsigned long v)
 PyObject*
 NLSPyLong_FromLong(long v)
 {
-    return reinterpret_cast<PROC_PyLong_FromLong>(pythonSymbols["PyPyLong_FromLong"])(v);
+    return reinterpret_cast<PROC_PyLong_FromLong>(pythonSymbols["PyLong_FromLong"])(v);
 }
 //=============================================================================
 PyObject*
@@ -686,5 +699,18 @@ PyObject*
 NLSPyDict_Keys(PyObject* mp)
 {
     return reinterpret_cast<PROC_PyDict_Keys>(pythonSymbols["PyDict_Keys"])(mp);
+}
+//=============================================================================
+int
+NLSPyBytes_AsStringAndSize(PyObject* obj, char** s, Py_ssize_t* len)
+{
+    return reinterpret_cast<PROC_PyBytes_AsStringAndSize>(pythonSymbols["PyBytes_AsStringAndSize"])(
+        obj, s, len);
+}
+//=============================================================================
+char*
+NLSPyByteArray_AsString(PyObject* obj)
+{
+    return reinterpret_cast<PROC_PyByteArray_AsString>(pythonSymbols["PyByteArray_AsString"])(obj);
 }
 //=============================================================================

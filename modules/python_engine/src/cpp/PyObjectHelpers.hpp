@@ -15,6 +15,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+enum PythonType
+{
+    PY_NONE_TYPE = 0,
+    PY_STR_TYPE,
+    PY_FLOAT_TYPE,
+    PY_BOOL_TYPE,
+    PY_COMPLEX_TYPE,
+    PY_LONG_TYPE,
+    PY_BYTES_TYPE,
+    PY_BYTE_ARRAY_TYPE,
+    PY_MEMORY_VIEW_TYPE,
+    PY_LIST_TYPE,
+    PY_TUPLE_TYPE,
+    PY_DICT_TYPE,
+    PY_ARRAY_ARRAY_TYPE,
+    PY_NUMPY_TYPE,
+    PY_NOT_MANAGED
+};
+//=============================================================================
+PythonType
+getPythonType(PyObject* po);
+//=============================================================================
 std::wstring
 PyObjectToStringRepresentation(PyObject* po);
 //=============================================================================

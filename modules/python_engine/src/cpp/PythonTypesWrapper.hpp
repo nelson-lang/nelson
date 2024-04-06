@@ -27,12 +27,8 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
 PyObject*
 arrayOfToPyObject(const ArrayOf& A);
 //=============================================================================
-PyObject*
-PyArgsArrayOfToPyObject(const ArrayOf& A);
-//=============================================================================
 ArrayOf
 PyMemoryViewToArrayOf(PyObject* pyObject);
 //=============================================================================
-
 }
 //=============================================================================

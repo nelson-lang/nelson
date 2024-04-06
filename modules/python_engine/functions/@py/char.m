@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = char(obj)
- r = obj.char();
+  if ismethod(obj, 'char')
+    r = obj.char();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'char']);
+  end
 end
 %=============================================================================

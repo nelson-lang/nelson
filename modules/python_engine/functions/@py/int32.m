@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = int32(obj)
- r = obj.int32();
+  if ismethod(obj, 'int32')
+    r = obj.int32();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'int32']);
+  end
 end
 %=============================================================================

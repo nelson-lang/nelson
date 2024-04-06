@@ -17,6 +17,8 @@ extern PyTypeObject* PyBool_TypePtr;
 extern PyTypeObject* PyComplex_TypePtr;
 extern PyTypeObject* PyFloat_TypePtr;
 extern PyTypeObject* PyLong_TypePtr;
+extern PyTypeObject* PyBytes_TypePtr;
+extern PyTypeObject* PyByteArray_TypePtr;
 extern PyTypeObject* PyMemoryView_TypePtr;
 extern PyTypeObject* PyUnicode_TypePtr;
 extern PyTypeObject* PyDict_TypePtr;
@@ -27,6 +29,8 @@ extern PyObject* _Py_NoneStructPtr;
 #define PyComplex_Type *PyComplex_TypePtr
 #define PyFloat_Type *PyFloat_TypePtr
 #define PyLong_Type *PyLong_TypePtr
+#define PyBytes_Type *PyBytes_TypePtr
+#define PyByteArray_Type *PyByteArray_TypePtr
 #define PyMemoryView_Type *PyMemoryView_TypePtr
 #define PyUnicode_Type *PyUnicode_TypePtr
 #define PyDict_Type *PyDict_TypePtr
@@ -250,4 +254,10 @@ NLSPyDict_SetItemString(PyObject* dp, const char* key, PyObject* item);
 //=============================================================================
 PyObject*
 NLSPyDict_Keys(PyObject* mp);
+//=============================================================================
+int
+NLSPyBytes_AsStringAndSize(PyObject* obj, char** s, Py_ssize_t* len);
+//=============================================================================
+char*
+NLSPyByteArray_AsString(PyObject* obj);
 //=============================================================================

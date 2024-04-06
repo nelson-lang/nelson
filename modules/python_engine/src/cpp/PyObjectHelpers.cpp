@@ -12,6 +12,76 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+PythonType
+getPythonType(PyObject* po)
+{
+    if (po == nullptr) {
+        return PythonType::PY_NOT_MANAGED;
+    }
+
+    PyTypeObject* pyTypeObject = Py_TYPE(po);
+
+    if (pyTypeObject == PyFloat_TypePtr) {
+        return PythonType::PY_FLOAT_TYPE;
+    }
+    if (pyTypeObject == PyBool_TypePtr) {
+        return PythonType::PY_BOOL_TYPE;
+    }
+    if (pyTypeObject == PyComplex_TypePtr) {
+        return PythonType::PY_COMPLEX_TYPE;
+    }
+    if (pyTypeObject == PyLong_TypePtr) {
+        return PythonType::PY_LONG_TYPE;
+    }
+    if (pyTypeObject == PyBytes_TypePtr) {
+        return PythonType::PY_BYTES_TYPE;
+    }
+    if (pyTypeObject == PyByteArray_TypePtr) {
+        return PythonType::PY_BYTE_ARRAY_TYPE;
+    }
+
+    std::wstring typeName = TypeName(po);
+    if (typeName == L"NoneType") {
+        return PythonType::PY_NONE_TYPE;
+    }
+    if (typeName == L"memoryview") {
+        return PythonType::PY_MEMORY_VIEW_TYPE;
+    }
+    if (typeName == L"list") {
+        return PythonType::PY_LIST_TYPE;
+    }
+    if (typeName == L"tuple") {
+        return PythonType::PY_TUPLE_TYPE;
+    }
+    if (typeName == L"dict") {
+        return PythonType::PY_DICT_TYPE;
+    }
+    if (typeName == L"str") {
+        return PythonType::PY_STR_TYPE;
+    }
+
+    std::wstring numpyPrefix = L"numpy.";
+    if (typeName.compare(0, numpyPrefix.length(), numpyPrefix) == 0) {
+        return PythonType::PY_NUMPY_TYPE;
+    }
+
+    PyObject* arrayModule = NLSPyImport_ImportModule("array");
+    if (arrayModule) {
+        PyObject* arrayType = NLSPyObject_GetAttrString(arrayModule, "array");
+        if (arrayType) {
+            if (NLSPyObject_IsInstance(po, arrayType)) {
+                NLSPy_XDECREF(arrayType);
+                NLSPy_XDECREF(arrayModule);
+                return PythonType::PY_ARRAY_ARRAY_TYPE;
+            }
+            NLSPy_XDECREF(arrayType);
+        }
+        NLSPy_XDECREF(arrayModule);
+    }
+
+    return PythonType::PY_NOT_MANAGED;
+}
+//=============================================================================
 std::wstring
 PyObjectToStringRepresentation(PyObject* po)
 {
@@ -48,7 +118,6 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods)
         for (Py_ssize_t i = 0; i < size; ++i) {
             PyObject* item = NLSPyList_GetItem(dir_result, i);
             if (item != NULL) {
-
                 const char* attr_name = NLSPyUnicode_AsUTF8(item);
                 if (attr_name) {
                     PyObject* method = NLSPyObject_GetAttrString(po, attr_name);
@@ -130,34 +199,17 @@ deepCopyPyObject(PyObject* obj)
 const char*
 getArrayArrayTypeCode(PyObject* pyObject)
 {
-    PyObject* arrayModule = NLSPyImport_ImportModule("array");
-    if (!arrayModule) {
-        return nullptr;
-    }
-    PyObject* arrayType = NLSPyObject_GetAttrString(arrayModule, "array");
-    if (!arrayType) {
-        NLSPy_XDECREF(arrayModule);
-        return nullptr;
-    }
-    bool isInstanceArrayArray = NLSPyObject_IsInstance(pyObject, arrayType);
-    if (!isInstanceArrayArray) {
-        NLSPy_XDECREF(arrayType);
-        NLSPy_XDECREF(arrayModule);
-        return nullptr;
-    }
-
     PyObject* typeChar = NLSPyObject_GetAttrString(pyObject, "typecode");
     if (typeChar) {
         PyObject* typeStr = NLSPyUnicode_AsUTF8String(typeChar);
         if (typeStr) {
             const char* typeCode = NLSPyBytes_AsString(typeStr);
             NLSPy_DECREF(typeStr);
+            NLSPy_XDECREF(typeChar);
             return typeCode;
         }
     }
     NLSPy_XDECREF(typeChar);
-    NLSPy_XDECREF(arrayType);
-    NLSPy_XDECREF(arrayModule);
 
     return nullptr;
 }
@@ -252,6 +304,12 @@ PyTypecodeToNelsonType(const char* memoryViewType)
     if (strcmp(memoryViewType, "I") == 0) {
         return NLS_UINT32;
     }
+    if (strcmp(memoryViewType, "l") == 0) {
+        return NLS_INT32;
+    }
+    if (strcmp(memoryViewType, "L") == 0) {
+        return NLS_UINT32;
+    }
     if (strcmp(memoryViewType, "h") == 0) {
         return NLS_INT16;
     }
@@ -264,7 +322,6 @@ PyTypecodeToNelsonType(const char* memoryViewType)
     if (strcmp(memoryViewType, "B") == 0) {
         return NLS_UINT8;
     }
-
     return NLS_UNKNOWN;
 }
 //=============================================================================

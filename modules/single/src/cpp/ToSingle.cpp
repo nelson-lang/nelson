@@ -69,7 +69,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return ToSingle<uint64>(A);
     } break;
     case NLS_INT64: {
-        return ToSingle<int16>(A);
+        return ToSingle<int64>(A);
     } break;
     case NLS_SCOMPLEX:
     case NLS_SINGLE: {

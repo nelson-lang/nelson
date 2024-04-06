@@ -18,4 +18,7 @@
 #undef PyComplex_Type
 #undef PyFloat_Type
 #undef PyNone
+#undef PyBytes_Type
+#undef PyLong_Type
+#undef PyByteArray_Type
 //=============================================================================

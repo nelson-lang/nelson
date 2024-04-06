@@ -56,6 +56,10 @@
         >double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64, logical</td>
     </tr>
     <tr>
+        <td>py.bytearray</td><td
+        >double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64, logical</td>
+    </tr>
+    <tr>
         <td>py.array.array</td><td
         >double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</td>
     </tr>

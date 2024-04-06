@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = single(obj)
- r = obj.single();
+  if ismethod(obj, 'single')
+    r = obj.single();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'single']);
+  end
 end
 %=============================================================================
