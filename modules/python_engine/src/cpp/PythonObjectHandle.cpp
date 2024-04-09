@@ -586,6 +586,12 @@ castRealMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
     case PY_NUMPY_TYPE: {
+        PyObject* data = NLSPyObject_GetAttrString(pyObject, "data");
+        if (data) {
+            bool res = castRealMethod<T>(data, nelsonType, results);
+            NLSPy_DECREF(data);
+            return res;
+        }
     } break;
     case PY_FLOAT_TYPE: {
         double result = NLSPyFloat_AsDouble(pyObject);
@@ -755,6 +761,12 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
     case PY_NUMPY_TYPE: {
+        PyObject* data = NLSPyObject_GetAttrString(pyObject, "data");
+        if (data) {
+            bool res = castIntegerMethod<T>(data, nelsonType, results);
+            NLSPy_DECREF(data);
+            return res;
+        }
     } break;
     case PY_FLOAT_TYPE: {
         double result = NLSPyFloat_AsDouble(pyObject);
