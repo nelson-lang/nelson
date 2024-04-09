@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `pyenv`: can use environment variables to set values.
 
 - `getenv`: Retrieve the values of several environment variables.
+- `pyenv`: can use environment variables to set values.
+- `pyrun`: Python code object allowed as first input argument.
 
 ### Changed
 

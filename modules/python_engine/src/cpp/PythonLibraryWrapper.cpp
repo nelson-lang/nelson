@@ -104,6 +104,7 @@ using PROC_PyDict_SetItemString = int (*)(PyObject* dp, const char* key, PyObjec
 using PROC_PyDict_Keys = PyObject* (*)(PyObject* mp);
 using PROC_PyBytes_AsStringAndSize = int (*)(PyObject* obj, char** s, Py_ssize_t* len);
 using PROC_PyByteArray_AsString = char* (*)(PyObject* obj);
+using PROC_PyEval_EvalCode = PyObject* (*)(PyObject* co, PyObject* globals, PyObject* locals);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -217,6 +218,7 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyDict_Keys);
     LOAD_PYTHON_SYMBOL(PyBytes_AsStringAndSize);
     LOAD_PYTHON_SYMBOL(PyByteArray_AsString);
+    LOAD_PYTHON_SYMBOL(PyEval_EvalCode);
 
     return true;
 }
@@ -712,5 +714,12 @@ char*
 NLSPyByteArray_AsString(PyObject* obj)
 {
     return reinterpret_cast<PROC_PyByteArray_AsString>(pythonSymbols["PyByteArray_AsString"])(obj);
+}
+//=============================================================================
+PyObject*
+NLSPyEval_EvalCode(PyObject* co, PyObject* globals, PyObject* locals)
+{
+    return reinterpret_cast<PROC_PyEval_EvalCode>(pythonSymbols["PyEval_EvalCode"])(
+        co, globals, locals);
 }
 //=============================================================================

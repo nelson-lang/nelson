@@ -23,7 +23,13 @@ Nelson::Python_engineGateway::pyrunBuiltin(Evaluator* eval, int nLhs, const Arra
     }
     ArrayOfVector retval = {};
     nargincheck(argIn, 1, 10000);
-    wstringVector commands = argIn[0].getContentAsWideStringVector(false);
+    wstringVector commands;
+    void* po = nullptr;
+    if (argIn[0].isHandle() && argIn[0].getHandleCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
+        po = argIn[0].getContentAsHandleScalar();
+    } else {
+        commands = argIn[0].getContentAsWideStringVector(false);
+    }
     wstringVector outputs;
     wstringVector names;
     ArrayOfVector values;
@@ -62,6 +68,7 @@ Nelson::Python_engineGateway::pyrunBuiltin(Evaluator* eval, int nLhs, const Arra
         Error(_W("Wrong number of output arguments."));
     }
 
-    return PyRun(eval->getInterface(), eval->haveEventsLoop(), commands, outputs, names, values);
+    return PyRun(
+        eval->getInterface(), eval->haveEventsLoop(), po, commands, outputs, names, values);
 }
 //=============================================================================

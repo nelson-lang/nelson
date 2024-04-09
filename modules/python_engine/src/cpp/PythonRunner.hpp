@@ -22,7 +22,7 @@ class PythonRunner
 public:
     //=============================================================================
     void
-    runPythonCode(PyObject* globalDict, const wstringVector& commands);
+    runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstringVector& commands);
     //=============================================================================
     bool
     isResultReady();

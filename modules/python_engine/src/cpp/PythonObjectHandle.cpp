@@ -140,6 +140,9 @@ PythonObjectHandle::isMethod(const std::wstring& methodName)
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (pyObject) {
         PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
+        if (!method) {
+            return false;
+        }
         bool callable = method && NLSPyCallable_Check(method);
         if (method) {
             NLSPy_DECREF(method);
@@ -176,7 +179,6 @@ PythonObjectHandle::getCastMethods()
     methodsCastNames.push_back(L"uint64");
     */
     PyObject* pyObject = (PyObject*)this->getPointer();
-
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
         methodCastNames.push_back(L"string");
