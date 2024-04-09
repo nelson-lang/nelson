@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = uint64(obj)
- r = obj.uint64();
+  if ismethod(obj, 'uint64')
+    r = obj.uint64();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'uint64']);
+  end
 end
 %=============================================================================

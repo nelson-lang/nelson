@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = logical(obj)
- r = obj.logical();
+  if ismethod(obj, 'logical')
+    r = obj.logical();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'logical']);
+  end
 end
 %=============================================================================

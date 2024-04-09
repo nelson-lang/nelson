@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = double(obj)
- r = obj.double();
+  if ismethod(obj, 'double')
+    r = obj.double();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'double']);
+  end
 end
 %=============================================================================

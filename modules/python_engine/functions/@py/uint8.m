@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = uint8(obj)
- r = obj.uint8();
+  if ismethod(obj, 'uint8')
+    r = obj.uint8();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'uint8']);
+  end
 end
 %=============================================================================

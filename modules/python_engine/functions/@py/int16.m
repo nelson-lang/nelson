@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = int16(obj)
- r = obj.int16();
+  if ismethod(obj, 'int16')
+    r = obj.int16();
+  else
+    error([_('Wrong value for #2 argument.'), ' ', 'int16']);
+  end
 end
 %=============================================================================

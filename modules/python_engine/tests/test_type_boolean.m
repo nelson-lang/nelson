@@ -7,11 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = uint16(obj)
-  if ismethod(obj, 'uint16')
-    r = obj.uint16();
-  else
-    error([_('Wrong value for #2 argument.'), ' ', 'uint16']);
-  end
-end
+% <--PYTHON ENVIRONMENT REQUIRED-->
+%=============================================================================
+R = pyrun('R = True', "R");
+assert_isequal(class(R), 'logical');
+assert_isequal(R, true);
+%=============================================================================
+R = pyrun('R = False', "R");
+assert_isequal(R, false);
 %=============================================================================
