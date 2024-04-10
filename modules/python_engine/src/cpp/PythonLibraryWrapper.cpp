@@ -145,10 +145,11 @@ loadPythonSymbols()
     PyLong_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyLong_Type"]);
     PyBytes_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyBytes_Type"]);
     PyByteArray_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyByteArray_Type"]);
-
     PyMemoryView_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyMemoryView_Type"]);
     PyUnicode_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyUnicode_Type"]);
     PyDict_TypePtr = reinterpret_cast<PyTypeObject*>(pythonSymbols["PyDict_Type"]);
+    //=============================================================================
+    _Py_NoneStructPtr = reinterpret_cast<PyObject*>(pythonSymbols["_Py_NoneStruct"]);
     //=============================================================================
     LOAD_PYTHON_SYMBOL(Py_Initialize);
     LOAD_PYTHON_SYMBOL(Py_Finalize);

@@ -280,6 +280,7 @@ convertStringArray(const ArrayOf& A)
         pyObj = NLSPyUnicode_FromString(str.c_str());
     } else {
         pyObj = Py_None;
+        NLSPy_INCREF(pyObj);
     }
 
     return pyObj;
@@ -606,8 +607,9 @@ PyObjectToArrayOf(PyObject* pyObject, bool& needToDecreaseReference)
     needToDecreaseReference = true;
     if (!pyObject) {
         needToDecreaseReference = false;
-        PyObject* NoneObject = &_Py_NoneStruct;
-        PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(NoneObject);
+        PyObject* pyObj = Py_None;
+        NLSPy_INCREF(pyObj);
+        PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObj);
         return ArrayOf::handleConstructor(pythonObjectHandle);
     }
 

@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1144](http://github.com/nelson-lang/nelson/issues/1144) test_run markdown help file had a typo.
 - [#1143](http://github.com/nelson-lang/nelson/issues/1143) Linux Snapcraft version did not allow to use python.
+- [#1148](http://github.com/nelson-lang/nelson/issues/1148) pyrun('print(A)','A','A',string(NaN)) did not return expected value.
 - `single(int64([1 2; 3 4]))` returned a wrong value.
 - `py.tuple`, `py.list` compatibility increased.
 
