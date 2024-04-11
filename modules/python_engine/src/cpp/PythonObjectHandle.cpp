@@ -161,23 +161,6 @@ PythonObjectHandle::getCastMethods()
 
     methodCastNames.push_back(L"char");
 
-    /*
-    methodsCastNames.push_back(L"char");
-    methodsCastNames.push_back(L"string");
-    methodsCastNames.push_back(L"cell");
-    methodsCastNames.push_back(L"struct");
-    methodsCastNames.push_back(L"double");
-    methodsCastNames.push_back(L"single");
-    methodsCastNames.push_back(L"logical");
-    methodsCastNames.push_back(L"int8");
-    methodsCastNames.push_back(L"uint8");
-    methodsCastNames.push_back(L"int16");
-    methodsCastNames.push_back(L"uint16");
-    methodsCastNames.push_back(L"int32");
-    methodsCastNames.push_back(L"uint32");
-    methodsCastNames.push_back(L"int64");
-    methodsCastNames.push_back(L"uint64");
-    */
     PyObject* pyObject = (PyObject*)this->getPointer();
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {

@@ -35,7 +35,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${Python3_INCLUDE_DIRS})
-#          ${Python3_NumPy_INCLUDE_DIRS})
 
 target_link_libraries(${module_library_name} 
   nlsError_manager 
