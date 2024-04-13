@@ -16,11 +16,16 @@
 #include <string>
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
+#include "ArrayOf.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class NLSTYPES_IMPEXP HandleGenericObject
 {
+    friend class ArrayOf;
+
 private:
     std::string category;
     void* ptr;
@@ -29,7 +34,7 @@ private:
 public:
     HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped);
     virtual ~HandleGenericObject() = default;
-    ;
+
     std::string
     getCategory();
     void
@@ -48,6 +53,13 @@ public:
     {
         return false;
     };
+
+    virtual ArrayOfVector
+    invokeMethod(const ArrayOfVector& args, int nLhs, const std::string& methodName)
+    {
+        Error(_W("invoke method not allowed for this HANDLE type."));
+        return {};
+    }
 
     virtual wstringVector
     getProperties()

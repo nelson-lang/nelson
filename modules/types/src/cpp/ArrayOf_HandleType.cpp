@@ -12,6 +12,7 @@
 #include "HandleManager.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,6 +70,12 @@ ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 {
     HandleGenericObject* obj = getContentAsHandleScalar();
     return obj->isProperty(propertyName);
+}
+//=============================================================================
+bool
+ArrayOf::isHandleMethod(const std::string& methodName) const
+{
+    return isHandleMethod(utf8_to_wstring(methodName));
 }
 //=============================================================================
 bool

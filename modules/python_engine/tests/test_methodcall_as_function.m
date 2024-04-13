@@ -7,11 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = uint16(obj)
-  if ismethod(obj, 'uint16')
-    r = obj.uint16();
-  else
-    error([_('Wrong value for #2 argument.'), ' ', 'uint16']);
-  end
-end
+% <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
+env = pyenv();
+[r, msg] = system([env.Executable + " -m pip install numpy"]);
+%=============================================================================
+cmd =["import numpy as np"; "A = np.array([3, 2, 1, 4])"];
+A = pyrun(cmd, 'A')
+isbuiltin('argsort')
+ismacro('argsort')
+ismethod(A, 'argsort')
+R = argsort(A)
+assert_isequal(class(R), 'py.numpy.ndarray')
+

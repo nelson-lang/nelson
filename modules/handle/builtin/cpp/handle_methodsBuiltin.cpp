@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "HandleGenericObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
