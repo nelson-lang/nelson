@@ -843,10 +843,10 @@ jobs:
         run: |
           python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
-      - name: Install Qt 6.6.1
+      - name: Install Qt 6.7
         uses: jurplel/install-qt-action@v3
         with:
-          version: "6.6.1"
+          version: "6.7"
           host: "windows"
           target: "desktop"
           arch: "win64_msvc2019_64"
@@ -858,7 +858,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          set QTDIR64=C:\install\QT6\Qt\6.6.1\msvc2019_64
+          set QTDIR64=C:\install\QT6\Qt\6.7.0\msvc2019_64
           set QTDIR=%QTDIR64%
           cd ..
           git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
@@ -868,7 +868,7 @@ jobs:
 
       - name: Build Nelson
         run: |
-          set QTDIR64=C:\install\QT6\Qt\6.6.1\msvc2019_64
+          set QTDIR64=C:\install\QT6\Qt\6.7.0\msvc2019_64
           set QTDIR=%QTDIR64%
           SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
