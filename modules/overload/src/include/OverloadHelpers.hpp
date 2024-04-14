@@ -18,6 +18,7 @@
 #include "FunctionsInMemory.hpp"
 #include "OverloadName.hpp"
 #include "NelsonConfiguration.hpp"
+#include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,6 +46,14 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
             wasFound = true;
             return funcDef->evaluateFunction(eval, argsIn, nLhs);
         }
+        if (argsIn[0].isHandle() && argsIn[0].isScalar()
+            && argsIn[0].isHandleMethod(functionName)) {
+            HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
+            if (obj) {
+                wasFound = true;
+                return obj->invokeMethod(argsIn, nLhs, functionName);
+            }
+        }
     } else if (commonType == NLS_HANDLE) {
         FunctionDef* funcDef = nullptr;
         overloadTypeName = getOverloadFunctionName(NLS_HANDLE_STR, functionName);
@@ -52,6 +61,14 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
         if (funcDef) {
             wasFound = true;
             return funcDef->evaluateFunction(eval, argsIn, nLhs);
+        }
+        if (argsIn[0].isHandle() && argsIn[0].isScalar()
+            && argsIn[0].isHandleMethod(functionName)) {
+            HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
+            if (obj) {
+                wasFound = true;
+                return obj->invokeMethod(argsIn, nLhs, functionName);
+            }
         }
     }
     return {};

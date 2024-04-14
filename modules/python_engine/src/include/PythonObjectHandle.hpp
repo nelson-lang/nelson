@@ -13,10 +13,10 @@
 #include "nlsPython_engine_exports.h"
 #include "Interface.hpp"
 #include "ArrayOf.hpp"
+#include "ArrayOfVector.hpp"
 #include <functional>
 #include <map>
 #include <string>
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,6 +57,9 @@ public:
     //=============================================================================
     bool
     isMainPythonInterpreter();
+    //=============================================================================
+    ArrayOfVector
+    invokeMethod(const ArrayOfVector& argIn, int nLhs, const std::string& methodName);
     //=============================================================================
 private:
     //=============================================================================

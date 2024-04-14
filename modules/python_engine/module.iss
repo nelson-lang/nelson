@@ -18,7 +18,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_PYTHON_ENGINE};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@pyargs\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@pyargs;Components: {#COMPONENT_PYTHON_ENGINE};
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@py\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@py;Components: {#COMPONENT_PYTHON_ENGINE};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\python\*.py; DestDir: {app}\modules\{#MODULE_NAME}\resources\python\;Components: {#COMPONENT_PYTHON_ENGINE};
 ;==============================================================================

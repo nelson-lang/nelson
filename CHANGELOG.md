@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
+- Allow to call method of a variable of CLASS/HANDLE type like a function (currently, only plugged for python subtype).
 
 ### Fixed
 

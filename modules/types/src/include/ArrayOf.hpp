@@ -15,7 +15,6 @@
 //=============================================================================
 #include "nlsTypes_exports.h"
 #include "Dimensions.hpp"
-#include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "ArrayOfVector.hpp"
@@ -26,6 +25,7 @@ NLSTYPES_IMPEXP ArrayOfVector
 scalarArrayOfToArrayOfVector(const ArrayOf&);
 
 class Data;
+class HandleGenericObject;
 
 /** Ordered data array, the base Nelson data type.
  * The ArrayOf class is the base class of all data types.  It represents
@@ -1272,6 +1272,8 @@ public:
      */
     [[nodiscard]] bool
     isHandleMethod(const std::wstring& methodName) const;
+    [[nodiscard]] bool
+    isHandleMethod(const std::string& methodName) const;
     /*
      * get handle category
      */

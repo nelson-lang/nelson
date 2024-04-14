@@ -112,6 +112,17 @@ PythonObjectHandle::display(Interface* io)
     io->outputMessage(std::wstring(L"    ") + rep + L"\n");
 }
 //=============================================================================
+ArrayOfVector
+PythonObjectHandle::invokeMethod(
+    const ArrayOfVector& argIn, int nLhs, const std::string& methodName)
+{
+    ArrayOfVector params = argIn;
+    params.pop_front();
+    ArrayOfVector results;
+    invoke(utf8_to_wstring(methodName), params, nLhs, results);
+    return results;
+}
+//=============================================================================
 std::wstring
 PythonObjectHandle::getTypeName()
 {

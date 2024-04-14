@@ -3175,7 +3175,20 @@ Evaluator::functionExpression(
                 }
                 n = funcDef->evaluateFunction(this, m, narg_out);
             } else {
-                n = funcDef->evaluateFunction(this, m, narg_out);
+                if (funcDef == nullptr) {
+                    if (m.size() > 0 && m[0].isHandle() && m[0].isScalar()
+                        && m[0].isHandleMethod(t->text)) {
+                        HandleGenericObject* obj = m[0].getContentAsHandleScalar();
+                        if (obj) {
+                            n = obj->invokeMethod(m, narg_out, t->text);
+                        }
+                    } else {
+                        Error(
+                            utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
+                    }
+                } else {
+                    n = funcDef->evaluateFunction(this, m, narg_out);
+                }
             }
             InCLI = CLIFlagsave;
             if (state == NLS_STATE_ABORT) {
@@ -3710,6 +3723,13 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             if (funcDef->outputArgCount() == 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
             }
+            m = functionExpression(funcDef, t, 1, false);
+            callstack.popID();
+            return m;
+        }
+        /* try for method of handle */
+        if (t->down && t->down->opNum == OP_PARENS) {
+            funcDef = nullptr;
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
             return m;
