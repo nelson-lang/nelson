@@ -36,9 +36,15 @@ function varargout = pyenv(varargin)
         varargout{1} = __pyenv__('', '', '', '');    
         return
       end
-
       if ~isfile(pythonExecutablePath)
-        error(_('valid executable filename expected.'));
+        if ispc()
+          pythonExecutablePath = getExecutablePathFromWindowsRegistry(pythonExecutablePath);
+          if isempty(pythonExecutablePath) || ~isfile(pythonExecutablePath)
+            error(_('Cannot find specified version.'));
+          end
+        else
+          error(_('valid executable filename expected.'));
+        end
       end
       python_version = getPythonCommandResult(pythonExecutablePath, [pythonScriptsPath, 'findPythonVersion.py']);        
       if ~semver(python_version, '>=3.10.0')
@@ -69,6 +75,27 @@ function result = getPythonCommandResult(python, pythonScript)
   result = strtrim(result);
   if isempty(result) || strcmpi(result, 'none')
     error(_('Python returns no value.'));
+  end
+end
+%=============================================================================
+function executablePath = getExecutablePathFromWindowsRegistry(vstr)
+  executablePath = [];
+  V = sscanf(vstr, '%d.%d');
+  if isempty(V) || isscalar(V)
+    error(_('valid version or executable filename expected.'));
+  end
+  pyversion = sprintf('%d.%d', V(1:2));
+  try
+    executablePath = winqueryreg('HKCU', ['SOFTWARE\Python\PythonCore\', pyversion, '\InstallPath'], 'ExecutablePath');
+  catch
+    executablePath = [];
+  end
+  if isempty(executablePath)
+    try
+      executablePath = winqueryreg('HKLM', ['SOFTWARE\Python\PythonCore\', pyversion, '\InstallPath'], 'ExecutablePath');
+    catch
+      executablePath = [];
+    end
   end
 end
 %=============================================================================
