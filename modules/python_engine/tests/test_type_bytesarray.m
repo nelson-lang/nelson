@@ -21,6 +21,7 @@ assert_isequal(R.uint32(), uint32([2, 3, 5, 7]));
 assert_isequal(R.uint64(), uint64([2, 3, 5, 7]));
 assert_isequal(R.single(), single([2, 3, 5, 7]));
 assert_isequal(R.double(), double([2, 3, 5, 7]));
+assert_isequal(R.numeric(), uint8([2, 3, 5, 7]));
 assert_isequal(R.char(), 'bytearray(b''\x02\x03\x05\x07'')');
 assert_checkerror('R.struct()', _('Wrong value for #2 argument. struct'));
 %=============================================================================
