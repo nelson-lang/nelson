@@ -110,6 +110,7 @@ checks.json
 /modules/main/nelson_gui/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_gui/Resource.aps
 /modules/main/help/*/html/homepage.html
+/modules/python_engine/thirdparty/
 *.vspx
 My Advisor XE Results - *
 *.inspxeproj

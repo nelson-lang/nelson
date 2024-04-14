@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
   - [#1149](https://github.com/nelson-lang/nelson/issues/1149) python bytes, and bytearray types were not managed.
   - [#1163](https://github.com/nelson-lang/nelson/issues/1163) pyenv searchs python by version on Windows.
+  - [#1164](https://github.com/nelson-lang/nelson/issues/1164) Embed python distribution on Windows.
   - numpy types support if numpy available.
   - `pyenv`: can use environment variables to set values.
 
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1148](http://github.com/nelson-lang/nelson/issues/1148) pyrun('print(A)','A','A',string(NaN)) did not return expected value.
 - `single(int64([1 2; 3 4]))` returned a wrong value.
 - `py.tuple`, `py.list` compatibility increased.
+- `pyenv` did not manage python's path with space on Windows.
 
 ## 1.3.0 (2024-03-30)
 

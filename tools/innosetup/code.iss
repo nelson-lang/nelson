@@ -129,6 +129,7 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_MATIO}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GEOMETRY}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_PYTHON_ENGINE}'));
     
     for I := 0 to ModulesList.Count - 1 do
       begin;

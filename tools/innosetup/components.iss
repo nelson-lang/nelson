@@ -126,6 +126,8 @@ Name: {#COMPONENT_GEOMETRY}; Description:{cm:GEOMETRY_MODULE}; Types: full custo
 ;==============================================================================
 #define COMPONENT_PYTHON_ENGINE 'PYTHON_ENGINE'
 Name: {#COMPONENT_PYTHON_ENGINE}; Description:{cm:PYTHON_ENGINE_MODULE}; Types: full custom;
+#define COMPONENT_PYTHON_RUNTIME 'PYTHON_ENGINE/PYTHON_RUNTIME'
+Name: {#COMPONENT_PYTHON_RUNTIME}; Description:{cm:PYTHON_RUNTIME}; Types: full custom;
 ;==============================================================================
 #define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
 Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full custom;

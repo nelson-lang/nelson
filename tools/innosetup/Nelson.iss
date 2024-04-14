@@ -12,8 +12,8 @@
 #ifndef GENERATED_INFO
 #define NELSON_X64
 #define NELSON_DEBUG
-#define CURRENT_YEAR "2019"
-#define APPLICATION_VERSION "0.34.0"
+#define CURRENT_YEAR "2024"
+#define APPLICATION_VERSION "1.4.0"
 #endif
 #define APPLICATION_NAME "Nelson"
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
