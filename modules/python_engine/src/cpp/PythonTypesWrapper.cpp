@@ -579,7 +579,7 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     case NLS_LOGICAL: {
         void* data = (void*)pyBuffer.buf;
         void* ptr = (void*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
-        ArrayOf res = ArrayOf(nelsonType, dims, ptr);
+        res = ArrayOf(nelsonType, dims, ptr);
         memcpy(ptr, data, res.getByteSize());
         return res;
     } break;

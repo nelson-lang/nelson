@@ -57,12 +57,6 @@ foreach(mod ${without_module})
   endif()
 endforeach(mod)
 
-if (WITHOUT_NUMPY_SUPPORT)
-  set(WITH_NUMPY_SUPPORT 0)
-else()
-  set(WITH_NUMPY_SUPPORT 1)
-endif()
-
 configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
               "${CMAKE_SOURCE_DIR}/modules/modules.m")
 # ==============================================================================

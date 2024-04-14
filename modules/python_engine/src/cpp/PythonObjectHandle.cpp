@@ -172,23 +172,6 @@ PythonObjectHandle::getCastMethods()
 
     methodCastNames.push_back(L"char");
 
-    /*
-    methodsCastNames.push_back(L"char");
-    methodsCastNames.push_back(L"string");
-    methodsCastNames.push_back(L"cell");
-    methodsCastNames.push_back(L"struct");
-    methodsCastNames.push_back(L"double");
-    methodsCastNames.push_back(L"single");
-    methodsCastNames.push_back(L"logical");
-    methodsCastNames.push_back(L"int8");
-    methodsCastNames.push_back(L"uint8");
-    methodsCastNames.push_back(L"int16");
-    methodsCastNames.push_back(L"uint16");
-    methodsCastNames.push_back(L"int32");
-    methodsCastNames.push_back(L"uint32");
-    methodsCastNames.push_back(L"int64");
-    methodsCastNames.push_back(L"uint64");
-    */
     PyObject* pyObject = (PyObject*)this->getPointer();
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
@@ -267,7 +250,6 @@ PythonObjectHandle::getCastMethods()
     } break;
     case PY_ARRAY_ARRAY_TYPE: {
         methodCastNames.push_back(L"numeric");
-
         methodCastNames.push_back(L"string");
         methodCastNames.push_back(L"cell");
         methodCastNames.push_back(L"double");
@@ -283,9 +265,23 @@ PythonObjectHandle::getCastMethods()
         methodCastNames.push_back(L"uint64");
         return methodCastNames;
     } break;
+    case PY_LONG_TYPE: {
+        methodCastNames.push_back(L"double");
+        methodCastNames.push_back(L"single");
+        methodCastNames.push_back(L"logical");
+        methodCastNames.push_back(L"int8");
+        methodCastNames.push_back(L"uint8");
+        methodCastNames.push_back(L"int16");
+        methodCastNames.push_back(L"uint16");
+        methodCastNames.push_back(L"int32");
+        methodCastNames.push_back(L"uint32");
+        methodCastNames.push_back(L"int64");
+        methodCastNames.push_back(L"uint64");
+        return methodCastNames;
+    } break;
     case PY_BYTE_ARRAY_TYPE:
-    case PY_LONG_TYPE:
     case PY_NUMPY_TYPE: {
+        methodCastNames.push_back(L"numeric");
         methodCastNames.push_back(L"double");
         methodCastNames.push_back(L"single");
         methodCastNames.push_back(L"logical");
@@ -503,6 +499,24 @@ PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
             return true;
         }
     } break;
+    case PY_BYTE_ARRAY_TYPE: {
+        char* buffer = NLSPyByteArray_AsString(pyObject);
+        size_t len = strlen(buffer);
+        uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, len);
+        ArrayOf res(NLS_UINT8, Dimensions(1, len), ptr);
+        for (size_t k = 0; k < len; ++k) {
+            ptr[k] = (uint8)buffer[k];
+        }
+        results << res;
+        return true;
+    } break;
+    case PY_NUMPY_TYPE: {
+        PyObject* data = NLSPyObject_GetAttrString(pyObject, "data");
+        if (data) {
+            results << PyMemoryViewToArrayOf(pyObject);
+            return true;
+        }
+    } break;
     }
     return false;
 }
@@ -597,6 +611,12 @@ castRealMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
     case PY_NUMPY_TYPE: {
+        PyObject* data = NLSPyObject_GetAttrString(pyObject, "data");
+        if (data) {
+            bool res = castRealMethod<T>(data, nelsonType, results);
+            NLSPy_DECREF(data);
+            return res;
+        }
     } break;
     case PY_FLOAT_TYPE: {
         double result = NLSPyFloat_AsDouble(pyObject);
@@ -766,6 +786,12 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
     case PY_NUMPY_TYPE: {
+        PyObject* data = NLSPyObject_GetAttrString(pyObject, "data");
+        if (data) {
+            bool res = castIntegerMethod<T>(data, nelsonType, results);
+            NLSPy_DECREF(data);
+            return res;
+        }
     } break;
     case PY_FLOAT_TYPE: {
         double result = NLSPyFloat_AsDouble(pyObject);
