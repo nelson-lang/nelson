@@ -45,8 +45,9 @@ R = A.argmax();
 [c, maxsize] = computer();
 if (maxsize == 2147483647)
     assert_isequal(class(R), 'py.numpy.intc')
+    assert_isequal(R.numeric(), int32(R));
 else
     assert_isequal(class(R), 'py.numpy.int64')
+    assert_isequal(R.numeric(), int64(R));
 end
-assert_isequal(R.numeric(), int64(R));
 %=============================================================================
