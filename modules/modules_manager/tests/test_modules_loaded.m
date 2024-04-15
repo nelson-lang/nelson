@@ -40,6 +40,9 @@ end
 if ~ismodule('ipc')
   modules_list(strcmp(modules_list, 'ipc')) = [];
 end
+if ~ismodule('python_engine')
+  modules_list(strcmp(modules_list, 'python_engine')) = [];
+end
 assert_isequal(modules_loaded, cellstr(modules_list));
 %=============================================================================
 

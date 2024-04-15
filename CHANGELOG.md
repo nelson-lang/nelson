@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `getenv`: Retrieve the values of several environment variables.
 - `pyenv`: can use environment variables to set values.
 - `pyrun`: Python code object allowed as first input argument.
+- `nelson --without_python` starts nelson without python engine.
 
 ### Changed
 

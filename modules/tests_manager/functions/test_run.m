@@ -461,6 +461,11 @@ function test_case = create_test_case(filename, classname)
       if without_audio
         cmd = [cmd, ' ', '--noaudio'];
       end
+
+      without_python = ~test_case.options.python_environment_required;
+      if without_python
+        cmd = [cmd, ' ', '--without_python'];
+      end
       
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
