@@ -42,6 +42,11 @@ assert_isequal(R.numeric(), [true, false, true]);
 cmd =["import numpy as np"; "A = np.array([3, 2, 1, 4])"];
 A = pyrun(cmd, 'A');
 R = A.argmax();
-assert_isequal(class(R), 'py.numpy.int64')
+[c, maxsize] = computer();
+if (maxsize == 2147483647)
+    assert_isequal(class(R), 'py.numpy.intc')
+else
+    assert_isequal(class(R), 'py.numpy.int64')
+end
 assert_isequal(R.numeric(), int64(R));
 %=============================================================================

@@ -17,7 +17,7 @@
     <param_input_item>
       <param_name>python_path</param_name>
       <param_description
-      >a string, or row characters array: executable file name of Python.</param_description>
+      >a string, or row characters array: executable file name of Python or version (on Windows).</param_description>
     </param_input_item>
   </param_input>
 
@@ -38,9 +38,10 @@
   <p><b>Executable</b>: string: Name of Python executable file</p>
   <p><b>Library</b>: string: Shared library file</p>
   <p><b>Home</b>: string: Home folder</p>
-  <p><b>Status</b>: Process status: (0: default), 1: Loaded, 2: Terminated</p>
   <p><b
-      >ExecutionMode</b>: Execution mode: InProcess (0: default) or OutOfProcess (1)</p>
+      >Status</b>: Process status: "NotLoaded" (default), "Loaded", "Terminated"</p>
+  <p><b
+      >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
   <p />
   <p
     >Use environment variables to force python environment at each startup (usefull for snapcraft or docker distribution):</p>
@@ -51,6 +52,9 @@
   <p><b>__NELSON_PYTHON_HOME__</b>: example "/usr"</p>
   <p>All environment variables must exist and valid to be considered.</p>
  
+  <p />
+  <p>On Windows, the <b
+      >pyenv('Version', '3.11')</b> function searches the Windows Registry for the Python version associated with the specified version. It first looks in the HKCU environment, and if not found, it searches in HKLM.</p>
   </description>
   <used_function />
   <bibliography />
@@ -63,6 +67,14 @@
     <example_item_data><![CDATA[pe = pyenv]]>
     </example_item_data>
   </example_item>
+   <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data><![CDATA[if ispc()
+pe = pyenv('Version', '3.12')]]>
+    </example_item_data>
+  </example_item>
+ 
 </examples>
 
   <see_also>
@@ -80,6 +92,11 @@
       <history_version>1.4.0</history_version>
       <history_description
       >environment variables to force python environment</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
+      >On Windows find python by Windows registry.</history_description>
     </history_item>
 
   </history>

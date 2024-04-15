@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   - [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
   - [#1149](https://github.com/nelson-lang/nelson/issues/1149) python bytes, and bytearray types were not managed.
+  - [#1163](https://github.com/nelson-lang/nelson/issues/1163) pyenv searchs python by version on Windows.
   - numpy types support if numpy available.
   - `pyenv`: can use environment variables to set values.
 
