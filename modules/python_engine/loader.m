@@ -7,5 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addmodule([nelsonroot() '/modules/' 'python_engine'], 'python_engine');
+if ~any(contains(argv(), '--without_python'))
+  addmodule([nelsonroot() '/modules/' 'python_engine'], 'python_engine');
+end
 %=============================================================================

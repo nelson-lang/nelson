@@ -10,5 +10,14 @@
 addgateway(modulepath('python_engine', 'builtin'), 'python_engine');
 addpath(modulepath('python_engine', 'functions'), '-frozen');
 %=============================================================================
-%__pyenv__('python3.dll', 'python39.dll')
+% use embedded python on windows by default
+if ispc()
+  pe = pyenv();
+  if (pe.Executable == "")
+    pythonExecutable = [modulepath('python_engine', 'root'), '/thirdparty/python/python.exe'];
+    if isfile(pythonExecutable)
+        pyenv('Version', pythonExecutable);
+    end
+  end
+end
 %=============================================================================

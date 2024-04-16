@@ -52,6 +52,7 @@ english.MATIO_MODULE=MAT file I/O module
 english.HDF5_MODULE=HDF5 module
 english.GEOMETRY_MODULE=Geometry module
 english.PYTHON_ENGINE_MODULE=Python engine module
+english.PYTHON_RUNTIME=Python runtime 3.12
 ;==============================================================================
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.

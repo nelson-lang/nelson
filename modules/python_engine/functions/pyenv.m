@@ -68,7 +68,12 @@ function varargout = pyenv(varargin)
 end
 %=============================================================================
 function result = getPythonCommandResult(python, pythonScript)
-  [status, result] = unix([convertStringsToChars(python), ' ', convertStringsToChars(pythonScript)]);
+  if ispc()
+    cmd = ['"', convertStringsToChars(python), '"', ' ', '"', convertStringsToChars(pythonScript), '"'];
+  else
+    cmd = [convertStringsToChars(python), ' ', convertStringsToChars(pythonScript)];
+  end
+  [status, result] = unix(cmd);
   if (status ~= 0)
     error(_('Impossible to call Python. Check path.'));
   end

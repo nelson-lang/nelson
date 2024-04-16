@@ -12,6 +12,8 @@
 % <-- Short Description -->
 % pyrun('print(A)','A','A',string(NaN)) did not return expected value.
 %=============================================================================
+% <--PYTHON ENVIRONMENT REQUIRED-->
+%=============================================================================
 R = pyrun('print(A)','A','A',string(NaN));
 assert_isequal(class(R), 'py.NoneType')
 assert_isequal(R.char, 'None')

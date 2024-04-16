@@ -110,6 +110,11 @@
     </param_input_item>
 
     <param_input_item>
+      <param_name>--without_python</param_name>
+      <param_description>disable python_engine module.</param_description>
+    </param_input_item>
+
+    <param_input_item>
       <param_name>--language lang</param_name>
       <param_description
       >If this option is present it fixes the user language. Currently, lang can be: fr_FR en_US.</param_description>
@@ -173,6 +178,11 @@
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description>--without_python added</history_description>
+    </history_item>
+
   </history>
 
   <authors>

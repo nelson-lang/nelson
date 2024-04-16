@@ -31,6 +31,7 @@ UsePreviousAppDir=no
 LicenseFile={#RootPath}lgpl-3.0.md
 OutputDir={#RootPath}
 SetupIconFile={#RootPath}resources/fibonacci.ico
+UninstallDisplayIcon={#RootPath}resources/fibonacci.ico
 Compression=lzma
 SolidCompression=yes
 #ifdef NELSON_X64

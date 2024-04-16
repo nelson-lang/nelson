@@ -52,6 +52,7 @@ french.MATIO_MODULE=MAT file I/O module
 french.HDF5_MODULE=HDF5 module
 french.GEOMETRY_MODULE=Geometrie module
 french.PYTHON_ENGINE_MODULE=Python interface module
+french.PYTHON_RUNTIME=Python runtime 3.12
 ;==============================================================================
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.

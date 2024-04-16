@@ -57,6 +57,11 @@ if (pe.Version == "")
     end
   end
 end
+
+% install numpy on windows
+if ispc()
+  [r, msg] = system([pe.Executable + " -m pip install numpy"]);
+end
 pe
 exit(pe.Version == "");
 
