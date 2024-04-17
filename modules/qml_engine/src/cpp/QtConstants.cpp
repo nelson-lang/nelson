@@ -529,7 +529,11 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_twosuperior"] = Qt::Key_twosuperior;
     mapConstants[L"Qt.Key_threesuperior"] = Qt::Key_threesuperior;
     mapConstants[L"Qt.Key_acute"] = Qt::Key_acute;
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     mapConstants[L"Qt.Key_mu"] = Qt::Key_mu;
+#else
+    mapConstants[L"Qt.Key_micro"] = Qt::Key_micro;
+#endif
     mapConstants[L"Qt.Key_paragraph"] = Qt::Key_paragraph;
     mapConstants[L"Qt.Key_periodcentered"] = Qt::Key_periodcentered;
     mapConstants[L"Qt.Key_cedilla"] = Qt::Key_cedilla;
