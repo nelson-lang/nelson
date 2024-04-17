@@ -24,6 +24,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\python\*.py; DestDir: {app}\
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_PYTHON_ENGINE} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_PYTHON_ENGINE} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.py; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_PYTHON_ENGINE} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\thirdparty\python\*.*; DestDir: {app}\modules\{#MODULE_NAME}\thirdparty\python\;Flags: recursesubdirs skipifsourcedoesntexist;Components: {#COMPONENT_PYTHON_RUNTIME};
 ;==============================================================================

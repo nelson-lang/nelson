@@ -46,8 +46,6 @@ using PROC_PyGILState_Ensure = PyGILState_STATE (*)();
 using PROC_PyErr_Clear = void (*)();
 using PROC_PyGILState_Release = void (*)(PyGILState_STATE state);
 using PROC_PyObject_SetAttrString = int (*)(PyObject* o, const char* attr_name, PyObject* v);
-using PROC_PyRun_SimpleFileExFlags
-    = int (*)(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
 using PROC_PyObject_IsTrue = int (*)(PyObject* ob);
 using PROC_Py_DECREF = void (*)(PyObject* op);
 using PROC_Py_INCREF = void (*)(PyObject* op);
@@ -105,6 +103,15 @@ using PROC_PyDict_Keys = PyObject* (*)(PyObject* mp);
 using PROC_PyBytes_AsStringAndSize = int (*)(PyObject* obj, char** s, Py_ssize_t* len);
 using PROC_PyByteArray_AsString = char* (*)(PyObject* obj);
 using PROC_PyEval_EvalCode = PyObject* (*)(PyObject* co, PyObject* globals, PyObject* locals);
+using PROC_PyList_New = PyObject* (*)(Py_ssize_t size);
+using PROC_PyList_SetItem = int (*)(PyObject* ob1, Py_ssize_t sz, PyObject* ob2);
+using PROC_PyUnicode_DecodeFSDefault = PyObject* (*)(const char* s);
+using PROC_PyRun_SimpleFileExFlags
+    = int (*)(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
+using PROC_Py_fopen_obj = FILE* (*)(PyObject* path, const char* mode);
+using PROC_PyDict_Copy = PyObject* (*)(PyObject* mp);
+using PROC_PyDict_Clear = void (*)(PyObject* mp);
+using PROC_PyDict_Update = int (*)(PyObject* mp, PyObject* other);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -220,7 +227,14 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyBytes_AsStringAndSize);
     LOAD_PYTHON_SYMBOL(PyByteArray_AsString);
     LOAD_PYTHON_SYMBOL(PyEval_EvalCode);
-
+    LOAD_PYTHON_SYMBOL(PyList_New);
+    LOAD_PYTHON_SYMBOL(PyList_SetItem);
+    LOAD_PYTHON_SYMBOL(PyUnicode_DecodeFSDefault);
+    LOAD_PYTHON_SYMBOL(PyRun_SimpleFileExFlags);
+    LOAD_PYTHON_SYMBOL(_Py_fopen_obj);
+    LOAD_PYTHON_SYMBOL(PyDict_Copy);
+    LOAD_PYTHON_SYMBOL(PyDict_Clear);
+    LOAD_PYTHON_SYMBOL(PyDict_Update);
     return true;
 }
 //=============================================================================
@@ -355,13 +369,6 @@ NLSPyObject_SetAttrString(PyObject* o, const char* attr_name, PyObject* v)
 {
     return reinterpret_cast<PROC_PyObject_SetAttrString>(pythonSymbols["PyObject_SetAttrString"])(
         o, attr_name, v);
-}
-//=============================================================================
-int
-NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags)
-{
-    return reinterpret_cast<PROC_PyRun_SimpleFileExFlags>(pythonSymbols["PyRun_SimpleFileExFlags"])(
-        fp, filename, closeit, flags);
 }
 //=============================================================================
 int
@@ -722,5 +729,55 @@ NLSPyEval_EvalCode(PyObject* co, PyObject* globals, PyObject* locals)
 {
     return reinterpret_cast<PROC_PyEval_EvalCode>(pythonSymbols["PyEval_EvalCode"])(
         co, globals, locals);
+}
+//=============================================================================
+PyObject*
+NLSPyList_New(Py_ssize_t size)
+{
+    return reinterpret_cast<PROC_PyList_New>(pythonSymbols["PyList_New"])(size);
+}
+//=============================================================================
+int
+NLSPyList_SetItem(PyObject* ob1, Py_ssize_t sz, PyObject* ob2)
+{
+    return reinterpret_cast<PROC_PyList_SetItem>(pythonSymbols["PyList_SetItem"])(ob1, sz, ob2);
+}
+//=============================================================================
+PyObject*
+NLSPyUnicode_DecodeFSDefault(const char* s)
+{
+    return reinterpret_cast<PROC_PyUnicode_DecodeFSDefault>(
+        pythonSymbols["PyUnicode_DecodeFSDefault"])(s);
+}
+//=============================================================================
+int
+NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags)
+{
+    return reinterpret_cast<PROC_PyRun_SimpleFileExFlags>(pythonSymbols["PyRun_SimpleFileExFlags"])(
+        fp, filename, closeit, flags);
+}
+//=============================================================================
+FILE*
+NLS_Py_fopen_obj(PyObject* path, const char* mode)
+{
+    return reinterpret_cast<PROC_Py_fopen_obj>(pythonSymbols["_Py_fopen_obj"])(path, mode);
+}
+//=============================================================================
+PyObject*
+NLSPyDict_Copy(PyObject* mp)
+{
+    return reinterpret_cast<PROC_PyDict_Copy>(pythonSymbols["PyDict_Copy"])(mp);
+}
+//=============================================================================
+void
+NLSPyDict_Clear(PyObject* mp)
+{
+    reinterpret_cast<PROC_PyDict_Clear>(pythonSymbols["PyDict_Clear"])(mp);
+}
+//=============================================================================
+int
+NLSPyDict_Update(PyObject* mp, PyObject* other)
+{
+    return reinterpret_cast<PROC_PyDict_Update>(pythonSymbols["PyDict_Update"])(mp, other);
 }
 //=============================================================================

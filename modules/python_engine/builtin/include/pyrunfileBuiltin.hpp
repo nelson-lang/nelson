@@ -9,17 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#ifdef _MSC_VER
-#define MS_NO_COREDLL
-#endif
-#define Py_CPYTHON_COMPLEXOBJECT_H
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-#undef PyBool_Type
-#undef PyComplex_Type
-#undef PyFloat_Type
-#undef PyNone
-#undef PyBytes_Type
-#undef PyLong_Type
-#undef PyByteArray_Type
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson::Python_engineGateway {
+//=============================================================================
+ArrayOfVector
+pyrunfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

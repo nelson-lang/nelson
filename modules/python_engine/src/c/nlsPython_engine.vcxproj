@@ -226,8 +226,10 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\PyObjectHelpers.cpp" />
     <ClCompile Include="..\cpp\PyRun.cpp" />
+    <ClCompile Include="..\cpp\PyRunFile.cpp" />
     <ClCompile Include="..\cpp\PythonEngine.cpp" />
     <ClCompile Include="..\cpp\PythonEnvironment.cpp" />
+    <ClCompile Include="..\cpp\PythonFileRunner.cpp" />
     <ClCompile Include="..\cpp\PythonLibraryWrapper.cpp" />
     <ClCompile Include="..\cpp\PythonObjectHandle.cpp" />
     <ClCompile Include="..\cpp\PythonRunner.cpp" />
@@ -235,10 +237,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\PyObjectHelpers.hpp" />
+    <ClInclude Include="..\cpp\PythonFileRunner.hpp" />
     <ClInclude Include="..\cpp\PythonLibraryWrapper.hpp" />
     <ClInclude Include="..\cpp\PythonRunner.hpp" />
     <ClInclude Include="..\cpp\PythonTypesWrapper.hpp" />
     <ClInclude Include="..\include\nlsPython_engine_exports.h" />
+    <ClInclude Include="..\include\PyRunFile.hpp" />
     <ClInclude Include="..\include\PythonConfig.hpp" />
     <ClInclude Include="..\include\PythonEngine.hpp" />
     <ClInclude Include="..\include\PythonEnvironment.hpp" />

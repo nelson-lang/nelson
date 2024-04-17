@@ -10,6 +10,7 @@
 #include "NelsonGateway.hpp"
 #include "OverloadName.hpp"
 #include "pyrunBuiltin.hpp"
+#include "pyrunfileBuiltin.hpp"
 #include "__pyenv__Builtin.hpp"
 #include "PythonEnvironment_displayBuiltin.hpp"
 #include "PythonEnvironment_getBuiltin.hpp"
@@ -27,6 +28,8 @@ const std::wstring gatewayName = L"python_engine";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "pyrun", (ptrBuiltin)Nelson::Python_engineGateway::pyrunBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "pyrunfile", (ptrBuiltin)Nelson::Python_engineGateway::pyrunfileBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "__pyenv__", (ptrBuiltin)Nelson::Python_engineGateway::__pyenv__Builtin, -1, 2, CPP_BUILTIN },
     { "py", (ptrBuiltin)Nelson::Python_engineGateway::pyBuiltin, -1, 0, CPP_BUILTIN },

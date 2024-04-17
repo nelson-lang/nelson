@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <cstdio>
 #include "PythonConfig.hpp"
 #include "nlsPython_engine_exports.h"
 //=============================================================================
@@ -91,9 +92,6 @@ NLSPyGILState_Release(PyGILState_STATE state);
 //=============================================================================
 int
 NLSPyObject_SetAttrString(PyObject* o, const char* attr_name, PyObject* v);
-//=============================================================================
-int
-NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
 //=============================================================================
 int
 NLSPyObject_IsTrue(PyObject* ob);
@@ -263,4 +261,28 @@ NLSPyByteArray_AsString(PyObject* obj);
 //=============================================================================
 PyObject*
 NLSPyEval_EvalCode(PyObject* co, PyObject* globals, PyObject* locals);
+//=============================================================================
+PyObject*
+NLSPyList_New(Py_ssize_t size);
+//=============================================================================
+int
+NLSPyList_SetItem(PyObject* ob1, Py_ssize_t sz, PyObject* ob2);
+//=============================================================================
+PyObject*
+NLSPyUnicode_DecodeFSDefault(const char* s);
+//=============================================================================
+int
+NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
+//=============================================================================
+FILE*
+NLS_Py_fopen_obj(PyObject* path, const char* mode);
+//=============================================================================
+PyObject*
+NLSPyDict_Copy(PyObject* mp);
+//=============================================================================
+void
+NLSPyDict_Clear(PyObject* mp);
+//=============================================================================
+int
+NLSPyDict_Update(PyObject* mp, PyObject* other);
 //=============================================================================

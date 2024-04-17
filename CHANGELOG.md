@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python interface (part 2):
 
+  - [#1168](http://github.com/nelson-lang/nelson/issues/1168) Run Python script file from Nelson.
   - [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
   - [#1149](https://github.com/nelson-lang/nelson/issues/1149) python bytes, and bytearray types were not managed.
   - [#1163](https://github.com/nelson-lang/nelson/issues/1163) pyenv searchs python by version on Windows.
@@ -25,8 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
 - Allow to call method of a variable of CLASS/HANDLE type like a function (currently, only plugged for python subtype).
+- [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
 - [#1157](http://github.com/nelson-lang/nelson/issues/1157) Qt 6.7 support (used on Windows 64 bits binary).
 - `copyfile`, `isfile`, `isdir`, `mkdir` allow string array type as input.
 

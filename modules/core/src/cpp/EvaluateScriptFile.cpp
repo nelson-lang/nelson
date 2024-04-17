@@ -19,6 +19,7 @@
 #include "IsEmptyScriptFile.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ChangeDirectory.hpp"
+#include <cstdio>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
