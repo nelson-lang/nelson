@@ -23,26 +23,40 @@ PythonRunner::runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstrin
     if (pyCode) {
         PyObject* result = NLSPyEval_EvalCode(pyCode, globalDict, nullptr);
         outputMessage += getPythonStandardOutput();
+        std::wstring msg = getPythonStandardError();
+
         if (result == NULL) {
-            errorMessage = getPythonStandardError();
+            errorMessage += msg;
             NLSPyErr_Clear();
             resultReady = true;
             NLSPyGILState_Release(gstate);
             resultCondition.notify_one();
             return;
+        } else {
+            if (!msg.empty()) {
+                outputMessage += msg;
+                NLSPyErr_Clear();
+            }
         }
         NLSPy_DECREF(result);
     } else {
         for (auto command : commands) {
             int res = NLSPyRun_SimpleStringFlags(wstring_to_utf8(command).c_str(), NULL);
             outputMessage += getPythonStandardOutput();
+            std::wstring msg = getPythonStandardError();
+
             if (res != 0) {
-                errorMessage = getPythonStandardError();
+                errorMessage += msg;
                 NLSPyErr_Clear();
                 resultReady = true;
                 NLSPyGILState_Release(gstate);
                 resultCondition.notify_one();
                 return;
+            } else {
+                if (!msg.empty()) {
+                    outputMessage += msg;
+                    NLSPyErr_Clear();
+                }
             }
         }
     }
