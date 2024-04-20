@@ -13,6 +13,7 @@
   cd  Nelson
   ```
 - Get thirdparty and install dependencies:
+
   - on Windows 32 bit architecture:
     ```bash
     git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
@@ -21,7 +22,7 @@
     ```bash
     git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
     ```
-  Run install.bat
+    Run install.bat
 
 - Get sources:
   ```bash
