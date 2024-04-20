@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
 - Allow to call method of a variable of CLASS/HANDLE type like a function (currently, only plugged for python subtype).
 - [#1157](http://github.com/nelson-lang/nelson/issues/1157) Qt 6.7 support (used on Windows 64 bits binary).
+- `copyfile`, `isfile`, `isdir`, `mkdir` allow string array type as input.
 
 ### Fixed
 

@@ -35,14 +35,14 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
-        if (arg1.isRowVectorCharacterArray()) {
+        if (arg1.isRowVectorCharacterArray() || arg1.isScalarStringArray()) {
             std::wstring src = arg1.getContentAsWideString();
             if (FileSystemWrapper::Path::is_regular_file(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
             } else {
                 bRes = CopyDirectory(src, dest, bForce, errorMessage);
             }
-        } else if (arg1.isCell()) {
+        } else if (arg1.isCell() || arg1.isStringArray()) {
             wstringVector src = arg1.getContentAsWideStringVector(true);
             bRes = CopyFiles(src, dest, bForce, errorMessage);
         } else {

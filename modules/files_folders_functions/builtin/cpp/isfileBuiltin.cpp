@@ -24,7 +24,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     if (argIn[0].isEmpty()) {
         retval << ArrayOf::logicalConstructor(false);
-    } else if (argIn[0].isRowVectorCharacterArray()) {
+    } else if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         bool permissionDenied;
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
@@ -32,15 +32,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Permission denied."));
         }
         retval << ArrayOf::logicalConstructor(bIsFile);
-    } else if (argIn[0].isStringArray() && argIn[0].isScalar()) {
-        bool permissionDenied;
-        std::wstring wpath = argIn[0].getContentAsWideString();
-        bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
-        if (permissionDenied) {
-            Error(_W("Permission denied."));
-        }
-        retval << ArrayOf::logicalConstructor(bIsFile);
-    } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY) {
+    } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY || argIn[0].isStringArray()) {
         Dimensions dim = argIn[0].getDimensions();
         if (argIn[0].isEmpty()) {
             retval << ArrayOf::emptyConstructor(dim);
