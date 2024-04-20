@@ -20,6 +20,13 @@ else
   end
 end
 
+MSGFMT_CMD = [MSGFMT, ' --version'];
+[r, errmsg] = unix(MSGFMT_CMD);
+if r != 0
+  warning(errmsg);
+  exit('force')
+end
+
 DOMAIN = 'nelson';
 
 pot_en_US = [nelsonroot(), '/locale/nelson.pot'];

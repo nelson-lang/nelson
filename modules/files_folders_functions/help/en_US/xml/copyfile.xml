@@ -84,6 +84,12 @@
 			<history_version>1.0.0</history_version>
 			<history_description>initial version</history_description>
 		</history_item>
+		<history_item>
+			<history_version>1.4.0</history_version>
+			<history_description
+      >input arguments support scalar string array type</history_description>
+		</history_item>
+
 	</history>
 
 	<authors>

@@ -24,13 +24,13 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring parentDir;
         std::wstring newDir;
         if (argIn.size() == 2) {
-            if (argIn[1].isRowVectorCharacterArray()) {
+            if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
                 newDir = argIn[1].getContentAsWideString();
             } else {
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
             }
         }
-        if (argIn[0].isRowVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
             parentDir = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
