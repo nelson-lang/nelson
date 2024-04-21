@@ -47,7 +47,7 @@ LoadMatioFile(
 
     stringVector variableNamesInFile;
     size_t nVars = 0;
-    char** variableNames = Mat_GetDir(matfile, &nVars);
+    char* const* variableNames = Mat_GetDir(matfile, &nVars);
     for (size_t k = 0; k < nVars; k++) {
         variableNamesInFile.push_back(variableNames[k]);
     }
