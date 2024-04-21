@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `single(int64([1 2; 3 4]))` returned a wrong value.
 - `py.tuple`, `py.list` compatibility increased.
 - `pyenv` did not manage python's path with space on Windows.
+- Matio 1.5.27 compatibility on ArchLinux.
 
 ## 1.3.0 (2024-03-30)
 
