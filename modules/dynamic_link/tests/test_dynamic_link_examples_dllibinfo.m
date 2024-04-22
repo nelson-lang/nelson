@@ -7,14 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WINDOWS ONLY-->
-% <--SEQUENTIAL TEST REQUIRED-->
+run([modulepath('dynamic_link'), '/examples/dllibinfo_demo.m']);
 %=============================================================================
-if ispc() && ~havecompiler()
-    configuremsvc()
-  end
-skip_testsuite(~havecompiler())
-%=============================================================================
-assert_istrue(havecompiler());
-r = removecompilerconf();
-assert_isfalse(havecompiler());

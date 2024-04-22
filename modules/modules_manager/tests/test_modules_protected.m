@@ -7,8 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--C/C++ COMPILER REQUIRED-->
 % <--NO USER MODULES-->
+%=============================================================================
+if ispc() && ~havecompiler()
+  configuremsvc()
+end
+skip_testsuite(~havecompiler())
 %=============================================================================
 builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
 if ~isfile(builderFile)

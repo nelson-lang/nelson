@@ -7,8 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--AUDIO OUTPUT REQUIRED-->
-%=============================================================================
 o = weboptions('ContentType', 'text');
 o.Timeout = 30;
 R = webread('https://jsonplaceholder.typicode.com/posts/1/comments', o);

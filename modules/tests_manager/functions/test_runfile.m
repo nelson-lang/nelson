@@ -45,19 +45,25 @@ function struct_res = test_runfile(varargin)
   varlock('local', 'current_path_test_runfile')
   ticBeginRunFile = time('ns');
   varlock('local', 'ticBeginRunFile');
-  output_test = evalc('r = run(filename, ''errcatch'');')';
+  
+  try
+    output_test = evalc('run(filename);');
+    struct_res = testPassed();
+  catch ex
+    if strcmp(ex.identifier, 'Nelson:tests_manager:testsuite_skipped')
+      struct_res = testSkipped(ex.message);
+    else
+      struct_res = testFailed(ex.message);
+    end
+  end
+
   ticEndRunFile = time('ns');
   timing = (double(ticEndRunFile) - double(ticBeginRunFile)) * 1e-9;
+
   varunlock('local','ticBeginRunFile');
   varunlock('local','test_run_options');
   varunlock('local', 'current_path_test_runfile')
   path(current_path_test_runfile);
-  
-  if ~r
-    msg = lasterror();
-  else
-    msg = '';
-  end
   
   if (test_run_options.check_ref)
     fileID = fopen(dia_res, 'wt');
@@ -66,11 +72,28 @@ function struct_res = test_runfile(varargin)
     fclose(fileID);
     res = diff_file(dia_ref, dia_res, false);
     if (strcmp(res, '') == false)
-      r = false;
       msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res};
+      struct_res = testFailed(msg);
     end
   end
-  struct_res.r = r;
-  struct_res.msg = msg;
   struct_res.timing = timing;
 end
+%=============================================================================
+function st = testPassed()
+  st = struct();
+  st.r = 0;
+  st.msg = '';
+end
+%=============================================================================
+function st = testFailed(msg)
+  st = struct();
+  st.r = 1;
+  st.msg = msg;
+end
+%=============================================================================
+function st = testSkipped(msg)
+  st = struct();
+  st.r = 2;
+  st.msg = msg;
+end
+%=============================================================================

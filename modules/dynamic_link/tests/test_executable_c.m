@@ -7,7 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--C/C++ COMPILER REQUIRED-->
+if ispc() && ~havecompiler()
+  configuremsvc()
+end
+skip_testsuite(~havecompiler())
 %=============================================================================
 destinationdir = [tempdir(), 'test_executable_c'];
 mkdir(destinationdir);
@@ -26,7 +29,7 @@ destinationPath = [destinationdir, '/CMakeLists.txt'];
 assert_istrue(isfile(destinationPath));
 [status, message] = dlmake(destinationdir);
 assert_istrue(status);
-[R, msg] = unix([destinationdir, '/test_executable_c']);
+[R, msg] = unix(['"', destinationdir, '/test_executable_c', '"']);
 assert_istrue(R == 0);
 assert_istrue(startsWith(msg, 'It works with C!!!'));
 %=============================================================================

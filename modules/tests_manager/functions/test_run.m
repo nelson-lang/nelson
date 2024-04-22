@@ -95,6 +95,11 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
   end
   fmtStart = ['  ', '%0', int2str(lenCharsNbTests), 'd/', '%0', int2str(lenCharsNbTests),'d - %s'];
   indexTest = initialIndex;
+  if ispc()
+    abortedCode = 256;
+  else
+    abortedCode = 134;
+  end
   for test_case = test_cases
     accumulator = [accumulator; test_case];
     if (length(accumulator) == nbWorkers || count == nbTests - 1)
@@ -109,16 +114,31 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
       end
       [s, m] = unix(commands, timeout);
       for i = 1:length(accumulator)
-        accumulator(i).msg = m{i};
+        aborted = false;
+        if (s(i) == abortedCode) && strcmp(m{i}, 'ABORTED')
+          aborted = true;
+        end
+        if strcmp(commands(i), 'echo skip')
+          accumulator(i).msg = '';
+        else
+          accumulator(i).msg = m{i};
+        end
         accumulator(i).res_cmd = s(i);
-        accumulator(i) = post_run_test_case(accumulator(i));
+        accumulator(i) = post_run_test_case(accumulator(i), aborted);
         test_cases_updated = [test_cases_updated; accumulator(i)];
         startChars = sprintf(fmtStart, indexTest, nbTotalTests,  accumulator(i).name);
         statusChars = getStatusCharacter(accumulator(i).status);
         nb_spaces = max(0, 80 - length(startChars) - length(statusChars) + 1);
         fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), statusChars, newline);
         displayTestCaseFail(accumulator(i))
-        indexTest = indexTest + 1;
+        if ((accumulator(i).skip) && (~isempty(accumulator(i).msg)))
+          msg = sprintf('    Reason: %s\n', accumulator(i).msg);
+          if length(msg) > 75
+            msg = [msg(1:75), '...', '\n'];
+          end
+          fprintf(stdout, msg);
+        end 
+        indexTest = indexTest + 1;        
       end
       accumulator = [];
     end
@@ -236,99 +256,146 @@ function test_suite = process_test_cases_directory(tests_dir, option, classname,
   end
 end
 %=============================================================================
-function test_case_cleaned = post_run_test_case(test_case_res)
+function test_case_cleaned = post_run_test_case(test_case_res, aborted)
   if isfile(test_case_res.command_filename)
     try
       rmfile(test_case_res.command_filename);
     end
   end
-  if test_case_res.skip
-    test_case_cleaned.filename = test_case_res.filename;
-    test_case_cleaned.options = test_case_res.options;
-    test_case_cleaned.msg = test_case_res.msg;
-    test_case_cleaned.name = test_case_res.name;
-    test_case_cleaned.classname = test_case_res.classname;
-    test_case_cleaned.status = test_case_res.status;
-    test_case_cleaned.time = test_case_res.time;
-    test_case_cleaned.isbench = test_case_res.isbench;
-    test_case_cleaned.skip = test_case_res.skip;
-    return
-  end
   if test_case_res.options.mpi_mode
-    if isfile(test_case_res.outputfile)
-      s = jsondecode(fileread(test_case_res.outputfile));
-      res = s.r;
-      test_case_res.msg = s.msg;
-      if res == 1
+    test_case_cleaned = post_run_test_case_mpi(test_case_res);
+  else
+    if (aborted)
+      test_case_cleaned = post_run_test_case_aborted(test_case_res);
+    elseif test_case_res.skip
+      test_case_cleaned = deep_copy_test_case(test_case_res);
+    elseif test_case_res.res_cmd ~= 1
+      test_case_cleaned = post_run_test_case_skip_or_fail(test_case_res);
+    else
+      test_case_cleaned = post_run_test_case_skip_or_pass(test_case_res);
+    end
+  end
+end
+%=============================================================================
+function test_case_cleaned = deep_copy_test_case(test_case_res)
+  test_case_cleaned.filename = test_case_res.filename;
+  test_case_cleaned.options = test_case_res.options;
+  test_case_cleaned.msg = test_case_res.msg;
+  test_case_cleaned.name = test_case_res.name;
+  test_case_cleaned.classname = test_case_res.classname;
+  test_case_cleaned.status = test_case_res.status;
+  test_case_cleaned.time = test_case_res.time;
+  test_case_cleaned.isbench = test_case_res.isbench;
+  test_case_cleaned.skip = test_case_res.skip;
+end
+%=============================================================================
+function test_case_res = post_run_test_case_mpi(test_case_res)
+  if isfile(test_case_res.outputfile)
+    s = jsondecode(fileread(test_case_res.outputfile));
+    switch (s.r)
+      case 0
         test_case_res.status = 'Pass';
-        test_timing = s.timing;
-        test_case_res.msg = '';
-      else
+        test_case_res.skip = false;
+      case 1
         test_case_res.status = 'Fail';
-        test_timing = s.timing;
+        test_case_res.msg = s.msg;
+        test_case_res.skip = false;
+      case 2
+        test_case_res.status = 'Skip';
+        test_case_res.skip = true;
+        test_case_res.time = 0.;
+        test_case_res.msg = s.msg;
+      otherwise
+        error(_('Case not managed.'));
       end
+  else
+    test_case_res.status = 'Fail';
+  end
+end
+%=============================================================================
+function test_case_res = post_run_test_case_aborted(test_case_res)
+  test_case_res.status = 'Fail';
+  test_case_res.msg = [_('Test execution was terminated after timeout.')];
+end
+%=============================================================================
+function test_case_res = post_run_test_case_skip_or_fail(test_case_res)
+  if isfile(test_case_res.outputfile)
+    s = jsondecode(fileread(test_case_res.outputfile));
+    switch (s.r)
+      case 0
+        test_case_res.status = 'Pass';
+        test_case_res.skip = false;
+      case 1
+        test_case_res.status = 'Fail';
+        test_case_res.msg = s.msg;
+        test_case_res.skip = false;
+      case 2
+        test_case_res.status = 'Skip';
+        test_case_res.skip = true;
+        test_case_res.time = 0.;
+        test_case_res.msg = s.msg;
+      otherwise
+        error(_('Case not managed.'));       
+    end
+  elseif isfile(test_case_res.redirect_err)
+    s = jsondecode(fileread(test_case_res.redirect_err));
+    if ~isempty(s)
+      test_case_res.msg = s.msg;
     else
       test_case_res.status = 'Fail';
-      test_timing = 0;
+      test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
     end
   else
-    if test_case_res.res_cmd ~= 1
-      test_case_res.status = 'Fail';
-      test_timing = 0;
-      if isfile(test_case_res.outputfile)
-        s = jsondecode(fileread(test_case_res.outputfile));
-        if isempty(s)
-          test_case_res.status = 'Skip';
-          test_case_res.time = 0.;
-          test_case_res.msg = '';
-        else
-          test_case_res.msg = s.msg;
-        end
-      else
-        if isfile(test_case_res.redirect_err)
-          s = jsondecode(fileread(test_case_res.outputfile));
-          if ~isempty(s)
-            test_case_res.msg = s.msg;
-          else
-            test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
-          end
-        else
-          test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
-        end
-      end
-    else
-      if isfile(test_case_res.outputfile)
-        s = jsondecode(fileread(test_case_res.outputfile));
-        r = rmfile(test_case_res.outputfile);
-        if (s.r)
-          if test_case_res.isbench
-            if s.timing > 100
-              test_case_res.status = [mat2str(s.timing * inv(60), 2), ' min'];
-            else
-              if s.timing < 1e-3
-                test_case_res.status = [mat2str(s.timing * 1e3, 2), ' ms'];
-              else
-                test_case_res.status = [mat2str(s.timing, 2), ' s'];
-              end
-            end
-          else
-            test_case_res.status = 'Pass';
-            test_case_res.msg = '';
-          end
-          test_case_res.time = s.timing;
-        end
-        % delete error redirection if test is OK
-        % no need to conserve in this case
-        if isfile(test_case_res.redirect_err)
-          r = rmfile(test_case_res.redirect_err);
-        end
-      else
-        test_case_res.status = 'Fail';
-        test_case_res.time = 0;
-      end
-    end
+    test_case_res.status = 'Fail';
+    test_case_res.msg = [_('Error code not catched: '), num2str(test_case_res.res_cmd)];
   end
-  test_case_cleaned = test_case_res;
+end
+%=============================================================================
+function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
+  if ~isfile(test_case_res.outputfile)
+    return
+  end
+  s = jsondecode(fileread(test_case_res.outputfile));
+  r = rmfile(test_case_res.outputfile);
+    
+  switch (s.r)
+    case 0
+      test_case_res.skip = false;      
+      test_case_res.time = s.timing;
+      if test_case_res.isbench
+        if s.timing > 100
+          test_case_res.status = [mat2str(s.timing * inv(60), 2), ' min'];
+        else
+          if s.timing < 1e-3
+            test_case_res.status = [mat2str(s.timing * 1e3, 2), ' ms'];
+          else
+            test_case_res.status = [mat2str(s.timing, 2), ' s'];
+          end
+        end
+      else
+        test_case_res.status = 'Pass';
+        test_case_res.msg = '';
+      end
+    case 1
+      test_case_res.time = 0;
+      test_case_res.skip = false;
+      test_case_res.status = 'Fail';
+      test_case_res.msg = s.msg;
+    case 2
+      test_case_res.time = s.timing;
+      test_case_res.skip = true;
+      test_case_res.status = 'Skip';
+      if (strcmp(s.msg, _('Testsuite skipped')) == false)
+        test_case_res.msg = s.msg;
+      else
+        test_case_res.msg = '';
+      end
+    otherwise
+      error(_('Case not managed.'));
+  end
+  if isfile(test_case_res.redirect_err)
+    r = rmfile(test_case_res.redirect_err);
+  end
 end
 %=============================================================================
 function r = isSupportedPlatform(test_case)
@@ -410,10 +477,10 @@ function test_case = create_test_case(filename, classname)
       test_case.skip = true;
     end
   else
-   if (test_case.options.python_environment_required)
-    test_case.status = 'Skip';
-    test_case.skip = true;
-   end
+    if (test_case.options.python_environment_required)
+      test_case.status = 'Skip';
+      test_case.skip = true;
+    end
   end
   
   test_case.command = 'echo skip';
@@ -461,7 +528,7 @@ function test_case = create_test_case(filename, classname)
       if without_audio
         cmd = [cmd, ' ', '--noaudio'];
       end
-
+      
       without_python = ~test_case.options.python_environment_required;
       if without_python
         cmd = [cmd, ' ', '--without_python'];

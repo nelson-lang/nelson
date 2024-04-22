@@ -136,6 +136,7 @@
       >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if file watcher is available.</p>
 
   <p />
+  <p>Test can also skipped dynamically using <b>skip_testsuite</b> function.</p>
 
   <p
     >To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
@@ -182,6 +183,9 @@
     <see_also_item>
       <link linkend="${tests_manager}test_makeref">test_makeref</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
+    </see_also_item>
 
   </see_also>
 
@@ -194,6 +198,11 @@
       <history_version>1.3.0</history_version>
       <history_description
       >PYTHON ENVIRONMENT REQUIRED tag added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
+      >skip_testsuite function reference</history_description>
     </history_item>
 
   </history>

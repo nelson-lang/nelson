@@ -29,5 +29,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.json; DestDir: {app}\modul
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.cpp; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.h; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

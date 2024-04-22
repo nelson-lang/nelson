@@ -7,7 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--C/C++ COMPILER REQUIRED-->
+if ispc() && ~havecompiler()
+  configuremsvc()
+end
+skip_testsuite(~havecompiler())
 %=============================================================================
 destinationdir = [tempdir(), 'test_cmake_1'];
 mkdir(destinationdir);
