@@ -9,17 +9,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#ifdef _MSC_VER
-#define MS_NO_COREDLL
-#endif
-#define Py_CPYTHON_COMPLEXOBJECT_H
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-#undef PyBool_Type
-#undef PyComplex_Type
-#undef PyFloat_Type
-#undef PyNone
-#undef PyBytes_Type
-#undef PyLong_Type
-#undef PyByteArray_Type
+#include <string>
+#include "nlsPython_engine_exports.h"
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSPYTHON_ENGINE_IMPEXP ArrayOfVector
+PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
+    const wstringVector& arguments, const wstringVector& outputs, const wstringVector& names,
+    const ArrayOfVector& values);
+//=============================================================================
+}
 //=============================================================================
