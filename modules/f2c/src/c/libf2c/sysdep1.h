@@ -49,6 +49,9 @@
 #include <sys/stat.h>
 #define FOPEN fopen64
 #define FREOPEN freopen64
+#ifndef fseeko64
+#define fseeko64 fseeko
+#endif
 #define FSEEK fseeko64
 #define FSTAT fstat64
 #define FTELL ftello64
