@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `pyenv`: can use environment variables to set values.
 - `pyrun`: Python code object allowed as first input argument.
 - `nelson --without_python` starts nelson without python engine.
+- `skip_testsuite`: allows to skip test suite dynamically on condition.
 
 ### Changed
 

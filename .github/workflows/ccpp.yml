@@ -490,7 +490,7 @@ jobs:
         run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a ninja tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-20-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
           path: artifacts/
@@ -817,6 +817,19 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: Install Qt 6.7.0
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "6.7.0"
+          host: "windows"
+          target: "desktop"
+          arch: "win64_msvc2019_64"
+          dir: "C:/install/QT6/"
+          install-deps: "true"
+          modules: "qtwebengine"
+          cache: "false"
+          setup-python: "false"
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.3"
@@ -827,7 +840,6 @@ jobs:
 
       - name: Install MS-MPI
         run: |
-          $null = mkdir c:/install
           (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
@@ -842,19 +854,6 @@ jobs:
       - name: Update version
         run: |
           python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
-
-      - name: Install Qt 6.7
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: "6.7"
-          host: "windows"
-          target: "desktop"
-          arch: "win64_msvc2019_64"
-          dir: "C:/install/QT6/"
-          install-deps: "true"
-          modules: "qtwebengine"
-          cache: "false"
-          setup-python: "false"
 
       - name: Install dependencies
         run: |
