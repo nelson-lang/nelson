@@ -13,13 +13,18 @@
 #include "mz.h"
 #include "mz_crypt.h"
 
+
+
 #if defined(HAVE_ZLIB)
-#  include "zlib.h"
-#  if defined(ZLIBNG_VERNUM)
-#    include "zlib-ng.h"
-#  endif
+#if !defined(ZLIB_COMPAT)
+#include "zlib-ng.h"
+#define ZLIB_PREFIX(x) zng_##x
+#else
+#include "zlib.h"
+#define ZLIB_PREFIX(x) x
+#endif
 #elif defined(HAVE_LZMA)
-#  include "lzma.h"
+#include "lzma.h"
 #endif
 
 /***************************************************************************/

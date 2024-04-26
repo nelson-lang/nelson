@@ -14,11 +14,11 @@
 #include "mz_strm.h"
 #include "mz_strm_zlib.h"
 
+#if !defined(ZLIB_COMPAT)
+#include "zlib-ng.h"
+#else
 #include "zlib.h"
-#if defined(ZLIBNG_VERNUM)
-#  include "zlib-ng.h"
 #endif
-
 /***************************************************************************/
 
 #if defined(ZLIBNG_VERNUM) && !defined(ZLIB_COMPAT)
