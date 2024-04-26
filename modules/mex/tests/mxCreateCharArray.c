@@ -25,7 +25,7 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     if (nlhs > 1) {
         mexErrMsgIdAndTxt("Nelson:maxrhs", "Too many output arguments.");
     }
-    plhs[0] = mxCreateCharArray(2, (const int*)dims);
+    plhs[0] = mxCreateCharArray(2, (const mwSize*)dims);
     dataptr = (mxChar*)mxGetData(plhs[0]);
     bytes_to_copy = TOTAL_ELEMENTS * mxGetElementSize(plhs[0]);
     memcpy(dataptr, data, bytes_to_copy);

@@ -19,7 +19,8 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
         mexErrMsgIdAndTxt("Nelson:maxrhs", "Too many output arguments.");
     }
 
-    if (mexCallMATLAB(1, plhs, 1, prhs, "sin") != 0) {
+    const char* functionName = "sin";
+    if (mexCallMATLAB(1, plhs, 1, (mxArray**)prhs, functionName) != 0) {
         mexErrMsgTxt("error");
     }
 }
