@@ -8039,9 +8039,6 @@ msgstr "Impossible d'appeler Python. Vérifiez le chemin."
 msgid "Python returns no value."
 msgstr "Python ne renvoie aucune valeur."
 
-msgid "'nostartup' and 'startup' are mutual exclusive.\n"
-msgstr "'nostartup' et 'startup' sont mutuellement exclusifs.\n"
-
 msgid ""
 "Environment names must be a string array, cell array of character vectors, "
 "or character array."
