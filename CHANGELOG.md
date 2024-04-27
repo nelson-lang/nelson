@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [#1149](https://github.com/nelson-lang/nelson/issues/1149) python bytes, and bytearray types were not managed.
   - [#1163](https://github.com/nelson-lang/nelson/issues/1163) pyenv searchs python by version on Windows.
   - [#1164](https://github.com/nelson-lang/nelson/issues/1164) Embed python distribution on Windows.
+  - [#1167](https://github.com/nelson-lang/nelson/issues/1167) Help about how to install Python package from Nelson.
   - numpy types support if numpy available.
   - `pyenv`: can use environment variables to set values.
 
@@ -41,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `py.tuple`, `py.list` compatibility increased.
 - `pyenv` did not manage python's path with space on Windows.
 - Matio 1.5.27 compatibility on ArchLinux.
+- Ubuntu 24.04 LTS support.
 - [#1178](http://github.com/nelson-lang/nelson/issues/1178) Fedora 40 support (CI).
 - [#1134](http://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura restored.
 
