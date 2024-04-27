@@ -52,6 +52,8 @@ Try it !
 
 - MEX C API compatibility.
 
+- Call Python from Nelson.
+
 - Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
 
 - RESTful API web service.
