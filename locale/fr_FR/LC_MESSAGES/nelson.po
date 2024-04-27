@@ -7198,7 +7198,8 @@ msgid "Cannot set a read only property."
 msgstr "Impossible de définir une propriété en lecture seule."
 
 msgid "Wrong value for #1 argument, 'fullpathext' or 'fullpath' expected."
-msgstr "Valeur incorrecte pour l'argument #1, 'fullpathext' ou 'fullpath' attendu."
+msgstr ""
+"Valeur incorrecte pour l'argument #1, 'fullpathext' ou 'fullpath' attendu."
 
 msgid "cellfun works only on cells."
 msgstr "cellfun fonctionne uniquement sur des cellules."
@@ -7255,7 +7256,8 @@ msgid "' not available."
 msgstr "' non disponible."
 
 msgid "Wrong size for input argument #2: scalar expected."
-msgstr "Taille incorrecte pour l'argument d'entrée #2 : un scalaire est attendu."
+msgstr ""
+"Taille incorrecte pour l'argument d'entrée #2 : un scalaire est attendu."
 
 msgid "Continuous model expected."
 msgstr "Modèle continu attendu."
@@ -7264,14 +7266,16 @@ msgid "Ts must be a finite positive scalar."
 msgstr "Ts doit être un scalaire positif fini."
 
 msgid "Wrong value for #3 input argument: valid method expected."
-msgstr "Valeur incorrecte pour l'argument d'entrée #3 : une méthode valide est "
+msgstr ""
+"Valeur incorrecte pour l'argument d'entrée #3 : une méthode valide est "
 "attendue."
 
 msgid "Wrong value for #3 argument: 'prewarp' method expected."
 msgstr "Valeur incorrecte pour l'argument #3 : méthode 'prewarp' attendue."
 
 msgid "Wrong size for input argument #4: scalar expected."
-msgstr "Taille incorrecte pour l'argument d'entrée #4 : un scalaire est attendu."
+msgstr ""
+"Taille incorrecte pour l'argument d'entrée #4 : un scalaire est attendu."
 
 msgid ""
 "The prewarp frequency, also known as the critical frequency, should be less "
@@ -7290,7 +7294,8 @@ msgid "Wrong value for #2 argument: 'prewarp' method expected."
 msgstr "Valeur incorrecte pour l'argument #2 : méthode 'prewarp' attendue."
 
 msgid "Wrong size for input argument #3: scalar expected."
-msgstr "Taille incorrecte pour l'argument d'entrée #3 : un scalaire est attendu."
+msgstr ""
+"Taille incorrecte pour l'argument d'entrée #3 : un scalaire est attendu."
 
 #, python-format
 msgid "Sample time: %s"
@@ -7303,12 +7308,14 @@ msgid "'o', 'c' second argument expected."
 msgstr "Deuxième argument attendu : 'o', 'c'."
 
 msgid "Wrong value for argument #1: sys.E must not be singular."
-msgstr "Valeur incorrecte pour l'argument #1 : sys.E ne doit pas être singulier."
+msgstr ""
+"Valeur incorrecte pour l'argument #1 : sys.E ne doit pas être singulier."
 
 msgid ""
 "Wrong value for input arguments #5 or #6: result must be positive definite."
 msgstr ""
-"Valeur incorrecte pour les arguments d'entrée #5 ou #6 : le résultat doit être défini positif."
+"Valeur incorrecte pour les arguments d'entrée #5 ou #6 : le résultat doit "
+"être défini positif."
 
 msgid "Not a valid indexing expression"
 msgstr "Expression d'indexation non valide"
@@ -7327,35 +7334,49 @@ msgid "Pole locations are in more than 10% error"
 msgstr "Les emplacements des pôles sont en erreur de plus de 10%"
 
 msgid "Wrong size for input argument #1: square matrix expected."
-msgstr "Taille incorrecte pour l'argument d'entrée #1 : une matrice carrée est attendue."
+msgstr ""
+"Taille incorrecte pour l'argument d'entrée #1 : une matrice carrée est "
+"attendue."
 
 #, python-format
 msgid "slicot_mb03rd returned info = %d"
 msgstr "slicot_mb03rd a retourné l'information = %d"
 
 msgid "Wrong value for argument #4: Symmetric matrix expected."
-msgstr "Valeur incorrecte pour l'argument #4 : une matrice symétrique est attendue."
+msgstr ""
+"Valeur incorrecte pour l'argument #4 : une matrice symétrique est attendue."
 
 msgid "Wrong size for argument #1: Square matrix expected."
-msgstr "Taille incorrecte pour l'argument #1 : une matrice carrée est attendue."
+msgstr ""
+"Taille incorrecte pour l'argument #1 : une matrice carrée est attendue."
 
 msgid "Wrong size for arguments: Q, R square matrix expected."
-msgstr "Taille incorrecte pour les arguments : Q, R doivent être des matrices carrées."
+msgstr ""
+"Taille incorrecte pour les arguments : Q, R doivent être des matrices "
+"carrées."
 
 msgid "Wrong size for arguments #1 and #2: Same number of rows expected."
-msgstr "Taille incorrecte pour les arguments #1 et #2 : le même nombre de lignes est attendu."
+msgstr ""
+"Taille incorrecte pour les arguments #1 et #2 : le même nombre de lignes est "
+"attendu."
 
 msgid "Wrong size for arguments #2 and #4: Same number of columns expected."
-msgstr "Taille incorrecte pour les arguments #2 et #4 : le même nombre de colonnes est attendu."
+msgstr ""
+"Taille incorrecte pour les arguments #2 et #4 : le même nombre de colonnes "
+"est attendu."
 
 msgid "Wrong size for arguments #2 and #5: Same size expected."
-msgstr "Taille incorrecte pour les arguments #2 et #5 : la même taille est attendue."
+msgstr ""
+"Taille incorrecte pour les arguments #2 et #5 : la même taille est attendue."
 
 msgid "Wrong size for arguments #1 and #6: Same number of rows expected."
-msgstr "Taille incorrecte pour les arguments #1 et #6 : le même nombre de lignes est attendu."
+msgstr ""
+"Taille incorrecte pour les arguments #1 et #6 : le même nombre de lignes est "
+"attendu."
 
 msgid "Wrong size for arguments #1 and #3: Same size expected."
-msgstr "Taille incorrecte pour les arguments #1 et #3 : la même taille est attendue."
+msgstr ""
+"Taille incorrecte pour les arguments #1 et #3 : la même taille est attendue."
 
 msgid "Unable to solve the specified Riccati equation."
 msgstr "Impossible de résoudre l'équation de Riccati spécifiée."
@@ -7364,8 +7385,9 @@ msgid ""
 "The accuracy of the solution could be compromised by inadequate scaling or "
 "eigenvalues that are in close proximity to the stability domain's boundary."
 msgstr ""
-"L'exactitude de la solution pourrait être compromise par une mise à l'échelle inadéquate ou "
-"des valeurs propres qui sont proches de la limite du domaine de stabilité."
+"L'exactitude de la solution pourrait être compromise par une mise à "
+"l'échelle inadéquate ou des valeurs propres qui sont proches de la limite du "
+"domaine de stabilité."
 
 msgid "The number of feedback inputs and outputs are not equal."
 msgstr "Le nombre d'entrées et de sorties de rétroaction n'est pas égal."
@@ -7374,39 +7396,48 @@ msgid ""
 "First input argument must be one of the following: 'tan', 'cos', 'sin', "
 "'square', or 'pulse'."
 msgstr ""
-"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', 'sin', "
-"'square', ou 'pulse'."
+"Le premier argument d'entrée doit être l'un des suivants : 'tan', 'cos', "
+"'sin', 'square', ou 'pulse'."
 
 msgid "Impulse response"
 msgstr "Réponse à l'impulsion"
 
 msgid "The initial conditions vector has not the same row length as matrix A."
-msgstr "Le vecteur des conditions initiales n'a pas la même longueur de ligne que la matrice A."
+msgstr ""
+"Le vecteur des conditions initiales n'a pas la même longueur de ligne que la "
+"matrice A."
 
 msgid "Response to initial Conditions"
 msgstr "Réponse aux conditions initiales"
 
 msgid "Wrong value for argument #1: sys.E matrix must be positive definite."
-msgstr "Valeur incorrecte pour l'argument #1 : la matrice sys.E doit être définie positive."
+msgstr ""
+"Valeur incorrecte pour l'argument #1 : la matrice sys.E doit être définie "
+"positive."
 
 msgid "Wrong size for argument #2: real square matrix expected."
-msgstr "Taille incorrecte pour l'argument #2 : une matrice carrée réelle est attendue."
+msgstr ""
+"Taille incorrecte pour l'argument #2 : une matrice carrée réelle est "
+"attendue."
 
 #, python-format
 msgid ""
 "Wrong value or size in arguments #%d: valid index expected and expected "
 "length %d expected."
 msgstr ""
-"Valeur ou taille incorrecte dans les arguments #%d : un index valide est attendu et une longueur attendue de %d."
+"Valeur ou taille incorrecte dans les arguments #%d : un index valide est "
+"attendu et une longueur attendue de %d."
 
 msgid "Wrong type for argument #1: state space model expected."
-msgstr "Type incorrect pour l'argument #1 : un modèle d'espace d'état est attendu."
+msgstr ""
+"Type incorrect pour l'argument #1 : un modèle d'espace d'état est attendu."
 
 msgid "Wrong size for argument #5: vector expected."
 msgstr "Taille incorrecte pour l'argument #5 : un vecteur est attendu."
 
 msgid "Wrong value in argument #1: sys.E is a singular matrix."
-msgstr "Valeur incorrecte dans l'argument #1 : sys.E est une matrice singulière."
+msgstr ""
+"Valeur incorrecte dans l'argument #1 : sys.E est une matrice singulière."
 
 msgid "Wrong size for input argument #2 and #4."
 msgstr "Taille incorrecte pour l'argument d'entrée #2 et #4."
@@ -7451,10 +7482,12 @@ msgid "OUTPUTS1 and INPUTS2 must be vectors of the same length."
 msgstr "OUTPUTS1 et INPUTS2 doivent être des vecteurs de la même longueur."
 
 msgid "length of INPUTS2 cannot exceed the number of inputs in SYS2."
-msgstr "La longueur de INPUTS2 ne peut pas dépasser le nombre d'entrées dans SYS2."
+msgstr ""
+"La longueur de INPUTS2 ne peut pas dépasser le nombre d'entrées dans SYS2."
 
 msgid "length of OUTPUTS1 cannot exceed the number of outputs in SYS1."
-msgstr "La longueur de OUTPUTS1 ne peut pas dépasser le nombre de sorties dans SYS1."
+msgstr ""
+"La longueur de OUTPUTS1 ne peut pas dépasser le nombre de sorties dans SYS1."
 
 msgid "some index in INPUTS2 is out of range."
 msgstr "Certains indices dans INPUTS2 sont hors de portée."
@@ -7505,7 +7538,9 @@ msgid "explode or labels values expected."
 msgstr "des valeurs d'éclatement ou d'étiquettes sont attendues."
 
 msgid "Wrong size for input arguments: vectors with the same size expected."
-msgstr "Taille incorrecte des arguments d'entrée : des vecteurs de la même taille sont attendus."
+msgstr ""
+"Taille incorrecte des arguments d'entrée : des vecteurs de la même taille "
+"sont attendus."
 
 msgid "Two indices expected."
 msgstr "Deux indices attendus."
@@ -7721,10 +7756,13 @@ msgid "Lexical error unterminated character array"
 msgstr "Erreur lexicale : tableau de caractères non terminé"
 
 msgid "Three input arguments expected to return three ouput arguments."
-msgstr "Trois arguments d'entrée sont attendus pour retourner trois arguments de sortie."
+msgstr ""
+"Trois arguments d'entrée sont attendus pour retourner trois arguments de "
+"sortie."
 
 msgid "No compiler configured. doc supported_compiler for more information."
-msgstr "Aucun compilateur configuré. doc support_compiler pour plus d'informations."
+msgstr ""
+"Aucun compilateur configuré. doc support_compiler pour plus d'informations."
 
 msgid "Field"
 msgstr "Champ"
@@ -7794,7 +7832,9 @@ msgid "Export Image to ..."
 msgstr "Exporter l'image vers ..."
 
 msgid "PNG File (*.png);;JPG File (*.jpg);;SVG File (*.svg);;PDF File (*.pdf)"
-msgstr "Fichier PNG (*.png);;Fichier JPG (*.jpg);;Fichier SVG (*.svg);;Fichier PDF (*.pdf)"
+msgstr ""
+"Fichier PNG (*.png);;Fichier JPG (*.jpg);;Fichier SVG (*.svg);;Fichier PDF "
+"(*.pdf)"
 
 msgid "&Check for updates"
 msgstr "&Vérifier les mises à jour"
@@ -7858,9 +7898,6 @@ msgstr "Veuillez vérifier l'URL ou votre connexion Internet."
 msgid "Second argument must a double or single variable."
 msgstr "Le deuxième argument doit être une variable double ou simple."
 
-msgid "'nostartup' and 'startup' are mutual exclusive.\n"
-msgstr "'nostartup' et 'startup' sont mutuellement exclusifs.\n"
-
 msgid "warning('query') does not require an second argument."
 msgstr "warning('query') ne nécessite pas de deuxième argument."
 
@@ -7871,13 +7908,17 @@ msgid "Evaluator not available."
 msgstr "Évaluateur non disponible."
 
 msgid "Field names must be string scalars or character vectors."
-msgstr "Les noms de champ doivent être des scalaires de chaîne de caractères ou des vecteurs de caractères."
+msgstr ""
+"Les noms de champ doivent être des scalaires de chaîne de caractères ou des "
+"vecteurs de caractères."
 
 msgid "PythonEnvironment object expected."
 msgstr "Objet PythonEnvironment attendu."
 
 msgid "Unable to set property of class 'PythonEnvironment' it is read-only."
-msgstr "Impossible de définir la propriété de la classe 'PythonEnvironment' elle est en lecture seule."
+msgstr ""
+"Impossible de définir la propriété de la classe 'PythonEnvironment' elle est "
+"en lecture seule."
 
 msgid "Python object expected."
 msgstr "Objet Python attendu."
@@ -7925,7 +7966,9 @@ msgid "Conversion to Python is not supported."
 msgstr "La conversion en Python n'est pas prise en charge."
 
 msgid "Conversion of 'char' to Python is only supported for 1-N vectors."
-msgstr "La conversion de 'char' en Python n'est prise en charge que pour les vecteurs 1-N."
+msgstr ""
+"La conversion de 'char' en Python n'est prise en charge que pour les "
+"vecteurs 1-N."
 
 msgid "Type not supported"
 msgstr "Type non pris en charge"
@@ -7939,8 +7982,11 @@ msgstr "Impossible d'obtenir le tampon depuis la vue mémoire."
 msgid "Unsupported data format."
 msgstr "Format de données non pris en charge."
 
-msgid "Colon operands must be all the same type, or mixed with real scalar doubles."
-msgstr "Les opérandes de deux-points doivent être tous du même type, ou mélangés avec des doubles scalaires réels."
+msgid ""
+"Colon operands must be all the same type, or mixed with real scalar doubles."
+msgstr ""
+"Les opérandes de deux-points doivent être tous du même type, ou mélangés "
+"avec des doubles scalaires réels."
 
 msgid "Wrong type for input arguments."
 msgstr "Mauvais type pour les arguments d'entrée."
@@ -7973,13 +8019,16 @@ msgid "Python scripts are missing."
 msgstr "Les scripts Python sont manquants."
 
 msgid "The Python path cannot be modified if Python library is loaded."
-msgstr "Le chemin Python ne peut pas être modifié si la bibliothèque Python est chargée."
+msgstr ""
+"Le chemin Python ne peut pas être modifié si la bibliothèque Python est "
+"chargée."
 
 msgid "valid executable filename expected."
 msgstr "nom de fichier exécutable valide attendu."
 
 msgid "Python version is not supported (at least 3.10.0 expected)."
-msgstr "La version de Python n'est pas prise en charge (au moins 3.10.0 attendue)."
+msgstr ""
+"La version de Python n'est pas prise en charge (au moins 3.10.0 attendue)."
 
 msgid "Python and Nelson must use the same architecture."
 msgstr "Python et Nelson doivent utiliser la même architecture."
@@ -7989,3 +8038,86 @@ msgstr "Impossible d'appeler Python. Vérifiez le chemin."
 
 msgid "Python returns no value."
 msgstr "Python ne renvoie aucune valeur."
+
+msgid "'nostartup' and 'startup' are mutual exclusive.\n"
+msgstr "'nostartup' et 'startup' sont mutuellement exclusifs.\n"
+
+msgid ""
+"Environment names must be a string array, cell array of character vectors, "
+"or character array."
+msgstr ""
+"Les noms d'environnement doivent être un tableau de chaînes, un tableau de cellules de vecteurs de caractères, ou un tableau de caractères."
+
+msgid "Valid Python code object expected."
+msgstr "Un objet de code Python valide est attendu."
+
+msgid "Impossible to open file: "
+msgstr "Impossible d'ouvrir le fichier : "
+
+msgid ""
+"All Python elements must be convertible as scalar to the requested type."
+msgstr ""
+"Tous les éléments Python doivent être convertibles en tant que scalaire vers le type demandé."
+
+msgid "Input must be nonnegative."
+msgstr "L'entrée doit être non négative."
+
+msgid "invoke method not allowed for this HANDLE type."
+msgstr "La méthode invoke n'est pas autorisée pour ce type de HANDLE."
+
+msgid "Cannot find specified version."
+msgstr "Impossible de trouver la version spécifiée."
+
+msgid "valid version or executable filename expected."
+msgstr "Version valide ou nom de fichier exécutable attendu."
+
+msgid "Wrong value for #2 argument. struct"
+msgstr "Mauvaise valeur pour l'argument #2. struct"
+
+msgid "Wrong value for #2 argument. string"
+msgstr "Mauvaise valeur pour l'argument #2. chaîne de caractères"
+
+msgid "Wrong value for #2 argument. cell"
+msgstr "Mauvaise valeur pour l'argument #2. cellule"
+
+msgid "Wrong value for #2 argument. numeric"
+msgstr "Mauvaise valeur pour l'argument #2. numérique"
+
+msgid "Cannot convert to cell"
+msgstr "Impossible de convertir en cellule"
+
+msgid "Wrong value for #2 argument. int8"
+msgstr "Mauvaise valeur pour l'argument #2. int8"
+
+msgid "Wrong value for #2 argument. int16"
+msgstr "Mauvaise valeur pour l'argument #2. int16"
+
+msgid "Wrong value for #2 argument. int32"
+msgstr "Mauvaise valeur pour l'argument #2. int32"
+
+msgid "Wrong value for #2 argument. int64"
+msgstr "Mauvaise valeur pour l'argument #2. int64"
+
+msgid "Wrong value for #2 argument. uint8"
+msgstr "Mauvaise valeur pour l'argument #2. uint8"
+
+msgid "Wrong value for #2 argument. uint16"
+msgstr "Mauvaise valeur pour l'argument #2. uint16"
+
+msgid "Wrong value for #2 argument. uint32"
+msgstr "Mauvaise valeur pour l'argument #2. uint32"
+
+msgid "Wrong value for #2 argument. uint64"
+msgstr "Mauvaise valeur pour l'argument #2. uint64"
+
+msgid "Wrong value for #2 argument. single"
+msgstr "Mauvaise valeur pour l'argument #2. float"
+
+msgid "Wrong value for #2 argument. double"
+msgstr "Mauvaise valeur pour l'argument #2. double"
+
+msgid "Size mismatch on input arguments"
+msgstr "Incohérence de taille sur les arguments d'entrée"
+
+msgid "Testsuite skipped"
+msgstr "Suite de tests ignorée"

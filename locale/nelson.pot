@@ -3241,6 +3241,11 @@ msgstr ""
 msgid "Unknown command option."
 msgstr ""
 
+msgid ""
+"Environment names must be a string array, cell array of character vectors, "
+"or character array."
+msgstr ""
+
 msgid "Cannot set environment variable."
 msgstr ""
 
@@ -3451,10 +3456,16 @@ msgstr ""
 msgid "Same name, value numbers expected."
 msgstr ""
 
+msgid "Valid Python code object expected."
+msgstr ""
+
 msgid "Impossible to load Python library."
 msgstr ""
 
 msgid "Cannot initialize python environment."
+msgstr ""
+
+msgid "Impossible to open file: "
 msgstr ""
 
 #, c-format
@@ -3476,6 +3487,10 @@ msgid "Invalid Python object."
 msgstr ""
 
 msgid "Cannot convert to "
+msgstr ""
+
+msgid ""
+"All Python elements must be convertible as scalar to the requested type."
 msgstr ""
 
 msgid "Method does not exist."
@@ -3852,6 +3867,9 @@ msgid "Inputs arguments must be real."
 msgstr ""
 
 msgid "X and V must be of the same length."
+msgstr ""
+
+msgid "Input must be nonnegative."
 msgstr ""
 
 msgid "Inputs must be 2-D."
@@ -5602,6 +5620,9 @@ msgstr ""
 msgid "Property"
 msgstr ""
 
+msgid "invoke method not allowed for this HANDLE type."
+msgstr ""
+
 msgid "assert_checkerror fails."
 msgstr ""
 
@@ -6722,6 +6743,9 @@ msgstr ""
 msgid "The Python path cannot be modified if Python library is loaded."
 msgstr ""
 
+msgid "Cannot find specified version."
+msgstr ""
+
 msgid "valid executable filename expected."
 msgstr ""
 
@@ -6735,6 +6759,54 @@ msgid "Impossible to call Python. Check path."
 msgstr ""
 
 msgid "Python returns no value."
+msgstr ""
+
+msgid "valid version or executable filename expected."
+msgstr ""
+
+msgid "Wrong value for #2 argument. struct"
+msgstr ""
+
+msgid "Wrong value for #2 argument. string"
+msgstr ""
+
+msgid "Wrong value for #2 argument. cell"
+msgstr ""
+
+msgid "Wrong value for #2 argument. numeric"
+msgstr ""
+
+msgid "Cannot convert to cell"
+msgstr ""
+
+msgid "Wrong value for #2 argument. int8"
+msgstr ""
+
+msgid "Wrong value for #2 argument. int16"
+msgstr ""
+
+msgid "Wrong value for #2 argument. int32"
+msgstr ""
+
+msgid "Wrong value for #2 argument. int64"
+msgstr ""
+
+msgid "Wrong value for #2 argument. uint8"
+msgstr ""
+
+msgid "Wrong value for #2 argument. uint16"
+msgstr ""
+
+msgid "Wrong value for #2 argument. uint32"
+msgstr ""
+
+msgid "Wrong value for #2 argument. uint64"
+msgstr ""
+
+msgid "Wrong value for #2 argument. single"
+msgstr ""
+
+msgid "Wrong value for #2 argument. double"
 msgstr ""
 
 msgid "M must be a positive integer."
@@ -6794,6 +6866,9 @@ msgstr ""
 msgid "arguments #1 and #2 must have same length."
 msgstr ""
 
+msgid "Size mismatch on input arguments"
+msgstr ""
+
 msgid "An existing filename expected."
 msgstr ""
 
@@ -6816,6 +6891,9 @@ msgid "String, cell of chars or characters vector expected."
 msgstr ""
 
 msgid "Wrong value for #3: IgnoreCase expected."
+msgstr ""
+
+msgid "Testsuite skipped"
 msgstr ""
 
 msgid "<--CHECK REF--> tag expected."
