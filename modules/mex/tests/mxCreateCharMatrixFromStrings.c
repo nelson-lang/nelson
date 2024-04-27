@@ -15,7 +15,7 @@
 void
 mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
-    char* strings[3];
+    const char* strings[3];
     strings[0] = "value";
     strings[1] = "another value";
     strings[2] = "another value longest";
