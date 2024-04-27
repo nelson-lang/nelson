@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/dll/library_info.hpp>
+#include <boost/filesystem/exception.hpp>
 #include "FileSystemWrapper.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "DynamicLibrary.hpp"
