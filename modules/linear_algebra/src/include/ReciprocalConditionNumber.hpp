@@ -14,6 +14,6 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-ReciprocalConditionNumber(const ArrayOf& A);
+ReciprocalConditionNumber(const ArrayOf& A, bool precionWarning = false);
 }
 //=============================================================================

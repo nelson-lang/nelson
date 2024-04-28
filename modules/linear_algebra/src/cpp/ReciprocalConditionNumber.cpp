@@ -11,6 +11,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <cfloat>
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL
 #undef EIGEN_USE_MKL_VML
@@ -19,12 +20,13 @@
 #include "ReciprocalConditionNumber.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Double(const ArrayOf& A)
+ReciprocalConditionNumber_Double(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -72,7 +74,9 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             iwork = nullptr;
             delete[] work;
             work = nullptr;
-            if (info < 0) {
+            if (res < DBL_EPSILON && precionWarning) {
+                Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
+            } else if (info < 0 && info != -5) {
                 Error(fmt::sprintf(_("LAPACK_dgecon error code: %d."), info));
             }
             rcond = ArrayOf::doubleConstructor(res);
@@ -82,7 +86,7 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
+ReciprocalConditionNumber_DoubleComplex(ArrayOf A, bool precionWarning)
 {
     ArrayOf rcond;
     auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
@@ -128,7 +132,9 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             rwork = nullptr;
             delete[] work;
             work = nullptr;
-            if (info < 0) {
+            if (res < DBL_EPSILON && precionWarning) {
+                Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
+            } else if (info < 0 && info != -5) {
                 Error(fmt::sprintf(_("LAPACK_zgecon error code: %d."), info));
             }
             rcond = ArrayOf::doubleConstructor(res);
@@ -138,7 +144,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Single(const ArrayOf& A)
+ReciprocalConditionNumber_Single(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -185,7 +191,9 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             iwork = nullptr;
             delete[] work;
             work = nullptr;
-            if (info < 0) {
+            if (res < FLT_EPSILON && precionWarning) {
+                Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
+            } else if (info < 0 && info != -5) {
                 Error(fmt::sprintf(_("LAPACK_sgecon error code: %d."), info));
             }
             rcond = ArrayOf::singleConstructor(res);
@@ -195,7 +203,7 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
+ReciprocalConditionNumber_SingleComplex(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -243,7 +251,9 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             rwork = nullptr;
             delete[] work;
             work = nullptr;
-            if (info < 0) {
+            if (res < FLT_EPSILON && precionWarning) {
+                Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
+            } else if (info < 0 && info != -5) {
                 Error(fmt::sprintf(_("LAPACK_cgecon error code: %d."), info));
             }
             rcond = ArrayOf::singleConstructor(res);
@@ -253,7 +263,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-ReciprocalConditionNumber(const ArrayOf& A)
+ReciprocalConditionNumber(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
     bool isSupportedTypes
@@ -276,15 +286,15 @@ ReciprocalConditionNumber(const ArrayOf& A)
     } else {
         if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {
             if (A.getDataClass() == NLS_DOUBLE) {
-                rcond = ReciprocalConditionNumber_Double(A);
+                rcond = ReciprocalConditionNumber_Double(A, precionWarning);
             } else {
-                rcond = ReciprocalConditionNumber_DoubleComplex(A);
+                rcond = ReciprocalConditionNumber_DoubleComplex(A, precionWarning);
             }
         } else {
             if (A.getDataClass() == NLS_SINGLE) {
-                rcond = ReciprocalConditionNumber_Single(A);
+                rcond = ReciprocalConditionNumber_Single(A, precionWarning);
             } else {
-                rcond = ReciprocalConditionNumber_SingleComplex(A);
+                rcond = ReciprocalConditionNumber_SingleComplex(A, precionWarning);
             }
         }
     }

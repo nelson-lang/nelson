@@ -239,7 +239,7 @@ InverseMatrix(const ArrayOf& A, bool& needToOverload)
         RES.ensureSingleOwner();
         return RES;
     }
-    ArrayOf rCondArray = ReciprocalConditionNumber(A);
+    ArrayOf rCondArray = ReciprocalConditionNumber(A, true);
     double rcond = rCondArray.getContentAsDoubleScalar();
     ArrayOf R;
     if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {

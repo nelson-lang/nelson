@@ -73,3 +73,8 @@ assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('inv(zeros(3,5))', _('Square matrix expected.'));
 %=============================================================================
+assert_isequal(inv([0 0;i() 3]), [Inf, Inf; Inf, Inf]);
+[msg, id] = lastwarn();
+assert_isequal(msg, _('Matrix is singular to working precision.'));
+assert_isequal(id, 'Nelson:singularMatrix');
+%=============================================================================

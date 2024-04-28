@@ -24,7 +24,7 @@ Nelson::LinearAlgebraGateway::rcondBuiltin(int nLhs, const ArrayOfVector& argIn)
         || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
         OverloadRequired("rcond");
     }
-    retval << ReciprocalConditionNumber(argIn[0]);
+    retval << ReciprocalConditionNumber(argIn[0], false);
     return retval;
 }
 //=============================================================================

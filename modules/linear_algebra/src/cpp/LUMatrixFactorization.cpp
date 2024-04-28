@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "Eye.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -515,6 +516,19 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     int ncols = (int)A.getColumns();
     int p = std::min(nrows, ncols);
 
+    if (A.isEmpty()) {
+        if (nLhs <= 2) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+
+        } else if (nLhs == 3) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << Eye(nrows, nrows, NLS_DOUBLE, false);
+        }
+        return retval;
+    }
+
     double* l
         = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
     double* u
@@ -578,6 +592,19 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
     int ncols = (int)A.getColumns();
     int p = std::min(nrows, ncols);
 
+    if (A.isEmpty()) {
+        if (nLhs <= 2) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+
+        } else if (nLhs == 3) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << Eye(nrows, nrows, NLS_SINGLE, false);
+        }
+        return retval;
+    }
+
     single* l
         = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
     single* u
@@ -627,6 +654,19 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
     int p = std::min(nrows, ncols);
+
+    if (A.isEmpty()) {
+        if (nLhs <= 2) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+
+        } else if (nLhs == 3) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << Eye(nrows, nrows, NLS_DOUBLE, false);
+        }
+        return retval;
+    }
 
     double* l
         = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
@@ -681,6 +721,19 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
     int p = std::min(nrows, ncols);
+
+    if (A.isEmpty()) {
+        if (nLhs <= 2) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+
+        } else if (nLhs == 3) {
+            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << Eye(nrows, nrows, NLS_SINGLE, false);
+        }
+        return retval;
+    }
 
     single* l
         = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
