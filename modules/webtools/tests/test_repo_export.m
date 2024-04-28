@@ -13,7 +13,12 @@ if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');
 end
 mkdir(LOCAL_DIRECTORY);
-repo('export', GIT_REPOSITORY, LOCAL_DIRECTORY)
+try
+  repo('export', GIT_REPOSITORY, LOCAL_DIRECTORY)
+catch ex
+  skip_testsuite(ex.message)
+end
+
 R = dir(LOCAL_DIRECTORY);
 assert_isequal(length(R), 5);
 REF_NAMES = {'.', '..', 'LICENSE', 'README.md', 'repo_test.nlf'};

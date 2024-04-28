@@ -11,7 +11,14 @@ url = 'https://jsonplaceholder.typicode.com/posts/1/comments';
 filename = [tempdir(), 'test.txt'];
 o = weboptions('ContentType','json');
 o.Timeout = 60;
-destination_filename = websave(filename, url, o);
+try
+  destination_filename = websave(filename, url, o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 txt = fileread(filename);
 st = jsondecode(txt);
 assert_isequal(st(1).email, 'Eliseo@gardner.biz');

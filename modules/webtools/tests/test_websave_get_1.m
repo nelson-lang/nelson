@@ -9,5 +9,12 @@
 %=============================================================================
 url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
 filename = [tempdir(), 'MoValleyEclipse_1.jpg'];
-outfilename = websave(filename, url);
+try
+  outfilename = websave(filename, url);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 %=============================================================================

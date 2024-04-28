@@ -9,6 +9,13 @@
 %=============================================================================
 o = weboptions('ContentType', 'text');
 o.Timeout = 30;
-R = webread('https://jsonplaceholder.typicode.com/posts/1/comments', o);
-assert_istrue(ischar(R));
+try
+  R = webread('https://jsonplaceholder.typicode.com/posts/1/comments', o);
+  assert_istrue(ischar(R));
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 %=============================================================================

@@ -10,7 +10,14 @@
 o = weboptions('RequestMethod', 'put');
 o.Timeout = 60;
 filename = [tempdir(), 'test_websave_put.json'];
-fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1', o);
+try
+  fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1', o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 R = jsondecode(fileread(fullname));
 assert_isequal(R.id, 1);
 %=============================================================================
