@@ -12,6 +12,13 @@ assert_isequal(nargout('websave'), 1);
 %=============================================================================
 url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
 filename = [tempdir(), 'MoValleyEclipse_2.jpg'];
-destination_filename = websave(filename, url);
+try
+  destination_filename = websave(filename, url);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 assert_istrue(isfile(destination_filename))
 %=============================================================================

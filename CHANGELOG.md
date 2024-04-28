@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1157](http://github.com/nelson-lang/nelson/issues/1157) Qt 6.7 support (used on Windows 64 bits binary).
 - `copyfile`, `isfile`, `isdir`, `mkdir` allow string array type as input.
 - warning about 'Matrix is singular to working precision' for inv matrix.
+- tests webtools skipped if connection fails or not available.
 
 ### Fixed
 

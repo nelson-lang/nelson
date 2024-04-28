@@ -15,7 +15,9 @@ try
   info = dir(destination_filename);
   assert_istrue(info.bytes > 0);
 catch ex
-  R = strcmp(ex.message, _('Forbidden (403)')) || strcmp(ex.message, _('Timeout was reached'));
-  assert_istrue(R);
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
 end
 %=============================================================================
