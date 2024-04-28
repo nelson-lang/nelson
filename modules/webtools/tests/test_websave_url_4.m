@@ -13,13 +13,13 @@ o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'repeating');
 o.Timeout = 30;
 filename = [tempdir(), 'test_websave_args_4.json'];
 M = [1 2 3; 4 5 6];
-while (~ok && cnt < 10)
-  try
-    fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
-    ok = true;
-  catch
-    cnt = cnt + 1;
-  end
+try
+  fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
 end
 R = jsondecode(fileread(fullname))
 %=============================================================================

@@ -9,7 +9,14 @@
 %=============================================================================
 o = weboptions('RequestMethod', 'get');
 filename = [tempdir(), 'test_websave_get_2.json'];
-fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1/comments', o);
+try
+  fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1/comments', o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 R = jsondecode(fileread(fullname));
 assert_isequal(R(5).email, 'Hayden@althea.biz');
 %=============================================================================

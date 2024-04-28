@@ -292,6 +292,7 @@ end
 function test_case_res = post_run_test_case_mpi(test_case_res)
   if isfile(test_case_res.outputfile)
     s = jsondecode(fileread(test_case_res.outputfile));
+    test_case_res.time = s.timing;
     switch (s.r)
       case 0
         test_case_res.status = 'Pass';
@@ -303,7 +304,6 @@ function test_case_res = post_run_test_case_mpi(test_case_res)
       case 2
         test_case_res.status = 'Skip';
         test_case_res.skip = true;
-        test_case_res.time = 0.;
         test_case_res.msg = s.msg;
       otherwise
         error(_('Case not managed.'));
@@ -321,9 +321,23 @@ end
 function test_case_res = post_run_test_case_skip_or_fail(test_case_res)
   if isfile(test_case_res.outputfile)
     s = jsondecode(fileread(test_case_res.outputfile));
+    test_case_res.time = s.timing;
     switch (s.r)
       case 0
-        test_case_res.status = 'Pass';
+        if test_case_res.isbench
+          if s.timing > 100
+            test_case_res.status = [mat2str(s.timing * inv(60), 2), ' min'];
+          else
+            if s.timing < 1e-3
+              test_case_res.status = [mat2str(s.timing * 1e3, 2), ' ms'];
+            else
+              test_case_res.status = [mat2str(s.timing, 2), ' s'];
+            end
+          end
+        else
+          test_case_res.status = 'Pass';
+          test_case_res.msg = '';
+        end
         test_case_res.skip = false;
       case 1
         test_case_res.status = 'Fail';
@@ -332,7 +346,6 @@ function test_case_res = post_run_test_case_skip_or_fail(test_case_res)
       case 2
         test_case_res.status = 'Skip';
         test_case_res.skip = true;
-        test_case_res.time = 0.;
         test_case_res.msg = s.msg;
       otherwise
         error(_('Case not managed.'));       
@@ -357,11 +370,10 @@ function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
   end
   s = jsondecode(fileread(test_case_res.outputfile));
   r = rmfile(test_case_res.outputfile);
-    
+  test_case_res.time = s.timing;
   switch (s.r)
     case 0
       test_case_res.skip = false;      
-      test_case_res.time = s.timing;
       if test_case_res.isbench
         if s.timing > 100
           test_case_res.status = [mat2str(s.timing * inv(60), 2), ' min'];
@@ -377,12 +389,10 @@ function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
         test_case_res.msg = '';
       end
     case 1
-      test_case_res.time = 0;
       test_case_res.skip = false;
       test_case_res.status = 'Fail';
       test_case_res.msg = s.msg;
     case 2
-      test_case_res.time = s.timing;
       test_case_res.skip = true;
       test_case_res.status = 'Skip';
       if (strcmp(s.msg, _('Testsuite skipped')) == false)

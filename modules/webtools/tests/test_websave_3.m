@@ -24,5 +24,11 @@ while (retry)
   i = i + 1;
   retry = ~testPass && (i < 5);
 end
+
+R = strcmp(ex.message, _('Forbidden (403)')) || ...
+strcmp(ex.message, _('Timeout was reached')) || ... 
+strcmp(ex.message, _('Couldn''t resolve host name'));
+skip_testsuite(R, ex.message)
+
 assert_istrue(testPass)
 %=============================================================================

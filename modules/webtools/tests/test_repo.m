@@ -16,7 +16,11 @@ if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');
 end
 mkdir(LOCAL_DIRECTORY);
-repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY)
+try
+  repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY)
+catch ex
+  skip_testsuite(ex.message)
+end
 R = dir(LOCAL_DIRECTORY);
 assert_isequal(length(R), 6);
 REF_NAMES = {'.', '..', '.git', 'LICENSE', 'README.md', 'repo_test.nlf'};

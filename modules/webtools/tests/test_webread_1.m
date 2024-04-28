@@ -12,7 +12,14 @@ assert_isequal(nargout('webread'), -1);
 %=============================================================================
 o = weboptions('RequestMethod', 'get');
 o.Timeout = 50;
-R = webread('https://jsonplaceholder.typicode.com/posts/1/comments', o);
+try
+  R = webread('https://jsonplaceholder.typicode.com/posts/1/comments', o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 assert_istrue(isstruct(R));
 assert_isequal(R(1).email, 'Eliseo@gardner.biz');
 %=============================================================================

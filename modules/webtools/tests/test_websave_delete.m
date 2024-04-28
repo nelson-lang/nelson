@@ -9,7 +9,14 @@
 %=============================================================================
 o = weboptions('RequestMethod', 'delete');
 filename = [tempdir(), 'test_websave_delete.json'];
-fullname = websave(filename, 'http://jsonplaceholder.typicode.com/posts/1', o);
+try
+  fullname = websave(filename, 'http://jsonplaceholder.typicode.com/posts/1', o);
+catch ex
+  R = strcmp(ex.message, _('Forbidden (403)')) || ...
+      strcmp(ex.message, _('Timeout was reached')) || ... 
+      strcmp(ex.message, _('Couldn''t resolve host name'));
+  skip_testsuite(R, ex.message)
+end
 R = jsondecode(fileread(fullname));
 REF = struct();
 assert_isequal(R, REF);
