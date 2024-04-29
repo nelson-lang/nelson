@@ -10,18 +10,24 @@
 #include <Windows.h>
 #include <QtCore/QtGlobal>
 //=============================================================================
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#pragma comment(lib, "Qt6Core.lib")
-#pragma comment(lib, "Qt6Widgets.lib")
-#pragma comment(lib, "Qt6Gui.lib")
-#pragma comment(lib, "Qt6Qml.lib")
-#pragma comment(lib, "Qt6Quick.lib")
+#ifdef _DEBUG
+#define DEBUG_SUFFIX "d"
 #else
-#pragma comment(lib, "Qt5Core.lib")
-#pragma comment(lib, "Qt5Widgets.lib")
-#pragma comment(lib, "Qt5Gui.lib")
-#pragma comment(lib, "Qt5Qml.lib")
-#pragma comment(lib, "Qt5Quick.lib")
+#define DEBUG_SUFFIX ""
+#endif
+//=============================================================================
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Core" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Widgets" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Gui" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Qml" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Quick" DEBUG_SUFFIX ".lib")
+#else
+#pragma comment(lib, "Qt5Core" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Widgets" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Gui" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Qml" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Quick" DEBUG_SUFFIX ".lib")
 #endif
 //=============================================================================
 int WINAPI

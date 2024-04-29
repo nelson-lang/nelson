@@ -15,6 +15,7 @@
 #include "Markdown.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include <algorithm>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -54,6 +55,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (StringHelpers::iequals(current.extension().generic_wstring(), L".md")) {
                     filesListIn.push_back(current.generic_wstring());
                 }
+                std::sort(filesListIn.begin(), filesListIn.end());
             }
             bool bRes = true;
             for (auto& k : filesListIn) {

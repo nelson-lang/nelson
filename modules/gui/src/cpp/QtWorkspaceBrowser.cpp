@@ -49,6 +49,12 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
     m_tableWidget->setSortingEnabled(true);
     m_tableWidget->verticalHeader()->setVisible(false);
     m_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_tableWidget->setColumnCount(5);
+    m_tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem(TR("Name")));
+    m_tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem(TR("Value")));
+    m_tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem(TR("Class")));
+    m_tableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem(TR("Size")));
+    m_tableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem(TR("Scope")));
 
     mainLayout->addWidget(m_tableWidget);
     setLayout(mainLayout);
@@ -236,11 +242,7 @@ QtWorkspaceBrowser::updateVariables()
     std::sort(variablesList.begin(), variablesList.end());
     auto last = std::unique(variablesList.begin(), variablesList.end());
     variablesList.erase(last, variablesList.end());
-
     m_tableWidget->setRowCount((int)variablesList.size());
-    m_tableWidget->setColumnCount(5);
-    m_tableWidget->setHorizontalHeaderLabels(
-        QStringList() << TR("Name") << TR("Value") << TR("Class") << TR("Size") << TR("Scope"));
 
     for (int i = 0; i < variablesList.size(); i++) {
         bool isPersistent = m_context->isVariablePersistent(wstring_to_utf8(variablesList[i]));
