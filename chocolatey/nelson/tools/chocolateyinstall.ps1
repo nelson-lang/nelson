@@ -1,11 +1,11 @@
 ﻿$packageName = 'nelson'
 $installerType = 'exe'
 $silentArgs = '/VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /NORESTART /SP-'
-$url = 'https://github.com/nelson-lang/nelson/releases/download/v1.3.0/Nelson-1.3.0.3872-x86-32.exe'
-$checksum = '8709dfcf245c0aa4b5e1201610c49eea55e81bb763b7257cc4d0f0f4d7169c43'
+$url = 'https://github.com/nelson-lang/nelson/releases/download/v1.4.0/Nelson-1.4.0.4010-x86-32.exe'
+$checksum = '7ee3c3af45d64990bc60aecd2c6fe0526f1971d2ceb0841cd6a6c6c36d7a88cc'
 $checksumType = 'sha256'
-$url64 = 'https://github.com/nelson-lang/nelson/releases/download/v1.3.0/Nelson-1.3.0.3872-x86-64.exe'
-$checksum64 = '18891898d5da77f83c622358ab5919c39fb8c9cb7d9fb7170de27295a7e472a4'
+$url64 = 'https://github.com/nelson-lang/nelson/releases/download/v1.4.0/Nelson-1.4.0.4010-x86-64.exe'
+$checksum64 = '888a5d7b1ebfacc413c665f07d2c40d82b30f1dd18056cf00d962d0a210ecb35'
 $checksumType64 = 'sha256'
 $validExitCodes = @(0)
 
