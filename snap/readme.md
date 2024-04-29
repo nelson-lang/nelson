@@ -5,10 +5,16 @@ snapcraft clean
 snapcraft
 ```
 
+Alternative:
+```
+sudo snapcraft clean
+sudo snapcraft --destructive-mode --enable-experimental-extensions
+```
+
 # Test locally
 
 ```
-sudo snap install nelson_1.3.0.0_amd64.snap --dangerous
+sudo snap install nelson_1.4.0.0_amd64.snap --dangerous
 ```
 
 Debug:
@@ -20,7 +26,7 @@ snap run --shell nelson.nelson
 # Push
 
 ```
-snapcraft upload nelson_1.3.0.0_amd64.snap
+snapcraft upload nelson_1.4.0.0_amd64.snap
 ```
 
 # Connection
