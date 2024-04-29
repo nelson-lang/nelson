@@ -6,6 +6,7 @@ snapcraft
 ```
 
 Alternative:
+
 ```
 sudo snapcraft clean
 sudo snapcraft --destructive-mode --enable-experimental-extensions
