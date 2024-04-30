@@ -96,7 +96,7 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
   fmtStart = ['  ', '%0', int2str(lenCharsNbTests), 'd/', '%0', int2str(lenCharsNbTests),'d - %s'];
   indexTest = initialIndex;
   if ispc()
-    abortedCode = 256;
+    abortedCode = 258;
   else
     abortedCode = 134;
   end

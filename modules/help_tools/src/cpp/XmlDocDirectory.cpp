@@ -15,6 +15,7 @@
 #include "Types.hpp"
 #include "XmlDocChapterItem.hpp"
 #include "i18n.hpp"
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,6 +36,7 @@ XmlDocDirectory::XmlDocDirectory(const std::wstring& _srcDirectory,
         }
     }
     if (!listXmlFiles.empty()) {
+        std::sort(listXmlFiles.begin(), listXmlFiles.end());
         this->xmlDocFiles = new XmlDocListOfFiles(
             listXmlFiles, this->dstDirectory, bOverwriteExistingFiles, this->outputTarget);
     }

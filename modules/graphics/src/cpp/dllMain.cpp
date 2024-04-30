@@ -14,21 +14,27 @@
 #pragma comment(lib, "Opengl32.lib")
 #pragma comment(lib, "Glu32.lib")
 //=============================================================================
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#pragma comment(lib, "Qt6Svg.lib")
-#pragma comment(lib, "Qt6Core.lib")
-#pragma comment(lib, "Qt6Widgets.lib")
-#pragma comment(lib, "Qt6Gui.lib")
-#pragma comment(lib, "Qt6OpenGL.lib")
-#pragma comment(lib, "Qt6OpenGLWidgets.lib")
-#pragma comment(lib, "Qt6PrintSupport.lib")
+#ifdef _DEBUG
+#define DEBUG_SUFFIX "d"
 #else
-#pragma comment(lib, "Qt5Svg.lib")
-#pragma comment(lib, "Qt5Core.lib")
-#pragma comment(lib, "Qt5Widgets.lib")
-#pragma comment(lib, "Qt5Gui.lib")
-#pragma comment(lib, "Qt5OpenGL.lib")
-#pragma comment(lib, "Qt5PrintSupport.lib")
+#define DEBUG_SUFFIX ""
+#endif
+//=============================================================================
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Svg" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Core" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Widgets" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6Gui" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6OpenGL" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6OpenGLWidgets" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt6PrintSupport" DEBUG_SUFFIX ".lib")
+#else
+#pragma comment(lib, "Qt5Svg" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Core" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Widgets" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5Gui" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5OpenGL" DEBUG_SUFFIX ".lib")
+#pragma comment(lib, "Qt5PrintSupport" DEBUG_SUFFIX ".lib")
 #endif
 //=============================================================================
 int WINAPI
