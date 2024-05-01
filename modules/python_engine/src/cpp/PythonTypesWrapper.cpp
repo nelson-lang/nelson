@@ -324,12 +324,9 @@ convertHandleArray(const ArrayOf& A)
     if (A.getHandleCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
         HandleGenericObject* hgo = A.getContentAsHandleScalar();
         PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
-        pyObj = deepCopyPyObject((PyObject*)poh->getPointer());
-        if (!pyObj) {
-            pyObj = (PyObject*)poh->getPointer();
-            NLSPy_INCREF(pyObj);
-            return pyObj;
-        }
+        pyObj = (PyObject*)poh->getPointer();
+        NLSPy_INCREF(pyObj);
+        return pyObj;
     }
     Error(_W("Conversion to Python is not supported."));
     return pyObj;

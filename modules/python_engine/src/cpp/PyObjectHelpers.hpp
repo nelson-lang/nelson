@@ -49,9 +49,6 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods = false);
 wstringVector
 getPyObjectProperties(PyObject* po, bool withUnderscoreMethods = false);
 //=============================================================================
-PyObject*
-deepCopyPyObject(PyObject* obj);
-//=============================================================================
 bool
 isArrayArrayOfTypeCode(const char* typeName, PyObject* pyObject);
 //=============================================================================

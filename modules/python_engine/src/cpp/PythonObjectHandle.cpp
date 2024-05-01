@@ -61,6 +61,12 @@ PythonObjectHandle::PythonObjectHandle(void* _ptr)
             std::bind(&PythonObjectHandle::invokeCastUInt32Method, this, std::placeholders::_1) },
         { L"uint64",
             std::bind(&PythonObjectHandle::invokeCastUInt64Method, this, std::placeholders::_1) } };
+
+    operatorMap = { { L"mtimes", L"" }, { L"mrdivide", L"" }, { L"mpower", L"" },
+        { L"gt", L"__gt__" }, { L"ge", L"__ge__" }, { L"le", L"__le__" }, { L"ne", L"__ne__" },
+        { L"lt", L"__lt__" }, { L"plus", L"__add__" }, { L"minus", L"__sub__" },
+        { L"eq", L"__eq__" }, { L"mod", L"__mod__" }, { L"uplus", L"__pos__" },
+        { L"uminus", L"__neg__" } };
 }
 //=============================================================================
 PythonObjectHandle::~PythonObjectHandle() { }
@@ -140,12 +146,23 @@ PythonObjectHandle::getClassName()
 }
 //=============================================================================
 bool
+PythonObjectHandle::isOperatorMethod(const std::wstring& methodName)
+{
+    wstringVector methodOperatorNames = getOperatorMethods();
+    auto it = std::find(methodOperatorNames.begin(), methodOperatorNames.end(), methodName);
+    return (it != methodOperatorNames.end());
+}
+//=============================================================================
+bool
 PythonObjectHandle::isMethod(const std::wstring& methodName)
 {
     if (isMainPythonInterpreter()) {
         return true;
     }
     if (isCastMethod(methodName)) {
+        return true;
+    }
+    if (isOperatorMethod(methodName)) {
         return true;
     }
     PyObject* pyObject = (PyObject*)this->getPointer();
@@ -161,6 +178,21 @@ PythonObjectHandle::isMethod(const std::wstring& methodName)
         return callable;
     }
     return false;
+}
+//=============================================================================
+wstringVector
+PythonObjectHandle::getOperatorMethods()
+{
+    if (!methodOperatorNames.empty()) {
+        return methodOperatorNames;
+    }
+
+    for (const auto& pair : operatorMap) {
+        if (isPyObjectMethod(pair.second, true)) {
+            methodOperatorNames.push_back(pair.first);
+        }
+    }
+    return methodOperatorNames;
 }
 //=============================================================================
 wstringVector
@@ -316,10 +348,10 @@ PythonObjectHandle::isCastMethod(const std::wstring& methodName)
 }
 //=============================================================================
 bool
-PythonObjectHandle::isPyObjectMethod(const std::wstring& methodName)
+PythonObjectHandle::isPyObjectMethod(const std::wstring& methodName, bool withUnderscore)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
-    wstringVector pythonMethodNames = getPyObjectMethods(pyObject, false);
+    wstringVector pythonMethodNames = getPyObjectMethods(pyObject, withUnderscore);
     auto it = std::find(pythonMethodNames.begin(), pythonMethodNames.end(), methodName);
     return (it != pythonMethodNames.end());
 }
@@ -331,11 +363,14 @@ PythonObjectHandle::getMethods()
         return {};
     }
     wstringVector methodCastNames = getCastMethods();
+    wstringVector methodOperatorNames = getOperatorMethods();
+    methodCastNames.insert(
+        methodCastNames.end(), methodOperatorNames.begin(), methodOperatorNames.end());
     PyObject* pyObject = (PyObject*)this->getPointer();
     wstringVector pythonMethodNames = getPyObjectMethods(pyObject, false);
     methodCastNames.insert(
         methodCastNames.end(), pythonMethodNames.begin(), pythonMethodNames.end());
-
+    std::sort(methodCastNames.begin(), methodCastNames.end());
     return methodCastNames;
 }
 //=============================================================================
@@ -958,6 +993,116 @@ PythonObjectHandle::invokeCastUInt64Method(ArrayOfVector& results)
     return castIntegerMethod<uint64>(pyObject, NLS_UINT64, results);
 }
 //=============================================================================
+static bool
+handleUnaryOperator(
+    PyObject* pyObject, const std::wstring& pythonOperatorName, ArrayOfVector& results)
+{
+    std::string utf8OperatorName = wstring_to_utf8(pythonOperatorName);
+
+    PyObject* nameMethod = NLSPyUnicode_FromString(utf8OperatorName.c_str());
+    if (!nameMethod) {
+        Error(_W("Failed to create Python method name object."));
+    }
+
+    PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(
+        nameMethod, &pyObject, 1 | PY_VECTORCALL_ARGUMENTS_OFFSET, nullptr);
+    NLSPy_DECREF(nameMethod);
+
+    if (NLSPyErr_Occurred()) {
+        NLSPyErr_Clear();
+    }
+    if (!pyObjectResult) {
+        if (pythonOperatorName == L"__neg__") {
+            pyObjectResult = NLSPyNumber_Negative(pyObject);
+        } else if (pythonOperatorName == L"__pos__") {
+            pyObjectResult = NLSPyNumber_Positive(pyObject);
+        }
+    }
+    if (!pyObjectResult) {
+        Error(_W("Error calling method."));
+        return false;
+    }
+    PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObjectResult);
+    results << ArrayOf::handleConstructor(pythonObjectHandle);
+    return true;
+}
+//=============================================================================
+static bool
+handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
+    const ArrayOfVector& inputs, ArrayOfVector& results)
+{
+    PyObject* p1 = pyObject;
+    PyObject* arg1 = arrayOfToPyObject(inputs[0]);
+    PyObject* p2 = arg1;
+
+    PyObject* arg = NLSPy_BuildValue("(O)", p2);
+    if (!arg) {
+        Error(_W("Failed to create Python argument tuple."));
+        return false;
+    }
+
+    PyObject* nameMethod = NLSPyUnicode_FromString(wstring_to_utf8(pythonOperatorName).c_str());
+    if (!nameMethod) {
+        Error(_W("Failed to create Python method name object."));
+    }
+
+    PyObject* args[2] = { p1, p2 };
+    size_t nargsf = 2 | PY_VECTORCALL_ARGUMENTS_OFFSET;
+    PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(nameMethod, args, nargsf, NULL);
+    if (!pyObjectResult) {
+        std::wstring errorMessage;
+        if (NLSPyErr_Occurred()) {
+            NLSPyErr_Clear();
+        }
+    }
+    std::wstring typeResult = TypeName(pyObjectResult);
+    if (typeResult == L"NotImplementedType") {
+        if (pythonOperatorName == L"__add__") {
+            pyObjectResult = NLSPyNumber_Add(p1, p2);
+        }
+        if (pythonOperatorName == L"__sub__") {
+            pyObjectResult = NLSPyNumber_Subtract(p1, p2);
+        }
+        // L"mtimes", L"" },
+        //  { L"mrdivide", L"" },
+        //  { L"mpower", L"" },
+        //  { L"gt", L"__gt__" },
+        //  { L"ge", L"__ge__" },
+        // { L"le", L"__le__" },
+        // { L"ne", L"__ne__" },
+        // { L"lt", L"__lt__" },
+        // { L"eq", L"__eq__" },
+        //{ L"mod", L"__mod__" },
+    }
+
+    if (!pyObjectResult) {
+        Error(_W("Error calling method."));
+    }
+
+    bool needToDecreaseReference;
+    results << PyObjectToArrayOf(pyObjectResult, needToDecreaseReference);
+    return true;
+}
+//=============================================================================
+bool
+PythonObjectHandle::invokeOperatorMethod(
+    const std::wstring& methodName, const ArrayOfVector& inputs, ArrayOfVector& results)
+{
+    auto it = operatorMap.find(methodName);
+    std::wstring pythonOperatorName;
+    if (it == operatorMap.end()) {
+        return false;
+    }
+    pythonOperatorName = it->second;
+
+    PyObject* pyObject = (PyObject*)this->getPointer();
+
+    if (methodName == L"uminus" || methodName == L"uplus") {
+        return handleUnaryOperator(pyObject, pythonOperatorName, results);
+    }
+    return handleBinaryOperator(pyObject, pythonOperatorName, inputs, results);
+}
+//=============================================================================
 bool
 PythonObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVector& results)
 {
@@ -976,6 +1121,9 @@ PythonObjectHandle::invoke(
         return true;
     }
     if (invokeCastMethod(methodName, results)) {
+        return true;
+    }
+    if (invokeOperatorMethod(methodName, inputs, results)) {
         return true;
     }
     switch (inputs.size()) {

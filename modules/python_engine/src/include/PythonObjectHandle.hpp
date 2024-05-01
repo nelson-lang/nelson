@@ -40,6 +40,9 @@ public:
     getMethods();
     //=============================================================================
     bool
+    isOperatorMethod(const std::wstring& methodName);
+    //=============================================================================
+    bool
     isMethod(const std::wstring& methodName);
     //=============================================================================
     bool
@@ -64,21 +67,32 @@ public:
 private:
     //=============================================================================
     wstringVector methodCastNames;
+    wstringVector methodOperatorNames;
     //=============================================================================
     wstringVector
     getCastMethods();
+    //=============================================================================
+    wstringVector
+    getOperatorMethods();
     //=============================================================================
     bool
     isCastMethod(const std::wstring& methodName);
     //=============================================================================
     bool
-    isPyObjectMethod(const std::wstring& methodName);
+    isPyObjectMethod(const std::wstring& methodName, bool withUnderscore = false);
     //=============================================================================
     bool
     invokeCastMethod(const std::wstring& methodName, ArrayOfVector& results);
     //=============================================================================
+    bool
+    invokeOperatorMethod(
+        const std::wstring& methodName, const ArrayOfVector& inputs, ArrayOfVector& results);
+    //=============================================================================
     using MethodMap = std::map<std::wstring, std::function<bool(ArrayOfVector&)>>;
     MethodMap methodMap;
+    //=============================================================================
+    using OperatorMap = std::map<std::wstring, std::wstring>;
+    OperatorMap operatorMap;
     //=============================================================================
     bool
     invokeCastCellMethod(ArrayOfVector& results);

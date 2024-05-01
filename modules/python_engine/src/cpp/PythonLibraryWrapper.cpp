@@ -112,6 +112,19 @@ using PROC_Py_fopen_obj = FILE* (*)(PyObject* path, const char* mode);
 using PROC_PyDict_Copy = PyObject* (*)(PyObject* mp);
 using PROC_PyDict_Clear = void (*)(PyObject* mp);
 using PROC_PyDict_Update = int (*)(PyObject* mp, PyObject* other);
+using PROC_PyObject_GetAttr = PyObject* (*)(PyObject* pyObjA, PyObject* pyObjB);
+using PROC_PyObject_CallFunctionObjArgs = PyObject* (*)(PyObject* callable, ...);
+
+using PROC_PyNumber_Add = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_Subtract = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_Multiply = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_MatrixMultiply = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_TrueDivide = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_Remainder = PyObject* (*)(PyObject* o1, PyObject* o2);
+using PROC_PyNumber_Power = PyObject* (*)(PyObject* o1, PyObject* o2, PyObject* o3);
+using PROC_PyNumber_Negative = PyObject* (*)(PyObject* o);
+using PROC_PyNumber_Positive = PyObject* (*)(PyObject* o);
+
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -235,6 +248,19 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyDict_Copy);
     LOAD_PYTHON_SYMBOL(PyDict_Clear);
     LOAD_PYTHON_SYMBOL(PyDict_Update);
+
+    LOAD_PYTHON_SYMBOL(PyNumber_Add);
+    LOAD_PYTHON_SYMBOL(PyNumber_Subtract);
+    LOAD_PYTHON_SYMBOL(PyNumber_Multiply);
+    LOAD_PYTHON_SYMBOL(PyNumber_MatrixMultiply);
+    LOAD_PYTHON_SYMBOL(PyNumber_TrueDivide);
+    LOAD_PYTHON_SYMBOL(PyNumber_Remainder);
+    LOAD_PYTHON_SYMBOL(PyNumber_Power);
+    LOAD_PYTHON_SYMBOL(PyNumber_Negative);
+    LOAD_PYTHON_SYMBOL(PyNumber_Positive);
+
+    LOAD_PYTHON_SYMBOL(PyObject_GetAttr);
+    LOAD_PYTHON_SYMBOL(PyObject_CallFunctionObjArgs);
     return true;
 }
 //=============================================================================
@@ -779,5 +805,60 @@ int
 NLSPyDict_Update(PyObject* mp, PyObject* other)
 {
     return reinterpret_cast<PROC_PyDict_Update>(pythonSymbols["PyDict_Update"])(mp, other);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Add(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_Add>(pythonSymbols["PyNumber_Add"])(o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Subtract(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_Subtract>(pythonSymbols["PyNumber_Subtract"])(o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Multiply(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_Multiply>(pythonSymbols["PyNumber_Multiply"])(o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_MatrixMultiply(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_MatrixMultiply>(pythonSymbols["PyNumber_MatrixMultiply"])(
+        o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_TrueDivide(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_TrueDivide>(pythonSymbols["PyNumber_TrueDivide"])(o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Remainder(PyObject* o1, PyObject* o2)
+{
+    return reinterpret_cast<PROC_PyNumber_Remainder>(pythonSymbols["PyNumber_Remainder"])(o1, o2);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Power(PyObject* o1, PyObject* o2, PyObject* o3)
+{
+    return reinterpret_cast<PROC_PyNumber_Power>(pythonSymbols["PyNumber_Power"])(o1, o2, o3);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Negative(PyObject* o)
+{
+    return reinterpret_cast<PROC_PyNumber_Negative>(pythonSymbols["PyNumber_Negative"])(o);
+}
+//=============================================================================
+PyObject*
+NLSPyNumber_Positive(PyObject* o)
+{
+    return reinterpret_cast<PROC_PyNumber_Positive>(pythonSymbols["PyNumber_Positive"])(o);
 }
 //=============================================================================

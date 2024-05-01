@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "PyObjectHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -175,25 +176,6 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods)
         NLSPy_DECREF(dir_result);
     }
     return propertiesNames;
-}
-//=============================================================================
-PyObject*
-deepCopyPyObject(PyObject* obj)
-{
-    PyObject* copy_module = NLSPyImport_ImportModule("copy");
-    if (copy_module == nullptr) {
-        return nullptr;
-    }
-
-    PyObject* deepcopy_func = NLSPyObject_GetAttrString(copy_module, "deepcopy");
-    if (deepcopy_func == nullptr) {
-        NLSPy_DECREF(copy_module);
-        return nullptr;
-    }
-    PyObject* copied_object = NLSPyObject_CallObject(deepcopy_func, (PyObject*)obj);
-    NLSPy_DECREF(copy_module);
-    NLSPy_DECREF(deepcopy_func);
-    return copied_object;
 }
 //=============================================================================
 const char*

@@ -286,3 +286,30 @@ NLSPyDict_Clear(PyObject* mp);
 int
 NLSPyDict_Update(PyObject* mp, PyObject* other);
 //=============================================================================
+PyObject*
+NLSPyNumber_Add(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_Subtract(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_Negative(PyObject* o);
+//=============================================================================
+PyObject*
+NLSPyNumber_Positive(PyObject* o);
+//=============================================================================
+PyObject*
+NLSPyNumber_Multiply(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_MatrixMultiply(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_TrueDivide(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_Remainder(PyObject* o1, PyObject* o2);
+//=============================================================================
+PyObject*
+NLSPyNumber_Power(PyObject* o1, PyObject* o2, PyObject* o3);
+//=============================================================================
