@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.5.0 (UNRELEASED)
 
+### Added
+
+- Python interface (part 3):
+
+  - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
+
 ### Changed
 
 - help files generated sorted by name on all platforms.

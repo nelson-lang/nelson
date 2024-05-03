@@ -40,6 +40,9 @@ public:
     getMethods();
     //=============================================================================
     bool
+    isEqual(PythonObjectHandle& pythonObjectHandle);
+    //=============================================================================
+    bool
     isOperatorMethod(const std::wstring& methodName);
     //=============================================================================
     bool
@@ -61,8 +64,13 @@ public:
     bool
     isMainPythonInterpreter();
     //=============================================================================
-    ArrayOfVector
-    invokeMethod(const ArrayOfVector& argIn, int nLhs, const std::string& methodName);
+    bool
+    invokeMethod(const ArrayOfVector& argIn, int nLhs, const std::string& methodName,
+        ArrayOfVector& results) override;
+    //=============================================================================
+    bool
+    invokeOperatorMethod(
+        const std::wstring& methodName, const ArrayOfVector& inputs, ArrayOfVector& results);
     //=============================================================================
 private:
     //=============================================================================
@@ -83,10 +91,6 @@ private:
     //=============================================================================
     bool
     invokeCastMethod(const std::wstring& methodName, ArrayOfVector& results);
-    //=============================================================================
-    bool
-    invokeOperatorMethod(
-        const std::wstring& methodName, const ArrayOfVector& inputs, ArrayOfVector& results);
     //=============================================================================
     using MethodMap = std::map<std::wstring, std::function<bool(ArrayOfVector&)>>;
     MethodMap methodMap;

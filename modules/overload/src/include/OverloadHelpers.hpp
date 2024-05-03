@@ -41,8 +41,11 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
             && argsIn[0].isHandleMethod(functionName)) {
             HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
             if (obj) {
-                wasFound = true;
-                return obj->invokeMethod(argsIn, nLhs, functionName);
+                ArrayOfVector results;
+                if (obj->invokeMethod(argsIn, nLhs, functionName, results)) {
+                    wasFound = true;
+                    return results;
+                }
             }
         }
 

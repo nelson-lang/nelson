@@ -61,5 +61,8 @@ PyTypecodeToNelsonType(const char* memoryViewType);
 char*
 nelsonTypeToTypeCode(NelsonType nelsonType);
 //=============================================================================
+bool
+PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB);
+//=============================================================================
 }
 //=============================================================================

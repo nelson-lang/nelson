@@ -224,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\PyIsEqual.cpp" />
     <ClCompile Include="..\cpp\PyObjectHelpers.cpp" />
     <ClCompile Include="..\cpp\PyRun.cpp" />
     <ClCompile Include="..\cpp\PyRunFile.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="..\cpp\PythonRunner.hpp" />
     <ClInclude Include="..\cpp\PythonTypesWrapper.hpp" />
     <ClInclude Include="..\include\nlsPython_engine_exports.h" />
+    <ClInclude Include="..\include\PyIsEqual.hpp" />
     <ClInclude Include="..\include\PyRunFile.hpp" />
     <ClInclude Include="..\include\PythonConfig.hpp" />
     <ClInclude Include="..\include\PythonEngine.hpp" />

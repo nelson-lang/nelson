@@ -62,11 +62,11 @@ PythonObjectHandle::PythonObjectHandle(void* _ptr)
         { L"uint64",
             std::bind(&PythonObjectHandle::invokeCastUInt64Method, this, std::placeholders::_1) } };
 
-    operatorMap = { { L"mtimes", L"" }, { L"mrdivide", L"" }, { L"mpower", L"" },
-        { L"gt", L"__gt__" }, { L"ge", L"__ge__" }, { L"le", L"__le__" }, { L"ne", L"__ne__" },
-        { L"lt", L"__lt__" }, { L"plus", L"__add__" }, { L"minus", L"__sub__" },
-        { L"eq", L"__eq__" }, { L"mod", L"__mod__" }, { L"uplus", L"__pos__" },
-        { L"uminus", L"__neg__" } };
+    operatorMap = { { L"mtimes", L"__mul__" }, { L"mrdivide", L"__truediv__" },
+        { L"mpower", L"__pow__" }, { L"gt", L"__gt__" }, { L"ge", L"__ge__" }, { L"le", L"__le__" },
+        { L"ne", L"__ne__" }, { L"lt", L"__lt__" }, { L"plus", L"__add__" },
+        { L"minus", L"__sub__" }, { L"eq", L"__eq__" }, { L"mod", L"__mod__" },
+        { L"uplus", L"__pos__" }, { L"uminus", L"__neg__" } };
 }
 //=============================================================================
 PythonObjectHandle::~PythonObjectHandle() { }
@@ -119,15 +119,13 @@ PythonObjectHandle::display(Interface* io)
     io->outputMessage(std::wstring(L"    ") + rep + L"\n");
 }
 //=============================================================================
-ArrayOfVector
+bool
 PythonObjectHandle::invokeMethod(
-    const ArrayOfVector& argIn, int nLhs, const std::string& methodName)
+    const ArrayOfVector& argIn, int nLhs, const std::string& methodName, ArrayOfVector& results)
 {
     ArrayOfVector params = argIn;
     params.pop_front();
-    ArrayOfVector results;
-    invoke(utf8_to_wstring(methodName), params, nLhs, results);
-    return results;
+    return invoke(utf8_to_wstring(methodName), params, nLhs, results);
 }
 //=============================================================================
 std::wstring
@@ -1021,8 +1019,13 @@ handleUnaryOperator(
         }
     }
     if (!pyObjectResult) {
-        Error(_W("Error calling method."));
-        return false;
+        std::wstring errorMessage = _W("Error calling method.");
+        if (NLSPyErr_Occurred()) {
+            NLSPyErr_Print();
+            errorMessage = getPythonStandardError();
+            NLSPyErr_Clear();
+        }
+        Error(errorMessage);
     }
     PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObjectResult);
     results << ArrayOf::handleConstructor(pythonObjectHandle);
@@ -1033,8 +1036,9 @@ static bool
 handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
     const ArrayOfVector& inputs, ArrayOfVector& results)
 {
-    PyObject* p1 = pyObject;
     PyObject* arg1 = arrayOfToPyObject(inputs[0]);
+
+    PyObject* p1 = pyObject;
     PyObject* p2 = arg1;
 
     PyObject* arg = NLSPy_BuildValue("(O)", p2);
@@ -1052,33 +1056,39 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
     size_t nargsf = 2 | PY_VECTORCALL_ARGUMENTS_OFFSET;
     PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(nameMethod, args, nargsf, NULL);
     if (!pyObjectResult) {
-        std::wstring errorMessage;
         if (NLSPyErr_Occurred()) {
             NLSPyErr_Clear();
         }
     }
-    std::wstring typeResult = TypeName(pyObjectResult);
-    if (typeResult == L"NotImplementedType") {
+    if (!pyObjectResult || (TypeName(pyObjectResult) == L"NotImplementedType")) {
         if (pythonOperatorName == L"__add__") {
             pyObjectResult = NLSPyNumber_Add(p1, p2);
         }
         if (pythonOperatorName == L"__sub__") {
             pyObjectResult = NLSPyNumber_Subtract(p1, p2);
         }
-        // L"mtimes", L"" },
-        //  { L"mrdivide", L"" },
-        //  { L"mpower", L"" },
-        //  { L"gt", L"__gt__" },
-        //  { L"ge", L"__ge__" },
-        // { L"le", L"__le__" },
-        // { L"ne", L"__ne__" },
-        // { L"lt", L"__lt__" },
-        // { L"eq", L"__eq__" },
-        //{ L"mod", L"__mod__" },
+        if (pythonOperatorName == L"__mod__") {
+            pyObjectResult = NLSPyNumber_Remainder(p1, p2);
+        }
+        if (pythonOperatorName == L"__pow__") {
+            pyObjectResult = NLSPyNumber_Power(p1, p2, Py_None);
+        }
+        if (pythonOperatorName == L"__mul__") {
+            pyObjectResult = NLSPyNumber_Multiply(p1, p2);
+        }
+        if (pythonOperatorName == L"__truediv__") {
+            pyObjectResult = NLSPyNumber_TrueDivide(p1, p2);
+        }
     }
 
     if (!pyObjectResult) {
-        Error(_W("Error calling method."));
+        std::wstring errorMessage = _W("Error calling method.");
+        if (NLSPyErr_Occurred()) {
+            NLSPyErr_Print();
+            errorMessage = getPythonStandardError();
+            NLSPyErr_Clear();
+        }
+        Error(errorMessage);
     }
 
     bool needToDecreaseReference;
@@ -1294,6 +1304,15 @@ PythonObjectHandle::invokeMethodMultipleArguments(
         Error(errorMessage);
     }
     return true;
+}
+//=============================================================================
+bool
+PythonObjectHandle::isEqual(PythonObjectHandle& pythonObjectHandle)
+{
+    PyObject* pyObjectA = (PyObject*)this->getPointer();
+    PyObject* pyObjectB = (PyObject*)pythonObjectHandle.getPointer();
+
+    return PyIsEqual(pyObjectA, pyObjectB);
 }
 //=============================================================================
 }

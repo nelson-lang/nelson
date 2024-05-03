@@ -3180,7 +3180,10 @@ Evaluator::functionExpression(
                         && m[0].isHandleMethod(t->text)) {
                         HandleGenericObject* obj = m[0].getContentAsHandleScalar();
                         if (obj) {
-                            n = obj->invokeMethod(m, narg_out, t->text);
+                            if (!obj->invokeMethod(m, narg_out, t->text, n)) {
+                                Error(utf8_to_wstring(
+                                    _("Undefined variable or function:") + " " + t->text));
+                            }
                         }
                     } else {
                         Error(

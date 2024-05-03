@@ -114,7 +114,6 @@ using PROC_PyDict_Clear = void (*)(PyObject* mp);
 using PROC_PyDict_Update = int (*)(PyObject* mp, PyObject* other);
 using PROC_PyObject_GetAttr = PyObject* (*)(PyObject* pyObjA, PyObject* pyObjB);
 using PROC_PyObject_CallFunctionObjArgs = PyObject* (*)(PyObject* callable, ...);
-
 using PROC_PyNumber_Add = PyObject* (*)(PyObject* o1, PyObject* o2);
 using PROC_PyNumber_Subtract = PyObject* (*)(PyObject* o1, PyObject* o2);
 using PROC_PyNumber_Multiply = PyObject* (*)(PyObject* o1, PyObject* o2);
@@ -124,7 +123,7 @@ using PROC_PyNumber_Remainder = PyObject* (*)(PyObject* o1, PyObject* o2);
 using PROC_PyNumber_Power = PyObject* (*)(PyObject* o1, PyObject* o2, PyObject* o3);
 using PROC_PyNumber_Negative = PyObject* (*)(PyObject* o);
 using PROC_PyNumber_Positive = PyObject* (*)(PyObject* o);
-
+using PROC_PyObject_RichCompareBool = int (*)(PyObject* o1, PyObject* o2, int opid);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -261,6 +260,7 @@ loadPythonSymbols()
 
     LOAD_PYTHON_SYMBOL(PyObject_GetAttr);
     LOAD_PYTHON_SYMBOL(PyObject_CallFunctionObjArgs);
+    LOAD_PYTHON_SYMBOL(PyObject_RichCompareBool);
     return true;
 }
 //=============================================================================
@@ -860,5 +860,12 @@ PyObject*
 NLSPyNumber_Positive(PyObject* o)
 {
     return reinterpret_cast<PROC_PyNumber_Positive>(pythonSymbols["PyNumber_Positive"])(o);
+}
+//=============================================================================
+int
+NLSPyObject_RichCompareBool(PyObject* o1, PyObject* o2, int opid)
+{
+    return reinterpret_cast<PROC_PyObject_RichCompareBool>(
+        pythonSymbols["PyObject_RichCompareBool"])(o1, o2, opid);
 }
 //=============================================================================

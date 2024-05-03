@@ -307,5 +307,11 @@ PyTypecodeToNelsonType(const char* memoryViewType)
     return NLS_UNKNOWN;
 }
 //=============================================================================
+bool
+PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB)
+{
+    return (NLSPyObject_RichCompareBool(pyObjectA, pyObjectB, Py_EQ) == 1);
+}
+//=============================================================================
 }
 //=============================================================================

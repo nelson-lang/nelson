@@ -51,6 +51,9 @@
     <ClCompile Include="..\cpp\PythonFileRunner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\PyIsEqual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsPython_engine_exports.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\PythonFileRunner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PyIsEqual.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

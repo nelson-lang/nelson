@@ -627,6 +627,7 @@ PyObjectToArrayOf(PyObject* pyObject, bool& needToDecreaseReference)
         return ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
     }
     needToDecreaseReference = false;
+    NLSPy_INCREF(pyObject);
     PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObject);
     return ArrayOf::handleConstructor(pythonObjectHandle);
 }

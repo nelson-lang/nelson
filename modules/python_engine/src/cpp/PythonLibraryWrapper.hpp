@@ -313,3 +313,6 @@ NLSPyNumber_Remainder(PyObject* o1, PyObject* o2);
 PyObject*
 NLSPyNumber_Power(PyObject* o1, PyObject* o2, PyObject* o3);
 //=============================================================================
+int
+NLSPyObject_RichCompareBool(PyObject* o1, PyObject* o2, int opid);
+//=============================================================================
