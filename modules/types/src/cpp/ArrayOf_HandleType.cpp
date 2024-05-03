@@ -88,11 +88,14 @@ ArrayOf::isHandleMethod(const std::wstring& methodName) const
     indexType nbElements = getElementCount();
     bool isMethod = false;
     if (nbElements > 0) {
-        isMethod = true;
         for (indexType k = 0; k < nbElements; k++) {
             if (ptr[k]) {
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
-                if (hlObj && !hlObj->isMethod(methodName)) {
+                if (!hlObj) {
+                    continue;
+                }
+                isMethod = hlObj->isMethod(methodName);
+                if (!isMethod) {
                     return false;
                 }
             }

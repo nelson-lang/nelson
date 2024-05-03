@@ -81,6 +81,7 @@ PythonObjectHandle::isMainPythonInterpreter()
 void
 PythonObjectHandle::display(Interface* io)
 {
+    NLSPyErr_Clear();
     std::wstring pyObjTypeName = getTypeName();
     std::wstring strFormat;
 
@@ -168,6 +169,7 @@ PythonObjectHandle::isMethod(const std::wstring& methodName)
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (pyObject) {
         PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
+        NLSPyErr_Clear();
         if (!method) {
             return false;
         }
