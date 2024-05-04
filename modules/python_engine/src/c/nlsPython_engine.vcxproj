@@ -233,6 +233,8 @@
     <ClCompile Include="..\cpp\PythonFileRunner.cpp" />
     <ClCompile Include="..\cpp\PythonLibraryWrapper.cpp" />
     <ClCompile Include="..\cpp\PythonObjectHandle.cpp" />
+    <ClCompile Include="..\cpp\PythonObjectHandle_cast.cpp" />
+    <ClCompile Include="..\cpp\PythonObjectHandle_invoke.cpp" />
     <ClCompile Include="..\cpp\PythonRunner.cpp" />
     <ClCompile Include="..\cpp\PythonTypesWrapper.cpp" />
   </ItemGroup>
