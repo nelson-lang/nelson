@@ -20,6 +20,7 @@
 #include "py_getBuiltin.hpp"
 #include "py_invokeBuiltin.hpp"
 #include "py_classBuiltin.hpp"
+#include "py_isequalBuiltin.hpp"
 #include "pyBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -63,6 +64,13 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYOBJECT_CATEGORY_STR, "class"),
         (ptrBuiltin)Nelson::Python_engineGateway::py_classBuiltin, 0, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYOBJECT_CATEGORY_STR, "isequal"),
+        (ptrBuiltin)Nelson::Python_engineGateway::py_isequalBuiltin, 1, -1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYOBJECT_CATEGORY_STR, "isequalto"),
+        (ptrBuiltin)Nelson::Python_engineGateway::py_isequalBuiltin, 1, -1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+
 };
 //=============================================================================
 static bool

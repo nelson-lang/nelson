@@ -28,49 +28,40 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
     bool& wasFound)
 {
     wasFound = false;
-    if (argsIn.size() == 0) {
+
+    if (argsIn.empty() || functionName[0] == OVERLOAD_SYMBOL_CHAR) {
         return {};
     }
-    if (functionName[0] == OVERLOAD_SYMBOL_CHAR) {
-        return {};
-    }
+
     std::string overloadTypeName = getOverloadFunctionName(commonTypeName, functionName);
+    FunctionDef* funcDef = nullptr;
+
     if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
-        FunctionDef* funcDef = nullptr;
-        eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-        if (!funcDef && commonType == NLS_HANDLE) {
-            overloadTypeName = getOverloadFunctionName(NLS_HANDLE_STR, functionName);
-            eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-        }
-        if (funcDef) {
-            wasFound = true;
-            return funcDef->evaluateFunction(eval, argsIn, nLhs);
-        }
-        if (argsIn[0].isHandle() && argsIn[0].isScalar()
+        if (commonType == NLS_HANDLE && argsIn[0].isHandle() && argsIn[0].isScalar()
             && argsIn[0].isHandleMethod(functionName)) {
             HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
             if (obj) {
-                wasFound = true;
-                return obj->invokeMethod(argsIn, nLhs, functionName);
+                ArrayOfVector results;
+                if (obj->invokeMethod(argsIn, nLhs, functionName, results)) {
+                    wasFound = true;
+                    return results;
+                }
             }
         }
-    } else if (commonType == NLS_HANDLE) {
-        FunctionDef* funcDef = nullptr;
+
+        eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+    }
+
+    if (!funcDef && commonType == NLS_HANDLE) {
         overloadTypeName = getOverloadFunctionName(NLS_HANDLE_STR, functionName);
         eval->getContext()->lookupFunction(overloadTypeName, funcDef);
-        if (funcDef) {
-            wasFound = true;
-            return funcDef->evaluateFunction(eval, argsIn, nLhs);
-        }
-        if (argsIn[0].isHandle() && argsIn[0].isScalar()
-            && argsIn[0].isHandleMethod(functionName)) {
-            HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
-            if (obj) {
-                wasFound = true;
-                return obj->invokeMethod(argsIn, nLhs, functionName);
-            }
-        }
     }
+
+    if (funcDef) {
+        wasFound = true;
+        return funcDef->evaluateFunction(eval, argsIn, nLhs);
+    }
+
     return {};
 }
 //=============================================================================

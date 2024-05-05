@@ -54,11 +54,11 @@ public:
         return false;
     };
 
-    virtual ArrayOfVector
-    invokeMethod(const ArrayOfVector& args, int nLhs, const std::string& methodName)
+    virtual bool
+    invokeMethod(
+        const ArrayOfVector& args, int nLhs, const std::string& methodName, ArrayOfVector& results)
     {
-        Error(_W("invoke method not allowed for this HANDLE type."));
-        return {};
+        return false;
     }
 
     virtual wstringVector

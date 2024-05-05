@@ -18,11 +18,14 @@ bool
 IsEqualHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (A.getDataClass() == B.getDataClass()) {
+        if (A.getHandleCategory() != B.getHandleCategory()) {
+            return false;
+        }
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (dimsA.equals(dimsB)) {
-            auto* ptrA = (nelson_handle*)A.getDataPointer();
-            auto* ptrB = (nelson_handle*)B.getDataPointer();
+            const nelson_handle* ptrA = (const nelson_handle*)A.getDataPointer();
+            const nelson_handle* ptrB = (const nelson_handle*)B.getDataPointer();
             indexType elementCount = A.getElementCount();
             for (indexType k = 0; k < elementCount; k++) {
                 if (ptrA[k] != ptrB[k]) {

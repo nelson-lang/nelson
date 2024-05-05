@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\PythonEnvironment_structBuiltin.cpp" />
     <ClCompile Include="..\cpp\py_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\py_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\py_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\py_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\py_invokeBuiltin.cpp" />
     <ClCompile Include="..\cpp\__pyenv__Builtin.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="..\include\py_displayBuiltin.hpp" />
     <ClInclude Include="..\include\py_getBuiltin.hpp" />
     <ClInclude Include="..\include\py_invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\py_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\__pyenv__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>

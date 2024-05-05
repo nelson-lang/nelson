@@ -49,9 +49,6 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods = false);
 wstringVector
 getPyObjectProperties(PyObject* po, bool withUnderscoreMethods = false);
 //=============================================================================
-PyObject*
-deepCopyPyObject(PyObject* obj);
-//=============================================================================
 bool
 isArrayArrayOfTypeCode(const char* typeName, PyObject* pyObject);
 //=============================================================================
@@ -63,6 +60,9 @@ PyTypecodeToNelsonType(const char* memoryViewType);
 //=============================================================================
 char*
 nelsonTypeToTypeCode(NelsonType nelsonType);
+//=============================================================================
+bool
+PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB);
 //=============================================================================
 }
 //=============================================================================
