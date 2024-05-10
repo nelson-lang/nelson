@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Python interface (part 3):
 
   - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
+  - keyHash, keyMatch for python objects.
+
+- keyHash builtin: Generate hash code for dictionary key.
+- keyMatch builtin: Determine if two dictionary keys are the same.
 
 ### Changed
 
@@ -34,7 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `pyenv`: can use environment variables to set values.
 
 - `getenv`: Retrieve the values of several environment variables.
-- `pyenv`: can use environment variables to set values.
 - `pyrun`: Python code object allowed as first input argument.
 - `nelson --without_python` starts nelson without python engine.
 - `skip_testsuite`: allows to skip test suite dynamically on condition.

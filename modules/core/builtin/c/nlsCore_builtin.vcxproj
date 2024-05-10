@@ -200,6 +200,8 @@
     <ClCompile Include="..\cpp\featureBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\inputnameBuiltin.cpp" />
+    <ClCompile Include="..\cpp\keyHashBuiltin.cpp" />
+    <ClCompile Include="..\cpp\keyMatchBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxNumCompThreadsBuiltin.cpp" />
     <ClCompile Include="..\cpp\namelengthmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\narginBuiltin.cpp" />
@@ -253,6 +255,8 @@
     <ClInclude Include="..\include\execstrBuiltin.hpp" />
     <ClInclude Include="..\include\featureBuiltin.hpp" />
     <ClInclude Include="..\include\inputnameBuiltin.hpp" />
+    <ClInclude Include="..\include\keyHashBuiltin.hpp" />
+    <ClInclude Include="..\include\keyMatchBuiltin.hpp" />
     <ClInclude Include="..\include\maxNumCompThreadsBuiltin.hpp" />
     <ClInclude Include="..\include\namelengthmaxBuiltin.hpp" />
     <ClInclude Include="..\include\narginBuiltin.hpp" />

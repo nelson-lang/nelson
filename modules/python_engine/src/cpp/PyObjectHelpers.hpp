@@ -64,5 +64,8 @@ nelsonTypeToTypeCode(NelsonType nelsonType);
 bool
 PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB);
 //=============================================================================
+uint64
+PyGetHashValue(PyObject* pyObject);
+//=============================================================================
 }
 //=============================================================================

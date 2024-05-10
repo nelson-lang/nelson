@@ -22,9 +22,11 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "PyKeyMatch.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+
 bool
 PythonObjectHandle::invoke(
     const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results)
@@ -38,6 +40,24 @@ PythonObjectHandle::invoke(
     if (invokeOperatorMethod(methodName, inputs, results)) {
         return true;
     }
+    if (methodName == L"keyHash") {
+        uint64 hashValue = 0;
+        if (invokeHashMethod(hashValue)) {
+            results << ArrayOf::uint64Constructor(hashValue);
+            return true;
+        }
+    }
+    if (methodName == L"keyMatch") {
+        PyObject* pyObjectA = (PyObject*)this->getPointer();
+        if (inputs.size() != 1) {
+            Error(_("Wrong number of input parameters."));
+        }
+        PythonObjectHandle* pyObjectB = (PythonObjectHandle*)inputs[0].getContentAsHandleScalar();
+        PyObject* p2 = (PyObject*)pyObjectB->getPointer();
+        results << ArrayOf::logicalConstructor(PyKeyMatch(pyObjectA, p2));
+        return true;
+    }
+
     switch (inputs.size()) {
     case 0: {
         return invokeMethodNoArgument(methodName, inputs, nLhs, results);
