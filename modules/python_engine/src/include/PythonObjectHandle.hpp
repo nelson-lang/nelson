@@ -145,6 +145,9 @@ private:
     invokeFunction(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
         ArrayOfVector& results);
     //=============================================================================
+    bool
+    invokeHashMethod(uint64& hashValue);
+    //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson

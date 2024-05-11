@@ -198,6 +198,7 @@
     <ClInclude Include="..\include\EvaluateInterface.hpp" />
     <ClInclude Include="..\include\EvaluateScriptFile.hpp" />
     <ClInclude Include="..\include\IsEmptyScriptFile.hpp" />
+    <ClInclude Include="..\include\KeyHash.hpp" />
     <ClInclude Include="..\include\NargIn.hpp" />
     <ClInclude Include="..\include\NargOut.hpp" />
     <ClInclude Include="..\include\NelsonSHA256.hpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="..\cpp\ComputeNelsonRootPath.cpp" />
     <ClCompile Include="..\cpp\ComputePreferencesPath.cpp" />
     <ClCompile Include="..\cpp\IsEmptyScriptFile.cpp" />
+    <ClCompile Include="..\cpp\KeyHash.cpp" />
     <ClCompile Include="..\cpp\NargIn.cpp" />
     <ClCompile Include="..\cpp\NargOut.cpp" />
     <ClCompile Include="..\cpp\NelsonSHA256.cpp" />

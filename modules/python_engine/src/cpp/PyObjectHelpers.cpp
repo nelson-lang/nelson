@@ -7,9 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <algorithm>
 #include "PyObjectHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
+#include "PythonEngine.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -161,7 +168,7 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods)
                     NLSPy_DECREF(method);
                     if (!callable) {
                         std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind("_", 0) == 0);
+                        bool startWithUnderscore = (attributName.rfind("__", 0) == 0);
                         if (withUnderscoreMethods) {
                             propertiesNames.push_back(utf8_to_wstring(attributName));
                         } else {
@@ -311,6 +318,47 @@ bool
 PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB)
 {
     return (NLSPyObject_RichCompareBool(pyObjectA, pyObjectB, Py_EQ) == 1);
+}
+//=============================================================================
+uint64
+PyGetHashValue(PyObject* pyObject)
+{
+    uint64 hashValue = 0;
+    PyObject* method = NLSPyObject_GetAttrString(pyObject, "__hash__");
+    if (!method || !NLSPyCallable_Check(method)) {
+        NLSPy_XDECREF(method);
+        std::wstring errorMessage
+            = fmt::sprintf(_W("TypeError: unhashable type: '%s'"), TypeName(pyObject));
+        Error(errorMessage, L"Nelson:Python:PyException");
+    }
+
+    PyObject* pyObjectResult = NLSPyObject_CallNoArgs(method);
+    NLSPy_DECREF(method);
+    if (pyObjectResult) {
+        hashValue = (uint64)NLSPyLong_AsUnsignedLongLong(pyObjectResult);
+        if (hashValue == (unsigned long long)-1) {
+            NLSPyErr_Clear();
+            int64 v = (int64)NLSPyLong_AsLongLong(pyObjectResult);
+            hashValue = (uint64)v;
+        }
+        NLSPy_DECREF(pyObjectResult);
+        if (NLSPyErr_Occurred()) {
+            std::wstring errorMessage = _W("Error calling method.");
+            NLSPyErr_Print();
+            errorMessage = getPythonStandardError();
+            NLSPyErr_Clear();
+            Error(errorMessage, L"Nelson:Python:PyException");
+        }
+    } else {
+        std::wstring errorMessage = _W("Error calling method.");
+        if (NLSPyErr_Occurred()) {
+            NLSPyErr_Print();
+            errorMessage = getPythonStandardError();
+            NLSPyErr_Clear();
+        }
+        Error(errorMessage, L"Nelson:Python:PyException");
+    }
+    return hashValue;
 }
 //=============================================================================
 }

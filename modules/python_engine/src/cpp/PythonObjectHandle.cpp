@@ -155,6 +155,12 @@ PythonObjectHandle::isMethod(const std::wstring& methodName)
     if (isOperatorMethod(methodName)) {
         return true;
     }
+    if (methodName == L"keyHash") {
+        return true;
+    }
+    if (methodName == L"keyMatch") {
+        return true;
+    }
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (pyObject) {
         PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
@@ -296,6 +302,8 @@ PythonObjectHandle::getMethods()
     wstringVector pythonMethodNames = getPyObjectMethods(pyObject, false);
     methodCastNames.insert(
         methodCastNames.end(), pythonMethodNames.begin(), pythonMethodNames.end());
+    methodCastNames.push_back(L"keyHash");
+    methodCastNames.push_back(L"keyMatch");
     std::sort(methodCastNames.begin(), methodCastNames.end());
     return methodCastNames;
 }
@@ -347,7 +355,7 @@ PythonObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:Python:PyException");
     }
     return true;
 }
@@ -369,7 +377,7 @@ handleUnaryOperator(
 
     PyObject* nameMethod = NLSPyUnicode_FromString(utf8OperatorName.c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."));
+        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
     }
 
     PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(
@@ -393,7 +401,7 @@ handleUnaryOperator(
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:Python:PyException");
     }
     PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObjectResult);
     results << ArrayOf::handleConstructor(pythonObjectHandle);
@@ -411,13 +419,13 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
 
     PyObject* arg = NLSPy_BuildValue("(O)", p2);
     if (!arg) {
-        Error(_W("Failed to create Python argument tuple."));
+        Error(_W("Failed to create Python argument tuple."), L"Nelson:Python:PyException");
         return false;
     }
 
     PyObject* nameMethod = NLSPyUnicode_FromString(wstring_to_utf8(pythonOperatorName).c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."));
+        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
     }
 
     PyObject* args[2] = { p1, p2 };
@@ -456,7 +464,7 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:Python:PyException");
     }
 
     bool needToDecreaseReference;
@@ -491,6 +499,18 @@ PythonObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVect
         return it->second(results);
     }
     return false;
+}
+//=============================================================================
+bool
+PythonObjectHandle::invokeHashMethod(uint64& hashValue)
+{
+    PyObject* pyObject = (PyObject*)this->getPointer();
+
+    if (!pyObject) {
+        Error(_W("Invalid Python object."), L"Nelson:Python:PyException");
+    }
+    hashValue = PyGetHashValue(pyObject);
+    return true;
 }
 //=============================================================================
 bool

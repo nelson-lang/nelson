@@ -60,6 +60,9 @@
     <ClCompile Include="..\cpp\PythonObjectHandle_invoke.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\PyKeyMatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsPython_engine_exports.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PyIsEqual.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PyKeyMatch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

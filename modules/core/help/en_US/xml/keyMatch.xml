@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>keyMatch</keyword>
+	<short_description
+  >Check whether two dictionary keys are same.</short_description>
+
+	<syntax>
+		<syntax_item>tf = keyMatch(A, B)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>A</param_name>
+			<param_description>array</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>B</param_name>
+			<param_description>array</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>tf</param_name>
+			<param_description>logical: true or false.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+	<p><b>tf = keyMatch(A, B)</b> returns <b>true</b> if arrays <b>A</b> and <b
+      >B</b> have identical classes, properties, dimensions, and values, and returns <b
+      >false</b> otherwise.</p>
+	<p>For custom classes, overloading <b
+      >keyMatch</b> may be necessary to ensure accurate equivalence.</p>
+	</description>
+
+
+	<used_function />
+	<bibliography />
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[A = {'a', 'b', 1};
+B = {1, 'a', 'b'};
+C = A;
+D = B;
+keyMatch(A, B)
+keyMatch(A, C)
+keyMatch(B, D)]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${core}keyHash">keyHash</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.5.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

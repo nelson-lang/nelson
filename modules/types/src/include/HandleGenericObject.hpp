@@ -71,6 +71,11 @@ public:
     {
         return {};
     }
+    virtual size_t
+    keyHash()
+    {
+        return reinterpret_cast<size_t>(getPointer());
+    }
 };
 //=============================================================================
 } // namespace Nelson

@@ -54,7 +54,6 @@ ArrayOf::wname() const
     return utf8_to_wstring(_name);
 }
 //=============================================================================
-
 std::string
 ArrayOf::name() const
 {
