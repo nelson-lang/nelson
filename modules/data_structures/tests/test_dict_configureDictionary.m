@@ -7,6 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+d = dictionary();
+assert_isfalse(isConfigured(d));
+%=============================================================================
+d = configureDictionary("string", "double");
+assert_istrue(isConfigured(d));
+assert_isequal(d.types(), "string");
+%=============================================================================

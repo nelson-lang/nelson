@@ -7,6 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+function display(varargin)
+  narginchk(1, 2);
+  fmt = format();
+  LineSpacing = fmt.LineSpacing;
+  obj = varargin{1};
+  if (nargin == 1)
+    name = inputname(1);
+  else
+    name = varargin{2};
+  end
+  if strcmp(LineSpacing, 'loose')
+    msgfmt = '\n%s = \n';
+  else
+    msgfmt = '%s = \n';
+  end
+  msg = sprintf(msgfmt, name);
+  fprintf(msg);
+  disp(obj);
+end

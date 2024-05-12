@@ -24,7 +24,7 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 2, 2);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    if (!param2.isRowVectorCharacterArray()) {
+    if (!(param2.isRowVectorCharacterArray() || param2.isScalarStringArray())) {
         Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string classnameExpected = param2.getContentAsCString();
@@ -39,15 +39,15 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(bRes);
     } else {
         bool res = false;
-        std::string currentClassName;
-        ClassName(param1, currentClassName);
-        if (currentClassName == NLS_HANDLE_STR) {
-            if (classnameExpected == NLS_HANDLE_STR) {
-                res = true;
-            } else {
-                res = (param1.getHandleCategory() == classnameExpected);
-            }
+        if (param1.getDataClass() == NLS_HANDLE) {
+            res = (classnameExpected == NLS_HANDLE_STR)
+                || (param1.getHandleCategory() == classnameExpected);
+        } else if (param1.getDataClass() == NLS_CLASS_ARRAY) {
+            res = (classnameExpected == NLS_CLASS_ARRAY_STR)
+                || (param1.getClassType() == classnameExpected);
         } else {
+            std::string currentClassName;
+            ClassName(param1, currentClassName);
             res = (currentClassName == classnameExpected);
         }
         retval << ArrayOf::logicalConstructor(res);

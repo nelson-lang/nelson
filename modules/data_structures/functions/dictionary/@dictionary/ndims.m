@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+function varargout = ndims(varargin)
+    narginchk(1, 1);
+    nargoutchk(0, 1);
+    obj = varargin{1};
+    varargout{1} = 2;
+end

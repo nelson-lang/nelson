@@ -1,5 +1,5 @@
 %=============================================================================
-% Copyright (c) 2016-present Allan CORNET (Nelson)
+% Copyright (c) 2023-present Allan CORNET (Nelson)
 %=============================================================================
 % This file is part of the Nelson.
 %=============================================================================
@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+function varargout = isequalto(varargin)
+    narginchk(2, 1000);
+    nargoutchk(0, 1);
+    varargout{1} = isequalCommon(varargin{:});
+end
+%=============================================================================

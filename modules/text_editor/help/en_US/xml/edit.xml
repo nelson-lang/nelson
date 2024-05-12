@@ -30,6 +30,7 @@
       >edit</b> opens a new file called untitled.m in the nelson's editor.</p>
     <p>If <b>function_name</b> is the name of a defined nelson function <b
       >edit(function_name)</b> try to open the associated file function_name.m .</p>
+    <p><b>edit(dirname)</b> opens all .m available in <b>dirname</b>.</p>
   </description>
   
   <used_function />
@@ -54,6 +55,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>edit(dirname) added</history_description>
     </history_item>
   </history>
 

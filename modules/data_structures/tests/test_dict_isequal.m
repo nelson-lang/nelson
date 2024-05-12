@@ -7,6 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+names = ["Jack", "John", "Jess"];
+ages = [50, 35, 68]; 
+gym = dictionary(names, ages);
+gym2 = dictionary(gym);
+ages2 = [50, 35, 66]; 
+gym3 = dictionary(names, ages2);
+%=============================================================================
+assert_istrue(isequal(gym, gym));
+assert_isequal(gym, gym);
+assert_istrue(isequal(gym, gym2));
+assert_isequal(gym, gym2);
+assert_isfalse(isequal(gym, gym3));
+%=============================================================================
+

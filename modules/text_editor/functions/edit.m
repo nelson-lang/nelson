@@ -23,11 +23,17 @@ function edit(varargin)
         end
         editor(finalfilename);
       else
-        finalfilename =name;
+        finalfilename = name;
       end
       if isdir(finalfilename)
-        msg = [_('Cannot edit the directory: '), finalfilename];
-        error(msg)
+        wildcardDirectoryname = [finalfilename, '/*.m'];
+        dirinfo = dir (wildcardDirectoryname);
+        for info = dirinfo'
+          if ~strcmp(info.name, '.') && ~strcmp(info.name, '..')
+            edit([info.folder, '/', info.name]);
+          end
+        end
+        return;
       end
       if strcmp(fileparts(finalfilename, 'extension'), '') == true
         finalfilename = [finalfilename, '.m'];

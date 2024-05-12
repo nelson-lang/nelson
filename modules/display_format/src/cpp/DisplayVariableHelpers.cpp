@@ -129,7 +129,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
         typeAsText = L"graphics_object";
         break;
     case NLS_HANDLE:
-        typeAsText = L"handle";
+        typeAsText = utf8_to_wstring(A.getHandleCategory());
         break;
     case NLS_UINT8:
         typeAsText = L"uint8";

@@ -23,7 +23,7 @@ FileFunction::FileFunction(const std::wstring& directory, const std::wstring& ob
     this->_isOverload = isOverload;
     _ismex = ismex;
     _fullfilename = buildFullFilename(directory, objectName, name, ismex, isPrivate);
-    _name = objectName.empty() ? name : L"@" + objectName + L"/" + name;
+    _name = name;
 }
 //=============================================================================
 std::wstring

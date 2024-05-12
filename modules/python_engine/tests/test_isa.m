@@ -7,6 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+% <--PYTHON ENVIRONMENT REQUIRED-->
+%=============================================================================
+py_dict = pyrun("my_dict = {'apple': 1, 'banana': 2, 'orange': 3}", "my_dict")
+assert_istrue(isa(py_dict, 'py.dict'));
+%=============================================================================
+py_int = pyrun("A = 1", "A")
+assert_istrue(isa(py_int, 'py.int'));
+%=============================================================================

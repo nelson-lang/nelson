@@ -7,6 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+Products = ["Tomato", "Carrot", "Mango", "Mushroom"];
+Prices = [1 .5 2.50 1.99];
+d = dictionary(Products, Prices)
+d("Carrot")
+d("Potato") = 0.75
+d("Tomato") = 1.25
+d("Mango") = []
+d(["Celery" "Grapes"]) = [0.50 1.95]
+%=============================================================================
+d = dictionary("hello", "world")
+d("newKey") = 1
+isstring(d("newKey"))
+%=============================================================================

@@ -9,13 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `dictionary` datay type.
+
 - Python interface (part 3):
 
   - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
-  - keyHash, keyMatch for python objects.
+  - `keyHash`, `keyMatch` for python objects.
+  - `isa` builtin support python types.
 
-- keyHash builtin: Generate hash code for dictionary key.
-- keyMatch builtin: Determine if two dictionary keys are the same.
+- `keyHash` builtin: Generate hash code for dictionary key.
+- `keyMatch` builtin: Determine if two dictionary keys are the same.
 
 ### Changed
 

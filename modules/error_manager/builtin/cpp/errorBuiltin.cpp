@@ -28,7 +28,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
     std::wstring identifier;
 
     if (argIn.size() == 1) {
-        if (argIn[0].isRowVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
             message = argIn[0].getContentAsWideString();
         } else {
             Exception e;

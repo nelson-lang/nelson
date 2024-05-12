@@ -7,6 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+function ret = convertDataType(type, data)
+  if isa(data, type)
+    return;
+  end
+  if strcmp(type, 'cell') || strcmp(type, 'struct')
+     error (_('Invalid conversion.'));
+  end
+  if strcmp(type, 'cell') && isnumeric(data)
+    ret = num2str(data);
+    return
+  end
+  ret = feval(type, data);
+end
+%=============================================================================

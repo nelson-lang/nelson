@@ -7,6 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('data_structures', 'builtin'));
-addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+names = ["Unicycle" "Bicycle" "Tricycle"];
+wheels = [1 2 3];
+d = dictionary(wheels, names);
+assert_istrue(isKey(d, 1));
+assert_isfalse(isKey(d, '1'));
+%=============================================================================
+R = isKey(d, [1 2 3 4 5]);
+REF = [true, true, true, false, false];
+assert_isequal(R, REF);
+%=============================================================================
