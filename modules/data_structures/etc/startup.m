@@ -9,4 +9,4 @@
 %=============================================================================
 addgateway(modulepath('data_structures', 'builtin'));
 addpath(modulepath('data_structures', 'functions'), '-frozen');
-addpath([modulepath('data_structures', 'functions'), '/dictionary'], '-frozen');
+%=============================================================================

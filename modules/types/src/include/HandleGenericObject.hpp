@@ -35,6 +35,11 @@ public:
     HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped);
     virtual ~HandleGenericObject() = default;
 
+    virtual std::string
+    getClassName()
+    {
+        return this->category;
+    }
     std::string
     getCategory();
     void

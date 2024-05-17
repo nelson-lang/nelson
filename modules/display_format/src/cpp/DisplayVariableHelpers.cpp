@@ -129,7 +129,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
         typeAsText = L"graphics_object";
         break;
     case NLS_HANDLE:
-        typeAsText = utf8_to_wstring(A.getHandleCategory());
+        typeAsText = utf8_to_wstring(isInAcell ? A.getHandleClassName() : "handle");
         break;
     case NLS_UINT8:
         typeAsText = L"uint8";
@@ -252,7 +252,7 @@ buildHeader(const ArrayOf& A)
         } break;
         case NLS_HANDLE: {
             if (A.getDataPointer() != nullptr) {
-                typeAsText = typeAsText + L" [" + utf8_to_wstring(A.getHandleCategory()) + L"]";
+                typeAsText = typeAsText + L" [" + utf8_to_wstring(A.getHandleClassName()) + L"]";
             }
         } break;
         case NLS_FUNCTION_HANDLE: {

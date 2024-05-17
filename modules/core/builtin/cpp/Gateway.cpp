@@ -33,8 +33,6 @@
 #include "sha256Builtin.hpp"
 #include "inputnameBuiltin.hpp"
 #include "featureBuiltin.hpp"
-#include "keyHashBuiltin.hpp"
-#include "keyMatchBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -71,11 +69,6 @@ static const nlsGateway gateway[] = {
     { "inputname", (ptrBuiltin)Nelson::CoreGateway::inputnameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "feature", (ptrBuiltin)Nelson::CoreGateway::featureBuiltin, 1, 2, CPP_BUILTIN },
-    { "keyHash", (ptrBuiltin)Nelson::CoreGateway::keyHashBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR,
-        NLS_OVERLOAD_AUTO_OFF },
-    { "keyMatch", (ptrBuiltin)Nelson::CoreGateway::keyMatchBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
-
 };
 //=============================================================================
 NLSGATEWAYNAME()

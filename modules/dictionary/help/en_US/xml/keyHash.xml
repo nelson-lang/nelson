@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>keyHash</keyword>
+	<short_description>Create a hash code for a dictionary key.</short_description>
+
+	<syntax>
+		<syntax_item>H = keyHash(A)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>A</param_name>
+			<param_description>array</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>H</param_name>
+			<param_description>scalar: uint64, Hash code.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+	<p><b
+      >H = keyHash(A)</b> returns a uint64 scalar representing the input array, <b
+      >A</b>.</p>
+	<p
+    >The keyHash function computes a hash code derived from the characteristics of the input.</p>
+	<p
+    >For custom classes, keyHash might require overloading to guarantee proper equivalence.</p>
+	</description>
+
+
+	<used_function />
+	<bibliography />
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description />
+		<example_item_data><![CDATA[keyHash({'a', 'b', 1})
+keyHash({1, 'a', 'b'})]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dictionary}keyMatch">keyMatch</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.5.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

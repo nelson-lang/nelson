@@ -44,7 +44,6 @@ PyKeyMatch(const ArrayOf& A, const ArrayOf& B)
 bool
 PyKeyMatch(PyObject* p1, PyObject* p2)
 {
-    bool res = false;
     if (p1 != p2) {
         return false;
     }
@@ -58,6 +57,5 @@ PyKeyMatch(PyObject* p1, PyObject* p2)
     return (hashValue1 == hashValue2);
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

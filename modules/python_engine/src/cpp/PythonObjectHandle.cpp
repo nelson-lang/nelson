@@ -125,14 +125,14 @@ PythonObjectHandle::getTypeName()
     return TypeName(((PyObject*)this->getPointer()));
 }
 //=============================================================================
-std::wstring
+std::string
 PythonObjectHandle::getClassName()
 {
     std::wstring _typename = getTypeName();
     if (!_typename.empty()) {
-        return utf8_to_wstring(NLS_HANDLE_PYOBJECT_CATEGORY_STR) + L"." + _typename;
+        return NLS_HANDLE_PYOBJECT_CATEGORY_STR + std::string(".") + wstring_to_utf8(_typename);
     }
-    return utf8_to_wstring(NLS_HANDLE_PYOBJECT_CATEGORY_STR);
+    return NLS_HANDLE_PYOBJECT_CATEGORY_STR;
 }
 //=============================================================================
 bool

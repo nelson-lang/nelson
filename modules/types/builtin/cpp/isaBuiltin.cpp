@@ -41,7 +41,7 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool res = false;
         if (param1.getDataClass() == NLS_HANDLE) {
             res = (classnameExpected == NLS_HANDLE_STR)
-                || (param1.getHandleCategory() == classnameExpected);
+                || (param1.getHandleClassName() == classnameExpected);
         } else if (param1.getDataClass() == NLS_CLASS_ARRAY) {
             res = (classnameExpected == NLS_CLASS_ARRAY_STR)
                 || (param1.getClassType() == classnameExpected);

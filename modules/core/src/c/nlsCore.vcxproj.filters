@@ -72,9 +72,6 @@
     <ClInclude Include="..\cpp\ComputeNelsonModulesPath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\KeyHash.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ComputeNelsonRootPath.cpp">
@@ -132,9 +129,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ComputeNelsonModulesPath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\KeyHash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

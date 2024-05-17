@@ -144,8 +144,7 @@ ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& valu
             for (i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
-                if (rval.dp->dataClass == NLS_CELL_ARRAY
-                    || rval.dp->dataClass == NLS_STRING_ARRAY) {
+                if (rval.dp->dataClass == NLS_CELL_ARRAY) {
                     if (rval.isScalar()) {
                         qp[offset] = rptr[0];
                     } else {

@@ -47,6 +47,7 @@ list(
   memory_manager
   overload
   data_structures
+  dictionary
   history_manager
   terminal
   handle

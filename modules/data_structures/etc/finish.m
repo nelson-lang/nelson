@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 rmpath(modulepath('data_structures', 'functions'));
-rmpath([modulepath('data_structures', 'functions'), '/dictionary']);
 removegateway(modulepath('data_structures', 'builtin'))
+%=============================================================================

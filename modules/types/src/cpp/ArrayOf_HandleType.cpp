@@ -130,5 +130,24 @@ ArrayOf::getHandleCategory() const
     return category;
 }
 //=============================================================================
+std::string
+ArrayOf::getHandleClassName() const
+{
+    if (!isHandle()) {
+        Error(_W("Expected a handle."));
+    }
+    auto* qp = (nelson_handle*)dp->getData();
+    if (qp == nullptr) {
+        return NLS_HANDLE_STR;
+    }
+    nelson_handle hl = qp[0];
+    HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+    if (hlObj) {
+        return hlObj->getClassName();
+    }
+    return NLS_HANDLE_STR;
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

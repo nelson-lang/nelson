@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dictionary</keyword>
+	<short_description>Object that maps unique keys to values.</short_description>
+
+	<syntax>
+		<syntax_item>d = dictionary()</syntax_item>
+		<syntax_item>d = dictionary(d1)</syntax_item>
+		<syntax_item>d = dictionary(keys, values)</syntax_item>
+		<syntax_item>d = dictionary(key1, value1, ... , keyN, valueN)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>d1</param_name>
+			<param_description>a dictionary or py.dict object.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>keys</param_name>
+			<param_description>scalar or array</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>values</param_name>
+			<param_description>scalar, array or cell array</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>key1, value1, ... , keyN, valueN</param_name>
+			<param_description>Key-value pairs</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>d</param_name>
+			<param_description>scalar: a dictionary object.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+
+	<p><b
+      >d = dictionary()</b>: This command initializes an empty dictionary with no keys or values.</p>
+	<p
+    >Initially, the dictionary has no specific data types assigned to its keys or values. Once entries are added, the data types for keys and values are determined based on these entries.</p>
+	<p />
+	<p><b
+      >d = dictionary(keys, values)</b>: This creates a dictionary using the provided keys and values.</p>
+	<p
+    >The resulting dictionary is a 1-by-1 scalar object. If a key appears multiple times, only the last corresponding value is kept. If the values parameter is a scalar, each key is assigned this value. When keys and values are arrays, they must have matching sizes, resulting in key-value pairs accordingly.</p>
+	<p />
+	<p
+    >Dictionaries are typed according to their entries. All keys must share the same data type, and all values must share a different, consistent data type. If a new entry has parts that don't match the existing data types, Nelson will attempt to convert them. Keys and values can have different data types, and character row vectors are converted to string scalars.</p>
+	<p />
+	<p><b
+      >d = dictionary(key1, value1, ... , keyN, valueN)</b>: This syntax creates a dictionary with the specified key-value pairs.</p>
+	<p>If a key is repeated, only the last key-value pair for that key is kept.</p>
+
+	<p>Removing an Entry from a Dictionary:</p>
+	<p><b
+      >d(keys) = []</b>: This command removes the entry associated with the specified key from the dictionary.</p>
+	<p />
+	<p>Assigning Values to Entries:</p>
+	<p><b
+      >d(keys) = newValues</b>: This command assigns the elements of newValues to the entries specified by the corresponding keys.</p>
+	<p
+    >If a specified key does not exist in the dictionary, a new entry is created. If a key appears multiple times, only the last assigned value is kept. Assigning a new value to an existing key overwrites its previous value.</p>
+	<p />
+	<p>Looking Up a Value:</p>
+	<p><b
+      >bvalue = d(keys)</b>: This command retrieves the value corresponding to the specified keys from the dictionary.</p>
+
+	<p />
+	<p>Storing Multiple Data Types in a Dictionary:</p>
+	<p><b>value = d{keys}</b> retrieves the value associated with <b
+      >keys</b> and returns the contents of the cell. If <b
+      >keys</b> is an array, a comma-separated list of the corresponding values is returned. An error is thrown if the dictionary's values are configured to a datatype other than cell.</p>
+	<p><b>d{keys} = values</b> assigns cells containing the elements of <b
+      >values</b> to the entries specified by the corresponding <b
+      >keys</b>. An error is thrown if the dictionary's values are configured to a datatype other than cell.</p>
+
+
+	</description>
+	<used_function />
+	<bibliography />
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[d = dictionary()
+d('apple') = 1
+d('banana') = 2
+d('kiwi') = 3
+d('banana') = []
+]]>
+		</example_item_data>
+	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description />
+		<example_item_data
+      ><![CDATA[Values = {{'a','b'},["ff", "cc"],struct,[1 2 3 4]}
+Keys = ["letters" "words" "a structure" "numeric array"]
+d = dictionary(Keys, Values)
+d{"numeric array"}
+d{"a new entry"} = 'table']]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dictionary}lookup">lookup</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dictionary}remove">remove</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dictionary}insert">insert</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dictionary}keyMatch">keyMatch</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.5.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

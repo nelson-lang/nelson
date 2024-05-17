@@ -23,6 +23,7 @@ modules_list = {
 {'single', true};
 {'double', true};
 {'data_structures', true};
+{'dictionary', true};
 {'integer', true};
 {'sparse', true};
 {'string', true};
