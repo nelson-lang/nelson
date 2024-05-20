@@ -79,14 +79,23 @@ function d = convertPyDictToDictionary(obj)
   allKeys = {};
   keyType = '';
   valueType = '';
+  keyType = pyrun("key_type = type(next(iter(A.keys()))).__name__", "key_type", "A", obj);
+  pythonKeyType = keyType.char();
   st = struct(obj);
   names = string(fieldnames(st));
   for i = 1:numel(names)
     key = names(i);
     value = st.(key);
     if i == 1
-      keyType = class(key);
+      if strcmp(pythonKeyType, 'float') 
+        keyType = 'double';
+      else
+        keyType = class(key);
+      end
       valueType = class(value);
+      if strcmp(valueType, 'py.str')
+        valueType = 'string';
+      end
     end
     if (~isa(key, keyType))
       key = convertDataType(keyType, key);

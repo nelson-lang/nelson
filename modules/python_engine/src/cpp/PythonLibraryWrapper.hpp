@@ -316,3 +316,9 @@ NLSPyNumber_Power(PyObject* o1, PyObject* o2, PyObject* o3);
 int
 NLSPyObject_RichCompareBool(PyObject* o1, PyObject* o2, int opid);
 //=============================================================================
+int
+NLSPyDict_SetItem(PyObject* mp, PyObject* key, PyObject* item);
+//=============================================================================
+PyObject*
+NLSPyDict_GetItem(PyObject* mp, PyObject* key);
+//=============================================================================

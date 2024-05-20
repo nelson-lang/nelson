@@ -124,6 +124,8 @@ using PROC_PyNumber_Power = PyObject* (*)(PyObject* o1, PyObject* o2, PyObject* 
 using PROC_PyNumber_Negative = PyObject* (*)(PyObject* o);
 using PROC_PyNumber_Positive = PyObject* (*)(PyObject* o);
 using PROC_PyObject_RichCompareBool = int (*)(PyObject* o1, PyObject* o2, int opid);
+using PROC_PyDict_SetItem = int (*)(PyObject* mp, PyObject* key, PyObject* item);
+using PROC_PyDict_GetItem = PyObject* (*)(PyObject* mp, PyObject* key);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -261,6 +263,8 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyObject_GetAttr);
     LOAD_PYTHON_SYMBOL(PyObject_CallFunctionObjArgs);
     LOAD_PYTHON_SYMBOL(PyObject_RichCompareBool);
+    LOAD_PYTHON_SYMBOL(PyDict_SetItem);
+    LOAD_PYTHON_SYMBOL(PyDict_GetItem);
     return true;
 }
 //=============================================================================
@@ -867,5 +871,17 @@ NLSPyObject_RichCompareBool(PyObject* o1, PyObject* o2, int opid)
 {
     return reinterpret_cast<PROC_PyObject_RichCompareBool>(
         pythonSymbols["PyObject_RichCompareBool"])(o1, o2, opid);
+}
+//=============================================================================
+int
+NLSPyDict_SetItem(PyObject* mp, PyObject* key, PyObject* item)
+{
+    return reinterpret_cast<PROC_PyDict_SetItem>(pythonSymbols["PyDict_SetItem"])(mp, key, item);
+}
+//=============================================================================
+PyObject*
+NLSPyDict_GetItem(PyObject* mp, PyObject* key)
+{
+    return reinterpret_cast<PROC_PyDict_GetItem>(pythonSymbols["PyDict_GetItem"])(mp, key);
 }
 //=============================================================================
