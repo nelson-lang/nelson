@@ -7,15 +7,27 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "keyHashBuiltin.hpp"
+#include "keyMatchBuiltin.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson::CoreGateway {
+const std::wstring gatewayName = L"dictionary";
 //=============================================================================
-ArrayOfVector
-keyHashBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+static const nlsGateway gateway[] = {
+    { "keyHash", (ptrBuiltin)Nelson::DictionaryGateway::keyHashBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "keyMatch", (ptrBuiltin)Nelson::DictionaryGateway::keyMatchBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+
+};
 //=============================================================================
-} // namespace Nelson
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

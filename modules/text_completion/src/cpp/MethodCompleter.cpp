@@ -50,20 +50,31 @@ MethodCompleter(const std::wstring& prefix)
             return res;
         }
 
-        stringVector methodNames;
-
         if (variableArray[0].isGraphicsObject() || variableArray[0].isClassType()
             || variableArray[0].isHandle()) {
             ArrayOfVector methodsArray = EvaluateCommand(
                 eval, 1, utf8_to_wstring("methods(" + variable + ")"), std::wstring());
+            stringVector methodNames;
+
             if (methodsArray.size() == 1) {
                 methodNames = methodsArray[0].getContentAsCStringVector();
             }
-        }
 
-        for (const auto& name : methodNames) {
-            if (StringHelpers::starts_with(name, postfix)) {
-                res.push_back(utf8_to_wstring(name));
+            std::string className;
+            if (variableArray[0].isClassType()) {
+                className = variableArray[0].getClassType();
+            }
+
+            if (variableArray[0].isHandle()) {
+                className = variableArray[0].getHandleCategory();
+            }
+            for (const auto& name : methodNames) {
+
+                if (StringHelpers::starts_with(name, postfix)) {
+                    if (name != className) {
+                        res.push_back(utf8_to_wstring(name));
+                    }
+                }
             }
         }
     } catch (const Exception&) {

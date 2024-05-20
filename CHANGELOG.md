@@ -9,13 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `dictionary` datay type.
+
+  - `dictionary`: Object that maps unique keys to values.
+  - `configureDictionary`: Create dictionary with specified key and value types.
+  - `insert`: Add entries to a dictionary.
+  - `lookup`: Find value in dictionary by key.
+  - `remove`: Remove dictionary entries.
+  - `entries`: Key-value pairs of dictionary.
+  - `keys`: Keys of dictionary.
+  - `values`: Values of dictionary.
+  - `types`: Types of dictionary keys and values.
+  - `numEntries`: Number of key-value pairs in dictionary.
+  - `isConfigured`: Determine if dictionary has types assigned to keys and values.
+  - `isKey`: Determine if dictionary contains key.
+  - `keyHash`: Generate hash code for dictionary key.
+  - `keyMatch`: Determine if two dictionary keys are the same.
+
 - Python interface (part 3):
 
   - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
-  - keyHash, keyMatch for python objects.
-
-- keyHash builtin: Generate hash code for dictionary key.
-- keyMatch builtin: Determine if two dictionary keys are the same.
+  - `keyHash`, `keyMatch` for python objects.
+  - `isa` builtin support python types.
+  - python dictionary to Nelson dictionary `dictionary(pyDict)`
 
 ### Changed
 

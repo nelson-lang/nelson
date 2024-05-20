@@ -62,7 +62,7 @@ keyMatch(B, D)]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${core}keyHash">keyHash</link>
+			<link linkend="${dictionary}keyHash">keyHash</link>
 		</see_also_item>
 	</see_also>
 

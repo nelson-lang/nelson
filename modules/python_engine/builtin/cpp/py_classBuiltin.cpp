@@ -8,11 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "py_classBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PythonObjectHandle.hpp"
-#include "PythonEngine.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,11 +18,7 @@ Nelson::Python_engineGateway::py_classBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
-    if (hgo && hgo->getCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
-        PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
-        retval << ArrayOf::characterArrayConstructor(poh->getClassName());
-    }
+    retval << ArrayOf::characterArrayConstructor(argIn[0].getHandleClassName());
     return retval;
 }
 //=============================================================================

@@ -1276,9 +1276,16 @@ public:
     isHandleMethod(const std::string& methodName) const;
     /*
      * get handle category
+     * example py
      */
     [[nodiscard]] std::string
     getHandleCategory() const;
+    /*
+     * get handle class name
+     * example py.int
+     */
+    [[nodiscard]] std::string
+    getHandleClassName() const;
     /*
      * return handle as HandleGenericObject*
      */

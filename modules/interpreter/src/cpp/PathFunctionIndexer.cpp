@@ -251,8 +251,15 @@ PathFunctionIndexer::rehash(
                         : nfs::path(pathToScan).parent_path().generic_wstring();
 
                     try {
-                        ff = new FileFunction(pathName, objectName, name, isMex, withWatcher,
-                            prefix != L"" && !isPrivate, isPrivate);
+                        bool isOverload = prefix != L"" && !isPrivate;
+                        if (prefix != L"") {
+                            std::wstring constructor = prefix + L"/" + prefix.substr(1);
+                            if (prefix.substr(1) == name) {
+                                isOverload = false;
+                            }
+                        }
+                        ff = new FileFunction(
+                            pathName, objectName, name, isMex, withWatcher, isOverload, isPrivate);
                     } catch (const std::bad_alloc&) {
                         ff = nullptr;
                     }

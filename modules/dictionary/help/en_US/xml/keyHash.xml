@@ -53,7 +53,7 @@ keyHash({1, 'a', 'b'})]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${core}keyMatch">keyMatch</link>
+			<link linkend="${dictionary}keyMatch">keyMatch</link>
 		</see_also_item>
 	</see_also>
 

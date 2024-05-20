@@ -32,6 +32,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "single/module.iss"
 #include "double/module.iss"
 #include "data_structures/module.iss"
+#include "dictionary/module.iss"
 #include "integer/module.iss"
 #include "elementary_functions/module.iss"
 #include "data_analysis/module.iss"

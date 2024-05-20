@@ -9,13 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson::CoreGateway {
-//=============================================================================
-ArrayOfVector
-keyMatchBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSDICTIONARY_BUILTIN_EXPORTS
+#define NLSDICTIONARY_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSDICTIONARY_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSDICTIONARY_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "keyMatchBuiltin.hpp"
 #include "keyHashBuiltin.hpp"
+#include "KeyHash.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
@@ -17,9 +17,9 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::keyMatchBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DictionaryGateway::keyHashBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
 
     ArrayOf res;
@@ -31,17 +31,15 @@ Nelson::CoreGateway::keyMatchBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (FindCommonType(argIn, commonType, isSparse, isComplex, commonTypeName)) {
         bool overloadWasFound = false;
         res = callOverloadedFunction(eval,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn, "keyMatch",
+            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn, "keyHash",
             commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
     }
-    ArrayOfVector h1 = keyHashBuiltin(eval, 1, argIn[0]);
-    ArrayOfVector h2 = keyHashBuiltin(eval, 1, argIn[1]);
     ArrayOfVector retval;
-    retval << ArrayOf::logicalConstructor(
-        h1[0].getContentAsUnsignedInteger64Scalar() == h2[0].getContentAsUnsignedInteger64Scalar());
+    uint64 hashValue = (uint64)KeyHash(eval, argIn[0]);
+    retval << ArrayOf::uint64Constructor(hashValue);
     return retval;
 }
 //=============================================================================

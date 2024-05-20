@@ -9,14 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "nlsCore_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSCORE_IMPEXP size_t
-KeyHash(Evaluator* eval, const ArrayOf& A);
-//=============================================================================
-}
+#ifdef _MSC_VER
+#ifdef NLSDICTIONARY_EXPORTS
+#define NLSDICTIONARY_IMPEXP __declspec(dllexport)
+#else
+#define NLSDICTIONARY_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSDICTIONARY_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

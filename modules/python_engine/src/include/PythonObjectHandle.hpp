@@ -33,8 +33,8 @@ public:
     std::wstring
     getTypeName();
     //=============================================================================
-    std::wstring
-    getClassName();
+    std::string
+    getClassName() override;
     //=============================================================================
     wstringVector
     getMethods();

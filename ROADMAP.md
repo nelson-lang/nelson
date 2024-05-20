@@ -22,7 +22,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### Modules and Extensions
 
-- Compatible python interface (Part 1 v1.3.0),
+- Compatible python interface (Done v1.5.0),
 - Incorporate an Image Processing module,
 - Optimization of code execution using NPU/GPU arrays,
 - Integrate additional numerical methods,
@@ -55,6 +55,7 @@ Please feel free to file issues on this repository if you have questions, concer
 ### Data Handling and Compatibility
 
 - Development of Table, Timeseries, and Dictionary-compatible objects,
+  - dictionary (Done v1.5.0)
 - Rework and extend the interpreter for enhanced compatibility
 
 ## How Can You Contribute?
