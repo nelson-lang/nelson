@@ -18,7 +18,7 @@ Nelson is an array programming language providing a powerful open computing envi
 engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
 and others state of art numerical libraries.
 
-It has sophisticated data structures (including cell, struct, linear systems, …),
+It has sophisticated data structures (including cell, struct, dictionary, linear systems, …),
 an interpreter and a high level programming language.
 
 Nelson has been developed to be an open/modular system where an user can define
