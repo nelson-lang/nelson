@@ -336,6 +336,34 @@ PyObject*
 convertClassArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
+    if (A.getClassType() == "dictionary") {
+        pyObj = NLSPyDict_New();
+        stringVector fieldnames = A.getFieldNames();
+        auto it = std::find(fieldnames.begin(), fieldnames.end(), "map");
+        if (it == fieldnames.end()) {
+            Error(_W("Invalid dictionary."));
+        }
+        it = std::find(fieldnames.begin(), fieldnames.end(), "allKeys");
+        if (it == fieldnames.end()) {
+            Error(_W("Invalid dictionary."));
+        }
+        ArrayOf map = A.getField("map");
+        stringVector mapHash = map.getFieldNames();
+        ArrayOf allKeys = A.getField("allKeys");
+
+        if (allKeys.isCell() || allKeys.isStringArray()) {
+            ArrayOf* element = (ArrayOf*)allKeys.getDataPointer();
+            indexType nbElements = allKeys.getElementCount();
+
+            for (indexType k = 0; k < nbElements; ++k) {
+                NLSPyDict_SetItem(pyObj, arrayOfToPyObject(element[k]),
+                    arrayOfToPyObject(map.getField(mapHash[k])));
+            }
+        } else {
+            Error(_("Type not managed."));
+        }
+        return pyObj;
+    }
     if (A.getClassType() == "pyargs") {
         pyObj = NLSPyDict_New();
         stringVector names = A.getFieldNames();

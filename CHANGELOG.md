@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `dictionary` datay type.
+- `dictionary` data type.
 
   - `dictionary`: Object that maps unique keys to values.
   - `configureDictionary`: Create dictionary with specified key and value types.
@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `keyHash`, `keyMatch` for python objects.
   - `isa` builtin support python types.
   - python dictionary to Nelson dictionary `dictionary(pyDict)`
+  - conversion dictionary to python dictionary.
 
 ### Changed
 

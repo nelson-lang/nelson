@@ -80,6 +80,7 @@
 	<p><b>d{keys} = values</b> assigns cells containing the elements of <b
       >values</b> to the entries specified by the corresponding <b
       >keys</b>. An error is thrown if the dictionary's values are configured to a datatype other than cell.</p>
+	<p />
 
 
 	</description>
@@ -112,6 +113,20 @@ d{"numeric array"}
 d{"a new entry"} = 'table']]>
 		</example_item_data>
 	</example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description
+      >dictionary conversion nelson -- python</example_item_description>
+    <example_item_data
+      ><![CDATA[wheels = [1 2 3];
+names = ["Monocycle" "Bicycle" "Tricycle"];
+d = dictionary(wheels, names)
+R = pyrun("A = d", "A", 'd', d)
+dictionary(R)
+]]>
+    </example_item_data>
+  </example_item>
 
 </examples>
 

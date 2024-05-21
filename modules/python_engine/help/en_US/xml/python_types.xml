@@ -158,12 +158,33 @@
 R.double()]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description
+      >dictionary conversion nelson -- python</example_item_description>
+    <example_item_data
+      ><![CDATA[wheels = [1 2 3];
+names = ["Monocycle" "Bicycle" "Tricycle"];
+d = dictionary(wheels, names)
+R = pyrun("A = d", "A", 'd', d)
+dictionary(R)
+]]>
+    </example_item_data>
+  </example_item>
+
+
+
 </examples>
 
   <see_also>
     <see_also_item>
       <link linkend="${python_engine}pyrun">pyrun</link>
     </see_also_item>
+     <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+   
   </see_also>
 
   <history>

@@ -581,21 +581,18 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
     case PY_DICT_TYPE: {
         PyObject* keys = NLSPyDict_Keys(pyObject);
         Py_ssize_t size = NLSPyList_Size(keys);
+        ArrayOfVector values;
         stringVector names;
         for (Py_ssize_t i = 0; i < size; i++) {
             PyObject* key = NLSPyList_GetItem(keys, i);
+            PyObject* value = NLSPyDict_GetItem(pyObject, key);
             PyObject* str = NLSPyObject_Str(key);
             names.push_back(NLSPyUnicode_AsUTF8(str));
             NLSPy_DECREF(str);
-        }
-        NLSPy_DECREF(keys);
-
-        ArrayOfVector values;
-        for (auto name : names) {
-            PyObject* value = NLSPyDict_GetItemString(pyObject, name.c_str());
             bool needToDecreaseReference;
             values.push_back(PyObjectToArrayOf(value, needToDecreaseReference));
         }
+        NLSPy_DECREF(keys);
         results << ArrayOf::structScalarConstructor(names, values);
         return true;
     } break;

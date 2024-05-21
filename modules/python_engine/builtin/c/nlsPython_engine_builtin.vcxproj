@@ -185,7 +185,6 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\pyBuiltin.cpp" />
     <ClCompile Include="..\cpp\pyrunBuiltin.cpp" />
     <ClCompile Include="..\cpp\pyrunfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\PythonEnvironment_displayBuiltin.cpp" />
@@ -233,7 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsPython_engine_builtin_exports.h" />
-    <ClInclude Include="..\include\pyBuiltin.hpp" />
     <ClInclude Include="..\include\pyrunBuiltin.hpp" />
     <ClInclude Include="..\include\pyrunfileBuiltin.hpp" />
     <ClInclude Include="..\include\PythonEnvironment_displayBuiltin.hpp" />
