@@ -28,11 +28,11 @@ ref = [false, false; false, false];
 assert_isequal(res, ref);
 %=============================================================================
 res = strcmp({}, []);
-ref = [];
+ref = logical([]);
 assert_isequal(res, ref);
 %=============================================================================
 res = strcmp({}, {});
-ref = [];
+ref = logical([]);
 assert_isequal(res, ref);
 %=============================================================================
 res = strcmp('', 'test');
@@ -162,7 +162,7 @@ ref = false;
 assert_isequal(res, ref);
 %=============================================================================
 cmd = 'res = strcmp(["a", "b", "c", "d"], ["a"; "b"; "c"; "d"]);';
-assert_checkerror(cmd, _('Same size expected.'));
+assert_checkerror(cmd, _('Inputs must be the same size or either one can be a scalar.'));
 %=============================================================================
 A = ["abc", "def"; NaN, "def"];
 B =  'def';
@@ -172,5 +172,36 @@ assert_isequal(res, ref);
 %=============================================================================
 A = ["abc", "def"; NaN, "def"];
 B =  {'abc'; 'def'};
-assert_checkerror('res = strcmp(A, B)', _('Same size or scalar expected.'));
+assert_checkerror('res = strcmp(A, B)', _('Inputs must be the same size or either one can be a scalar.'));
 %=============================================================================
+c1 = 'time';
+c2 = {"Once","upon"; "a","time"};
+res = strcmp(c1, c2);
+REF = [false, false; false, false];
+assert_isequal(res, REF);
+%=============================================================================
+c1 = 'time';
+c2 = ["Once","upon"; "a","time"];
+res = strcmp(c1, c2);
+REF = [false, false; false, true];
+assert_isequal(res, REF);
+%=============================================================================
+c1 = ["time";"upon"];
+c2 = ["Once","upon"; "a","time"];
+assert_checkerror('res = strcmp(c1, c2)', _('Inputs must be the same size or either one can be a scalar.'));
+%=============================================================================
+c1 = {'time'};
+c2 = "time";
+res = strcmp(c1, c2);
+assert_istrue(res);
+%=============================================================================
+c1 = {'time'};
+c2 = 'time';
+res = strcmp(c1, c2);
+assert_istrue(res);
+%=============================================================================
+R = strcmp({'a'},["a"]);
+assert_istrue(R);
+%=============================================================================
+
+
