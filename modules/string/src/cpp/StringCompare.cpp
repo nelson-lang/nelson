@@ -169,6 +169,24 @@ StringCompareMixedTypes(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive,
         return ArrayOf::logicalConstructor(compareString(scalarStr, cellScalarStr, bCaseSensitive));
     }
 
+    if ((A.isCell() && B.isStringArray()) || ((B.isCell() && A.isStringArray()))) {
+        if (dimsA.equals(dimsB)) {
+            auto elementsA = (ArrayOf*)A.getDataPointer();
+            auto elementsB = (ArrayOf*)B.getDataPointer();
+            logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
+                NLS_LOGICAL, dimsA.getElementCount(), stringVector(), true));
+            for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+                if (elementsA[k].isCharacterArray() && elementsB[k].isCharacterArray()) {
+                    Cp[k] = compareString(elementsA[k].getContentAsWideString(),
+                        elementsB[k].getContentAsWideString(), bCaseSensitive, len);
+                } else {
+                    Cp[k] = false;
+                }
+            }
+            return ArrayOf(NLS_LOGICAL, dimsA, Cp);
+        }
+    }
+
     bool checkDims = false;
     if ((!A.isCell() && !A.isStringArray()) || (!B.isCell() && !B.isStringArray())) {
         checkDims = true;

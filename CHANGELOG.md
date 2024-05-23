@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `keyHash`: Generate hash code for dictionary key.
   - `keyMatch`: Determine if two dictionary keys are the same.
 
+- `orderedfields`: Order fields of structure array.
+
 - Python interface (part 3):
 
   - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
