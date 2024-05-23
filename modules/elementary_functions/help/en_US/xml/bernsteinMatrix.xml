@@ -50,8 +50,8 @@
     <example_item_description />
     <example_item_data>
       <![CDATA[t = 0:1/100:1;
-B = bernsteinMatrix(4, t);
-P = [0 0 0; 2 2 2; 2 -1 1; 6 1 3];
+B = bernsteinMatrix(3, t);
+P = [0 0 0; 1 2 1; 1 -2 3; 5 2 4];
 bezierCurve = B * P;
 plot3(bezierCurve(:,1), bezierCurve(:,2), bezierCurve(:,3))
 ]]>
