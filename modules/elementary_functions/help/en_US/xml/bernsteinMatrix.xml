@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>bernsteinMatrix</keyword>
+  <short_description>Bernstein matrix</short_description>
+
+  <syntax>
+    <syntax_item>B = bernsteinMatrix(n, t)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
+      >nonnegative integer: Approximation order.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>number or vector: Evaluation point.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description
+      >Bernstein Matrix: length(t) - by - n+1 matrix.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b>B = bernsteinMatrix(n, t)</b> constructs a Bernstein matrix <b
+      >B</b> with dimensions length(t) - by - (n+1), where t is a vector.</p>
+    <p>The Bernstein matrix is also referred to as the Bezier matrix.</p>
+    <p
+    >This function can be utilized to calculate the points of a Bezier curve.</p>
+  </description>
+
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data>
+      <![CDATA[t = 0:1/100:1;
+B = bernsteinMatrix(4, t);
+P = [0 0 0; 2 2 2; 2 -1 1; 6 1 3];
+bezierCurve = B * P;
+plot3(bezierCurve(:,1), bezierCurve(:,2), bezierCurve(:,3))
+]]>
+    </example_item_data>
+    <example_item_img src="../images/bernsteinMatrix.svg" align="middle" />
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
