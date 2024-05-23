@@ -94,6 +94,14 @@ B = sort(A, 'ComparisonMethod', 'abs')
 
 </examples>
 
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}issorted">issorted</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+  </see_also>
 
   <history>
     <history_item>

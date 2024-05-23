@@ -19,7 +19,7 @@ template <class T>
 void
 boolean_isnan(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -31,7 +31,7 @@ template <class T>
 void
 boolean_isnan_cplx(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -91,7 +91,7 @@ IsNaN(const ArrayOf& A)
             NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
         ompIndexType N = (ompIndexType)A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < N; i++) {

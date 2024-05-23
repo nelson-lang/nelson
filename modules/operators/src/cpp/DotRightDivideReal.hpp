@@ -69,7 +69,7 @@ matrix_matrix_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
         (T*)B.getDataPointer(), 1, Clen);
     matC = matA.array() / matB.array();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {

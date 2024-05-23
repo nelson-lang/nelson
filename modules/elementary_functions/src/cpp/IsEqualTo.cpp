@@ -40,14 +40,14 @@ real_IsEqualto(const T* ptrA, const T* ptrB, ompIndexType nbElements)
     if (nbElements == 1) {
         return isequalornan<T>(ptrA[0], ptrB[0]);
     }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for shared(equal)
 #endif
     for (ompIndexType k = 0; k < nbElements; k++) {
         if (equal && !isequalornan<T>(ptrA[k], ptrB[k])) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp critical
 #endif
             equal = false;
@@ -141,7 +141,7 @@ sparsecomplex_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
     const std::complex<double>* valuesA = spMatA->valuePtr();
     const std::complex<double>* valuesB = spMatB->valuePtr();
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
@@ -194,7 +194,7 @@ sparsereal_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
     const double* valuesA = spMatA->valuePtr();
     const double* valuesB = spMatB->valuePtr();
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {

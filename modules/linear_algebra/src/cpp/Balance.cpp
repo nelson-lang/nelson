@@ -34,7 +34,7 @@ permuteVector(const T* ptrScale, int N, int IHI)
 {
     ArrayOf P = ArrayOf::doubleMatrix2dConstructor(N, 1);
     double* ptrPermutingVector = (double*)P.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -55,7 +55,7 @@ scalingVector(const T* ptrScale, int N, int ILO, int IHI)
     ArrayOf S = ArrayOf::doubleMatrix2dConstructor(N, 1);
     double* ptrScalingVector = (double*)S.getDataPointer();
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (int i = 0; i < N; ++i) {

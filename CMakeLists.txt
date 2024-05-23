@@ -24,13 +24,15 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 # ==============================================================================
 project(Nelson)
 # ==============================================================================
-set(default_build_type "Release")
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+option(DEBUG_BUILD "Disable Release build" OFF)
+if(DEBUG_BUILD)
   set(default_build_type "Debug")
+else()
+  set(default_build_type "Release")
 endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 1)
-set(Nelson_VERSION_MINOR_DEFAULT 5)
+set(Nelson_VERSION_MINOR_DEFAULT 6)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================

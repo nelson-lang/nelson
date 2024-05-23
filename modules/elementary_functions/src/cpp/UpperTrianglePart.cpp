@@ -28,7 +28,7 @@ UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
     auto* Sz = reinterpret_cast<std::complex<T>*>(S);
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
@@ -51,7 +51,7 @@ UpperTrianglePartReal(const ArrayOf& A, signedIndexType offset)
     T* S = (T*)A.getDataPointer();
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {

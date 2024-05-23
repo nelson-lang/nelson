@@ -18,7 +18,7 @@ findVectorMin(const std::vector<double>& v)
 {
     double min = 0;
     bool first = true;
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for reduction(min : min)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
@@ -38,7 +38,7 @@ findVectorMax(const std::vector<double>& v)
 {
     double max = 0;
     bool first = true;
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for reduction(max : max)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
@@ -65,7 +65,7 @@ ArrayOfMin(const ArrayOf& a)
     indexType len = a.getElementCount();
     double min = 0;
     bool first = true;
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for reduction(min : min)
 #endif
     for (indexType i = 0; i < len; i++) {
@@ -92,7 +92,7 @@ ArrayOfMax(const ArrayOf& a)
     indexType len = _a.getElementCount();
     double max = 0;
     bool first = true;
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for reduction(max : max)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)len; i++) {

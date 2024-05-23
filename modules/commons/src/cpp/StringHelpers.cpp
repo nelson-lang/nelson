@@ -14,6 +14,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "StringHelpers.hpp"
+#include "ParallelTransform.hpp"
 //=============================================================================
 namespace Nelson::StringHelpers {
 //=============================================================================
@@ -77,14 +78,20 @@ ends_with(const std::string& mainStr, const std::string& toMatch)
 void
 to_upper(std::wstring& str)
 {
-    std::transform(str.begin(), str.end(), str.begin(), ::towupper);
+    parallelTransform(str.begin(), str.end(), str.begin(), ::towupper);
+}
+//=============================================================================
+void
+to_lower(std::wstring& str)
+{
+    parallelTransform(str.begin(), str.end(), str.begin(), ::towlower);
 }
 //=============================================================================
 std::wstring
 to_lower_copy(const std::wstring& str)
 {
     std::wstring copy_str(str);
-    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towlower);
+    parallelTransform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towlower);
     return copy_str;
 }
 //=============================================================================
@@ -92,7 +99,7 @@ std::string
 to_upper_copy(const std::string& str)
 {
     std::string copy_str(str);
-    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::toupper);
+    parallelTransform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::toupper);
     return copy_str;
 }
 //=============================================================================
@@ -100,7 +107,7 @@ std::wstring
 to_upper_copy(const std::wstring& str)
 {
     std::wstring copy_str(str);
-    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towupper);
+    parallelTransform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::towupper);
     return copy_str;
 }
 //=============================================================================
@@ -108,7 +115,7 @@ std::string
 to_lower_copy(const std::string& str)
 {
     std::string copy_str(str);
-    std::transform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::tolower);
+    parallelTransform(copy_str.begin(), copy_str.end(), copy_str.begin(), ::tolower);
     return copy_str;
 }
 //=============================================================================

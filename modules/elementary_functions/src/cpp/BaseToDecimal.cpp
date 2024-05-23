@@ -47,7 +47,7 @@ BaseToDecimal(const std::wstring& element, int base)
         res = 0;
     } else {
         std::wstring upperCase = StringHelpers::erase_all_copy(element, L" ");
-        std::transform(upperCase.begin(), upperCase.end(), upperCase.begin(), towupper);
+        StringHelpers::to_upper(upperCase);
         res = (double)base2dec(upperCase, base);
     }
     return res;

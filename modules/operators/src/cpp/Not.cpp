@@ -18,7 +18,7 @@ namespace Nelson {
 static void
 boolean_not(indexType N, logical* C, const logical* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

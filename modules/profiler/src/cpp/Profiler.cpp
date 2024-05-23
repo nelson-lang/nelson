@@ -19,6 +19,7 @@
 #include "HtmlExporter.hpp"
 #include "FileSystemWrapper.hpp"
 #include "i18n.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -234,26 +235,26 @@ Profiler::info(Profiler::Profile_Sort_Type sortOption)
 
     switch (sortOption) {
     case SORT_BY_LINE: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByLine);
+        parallelSort(profilerLines, sortByLine);
     } break;
     case SORT_BY_NAMEFILELINE: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByNameFilenameLine);
+        parallelSort(profilerLines, sortByNameFilenameLine);
     } break;
     case SORT_BY_NAME: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByName);
+        parallelSort(profilerLines, sortByName);
     } break;
     case SORT_BY_FILENAME: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByFilename);
+        parallelSort(profilerLines, sortByFilename);
     } break;
     case SORT_BY_NBCALLS: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByNbCalls);
+        parallelSort(profilerLines, sortByNbCalls);
     } break;
     case SORT_BY_PERCALL: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByPerCall);
+        parallelSort(profilerLines, sortByPerCall);
     } break;
     case SORT_BY_TOTALTIME:
     default: {
-        std::sort(profilerLines.begin(), profilerLines.end(), sortByTotalTime);
+        parallelSort(profilerLines, sortByTotalTime);
     } break;
     }
     return profilerLines;

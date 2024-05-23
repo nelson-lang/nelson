@@ -28,7 +28,7 @@ scalarRealRepmat(const ArrayOf& x, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrA[0] = value;
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
@@ -50,7 +50,7 @@ scalarComplexRepmat(const ArrayOf& x, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrDpz[0] = value;
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {

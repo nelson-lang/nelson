@@ -25,7 +25,7 @@ namespace Nelson {
  *
  * This function initializes a pivot vector and updates it based on a permutation array.
  * The permutation array 'piv' is expected to contain the desired order of elements.
- * The function uses OpenMP for parallelization if the _NLS_WITH_OPENMP macro is defined.
+ * The function uses OpenMP for parallelization if the WITH_OPENMP macro is defined.
  *
  * @param nrows The number of rows in the pivot vector.
  * @param piv   The permutation array specifying the desired order.
@@ -41,7 +41,7 @@ updatePivotVector(int nrows, int* piv, int p)
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
@@ -62,7 +62,7 @@ updatePivotVector(int nrows, int* piv, int p)
  * This function performs a Complex LUP decomposition on the input matrix 'a'. The result
  * is decomposed into lower triangular matrix 'l', upper triangular matrix 'u', and a
  * permutation matrix 'pmat'. The function uses LAPACK functions for the decomposition.
- * The decomposition is parallelized using OpenMP if the _NLS_WITH_OPENMP macro is defined.
+ * The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is defined.
  *
  * @tparam T             The data type of the matrix elements.
  * @param nrows         The number of rows in the matrix.
@@ -87,7 +87,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (i = 0; i < (ompIndexType)nrows; i++) {
@@ -104,14 +104,14 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
         ompIndexType lcols = ncols;
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(i + i * lrows)].real(1.0);
             ptrZl[(i + i * lrows)].imag(0.0);
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -119,7 +119,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
                 ptrZl[(i + j * lrows)] = a[(i + j * nrows)];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < urows; i++) {
@@ -133,14 +133,14 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
         ompIndexType urows = nrows;
         auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
         auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(i + i * lrows)].real(1.0);
             ptrZl[(i + i * lrows)].imag(0.0);
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -148,7 +148,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
                 ptrZl[(i + j * lrows)] = a[(i + j * nrows)];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < nrows; i++) {
@@ -213,14 +213,14 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(fullpivot[i] + i * lrows)].real(1.0);
             ptrZl[(fullpivot[i] + i * lrows)].imag(0.0);
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -228,7 +228,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
                 ptrZl[(fullpivot[i] + j * lrows)] = a[(i + j * nrows)];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < urows; i++) {
@@ -244,14 +244,14 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
         ompIndexType ucols = ncols;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(fullpivot[i] + i * lrows)].real(1.0);
             ptrZl[(fullpivot[i] + i * lrows)].imag(0.0);
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -259,7 +259,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
                 ptrZl[(fullpivot[i] + j * lrows)] = a[(i + j * nrows)];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < nrows; i++) {
@@ -280,7 +280,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
  * This function performs a Complex LU decomposition on the input matrix 'a'. The result
  * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
  * The function uses LAPACK functions for the decomposition. The decomposition is
- * parallelized using OpenMP if the _NLS_WITH_OPENMP macro is defined.
+ * parallelized using OpenMP if the WITH_OPENMP macro is defined.
  *
  * @tparam T             The data type of the matrix elements.
  * @param nrows         The number of rows in the matrix.
@@ -303,7 +303,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
@@ -321,14 +321,14 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
         ompIndexType i = 0;
         ompIndexType j = 0;
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             l[i + i * lrows] = 1.0;
         }
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -336,7 +336,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
                 l[i + j * lrows] = a[i + j * nrows];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < urows; i++) {
@@ -352,13 +352,13 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
         ompIndexType i = 0;
         ompIndexType j = 0;
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             l[i + i * lrows] = 1.0;
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -366,7 +366,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
                 l[i + j * lrows] = a[i + j * nrows];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < nrows; i++) {
@@ -383,7 +383,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
  * This function performs a Real LU decomposition on the input matrix 'a'. The result
  * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
  * The function uses LAPACK functions for the decomposition. The decomposition is
- * parallelized using OpenMP if the _NLS_WITH_OPENMP macro is defined.
+ * parallelized using OpenMP if the WITH_OPENMP macro is defined.
  *
  * @tparam T             The data type of the matrix elements.
  * @param nrows         The number of rows in the matrix.
@@ -413,13 +413,13 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
         ompIndexType lcols = ncols;
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (i = 0; i < lcols; i++) {
             l[fullpivot[i] + i * lrows] = 1.0;
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -427,7 +427,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
                 l[fullpivot[i] + j * lrows] = a[i + j * nrows];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < urows; i++)
@@ -441,7 +441,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
         for (i = 0; i < lcols; i++) {
             l[fullpivot[i] + i * lrows] = 1.0;
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 1; i < lrows; i++) {
@@ -449,7 +449,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
                 l[fullpivot[i] + j * lrows] = a[i + j * nrows];
             }
         }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(i, j)
 #endif
         for (i = 0; i < nrows; i++)
@@ -470,7 +470,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
  * The function uses LAPACK functions for the decomposition. The number of left-hand side
  * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
  * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the _NLS_WITH_OPENMP macro is
+ * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
  * defined.
  *
  * @param A      The input matrix to be factorized.
@@ -610,7 +610,7 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
  * The function uses LAPACK functions for the decomposition. The number of left-hand side
  * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
  * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the _NLS_WITH_OPENMP macro is
+ * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
  * defined.
  *
  * @param A      The input matrix to be factorized.
@@ -677,7 +677,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
  * The function uses LAPACK functions for the decomposition. The number of left-hand side
  * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
  * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the _NLS_WITH_OPENMP macro is
+ * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
  * defined.
  *
  * @param A      The input matrix to be factorized.

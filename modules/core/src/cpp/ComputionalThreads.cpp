@@ -20,7 +20,7 @@
 #include <unistd.h>
 #endif
 #include "nlsBuildConfig.h"
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #include <omp.h>
 #endif
 #include <algorithm>
@@ -105,7 +105,7 @@ setMaxNumCompThreads(unsigned int _nbOfCores)
 {
     unsigned int previousValue = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
     NelsonConfiguration::getInstance()->setMaxNumCompThreads(_nbOfCores);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     omp_set_num_threads(_nbOfCores);
 #endif
     Eigen::setNbThreads(_nbOfCores);

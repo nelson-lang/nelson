@@ -28,7 +28,7 @@ boolXor(
     size_t n, logical* c, const logical* a, const int stride1, const logical* b, const int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
@@ -36,14 +36,14 @@ boolXor(
         }
     } else {
         if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
                 c[i] = NLSXOR(a[0], b[i]);
             }
         } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)n; i++) {

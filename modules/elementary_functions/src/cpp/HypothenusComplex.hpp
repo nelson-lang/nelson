@@ -44,7 +44,7 @@ scalar_matrix_complex_hypothenuse(NelsonType classDestination, const ArrayOf& A,
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
@@ -68,7 +68,7 @@ matrix_scalar_complex_hypothenuse(NelsonType classDestination, const ArrayOf& A,
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
@@ -92,7 +92,7 @@ matrix_matrix_complex_hypothenuse(NelsonType classDestination, const ArrayOf& A,
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {

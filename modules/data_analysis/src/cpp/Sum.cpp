@@ -22,7 +22,7 @@ signedIntegerSumAsDouble(const int64* sp, double* dp, indexType elementCount)
         return;
     }
     double sum = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
@@ -54,7 +54,7 @@ unsignedIntegerSumAsDouble(const uint64* sp, double* dp, indexType elementCount)
         return;
     }
     double sum = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
@@ -87,7 +87,7 @@ RealSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
         return;
     }
     T sum = (T)0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {
@@ -135,7 +135,7 @@ ComplexSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
     }
     T sum_r = (T)0;
     T sum_i = (T)0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum_r, sum_i)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {

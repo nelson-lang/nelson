@@ -11,6 +11,7 @@
 #include "Who.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,7 +47,7 @@ Who(Evaluator* eval, Scope* scope, bool withPersistent)
         scope->getVariablesList(withPersistent, names);
     }
     if (!names.empty()) {
-        std::sort(names.begin(), names.end());
+        parallelSort(names);
     }
     return names;
 }

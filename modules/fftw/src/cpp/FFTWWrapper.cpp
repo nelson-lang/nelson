@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #include <omp.h>
 #endif
 #include "FFTWDynamicLibrary.hpp"
@@ -214,7 +214,7 @@ loadFFTWLibrary()
     }
 #endif
     if (res) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
         if (fftw_init_threadsPtr && fftw_plan_with_nthreadsPtr) {
             fftw_init_threadsPtr();
             fftw_plan_with_nthreadsPtr(omp_get_max_threads());

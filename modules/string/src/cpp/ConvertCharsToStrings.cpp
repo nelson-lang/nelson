@@ -43,7 +43,7 @@ ConvertCharsToStrings(const ArrayOfVector& A)
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();
             ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType q = 0; q < elementCount; q++) {

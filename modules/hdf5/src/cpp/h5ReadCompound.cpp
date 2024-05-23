@@ -38,7 +38,7 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
     }
     ArrayOf fieldvalue = ArrayOf(NLS_UINT8, dims, ptrUINT8);
     ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -100,7 +100,7 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
     }
     ArrayOf fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -166,7 +166,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
     ArrayOf fieldvalue = ArrayOf(NLS_CELL_ARRAY, dims, ptrArrayOf);
     ompIndexType elementCount = dims.getElementCount();
     if (H5Tis_variable_str(mType)) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -175,7 +175,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
         }
     } else {
         hsize_t lengthString = H5Tget_size(mType);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -219,7 +219,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
     auto* ptrDouble = static_cast<double*>(ptrVoid);
     auto* ptrSingle = static_cast<single*>(ptrVoid);
     ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {

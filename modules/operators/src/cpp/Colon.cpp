@@ -46,7 +46,7 @@ integer_colon(NelsonType destinationClass, T low, T high, T step)
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
@@ -76,7 +76,7 @@ char_colon(charType low, charType high, int64 step)
     auto dn = static_cast<double>((((high - low) / step) + 1));
     auto n = static_cast<indexType>(std::trunc(dn));
     charType* pV = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
@@ -161,7 +161,7 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
     }
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {

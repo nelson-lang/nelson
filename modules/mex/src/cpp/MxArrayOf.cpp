@@ -38,7 +38,7 @@ template <class T, class S>
 void
 ArrayOfRealToMexReal(T* src, S* dst, size_t count)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -50,7 +50,7 @@ template <class T, class S>
 void
 MexRealToArrayOfReal(T* src, S* dst, size_t count)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -62,7 +62,7 @@ template <class T, class S>
 void
 MexComplexToArrayOfInterleavedComplex(T* src, S* dst, size_t count)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count * 2; i++) {
@@ -74,7 +74,7 @@ template <class T, class S>
 void
 MexComplexToArrayOfSeparatedComplex(T* src_real, T* src_imag, S* dst, size_t count)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -97,7 +97,7 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID, bool interleav
         auto* dp_r = (mxType*)ret->realdata;
         auto* dp_i = (mxType*)ret->imagdata;
         size_t N = mxGetNumberOfElements(ret);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -121,7 +121,7 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
         auto* sp = (nlsType*)array.getDataPointer();
         auto* dp = (mxType*)ret->realdata;
         size_t N = mxGetNumberOfElements(ret);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -218,13 +218,13 @@ ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
                         imagpart[k] = (mxDouble)data[k].imag();
                     }
                 }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
                     res->Ir[k] = (mwIndex)pInner[k];
                 }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < (ompIndexType)res->nJc; ++k) {
@@ -263,13 +263,13 @@ ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
                 res->Ir = (mwIndex*)mxCalloc(res->nIr, sizeof(mwIndex));
                 res->Jc = (mwIndex*)mxCalloc(res->nJc, sizeof(mwIndex));
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
                     res->Ir[k] = (mwIndex)pInner[k];
                 }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < (ompIndexType)res->nJc; ++k) {
@@ -581,7 +581,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
             auto** dp = (mxArray**)res->realdata;
             size_t N = mxGetNumberOfElements(res);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -745,7 +745,7 @@ MxArrayToArrayOf(const mxArray* pm)
         auto** dp = (mxArray**)pm->realdata;
         cp = ArrayOf::allocateArrayOf(destClass, N);
         auto* elements = (ArrayOf*)cp;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

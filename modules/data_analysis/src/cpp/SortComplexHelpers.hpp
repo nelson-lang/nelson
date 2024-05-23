@@ -16,6 +16,7 @@
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
 #include "nlsBuildConfig.h"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -159,19 +160,19 @@ VectorComplexSortWithoutIndexMissingAuto(const T* sp, T* dp, indexType planes, i
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(z, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
             std::complex<T>* pt = std::stable_partition(z, z + linesize,
                 [](const std::complex<T>& i) { return (!isPureZero(i) || i.imag() == 0.); });
             if (pt == z) {
-                std::sort(z, z + linesize, comparisonComplexLess);
+                parallelSort(z, z + linesize, comparisonComplexLess);
             } else {
-                std::sort(z, pt, comparisonComplexLess);
+                parallelSort(z, pt, comparisonComplexLess);
             }
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(z, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
@@ -179,13 +180,13 @@ VectorComplexSortWithoutIndexMissingAuto(const T* sp, T* dp, indexType planes, i
             [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexGreater);
+            parallelSort(pt, z + linesize, comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -202,25 +203,25 @@ VectorComplexSortWithoutIndexMissingFirst(const T* sp, T* dp, indexType planes, 
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexLess);
+            parallelSort(pt, z + linesize, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexGreater);
+            parallelSort(pt, z + linesize, comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -237,25 +238,25 @@ VectorComplexSortWithoutIndexMissingLast(const T* sp, T* dp, indexType planes, i
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexLess);
+            parallelSort(pt, z + linesize, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexGreater);
+            parallelSort(pt, z + linesize, comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -269,13 +270,13 @@ MatrixComplexSortWithoutIndexMissingAuto(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(buf.begin(), buf.end(), comparisonComplexLess);
+            parallelSort(buf.begin(), buf.end(), comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
@@ -283,13 +284,13 @@ MatrixComplexSortWithoutIndexMissingAuto(
             [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexGreater);
+            parallelSort(pt, buf.end(), comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -305,25 +306,25 @@ MatrixComplexSortWithoutIndexMissingFirst(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexLess);
+            parallelSort(pt, buf.end(), comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexGreater);
+            parallelSort(pt, buf.end(), comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -340,25 +341,25 @@ MatrixComplexSortWithoutIndexMissingLast(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexLess);
+            parallelSort(pt, buf.end(), comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexGreater);
+            parallelSort(pt, buf.end(), comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -372,7 +373,7 @@ ComplexEntrySortByPlacementAuto(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
             auto pt
@@ -380,13 +381,13 @@ ComplexEntrySortByPlacementAuto(
                       return (!(i.z.real() == 0. && i.z.imag() == 0.) || (i.z.imag() == 0.));
                   });
             if (pt == buf.begin()) {
-                std::sort(buf.begin(), buf.end(), comparisonComplexEntryLess);
+                parallelSort(buf.begin(), buf.end(), comparisonComplexEntryLess);
             } else {
-                std::sort(buf.begin(), pt, comparisonComplexEntryLess);
+                parallelSort(buf.begin(), pt, comparisonComplexEntryLess);
             }
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         }
     } else {
@@ -394,7 +395,7 @@ ComplexEntrySortByPlacementAuto(
             return std::isnan(i.z.real()) || std::isnan(i.z.imag());
         });
 
-        std::sort(
+        parallelSort(
             buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
                 if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
                     && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
@@ -404,13 +405,13 @@ ComplexEntrySortByPlacementAuto(
             });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         }
     }
@@ -424,7 +425,7 @@ ComplexEntrySortByPlacementFirst(
     auto it = std::partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
         return std::isnan(i.z.real()) || std::isnan(i.z.imag());
     });
-    std::sort(
+    parallelSort(
         buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
             if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
                 && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
@@ -436,25 +437,25 @@ ComplexEntrySortByPlacementFirst(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         }
     }
@@ -468,7 +469,7 @@ ComplexEntrySortByPlacementLast(
     auto it = std::partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
         return !std::isnan(i.z.real()) && !std::isnan(i.z.imag());
     });
-    std::sort(
+    parallelSort(
         buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
             if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
                 && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
@@ -480,25 +481,25 @@ ComplexEntrySortByPlacementLast(
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            std::sort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
         } break;
         }
     }
@@ -666,7 +667,7 @@ sortComplex(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
             ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < elementCount; ++k) {

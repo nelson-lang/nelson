@@ -18,6 +18,7 @@
 #include "i18n.hpp"
 #include <numeric>
 #include <algorithm>
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -293,8 +294,8 @@ XmlDocListOfFiles::getIndex(wstringVector& names, wstringVector& urls, wstringVe
     std::iota(indices.begin(), indices.end(), 0);
 
     // Sort indices based on the descriptions
-    std::sort(indices.begin(), indices.end(),
-        [&section](size_t i1, size_t i2) { return section.urls[i1] < section.urls[i2]; });
+    parallelSort(
+        indices, [&section](size_t i1, size_t i2) { return section.urls[i1] < section.urls[i2]; });
 
     names.reserve(section.names.size());
     urls.reserve(section.urls.size());

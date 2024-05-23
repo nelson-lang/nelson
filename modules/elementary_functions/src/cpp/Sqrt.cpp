@@ -75,7 +75,7 @@ SqrtReal(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matOut(ptrOut, elementCount);
     matOut = matIn.array().sqrt();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -97,7 +97,7 @@ SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     allReal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {

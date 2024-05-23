@@ -104,7 +104,8 @@ target_link_libraries(
   nlsI18n
   nlsInterpreter
   nlsNelson_manager
-  nlsTypes)
+  nlsTypes
+  ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

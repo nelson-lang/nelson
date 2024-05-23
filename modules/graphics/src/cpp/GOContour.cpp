@@ -22,6 +22,7 @@
 #include "GOAxisHelpers.hpp"
 #include "GOList.hpp"
 #include "GOAxis.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -142,7 +143,7 @@ GOContour::updateState()
                 for (int j = 0; j < columns; ++j) {
                     flattenedZ.push_back(pzData[j * rows + i]);
                 }
-                std::sort(flattenedZ.begin(), flattenedZ.end());
+                parallelSort(flattenedZ);
                 levels.push_back(flattenedZ[flattenedZ.size() / 2]);
             }
         } else {

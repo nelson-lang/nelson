@@ -87,7 +87,7 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrA = (T*)_A.getDataPointer();
         T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[0] * ptrB[k];
@@ -100,7 +100,7 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrA = (T*)_A.getDataPointer();
         T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[k] * ptrB[0];
@@ -154,7 +154,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
         ompIndexType elementCountB = (ompIndexType)dimB.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCountB; k++) {
@@ -162,7 +162,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
         }
     } else if (B.isScalar()) {
         ompIndexType elementCountA = (ompIndexType)dimA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCountA; k++) {
@@ -239,7 +239,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         }
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
             Cz[k] = Az[0] * Bz[k];
@@ -263,7 +263,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         }
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
             Cz[k] = Az[k] * Bz[0];

@@ -208,12 +208,6 @@
     <ClInclude Include="..\include\rdivideBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\shortcutandBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\shortcutorBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\subsindexBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

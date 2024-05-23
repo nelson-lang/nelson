@@ -68,6 +68,9 @@ target_link_libraries(
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Svg
   Qt${QT_VERSION_MAJOR}::Widgets)
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER GRAPHICS_BUILTIN EXCLUDE REGEX

@@ -207,6 +207,10 @@
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
     <ClCompile Include="..\cpp\Sum.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\Unique.cpp" />
+    <ClCompile Include="..\cpp\UniqueCell.cpp" />
+    <ClCompile Include="..\cpp\UniqueString.cpp" />
+    <ClCompile Include="..\cpp\UniqueStringRows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\SortCellHelpers.hpp" />
@@ -215,6 +219,16 @@
     <ClInclude Include="..\cpp\SortIntegerHelpers.hpp" />
     <ClInclude Include="..\cpp\SortRealHelpers.hpp" />
     <ClInclude Include="..\cpp\SortStringHelpers.hpp" />
+    <ClInclude Include="..\cpp\UniqueCell.hpp" />
+    <ClInclude Include="..\cpp\UniqueComplex.hpp" />
+    <ClInclude Include="..\cpp\UniqueComplexRows.hpp" />
+    <ClInclude Include="..\cpp\UniqueHelpers.hpp" />
+    <ClInclude Include="..\cpp\UniqueInteger.hpp" />
+    <ClInclude Include="..\cpp\UniqueIntegerRows.hpp" />
+    <ClInclude Include="..\cpp\UniqueReal.hpp" />
+    <ClInclude Include="..\cpp\UniqueRealRows.hpp" />
+    <ClInclude Include="..\cpp\UniqueString.hpp" />
+    <ClInclude Include="..\cpp\UniqueStringRows.hpp" />
     <ClInclude Include="..\include\Convolution2D.hpp" />
     <ClInclude Include="..\include\CumProd.hpp" />
     <ClInclude Include="..\include\CumSum.hpp" />
@@ -225,6 +239,7 @@
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\Sort.hpp" />
     <ClInclude Include="..\include\Sum.hpp" />
+    <ClInclude Include="..\include\Unique.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">

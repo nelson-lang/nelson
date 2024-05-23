@@ -20,7 +20,7 @@ void
 TMinLessInteger(
     const T* spx, const T* spy, T* dp, indexType count, indexType stridex, indexType stridey)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -36,7 +36,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
     indexType stridey)
 {
     if (omitnan) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -53,7 +53,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
             }
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -74,7 +74,7 @@ TMinLessComplex(bool omitnan, const T* spx, const T* spy, T* dp, indexType count
     indexType stridey)
 {
     if (omitnan) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -105,7 +105,7 @@ TMinLessComplex(bool omitnan, const T* spx, const T* spy, T* dp, indexType count
             }
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -669,7 +669,7 @@ Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
         if (nLhs > 1) {
             iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)outDim.getElementCount(); ++k) {

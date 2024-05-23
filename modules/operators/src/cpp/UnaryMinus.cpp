@@ -31,7 +31,7 @@ uminusReal(const ArrayOf& A)
     } break;
     default: {
         T* pSrc = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
             pRes[k] = -pSrc[k];

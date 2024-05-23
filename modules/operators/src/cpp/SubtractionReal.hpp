@@ -69,7 +69,7 @@ matrix_matrix_real_subtraction(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (long long k = 0; k < (long long)Clen; ++k) {

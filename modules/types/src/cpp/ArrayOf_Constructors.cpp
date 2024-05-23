@@ -98,7 +98,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
     dims[1] = M;
     void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
     if (diagonalOrder < 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
@@ -106,7 +106,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
             src.copyElements(i, rp, dstIndex, 1);
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)length; i++) {

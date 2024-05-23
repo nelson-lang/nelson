@@ -19,7 +19,7 @@ SignUnsignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dim
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElements; ++k) {
@@ -38,7 +38,7 @@ SignSignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElements; ++k) {
@@ -60,7 +60,7 @@ SignReal(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElements; ++k) {
@@ -83,7 +83,7 @@ SignComplex(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElements * 2; k = k + 2) {

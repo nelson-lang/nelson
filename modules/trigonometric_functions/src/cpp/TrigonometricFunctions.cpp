@@ -57,7 +57,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().cos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -80,7 +80,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         matRes = matEigen.array().cos();
 #else
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -100,7 +100,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().cos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -123,7 +123,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         matRes = matEigen.array().cos();
 #else
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -164,7 +164,7 @@ Sin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().sin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -185,7 +185,7 @@ Sin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
         matRes = matEigen.array().sin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -204,7 +204,7 @@ Sin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().sin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -225,7 +225,7 @@ Sin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
         matRes = matEigen.array().sin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -266,7 +266,7 @@ Tan(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().tan();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -287,7 +287,7 @@ Tan(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
         matRes = matEigen.array().tan();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -306,7 +306,7 @@ Tan(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().tan();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -327,7 +327,7 @@ Tan(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
         matRes = matEigen.array().tan();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -363,7 +363,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -378,7 +378,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -391,7 +391,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -406,7 +406,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -441,7 +441,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -456,7 +456,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -469,7 +469,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -484,7 +484,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -519,7 +519,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -534,7 +534,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -547,7 +547,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -562,7 +562,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -602,7 +602,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().acos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -637,7 +637,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
             Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
             matRes = matEigen.array().acos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -657,7 +657,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().acos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -692,7 +692,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
             Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
             matRes = matEigen.array().acos();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -734,7 +734,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().asin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -769,7 +769,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
             Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
             matRes = matEigen.array().asin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -789,7 +789,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().asin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -824,7 +824,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
             Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
             matRes = matEigen.array().asin();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -861,7 +861,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -876,7 +876,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -889,7 +889,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -904,7 +904,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -963,7 +963,7 @@ Atanh(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount());
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k = k + 2) {
@@ -974,7 +974,7 @@ Atanh(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount());
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
@@ -985,7 +985,7 @@ Atanh(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount());
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k = k + 2) {
@@ -996,7 +996,7 @@ Atanh(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount());
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {

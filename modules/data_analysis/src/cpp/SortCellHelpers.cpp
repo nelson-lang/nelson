@@ -11,6 +11,7 @@
 #include <vector>
 #include "SortCellHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -70,7 +71,7 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
                 ce.n = (double)k + 1;
                 buf.push_back(ce);
             }
-            std::sort(buf.begin(), buf.end(), comparisonCellLess);
+            parallelSort(buf, comparisonCellLess);
             for (indexType k = 0; k < linesize; k++) {
                 ptrValue[i * planesize * linesize + j + k * planesize]
                     = ArrayOf::characterArrayConstructor(buf[k].x);
@@ -100,12 +101,12 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
             }
             strs.push_back(arg[k].getContentAsWideString());
         }
-        std::sort(strs.begin(), strs.end(), comparisonWideStringLess);
+        parallelSort(strs, comparisonWideStringLess);
         ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
         ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
         ompIndexType elementCountOut = outDim.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCountOut; ++k) {
@@ -134,7 +135,7 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
                     buf.push_back(
                         arg[i * planesize * linesize + j + k * planesize].getContentAsWideString());
                 }
-                std::sort(buf.begin(), buf.end(), comparisonWideStringLess);
+                parallelSort(buf, comparisonWideStringLess);
 
                 for (indexType k = 0; k < linesize; k++) {
                     ptrValue[i * planesize * linesize + j + k * planesize]

@@ -24,7 +24,7 @@ complexTransposeRealTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
     ompIndexType nbColumns = dimsA.getColumns();
     ompIndexType i = 0;
     ompIndexType j = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(j)
 #endif
     for (i = 0; i < nbRows; i++) {
@@ -44,7 +44,7 @@ complexTransposeComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
     ompIndexType nbColumns = dimsA.getColumns();
     ompIndexType i = 0;
     ompIndexType j = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(j)
 #endif
     for (i = 0; i < nbRows; i++) {

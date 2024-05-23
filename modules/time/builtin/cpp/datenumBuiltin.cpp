@@ -129,7 +129,7 @@ datanumBuiltinOneRhs(int nLhs, const ArrayOf& param1)
             double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
             ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
@@ -152,7 +152,7 @@ datanumBuiltinOneRhs(int nLhs, const ArrayOf& param1)
             double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
             ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
@@ -296,7 +296,7 @@ datanumBuiltinThreeRhs(
     double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
     ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {
@@ -352,7 +352,7 @@ datanumBuiltinSixRhs(int nLhs, const ArrayOf& param1, const ArrayOf& param2, con
     double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
     ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {

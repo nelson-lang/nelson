@@ -219,7 +219,7 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
         }
         single* Dp = (single*)new_with_exception<single>(N * N, true);
         D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -240,7 +240,7 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
         }
         double* Dp = (double*)new_with_exception<double>(N * N, true);
         D = ArrayOf(NLS_DOUBLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -265,7 +265,7 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
         }
         single* Dp = (single*)new_with_exception<single>(N * N, true);
         D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -291,7 +291,7 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
         }
         double* Dp = (double*)new_with_exception<double>(N * N, true);
         D = ArrayOf(NLS_DOUBLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -344,7 +344,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
         if (!complexEigenvalues) {
             single* Dp = (single*)new_with_exception<single>(N * N, true);
             D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -355,7 +355,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             std::complex<single>* Dp
                 = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, true);
             D = ArrayOf(NLS_SCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -371,7 +371,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             int i = 0;
             while (i < N) {
                 if ((i < N - 1) && (eigenvals[2 * i + 1] != 0)) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
@@ -382,7 +382,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
                     }
                     i += 2;
                 } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
@@ -408,7 +408,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
         if (!complexEigenvalues) {
             double* Dp = (double*)new_with_exception<double>(N * N, true);
             D = ArrayOf(NLS_DOUBLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -419,7 +419,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             std::complex<double>* Dp
                 = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, true);
             D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -435,7 +435,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             int i = 0;
             while (i < N) {
                 if ((i < N - 1) && (eigenvals[2 * i + 1] != 0)) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
@@ -446,7 +446,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
                     }
                     i += 2;
                 } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
@@ -471,7 +471,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
         std::complex<single>* Dp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, false);
         D = ArrayOf(NLS_SCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -495,7 +495,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
         std::complex<double>* Dp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, false);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -550,7 +550,7 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
         if (!complexEigenvalues) {
             single* Dp = (single*)new_with_exception<single>(N, false);
             D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -560,7 +560,7 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
             std::complex<single>* Dp
                 = (std::complex<single>*)new_with_exception<std::complex<single>>(N, false);
             D = ArrayOf(NLS_SCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -586,7 +586,7 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
         if (!complexEigenvalues) {
             double* Dp = (double*)new_with_exception<double>(N, false);
             D = ArrayOf(NLS_DOUBLE, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -596,7 +596,7 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
             std::complex<double>* Dp
                 = (std::complex<double>*)new_with_exception<std::complex<double>>(N, false);
             D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

@@ -78,7 +78,7 @@ imageReaderRGB32(QImage image, int nLhs)
     uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dims, ptr);
     indexType imageCounter = (indexType)image.height() * (indexType)image.width();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(col)
 #endif
     for (indexType row = 0; row < image.height(); row++) {
@@ -123,7 +123,7 @@ imageReaderARGB32(QImage image, int nLhs)
     ArrayOf transparency = ArrayOf(NLS_UINT8, dimsTransparency, ptrTransparency);
 
     indexType imageCounter = (indexType)image.height() * (indexType)image.width();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(col)
 #endif
     for (indexType row = 0; row < image.height(); row++) {
@@ -158,7 +158,7 @@ imageReaderIndexed8(QImage image, int nLhs)
     Dimensions dimsA(image.height(), image.width());
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(col)
 #endif
     for (int row = 0; row < image.height(); row++) {
@@ -176,7 +176,7 @@ imageReaderIndexed8(QImage image, int nLhs)
         double* ptrColorTable
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsColorTable.getElementCount());
         ArrayOf colormap = ArrayOf(NLS_DOUBLE, dimsColorTable, ptrColorTable);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int i = 0; i < numcol; i++) {
@@ -193,7 +193,7 @@ imageReaderIndexed8(QImage image, int nLhs)
         uint8* ptrTransparency
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(col)
 #endif
         for (int row = 0; row < alpha.height(); row++) {
@@ -217,7 +217,7 @@ imageReaderGrayScale16(QImage image, int nLhs)
     uint16* ptrA = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(col)
 #endif
     for (int row = 0; row < image.height(); row++) {

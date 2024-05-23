@@ -406,7 +406,7 @@ GOSurface::autoYMode()
     double* dp = (double*)ydata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
@@ -426,7 +426,7 @@ GOSurface::autoXMode()
     double* dp = (double*)xdata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {

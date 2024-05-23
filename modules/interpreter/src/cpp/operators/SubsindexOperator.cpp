@@ -34,7 +34,7 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
             res.promoteType(NLS_UINT32);
             uint32* dp = static_cast<uint32*>(res.getReadWriteDataPointer());
 #endif
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < len; ++k) {

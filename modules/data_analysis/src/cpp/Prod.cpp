@@ -20,7 +20,7 @@ void
 RealProdT(const T* sp, T* dp, indexType elementCount, bool withnan)
 {
     T accum = 1;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(* : accum)
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)elementCount; k++) {
@@ -65,7 +65,7 @@ ComplexProdT(const T* sp, T* dp, indexType elementCount, bool withnan)
 {
     T accum_r = 1;
     T accum_i = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(* : accum_r, accum_i)
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)elementCount; k++) {

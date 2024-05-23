@@ -152,7 +152,7 @@ imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap)
     int imageSlice = qImage.height() * qImage.width();
     for (int row = 0; row < qImage.height(); row++) {
         QRgb* p = (QRgb*)qImage.scanLine(row);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int col = 0; col < qImage.width(); col++) {
@@ -174,7 +174,7 @@ imwriteRGB32(const ArrayOf& A)
     int imageSlice = qImage.height() * qImage.width();
     for (int row = 0; row < qImage.height(); row++) {
         QRgb* p = (QRgb*)qImage.scanLine(row);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int col = 0; col < qImage.width(); col++) {
@@ -200,7 +200,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
 
     for (int row = 0; row < image.height(); row++) {
         uchar* p = image.scanLine(row);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int col = 0; col < image.width(); col++) {
@@ -212,7 +212,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
         QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
         for (int row = 0; row < qAlpha.height(); row++) {
             uchar* p = qAlpha.scanLine(row);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (int col = 0; col < qAlpha.width(); col++) {
@@ -225,7 +225,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     if (colors) {
         QVector<QRgb> colorVector(int(colorMapAsUint.getElementCount() / 3));
         int numcol = colorVector.size();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int i = 0; i < numcol; i++) {
@@ -236,7 +236,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     } else {
         int numrow = 256;
         QVector<QRgb> colorVector(numrow);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (int i = 0; i < numrow; i++) {
@@ -253,7 +253,7 @@ static void
 toUint8(const ArrayOf& A)
 {
     T* ptrA = (T*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {

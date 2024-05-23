@@ -38,7 +38,7 @@ realGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& commonD
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
@@ -54,7 +54,7 @@ realGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDims)
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
@@ -70,7 +70,7 @@ realGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDims)
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
@@ -86,7 +86,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& comm
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
@@ -102,7 +102,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDi
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
@@ -118,7 +118,7 @@ integerGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDi
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {

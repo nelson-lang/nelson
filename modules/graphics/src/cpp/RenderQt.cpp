@@ -16,6 +16,7 @@
 #include "RenderQt.hpp"
 #include "characters_encoding.hpp"
 #include "QStringConverter.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 RenderQt::~RenderQt() = default;
 //=============================================================================
@@ -212,7 +213,7 @@ RenderQt::map(
 {
     QVector<QPointF> retval;
     retval.resize(xs.size());
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (Nelson::ompIndexType i = 0; i < (Nelson::ompIndexType)xs.size(); i++) {
@@ -341,7 +342,7 @@ RenderQt::quadStrips(std::vector<std::vector<coloredPoint>> faces, bool flatface
     double lineWidth, const std::wstring& lineStyle)
 {
     std::vector<quad3D> mapqds(mapQuads(faces, edges));
-    std::sort(mapqds.begin(), mapqds.end());
+    Nelson::parallelSort(mapqds);
     bool isLineStyleNone = (lineStyle == GO_PROPERTY_VALUE_NONE_STR);
 
     for (size_t k = 0; k < mapqds.size(); k++) {

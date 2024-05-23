@@ -19,7 +19,7 @@ TIntegerCumsum(const T* sp, T* dp, T tMin, T tMax, ompIndexType planes, ompIndex
     ompIndexType linesize, bool reverse)
 {
     double accum = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum)
 #endif
     for (ompIndexType i = 0; i < planes; i++) {
@@ -60,7 +60,7 @@ TRealCumsum(const T* sp, T* dp, ompIndexType planes, ompIndexType planesize, omp
 {
     T accum = 0;
     if (withNaN) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum)
 #endif
         for (ompIndexType i = 0; i < planes; i++) {
@@ -81,7 +81,7 @@ TRealCumsum(const T* sp, T* dp, ompIndexType planes, ompIndexType planesize, omp
             }
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum)
 #endif
         for (ompIndexType i = 0; i < planes; i++) {
@@ -123,7 +123,7 @@ TComplexCumsum(const T* sp, T* dp, ompIndexType planes, ompIndexType planesize,
     T accum_i = 0;
 
     if (withNaN) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum_r, accum_i)
 #endif
         for (ompIndexType i = 0; i < planes; i++) {
@@ -148,7 +148,7 @@ TComplexCumsum(const T* sp, T* dp, ompIndexType planes, ompIndexType planesize,
             }
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum_r, accum_i)
 #endif
         for (ompIndexType i = 0; i < planes; i++) {
@@ -200,7 +200,7 @@ LogicalCumsum(const logical* sp, double* dp, ompIndexType planes, ompIndexType p
     ompIndexType linesize, bool reverse)
 {
     double accum = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : accum)
 #endif
     for (ompIndexType i = 0; i < planes; i++) {

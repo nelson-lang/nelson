@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include "SortStringHelpers.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -124,15 +125,16 @@ sortStringWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planec
                 auto it = std::partition(
                     buf.begin(), buf.end(), [](const StringEntry& i) { return i.isMissing; });
 
-                std::sort(buf.begin(), buf.end(), [](const StringEntry& a, const StringEntry& b) {
-                    if (a.isMissing && b.isMissing) {
-                        return a.n < b.n;
-                    }
-                    return a.n != a.n;
-                });
-                std::sort(it, buf.end(), ptrComparison);
+                parallelSort(
+                    buf.begin(), buf.end(), [](const StringEntry& a, const StringEntry& b) {
+                        if (a.isMissing && b.isMissing) {
+                            return a.n < b.n;
+                        }
+                        return a.n != a.n;
+                    });
+                parallelSort(it, buf.end(), ptrComparison);
             } else {
-                std::sort(buf.begin(), buf.end(), ptrComparison);
+                parallelSort(buf.begin(), buf.end(), ptrComparison);
             }
 
             for (indexType k = 0; k < linesize; k++) {
@@ -190,9 +192,9 @@ sortStringWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType pla
                 auto it = std::partition(
                     buf.begin(), buf.end(), [](const StringEntry& i) { return i.isMissing; });
 
-                std::sort(it, buf.end(), ptrComparison);
+                parallelSort(it, buf.end(), ptrComparison);
             } else {
-                std::sort(buf.begin(), buf.end(), ptrComparison);
+                parallelSort(buf.begin(), buf.end(), ptrComparison);
             }
 
             for (indexType k = 0; k < linesize; k++) {

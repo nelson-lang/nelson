@@ -33,7 +33,7 @@ template <class T>
 static void
 oTrunc(indexType len, const T* pIn, T* pOut)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
@@ -49,7 +49,7 @@ template <class T>
 static void
 oRound(indexType len, const T* pIn, T* pOut)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
@@ -65,7 +65,7 @@ template <class T>
 static void
 oFloor(indexType len, const T* pIn, T* pOut)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
@@ -81,7 +81,7 @@ template <class T>
 static void
 oCeil(indexType len, const T* pIn, T* pOut)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
@@ -384,7 +384,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
@@ -439,7 +439,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {

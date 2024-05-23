@@ -227,6 +227,7 @@
     <ClCompile Include="..\cpp\sortBuiltin.cpp" />
     <ClCompile Include="..\cpp\sumBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\uniqueBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\cumulativeFunctionBuiltinHelpers.hpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="..\include\prodBuiltin.hpp" />
     <ClInclude Include="..\include\sortBuiltin.hpp" />
     <ClInclude Include="..\include\sumBuiltin.hpp" />
+    <ClInclude Include="..\include\uniqueBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

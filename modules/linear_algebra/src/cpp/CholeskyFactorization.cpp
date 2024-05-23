@@ -31,7 +31,7 @@ singleRealCholeskyFactorization(bool lowerTriangle, single* ptrS, int leadDim)
     if (leadDim > 1) {
         int idx1 = 0;
         int idx2 = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(idx2)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {
@@ -55,7 +55,7 @@ singleComplexCholeskyFactorization(bool lowerTriangle, std::complex<single>* ptr
     if (leadDim > 1) {
         int idx1 = 0;
         int idx2 = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(idx2)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {
@@ -80,7 +80,7 @@ doubleRealCholeskyFactorization(bool lowerTriangle, double* ptrD, int leadDim)
     if (leadDim > 1) {
         int idx1 = 0;
         int idx2 = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(idx2)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {
@@ -104,7 +104,7 @@ doubleComplexCholeskyFactorization(bool lowerTriangle, std::complex<double>* ptr
     if (leadDim > 1) {
         int idx1 = 0;
         int idx2 = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(idx2)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {

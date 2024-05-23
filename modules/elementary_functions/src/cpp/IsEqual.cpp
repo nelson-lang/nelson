@@ -33,14 +33,14 @@ real_IsEqual(const T* ptrA, const T* ptrB, ompIndexType nbElements)
     if (nbElements == 1) {
         return (ptrA[0] == ptrB[0]);
     }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for shared(equal)
 #endif
     for (ompIndexType k = 0; k < nbElements; k++) {
         if (equal && (ptrA[k] != ptrB[k])) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp critical
 #endif
             equal = false;
@@ -134,7 +134,7 @@ sparsecomplex_IsEqual(const ArrayOf& A, const ArrayOf& B)
     const std::complex<double>* valuesA = spMatA->valuePtr();
     const std::complex<double>* valuesB = spMatB->valuePtr();
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
@@ -186,7 +186,7 @@ sparsereal_IsEqual(const ArrayOf& A, const ArrayOf& B)
     const double* valuesA = spMatA->valuePtr();
     const double* valuesB = spMatB->valuePtr();
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
     bool equal = true;
 #pragma omp parallel for shared(equal)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {

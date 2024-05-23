@@ -34,7 +34,7 @@ matrix_matrix_atan2_double(const ArrayOf& a, const ArrayOf& b)
 #if defined(_NLS_WITH_VML)
     vdAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
@@ -55,7 +55,7 @@ matrix_matrix_atan2_single(const ArrayOf& a, const ArrayOf& b)
 #if defined(_NLS_WITH_VML)
     vsAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
@@ -75,7 +75,7 @@ scalar_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
@@ -94,7 +94,7 @@ matrix_scalar_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
