@@ -39,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - help files generated sorted by name on all platforms.
 - on windows, Qt libraries used are in debug mode.
 
+### Fixed
+
+- [#1195](http://github.com/nelson-lang/nelson/issues/1195) `strcmp({'a'},["a"])` did not return expected value.
+
 ## 1.4.0 (2024-04-27)
 
 ### Added
