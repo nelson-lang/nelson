@@ -9,6 +9,14 @@
 %=============================================================================
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
+env = pyenv();
+[r, msg] = system([env.Executable + " -m pip install numpy --quiet"]);
+try
+    pyrun('import numpy as np');
+catch
+    skip_testsuit(true, 'Numpy not available')
+end
+%=============================================================================
 install_numpy = ["import pip"; "pip.main(['install', 'numpy'])"]
 output = evalc('pyrun(install_numpy)');
 %=============================================================================

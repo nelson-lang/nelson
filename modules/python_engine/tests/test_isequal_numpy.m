@@ -10,7 +10,7 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 env = pyenv();
-[r, msg] = system([env.Executable + " -m pip install numpy"]);
+[r, msg] = system([env.Executable + " -m pip install numpy --quiet"]);
 %=============================================================================
 try
   pyrun('import numpy as np');
