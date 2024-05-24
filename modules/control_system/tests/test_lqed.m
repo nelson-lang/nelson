@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(~ismodule('slicot'), 'SLICOT is not installed');
+%=============================================================================
 A = [1     2;  3     4];
 B = [1     0; 0     1];
 C = B;

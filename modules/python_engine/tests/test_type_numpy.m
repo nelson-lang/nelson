@@ -10,7 +10,11 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 env = pyenv();
-[r, msg] = system([env.Executable + " -m pip install numpy"]);
+try
+  pyrun('import numpy as np');
+catch
+  skip_testsuit(true, 'Numpy not available')
+end
 %=============================================================================
 A = magic(6);
 B = eye(6, 6);
