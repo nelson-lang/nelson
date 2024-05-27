@@ -14,7 +14,7 @@ env = pyenv();
 try
     pyrun('import numpy as np');
   catch
-      skip_testsuit(true, 'Numpy not available')
+      skip_testsuite(true, 'Numpy not available')
   end
 %=============================================================================
 cmd =["import numpy as np"; "A = np.array([3, 2, 1, 4])"];

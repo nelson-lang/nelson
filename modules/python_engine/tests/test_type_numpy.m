@@ -13,7 +13,7 @@ env = pyenv();
 try
   pyrun('import numpy as np');
 catch
-  skip_testsuit(true, 'Numpy not available')
+  skip_testsuite(true, 'Numpy not available')
 end
 %=============================================================================
 A = magic(6);
