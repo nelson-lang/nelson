@@ -12,7 +12,8 @@ function varargout = properties(varargin)
   nargoutchk(0, 1);
   obj = varargin{1};
   if ~isa(obj, 'DisplayFormatOptions')
-    error(_('''DisplayFormatOptions'' class expected.'));
+    msg = _("'DisplayFormatOptions' class expected.");
+    error(msg);
   end
   varargout = {};
   if nargout == 1

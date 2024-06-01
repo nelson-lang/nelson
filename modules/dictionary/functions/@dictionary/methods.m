@@ -12,7 +12,8 @@ function varargout = methods(varargin)
   nargoutchk(0, 1);
   obj = varargin{1};
   if ~isa(obj, 'dictionary')
-    error(_('''dictionary'' class expected.'));
+    msg = _("'dictionary' class expected.");
+    error(msg);
   end
   methods_list = {'dictionary', ... 
   'isConfigured', ... 
@@ -35,7 +36,8 @@ function varargout = methods(varargin)
   if strcmp(LineSpacing, 'loose')
     fprintf('\n')
   end
-  msg = sprintf(_('Methods for class %s:\n'), class(obj));
+  msgfmt = _('Methods for class %s:\n');
+  msg = sprintf(msgfmt, class(obj));
   fprintf(msg)
   if strcmp(LineSpacing, 'loose')
     fprintf('\n')

@@ -12,7 +12,8 @@ function varargout = methods(varargin)
   nargoutchk(0, 1);
   obj = varargin{1};
   if ~isa(obj, 'DisplayFormatOptions')
-    error(_('''DisplayFormatOptions'' class expected.'));
+    msg = _("'DisplayFormatOptions' class expected.");
+    error(msg);
   end
   varargout = {};
   if nargout == 1
@@ -24,7 +25,8 @@ function varargout = methods(varargin)
   if strcmp(LineSpacing, 'loose')
     fprintf('\n')
   end
-  msg = sprintf(_('Methods for class %s:\n'), class(obj));
+  fmtmsg = _('Methods for class %s:\n');
+  msg = sprintf(fmtmsg, class(obj));
   fprintf(msg)
   if strcmp(LineSpacing, 'loose')
     fprintf('\n')
