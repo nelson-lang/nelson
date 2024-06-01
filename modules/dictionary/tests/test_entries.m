@@ -10,7 +10,8 @@
 names = ["Unicycle" "Bicycle" "Tricyle"];
 wheels = [1 2 3];
 d = dictionary(wheels, names);
-assert_checkerror('E = entries(d)', _('''table'' format not yet implemented.'));
+msg = _("'table' format not yet implemented.");
+assert_checkerror('E = entries(d)', msg);
 %=============================================================================
 R = entries(d, 'cell');
 REF = {1, "Unicycle"; 2, "Bicycle"; 3, "Tricyle"};

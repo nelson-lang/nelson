@@ -8043,7 +8043,8 @@ msgid ""
 "Environment names must be a string array, cell array of character vectors, "
 "or character array."
 msgstr ""
-"Les noms d'environnement doivent être un tableau de chaînes, un tableau de cellules de vecteurs de caractères, ou un tableau de caractères."
+"Les noms d'environnement doivent être un tableau de chaînes, un tableau de "
+"cellules de vecteurs de caractères, ou un tableau de caractères."
 
 msgid "Valid Python code object expected."
 msgstr "Un objet de code Python valide est attendu."
@@ -8054,7 +8055,8 @@ msgstr "Impossible d'ouvrir le fichier : "
 msgid ""
 "All Python elements must be convertible as scalar to the requested type."
 msgstr ""
-"Tous les éléments Python doivent être convertibles en tant que scalaire vers le type demandé."
+"Tous les éléments Python doivent être convertibles en tant que scalaire vers "
+"le type demandé."
 
 msgid "Input must be nonnegative."
 msgstr "L'entrée doit être non négative."
@@ -8118,3 +8120,177 @@ msgstr "Incohérence de taille sur les arguments d'entrée"
 
 msgid "Testsuite skipped"
 msgstr "Suite de tests ignorée"
+
+msgid "'DisplayFormatOptions' class expected."
+msgstr "Classe 'DisplayFormatOptions' attendue."
+
+#, python-format
+msgid "Methods for class %s:\n"
+msgstr "Méthodes pour la classe %s :\n"
+
+#, python-format
+msgid "Properties for class %s:\n"
+msgstr "Propriétés pour la classe %s :\n"
+
+msgid "'dictionary' class expected."
+msgstr "Classe 'dictionary' attendue."
+
+#, python-format
+msgid "Unable to use '%s' as key for dictionary with '%s' key type."
+msgstr ""
+"Impossible d'utiliser '%s' comme clé pour un dictionnaire avec un type de "
+"clé '%s'."
+
+msgid "Wrong value for #1 argument, 'fullpathext' or  'fullpath' expected."
+msgstr "Valeur incorrecte pour le premier argument, 'fullpathext' ou 'fullpath' attendu."
+
+#, c-format
+msgid "Unhashable type '%s'."
+msgstr "Type non hachable '%s'."
+
+msgid "Unhashable type."
+msgstr "Type non hachable."
+
+msgid "'nostartup' and  'startup' are mutual exclusive.\n"
+msgstr "'nostartup' et 'startup' sont mutuellement exclusifs.\n"
+
+msgid "Matrix is singular to working precision."
+msgstr "La matrice est singulière à la précision de travail."
+
+#, c-format, python-format
+msgid "TypeError: unhashable type: '%s'"
+msgstr "TypeError: type non hachable : '%s'"
+
+msgid "Failed to create Python method name object."
+msgstr "Échec de la création de l'objet nom de méthode Python."
+
+msgid "Failed to create Python argument tuple."
+msgstr "Échec de la création du tuple d'arguments Python."
+
+msgid "Invalid dictionary."
+msgstr "Dictionnaire invalide."
+
+msgid "Inputs must be the same size or either one can be a scalar."
+msgstr "Les entrées doivent avoir la même taille ou l'une peut être un scalaire."
+
+msgid ""
+"Wrong value for #2 arguments: struct, string, cell array of character "
+"vectors, or vector expected."
+msgstr ""
+"Mauvaise valeur pour les arguments #2 : structure, chaîne, tableau de cellules de vecteurs de caractères ou vecteur attendu."
+
+msgid ""
+"The permutation vector length must match the number of fields in the struct."
+msgstr ""
+"La longueur du vecteur de permutation doit correspondre au nombre de champs dans la structure."
+
+msgid "Both structures must have exactly matching fields."
+msgstr "Les deux structures doivent avoir des champs exactement correspondants."
+
+msgid ""
+"The text in the second input needs to correspond with the field names of the "
+"struct."
+msgstr ""
+"Le texte dans la deuxième entrée doit correspondre aux noms des champs de la structure."
+
+msgid ""
+"Incorrect number of input arguments. Each key must be followed by a value."
+msgstr ""
+"Nombre incorrect d'arguments d'entrée. Chaque clé doit être suivie d'une valeur."
+
+msgid ""
+"\n"
+"  dictionary object not configured.\n"
+"\n"
+msgstr ""
+"\n"
+"  objet dictionnaire non configuré.\n"
+"\n"
+
+msgid ""
+"Combining 'dictionary' objects is not allowed as they are designed to be "
+"scalar."
+msgstr ""
+"La combinaison d'objets 'dictionary' n'est pas autorisée car ils sont conçus pour être scalaires."
+
+msgid "Parameter name must be Overwrite."
+msgstr "Le nom du paramètre doit être Overwrite."
+
+msgid ""
+"Unable to perform a dictionary lookup when the key and value types are not "
+"set."
+msgstr ""
+"Impossible d'effectuer une recherche dans le dictionnaire lorsque les types de clé et de valeur ne sont pas définis."
+
+msgid "Key not found in dictionary."
+msgstr "Clé non trouvée dans le dictionnaire."
+
+msgid "Parameter name must be FallbackValue."
+msgstr "Le nom du paramètre doit être FallbackValue."
+
+msgid "Fallback value must be a scalar."
+msgstr "La valeur de repli doit être un scalaire."
+
+msgid "Only one level of indexing is supported."
+msgstr "Un seul niveau d'indexation est supporté."
+
+msgid ""
+"Too many input arguments. To insert multiple entries, utilize an array of "
+"keys instead."
+msgstr ""
+"Trop d'arguments d'entrée. Pour insérer plusieurs entrées, utilisez plutôt un tableau de clés."
+
+msgid "Number of keys and values are not compatible"
+msgstr "Le nombre de clés et de valeurs n'est pas compatible."
+
+msgid "The dictionary value type must be 'cell'."
+msgstr "Le type de valeur du dictionnaire doit être 'cell'."
+
+msgid "Only '()' and '{}' indexing is supported for assigning values."
+msgstr "Seules les indexations '()' et '{}' sont supportées pour l'affectation de valeurs."
+
+#, python-format
+msgid "unknown property '%s'."
+msgstr "propriété inconnue '%s'."
+
+msgid ""
+"Too many input arguments. To search for multiple entries, utilize an array "
+"of keys instead."
+msgstr ""
+"Trop d'arguments d'entrée. Pour rechercher plusieurs entrées, utilisez plutôt un tableau de clés."
+
+#, python-format
+msgid "'%s' indexing is not supported."
+msgstr "L'indexation '%s' n'est pas supportée."
+
+#, python-format
+msgid "Unknown type '%s'. Dictionary could not be created."
+msgstr "Type inconnu '%s'. Le dictionnaire n'a pas pu être créé."
+
+msgid "'table' format not yet implemented."
+msgstr "Le format 'table' n'est pas encore implémenté."
+
+msgid "format option has to be a string."
+msgstr "L'option de format doit être une chaîne."
+
+msgid "Cannot concatenate keys. Use cell option."
+msgstr "Impossible de concaténer les clés. Utilisez l'option cellule."
+
+msgid "format option can only be cell"
+msgstr "L'option de format ne peut être que cellule."
+
+msgid "format option has to be a string"
+msgstr "L'option de format doit être une chaîne"
+
+msgid "cannot concatenate values. Use cell option."
+msgstr "Impossible de concaténer les valeurs. Utilisez l'option cellule."
+
+msgid "format option can only be cell."
+msgstr "L'option de format ne peut être que cellule."
+
+#, python-format
+msgid "function not implemented for '%s' type."
+msgstr "fonction non implémentée pour le type '%s'."
+
+msgid "TypeError: unsupported operand type(s) for +: int and str"
+msgstr "TypeError : types d'opérandes non supportés pour + : int et str"

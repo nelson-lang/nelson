@@ -510,6 +510,13 @@ msgstr ""
 msgid "'-completenames' expected or scalar integer value required."
 msgstr ""
 
+#, c-format
+msgid "Unhashable type '%s'."
+msgstr ""
+
+msgid "Unhashable type."
+msgstr ""
+
 msgid "unexpected format."
 msgstr ""
 
@@ -1781,12 +1788,6 @@ msgstr ""
 msgid "Workspace Browser"
 msgstr ""
 
-msgid "Save As"
-msgstr ""
-
-msgid "Plot Gallery"
-msgstr ""
-
 msgid "Name"
 msgstr ""
 
@@ -1800,6 +1801,12 @@ msgid "Size"
 msgstr ""
 
 msgid "Scope"
+msgstr ""
+
+msgid "Save As"
+msgstr ""
+
+msgid "Plot Gallery"
 msgstr ""
 
 msgid "global"
@@ -2791,6 +2798,9 @@ msgstr ""
 msgid "LAPACK_dgetrf error code: %d."
 msgstr ""
 
+msgid "Matrix is singular to working precision."
+msgstr ""
+
 #, c-format
 msgid "LAPACK_dgecon error code: %d."
 msgstr ""
@@ -3453,6 +3463,16 @@ msgstr ""
 msgid "Python object expected."
 msgstr ""
 
+msgid "Invalid Python object."
+msgstr ""
+
+#, c-format, python-format
+msgid "TypeError: unhashable type: '%s'"
+msgstr ""
+
+msgid "Error calling method."
+msgstr ""
+
 msgid "Same name, value numbers expected."
 msgstr ""
 
@@ -3483,20 +3503,20 @@ msgstr ""
 msgid "Error calling property."
 msgstr ""
 
-msgid "Invalid Python object."
+msgid "Failed to create Python method name object."
 msgstr ""
 
-msgid "Cannot convert to "
+msgid "Failed to create Python argument tuple."
 msgstr ""
 
 msgid ""
 "All Python elements must be convertible as scalar to the requested type."
 msgstr ""
 
-msgid "Method does not exist."
+msgid "Cannot convert to "
 msgstr ""
 
-msgid "Error calling method."
+msgid "Method does not exist."
 msgstr ""
 
 msgid "Failed to convert input argument to Python object."
@@ -3506,6 +3526,9 @@ msgid "Conversion to Python is not supported."
 msgstr ""
 
 msgid "Conversion of 'char' to Python is only supported for 1-N vectors."
+msgstr ""
+
+msgid "Invalid dictionary."
 msgstr ""
 
 msgid "Type not supported"
@@ -4111,7 +4134,7 @@ msgstr ""
 msgid "PRECISION must be a scalar integer >= 0."
 msgstr ""
 
-msgid "Same size or scalar expected."
+msgid "Inputs must be the same size or either one can be a scalar."
 msgstr ""
 
 msgid ""
@@ -5620,9 +5643,6 @@ msgstr ""
 msgid "Property"
 msgstr ""
 
-msgid "invoke method not allowed for this HANDLE type."
-msgstr ""
-
 msgid "assert_checkerror fails."
 msgstr ""
 
@@ -6045,6 +6065,17 @@ msgstr ""
 msgid "A and E must have the same size."
 msgstr ""
 
+msgid "'DisplayFormatOptions' class expected."
+msgstr ""
+
+#, python-format
+msgid "Methods for class %s:\n"
+msgstr ""
+
+#, python-format
+msgid "Properties for class %s:\n"
+msgstr ""
+
 #, python-format
 msgid "\"%s\" is not a recognized parameter."
 msgstr ""
@@ -6093,6 +6124,23 @@ msgstr ""
 msgid "Matrix 2D expected."
 msgstr ""
 
+msgid ""
+"Wrong value for #2 arguments: struct, string, cell array of character "
+"vectors, or vector expected."
+msgstr ""
+
+msgid ""
+"The permutation vector length must match the number of fields in the struct."
+msgstr ""
+
+msgid "Both structures must have exactly matching fields."
+msgstr ""
+
+msgid ""
+"The text in the second input needs to correspond with the field names of the "
+"struct."
+msgstr ""
+
 msgid "Invalid Input struct expected."
 msgstr ""
 
@@ -6103,6 +6151,100 @@ msgid "Input should be a string or character array."
 msgstr ""
 
 msgid "Conversion to struct to function_handle is not possible."
+msgstr ""
+
+msgid ""
+"Incorrect number of input arguments. Each key must be followed by a value."
+msgstr ""
+
+msgid ""
+"\n"
+"  dictionary object not configured.\n"
+"\n"
+msgstr ""
+
+msgid ""
+"Combining 'dictionary' objects is not allowed as they are designed to be "
+"scalar."
+msgstr ""
+
+msgid "Parameter name must be Overwrite."
+msgstr ""
+
+msgid ""
+"Unable to perform a dictionary lookup when the key and value types are not "
+"set."
+msgstr ""
+
+msgid "Key not found in dictionary."
+msgstr ""
+
+msgid "Parameter name must be FallbackValue."
+msgstr ""
+
+msgid "Fallback value must be a scalar."
+msgstr ""
+
+msgid "'dictionary' class expected."
+msgstr ""
+
+#, python-format
+msgid "Unable to use '%s' as key for dictionary with '%s' key type."
+msgstr ""
+
+msgid "Only one level of indexing is supported."
+msgstr ""
+
+msgid ""
+"Too many input arguments. To insert multiple entries, utilize an array of "
+"keys instead."
+msgstr ""
+
+msgid "Number of keys and values are not compatible"
+msgstr ""
+
+msgid "The dictionary value type must be 'cell'."
+msgstr ""
+
+msgid "Only '()' and '{}' indexing is supported for assigning values."
+msgstr ""
+
+#, python-format
+msgid "unknown property '%s'."
+msgstr ""
+
+msgid ""
+"Too many input arguments. To search for multiple entries, utilize an array "
+"of keys instead."
+msgstr ""
+
+#, python-format
+msgid "'%s' indexing is not supported."
+msgstr ""
+
+#, python-format
+msgid "Unknown type '%s'. Dictionary could not be created."
+msgstr ""
+
+msgid "'table' format not yet implemented."
+msgstr ""
+
+msgid "format option has to be a string."
+msgstr ""
+
+msgid "Cannot concatenate keys. Use cell option."
+msgstr ""
+
+msgid "format option can only be cell"
+msgstr ""
+
+msgid "format option has to be a string"
+msgstr ""
+
+msgid "cannot concatenate values. Use cell option."
+msgstr ""
+
+msgid "format option can only be cell."
 msgstr ""
 
 #, python-format
@@ -6547,6 +6689,10 @@ msgstr ""
 msgid "Wrong value for #4 argument. A valid mode expected."
 msgstr ""
 
+#, python-format
+msgid "function not implemented for '%s' type."
+msgstr ""
+
 msgid "Second argument must start with /."
 msgstr ""
 
@@ -6764,6 +6910,9 @@ msgstr ""
 msgid "valid version or executable filename expected."
 msgstr ""
 
+msgid "TypeError: unsupported operand type(s) for +: int and str"
+msgstr ""
+
 msgid "Wrong value for #2 argument. struct"
 msgstr ""
 
@@ -6919,9 +7068,6 @@ msgid "reference diary expected."
 msgstr ""
 
 msgid "output res and ref are not equal."
-msgstr ""
-
-msgid "Cannot edit the directory: "
 msgstr ""
 
 msgid "Date field must be a character vector or string scalar."
