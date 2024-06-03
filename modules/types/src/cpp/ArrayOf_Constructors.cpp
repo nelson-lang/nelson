@@ -41,6 +41,10 @@ ArrayOf::getDiagonal(int64 diagonalOrder)
     int64 srcIndex;
     void* qp;
     if (diagonalOrder < 0) {
+        if (diagonalOrder < -(int64)(rows)) {
+            diagonalOrder = -(int64)(rows);
+        }
+
         outLen = (rows + diagonalOrder) < cols ? (rows + diagonalOrder) : cols;
         outLen = (outLen < 0) ? 0 : outLen;
         if (outLen == 0) {
@@ -57,6 +61,9 @@ ArrayOf::getDiagonal(int64 diagonalOrder)
             copyElements(srcIndex, qp, i, 1);
         }
     } else {
+        if (diagonalOrder > (int64)cols) {
+            diagonalOrder = (int64)cols;
+        }
         outLen = rows < (cols - diagonalOrder) ? rows : (cols - diagonalOrder);
         outLen = (outLen < 0) ? 0 : outLen;
         if (outLen == 0) {
