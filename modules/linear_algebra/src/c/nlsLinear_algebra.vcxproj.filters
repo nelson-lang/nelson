@@ -89,6 +89,9 @@
     <ClInclude Include="..\include\LUMatrixFactorization.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\LinearAlgebraHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\LogMatrix.cpp">

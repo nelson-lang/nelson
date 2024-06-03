@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "LinearAlgebraHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,24 +27,6 @@ static ArrayOfVector
 singleRealBalance(const ArrayOf& A, bool noperm, int nLhs);
 static ArrayOfVector
 singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs);
-//=============================================================================
-template <class T>
-bool
-isAllFinite(const ArrayOf& A)
-{
-    if (A.isComplex()) {
-        auto* pzA = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-            pzA, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-        return matArrayIn.allFinite();
-
-    } else {
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-            (T*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-        return matArrayIn.allFinite();
-    }
-    return false;
-}
 //=============================================================================
 template <class T>
 static ArrayOf

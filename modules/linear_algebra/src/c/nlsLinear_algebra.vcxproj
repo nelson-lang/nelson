@@ -202,6 +202,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\LinearAlgebraHelpers.hpp" />
     <ClInclude Include="..\include\Balance.hpp" />
     <ClInclude Include="..\include\CholeskyFactorization.hpp" />
     <ClInclude Include="..\include\DeterminantMatrix.hpp" />
