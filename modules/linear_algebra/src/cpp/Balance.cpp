@@ -75,20 +75,12 @@ scalingVector(const T* ptrScale, int N, int ILO, int IHI)
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (int i = 0; i < ILO - 1; i++) {
-        ptrScalingVector[i] = (double)1.;
-    }
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (int i = ILO - 1; i < IHI; i++) {
-        ptrScalingVector[i] = (double)ptrScale[i];
-    }
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (ompIndexType i = IHI; i < (ompIndexType)N; i++) {
-        ptrScalingVector[i] = (double)1.;
+    for (int i = 0; i < N; ++i) {
+        if (i < ILO - 1 || i >= IHI) {
+            ptrScalingVector[i] = 1.0;
+        } else {
+            ptrScalingVector[i] = static_cast<double>(ptrScale[i]);
+        }
     }
     return S;
 }
@@ -173,7 +165,7 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(SCALE, 0);
+        retval << ArrayOf::diagonalConstructor(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<double>(ptrScale, N, ILO, IHI);
@@ -215,7 +207,7 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(SCALE, 0);
+        retval << ArrayOf::diagonalConstructor(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<double>(ptrScale, N, ILO, IHI);
@@ -255,7 +247,7 @@ singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(SCALE, 0);
+        retval << ArrayOf::diagonalConstructor(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<single>(ptrScale, N, ILO, IHI);
@@ -296,7 +288,7 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(SCALE, 0);
+        retval << ArrayOf::diagonalConstructor(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<single>(ptrScale, N, ILO, IHI);
