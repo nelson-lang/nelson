@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
 - [#1206](http://github.com/nelson-lang/nelson/issues/1206) `balance` yields wrong Transformation Matrix.
+- [#1201](http://github.com/nelson-lang/nelson/issues/1201) Matrix Exponential `expm` might give wrong results.
 
 ## 1.5.0 (2024-05-31)
 
