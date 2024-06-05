@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.6.0 (UNRELEASED)
 
+### Added
+
+- `allfinite`: Check if all array elements are finite.
+
 ### Fixed
 
 - [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.

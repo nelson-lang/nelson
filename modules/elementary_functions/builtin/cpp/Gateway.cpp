@@ -61,6 +61,7 @@
 #include "hypotBuiltin.hpp"
 #include "permuteBuiltin.hpp"
 #include "__rot90_matrix_2D__Builtin.hpp"
+#include "allfiniteBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -128,6 +129,7 @@ static const nlsGateway gateway[] = {
     { "permute", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::permuteBuiltin, 1, 2 },
     { "__rot90_matrix_2D__",
         (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__rot90_matrix_2D__Builtin, 1, 2 },
+    { "allfinite", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::allfiniteBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

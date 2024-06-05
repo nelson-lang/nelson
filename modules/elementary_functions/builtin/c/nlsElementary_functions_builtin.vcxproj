@@ -181,6 +181,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\absBuiltin.cpp" />
+    <ClCompile Include="..\cpp\allfiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\base2decBuiltin.cpp" />
     <ClCompile Include="..\cpp\bin2numBuiltin.cpp" />
     <ClCompile Include="..\cpp\castBuiltin.cpp" />
@@ -257,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\absBuiltin.hpp" />
+    <ClInclude Include="..\include\allfiniteBuiltin.hpp" />
     <ClInclude Include="..\include\base2decBuiltin.hpp" />
     <ClInclude Include="..\include\bin2numBuiltin.hpp" />
     <ClInclude Include="..\include\castBuiltin.hpp" />

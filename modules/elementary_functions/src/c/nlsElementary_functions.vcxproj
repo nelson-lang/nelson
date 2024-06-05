@@ -187,6 +187,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AbsoluteValue.cpp" />
+    <ClCompile Include="..\cpp\AllFinite.cpp" />
     <ClCompile Include="..\cpp\BaseToDecimal.cpp" />
     <ClCompile Include="..\cpp\BinToNum.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="..\cpp\HypothenusComplex.hpp" />
     <ClInclude Include="..\cpp\HypothenusReal.hpp" />
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
+    <ClInclude Include="..\include\AllFinite.hpp" />
     <ClInclude Include="..\include\BaseToDecimal.hpp" />
     <ClInclude Include="..\include\BinToNum.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
