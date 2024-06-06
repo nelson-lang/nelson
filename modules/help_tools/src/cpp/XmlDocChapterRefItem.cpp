@@ -56,12 +56,17 @@ bool
 XmlDocChapterRefItem::writeAsMarkdown(std::string& utf8stream)
 {
     if (!this->_description.empty()) {
-        utf8stream = utf8stream + "* " + "[" + wstring_to_utf8(this->_linkname) + "]" + "("
-            + wstring_to_utf8(this->_linkurl) + ")" + " - " + wstring_to_utf8(this->_description)
-            + "\n";
+        if (!this->_linkname.empty()) {
+            utf8stream = utf8stream + "* " + "[" + wstring_to_utf8(this->_linkname) + "]" + "("
+                + wstring_to_utf8(this->_linkurl) + ")" + " - "
+                + wstring_to_utf8(this->_description) + "\n";
+        } else {
+            utf8stream = utf8stream + "* " + "[" + wstring_to_utf8(this->_description) + "]" + "("
+                + wstring_to_utf8(this->_linkurl) + ")" + "\n";
+        }
     } else {
-        utf8stream = utf8stream + wstring_to_utf8(this->_linkurl) + " "
-            + wstring_to_utf8(this->_linkname) + "\n";
+        utf8stream = utf8stream + "* " + "[" + wstring_to_utf8(this->_linkname) + "]" + "("
+            + wstring_to_utf8(this->_linkurl) + ")" + "\n";
     }
     return true;
 }

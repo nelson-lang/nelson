@@ -16,6 +16,8 @@
 #include "XmlDocChapterNamer.hpp"
 #include "XmlDocListOfFiles.hpp"
 #include "i18n.hpp"
+#include <numeric>
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -272,12 +274,35 @@ void
 XmlDocListOfFiles::getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions)
 {
     bool bSuccess = false;
+    struct Section
+    {
+        wstringVector names;
+        wstringVector urls;
+        wstringVector descriptions;
+    };
+    Section section;
     for (auto& xmlItem : xmlItems) {
         if (xmlItem->getPageTitle() != L"") {
-            names.push_back(xmlItem->getPageTitle());
-            urls.push_back(RelativePath(dstDirectory, xmlItem->getDestinationFile(), bSuccess));
-            descriptions.push_back(xmlItem->getPageDescription());
+            section.names.push_back(xmlItem->getPageTitle());
+            section.urls.push_back(
+                RelativePath(dstDirectory, xmlItem->getDestinationFile(), bSuccess));
+            section.descriptions.push_back(xmlItem->getPageDescription());
         }
+    }
+    std::vector<size_t> indices(section.descriptions.size());
+    std::iota(indices.begin(), indices.end(), 0);
+
+    // Sort indices based on the descriptions
+    std::sort(indices.begin(), indices.end(),
+        [&section](size_t i1, size_t i2) { return section.urls[i1] < section.urls[i2]; });
+
+    names.reserve(section.names.size());
+    urls.reserve(section.urls.size());
+    descriptions.reserve(section.descriptions.size());
+    for (size_t i : indices) {
+        names.push_back(section.names[i]);
+        urls.push_back(section.urls[i]);
+        descriptions.push_back(section.descriptions[i]);
     }
 }
 //=============================================================================
