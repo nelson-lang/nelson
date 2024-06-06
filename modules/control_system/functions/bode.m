@@ -119,7 +119,7 @@ function varargout = bode(varargin)
         
       end
     end
-    phase = angle(H) * 180/pi;
+    phase = unwrapPhase(angle(H)) * 180/pi;
     magnitude = 20 * log10(abs(H));
     
     if (nargout == 0)
@@ -214,5 +214,13 @@ function w = computesW(sys, N)
     end
   end
   w = logspace(w_min, w_max, N)';
+end
+%=============================================================================
+function u = unwrapPhase(p)
+  if length(p) > 1
+    twopi = 2*pi;
+    p(2:end) = p(2:end) - cumsum(twopi * round(diff(p) / twopi));
+  end
+  u = p;
 end
 %=============================================================================
