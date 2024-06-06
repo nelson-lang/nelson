@@ -162,39 +162,38 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
 inline bool
 testSpecialFuncs()
 {
-    std::wstring wline = utf8_to_wstring(std::string(datap));
-    if (!iswalpha(wline[0])) {
-        return false;
-    }
-    bool isHardcodedShorcut = isPathCommandShortCut(L"ls", wline)
-        || isPathCommandShortCut(L"display", wline) || isPathCommandShortCut(L"cd", wline)
-        || isPathCommandShortCut(L"dir", wline);
+    const std::wstring wline = utf8_to_wstring(std::string(datap));
 
-    if (isHardcodedShorcut) {
-        return true;
-    }
-    // Check for non-keyword identifier followed by whitespace followed by alphanum
-    size_t i = 0;
-    std::wstring wkeyword;
-    wkeyword.reserve(IDENTIFIER_LENGTH_MAX);
-    while (iswalnum(wline[i]) && i < wline.size()) { //-V781
-        wkeyword.push_back(wline[i]);
-        i++;
-    }
-    std::string keyword = wstring_to_utf8(wkeyword);
-    if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
-        Error(_("Maximum name length exceeded."));
-    }
-    tSearch.word = keyword.c_str(); //-V506
-    pSearch = static_cast<keywordStruct*>(
-        bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
-    if (pSearch != nullptr) {
+    // Early return if the first character is not alphabetic
+    if (wline.empty() || !iswalpha(wline[0])) {
         return false;
     }
-    while ((iswspace(wline[i]) || wline[i] == L'\t') && i < wline.size()) { //-V781
-        i++;
+
+    // Check for hardcoded shortcuts
+    static const std::wstring commands[] = { L"ls", L"cd", L"dir" };
+    for (const auto& command : commands) {
+        if (isPathCommandShortCut(command.c_str(), wline)) {
+            return true;
+        }
     }
-    return (iswalpha(wline[i]) || iswdigit(wline[i]));
+
+    // Check for keyword identifier length
+    std::wstring wkeyword;
+    size_t i = 0;
+    wkeyword.reserve(IDENTIFIER_LENGTH_MAX);
+
+    while (i < wline.size() && iswalnum(wline[i]) && i < (IDENTIFIER_LENGTH_MAX + 1)) {
+        wkeyword.push_back(wline[i]);
+        ++i;
+    }
+
+    const std::string keyword = wstring_to_utf8(wkeyword);
+
+    // Error handling if the keyword length exceeds the max length
+    if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
+        Error(_("Maximum name length exceeded."), "Nelson:namelengthmaxexceeded");
+    }
+    return false;
 }
 //=============================================================================
 inline void
@@ -689,7 +688,7 @@ lexNumber()
     switch (nodeType) {
     case const_int_node: {
         tokenValue.isToken = false;
-        if (currentChar() == 'i') {
+        if (currentChar() == 'i' || currentChar() == 'j') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();
@@ -700,7 +699,7 @@ lexNumber()
     } break;
     case const_double_node: {
         tokenValue.isToken = false;
-        if (currentChar() == 'i') {
+        if (currentChar() == 'i' || currentChar() == 'j') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();
@@ -711,7 +710,7 @@ lexNumber()
     } break;
     case const_float_node: {
         tokenValue.isToken = false;
-        if (currentChar() == 'i') {
+        if (currentChar() == 'i' || currentChar() == 'j') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_complex_node, content, static_cast<int>(ContextInt()));
             discardChar();
@@ -745,7 +744,7 @@ lexNumber()
     } break;
     default: {
         tokenValue.isToken = false;
-        if (currentChar() == 'i') {
+        if (currentChar() == 'i' || currentChar() == 'j') {
             tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, content, static_cast<int>(ContextInt()));
             discardChar();

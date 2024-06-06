@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `allfinite`: Check if all array elements are finite.
+- `j` as imaginary unit number is also supported. example `3+2j` equivalent to `3+2i`.
 
 ### Fixed
 
 - [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
 - [#1206](http://github.com/nelson-lang/nelson/issues/1206) `balance` yields wrong Transformation Matrix.
 - [#1201](http://github.com/nelson-lang/nelson/issues/1201) Matrix Exponential `expm` might give wrong results.
+- [#1200](http://github.com/nelson-lang/nelson/issues/1200) Matrix Parsing/Evaluation trouble.
 
 ## 1.5.0 (2024-05-31)
 
