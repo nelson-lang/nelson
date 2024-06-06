@@ -71,7 +71,7 @@ program:
   statementList { setParsedScriptBlock($1.v.p);}
   | functionDefList |
   | error {yyxpt(_("statement list or function definition"),$1);}
-;
+  ;
 
 functionDef:
    FUNCTION  returnDeclaration IDENT '(' argumentList ')' newLine statementList {
@@ -80,24 +80,24 @@ functionDef:
    ParseRHS rhsRhs = $5;
    ParseRHS codeRhs = $8;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-  } |
-   FUNCTION  IDENT '(' argumentList ')' newLine statementList {
+  } 
+  | FUNCTION  IDENT '(' argumentList ')' newLine statementList {
    ParseRHS lhsRhs;
    lhsRhs.v.p = nullptr;
    ParseRHS nameRhs = $2;
    ParseRHS rhsRhs = $4;
    ParseRHS codeRhs = $7;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-   } |
-   FUNCTION  returnDeclaration IDENT newLine statementList {
+   }
+   | FUNCTION  returnDeclaration IDENT newLine statementList {
     ParseRHS lhsRhs = $2;
     ParseRHS nameRhs = $3;
     ParseRHS rhsRhs;
     rhsRhs.v.p = nullptr;
     ParseRHS codeRhs = $5;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-   } |
-   FUNCTION  IDENT newLine statementList {
+   } 
+   | FUNCTION  IDENT newLine statementList {
     ParseRHS lhsRhs;
     lhsRhs.v.p = nullptr;
     ParseRHS nameRhs = $2;
@@ -105,16 +105,16 @@ functionDef:
     rhsRhs.v.p = nullptr;
     ParseRHS codeRhs = $4;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-   } |
-   FUNCTION  returnDeclaration IDENT '(' ')' newLine statementList {
+   } 
+   | FUNCTION  returnDeclaration IDENT '(' ')' newLine statementList {
     ParseRHS lhsRhs = $2;
     ParseRHS nameRhs = $3;
     ParseRHS rhsRhs;
     rhsRhs.v.p = nullptr;
     ParseRHS codeRhs = $7;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-   } |
-   FUNCTION  IDENT '(' ')' newLine statementList {
+   } 
+   | FUNCTION  IDENT '(' ')' newLine statementList {
     ParseRHS lhsRhs;
     lhsRhs.v.p = nullptr;
     ParseRHS nameRhs = $2;
@@ -122,22 +122,20 @@ functionDef:
     rhsRhs.v.p = nullptr;
     ParseRHS codeRhs = $6;
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
-   } |
-   FUNCTION  error {yyxpt(_("legal function name or return declaration after 'function'"), $1);} |
-   FUNCTION  IDENT error {yyxpt(_("argument list or statement list after identifier '") +
-  $2.v.p->text.c_str() + "'",$2);} |
-   FUNCTION  IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$3);}  |
-   FUNCTION  IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$5);} |
-   FUNCTION  returnDeclaration  error {yyxpt(_("function name for function declared"),$1);} |
-   FUNCTION  returnDeclaration IDENT error {yyxpt(_("argument list or statement list following function name :") +
-  $3.v.p->text.c_str(), $3);} |
-   FUNCTION  returnDeclaration IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$4);} |
-   FUNCTION  returnDeclaration IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$6);}
-  ;
+   } 
+   | FUNCTION  error {yyxpt(_("legal function name or return declaration after 'function'"), $1);} 
+   | FUNCTION  IDENT error {yyxpt(_("argument list or statement list after identifier '") + $2.v.p->text.c_str() + "'",$2);} 
+   | FUNCTION  IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$3);}  
+   | FUNCTION  IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$5);} 
+   | FUNCTION  returnDeclaration  error {yyxpt(_("function name for function declared"),$1);} 
+   | FUNCTION  returnDeclaration IDENT error {yyxpt(_("argument list or statement list following function name :") + $3.v.p->text.c_str(), $3);} 
+   | FUNCTION  returnDeclaration IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$4);} 
+   | FUNCTION  returnDeclaration IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$6);}
+    ;
 
 functionDefList:
-  functionDef |
-  functionDefList functionDef
+  functionDef 
+  | functionDefList functionDef
   ;
 
 returnDeclaration:
@@ -153,7 +151,7 @@ returnDeclaration:
 
 argumentList:
   argument {$$.v.p = $1.v.p;}
-  | argumentList ',' argument {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  | argumentList columnSep argument {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
   ;
 
 argument:
@@ -161,58 +159,58 @@ argument:
   ;
 
 statementList:
-   statement {$$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,$1.v.p,$1.v.p->getContext());} |
-   statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
-   ;
+  statement {$$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,$1.v.p,$1.v.p->getContext());} |
+  statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
+  ;
 
 statement:
-   statementType ENDQSTMNT {
-        $$.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,$2.v.i);
+  statementType ENDQSTMNT {
+      $$.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,$2.v.i);
       $$.v.p->down = $1.v.p;
-   }
-   | statementType ENDSTMNT {
-      $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
-            $$.v.p->down = $1.v.p;
-   }
-   | statementType ',' {
-      $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
-      $$.v.p->down = $1.v.p;
-   }
-   ;
+  }
+  | statementType ENDSTMNT {
+     $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
+     $$.v.p->down = $1.v.p;
+  }
+  | statementType columnSep {
+    $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
+    $$.v.p->down = $1.v.p;
+  }
+  ;
 
 statementType:
-   assignmentStatement
-   | expr
-   | {$$.v.p = AbstractSyntaxTree::createNode(null_node,"",-1);}
-   | multiFunctionCall
-   | forStatement
-   | breakStatement
-   | continueStatement
-   | whileStatement
-   | ifStatement
-   | switchStatement
-   | tryStatement
-   | pauseStatement
-   | returnStatement
-   | specialSyntaxStatement
-   | ABORT
-   | endfunctionStatement
-;
+  assignmentStatement
+  | expr
+  | {$$.v.p = AbstractSyntaxTree::createNode(null_node,"",-1);}
+  | multiFunctionCall
+  | forStatement
+  | breakStatement
+  | continueStatement
+  | whileStatement
+  | ifStatement
+  | switchStatement
+  | tryStatement
+  | pauseStatement
+  | returnStatement
+  | specialSyntaxStatement
+  | ABORT
+  | endfunctionStatement
+  ;
 
 endfunctionStatement:
   ENDFUNCTION;
 
 specialSyntaxStatement:
-  IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
-  STRING STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
-  CHARACTER CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
-  IDENT STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
-  IDENT CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
-  IDENT IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext()); } |
-  specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);} |
-  specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);} |
-  specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);} |
-  specialSyntaxStatement NUMERIC {$1.v.p->addChild($2.v.p);}
+  IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} 
+  | STRING STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | CHARACTER CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext()); } 
+  | specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement NUMERIC {$1.v.p->addChild($2.v.p);}
 
 returnStatement:
   RETURN
@@ -255,88 +253,92 @@ switchStatement:
     $$.v.p->addChild($2.v.p);
     if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
     if ($5.v.p != nullptr) $$.v.p->addChild($5.v.p);
-  } |
-  SWITCH  expr optionalEndStatement caseBlock otherwiseClause error {
-          yyxpt(_("matching 'end' to 'switch' clause from line ") + decodeline($1),$6);
-        }
-        ;
+  } 
+  | SWITCH  expr optionalEndStatement caseBlock otherwiseClause error {
+    yyxpt(_("matching 'end' to 'switch' clause from line ") + decodeline($1),$6);
+  }
+  ;
 
 optionalEndStatement:
-  ',' | ENDSTMNT | ENDQSTMNT | ';'
+  columnSep 
+  | ENDSTMNT 
+  | ENDQSTMNT 
+  | ';'
   ;
 
 newLine:
-  ENDSTMNT | ENDQSTMNT
+  ENDSTMNT 
+  | ENDQSTMNT
   ;
 
 
 caseBlock:
-  {$$.v.p = nullptr;} | caseList
+  {$$.v.p = nullptr;} 
+  | caseList
   ;
 
 caseList:
   caseStatement {
     $$.v.p = AbstractSyntaxTree::createNode(OP_CASEBLOCK,$1.v.p,$1.v.p->getContext());
-  } |
-  caseList caseStatement {
+  } 
+  | caseList caseStatement {
     $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
   }
-;
+  ; 
 
 caseStatement:
   CASE expr optionalEndStatement statementList {
     $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p); $$.v.p->addChild($4.v.p);
   }
-;
+  ;
 
 otherwiseClause:
   OTHERWISE statementList {
     $$.v.p = $2.v.p;
-  } |
-  {
+  } 
+  | {
     $$.v.p = nullptr;
   }
-;
+  ;
 
 forStatement:
   FOR forIndexExpression optionalEndStatement END {
    $$.v.p = nullptr;
-  } |
-  FOR forIndexExpression optionalEndStatement statementList END {
+  } 
+  | FOR forIndexExpression optionalEndStatement statementList END {
     $$.v.p = $1.v.p;
     $$.v.p->addChild($2.v.p);
     $$.v.p->addChild($4.v.p);
-  } |
-  FOR forIndexExpression optionalEndStatement statementList error
+  } 
+  | FOR forIndexExpression optionalEndStatement statementList error
            {yyxpt(_("'end' to match 'for' statement from line ") + decodeline($1),$5);}
-;
+  ;
 
 forIndexExpression:
-  '(' IDENT '=' expr ')' {$$.v.p = $2.v.p; $$.v.p->addChild($4.v.p);} |
-  IDENT '=' expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);} |
-  IDENT {$$.v.p = $1.v.p;
-        $$.v.p->addChild(AbstractSyntaxTree::createNode(OP_RHS, AbstractSyntaxTree::createNode(id_node,$1.v.p->text.c_str(), $1.v.p->getContext()),$1.v.p->getContext())); } |
-  '(' IDENT '=' expr error {yyxpt(_("matching right parenthesis"),$1);} |
-  '(' IDENT '=' error {yyxpt(_("indexing expression"),$3);} |
-  '(' IDENT error {yyxpt(_("equals operator after loop index"),$2);} |
-  '(' error {yyxpt(_("identifier that is the loop variable"),$1);} |
-  IDENT '=' error {yyxpt(_("indexing expression"),$2);} |
-  error {yyxpt(_("identifier or assignment (id = expr) after 'for' "),$1);}
-;
+  '(' IDENT '=' expr ')' {$$.v.p = $2.v.p; $$.v.p->addChild($4.v.p);} 
+  | IDENT '=' expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);} 
+  | IDENT {$$.v.p = $1.v.p;
+        $$.v.p->addChild(AbstractSyntaxTree::createNode(OP_RHS, AbstractSyntaxTree::createNode(id_node,$1.v.p->text.c_str(), $1.v.p->getContext()),$1.v.p->getContext())); } 
+  | '(' IDENT '=' expr error {yyxpt(_("matching right parenthesis"),$1);} 
+  | '(' IDENT '=' error {yyxpt(_("indexing expression"),$3);} 
+  | '(' IDENT error {yyxpt(_("equals operator after loop index"),$2);} 
+  | '(' error {yyxpt(_("identifier that is the loop variable"),$1);} 
+  | IDENT '=' error {yyxpt(_("indexing expression"),$2);} 
+  | error {yyxpt(_("identifier or assignment (id = expr) after 'for' "),$1);}
+  ;
 
 whileStatement:
   WHILE expr optionalEndStatement END {
     $$.v.p = nullptr;
-  }  |
-  WHILE expr optionalEndStatement statementList END {
+  }  
+  | WHILE expr optionalEndStatement statementList END {
     $$.v.p = $1.v.p;
     $$.v.p->addChild($2.v.p);
     $$.v.p->addChild($4.v.p);
-  }  |
-  WHILE error {yyxpt(_("test expression after 'while'"),$1);} |
-  WHILE expr optionalEndStatement statementList error
-  {yyxpt(_("'end' to match 'while' statement from line ") + decodeline($1),$5);}
-;
+  }  
+  | WHILE error {yyxpt(_("test expression after 'while'"),$1);} 
+  | WHILE expr optionalEndStatement statementList error {yyxpt(_("'end' to match 'while' statement from line ") + decodeline($1),$5);}
+  ;
 
 ifStatement:
   IF conditionedStatement elseIfBlock elseStatement END {
@@ -344,48 +346,49 @@ ifStatement:
     $$.v.p->addChild($2.v.p);
     if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p);
     if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
-  } |
-  IF error {yyxpt(_("condition expression for 'if'"),$1);} |
-  IF conditionedStatement elseIfBlock elseStatement error {yyxpt(_("'end' to match 'if' statement from line ") + decodeline($1),$5);}
-;
+  } 
+  | IF error {yyxpt(_("condition expression for 'if'"),$1);} 
+  | IF conditionedStatement elseIfBlock elseStatement error {yyxpt(_("'end' to match 'if' statement from line ") + decodeline($1),$5);}
+  ;
 
 conditionedStatement:
   expr optionalEndStatement statementList {
     $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$3.v.p,$1.v.p->getContext());
-  } |
-  expr optionalEndStatement {
+  } 
+  | expr optionalEndStatement {
 	  $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$1.v.p->getContext());
-	} |
-  expr error {yyxpt("valid list of statements after condition",$2);}
-;
+	} 
+  | expr error {yyxpt("valid list of statements after condition",$2);}
+  ;
 
 elseIfBlock:
-  /* empty */ {$$.v.p = nullptr;} |
-  elseIfStatementList
+  /* empty */ {$$.v.p = nullptr;} 
+  | elseIfStatementList
   ;
 
 elseIfStatementList:
   elseIfStatement {
     $$.v.p = AbstractSyntaxTree::createNode(OP_ELSEIFBLOCK,$1.v.p,$1.v.p->getContext());
-  } |
-  elseIfStatementList elseIfStatement {
+  } 
+  | elseIfStatementList elseIfStatement {
     $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
   }
-;
+  ;
 
 elseIfStatement:
   ELSEIF conditionedStatement {
     $$.v.p = $2.v.p;
-  } |
-  ELSEIF error {yyxpt(_("test condition for 'elseif' clause"),$1);};
+  } 
+  | ELSEIF error {yyxpt(_("test condition for 'elseif' clause"),$1);}
+  ;
 
 elseStatement:
   ELSE statementList {
     $$.v.p = $2.v.p;
-  } |
-  /* empty */ {$$.v.p = nullptr;} |
-  ELSE error {yyxpt(_("statement list for 'else' clause"),$1);}
-;
+  } 
+  |/* empty */ {$$.v.p = nullptr;} 
+  | ELSE error {yyxpt(_("statement list for 'else' clause"),$1);}
+  ;
 
 assignmentStatement:
   symbRefList '=' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);}
@@ -394,7 +397,7 @@ assignmentStatement:
 
 multiFunctionCall:
   '[' matrixDef ']' '='  IDENT '('  ')' {
-  $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
+    $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
   }
   | '[' matrixDef ']' '='  IDENT '('  indexList ')' {
     $5.v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,$7.v.p,$6.v.i));
@@ -489,11 +492,13 @@ terminal:
   | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
   | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
 	| '{' '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,$1.v.i);}
-	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);};
+	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);}
+  ;
 
 symbRefList:
   IDENT
-    | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);};
+  | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
+  ;
 
 symbRef:
   '(' indexList ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_PARENS,$2.v.p,$1.v.i); }
@@ -502,7 +507,8 @@ symbRef:
   | '{' indexList '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$2.v.p,$1.v.i); }
 	| '{' indexList error {yyxpt(_("matching right brace"),$1);}
   | '.' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT,$2.v.p,$1.v.i); }
-	| '.' '(' expr ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_DOTDYN,$3.v.p,$1.v.i);};
+	| '.' '(' expr ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_DOTDYN,$3.v.p,$1.v.i);}
+  ;
 
 indexElement:
   expr
@@ -511,26 +517,27 @@ indexElement:
   | '/' IDENT '=' error {yyxpt(_("expecting expression after '=' in keyword assignment"),$3);}
   | '/' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,$2.v.p,$1.v.i);}
   | '/' error {yyxpt(_("expecting keyword identifier after '/' in keyword assignment"),$1);}
-        ;
+  ;
 
 indexList:
-  indexElement |
-        indexList ',' indexElement {$$.v.p = $1.v.p; $$.v.p->addPeer($3.v.p);}
-        ;
+  indexElement 
+  | indexList columnSep indexElement {$$.v.p = $1.v.p; $$.v.p->addPeer($3.v.p);}
+  ;
 
 cellDef:
-       rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$1.v.p,$1.v.p->getContext());}|
-       cellDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
-       ;
+  rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$1.v.p,$1.v.p->getContext());}
+  | cellDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
 
 matrixDef:
-       rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACKETS,$1.v.p,$1.v.p->getContext());}|
-       matrixDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
-       ;
+  rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACKETS,$1.v.p,$1.v.p->getContext());}
+  | matrixDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
 
 rowSeperator:
-       ENDSTMNT | ENDQSTMNT
-       ;
+  ENDSTMNT 
+  | ENDQSTMNT
+  ;
 
 columnSep:
   ','
@@ -538,7 +545,8 @@ columnSep:
 
 rowDef:
   expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,$1.v.p,$1.v.p->getContext());} 
-  | rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
+  | rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
 
 parenExpr:
   '(' expr ')' {$$.v.p = $2.v.p;}
