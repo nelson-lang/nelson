@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `allfinite`: Check if all array elements are finite.
 - `j` as imaginary unit number is also supported. example `3+2j` equivalent to `3+2i`.
 
 ### Fixed

@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>isfinite</keyword>
-  <short_description>Check for finite entries.</short_description>
+  <keyword>allfinite</keyword>
+  <short_description>Check if all array elements are finite.</short_description>
 
   <syntax>
-    <syntax_item>tf = isfinite(M)</syntax_item>
+    <syntax_item>tf = allfinite(M)</syntax_item>
   </syntax>
   
   <param_input>
@@ -21,13 +21,13 @@
 
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'isfinite'.</param_description>
+      <param_description>logical: result of 'allfinite'.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
     <p><b
-      >isfinite</b> returns a logical array which is true where elements of M are finite values.</p>
+      >allfinite</b> returns a logical scalar which is true where elements of M are all finite values.</p>
   </description>
 
 
@@ -40,12 +40,9 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data>
-      <![CDATA[isfinite(pi)
-isfinite(Inf)
-isfinite(-Inf)
-isfinite(int32(3))
-X = sparse([1 2 NaN 3 0 Inf 0 4]);
-R = isfinite(X)]]>
+      <![CDATA[X = sparse([1 2 NaN 3 0 Inf 0 4]);
+R = allfinite(X)
+R2 = isfinite(X)]]>
     </example_item_data>
   </example_item>
 
@@ -54,19 +51,20 @@ R = isfinite(X)]]>
 
   <see_also>
     <see_also_item>
+      <link linkend="${elementary_functions}isfinite">isfinite</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${elementary_functions}isnan">isnan</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}isinf">isinf</link>
+      <link linkend="${elementary_functions}all">all</link>
     </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}allfinite">allfinite</link>
-    </see_also_item>
+
   </see_also>
 
   <history>
     <history_item>
-      <history_version>1.0.0</history_version>
+      <history_version>1.6.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>

@@ -75,7 +75,7 @@ ExpMatrix(const ArrayOf& _A)
         return NaN(A.getRows(), A.getColumns());
     }
     if (A.isScalar()) {
-        return ExpDiagonalMatrix(A);
+        return ExpScalarMatrix(A);
     }
     if (isDiagonal(A)) {
         return ExpDiagonalMatrix(A);
