@@ -198,12 +198,10 @@ const
   INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
   INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
 
-  // Visual C++ 2017 Redistributable 14.10.25017
-  VC_2017_REDIST_X86_MIN = '{582EA838-9199-3518-A05C-DB09462F68EC}';
-  VC_2017_REDIST_X64_MIN = '{8D4F7A6D-6B81-3DC8-9C21-6008E4866727}';
-
-  VC_2017_REDIST_X86_ADD = '{58b3beca-b999-4f6f-a48c-81681136a620}';
-  VC_2017_REDIST_X64_ADD = '{e9d78d68-c26c-4da7-9158-99355d8ef3ad}';
+  // Visual C++ 2022 Redistributable v14.40.33810.00
+  VC_2022_REDIST_X86_MIN = '{582EA838-9199-3518-A05C-DB09462F68EC}';
+  VC_2022_REDIST_X64_MIN = '{0C3457A0-3DCE-4A33-BEF0-9B528C557771}';
+  VC_2022_REDIST_ARM64_MIN = '{B062C604-B930-483A-874E-301A4E0310C4}';
 //=============================================================================
 function MsiQueryProductState(szProduct: string): INSTALLSTATE; 
   external 'MsiQueryProductState{#AW}@msi.dll stdcall';
@@ -216,9 +214,9 @@ end;
 function VCRedistNeedsInstall: Boolean;
 begin
 #ifdef NELSON_X64
-  Result := not (VCVersionInstalled(VC_2017_REDIST_X64_MIN));
+  Result := not (VCVersionInstalled(VC_2022_REDIST_X64_MIN));
 #else
-  Result := not (VCVersionInstalled(VC_2017_REDIST_X86_MIN));
+  Result := not (VCVersionInstalled(VC_2022_REDIST_X86_MIN));
 #endif
 end;
 //=============================================================================
