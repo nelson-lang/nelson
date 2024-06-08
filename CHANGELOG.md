@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `allfinite`: Check if all array elements are finite.
 - `j` as imaginary unit number is also supported. example `3+2j` equivalent to `3+2i`.
 
+### Changed
+
+- Windows dependencies updated:
+  - Qt 6.7.1
+  - Visual C++ 2022 Redistributable v14.40.33810.00
+
 ### Fixed
 
 - [#1210](http://github.com/nelson-lang/nelson/issues/1210) `bode` did not unwrap phase.
