@@ -66,6 +66,12 @@ else()
   set(WITH_OPENMP 1)
 endif()
 # ==============================================================================
+if (WITHOUT_TBB)
+  set(WITH_TBB 0)
+else()
+  set(WITH_TBB 1)
+endif()
+# ==============================================================================
 if (WITHOUT_FILEWATCHER)
   set(WITH_FILE_WATCHER 0)
 else()

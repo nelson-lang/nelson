@@ -44,6 +44,7 @@ jobs:
           brew install qt
           brew link icu4c --force
           brew install numpy
+          brew install tbb
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -135,6 +136,7 @@ jobs:
           brew install openblas
           brew link icu4c --force
           brew install numpy
+          brew install tbb
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -226,6 +228,7 @@ jobs:
           brew install openblas
           brew link icu4c --force
           brew install numpy
+          brew install tbb
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -336,6 +339,7 @@ jobs:
           sudo apt -y install qt6-tools-dev;
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
+          sudo apt -y install libtbb-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -428,6 +432,7 @@ jobs:
           sudo apt -y install zlib1g-dev;
           sudo apt -y install libcurl4-openssl-dev;
           sudo apt -y install libgit2-dev;
+          sudo apt -y install libtbb-dev;
           sudo add-apt-repository --yes ppa:beineri/opt-qt-5.15.4-focal;
           sudo apt update;
           sudo apt -y install qt515base qt515svg qt515tools qt515quickcontrols2 qt515quickcontrols qt515declarative qt515wayland;
@@ -540,6 +545,7 @@ jobs:
           pacman -S eigen --noconfirm
           pacman -S hdf5 --noconfirm
           pacman -S libmatio --noconfirm
+          pacman -S onetbb --noconfirm
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -628,6 +634,8 @@ jobs:
           dnf install -y eigen3-devel
           dnf install -y python3-devel
           dnf install -y python3-numpy
+          dnf install -y tbb-devel
+
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Get package version

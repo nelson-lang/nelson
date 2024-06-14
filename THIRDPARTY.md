@@ -367,3 +367,11 @@ Original library is based on excellent work by Daniel Mårtensson who has develo
 > <https://github.com/swedishembedded/control>
 
 > <https://github.com/swedishembedded/control/blob/main/LICENSE> MIT license
+
+- oneAPI Threading Building Blocks
+
+oneTBB is a flexible C++ library that simplifies the work of adding parallelism to complex applications, even if you are not a threading expert.
+
+> <https://github.com/oneapi-src/oneTBB>
+
+> <https://github.com/oneapi-src/oneTBB/blob/master/LICENSE.txt> Apache 2.0
