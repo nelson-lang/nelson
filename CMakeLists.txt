@@ -51,6 +51,8 @@ option(MINIMAL_BUILD "Build mininal Nelson " OFF)
 # ==============================================================================
 option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
+option(WITHOUT_TBB "Disable TBB" OFF)
+# ==============================================================================
 option(WITHOUT_FILEWATCHER "Disable File watcher" OFF)
 # ==============================================================================
 option(FORCE_LIBGFORTRAN_LINK "Force libgfortran link" OFF)
@@ -103,6 +105,7 @@ endforeach(mod)
 if(MINIMAL_BUILD)
   set(WITHOUT_FILEWATCHER ON)
   set(WITHOUT_OPENMP ON)
+  set(WITHOUT_TBB ON)
   foreach(mod ${optional_modules})
     set(WITHOUT_${mod}_MODULE ON)
   endforeach(mod)
@@ -142,6 +145,10 @@ option(ENABLE_PACKAGING "Build Nelson for packaging" OFF)
 # ==============================================================================
 if(WITHOUT_OPENMP)
   message(STATUS "OpenMP disabled.")
+endif()
+# ==============================================================================
+if(WITHOUT_TBB)
+  message(STATUS "TBB disabled.")
 endif()
 # ==============================================================================
 if(MINIMAL_BUILD)
@@ -315,6 +322,10 @@ if(NOT WITHOUT_MATIO_MODULE)
   if(MATIO_FOUND)
     message(STATUS "Found Matio lib: ${MATIO_LIBRARIES}")
   endif()
+endif()
+# ==============================================================================
+if(NOT WITHOUT_OPENMP)
+  find_package(TBB)
 endif()
 # ==============================================================================
 add_definitions(-DBOOST_ALL_NO_LIB)

@@ -127,7 +127,7 @@ parts:
       - qmlscene
       - cmake
       - python3-dev
-
+      - libtbb-dev
 
     stage-packages:
       - libc6
