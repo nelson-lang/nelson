@@ -13,7 +13,7 @@
 #define NELSON_X64
 #define NELSON_DEBUG
 #define CURRENT_YEAR "2024"
-#define APPLICATION_VERSION "1.4.0"
+#define APPLICATION_VERSION "1.6.0"
 #endif
 #define APPLICATION_NAME "Nelson"
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
@@ -27,15 +27,15 @@
 #endif
 #ifdef NELSON_X64
 #ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc143-mt-gd-x64-1_82"
+#define BOOST_TARGET  "vc143-mt-gd-x64-1_85"
 #else
-#define BOOST_TARGET  "vc143-mt-x64-1_82"
+#define BOOST_TARGET  "vc143-mt-x64-1_85"
 #endif
 #else
 #ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc143-mt-gd-x32-1_82"
+#define BOOST_TARGET  "vc143-mt-gd-x32-1_85"
 #else
-#define BOOST_TARGET  "vc143-mt-x32-1_82"
+#define BOOST_TARGET  "vc143-mt-x32-1_85"
 #endif
 #endif
 ;==============================================================================
