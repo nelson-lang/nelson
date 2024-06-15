@@ -79,6 +79,8 @@ createNelsonPalette()
 #endif
     if (isQtDarkMode) {
         changeToDarkTheme();
+    } else {
+        qApp->setStyleSheet("QTextEdit { background-color: rgb(255, 255, 255); }");
     }
 }
 //===================================================================================
