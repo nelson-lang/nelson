@@ -1361,7 +1361,7 @@ DoCountNNZReal(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)len; i++)
@@ -1377,7 +1377,7 @@ DoCountNNZComplex(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)len; i++)

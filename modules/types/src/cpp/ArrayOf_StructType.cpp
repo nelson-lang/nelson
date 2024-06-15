@@ -319,7 +319,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     indexType fN = names.size();
     if (fN > 1) {
         ompIndexType nN = (ompIndexType)fN - 1;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < nN; i++) {

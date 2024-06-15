@@ -63,7 +63,7 @@ NaturalLogarithmReal(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(ptrOut, elementCount);
     matRes = matEigen.array().log();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -88,7 +88,7 @@ NaturalLogarithmComplex(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(Cz, elementCount);
     matRes = matEigen.array().log();
 #else
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {

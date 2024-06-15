@@ -36,8 +36,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-target_link_libraries(${module_library_name} nlsError_manager nlsOperators
-                      nlsI18n nlsTypes ${OpenMP_CXX_LIBRARIES})
+target_link_libraries(${module_library_name} 
+  nlsError_manager 
+  nlsOperators
+  nlsI18n nlsTypes 
+  ${OpenMP_CXX_LIBRARIES})
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB DATA_ANALYSIS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER DATA_ANALYSIS_BUILTIN EXCLUDE REGEX

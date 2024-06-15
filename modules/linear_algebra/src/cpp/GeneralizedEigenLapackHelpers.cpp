@@ -52,7 +52,7 @@ singleGeneralizedEigenDecomposition(
     float* WORK = (float*)new_with_exception<float>(LWORK, true);
     LAPACK_sggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHAR, ALPHAI, BETA, VL, &LDVL, VR, &LDVR,
         WORK, &LWORK, &INFO);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
@@ -133,7 +133,7 @@ doubleGeneralizedEigenDecomposition(
     double* WORK = (double*)new_with_exception<double>(LWORK, true);
     LAPACK_dggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHAR, ALPHAI, BETA, VL, &LDVL, VR, &LDVR,
         WORK, &LWORK, &INFO);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
@@ -218,7 +218,7 @@ singleComplexGeneralizedEigenDecomposition(int n, std::complex<float>* v, std::c
         = (std::complex<float>*)new_with_exception<std::complex<float>>(LWORK, true);
     LAPACK_cggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHA, BETA, VL, &LDVL, VR, &LDVR, WORK,
         &LWORK, RWORK, &INFO);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
@@ -339,7 +339,7 @@ doubleComplexGeneralizedEigenDecomposition(int n, std::complex<double>* v, std::
         = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, true);
     LAPACK_zggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHA, BETA, VL, &LDVL, VR, &LDVR, WORK,
         &LWORK, RWORK, &INFO);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {

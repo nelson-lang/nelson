@@ -36,8 +36,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(${module_library_name} nlsCharacters_encoding nlsCommons
-                      nlsI18n)
+target_link_libraries(${module_library_name} 
+  nlsCharacters_encoding 
+  nlsCommons
+  nlsI18n)
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB PROFILER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER PROFILER_BUILTIN EXCLUDE REGEX

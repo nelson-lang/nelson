@@ -267,7 +267,7 @@ computeMatrixExponential(const ArrayOf& V, const ArrayOf& D, const ArrayOf& invV
         ptrInvV, (Eigen::Index)invV.getRows(), (Eigen::Index)invV.getColumns());
     Eigen::Map<EigenMatrixType> matD(ptrD, (Eigen::Index)D.getRows(), (Eigen::Index)D.getColumns());
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)matD.rows(); ++i) {
@@ -367,7 +367,7 @@ ExpMatrixComplex(const ArrayOf& A, NelsonType destinationType)
         matA);
     auto evects = es.eigenvectors();
     auto evals = es.eigenvalues();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {

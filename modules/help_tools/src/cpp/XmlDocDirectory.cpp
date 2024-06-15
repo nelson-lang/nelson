@@ -16,6 +16,7 @@
 #include "XmlDocChapterItem.hpp"
 #include "i18n.hpp"
 #include <algorithm>
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +37,7 @@ XmlDocDirectory::XmlDocDirectory(const std::wstring& _srcDirectory,
         }
     }
     if (!listXmlFiles.empty()) {
-        std::sort(listXmlFiles.begin(), listXmlFiles.end());
+        parallelSort(listXmlFiles);
         this->xmlDocFiles = new XmlDocListOfFiles(
             listXmlFiles, this->dstDirectory, bOverwriteExistingFiles, this->outputTarget);
     }

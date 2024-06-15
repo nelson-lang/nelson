@@ -57,7 +57,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
     case NLS_DOUBLE: {
         double* ptr = (double*)ArrayOf::allocateArrayOf(destinationClass, len);
         X = ArrayOf(destinationClass, dims, ptr);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
@@ -67,7 +67,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
     case NLS_SINGLE: {
         single* ptr = (single*)ArrayOf::allocateArrayOf(destinationClass, len);
         X = ArrayOf(destinationClass, dims, ptr);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)len; k++) {

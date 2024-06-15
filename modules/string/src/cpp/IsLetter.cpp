@@ -24,7 +24,7 @@ isWideCharAlpha(const ArrayOf& A)
     logical* ptrRes = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, str.length());
     ArrayOf result = ArrayOf(NLS_LOGICAL, Dimensions(1, str.length()), ptrRes);
     ompIndexType nbElements = (ompIndexType)str.length();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElements; ++k) {

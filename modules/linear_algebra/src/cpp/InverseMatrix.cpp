@@ -39,7 +39,7 @@ InverseDouble(const ArrayOf& A, double rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
@@ -88,7 +88,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
@@ -137,7 +137,7 @@ InverseSingle(const ArrayOf& A, single rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
@@ -186,7 +186,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {

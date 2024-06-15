@@ -22,6 +22,7 @@
 #include "JsonVariable.hpp"
 #include "nlsBuildConfig.h"
 #include "i18n.hpp"
+#include "ParallelTransform.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -389,7 +390,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
     switch (jsVar.dims.size()) {
     case 1: {
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
-        std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
+        parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
             jsVar.vectorString.begin(), [](JsonVariable& val) { return val.scalarString; });
     } break;
     case 2: {
@@ -437,7 +438,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
     switch (jsVar.dims.size()) {
     case 1: {
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
-        std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
+        parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
             jsVar.vectorLogical.begin(), [](JsonVariable& val) { return val.scalarLogical; });
     } break;
     case 2: {
@@ -485,7 +486,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
     switch (jsVar.dims.size()) {
     case 1: {
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
-        std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
+        parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
             jsVar.vectorDouble.begin(), [](JsonVariable& val) { return val.scalarDouble; });
     } break;
     case 2: {

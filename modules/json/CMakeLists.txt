@@ -42,8 +42,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 
-target_link_libraries(${module_library_name} nlsCharacters_encoding nlsCommons
-                      nlsI18n nlsTypes)
+target_link_libraries(${module_library_name}
+  nlsCharacters_encoding 
+  nlsCommons
+  nlsI18n 
+  nlsTypes)
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB JSON_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER JSON_BUILTIN EXCLUDE REGEX

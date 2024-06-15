@@ -19,7 +19,7 @@ template <class T>
 void
 boolean_isinf(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -31,7 +31,7 @@ template <class T>
 void
 boolean_isinf_cplx(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -89,7 +89,7 @@ IsInf(const ArrayOf& A)
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
             NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)A.getElementCount(); i++) {

@@ -22,7 +22,7 @@ template <class T>
 void
 absoluteValueRealTemplate(T* ptrA, indexType N, T* ptrRes)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -35,7 +35,7 @@ void
 absoluteValueComplexTemplate(T* ptrA, indexType N, T* ptrRes)
 {
     auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

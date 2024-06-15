@@ -57,7 +57,7 @@ void
 remfunc(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
     if ((stride1 == 1) && (stride2 == 1)) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -65,14 +65,14 @@ remfunc(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
         }
     } else {
         if (stride1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_rem(A[i], B[0]);
             }
         } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -87,7 +87,7 @@ void
 remfunc_integer(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
     if ((stride1 == 1) && (stride2 == 1)) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -95,14 +95,14 @@ remfunc_integer(indexType N, T* C, const T* A, int stride1, const T* B, int stri
         }
     } else {
         if (stride1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_rem_integer(A[i], B[0]);
             }
         } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

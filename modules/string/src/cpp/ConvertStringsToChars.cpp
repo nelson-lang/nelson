@@ -40,7 +40,7 @@ ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
             ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
             auto* elementsStr = (ArrayOf*)A.getDataPointer();
             ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType q = 0; q < elementCount; q++) {

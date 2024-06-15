@@ -118,7 +118,6 @@ static const nlsGateway gateway[] = {
     { "bitxor", (ptrBuiltin)Nelson::OperatorsGateway::bitxorBuiltin, 1, 2, CPP_BUILTIN },
     { "any", (ptrBuiltin)Nelson::OperatorsGateway::anyBuiltin, 1, 2 },
     { "all", (ptrBuiltin)Nelson::OperatorsGateway::allBuiltin, 1, 2, CPP_BUILTIN },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

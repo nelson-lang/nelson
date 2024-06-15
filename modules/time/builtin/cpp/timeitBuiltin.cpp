@@ -14,6 +14,7 @@
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -93,7 +94,7 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         runtime.push_back(evaluateFunctionWithTimerNth(
             eval, funcDef, nLhsTimeIt, (int)numberInnerIterations, inputs));
     }
-    std::sort(runtime.begin(), runtime.end());
+    parallelSort(runtime);
     double median = runtime[runtime.size() / 2];
     double t = median / numberInnerIterations;
     t = std::max(t, 0.);
@@ -126,7 +127,7 @@ evaluateFunctionWithTimerRaw(Evaluator* eval, AnonymousMacroFunctionDef* funcDef
             runtime.clear();
         }
     }
-    std::sort(runtime.begin(), runtime.end());
+    parallelSort(runtime);
     double median = runtime[runtime.size() / 2];
     return (double)median;
 }

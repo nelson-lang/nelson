@@ -270,8 +270,6 @@
     <ClInclude Include="..\include\plusBuiltin.hpp" />
     <ClInclude Include="..\include\powerBuiltin.hpp" />
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
-    <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
-    <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
     <ClInclude Include="..\include\subsasgnBuiltin.hpp" />
     <ClInclude Include="..\include\subsindexBuiltin.hpp" />
     <ClInclude Include="..\include\subsrefBuiltin.hpp" />

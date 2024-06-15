@@ -37,7 +37,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
             auto* elementsCell = new_with_exception<ArrayOf>(argIn[0].getElementCount(), false);
             auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
             ompIndexType elementCount = argIn[0].getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < elementCount; k++) {
@@ -79,7 +79,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     dims.simplify();
                     ompIndexType elementCount = dims.getElementCount();
                     auto* elements = new_with_exception<ArrayOf>(elementCount, false);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -110,7 +110,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         dims.simplify();
         auto* elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
         ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {

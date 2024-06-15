@@ -90,7 +90,7 @@ GOLineSeries::updateState()
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         xs.clear();
         xs.resize(ys.size());
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
@@ -99,7 +99,7 @@ GOLineSeries::updateState()
     }
     if (zs.size() == 0) {
         zs.resize(ys.size());
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {

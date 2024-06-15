@@ -109,7 +109,7 @@ double
 TMeanAllInteger(const T* spx, indexType elementCount)
 {
     double sum = 0.;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
@@ -126,7 +126,7 @@ TMeanAllReal(const T* spx, bool omitNaN, indexType elementCount)
     double mean = 0.;
     if (omitNaN) {
         double nbNotNaN = 0.;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum, nbNotNaN)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
@@ -137,7 +137,7 @@ TMeanAllReal(const T* spx, bool omitNaN, indexType elementCount)
         }
         mean = sum / nbNotNaN;
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sum)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
@@ -157,7 +157,7 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
     double sumReal = 0.;
     if (omitNaN) {
         double nbNotNaN = 0.;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sumImag, sumReal, nbNotNaN)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount * 2; i = i + 2) {
@@ -175,7 +175,7 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
             mean = m;
         }
     } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for reduction(+ : sumImag, sumReal)
 #endif
 

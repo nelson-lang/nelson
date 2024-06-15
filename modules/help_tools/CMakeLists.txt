@@ -56,6 +56,9 @@ target_link_libraries(
   nlsLocalization
   nlsModules_manager
   ${LIBXML2_LIBRARIES})
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB HELP_TOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER HELP_TOOLS_BUILTIN EXCLUDE REGEX

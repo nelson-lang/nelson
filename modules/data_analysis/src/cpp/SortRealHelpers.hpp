@@ -15,6 +15,7 @@
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
 #include "nlsBuildConfig.h"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -71,12 +72,12 @@ RealEntrySortByPlacement(
     switch (placement) {
     case MISSING_PLACEMENT::AUTO_PLACEMENT: {
         if (ascend) {
-            std::sort(buf.begin(), buf.end(), comparisonRealLessRealEntry);
+            parallelSort(buf.begin(), buf.end(), comparisonRealLessRealEntry);
         } else {
             auto it = std::partition(
                 buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return std::isnan(i.x); });
 
-            std::sort(
+            parallelSort(
                 buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
                     if (std::isnan(a.x) && std::isnan(b.x)) {
                         return a.n < b.n;
@@ -84,37 +85,39 @@ RealEntrySortByPlacement(
                     return a.n != a.n;
                 });
 
-            std::sort(it, buf.end(), comparisonRealGreaterRealEntry);
+            parallelSort(it, buf.end(), comparisonRealGreaterRealEntry);
         }
     } break;
     case MISSING_PLACEMENT::FIRST_PLACEMENT: {
         auto it = std::partition(
             buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return std::isnan(i.x); });
-        std::sort(buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
-            if (std::isnan(a.x) && std::isnan(b.x)) {
-                return a.n < b.n;
-            }
-            return a.n != a.n;
-        });
+        parallelSort(
+            buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
+                if (std::isnan(a.x) && std::isnan(b.x)) {
+                    return a.n < b.n;
+                }
+                return a.n != a.n;
+            });
         if (ascend) {
-            std::sort(it, buf.end(), comparisonRealLessRealEntry);
+            parallelSort(it, buf.end(), comparisonRealLessRealEntry);
         } else {
-            std::sort(it, buf.end(), comparisonRealGreaterRealEntry);
+            parallelSort(it, buf.end(), comparisonRealGreaterRealEntry);
         }
     } break;
     case MISSING_PLACEMENT::LAST_PLACEMENT: {
         auto it = std::partition(
             buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return !std::isnan(i.x); });
-        std::sort(buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
-            if (std::isnan(a.x) && std::isnan(b.x)) {
-                return a.n < b.n;
-            }
-            return a.n != a.n;
-        });
+        parallelSort(
+            buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
+                if (std::isnan(a.x) && std::isnan(b.x)) {
+                    return a.n < b.n;
+                }
+                return a.n != a.n;
+            });
         if (ascend) {
-            std::sort(buf.begin(), it, comparisonRealLessRealEntry);
+            parallelSort(buf.begin(), it, comparisonRealLessRealEntry);
         } else {
-            std::sort(buf.begin(), it, comparisonRealGreaterRealEntry);
+            parallelSort(buf.begin(), it, comparisonRealGreaterRealEntry);
         }
     } break;
     }
@@ -172,26 +175,26 @@ RealSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesize, 
         switch (placement) {
         case MISSING_PLACEMENT::AUTO_PLACEMENT: {
             if (ascend) {
-                std::sort(dp, dp + linesize, comparisonRealLess);
+                parallelSort(dp, dp + linesize, comparisonRealLess);
             } else {
                 T* pt = std::partition(dp, dp + linesize, [](const T& i) { return std::isnan(i); });
-                std::sort(pt, dp + linesize, comparisonRealGreater);
+                parallelSort(pt, dp + linesize, comparisonRealGreater);
             }
         } break;
         case MISSING_PLACEMENT::FIRST_PLACEMENT: {
             T* pt = std::partition(dp, dp + linesize, [](const T& i) { return std::isnan(i); });
             if (ascend) {
-                std::sort(pt, dp + linesize, comparisonRealLess);
+                parallelSort(pt, dp + linesize, comparisonRealLess);
             } else {
-                std::sort(pt, dp + linesize, comparisonRealGreater);
+                parallelSort(pt, dp + linesize, comparisonRealGreater);
             }
         } break;
         case MISSING_PLACEMENT::LAST_PLACEMENT: {
             T* pt = std::partition(dp, dp + linesize, [](const T& i) { return !std::isnan(i); });
             if (ascend) {
-                std::sort(dp, pt, comparisonRealLess);
+                parallelSort(dp, pt, comparisonRealLess);
             } else {
-                std::sort(dp, pt, comparisonRealGreater);
+                parallelSort(dp, pt, comparisonRealGreater);
             }
         } break;
         }
@@ -208,29 +211,29 @@ RealSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesize, 
                 switch (placement) {
                 case MISSING_PLACEMENT::AUTO_PLACEMENT: {
                     if (ascend) {
-                        std::sort(buf.begin(), buf.end(), comparisonRealLess);
+                        parallelSort(buf.begin(), buf.end(), comparisonRealLess);
                     } else {
                         auto it = std::partition(
                             buf.begin(), buf.end(), [](const T& i) { return std::isnan(i); });
-                        std::sort(it, buf.end(), comparisonRealGreater);
+                        parallelSort(it, buf.end(), comparisonRealGreater);
                     }
                 } break;
                 case MISSING_PLACEMENT::FIRST_PLACEMENT: {
                     auto it = std::partition(
                         buf.begin(), buf.end(), [](const T& i) { return std::isnan(i); });
                     if (ascend) {
-                        std::sort(it, buf.end(), comparisonRealLess);
+                        parallelSort(it, buf.end(), comparisonRealLess);
                     } else {
-                        std::sort(it, buf.end(), comparisonRealGreater);
+                        parallelSort(it, buf.end(), comparisonRealGreater);
                     }
                 } break;
                 case MISSING_PLACEMENT::LAST_PLACEMENT: {
                     auto it = std::partition(
                         buf.begin(), buf.end(), [](const T& i) { return !std::isnan(i); });
                     if (ascend) {
-                        std::sort(it, buf.end(), comparisonRealLess);
+                        parallelSort(it, buf.end(), comparisonRealLess);
                     } else {
-                        std::sort(it, buf.end(), comparisonRealGreater);
+                        parallelSort(it, buf.end(), comparisonRealGreater);
                     }
                 } break;
                 }
@@ -266,7 +269,7 @@ sortReal(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
             ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < elementCount; ++k) {

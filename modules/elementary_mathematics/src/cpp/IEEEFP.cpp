@@ -10,7 +10,7 @@
 #include <cmath>
 #include <cstdint>
 #include "nlsBuildConfig.h"
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #include <omp.h>
 #endif
 #include "IEEEFP.hpp"
@@ -130,7 +130,7 @@ IsIntegerFormOpenMP(const T* t, size_t nbElements)
         } break;
         default: {
             bool result = true;
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
 #pragma omp parallel for shared(result)
 #endif
             for (long long k = 0; k < (long long)nbElements; k++) {
@@ -149,7 +149,7 @@ template <class T>
 bool
 IsIntegerForm(const T* t, size_t nbElements)
 {
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
     return IsIntegerFormOpenMP<T>(t, nbElements);
 #else
     return IsIntegerFormNoOpenMP<T>(t, nbElements);
@@ -204,7 +204,7 @@ template <class T>
 bool
 IsIntegerFormOrNotFinite(const T* t, size_t nbElements)
 {
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
     return IsIntegerFormOrNotFiniteOpenMP<T>(t, nbElements);
 #else
     return IsIntegerFormOrNotFiniteNoOpenMP<T>(t, nbElements);

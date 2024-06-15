@@ -30,6 +30,9 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/stduuid
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 target_link_libraries(${module_library_name} nlsCharacters_encoding)
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB COMMONS_HEADER
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/Nelson_VERSION.h"

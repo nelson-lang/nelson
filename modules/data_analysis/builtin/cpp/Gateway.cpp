@@ -16,6 +16,7 @@
 #include "sumBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
 #include "sortBuiltin.hpp"
+#include "uniqueBuiltin.hpp"
 #include "maxBuiltin.hpp"
 #include "minBuiltin.hpp"
 #include "conv2Builtin.hpp"
@@ -38,7 +39,7 @@ static const nlsGateway gateway[] = {
     { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1 },
     { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1 },
     { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4 },
-
+    { "unique", (ptrBuiltin)Nelson::DataAnalysisGateway::uniqueBuiltin, -1, -1, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

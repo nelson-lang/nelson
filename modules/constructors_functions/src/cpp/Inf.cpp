@@ -39,7 +39,7 @@ Inf(Dimensions& dims)
             mat[0] = value;
         } else {
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
                 mat[k] = value;

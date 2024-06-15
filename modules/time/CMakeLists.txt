@@ -47,6 +47,9 @@ target_link_libraries(
   nlsNelson_manager
   nlsOperators
   nlsTypes)
+if(NOT WITHOUT_TBB AND TBB_FOUND)
+  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
 # ==============================================================================
 file(GLOB TIME_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER TIME_BUILTIN EXCLUDE REGEX

@@ -26,7 +26,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* elements = (ArrayOf*)A.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -38,7 +38,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* elements = (ArrayOf*)A.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -51,7 +51,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (double*)A.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -63,7 +63,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (single*)A.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -99,7 +99,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (charType*)A.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {

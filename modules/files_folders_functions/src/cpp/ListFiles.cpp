@@ -14,6 +14,7 @@
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -269,7 +270,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             }
         } customIsDirLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customIsDirLess);
+            parallelSort(res.begin(), res.end(), customIsDirLess);
         }
         struct
         {
@@ -280,7 +281,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             }
         } customFilenameLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customFilenameLess);
+            parallelSort(res.begin(), res.end(), customFilenameLess);
         }
     }
     return res;
@@ -380,7 +381,7 @@ ListFiles(const std::wstring& _directory, bool bSubdirectories)
             }
         } customIsDirLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customIsDirLess);
+            parallelSort(res.begin(), res.end(), customIsDirLess);
         }
         struct
         {
@@ -391,7 +392,7 @@ ListFiles(const std::wstring& _directory, bool bSubdirectories)
             }
         } customFilenameLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customFilenameLess);
+            parallelSort(res.begin(), res.end(), customFilenameLess);
         }
     }
     return res;

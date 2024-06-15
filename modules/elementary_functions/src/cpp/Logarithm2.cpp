@@ -33,7 +33,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
         res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -54,7 +54,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
         res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -76,7 +76,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
         res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -97,7 +97,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
         res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -136,7 +136,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         double* ptrE = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_DOUBLE, dimsA, ptrE);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -158,7 +158,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         single* ptrE = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_SINGLE, dimsA, ptrE);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -182,7 +182,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_DOUBLE, dimsA, ptrE);
         Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
@@ -206,7 +206,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_SINGLE, dimsA, ptrE);
         Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {

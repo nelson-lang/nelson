@@ -30,7 +30,7 @@ Nelson::DataStructuresGateway::__num2cell__Builtin(int nLhs, const ArrayOfVector
     if (param.isSparse()) {
         param.makeDense();
     }
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {

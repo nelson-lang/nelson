@@ -22,7 +22,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, nbElements);
     std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
     if (allReal) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < nbElements; ++k) {
@@ -36,7 +36,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
         }
     } else {
         std::complex<T>* inZ = reinterpret_cast<std::complex<T>*>(values);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < nbElements; ++k) {

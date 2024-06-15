@@ -51,7 +51,7 @@ ToLower(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
         ompIndexType elementCount = A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {

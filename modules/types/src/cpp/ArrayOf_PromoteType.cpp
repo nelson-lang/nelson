@@ -85,7 +85,7 @@ saturate(NelsonType classIn, NelsonType classOut, const void* pIn, void* pOut, i
             }
         }
         if (checkNaN) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -96,7 +96,7 @@ saturate(NelsonType classIn, NelsonType classOut, const void* pIn, void* pOut, i
                 }
             }
         } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -142,7 +142,7 @@ TOUT*
 promoteAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -156,7 +156,7 @@ TOUT*
 promoteAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
@@ -170,7 +170,7 @@ TOUT*
 promoteComplexAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < count; ++i) {
@@ -184,7 +184,7 @@ TOUT*
 promoteComplexAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
@@ -198,7 +198,7 @@ TOUT*
 promoteComplexAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count * 2; i = i + 2) {
@@ -213,7 +213,7 @@ TOUT*
 promoteAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count, stringVector(), true);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
@@ -234,7 +234,7 @@ promoteComplexAsInteger(NelsonType dstClass, const TIN* ptr, indexType count)
         }
     }
     if (checkNaN) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {

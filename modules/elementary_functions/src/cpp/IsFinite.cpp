@@ -19,7 +19,7 @@ template <class T>
 void
 boolean_isfinite(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -31,7 +31,7 @@ template <class T>
 void
 boolean_isfinite_cplx(indexType N, logical* C, const T* A)
 {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -93,7 +93,7 @@ IsFinite(const ArrayOf& A)
             NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
         ompIndexType N = (ompIndexType)A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < N; i++) {

@@ -29,7 +29,7 @@ isMemberStringArray(const ArrayOf& A, const ArrayOf& B)
     ArrayOf* dB = (ArrayOf*)B.getDataPointer();
     bool isMissingA = false;
     ompIndexType nbElementsA = A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElementsA; ++k) {
@@ -66,7 +66,7 @@ isMemberCharacterArray(const ArrayOf& A, const ArrayOf& B)
     logical* elements = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, stringsA.size());
     res = ArrayOf(NLS_LOGICAL, dimsRes, elements);
     memset(elements, false, sizeof(logical) * stringsA.size());
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)stringsA.size(); ++k) {
@@ -91,7 +91,7 @@ isMemberReal(const ArrayOf& A, const ArrayOf& B)
     T* dA = (T*)A.getDataPointer();
     T* dB = (T*)B.getDataPointer();
     ompIndexType nbElementsA = A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElementsA; ++k) {
@@ -116,7 +116,7 @@ isMemberComplex(const ArrayOf& A, const ArrayOf& B)
     T* dA = (T*)A.getDataPointer();
     T* dB = (T*)B.getDataPointer();
     ompIndexType nbElementsA = A.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbElementsA * 2; k = k + 2) {

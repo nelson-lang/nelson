@@ -56,9 +56,5 @@
 #define WITH_GEOMETRY_MODULE @WITH_GEOMETRY_MODULE@
 #define WITH_PYTHON_ENGINE_MODULE @WITH_PYTHON_ENGINE_MODULE@
 //=============================================================================
-#if WITH_OPENMP
-#define _NLS_WITH_OPENMP
-#endif
-//=============================================================================
 #define WITH_FILE_WATCHER @WITH_FILE_WATCHER@
 //=============================================================================

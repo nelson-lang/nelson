@@ -32,6 +32,8 @@
 #include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "ParallelSort.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -78,11 +80,10 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
         if (raiseError) {
             std::wstring lowerName(name);
             std::wstring proposedName;
-            std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), towlower);
+            StringHelpers::to_lower(lowerName);
             for (auto element : m_property_names_order) {
                 std::wstring lowerElement(element);
-                std::transform(
-                    lowerElement.begin(), lowerElement.end(), lowerElement.begin(), towlower);
+                StringHelpers::to_lower(lowerElement);
                 if (lowerElement == lowerName) {
                     proposedName = element;
                     break;
@@ -218,7 +219,7 @@ GraphicsObject::registerProperty(GOGenericProperty* hp, const std::wstring& name
 void
 GraphicsObject::sortProperties()
 {
-    std::sort(m_property_names_order.begin(), m_property_names_order.end());
+    parallelSort(m_property_names_order);
 }
 //=============================================================================
 bool

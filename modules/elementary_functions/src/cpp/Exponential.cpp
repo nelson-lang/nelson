@@ -64,7 +64,7 @@ Exponential(const ArrayOf& A, bool& needToOverload)
                 matOut = matIn.array().exp();
 #else
                 ompIndexType elementCount = (ompIndexType)nElementsA;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < elementCount; k++) {
@@ -104,7 +104,7 @@ Exponential(const ArrayOf& A, bool& needToOverload)
                 matOut = matIn.array().exp();
 #else
                 ompIndexType elementCount = (ompIndexType)nElementsA;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                 for (ompIndexType k = 0; k < elementCount; k++) {

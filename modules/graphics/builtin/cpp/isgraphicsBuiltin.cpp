@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,7 +37,7 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring typeStr;
     if (argIn.size() == 2) {
         typeStr = argIn[1].getContentAsWideString();
-        std::transform(typeStr.begin(), typeStr.end(), typeStr.begin(), ::tolower);
+        StringHelpers::to_lower(typeStr);
     }
 
     logical* ptrResult = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.getElementCount());
@@ -58,7 +59,7 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     GOGenericProperty* hp = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
                     if (hp) {
                         std::wstring r = hp->get().getContentAsWideString();
-                        std::transform(r.begin(), r.end(), r.begin(), ::towlower);
+                        StringHelpers::to_lower(r);
                         result = (r == typeStr);
                     }
                 } else {

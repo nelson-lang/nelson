@@ -30,7 +30,7 @@ static void
 boolean_and(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
     if (Astride == 1 && Bstride == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -38,7 +38,7 @@ boolean_and(indexType N, logical* C, const logical* A, int Astride, const logica
         }
 
     } else if (Astride == 0 && Bstride == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
@@ -46,7 +46,7 @@ boolean_and(indexType N, logical* C, const logical* A, int Astride, const logica
         }
 
     } else if (Astride == 1 && Bstride == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {

@@ -28,7 +28,7 @@ matrix_matrix_elementWiseMultiplication(
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     ArrayOf res = ArrayOf(classDestination, dimsC, Cp, false);
-#ifdef _NLS_WITH_OPENMP
+#if WITH_OPENMP
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;

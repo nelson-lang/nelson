@@ -95,7 +95,7 @@ Conv2Real(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm
     ompIndexType m = 0;
     ompIndexType i = 0;
     ompIndexType j = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(n, m, i, j)
 #endif
     for (n = 0; n < (ompIndexType)Cn; n++) {
@@ -128,7 +128,7 @@ Conv2Complex(std::complex<T>* C, const std::complex<T>* A, const std::complex<T>
     ompIndexType m = 0;
     ompIndexType i = 0;
     ompIndexType j = 0;
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for private(n, m, i, j)
 #endif
     for (n = 0; n < (ompIndexType)Cn; n++) {

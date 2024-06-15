@@ -48,15 +48,12 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.0
         id: json_version
-
       - name: Update version
         run: |
           python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
-
       - name: CMake
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
@@ -103,9 +100,6 @@ jobs:
         run: |
           brew --version
           brew cleanup
-          brew uninstall --ignore-dependencies php
-          brew update
-          brew upgrade
           brew install coreutils
           brew install zlib
           brew install libtool
@@ -135,7 +129,6 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew link icu4c --force
-          brew install numpy
           brew install tbb
 
       - name: Install Qt
@@ -144,15 +137,12 @@ jobs:
           version: "6.4.2"
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.0
         id: json_version
-
       - name: Update version
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-
       - name: CMake
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
@@ -171,8 +161,6 @@ jobs:
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
-      - name: Setup Python environment for Nelson
-        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: all benchs
         run: |
           export OMP_NUM_THREADS=1
@@ -236,15 +224,12 @@ jobs:
           version: "6.4.2"
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.0
         id: json_version
-
       - name: Update version
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-
       - name: CMake
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
@@ -343,11 +328,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.0
         id: json_version
-
       - name: Update version
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
@@ -464,14 +447,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10.13"
-
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.0
         id: json_version
-
       - name: Update version
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
@@ -549,7 +529,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Trust repo directory
         run: |
           git config --global --add safe.directory /__w/nelson/nelson

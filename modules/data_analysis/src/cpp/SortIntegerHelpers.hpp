@@ -15,6 +15,7 @@
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
 #include "nlsBuildConfig.h"
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,9 +74,9 @@ IntegerSortWithIndex(const T* sp, T* dp, double* ip, indexType planes, indexType
             buf.push_back(entry);
         }
         if (ascend) {
-            std::sort(buf.begin(), buf.end(), comparisonIntegerLessRealEntry);
+            parallelSort(buf.begin(), buf.end(), comparisonIntegerLessRealEntry);
         } else {
-            std::sort(buf.begin(), buf.end(), comparisonIntegerGreaterRealEntry);
+            parallelSort(buf.begin(), buf.end(), comparisonIntegerGreaterRealEntry);
         }
         for (indexType i = 0; i < linesize; i++) {
             dp[i] = buf[i].x;
@@ -92,9 +93,9 @@ IntegerSortWithIndex(const T* sp, T* dp, double* ip, indexType planes, indexType
                     buf.push_back(entry);
                 }
                 if (!ascend) {
-                    std::sort(buf.begin(), buf.end(), comparisonIntegerGreaterRealEntry);
+                    parallelSort(buf.begin(), buf.end(), comparisonIntegerGreaterRealEntry);
                 } else {
-                    std::sort(buf.begin(), buf.end(), comparisonIntegerLessRealEntry);
+                    parallelSort(buf.begin(), buf.end(), comparisonIntegerLessRealEntry);
                 }
                 for (indexType k = 0; k < linesize; k++) {
                     dp[i * planesize * linesize + j + k * planesize] = buf[k].x;
@@ -112,9 +113,9 @@ IntegerSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesiz
 {
     if (isVector) {
         if (ascend) {
-            std::sort(dp, dp + linesize, comparisonIntegerLess);
+            parallelSort(dp, dp + linesize, comparisonIntegerLess);
         } else {
-            std::sort(dp, dp + linesize, comparisonIntegerGreater);
+            parallelSort(dp, dp + linesize, comparisonIntegerGreater);
         }
     } else {
         std::vector<T> buf;
@@ -126,9 +127,9 @@ IntegerSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesiz
                     buf.push_back(sp[i * planesize * linesize + j + k * planesize]);
                 }
                 if (!ascend) {
-                    std::sort(buf.begin(), buf.end(), comparisonIntegerGreater);
+                    parallelSort(buf.begin(), buf.end(), comparisonIntegerGreater);
                 } else {
-                    std::sort(buf.begin(), buf.end(), comparisonIntegerLess);
+                    parallelSort(buf.begin(), buf.end(), comparisonIntegerLess);
                 }
 
                 for (indexType k = 0; k < linesize; k++) {
@@ -161,7 +162,7 @@ sortInteger(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
             ompIndexType elementCount = outDim.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < elementCount; ++k) {

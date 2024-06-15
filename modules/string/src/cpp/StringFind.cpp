@@ -38,7 +38,7 @@ StringFind(const std::wstring& A, const std::wstring& B)
         double* Cp = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen, stringVector(), false));
         Dimensions dimC(1, Clen);
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {

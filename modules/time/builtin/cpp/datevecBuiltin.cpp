@@ -36,7 +36,7 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
             double* res = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len, stringVector(), false));
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
@@ -81,7 +81,7 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
             }
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {

@@ -26,7 +26,7 @@ ToSingle(const ArrayOf& A)
         return r;
     }
 
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < nbElements; ++i) {
@@ -83,7 +83,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, nbElements, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, false);
         auto* pDouble = (double*)A.getDataPointer();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {

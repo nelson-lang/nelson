@@ -67,7 +67,7 @@ matrix_matrix_operator(const ArrayOf& A, const ArrayOf& B,
             Cp[0] = relationOperator(classA, ptrA, ptrB, 0, 0);
 
         } else {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
@@ -122,7 +122,7 @@ scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
         break;
     }
     if (relationOperator) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
@@ -175,7 +175,7 @@ matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
         break;
     }
     if (relationOperator) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {

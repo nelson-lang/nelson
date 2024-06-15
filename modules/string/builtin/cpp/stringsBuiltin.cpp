@@ -68,7 +68,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     dims.simplify();
                     ompIndexType elementCount = dims.getElementCount();
                     auto* elements = new ArrayOf[elementCount];
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
                     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -112,7 +112,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
         dims.simplify();
         ompIndexType elementCount = dims.getElementCount();
         auto* elements = new ArrayOf[elementCount];
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {

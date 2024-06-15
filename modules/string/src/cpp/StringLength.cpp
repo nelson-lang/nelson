@@ -25,7 +25,7 @@ StringLength(const ArrayOf& A)
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         ompIndexType elementCount = outputDims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -49,7 +49,7 @@ StringLength(const ArrayOf& A)
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         ompIndexType s = (ompIndexType)wstr.size();
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < s; k++) {

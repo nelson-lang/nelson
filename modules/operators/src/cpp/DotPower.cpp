@@ -186,7 +186,7 @@ void
 cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -199,7 +199,7 @@ cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -212,7 +212,7 @@ cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -231,7 +231,7 @@ void
 cfcpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -247,7 +247,7 @@ cfcpower(int n, single* c, const single* a, int stride1, const single* b, int st
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -263,7 +263,7 @@ cfcpower(int n, single* c, const single* a, int stride1, const single* b, int st
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -285,7 +285,7 @@ void
 zdzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -301,7 +301,7 @@ zdzpower(int n, double* c, const double* a, int stride1, const double* b, int st
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -317,7 +317,7 @@ zdzpower(int n, double* c, const double* a, int stride1, const double* b, int st
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -339,7 +339,7 @@ void
 cccpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -355,7 +355,7 @@ cccpower(int n, single* c, const single* a, int stride1, const single* b, int st
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -371,7 +371,7 @@ cccpower(int n, single* c, const single* a, int stride1, const single* b, int st
             c[2 * i + 1] = static_cast<single>(z3[1]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -393,7 +393,7 @@ void
 zzzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -410,7 +410,7 @@ zzzpower(int n, double* c, const double* a, int stride1, const double* b, int st
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -426,7 +426,7 @@ zzzpower(int n, double* c, const double* a, int stride1, const double* b, int st
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -448,7 +448,7 @@ void
 zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -461,7 +461,7 @@ zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -474,7 +474,7 @@ zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
             c[2 * i + 1] = z3[1];
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -493,14 +493,14 @@ void
 didpower(int n, double* c, double* a, int stride1, int* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = power_di(a[i], b[i]);
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
 
@@ -508,7 +508,7 @@ didpower(int n, double* c, double* a, int stride1, int* b, int stride2)
             c[i] = power_di(a[i], b[0]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -521,21 +521,21 @@ void
 dddpower(int n, double* c, double* a, int stride1, double* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = power_dd(a[i], b[0]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = power_dd(a[0], b[i]);
         }
     } else if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -548,21 +548,21 @@ void
 fifpower(int n, single* c, single* a, int stride1, int* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = static_cast<single>(power_di(a[i], b[i]));
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = static_cast<single>(power_di(a[i], b[0]));
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -575,21 +575,21 @@ void
 fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = static_cast<single>(power_dd(a[i], b[i]));
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
             c[i] = static_cast<single>(power_dd(a[i], b[0]));
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
@@ -649,21 +649,21 @@ powerInteger(
     T* b = (T*)B.getDataPointer();
     T* c = static_cast<T*>(Cp);
     if (stride1 == 1 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
             c[i] = powi<T>(a[i], b[i]);
         }
     } else if (stride1 == 1 && stride2 == 0) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
             c[i] = powi<T>(a[i], b[0]);
         }
     } else if (stride1 == 0 && stride2 == 1) {
-#if defined(_NLS_WITH_OPENMP)
+#if WITH_OPENMP
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
