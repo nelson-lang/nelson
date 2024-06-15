@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Windows dependencies updated:
   - Qt 6.7.1
   - Visual C++ 2022 Redistributable v14.40.33810.00
+  - boost 1.85
 
 ### Fixed
 
