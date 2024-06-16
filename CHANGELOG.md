@@ -17,15 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Windows dependencies updated:
+
   - Qt 6.7.1
   - Visual C++ 2022 Redistributable v14.40.33810.00
   - boost 1.85
+  - Python 3.12.4
+
+- `sort`: speed optimization.
 
 ### Fixed
 
 - [#1210](http://github.com/nelson-lang/nelson/issues/1210) `bode` did not unwrap phase.
-- [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
 - [#1206](http://github.com/nelson-lang/nelson/issues/1206) `balance` yields wrong Transformation Matrix.
+- [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
 - [#1202](http://github.com/nelson-lang/nelson/issues/1202) buildhelpmd does not generate SUMMARY as expected.
 - [#1201](http://github.com/nelson-lang/nelson/issues/1201) Matrix Exponential `expm` might give wrong results.
 - [#1200](http://github.com/nelson-lang/nelson/issues/1200) Matrix Parsing/Evaluation trouble.
