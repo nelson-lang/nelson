@@ -24,7 +24,7 @@ function varargout = pyenv(varargin)
 
       name = varargin{1};
       mustBeTextScalar(name, 1); 
-      mustBeMember(convertStringsToChars(name), {'Version'}, 1);
+      mustBeMember(convertStringsToChars(name), {'Version', 'version'}, 1);
       pythonExecutablePath = varargin{2};
       mustBeTextScalar(pythonExecutablePath, 2);
 
@@ -38,7 +38,7 @@ function varargout = pyenv(varargin)
       end
       if ~isfile(pythonExecutablePath)
         if ispc()
-          pythonExecutablePath = getExecutablePathFromWindowsRegistry(pythonExecutablePath);
+          pythonExecutablePath = getExecutablePathFromWindowsRegistry(pythonExecutablePath)
           if isempty(pythonExecutablePath) || ~isfile(pythonExecutablePath)
             error(_('Cannot find specified version.'));
           end
