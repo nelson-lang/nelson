@@ -243,7 +243,6 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        ompIndexType ucols = ncols;
 #if WITH_OPENMP
 #pragma omp parallel for
 #endif
@@ -348,7 +347,6 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        ompIndexType ucols = ncols;
         ompIndexType i = 0;
         ompIndexType j = 0;
 
@@ -437,7 +435,6 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        ompIndexType ucols = ncols;
         for (i = 0; i < lcols; i++) {
             l[fullpivot[i] + i * lrows] = 1.0;
         }

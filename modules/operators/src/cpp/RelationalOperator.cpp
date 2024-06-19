@@ -62,10 +62,8 @@ matrix_matrix_operator(const ArrayOf& A, const ArrayOf& B,
     }
 
     if (relationOperator) {
-        if (Clen == 0) {
-        } else if (Clen == 1) {
+        if (Clen == 1) {
             Cp[0] = relationOperator(classA, ptrA, ptrB, 0, 0);
-
         } else {
 #if WITH_OPENMP
 #pragma omp parallel for

@@ -137,7 +137,6 @@ UniqueCellThreeLhs(const ArrayOf& input)
             cnt++;
         }
     }
-    int tcnt = cnt;
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, cnt);

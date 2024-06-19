@@ -54,8 +54,6 @@ UniqueComplexOneLhs(const ArrayOf& input)
     ompIndexType len = input.getElementCount();
     const T* dp = static_cast<const T*>(input.getDataPointer());
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
-    ompIndexType rows = input.getRows();
-    ompIndexType cols = input.getColumns();
 
     std::vector<UniqueComplexEntry<T>> values(len);
 #if WITH_OPENMP
@@ -91,8 +89,6 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     ompIndexType len = input.getElementCount();
     const T* dp = (T*)input.getDataPointer();
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
-    ompIndexType rows = input.getRows();
-    ompIndexType cols = input.getColumns();
 
     std::vector<UniqueComplexEntry<T>> values(len);
 #if WITH_OPENMP
