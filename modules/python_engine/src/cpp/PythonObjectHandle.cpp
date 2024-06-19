@@ -184,9 +184,14 @@ PythonObjectHandle::getOperatorMethods()
         return methodOperatorNames;
     }
 
+    PyObject* pyObject = (PyObject*)this->getPointer();
+    wstringVector pythonMethodNames = getPyObjectMethods(pyObject, true);
+
     for (const auto& pair : operatorMap) {
-        if (isPyObjectMethod(pair.second, true)) {
-            methodOperatorNames.push_back(pair.first);
+        for (const auto& name : pythonMethodNames) {
+            if (name == pair.second) {
+                methodOperatorNames.push_back(pair.first);
+            }
         }
     }
     return methodOperatorNames;

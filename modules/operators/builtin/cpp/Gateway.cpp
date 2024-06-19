@@ -61,7 +61,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { UMINUS_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::uminusBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
-    { UPLUS_OPERATOR_STR "uplus", (ptrBuiltin)Nelson::OperatorsGateway::uplusBuiltin, 1, 1,
+    { UPLUS_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::uplusBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { AND_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::andBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },

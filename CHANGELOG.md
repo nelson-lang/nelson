@@ -16,12 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Windows dependencies updated:
+- Windows dependencies updated and rebuild with minimal dependencies:
 
-  - Qt 6.7.1
-  - Visual C++ 2022 Redistributable v14.40.33810.00
-  - boost 1.85
-  - Python 3.12.4
+  - Qt 6.7.1,
+  - Visual C++ 2022 Redistributable v14.40.33810.00,
+  - boost 1.85,
+  - Python 3.12.4,
+  - Intel Math Kernel Library 2024.1.1,
+  - Intel runtime,
+  - SLICOT,
+  - gettext 0.22.5,
+  - cmake 3.30.0 rc3
 
 - `sort`: speed optimization.
 

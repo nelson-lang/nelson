@@ -15,7 +15,7 @@ env = pyenv();
 try
   pyrun('import numpy as np');
 catch
-    skip_testsuite(true, 'Numpy not available')
+  skip_testsuite(true, 'Numpy not available')
 end
 %=============================================================================
 N_A = [1, 2, 3; 4, 5, 6; 7, 8, 9];

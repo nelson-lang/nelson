@@ -53,7 +53,7 @@ D_REF = [-2.7042      0.0000      0.0000;
 0.0000      0.0000     -0.2936];
 assert_isapprox(A*V, B*V*D, 1e-4);
 if ispc()
-  assert_isapprox(V, V_REF, 1e-4);
+  assert_isapprox(abs(V), abs(V_REF), 1e-4);
   assert_isapprox(D, D_REF, 1e-4);
 end
 %=============================================================================
@@ -116,7 +116,7 @@ D_REF = [-2.7042         0         0;
 0         0   -0.2936];
 assert_isapprox(A*V, B*V*D, 1e-4);
 if ispc()
-  assert_isapprox(V, V_REF, 1e-4);
+  assert_isapprox(abs(V), abs(V_REF), 1e-4);
   assert_isapprox(D, D_REF, 1e-4);
 end
 %=============================================================================

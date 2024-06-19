@@ -47,16 +47,22 @@ cmd =["import numpy as np"; "A = np.array([3, 2, 1, 4])"];
 A = pyrun(cmd, 'A');
 R = A.argmax();
 [c, maxsize] = computer();
+numpy_version = pyrun('ver=np.__version__','ver');
+
 if (maxsize == 2147483647)
+  if startswith(numpy_version, '1.')  
     assert_isequal(class(R), 'py.numpy.intc')
-    assert_isequal(R.numeric(), int32(R));
+  else
+    assert_isequal(class(R), 'py.numpy.int32')
+  end
+  assert_isequal(R.numeric(), int32(R));
 else
-    assert_isequal(class(R), 'py.numpy.int64')
-    if ispc()
-        assert_isequal(R.numeric(), int64(R));
-    else
-        % Welcome in python world linux vs windows
-        assert_isequal(R.numeric(), int32(R));
-    end
+  assert_isequal(class(R), 'py.numpy.int64')
+  if ispc()
+    assert_isequal(R.numeric(), int64(R));
+  else
+    % Welcome in python world linux vs windows
+    assert_isequal(R.numeric(), int32(R));
+  end
 end
 %=============================================================================
