@@ -192,7 +192,6 @@ UniqueIntegerRowsThreeLhs(const ArrayOf& input)
 
     indexType len = rows;
     NelsonType cls(input.getDataClass());
-    int i;
     int cnt;
     std::vector<UniqueIntegerRowsEntry<T>> sp(len);
 
@@ -224,11 +223,10 @@ UniqueIntegerRowsThreeLhs(const ArrayOf& input)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * tcnt] = sp[0].data[0 + j * rows];
     }
-    i = 1;
     cnt = 1;
     np[sp[0].n] = 1;
     mp[0] = (double)(sp[0].n + 1);
-    for (i = 1; i < len; ++i) {
+    for (int i = 1; i < len; ++i) {
         if (!(sp[i] == sp[i - 1])) {
             for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
                 op[cnt + j * tcnt] = sp[i].data[0 + j * rows];
