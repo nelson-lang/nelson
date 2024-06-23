@@ -4,12 +4,12 @@
 #include "ascii_number.h"
 #include "decimal_to_binary.h"
 #include "digit_comparison.h"
+#include "float_common.h"
 
 #include <cmath>
 #include <cstring>
 #include <limits>
 #include <system_error>
-
 namespace fast_float {
 
 
@@ -19,41 +19,41 @@ namespace detail {
  * The case comparisons could be made much faster given that we know that the
  * strings a null-free and fixed.
  **/
-template <typename T>
-from_chars_result FASTFLOAT_CONSTEXPR14
-parse_infnan(const char *first, const char *last, T &value)  noexcept  {
-  from_chars_result answer{};
+template <typename T, typename UC>
+from_chars_result_t<UC> FASTFLOAT_CONSTEXPR14
+parse_infnan(UC const * first, UC const * last, T &value)  noexcept  {
+  from_chars_result_t<UC> answer{};
   answer.ptr = first;
   answer.ec = std::errc(); // be optimistic
   bool minusSign = false;
-  if (*first == '-') { // assume first < last, so dereference without checks; C++17 20.19.3.(7.1) explicitly forbids '+' here
+  if (*first == UC('-')) { // assume first < last, so dereference without checks; C++17 20.19.3.(7.1) explicitly forbids '+' here
       minusSign = true;
       ++first;
   }
-#if FASTFLOAT_ALLOWS_LEADING_PLUS // disabled by default
-  if (*first == '+') {
+#ifdef FASTFLOAT_ALLOWS_LEADING_PLUS // disabled by default
+  if (*first == UC('+')) {
       ++first;
   }
 #endif
   if (last - first >= 3) {
-    if (fastfloat_strncasecmp(first, "nan", 3)) {
+    if (fastfloat_strncasecmp(first, str_const_nan<UC>(), 3)) {
       answer.ptr = (first += 3);
       value = minusSign ? -std::numeric_limits<T>::quiet_NaN() : std::numeric_limits<T>::quiet_NaN();
       // Check for possible nan(n-char-seq-opt), C++17 20.19.3.7, C11 7.20.1.3.3. At least MSVC produces nan(ind) and nan(snan).
-      if(first != last && *first == '(') {
-        for(const char* ptr = first + 1; ptr != last; ++ptr) {
-          if (*ptr == ')') {
+      if(first != last && *first == UC('(')) {
+        for(UC const * ptr = first + 1; ptr != last; ++ptr) {
+          if (*ptr == UC(')')) {
             answer.ptr = ptr + 1; // valid nan(n-char-seq-opt)
             break;
           }
-          else if(!(('a' <= *ptr && *ptr <= 'z') || ('A' <= *ptr && *ptr <= 'Z') || ('0' <= *ptr && *ptr <= '9') || *ptr == '_'))
+          else if(!((UC('a') <= *ptr && *ptr <= UC('z')) || (UC('A') <= *ptr && *ptr <= UC('Z')) || (UC('0') <= *ptr && *ptr <= UC('9')) || *ptr == UC('_')))
             break; // forbidden char, not nan(n-char-seq-opt)
         }
       }
       return answer;
     }
-    if (fastfloat_strncasecmp(first, "inf", 3)) {
-      if ((last - first >= 8) && fastfloat_strncasecmp(first + 3, "inity", 5)) {
+    if (fastfloat_strncasecmp(first, str_const_inf<UC>(), 3)) {
+      if ((last - first >= 8) && fastfloat_strncasecmp(first + 3, str_const_inf<UC>() + 3, 5)) {
         answer.ptr = first + 8;
       } else {
         answer.ptr = first + 3;
@@ -109,7 +109,7 @@ fastfloat_really_inline bool rounds_to_nearest() noexcept {
   //
   // Note: This may fail to be accurate if fast-math has been
   // enabled, as rounding conventions may not apply.
-  #if FASTFLOAT_VISUAL_STUDIO
+  #ifdef FASTFLOAT_VISUAL_STUDIO
   #   pragma warning(push)
   //  todo: is there a VS warning?
   //  see https://stackoverflow.com/questions/46079446/is-there-a-warning-for-floating-point-equality-checking-in-visual-studio-2013
@@ -121,7 +121,7 @@ fastfloat_really_inline bool rounds_to_nearest() noexcept {
   #   pragma GCC diagnostic ignored "-Wfloat-equal"
   #endif
   return (fmini + 1.0f == 1.0f - fmini);
-  #if FASTFLOAT_VISUAL_STUDIO
+  #ifdef FASTFLOAT_VISUAL_STUDIO
   #   pragma warning(pop)
   #elif defined(__clang__)
   #   pragma clang diagnostic pop
@@ -132,23 +132,71 @@ fastfloat_really_inline bool rounds_to_nearest() noexcept {
 
 } // namespace detail
 
-template<typename T>
+template <typename T>
+struct from_chars_caller
+{
+  template <typename UC>
+  FASTFLOAT_CONSTEXPR20
+  static from_chars_result_t<UC> call(UC const * first, UC const * last,
+                                      T &value, parse_options_t<UC> options)  noexcept {
+    return from_chars_advanced(first, last, value, options);
+  }
+};
+
+#if __STDCPP_FLOAT32_T__ == 1
+template <>
+struct from_chars_caller<std::float32_t>
+{
+  template <typename UC>
+  FASTFLOAT_CONSTEXPR20
+  static from_chars_result_t<UC> call(UC const * first, UC const * last,
+                                      std::float32_t &value, parse_options_t<UC> options) noexcept{
+    // if std::float32_t is defined, and we are in C++23 mode; macro set for float32; 
+    // set value to float due to equivalence between float and float32_t
+    float val;
+    auto ret = from_chars_advanced(first, last, val, options);
+    value = val;
+    return ret;
+  }
+};
+#endif
+
+#if __STDCPP_FLOAT64_T__ == 1
+template <>
+struct from_chars_caller<std::float64_t>
+{
+  template <typename UC>
+  FASTFLOAT_CONSTEXPR20
+  static from_chars_result_t<UC> call(UC const * first, UC const * last,
+                                      std::float64_t &value, parse_options_t<UC> options) noexcept{
+    // if std::float64_t is defined, and we are in C++23 mode; macro set for float64;
+    // set value as double due to equivalence between double and float64_t
+    double val;
+    auto ret = from_chars_advanced(first, last, val, options);
+    value = val;
+    return ret;
+  }
+};
+#endif
+
+
+template<typename T, typename UC, typename>
 FASTFLOAT_CONSTEXPR20
-from_chars_result from_chars(const char *first, const char *last,
+from_chars_result_t<UC> from_chars(UC const * first, UC const * last,
                              T &value, chars_format fmt /*= chars_format::general*/)  noexcept  {
-  return from_chars_advanced(first, last, value, parse_options{fmt});
+  return from_chars_caller<T>::call(first, last, value, parse_options_t<UC>(fmt));
 }
 
-template<typename T>
+template<typename T, typename UC>
 FASTFLOAT_CONSTEXPR20
-from_chars_result from_chars_advanced(const char *first, const char *last,
-                                      T &value, parse_options options)  noexcept  {
+from_chars_result_t<UC> from_chars_advanced(UC const * first, UC const * last,
+                                      T &value, parse_options_t<UC> options)  noexcept  {
 
-  static_assert (std::is_same<T, double>::value || std::is_same<T, float>::value, "only float and double are supported");
+  static_assert (is_supported_float_type<T>(), "only some floating-point types are supported");
+  static_assert (is_supported_char_type<UC>(), "only char, wchar_t, char16_t and char32_t are supported");
 
-
-  from_chars_result answer;
-#if FASTFLOAT_SKIP_WHITE_SPACE  // disabled by default
+  from_chars_result_t<UC> answer;
+#ifdef FASTFLOAT_SKIP_WHITE_SPACE  // disabled by default
   while ((first != last) && fast_float::is_space(uint8_t(*first))) {
     first++;
   }
@@ -158,10 +206,17 @@ from_chars_result from_chars_advanced(const char *first, const char *last,
     answer.ptr = first;
     return answer;
   }
-  parsed_number_string pns = parse_number_string(first, last, options);
+  parsed_number_string_t<UC> pns = parse_number_string<UC>(first, last, options);
   if (!pns.valid) {
-    return detail::parse_infnan(first, last, value);
+    if (options.format & chars_format::no_infnan) {
+      answer.ec = std::errc::invalid_argument;
+      answer.ptr = first;
+      return answer;
+    } else {
+      return detail::parse_infnan(first, last, value);
+    }
   }
+
   answer.ec = std::errc(); // be optimistic
   answer.ptr = pns.lastmatch;
   // The implementation of the Clinger's fast path is convoluted because
@@ -191,10 +246,10 @@ from_chars_result from_chars_advanced(const char *first, const char *last,
       // We do not have that fegetround() == FE_TONEAREST.
       // Next is a modified Clinger's fast path, inspired by Jakub Jelínek's proposal
       if (pns.exponent >= 0 && pns.mantissa <=binary_format<T>::max_mantissa_fast_path(pns.exponent)) {
-#if defined(__clang__)
+#if defined(__clang__) || defined(FASTFLOAT_32BIT)
         // Clang may map 0 to -0.0 when fegetround() == FE_DOWNWARD
         if(pns.mantissa == 0) {
-          value = pns.negative ? -0. : 0.;
+          value = pns.negative ? T(-0.) : T(0.);
           return answer;
         }
 #endif
@@ -219,6 +274,26 @@ from_chars_result from_chars_advanced(const char *first, const char *last,
     answer.ec = std::errc::result_out_of_range;
   }
   return answer;
+}
+
+
+template <typename T, typename UC, typename>
+FASTFLOAT_CONSTEXPR20
+from_chars_result_t<UC> from_chars(UC const* first, UC const* last, T& value, int base) noexcept {
+  static_assert (is_supported_char_type<UC>(), "only char, wchar_t, char16_t and char32_t are supported");
+
+  from_chars_result_t<UC> answer;
+#ifdef FASTFLOAT_SKIP_WHITE_SPACE  // disabled by default
+  while ((first != last) && fast_float::is_space(uint8_t(*first))) {
+    first++;
+  }
+#endif
+  if (first == last || base < 2 || base > 36) {
+    answer.ec = std::errc::invalid_argument;
+    answer.ptr = first;
+    return answer;
+  }
+  return parse_int_string(first, last, value, base);
 }
 
 } // namespace fast_float

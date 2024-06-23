@@ -69,7 +69,9 @@ double
 textToDouble(const std::string& str)
 {
     double value;
-    auto answer = fast_float::from_chars(str.data(), str.data() + str.size(), value);
+    fast_float::parse_options options { fast_float::chars_format::fortran };
+    auto answer
+        = fast_float::from_chars_advanced(str.data(), str.data() + str.size(), value, options);
     return std::abs(value);
 }
 //=============================================================================
