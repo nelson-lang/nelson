@@ -1,37 +1,35 @@
 # dtl
 
-[![Build Status](https://travis-ci.org/cubicdaiya/dtl.png?branch=master)](https://travis-ci.org/cubicdaiya/dtl)
-
 `dtl` is the diff template library written in C++. The name of template is derived C++'s Template.
 
 # Table of contents
 
 - [Features](#features)
 - [Getting started](#getting-started)
-- [Compare two strings](#compare-two-strings)
-- [Compare two data has arbitrary type](#compare-two-data-has-arbitrary-type)
-- [Merge three sequences](#merge-three-sequences)
-- [Patch function](#patch-function)
-- [Difference as Unified Format](#difference-as-unified-format)
-- [Compare large sequences](#compare-large-sequences)
-- [Unserious difference](#unserious-difference)
-- [Calculate only Edit Distance](#calculate-only-edit-distance)
+  - [Compare two strings](#compare-two-strings)
+  - [Compare two data has arbitrary type](#compare-two-data-has-arbitrary-type)
+  - [Merge three sequences](#merge-three-sequences)
+  - [Patch function](#patch-function)
+  - [Difference as Unified Format](#difference-as-unified-format)
+  - [Compare large sequences](#compare-large-sequences)
+  - [Unserious difference](#unserious-difference)
+  - [Calculate only Edit Distance](#calculate-only-edit-distance)
 - [Algorithm](#algorithm)
-- [Computational complexity](#computational-complexity)
-- [Comparison when difference between two sequences is very large](#comparison-when-difference-between-two-sequences-is-very-large)
-- [Implementations with various programming languages](#implementations-with-various-programming-languages)
+  - [Computational complexity](#computational-complexity)
+  - [Comparison when difference between two sequences is very large](#comparison-when-difference-between-two-sequences-is-very-large)
+  - [Implementations with various programming languages](#implementations-with-various-programming-languages)
 - [Examples](#examples)
-- [strdiff](#strdiff)
-- [intdiff](#intdiff)
-- [unidiff](#unidiff)
-- [unistrdiff](#unistrdiff)
-- [strdiff3](#strdiff3)
-- [intdiff3](#intdiff3)
-- [patch](#patch)
-- [fpatch](#fpatch)
+  - [strdiff](#strdiff)
+  - [intdiff](#intdiff)
+  - [unidiff](#unidiff)
+  - [unistrdiff](#unistrdiff)
+  - [strdiff3](#strdiff3)
+  - [intdiff3](#intdiff3)
+  - [patch](#patch)
+  - [fpatch](#fpatch)
 - [Running tests](#running-tests)
-- [Building test programs](#building-test-programs)
-- [Running test programs](#running-test-programs)
+  - [Building test programs](#building-test-programs)
+  - [Running test programs](#running-test-programs)
 - [Old commit histories](#old-commit-histories)
 - [License](#license)
 
@@ -253,7 +251,7 @@ dtl::Diff<elem, sequence> d(A, B);
 d.compose();
 d.composeUnifiedHunks()
 string s1(A);
-string s2 = d.UniPatch(s1);
+string s2 = d.uniPatch(s1);
 ```
 
 When the above code is run, s2 becomes "abd".
@@ -273,7 +271,7 @@ For this example, "abc" is translated to "abd" with the Unified Format block bel
 
 When compare two large sequences, `dtl` can optimizes the calculation of difference with the onHuge function.
 
-But this function is could use when the compared data type is std::vector.
+This function is available when the compared data type is std::vector.
 
 When you use this function, you may call this function before calling compose function.
 
@@ -650,14 +648,14 @@ $
 
 # Running tests
 
-`dtl` uses [googletest](http://code.google.com/p/googletest/) and [SCons](http://www.scons.org/) with testing dtl-self.
+`dtl` uses [googletest](https://github.com/google/googletest) and [SCons](http://www.scons.org/) with testing dtl-self.
 
 # Building test programs
 
 If you build test programs for `dtl`, run `scons` in test direcotry.
 
 ```bash
-$ GTEST_ROOT=${gtest_root_dir} scons
+$ scons
 ```
 
 # Running test programs
@@ -665,7 +663,7 @@ $ GTEST_ROOT=${gtest_root_dir} scons
 If you run all tests for `dtl`, run 'scons check' in test direcotry. (it is necessary that gtest is compiled)
 
 ```bash
-$ GTEST_ROOT=${gtest_root_dir} scons check
+$ scons check
 ```
 
 If you run sectional tests, you may exeucte `dtl_test` directly after you run `scons`.

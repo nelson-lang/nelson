@@ -41,8 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Unicode® Standard, Version 15.1 support
 
-- simdutf 5.2.8 used.
-- fast_float 6.1.1 used.
+- simdutf 5.2.8
+- fast_float 6.1.1
+- dtl 1.2.0
 
 ### Fixed
 
