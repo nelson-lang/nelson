@@ -2,7 +2,7 @@
 
 Nelson includes code from the following projects, which have their own licenses:
 
-- Qt 5.x Cross-platform application framework
+- Qt 6.x Cross-platform application framework
 
 > <https://www.qt.io>
 
