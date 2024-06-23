@@ -9,8 +9,19 @@
 ;==============================================================================
 #define MODULE_NAME "audio"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\portaudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 Source: {#RootPath}bin\{#BinPath}\sndfile.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\FLAC.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\libmp3lame.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\mpg123.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\ogg.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\opus.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\out123.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\syn123.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\vorbis.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\vorbisenc.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}bin\{#BinPath}\vorbisfile.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\portaudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 Source: {#RootPath}bin\{#BinPath}\tag.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};

@@ -9,7 +9,7 @@
 ;==============================================================================
 #define MODULE_NAME "dynamic_link"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libffi.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}bin\{#BinPath}\ffi-8.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}bin\{#BinPath}\libnlsDynamic_link.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}bin\{#BinPath}\libnlsDynamic_link_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `sort`: speed optimization.
+
 - Windows dependencies updated and rebuild with minimal dependencies:
 
   - Qt 6.7.1,
@@ -27,9 +29,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Intel runtime,
   - SLICOT,
   - gettext 0.22.5,
-  - cmake 3.30.0 rc3
+  - cmake 3.30.0 rc3,
+  - libsndfile 1.2.2,
+  - portaudio 19.7.5,
+  - taglib 2.0,
+  - libzip1 1.3.1,
+  - libcurl 8.8.0,
+  - icu4c 74.2,
+  - libffi 3.4.6,
+  - libxml2 2.11.7
 
-- `sort`: speed optimization.
+- Unicode® Standard, Version 15.1 support
 
 ### Fixed
 

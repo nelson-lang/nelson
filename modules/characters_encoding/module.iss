@@ -9,9 +9,10 @@
 ;==============================================================================
 #define MODULE_NAME "characters_encoding"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\icudt69.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
-Source: {#RootPath}bin\{#BinPath}\icuuc69.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
-Source: {#RootPath}bin\{#BinPath}\icuin69.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\icudt74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\icuuc74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\icuin74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsCharacters_encoding.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}bin\{#BinPath}\libnlsCharacters_encoding_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}bin\{#BinPath}\libno-nlsCharacters_encoding.dll; DestDir: {app}\bin\{#BinPath}\;DestName:libnlsCharacters_encoding.dll;Components: not {#COMPONENT_INTERNATIONALIZATION};
