@@ -23,12 +23,28 @@ Nelson::OperatorsGateway::anyBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     indexType d = 0;
     ArrayOf arg1 = argIn[0];
+    bool isAll = false;
     if (argIn.size() > 1) {
         ArrayOf arg2 = argIn[1];
-        d = arg2.getContentAsScalarIndex(false);
+
+        if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
+            std::wstring paramAsString = arg2.getContentAsWideString();
+            if (paramAsString != L"all") {
+                Error(_W("Wrong value for #2 argument."));
+            } else {
+                isAll = true;
+            }
+        } else {
+            d = arg2.getContentAsScalarIndex(false);
+        }
     }
     bool needToOverload = false;
-    ArrayOf res = Any(arg1, d, needToOverload);
+    ArrayOf res;
+    if (isAll) {
+        res = AnyAll(arg1, needToOverload);
+    } else {
+        res = Any(arg1, d, needToOverload);
+    }
     if (needToOverload) {
         OverloadRequired("any");
     } else {

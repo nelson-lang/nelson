@@ -72,5 +72,34 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
     return res;
 }
 //=============================================================================
+ArrayOf
+AnyAll(ArrayOf& A, bool& needToOverload)
+{
+    ArrayOf res;
+    needToOverload = false;
+    try {
+        A.promoteType(NLS_LOGICAL);
+    } catch (Exception&) {
+        needToOverload = true;
+        return {};
+    }
+    if (A.isEmpty()) {
+        Dimensions dimsRes(1, 1);
+        logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, dimsRes.getElementCount(), stringVector(), true);
+        return ArrayOf(NLS_LOGICAL, dimsRes, logicalarray);
+    }
+    auto* pLogical = (logical*)A.getDataPointer();
+    bool bRes = false;
+    indexType elementCount = A.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
+        if (pLogical[k] != 0) {
+            bRes = true;
+            break;
+        }
+    }
+    return ArrayOf::logicalConstructor(bRes);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
