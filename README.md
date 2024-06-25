@@ -166,7 +166,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 |   macOS Sonoma   |   arm64 (M1)    |  ✓  |          |
 |  macOS Ventura   | x86-64 (64-bit) |  ✓  |          |
 |  macOS Monterey  | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 24.04   | x86-64 (64-bit) |     | ✓ (snap) |
+|   Ubuntu 24.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 22.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |   Ubuntu 18.04   | x86-64 (64-bit) |     | ✓ (snap) |

@@ -264,6 +264,105 @@ jobs:
           name: nelson-github-action-artifacts-macOS-Monterey-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
 
+  Noble_Numbat:
+    name: Ubuntu-24.04 Noble Numbat (OpenBLAS)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt upgrade;
+          sudo apt -y install build-essential;
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+          sudo apt -y install ninja-build;
+          sudo apt -y install xvfb;
+          sudo apt -y install libopenmpi-dev;
+          sudo apt -y install autotools-dev;
+          sudo apt -y install libtool;
+          sudo apt -y install automake;
+          sudo apt -y install openmpi-bin;
+          sudo apt -y install gettext;
+          sudo apt -y install pkg-config;
+          sudo apt -y install libffi-dev;
+          sudo apt -y install libicu-dev;
+          sudo apt -y install libxml2-dev;
+          sudo apt -y install libopenblas-openmp-dev;
+          sudo apt -y install liblapack-dev;
+          sudo apt -y install liblapacke-dev;
+          sudo apt -y install libfftw3-dev;
+          sudo apt -y install libasound-dev;
+          sudo apt -y install portaudio19-dev;
+          sudo apt -y install libsndfile1-dev;
+          sudo apt -y install libtag1-dev;
+          sudo apt -y install alsa-utils;
+          sudo apt -y install libslicot-dev;
+          sudo apt -y install libsqlite3-dev;
+          sudo apt -y install libgl-dev;
+          sudo apt -y install hdf5-tools;
+          sudo apt -y install zlib1g-dev;
+          sudo apt -y install libcurl4-openssl-dev;
+          sudo apt -y install libgit2-dev;
+          sudo apt -y install libboost-all-dev;
+          sudo apt -y install libeigen3-dev;
+          sudo apt -y install libhdf5-dev;
+          sudo apt -y install libmatio-dev;
+          sudo apt -y install qt6-base-dev;
+          sudo apt -y install libqt6svg6-dev;
+          sudo apt -y install qt6-declarative-dev;
+          sudo apt -y install qt6-documentation-tools;
+          sudo apt -y install qml6-module-qtquick;
+          sudo apt -y install qml6-module-qtquick-templates;
+          sudo apt -y install qml6-module-qtquick-controls;
+          sudo apt -y install qml6-module-qtquick-window;
+          sudo apt -y install qml6-module-qtquick-dialogs;
+          sudo apt -y install qml6-module-qtqml-workerscript;
+          sudo apt -y install qml6-module-qtquick-layouts;
+          sudo apt -y install qt6-tools-dev;
+          sudo apt -y install python3;
+          sudo apt -y install python3-numpy;
+          sudo apt -y install libtbb-dev;
+
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.0
+        id: json_version
+      - name: Update version
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+      - name: make with Ninja
+        run: cmake --build . -- -j $(nproc)
+      - name: get module skeleton
+        run: |
+          cmake --build . -- get_module_skeleton
+      - name: build help
+        run: |
+          cmake --build . -- buildhelp
+      - name: minimal tests
+        run: cmake --build . -- tests_minimal
+      - name: package
+        run: cmake --build . -- package
+      - name: Install
+        run: sudo ninja install
+      - name: Setup Python environment for Nelson
+        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: all benchs
+        run: |
+          xvfb-run -a ninja benchs_all
+      - name: all tests
+        run: |
+          xvfb-run -a ninja tests_all
+      - name: Copy artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson_*.deb artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
+          path: artifacts/
+
   Jammy:
     name: Ubuntu-22.04 Jammy (OpenBLAS)
     runs-on: ubuntu-22.04
