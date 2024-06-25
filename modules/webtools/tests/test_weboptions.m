@@ -31,6 +31,7 @@ assert_isequal(st.RequestMethod, 'auto');
 assert_isequal(st.ArrayFormat, 'csv');
 assert_isequal(st.HeaderFields, []);
 assert_isequal(st.CertificateFilename, certificateFilename);
+assert_isequal(st.FollowLocation, false);
 %=============================================================================
 options = weboptions('Password', 'Nelson');
 st = struct(options);
@@ -47,6 +48,7 @@ assert_isequal(st.RequestMethod, 'auto');
 assert_isequal(st.ArrayFormat, 'csv');
 assert_isequal(st.HeaderFields, []);
 assert_isequal(st.CertificateFilename, certificateFilename);
+assert_isequal(st.FollowLocation, false);
 %=============================================================================
 assert_checkerror('weboptions(''Password1'', ''Nelson'');',sprintf(_('%s is not a recognized parameter.'), 'Password1'))
 %=============================================================================

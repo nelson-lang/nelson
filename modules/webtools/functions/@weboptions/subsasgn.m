@@ -41,7 +41,8 @@ function res = isSupportedFieldNames(argName)
   'MediaType';
   'RequestMethod';
   'Arrayformat';
-  'CertificateFilename'};
+  'CertificateFilename';
+  'FollowLocation'};
   res = any(contains(upper(supportedOptions), upper(argName)));
 end
 %=============================================================================
@@ -78,6 +79,8 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
       [res, fieldname, fieldvalue] = checkHeaderFields(argValue);
     case 'CERTIFICATEFILENAME'
       [res, fieldname, fieldvalue] = checkCertificateFilename(argValue);
+    case 'FOLLOWLOCATION'
+      [res, fieldname, fieldvalue] = checkFollowLocation(argValue);
     otherwise
       res = false;
       fieldname = argName;
@@ -230,5 +233,11 @@ function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argVa
       res = isempty(valueNormalized) || isfile(valueNormalized);
     end
   end
+end
+%=============================================================================
+function [res, nameNormalized, valueNormalized] = checkFollowLocation(argValue)
+  res = islogical(argValue) && isscalar(argValue) && ~issparse(argValue);
+  valueNormalized = argValue;
+  nameNormalized = 'FollowLocation';
 end
 %=============================================================================

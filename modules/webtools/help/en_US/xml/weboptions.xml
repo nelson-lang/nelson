@@ -62,7 +62,8 @@
     <p><b>ArrayFormat</b>: 'csv' (default), 'json', 'repeating' or 'php'</p>
     <p><b
       >CertificateFilename</b> Filename of root certificates: a string or character vector.</p>
-
+    <p><b
+      >FollowLocation</b> tells the library to follow any Location: header redirect that an HTTP server sends in a 30x response: a logical, false by default.</p>
   </description>
   <used_function />
   <bibliography />
@@ -94,6 +95,11 @@ options = weboptions('UserAgent', 'http://www.whoishostingthis.com/tools/user-ag
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.6.0</history_version>
+      <history_description>'FollowLocation' option added</history_description>
+    </history_item>
+
   </history>
 
   <authors>

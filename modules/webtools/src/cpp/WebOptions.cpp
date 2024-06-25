@@ -73,6 +73,13 @@ WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
     } else {
         _certificateFilename.clear();
     }
+
+    res = webOptionsArrayOf.getField("FollowLocation");
+    if (!res.isEmpty()) {
+        _followLocation = res.getContentAsLogicalScalar();
+    } else {
+        _followLocation = false;
+    }
 }
 //=============================================================================
 WebOptions::~WebOptions()
@@ -91,90 +98,97 @@ WebOptions::~WebOptions()
     _requestMethod.clear();
     _arrayformat.clear();
     _certificateFilename.clear();
+    _followLocation = false;
 }
 //=============================================================================
 std::wstring
-WebOptions::getCharacterEncoding()
+WebOptions::getCharacterEncoding() const
 {
     return _characterEncoding;
 }
 //=============================================================================
 std::wstring
-WebOptions::getUserAgent()
+WebOptions::getUserAgent() const
 {
     return _userAgent;
 }
 //=============================================================================
 double
-WebOptions::getTimeout()
+WebOptions::getTimeout() const
 {
     return _timeout;
 }
 //=============================================================================
 std::wstring
-WebOptions::getUsername()
+WebOptions::getUsername() const
 {
     return _username;
 }
 //=============================================================================
 std::wstring
-WebOptions::getPassword()
+WebOptions::getPassword() const
 {
     return _password;
 }
 //=============================================================================
 std::wstring
-WebOptions::getKeyName()
+WebOptions::getKeyName() const
 {
     return _keyName;
 }
 //=============================================================================
 ArrayOf
-WebOptions::getKeyValue()
+WebOptions::getKeyValue() const
 {
     return _keyValue;
 }
 //=============================================================================
 wstringVector
-WebOptions::getHeaderFields()
+WebOptions::getHeaderFields() const
 {
     return _headerFields;
 }
 //=============================================================================
 std::wstring
-WebOptions::getContentType()
+WebOptions::getContentType() const
 {
     return _contentType;
 }
 //=============================================================================
 function_handle
-WebOptions::getContentReader()
+WebOptions::getContentReader() const
 {
     return _contentReader;
 }
 //=============================================================================
 std::wstring
-WebOptions::getMediaType()
+WebOptions::getMediaType() const
 {
     return _mediaType;
 }
 //=============================================================================
 std::wstring
-WebOptions::getRequestMethod()
+WebOptions::getRequestMethod() const
 {
     return _requestMethod;
 }
 //=============================================================================
 std::wstring
-WebOptions::getArrayformat()
+WebOptions::getArrayformat() const
 {
     return _arrayformat;
 }
 //=============================================================================
 std::wstring
-WebOptions::getCertificateFilename()
+WebOptions::getCertificateFilename() const
 {
     return _certificateFilename;
+}
+//=============================================================================
+bool
+WebOptions::getFollowLocation() const
+{
+    return _followLocation;
 }
 //=============================================================================
 } // namespace Nelson;

@@ -31,38 +31,41 @@ private:
     std::wstring _requestMethod;
     std::wstring _arrayformat;
     std::wstring _certificateFilename;
+    bool _followLocation;
 
 public:
     WebOptions(ArrayOf& webOptionsArrayOf);
     ~WebOptions();
     std::wstring
-    getCharacterEncoding();
+    getCharacterEncoding() const;
     std::wstring
-    getUserAgent();
+    getUserAgent() const;
     double
-    getTimeout();
+    getTimeout() const;
     std::wstring
-    getUsername();
+    getUsername() const;
     std::wstring
-    getPassword();
+    getPassword() const;
     std::wstring
-    getKeyName();
+    getKeyName() const;
     ArrayOf
-    getKeyValue();
+    getKeyValue() const;
     wstringVector
-    getHeaderFields();
+    getHeaderFields() const;
     std::wstring
-    getContentType();
+    getContentType() const;
     function_handle
-    getContentReader();
+    getContentReader() const;
     std::wstring
-    getMediaType();
+    getMediaType() const;
     std::wstring
-    getRequestMethod();
+    getRequestMethod() const;
     std::wstring
-    getArrayformat();
+    getArrayformat() const;
     std::wstring
-    getCertificateFilename();
+    getCertificateFilename() const;
+    bool
+    getFollowLocation() const;
 };
 //=============================================================================
 } // namespace Nelson

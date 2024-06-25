@@ -120,44 +120,47 @@ function res = convertContentType(filename, contentType, characterEncoding)
   %=============================================================================
 function res = autoConvert(filename, characterEncoding)
   res = {};
-  if isempty(res)
-    try
-      [y, fs] = audioread(filename);
-      res = {y, fs};
-    catch
-      lasterror('reset');
-      res = {};
-    end
+  try
+    [y, fs] = audioread(filename);
+    res = {y, fs};
+    return
+  catch
+    lasterror('reset');
+    res = {};
   end
-  if isempty(res)
-    try
-      txt = fileread(filename, 'char', 'native', characterEncoding);
-      json = jsondecode(txt);
+
+  try
+    txt = fileread(filename, 'char', 'native', characterEncoding);
+    json = jsondecode(txt);
+    if isstruct(json)
       res = {json};
-    catch
-      lasterror('reset');
+      return
+    else
       res = {};
     end
+  catch
+    lasterror('reset');
+    res = {};
   end
-  if isempty(res)
-    try
-      txt = fileread(filename, 'char', 'native', characterEncoding);
-      res = {txt};
-    catch
-      lasterror('reset');
-      res = {};
-    end
+
+  try
+    txt = fileread(filename, 'char', 'native', characterEncoding);
+    res = {txt};
+    return
+  catch
+    lasterror('reset');
+    res = {};
   end
-  if isempty(res)
-    try
-      fid = fopen(filename, 'r');
-      data = fread(fid, 'uint8');
-      res = {data};
-      fclose(fid);
-    catch
-      lasterror('reset');
-      res = {};
-    end
+  
+  try
+    fid = fopen(filename, 'r');
+    data = fread(fid, 'uint8');
+    res = {data};
+    fclose(fid);
+    return
+  catch
+    lasterror('reset');
+    res = {};
   end
 end
 %=============================================================================
