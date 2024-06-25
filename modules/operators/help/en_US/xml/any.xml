@@ -10,6 +10,7 @@
   <syntax>
     <syntax_item>R = any(M)</syntax_item>
     <syntax_item>R = any(M, dim)</syntax_item>
+    <syntax_item>R = any(M, 'all')</syntax_item>
   </syntax>
   
   <param_input>
@@ -23,6 +24,11 @@
       <param_name>dim</param_name>
       <param_description
       >a integer value: dimension along it works.</param_description>
+    </param_input_item>
+
+   <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description>tests over all elements of M.</param_description>
     </param_input_item>
 
   </param_input>
@@ -68,6 +74,11 @@ any([33, 22; 11, 0], 2)]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.6.0</history_version>
+      <history_description>manages input argument 'all'</history_description>
+    </history_item>
+
   </history>
 
   <authors>
