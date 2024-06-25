@@ -40,9 +40,9 @@ struct WriteData
 static std::string
 protectCharacters(const std::string& str);
 static CURLcode
-buildHeader(CURL* curlObject, WebOptions& options);
+buildHeader(CURL* curlObject, const WebOptions& options);
 static CURLcode
-setCurlWebOptions(CURL* curlObject, WebOptions& options);
+setCurlWebOptions(CURL* curlObject, const WebOptions& options);
 static CURLcode
 setCurlURL(CURL* curlObject, const std::string& url);
 static size_t
@@ -165,6 +165,12 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             curl_easy_cleanup(curlObject);
             Error(msg);
         }
+    }
+
+    if (options.getFollowLocation()) {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_FOLLOWLOCATION, 1L);
+    } else {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_FOLLOWLOCATION, 0L);
     }
 
     std::wstring certificateFilename = options.getCertificateFilename();
@@ -322,7 +328,7 @@ protectCharacters(const std::string& str)
 }
 //=============================================================================
 static CURLcode
-buildHeader(CURL* curlObject, WebOptions& options)
+buildHeader(CURL* curlObject, const WebOptions& options)
 {
     stringVector lines;
     if (options.getCharacterEncoding() == L"UTF-8") {
@@ -375,7 +381,7 @@ buildHeader(CURL* curlObject, WebOptions& options)
 }
 //=============================================================================
 static CURLcode
-setCurlWebOptions(CURL* curlObject, WebOptions& options)
+setCurlWebOptions(CURL* curlObject, const WebOptions& options)
 {
     CURLcode res = CURLE_FAILED_INIT;
     if (curlObject != nullptr) {
@@ -811,10 +817,12 @@ encodeUrl(CURL* curlObject, const std::wstring& url, const stringVector& names,
     std::string urlEncoded(wstring_to_utf8(url));
     std::string form = formEncode(curlObject, names, values, options);
 
-    if (!StringHelpers::ends_with(urlEncoded, "?")) {
+    if (!StringHelpers::ends_with(urlEncoded, "?") && !form.empty()) {
         urlEncoded.append("?");
     }
-    urlEncoded.append(form);
+    if (!form.empty()) {
+        urlEncoded.append(form);
+    }
     return urlEncoded;
 }
 //=============================================================================
