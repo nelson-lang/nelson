@@ -165,7 +165,7 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods)
                 if (attr_name) {
                     PyObject* method = NLSPyObject_GetAttrString(po, attr_name);
                     bool callable = method && NLSPyCallable_Check(method);
-                    NLSPy_DECREF(method);
+                    NLSPy_XDECREF(method);
                     if (!callable) {
                         std::string attributName = std::string(attr_name);
                         bool startWithUnderscore = (attributName.rfind("__", 0) == 0);
