@@ -185,6 +185,7 @@
     <ClCompile Include="..\cpp\SearchVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\SetVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\SystemCommand.cpp" />
+    <ClCompile Include="..\cpp\SystemCommandTask.cpp" />
     <ClCompile Include="..\cpp\WindowsQueryRegistry.cpp" />
     <ClCompile Include="..\cpp\WinOpen.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="..\..\src\include\SearchVariableEnvironment.hpp" />
     <ClInclude Include="..\..\src\include\SetVariableEnvironment.hpp" />
     <ClInclude Include="..\..\src\include\SystemCommand.hpp" />
+    <ClInclude Include="..\cpp\SystemCommandTask.hpp" />
     <ClInclude Include="..\include\AddPathToEnvironmentVariable.hpp" />
     <ClInclude Include="..\include\CreateGUID.hpp" />
     <ClInclude Include="..\include\GetHostname.hpp" />
