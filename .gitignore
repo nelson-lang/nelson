@@ -132,10 +132,10 @@ install_manifest.txt
 *.dylib
 Nelson-*-*.tar.Z
 Nelson-*-*.tar.gz
-nelson_*_*.deb
-nelson_*_*.rpm
-nelson_*_*.dmg
-nelson_*_*.zip
+nelson-*.deb
+nelson*.rpm
+nelson*.dmg
+nelson*.zip
 bin/linux/*.so.*
 bin/linux/*-exec
 bin/linux/*.so.*

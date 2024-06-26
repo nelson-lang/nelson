@@ -357,7 +357,7 @@ jobs:
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson_*.deb artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
@@ -458,7 +458,7 @@ jobs:
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson_*.deb artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
