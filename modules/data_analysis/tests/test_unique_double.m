@@ -65,7 +65,7 @@ assert_isequal(ic, ic_REF);
 %=============================================================================
 a=magic(18);
 b=reshape(a, 2, 3, []);
-assert_checkerror("unique(b, 'rows')", _('''rows'' mode only works for 2D matrix.'))
+assert_checkerror("unique(b, 'rows')", _("'rows' mode only works for 2D matrix."))
 %=============================================================================
 A = [10,20,30; 10,20,30];
 [C,ia,ic] = unique(A, 'rows');

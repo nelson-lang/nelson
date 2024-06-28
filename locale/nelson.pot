@@ -46,7 +46,6 @@ msgid ""
 "Assertion failed: expected \"%s\" and computed \"%s\" values are different."
 msgstr ""
 
-#, c-format
 msgid ""
 "Assertion failed: expected (%lg) and computed (%lg) values are different."
 msgstr ""
@@ -408,6 +407,15 @@ msgstr ""
 msgid "'ComparisonMethod' or 'MissingPlacement' expected."
 msgstr ""
 
+msgid "second argument to unique must be 'rows'"
+msgstr ""
+
+msgid "'rows' mode only works for 2D matrix."
+msgstr ""
+
+msgid "'rows' option is not supported for cell array inputs."
+msgstr ""
+
 msgid "shape parameter must be 'full', 'same', or 'valid'."
 msgstr ""
 
@@ -439,6 +447,9 @@ msgid "undefined."
 msgstr ""
 
 msgid "Only one input parameter is supported for cell arrays."
+msgstr ""
+
+msgid "The input must be a cell array containing character vectors."
 msgstr ""
 
 msgid "Not yet implemented with dim > 2"
@@ -2772,6 +2783,9 @@ msgstr ""
 msgid "Undefined function 'expm' for input arguments of type"
 msgstr ""
 
+msgid "Unsupported matrix type."
+msgstr ""
+
 msgid "input matrices must be the same size."
 msgstr ""
 
@@ -3170,6 +3184,7 @@ msgstr ""
 msgid "First argument must be a struct."
 msgstr ""
 
+#, c++-format
 msgid "Illegal indexing structure argument: type '.', '{}' or '()' expected."
 msgstr ""
 
@@ -4628,6 +4643,7 @@ msgstr ""
 msgid "Not enough right hand side values to satisy left hand side expression."
 msgstr ""
 
+#, c++-format
 msgid "{} assignment expects a character vector."
 msgstr ""
 
@@ -6377,6 +6393,9 @@ msgstr ""
 msgid "dimensions must be an integer vector."
 msgstr ""
 
+msgid "Not enough input arguments."
+msgstr ""
+
 msgid "An numeric 2-D matrix expected."
 msgstr ""
 
@@ -6385,6 +6404,15 @@ msgstr ""
 
 #, python-format
 msgid "normest did not converge for %d iterations with tolerance %g"
+msgstr ""
+
+msgid "Both X and N are required to be real."
+msgstr ""
+
+msgid "X and N must either be scalars or arrays of the same size."
+msgstr ""
+
+msgid "If X is negative, then N must be an odd integer."
 msgstr ""
 
 msgid "Imaginary part is ignored."
@@ -6584,9 +6612,6 @@ msgid "explode or labels values expected."
 msgstr ""
 
 msgid "Dimensions do not match."
-msgstr ""
-
-msgid "Not enough input arguments."
 msgstr ""
 
 msgid "Wrong size for input arguments: vectors with same size expected."
@@ -7187,6 +7212,9 @@ msgid "unmanaged case."
 msgstr ""
 
 msgid "Timeout was reached"
+msgstr ""
+
+msgid "Couldnt resolve host name"
 msgstr ""
 
 msgid "help build failed."

@@ -8142,7 +8142,9 @@ msgstr ""
 "clé '%s'."
 
 msgid "Wrong value for #1 argument, 'fullpathext' or  'fullpath' expected."
-msgstr "Valeur incorrecte pour le premier argument, 'fullpathext' ou 'fullpath' attendu."
+msgstr ""
+"Valeur incorrecte pour le premier argument, 'fullpathext' ou 'fullpath' "
+"attendu."
 
 #, c-format
 msgid "Unhashable type '%s'."
@@ -8171,32 +8173,38 @@ msgid "Invalid dictionary."
 msgstr "Dictionnaire invalide."
 
 msgid "Inputs must be the same size or either one can be a scalar."
-msgstr "Les entrées doivent avoir la même taille ou l'une peut être un scalaire."
+msgstr ""
+"Les entrées doivent avoir la même taille ou l'une peut être un scalaire."
 
 msgid ""
 "Wrong value for #2 arguments: struct, string, cell array of character "
 "vectors, or vector expected."
 msgstr ""
-"Mauvaise valeur pour les arguments #2 : structure, chaîne, tableau de cellules de vecteurs de caractères ou vecteur attendu."
+"Mauvaise valeur pour les arguments #2 : structure, chaîne, tableau de "
+"cellules de vecteurs de caractères ou vecteur attendu."
 
 msgid ""
 "The permutation vector length must match the number of fields in the struct."
 msgstr ""
-"La longueur du vecteur de permutation doit correspondre au nombre de champs dans la structure."
+"La longueur du vecteur de permutation doit correspondre au nombre de champs "
+"dans la structure."
 
 msgid "Both structures must have exactly matching fields."
-msgstr "Les deux structures doivent avoir des champs exactement correspondants."
+msgstr ""
+"Les deux structures doivent avoir des champs exactement correspondants."
 
 msgid ""
 "The text in the second input needs to correspond with the field names of the "
 "struct."
 msgstr ""
-"Le texte dans la deuxième entrée doit correspondre aux noms des champs de la structure."
+"Le texte dans la deuxième entrée doit correspondre aux noms des champs de la "
+"structure."
 
 msgid ""
 "Incorrect number of input arguments. Each key must be followed by a value."
 msgstr ""
-"Nombre incorrect d'arguments d'entrée. Chaque clé doit être suivie d'une valeur."
+"Nombre incorrect d'arguments d'entrée. Chaque clé doit être suivie d'une "
+"valeur."
 
 msgid ""
 "\n"
@@ -8211,7 +8219,8 @@ msgid ""
 "Combining 'dictionary' objects is not allowed as they are designed to be "
 "scalar."
 msgstr ""
-"La combinaison d'objets 'dictionary' n'est pas autorisée car ils sont conçus pour être scalaires."
+"La combinaison d'objets 'dictionary' n'est pas autorisée car ils sont conçus "
+"pour être scalaires."
 
 msgid "Parameter name must be Overwrite."
 msgstr "Le nom du paramètre doit être Overwrite."
@@ -8220,7 +8229,8 @@ msgid ""
 "Unable to perform a dictionary lookup when the key and value types are not "
 "set."
 msgstr ""
-"Impossible d'effectuer une recherche dans le dictionnaire lorsque les types de clé et de valeur ne sont pas définis."
+"Impossible d'effectuer une recherche dans le dictionnaire lorsque les types "
+"de clé et de valeur ne sont pas définis."
 
 msgid "Key not found in dictionary."
 msgstr "Clé non trouvée dans le dictionnaire."
@@ -8238,7 +8248,8 @@ msgid ""
 "Too many input arguments. To insert multiple entries, utilize an array of "
 "keys instead."
 msgstr ""
-"Trop d'arguments d'entrée. Pour insérer plusieurs entrées, utilisez plutôt un tableau de clés."
+"Trop d'arguments d'entrée. Pour insérer plusieurs entrées, utilisez plutôt "
+"un tableau de clés."
 
 msgid "Number of keys and values are not compatible"
 msgstr "Le nombre de clés et de valeurs n'est pas compatible."
@@ -8247,7 +8258,9 @@ msgid "The dictionary value type must be 'cell'."
 msgstr "Le type de valeur du dictionnaire doit être 'cell'."
 
 msgid "Only '()' and '{}' indexing is supported for assigning values."
-msgstr "Seules les indexations '()' et '{}' sont supportées pour l'affectation de valeurs."
+msgstr ""
+"Seules les indexations '()' et '{}' sont supportées pour l'affectation de "
+"valeurs."
 
 #, python-format
 msgid "unknown property '%s'."
@@ -8257,7 +8270,8 @@ msgid ""
 "Too many input arguments. To search for multiple entries, utilize an array "
 "of keys instead."
 msgstr ""
-"Trop d'arguments d'entrée. Pour rechercher plusieurs entrées, utilisez plutôt un tableau de clés."
+"Trop d'arguments d'entrée. Pour rechercher plusieurs entrées, utilisez "
+"plutôt un tableau de clés."
 
 #, python-format
 msgid "'%s' indexing is not supported."
@@ -8294,3 +8308,30 @@ msgstr "fonction non implémentée pour le type '%s'."
 
 msgid "TypeError: unsupported operand type(s) for +: int and str"
 msgstr "TypeError : types d'opérandes non supportés pour + : int et str"
+
+msgid "second argument to unique must be 'rows'"
+msgstr "le deuxième argument de unique doit être 'rows'"
+
+msgid "'rows' mode only works for 2D matrix."
+msgstr "le mode 'rows' ne fonctionne que pour les matrices 2D."
+
+msgid "'rows' option is not supported for cell array inputs."
+msgstr "l'option 'rows' n'est pas supportée pour les entrées de type tableau de cellules."
+
+msgid "The input must be a cell array containing character vectors."
+msgstr "L'entrée doit être un tableau de cellules contenant des vecteurs de caractères."
+
+msgid "Unsupported matrix type."
+msgstr "Type de matrice non pris en charge."
+
+msgid "Both X and N are required to be real."
+msgstr "X et N doivent tous deux être réels."
+
+msgid "X and N must either be scalars or arrays of the same size."
+msgstr "X et N doivent être soit des scalaires, soit des tableaux de même taille."
+
+msgid "If X is negative, then N must be an odd integer."
+msgstr "Si X est négatif, alors N doit être un entier impair."
+
+msgid "Couldnt resolve host name"
+msgstr "Impossible de résoudre le nom d'hôte"
