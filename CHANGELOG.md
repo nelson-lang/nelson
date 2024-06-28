@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `j` as imaginary unit number is also supported. example `3+2j` equivalent to `3+2i`.
 - `FollowLocation` option for `weboptions`
 - oneAPI Threading Building Blocks optional dependency.
+- Ubuntu 24.04 CI
 
 ### Changed
 
