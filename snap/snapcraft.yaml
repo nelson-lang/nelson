@@ -8,7 +8,7 @@
 # LICENCE_BLOCK_END
 # ==============================================================================
 name: nelson
-base: core22
+base: core24
 icon: snap/gui/logo.png
 summary: Let's Nelson! matrix language for engineering and scientific applications.
 description: |
@@ -20,8 +20,8 @@ confinement: strict
 adopt-info: nelson
 compression: lzo
 
-architectures:
-  - build-on: amd64
+platforms:
+  amd64:
 
 plugs:
   gtk-3-themes:
@@ -38,6 +38,14 @@ plugs:
     default-provider: gtk-common-themes
 
 environment:
+  # Other, generally useful environment settings...
+  # XDG config
+  XDG_CACHE_HOME:  $SNAP_USER_COMMON/.cache
+  XDG_CONFIG_HOME: $SNAP_USER_DATA/.config
+  XDG_CONFIG_DIRS: $SNAP/etc/xdg
+  XDG_DATA_DIRS:   $SNAP/usr/local/share:$SNAP/usr/share
+  # XKB config
+  XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
   XDG_RUNTIME_DIR: /tmp
   LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
   LANG: C.UTF-8
@@ -66,12 +74,12 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
 
       craftctl set grade=stable
-      craftctl set version=1.5.0.0
+      craftctl set version=1.6.0.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
     override-prime: |
-      snapcraftctl prime
+      craftctl default
       rm -vf usr/lib/x86_64-linux-gnu/libc_malloc_debug.so
 
     build-packages:
@@ -89,7 +97,7 @@ parts:
       - libxml2-dev
       - libopenblas-openmp-dev
       - liblapacke-dev
-      - fftw3-dev
+      - libfftw3-dev
       - libasound-dev
       - portaudio19-dev
       - libsndfile1-dev
@@ -127,21 +135,26 @@ parts:
       - qmlscene
       - cmake
       - python3-dev
+      - libproxy1-plugin-webkit
       - libtbb-dev
 
     stage-packages:
+
+
       - libc6
+      - libstdc++6
       - build-essential
       - locales-all
       - libtool
       - automake
       - gettext
       - pkg-config
-      - libffi7
+      - libffi8
       - libxml2
       - libopenblas0-openmp  
       - liblapacke
-      - fftw3
+      - libfftw3-double3
+      - libfftw3-single3
       - libasound2-data
       - libasound2
       - libportaudio2
@@ -153,9 +166,9 @@ parts:
       - libgl1
       - hdf5-tools
       - zlib1g
-      - libicu70
+      - libicu74
       - libcurl4
-      - libgit2-1.1
+      - libgit2-1.7
       - libmatio11
       - libqt6concurrent6
       - libqt6core6
@@ -193,33 +206,34 @@ parts:
       - qml6-module-qtquick-layouts
       - qmlscene
       - cmake
-      - libboost-chrono1.74.0
-      - libboost-date-time1.74.0
-      - libboost-filesystem1.74.0
-      - libboost-iostreams1.74.0
-      - libboost-locale1.74.0
-      - libboost-regex1.74.0
-      - libboost-serialization1.74.0
-      - libboost-thread1.74.0
-      - libpython3.10
+      - libboost-chrono1.83.0
+      - libboost-date-time1.83.0
+      - libboost-filesystem1.83.0
+      - libboost-iostreams1.83.0
+      - libboost-locale1.83.0
+      - libboost-regex1.83.0
+      - libboost-serialization1.83.0
+      - libboost-thread1.83.0
+      - libpython3.12
       - python3-pip
       - python3-numpy
-
-
+      - libtbb12
+      - libasound2t64
+      - libjack-jackd2-0 
 apps:
   nelson:
     command: usr/bin/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
-      LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
+      LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/oss4-libsalsa/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:$SNAP/usr/lib/x86_64-linux-gnu/libproxy"
       LOCPATH: "$SNAP/usr/lib/locale"
       PATH: "$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/x86_64-linux-gnu/qt6/bin:$PATH"
       QTDIR: "/usr/lib/x86_64-linux-gnu/qt6/"
       QTDIR_BINARIES: "$SNAP/usr/lib/qt6/bin/"
-      __NELSON_PYTHON_VERSION__: "3.10"
+      __NELSON_PYTHON_VERSION__: "3.12"
       __NELSON_PYTHON_EXECUTABLE__: "/usr/bin/python3"
-      __NELSON_PYTHON_LIBRARY__: "libpython3.10.so.1.0"
+      __NELSON_PYTHON_LIBRARY__: "libpython3.12.so.1.0"
       __NELSON_PYTHON_HOME__: "/usr"
 
     plugs: &plugs
