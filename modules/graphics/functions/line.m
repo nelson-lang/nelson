@@ -20,7 +20,7 @@ function varargout = line(varargin)
     end
     return  
   end
-  if (length(inputArguments) > 0 &&isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+  if (length(inputArguments) > 0 && isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else

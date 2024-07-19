@@ -18,6 +18,10 @@
 #include "RefreshFigure.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
+#include "GOCallbackProperty.hpp"
+#include "CallbackQueue.hpp"
+#include "Evaluator.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -28,6 +32,9 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval = {};
 
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    CallbackQueue::getInstance()->processCallback(eval);
+
     int64 currentFigureID;
     if (argIn.size() == 0) {
         currentFigureID = createNewFigure();
@@ -35,7 +42,6 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         return retval;
     }
     size_t pos = 0;
-    bool visible = true;
     if (argIn[0].isNumeric()) {
         int64 fignum = argIn[0].getContentAsInteger64Scalar();
         if ((fignum <= 0) || (fignum > MAX_FIGS)) {
@@ -64,34 +70,25 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((argIn[k].isStringArray() && argIn[k].isScalar())
                 || argIn[k].isRowVectorCharacterArray()) {
                 const std::wstring propertyName = argIn[k].getContentAsWideString();
+                if (!go->isWritable(propertyName)) {
+                    Error(_W("Property is readable only: ") + propertyName);
+                }
                 GOGenericProperty* propertyValue = go->findProperty(propertyName);
                 propertyValue->set(argIn[k + 1]);
-                if (propertyName == GO_VISIBLE_PROPERTY_NAME_STR) {
-                    if (propertyValue->get().getContentAsWideString()
-                        == GO_PROPERTY_VALUE_OFF_STR) {
-                        visible = false;
-                    }
-                }
-                if (propertyName == GO_VISIBLE_PROPERTY_NAME_STR) {
-                    if (propertyValue->get().getContentAsWideString() == GO_PROPERTY_VALUE_ON_STR) {
-                        visible = true;
-                    }
-                }
             }
         }
+        fig->updateState(true);
     } else {
         Error(_("Wrong number of input parameters."));
     }
-    if (visible) {
-        GOWindow* goWin = findGOWindows(currentFigureID);
-        if (goWin) {
-            saveFocus();
-            goWin->show();
-            goWin->raise();
-            restoreFocus();
-        }
-    }
     retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)fig->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);
+    if (goCallback) {
+        goCallback->executeNow(fig);
+    }
+
     return retval;
 }
 //=============================================================================

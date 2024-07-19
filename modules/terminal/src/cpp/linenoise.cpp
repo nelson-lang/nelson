@@ -118,6 +118,7 @@
 #include "NelsonHistory.h"
 #include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "CallbackQueue.hpp"
 #include "linenoise.h"
 #include <cctype>
 #include <cerrno>
@@ -912,7 +913,12 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
         int nread;
         char seq[3];
         while (!kbhit()) {
-            ProcessEventsDynamicFunctionWithoutWait();
+            try {
+                ProcessEventsDynamicFunctionWithoutWait();
+            } catch (const Nelson::Exception& e) {
+                e.printMe(eval->getInterface());
+                bStopReadLine = true;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             if (bStopReadLine) {
                 history_len--;
@@ -920,7 +926,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
                 clearLine();
                 return -1;
             }
-            if (!eval->commandQueue.isEmpty()) {
+            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
                 history_len--;
                 free(history[history_len]);
                 clearLine();

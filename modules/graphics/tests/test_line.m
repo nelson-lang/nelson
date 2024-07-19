@@ -16,9 +16,14 @@ R = line(x, y);
 assert_isequal(R.Type, 'line');
 %=============================================================================
 P = properties(R);
-REF = {'Children';       
-'Color';          
+REF = {'BeingDeleted';
+'BusyAction';
+'Children';       
+'Color';
+'CreateFcn';
+'DeleteFcn';          
 'DisplayName';    
+'Interruptible';
 'LineStyle';      
 'LineWidth';      
 'Marker';         

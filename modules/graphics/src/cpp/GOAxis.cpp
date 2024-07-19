@@ -54,6 +54,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "TexToUnicode.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,6 +70,11 @@ GOAxis::getType()
 void
 GOAxis::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+
     registerProperty(new GOTwoVectorProperty, GO_A_LIM_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_A_LIM_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_AMBIENT_LIGHT_COLOR_PROPERTY_NAME_STR);
@@ -125,7 +132,7 @@ GOAxis::constructProperties()
     registerProperty(new GOTwoVectorProperty, GO_TICK_LENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_TIGHT_INSET_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_TITLE_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
@@ -158,9 +165,9 @@ GOAxis::constructProperties()
     registerProperty(new GOVectorProperty, GO_X_TICK_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Y_TICK_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Z_TICK_PROPERTY_NAME_STR);
-    registerProperty(new GOStringVector, GO_X_TICK_LABEL_PROPERTY_NAME_STR);
-    registerProperty(new GOStringVector, GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
-    registerProperty(new GOStringVector, GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
+    registerProperty(new GOStringVectorProperty, GO_X_TICK_LABEL_PROPERTY_NAME_STR);
+    registerProperty(new GOStringVectorProperty, GO_Y_TICK_LABEL_PROPERTY_NAME_STR);
+    registerProperty(new GOStringVectorProperty, GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_X_TICK_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_Y_TICK_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_Z_TICK_MODE_PROPERTY_NAME_STR);
@@ -191,6 +198,7 @@ GOAxis::GOAxis()
 void
 GOAxis::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_A_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_BOX_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setThreeVectorDefault(GO_CAMERA_POSITION_PROPERTY_NAME_STR, 0, 0, 1);
@@ -206,6 +214,8 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_C_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_CLIPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 1, 1, 1);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+
     std::vector<double> colorsOrder;
     colorsOrder.push_back(0.0000);
     colorsOrder.push_back(0.4470);
@@ -418,7 +428,7 @@ GOAxis::recalculateTicks()
     GOFigure* fig = getParentFigure();
     unsigned width = fig->getWidth();
     unsigned height = fig->getHeight();
-    RenderQt gc(&pnt, 0, 0, width, height);
+    RenderQt gc(&pnt, 0, 0, width, height, L"GL");
     setupProjection(gc);
     std::vector<double> limits(getAxisLimits());
     std::vector<double> xticks;
@@ -494,13 +504,13 @@ GOAxis::recalculateTicks()
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
     }
     GOVectorProperty* hp = nullptr;
-    GOStringVector* qp = nullptr;
+    GOStringVectorProperty* qp = nullptr;
     if (isAuto(GO_X_TICK_MODE_PROPERTY_NAME_STR)) {
         hp = static_cast<GOVectorProperty*>(findProperty(GO_X_TICK_PROPERTY_NAME_STR));
         hp->data(xticks);
     }
     if (isAuto(GO_X_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
+        qp = static_cast<GOStringVectorProperty*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(xlabels);
     }
     if (isAuto(GO_Y_TICK_MODE_PROPERTY_NAME_STR)) {
@@ -508,7 +518,7 @@ GOAxis::recalculateTicks()
         hp->data(yticks);
     }
     if (isAuto(GO_Y_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
+        qp = static_cast<GOStringVectorProperty*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(ylabels);
     }
     if (isAuto(GO_Z_TICK_MODE_PROPERTY_NAME_STR)) {
@@ -516,7 +526,7 @@ GOAxis::recalculateTicks()
         hp->data(zticks);
     }
     if (isAuto(GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR)) {
-        qp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
+        qp = static_cast<GOStringVectorProperty*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
         qp->data(zlabels);
     }
 }
@@ -1141,8 +1151,8 @@ GOAxis::rePackFigure()
         GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         xlabelHeight = fp->getTextHeightInPixels();
     }
-    GOStringVector* gp
-        = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
+    GOStringVectorProperty* gp
+        = static_cast<GOStringVectorProperty*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> xlabels(gp->data());
     for (int i = 0; i < xlabels.size(); i++) {
         QRect sze(fm.boundingRect(Nelson::wstringToQString(xlabels[i])));
@@ -1154,7 +1164,7 @@ GOAxis::rePackFigure()
         GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         ylabelHeight = fp->getTextHeightInPixels();
     }
-    gp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
+    gp = static_cast<GOStringVectorProperty*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> ylabels(gp->data());
     for (int i = 0; i < ylabels.size(); i++) {
         QRect sze(fm.boundingRect(wstringToQString(ylabels[i])));
@@ -1166,7 +1176,7 @@ GOAxis::rePackFigure()
         GOText* fp = static_cast<GOText*>(findGraphicsObject(lbl->data()[0]));
         zlabelHeight = fp->getTextHeightInPixels();
     }
-    gp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
+    gp = static_cast<GOStringVectorProperty*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> zlabels(gp->data());
     for (int i = 0; i < zlabels.size(); i++) {
         QRect sze(fm.boundingRect(wstringToQString(zlabels[i])));
@@ -1696,8 +1706,8 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR));
     TEXT_INTERPRETER_FORMAT textFormat = textInterpreterProperty->getAsEnum();
 
-    GOStringVector* qp
-        = static_cast<GOStringVector*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
+    GOStringVectorProperty* qp
+        = static_cast<GOStringVectorProperty*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> xlabeltxt;
     if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         xlabeltxt = texToUnicode(qp->data());
@@ -1705,7 +1715,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         xlabeltxt = qp->data();
     }
 
-    qp = static_cast<GOStringVector*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
+    qp = static_cast<GOStringVectorProperty*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> ylabeltxt;
     if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         ylabeltxt = texToUnicode(qp->data());
@@ -1713,7 +1723,7 @@ GOAxis::drawTickMarks(RenderInterface& gc)
         ylabeltxt = qp->data();
     }
 
-    qp = static_cast<GOStringVector*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
+    qp = static_cast<GOStringVectorProperty*>(findProperty(GO_Z_TICK_LABEL_PROPERTY_NAME_STR));
     std::vector<std::wstring> zlabeltxt;
     if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         zlabeltxt = texToUnicode(qp->data());

@@ -14,19 +14,21 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOStringVector : public GOGenericProperty
+class GOStringVectorProperty : public GOGenericProperty
 {
 protected:
     std::vector<std::wstring> _data;
 
 public:
-    GOStringVector() = default;
-    ~GOStringVector() override = default;
+    GOStringVectorProperty() = default;
+    ~GOStringVectorProperty() override = default;
     ArrayOf
     get() override;
     void set(ArrayOf) override;
     std::vector<std::wstring>
     data();
+    void
+    data(const std::wstring& m);
     void
     data(const std::vector<std::wstring>& m);
     std::wstring

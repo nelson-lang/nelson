@@ -103,6 +103,12 @@
 <p><b
       >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the <b
       >X</b>, <b>Y</b>, and <b>Z</b> input arguments.</p>
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
 </description>
 
   <used_function />
@@ -205,6 +211,17 @@ patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+  <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+   
+
   </history>
 
   <authors>

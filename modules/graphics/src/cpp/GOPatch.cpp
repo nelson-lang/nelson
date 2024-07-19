@@ -37,6 +37,8 @@
 #include "RenderInterface.hpp"
 #include "RenderHelpers.hpp"
 #include "GOColorProperty.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,12 +59,19 @@ GOPatch::getType()
 void
 GOPatch::updateState()
 {
-    m_faces.clear();
-    if (hasChanged(GO_FACES_PROPERTY_NAME_STR) || hasChanged(GO_VERTICES_PROPERTY_NAME_STR)
+    if (m_faces.empty() || hasChanged(GO_FACES_PROPERTY_NAME_STR)
+        || hasChanged(GO_VERTICES_PROPERTY_NAME_STR)
         || hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)
         || hasChanged(GO_FACE_COLOR_PROPERTY_NAME_STR)
-        || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR))
+        || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR)) {
+        m_faces.clear();
         buildPolygons(m_faces);
+        clearChanged(GO_FACES_PROPERTY_NAME_STR);
+        clearChanged(GO_VERTICES_PROPERTY_NAME_STR);
+        clearChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR);
+        clearChanged(GO_FACE_COLOR_PROPERTY_NAME_STR);
+        clearChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR);
+    }
 }
 //=============================================================================
 void
@@ -147,6 +156,11 @@ GOPatch::getLimits()
 void
 GOPatch::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_AMBIENT_STRENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOBackFaceLightingProperty, GO_BACK_FACE_LIGHTING_PROPERTY_NAME_STR);
@@ -174,7 +188,7 @@ GOPatch::constructProperties()
     registerProperty(new GOScalarProperty, GO_SPECULAR_STRENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_VERTEX_NORMALS_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_VERTICES_PROPERTY_NAME_STR);
@@ -184,11 +198,13 @@ GOPatch::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_Z_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    sortProperties();
 }
 //=============================================================================
 void
 GOPatch::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(
         GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALED_STR);
     setScalarDoubleDefault(GO_AMBIENT_STRENGTH_PROPERTY_NAME_STR, 0.3);
@@ -223,6 +239,8 @@ GOPatch::setupDefaults()
     setStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setStringDefault(GO_Y_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setStringDefault(GO_DISPLAY_NAME_PROPERTY_NAME_STR, L"");
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 inline const double*

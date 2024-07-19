@@ -34,6 +34,7 @@
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 #include "StringHelpers.hpp"
+#include "GOUIControl.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,6 +52,10 @@ GraphicsObject::~GraphicsObject()
             if (gp) {
                 gp->dereference();
                 if (gp->referenceCount() <= 0) {
+                    if (gp->findStringProperty(GO_TYPE_PROPERTY_NAME_STR)
+                        == GO_PROPERTY_VALUE_UICONTROL_STR) {
+                        ((GOUIControl*)gp)->hide();
+                    }
                     freeGraphicsObject(handle);
                     delete gp;
                 }
@@ -71,6 +76,9 @@ GraphicsObject::isWritable(const std::wstring& name)
 GOGenericProperty*
 GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 {
+    if (m_properties.empty()) {
+        return nullptr;
+    }
     std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
         = m_properties.find(name);
     GOGenericProperty* hp = (got != m_properties.end()) ? (got->second) : nullptr;
@@ -169,6 +177,13 @@ std::wstring
 GraphicsObject::findStringProperty(const std::wstring& name)
 {
     GOStringProperty* sp = static_cast<GOStringProperty*>(findProperty(name));
+    return (sp->data());
+}
+//=============================================================================
+wstringVector
+GraphicsObject::findStringVectorProperty(const std::wstring& name)
+{
+    GOStringVectorProperty* sp = static_cast<GOStringVectorProperty*>(findProperty(name));
     return (sp->data());
 }
 //=============================================================================
@@ -276,7 +291,7 @@ GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const ws
 {
     GORestrictedStringVectorProperty* hp
         = static_cast<GORestrictedStringVectorProperty*>(findProperty(name));
-    ((GOStringVector*)hp)->data(values);
+    ((GOStringVectorProperty*)hp)->data(values);
 }
 //=============================================================================
 void
@@ -304,8 +319,7 @@ GraphicsObject::setTwoVectorDefault(const std::wstring& name, double x, double y
 void
 GraphicsObject::setStringDefault(const std::wstring& name, const std::wstring& value)
 {
-    GOStringProperty* hp = static_cast<GOStringProperty*>(findProperty(name));
-    hp->data(value);
+    findProperty(name)->set(ArrayOf::stringArrayConstructor(value));
 }
 //=============================================================================
 void

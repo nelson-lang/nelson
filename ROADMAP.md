@@ -10,7 +10,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 - Bug resolution and ongoing maintenance,
 - Native package development/support:
-  - ArchLinux (Done v1.3.0)
+  - ArchLinux (DONE v1.3.0)
   - macOs,
   - Fedora,
   - etc ...
@@ -22,7 +22,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### Modules and Extensions
 
-- Compatible python interface (Done v1.5.0),
+- Compatible python interface (DONE v1.5.0),
 - Incorporate an Image Processing module,
 - Optimization of code execution using NPU/GPU arrays,
 - Integrate additional numerical methods,
@@ -48,14 +48,14 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### Plotting Features
 
-- Introduction of uicontrol,
+- Introduction of uicontrol (v1.7.0),
 - Implementation of contour plots (DONE v1.3.0),
-- Enhancement of plot interaction features (e.g., zoom functionality, etc.) (Done v1.2.0).
+- Enhancement of plot interaction features (e.g., zoom functionality, etc.) (DONE v1.2.0).
 
 ### Data Handling and Compatibility
 
 - Development of Table, Timeseries, and Dictionary-compatible objects,
-  - dictionary (Done v1.5.0)
+  - dictionary (DONE v1.5.0)
 - Rework and extend the interpreter for enhanced compatibility
 
 ## How Can You Contribute?

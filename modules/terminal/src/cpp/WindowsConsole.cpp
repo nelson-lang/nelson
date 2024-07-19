@@ -21,6 +21,8 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
+#include "CommandQueue.hpp"
+#include "CallbackQueue.hpp"
 //=============================================================================
 #ifdef CR_1
 #undef CR_1
@@ -439,6 +441,7 @@ WindowsConsole::getCharacter(bool& bIsAction)
         void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
         Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
         eval->commandQueue.clear();
+        CallbackQueue::getInstance()->clear();
         while (TRUE) {
             ::WaitForSingleObject(Win32InputStream, 30);
             DWORD nbEventsAvailable = 0;
@@ -447,9 +450,15 @@ WindowsConsole::getCharacter(bool& bIsAction)
                 PeekConsoleInputW(Win32InputStream, &irBuffer, 1, &nbEventsAvailable);
                 break;
             } else {
-                ProcessEventsDynamicFunctionWithoutWait();
+                try {
+                    ProcessEventsDynamicFunctionWithoutWait();
+                } catch (const Exception& e) {
+                    e.printMe(eval->getInterface());
+                    bInterruptGetChar = true;
+                }
             }
-            if (!eval->commandQueue.isEmpty() || bInterruptGetChar) {
+            if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()
+                || bInterruptGetChar) {
                 bIsAction = true;
                 bInterruptGetChar = false;
                 return L'\n';

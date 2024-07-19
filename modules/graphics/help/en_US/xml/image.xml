@@ -78,8 +78,13 @@
       >XData</b> Placement along x-axis: two-element vector, scalar, [1 size(CData, 1)] (default).</p>
 <p><b
       >YData</b> Placement along y-axis: two-element vector, scalar, [1 size(CData, 2)] (default).</p>
-
 <p />
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
 </description>
 
   <used_function />
@@ -125,6 +130,16 @@ image();]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+     <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+  <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+   
   </history>
 
   <authors>

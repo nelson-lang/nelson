@@ -18,8 +18,8 @@ namespace Nelson {
 void
 BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
-    QWidget::resizeEvent(e);
     hfig->resizeGL(width(), height());
+    QWidget::resizeEvent(e);
 }
 //=============================================================================
 void
@@ -27,7 +27,7 @@ BaseFigureQt::paintEvent(QPaintEvent* e)
 {
     QWidget::paintEvent(e);
     QPainter painter(this);
-    RenderQt gc(&painter, 0, 0, width(), height());
+    RenderQt gc(&painter, 0, 0, width(), height(), L"GL");
     hfig->paintMe(gc);
 }
 //=============================================================================

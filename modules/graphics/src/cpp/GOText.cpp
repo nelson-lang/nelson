@@ -32,13 +32,15 @@
 #include "QStringConverter.hpp"
 #include "GOTextInterpreterProperty.hpp"
 #include "TexToUnicode.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 GOText::getType()
 {
-    return L"text";
+    return GO_PROPERTY_VALUE_TEXT_STR;
 }
 //=============================================================================
 GOText::GOText()
@@ -60,6 +62,11 @@ GOText::getTextHeightInPixels()
 void
 GOText::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
     registerProperty(new GOFourVectorProperty, GO_BOUNDING_BOX_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_STRING_PROPERTY_NAME_STR);
@@ -83,7 +90,7 @@ GOText::constructProperties()
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
@@ -94,6 +101,7 @@ GOText::constructProperties()
 void
 GOText::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(
         GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR);
     setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0, 0, 0);
@@ -117,6 +125,8 @@ GOText::setupDefaults()
     setStringDefault(GO_INTERPRETER_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
     setRestrictedStringDefault(GO_FONT_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     fnt.setStyleStrategy(QFont::PreferAntialias);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 void

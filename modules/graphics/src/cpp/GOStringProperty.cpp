@@ -21,6 +21,7 @@ void
 GOStringProperty::data(const std::wstring& m)
 {
     _data = m;
+    setModified(true);
 }
 //=============================================================================
 bool

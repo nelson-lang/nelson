@@ -10,7 +10,7 @@ rem # LICENCE_BLOCK_END
 rem =============================================================================
 set QTDIR=%QTDIR32%
 if not defined QTDIR (
-    echo QTDIR64 not defined.
+    echo QTDIR32 not defined.
     exit /b 1
 )
 rem =============================================================================

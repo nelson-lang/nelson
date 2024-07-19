@@ -64,6 +64,7 @@ target_link_libraries(
   nlsNelson_manager
   nlsText_editor
   nlsHelp_browser
+  nlsInterpreter
   nlsTypes
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Svg

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>waitfor</keyword>
+  <short_description>Wait for condition.</short_description>
+
+  <syntax>
+  <syntax_item>waitfor(obj)</syntax_item>
+  <syntax_item>waitfor(obj, propertyName)</syntax_item>
+  <syntax_item>waitfor(obj, propertyName, propertyValue)</syntax_item>
+  </syntax>
+
+	<param_input>
+		<param_input_item>
+			<param_name>obj</param_name>
+			<param_description>any scalar graphics object value.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description
+      >property name: character vector or string scalar.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description
+      >property value: valid property value associated with propertyName.</param_description>
+		</param_input_item>
+	</param_input>
+
+
+  <description>
+    <p><b
+      >waitfor(obj)</b> pauses the execution of statements until the specified object is closed (or deleted). Once the object is no longer present, <b
+      >waitfor</b> returns, allowing the execution to continue. If the object does not exist at the time of the call, <b
+      >waitfor</b> returns immediately.</p>
+    <p><b
+      >waitfor(obj, propertyName)</b> halts execution until the specified property of the object changes or the object is closed. For example, <b
+      >waitfor(hFig, 'UserData')</b> pauses execution until the 'UserData' property of <b
+      >hFig</b> changes. If the specified property name is invalid, an error stops execution.</p>
+    <p><b
+      >waitfor(obj, propertyName, propertyValue)</b> pauses execution until the specified property of the object changes to the given value. If the property is already equal to propvalue when <b
+      >waitfor</b> is called, it returns immediately, allowing execution to resume.</p>
+  </description>
+
+  <used_function />
+  <bibliography />
+  
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[h = figure()
+waitfor(h);
+% close figure to continue
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[hFig = figure('Position', [300, 300, 300, 150]);
+hButton = uicontrol('Style', 'togglebutton', 'String', 'Toggle Me', 'Position', [100, 50, 100, 40], 'Value', 0);
+hButton.Callback = @(src, event) set(src, 'Value', 1);
+waitfor(hButton, 'Value');
+% press toggle button
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[hFig = figure('Position', [300, 300, 300, 150]);
+hButton = uicontrol('Style', 'togglebutton', 'String', 'Toggle Me', 'Position', [100, 50, 100, 40], 'Value', 0);
+hButton.Callback = @(src, event) set(src, 'Value', 1);
+waitfor(hButton, 'Value', 1);
+% press toggle button
+]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}waitforbuttonpress">waitforbuttonpress</link>
+    </see_also_item>
+     <see_also_item>
+      <link linkend="${core}pause">pause</link>
+    </see_also_item>
+   
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

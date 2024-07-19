@@ -19,6 +19,7 @@
 #include <QtWidgets/QAction>
 #endif
 #include <QtCore/QEventLoop>
+#include <QtCore/QTimer>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QRubberBand>
 #include <QtPrintSupport/QPrinter>
@@ -34,6 +35,15 @@ enum class MOUSE_MODE
     ZOOM_IN,
     ZOOM_OUT,
     PAN,
+};
+//=============================================================================
+enum class WAIT_PRESS_MODE
+{
+    NONE = 0,
+    MOUSE,
+    KEY,
+    CLOSE,
+    WAIT
 };
 //=============================================================================
 class NLSGRAPHICS_IMPEXP GOWindow : public QMainWindow
@@ -54,6 +64,12 @@ protected:
     createMenuBar();
     //=============================================================================
 private:
+    //=============================================================================
+    bool keyPressed = false;
+    QKeyEvent* lastKeyEvent;
+    QTimer releaseKeyTimer;
+    const int delayMs = 80;
+    //=============================================================================
     MOUSE_MODE mouseMode = MOUSE_MODE::NONE;
     //=============================================================================
     GOAxis*
@@ -64,6 +80,8 @@ private:
     remapY(int x);
     //=============================================================================
     QToolBar* toolBar;
+    //=============================================================================
+    WAIT_PRESS_MODE waitKeyOrMousePressedMode = WAIT_PRESS_MODE::NONE;
     //=============================================================================
     QAction* newFigureAction;
     QAction* printAction;
@@ -108,6 +126,19 @@ private:
     forceCurrentAxes(QMouseEvent* e);
     void
     qtGetPosition(QMouseEvent* e, int& x, int& y);
+
+    bool
+    handleKeyEvent(
+        QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType);
+    bool
+    handleMouseEvent(
+        QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType);
+    wstringVector
+    getModifiers(QKeyEvent* keyEvent);
+    std::wstring
+    getKeyString(QKeyEvent* keyEvent);
+    std::wstring
+    getCharacterString(QKeyEvent* keyEvent);
     //=============================================================================
     QCursor rotateCursor;
     QCursor zoomInCursor;
@@ -142,6 +173,8 @@ private slots:
     refreshWindowMenuItems();
     void
     onRestoreViewAction();
+    void
+    onKeyReleaseTimeout();
 
 public:
     GOWindow(int64 ahandle);
@@ -156,6 +189,8 @@ public:
     GOFigure*
     getGOFigure();
     void
+    updateState(bool forceUpdate);
+    void
     updateState();
     void
     createToolbars();
@@ -164,6 +199,8 @@ public:
     closeEvent(QCloseEvent* e) override;
     void
     keyPressEvent(QKeyEvent* event) override;
+    void
+    keyReleaseEvent(QKeyEvent* event) override;
     void
     mousePressEvent(QMouseEvent* e) override;
     void
@@ -181,9 +218,15 @@ public:
     {
         return qtchild;
     }
-
+    //=============================================================================
     MOUSE_MODE
     getCurrentMouseMode();
+    //=============================================================================
+    void
+    setModeWaitMouseOrKeyPressEvent(bool wait);
+    //=============================================================================
+    bool
+    isWaitMouseOrKeyPressEvent(WAIT_PRESS_MODE& waitPressMode);
 };
 //=============================================================================
 }

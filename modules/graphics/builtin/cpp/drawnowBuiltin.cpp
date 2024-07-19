@@ -10,6 +10,9 @@
 #include "drawnowBuiltin.hpp"
 #include "DrawNow.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "CallbackQueue.hpp"
+#include "Evaluator.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -20,6 +23,8 @@ drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0);
     nargoutcheck(nLhs, 0, 0);
 
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    CallbackQueue::getInstance()->processCallback(eval);
     drawNow();
 
     return retval;

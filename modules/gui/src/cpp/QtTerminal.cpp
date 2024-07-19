@@ -57,6 +57,7 @@
 #include "QtFileBrowser.h"
 #include "WorkspaceBrowser.hpp"
 #include "QtWorkspaceBrowser.h"
+#include "CallbackQueue.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -244,24 +245,48 @@ QtTerminal::getLine(const std::wstring& prompt)
     printPrompt(Nelson::wstringToQString(prompt));
     FileBrowser::updateFileBrowser();
     promptBlock = document()->lastBlock();
-    // enable cursor text
+
+    // Enable cursor text
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
-    // restore default icon cursor
+
+    // Restore default icon cursor
     WorkspaceBrowser::updateWorkspaceBrowser();
     QApplication::restoreOverrideCursor();
-    void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
-    Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+
+    // Prepare evaluator and queues
+
+    Nelson::Evaluator* eval
+        = static_cast<Nelson::Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (!eval) {
+        return L"\n";
+    }
     eval->commandQueue.clear();
-    bool wasInterruptByAction = false;
-    do {
-        Nelson::ProcessEvents(true);
-        if (!eval->commandQueue.isEmpty()) {
-            wasInterruptByAction = true;
+    CallbackQueue::getInstance()->clear();
+
+    bool wasInterruptedByAction = false;
+
+    // Main event processing loop
+    while (true) {
+        try {
+            Nelson::ProcessEvents(true);
+        } catch (const Exception& e) {
+            e.printMe(eval->getInterface());
+            wasInterruptedByAction = true;
             break;
         }
-    } while (!wasInterruptByAction && lineToSend.empty() && lineBuffer.isEmpty());
+
+        if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()) {
+            wasInterruptedByAction = true;
+            break;
+        }
+
+        if (!lineToSend.empty() || !lineBuffer.isEmpty()) {
+            break;
+        }
+    }
+
     std::wstring line;
-    if (wasInterruptByAction) {
+    if (wasInterruptedByAction) {
         clearLine();
         line = L"\n";
     } else {
@@ -271,18 +296,25 @@ QtTerminal::getLine(const std::wstring& prompt)
         } else {
             line = lineToSend;
         }
-        while (lineToSend.empty()) {
-            Nelson::ProcessEvents(true);
-        }
     }
+
+    // Wait until lineToSend is not empty if it was empty before
+    while (lineToSend.empty() && !wasInterruptedByAction) {
+        Nelson::ProcessEvents(true);
+    }
+
     lineToSend.clear();
     Nelson::ProcessEvents();
-    // disable cursor text
+
+    // Disable cursor text
     setCursorWidth(0);
-    // change icon cursor to wait (computation)
+
+    // Change icon cursor to wait (computation)
     QApplication::setOverrideCursor(Qt::WaitCursor);
+
     return line;
 }
+
 //=============================================================================
 size_t
 QtTerminal::getTerminalWidth()

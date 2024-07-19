@@ -19,13 +19,18 @@
 #include "GOMenuBarProperty.hpp"
 #include "BaseFigureQt.hpp"
 #include "NelsonConfiguration.hpp"
+#include "GOCallbackProperty.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
+#include "ProcessEvents.hpp"
+#include "CallbackQueue.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 GOFigure::getType()
 {
-    return L"figure";
+    return GO_PROPERTY_VALUE_FIGURE_STR;
 }
 //=============================================================================
 GOFigure::GOFigure(GOWindow* win, int number)
@@ -47,6 +52,15 @@ GOFigure::getGOWindow()
 void
 GOFigure::registerProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
+
     registerProperty(new GOScalarProperty, GO_NUMBER_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
@@ -66,23 +80,39 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
     registerProperty(new GOToolBarProperty, GO_TOOL_BAR_PROPERTY_NAME_STR);
     registerProperty(new GOMenuBarProperty, GO_MENU_BAR_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
+
     sortProperties();
 }
 //=============================================================================
 void
 GOFigure::initializeProperties()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 0.94, 0.94, 0.94);
     setStringDefault(GO_NEXT_PLOT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REPLACE_STR);
     setGoProperty(GO_PARENT_PROPERTY_NAME_STR, graphicsRootObject());
     setStringDefault(GO_NAME_PROPERTY_NAME_STR, {});
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 488, 242, 560, 420);
     setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+
+    GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+    if (hp) {
+        hp->set(ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_CLOSEREQ_STR));
+    }
+    hp = findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+    if (hp) {
+        hp->set(ArrayOf::characterArrayConstructor(L""));
+    }
     loadParulaColorMap();
     _resized = false;
 }
@@ -149,10 +179,10 @@ HSVRAMP(double h, double& r, double& g, double& b)
 }
 //=============================================================================
 void
-GOFigure::updateState()
+GOFigure::updateState(bool forceUpdate)
 {
-    m_win->updateState();
-    if (hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)) {
+    m_win->updateState(forceUpdate);
+    if (hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR) || forceUpdate) {
         GOGObjectsProperty* children
             = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
         std::vector<int64> handles(children->data());
@@ -164,9 +194,17 @@ GOFigure::updateState()
                 fp->updateState();
             }
         }
+        clearChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
     }
-    refreshPositionProperty();
-    refreshDrawLaterProperty();
+    refreshPositionProperties(forceUpdate);
+    refreshDrawLaterProperty(forceUpdate);
+}
+//=============================================================================
+void
+GOFigure::updateState()
+{
+    m_win->updateState(false);
+    this->updateState(false);
 }
 //=============================================================================
 void
@@ -270,18 +308,29 @@ GOFigure::paintMe(RenderInterface& gc)
         std::vector<int64> handlesCurrentAxes(currentAxes->data());
         std::vector<int64> handlesChildren(children->data());
         std::vector<GraphicsObject*> legendObjects;
+        std::vector<GraphicsObject*> uiControlObjects;
+
         for (ompIndexType i = 0; i < (ompIndexType)handlesChildren.size(); i++) {
-            if (handlesChildren[i] != handlesCurrentAxes[0]) {
+            if (handlesCurrentAxes.empty()) {
                 GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
                 if (fp) {
                     fp->paintMe(gc);
-                    GOStringProperty* ft = static_cast<GOStringProperty*>(
-                        fp->findProperty(GO_TAG_PROPERTY_NAME_STR, false));
-                    GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
-                        fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
-                    if (ft && fv) {
-                        if (ft->data() == L"legend" && fv->data() == GO_PROPERTY_VALUE_ON_STR) {
-                            legendObjects.push_back(fp);
+                }
+            } else if (handlesChildren[i] != handlesCurrentAxes[0]) {
+                GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
+                if (fp) {
+                    if (fp->getType() == GO_PROPERTY_VALUE_UICONTROL_STR) {
+                        uiControlObjects.push_back(fp);
+                    } else {
+                        fp->paintMe(gc);
+                        GOStringProperty* ft = static_cast<GOStringProperty*>(
+                            fp->findProperty(GO_TAG_PROPERTY_NAME_STR, false));
+                        GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
+                            fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
+                        if (ft && fv) {
+                            if (ft->data() == L"legend" && fv->data() == GO_PROPERTY_VALUE_ON_STR) {
+                                legendObjects.push_back(fp);
+                            }
                         }
                     }
                 }
@@ -300,6 +349,14 @@ GOFigure::paintMe(RenderInterface& gc)
                 }
             }
         }
+        if (!uiControlObjects.empty()) {
+            for (auto uio : uiControlObjects) {
+                if (uio) {
+                    uio->paintMe(gc);
+                }
+            }
+        }
+
         _resized = false;
     }
 }
@@ -307,6 +364,10 @@ GOFigure::paintMe(RenderInterface& gc)
 void
 GOFigure::resizeGL(int width, int height)
 {
+    if ((m_width == width) && (m_height == height)) {
+        return;
+    }
+    _resized = true;
     QRect qGeometry = m_win->frameGeometry();
     QPoint qPoint = qGeometry.topLeft();
     m_width = width;
@@ -316,7 +377,6 @@ GOFigure::resizeGL(int width, int height)
         = transformY(qPoint.y(), height, Nelson::BaseFigureQt::getCurrentScreenHeight());
 
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, qPoint.x(), transformedY, width, height);
-    _resized = true;
     updateState();
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
@@ -324,8 +384,19 @@ GOFigure::resizeGL(int width, int height)
     for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
         if (fp) {
+            if (fp->haveProperty(GO_POSITION_PROPERTY_NAME_STR)) {
+                GOGenericProperty* gop = fp->findProperty(GO_POSITION_PROPERTY_NAME_STR);
+                if (gop) {
+                    gop->setModified(true);
+                }
+            }
             fp->updateState();
         }
+    }
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+    if (goCallback) {
+        goCallback->pushEvent(this, L"SizeChangedData", L"SizeChanged");
     }
 }
 //=============================================================================
@@ -343,7 +414,7 @@ GOFigure::transformY(int y, int heightFrame, int screenHeight)
 }
 //=============================================================================
 void
-GOFigure::refreshPositionProperty()
+GOFigure::refreshPositionProperties(bool forceUpdate)
 {
     GOFourVectorProperty* property
         = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
@@ -358,16 +429,47 @@ GOFigure::refreshPositionProperty()
 };
 //=============================================================================
 void
-GOFigure::refreshDrawLaterProperty()
+GOFigure::refreshDrawLaterProperty(bool forceUpdate)
 {
-    if (hasChanged(GO_DRAW_LATER_PROPERTY_NAME_STR)) {
+    if (hasChanged(GO_DRAW_LATER_PROPERTY_NAME_STR) || forceUpdate) {
         GOOnOffProperty* drawLaterProperty
             = static_cast<GOOnOffProperty*>(findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
         if (!drawLaterProperty->asBool()) {
             repaint();
         }
+        clearChanged(GO_DRAW_LATER_PROPERTY_NAME_STR);
     }
 };
+//=============================================================================
+void
+GOFigure::setOuterPosition(int x, int y, int w, int h)
+{
+}
+//=============================================================================
+void
+GOFigure::getOuterPosition(int& x, int& y, int& w, int& h)
+{
+}
+//=============================================================================
+void
+GOFigure::setInnerPosition(int x, int y, int w, int h)
+{
+}
+//=============================================================================
+void
+GOFigure::getInnerPosition(int& x, int& y, int& w, int& h)
+{
+}
+//=============================================================================
+void
+GOFigure::setPosition(int x, int y, int w, int h)
+{
+}
+//=============================================================================
+void
+GOFigure::getPosition(int& x, int& y, int& w, int& h)
+{
+}
 //=============================================================================
 }
 //=============================================================================

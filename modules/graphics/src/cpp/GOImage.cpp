@@ -20,13 +20,15 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 GOImage::getType()
 {
-    return L"image";
+    return GO_PROPERTY_VALUE_IMAGE_STR;
 }
 //=============================================================================
 GOImage::GOImage()
@@ -38,6 +40,11 @@ GOImage::GOImage()
 void
 GOImage::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
@@ -45,7 +52,7 @@ GOImage::constructProperties()
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Y_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
@@ -56,6 +63,7 @@ GOImage::constructProperties()
 void
 GOImage::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
     std::vector<double> gp;
     gp.push_back(1.0);
@@ -66,6 +74,8 @@ GOImage::setupDefaults()
     setTwoVectorDefault(GO_X_DATA_PROPERTY_NAME_STR, 0, 1);
     setTwoVectorDefault(GO_Y_DATA_PROPERTY_NAME_STR, 0, 1);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 GOImage::~GOImage() { }

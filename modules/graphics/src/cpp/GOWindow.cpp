@@ -49,6 +49,7 @@
 #include "HelpBrowser.hpp"
 #include "TextEditor.hpp"
 #include "MainGuiObject.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,6 +61,9 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 {
     initialized = false;
 
+    releaseKeyTimer.setSingleShot(true);
+    connect(&releaseKeyTimer, &QTimer::timeout, this, &GOWindow::onKeyReleaseTimeout);
+
     QString fileNameIcon
         = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
             + L"/modules/graphics/resources/icon-mathematical-plot.svg");
@@ -69,9 +73,8 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     goFig = new GOFigure(this, figureId);
     setWindowTitle(wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
     setFocusPolicy(Qt::ClickFocus);
-    qtchild = new BaseFigureQt(NULL, goFig);
+    qtchild = new BaseFigureQt(this, goFig);
     setCentralWidget(qtchild);
-    centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
 
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(this->winId());
@@ -104,8 +107,30 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 void
 GOWindow::closeEvent(QCloseEvent* e)
 {
-    closeFigure(handle, false);
-    e->accept();
+    if (!goFig) {
+        return;
+    }
+
+    if (waitKeyOrMousePressedMode != WAIT_PRESS_MODE::NONE) {
+        waitKeyOrMousePressedMode = WAIT_PRESS_MODE::CLOSE;
+    }
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)goFig->findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+    if (goCallback) {
+        ArrayOf cgo = goCallback->data();
+        if (cgo.isRowVectorCharacterArray() || cgo.isScalarStringArray()) {
+            std::wstring callbackString = cgo.getContentAsWideCharactersPointer();
+            if (callbackString == GO_PROPERTY_VALUE_CLOSEREQ_STR) {
+                closeFigure(handle, false);
+                e->accept();
+                return;
+            }
+        }
+        goCallback->pushEvent(goFig, L"WindowCloseRequestData", L"Close");
+    }
+
+    e->ignore();
 }
 //=============================================================================
 GOFigure*
@@ -121,32 +146,24 @@ GOWindow::getHandle()
 }
 //=============================================================================
 void
-GOWindow::updateState()
+GOWindow::updateState(bool forceUpdate)
 {
-    if (!initialized) {
-        return;
-    }
-    if (goFig->hasChanged(GO_TOOL_BAR_PROPERTY_NAME_STR)) {
+    if (goFig->hasChanged(GO_TOOL_BAR_PROPERTY_NAME_STR) || forceUpdate) {
         if (goFig->stringCheck(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
             toolBar->hide();
         } else {
             toolBar->show();
         }
+        goFig->clearChanged(GO_TOOL_BAR_PROPERTY_NAME_STR);
     }
-    if (goFig->hasChanged(GO_MENU_BAR_PROPERTY_NAME_STR)) {
+    if (goFig->hasChanged(GO_MENU_BAR_PROPERTY_NAME_STR) || forceUpdate) {
         menuBar()->setVisible(
             goFig->stringCheck(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR));
-    }
-    if (goFig->hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
-        if (goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
-            show();
-        } else {
-            hide();
-        }
+        goFig->clearChanged(GO_MENU_BAR_PROPERTY_NAME_STR);
     }
     if (goFig->hasChanged(GO_NAME_PROPERTY_NAME_STR)
         || goFig->hasChanged(GO_NUMBER_PROPERTY_NAME_STR)
-        || goFig->hasChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR)) {
+        || goFig->hasChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR) || forceUpdate) {
         bool withNumberTitle
             = (goFig->stringCheck(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR));
         int figureId = handle + 1;
@@ -163,31 +180,55 @@ GOWindow::updateState()
             setWindowTitle(
                 wstringToQString(fmt::sprintf(TITLE_WITH_NAME_ONLY_FORMAT, name->data())));
         }
+        goFig->clearChanged(GO_NAME_PROPERTY_NAME_STR);
+        goFig->clearChanged(GO_NUMBER_PROPERTY_NAME_STR);
+        goFig->clearChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     }
 
-    GOFourVectorProperty* hfv
-        = (GOFourVectorProperty*)goFig->findProperty(GO_POSITION_PROPERTY_NAME_STR);
-    if (hfv->isModified()) {
+    if (goFig->hasChanged(GO_POSITION_PROPERTY_NAME_STR) || forceUpdate) {
+        std::vector<double> position
+            = goFig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+
         int ws = 0;
         int hs = 0;
         ((BaseFigureQt*)(qtchild))->currentScreenResolution(ws, hs);
-        int w = (int)(hfv->data()[2]);
-        int h = (int)(hfv->data()[3]);
+        int w = (int)(position[2]);
+        int h = (int)(position[3]);
 
-        int x = (int)(hfv->data()[0]);
-        int y = (int)(hfv->data()[1]);
+        int x = (int)(position[0]);
+        int y = (int)(position[1]);
 
         int transformedY = hs - h - y;
-        move(x, transformedY);
-        resize(w, h);
+        setGeometry(x, transformedY, w, h);
+        goFig->clearChanged(GO_POSITION_PROPERTY_NAME_STR);
     }
+    if (goFig->hasChanged(GO_VISIBLE_PROPERTY_NAME_STR) || forceUpdate) {
+        if (goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
+            show();
+            saveFocus();
+        } else {
+            hide();
+        }
+        goFig->clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
+    }
+}
+//=============================================================================
+void
+GOWindow::updateState()
+{
+    if (!initialized) {
+        return;
+    }
+    updateState(false);
 }
 //=============================================================================
 void
 GOWindow::moveEvent(QMoveEvent* e)
 {
     QWidget::moveEvent(e);
-    goFig->refreshPositionProperty();
+    if (initialized) {
+        goFig->refreshPositionProperties(false);
+    }
 }
 //=============================================================================
 void
@@ -384,9 +425,16 @@ void
 GOWindow::mousePressEvent(QMouseEvent* e)
 {
     e->accept();
+
+    if (waitKeyOrMousePressedMode == WAIT_PRESS_MODE::WAIT) {
+        waitKeyOrMousePressedMode = WAIT_PRESS_MODE::MOUSE;
+        return;
+    }
     if (NelsonConfiguration::getInstance()->isCurrentAxesOnClick()) {
         forceCurrentAxes(e);
     }
+
+    handleMouseEvent(e, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
 
     if (mouseMode == MOUSE_MODE::PAN) {
         mousePressEventHandlePanMode(e);
@@ -726,7 +774,7 @@ GOWindow::onPrintAction()
                 pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
             painter.scale(scale, scale);
             painter.translate(-qtchild->width() / 2., -qtchild->height() / 2.);
-            RenderQt gc(&painter, 0, 0, qtchild->width(), qtchild->height());
+            RenderQt gc(&painter, 0, 0, qtchild->width(), qtchild->height(), L"PDF");
             goFig->paintMe(gc);
         });
         printPreview->resize(800, 600);
@@ -908,9 +956,35 @@ GOWindow::wheelEvent(QWheelEvent* event)
 }
 //=============================================================================
 void
+GOWindow::keyReleaseEvent(QKeyEvent* event)
+{
+    event->accept();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    lastKeyEvent = event->clone();
+#else
+    lastKeyEvent = new QKeyEvent(event->type(), event->key(), event->modifiers(), event->text(),
+        event->isAutoRepeat(), event->count());
+#endif
+    if (keyPressed) {
+        return;
+    }
+    handleKeyEvent(event, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR, L"KeyRelease");
+}
+//=============================================================================
+void
 GOWindow::keyPressEvent(QKeyEvent* event)
 {
     event->accept();
+
+    keyPressed = true;
+    releaseKeyTimer.start(80);
+
+    handleKeyEvent(event, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR, L"KeyPress");
+    if (waitKeyOrMousePressedMode == WAIT_PRESS_MODE::WAIT) {
+        waitKeyOrMousePressedMode = WAIT_PRESS_MODE::KEY;
+        return;
+    }
+
     GOAxis* axis = findContainingAxis(
         goFig, remapX(mousePositionOrigin.x()), remapY(mousePositionOrigin.y()));
 
@@ -972,9 +1046,99 @@ GOWindow::keyPressEvent(QKeyEvent* event)
     }
 }
 //=============================================================================
+void
+GOWindow::onKeyReleaseTimeout()
+{
+    keyPressed = false;
+    handleKeyEvent(lastKeyEvent, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR, L"KeyRelease");
+}
+//=============================================================================
 MOUSE_MODE
 GOWindow::getCurrentMouseMode() { return mouseMode; }
 //=============================================================================
+void
+GOWindow::setModeWaitMouseOrKeyPressEvent(bool wait)
+{
+    if (wait) {
+        waitKeyOrMousePressedMode = WAIT_PRESS_MODE::WAIT;
+    } else {
+        waitKeyOrMousePressedMode = WAIT_PRESS_MODE::NONE;
+    }
+}
+//=============================================================================
+bool
+GOWindow::isWaitMouseOrKeyPressEvent(WAIT_PRESS_MODE& waitPressMode)
+{
+    bool isWaiting = waitKeyOrMousePressedMode == WAIT_PRESS_MODE::WAIT;
+    if (!isWaiting) {
+        waitPressMode = waitKeyOrMousePressedMode;
+    }
+    return isWaiting;
+}
+//=============================================================================
+bool
+GOWindow::handleKeyEvent(
+    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+{
+    GOCallbackProperty* goCallback = (GOCallbackProperty*)goFig->findProperty(callbackPropertyStr);
+    ArrayOf callbackArrayOf = goCallback->get();
+    if (callbackArrayOf.isEmpty()) {
+        return true;
+    }
 
+    QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+    wstringVector modifiersWstringVector = getModifiers(keyEvent);
+    std::wstring key = getKeyString(keyEvent);
+    std::wstring character = getCharacterString(keyEvent);
+
+    goCallback->pushKeyEvent(goFig, L"KeyData", eventType, character, key, modifiersWstringVector);
+    return true;
+}
+//=============================================================================
+bool
+GOWindow::handleMouseEvent(
+    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+{
+    GOCallbackProperty* goCallback = (GOCallbackProperty*)goFig->findProperty(callbackPropertyStr);
+    ArrayOf callbackArrayOf = goCallback->get();
+    if (callbackArrayOf.isEmpty()) {
+        return true;
+    }
+    goCallback->pushEvent(goFig, L"MouseData", eventType);
+    return true;
+}
+//=============================================================================
+wstringVector
+GOWindow::getModifiers(QKeyEvent* keyEvent)
+{
+    wstringVector modifiersWstringVector;
+    Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
+    if (modifiers & Qt::ShiftModifier) {
+        modifiersWstringVector.push_back(L"shift");
+    }
+    if (modifiers & Qt::ControlModifier) {
+        modifiersWstringVector.push_back(L"control");
+    }
+    if (modifiers & Qt::AltModifier) {
+        modifiersWstringVector.push_back(L"alt");
+    }
+    if (modifiers & Qt::MetaModifier) {
+        modifiersWstringVector.push_back(L"meta");
+    }
+    return modifiersWstringVector;
+}
+//=============================================================================
+std::wstring
+GOWindow::getKeyString(QKeyEvent* keyEvent)
+{
+    return QStringTowstring(QKeySequence(keyEvent->key()).toString());
+}
+//=============================================================================
+std::wstring
+GOWindow::getCharacterString(QKeyEvent* keyEvent)
+{
+    return QStringTowstring(keyEvent->text());
+}
+//=============================================================================
 }
 //=============================================================================

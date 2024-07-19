@@ -20,6 +20,7 @@
 #include "__zoom__Builtin.hpp"
 #include "__pan__Builtin.hpp"
 #include "__rotate3d__Builtin.hpp"
+#include "uicontrolBuiltin.hpp"
 #include "figureBuiltin.hpp"
 #include "graphics_object_displayBuiltin.hpp"
 #include "graphics_object_setBuiltin.hpp"
@@ -45,6 +46,8 @@
 #include "imreadBuiltin.hpp"
 #include "imwriteBuiltin.hpp"
 #include "validatecolorBuiltin.hpp"
+#include "waitforbuttonpressBuiltin.hpp"
+#include "waitforBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -116,6 +119,11 @@ static const nlsGateway gateway[] = {
     { "validatecolor", (ptrBuiltin)Nelson::GraphicsGateway::validatecolorBuiltin, 1, 2,
         CPP_BUILTIN },
     { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
+    { "uicontrol", (ptrBuiltin)Nelson::GraphicsGateway::uicontrolBuiltin, -1, -1, CPP_BUILTIN },
+    { "waitforbuttonpress", (ptrBuiltin)Nelson::GraphicsGateway::waitforbuttonpressBuiltin, -1, 0,
+        CPP_BUILTIN },
+    { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
+        CPP_BUILTIN_WITH_EVALUATOR }
 };
 //=============================================================================
 static bool

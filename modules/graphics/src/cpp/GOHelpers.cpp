@@ -16,7 +16,10 @@
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include "StringHelpers.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOStringOnOffProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -125,6 +128,18 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     if (!gp) {
         return false;
     }
+
+    GOOnOffProperty* goOnOff
+        = (GOOnOffProperty*)gp->findProperty(GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    if (goOnOff) {
+        goOnOff->data(GO_PROPERTY_VALUE_ON_STR);
+    }
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)gp->findProperty(GO_DELETE_FCN_PROPERTY_NAME_STR, false);
+    if (goCallback) {
+        goCallback->executeNow(gp, L"EventData", L"ObjectBeingDestroyed");
+    }
+
     GOGObjectsProperty* hp = (GOGObjectsProperty*)gp->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     if (hp) {
         std::vector<int64> children(hp->data());
@@ -166,13 +181,14 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     freeGraphicsObject(handle);
     if (repaintParentFigure) {
         GOFigure* parentFigure = nullptr;
-        if (!gp->isType(L"figure") && !gp->isType(L"root")) {
+        if (!gp->isType(GO_PROPERTY_VALUE_FIGURE_STR) && !gp->isType(GO_PROPERTY_VALUE_ROOT_STR)) {
             parentFigure = gp->getParentFigure();
         }
         if (parentFigure) {
             parentFigure->repaint();
         }
     }
+    delete gp;
     return true;
 }
 //=============================================================================

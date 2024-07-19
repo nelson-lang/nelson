@@ -103,7 +103,7 @@ Exception::operator=(const Exception& copy)
 }
 //=============================================================================
 void
-Exception::printMe(Interface* io)
+Exception::printMe(Interface* io) const
 {
     if (!msg.empty()) {
         io->errorMessage(getFormattedErrorMessage());
