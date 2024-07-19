@@ -7,25 +7,26 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isValidGraphicsPropertyBuiltin.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "IsValidGraphicsProperty.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "GOArrayOfProperty.hpp"
+#include "GraphicsObject.hpp"
 //=============================================================================
-ArrayOfVector
-GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& argIn)
+namespace Nelson {
+//=============================================================================
+class GOCallbackProperty : public GOArrayOfProperty
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1);
-
-    std::wstring GOTypename = argIn[0].getContentAsWideString();
-    std::wstring GOPropertyName = argIn[1].getContentAsWideString();
-
-    bool isValidPropertyName = IsValidGraphicsProperty(GOTypename, GOPropertyName);
-
-    retval << ArrayOf::logicalConstructor(isValidPropertyName);
-    return retval;
-}
+public:
+    GOCallbackProperty() : GOArrayOfProperty() { }
+    ~GOCallbackProperty() override = default;
+    void set(ArrayOf) override;
+    ArrayOf
+    get() override;
+    std::wstring
+    toWideString() override;
+    bool
+    pushEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
+};
+//=============================================================================
+};
 //=============================================================================

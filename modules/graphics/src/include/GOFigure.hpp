@@ -24,7 +24,7 @@ private:
     void
     loadParulaColorMap();
     GOWindow* m_win;
-
+    bool lockResize = false;
     void
     refreshDrawLaterProperty();
 

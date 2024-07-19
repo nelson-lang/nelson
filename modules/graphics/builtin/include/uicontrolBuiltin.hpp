@@ -7,25 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isValidGraphicsPropertyBuiltin.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "IsValidGraphicsProperty.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson::GraphicsGateway {
 //=============================================================================
 ArrayOfVector
-GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1);
-
-    std::wstring GOTypename = argIn[0].getContentAsWideString();
-    std::wstring GOPropertyName = argIn[1].getContentAsWideString();
-
-    bool isValidPropertyName = IsValidGraphicsProperty(GOTypename, GOPropertyName);
-
-    retval << ArrayOf::logicalConstructor(isValidPropertyName);
-    return retval;
+uicontrolBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 }
 //=============================================================================

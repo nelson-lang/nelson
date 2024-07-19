@@ -15,6 +15,7 @@
 #include "ArrayOf.hpp"
 #include "GOGenericProperty.hpp"
 #include "RenderInterface.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,6 +29,7 @@ private:
     std::unordered_map<std::wstring, GOGenericProperty*> m_properties;
     wstringVector m_property_names_order;
     unsigned ref_count;
+    Evaluator* uiEvaluator = nullptr;
 
 public:
     GraphicsObject();
@@ -61,6 +63,18 @@ public:
     getType()
     {
         return L"Graphics_Object";
+    }
+
+    void
+    setEvaluator(Evaluator* eval)
+    {
+        uiEvaluator = eval;
+    };
+
+    Evaluator*
+    getEvaluator()
+    {
+        return uiEvaluator;
     }
 
     bool

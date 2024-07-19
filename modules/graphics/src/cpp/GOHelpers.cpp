@@ -16,6 +16,7 @@
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -166,7 +167,7 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     freeGraphicsObject(handle);
     if (repaintParentFigure) {
         GOFigure* parentFigure = nullptr;
-        if (!gp->isType(L"figure") && !gp->isType(L"root")) {
+        if (!gp->isType(GO_PROPERTY_VALUE_FIGURE_STR) && !gp->isType(GO_PROPERTY_VALUE_ROOT_STR)) {
             parentFigure = gp->getParentFigure();
         }
         if (parentFigure) {

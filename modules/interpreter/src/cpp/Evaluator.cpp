@@ -66,6 +66,7 @@
 #include "Or.hpp"
 #include "OverloadName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "CallbackQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -1759,12 +1760,17 @@ void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
-    FunctionDef* fdef = nullptr;
+    if (!CallbackQueue::getInstance()->isEmpty()) {
+        GraphicCallback graphicCallback;
+        CallbackQueue::getInstance()->get(graphicCallback);
+        graphicCallback.execute(this);
+    }
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
         evaluateString(cmd);
     }
+    FunctionDef* fdef = nullptr;
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
     }
@@ -1953,6 +1959,8 @@ Evaluator::block(AbstractSyntaxTreePtr t)
             if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                 if (ID == 0) {
                     NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
+                    CallbackQueue::getInstance()->clear();
+                    setState(NLS_STATE_ABORT);
                     Error(MSG_CTRL_C_DETECTED);
                 } else {
                     Error(_W("Execution of the future was cancelled."),
@@ -4391,6 +4399,13 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
+        if (!CallbackQueue::getInstance()->isEmpty()) {
+            GraphicCallback graphicCallback;
+            CallbackQueue::getInstance()->get(graphicCallback);
+            graphicCallback.execute(this);
+            return;
+        }
+
         std::wstring commandLine;
         commandQueue.get(commandLine);
         if (commandLine.empty()) {

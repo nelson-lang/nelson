@@ -7,25 +7,27 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isValidGraphicsPropertyBuiltin.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "IsValidGraphicsProperty.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsInterpreter_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& argIn)
+namespace Nelson {
+//=============================================================================
+class NLSINTERPRETER_IMPEXP GraphicCallback
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1);
+private:
+    ArrayOf callbackAsArrayOf;
+    bool running = false;
 
-    std::wstring GOTypename = argIn[0].getContentAsWideString();
-    std::wstring GOPropertyName = argIn[1].getContentAsWideString();
+public:
+    GraphicCallback() {};
+    GraphicCallback(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
+    ~GraphicCallback() {};
 
-    bool isValidPropertyName = IsValidGraphicsProperty(GOTypename, GOPropertyName);
-
-    retval << ArrayOf::logicalConstructor(isValidPropertyName);
-    return retval;
+    bool
+    execute(Evaluator* eval);
+};
+//=============================================================================
 }
 //=============================================================================

@@ -38,7 +38,7 @@ GORoot::GORoot()
 std::wstring
 GORoot::getType()
 {
-    return L"root";
+    return GO_PROPERTY_VALUE_ROOT_STR;
 }
 //=============================================================================
 void

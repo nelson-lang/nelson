@@ -38,7 +38,7 @@ namespace Nelson {
 std::wstring
 GOText::getType()
 {
-    return L"text";
+    return GO_PROPERTY_VALUE_TEXT_STR;
 }
 //=============================================================================
 GOText::GOText()

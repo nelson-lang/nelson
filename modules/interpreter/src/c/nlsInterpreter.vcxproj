@@ -221,6 +221,8 @@
     <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp" />
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
+    <ClCompile Include="..\cpp\CallbackQueue.cpp" />
+    <ClCompile Include="..\cpp\GraphicCallback.cpp" />
     <ClCompile Include="..\cpp\TextToNumber.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -357,6 +359,7 @@
     <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\CallbackQueue.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />
@@ -371,6 +374,7 @@
     <ClInclude Include="..\include\FunctionsInMemory.hpp" />
     <ClInclude Include="..\include\GatewayHelpers.hpp" />
     <ClInclude Include="..\include\GenericTable.hpp" />
+    <ClInclude Include="..\include\GraphicCallback.hpp" />
     <ClInclude Include="..\include\Keywords.hpp" />
     <ClInclude Include="..\include\LexerInterface.hpp" />
     <ClInclude Include="..\include\LocalFunctionsTable.hpp" />

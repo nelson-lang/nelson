@@ -9,18 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
+#include <string>
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSGUI_IMPEXP void
-ProcessEvents(bool bWaitEvents = false);
+NLSGRAPHICS_IMPEXP bool
+IsValidGraphicsProperty(const std::wstring& GOTypename, const std::wstring& GOPropertyName);
 //=============================================================================
-}
-//=============================================================================
-extern "C"
-{
-    NLSGUI_IMPEXP void
-    NelSonProcessEvents(bool bWaitEvents = false);
 }
 //=============================================================================

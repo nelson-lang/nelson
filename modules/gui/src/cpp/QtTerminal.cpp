@@ -57,6 +57,7 @@
 #include "QtFileBrowser.h"
 #include "WorkspaceBrowser.hpp"
 #include "QtWorkspaceBrowser.h"
+#include "CallbackQueue.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -252,10 +253,17 @@ QtTerminal::getLine(const std::wstring& prompt)
     void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
     Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
     eval->commandQueue.clear();
+    CallbackQueue::getInstance()->clear();
     bool wasInterruptByAction = false;
     do {
-        Nelson::ProcessEvents(true);
-        if (!eval->commandQueue.isEmpty()) {
+        try {
+            Nelson::ProcessEvents(true);
+        } catch (const Exception& e) {
+            e.printMe(eval->getInterface());
+            wasInterruptByAction = true;
+            break;
+        }
+        if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()) {
             wasInterruptByAction = true;
             break;
         }

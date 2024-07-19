@@ -57,6 +57,7 @@ GraphicsObject::~GraphicsObject()
             }
         }
     }
+    uiEvaluator = nullptr;
 }
 //=============================================================================
 bool

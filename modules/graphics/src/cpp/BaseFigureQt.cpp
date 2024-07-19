@@ -19,6 +19,12 @@ void
 BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
     QWidget::resizeEvent(e);
+    resizeTimer->start(100);
+}
+//=============================================================================
+void
+BaseFigureQt::finalizeResize()
+{
     hfig->resizeGL(width(), height());
 }
 //=============================================================================
@@ -31,7 +37,13 @@ BaseFigureQt::paintEvent(QPaintEvent* e)
     hfig->paintMe(gc);
 }
 //=============================================================================
-BaseFigureQt::BaseFigureQt(QWidget* parent, GOFigure* fig) : QWidget(parent) { hfig = fig; }
+BaseFigureQt::BaseFigureQt(QWidget* parent, GOFigure* fig) : QWidget(parent)
+{
+    hfig = fig;
+    resizeTimer = new QTimer(this);
+    resizeTimer->setSingleShot(true);
+    connect(resizeTimer, &QTimer::timeout, this, &BaseFigureQt::finalizeResize);
+}
 //=============================================================================
 QScreen*
 BaseFigureQt::getActiveScreen()

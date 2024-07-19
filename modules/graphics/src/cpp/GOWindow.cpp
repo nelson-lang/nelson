@@ -49,6 +49,7 @@
 #include "HelpBrowser.hpp"
 #include "TextEditor.hpp"
 #include "MainGuiObject.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -67,6 +68,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     handle = ahandle;
     int figureId = handle + 1;
     goFig = new GOFigure(this, figureId);
+    goFig->setEvaluator((Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator());
     setWindowTitle(wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
     setFocusPolicy(Qt::ClickFocus);
     qtchild = new BaseFigureQt(NULL, goFig);
@@ -104,8 +106,24 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 void
 GOWindow::closeEvent(QCloseEvent* e)
 {
-    closeFigure(handle, false);
-    e->accept();
+    if (!goFig) {
+        return;
+    }
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)goFig->findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+    if (goCallback) {
+        ArrayOf cgo = goCallback->data();
+        if (cgo.isRowVectorCharacterArray() || cgo.isScalarStringArray()) {
+            std::wstring callbackString = cgo.getContentAsWideCharactersPointer();
+            if (callbackString == GO_PROPERTY_VALUE_CLOSEREQ_STR) {
+                closeFigure(handle, false);
+                e->accept();
+                return;
+            }
+        }
+        goCallback->pushEvent(goFig, L"WindowCloseRequestData", L"Close");
+    }
+    e->ignore();
 }
 //=============================================================================
 GOFigure*
@@ -975,6 +993,5 @@ GOWindow::keyPressEvent(QKeyEvent* event)
 MOUSE_MODE
 GOWindow::getCurrentMouseMode() { return mouseMode; }
 //=============================================================================
-
 }
 //=============================================================================

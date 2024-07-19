@@ -19,13 +19,17 @@
 #include "GOMenuBarProperty.hpp"
 #include "BaseFigureQt.hpp"
 #include "NelsonConfiguration.hpp"
+#include "GOCallbackProperty.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
+#include "ProcessEvents.hpp"
+#include "CallbackQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 GOFigure::getType()
 {
-    return L"figure";
+    return GO_PROPERTY_VALUE_FIGURE_STR;
 }
 //=============================================================================
 GOFigure::GOFigure(GOWindow* win, int number)
@@ -66,6 +70,9 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
     registerProperty(new GOToolBarProperty, GO_TOOL_BAR_PROPERTY_NAME_STR);
     registerProperty(new GOMenuBarProperty, GO_MENU_BAR_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
+
     sortProperties();
 }
 //=============================================================================
@@ -83,6 +90,15 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
+
+    GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+    if (hp) {
+        hp->set(ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_CLOSEREQ_STR));
+    }
+    hp = findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+    if (hp) {
+        hp->set(ArrayOf::characterArrayConstructor(L""));
+    }
     loadParulaColorMap();
     _resized = false;
 }
@@ -271,7 +287,7 @@ GOFigure::paintMe(RenderInterface& gc)
         std::vector<int64> handlesChildren(children->data());
         std::vector<GraphicsObject*> legendObjects;
         for (ompIndexType i = 0; i < (ompIndexType)handlesChildren.size(); i++) {
-            if (handlesChildren[i] != handlesCurrentAxes[0]) {
+            if (!handlesCurrentAxes.empty() && handlesChildren[i] != handlesCurrentAxes[0]) {
                 GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
                 if (fp) {
                     fp->paintMe(gc);
@@ -307,6 +323,10 @@ GOFigure::paintMe(RenderInterface& gc)
 void
 GOFigure::resizeGL(int width, int height)
 {
+    if ((m_width == width) && (m_height == height)) {
+        return;
+    }
+    _resized = true;
     QRect qGeometry = m_win->frameGeometry();
     QPoint qPoint = qGeometry.topLeft();
     m_width = width;
@@ -316,7 +336,6 @@ GOFigure::resizeGL(int width, int height)
         = transformY(qPoint.y(), height, Nelson::BaseFigureQt::getCurrentScreenHeight());
 
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, qPoint.x(), transformedY, width, height);
-    _resized = true;
     updateState();
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
@@ -326,6 +345,11 @@ GOFigure::resizeGL(int width, int height)
         if (fp) {
             fp->updateState();
         }
+    }
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+    if (goCallback) {
+        goCallback->pushEvent(this, L"SizeChangedData", L"SizeChanged");
     }
 }
 //=============================================================================

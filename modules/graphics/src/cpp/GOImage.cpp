@@ -26,7 +26,7 @@ namespace Nelson {
 std::wstring
 GOImage::getType()
 {
-    return L"image";
+    return GO_PROPERTY_VALUE_IMAGE_STR;
 }
 //=============================================================================
 GOImage::GOImage()

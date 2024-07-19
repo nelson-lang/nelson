@@ -9,18 +9,41 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
+#include <mutex>
+#include <vector>
+#include "GraphicCallback.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSGUI_IMPEXP void
-ProcessEvents(bool bWaitEvents = false);
-//=============================================================================
-}
-//=============================================================================
-extern "C"
+class NLSINTERPRETER_IMPEXP CallbackQueue
 {
-    NLSGUI_IMPEXP void
-    NelSonProcessEvents(bool bWaitEvents = false);
-}
+private:
+    static CallbackQueue* m_pInstance;
+    std::mutex m_mutex;
+    std::vector<GraphicCallback> callbacks;
+
+    CallbackQueue();
+    CallbackQueue(const CallbackQueue&) = delete;
+    CallbackQueue&
+    operator=(const CallbackQueue&)
+        = delete;
+
+public:
+    ~CallbackQueue();
+    static CallbackQueue*
+    getInstance();
+    static void
+    destroy();
+    bool
+    isEmpty();
+    void
+    add(const GraphicCallback& graphicCallback);
+    void
+    clear();
+    bool
+    get(GraphicCallback& graphicCallback);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

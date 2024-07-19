@@ -76,7 +76,7 @@ public:
      * Output the contents of the exception to the console.
      */
     void
-    printMe(Interface* io);
+    printMe(Interface* io) const;
     //=============================================================================
     /**
      * compares messages

@@ -92,7 +92,7 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
         }
     }
     fp->updateState();
-    if (!fp->isType(L"figure") && !fp->isType(L"root")) {
+    if (!fp->isType(GO_PROPERTY_VALUE_FIGURE_STR) && !fp->isType(GO_PROPERTY_VALUE_ROOT_STR)) {
         GOFigure* fig = fp->getParentFigure();
         refreshFigure(fig);
     }

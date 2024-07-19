@@ -11,17 +11,22 @@
 //=============================================================================
 #include <QtWidgets/QWidget>
 #include <QtGui/QScreen>
+#include <QtCore/QTimer>
 #include "GOFigure.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class BaseFigureQt : public QWidget
 {
+    //=============================================================================
 private:
+    QTimer* resizeTimer;
     GOFigure* hfig = nullptr;
     static QScreen*
     getActiveScreen();
-
+    void
+    finalizeResize();
+    //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);
     void

@@ -220,6 +220,7 @@
     <ClCompile Include="..\cpp\__rotate3d__Builtin.cpp" />
     <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
     <ClCompile Include="..\cpp\__text__Builtin.cpp" />
+    <ClCompile Include="..\cpp\uicontrolBuiltin.cpp" />
     <ClCompile Include="..\cpp\__view__Builtin.cpp" />
     <ClCompile Include="..\cpp\__zoom__Builtin.cpp" />
   </ItemGroup>
@@ -291,6 +292,7 @@
     <ClInclude Include="..\include\__rotate3d__Builtin.hpp" />
     <ClInclude Include="..\include\__surf__Builtin.hpp" />
     <ClInclude Include="..\include\__text__Builtin.hpp" />
+    <ClInclude Include="..\include\uicontrolBuiltin.hpp" />
     <ClInclude Include="..\include\__view__Builtin.hpp" />
     <ClInclude Include="..\include\__zoom__Builtin.hpp" />
   </ItemGroup>

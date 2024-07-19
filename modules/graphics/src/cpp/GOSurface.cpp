@@ -107,7 +107,7 @@ GOSurface::setupDefaults()
     setScalarDoubleDefault(GO_SPECULAR_COLOR_REFLECTANCE_PROPERTY_NAME_STR, 0.4);
     setScalarDoubleDefault(GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR, 0.1);
     setScalarDoubleDefault(GO_SPECULAR_STRENGTH_PROPERTY_NAME_STR, 0.5);
-    setStringDefault(GO_TYPE_PROPERTY_NAME_STR, L"image");
+    setStringDefault(GO_TYPE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_IMAGE_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringScalarDefault(
         GO_EDGE_ALPHA_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALAR_STR, 1);

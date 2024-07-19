@@ -43,6 +43,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
@@ -64,6 +67,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\GOAxisHelpers.hpp" />
+    <CustomBuild Include="..\cpp\GOUIControl.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
     <ClInclude Include="..\cpp\RenderHelpers.hpp" />
     <ClInclude Include="..\cpp\TexToUnicode.hpp" />
@@ -80,6 +97,7 @@
     <ClInclude Include="..\include\GOAutoFlatColorProperty.hpp" />
     <ClInclude Include="..\include\GOAxis.hpp" />
     <ClInclude Include="..\include\GOBackFaceLightingProperty.hpp" />
+    <ClInclude Include="..\include\GOCallbackProperty.hpp" />
     <ClInclude Include="..\include\GOColorHelpers.hpp" />
     <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
     <ClInclude Include="..\include\GOColorProperty.hpp" />
@@ -134,6 +152,8 @@
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
     <ClInclude Include="..\include\GOToolBarProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
+    <ClInclude Include="..\include\IsValidGraphicsProperty.hpp" />
+    <ClInclude Include="..\include\UIControlBuilder.hpp" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
     <ClInclude Include="..\include\GOVectorFourDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOVectorProperty.hpp" />
@@ -165,6 +185,7 @@
     <ClCompile Include="..\cpp\GOAxis.cpp" />
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
     <ClCompile Include="..\cpp\GOBackFaceLightingProperty.cpp" />
+    <ClCompile Include="..\cpp\GOCallbackProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorHelpers.cpp" />
     <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
@@ -215,6 +236,7 @@
     <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp" />
     <ClCompile Include="..\cpp\GOToolBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
+    <ClCompile Include="..\cpp\GOUIControl.cpp" />
     <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorProperty.cpp" />
@@ -226,12 +248,15 @@
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
     <ClCompile Include="..\cpp\ImageReader.cpp" />
     <ClCompile Include="..\cpp\ImageWriter.cpp" />
+    <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
+    <ClCompile Include="..\cpp\moc_GOUIControl.cpp" />
     <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
     <ClCompile Include="..\cpp\RefreshFigure.cpp" />
     <ClCompile Include="..\cpp\RenderQt.cpp" />
     <ClCompile Include="..\cpp\RenderHelpers.cpp" />
     <ClCompile Include="..\cpp\TexToUnicode.cpp" />
+    <ClCompile Include="..\cpp\UIControlBuilder.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7ECBC5F0-CE99-4738-944C-E88C3DDF12BB}</ProjectGuid>

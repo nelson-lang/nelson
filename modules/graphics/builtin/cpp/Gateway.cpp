@@ -20,6 +20,7 @@
 #include "__zoom__Builtin.hpp"
 #include "__pan__Builtin.hpp"
 #include "__rotate3d__Builtin.hpp"
+#include "uicontrolBuiltin.hpp"
 #include "figureBuiltin.hpp"
 #include "graphics_object_displayBuiltin.hpp"
 #include "graphics_object_setBuiltin.hpp"
@@ -116,6 +117,7 @@ static const nlsGateway gateway[] = {
     { "validatecolor", (ptrBuiltin)Nelson::GraphicsGateway::validatecolorBuiltin, 1, 2,
         CPP_BUILTIN },
     { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
+    { "uicontrol", (ptrBuiltin)Nelson::GraphicsGateway::uicontrolBuiltin, -1, -1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
