@@ -36,6 +36,7 @@ GraphicCallback::execute(Evaluator* eval)
     };
 
     if (callbackAsArrayOf.isCell()) {
+        size_t nbElements = callbackAsArrayOf.getElementCount();
         const ArrayOf* elements = (const ArrayOf*)callbackAsArrayOf.getDataPointer();
         const ArrayOf& fhArrayOf = elements[0];
         if (!fhArrayOf.isFunctionHandle()) {
@@ -43,7 +44,7 @@ GraphicCallback::execute(Evaluator* eval)
             return false;
         }
         ArrayOfVector argIn;
-        for (size_t k = 1; k < callbackAsArrayOf.getElementCount(); ++k) {
+        for (size_t k = 1; k < nbElements; ++k) {
             argIn.push_back(elements[k]);
         }
         function_handle fh = fhArrayOf.getContentAsFunctionHandle();

@@ -23,6 +23,7 @@
 #include "GOList.hpp"
 #include "GOAxis.hpp"
 #include "ParallelSort.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +44,8 @@ GOContour::~GOContour() { }
 void
 GOContour::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_CONTOUR_MATRIX_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);

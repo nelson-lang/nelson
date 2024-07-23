@@ -14,6 +14,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,6 +23,8 @@ GOGroup::~GOGroup() = default;
 void
 GOGroup::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);

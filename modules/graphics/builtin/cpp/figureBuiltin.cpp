@@ -18,6 +18,7 @@
 #include "RefreshFigure.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -92,6 +93,13 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)fig->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);
+    if (goCallback) {
+        goCallback->executeNow(fig);
+    }
+
     return retval;
 }
 //=============================================================================

@@ -37,6 +37,7 @@
 #include "RenderInterface.hpp"
 #include "RenderHelpers.hpp"
 #include "GOColorProperty.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -147,6 +148,8 @@ GOPatch::getLimits()
 void
 GOPatch::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_AMBIENT_STRENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOBackFaceLightingProperty, GO_BACK_FACE_LIGHTING_PROPERTY_NAME_STR);

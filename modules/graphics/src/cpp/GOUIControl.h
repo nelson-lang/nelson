@@ -14,7 +14,6 @@
 #include <QtCore/QPoint>
 #include "nlsGraphics_exports.h"
 #include "GraphicsObject.hpp"
-#include "Evaluator.hpp"
 #include "GOWindow.hpp"
 //=============================================================================
 namespace Nelson {

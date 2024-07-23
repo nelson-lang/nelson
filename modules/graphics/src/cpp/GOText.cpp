@@ -32,6 +32,7 @@
 #include "QStringConverter.hpp"
 #include "GOTextInterpreterProperty.hpp"
 #include "TexToUnicode.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,6 +61,8 @@ GOText::getTextHeightInPixels()
 void
 GOText::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_BOUNDING_BOX_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_STRING_PROPERTY_NAME_STR);

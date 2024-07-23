@@ -11,10 +11,11 @@
 //=============================================================================
 #include "GOArrayOfProperty.hpp"
 #include "GraphicsObject.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOCallbackProperty : public GOArrayOfProperty
+class NLSGRAPHICS_IMPEXP GOCallbackProperty : public GOArrayOfProperty
 {
 public:
     GOCallbackProperty() : GOArrayOfProperty() { }
@@ -26,6 +27,12 @@ public:
     toWideString() override;
     bool
     pushEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
+    bool
+    pushEvent(GraphicsObject* go);
+    bool
+    executeNow(GraphicsObject* go);
+    bool
+    executeNow(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
 };
 //=============================================================================
 };

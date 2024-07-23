@@ -18,6 +18,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "StringHelpers.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -126,6 +127,13 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     if (!gp) {
         return false;
     }
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)gp->findProperty(GO_DELETE_FCN_PROPERTY_NAME_STR);
+    if (goCallback) {
+        goCallback->executeNow(gp, L"EventData", L"ObjectBeingDestroyed");
+    }
+
     GOGObjectsProperty* hp = (GOGObjectsProperty*)gp->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     if (hp) {
         std::vector<int64> children(hp->data());
@@ -174,6 +182,7 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
             parentFigure->repaint();
         }
     }
+    delete gp;
     return true;
 }
 //=============================================================================

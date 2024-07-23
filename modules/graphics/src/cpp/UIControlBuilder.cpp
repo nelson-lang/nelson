@@ -19,6 +19,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "GOScalarDoubleProperty.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -82,6 +83,12 @@ UIControlBuilder(const ArrayOfVector& argIn)
         }
         copyArgIn.pop_front();
         copyArgIn.pop_front();
+    }
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)fp->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);
+    if (goCallback) {
+        goCallback->executeNow(fp);
     }
 
     return thisHandle;

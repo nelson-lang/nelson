@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `CloseRequestFcn` — Close request callback for `figure`.
+- `CreateFcn` — Create callback for all graphic objects.
+- `DeleteFcn` — Delete callback for all graphic objects.
 
 ### Changed
 

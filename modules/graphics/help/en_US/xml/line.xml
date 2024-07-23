@@ -69,6 +69,11 @@
 <p><b>XData</b> x values: vector, [0 1] (default).</p>
 <p><b>YData</b> y values: vector, [0 1] (default).</p>
 <p><b>ZData</b> z values: vector, [] (default).</p>
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
 <p />
 </description>
 
@@ -144,6 +149,12 @@ view(3)]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+
   </history>
 
   <authors>

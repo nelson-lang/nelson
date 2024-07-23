@@ -20,6 +20,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOGroup.hpp"
 #include "RefreshFigure.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -96,6 +97,13 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
         GOFigure* fig = fp->getParentFigure();
         refreshFigure(fig);
     }
+
+    GOCallbackProperty* goCallback
+        = (GOCallbackProperty*)fp->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);
+    if (goCallback) {
+        goCallback->executeNow(fp);
+    }
+
     return thisHandle;
 }
 //=============================================================================

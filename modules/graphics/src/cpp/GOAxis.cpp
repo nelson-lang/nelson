@@ -54,6 +54,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "TexToUnicode.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,6 +69,8 @@ GOAxis::getType()
 void
 GOAxis::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_A_LIM_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_A_LIM_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_AMBIENT_LIGHT_COLOR_PROPERTY_NAME_STR);

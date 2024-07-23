@@ -20,6 +20,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,6 +39,8 @@ GOImage::GOImage()
 void
 GOImage::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);

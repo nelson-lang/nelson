@@ -16,6 +16,8 @@
 #include "GOHelpers.hpp"
 #include "ProcessEvents.hpp"
 #include "CallbackQueue.hpp"
+#include "NelsonConfiguration.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -82,6 +84,40 @@ GOCallbackProperty::toWideString()
 }
 //=============================================================================
 bool
+GOCallbackProperty::pushEvent(GraphicsObject* go)
+{
+    ArrayOf callbackAsArrayOf;
+    if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
+        callbackAsArrayOf = _data;
+    } else if (_data.isFunctionHandle()) {
+        size_t nbElements = 3;
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+        elements[0] = _data;
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[2] = ArrayOf::emptyConstructor(0, 0);
+        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
+    } else if (_data.isCell()) {
+        ArrayOf* cellElements = (ArrayOf*)_data.getDataPointer();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
+        elements[0] = cellElements[0];
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[2] = ArrayOf::emptyConstructor(0, 0);
+
+        for (size_t k = 1; k < _data.getElementCount(); ++k) {
+            elements[2 + k] = cellElements[k];
+        }
+        callbackAsArrayOf
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.getElementCount() + 3), elements);
+    } else {
+        return false;
+    }
+    GraphicCallback graphicCallback(callbackAsArrayOf);
+    CallbackQueue::getInstance()->add(graphicCallback);
+    return true;
+}
+//=============================================================================
+bool
 GOCallbackProperty::pushEvent(
     GraphicsObject* go, const std::wstring& className, const std::wstring& actionName)
 {
@@ -89,7 +125,8 @@ GOCallbackProperty::pushEvent(
     if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
         callbackAsArrayOf = _data;
     } else if (_data.isFunctionHandle()) {
-        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, 4);
+        size_t nbElements = 3;
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
         elements[0] = _data;
         elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
         wstringVector fieldnames = { L"Source", L"EventName" };
@@ -97,12 +134,12 @@ GOCallbackProperty::pushEvent(
         fieldvalues.reserve(2);
         fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
         fieldvalues << ArrayOf::characterArrayConstructor(actionName);
-        elements[3] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
-        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 4), elements);
+        elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
     } else if (_data.isCell()) {
         ArrayOf* cellElements = (ArrayOf*)_data.getDataPointer();
         ArrayOf* elements
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 2);
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
         elements[0] = cellElements[0];
         elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
         wstringVector fieldnames = { L"Source", L"EventName" };
@@ -110,12 +147,12 @@ GOCallbackProperty::pushEvent(
         fieldvalues.reserve(2);
         fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
         fieldvalues << ArrayOf::characterArrayConstructor(actionName);
-        elements[3] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+        elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
         for (size_t k = 1; k < _data.getElementCount(); ++k) {
-            elements[3 + k] = cellElements[k];
+            elements[2 + k] = cellElements[k];
         }
         callbackAsArrayOf
-            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.getElementCount() + 2), elements);
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.getElementCount() + 3), elements);
     } else {
         return false;
     }
@@ -125,5 +162,86 @@ GOCallbackProperty::pushEvent(
     return true;
 }
 //=============================================================================
+bool
+GOCallbackProperty::executeNow(GraphicsObject* go)
+{
+    ArrayOf callbackAsArrayOf;
+    if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
+        callbackAsArrayOf = _data;
+    } else if (_data.isFunctionHandle()) {
+        size_t nbElements = 3;
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+        elements[0] = _data;
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[2] = ArrayOf::emptyConstructor(0, 0);
+        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
+    } else if (_data.isCell()) {
+        ArrayOf* cellElements = (ArrayOf*)_data.getDataPointer();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
+        elements[0] = cellElements[0];
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[2] = ArrayOf::emptyConstructor(0, 0);
+
+        for (size_t k = 1; k < _data.getElementCount(); ++k) {
+            elements[2 + k] = cellElements[k];
+        }
+        callbackAsArrayOf
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.getElementCount() + 3), elements);
+    } else {
+        return false;
+    }
+
+    GraphicCallback graphicCallback(callbackAsArrayOf);
+    return graphicCallback.execute(
+        (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator());
+}
+//=============================================================================
+bool
+GOCallbackProperty::executeNow(
+    GraphicsObject* go, const std::wstring& className, const std::wstring& actionName)
+{
+    ArrayOf callbackAsArrayOf;
+    if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
+        callbackAsArrayOf = _data;
+    } else if (_data.isFunctionHandle()) {
+        size_t nbElements = 3;
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+        elements[0] = _data;
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        wstringVector fieldnames = { L"Source", L"EventName" };
+        ArrayOfVector fieldvalues;
+        fieldvalues.reserve(2);
+        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << ArrayOf::characterArrayConstructor(actionName);
+        elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
+    } else if (_data.isCell()) {
+        ArrayOf* cellElements = (ArrayOf*)_data.getDataPointer();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
+        elements[0] = cellElements[0];
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        wstringVector fieldnames = { L"Source", L"EventName" };
+        ArrayOfVector fieldvalues;
+        fieldvalues.reserve(2);
+        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << ArrayOf::characterArrayConstructor(actionName);
+        elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+        for (size_t k = 1; k < _data.getElementCount(); ++k) {
+            elements[2 + k] = cellElements[k];
+        }
+        callbackAsArrayOf
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.getElementCount() + 3), elements);
+    } else {
+        return false;
+    }
+
+    GraphicCallback graphicCallback(callbackAsArrayOf);
+    return graphicCallback.execute(
+        (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator());
+}
+//=============================================================================
+
 }
 //=============================================================================

@@ -212,12 +212,29 @@ GOUIControl::updateState()
         widget->setToolTip(wstringToQString(str));
         clearChanged(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR);
     }
+
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RADIOBUTTON_STR)
+        && (hasChanged(GO_VALUE_PROPERTY_NAME_STR) || hasChanged(GO_MIN_PROPERTY_NAME_STR)
+            || hasChanged(GO_MAX_PROPERTY_NAME_STR) || widget)) {
+        double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
+        double max(findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR));
+        double value(findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR));
+        if (value == min) {
+            ((QRadioButton*)widget)->setChecked(false);
+        } else if (value == max) {
+            ((QRadioButton*)widget)->setChecked(true);
+        }
+        clearChanged(GO_MIN_PROPERTY_NAME_STR);
+        clearChanged(GO_MAX_PROPERTY_NAME_STR);
+        clearChanged(GO_VALUE_PROPERTY_NAME_STR);
+    }
 }
 //=============================================================================
 void
 GOUIControl::constructProperties()
 {
     registerProperty(new GOCallbackProperty, GO_CALLBACK_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
@@ -239,6 +256,9 @@ GOUIControl::constructProperties()
     registerProperty(new GOAlignHorizProperty, GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_ENABLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TOOLTIPS_STRING_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty, GO_MIN_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty, GO_MAX_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty, GO_VALUE_PROPERTY_NAME_STR);
 
     sortProperties();
 }
@@ -266,7 +286,11 @@ GOUIControl::setupDefaults()
     setRestrictedStringDefault(GO_ENABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PUSHBUTTON_STR);
     setStringDefault(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR, L"");
+    setScalarDoubleDefault(GO_MIN_PROPERTY_NAME_STR, 0);
+    setScalarDoubleDefault(GO_MAX_PROPERTY_NAME_STR, 1);
+    setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 0);
 }
+
 //=============================================================================
 void
 GOUIControl::paintMe(RenderInterface& gc)
@@ -298,8 +322,18 @@ GOUIControl::convertToTopLeft(const QPoint& bottomLeftPos)
 void
 GOUIControl::clicked()
 {
-    if (!widget || !getEvaluator()) {
+    if (!widget) {
         return;
+    }
+
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RADIOBUTTON_STR) && widget) {
+        if (((QRadioButton*)widget)->isChecked()) {
+            findProperty(GO_VALUE_PROPERTY_NAME_STR)
+                ->set(findProperty(GO_MAX_PROPERTY_NAME_STR)->get());
+        } else {
+            findProperty(GO_VALUE_PROPERTY_NAME_STR)
+                ->set(findProperty(GO_MIN_PROPERTY_NAME_STR)->get());
+        }
     }
     GOCallbackProperty* goCallback
         = (GOCallbackProperty*)findProperty(GO_CALLBACK_PROPERTY_NAME_STR);

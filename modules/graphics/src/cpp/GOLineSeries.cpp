@@ -23,6 +23,7 @@
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
 #include "RenderHelpers.hpp"
+#include "GOCallbackProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +44,8 @@ GOLineSeries::~GOLineSeries() { }
 void
 GOLineSeries::constructProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);

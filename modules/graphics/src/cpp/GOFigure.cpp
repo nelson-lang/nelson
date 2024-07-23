@@ -51,6 +51,8 @@ GOFigure::getGOWindow()
 void
 GOFigure::registerProperties()
 {
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_NUMBER_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
