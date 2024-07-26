@@ -34,6 +34,7 @@
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 #include "StringHelpers.hpp"
+#include "GOUIControl.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,6 +52,10 @@ GraphicsObject::~GraphicsObject()
             if (gp) {
                 gp->dereference();
                 if (gp->referenceCount() <= 0) {
+                    if (gp->findStringProperty(GO_TYPE_PROPERTY_NAME_STR)
+                        == GO_PROPERTY_VALUE_UICONTROL_STR) {
+                        ((GOUIControl*)gp)->hide();
+                    }
                     freeGraphicsObject(handle);
                     delete gp;
                 }
@@ -173,6 +178,13 @@ GraphicsObject::findStringProperty(const std::wstring& name)
     return (sp->data());
 }
 //=============================================================================
+wstringVector
+GraphicsObject::findStringVectorProperty(const std::wstring& name)
+{
+    GOStringVectorProperty* sp = static_cast<GOStringVectorProperty*>(findProperty(name));
+    return (sp->data());
+}
+//=============================================================================
 std::vector<double>
 GraphicsObject::findVectorDoubleProperty(const std::wstring& name)
 {
@@ -277,7 +289,7 @@ GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const ws
 {
     GORestrictedStringVectorProperty* hp
         = static_cast<GORestrictedStringVectorProperty*>(findProperty(name));
-    ((GOStringVector*)hp)->data(values);
+    ((GOStringVectorProperty*)hp)->data(values);
 }
 //=============================================================================
 void

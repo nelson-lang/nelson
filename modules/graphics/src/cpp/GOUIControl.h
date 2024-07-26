@@ -22,7 +22,7 @@ class NLSGRAPHICS_IMPEXP GOUIControl : public QObject, public GraphicsObject
 {
     Q_OBJECT
     QWidget* widget;
-    GOWindow* parentWidget;
+    GOWindow* parentGoWindow;
 
 public:
     //=============================================================================
@@ -37,10 +37,16 @@ public:
     updateState() override;
     //=============================================================================
     void
-    paintMe(RenderInterface& gc);
+    paintMe(RenderInterface& gc) override;
     //=============================================================================
     void
     buildWidget(GOWindow* f);
+    //=============================================================================
+    void
+    show();
+    //=============================================================================
+    void
+    hide();
     //=============================================================================
 private:
     //=============================================================================
@@ -53,8 +59,11 @@ private:
     QPoint
     convertToBottomLeft(const QPoint& topLeftPos);
     //=============================================================================
-    QPoint
-    convertToTopLeft(const QPoint& bottomLeftPos);
+    QWidget*
+    getParentWidget();
+    //=============================================================================
+    void
+    deleteWidget();
     //=============================================================================
 public slots:
     void

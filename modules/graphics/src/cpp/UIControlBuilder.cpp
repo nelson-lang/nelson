@@ -84,6 +84,7 @@ UIControlBuilder(const ArrayOfVector& argIn)
         copyArgIn.pop_front();
         copyArgIn.pop_front();
     }
+    fp->updateState();
 
     GOCallbackProperty* goCallback
         = (GOCallbackProperty*)fp->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);

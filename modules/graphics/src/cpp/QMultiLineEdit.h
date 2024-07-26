@@ -9,29 +9,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include "GOGenericProperty.hpp"
+#include <QtCore/QObject>
+#include <QtWidgets/QTextEdit>
+#include <QtGui/QKeyEvent>
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-class GOStringVectorProperty : public GOGenericProperty
+class QMultiLineEdit : public QTextEdit
 {
-protected:
-    std::vector<std::wstring> _data;
-
+    Q_OBJECT
 public:
-    GOStringVectorProperty() = default;
-    ~GOStringVectorProperty() override = default;
-    ArrayOf
-    get() override;
-    void set(ArrayOf) override;
-    std::vector<std::wstring>
-    data();
+    QMultiLineEdit(QWidget* parent);
     void
-    data(const std::vector<std::wstring>& m);
-    std::wstring
-    toWideString() override;
-};
-//=============================================================================
+    focusOutEvent(QFocusEvent* event);
+    void
+    keyPressEvent(QKeyEvent* event);
+signals:
+    void
+    editingFinished();
 };
 //=============================================================================

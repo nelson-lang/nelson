@@ -556,9 +556,18 @@
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\QMultiLineEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\moc_QMultiLineEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\cpp\GOUIControl.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\QMultiLineEdit.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

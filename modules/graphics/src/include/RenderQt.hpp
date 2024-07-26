@@ -39,6 +39,8 @@ class RenderQt : public RenderInterface
 {
 private:
     //=============================================================================
+    std::wstring renderName;
+
     double model[16];
     double proj[16];
     int viewp[4];
@@ -99,9 +101,13 @@ public:
     void
     debug() override;
     //=============================================================================
-    RenderQt(QPainter* painter, double x1, double y1, double width, double height);
+    RenderQt(QPainter* painter, double x1, double y1, double width, double height,
+        const std::wstring& renderName);
     //=============================================================================
     ~RenderQt() override;
+    //=============================================================================
+    std::wstring
+    getRenderName() override;
     //=============================================================================
     void clear(std::vector<double>) override;
     //=============================================================================
@@ -197,6 +203,9 @@ public:
     //=============================================================================
     void
     circleFill(double x1, double y1, double radius) override;
+    //=============================================================================
+    void
+    drawImage(int x1, int y1, QImage pic) override;
     //=============================================================================
     void
     drawImage(double x1, double y1, double x2, double y2, QImage pic) override;

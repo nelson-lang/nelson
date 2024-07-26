@@ -28,7 +28,7 @@ GORestrictedStringVectorProperty::set(ArrayOf arg)
 {
     ArrayOf _arg = uniformizeStringVector(arg, _data);
     GOGenericProperty::set(_arg);
-    GOStringVector::set(_arg);
+    GOStringVectorProperty::set(_arg);
     for (int i = 0; i < _data.size(); i++) {
         if (find(m_dictionary.begin(), m_dictionary.end(), _data[i]) == m_dictionary.end()) {
             Error(_W("Illegal selection for property."));

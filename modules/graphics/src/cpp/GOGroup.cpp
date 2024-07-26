@@ -73,6 +73,7 @@ GOGroup::updateState()
                 }
             }
         }
+        clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================

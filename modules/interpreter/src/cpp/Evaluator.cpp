@@ -2036,6 +2036,15 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     }
     if (t->opNum == (OP_DOT)) {
         try {
+            if (r.isGraphicsObject()) {
+                ArrayOfVector params;
+                ArrayOfVector rv = getHandle(r, t->down->text, params);
+                if (rv.size() > 0) {
+                    return rv[0];
+                } else {
+                    return (ArrayOf::emptyConstructor());
+                }
+            }
             return (r.getField(t->down->text));
         } catch (const Exception&) {
             return (ArrayOf::emptyConstructor());

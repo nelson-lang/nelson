@@ -295,21 +295,27 @@ GOSurface::updateState()
 {
     if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_X_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_X_DATA_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_Y_DATA_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         autoXMode();
+        clearChanged(GO_X_DATA_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_Y_DATA_MODE_PROPERTY_NAME_STR)) {
         autoYMode();
+        clearChanged(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_C_DATA_MODE_PROPERTY_NAME_STR)) {
         autoCMode();
+        clearChanged(GO_C_DATA_MODE_PROPERTY_NAME_STR);
     }
     updateCAlphadata();
 }

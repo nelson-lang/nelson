@@ -62,8 +62,14 @@ GOPatch::updateState()
     if (hasChanged(GO_FACES_PROPERTY_NAME_STR) || hasChanged(GO_VERTICES_PROPERTY_NAME_STR)
         || hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)
         || hasChanged(GO_FACE_COLOR_PROPERTY_NAME_STR)
-        || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR))
+        || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR)) {
         buildPolygons(m_faces);
+        clearChanged(GO_FACES_PROPERTY_NAME_STR);
+        clearChanged(GO_VERTICES_PROPERTY_NAME_STR);
+        clearChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR);
+        clearChanged(GO_FACE_COLOR_PROPERTY_NAME_STR);
+        clearChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR);
+    }
 }
 //=============================================================================
 void

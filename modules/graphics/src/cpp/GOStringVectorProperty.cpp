@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-GOStringVector::get()
+GOStringVectorProperty::get()
 {
     if (_data.size() == 1) {
         return ArrayOf::characterArrayConstructor(_data[0]);
@@ -30,7 +30,7 @@ GOStringVector::get()
 }
 //=============================================================================
 void
-GOStringVector::set(ArrayOf arg)
+GOStringVectorProperty::set(ArrayOf arg)
 {
     wstringVector argVector;
     ArrayOf _arg = uniformizeStringVector(arg, _data);
@@ -38,19 +38,19 @@ GOStringVector::set(ArrayOf arg)
 }
 //=============================================================================
 std::vector<std::wstring>
-GOStringVector::data()
+GOStringVectorProperty::data()
 {
     return _data;
 }
 //=============================================================================
 void
-GOStringVector::data(const std::vector<std::wstring>& m)
+GOStringVectorProperty::data(const std::vector<std::wstring>& m)
 {
     _data = m;
 }
 //=============================================================================
 std::wstring
-GOStringVector::toWideString()
+GOStringVectorProperty::toWideString()
 {
     if (_data.size() == 1) {
         return _data[0];

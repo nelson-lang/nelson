@@ -7,31 +7,24 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "QMultiLineEdit.h"
 //=============================================================================
-#include <vector>
-#include "GOGenericProperty.hpp"
+QMultiLineEdit::QMultiLineEdit(QWidget* parent) : QTextEdit(parent) { }
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-class GOStringVectorProperty : public GOGenericProperty
+void
+QMultiLineEdit::focusOutEvent(QFocusEvent* event)
 {
-protected:
-    std::vector<std::wstring> _data;
-
-public:
-    GOStringVectorProperty() = default;
-    ~GOStringVectorProperty() override = default;
-    ArrayOf
-    get() override;
-    void set(ArrayOf) override;
-    std::vector<std::wstring>
-    data();
-    void
-    data(const std::vector<std::wstring>& m);
-    std::wstring
-    toWideString() override;
-};
+    emit editingFinished();
+    QTextEdit::focusOutEvent(event);
+}
 //=============================================================================
-};
+void
+QMultiLineEdit::keyPressEvent(QKeyEvent* event)
+{
+    if ((event->key() == Qt::Key_Return) && ((event->modifiers() & Qt::AltModifier) != 0)) {
+        emit editingFinished();
+    } else {
+        QTextEdit::keyPressEvent(event);
+    }
+}
 //=============================================================================

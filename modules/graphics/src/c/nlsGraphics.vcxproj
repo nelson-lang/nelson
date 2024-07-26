@@ -82,6 +82,20 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
     </CustomBuild>
     <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
+    <CustomBuild Include="..\cpp\QMultiLineEdit.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="..\cpp\RenderHelpers.hpp" />
     <ClInclude Include="..\cpp\TexToUnicode.hpp" />
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
@@ -251,7 +265,9 @@
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
     <ClCompile Include="..\cpp\moc_GOUIControl.cpp" />
+    <ClCompile Include="..\cpp\moc_QMultiLineEdit.cpp" />
     <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
+    <ClCompile Include="..\cpp\QMultiLineEdit.cpp" />
     <ClCompile Include="..\cpp\RefreshFigure.cpp" />
     <ClCompile Include="..\cpp\RenderQt.cpp" />
     <ClCompile Include="..\cpp\RenderHelpers.cpp" />

@@ -13,7 +13,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GORestrictedStringVectorProperty : public GOStringVector
+class GORestrictedStringVectorProperty : public GOStringVectorProperty
 {
 private:
     std::vector<std::wstring> m_dictionary;

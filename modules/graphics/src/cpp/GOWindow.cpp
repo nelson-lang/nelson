@@ -71,9 +71,9 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     goFig->setEvaluator((Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator());
     setWindowTitle(wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
     setFocusPolicy(Qt::ClickFocus);
-    qtchild = new BaseFigureQt(NULL, goFig);
+    qtchild = new BaseFigureQt(this, goFig);
     setCentralWidget(qtchild);
-    centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
+    // centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
 
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(this->winId());
@@ -150,10 +150,12 @@ GOWindow::updateState()
         } else {
             toolBar->show();
         }
+        goFig->clearChanged(GO_TOOL_BAR_PROPERTY_NAME_STR);
     }
     if (goFig->hasChanged(GO_MENU_BAR_PROPERTY_NAME_STR)) {
         menuBar()->setVisible(
             goFig->stringCheck(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR));
+        goFig->clearChanged(GO_MENU_BAR_PROPERTY_NAME_STR);
     }
     if (goFig->hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
         if (goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
@@ -161,6 +163,7 @@ GOWindow::updateState()
         } else {
             hide();
         }
+        goFig->clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     }
     if (goFig->hasChanged(GO_NAME_PROPERTY_NAME_STR)
         || goFig->hasChanged(GO_NUMBER_PROPERTY_NAME_STR)
@@ -181,6 +184,9 @@ GOWindow::updateState()
             setWindowTitle(
                 wstringToQString(fmt::sprintf(TITLE_WITH_NAME_ONLY_FORMAT, name->data())));
         }
+        goFig->clearChanged(GO_NAME_PROPERTY_NAME_STR);
+        goFig->clearChanged(GO_NUMBER_PROPERTY_NAME_STR);
+        goFig->clearChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR);
     }
 
     GOFourVectorProperty* hfv
@@ -744,7 +750,7 @@ GOWindow::onPrintAction()
                 pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
             painter.scale(scale, scale);
             painter.translate(-qtchild->width() / 2., -qtchild->height() / 2.);
-            RenderQt gc(&painter, 0, 0, qtchild->width(), qtchild->height());
+            RenderQt gc(&painter, 0, 0, qtchild->width(), qtchild->height(), L"PDF");
             goFig->paintMe(gc);
         });
         printPreview->resize(800, 600);

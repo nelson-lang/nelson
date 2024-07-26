@@ -182,6 +182,7 @@ GOFigure::updateState()
                 fp->updateState();
             }
         }
+        clearChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
     }
     refreshPositionProperty();
     refreshDrawLaterProperty();
@@ -289,7 +290,12 @@ GOFigure::paintMe(RenderInterface& gc)
         std::vector<int64> handlesChildren(children->data());
         std::vector<GraphicsObject*> legendObjects;
         for (ompIndexType i = 0; i < (ompIndexType)handlesChildren.size(); i++) {
-            if (!handlesCurrentAxes.empty() && handlesChildren[i] != handlesCurrentAxes[0]) {
+            if (handlesCurrentAxes.empty()) {
+                GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
+                if (fp) {
+                    fp->paintMe(gc);
+                }
+            } else if (handlesChildren[i] != handlesCurrentAxes[0]) {
                 GraphicsObject* fp = findGraphicsObject(handlesChildren[i], false);
                 if (fp) {
                     fp->paintMe(gc);
@@ -345,6 +351,12 @@ GOFigure::resizeGL(int width, int height)
     for (ompIndexType i = 0; i < (ompIndexType)handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
         if (fp) {
+            if (fp->haveProperty(GO_POSITION_PROPERTY_NAME_STR)) {
+                GOGenericProperty* gop = fp->findProperty(GO_POSITION_PROPERTY_NAME_STR);
+                if (gop) {
+                    gop->setModified(true);
+                }
+            }
             fp->updateState();
         }
     }
@@ -392,6 +404,7 @@ GOFigure::refreshDrawLaterProperty()
         if (!drawLaterProperty->asBool()) {
             repaint();
         }
+        clearChanged(GO_DRAW_LATER_PROPERTY_NAME_STR);
     }
 };
 //=============================================================================
