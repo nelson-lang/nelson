@@ -18,6 +18,8 @@ REF = {'AlphaData';
 'CData';
 'CDataMapping';
 'Children';
+'CreateFcn';
+'DeleteFcn';
 'Parent';
 'Tag';
 'Type';

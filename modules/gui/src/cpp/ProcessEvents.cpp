@@ -8,75 +8,93 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <chrono>
-#include <mutex>
 #include <QtWidgets/QApplication>
+#include <QtCore/QException>
+#include <mutex>
+#include <atomic>
 #include "ProcessEvents.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define WAIT_20_MS std::chrono::milliseconds(20)
+#define WAIT_20_MS 20
 //=============================================================================
-class EventProcessor
+class ProcessEventsManager
 {
 public:
     //=============================================================================
-    static EventProcessor&
+    static ProcessEventsManager&
     getInstance()
     {
-        static EventProcessor instance;
+        static ProcessEventsManager instance;
         return instance;
     }
     //=============================================================================
     void
-    ProcessEvents(bool bWaitEvents)
+    setWaitTime(int _waitTime)
     {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (doOnce) {
-            doOnce = false;
-            startTime = std::chrono::steady_clock::now();
-        }
-        auto now = std::chrono::steady_clock::now();
-        if (now - startTime > WAIT_20_MS) {
-            startTime = now;
+        waitTime = _waitTime;
+    }
+    //=============================================================================
+    void
+    restoreWaitTime()
+    {
+        waitTime = WAIT_20_MS;
+    }
+    //=============================================================================
+    void
+    processEvents(bool bWaitEvents)
+    {
+        std::lock_guard<std::recursive_mutex> lock(mutex);
+
+        auto now = getEpoch();
+        if ((now - timerLoopEvents) > WAIT_20_MS) {
             if (bWaitEvents) {
-                QApplication::processEvents(QEventLoop::WaitForMoreEvents);
+                QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
             } else {
-                QApplication::processEvents(QEventLoop::AllEvents);
+                QCoreApplication::processEvents(QEventLoop::AllEvents);
             }
+            timerLoopEvents = now;
         }
     }
     //=============================================================================
 private:
+    ProcessEventsManager() : timerLoopEvents(getEpoch()), waitTime(WAIT_20_MS) { }
     //=============================================================================
-    EventProcessor() : doOnce(true) { }
-    ~EventProcessor() { }
+    uint64
+    getEpoch()
+    {
+        auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    }
+
     //=============================================================================
-    EventProcessor(EventProcessor const&) = delete;
-    void
-    operator=(EventProcessor const&)
+    std::atomic<uint64> timerLoopEvents;
+    std::recursive_mutex mutex;
+    uint64 waitTime;
+    //=============================================================================
+    // Disable copy constructor and assignment operator
+    ProcessEventsManager(const ProcessEventsManager&) = delete;
+    ProcessEventsManager&
+    operator=(const ProcessEventsManager&)
         = delete;
-    EventProcessor(EventProcessor&&) = delete;
-    void
-    operator=(EventProcessor&&)
-        = delete;
-    //=============================================================================
-    std::chrono::steady_clock::time_point startTime;
-    bool doOnce;
-    std::mutex mutex_;
     //=============================================================================
 };
 //=============================================================================
 void
 ProcessEvents(bool bWaitEvents)
 {
-    Nelson::EventProcessor::getInstance().ProcessEvents(bWaitEvents);
+    ProcessEventsManager::getInstance().processEvents(bWaitEvents);
 }
 //=============================================================================
-} // namespace Nelson
+}
+//=============================================================================
+// namespace Nelson
 //=============================================================================
 void
 NelSonProcessEvents(bool bWaitEvents)
 {
-    Nelson::EventProcessor::getInstance().ProcessEvents(bWaitEvents);
+    Nelson::ProcessEvents(bWaitEvents);
 }
 //=============================================================================

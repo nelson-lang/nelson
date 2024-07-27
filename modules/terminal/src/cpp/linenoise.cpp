@@ -926,7 +926,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
                 clearLine();
                 return -1;
             }
-            if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()) {
+            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
                 history_len--;
                 free(history[history_len]);
                 clearLine();

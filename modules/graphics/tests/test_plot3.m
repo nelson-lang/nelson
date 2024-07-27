@@ -16,7 +16,9 @@ axis square
 assert_istrue(isgraphics(L, 'line'));
 P = properties(L);
 REF = {'Children';       
-'Color';          
+'Color';
+'CreateFcn';
+'DeleteFcn';          
 'DisplayName';    
 'LineStyle';      
 'LineWidth';      

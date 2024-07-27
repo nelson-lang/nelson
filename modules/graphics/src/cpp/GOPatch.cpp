@@ -193,6 +193,7 @@ GOPatch::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_Z_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    sortProperties();
 }
 //=============================================================================
 void

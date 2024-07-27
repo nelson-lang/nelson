@@ -17,7 +17,9 @@ assert_isequal(R.Type, 'line');
 %=============================================================================
 P = properties(R);
 REF = {'Children';       
-'Color';          
+'Color';
+'CreateFcn';
+'DeleteFcn';          
 'DisplayName';    
 'LineStyle';      
 'LineWidth';      
