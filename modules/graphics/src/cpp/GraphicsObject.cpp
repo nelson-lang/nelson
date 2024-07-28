@@ -317,8 +317,7 @@ GraphicsObject::setTwoVectorDefault(const std::wstring& name, double x, double y
 void
 GraphicsObject::setStringDefault(const std::wstring& name, const std::wstring& value)
 {
-    GOStringProperty* hp = static_cast<GOStringProperty*>(findProperty(name));
-    hp->data(value);
+    findProperty(name)->set(ArrayOf::stringArrayConstructor(value));
 }
 //=============================================================================
 void

@@ -299,6 +299,9 @@
     <ClInclude Include="..\include\IsValidGraphicsProperty.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOControlStyleProperty.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -560,6 +563,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\moc_QMultiLineEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOControlStyleProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

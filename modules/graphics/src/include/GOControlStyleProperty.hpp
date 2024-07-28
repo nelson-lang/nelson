@@ -9,30 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include "GOGenericProperty.hpp"
+#include "GORestrictedStringProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOStringVectorProperty : public GOGenericProperty
+class GOControlStyleProperty : public GORestrictedStringProperty
 {
-protected:
-    std::vector<std::wstring> _data;
-
 public:
-    GOStringVectorProperty() = default;
-    ~GOStringVectorProperty() override = default;
-    ArrayOf
-    get() override;
-    void set(ArrayOf) override;
-    std::vector<std::wstring>
-    data();
-    void
-    data(const std::wstring& m);
-    void
-    data(const std::vector<std::wstring>& m);
-    std::wstring
-    toWideString() override;
+    GOControlStyleProperty();
+    ~GOControlStyleProperty() override = default;
 };
 //=============================================================================
 };

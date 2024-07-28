@@ -117,6 +117,7 @@
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
     <ClInclude Include="..\include\GOContour.hpp" />
+    <ClInclude Include="..\include\GOControlStyleProperty.hpp" />
     <ClInclude Include="..\include\GOGroup.hpp" />
     <ClInclude Include="..\include\GOMenuBarProperty.hpp" />
     <ClInclude Include="..\include\GOPatch.hpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOContour.cpp" />
+    <ClCompile Include="..\cpp\GOControlStyleProperty.cpp" />
     <ClCompile Include="..\cpp\GOGroup.cpp" />
     <ClCompile Include="..\cpp\GOMenuBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOPatch.cpp" />

@@ -35,6 +35,7 @@
 #include "GOVectorFourDoubleProperty.hpp"
 #include "GOUnitsProperty.hpp"
 #include "GOVectorProperty.hpp"
+#include "GOControlStyleProperty.hpp"
 #include "GOCallbackProperty.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "GOHelpers.hpp"
@@ -106,7 +107,7 @@ GOUIControl::updateState()
             }
         }
 
-        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLE_STR)) {
+        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLEBUTTON_STR)) {
             widget = new QPushButton(getParentWidget());
             ((QPushButton*)widget)->setCheckable(true);
             connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
@@ -118,7 +119,7 @@ GOUIControl::updateState()
             connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
         }
 
-        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBUTTON_STR)) {
+        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)) {
             widget = new QCheckBox(getParentWidget());
             connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
         }
@@ -169,7 +170,7 @@ GOUIControl::updateState()
             std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
             ((QPushButton*)widget)->setText(wstringToQString(str));
         }
-        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLE_STR)) {
+        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLEBUTTON_STR)) {
             wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
             std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
             ((QPushButton*)widget)->setText(wstringToQString(str));
@@ -179,7 +180,7 @@ GOUIControl::updateState()
             std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
             ((QRadioButton*)widget)->setText(wstringToQString(str));
         }
-        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBUTTON_STR)) {
+        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)) {
             wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
             std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
             ((QCheckBox*)widget)->setText(wstringToQString(str));
@@ -334,7 +335,7 @@ GOUIControl::updateState()
         clearChanged(GO_VALUE_PROPERTY_NAME_STR);
     }
 
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBUTTON_STR)
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)
         && (hasChanged(GO_VALUE_PROPERTY_NAME_STR) || hasChanged(GO_MIN_PROPERTY_NAME_STR)
             || hasChanged(GO_MAX_PROPERTY_NAME_STR) || createWidget)) {
         double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
@@ -367,7 +368,7 @@ GOUIControl::updateState()
         clearChanged(GO_SLIDER_STEP_NAME_STR);
     }
 
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLE_STR)
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLEBUTTON_STR)
         && (hasChanged(GO_VALUE_PROPERTY_NAME_STR) || hasChanged(GO_MIN_PROPERTY_NAME_STR)
             || hasChanged(GO_MAX_PROPERTY_NAME_STR) || createWidget)) {
         double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
@@ -418,7 +419,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOStringVectorProperty, GO_STRING_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_STYLE_PROPERTY_NAME_STR);
+    registerProperty(new GOControlStyleProperty, GO_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
@@ -510,7 +511,7 @@ GOUIControl::clicked()
         return;
     }
 
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLE_STR)) {
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLEBUTTON_STR)) {
         if (((QPushButton*)widget)->isChecked()) {
             findProperty(GO_VALUE_PROPERTY_NAME_STR)
                 ->set(
@@ -540,7 +541,7 @@ GOUIControl::clicked()
         }
     }
 
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBUTTON_STR)) {
+    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)) {
         if (((QCheckBox*)widget)->isChecked()) {
             findProperty(GO_VALUE_PROPERTY_NAME_STR)
                 ->set(findProperty(GO_MAX_PROPERTY_NAME_STR)->get());

@@ -44,6 +44,12 @@ GOStringVectorProperty::data()
 }
 //=============================================================================
 void
+GOStringVectorProperty::data(const std::wstring& m)
+{
+    _data = { m };
+}
+//=============================================================================
+void
 GOStringVectorProperty::data(const std::vector<std::wstring>& m)
 {
     _data = m;

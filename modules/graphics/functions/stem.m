@@ -76,12 +76,33 @@ function group = stemInternal(ax, X, Y, color, filled, propertiesLineA, properti
   if isempty(propertiesLineB.Color) 
     propertiesLineB.Color = color;
   end
+  hasVisibleA = isfield(propertiesLineA, 'Visible');
+  hasVisibleB = isfield(propertiesLineB, 'Visible');
+  if (hasVisibleA)
+    isVisibleA = propertiesLineA.Visible;
+  end
+  if (hasVisibleB)
+    isVisibleB = propertiesLineB.Visible;
+  end
+
   propertiesLineA = reshape([fieldnames(propertiesLineA)'; struct2cell(propertiesLineA)'], 1, []);
   propertiesLineB = reshape([fieldnames(propertiesLineB)'; struct2cell(propertiesLineB)'], 1, []);
-  
-  H = plot(group, X, Y, propertiesLineA{:});
+  H = plot(group, X, Y, 'Visible', 'off', propertiesLineA{:});
+  h = {};
   for i = 1:length(X)
-    plot(group, [X(i) X(i)], [0 Y(i)], propertiesLineB{:});
+    h = [h, plot(group, [X(i) X(i)], [0 Y(i)],  'Visible', 'off', propertiesLineB{:})];
+  end
+  for i = 1:length(h)
+    if hasVisibleB
+      h{i}.Visible =  isVisibleB;
+    else
+      h{i}.Visible = 'on';
+    end
+  end
+  if hasVisibleA
+    H.Visible = isVisibleA;
+  else
+    H.Visible = 'on';
   end
   group.Visible = 'on';
 end
