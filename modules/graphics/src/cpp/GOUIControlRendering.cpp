@@ -46,68 +46,40 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-GOUIControl::GOUIControl()
+void
+GOUIControl::paintMe(RenderInterface& gc)
 {
-    widget = nullptr;
-    constructProperties();
-    setupDefaults();
+    if (widget && gc.getRenderName() != L"GL") {
+        QImage image(widget->size(), QImage::Format_ARGB32);
+        QPainter painter(&image);
+        widget->render(&painter);
+        std::vector<double> sizevec(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
+        gc.drawImage(sizevec[0], sizevec[1], image);
+    }
 }
 //=============================================================================
-GOUIControl::~GOUIControl() { deleteWidget(); }
-//=============================================================================
-std::wstring
-GOUIControl::getType()
+QPoint
+GOUIControl::convertToBottomLeft(const QPoint& topLeftPos)
 {
-    return GO_PROPERTY_VALUE_UICONTROL_STR;
+    int x = topLeftPos.x();
+    int y = getParentWidget()->height() - topLeftPos.y() - widget->height();
+    return QPoint(x, y);
 }
 //=============================================================================
 void
-GOUIControl::updateState()
+GOUIControl::show()
 {
-    bool createWidget = onStylePropertyChanged();
-
-    if (!widget) {
-        clearAllChanged();
-        return;
-    }
-
-    onStringPropertyChanged(createWidget);
-    onPositionPropertyChanged(createWidget);
-    onParentPositionChanged();
-    onVisiblePropertyChanged();
-    onBackgroundPropertyChanged();
-
-    onFontNameChanged();
-    onFontSizeOrUnitChanged();
-    onFontAngleChanged();
-    onFontWeightChanged();
-    onHAlignmentChanged();
-
-    onEnableChanged();
-    onToolTipsChanged(createWidget);
-    onRadioButtonChanged(createWidget);
-    onCheckBoxChanged(createWidget);
-    onSliderChanged(createWidget);
-    onToggleButtonChanged(createWidget);
-    onEditPropertyChanged();
-    onCDataPropertyChanged();
-    onListTopBoxChanged(createWidget);
-    onPopupMenuChanged(createWidget);
     if (widget) {
-        widget->raise();
+        widget->show();
     }
 }
 //=============================================================================
 void
-GOUIControl::buildWidget(GOWindow* f)
+GOUIControl::hide()
 {
-    parentGoWindow = f;
-}
-//=============================================================================
-QWidget*
-GOUIControl::getParentWidget()
-{
-    return parentGoWindow->getMainQWigdet();
+    if (widget) {
+        widget->hide();
+    }
 }
 //=============================================================================
 }

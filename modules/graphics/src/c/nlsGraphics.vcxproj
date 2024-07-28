@@ -253,6 +253,11 @@
     <ClCompile Include="..\cpp\GOToolBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
     <ClCompile Include="..\cpp\GOUIControl.cpp" />
+    <ClCompile Include="..\cpp\GOUIControlEvents.cpp" />
+    <ClCompile Include="..\cpp\GOUIControlHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOUIControlProperties.cpp" />
+    <ClCompile Include="..\cpp\GOUIControlRendering.cpp" />
+    <ClCompile Include="..\cpp\GOUIControlWidgets.cpp" />
     <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorProperty.cpp" />
