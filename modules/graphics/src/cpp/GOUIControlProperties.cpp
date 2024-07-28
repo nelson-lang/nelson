@@ -69,7 +69,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOFontUnitsProperty, GO_FONT_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOAlignHorizProperty, GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_ENABLE_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TOOLTIPS_STRING_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TOOLTIP_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MIN_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MAX_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_VALUE_PROPERTY_NAME_STR);
@@ -101,7 +101,7 @@ GOUIControl::setupDefaults()
         GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CENTER_STR);
     setRestrictedStringDefault(GO_ENABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PUSHBUTTON_STR);
-    setStringDefault(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR, L"");
+    setStringDefault(GO_TOOLTIP_PROPERTY_NAME_STR, L"");
     setScalarDoubleDefault(GO_MIN_PROPERTY_NAME_STR, 0);
     setScalarDoubleDefault(GO_MAX_PROPERTY_NAME_STR, 1);
     setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 0);
@@ -366,10 +366,10 @@ GOUIControl::onRadioButtonChanged(bool newWidget)
 void
 GOUIControl::onToolTipsChanged(bool newWidget)
 {
-    if (hasChanged(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR) || newWidget) {
-        std::wstring str = findStringProperty(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR);
+    if (hasChanged(GO_TOOLTIP_PROPERTY_NAME_STR) || newWidget) {
+        std::wstring str = findStringProperty(GO_TOOLTIP_PROPERTY_NAME_STR);
         widget->setToolTip(wstringToQString(str));
-        clearChanged(GO_TOOLTIPS_STRING_PROPERTY_NAME_STR);
+        clearChanged(GO_TOOLTIP_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================
@@ -391,6 +391,9 @@ GOUIControl::onListTopBoxChanged(bool newWidget)
         }
         for (size_t k = 0; k < values.size(); k++) {
             ((QListWidget*)widget)->addItem(wstringToQString(values[k]));
+        }
+        if (!values.empty() && findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR) == 0) {
+            setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 1);
         }
     }
 
@@ -437,6 +440,9 @@ GOUIControl::onPopupMenuChanged(bool newWidget)
         }
         for (size_t k = 0; k < values.size(); k++) {
             ((QComboBox*)widget)->addItem(wstringToQString(values[k]));
+        }
+        if (!values.empty() && findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR) == 0) {
+            setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 1);
         }
     }
 }
