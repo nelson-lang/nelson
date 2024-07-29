@@ -62,7 +62,8 @@ GOUIControl::constructProperties()
     registerProperty(new GOOnOffProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_FOREGROUND_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty(1.0, (double)std::numeric_limits<int>::max()),
+        GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
@@ -72,7 +73,8 @@ GOUIControl::constructProperties()
     registerProperty(new GOStringProperty, GO_TOOLTIP_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MIN_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MAX_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty, GO_VALUE_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty(0., (double)std::numeric_limits<int>::max()),
+        GO_VALUE_PROPERTY_NAME_STR);
     registerProperty(new GOFixedVectorProperty(2), GO_SLIDER_STEP_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LISTBOX_TOP_PROPERTY_NAME_STR);
 
@@ -119,6 +121,7 @@ GOUIControl::onPositionPropertyChanged(bool newWidget)
     QPoint pt((int)sizevec[0], (int)sizevec[1]);
     pt = convertToBottomLeft(pt);
     widget->setGeometry(pt.x(), pt.y(), (int)sizevec[2], (int)sizevec[3]);
+    widget->setFixedSize((int)sizevec[2], (int)sizevec[3]);
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
 }
 //=============================================================================
@@ -139,6 +142,9 @@ GOUIControl::onVisiblePropertyChanged()
 void
 GOUIControl::onBackgroundPropertyChanged()
 {
+    if (!hasChanged(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR)) {
+        return;
+    }
     GOColorProperty* bc
         = static_cast<GOColorProperty*>(findProperty(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR));
 
@@ -149,11 +155,20 @@ GOUIControl::onBackgroundPropertyChanged()
         styleSheet = QString("background-color: %1;").arg(qColor.name());
         widget->setStyleSheet(styleSheet);
     }
+    clearChanged(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onFontNameChanged()
 {
+    if (!hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR)) {
+        return;
+    }
+
+    QFont font = widget->font();
+    font.setStyleStrategy(QFont::PreferAntialias);
+    widget->setFont(font);
+
     GOStringProperty* fontname
         = static_cast<GOStringProperty*>(findProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
     if (fontname) {
@@ -161,16 +176,22 @@ GOUIControl::onFontNameChanged()
         styleSheet += QString("font-family: %1;").arg(wstringToQString(fontname->data()));
         widget->setStyleSheet(styleSheet);
     }
+    clearChanged(GO_FONT_NAME_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onFontSizeOrUnitChanged()
 {
+    if (!hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+        && !hasChanged(GO_FONT_UNITS_PROPERTY_NAME_STR)) {
+        return;
+    }
+
     QString styleSheet;
     GOScalarProperty* fSize
         = static_cast<GOScalarProperty*>(findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
     if (fSize) {
-        int fontSize = (int)fSize->data();
+        double fontSize = fSize->data();
         GOFontUnitsProperty* fUnits
             = static_cast<GOFontUnitsProperty*>(findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
         if (fUnits) {
@@ -193,11 +214,16 @@ GOUIControl::onFontSizeOrUnitChanged()
         }
         widget->setStyleSheet(styleSheet);
     }
+    clearChanged(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    clearChanged(GO_FONT_UNITS_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onFontAngleChanged()
 {
+    if (!hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR)) {
+        return;
+    }
     GOFontAngleProperty* fontangle
         = (GOFontAngleProperty*)findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR);
     if (fontangle) {
@@ -211,12 +237,15 @@ GOUIControl::onFontAngleChanged()
         }
         widget->setStyleSheet(styleSheet);
     }
+    clearChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onFontWeightChanged()
 {
-
+    if (!hasChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR)) {
+        return;
+    }
     GOFontWeightProperty* fontweight
         = (GOFontWeightProperty*)findProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     if (fontweight) {
@@ -232,22 +261,28 @@ GOUIControl::onFontWeightChanged()
         }
         widget->setStyleSheet(styleSheet);
     }
+    clearChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onEnableChanged()
 {
-    if (hasChanged(GO_ENABLE_PROPERTY_NAME_STR)) {
-        if (widget) {
-            widget->setEnabled(stringCheck(GO_ENABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR));
-        }
-        clearChanged(GO_ENABLE_PROPERTY_NAME_STR);
+    if (!hasChanged(GO_ENABLE_PROPERTY_NAME_STR)) {
+        return;
     }
+    if (widget) {
+        widget->setEnabled(stringCheck(GO_ENABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR));
+    }
+    clearChanged(GO_ENABLE_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onHAlignmentChanged()
 {
+    if (!hasChanged(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR)) {
+        return;
+    }
+
     if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEXT_STR)
         || stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_EDIT_STR)) {
         GOAlignHorizProperty* textAlign = static_cast<GOAlignHorizProperty*>(
@@ -263,6 +298,7 @@ GOUIControl::onHAlignmentChanged()
             }
             widget->setStyleSheet(styleSheet);
         }
+        clearChanged(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================
@@ -376,7 +412,10 @@ GOUIControl::onToolTipsChanged(bool newWidget)
 void
 GOUIControl::onListTopBoxChanged(bool newWidget)
 {
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR)) {
+    if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR)) {
+        return;
+    }
+    if (hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
         ((QListWidget*)widget)->clear();
         ArrayOf value = findProperty(GO_STRING_PROPERTY_NAME_STR)->get();
         wstringVector values;
@@ -392,14 +431,13 @@ GOUIControl::onListTopBoxChanged(bool newWidget)
         for (size_t k = 0; k < values.size(); k++) {
             ((QListWidget*)widget)->addItem(wstringToQString(values[k]));
         }
-        if (!values.empty() && findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR) == 0) {
+        if (!hasChanged(GO_VALUE_PROPERTY_NAME_STR) && !values.empty()
+            && findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR) == 0) {
             setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 1);
         }
     }
 
-    if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR)
-        && (hasChanged(GO_MIN_PROPERTY_NAME_STR) || hasChanged(GO_MAX_PROPERTY_NAME_STR)
-            || newWidget)) {
+    if (hasChanged(GO_MIN_PROPERTY_NAME_STR) || hasChanged(GO_MAX_PROPERTY_NAME_STR) || newWidget) {
         double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
         double max(findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR));
         if (max - min > 1) {
@@ -412,13 +450,17 @@ GOUIControl::onListTopBoxChanged(bool newWidget)
         clearChanged(GO_MAX_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_LISTBOX_TOP_PROPERTY_NAME_STR) || newWidget) {
-        if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR)) {
-            int listTop((int)findScalarDoubleProperty(GO_LISTBOX_TOP_PROPERTY_NAME_STR));
-            ((QListWidget*)widget)
-                ->scrollToItem(
-                    ((QListWidget*)widget)->item(listTop - 1), QAbstractItemView::PositionAtTop);
-        }
+        int listTop((int)findScalarDoubleProperty(GO_LISTBOX_TOP_PROPERTY_NAME_STR));
+        ((QListWidget*)widget)
+            ->scrollToItem(
+                ((QListWidget*)widget)->item(listTop - 1), QAbstractItemView::PositionAtTop);
         clearChanged(GO_LISTBOX_TOP_PROPERTY_NAME_STR);
+    }
+    if (hasChanged(GO_VALUE_PROPERTY_NAME_STR)) {
+        double v = findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR);
+        ((QListWidget*)widget)->setCurrentRow((int)v - 1);
+
+        clearChanged(GO_VALUE_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================
@@ -495,9 +537,13 @@ GOUIControl::onStringChangedPushButton()
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PUSHBUTTON_STR)) {
         return;
     }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
+        return;
+    }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
     std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
     ((QPushButton*)widget)->setText(wstringToQString(str));
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
@@ -506,9 +552,13 @@ GOUIControl::onStringChangedToggleButton()
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOGGLEBUTTON_STR)) {
         return;
     }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
+        return;
+    }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
     std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
     ((QPushButton*)widget)->setText(wstringToQString(str));
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
@@ -517,9 +567,13 @@ GOUIControl::onStringChangedRadioButton()
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RADIOBUTTON_STR)) {
         return;
     }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
+        return;
+    }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
     std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
     ((QRadioButton*)widget)->setText(wstringToQString(str));
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
@@ -528,9 +582,13 @@ GOUIControl::onStringChangedCheckBox()
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)) {
         return;
     }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
+        return;
+    }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
     std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
     ((QCheckBox*)widget)->setText(wstringToQString(str));
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
@@ -539,15 +597,22 @@ GOUIControl::onStringChangedText()
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEXT_STR)) {
         return;
     }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
+        return;
+    }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
     std::wstring str = vstr.size() > 0 ? vstr[0] : L"";
     ((QLabel*)widget)->setText(wstringToQString(str));
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GOUIControl::onStringChangedEdit()
 {
     if (!stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_EDIT_STR)) {
+        return;
+    }
+    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR)) {
         return;
     }
     wstringVector vstr = findStringVectorProperty(GO_STRING_PROPERTY_NAME_STR);
@@ -557,6 +622,7 @@ GOUIControl::onStringChangedEdit()
     } else {
         ((QLineEdit*)widget)->setText(wstringToQString(str));
     }
+    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
@@ -609,9 +675,9 @@ GOUIControl::onStringChangedPopupMenu()
 void
 GOUIControl::onStringPropertyChanged(bool newWidget)
 {
-    if (!hasChanged(GO_STRING_PROPERTY_NAME_STR) && !newWidget) {
-        return;
-    }
+    // if (!newWidget) {
+    //     return;
+    // }
     onStringChangedPushButton();
     onStringChangedToggleButton();
     onStringChangedRadioButton();
@@ -620,8 +686,6 @@ GOUIControl::onStringPropertyChanged(bool newWidget)
     onStringChangedEdit();
     onStringChangedListBox();
     onStringChangedPopupMenu();
-
-    clearChanged(GO_STRING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void

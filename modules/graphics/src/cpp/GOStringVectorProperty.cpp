@@ -33,6 +33,7 @@ void
 GOStringVectorProperty::set(ArrayOf arg)
 {
     wstringVector argVector;
+    _data.clear();
     ArrayOf _arg = uniformizeStringVector(arg, _data);
     GOGenericProperty::set(_arg);
 }

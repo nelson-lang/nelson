@@ -19,6 +19,7 @@ GOFixedVectorProperty::set(ArrayOf num)
     num.promoteType(NLS_DOUBLE);
     const double* dp = (const double*)num.getDataPointer();
     indexType minLen = std::min((indexType)m_len, num.getElementCount());
+    _data.reserve(minLen);
     for (indexType i = 0; i < minLen; i++) {
         _data[i] = dp[i];
     }
