@@ -25,6 +25,10 @@ public:
     get() override;
     std::wstring
     toWideString() override;
+
+    bool
+    pushKeyEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& EventName,
+        const std::wstring& character, const std::wstring& key, wstringVector modifier);
     bool
     pushEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
     bool

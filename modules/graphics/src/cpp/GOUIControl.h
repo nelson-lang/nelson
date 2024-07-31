@@ -12,6 +12,7 @@
 #include <string>
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
+#include <QtGui/QKeyEvent>
 #include "nlsGraphics_exports.h"
 #include "GraphicsObject.hpp"
 #include "GOWindow.hpp"
@@ -204,7 +205,23 @@ private:
     tokenize(
         const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters);
     //=============================================================================
-
+    bool
+    handleMouseEvent(
+        QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType);
+    bool
+    handleKeyEvent(
+        QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType);
+    wstringVector
+    getModifiers(QKeyEvent* keyEvent);
+    std::wstring
+    getKeyString(QKeyEvent* keyEvent);
+    std::wstring
+    getCharacterString(QKeyEvent* keyEvent);
+    //=============================================================================
+protected:
+    bool
+    eventFilter(QObject* obj, QEvent* event) override;
+    //=============================================================================
 public slots:
     void
     clicked();

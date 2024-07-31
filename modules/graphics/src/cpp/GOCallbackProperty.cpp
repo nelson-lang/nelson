@@ -163,6 +163,41 @@ GOCallbackProperty::pushEvent(
 }
 //=============================================================================
 bool
+GOCallbackProperty::pushKeyEvent(GraphicsObject* go, const std::wstring& className,
+    const std::wstring& EventName, const std::wstring& character, const std::wstring& key,
+    wstringVector modifiers)
+{
+    ArrayOf callbackAsArrayOf;
+    if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
+        callbackAsArrayOf = _data;
+    } else if (_data.isFunctionHandle()) {
+
+        size_t nbElements = 3;
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+        elements[0] = _data;
+        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        wstringVector fieldnames = { L"Character", L"Modifier", L"Key", L"Source", L"EventName" };
+        ArrayOfVector fieldvalues;
+        fieldvalues.reserve(fieldnames.size());
+        fieldvalues << ArrayOf::characterArrayConstructor(character);
+        fieldvalues << ArrayOf::toCellArrayOfCharacterColumnVectors(modifiers);
+        fieldvalues << ArrayOf::characterArrayConstructor(key);
+        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << ArrayOf::characterArrayConstructor(EventName);
+        elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+        callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
+    } else if (_data.isCell()) {
+    } else {
+        return false;
+    }
+
+    GraphicCallback graphicCallback(callbackAsArrayOf);
+    CallbackQueue::getInstance()->add(graphicCallback);
+    return true;
+}
+//=============================================================================
+
+bool
 GOCallbackProperty::executeNow(GraphicsObject* go)
 {
     ArrayOf callbackAsArrayOf;
@@ -242,6 +277,5 @@ GOCallbackProperty::executeNow(
         (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator());
 }
 //=============================================================================
-
 }
 //=============================================================================

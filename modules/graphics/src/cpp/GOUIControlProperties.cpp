@@ -48,6 +48,9 @@ void
 GOUIControl::constructProperties()
 {
     registerProperty(new GOCallbackProperty, GO_CALLBACK_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);

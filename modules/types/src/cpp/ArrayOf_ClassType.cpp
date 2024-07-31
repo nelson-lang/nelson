@@ -74,42 +74,9 @@ ArrayOf::classConstructor(
             Error(
                 _W("Number of field names must match number of values in structure constructor."));
         }
-        /**
-         * First, we have to make sure that each entry of "values" have
-         *  1.  cell arrays of the same size,
-         *  2.  single element cell arrays,
-         *  3.  single values.
-         */
-        bool nonSingularFound = false;
-        for (i = 0; i < (indexType)values.size(); i++) {
-            /**
-             * Check the type of the entry.  If its a non-cell array, then
-             * then ignore this entry.
-             */
-            ArrayOf value = values[i];
-            if (value.dp->dataClass == NLS_CELL_ARRAY || value.dp->dataClass == NLS_STRING_ARRAY) {
-                /**
-                 * This is a cell-array, so look for non-scalar cell-arrays.
-                 */
-                if (!value.isScalar()) {
-                    if (!nonSingularFound) {
-                        nonSingularFound = true;
-                        dims = value.dp->dimensions;
-                    } else if (!dims.equals(value.dp->dimensions)) {
-                        Error(_W("ArrayOf dimensions of non-scalar entries must agree in "
-                                 "structure construction."));
-                    }
-                }
-            }
-        }
-        /**
-         * At this point we can construct the dimensions of the output.
-         */
-        if (!nonSingularFound) {
-            dims.reset();
-            dims[0] = 1;
-            dims[1] = 1;
-        }
+        dims.reset();
+        dims[0] = 1;
+        dims[1] = 1;
         /**
          * The dimensions of the object have been identified.  Set the
          * dimensions of the object and the field names.  Then allocate
@@ -127,11 +94,7 @@ ArrayOf::classConstructor(
                 rptr = (const ArrayOf*)rval.dp->getData();
                 if (rval.dp->dataClass == NLS_CELL_ARRAY
                     || rval.dp->dataClass == NLS_STRING_ARRAY) {
-                    if (rval.isScalar()) {
-                        qp[offset] = rptr[0];
-                    } else {
-                        qp[offset] = rptr[j];
-                    }
+                    qp[offset] = rval;
                 } else {
                     qp[offset] = rval;
                 }

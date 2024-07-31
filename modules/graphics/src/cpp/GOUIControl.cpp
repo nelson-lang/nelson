@@ -71,6 +71,10 @@ GOUIControl::updateState()
         return;
     }
 
+    if (createWidget && widget) {
+        widget->installEventFilter(this);
+    }
+
     onStringPropertyChanged(createWidget);
     onPositionPropertyChanged(createWidget);
     onParentPositionChanged();
@@ -95,6 +99,7 @@ GOUIControl::updateState()
     onPopupMenuChanged(createWidget);
     if (widget) {
         widget->raise();
+        widget->setFocus();
     }
 }
 //=============================================================================
@@ -110,5 +115,85 @@ GOUIControl::getParentWidget()
     return parentGoWindow->getMainQWigdet();
 }
 //=============================================================================
+bool
+GOUIControl::eventFilter(QObject* obj, QEvent* event)
+{
+    if (obj == widget) {
+        if (event->type() == QEvent::KeyPress) {
+            return handleKeyEvent(event, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR, L"KeyPress");
+        } else if (event->type() == QEvent::KeyRelease) {
+            return handleKeyEvent(event, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR, L"KeyRelease");
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            return handleMouseEvent(event, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
+//=============================================================================
+bool
+GOUIControl::handleKeyEvent(
+    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+{
+    GOCallbackProperty* goCallback = (GOCallbackProperty*)findProperty(callbackPropertyStr);
+    ArrayOf callbackArrayOf = goCallback->get();
+    if (callbackArrayOf.isEmpty()) {
+        return true;
+    }
+
+    QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+    wstringVector modifiersWstringVector = getModifiers(keyEvent);
+    std::wstring key = getKeyString(keyEvent);
+    std::wstring character = getCharacterString(keyEvent);
+
+    goCallback->pushKeyEvent(
+        this, L"UIClientComponentKeyEvent", eventType, character, key, modifiersWstringVector);
+    return true;
+}
+//=============================================================================
+bool
+GOUIControl::handleMouseEvent(
+    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+{
+    GOCallbackProperty* goCallback = (GOCallbackProperty*)findProperty(callbackPropertyStr);
+    ArrayOf callbackArrayOf = goCallback->get();
+    if (callbackArrayOf.isEmpty()) {
+        return true;
+    }
+    goCallback->pushEvent(this, L"MouseData", eventType);
+    return true;
+}
+wstringVector
+GOUIControl::getModifiers(QKeyEvent* keyEvent)
+{
+    wstringVector modifiersWstringVector;
+    Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
+    if (modifiers & Qt::ShiftModifier) {
+        modifiersWstringVector.push_back(L"shift");
+    }
+    if (modifiers & Qt::ControlModifier) {
+        modifiersWstringVector.push_back(L"control");
+    }
+    if (modifiers & Qt::AltModifier) {
+        modifiersWstringVector.push_back(L"alt");
+    }
+    if (modifiers & Qt::MetaModifier) {
+        modifiersWstringVector.push_back(L"meta");
+    }
+    return modifiersWstringVector;
+}
+//=============================================================================
+std::wstring
+GOUIControl::getKeyString(QKeyEvent* keyEvent)
+{
+    return QStringTowstring(QKeySequence(keyEvent->key()).toString());
+}
+//=============================================================================
+std::wstring
+GOUIControl::getCharacterString(QKeyEvent* keyEvent)
+{
+    return QStringTowstring(keyEvent->text());
+}
+//=============================================================================
+
 }
 //=============================================================================
