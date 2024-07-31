@@ -19,6 +19,7 @@
 #include "GOPropertyValues.hpp"
 #include "StringHelpers.hpp"
 #include "GOCallbackProperty.hpp"
+#include "GOStringOnOffProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -128,8 +129,13 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
         return false;
     }
 
+    GOOnOffProperty* goOnOff
+        = (GOOnOffProperty*)gp->findProperty(GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    if (goOnOff) {
+        goOnOff->data(GO_PROPERTY_VALUE_ON_STR);
+    }
     GOCallbackProperty* goCallback
-        = (GOCallbackProperty*)gp->findProperty(GO_DELETE_FCN_PROPERTY_NAME_STR);
+        = (GOCallbackProperty*)gp->findProperty(GO_DELETE_FCN_PROPERTY_NAME_STR, false);
     if (goCallback) {
         goCallback->executeNow(gp, L"EventData", L"ObjectBeingDestroyed");
     }

@@ -39,6 +39,7 @@
 #include "GOVectorProperty.hpp"
 #include "GOControlStyleProperty.hpp"
 #include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "GOHelpers.hpp"
 //=============================================================================
@@ -47,6 +48,8 @@ namespace Nelson {
 void
 GOUIControl::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_CALLBACK_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
@@ -112,6 +115,8 @@ GOUIControl::setupDefaults()
     setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 0);
     setTwoVectorDefault(GO_SLIDER_STEP_NAME_STR, 0.0100, 0.1000);
     setScalarDoubleDefault(GO_LISTBOX_TOP_PROPERTY_NAME_STR, 1);
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
 }
 //=============================================================================
 void

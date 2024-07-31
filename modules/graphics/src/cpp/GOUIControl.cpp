@@ -53,7 +53,11 @@ GOUIControl::GOUIControl()
     setupDefaults();
 }
 //=============================================================================
-GOUIControl::~GOUIControl() { deleteWidget(); }
+GOUIControl::~GOUIControl()
+{
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    deleteWidget();
+}
 //=============================================================================
 std::wstring
 GOUIControl::getType()
@@ -162,6 +166,7 @@ GOUIControl::handleMouseEvent(
     goCallback->pushEvent(this, L"MouseData", eventType);
     return true;
 }
+//=============================================================================
 wstringVector
 GOUIControl::getModifiers(QKeyEvent* keyEvent)
 {
@@ -194,6 +199,5 @@ GOUIControl::getCharacterString(QKeyEvent* keyEvent)
     return QStringTowstring(keyEvent->text());
 }
 //=============================================================================
-
 }
 //=============================================================================

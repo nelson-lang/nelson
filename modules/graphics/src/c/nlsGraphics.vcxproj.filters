@@ -302,6 +302,9 @@
     <ClInclude Include="..\include\GOControlStyleProperty.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOBusyActionProperty.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -581,6 +584,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOUIControlHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOBusyActionProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

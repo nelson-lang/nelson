@@ -111,6 +111,7 @@
     <ClInclude Include="..\include\GOAutoFlatColorProperty.hpp" />
     <ClInclude Include="..\include\GOAxis.hpp" />
     <ClInclude Include="..\include\GOBackFaceLightingProperty.hpp" />
+    <ClInclude Include="..\include\GOBusyActionProperty.hpp" />
     <ClInclude Include="..\include\GOCallbackProperty.hpp" />
     <ClInclude Include="..\include\GOColorHelpers.hpp" />
     <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="..\cpp\GOAxis.cpp" />
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
     <ClCompile Include="..\cpp\GOBackFaceLightingProperty.cpp" />
+    <ClCompile Include="..\cpp\GOBusyActionProperty.cpp" />
     <ClCompile Include="..\cpp\GOCallbackProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorHelpers.cpp" />
     <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
