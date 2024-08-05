@@ -50,6 +50,7 @@ GOUIControl::constructProperties()
 {
     registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR);
     registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_CALLBACK_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
@@ -117,6 +118,7 @@ GOUIControl::setupDefaults()
     setScalarDoubleDefault(GO_LISTBOX_TOP_PROPERTY_NAME_STR, 1);
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 void
@@ -683,9 +685,6 @@ GOUIControl::onStringChangedPopupMenu()
 void
 GOUIControl::onStringPropertyChanged(bool newWidget)
 {
-    // if (!newWidget) {
-    //     return;
-    // }
     onStringChangedPushButton();
     onStringChangedToggleButton();
     onStringChangedRadioButton();

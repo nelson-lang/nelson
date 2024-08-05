@@ -20,12 +20,9 @@ class BaseFigureQt : public QWidget
 {
     //=============================================================================
 private:
-    QTimer* resizeTimer;
     GOFigure* hfig = nullptr;
     static QScreen*
     getActiveScreen();
-    void
-    finalizeResize();
     //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);

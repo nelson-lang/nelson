@@ -90,6 +90,9 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool bQuietMode = false;
 
 public:
+    bool InCallback = false;
+    bool IsInterruptible = false;
+
     size_t
     getID();
 

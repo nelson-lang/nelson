@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 #include <QtGui/QKeyEvent>
@@ -24,6 +25,8 @@ class NLSGRAPHICS_IMPEXP GOUIControl : public QObject, public GraphicsObject
     Q_OBJECT
     QWidget* widget;
     GOWindow* parentGoWindow;
+    QElapsedTimer keyPressElapsedTimer;
+    QElapsedTimer keyReleaseElapsedTimer;
 
 public:
     //=============================================================================

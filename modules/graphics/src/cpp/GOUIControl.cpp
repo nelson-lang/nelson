@@ -51,6 +51,10 @@ GOUIControl::GOUIControl()
     widget = nullptr;
     constructProperties();
     setupDefaults();
+
+    // Initialize the elapsed timers
+    keyPressElapsedTimer.invalidate();
+    keyReleaseElapsedTimer.invalidate();
 }
 //=============================================================================
 GOUIControl::~GOUIControl()
@@ -123,12 +127,32 @@ bool
 GOUIControl::eventFilter(QObject* obj, QEvent* event)
 {
     if (obj == widget) {
+        const int DEBOUNCE_TIME_MS = 80;
         if (event->type() == QEvent::KeyPress) {
+            if (keyPressElapsedTimer.isValid()
+                && keyPressElapsedTimer.elapsed() < DEBOUNCE_TIME_MS) {
+                return true;
+            }
+            keyReleaseElapsedTimer.invalidate();
+            keyPressElapsedTimer.start();
             return handleKeyEvent(event, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR, L"KeyPress");
         } else if (event->type() == QEvent::KeyRelease) {
+            if (keyReleaseElapsedTimer.isValid()
+                && keyReleaseElapsedTimer.elapsed() < DEBOUNCE_TIME_MS) {
+                return true;
+            }
+            keyReleaseElapsedTimer.invalidate();
+            keyReleaseElapsedTimer.start();
             return handleKeyEvent(event, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR, L"KeyRelease");
         } else if (event->type() == QEvent::MouseButtonPress) {
-            return handleMouseEvent(event, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
+        } else if (event->type() == QEvent::MouseButtonRelease) {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            if (mouseEvent->button() == Qt::LeftButton) {
+                clicked();
+                return true;
+            } else {
+                return handleMouseEvent(event, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
+            }
         }
     }
     return QObject::eventFilter(obj, event);

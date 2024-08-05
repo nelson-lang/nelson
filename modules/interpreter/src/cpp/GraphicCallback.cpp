@@ -13,6 +13,15 @@
 namespace Nelson {
 //=============================================================================
 bool
+GraphicCallback::isInterruptible()
+{
+    return interruptible;
+}
+//=============================================================================
+BUSY_ACTION
+GraphicCallback::getBusyActionState() { return busyAction; }
+//=============================================================================
+bool
 GraphicCallback::execute(Evaluator* eval)
 {
     running = true;

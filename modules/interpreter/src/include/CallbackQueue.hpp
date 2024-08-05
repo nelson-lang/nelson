@@ -13,6 +13,7 @@
 #include <vector>
 #include "GraphicCallback.hpp"
 #include "nlsInterpreter_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +44,8 @@ public:
     clear();
     bool
     get(GraphicCallback& graphicCallback);
+    bool
+    processCallback(Evaluator* eval);
 };
 //=============================================================================
 } // namespace Nelson

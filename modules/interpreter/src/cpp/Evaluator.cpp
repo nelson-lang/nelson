@@ -1759,21 +1759,17 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
-    ArrayOfVector m;
-    if (!CallbackQueue::getInstance()->isEmpty()) {
-        GraphicCallback graphicCallback;
-        CallbackQueue::getInstance()->get(graphicCallback);
-        graphicCallback.execute(this);
+    if (haveEventsLoop()) {
+        ProcessEventsDynamicFunctionWithoutWait();
     }
+    ArrayOfVector m;
+
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
         evaluateString(cmd);
     }
     FunctionDef* fdef = nullptr;
-    if (haveEventsLoop()) {
-        ProcessEventsDynamicFunctionWithoutWait();
-    }
     if (t == nullptr) {
         return;
     }
@@ -4408,10 +4404,7 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
-        if (!CallbackQueue::getInstance()->isEmpty()) {
-            GraphicCallback graphicCallback;
-            CallbackQueue::getInstance()->get(graphicCallback);
-            graphicCallback.execute(this);
+        if (CallbackQueue::getInstance()->processCallback(this)) {
             return;
         }
 

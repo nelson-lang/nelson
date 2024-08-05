@@ -51,6 +51,7 @@ GOFigure::getGOWindow()
 void
 GOFigure::registerProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_NUMBER_PROPERTY_NAME_STR, false);
@@ -92,6 +93,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
     if (hp) {

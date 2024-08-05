@@ -53,7 +53,7 @@ GOUIControl::createPushButton()
         return;
     }
     widget = new QPushButton(getParentWidget());
-    connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
+    // connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
     ((QPushButton*)widget)->setFlat(false);
     ((QPushButton*)widget)->setStyleSheet(QString("QPushButton {border: 0px;}"));
 
@@ -91,7 +91,7 @@ GOUIControl::createToggleButton()
     }
     widget = new QPushButton(getParentWidget());
     ((QPushButton*)widget)->setCheckable(true);
-    connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
+    // connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
 }
 //=============================================================================
 void
@@ -102,7 +102,7 @@ GOUIControl::createRadioButton()
     }
     widget = new QRadioButton(getParentWidget());
     ((QRadioButton*)widget)->setAutoExclusive(false);
-    connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
+    // connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
 }
 //=============================================================================
 void
@@ -110,7 +110,7 @@ GOUIControl::createCheckBox()
 {
     if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CHECKBOX_STR)) {
         widget = new QCheckBox(getParentWidget());
-        connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
+        // connect(widget, SIGNAL(clicked()), this, SLOT(clicked()));
     }
 }
 //=============================================================================

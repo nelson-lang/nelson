@@ -12,11 +12,23 @@
 #include "GOArrayOfProperty.hpp"
 #include "GraphicsObject.hpp"
 #include "nlsGraphics_exports.h"
+#include "GraphicCallback.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class NLSGRAPHICS_IMPEXP GOCallbackProperty : public GOArrayOfProperty
 {
+private:
+    GraphicCallback
+    buildGraphicCallback(GraphicsObject* go, const std::wstring& className,
+        const std::wstring& EventName, const std::wstring& character, const std::wstring& key,
+        const wstringVector& modifier);
+    GraphicCallback
+    buildGraphicCallback(
+        GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
+    GraphicCallback
+    buildGraphicCallback(GraphicsObject* go);
+
 public:
     GOCallbackProperty() : GOArrayOfProperty() { }
     ~GOCallbackProperty() override = default;
@@ -26,16 +38,16 @@ public:
     std::wstring
     toWideString() override;
 
-    bool
+    void
     pushKeyEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& EventName,
-        const std::wstring& character, const std::wstring& key, wstringVector modifier);
-    bool
+        const std::wstring& character, const std::wstring& key, const wstringVector& modifier);
+    void
     pushEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
-    bool
+    void
     pushEvent(GraphicsObject* go);
-    bool
+    void
     executeNow(GraphicsObject* go);
-    bool
+    void
     executeNow(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
 };
 //=============================================================================

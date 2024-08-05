@@ -14,19 +14,36 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+enum BUSY_ACTION
+{
+    QUEUE = 0,
+    CANCEL
+};
+//=============================================================================
 class NLSINTERPRETER_IMPEXP GraphicCallback
 {
 private:
     ArrayOf callbackAsArrayOf;
+    bool interruptible;
+
     bool running = false;
+    BUSY_ACTION busyAction = BUSY_ACTION::QUEUE;
 
 public:
     GraphicCallback() {};
-    GraphicCallback(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
+    GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, ArrayOf& _callbackAsArrayOf)
+        : callbackAsArrayOf(_callbackAsArrayOf)
+    {
+        interruptible = _interruptible;
+        busyAction = _busyAction;
+    };
     ~GraphicCallback() {};
-
+    bool
+    isInterruptible();
     bool
     execute(Evaluator* eval);
+    BUSY_ACTION
+    getBusyActionState();
 };
 //=============================================================================
 }

@@ -65,13 +65,41 @@ CallbackQueue::get(GraphicCallback& graphicCallback)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (!callbacks.empty()) {
-        graphicCallback = *(callbacks.end() - 1);
-        callbacks.pop_back();
+        graphicCallback = callbacks.front();
+        callbacks.erase(callbacks.begin());
         return true;
     }
     callbacks.clear();
     return false;
 }
 //=============================================================================
+bool
+CallbackQueue::processCallback(Evaluator* eval)
+{
+    if (CallbackQueue::getInstance()->isEmpty()) {
+        return false;
+    }
+
+    if (eval->InCallback) {
+        if (eval->IsInterruptible) {
+            GraphicCallback graphicCallback;
+            CallbackQueue::getInstance()->get(graphicCallback);
+            graphicCallback.execute(eval);
+            return true;
+        }
+        return false;
+    }
+
+    eval->InCallback = true;
+    GraphicCallback graphicCallback;
+    CallbackQueue::getInstance()->get(graphicCallback);
+    eval->IsInterruptible = graphicCallback.isInterruptible();
+    graphicCallback.execute(eval);
+    eval->InCallback = false;
+    return true;
+}
+
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================
