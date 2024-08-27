@@ -1,56 +1,56 @@
 {
-  "name": "nelson",
-  "version": "1.6.0",
-  "description": "Nelson, an array programming language",
-  "copyright": "Copyright 2018-present Allan CORNET",
-  "scripts": {
-    "prettier": "run-s prettier:standard prettier:xmldoc prettier:clang-format",
-    "prettier:standard": "prettier --write **/*.{js,json,yml,md}",
-    "prettier:xmldoc": "prettier --write modules/*/help/*/xml/*.xml",
-    "prettier:clang-format": "clang-format-launcher  --verbose",
-    "prettier:check": "run-s prettier:check:standard prettier:check:xmldoc prettier:check:clang-format",
-    "prettier:check:standard": "prettier --check **/*.{js,json,yml,md}",
-    "prettier:check:xmldoc": "prettier --check modules/*/help/*/xml/*.xml",
-    "prettier:check:clang-format": "clang-format-launcher -verify --verbose"
-  },
-  "devDependencies": {
-    "@prettier/plugin-xml": "2.2.0",
-    "prettier": "2.7.1",
-    "npm-run-all": "4.1.5",
-    "clang-format": "1.8.0",
-    "clang-format-launcher": "0.1.4"
-  },
-  "clang-format-launcher": {
-    "includeEndsWith": [
-      ".h",
-      ".hpp",
-      ".hxx",
-      ".cpp",
-      ".c",
-      ".cxx"
-    ],
-    "excludePathContains": [
-      ".git",
-      "parts/",
-      "prime/",
-      "stage/",
-      "modules/commons/src/include/nlohmann",
-      "modules/f2c/src/c/libf2c",
-      "modules/f2c/tests/dgemm.c",
-      "modules/f2c/src/c/libf2c/",
-      "modules/f2c/src/c/f2c/",
-      "modules/help_tools/src/c/hoedown",
-      "modules/file_archiver/src/c/minizip",
-      "modules/commons/src/fmt/include/fmt",
-      "modules/files_folders_functions/src/include/dtl/",
-      "modules/sio_client/src/socket_io",
-      "modules/modules_manager/src/c/semver",
-      "modules/interpreter/src/include/fast_float",
-      "modules/fftw/src/cpp/fftw3.h",
-      "modules/core/src/include/picoSHA2/picosha2.h",
-      "modules/parallel/src/include/BS_thread_pool.hpp",
-      "modules/interpreter/src/grammar/NelSonParser.cpp",
-      "modules/characters_encoding/src/cpp/simdutf"
-    ]
-  }
+    "name": "nelson",
+    "version": "1.7.0",
+    "description": "Nelson, an array programming language",
+    "copyright": "Copyright 2018-present Allan CORNET",
+    "scripts": {
+        "prettier": "run-s prettier:standard prettier:xmldoc prettier:clang-format",
+        "prettier:standard": "prettier --write **/*.{js,json,yml,md}",
+        "prettier:xmldoc": "prettier --write modules/*/help/*/xml/*.xml",
+        "prettier:clang-format": "clang-format-launcher  --verbose",
+        "prettier:check": "run-s prettier:check:standard prettier:check:xmldoc prettier:check:clang-format",
+        "prettier:check:standard": "prettier --check **/*.{js,json,yml,md}",
+        "prettier:check:xmldoc": "prettier --check modules/*/help/*/xml/*.xml",
+        "prettier:check:clang-format": "clang-format-launcher -verify --verbose"
+    },
+    "devDependencies": {
+        "@prettier/plugin-xml": "2.2.0",
+        "prettier": "2.7.1",
+        "npm-run-all": "4.1.5",
+        "clang-format": "1.8.0",
+        "clang-format-launcher": "0.1.4"
+    },
+    "clang-format-launcher": {
+        "includeEndsWith": [
+            ".h",
+            ".hpp",
+            ".hxx",
+            ".cpp",
+            ".c",
+            ".cxx"
+        ],
+        "excludePathContains": [
+            ".git",
+            "parts/",
+            "prime/",
+            "stage/",
+            "modules/commons/src/include/nlohmann",
+            "modules/f2c/src/c/libf2c",
+            "modules/f2c/tests/dgemm.c",
+            "modules/f2c/src/c/libf2c/",
+            "modules/f2c/src/c/f2c/",
+            "modules/help_tools/src/c/hoedown",
+            "modules/file_archiver/src/c/minizip",
+            "modules/commons/src/fmt/include/fmt",
+            "modules/files_folders_functions/src/include/dtl/",
+            "modules/sio_client/src/socket_io",
+            "modules/modules_manager/src/c/semver",
+            "modules/interpreter/src/include/fast_float",
+            "modules/fftw/src/cpp/fftw3.h",
+            "modules/core/src/include/picoSHA2/picosha2.h",
+            "modules/parallel/src/include/BS_thread_pool.hpp",
+            "modules/interpreter/src/grammar/NelSonParser.cpp",
+            "modules/characters_encoding/src/cpp/simdutf"
+        ]
+    }
 }
