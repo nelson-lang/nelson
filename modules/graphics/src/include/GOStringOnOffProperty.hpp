@@ -20,6 +20,7 @@ public:
     ~GOOnOffProperty() override = default;
     bool
     asBool();
+    void set(ArrayOf) override;
 };
 //=============================================================================
 };

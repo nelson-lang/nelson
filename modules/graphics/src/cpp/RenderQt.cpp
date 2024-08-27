@@ -20,7 +20,8 @@
 //=============================================================================
 RenderQt::~RenderQt() = default;
 //=============================================================================
-RenderQt::RenderQt(QPainter* painter, double x1, double y1, double width, double height)
+RenderQt::RenderQt(QPainter* painter, double x1, double y1, double width, double height,
+    const std::wstring& _renderName)
 {
     pnt = painter;
     pnt->setRenderHint(QPainter::TextAntialiasing);
@@ -32,6 +33,13 @@ RenderQt::RenderQt(QPainter* painter, double x1, double y1, double width, double
     pnt->setPen(QColor(0, 0, 0));
     pnt->setBrush(QColor(0, 0, 0));
     debugFlag = false;
+    renderName = _renderName;
+}
+//=============================================================================
+std::wstring
+RenderQt::getRenderName()
+{
+    return renderName;
 }
 //=============================================================================
 bool
@@ -265,6 +273,12 @@ RenderQt::circleFill(double x1, double y1, double radius)
     pnt->setPen(Qt::NoPen);
     pnt->drawEllipse(rect);
     pnt->setPen(pen);
+}
+//=============================================================================
+void
+RenderQt::drawImage(int x1, int y1, QImage pic)
+{
+    pnt->drawImage(x1, y1, pic);
 }
 //=============================================================================
 void

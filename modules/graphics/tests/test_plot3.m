@@ -15,9 +15,14 @@ L = plot3(sin(t), cos(t), t);
 axis square
 assert_istrue(isgraphics(L, 'line'));
 P = properties(L);
-REF = {'Children';       
-'Color';          
+REF = {'BeingDeleted';
+'BusyAction';
+'Children';       
+'Color';
+'CreateFcn';
+'DeleteFcn';          
 'DisplayName';    
+'Interruptible';
 'LineStyle';      
 'LineWidth';      
 'Marker';         

@@ -100,6 +100,13 @@
 <p><b
       >Tag</b>: Object identifier: character vector, string scalar or '' (default).</p> 
 <p><b>UserData</b>: User data: array or  [] (default).</p>
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
+
 </description>
 
   <used_function />
@@ -197,6 +204,15 @@ contour(Z)
     <history_item>
       <history_version>1.3.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+  <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
     </history_item>
   </history>
 

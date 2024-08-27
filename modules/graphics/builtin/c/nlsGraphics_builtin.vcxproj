@@ -210,6 +210,8 @@
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
     <ClCompile Include="..\cpp\refreshBuiltin.cpp" />
     <ClCompile Include="..\cpp\validatecolorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\waitforBuiltin.cpp" />
+    <ClCompile Include="..\cpp\waitforbuttonpressBuiltin.cpp" />
     <ClCompile Include="..\cpp\__contour__Builtin.cpp" />
     <ClCompile Include="..\cpp\__hggroup__Builtin.cpp" />
     <ClCompile Include="..\cpp\__image__Builtin.cpp" />
@@ -220,6 +222,7 @@
     <ClCompile Include="..\cpp\__rotate3d__Builtin.cpp" />
     <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
     <ClCompile Include="..\cpp\__text__Builtin.cpp" />
+    <ClCompile Include="..\cpp\uicontrolBuiltin.cpp" />
     <ClCompile Include="..\cpp\__view__Builtin.cpp" />
     <ClCompile Include="..\cpp\__zoom__Builtin.cpp" />
   </ItemGroup>
@@ -244,6 +247,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
@@ -280,6 +286,8 @@
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
     <ClInclude Include="..\include\refreshBuiltin.hpp" />
     <ClInclude Include="..\include\validatecolorBuiltin.hpp" />
+    <ClInclude Include="..\include\waitforBuiltin.hpp" />
+    <ClInclude Include="..\include\waitforbuttonpressBuiltin.hpp" />
     <ClInclude Include="..\include\__contour__Builtin.hpp" />
     <ClInclude Include="..\include\__hggroup__Builtin.hpp" />
     <ClInclude Include="..\include\__image__Builtin.hpp" />
@@ -291,6 +299,7 @@
     <ClInclude Include="..\include\__rotate3d__Builtin.hpp" />
     <ClInclude Include="..\include\__surf__Builtin.hpp" />
     <ClInclude Include="..\include\__text__Builtin.hpp" />
+    <ClInclude Include="..\include\uicontrolBuiltin.hpp" />
     <ClInclude Include="..\include\__view__Builtin.hpp" />
     <ClInclude Include="..\include\__zoom__Builtin.hpp" />
   </ItemGroup>

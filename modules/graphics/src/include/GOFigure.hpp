@@ -24,12 +24,30 @@ private:
     void
     loadParulaColorMap();
     GOWindow* m_win;
-
+    bool lockResize = false;
     void
-    refreshDrawLaterProperty();
+    refreshDrawLaterProperty(bool forceUpdate);
 
     int
     transformY(int y, int heightFrame, int screenHeight);
+
+    void
+    setOuterPosition(int x, int y, int w, int h);
+
+    void
+    getOuterPosition(int& x, int& y, int& w, int& h);
+
+    void
+    setInnerPosition(int x, int y, int w, int h);
+
+    void
+    getInnerPosition(int& x, int& y, int& w, int& h);
+
+    void
+    setPosition(int x, int y, int w, int h);
+
+    void
+    getPosition(int& x, int& y, int& w, int& h);
 
 public:
     GOFigure(GOWindow* win, int number);
@@ -50,7 +68,8 @@ public:
     }
     std::wstring
     getType() override;
-
+    void
+    updateState(bool forceUpdate);
     void
     updateState() override;
     void
@@ -65,7 +84,7 @@ public:
     setFocus();
 
     void
-    refreshPositionProperty();
+    refreshPositionProperties(bool forceUpdate);
 
     GOWindow*
     getGOWindow();

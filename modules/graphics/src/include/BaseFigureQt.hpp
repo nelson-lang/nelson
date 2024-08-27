@@ -11,17 +11,19 @@
 //=============================================================================
 #include <QtWidgets/QWidget>
 #include <QtGui/QScreen>
+#include <QtCore/QTimer>
 #include "GOFigure.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class BaseFigureQt : public QWidget
 {
+    //=============================================================================
 private:
     GOFigure* hfig = nullptr;
     static QScreen*
     getActiveScreen();
-
+    //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);
     void

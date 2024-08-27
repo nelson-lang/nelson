@@ -23,6 +23,8 @@
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
 #include "RenderHelpers.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +45,12 @@ GOLineSeries::~GOLineSeries() { }
 void
 GOLineSeries::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
@@ -54,7 +62,7 @@ GOLineSeries::constructProperties()
     registerProperty(new GOScalarProperty, GO_MARKER_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_X_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
@@ -67,6 +75,7 @@ GOLineSeries::constructProperties()
 void
 GOLineSeries::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 0, 0.4470, 0.7410);
     setRestrictedStringDefault(GO_LINE_STYLE_PROPERTY_NAME_STR, L"-");
     setScalarDoubleDefault(GO_LINE_WIDTH_PROPERTY_NAME_STR, 0.5);
@@ -79,6 +88,8 @@ GOLineSeries::setupDefaults()
     setRestrictedStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
     setTwoVectorDefault(GO_X_DATA_PROPERTY_NAME_STR, 0, 1);
     setTwoVectorDefault(GO_Y_DATA_PROPERTY_NAME_STR, 0, 1);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 void

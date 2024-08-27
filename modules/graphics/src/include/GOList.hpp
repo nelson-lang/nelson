@@ -24,7 +24,7 @@ template <class T> class GOList
     //=============================================================================
 public:
     //=============================================================================
-    GOList() { }
+    GOList() = default;
     //=============================================================================
     ~GOList() = default;
     //=============================================================================
@@ -41,7 +41,7 @@ public:
         }
         graphicsobjects[next] = val;
         if (next >= maxGO()) {
-            max_graphicsobject++;
+            max_graphicsobject = next + 1;
         }
         return next + 1;
     }
@@ -49,29 +49,37 @@ public:
     void
     deleteGO(int64 handle)
     {
-        if ((handle - 1) == maxGO()) {
-            max_graphicsobject--;
+        int64 index = handle - 1;
+        if (graphicsobjects.count(index) > 0) {
+            graphicsobjects.erase(index);
+            if (index + 1 == maxGO()) {
+                // Adjust max_graphicsobject only if the deleted one was the highest
+                while (
+                    max_graphicsobject > 0 && graphicsobjects.count(max_graphicsobject - 1) == 0) {
+                    max_graphicsobject--;
+                }
+            }
         }
-        graphicsobjects.erase(handle - 1);
     }
     //=============================================================================
     int64
-    maxGO()
+    maxGO() const
     {
         return max_graphicsobject;
     }
     //=============================================================================
     T
-    findGO(int64 handle, bool throwError = true)
+    findGO(int64 handle, bool throwError = true) const
     {
-        if (graphicsobjects.count(handle - 1) == 0) {
+        int64 index = handle - 1;
+        auto it = graphicsobjects.find(index);
+        if (it == graphicsobjects.end()) {
             if (throwError) {
                 Error(_W("Invalid Graphics Object."));
-            } else {
-                return nullptr;
             }
+            return nullptr;
         }
-        return graphicsobjects[handle - 1];
+        return it->second;
     }
     //=============================================================================
 };

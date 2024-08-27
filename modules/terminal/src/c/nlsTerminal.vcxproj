@@ -217,6 +217,9 @@
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\history_manager\src\c\nlsHistory_manager.vcxproj">
       <Project>{5b8f3dfd-29a2-4d0e-ae70-2bf879c8d146}</Project>
     </ProjectReference>

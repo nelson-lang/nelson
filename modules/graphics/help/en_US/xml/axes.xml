@@ -101,6 +101,7 @@
       >HandleVisibility</b> Visibility of object handle: 'on' (default) or 'off'.</p>
 <p><b
       >HitTest</b> Response to captured mouse clicks: 'on' (default) or 'off'.</p>
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
 <p><b>Interruptible</b> Callback interruption: </p>
 <p><b
       >Layer</b> Placement of grid lines and tick marks: 'top' or 'bottom' (default).</p>
@@ -198,6 +199,11 @@
       >ZTickLabelMode</b> Selection mode for tick labels: 'manual' or 'auto' (default).</p>
 <p><b
       >ZTickMode</b>Selection mode for tick values: 'manual' or 'auto' (default).</p>
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
 <p
     >Some properties are available only for compatibility and have currently no effect on the axes.</p>
 </description>
@@ -254,6 +260,15 @@ plot(ax2, x, y2);]]>
       <history_version>--</history_version>
       <history_description
       >GridAlpha, GridColor propertiew for Axes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+  <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
     </history_item>
 
   </history>

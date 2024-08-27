@@ -23,6 +23,8 @@
 #include "GOList.hpp"
 #include "GOAxis.hpp"
 #include "ParallelSort.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +45,11 @@ GOContour::~GOContour() { }
 void
 GOContour::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_CONTOUR_MATRIX_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
@@ -57,7 +64,7 @@ GOContour::constructProperties()
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_X_DATA_PROPERTY_NAME_STR);
@@ -65,11 +72,13 @@ GOContour::constructProperties()
     registerProperty(new GOArrayOfProperty, GO_Y_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_Z_DATA_PROPERTY_NAME_STR);
+    sortProperties();
 }
 //=============================================================================
 void
 GOContour::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringColorDefault(
         GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR, 0, 0, 0);
     setScalarDoubleDefault(GO_EDGE_ALPHA_PROPERTY_NAME_STR, 1);
@@ -83,6 +92,8 @@ GOContour::setupDefaults()
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_Y_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 /**

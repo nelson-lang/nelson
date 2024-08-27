@@ -81,6 +81,20 @@
 <p><b>Visible</b>: State of visibility: 'off' or 'on' (default).</p>
 <p><b
       >DrawLater</b>: is used to delay a huge succession of graphics commands (implying several drawings or redrawings): 'on' or 'off' (default).</p>
+<p><b
+      >CloseRequestFcn</b>:  Close request callback: function handle, cell array, character vector with 'closereq' (default).</p>
+<p><b
+      >CreateFcn</b> Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
+<p><b
+      >KeyPressFcn</b> Callback (function handle, string or cell) called when a key is pressed while the figure has the focus.</p>
+<p><b
+      >KeyReleaseFcn</b> Callback (function handle, string or cell) called when a key is released while the figure has the focus.</p>
+<p><b
+      >ButtonDownFcn</b> Callback (function handle, string or cell) called when a mouse button is pressed while the figure has the focus.</p>
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
 </description>
 
   <used_function />
@@ -121,6 +135,16 @@ figure('Name', 'Hello')
       <history_description
       >Clicking on an figure automatically sets it as the current figure object.</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn, CloseRequestFcn, KeyPressFcn, KeyReleaseFcn, ButtonDownFcn  callback added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+
   </history>
 
   <authors>

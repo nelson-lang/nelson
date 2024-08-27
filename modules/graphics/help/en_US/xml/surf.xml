@@ -121,7 +121,13 @@
 <p><b
       >YDataMode</b> Selection mode for YData: 'manual' or 'auto'.</p>            
 <p><b>ZData</b> z-coordinate data: vector or matrix.</p>
+<p><b
+      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+Set this property on an existing component has no effect.</p>
+<p><b
+      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
 <p />
+<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
 <p
     >Some properties are available only for compatibility and have currently no effect on the surface.</p>
 </description>
@@ -185,6 +191,16 @@ axis square]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+  <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+   
   </history>
 
   <authors>

@@ -62,6 +62,8 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
 
 - 2D and 3D plotting with high-level plot commands.
 
+- User Interface control.
+
 - Desktop environment with history, file and workspace browser.
 
 - Parallel Computing Module.

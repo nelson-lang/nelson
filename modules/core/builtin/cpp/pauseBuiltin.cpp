@@ -23,6 +23,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 1);
+
     if (argIn.size() == 0) {
         if (nLhs == 1) {
             if (pauseOn) {

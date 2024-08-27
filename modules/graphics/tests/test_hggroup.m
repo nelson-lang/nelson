@@ -53,3 +53,21 @@ ax = gca();
 assert_isequal(ax.XLim, [1 5]);
 assert_isequal(ax.YLim, [1 5]);
 %=============================================================================
+figure();
+ax = gca();
+g = hggroup(ax);
+R = properties(g);
+REF = {'BeingDeleted';
+'BusyAction';   
+'Children';
+'CreateFcn';    
+'DeleteFcn';    
+'DisplayName';  
+'Interruptible';
+'Parent';       
+'Tag';          
+'Type';         
+'UserData';     
+'Visible'};
+assert_isequal(R, REF);
+%=============================================================================

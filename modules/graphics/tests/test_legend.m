@@ -17,21 +17,30 @@ hold on
 y2 = cos(2*x);
 plot(x, y2)
 L = legend('cos(x)','cos(2x)')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'N')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'S')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'W')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'E')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'NE')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'NW')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'SE')
+pause(0.2);
 legend('off')
 legend('cos(x)','cos(2x)', 'location', 'SW')
+pause(0.2);
 legend('off')
 %=============================================================================

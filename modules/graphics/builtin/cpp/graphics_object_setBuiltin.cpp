@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "graphics_object_setBuiltin.hpp"
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include "GraphicsObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -72,7 +73,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             ptr += 2;
         }
         fp->updateState();
-        if (!fp->isType(L"figure") && !fp->isType(L"root")) {
+        if (!fp->isType(GO_PROPERTY_VALUE_FIGURE_STR) && !fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
+            && !fp->isType(GO_PROPERTY_VALUE_UICONTROL_STR)) {
             GOFigure* fig = fp->getParentFigure();
             if (fig) {
                 fig->repaint();

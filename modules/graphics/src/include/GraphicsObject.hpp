@@ -101,6 +101,8 @@ public:
     findArrayOfProperty(const std::wstring& name);
     std::wstring
     findStringProperty(const std::wstring& name);
+    wstringVector
+    findStringVectorProperty(const std::wstring& name);
     bool
     stringCheck(const std::wstring& name, const std::wstring& value);
     void

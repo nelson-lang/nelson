@@ -31,13 +31,15 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
+#include "GOCallbackProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
 GOSurface::getType()
 {
-    return L"surface";
+    return GO_PROPERTY_VALUE_SURFACE_STR;
 }
 //=============================================================================
 GOSurface::GOSurface()
@@ -51,6 +53,11 @@ GOSurface::~GOSurface() { }
 void
 GOSurface::constructProperties()
 {
+    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_AMBIENT_STRENGTH_PROPERTY_NAME_STR);
@@ -78,7 +85,7 @@ GOSurface::constructProperties()
     registerProperty(new GOScalarProperty, GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_SPECULAR_STRENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR);
+    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_VERTEX_NORMALS_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_X_DATA_PROPERTY_NAME_STR);
@@ -93,6 +100,7 @@ GOSurface::constructProperties()
 void
 GOSurface::setupDefaults()
 {
+    setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
     std::vector<double> gp;
     gp.push_back(1.0);
@@ -107,7 +115,7 @@ GOSurface::setupDefaults()
     setScalarDoubleDefault(GO_SPECULAR_COLOR_REFLECTANCE_PROPERTY_NAME_STR, 0.4);
     setScalarDoubleDefault(GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR, 0.1);
     setScalarDoubleDefault(GO_SPECULAR_STRENGTH_PROPERTY_NAME_STR, 0.5);
-    setStringDefault(GO_TYPE_PROPERTY_NAME_STR, L"image");
+    setStringDefault(GO_TYPE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_IMAGE_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringScalarDefault(
         GO_EDGE_ALPHA_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALAR_STR, 1);
@@ -130,6 +138,8 @@ GOSurface::setupDefaults()
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setStringDefault(GO_Y_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+    setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 std::vector<std::vector<coloredPoint>>
@@ -292,21 +302,27 @@ GOSurface::updateState()
 {
     if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_X_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_X_DATA_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_Y_DATA_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         autoXMode();
+        clearChanged(GO_X_DATA_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_Y_DATA_MODE_PROPERTY_NAME_STR)) {
         autoYMode();
+        clearChanged(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     }
     if (isAuto(GO_C_DATA_MODE_PROPERTY_NAME_STR)) {
         autoCMode();
+        clearChanged(GO_C_DATA_MODE_PROPERTY_NAME_STR);
     }
     updateCAlphadata();
 }

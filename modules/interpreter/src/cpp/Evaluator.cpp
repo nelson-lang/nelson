@@ -66,6 +66,7 @@
 #include "Or.hpp"
 #include "OverloadName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "CallbackQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -1758,16 +1759,17 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
+    if (haveEventsLoop()) {
+        ProcessEventsDynamicFunctionWithoutWait();
+    }
     ArrayOfVector m;
-    FunctionDef* fdef = nullptr;
+
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
         evaluateString(cmd);
     }
-    if (haveEventsLoop()) {
-        ProcessEventsDynamicFunctionWithoutWait();
-    }
+    FunctionDef* fdef = nullptr;
     if (t == nullptr) {
         return;
     }
@@ -1953,6 +1955,8 @@ Evaluator::block(AbstractSyntaxTreePtr t)
             if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                 if (ID == 0) {
                     NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
+                    CallbackQueue::getInstance()->clear();
+                    setState(NLS_STATE_ABORT);
                     Error(MSG_CTRL_C_DETECTED);
                 } else {
                     Error(_W("Execution of the future was cancelled."),
@@ -2028,6 +2032,15 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     }
     if (t->opNum == (OP_DOT)) {
         try {
+            if (r.isGraphicsObject()) {
+                ArrayOfVector params;
+                ArrayOfVector rv = getHandle(r, t->down->text, params);
+                if (rv.size() > 0) {
+                    return rv[0];
+                } else {
+                    return (ArrayOf::emptyConstructor());
+                }
+            }
             return (r.getField(t->down->text));
         } catch (const Exception&) {
             return (ArrayOf::emptyConstructor());
@@ -4391,6 +4404,10 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
+        if (CallbackQueue::getInstance()->processCallback(this)) {
+            return;
+        }
+
         std::wstring commandLine;
         commandQueue.get(commandLine);
         if (commandLine.empty()) {

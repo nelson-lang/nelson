@@ -47,6 +47,7 @@ target_link_libraries(
   nlsHistory_manager
   nlsInterpreter
   nlsStream_manager
+  nlsError_manager
   nlsNelson_manager
   nlsI18n)
 

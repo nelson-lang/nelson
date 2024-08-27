@@ -102,7 +102,7 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
             pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
         painter.scale(scale, scale);
         painter.translate(-f->width() / 2., -f->height() / 2.);
-        RenderQt gc(&painter, 0, 0, f->width(), f->height());
+        RenderQt gc(&painter, 0, 0, f->width(), f->height(), L"PDF");
         hf->paintMe(gc);
         result = true;
     } break;
@@ -120,7 +120,7 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
         gen.setFileName(wstringToQString(filename));
         gen.setSize(QSize(f->width(), f->height()));
         QPainter pnt(&gen);
-        RenderQt gc(&pnt, 0, 0, f->width(), f->height());
+        RenderQt gc(&pnt, 0, 0, f->width(), f->height(), L"SVG");
         hf->paintMe(gc);
         result = true;
     } break;
