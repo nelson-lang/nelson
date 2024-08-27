@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Refactor the internal implementation of the 'system' built-in function.
 
+- Python 3.12.5 on Windows.
+
 ## 1.6.0 (2024-06-29)
 
 ### Added
