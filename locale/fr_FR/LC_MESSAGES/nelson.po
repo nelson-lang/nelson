@@ -8316,10 +8316,14 @@ msgid "'rows' mode only works for 2D matrix."
 msgstr "le mode 'rows' ne fonctionne que pour les matrices 2D."
 
 msgid "'rows' option is not supported for cell array inputs."
-msgstr "l'option 'rows' n'est pas supportée pour les entrées de type tableau de cellules."
+msgstr ""
+"l'option 'rows' n'est pas supportée pour les entrées de type tableau de "
+"cellules."
 
 msgid "The input must be a cell array containing character vectors."
-msgstr "L'entrée doit être un tableau de cellules contenant des vecteurs de caractères."
+msgstr ""
+"L'entrée doit être un tableau de cellules contenant des vecteurs de "
+"caractères."
 
 msgid "Unsupported matrix type."
 msgstr "Type de matrice non pris en charge."
@@ -8328,10 +8332,59 @@ msgid "Both X and N are required to be real."
 msgstr "X et N doivent tous deux être réels."
 
 msgid "X and N must either be scalars or arrays of the same size."
-msgstr "X et N doivent être soit des scalaires, soit des tableaux de même taille."
+msgstr ""
+"X et N doivent être soit des scalaires, soit des tableaux de même taille."
 
 msgid "If X is negative, then N must be an odd integer."
 msgstr "Si X est négatif, alors N doit être un entier impair."
 
 msgid "Couldnt resolve host name"
 msgstr "Impossible de résoudre le nom d'hôte"
+
+msgid "Invalid property."
+msgstr "Propriété invalide."
+
+msgid "isequaln not found."
+msgstr "isequaln non trouvé."
+
+msgid "isequaln lhs error."
+msgstr "Erreur de l'opérande gauche avec isequaln."
+
+msgid "waitforbuttonpress exit because figure has been deleted."
+msgstr "Sortie de waitforbuttonpress car la figure a été supprimée."
+
+msgid "Cannot get current figure."
+msgstr "Impossible d'obtenir la figure actuelle."
+
+msgid "Case not yet managed."
+msgstr "Cas non encore géré."
+
+msgid ""
+"Callback value must be a character vector, a function handle, or a cell "
+"array containing character vector or function handle."
+msgstr ""
+"La valeur de rappel doit être un vecteur de caractères, un handle de fonction, ou un tableau de cellules contenant un vecteur de caractères ou un handle de fonction."
+
+msgid "Invalid image format: expected a 3D array with 3 color channels."
+msgstr "Format d'image invalide : un tableau 3D avec 3 canaux de couleur est attendu."
+
+msgid "Invalid image format: array with values in [0. 1.] expected."
+msgstr "Format d'image invalide : un tableau avec des valeurs dans [0, 1] est attendu."
+
+msgid "uicontrol graphic object expected."
+msgstr "Objet graphique uicontrol attendu."
+
+msgid "Figure or uicontrol graphic object expected."
+msgstr "Objet graphique figure ou uicontrol attendu."
+
+msgid "Figure expected."
+msgstr "Figure attendue."
+
+msgid "Invalid text argument indexed expected."
+msgstr "Argument de texte invalide, indexé attendu."
+
+msgid ""
+"An indexed image must have a data type of uint8, uint16, double, single, or "
+"logical."
+msgstr ""
+"Une image indexée doit avoir un type de données uint8, uint16, double, single, ou logique."

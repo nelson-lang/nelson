@@ -1197,6 +1197,9 @@ msgstr ""
 msgid "Invalid Figure handle."
 msgstr ""
 
+msgid "Property is readable only: "
+msgstr ""
+
 msgid "Wrong number of input parameters."
 msgstr ""
 
@@ -1224,9 +1227,6 @@ msgstr ""
 msgid "Expected graphics object(s)."
 msgstr ""
 
-msgid "Property is readable only: "
-msgstr ""
-
 msgid "Wrong value for quality: [0, 100] expected."
 msgstr ""
 
@@ -1234,9 +1234,6 @@ msgid "Invalid object."
 msgstr ""
 
 msgid "axes graphics object expected."
-msgstr ""
-
-msgid "Invalid Graphics object type name:"
 msgstr ""
 
 msgid "Parent directory does not exist: "
@@ -1276,6 +1273,21 @@ msgid ""
 "vectors or a string array expected."
 msgstr ""
 
+msgid "Invalid property."
+msgstr ""
+
+msgid "isequaln not found."
+msgstr ""
+
+msgid "isequaln lhs error."
+msgstr ""
+
+msgid "waitforbuttonpress exit because figure has been deleted."
+msgstr ""
+
+msgid "Cannot get current figure."
+msgstr ""
+
 msgid "Axes graphic object expected."
 msgstr ""
 
@@ -1292,6 +1304,14 @@ msgid "Size mismatch on arguments to arithmetic operator"
 msgstr ""
 
 msgid "Units not managed:"
+msgstr ""
+
+msgid "Case not yet managed."
+msgstr ""
+
+msgid ""
+"Callback value must be a character vector, a function handle, or a cell "
+"array containing character vector or function handle."
 msgstr ""
 
 msgid "Expecting a color spec: either a color name or a 3-vector or RGB values"
@@ -1352,6 +1372,12 @@ msgid "Value is out of range %f <= value <= %f."
 msgstr ""
 
 msgid "Value should be an positive integer value > 0."
+msgstr ""
+
+msgid "Invalid image format: expected a 3D array with 3 color channels."
+msgstr ""
+
+msgid "Invalid image format: array with values in [0. 1.] expected."
 msgstr ""
 
 msgid "Finite value expected."
@@ -1464,6 +1490,18 @@ msgid "Image data must be either MxN or MxNx3."
 msgstr ""
 
 msgid "Cannot save image file"
+msgstr ""
+
+msgid "Invalid Graphics object type name:"
+msgstr ""
+
+msgid "uicontrol graphic object expected."
+msgstr ""
+
+msgid "Figure or uicontrol graphic object expected."
+msgstr ""
+
+msgid "Figure expected."
 msgstr ""
 
 msgid "look and feel not applied."
@@ -4681,11 +4719,6 @@ msgid ""
 "Number of field names must match number of values in structure constructor."
 msgstr ""
 
-msgid ""
-"ArrayOf dimensions of non-scalar entries must agree in structure "
-"construction."
-msgstr ""
-
 msgid "Invalid dimensions."
 msgstr ""
 
@@ -4778,6 +4811,11 @@ msgid "Cannot make strings or reference types sparse."
 msgstr ""
 
 msgid "Cannot make n-dimensional arrays sparse."
+msgstr ""
+
+msgid ""
+"ArrayOf dimensions of non-scalar entries must agree in structure "
+"construction."
 msgstr ""
 
 msgid "Cannot dereference a field of a multi-element structure array."
@@ -6512,6 +6550,14 @@ msgid "First argument must be an axes object."
 msgstr ""
 
 msgid "Command option must be on or off."
+msgstr ""
+
+msgid "Invalid text argument indexed expected."
+msgstr ""
+
+msgid ""
+"An indexed image must have a data type of uint8, uint16, double, single, or "
+"logical."
 msgstr ""
 
 msgid "Invalid input arguments."
