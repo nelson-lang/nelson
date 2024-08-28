@@ -261,7 +261,7 @@ QtTerminal::getLine(const std::wstring& prompt)
         return L"\n";
     }
     eval->commandQueue.clear();
-    CallbackQueue::getInstance()->clear();
+    Nelson::CallbackQueue::getInstance()->clear();
 
     bool wasInterruptedByAction = false;
 
@@ -275,7 +275,7 @@ QtTerminal::getLine(const std::wstring& prompt)
             break;
         }
 
-        if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()) {
+        if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
             wasInterruptedByAction = true;
             break;
         }

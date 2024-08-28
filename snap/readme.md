@@ -15,7 +15,7 @@ sudo snapcraft --destructive-mode  --verbose
 # Test locally
 
 ```
-sudo snap install nelson_1.6.0.0_amd64.snap --dangerous
+sudo snap install nelson_1.7.0.0_amd64.snap --dangerous
 ```
 
 Debug:
@@ -27,7 +27,7 @@ snap run --shell nelson.nelson
 # Push
 
 ```
-snapcraft upload nelson_1.6.0.0_amd64.snap
+snapcraft upload nelson_1.7.0.0_amd64.snap
 ```
 
 # Connection
