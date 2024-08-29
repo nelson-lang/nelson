@@ -72,6 +72,7 @@
 <p
     >'width' and 'height' define the size of the window. 'left' and 'bottom' define the position of the first addressable pixel in the lower left corner of the window</p>
 
+<p><b>Resize</b>: Resize figure: 'on' or 'off' (default).</p>
 <p><b
       >Tag</b>: Object identifier: string scalar, character vector, '' (default).</p>
 <p><b
@@ -143,6 +144,10 @@ figure('Name', 'Hello')
     <history_item>
       <history_version>--</history_version>
       <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>Resize property added.</history_description>
     </history_item>
 
   </history>

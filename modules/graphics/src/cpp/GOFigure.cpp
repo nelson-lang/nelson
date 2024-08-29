@@ -60,7 +60,6 @@ GOFigure::registerProperties()
     registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
-
     registerProperty(new GOScalarProperty, GO_NUMBER_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
@@ -82,6 +81,7 @@ GOFigure::registerProperties()
     registerProperty(new GOMenuBarProperty, GO_MENU_BAR_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_RESIZE_PROPERTY_NAME_STR);
 
     sortProperties();
 }
@@ -104,6 +104,8 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+
+    setRestrictedStringDefault(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
 
     GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
     if (hp) {

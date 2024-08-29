@@ -202,6 +202,33 @@ GOWindow::updateState(bool forceUpdate)
         setGeometry(x, transformedY, w, h);
         goFig->clearChanged(GO_POSITION_PROPERTY_NAME_STR);
     }
+
+    if (goFig->hasChanged(GO_RESIZE_PROPERTY_NAME_STR) || forceUpdate) {
+        int wmin = 0;
+        int hmin = 0;
+        int wmax = QWIDGETSIZE_MAX;
+        int hmax = QWIDGETSIZE_MAX;
+
+        Qt::WindowFlags windowFlagsOptions;
+        if (goFig->stringCheck(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+            wmin = width();
+            hmin = height();
+            wmax = width();
+            hmax = height();
+            windowFlagsOptions = (windowFlags() & ~Qt::WindowMaximizeButtonHint);
+        } else {
+            wmin = 0;
+            hmin = 0;
+            wmax = QWIDGETSIZE_MAX;
+            hmax = QWIDGETSIZE_MAX;
+            windowFlagsOptions = (windowFlags() | Qt::WindowMaximizeButtonHint);
+        }
+
+        setMinimumSize(QSize(wmin, hmin));
+        setMaximumSize(QSize(wmax, hmax));
+        setWindowFlags(windowFlagsOptions);
+        forceUpdate = true;
+    }
     if (goFig->hasChanged(GO_VISIBLE_PROPERTY_NAME_STR) || forceUpdate) {
         if (goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
             show();
