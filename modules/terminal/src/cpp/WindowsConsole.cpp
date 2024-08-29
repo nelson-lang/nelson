@@ -441,7 +441,7 @@ WindowsConsole::getCharacter(bool& bIsAction)
         void* veval = NelsonConfiguration::getInstance()->getMainEvaluator();
         Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
         eval->commandQueue.clear();
-        CallbackQueue::getInstance()->clear();
+        Nelson::CallbackQueue::getInstance()->clear();
         while (TRUE) {
             ::WaitForSingleObject(Win32InputStream, 30);
             DWORD nbEventsAvailable = 0;
@@ -457,7 +457,7 @@ WindowsConsole::getCharacter(bool& bIsAction)
                     bInterruptGetChar = true;
                 }
             }
-            if (!eval->commandQueue.isEmpty() || !CallbackQueue::getInstance()->isEmpty()
+            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
                 || bInterruptGetChar) {
                 bIsAction = true;
                 bInterruptGetChar = false;
