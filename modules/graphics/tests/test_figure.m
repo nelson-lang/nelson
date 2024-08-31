@@ -66,7 +66,8 @@ REF = {'AlphaMap';
 'Number';         
 'NumberTitle';      
 'Parent';      
-'Position';         
+'Position';
+'Resize';         
 'SizeChangedFcn';   
 'Tag';   
 'ToolBar';          
@@ -74,6 +75,11 @@ REF = {'AlphaMap';
 'UserData';         
 'Visible'};
 assert_isequal(p, REF);
+%=============================================================================
+f = figure('Resize', 'off');
+assert_isequal(f.Resize, 'off');
+f.Resize = 'on';
+assert_isequal(f.Resize, 'on');
 %=============================================================================
 close all
 %=============================================================================

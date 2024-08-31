@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+### Added
+
+- `Resize` - Resize figure property.
+
 ### Changed
 
 - CodeQL Github action updated.
