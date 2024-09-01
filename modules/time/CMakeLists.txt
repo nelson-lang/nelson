@@ -41,7 +41,7 @@ target_include_directories(
 target_link_libraries(
   ${module_library_name}
   nlsCommons
-  nlsError
+  nlsError_manager
   nlsElementary_mathematics
   nlsI18n
   nlsInterpreter

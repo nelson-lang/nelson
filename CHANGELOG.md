@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `Resize` - Resize figure property.
+- [#36](http://github.com/nelson-lang/nelson/issues/36) `datenum` format compatibility extended.
 - [#37](http://github.com/nelson-lang/nelson/issues/37) `datestr` Convert date and time to string format.
 
 ### Changed

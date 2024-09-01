@@ -19,10 +19,11 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 1);
-    ArrayOfVector retval(nLhs);
+    ArrayOfVector retval;
 
-    bool isValid = argIn[0].isDoubleType(true) && !argIn[0].isSparse() && argIn[0].isPositive()
-        && argIn[0].is2D();
+    bool isValid = argIn[0].isDoubleType(true) && !argIn[0].isSparse() && argIn[0].is2D()
+        && argIn[0].isPositive();
+
     if (!isValid) {
         Error(_W("Numeric input data must be real."));
     }

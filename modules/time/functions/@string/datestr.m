@@ -31,15 +31,17 @@ function varargout = datestr(varargin)
       varargout{1} = datestr(epochs, 'local');
     else
       % DateString = datestr(DateStringIn, formatOut)
-      epochs = datenum(dateStringIn, formatOutOrLocal);
-      varargout{1} = datestr(epochs);
+      try
+        epochs = datenum(dateStringIn);
+      catch
+        epochs = datenum(dateStringIn, formatOutOrLocal);
+      end
+      varargout{1} = datestr(epochs, formatOutOrLocal);
     end
     return
   end
   if nargin == 3
-    mustBeTextScalar(varargin{2}, 2);
     formatOut = convertStringsToChars(varargin{2});
-    
     formatOutOrLocal = convertStringsToChars(varargin{3});
     if ischar(formatOutOrLocal)
       if ~strcmp(formatOutOrLocal, 'local')
@@ -50,7 +52,7 @@ function varargout = datestr(varargin)
       varargout{1} = datestr(epochs, formatOut, 'local');
     elseif (isnumeric(formatOutOrLocal) && isscalar(formatOutOrLocal))
       % DateString = datestr(DateStringIn, formatOut, PivotYear)
-      epochs = datenum(dateStringIn, formatOut, formatOutOrLocal);
+      epochs = datenum(dateStringIn, formatOutOrLocal);
       varargout{1} = datestr(epochs, formatOut);
     else
       error(_('Third argument must be a numeric scalar.'));
