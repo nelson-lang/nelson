@@ -180,6 +180,7 @@
     <ClCompile Include="..\cpp\clockBuiltin.cpp" />
     <ClCompile Include="..\cpp\cputimeBuiltin.cpp" />
     <ClCompile Include="..\cpp\datenumBuiltin.cpp" />
+    <ClCompile Include="..\cpp\datestrBuiltin.cpp" />
     <ClCompile Include="..\cpp\datevecBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\nowBuiltin.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\include\clockBuiltin.hpp" />
     <ClInclude Include="..\include\cputimeBuiltin.hpp" />
     <ClInclude Include="..\include\datenumBuiltin.hpp" />
+    <ClInclude Include="..\include\datestrBuiltin.hpp" />
     <ClInclude Include="..\include\datevecBuiltin.hpp" />
     <ClInclude Include="..\include\nlsTime_builtin_exports.h" />
     <ClInclude Include="..\include\nowBuiltin.hpp" />

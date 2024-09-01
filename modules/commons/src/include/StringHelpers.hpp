@@ -156,6 +156,13 @@ join(const std::vector<std::string>& inputs, const std::string& separator);
 NLSCOMMONS_IMPEXP std::wstring
 join(const std::vector<std::wstring>& inputs, const std::wstring& separator);
 //=============================================================================
-
+NLSCOMMONS_IMPEXP
+int
+count(const std::wstring& string, const std::wstring& subString);
+//=============================================================================
+NLSCOMMONS_IMPEXP
+int
+count(const std::string& string, const std::string& subString);
+//=============================================================================
 }
 //=============================================================================

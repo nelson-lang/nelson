@@ -185,6 +185,8 @@
     <ClInclude Include="..\..\src\include\Sleep.hpp" />
     <ClInclude Include="..\..\src\include\TicToc.hpp" />
     <ClInclude Include="..\include\CpuTime.hpp" />
+    <ClInclude Include="..\include\DateString.hpp" />
+    <ClInclude Include="..\include\DateToFormattedString.hpp" />
     <ClInclude Include="..\include\DateVector.hpp" />
     <ClInclude Include="..\include\Time.hpp" />
   </ItemGroup>
@@ -193,6 +195,8 @@
     <ClCompile Include="..\cpp\Clock.cpp" />
     <ClCompile Include="..\cpp\CpuTime.cpp" />
     <ClCompile Include="..\cpp\DateNumber.cpp" />
+    <ClCompile Include="..\cpp\DateString.cpp" />
+    <ClCompile Include="..\cpp\DateToFormattedString.cpp" />
     <ClCompile Include="..\cpp\DateVector.cpp" />
     <ClCompile Include="..\cpp\IsLeapYear.cpp" />
     <ClCompile Include="..\cpp\Now.cpp" />
@@ -202,11 +206,17 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_mathematics\src\c\nlsElementary_mathematics.vcxproj">
       <Project>{84bdbee5-b19d-4529-b616-01456e6c7768}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>

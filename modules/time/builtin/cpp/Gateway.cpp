@@ -24,6 +24,7 @@
 #include "tocBuiltin.hpp"
 #include "timeBuiltin.hpp"
 #include "timeitBuiltin.hpp"
+#include "datestrBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,9 +40,9 @@ static const nlsGateway gateway[] = {
     { "clock", (ptrBuiltin)Nelson::TimeGateway::clockBuiltin, 1, 0 },
     { "cputime", (ptrBuiltin)Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
     { "datenum", (ptrBuiltin)Nelson::TimeGateway::datenumBuiltin, 1, 6 },
+    { "datestr", (ptrBuiltin)Nelson::TimeGateway::datestrBuiltin, 1, -2 },
     { "time", (ptrBuiltin)Nelson::TimeGateway::timeBuiltin, 1, 0, CPP_BUILTIN },
     { "timeit", (ptrBuiltin)Nelson::TimeGateway::timeitBuiltin, 1, -2, CPP_BUILTIN_WITH_EVALUATOR },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

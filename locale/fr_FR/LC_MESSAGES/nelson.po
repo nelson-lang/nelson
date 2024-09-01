@@ -4035,16 +4035,16 @@ msgid "Sat"
 msgstr "S"
 
 msgid "Jan"
-msgstr "Jan."
+msgstr "Janv"
 
 msgid "Feb"
-msgstr "Fév."
+msgstr "Fév"
 
 msgid "Mar"
-msgstr "Mar."
+msgstr "Mars"
 
 msgid "Apr"
-msgstr "Avr."
+msgstr "Avr"
 
 msgid "May"
 msgstr "Mai"
@@ -4053,22 +4053,22 @@ msgid "Jun"
 msgstr "Juin"
 
 msgid "Jul"
-msgstr "Juill."
+msgstr "Juil"
 
 msgid "Aug"
 msgstr "Août"
 
 msgid "Sep"
-msgstr "Sept."
+msgstr "Sept"
 
 msgid "Oct"
-msgstr "Oct."
+msgstr "Oct"
 
 msgid "Nov"
-msgstr "Nov."
+msgstr "Nov"
 
 msgid "Dec"
-msgstr "Déc."
+msgstr "Déc"
 
 msgid "This declaration is only allowed from a class constructor."
 msgstr ""
@@ -8363,13 +8363,18 @@ msgid ""
 "Callback value must be a character vector, a function handle, or a cell "
 "array containing character vector or function handle."
 msgstr ""
-"La valeur de rappel doit être un vecteur de caractères, un handle de fonction, ou un tableau de cellules contenant un vecteur de caractères ou un handle de fonction."
+"La valeur de rappel doit être un vecteur de caractères, un handle de "
+"fonction, ou un tableau de cellules contenant un vecteur de caractères ou un "
+"handle de fonction."
 
 msgid "Invalid image format: expected a 3D array with 3 color channels."
-msgstr "Format d'image invalide : un tableau 3D avec 3 canaux de couleur est attendu."
+msgstr ""
+"Format d'image invalide : un tableau 3D avec 3 canaux de couleur est attendu."
 
 msgid "Invalid image format: array with values in [0. 1.] expected."
-msgstr "Format d'image invalide : un tableau avec des valeurs dans [0, 1] est attendu."
+msgstr ""
+"Format d'image invalide : un tableau avec des valeurs dans [0, 1] est "
+"attendu."
 
 msgid "uicontrol graphic object expected."
 msgstr "Objet graphique uicontrol attendu."
@@ -8387,4 +8392,32 @@ msgid ""
 "An indexed image must have a data type of uint8, uint16, double, single, or "
 "logical."
 msgstr ""
-"Une image indexée doit avoir un type de données uint8, uint16, double, single, ou logique."
+"Une image indexée doit avoir un type de données uint8, uint16, double, "
+"single, ou logique."
+
+msgid "Invalid date format (duplicated field): "
+msgstr "Format de date invalide (champ dupliqué) :"
+
+msgid "First argument must be a cell array of row characters."
+msgstr ""
+"Le premier argument doit être un tableau de cellules de caractères de ligne."
+
+msgid "Second argument must be a scalar string or row vector of characters."
+msgstr ""
+"Le deuxième argument doit être une chaîne scalaire ou un vecteur ligne de "
+"caractères."
+
+msgid "Third argument must be a 'local'."
+msgstr "Le troisième argument doit être un 'local'."
+
+msgid "Third argument must be a numeric scalar."
+msgstr "Le troisième argument doit être un scalaire numérique."
+
+msgid "Fourth argument must be a 'local'."
+msgstr "Le quatrième argument doit être un 'local'."
+
+msgid "Unknown date format number."
+msgstr "Format de date inconnu."
+
+msgid "#2 argument must be a scalar or a character vector."
+msgstr "Le deuxième argument doit être un scalaire ou un vecteur de caractères."

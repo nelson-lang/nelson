@@ -480,5 +480,37 @@ join(const std::vector<std::wstring>& inputs, const std::wstring& separator)
     return fmt::format(L"{}", fmt::join(inputs, separator));
 }
 //=============================================================================
+int
+count(const std::wstring& string, const std::wstring& subString)
+{
+    if (subString.empty()) {
+        return 0;
+    }
+    int count = 0;
+    size_t pos = string.find(subString);
+    while (pos != std::wstring::npos) {
+        ++count;
+        pos = string.find(subString, pos + subString.length());
+    }
+    return count;
+}
+//=============================================================================
+int
+count(const std::string& string, const std::string& subString)
+{
+    if (subString.empty()) {
+        return 0;
+    }
+
+    int count = 0;
+    size_t pos = string.find(subString);
+
+    while (pos != std::string::npos) {
+        ++count;
+        pos = string.find(subString, pos + subString.length());
+    }
+    return count;
+}
+//=============================================================================
 }
 //=============================================================================
