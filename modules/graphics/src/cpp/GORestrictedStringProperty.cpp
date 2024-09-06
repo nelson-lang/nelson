@@ -25,15 +25,16 @@ GORestrictedStringProperty::GORestrictedStringProperty(const wchar_t** dict)
 void
 GORestrictedStringProperty::set(ArrayOf arg)
 {
-    GOGenericProperty::set(arg);
-    if (!arg.isRowVectorCharacterArray() && !(arg.isStringArray() && arg.isScalar())) {
+    if (!arg.isRowVectorCharacterArray() && !arg.isScalarStringArray()) {
         Error(_W("Expecting a string for property."));
     }
     std::wstring tst(arg.getContentAsWideString());
     if (std::find(m_dictionary.begin(), m_dictionary.end(), tst) == m_dictionary.end()) {
         Error(_W("Illegal selection for property."));
     }
-    GOStringProperty::set(arg);
+    if (data() != tst) {
+        GOStringProperty::set(arg);
+    }
 }
 //=============================================================================
 }
