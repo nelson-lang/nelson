@@ -13,7 +13,7 @@ function varargout = datestr(varargin)
   dateStringIn = varargin{1};
   mustBeTextScalar(dateStringIn, 1);
   vars = varargin;
-  vars{1} = string(dateStringIn);
+  vars{1} = convertCharsToStrings(dateStringIn);
   varargout{1} = datestr(vars{:});
 end
 %=============================================================================

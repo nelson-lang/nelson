@@ -41,7 +41,7 @@ DateVector(
         }
         ts = dateSerial;
         dateSerial = floor(dateSerial / 60.);
-        S = ts - 60. * dateSerial;
+        S = (int)(ts - 60. * dateSerial);
         ts = dateSerial;
         dateSerial = floor(dateSerial / 60.);
         MN = ts - 60. * dateSerial;

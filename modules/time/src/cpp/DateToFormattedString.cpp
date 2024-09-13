@@ -123,6 +123,7 @@ formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocal
     bool isAM = false;
     bool isPM = false;
     bool replaceAmByPM = false;
+    bool replacePmByAm = false;
 
     for (const auto& key : keys) {
         size_t pos = result.find(key);
@@ -142,7 +143,10 @@ formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocal
                 replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_mday;
             } else if (key == L"HH") {
                 int hour = dateTime.tm_hour;
-                if (isAM && dateTime.tm_hour > 12) {
+                if (isPM && dateTime.tm_hour < 12) {
+                    replacement << std::setw(2) << std::setfill(L' ') << hour;
+                    replacePmByAm = true;
+                } else if (isAM && dateTime.tm_hour > 12) {
                     hour -= 12;
                     replacement << std::setw(2) << std::setfill(L' ') << hour;
                     replaceAmByPM = true;
@@ -216,10 +220,17 @@ formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocal
             }
         }
     }
-    if (replaceAmByPM) {
-        size_t pos = result.find(L"AM");
-        if (pos != std::wstring::npos) {
-            result.replace(pos, 2, L"PM");
+    if (replaceAmByPM || replacePmByAm) {
+        if (replaceAmByPM) {
+            size_t pos = result.find(L"AM");
+            if (pos != std::wstring::npos) {
+                result.replace(pos, 2, L"PM");
+            }
+        } else {
+            size_t pos = result.find(L"PM");
+            if (pos != std::wstring::npos) {
+                result.replace(pos, 2, L"AM");
+            }
         }
     }
 
