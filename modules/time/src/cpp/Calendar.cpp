@@ -40,7 +40,8 @@ Calendar::Calendar(double dateserial)
     double h = 0.;
     double mm = 0.;
     double s = 0.;
-    DateVector(dateserial, y, m, d, h, mm, s);
+    double ms = 0.;
+    DateVector(dateserial, y, m, d, h, mm, s, ms);
     this->m = static_cast<uint8>(m);
     this->y = static_cast<uint64>(y);
 }

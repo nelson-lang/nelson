@@ -83,7 +83,6 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
 ArrayOfVector
 datenumOneRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    int pivotYear = 50;
     ArrayOfVector retval;
     if (argIn[0].isNumeric()) {
         return datenumOneNumericRhsBuiltin(nLhs, argIn);

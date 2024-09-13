@@ -215,7 +215,7 @@ formatDateTimeString(int Y, int M, int D, int H, int MN, int S, const std::wstri
 }
 //=============================================================================
 std::wstring
-epochToDateTimeString(int Y, int M, int D, int H, int MN, int S, bool forceFullFormat,
+epochToDateTimeString(int Y, int M, int D, int H, int MN, int S, int MS, bool forceFullFormat,
     bool isLocalized, int predefinedFormatOutValue)
 {
     int month_index = getMonthIndex(M);
@@ -232,10 +232,10 @@ std::wstring
 epochToDateTimeString(
     double dateSerial, bool forceFullFormat, bool isLocalized, int predefinedFormatOutValue)
 {
-    double Y, M, D, H, MN, S;
-    DateVector(dateSerial, Y, M, D, H, MN, S, true);
+    double Y, M, D, H, MN, S, MS;
+    DateVector(dateSerial, Y, M, D, H, MN, S, MS, true);
     return epochToDateTimeString(
-        Y, M, D, H, MN, S, forceFullFormat, isLocalized, predefinedFormatOutValue);
+        Y, M, D, H, MN, S, MS, forceFullFormat, isLocalized, predefinedFormatOutValue);
 }
 //=============================================================================
 static bool
@@ -305,8 +305,9 @@ DateString(std::vector<double> epochValues, const Dimensions& dimensionsIn, bool
                 int H = static_cast<int>(epochValues[i + ((j + 3) * rows)]);
                 int MN = static_cast<int>(epochValues[i + ((j + 4) * rows)]);
                 int S = static_cast<int>(epochValues[i + ((j + 5) * rows)]);
+                int MS = 0;
                 results[l++] = epochToDateTimeString(
-                    Y, M, D, H, MN, S, !noHMNS, isLocalized, predefinedFormatOutValue);
+                    Y, M, D, H, MN, S, MS, !noHMNS, isLocalized, predefinedFormatOutValue);
             }
         }
     } else {

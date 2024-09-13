@@ -107,8 +107,9 @@ checkDateFormatIsValid(const wstringVector& keys, const std::wstring& format)
     }
 }
 //=============================================================================
-std::wstring
-formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocalized)
+static std::wstring
+formatDateTime(
+    const std::wstring& format, const std::tm& dateTime, int milliseconds, bool isLocalized)
 {
     // format keys: order is important
     wstringVector keys = { L"AM", L"PM", L"yyyy", L"YYYY", L"yy", L"YY", L"QQ", L"mmmm", L"mmm",
@@ -164,7 +165,6 @@ formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocal
                 } else {
                     replacement << std::setw(2) << std::setfill(L'0') << hour;
                 }
-
             } else if (key == L"MM") {
                 replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_min;
             } else if (key == L"SS") {
@@ -200,7 +200,7 @@ formatDateTime(const std::wstring& format, const std::tm& dateTime, bool isLocal
                     replacement << day;
                 }
             } else if (key == L"FFF") {
-                replacement << std::setw(3) << std::setfill(L'0') << 0;
+                replacement << std::setw(3) << std::setfill(L'0') << milliseconds;
             } else if (key == L"AM" || key == L"PM") {
                 if (key == L"AM") {
                     isAM = true;
@@ -258,8 +258,8 @@ getWeekday(int year, int month, int day)
 }
 //=============================================================================
 std::wstring
-epochToUserFormatDateTimeString(
-    int Y, int M, int D, int H, int MN, int S, const std::wstring& userFormat, bool isLocalized)
+epochToUserFormatDateTimeString(int Y, int M, int D, int H, int MN, int S, int MS,
+    const std::wstring& userFormat, bool isLocalized)
 {
     std::tm dateTime = {};
     dateTime.tm_year = Y - 1900;
@@ -269,15 +269,15 @@ epochToUserFormatDateTimeString(
     dateTime.tm_min = MN;
     dateTime.tm_sec = S;
     dateTime.tm_wday = getWeekday(Y, M, D);
-    return formatDateTime(userFormat, dateTime, isLocalized);
+    return formatDateTime(userFormat, dateTime, MS, isLocalized);
 }
 //=============================================================================
 std::wstring
 epochToUserFormatDateTimeString(double dateSerial, const std::wstring& userFormat, bool isLocalized)
 {
-    double Y, M, D, H, MN, S;
-    DateVector(dateSerial, Y, M, D, H, MN, S, true);
-    return epochToUserFormatDateTimeString(Y, M, D, H, MN, S, userFormat, isLocalized);
+    double Y, M, D, H, MN, S, MS;
+    DateVector(dateSerial, Y, M, D, H, MN, S, MS, false);
+    return epochToUserFormatDateTimeString(Y, M, D, H, MN, S, MS, userFormat, isLocalized);
 }
 //=============================================================================
 static bool
@@ -340,13 +340,12 @@ dateToUserFormatString(std::vector<double> epochValues, const Dimensions& dimens
                 int H = static_cast<int>(epochValues[i + ((j + 3) * rows)]);
                 int MN = static_cast<int>(epochValues[i + ((j + 4) * rows)]);
                 int S = static_cast<int>(epochValues[i + ((j + 5) * rows)]);
-                results[l++]
-                    = epochToUserFormatDateTimeString(Y, M, D, H, MN, S, userFormat, isLocalized);
+                results[l++] = epochToUserFormatDateTimeString(
+                    Y, M, D, H, MN, S, 0, userFormat, isLocalized);
             }
         }
     } else {
         results.resize(epochValues.size());
-        bool forceFullFormat = !areAllIntegers(epochValues);
         for (size_t k = 0; k < epochValues.size(); ++k) {
             double dateSerial = epochValues[k];
             results[k] = epochToUserFormatDateTimeString(dateSerial, userFormat, isLocalized);

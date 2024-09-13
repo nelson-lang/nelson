@@ -18,7 +18,7 @@
 namespace Nelson {
 //=============================================================================
 NLSTIME_IMPEXP std::wstring
-epochToDateTimeString(int Y, int M, int D, int H, int MN, int S, bool forceFullFormat,
+epochToDateTimeString(int Y, int M, int D, int H, int MN, int S, int MS, bool forceFullFormat,
     bool isLocalized, int predefinedFormatOutValue);
 //=============================================================================
 NLSTIME_IMPEXP std::wstring

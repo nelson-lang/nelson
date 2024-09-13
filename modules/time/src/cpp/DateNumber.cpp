@@ -144,6 +144,18 @@ struct DateFormatInfo
     std::function<double(const std::wsmatch&, int)> parser;
 };
 //=============================================================================
+/**
+ * @brief Retrieves a list of supported date format information.
+ *
+ * This function returns a static list of `DateFormatInfo` structures, each
+ * containing regular expressions and parsing logic for various date formats.
+ * The `withPivot` flag determines if two-digit year parsing should be influenced
+ * by a pivot year.
+ *
+ * @param withPivot Specifies whether two-digit years should be interpreted using a pivot year.
+ * @return A vector of `DateFormatInfo` structures, each representing a date format and its
+ * corresponding parser.
+ */
 static std::vector<DateFormatInfo>
 getDateFormatInfoList(bool withPivot)
 {
@@ -153,13 +165,22 @@ getDateFormatInfoList(bool withPivot)
         MDY // Month-Day-Year
     };
 
-    std::time_t t = std::time(nullptr);
-    std::tm* now = std::localtime(&t);
+#ifdef _MSC_VER
+    __time64_t rawtime;
+    _time64(&rawtime);
+    auto now = _localtime64(&rawtime);
+#else
+    time_t rawtime;
+    time(&rawtime);
+    struct tm t_result;
+    auto now = localtime_r(&rawtime, &t_result);
+#endif
 
     // Extract year
     int currentYear = now->tm_year + 1900;
     int century = (currentYear / 100) * 100;
 
+    // Define the list of date formats and their corresponding parsing logic
     std::vector<DateFormatInfo> formats = {
         { std::wregex(L"(\\d{1,2})[-\\s](\\w{3})[-\\s](\\d{4})\\s(\\d{1,2}):(\\d{2}):(\\d{2})"),
             L"dd-mmm-yyyy HH:MM:SS",
@@ -266,7 +287,20 @@ getDateFormatInfoList(bool withPivot)
                 int year = withPivot ? parseYearWithPivot(currentYear, pivotYear) : currentYear;
                 return DateNumber(year, 1, 1, hour, std::stoi(m[2]), 0);
             } },
-        { std::wregex(L"(\\d{1,2})/(\\d{1,2})/(\\d{2})"), L"dd/mm/yy or mm/dd/yy",
+        { std::wregex(L"(\\d{1,2})/(\\d{1,2})/(\\d{2})"), L"mm/dd/yy",
+            [withPivot, century](const std::wsmatch& m, int pivotYear) -> double {
+                int first = std::stoi(m[1]);
+                int second = std::stoi(m[2]);
+                int year = withPivot ? parseYearWithPivot(std::stoi(m[3]), pivotYear)
+                                     : century + std::stoi(m[3]);
+                if (isValidDate(year, second, first)) {
+                    return DateNumber(year, second, first, 0, 0, 0);
+                } else if (isValidDate(year, first, second)) {
+                    return DateNumber(year, first, second, 0, 0, 0);
+                }
+                return std::nan(""); // Invalid date
+            } },
+        { std::wregex(L"(\\d{1,2})/(\\d{1,2})/(\\d{2})"), L"dd/mm/yy",
             [withPivot, century](const std::wsmatch& m, int pivotYear) -> double {
                 int first = std::stoi(m[1]);
                 int second = std::stoi(m[2]);
@@ -478,12 +512,19 @@ DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool wi
         }
     }
 
-    std::tm timeinfo = {};
     std::vector<std::wstring> dateTokens = splitString(datestring, L" -/:.,");
     std::vector<std::wstring> formatTokens = splitString(formatIn, L" -/:.,");
 
-    std::time_t t = std::time(nullptr);
-    std::tm* now = std::localtime(&t);
+#ifdef _MSC_VER
+    __time64_t rawtime;
+    _time64(&rawtime);
+    auto now = _localtime64(&rawtime);
+#else
+    time_t rawtime;
+    time(&rawtime);
+    struct tm t_result;
+    auto now = localtime_r(&rawtime, &t_result);
+#endif
 
     // Extract year
     int currentYear = now->tm_year + 1900;
@@ -589,7 +630,6 @@ DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool wi
                     secondes = s;
                 }
             }
-            // timeFound = true;
         }
     }
 
@@ -605,7 +645,6 @@ DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool wi
         year, month, day, timeFound ? hours : 0, timeFound ? minutes : 0, timeFound ? secondes : 0);
 }
 //=============================================================================
-
 double
 DateNumber(const std::wstring& datestring, bool withPivot, int pivotYear, bool& bParsed)
 {

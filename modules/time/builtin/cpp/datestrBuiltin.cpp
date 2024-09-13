@@ -30,7 +30,7 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     bool isLocalized = false;
     if (argIn.size() > 1) {
-        ArrayOf lastArg = argIn[argIn.size() - 1];
+        const ArrayOf& lastArg = argIn.back();
         if (lastArg.isRowVectorCharacterArray() || lastArg.isScalarStringArray()) {
             if (lastArg.getContentAsWideString() == L"local") {
                 isLocalized = true;
@@ -50,9 +50,7 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         } else if (secondArg.isRowVectorCharacterArray() || secondArg.isScalarStringArray()) {
             userFormatOut = secondArg.getContentAsWideString();
-            if (argIn.size() == 2 && userFormatOut == L"local") {
-
-            } else {
+            if (!(argIn.size() == 2 && userFormatOut == L"local")) {
                 withUserFormatOut = true;
             }
         } else {
