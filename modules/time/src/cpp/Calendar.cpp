@@ -40,7 +40,8 @@ Calendar::Calendar(double dateserial)
     double h = 0.;
     double mm = 0.;
     double s = 0.;
-    DateVector(dateserial, y, m, d, h, mm, s);
+    double ms = 0.;
+    DateVector(dateserial, y, m, d, h, mm, s, ms);
     this->m = static_cast<uint8>(m);
     this->y = static_cast<uint64>(y);
 }
@@ -75,8 +76,9 @@ Calendar::getAsFormatedText()
     uint8 firstdate = (uint8)(d1.day_of_week().as_number());
     uint8 lastdate = (uint8)(month_period.length().days() + firstdate);
     uint8 k = 0;
+
     for (uint8 j = 0; j < firstdate; j++) {
-        msg = msg + fmt::sprintf(L"%5d", 0.) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", 0) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -85,7 +87,7 @@ Calendar::getAsFormatedText()
         }
     }
     for (uint8 j = firstdate; j <= lastdate; j++) {
-        msg = msg + fmt::sprintf(L"%5d", v) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", int(v)) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -95,7 +97,7 @@ Calendar::getAsFormatedText()
         v++;
     }
     for (uint8 j = lastdate + 1; j < (NBR_DAY_IN_A_WEEK * (NBR_DAY_IN_A_WEEK - 1)); j++) {
-        msg = msg + fmt::sprintf(L"%5d", 0.) + L" ";
+        msg = msg + fmt::sprintf(L"%5d", 0) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;

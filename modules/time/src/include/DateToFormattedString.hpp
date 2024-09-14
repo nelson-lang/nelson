@@ -10,20 +10,24 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <vector>
 #include "nlsTime_exports.h"
+#include "Types.hpp"
+#include "Dimensions.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSTIME_IMPEXP double
-DateNumber(double year, double month, double day, double hour = 0, double minutes = 0,
-    double secondes = 0, double milliseconds = 0);
+NLSTIME_IMPEXP std::wstring
+epochToUserFormatDateTimeString(
+    int Y, int M, int D, int H, int MN, int S, const std::wstring& userFormat, bool isLocalized);
 //=============================================================================
-NLSTIME_IMPEXP double
-DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool withPivot,
-    int pivotYear, bool& bParsed);
+NLSTIME_IMPEXP std::wstring
+epochToUserFormatDateTimeString(
+    double dateSerial, const std::wstring& userFormat, bool isLocalized);
 //=============================================================================
-NLSTIME_IMPEXP double
-DateNumber(const std::wstring& datestring, bool withPivot, int pivotYear, bool& bParsed);
+NLSTIME_IMPEXP wstringVector
+dateToUserFormatString(std::vector<double> epochValues, const Dimensions& dimensionsIn,
+    const std::wstring& userFormat, bool isLocalized);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

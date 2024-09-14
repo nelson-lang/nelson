@@ -24,6 +24,7 @@
 #include "tocBuiltin.hpp"
 #include "timeBuiltin.hpp"
 #include "timeitBuiltin.hpp"
+#include "datestrBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,13 +36,13 @@ static const nlsGateway gateway[] = {
     { "sleep", (ptrBuiltin)Nelson::TimeGateway::sleepBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "datevec", (ptrBuiltin)Nelson::TimeGateway::datevecBuiltin, 6, 1 },
     { "calendar", (ptrBuiltin)Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN },
-    { "now", (ptrBuiltin)Nelson::TimeGateway::nowBuiltin, 1, 0 },
-    { "clock", (ptrBuiltin)Nelson::TimeGateway::clockBuiltin, 1, 0 },
-    { "cputime", (ptrBuiltin)Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
-    { "datenum", (ptrBuiltin)Nelson::TimeGateway::datenumBuiltin, 1, 6 },
+    { "now", (ptrBuiltin)Nelson::TimeGateway::nowBuiltin, 1, 0, CPP_BUILTIN },
+    { "clock", (ptrBuiltin)Nelson::TimeGateway::clockBuiltin, 1, 0, CPP_BUILTIN },
+    { "cputime", (ptrBuiltin)Nelson::TimeGateway::cputimeBuiltin, 1, 0, CPP_BUILTIN },
+    { "datenum", (ptrBuiltin)Nelson::TimeGateway::datenumBuiltin, 1, 6, CPP_BUILTIN },
+    { "datestr", (ptrBuiltin)Nelson::TimeGateway::datestrBuiltin, 1, -2, CPP_BUILTIN },
     { "time", (ptrBuiltin)Nelson::TimeGateway::timeBuiltin, 1, 0, CPP_BUILTIN },
     { "timeit", (ptrBuiltin)Nelson::TimeGateway::timeitBuiltin, 1, -2, CPP_BUILTIN_WITH_EVALUATOR },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

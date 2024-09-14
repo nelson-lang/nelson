@@ -4365,6 +4365,15 @@ msgstr ""
 msgid "Invalid vector size must be compatible"
 msgstr ""
 
+msgid "Numeric input data must be real."
+msgstr ""
+
+msgid "Unknown date format number."
+msgstr ""
+
+msgid "#2 argument must be a scalar or a character vector."
+msgstr ""
+
 msgid "Argument #2: 'ns' or 's' expected."
 msgstr ""
 
@@ -4441,6 +4450,9 @@ msgid "Nov"
 msgstr ""
 
 msgid "Dec"
+msgstr ""
+
+msgid "Invalid date format (duplicated field): "
 msgstr ""
 
 msgid "This declaration is only allowed from a class constructor."
@@ -7141,6 +7153,21 @@ msgstr ""
 msgid "output res and ref are not equal."
 msgstr ""
 
+msgid "First argument must be a cell array of row characters."
+msgstr ""
+
+msgid "Second argument must be a scalar string or row vector of characters."
+msgstr ""
+
+msgid "Third argument must be a 'local'."
+msgstr ""
+
+msgid "Third argument must be a numeric scalar."
+msgstr ""
+
+msgid "Fourth argument must be a 'local'."
+msgstr ""
+
 msgid "Date field must be a character vector or string scalar."
 msgstr ""
 
@@ -7152,9 +7179,6 @@ msgid "M must be a month number from 1 to 12."
 msgstr ""
 
 msgid "Y must be an integer year number."
-msgstr ""
-
-msgid "Numeric input data must be real."
 msgstr ""
 
 msgid "\"long\" or \"short\" option expected."

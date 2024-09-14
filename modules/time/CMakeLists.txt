@@ -41,11 +41,13 @@ target_include_directories(
 target_link_libraries(
   ${module_library_name}
   nlsCommons
+  nlsError_manager
   nlsElementary_mathematics
   nlsI18n
   nlsInterpreter
   nlsNelson_manager
   nlsOperators
+  nlsCharacters_encoding
   nlsTypes)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} ${TBB_LIBRARY})

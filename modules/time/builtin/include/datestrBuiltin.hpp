@@ -9,11 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTime_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
-NLSTIME_IMPEXP void
-DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
-    double& MS, bool rf = false);
-}
+namespace Nelson::TimeGateway {
+//=============================================================================
+ArrayOfVector
+datestrBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

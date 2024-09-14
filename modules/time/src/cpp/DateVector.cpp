@@ -17,8 +17,8 @@ static double common_year[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304
 static double leap_year[] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
 //=============================================================================
 void
-DateVector(
-    double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S, bool rf)
+DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
+    double& MS, bool rf)
 {
     double ts = 0.;
     if (!IsFinite(dateSerial)) {
@@ -28,26 +28,31 @@ DateVector(
         H = nan("");
         MN = nan("");
         S = nan("");
+        MS = nan("");
         return;
     }
     if (dateSerial == floor(dateSerial)) {
         H = 0.;
         MN = 0.;
         S = 0.;
+        MS = 0.;
     } else {
-        dateSerial = 86400 * dateSerial;
+        dateSerial = 86400000 * dateSerial; // Convert to milliseconds
         if (rf) {
             dateSerial = floor(dateSerial + 0.5);
         }
         ts = dateSerial;
-        dateSerial = floor(dateSerial / 60.);
-        S = ts - 60. * dateSerial;
+        dateSerial = floor(dateSerial / 1000.); // Convert to seconds
+        MS = std::fmod(ts, 1000.); // Get milliseconds
         ts = dateSerial;
         dateSerial = floor(dateSerial / 60.);
-        MN = ts - 60. * dateSerial;
+        S = std::fmod(ts, 60.);
+        ts = dateSerial;
+        dateSerial = floor(dateSerial / 60.);
+        MN = std::fmod(ts, 60.);
         ts = dateSerial;
         dateSerial = floor(dateSerial / 24.);
-        H = ts - 24. * dateSerial;
+        H = std::fmod(ts, 24.);
     }
     dateSerial = floor(dateSerial);
     if (dateSerial == 0) {

@@ -40,9 +40,9 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-                double DT, Y, M, D, H, MN, S;
+                double DT, Y, M, D, H, MN, S, MS;
                 DT = ptd[k];
-                DateVector(DT, Y, M, D, H, MN, S);
+                DateVector(DT, Y, M, D, H, MN, S, MS);
                 res[k] = Y;
                 res[k + len] = M;
                 res[k + len * 2] = D;
@@ -86,8 +86,8 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                 double DT = ptd[k];
-                double V1, V2, V3, V4, V5, V6;
-                DateVector(DT, V1, V2, V3, V4, V5, V6);
+                double V1, V2, V3, V4, V5, V6, V7;
+                DateVector(DT, V1, V2, V3, V4, V5, V6, V7);
                 Y[k] = V1;
                 M[k] = V2;
                 if (nLhs > 2) {
