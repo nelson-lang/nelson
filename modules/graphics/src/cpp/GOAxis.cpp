@@ -61,6 +61,14 @@ namespace Nelson {
 //=============================================================================
 const int MAX_MINI_TICK_COUNT = 10;
 //=============================================================================
+// Constants for unit conversions
+const double DEFAULT_DPI = 96.0;
+const double POINTS_PER_INCH = 72.0;
+const double CM_PER_INCH = 2.54;
+const double CHAR_WIDTH_PIXELS = 8.0;
+const double CHAR_HEIGHT_PIXELS = 16.0;
+const double DATA_UNIT_PIXELS = 1.0;
+//=============================================================================
 std::wstring
 GOAxis::getType()
 {
@@ -1223,8 +1231,38 @@ GOAxis::rePackFigure()
     }
     GOFourVectorProperty* hp
         = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
-    hp->value((double)(posx0) / double(width), double(posy0) / double(height),
-        double(poswidth) / double(width), double(posheight) / double(height));
+
+    auto convertFromPixels = [&](const std::wstring& toUnit, double x, double y, double w,
+                                 double h) -> std::vector<double> {
+        if (toUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+            return { x / width, y / height, w / width, h / height };
+        } else if (toUnit == GO_PROPERTY_VALUE_INCHES_STR) {
+            return { x / DEFAULT_DPI, y / DEFAULT_DPI, w / DEFAULT_DPI, h / DEFAULT_DPI };
+        } else if (toUnit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+            return { x * CM_PER_INCH / DEFAULT_DPI, y * CM_PER_INCH / DEFAULT_DPI,
+                w * CM_PER_INCH / DEFAULT_DPI, h * CM_PER_INCH / DEFAULT_DPI };
+        } else if (toUnit == GO_PROPERTY_VALUE_POINTS_STR) {
+            return { x * POINTS_PER_INCH / DEFAULT_DPI, y * POINTS_PER_INCH / DEFAULT_DPI,
+                w * POINTS_PER_INCH / DEFAULT_DPI, h * POINTS_PER_INCH / DEFAULT_DPI };
+        } else if (toUnit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+            return { x / CHAR_WIDTH_PIXELS, y / CHAR_HEIGHT_PIXELS, w / CHAR_WIDTH_PIXELS,
+                h / CHAR_HEIGHT_PIXELS };
+        } else if (toUnit == GO_PROPERTY_VALUE_DATA_STR) {
+            return { x / DATA_UNIT_PIXELS, y / DATA_UNIT_PIXELS, w / DATA_UNIT_PIXELS,
+                h / DATA_UNIT_PIXELS };
+        }
+        return { x, y, w, h }; // For PIXELS or unknown units, return as-is
+    };
+
+    GOUnitsProperty* unitsProperty
+        = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
+    std::wstring currentUnits = unitsProperty->data();
+
+    std::vector<double> convertedPosition
+        = convertFromPixels(currentUnits, posx0, posy0, poswidth, posheight);
+
+    hp->value(
+        convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
     hp->clearModified();
 }
 //=============================================================================
@@ -1826,8 +1864,86 @@ GOAxis::drawChildren(RenderInterface& gc)
 }
 //=============================================================================
 void
+GOAxis::updateUnits()
+{
+    if (hasChanged(GO_UNITS_PROPERTY_NAME_STR)) {
+        GOUnitsProperty* unitsProperty = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
+        std::wstring previousUnits = unitsProperty->getPreviousUnits();
+        std::wstring currentUnits = unitsProperty->data();
+
+        GOFigure* fig = getParentFigure();
+        unsigned width = fig->getWidth();
+        unsigned height = fig->getHeight();
+
+        auto convertToPixels
+            = [&](const std::wstring& fromUnit, double x, double y) -> std::pair<double, double> {
+            if (fromUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+                return { x * width, y * height };
+            } else if (fromUnit == GO_PROPERTY_VALUE_INCHES_STR) {
+                return { x * DEFAULT_DPI, y * DEFAULT_DPI };
+            } else if (fromUnit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+                return { x * DEFAULT_DPI / CM_PER_INCH, y * DEFAULT_DPI / CM_PER_INCH };
+            } else if (fromUnit == GO_PROPERTY_VALUE_POINTS_STR) {
+                return { x * DEFAULT_DPI / POINTS_PER_INCH, y * DEFAULT_DPI / POINTS_PER_INCH };
+            } else if (fromUnit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+                return { x * CHAR_WIDTH_PIXELS, y * CHAR_HEIGHT_PIXELS };
+            } else if (fromUnit == GO_PROPERTY_VALUE_DATA_STR) {
+                return { x * DATA_UNIT_PIXELS, y * DATA_UNIT_PIXELS };
+            }
+            return { x, y }; // For PIXELS or unknown units, return as-is
+        };
+
+        auto convertFromPixels
+            = [&](const std::wstring& toUnit, double x, double y) -> std::pair<double, double> {
+            if (toUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+                return { x / width, y / height };
+            } else if (toUnit == GO_PROPERTY_VALUE_INCHES_STR) {
+                return { x / DEFAULT_DPI, y / DEFAULT_DPI };
+            } else if (toUnit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+                return { x * CM_PER_INCH / DEFAULT_DPI, y * CM_PER_INCH / DEFAULT_DPI };
+            } else if (toUnit == GO_PROPERTY_VALUE_POINTS_STR) {
+                return { x * POINTS_PER_INCH / DEFAULT_DPI, y * POINTS_PER_INCH / DEFAULT_DPI };
+            } else if (toUnit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+                return { x / CHAR_WIDTH_PIXELS, y / CHAR_HEIGHT_PIXELS };
+            } else if (toUnit == GO_PROPERTY_VALUE_DATA_STR) {
+                return { x / DATA_UNIT_PIXELS, y / DATA_UNIT_PIXELS };
+            }
+            return { x, y }; // For PIXELS or unknown units, return as-is
+        };
+
+        auto convertPosition
+            = [&](const std::wstring& from, const std::wstring& to, std::vector<double>& position) {
+                  if (from == to) {
+                      return;
+                  }
+
+                  for (size_t i = 0; i < position.size(); i += 2) {
+                      auto [pixelX, pixelY] = convertToPixels(from, position[i], position[i + 1]);
+                      auto [newX, newY] = convertFromPixels(to, pixelX, pixelY);
+                      position[i] = newX;
+                      position[i + 1] = newY;
+                  }
+              };
+
+        GOFourVectorProperty* hpo
+            = static_cast<GOFourVectorProperty*>(findProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR));
+        std::vector<double> outerposition = hpo->data();
+        convertPosition(previousUnits, currentUnits, outerposition);
+        hpo->value(outerposition[0], outerposition[1], outerposition[2], outerposition[3]);
+
+        GOFourVectorProperty* hp
+            = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
+        std::vector<double> position = hp->data();
+        convertPosition(previousUnits, currentUnits, position);
+        hp->value(position[0], position[1], position[2], position[3]);
+        clearChanged(GO_UNITS_PROPERTY_NAME_STR);
+    }
+}
+//=============================================================================
+void
 GOAxis::updateState()
 {
+    updateUnits();
     std::vector<std::wstring> tset;
     if (hasChanged(GO_X_LIM_PROPERTY_NAME_STR)) {
         toManual(GO_X_LIM_MODE_PROPERTY_NAME_STR);
@@ -2021,15 +2137,9 @@ GOAxis::reInterpUnits(RenderInterface& gc, std::vector<double> a)
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
         return a;
     } else {
-        Error("unit not managed.");
+        Error(_W("Units not managed:") + hp->data());
     }
     return a;
-}
-//=============================================================================
-bool
-GOAxis::is2D()
-{
-    return (!(xvisible && yvisible && zvisible));
 }
 //=============================================================================
 std::vector<double>
@@ -2045,10 +2155,17 @@ GOAxis::unitsReinterpret(std::vector<double> a)
             a[i + 1] *= height;
         }
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
+        return a;
     } else {
         Error(_W("Units not managed:") + hp->data());
     }
     return a;
+}
+//=============================================================================
+bool
+GOAxis::is2D()
+{
+    return (!(xvisible && yvisible && zvisible));
 }
 //=============================================================================
 std::vector<double>

@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CodeQL Github action updated.
 
+### Fixed
+
+- fix 'units' refresh for 'axes' object.
+
 ## 1.7.0 (2024-08-28)
 
 ### Added

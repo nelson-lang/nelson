@@ -9,6 +9,8 @@
 //=============================================================================
 #include "GOUnitsProperty.hpp"
 #include "GOPropertyValues.hpp"
+#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,6 +20,28 @@ static const wchar_t* UNITS_DICT[8] = { GO_PROPERTY_VALUE_INCHES_STR,
     GO_PROPERTY_VALUE_DATA_STR, 0 };
 //=============================================================================
 GOUnitsProperty::GOUnitsProperty() : GORestrictedStringProperty(UNITS_DICT) { }
+//=============================================================================
+void
+GOUnitsProperty::set(ArrayOf arg)
+{
+    if (!arg.isRowVectorCharacterArray() && !arg.isScalarStringArray()) {
+        Error(_W("Expecting a string for property."));
+    }
+    std::wstring tst(arg.getContentAsWideString());
+    if (std::find(m_dictionary.begin(), m_dictionary.end(), tst) == m_dictionary.end()) {
+        Error(_W("Illegal selection for property."));
+    }
+    if (data() != tst) {
+        previousUnits = data();
+        GOStringProperty::set(arg);
+    }
+}
+//=============================================================================
+std::wstring
+GOUnitsProperty::getPreviousUnits()
+{
+    return previousUnits;
+}
 //=============================================================================
 }
 //=============================================================================
