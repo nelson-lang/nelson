@@ -748,14 +748,22 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
             Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
-                tmp = dim.getElementCount();
+                if (subRoot.isClassType()) {
+                    tmp = 0;
+                } else {
+                    tmp = dim.getElementCount();
+                }
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
             } else {
-                tmp = dim.getDimensionLength(index);
+                if (subRoot.isClassType()) {
+                    tmp = 0;
+                } else {
+                    tmp = dim.getDimensionLength(index);
+                }
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
@@ -4567,6 +4575,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
 
         CallStack backupCallStack = callstack;
         ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+        rv[0].name("");
         callstack = backupCallStack;
         return rv;
     }
