@@ -48,6 +48,7 @@ list(
   overload
   data_structures
   dictionary
+  table
   history_manager
   terminal
   handle
