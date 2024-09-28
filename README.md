@@ -18,7 +18,7 @@ Nelson is an array programming language providing a powerful open computing envi
 engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
 and others state of art numerical libraries.
 
-It has sophisticated data structures (including cell, struct, dictionary, linear systems, …),
+It has sophisticated data structures (including cell, struct, dictionary, table, linear systems, …),
 an interpreter and a high level programming language.
 
 Nelson has been developed to be an open/modular system where an user can define
@@ -56,6 +56,7 @@ If you found this project useful, please consider [starring it on GitHub !!!](ht
   - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   - handle objects.
   - anonymous functions,
+  - dictionary, table,
   - all types can be overloaded.
 
 - `OpenMP` and `SIMD` extensions used.

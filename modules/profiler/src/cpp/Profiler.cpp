@@ -532,9 +532,13 @@ Profiler::getFiveLinesConsumingMostTime(
             int linePos = (int)std::get<1>(k);
             double time = std::get<3>(k) * 1e-9;
 
-            std::tuple<int, std::string, int, double> line
-                = std::make_tuple(linePos, functionContent[linePos - 1], (int)std::get<2>(k), time);
-            lines.push_back(line);
+            std::string lineContent;
+            if ((linePos - 1) < functionContent.size()) {
+                lineContent = functionContent[linePos - 1];
+                std::tuple<int, std::string, int, double> line
+                    = std::make_tuple(linePos, lineContent, (int)std::get<2>(k), time);
+                lines.push_back(line);
+            }
         }
     }
     int nth = std::min(5, (int)lines.size());

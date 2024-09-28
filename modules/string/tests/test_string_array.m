@@ -39,3 +39,35 @@ string(NaN), string(NaN), string(NaN), string(NaN), string(NaN);
 string(NaN), string(NaN), string(NaN), string(NaN), "May"];
 assert_isequal(R, REF);
 %=============================================================================
+R = ["ad",    "gf",    "mp";
+"be",    "hk",    "nq";
+"cf",    "il",    "or"];
+R(2, 2) = '';
+REF = ["ad",    "gf",    "mp";
+"be",    "",    "nq";
+"cf",    "il",    "or"]
+assert_isequal(R, REF);
+%=============================================================================
+R = ["ad",    "gf",    "mp";
+"be",    "hk",    "nq";
+"cf",    "il",    "or"];
+R(2, 2) = "";
+REF = ["ad",    "gf",    "mp";
+"be",    "",    "nq";
+"cf",    "il",    "or"]
+assert_isequal(R, REF);
+%=============================================================================
+R = ["ad",    "gf",    "mp";
+"be",    "hk",    "nq";
+"cf",    "il",    "or"];
+R{2, 2} = '';
+REF = ["ad",    "gf",    "mp";
+"be",    "",    "nq";
+"cf",    "il",    "or"]
+assert_isequal(R, REF);
+%=============================================================================
+R = ["ad",    "gf",    "mp";
+"be",    "hk",    "nq";
+"cf",    "il",    "or"];
+assert_checkerror('R{2, 2} = "";', _('{} assignment expects a character vector.'));
+%=============================================================================

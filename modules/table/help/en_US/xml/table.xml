@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>table</keyword>
+  <short_description
+  >A table-like array with named variables, capable of holding different data types</short_description>
+
+  <syntax>
+   <syntax_item>T = table()</syntax_item>
+   <syntax_item>T = table(var1, ... , varN)</syntax_item>
+   <syntax_item>T = table(... , Name, Value)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    
+    <param_input_item>
+      <param_name>var1, ... , varN</param_name>
+      <param_description
+      >Input variables: Input variables are specified as arrays that all have the same number of rows. These variables can differ in size and data type.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description
+      >Optional arguments are specified as pairs in the format Name1, Value1, ... , NameN, ValueN, where Name represents the argument name and Value is its corresponding value. These name-value pairs must come after any other arguments, but the order of the pairs themselves is flexible</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>A table object.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+
+<p
+    >Table arrays are designed to store column-oriented, such as columns from text files or spreadsheets.</p>
+<p
+    >Each column of data is stored in a variable within the table, and these variables can have different data types and sizes, provided they all share the same number of rows.</p> 
+<p>Table variables have names, similar to structure fields.</p> 
+<p />
+<p>To access data in a table, use the following methods:</p>
+<p />
+<p>- Dot notation (T.varname) to extract a single variable.</p>
+<p
+    >- Curly braces (T{rows, vars}) to extract an array from specific rows and variables.</p>
+<p>- Parentheses (T(rows, vars)) to return a subset of the table.</p>
+<p />
+<p><b
+      >T = table(var1, ..., varN)</b> creates a table from the specified input variables <b
+      >var1,...,varN</b>.</p>
+<p
+    >The variables can vary in size and data type, but they must all have the same number of rows.</p>
+<p
+    >If the inputs are workspace variables, their names are used as the variable names in the resulting table.</p>
+<p
+    >Otherwise, the table assigns default names in the format 'Var1', 'Var2', and so on, where N is the total number of variables.</p>
+<p />
+<p><b
+      >T = table(..., Name, Value)</b> allows you to specify additional options using one or more name-value pair arguments.</p>
+<p
+    >For instance, you can set custom variable names by using the 'VariableNames' name-value pair.</p>
+<p
+    >This syntax can be used in combination with any of the input arguments from the previous forms.</p>
+<p />
+<p><b>T = table()</b> creates an empty table with 0 rows and 0 columns.</p>
+
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T = table(Names, Age, Height, Weight)
+T.Names
+T{2, 2}
+T{'Alice', 'Age'}
+T{2, 'Age'}
+T(:, 'Age')
+T(2:3,1:3)
+]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[N = {'John'; 'Alice'; 'Bob'; 'Diana'};
+A = [28; 34; 22; 30];
+H = [175; 160; 180; 165];
+W = [70; 55; 80; 60];
+T = table(N, A, H, W, 'VariableNames', {'Name', 'Age', 'Height', 'Weight'})]]>
+    </example_item_data>
+  </example_item>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[N = {'John'; 'Alice'; 'Bob'; 'Diana'};
+A = [28; 34; 22; 30];
+H = [175; 160; 180; 165];
+W = [70; 55; 80; 60];
+
+% Define the row names
+RowNames = {'Person1', 'Person2', 'Person3', 'Person4'};
+
+% Create the table with row names
+T = table(A, H, W, 'RowNames', RowNames, 'VariableNames', {'Age', 'Height_cm', 'Weight_kg'})
+T('Person2', 1:2)
+]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link
+        linkend="${table}accessing_manipulating_table"
+      >Accessing and Manipulating Tables in Nelson</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}cell2table">cell2table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}array2table">array2table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}struct2table">struct2table</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

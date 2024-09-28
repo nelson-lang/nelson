@@ -22,7 +22,8 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    if (!param1.isRowVectorCharacterArray()) {
+
+    if (!(param1.isRowVectorCharacterArray() || param1.isScalarStringArray())) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (eval) {

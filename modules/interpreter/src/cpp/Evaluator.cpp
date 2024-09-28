@@ -521,6 +521,18 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         }
         retval = functionHandleAnonymousOperator(t);
     } break;
+    case OP_NULL: {
+        if (t->text.empty()) {
+            callstack.pushID((size_t)t->getContext());
+            std::wstring msg;
+            msg = ERROR_UNRECOGNIZED_EXPRESSION + L"\ncode: " + std::to_wstring(t->type);
+            if (!t->text.empty()) {
+                msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
+            }
+            Error(msg);
+            callstack.popID();
+        }
+    } break;
     default: {
         callstack.pushID((size_t)t->getContext());
         std::wstring msg;
@@ -3981,12 +3993,14 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
     if (r.isClassType()) {
         stringVector substype;
         ArrayOfVector subsindices;
-
         substype.push_back(".");
         subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
         if (t->right != nullptr) {
             if (t->right->opNum == OP_DOT) {
                 substype.push_back(".");
+                if (t->right->down && !t->right->down->text.empty()) {
+                    subsindices.push_back(ArrayOf::characterArrayConstructor(t->right->down->text));
+                }
             } else if (t->right->opNum == OP_BRACES) {
                 substype.push_back("{}");
             } else if (t->right->opNum == OP_PARENS) {

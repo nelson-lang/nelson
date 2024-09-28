@@ -56,6 +56,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 - Development of Table, Timeseries, and Dictionary-compatible objects,
   - dictionary (DONE v1.5.0)
+  - table (DONE v1.8.0)
 - Rework and extend the interpreter for enhanced compatibility
 
 ## How Can You Contribute?

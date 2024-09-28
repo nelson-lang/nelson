@@ -310,6 +310,9 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         eval->callstack.popDebug();
         throw;
     }
+    for (size_t k = 0; k < outputs.size(); ++k) {
+        outputs[k].name("");
+    }
     return outputs;
 }
 //=============================================================================

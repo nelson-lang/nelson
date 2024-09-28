@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>table2cell</keyword>
+  <short_description>Convert table to cell array</short_description>
+
+  <syntax>
+    <syntax_item>S = table2cell(T)</syntax_item>
+    <syntax_item>S = table2cell(T, "ToScalar", true)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>a table object</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>Cell array.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b>C = table2cell(T)</b> converts the table <b>T</b> into a cell array <b
+      >C</b>, where each variable in <b
+      >T</b> is transformed into a column of cells in <b>C</b>.</p>  
+    <p>The output <b>C</b> does not include any properties from <b
+      >T.Properties</b>.</p>
+    <p>If <b>T</b> contains row names, these will not be included in <b
+      >C</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[S = ["Y";"Y";"N";"N";"N"];
+A = [38;43;38;40;49];
+B = [124 93;109 77; 125 83; 117 75; 122 80];
+T = table(S, A, B, 'VariableNames',["Smoker" "Age" "BloodPressure"], 'RowNames',["Chang" "Brown" "Ruiz" "Lee" "Garcia"])
+C = table2cell(T)]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}cell2table">cell2table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

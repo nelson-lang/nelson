@@ -560,7 +560,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
             }
             j = dp->dimensions.mapPoint(currentIndex);
             if (asStringArray) {
-                if (front.isCharacterArray() && front.isRowVector()) {
+                if (front.isCharacterArray() && (front.isRowVector() || front.isEmpty())) {
                     qp[j] = front;
                 } else {
                     if (front.isDoubleType(true) && front.isEmpty(true)) {
