@@ -2,95 +2,83 @@
 
 ### Nelson 1.7.0.0
 
-Nelson is an interactive, fully functional environment for engineering and scientific applications. It implements a matrix-driven language (which is largely compatible with MATLAB and GNU Octave), with advanced features such as 2-D 3-D plotting, image manipulation and viewing, a codeless interface to external C/C++/FORTRAN libraries, native support for various C types, and a host of other features.
+Nelson is a powerful, open-source numerical computational language, developed to provide a comprehensive and intuitive environment for engineers, scientists, and students. With over 1,200 built-in functions, Nelson supports a wide range of tasks, from basic algebra to advanced numerical simulations.
 
-Try it !
+Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers users a lightweight yet feature-rich experience. It is designed to be easy to learn and use, with an emphasis on performance and flexibility.
 
-[Web site](https://nelson-lang.github.io/nelson-website/)
+**Try it now!**
+
+[Site Web](https://nelson-lang.github.io/nelson-website/)
 
 ## Features
 
-- Types managed by Nelson:
+### Data Types Managed by Nelson
 
-  - double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - character array (UNICODE supported).
-  - string array (UNICODE supported).
-  - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
-  - handle objects.
-  - anonymous functions,
-  - all types can be overloaded.
+- **Double and Complex Double**: Supports scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
+- **Single and Complex Single**: Includes scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
+- **Logical**: Handles scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
+- **Character Arrays**: Supports UNICODE characters.
+- **String Arrays**: Fully supports UNICODE.
+- **Integers**: 8, 16, 32, and 64-bit signed and unsigned scalars, vectors, 2D matrices, and N-dimensional arrays.
+- **Handle Objects**: For object-oriented functionality.
+- **Anonymous Functions**: Allows creation and manipulation of functions without names.
+- **Data Structures**: Supports dictionaries and tables.
+- **Overloading**: All types can be overloaded for custom behavior.
 
-- `OpenMP` and `SIMD` extensions used.
+### Performance Enhancements
 
-- 2D and 3D plotting with high-level plot commands.
+- **OpenMP and SIMD**: Utilizes parallel processing and vectorization for faster computations.
 
-- Desktop environment with history, file and workspace browser.
+### Visualization & Interface
 
-- Parallel Computing Module.
+- **2D and 3D Plotting**: High-level commands for visualizations.
+- **User Interface Controls**: Built-in controls for creating custom interfaces.
+- **Desktop Environment**: Comes with history tracking, a file explorer, and workspace browser.
 
-- Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
+### Advanced Modules
 
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
+- **Parallel Computing**: Enables efficient use of multi-core processors.
+- **Fast Fourier Transform (FFT)**: High-performance FFT functions based on FFTW and MKL.
+- **SLICOT Interface**: Optional support for the Systems and Control Theory subroutine library.
+- **Control System Module**: Tools for control theory and system design.
+- **MPI (Message Passing Interface)**: Functions for distributed parallel computing.
 
-- Control System module.
+### Data Formats & Interfacing
 
-- Message Passing Interface (MPI): functions for parallel computing.
+- **JSON Support**: Read and write JSON files.
+- **HDF5 Functions**: High-level I/O functions, with HDF5 as the default file format for `.nh5` workspaces.
+- **MAT-File Compatibility**: Load and save workspaces in MAT-file format.
+- **Foreign Function Interface (FFI)**: Build and load C/Fortran code on the fly.
+- **MEX C API Compatibility**: Interfacing with MEX-compatible C APIs.
+- **Nelson Engine API**: Use Nelson as a backend engine within C code, compatible with the MEX Engine API.
+- **Python Interfacing**: Call Python scripts and functions from Nelson.
+- **RESTful API**: Enables Nelson to interact with web services.
 
-- JSON decode/encode data support.
+### Additional Capabilities
 
-- HDF5 high-level functions I/O,
+- **Inter-Process Communication**: Communicate between Nelson processes.
+- **QML Engine**: Use Qt’s QML framework to display and manipulate graphical content.
+- **Component Object Model (COM)**: Interface with COM components, especially on Windows.
+- **Excel File Support**: Write and read `.xlsx` files using COM on Windows.
+- **Embedded Code Editor**: Integrated editor for Nelson scripts.
 
-- HDF5 used as default data file format (.nh5) load/save workspace,
+### Help & Testing Tools
 
-- MAT-file compatible load/save workspace,
+- **Help Engine**: Generate and view help files in various formats like HTML, Markdown, PDF, or GitBook.
+- **Test Engine**: Validate algorithms using built-in functions, with support for xUnit report export.
 
-- Foreign Function Interface C/Fortran.
+### Profiling & Code Coverage
 
-- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
+- **Profiler**: Built-in profiler to analyze and optimize code performance.
+- **Code Coverage**: Measure the coverage of your tests to ensure thorough validation.
 
-- MEX C API compatibility.
+### Cloud & Extensibility
 
-- Call Python from Nelson.
-
-- Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
-
-- RESTful API web service.
-
-- Inter-process communication between Nelson's process.
-
-- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
-
-- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
-
-- Write/Read xlsx files on Windows using COM.
-
-- Embedded Nelson code editor.
-
-- Help engine:
-
-  Generate help files using Nelson dedicated functions.
-  View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
-
-- Tests engine:
-
-  Validate your algorithm using Nelson dedicated functions.
-  Export the test results under the xUnit reports format.
-
-- Profiling and Code coverage tools for Nelson's language:
-
-  Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
-
-- [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
-  Instant access to Nelson anywhere from an web browser.
-
-- Module skeleton to extend Nelson available here:
-
-  - [template macros and builtin](https://github.com/nelson-lang/module_skeleton),
-  - [basic template macros only](https://github.com/nelson-lang/module_skeleton_basic).
-
-- Nelson Modules Manager (nmm) : package manager for Nelson
+- **Nelson Cloud**: Instant access to Nelson from any web browser via [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud).
+- **Module Skeleton**: Templates for extending Nelson:
+  - [Template with Macros and Builtins](https://github.com/nelson-lang/module_skeleton).
+  - [Basic Macros Template](https://github.com/nelson-lang/module_skeleton_basic).
+- **Nelson Modules Manager (nmm)**: A package manager to install and manage extensions for Nelson.
 
 ---
 
