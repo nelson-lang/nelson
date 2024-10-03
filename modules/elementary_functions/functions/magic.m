@@ -8,12 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function M = magic(N)
-  if (nargin < 1)
-    error(_('Wrong number of input arguments.'));
-  end
-  if (nargout > 1)
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(1, 1);
+  nargoutchk(0, 1);
   M = [];
   N = double(fix(real(N(1))));
   if N < 0

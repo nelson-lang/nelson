@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>array2table</keyword>
+  <short_description>Convert homogeneous array to table.</short_description>
+
+  <syntax>
+    <syntax_item>T = array2table(A)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
+      >matrix: single, double, integer types, logical, char, string, struct, cell.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Table object.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p><b>T = array2table(A)</b> converts an m-by-n array <b
+      >A</b> into an m-by-n table, where each column of <b
+      >A</b> becomes a variable in the resulting table <b>T</b>.</p>
+  <p>By default, <b
+      >array2table</b> uses the name of the input array, combined with the column number, to create variable names in the table. If these names are not valid identifiers, it assigns default names of the form <b
+      >'Var1', 'Var2', ... , 'VarN'</b>, where <b
+      >N</b> is the number of columns in <b>A</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[A = magic(6);
+T = array2table(A)
+T = array2table(magic(6))]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table2array">table2array</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

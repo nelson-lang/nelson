@@ -521,6 +521,18 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         }
         retval = functionHandleAnonymousOperator(t);
     } break;
+    case OP_NULL: {
+        if (t->text.empty()) {
+            callstack.pushID((size_t)t->getContext());
+            std::wstring msg;
+            msg = ERROR_UNRECOGNIZED_EXPRESSION + L"\ncode: " + std::to_wstring(t->type);
+            if (!t->text.empty()) {
+                msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
+            }
+            Error(msg);
+            callstack.popID();
+        }
+    } break;
     default: {
         callstack.pushID((size_t)t->getContext());
         std::wstring msg;
@@ -748,14 +760,22 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
             Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
-                tmp = dim.getElementCount();
+                if (subRoot.isClassType()) {
+                    tmp = 0;
+                } else {
+                    tmp = dim.getElementCount();
+                }
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
             } else {
-                tmp = dim.getDimensionLength(index);
+                if (subRoot.isClassType()) {
+                    tmp = 0;
+                } else {
+                    tmp = dim.getDimensionLength(index);
+                }
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
@@ -3973,12 +3993,14 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
     if (r.isClassType()) {
         stringVector substype;
         ArrayOfVector subsindices;
-
         substype.push_back(".");
         subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
         if (t->right != nullptr) {
             if (t->right->opNum == OP_DOT) {
                 substype.push_back(".");
+                if (t->right->down && !t->right->down->text.empty()) {
+                    subsindices.push_back(ArrayOf::characterArrayConstructor(t->right->down->text));
+                }
             } else if (t->right->opNum == OP_BRACES) {
                 substype.push_back("{}");
             } else if (t->right->opNum == OP_PARENS) {
@@ -4567,6 +4589,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
 
         CallStack backupCallStack = callstack;
         ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+        rv[0].name("");
         callstack = backupCallStack;
         return rv;
     }

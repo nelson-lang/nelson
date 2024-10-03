@@ -24,6 +24,7 @@ modules_list = {
 {'double', true};
 {'data_structures', true};
 {'dictionary', true};
+{'table', true};
 {'integer', true};
 {'sparse', true};
 {'string', true};
