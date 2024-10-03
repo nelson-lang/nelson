@@ -4359,7 +4359,12 @@ msgstr ""
 msgid "vector double, character vector or string array expected."
 msgstr ""
 
-msgid "a date vector or string expected, all subsequent arguments are ignored."
+msgid "First input argument must be a date character vector or a string."
+msgstr ""
+
+msgid ""
+"Second argument must be a character vector, a string or scalar numerica "
+"value."
 msgstr ""
 
 msgid "Invalid vector size must be compatible"
@@ -7123,6 +7128,106 @@ msgid "String, cell of chars or characters vector expected."
 msgstr ""
 
 msgid "Wrong value for #3: IgnoreCase expected."
+msgstr ""
+
+msgid "All input arguments must be tables."
+msgstr ""
+
+msgid ""
+"All tables to be horizontally concatenated must have the same number of rows."
+msgstr ""
+
+msgid "All names must be unique."
+msgstr ""
+
+msgid "Unsupported subsasgn type."
+msgstr ""
+
+msgid "Value assignment must be a cell of characters or a string array."
+msgstr ""
+
+msgid "Value assignment must be same size as existing value."
+msgstr ""
+
+msgid "Unsupported brace indexing format."
+msgstr ""
+
+msgid "Row name not found."
+msgstr ""
+
+msgid "Column name not found."
+msgstr ""
+
+msgid ""
+"To delete rows or variables by assigning [], use () subscripting instead of "
+"{}."
+msgstr ""
+
+msgid "Assigned table must have the same dimensions as the indexed part."
+msgstr ""
+
+msgid "Unsupported parenthese indexing format."
+msgstr ""
+
+msgid ""
+"At least one subscript must be : when you delete rows or variables by "
+"assigning []."
+msgstr ""
+
+msgid "Value assignment must be same size as indexed part of table."
+msgstr ""
+
+msgid "Unsupported subsref type."
+msgstr ""
+
+msgid "One or more row names not found."
+msgstr ""
+
+msgid "Invalid row subscript type."
+msgstr ""
+
+msgid "Invalid column subscript type."
+msgstr ""
+
+msgid ""
+"Unsupported subscript type. Brace indexing requires two subscripts (row and "
+"column)."
+msgstr ""
+
+msgid "Invalid number of subscripts."
+msgstr ""
+
+msgid "Invalid row indexing."
+msgstr ""
+
+msgid "Invalid column indexing."
+msgstr ""
+
+msgid "Mismatched variable names."
+msgstr ""
+
+msgid ""
+"All tables to be vertically concatenated must have identical variable names."
+msgstr ""
+
+msgid "X must be a 2-D matrix."
+msgstr ""
+
+msgid "T must be a table."
+msgstr ""
+
+msgid "numeric or logical expected."
+msgstr ""
+
+msgid "Invalid number of input arguments."
+msgstr ""
+
+msgid "Invalid first argument."
+msgstr ""
+
+msgid ""
+"At least one subscript must be ':' when you delete rows or variables by "
+"assigning []."
 msgstr ""
 
 msgid "Testsuite skipped"

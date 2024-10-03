@@ -8419,5 +8419,101 @@ msgstr "Le quatrième argument doit être un 'local'."
 msgid "Unknown date format number."
 msgstr "Format de date inconnu."
 
+msgid "First input argument must be a date character vector or a string."
+msgstr "Le premier argument d'entrée doit être un vecteur de caractères de date ou une chaîne."
+
+msgid "Second argument must be a character vector, a string or scalar numerica value."
+msgstr "Le deuxième argument doit être un vecteur de caractères, une chaîne ou une valeur numérique scalaire."
+
+msgid "All input arguments must be tables."
+msgstr "Tous les arguments d'entrée doivent être des tableaux."
+
+msgid "All tables to be horizontally concatenated must have the same number of rows."
+msgstr "Tous les tableaux à concaténer horizontalement doivent avoir le même nombre de lignes."
+
+msgid "All names must be unique."
+msgstr "Tous les noms doivent être uniques."
+
+msgid "Unsupported subsasgn type."
+msgstr "Type de subsasgn non pris en charge."
+
+msgid "Value assignment must be a cell of characters or a string array."
+msgstr "L'affectation de la valeur doit être une cellule de caractères ou un tableau de chaînes."
+
+msgid "Value assignment must be same size as existing value."
+msgstr "L'affectation de la valeur doit avoir la même taille que la valeur existante."
+
+msgid "Unsupported brace indexing format."
+msgstr "Format d'indexation par accolades non pris en charge."
+
+msgid "Row name not found."
+msgstr "Nom de ligne introuvable."
+
+msgid "Column name not found."
+msgstr "Nom de colonne introuvable."
+
+msgid "To delete rows or variables by assigning [], use () subscripting instead of {}."
+msgstr "Pour supprimer des lignes ou des variables en attribuant [], utilisez l'indexation () au lieu de {}."
+
+msgid "Assigned table must have the same dimensions as the indexed part."
+msgstr "Le tableau affecté doit avoir les mêmes dimensions que la partie indexée."
+
+msgid "Unsupported parenthese indexing format."
+msgstr "Format d'indexation par parenthèses non pris en charge."
+
+msgid "At least one subscript must be : when you delete rows or variables by assigning []."
+msgstr "Au moins un indice doit être : lorsque vous supprimez des lignes ou des variables en attribuant []."
+
+msgid "Value assignment must be same size as indexed part of table."
+msgstr "L'affectation de la valeur doit avoir la même taille que la partie indexée du tableau."
+
+msgid "Unsupported subsref type."
+msgstr "Type de subsref non pris en charge."
+
+msgid "One or more row names not found."
+msgstr "Un ou plusieurs noms de ligne introuvables."
+
+msgid "Invalid row subscript type."
+msgstr "Type d'indice de ligne invalide."
+
+msgid "Invalid column subscript type."
+msgstr "Type d'indice de colonne invalide."
+
+msgid "Unsupported subscript type. Brace indexing requires two subscripts (row and column)."
+msgstr "Type d'indice non pris en charge. L'indexation par accolades nécessite deux indices (ligne et colonne)."
+
+msgid "Invalid number of subscripts."
+msgstr "Nombre d'indices invalide."
+
+msgid "Invalid row indexing."
+msgstr "Indexation de ligne invalide."
+
+msgid "Invalid column indexing."
+msgstr "Indexation de colonne invalide."
+
+msgid "Mismatched variable names."
+msgstr "Noms de variables non correspondants."
+
+msgid "All tables to be vertically concatenated must have identical variable names."
+msgstr "Tous les tableaux à concaténer verticalement doivent avoir des noms de variables identiques."
+
+msgid "X must be a 2-D matrix."
+msgstr "X doit être une matrice 2-D."
+
+msgid "T must be a table."
+msgstr "T doit être un tableau."
+
+msgid "numeric or logical expected."
+msgstr "Numérique ou logique attendu."
+
+msgid "Invalid number of input arguments."
+msgstr "Nombre d'arguments d'entrée invalide."
+
+msgid "Invalid first argument."
+msgstr "Premier argument invalide."
+
+msgid "At least one subscript must be ':' when you delete rows or variables by assigning []."
+msgstr "Au moins un indice doit être ':' lorsque vous supprimez des lignes ou des variables en attribuant []."
+
 msgid "#2 argument must be a scalar or a character vector."
 msgstr "Le deuxième argument doit être un scalaire ou un vecteur de caractères."
