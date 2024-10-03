@@ -71,8 +71,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,7,0,0
- PRODUCTVERSION 1,7,0,0
+ FILEVERSION 1,8,0,0
+ PRODUCTVERSION 1,8,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -91,8 +91,8 @@ BEGIN
             VALUE "InternalName", "Nelson"
             VALUE "OriginalFilename", "nelson-gui.exe"
             VALUE "ProductName", "Nelson"
-            VALUE "ProductVersion", "1,7,0,0"
-            VALUE "FileVersion", "1,7,0,0"
+            VALUE "ProductVersion", "1,8,0,0"
+            VALUE "FileVersion", "1,8,0,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
