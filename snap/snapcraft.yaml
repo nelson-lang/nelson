@@ -77,7 +77,7 @@ parts:
 
       craftctl set grade=stable
       
-      craftctl set version="$NELS0N_VERSION"
+      craftctl set version="$NELSON_VERSION"
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
