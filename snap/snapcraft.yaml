@@ -72,9 +72,12 @@ parts:
       sed -i 's|Icon=nelson|Icon=$CRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/nelson\.png|' desktop/org.nelson.Nelson.desktop
 
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
+      NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
+      echo "NELSON_VERSION=$NELSON_VERSION"
 
       craftctl set grade=stable
-      craftctl set version=1.7.0.0
+      
+      craftctl set version="$NELS0N_VERSION"
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
