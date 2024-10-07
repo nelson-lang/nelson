@@ -20,7 +20,7 @@ Nelson::ValidatorsGateway::mustBeLessThanOrEqualBuiltin(int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 3);
+    nargincheck(argIn, 2, 3);
     int argPos = -1;
     if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
