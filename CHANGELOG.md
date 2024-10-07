@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `end` magic keyword can be overloaded for classes (applied to `table` class).
+
 - [#1250](http://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
 
 ## 1.8.0 (2024-10-04)

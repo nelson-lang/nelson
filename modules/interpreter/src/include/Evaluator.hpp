@@ -754,6 +754,9 @@ private:
     getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
     ArrayOf
     EndReference(const ArrayOf& v, indexType index, size_t count);
+    ArrayOf
+    EndOverloadReference(const ArrayOf& v, indexType index, size_t count, bool& needToBeOverloaded);
+
     size_t
     countSubExpressions(AbstractSyntaxTreePtr t);
 

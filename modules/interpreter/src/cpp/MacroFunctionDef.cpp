@@ -15,6 +15,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <regex>
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
@@ -29,6 +30,7 @@
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "OverloadHelpers.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -422,24 +424,47 @@ MacroFunctionDef::updateCode()
     ParserState pstate = ParserState::ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
-    try {
-        pstate = parseFile(fr, wstring_to_utf8(this->getFilename()));
-        ptAstCode = AbstractSyntaxTree::getReferences();
-    } catch (const Exception&) {
-        AbstractSyntaxTree::deleteReferences();
+
+    if (this->isOverload() && StringHelpers::ends_with(this->getFilename(), L"/end.m")) {
+
+        std::string fileContent;
+        char buffer[4096];
+
+        while (fgets(buffer, sizeof(buffer), fr)) {
+            fileContent += buffer;
+        }
+        fclose(fr);
+
+        std::regex pattern(R"(\s*=\s*end\s*\()");
+        fileContent = std::regex_replace(fileContent, pattern, " = endmagic(");
+
+        try {
+            pstate = parseString(fileContent);
+            ptAstCode = AbstractSyntaxTree::getReferences();
+        } catch (const Exception&) {
+            AbstractSyntaxTree::deleteReferences();
+            throw;
+        }
+    } else {
+        try {
+            pstate = parseFile(fr, wstring_to_utf8(this->getFilename()));
+            ptAstCode = AbstractSyntaxTree::getReferences();
+        } catch (const Exception&) {
+            AbstractSyntaxTree::deleteReferences();
+            if (fr != nullptr) {
+                fclose(fr);
+            }
+            throw;
+        }
         if (fr != nullptr) {
             fclose(fr);
         }
-        throw;
-    }
-    if (fr != nullptr) {
-        fclose(fr);
-    }
-    if (pstate == ParserState::ParseError) {
-        AbstractSyntaxTree::deleteReferences(ptAstCode);
-        AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n")
-            + this->getFilename());
+        if (pstate == ParserState::ParseError) {
+            AbstractSyntaxTree::deleteReferences(ptAstCode);
+            AbstractSyntaxTree::clearReferences();
+            Error(_W("a valid function definition expected.") + std::wstring(L"\n")
+                + this->getFilename());
+        }
     }
     try {
         if (pstate == ParserState::FuncDef) {
@@ -503,7 +528,7 @@ MacroFunctionDef::updateCode()
                 this->setName(functionNameFromFile);
             }
         }
-        if (this->getName() != functionNameFromFile) {
+        if ((this->getName() != functionNameFromFile) && (functionNameFromFile != "end")) {
             std::string name = this->getName();
             std::string msg = fmt::sprintf(_("Filename and function name are not same (%s vs %s)."),
                 name, functionNameFromFile);

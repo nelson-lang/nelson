@@ -301,12 +301,50 @@ Evaluator::EndReference(const ArrayOf& v, indexType index, size_t count)
 {
     Dimensions dim(v.getDimensions());
     ArrayOf res;
-    if (count == 1) {
-        res = ArrayOf::doubleConstructor(static_cast<double>(dim.getElementCount()));
-    } else {
-        res = ArrayOf::doubleConstructor(static_cast<double>(dim.getDimensionLength(index)));
+    bool useStandardMethod = true;
+    if (v.isClassType()) {
+        bool needToBeOverloaded = false;
+        res = EndOverloadReference(v, index, count, needToBeOverloaded);
+        useStandardMethod = needToBeOverloaded;
+        if (useStandardMethod) {
+            Warning(L"Nelson:End:Overloading:missing", _W("numel and size need to be overloaded."));
+        }
+    }
+    if (useStandardMethod) {
+        if (count == 1) {
+            return ArrayOf::doubleConstructor(static_cast<double>(dim.getElementCount()));
+        }
+        return ArrayOf::doubleConstructor(static_cast<double>(dim.getDimensionLength(index)));
     }
     return res;
+}
+//=============================================================================
+ArrayOf
+Evaluator::EndOverloadReference(
+    const ArrayOf& v, indexType index, size_t count, bool& needToBeOverloaded)
+{
+    std::string currentClass;
+    ClassName(v, currentClass);
+    std::string functionNameEndClass = getOverloadFunctionName(currentClass, "end");
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    _context->lookupFunction(functionNameEndClass, funcDef);
+    if (funcDef) {
+        ArrayOfVector input;
+        input << v;
+        input << ArrayOf::doubleConstructor((double)index + 1);
+        input << ArrayOf::doubleConstructor((double)count);
+        int nLhs = 1;
+        CallStack backupCallStack = callstack;
+        ArrayOfVector res = funcDef->evaluateFunction(this, input, nLhs);
+        callstack = backupCallStack;
+        if (res.size() == 1) {
+            needToBeOverloaded = false;
+            return res[0];
+        }
+    }
+    needToBeOverloaded = true;
+    return {};
 }
 //=============================================================================
 static bool
