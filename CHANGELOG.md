@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1250](http://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
 
+### Changed
+
+- Python 3.13.0 on Windows.
+
 ## 1.8.0 (2024-10-04)
 
 ### Added
