@@ -298,9 +298,21 @@ QJsValueToQVariant(QJSValue value)
     if (value.isNumber()) {
         return value.toNumber();
     }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    if (value.isBool() || value.isNumber() || value.isNull() || value.isString()
+        || value.isUndefined() || value.isQObject() || value.isQMetaObject() || value.isObject()
+        || value.isDate() || value.isRegExp() || value.isArray() || value.isError()
+        || value.isUrl()) {
+        return value.toString();
+    } else {
+        return value.toVariant();
+    }
+#else
     if (value.isVariant()) {
         return value.toVariant();
     }
+#endif
     return value.toString();
 }
 //=============================================================================

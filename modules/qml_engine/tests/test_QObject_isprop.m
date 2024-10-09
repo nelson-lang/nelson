@@ -26,8 +26,14 @@ if (semver(qt_version(), '6.7.0') < 0)
   qobj.z = 1;
   assert_istrue(isprop(qobj, 'z'));
 else
-  assert_istrue(isprop(qobj, 'z'));
-  assert_isequal(qobj.z, 0);
+  if (semver(qt_version(), '6.8.0') < 0)
+    assert_istrue(isprop(qobj, 'z'));
+    assert_isequal(qobj.z, 0);
+  else
+    assert_isfalse(isprop(qobj, 'z'));
+    qobj.z = 1;
+    assert_istrue(isprop(qobj, 'z'));
+  end
 end
 %=============================================================================
 delete(qobj);

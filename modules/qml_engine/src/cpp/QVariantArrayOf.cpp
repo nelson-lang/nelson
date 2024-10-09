@@ -22,6 +22,9 @@
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QMatrix>
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <QtCore/QTimeZone>
+#endif
 #include <QtGui/QQuaternion>
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
@@ -239,7 +242,11 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QMetaType::Type::QDateTime: {
         QDateTime qdatetime = qvariant_cast<QDateTime>(Q);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
+        qdatetime.setTimeZone(QTimeZone::UTC);
+#else
         qdatetime.setTimeSpec(Qt::UTC); // FORCE UTC
+#endif
         QDate qdate = qdatetime.date();
         QTime qtime = qdatetime.time();
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 7, stringVector(), false);
@@ -683,7 +690,12 @@ ArrayOfToQVariant(ArrayOf A, int id)
         QDate date(arrayInt[0], arrayInt[1], arrayInt[2]);
         QTime time(arrayInt[3], arrayInt[4], arrayInt[5], arrayInt[6]);
         QDateTime datetime(date, time);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
+        datetime.setTimeZone(QTimeZone::UTC);
+#else
         datetime.setTimeSpec(Qt::UTC); // FORCE UTC
+#endif
         res = datetime;
     } break;
     case QMetaType::Type::QUrl: {
