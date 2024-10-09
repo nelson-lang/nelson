@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Table direct computation:
+
+  - unary functions: `abs`, `acos`, `acosh`, `acot`, `acotd`, `acoth`,
+    `acsc`, `acscd`, `acsch`, `asec`, `asecd`, `asech`,
+    `asin`, `asind`, `asinh`, `atan`, `atand`, `atanh`,
+    `ceil`, `cosd`, `cosh`, `cospi`, `cot`, `cotd`,
+    `coth`, `csc`, `cscd`, `csch`, `exp`, `fix`,
+    `floor`, `log`, `log10`, `log1p`, `log2`, `nextpow2`,
+    `round`, `sec`, `secd`, `sech`, `sin`, `sind`,
+    `sinh`, `sinpi`, `sqrt`, `tan`, `tand`, `tanh`,
+    `var`, `acosd`, `not`.
+  - binary functions: `plus`, `minus`, `times`, `eq`, `ge`, `gt`, `le`,
+    `ne`, `lt`, `rdivide`, `rem`, `power`, `pow2`, `or`, `mod`, `ldivide`.
+
 - `end` magic keyword can be overloaded for classes (applied to `table` class).
 - [#1250](http://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
 

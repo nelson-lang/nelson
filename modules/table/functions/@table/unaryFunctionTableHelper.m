@@ -7,22 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function y = acosh(varargin)
-  narginchk(1, 1);
-  nargoutchk(0, 1);
-  
-  x = varargin{1};
-  if isreal(x)
-    if min(x) < 1
-      u = acos(x);
-      y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
-    else
-      y = imag(acos(x));
-      y(isnan(x)) = NaN;
+function R = unaryFunctionTableHelper(A, fun)
+  R = A;
+  try
+    for k = 1:size(R, 2)
+      R{:, k}  = fun(A{:, k}); 
     end
-  else
-    u = acos(x);
-    y = 2 * (0.5 - double(imag(u)>0)) .* (u * i);
+  catch
+    functionName = func2str(fun);
+    className = class(A{:, k});
+    msg = sprintf(_('Undefined function ''%s'' for input arguments of type ''%s''.'), functionName, className);
+    ME = MException('Nelson:table:math:FunFailed', msg);
+    throwAsCaller(ME);
   end
 end
 %=============================================================================

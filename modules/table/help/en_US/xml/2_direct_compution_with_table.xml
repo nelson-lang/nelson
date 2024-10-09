@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>Direct computation with Table</keyword>
+
+  <description>
+    <p
+    >You can perform calculations directly on tableswithout needing to index into them.</p>
+    <p
+    >To perform such operations using the same syntax as you would for arrays, your tables must meet several criteria:</p>
+    <p
+    >All variables within the table must have data types that support the intended calculations (e.g., numeric or logical types).</p>
+    <p
+    >When performing an operation where only one operand is a table, the other operand must be either a numeric or logical array.</p>
+    <p
+    >For operations involving two tables, they must have compatible sizes (i.e., the same number of rows and columns or the operation must make sense for the structures involved).</p>
+    <p />
+    <p
+    >Below is an example that demonstrates how to perform calculations without explicitly indexing into the table.</p>
+  </description>
+
+
+  <used_function />
+  <bibliography />
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>Adding a New Column</example_item_description>
+    <example_item_data
+      ><![CDATA[% Create a sample table with sensor data
+T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], ...
+          'VariableNames', {'Voltage', 'Current', 'Resistance'});
+
+% Apply functions directly to the table columns
+abs(T)
+acos(T)
+acosh(T)
+T > 1
+T + 2
+T .* T
+abs(sin(T)) + 1
+]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+
+ <see_also>
+     <see_also_item>
+      <link linkend="${elementary_functions}abs">abs</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}acos">acos</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${trigonometric_functions}acosh">acosh</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}acot">acot</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${trigonometric}acotd">acotd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}acoth">acoth</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}acsc">acsc</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}acscd">acscd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}acsch">acsch</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}asec">asec</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}asecd">asecd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}asech">asech</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}asin">asin</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}asind">asind</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}asinh">asinh</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}atan">atan</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}atand">atand</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}atanh">atanh</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}ceil">ceil</link>
+		</see_also_item>
+
+ 		<see_also_item>
+			<link linkend="${trigonometric}cosd">cosd</link>
+		</see_also_item>
+   
+		<see_also_item>
+			<link linkend="${trigonometric}cosh">cosh</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}cospi">cospi</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}cot">cot</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}cotd">cotd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}coth">coth</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}csc">csc</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}cscd">cscd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}csch">csch</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}exp">exp</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}fix">fix</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}floor">floor</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}log">log</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}log10">log10</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}log1p">log1p</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}log2">log2</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}nextpow2">nextpow2</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}round">round</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}sec">sec</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}secd">secd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}sech">sech</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}sin">sin</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}sind">sind</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric}sinh">sinh</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}sinpi">sinpi</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}sqrt">sqrt</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}tan">tan</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}tand">tand</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}tanh">tanh</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${statistics}var">var</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${trigonometric_functions}acosd">acosd</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${operators}not">not</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}plus">plus</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}minus">minus</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}times">times</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}eq">eq</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}ge">ge</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}gt">gt</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}le">le</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}ne">ne</link>
+		</see_also_item>
+
+		<see_also_item>
+			<link linkend="${elementary_functions}lt">lt</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${operators}mrdivide">mrdivide</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}rem">rem</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${operators}power">power</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}pow2">pow2</link>
+    </see_also_item>
+
+		<see_also_item>
+			<link linkend="${operators}or">or</link>
+		</see_also_item>
+
+    <see_also_item>
+      <link linkend="${elementary_functions}rem">mod</link>
+    </see_also_item>
+
+    <see_also_item>
+      <link linkend="${operators}ldivide">ldivide</link> 
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.9.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

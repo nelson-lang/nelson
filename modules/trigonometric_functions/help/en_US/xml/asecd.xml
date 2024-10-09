@@ -3,7 +3,7 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>secd</keyword>
+	<keyword>asecd</keyword>
 	<short_description>Inverse secant of argument in degrees.</short_description>
 
 	<syntax>
@@ -25,7 +25,7 @@
 	</param_output>
 
 	<description><b
-    >secd</b> computes the inverse secant of argument in degrees for each element of <b
+    >asecd</b> computes the inverse secant of argument in degrees for each element of <b
     >x</b>.</description>
 
 	<used_function />
