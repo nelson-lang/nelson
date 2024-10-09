@@ -80,3 +80,11 @@ assert_isequal(T.Var1, 1);
 assert_isequal(T.Var2, 2);
 assert_isequal(T.Var3, 3);
 %============================================================================
+LastName = {'Sanchez','Johnson','Li','Diaz','Brown'};
+Age = [38;43;38;40;49];
+Height = [71;69;64;67;64];
+Weight = [176;163;131;133;119];
+BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
+msg = _('All table variables must have the same number of rows.');
+assert_checkerror('T1 = table(LastName, Age, Height, Weight, BloodPressure)', msg);
+%============================================================================

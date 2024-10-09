@@ -132,8 +132,13 @@ T('Person2', 1:2)
   <see_also>
     <see_also_item>
       <link
-        linkend="${table}accessing_manipulating_table"
+        linkend="${table}1_accessing_manipulating_table"
       >Accessing and Manipulating Tables in Nelson</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${table}2_direct_compution_with_table"
+      >Direct computation with Table</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${table}cell2table">cell2table</link>

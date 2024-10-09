@@ -159,7 +159,8 @@ function R = parentheseSubsref(T, sref)
   selectedVarNames = st.Properties.VariableNames(colIdx);
   tableData = cell(1, length(selectedVarNames));
   for i = 1:length(selectedVarNames)
-    tableData{i} = st.data.(selectedVarNames{i})(rowIdx, :);
+    V = st.data.(selectedVarNames{i});
+    tableData{i} = V(rowIdx, :);
   end
   
   % Set row names if they exist in the original table
