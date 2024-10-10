@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `end` magic keyword can be overloaded for classes (applied to `table` class).
-
 - [#1250](http://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
 
 ### Changed
 
+- Qt 6.8 LTS support (used on Windows 64 bits binary).
 - Python 3.13.0 on Windows.
 
 ## 1.8.0 (2024-10-04)

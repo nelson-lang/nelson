@@ -65,6 +65,7 @@ Source: {#RootPath}bin\{#BinPath}\Qt6QuickLayouts.dll; DestDir: {app}\bin\{#BinP
 Source: {#RootPath}bin\{#BinPath}\Qt6QuickControls2Basic.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\Qt6QuickControls2Fusion.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\Qt6QuickControls2FusionStyleImpl.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
+Source: {#RootPath}bin\{#BinPath}\Qt6QmlMeta.dll; DestDir: {app}\bin\{#BinPath}\;Flags: skipifsourcedoesntexist;Components: {#COMPONENT_GUI};
 #endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\qhelpgenerator.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
