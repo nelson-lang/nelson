@@ -17,7 +17,8 @@
 #include <fcntl.h>
 #include <csignal>
 #endif
-#include <BS_thread_pool.hpp>
+
+// #include <BS_thread_pool.hpp>
 #include <ctime>
 #include <thread>
 #include <chrono>
@@ -71,35 +72,57 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
     size_t nbThreadsMax = (size_t)NelsonConfiguration::getInstance()->getMaxNumCompThreads();
     size_t nbThreads = std::min(nbCommands, nbThreadsMax);
 
+    std::vector<std::thread> threads;
     std::vector<SystemCommandTask*> taskList;
-    BS::thread_pool pool((BS::concurrency_t)nbThreads);
+
     for (size_t k = 0; k < nbCommands; k++) {
         try {
             SystemCommandTask* task = new SystemCommandTask();
             taskList.push_back(task);
-            pool.push_task(&SystemCommandTask::evaluateCommand, task, commands[k], timeouts[k]);
+            threads.emplace_back([task, commands, timeouts, k]() {
+                task->evaluateCommand(commands[k], timeouts[k]);
+            });
         } catch (std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         }
     }
-    do {
+
+    while (true) {
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
-            for (size_t k = 0; k < nbCommands; k++) {
-                taskList[k]->terminate();
+            for (SystemCommandTask* task : taskList) {
+                task->terminate();
             }
             break;
         }
+
         if (withEventsLoop) {
             ProcessEventsDynamicFunction();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-    } while (pool.get_tasks_total());
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        bool allTasksFinished = true;
+        for (SystemCommandTask* task : taskList) {
+            if (task->isRunning()) {
+                allTasksFinished = false;
+                break;
+            }
+        }
+
+        if (allTasksFinished) {
+            for (auto& thread : threads) {
+                thread.join();
+            }
+            break;
+        }
+    }
 
     for (size_t k = 0; k < nbCommands; k++) {
         if (taskList[k]) {
             results[k] = taskList[k]->getResult();
         }
     }
+
     for (SystemCommandTask* task : taskList) {
         if (task) {
             delete task;
@@ -107,10 +130,9 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
         }
     }
     taskList.clear();
-    pool.reset((BS::concurrency_t)nbThreads);
+
     return results;
-}
-//=============================================================================
+} //=============================================================================
 static void
 initGuiDynamicLibrary()
 {
