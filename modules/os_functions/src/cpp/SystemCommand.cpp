@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include <csignal>
 #endif
-#include <BS_thread_pool.hpp>
 #include <ctime>
 #include <thread>
 #include <chrono>
@@ -33,6 +32,7 @@
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "SystemCommandTask.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,20 +68,37 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
     std::vector<std::tuple<int, std::wstring, uint64>> results;
     size_t nbCommands = commands.size();
     results.resize(nbCommands);
+    std::vector<SystemCommandTask*> taskList;
+
+#if defined(__APPLE__) or (defined(_WIN32) && not defined(_WIN64))
+    for (ompIndexType k = 0; k < (ompIndexType)nbCommands; k++) {
+        SystemCommandTask* task = new SystemCommandTask();
+        taskList.push_back(task);
+    }
+#if not defined(__APPLE__)
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)nbCommands; k++) {
+        taskList[k]->evaluateCommand(commands[k], timeouts[k]);
+    }
+#else
     size_t nbThreadsMax = (size_t)NelsonConfiguration::getInstance()->getMaxNumCompThreads();
     size_t nbThreads = std::min(nbCommands, nbThreadsMax);
-
-    std::vector<SystemCommandTask*> taskList;
-    BS::thread_pool pool((BS::concurrency_t)nbThreads);
+    std::vector<std::thread> threadList;
     for (size_t k = 0; k < nbCommands; k++) {
         try {
             SystemCommandTask* task = new SystemCommandTask();
             taskList.push_back(task);
-            pool.push_task(&SystemCommandTask::evaluateCommand, task, commands[k], timeouts[k]);
+            threadList.emplace_back([task, commands, timeouts, k]() {
+                task->evaluateCommand(commands[k], timeouts[k]);
+            });
         } catch (std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         }
     }
+    bool allTasksFinished = false;
     do {
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             for (size_t k = 0; k < nbCommands; k++) {
@@ -93,8 +110,23 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
             ProcessEventsDynamicFunction();
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-    } while (pool.get_tasks_total());
 
+        allTasksFinished = std::all_of(threadList.begin(), threadList.end(),
+            [](const auto& thread) { return thread.joinable(); });
+
+        allTasksFinished = allTasksFinished
+            && std::all_of(taskList.begin(), taskList.end(),
+                [](const auto& task) { return !task->isRunning(); });
+
+        if (allTasksFinished) {
+            for (auto& thread : threadList) {
+                thread.join();
+            }
+            break;
+        }
+    } while (!allTasksFinished);
+
+#endif
     for (size_t k = 0; k < nbCommands; k++) {
         if (taskList[k]) {
             results[k] = taskList[k]->getResult();
@@ -107,7 +139,7 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
         }
     }
     taskList.clear();
-    pool.reset((BS::concurrency_t)nbThreads);
+
     return results;
 }
 //=============================================================================

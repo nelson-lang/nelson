@@ -16,11 +16,7 @@ else
   [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"]);
   t = toc();
 end
-if (maxNumCompThreads() > 3)
-  assert_istrue(t >= 8 && t < 12)
-else
-  assert_istrue(t >= 8 && t < 25)
-end
+assert_istrue(t >= 8 && t < 25)
 assert_istrue(d(1) >= 3000 && d(1) <= 5000)
 assert_istrue(d(2) >= 5000 && d(2) <= 7000)
 assert_istrue(d(3) >= 8000 && d(2) <= 10000)
