@@ -13,6 +13,9 @@
 #include <string>
 #include <atomic>
 #include <tuple>
+#include <boost/asio.hpp>
+#include <boost/process.hpp>
+#include <boost/process/shell.hpp>
 #include "Types.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
@@ -46,17 +49,41 @@ private:
     uint64 _duration = uint64(0);
     std::chrono::steady_clock::time_point _beginTimePoint;
     //=============================================================================
+    std::wstring
+    buildCommandString(const std::wstring& _command);
+    //=============================================================================
+    void
+    executeDetachedProcess(const std::wstring& cmd);
+    //=============================================================================
+    void
+    executeAttachedProcess(const std::wstring& cmd, const FileSystemWrapper::Path& tempOutputFile,
+        const FileSystemWrapper::Path& tempErrorFile, uint64 timeout);
+    //=============================================================================
+    void
+    monitorChildProcess(boost::process::child& childProcess, uint64 timeout);
+    //=============================================================================
+    std::wstring
+    readProcessOutput(const FileSystemWrapper::Path& tempOutputFile,
+        const FileSystemWrapper::Path& tempErrorFile);
+    //=============================================================================
+    void
+    cleanupTempFiles(const FileSystemWrapper::Path& tempOutputFile,
+        const FileSystemWrapper::Path& tempErrorFile);
+    //=============================================================================
+    std::wstring
+    getPlatformSpecificShellArgs();
+    //=============================================================================
     int
     exitCodeAbort();
+    //=============================================================================
+    std::wstring
+    readFile(const FileSystemWrapper::Path& filePath);
     //=============================================================================
     std::wstring
     detectDetachProcess(const std::wstring& command, bool& haveDetach);
     //=============================================================================
     std::wstring
     cleanCommand(const std::wstring& command);
-    //=============================================================================
-    std::wstring
-    readFile(const FileSystemWrapper::Path& filePath);
     //=============================================================================
 };
 //=============================================================================

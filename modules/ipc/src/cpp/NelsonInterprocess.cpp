@@ -30,12 +30,14 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+constexpr std::size_t KILOBYTE = 1024;
+constexpr std::size_t MEGABYTE = 1024 * KILOBYTE;
 #if (defined(_LP64) || defined(_WIN64))
-constexpr auto OFF_MSG_SIZE = sizeof(double) * 16 * 1024;
-constexpr auto MAX_MSG_SIZE = sizeof(double) * (4096 * 4096) + OFF_MSG_SIZE;
-constexpr auto MAX_NB_MSG = 4;
+constexpr std::size_t OFF_MSG_SIZE = sizeof(double) * 16 * KILOBYTE;
+constexpr std::size_t MAX_MSG_SIZE = sizeof(double) * (4 * MEGABYTE) + OFF_MSG_SIZE;
+constexpr std::size_t MAX_NB_MSG = 4;
 #else
-constexpr auto MAX_MSG_SIZE = sizeof(double) * (1024 * 1024);
+constexpr auto MAX_MSG_SIZE = sizeof(double) * MEGABYTE;
 constexpr auto MAX_NB_MSG = 2;
 #endif
 constexpr auto TIMEOUT_COUNT = 20;
