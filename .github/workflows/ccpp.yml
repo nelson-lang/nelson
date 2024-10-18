@@ -3,6 +3,93 @@ name: "C/C++ CI"
 on: [push]
 
 jobs:
+  Sequoia:
+    name: macOS Sequoia
+    runs-on: macos-15
+    timeout-minutes: 120
+
+    steps:
+      - name: install dependencies
+        run: |
+          brew --version
+          brew cleanup
+          brew install coreutils
+          brew install zlib
+          brew install libtool
+          brew install automake
+          brew install libffi
+          brew install icu4c
+          brew info open-mpi
+          brew install openmpi
+          brew install pkg-config
+          brew install pkgconfig
+          brew install gettext
+          brew link gettext --force
+          echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+          source ~/.zshrc
+          brew install boost
+          brew install libxml2
+          brew upgrade cmake
+          brew install fftw
+          brew install portaudio
+          brew install libsndfile
+          brew install taglib
+          brew install libgit2
+          brew reinstall hdf5
+          brew install libmatio
+          brew install eigen
+          brew install libomp
+          brew link libomp --force
+          brew install openblas
+          brew install qt
+          brew link icu4c --force
+          brew install numpy
+          brew install tbb
+
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+      - name: Update version
+        run: |
+          python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: |
+          export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+      - name: make
+        run: cmake --build . -- -j$(nproc)
+      - name: get module skeleton
+        run: cmake --build . -- get_module_skeleton
+      - name: build help
+        run: |
+          cmake --build . -- buildhelp
+      - name: minimal tests
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- tests_minimal
+      - name: package
+        run: cmake --build . -- package
+      - name: Install
+        run: sudo make install
+      - name: Setup Python environment for Nelson
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: all benchs
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- benchs_all
+      - name: all tests
+        run: |
+          export OMP_NUM_THREADS=1
+          cmake --build . -- tests_all
+      - name: Copy artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-macOS-Sequoia-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+
   Sonoma:
     name: macOS Sonoma
     runs-on: macos-14
@@ -49,7 +136,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -138,7 +225,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -174,94 +261,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
-          path: artifacts/
-
-  Monterey:
-    name: macOS X Monterey
-    runs-on: macos-12
-    timeout-minutes: 120
-
-    steps:
-      - name: install dependencies
-        run: |
-          brew --version
-          brew cleanup
-          brew install coreutils
-          brew install zlib
-          brew install libtool
-          brew install automake
-          brew install libffi
-          brew install icu4c
-          brew info open-mpi
-          brew install openmpi
-          brew install pkg-config
-          brew install pkgconfig
-          brew install gettext
-          brew link gettext --force
-          echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
-          source ~/.zshrc
-          brew install boost
-          brew install libxml2
-          brew upgrade cmake
-          brew install fftw
-          brew install portaudio
-          brew install libsndfile
-          brew install taglib
-          brew install libgit2
-          brew install hdf5
-          brew install libmatio
-          brew install eigen
-          brew install libomp
-          brew link libomp --force
-          brew install openblas
-          brew link icu4c --force
-          brew install numpy
-          brew install tbb
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: "6.4.2"
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
-        id: json_version
-      - name: Update version
-        run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-      - name: CMake
-        run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
-      - name: make
-        run: cmake --build . -- -j$(nproc)
-      - name: get module skeleton
-        run: cmake --build . -- get_module_skeleton
-      - name: build help
-        run: |
-          cmake --build . -- buildhelp
-      - name: minimal tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_minimal
-      - name: package
-        run: cmake --build . -- package
-      - name: Install
-        run: sudo make install
-      - name: Setup Python environment for Nelson
-        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
-        run: |
-          cmake --build . -- benchs_all
-      - name: all tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_all
-      - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nelson-github-action-artifacts-macOS-Monterey-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
 
   Noble_Numbat:
@@ -327,7 +326,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -428,7 +427,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -549,7 +548,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -632,7 +631,7 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/nelson/nelson
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
@@ -717,7 +716,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
         run: |
@@ -789,7 +788,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
 
       - name: Update version
@@ -940,7 +939,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.0
+        uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
 
       - name: Update version
