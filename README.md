@@ -22,15 +22,15 @@
   </tr>
 </table>
 
-# The Nelson language
+# 🚀 The Nelson language
 
 The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 
-## Starring the repository
+## 🌟 **Starring the repository**
 
 If you found this project useful, please consider [starring it on GitHub !!!](https://github.com/nelson-lang/nelson/stargazers) This allows me to see how many people are using my code, and motivates me to keep working to improve it.
 
-## Introduction
+## 🎓 **Introduction**
 
 Nelson is a powerful, open-source numerical computational language, developed to provide a comprehensive and intuitive environment for engineers, scientists, and students. With over 1,200 built-in functions, Nelson supports a wide range of tasks, from basic algebra to advanced numerical simulations.
 
@@ -38,7 +38,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 ![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
-## Features
+## 🛠️ **Features**
 
 ### Data Types Managed by Nelson
 
@@ -108,7 +108,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
   - [Basic Macros Template](https://github.com/nelson-lang/module_skeleton_basic).
 - **Nelson Modules Manager (nmm)**: A package manager to install and manage extensions for Nelson.
 
-## Download
+## 📥 **Download**
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/nelson)
 
@@ -118,7 +118,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 [Get it from the Chocolatey Package Manager](https://community.chocolatey.org/packages/nelson)
 
-## Resources
+## 📚 **Resources**
 
 - **Homepage:** <https://nelson-lang.github.io/nelson-website/>
 - **GitBook:** <https://nelson-9.gitbook.io/nelson/>
@@ -131,7 +131,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **Twitter:** <https://twitter.com/Nelson_software>
 - **LinkedIn:** <https://www.linkedin.com/groups/13576150>
 
-## License
+## 📜 **License**
 
 Nelson is delivered under dual-license:
 
@@ -141,27 +141,23 @@ Nelson is delivered under dual-license:
 
 - [![License (GNU General Public License (GPL) v3.0)](<https://img.shields.io/badge/license-GNU%20General%20Public%20License%20(GPL)%20v3.0-blue.svg?style=flat-square>)](https://opensource.org/licenses/GPL-3.0)
 
-## Tested and supported platforms
+## 💻 **Supported Platforms**
 
-Systems with ✓ downloads are available on [downloads](https://github.com/nelson-lang/nelson/releases) page.
+Nelson is tested and supported on a wide range of platforms. **[Downloads](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are listed below:
 
-Systems with ✓ for CI are tested with continuous integration for every commit.
+| **Operating System** | **Architecture** | **CI** | **Binaries** |
+| :------------------: | :--------------: | :----: | :----------: |
+|  **Windows 10, 11**  |   x86-64, i686   |   ✓    |      ✓       |
+|  **macOS Sequoia**   |      ARM64       |   ✓    |              |
+|   **macOS Sonoma**   |      ARM64       |   ✓    |              |
+|  **macOS Ventura**   | x86-64 (64-bit)  |   ✓    |              |
+|   **Ubuntu 24.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
+|   **Ubuntu 22.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
+|   **Ubuntu 20.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
+|    **Fedora 40**     |      x86-64      |   ✓    |   ✓ (Snap)   |
+|    **ArchLinux**     |      x86-64      |   ✓    |   ✓ (Snap)   |
+|     **Raspbian**     | ARM v8 (64-bit)  |        |              |
 
-The systems listed here without CI or binaries are known to build and operate, but the continued support of these platforms is user-dependent.
-
-| Operating System |  Architecture   | CI  | Binaries |
-| :--------------: | :-------------: | :-: | :------: |
-| Windows 7 to 11  | x86-64 (64-bit) |  ✓  |    ✓     |
-|                  |  i686 (32-bit)  |  ✓  |    ✓     |
-|   macOS Sonoma   |   arm64 (M1)    |  ✓  |          |
-|  macOS Ventura   | x86-64 (64-bit) |  ✓  |          |
-|  macOS Monterey  | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 24.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|   Ubuntu 22.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|   Ubuntu 18.04   | x86-64 (64-bit) |     | ✓ (snap) |
-|    ArchLinux     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|    Fedora 36     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
-|     Raspbian     | ARM v8 (64-bit) |     |          |
+_Note: The continued support of some platforms may depend on community contributions._
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
