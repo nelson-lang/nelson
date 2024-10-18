@@ -164,6 +164,13 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
     <see_also_item>
       <link linkend="${table}table">table</link>
     </see_also_item>
+
+    <see_also_item>
+      <link
+        linkend="${table}2_direct_compution_with_table"
+      >Direct computation with Table</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

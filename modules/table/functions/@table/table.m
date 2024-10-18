@@ -43,6 +43,9 @@ function varargout = table(varargin)
     else
       if (nextIsRowNames)
         T.Properties.RowNames = varargin{j};
+        if isstring(T.Properties.RowNames)
+          T.Properties.RowNames = cellstr(T.Properties.RowNames);
+        end
         nextIsRowNames = false;
       elseif (nextIsVariableNames)
         newVariableNames = varargin{j};
@@ -64,6 +67,16 @@ function varargout = table(varargin)
     end
   end
   T = updateVariableNames(T, newVariableNames, namePrefix);
+  names = fieldnames(T.data);
+  if ~isempty(names)
+    szRef = size(T.data.(names{1}), 1);
+    for k = 2:length(names')
+      if ~isequal(szRef, size(T.data.(names{k}), 1))
+        error(_('All table variables must have the same number of rows.'));
+      end
+    end
+  end
+
   varargout{1} = class(T, 'table');
 end
 %=============================================================================
