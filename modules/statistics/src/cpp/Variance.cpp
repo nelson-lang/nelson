@@ -76,10 +76,14 @@ Variance(const ArrayOf& A, int w, int dim, bool& needToOverload)
     Dimensions dimsA = A.getDimensions();
     if (dim < 0) {
         int d = 0;
-        while (dimsA[d] == 1) {
+        while (d < (maxDims) && dimsA[d] == 1) {
             d++;
         }
-        dim = d;
+        if (d == maxDims) {
+            dim = 0;
+        } else {
+            dim = d;
+        }
     } else {
         dim = dim - 1;
     }
@@ -97,28 +101,44 @@ Variance(const ArrayOf& A, int w, int dim, bool& needToOverload)
     ArrayOf res;
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
-        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
-        VarianceReal<double>(
-            (const double*)A.getDataPointer(), ptr, planecount, planesize, linesize);
+        if (A.isScalar()) {
+            res = ArrayOf::doubleConstructor(0.);
+        } else {
+            double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+            res = ArrayOf(NLS_DOUBLE, outDim, ptr);
+            VarianceReal<double>(
+                (const double*)A.getDataPointer(), ptr, planecount, planesize, linesize);
+        }
     } break;
     case NLS_SINGLE: {
-        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
-        res = ArrayOf(NLS_SINGLE, outDim, ptr);
-        VarianceReal<single>(
-            (const single*)A.getDataPointer(), ptr, planecount, planesize, linesize);
+        if (A.isScalar()) {
+            res = ArrayOf::singleConstructor(0.);
+        } else {
+            single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
+            res = ArrayOf(NLS_SINGLE, outDim, ptr);
+            VarianceReal<single>(
+                (const single*)A.getDataPointer(), ptr, planecount, planesize, linesize);
+        }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
-        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
-        VarianceComplex<double>(ptrZ, ptr, planecount, planesize, linesize);
+        if (A.isScalar()) {
+            res = ArrayOf::doubleConstructor(0.);
+        } else {
+            double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+            res = ArrayOf(NLS_DOUBLE, outDim, ptr);
+            auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
+            VarianceComplex<double>(ptrZ, ptr, planecount, planesize, linesize);
+        }
     } break;
     case NLS_SCOMPLEX: {
-        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
-        res = ArrayOf(NLS_SINGLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
-        VarianceComplex<single>(ptrZ, ptr, planecount, planesize, linesize);
+        if (A.isScalar()) {
+            res = ArrayOf::singleConstructor(0.);
+        } else {
+            single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
+            res = ArrayOf(NLS_SINGLE, outDim, ptr);
+            auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
+            VarianceComplex<single>(ptrZ, ptr, planecount, planesize, linesize);
+        }
     } break;
     default: {
         needToOverload = true;

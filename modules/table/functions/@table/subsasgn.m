@@ -136,15 +136,31 @@ function R = braceSubsasgn(T, sasgn, value)
     end
     for j = 1:length(idxCol)
       colName = st.Properties.VariableNames{idxCol(j)};
-      st.data.(colName)(idxRow, :) = value.data.(colName);
+      V =  st.data.(colName);
+      V(idxRow, :) = value.data.(colName);
+      if ~iscell(V) && ~isstring(V)
+        st.data.(colName) = cast(V, 'like', value);
+      else
+        st.data.(colName) = V;
+      end
     end
   else
-    if (size(value, 1) ~= length(idxRow)) || (size(value, 2) ~= length(idxCol))
+    if (size(value, 1) ~= length(idxRow))
       error(_('Value assignment must be same size as existing value.'));
     end
     for j = 1:length(idxCol)
       colName = st.Properties.VariableNames{idxCol(j)};
-      st.data.(colName)(idxRow, :) = value(:, j);
+      V = st.data.(colName);
+      if (size(value, 2) ~= length(idxCol))
+        V(idxRow, :) = value(:, :);
+      else
+        V(idxRow, :) = value(:, j);
+      end
+      if ~iscell(V) && ~isstring(V)
+        st.data.(colName) = cast(V, 'like', value);
+      else
+        st.data.(colName) = V;
+      end
     end
   end
   R = class(st, 'table');
@@ -181,7 +197,8 @@ function R = parentheseSubsasgn(T, sasgn, value)
       keepRows = true(height(T), 1);
       keepRows(idxRow) = false;
       for field = fieldnames(st.data)'
-        st.data.(field{1}) = st.data.(field{1})(keepRows, :);
+        V = st.data.(field{1});
+        st.data.(field{1}) = V(keepRows, :);
       end
       if ~isempty(st.Properties.RowNames)
         st.Properties.RowNames = st.Properties.RowNames(keepRows);
@@ -208,7 +225,9 @@ function R = parentheseSubsasgn(T, sasgn, value)
     stv = struct(value);
     for j = 1:length(idxCol)
       colName = st.Properties.VariableNames{idxCol(j)};
-      st.data.(colName)(idxRow, :) = stv.data.(colName);
+      V = st.data.(colName);
+      V(idxRow, :) = stv.data.(colName);
+      st.data.(colName) = V;
     end
     R = class(st, 'table');
     return
@@ -221,7 +240,9 @@ function R = parentheseSubsasgn(T, sasgn, value)
   
   for j = 1:length(idxCol)
     colName = st.Properties.VariableNames{idxCol(j)};
-    st.data.(colName)(idxRow,:) = value(:,j);
+    V = st.data.(colName);
+    V(idxRow,:) = value(:,j);
+    st.data.(colName) = V;
   end
   
   R = class(st, 'table');

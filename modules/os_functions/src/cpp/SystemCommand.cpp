@@ -104,6 +104,9 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
             for (size_t k = 0; k < nbCommands; k++) {
                 taskList[k]->terminate();
             }
+            for (auto& thread : threadList) {
+                thread.join();
+            }
             break;
         }
         if (withEventsLoop) {
@@ -125,7 +128,7 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
             break;
         }
     } while (!allTasksFinished);
-
+    threadList.clear();
 #endif
     for (size_t k = 0; k < nbCommands; k++) {
         if (taskList[k]) {
@@ -139,7 +142,6 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
         }
     }
     taskList.clear();
-
     return results;
 }
 //=============================================================================
