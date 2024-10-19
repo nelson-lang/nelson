@@ -212,6 +212,13 @@ loadFFTWLibrary()
         std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension() + ".3";
         res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
     }
+    if (!res) {
+        // try with version 3.3 macos specific
+        std::string fftwLibraryName = "libfftw3.3" + get_dynamic_library_extension();
+        std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension() + ".3";
+        res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
+    }
+
 #endif
     if (res) {
 #if WITH_OPENMP

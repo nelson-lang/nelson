@@ -60,8 +60,8 @@ jobs:
         shell: micromamba-shell {0}
 
   Micromamba_macos:
-    name: Micromamba (macOS 12)
-    runs-on: macos-12
+    name: Micromamba (macOS 14)
+    runs-on: macos-14
     timeout-minutes: 120
 
     steps:

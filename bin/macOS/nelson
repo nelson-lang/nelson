@@ -64,7 +64,7 @@ fi
 #==============================================================================
 if test -d "$HOMEBREW_PREFIX/lib"; then
     export LD_LIBRARY_PATH="$HOMEBREW_PREFIX/lib:$LD_LIBRARY_PATH"
-    export DYLD_LIBRARY_PATH="$HOMEBREW_PREFIX/lib:$DYLD_LIBRARY_PATH"
+    # $HOMEBREW_PREFIX/lib must not be in DYLD_LIBRARY_PATH on Macos with Qt
 fi
 #==============================================================================
 export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"

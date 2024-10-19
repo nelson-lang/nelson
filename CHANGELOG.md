@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [#1259](http://github.com/nelson-lang/nelson/issues/1259) Add macOS Sequoia and remove macOS Monterey CI support.
 - Qt 6.8 LTS support (used on Windows 64 bits binary).
 - Python 3.13.0 on Windows.
 
