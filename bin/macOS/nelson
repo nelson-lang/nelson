@@ -42,6 +42,9 @@ SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 #==============================================================================
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 #==============================================================================
+# remove warning about deprecated functions on macOS Sequoia with Qt
+export CFLOG_FORCE_DISABLE_STDERR=1
+#==============================================================================
 if test -d $SCRIPT_DIRECTORY/../lib/Nelson; then
   CURRENT_DIRECTORY=$(pwd -P)
   cd "$SCRIPT_DIRECTORY/../lib/Nelson"

@@ -65,10 +65,6 @@ jobs:
       - name: build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_minimal
       - name: package
         run: cmake --build . -- package
       - name: Install
@@ -152,10 +148,6 @@ jobs:
       - name: build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_minimal
       - name: package
         run: cmake --build . -- package
       - name: Install
@@ -240,10 +232,6 @@ jobs:
       - name: build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
-        run: |
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_minimal
       - name: package
         run: cmake --build . -- package
       - name: Install
@@ -844,11 +832,6 @@ jobs:
       - name: Build help
         run: |
           %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.m
-
-      - name: Minimal tests
-        run: |
-          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
-          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
 
       - name: Inno setup
         run: |

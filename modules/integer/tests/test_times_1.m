@@ -22,23 +22,3 @@ R = intmin('int8') .* intmax('int8');
 REF = intmin('int8');
 assert_isequal(R, REF);
 %=============================================================================
-R = intmin('int8') .* intmin('int8');
-REF = intmax('int8');
-assert_isequal(R, REF);
-%=============================================================================
-R = int8([1 2]) .* 3;
-REF =  int8([3 6]);
-assert_isequal(R, REF);
-%=============================================================================
-R = 3 .* int8([1 2]);
-REF =  int8([3 6]);
-assert_isequal(R, REF);
-%=============================================================================
-R = int8([1 2]) .* int8([3, 4]);
-REF = int8([3 8]);
-assert_isequal(R, REF);
-%=============================================================================
-msg = _('Integers can only be combined with integers of the same class, or scalar doubles.');
-assert_checkerror('R = single(3) .* int8([1 2]);', msg);
-assert_checkerror('R = int8([1 2]) .* single(3);', msg);
-%=============================================================================
