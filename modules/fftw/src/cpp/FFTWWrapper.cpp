@@ -11,6 +11,8 @@
 #if WITH_OPENMP
 #include <omp.h>
 #endif
+#include <cstdlib>
+#include <algorithm>
 #include "FFTWDynamicLibrary.hpp"
 #include "FFTWWrapper.hpp"
 #include "DynamicLibrary.hpp"
@@ -192,41 +194,71 @@ freeFFTWLibrary()
     return false;
 }
 //=============================================================================
+#if defined(__APPLE__)
+static bool
+loadFFTWLibraryOnMacOs()
+{
+    // Lambda to attempt loading FFTW libraries from a given prefix
+    auto tryLoadLibrary = [](const char* prefix) -> bool {
+        if (prefix) {
+            std::string libPath = std::string(prefix) + "/lib/";
+            std::string fftwLibraryName = libPath + "libfftw3.3" + get_dynamic_library_extension();
+            std::string fftwfLibraryName = libPath + "libfftw3f" + get_dynamic_library_extension();
+            return loadFFTWLibrary(
+                utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
+        }
+        return false;
+    };
+
+    // Try loading from CONDA_PREFIX first, then HOMEBREW_PREFIX if necessary
+    return tryLoadLibrary(std::getenv("CONDA_PREFIX"))
+        || tryLoadLibrary(std::getenv("HOMEBREW_PREFIX"));
+}
+#endif
+//=============================================================================
 bool
 loadFFTWLibrary()
 {
     if (fftwLoaded) {
         return true;
     }
-    bool res = false;
-#ifdef _MSC_VER
-    std::wstring fftwLibraryName = L"libfftw3-3.dll";
-    std::wstring fftwfLibraryName = L"libfftw3f-3.dll";
-    res = loadFFTWLibrary(fftwLibraryName, fftwfLibraryName);
-#else
-    std::string fftwLibraryName = "libfftw3" + get_dynamic_library_extension();
-    std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension();
-    res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
-    if (!res) {
-        std::string fftwLibraryName = "libfftw3" + get_dynamic_library_extension() + ".3";
-        std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension() + ".3";
-        res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
-    }
-    if (!res) {
-        // try with version 3.3 macos specific
-        std::string fftwLibraryName = "libfftw3.3" + get_dynamic_library_extension();
-        std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension() + ".3";
-        res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
-    }
 
-#endif
-    if (res) {
+    auto getLibraryNames = []() -> std::vector<std::pair<std::string, std::string>> {
+        std::string ext = get_dynamic_library_extension();
+        return { { "libfftw3-3" + ext, "libfftw3f-3" + ext },
+            { "libfftw3" + ext, "libfftw3f" + ext },
+            { "libfftw3" + ext + ".3", "libfftw3f" + ext + ".3" },
+            { "libfftw3.3" + ext, "libfftw3f" + ext } };
+    };
+
+    auto tryLoadLibrary = [](const auto& names) {
+        return loadFFTWLibrary(utf8_to_wstring(names.first), utf8_to_wstring(names.second));
+    };
+
+    auto initializeFffwThreads = []() {
 #if WITH_OPENMP
         if (fftw_init_threadsPtr && fftw_plan_with_nthreadsPtr) {
             fftw_init_threadsPtr();
             fftw_plan_with_nthreadsPtr(omp_get_max_threads());
         }
 #endif
+    };
+
+    bool res = false;
+    for (auto names : getLibraryNames()) {
+        res = tryLoadLibrary(names);
+        if (res) {
+            break;
+        }
+    }
+
+#if defined(__APPLE__)
+    if (!res) {
+        res = loadFFTWLibraryOnMacOs();
+    }
+#endif
+    if (res) {
+        initializeFffwThreads();
     }
     return res;
 }

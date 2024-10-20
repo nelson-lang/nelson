@@ -12,16 +12,20 @@ if ispc() && ~havecompiler()
 end
 %=============================================================================
 if exist('mxDuplicateArray') == 0
-  test_dir = [tempdir(), 'mxDuplicateArray_cell'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
+  try
+    test_dir = [tempdir(), 'mxDuplicateArray_cell'];
+    if isdir(test_dir)
+      rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxDuplicateArray.c', test_dir);
+    assert_istrue(status);
+    cd(test_dir);
+    mex('mxDuplicateArray.c');
+    addpath(pwd())
+  catch NE
+    rethrow(NE);
   end
-  mkdir(test_dir);
-  status = copyfile('mxDuplicateArray.c', test_dir);
-  assert_istrue(status);
-  cd(test_dir);
-  mex('mxDuplicateArray.c');
-  addpath(pwd())
 end
 %=============================================================================
 REF = {1, single(2); 'Nelson Text in a cell', false};
