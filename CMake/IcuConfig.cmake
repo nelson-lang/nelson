@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{CONDA_PREFIX})
     # Try finding ICU with Homebrew
     execute_process(
       COMMAND brew --prefix icu4c

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QTimer>
 #include "NelsonMinimized.hpp"
 #include "NelSon_engine_mode.h"
 #include "QtMainWindow.h"
@@ -17,14 +18,17 @@ setNelsonMinimized(bool minimize)
 {
     if (NELSON_ENGINE_MODE::GUI == Nelson::NelsonConfiguration::getInstance()->getNelsonEngineMode()
         && Nelson::NelsonConfiguration::getInstance()->getMainGuiObject()) {
-        QtMainWindow* NelSonQtMainWindow
-            = (QtMainWindow*)Nelson::NelsonConfiguration::getInstance()->getMainGuiObject();
+        QtMainWindow* nelsonQtMainWindow = static_cast<QtMainWindow*>(
+            Nelson::NelsonConfiguration::getInstance()->getMainGuiObject());
         if (minimize) {
-            NelSonQtMainWindow->setWindowState(Qt::WindowMinimized);
+            QTimer::singleShot(0, nelsonQtMainWindow, [nelsonQtMainWindow]() {
+                nelsonQtMainWindow->setWindowState(Qt::WindowMinimized);
+            });
         } else {
-            NelSonQtMainWindow->setWindowState(Qt::WindowNoState);
+            QTimer::singleShot(0, nelsonQtMainWindow,
+                [nelsonQtMainWindow]() { nelsonQtMainWindow->setWindowState(Qt::WindowNoState); });
         }
-        NelSonQtMainWindow->setVisible(true);
+        nelsonQtMainWindow->setVisible(true);
         return true;
     }
     return false;

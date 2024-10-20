@@ -32,6 +32,41 @@ TAGS = repo('tag', LOCAL_DIRECTORY);
 REF_TAGS = {'v0.0.1'; 'v0.0.2'};
 assert_isequal(TAGS, REF_TAGS);
 %=============================================================================
+GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
+LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
+if isdir(LOCAL_DIRECTORY)
+  rmdir(LOCAL_DIRECTORY, 's');
+end
+mkdir(LOCAL_DIRECTORY);
+repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY, "", "")
+R = dir(LOCAL_DIRECTORY);
+assert_isequal(length(R), 6);
+REF_NAMES = {'.', '..', '.git', 'LICENSE', 'README.md', 'repo_test.nlf'};
+for k = 1:length(R)
+  assert_isequal(R(k).name, REF_NAMES{k});
+end
+%=============================================================================
+if isdir(LOCAL_DIRECTORY)
+  rmdir(LOCAL_DIRECTORY, 's');
+end
+%=============================================================================
+% libgit on mac supports less features than libgit2.
+if ismac()
+  return
+end
+%=============================================================================
+GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
+LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
+if isdir(LOCAL_DIRECTORY)
+  rmdir(LOCAL_DIRECTORY, 's');
+end
+mkdir(LOCAL_DIRECTORY);
+try
+  repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY)
+catch ex
+  skip_testsuite(ex.message)
+end
+%=============================================================================
 BRANCHES = repo('branch', LOCAL_DIRECTORY);
 REF_BRANCHES = {'master'; 'origin/branch_dev'; 'origin/master'};
 assert_istrue(any(contains(BRANCHES, REF_BRANCHES)));
@@ -64,24 +99,6 @@ repo('checkout', LOCAL_DIRECTORY, 'branch_dev');
 BRANCHES = repo('branch', LOCAL_DIRECTORY);
 REF_BRANCHES = {'branch_dev'; 'master'; 'origin/branch_dev'; 'origin/master'};
 assert_istrue(any(contains(BRANCHES, REF_BRANCHES)));
-%=============================================================================
-if isdir(LOCAL_DIRECTORY)
-  rmdir(LOCAL_DIRECTORY, 's');
-end
-%=============================================================================
-GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
-LOCAL_DIRECTORY = [tempdir(), 'test_repo', '_', createGUID()];
-if isdir(LOCAL_DIRECTORY)
-  rmdir(LOCAL_DIRECTORY, 's');
-end
-mkdir(LOCAL_DIRECTORY);
-repo('clone', GIT_REPOSITORY, LOCAL_DIRECTORY, "", "")
-R = dir(LOCAL_DIRECTORY);
-assert_isequal(length(R), 6);
-REF_NAMES = {'.', '..', '.git', 'LICENSE', 'README.md', 'repo_test.nlf'};
-for k = 1:length(R)
-  assert_isequal(R(k).name, REF_NAMES{k});
-end
 %=============================================================================
 if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');

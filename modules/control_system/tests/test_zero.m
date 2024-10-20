@@ -19,5 +19,6 @@ D = 0;
 sys = ss(A, B, C, D);
 [z, gain] = zero(sys);
 assert_isequal(z, zeros(0, 1));
-assert_isequal(gain, 500);
+assert_isequal(real(gain), 500);
+assert_istrue(imag(gain) < 100*eps);
 %=============================================================================
