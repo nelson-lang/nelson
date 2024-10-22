@@ -224,7 +224,7 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
       - name: make
         run: cmake --build . -- -j$(nproc)
       - name: get module skeleton

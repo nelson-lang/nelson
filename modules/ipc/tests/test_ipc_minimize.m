@@ -12,10 +12,14 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 % Gnome and some others platforms do not have 'minimize' concept
+% macOs do not have 'minimize' concept too
 %=============================================================================
-ipc(getpid, 'minimize', true);
-R = ipc(getpid, 'minimize');
-assert_isequal(R, true)
+if ~ismac()
+  ipc(getpid, 'minimize', true);
+  R = ipc(getpid, 'minimize');
+  assert_isequal(R, true)
+end
+%=============================================================================
 ipc(getpid, 'minimize', false);
 R = ipc(getpid, 'minimize');
 assert_isequal(R, false)

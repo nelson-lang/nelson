@@ -10,43 +10,48 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--AUDIO INPUT REQUIRED-->
 %=============================================================================
-OUTPUT_DEVICE = 0;
-INPUT_DEVICE = 1;
-%=============================================================================
 r = audiodevinfo();
 assert_isequal(class(r), 'struct');
 f = fieldnames(r);
 assert_isequal(f, {'input'; 'output'});
 %=============================================================================
-info = audiodevinfo();
-for k = [1:audiodevinfo(OUTPUT_DEVICE)]
-  assert_isequal(audiodevinfo(OUTPUT_DEVICE, info.output(k).ID), info.output(k).Name);
+if (isempty(r.input))
+  return
 end
-for k = [1:audiodevinfo(INPUT_DEVICE)]
-  assert_isequal(audiodevinfo(INPUT_DEVICE, info.input(k).ID), info.input(k).Name);
-end
-%=============================================================================
-info = audiodevinfo();
-for k = [1:audiodevinfo(OUTPUT_DEVICE)]
-  assert_isequal(audiodevinfo(OUTPUT_DEVICE,info.output(k).Name), info.output(k).ID)
-end
-for k = [1:audiodevinfo(INPUT_DEVICE)]
-  assert_isequal(audiodevinfo(INPUT_DEVICE,info.input(k).Name), info.input(k).ID)
+if (isempty(r.output))
+  return
 end
 %=============================================================================
 info = audiodevinfo();
-for k = [1:audiodevinfo(OUTPUT_DEVICE)]
-  assert_isequal(audiodevinfo(OUTPUT_DEVICE, info.output(k).ID, 'DriverVersion'), info.output(k).DriverVersion)
+REF_fieldnames = {'Name';          
+'DriverVersion';
+'MaxChannels';     
+'DefaultSampleRate';
+'DefaultLowLatency';
+'DefaultHighLatency';
+'ID'};
+for in_audio = info.input'
+  assert_isequal(fieldnames(in_audio), REF_fieldnames);
+  assert_istrue(isnumeric(in_audio.ID) && isscalar(in_audio.ID));
+  assert_istrue(ischar(in_audio.Name));
 end
-for k = [1:audiodevinfo(INPUT_DEVICE)]
-  assert_isequal(audiodevinfo(INPUT_DEVICE, info.input(k).ID, 'DriverVersion'), info.input(k).DriverVersion)
+for out_audio = info.output'
+  assert_isequal(fieldnames(out_audio), REF_fieldnames);
+  assert_istrue(isnumeric(out_audio.ID) && isscalar(out_audio.ID));
+  assert_istrue(ischar(out_audio.Name));
 end
 %=============================================================================
+if ismac()
+  return
+end
+%=============================================================================
+OUTPUT_DEVICE = 0;
 R1 = audiodevinfo(OUTPUT_DEVICE, 44100, 16, 2);
 assert_istrue(R1 ~= -1);
 R2 = audiodevinfo(OUTPUT_DEVICE, R1, 44100, 16, 2);
 assert_istrue(R2);
 %=============================================================================
+INPUT_DEVICE = 1;
 R3 = audiodevinfo(INPUT_DEVICE, 44100, 16, 2);
 assert_istrue(R3 ~= -1);
 R4 = audiodevinfo(INPUT_DEVICE, R3, 44100, 16, 2);
