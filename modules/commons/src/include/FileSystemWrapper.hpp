@@ -10,26 +10,14 @@
 #pragma once
 //=============================================================================
 #ifdef _MSC_VER
-// #define _WITH_BOOST_FILESYSTEM_
 #pragma warning(disable : 4251)
-#else
-#undef _WITH_BOOST_FILESYSTEM_
 #endif
 //=============================================================================
-#ifdef _WITH_BOOST_FILESYSTEM_
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#else
 #include <filesystem>
-#endif
 #include <ctime>
 #include "nlsCommons_exports.h"
 //=============================================================================
-#ifdef _WITH_BOOST_FILESYSTEM_
-namespace nfs = boost::filesystem;
-#else
 namespace nfs = std::filesystem;
-#endif
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
 //=============================================================================

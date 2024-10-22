@@ -15,7 +15,11 @@
 #include <tuple>
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
+#if _MSC_VER
+#include <boost/process/v1/shell.hpp>
+#else
 #include <boost/process/shell.hpp>
+#endif
 #include "Types.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
