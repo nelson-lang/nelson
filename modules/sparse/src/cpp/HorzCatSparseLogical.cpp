@@ -46,7 +46,6 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
     indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
     indexType newRowsSize = dimsA.getRows();
-    indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     try {
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);

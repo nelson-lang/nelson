@@ -51,7 +51,6 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         Dimensions dimsB = B.getDimensions();
         indexType newRowsSize = dimsA.getRows();
         indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-        indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         try {
             spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
@@ -73,7 +72,6 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         Dimensions dimsB = B.getDimensions();
         indexType newRowsSize = dimsA.getRows();
         indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-        indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         try {
             spMatC
