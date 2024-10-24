@@ -136,6 +136,9 @@ function R = parentheseSubsref(T, sref)
     % Keep as is
   elseif ischar(rowIdx) || iscellstr(rowIdx) || isstring(rowIdx)
     % Handle row names
+    if ischar(rowIdx)
+      rowIdx = {rowIdx};
+    end
     rowIdx = find(ismember(st.Properties.RowNames, rowIdx));
     if isempty(rowIdx)
       error(_('Row name not found.'));
@@ -147,6 +150,8 @@ function R = parentheseSubsref(T, sref)
   % Handle column indexing
   if ischar(colIdx) && strcmp(colIdx, ':')
     colIdx = 1:width(T);
+  elseif ischar(colIdx) && isrow(colIdx)
+    colIdx = find(ismember(st.Properties.VariableNames, {colIdx}));
   elseif islogical(colIdx)
     colIdx = find(colIdx);
   elseif isnumeric(colIdx)
@@ -156,6 +161,7 @@ function R = parentheseSubsref(T, sref)
   else
     error(_('Invalid column indexing.'));
   end
+
   selectedVarNames = st.Properties.VariableNames(colIdx);
   tableData = cell(1, length(selectedVarNames));
   for i = 1:length(selectedVarNames)
