@@ -69,7 +69,6 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
     size_t nbCommands = commands.size();
     results.resize(nbCommands);
     std::vector<SystemCommandTask*> taskList;
-
 #if defined(__APPLE__) or (defined(_WIN32) && not defined(_WIN64))
     for (ompIndexType k = 0; k < (ompIndexType)nbCommands; k++) {
         SystemCommandTask* task = new SystemCommandTask();
@@ -84,8 +83,6 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
         taskList[k]->evaluateCommand(commands[k], timeouts[k]);
     }
 #else
-    size_t nbThreadsMax = (size_t)NelsonConfiguration::getInstance()->getMaxNumCompThreads();
-    size_t nbThreads = std::min(nbCommands, nbThreadsMax);
     std::vector<std::thread> threadList;
     for (size_t k = 0; k < nbCommands; k++) {
         try {

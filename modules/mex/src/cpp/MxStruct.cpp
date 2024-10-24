@@ -168,10 +168,6 @@ mxAddField(mxArray* pm, const char* fieldname)
 void
 mxRemoveField(mxArray* pm, int fieldnumber)
 {
-    if (mxIsStruct(pm)) {
-        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-        Nelson::ArrayOf* qp = (Nelson::ArrayOf*)ptr->getDataPointer();
-    }
     auto* ptr = (Nelson::ArrayOf*)pm->ptr;
     Nelson::stringVector fieldnames = ptr->getFieldNames();
     size_t fieldCount = ptr->getFieldNames().size();

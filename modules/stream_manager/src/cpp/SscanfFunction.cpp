@@ -346,7 +346,6 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
         wchar_t* dp = buff;
         wchar_t* np;
         wchar_t sv;
-        bool as64bit = false;
         while (*dp) {
             pos = 0;
             np = dp;

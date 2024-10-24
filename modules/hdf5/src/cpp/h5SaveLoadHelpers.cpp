@@ -267,7 +267,6 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
         return res;
     }
     hid_t type = H5Aget_type(attr_id);
-    hsize_t sDim = H5Tget_size(type);
     uint64* ptrUint64 = nullptr;
     try {
         ptrUint64 = new uint64[(size_t)dims[1]];

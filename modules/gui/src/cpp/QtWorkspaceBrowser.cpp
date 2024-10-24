@@ -245,7 +245,6 @@ QtWorkspaceBrowser::updateVariables()
     m_tableWidget->setRowCount((int)variablesList.size());
 
     for (int i = 0; i < variablesList.size(); i++) {
-        bool isPersistent = m_context->isVariablePersistent(wstring_to_utf8(variablesList[i]));
         bool isGlobal = m_context->isVariableGlobal(wstring_to_utf8(variablesList[i]));
         ArrayOf* variable = m_context->lookupVariable(wstring_to_utf8(variablesList[i]));
         if (variable) {

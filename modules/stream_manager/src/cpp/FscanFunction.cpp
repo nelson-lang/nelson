@@ -170,7 +170,6 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
         char* dp = buff;
         char* np;
         char sv;
-        bool as64bit = false;
         while (*dp) {
             np = dp;
             while ((*dp) && (*dp != '%')) {

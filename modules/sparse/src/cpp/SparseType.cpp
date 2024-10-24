@@ -336,6 +336,13 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
     switch (dclass) {
     case NLS_LOGICAL: {
         Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat = nullptr;
+        try {
+            spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
+        } catch (const std::bad_alloc&) {
+            spMat = nullptr;
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        return spMat;
     } break;
     case NLS_DOUBLE: {
         Eigen::SparseMatrix<double, 0, signedIndexType>* spMat = nullptr;
@@ -345,18 +352,17 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }
-        indexType X = 0;
-        indexType Y = 0;
-        for (auto& i : m) {
-            for (auto& j : i) {
-                Eigen::SparseMatrix<double, 0, signedIndexType>* src
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j.getDataPointer());
-            }
-        }
         return spMat;
     } break;
     case NLS_DCOMPLEX: {
-        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
+        Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat = nullptr;
+        try {
+            spMat = new Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>(rows, cols);
+        } catch (const std::bad_alloc&) {
+            spMat = nullptr;
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        return spMat;
     } break;
     default: {
         Error(_W("Unsupported type in SparseMatrixConstructor."));
@@ -888,7 +894,6 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
     auto* pV = (double*)cp;
     indexType q = 0;
     for (indexType k = 0; k < nnz; k++) {
-        bool isZeroValue = false;
         /* Currently , for compatibility, complex values are not cumulative */
         if (bScalarV) {
             if (pV[0] || pV[1]) {
