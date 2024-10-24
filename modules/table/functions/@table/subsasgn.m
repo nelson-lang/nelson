@@ -56,11 +56,19 @@ function R = dotSubsasgn(T, sasgn, value)
         if ~isequal(size(before.RowNames), size(value.RowNames))
           error(_('Value assignment must be same size as existing value.'));
         end
-        if isstring(value.VariableNames)
-          value.VariableNames = cellstr(value.VariableNames);
-        end
-        if isstring(value.RowNames)
-          value.RowNames = cellstr(value.RowNames);
+        ce = {};
+        if isstring(value.VariableNames) || iscellstr(value.VariableNames)
+          if iscellstr(value.VariableNames)
+            ce = value.VariableNames;
+          else 
+            ce = cellstr(value.VariableNames);
+          end
+          R = renamevars(T, before.VariableNames, ce);
+          return
+        else 
+          if isstring(value.RowNames)
+            value.RowNames = cellstr(value.RowNames);
+          end
         end
         st.Properties = value;
         R = class(st, 'table'); 
@@ -205,7 +213,7 @@ function R = parentheseSubsasgn(T, sasgn, value)
       end
     else
       % Delete specific columns
-      if ~isequal(idxRow, 1:width(T)) || isempty(idxCol)
+      if ~isequal(idxRow, 1:height(T)) || isempty(idxCol)
         error(_('At least one subscript must be '':'' when you delete rows or variables by assigning [].'));
       end
       for j = idxCol
