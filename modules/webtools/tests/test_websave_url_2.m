@@ -16,6 +16,7 @@ M = [1 2 3; 4 5 6];
 try
   fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
 catch ex
+  fullname = '';
   R = strcmp(ex.message, _('Forbidden (403)')) || ...
       strcmp(ex.message, _('Timeout was reached')) || ... 
       strcmp(ex.message, _('Couldn''t resolve host name'));

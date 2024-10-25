@@ -17,6 +17,7 @@ while (~ok && cnt < 10)
     fullname = websave(filename, 'http://httpbin.org/get', 'r', i, "b+", 3, o);
     ok = true;
   catch
+    fullname = '';
     cnt = cnt + 1;
   end
 end

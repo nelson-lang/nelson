@@ -20,6 +20,7 @@ while (retry)
     destination_filename = websave(filename, url);
     testPass = true;
   catch ex
+    destination_filename = '';
     testPass = (strcmp(ex.message, 'Bad Request (400)') == 1);
     if ~testPass
       testPass = (strcmp(ex.message, _('Timeout was reached')) == 1);
