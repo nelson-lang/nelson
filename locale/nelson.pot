@@ -2284,6 +2284,9 @@ msgstr ""
 msgid "System error detected: Error code: %s"
 msgstr ""
 
+msgid "numel and size need to be overloaded."
+msgstr ""
+
 msgid "Illegal use of the ':' operator"
 msgstr ""
 
@@ -7130,6 +7133,13 @@ msgstr ""
 msgid "Wrong value for #3: IgnoreCase expected."
 msgstr ""
 
+msgid "Tables must have the same names for rows."
+msgstr ""
+
+#, python-format
+msgid "Undefined function %s for input arguments of type %s."
+msgstr ""
+
 msgid "All input arguments must be tables."
 msgstr ""
 
@@ -7203,6 +7213,9 @@ msgstr ""
 msgid "Invalid column indexing."
 msgstr ""
 
+msgid "All table variables must have the same number of rows."
+msgstr ""
+
 msgid "Mismatched variable names."
 msgstr ""
 
@@ -7211,6 +7224,13 @@ msgid ""
 msgstr ""
 
 msgid "X must be a 2-D matrix."
+msgstr ""
+
+msgid "oldNames and newNames must have the same length."
+msgstr ""
+
+#, python-format
+msgid "Name \"%s\" not found in the table."
 msgstr ""
 
 msgid "T must be a table."
@@ -7223,6 +7243,18 @@ msgid "Invalid number of input arguments."
 msgstr ""
 
 msgid "Invalid first argument."
+msgstr ""
+
+#, python-format
+msgid ""
+"Invalid input argument at position %d.\n"
+"Value must be greater than or equal to %d."
+msgstr ""
+
+#, python-format
+msgid ""
+"Invalid input argument at position %d.\n"
+"Value must be integer."
 msgstr ""
 
 msgid ""
