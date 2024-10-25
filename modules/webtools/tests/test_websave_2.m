@@ -19,6 +19,7 @@ catch ex
       strcmp(ex.message, _('Couldn''t resolve host name'));
   skip_testsuite(R, ex.message)
 end
+assert_istrue(isfile(destination_filename));
 info = dir(destination_filename);
 assert_istrue(info.bytes > 1000);
 txt = fileread(destination_filename);

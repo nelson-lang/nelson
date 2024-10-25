@@ -19,7 +19,8 @@ catch ex
       strcmp(ex.message, _('Couldn''t resolve host name'));
   skip_testsuite(R, ex.message)
 end
-txt = fileread(filename);
+assert_istrue(isfile(destination_filename));
+txt = fileread(destination_filename);
 st = jsondecode(txt);
 assert_isequal(st(1).email, 'Eliseo@gardner.biz');
 %=============================================================================

@@ -17,6 +17,7 @@ catch ex
       strcmp(ex.message, _('Couldn''t resolve host name'));
   skip_testsuite(R, ex.message)
 end
+assert_istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
 REF = struct();
 assert_isequal(R, REF);
