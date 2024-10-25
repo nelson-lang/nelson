@@ -21,6 +21,7 @@ while (~ok && cnt < 10)
   end
 end
 skip_testsuite(~ok, 'Timeout reached')
+assert_istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
 assert_istrue(isstruct(R.args));
 assert_isequal(fieldnames(R.args), {'b_'; 'r'});

@@ -11,6 +11,7 @@ url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
 filename = [tempdir(), 'MoValleyEclipse_1.jpg'];
 try
   outfilename = websave(filename, url);
+  assert_istrue(isfile(outfilename));
 catch ex
   R = strcmp(ex.message, _('Forbidden (403)')) || ...
       strcmp(ex.message, _('Timeout was reached')) || ... 

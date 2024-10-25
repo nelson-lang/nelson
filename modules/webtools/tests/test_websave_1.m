@@ -12,8 +12,9 @@ assert_isequal(nargout('websave'), 1);
 %=============================================================================
 url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
 filename = [tempdir(), 'MoValleyEclipse_2.jpg'];
+options = weboptions('Timeout', 120);
 try
-  destination_filename = websave(filename, url);
+  destination_filename = websave(filename, url, options);
 catch ex
   R = strcmp(ex.message, _('Forbidden (403)')) || ...
       strcmp(ex.message, _('Timeout was reached')) || ... 
