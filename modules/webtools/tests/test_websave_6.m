@@ -14,6 +14,7 @@ o.Timeout = 60;
 try
   destination_filename = websave(filename, url, o);
 catch ex
+  destination_filename = '';
   R = strcmp(ex.message, _('Forbidden (403)')) || ...
       strcmp(ex.message, _('Timeout was reached')) || ... 
       strcmp(ex.message, _('Couldn''t resolve host name'));

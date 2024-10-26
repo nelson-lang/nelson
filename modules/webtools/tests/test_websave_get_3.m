@@ -11,6 +11,7 @@ filename = [tempdir(), 'test_websave_get_3.json'];
 try
   fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1/comments');
 catch ex
+  fullname = '';
   R = strcmp(ex.message, _('Forbidden (403)')) || ...
       strcmp(ex.message, _('Timeout was reached')) || ... 
       strcmp(ex.message, _('Couldn''t resolve host name'));
