@@ -657,7 +657,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Dead_Small_Schwa"] = Qt::Key_Dead_Small_Schwa;
     mapConstants[L"Qt.Key_Dead_Capital_Schwa"] = Qt::Key_Dead_Capital_Schwa;
     mapConstants[L"Qt.Key_Dead_Greek"] = Qt::Key_Dead_Greek;
-#if QT_VERSION != QT_VERSION_CHECK(5, 15, 8)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     mapConstants[L"Qt.Key_Dead_Lowline"] = Qt::Key_Dead_Lowline;
     mapConstants[L"Qt.Key_Dead_Aboveverticalline"] = Qt::Key_Dead_Aboveverticalline;
     mapConstants[L"Qt.Key_Dead_Belowverticalline"] = Qt::Key_Dead_Belowverticalline;
