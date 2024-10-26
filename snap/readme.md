@@ -2,7 +2,7 @@
 
 ```bash
 NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
-
+echo $NELSON_VERSION
 ```
 
 ```bash
@@ -14,6 +14,9 @@ Alternative:
 
 ```bash
 sudo snapcraft clean
+sudo rm -rf stage
+sudo rm -rf parts
+sudo rm -rf prime
 sudo snapcraft --destructive-mode --verbose
 ```
 
