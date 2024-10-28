@@ -45,6 +45,8 @@
 
 <description>
 <p><b>title('text')</b> adds the title to the current axes.</p>
+<p><b
+      >Visible</b> property is inherited from the parent if not explicitly defined.</p>
 </description>
   <used_function />
   <bibliography />
@@ -79,6 +81,12 @@ title('Unicode ドラゴンボールZ(ゼット)', 14);]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description
+      >Visible property is inherited from the parent if not explicitly defined.</history_description>
+    </history_item>
+
   </history>
 
   <authors>

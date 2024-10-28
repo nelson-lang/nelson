@@ -23,6 +23,7 @@ function varargout = title(varargin)
   
   saveca = gca();
   axes(parent);
+  visibility = parent.Visible;
   
   titleContent = varargin{indexArguments};
   if isStringScalar(indexArguments)
@@ -37,6 +38,7 @@ function varargout = title(varargin)
   'Parent', parent, 'AutoParent', 'off', ...
   'FontWeight', 'bold', ...
   'Margin', 3, ...
+  'Visible', visibility, ...
   varargin{indexArguments:end});
   
   axes(saveca);
