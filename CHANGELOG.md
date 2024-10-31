@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `title`: `Visible` property is inherited from the parent if not explicitly defined.
 
+### Fixed
+
+- [#1276](http://github.com/nelson-lang/nelson/issues/1276) micromamba macos build.
+
 ## 1.9.0 (2024-10-26)
 
 ### Added
