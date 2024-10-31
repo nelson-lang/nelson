@@ -11,7 +11,7 @@ R = eval('3.''');
 assert_isequal(R, 3);
 %=============================================================================
 cmd = '3. ''';
-msg = _('Lexical error ''unterminated character array''');
+msg = sprintf(_('Lexical error ''%s'''), _('unterminated character array'));
 assert_checkerror(cmd, msg);
 %=============================================================================
 R = eval('3 .''');

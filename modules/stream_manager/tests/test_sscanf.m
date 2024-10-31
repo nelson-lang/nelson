@@ -115,13 +115,13 @@ assert_isequal(nextindex, 6)
 [A, n, errmsg, nextindex] = sscanf('1.3d4', '%lf');
 assert_isapprox(A, 1.3, 1e-4)
 assert_isequal(n, 1)
-assert_isequal(errmsg, 'Matching failure in format.')
+assert_isequal(errmsg, _('Matching failure in format.'))
 assert_isequal(nextindex, 4)
 %=============================================================================
 [A, n, errmsg, nextindex] = sscanf('1.3d4', '%f');
 assert_isapprox(A, 1.3, 1e-4)
 assert_isequal(n, 1)
-assert_isequal(errmsg, 'Matching failure in format.')
+assert_isequal(errmsg, _('Matching failure in format.'))
 assert_isequal(nextindex, 4)
 %=============================================================================
 T = '78°F 72°F 64°F 66°F 49°F';

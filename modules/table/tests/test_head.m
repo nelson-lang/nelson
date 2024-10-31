@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 LastName = {'Sanchez';'Johnson';'Li';'Diaz';'Brown'};
 Age = [38;43;38;40;49];
 Smoker = logical([1;0;1;0;1]);

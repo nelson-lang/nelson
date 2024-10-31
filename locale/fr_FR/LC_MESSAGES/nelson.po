@@ -449,7 +449,7 @@ msgstr "non définie."
 
 msgid "Only one input parameter is supported for cell arrays."
 msgstr ""
-"Seul un paramètre d'entrée est pris en charge pour les tableaux de cellules."
+"Seul un paramètre d'entrée est pris en charge pour les tableaux de cells."
 
 msgid "Not yet implemented with dim > 2"
 msgstr "Pas encore implémenté avec dim > 2"
@@ -479,7 +479,7 @@ msgid "A valid function name is expected."
 msgstr "Un nom de fonction valide est attendu."
 
 msgid "cell expected."
-msgstr "cellule attendue."
+msgstr "cell attendue."
 
 msgid "Wrong type for argument #1. struct expected."
 msgstr "Mauvais type pour l'argument #1. Une structure est attendue."
@@ -616,7 +616,7 @@ msgid "Unable to import function through FFI."
 msgstr "Impossible d'importer la fonction via FFI."
 
 msgid "cell array"
-msgstr "tableau de cellules"
+msgstr "tableau de cells"
 
 #, c-format
 msgid "Invalid type for #%zu input argument: %s expected."
@@ -1041,15 +1041,15 @@ msgid ""
 "vectors."
 msgstr ""
 "Tous les arguments doivent être des chaînes, des vecteurs de caractères ou "
-"des tableaux de cellules de vecteurs de caractères."
+"des tableaux de cells de vecteurs de caractères."
 
 msgid "All string and cell array inputs must be the same size or scalars."
 msgstr ""
-"Toutes les chaînes et les tableaux de cellules doivent avoir la même taille "
-"ou être des scalaires."
+"Toutes les chaînes et les tableaux de cells doivent avoir la même taille ou "
+"être des scalaires."
 
 msgid "Cell of strings expected."
-msgstr "Une cellule de chaînes est attendue."
+msgstr "Une cell de chaînes est attendue."
 
 #, c-format
 msgid "Cannot change directory '%s'."
@@ -1073,7 +1073,7 @@ msgid "Directory destination does not exist."
 msgstr "Le répertoire de destination n'existe pas."
 
 msgid "A cell of existing filenames expected."
-msgstr "Une cellule de noms de fichiers existants est attendue."
+msgstr "Une cell de noms de fichiers existants est attendue."
 
 msgid "Directory already exists."
 msgstr "Le répertoire existe déjà."
@@ -1269,7 +1269,7 @@ msgid ""
 "expected."
 msgstr ""
 "Un triplet RGB, un vecteur de caractères ou une chaîne de caractères, une "
-"cellule de caractères attendue."
+"cell de caractères attendue."
 
 msgid "Use the 'multiple' option or specify one color specification."
 msgstr ""
@@ -1282,8 +1282,8 @@ msgid ""
 "Mx3 matrix of RGB triplets, a character vector, a cell-array of character "
 "vectors or a string array expected."
 msgstr ""
-"Matrice Mx3 de triplets RGB, un vecteur de caractères, un tableau de "
-"cellules de vecteurs de caractères ou un tableau de chaînes attendu."
+"Matrice Mx3 de triplets RGB, un vecteur de caractères, un tableau de cells "
+"de vecteurs de caractères ou un tableau de chaînes attendu."
 
 msgid "Size mismatch on arguments to arithmetic operator"
 msgstr "Taille incompatible des arguments pour l'opérateur arithmétique"
@@ -1319,7 +1319,7 @@ msgid ""
 "array of character vectors."
 msgstr ""
 "La valeur doit être un vecteur de caractères délimité par '|', un tableau de "
-"chaînes ou un tableau de cellules de vecteurs de caractères."
+"chaînes ou un tableau de cells de vecteurs de caractères."
 
 msgid "Out of bounds."
 msgstr "Hors limites."
@@ -1420,7 +1420,7 @@ msgid "\"stylesheet\" expected as first argument."
 msgstr "\"stylesheet\" attendu comme premier argument."
 
 msgid "char, cell, or string expected."
-msgstr "Caractère, cellule ou chaîne attendu."
+msgstr "Caractère, cell ou chaîne attendu."
 
 msgid "Invalid character vector for icon in 'msgbox'."
 msgstr "Vecteur de caractères non valide pour l'icône dans 'msgbox'."
@@ -1972,7 +1972,7 @@ msgid "' from string is not possible."
 msgstr "La conversion à partir d'une chaîne de caractères en '"
 
 msgid "' from cell is not possible."
-msgstr "La conversion à partir d'une cellule en '"
+msgstr "La conversion à partir d'une cell en '"
 
 msgid "' from function_handle is not possible."
 msgstr "La conversion à partir d'une function_handle en '"
@@ -2128,8 +2128,7 @@ msgstr "Type de fonction non valide."
 
 msgid "The special variable 'varargout' was not defined as a cell-array."
 msgstr ""
-"La variable spéciale 'varargout' n'a pas été définie comme tableau de "
-"cellules."
+"La variable spéciale 'varargout' n'a pas été définie comme tableau de cells."
 
 msgid "The special variable 'varargout' was not defined as expected."
 msgstr "La variable spéciale 'varargout' n'a pas été définie comme prévu."
@@ -2205,7 +2204,7 @@ msgid ""
 "instead."
 msgstr ""
 "Les tableaux non scalaires de pointeurs de fonction ne sont pas autorisés ; "
-"utilisez plutôt des tableaux de cellules."
+"utilisez plutôt des tableaux de cells."
 
 msgid "Cannot promote to string array."
 msgstr "Impossible de promouvoir en tableau de chaînes de caractères."
@@ -2387,7 +2386,7 @@ msgid "a matrix definition followed by a right bracket"
 msgstr "une définition de matrice suivie d'une parenthèse droite"
 
 msgid "a cell-array definition followed by a right brace"
-msgstr "une définition de tableau de cellules suivie d'une accolade droite"
+msgstr "une définition de tableau de cells suivie d'une accolade droite"
 
 msgid "matching right brace"
 msgstr "accolade droite correspondante"
@@ -3754,7 +3753,7 @@ msgstr ""
 "Le nombre d'arguments d'entrée doit être le même que celui de la sortie."
 
 msgid "char vector or cell of strings expected."
-msgstr "Un vecteur de caractères ou une cellule de chaînes est attendu."
+msgstr "Un vecteur de caractères ou une cell de chaînes est attendu."
 
 msgid "'class' argument expected."
 msgstr "Argument 'class' attendu."
@@ -3766,7 +3765,7 @@ msgid "Wrong value for #3: 'IgnoreCase' expected."
 msgstr "Mauvaise valeur pour l'argument #3 : 'IgnoreCase' attendu."
 
 msgid "Invalid input argument(s): cell or string expected."
-msgstr "Argument(s) d'entrée invalide(s) : cellule ou chaîne attendue."
+msgstr "Argument(s) d'entrée invalide(s) : cell ou chaîne attendue."
 
 msgid "'ForceCellOutput' expected as third input argument."
 msgstr "'ForceCellOutput' attendu comme troisième argument d'entrée."
@@ -3778,7 +3777,7 @@ msgid ""
 "First argument must be a cell of strings (or a string) and second argument a "
 "string."
 msgstr ""
-"Le premier argument doit être une cellule de chaînes (ou une chaîne) et le "
+"Le premier argument doit être une cell de chaînes (ou une chaîne) et le "
 "deuxième argument une chaîne."
 
 msgid "Input strings must have one row."
@@ -3807,16 +3806,14 @@ msgid ""
 "of character vectors expected."
 msgstr ""
 "Type incorrect pour l'argument #1 : tableau de chaînes de caractères ou "
-"vecteur de caractères ou cellule de tableaux de caractères de chaînes "
-"attendu."
+"vecteur de caractères ou cell de tableaux de caractères de chaînes attendu."
 
 msgid ""
 "Wrong type for argument #2: string array or character vector or cell array "
 "of character vectors expected."
 msgstr ""
 "Type incorrect pour l'argument #2 : tableau de chaînes de caractères ou "
-"vecteur de caractères ou cellule de tableaux de caractères de chaînes "
-"attendu."
+"vecteur de caractères ou cell de tableaux de caractères de chaînes attendu."
 
 msgid "wrong file extension .m or .m expected."
 msgstr "Mauvaise extension de fichier .m ou .m attendue."
@@ -4102,7 +4099,7 @@ msgid "Cannot convert handle arrays to indices."
 msgstr "Impossible de convertir les tableaux de handle en indices."
 
 msgid "Cannot convert cell arrays to indices."
-msgstr "Impossible de convertir les tableaux de cellules en indices."
+msgstr "Impossible de convertir les tableaux de cells en indices."
 
 msgid "Cannot convert string arrays to indices."
 msgstr "Impossible de convertir les tableaux de chaînes en indices."
@@ -4173,12 +4170,11 @@ msgstr "L'argument de commutation doit être un scalaire ou une chaîne."
 msgid "Switch argument cannot be a reference type (struct or cell array)"
 msgstr ""
 "L'argument de commutation ne peut pas être un type de référence (tableau de "
-"structures ou de cellules)."
+"structures ou de cells)."
 
 msgid "Case arguments must either be a scalar or a cell array"
 msgstr ""
-"Les arguments de cas doivent être soit un scalaire soit un tableau de "
-"cellules."
+"Les arguments de cas doivent être soit un scalaire soit un tableau de cells."
 
 msgid "copyElements not supported for sparse arrays."
 msgstr "copyElements n'est pas pris en charge pour les tableaux creux."
@@ -4270,7 +4266,7 @@ msgstr "Impossible de promouvoir en tableau d'un autre type de classe."
 
 msgid "Cell definition must have same number of elements in each row"
 msgstr ""
-"La définition de la cellule doit avoir le même nombre d'éléments dans chaque "
+"La définition de la cell doit avoir le même nombre d'éléments dans chaque "
 "ligne."
 
 msgid "Attempt to apply contents-indexing to non-cell array object."
@@ -4288,7 +4284,7 @@ msgid "Content indexing must return a single value."
 msgstr "L'indexation du contenu doit renvoyer une seule valeur."
 
 msgid "Index exceeds cell array dimensions"
-msgstr "L'indice dépasse les dimensions du tableau de cellules."
+msgstr "L'indice dépasse les dimensions du tableau de cells."
 
 msgid "getNDimContents not supported for sparse arrays."
 msgstr "getNDimContents n'est pas pris en charge pour les tableaux creux."
@@ -4303,7 +4299,7 @@ msgstr ""
 "getVectorContentsAsList n'est pas pris en charge pour les tableaux creux."
 
 msgid "ArrayOf index exceeds bounds of cell-array"
-msgstr "ArrayOf l'index dépasse les limites du tableau de cellules"
+msgstr "ArrayOf l'index dépasse les limites du tableau de cells"
 
 msgid "Attempt to apply contents-indexing to non cell or string array object."
 msgstr ""
@@ -4326,7 +4322,7 @@ msgid ""
 "In expression A{I} = B, I must reference a single element of cell-array A."
 msgstr ""
 "Dans l'expression A{I} = B, I doit faire référence à un seul élément du "
-"tableau de cellules A."
+"tableau de cells A."
 
 msgid "Illegal negative index in expression A{I} = B."
 msgstr "Indice négatif illégal dans l'expression A{I} = B."
@@ -4339,7 +4335,7 @@ msgid ""
 "element of cell-array A."
 msgstr ""
 "Dans l'expression A{I1,I2,...,IN} = B, (I1,...,IN) doit faire référence à un "
-"seul élément du tableau de cellules A."
+"seul élément du tableau de cells A."
 
 msgid "setVectorContentsAsList not supported for sparse arrays."
 msgstr ""
@@ -4377,10 +4373,10 @@ msgstr ""
 "Impossible de convertir l'objet fourni en une seule chaîne de caractères."
 
 msgid "A cell or string array expected."
-msgstr "Un tableau de cellules ou de chaînes est attendu."
+msgstr "Un tableau de cells ou de chaînes est attendu."
 
 msgid "A cell of string expected."
-msgstr "Un tableau de cellules de chaînes est attendu."
+msgstr "Un tableau de cells de chaînes est attendu."
 
 msgid "A vector expected."
 msgstr "Un vecteur est attendu."
@@ -4471,7 +4467,7 @@ msgstr ""
 "type."
 
 msgid "Cannot convert cell-arrays to any other type."
-msgstr "Impossible de convertir les tableaux de cellules en tout autre type."
+msgstr "Impossible de convertir les tableaux de cells en tout autre type."
 
 msgid "Cannot convert function_handle to any other type."
 msgstr "Impossible de convertir function_handle en tout autre type."
@@ -5083,19 +5079,16 @@ msgstr "Type incorrect pour l'argument #%d : chaîne de caractères attendue."
 
 msgid "Wrong type for argument #1: cell of strings expected."
 msgstr ""
-"Type incorrect pour l'argument #1 : cellule de chaînes de caractères "
-"attendue."
+"Type incorrect pour l'argument #1 : cell de chaînes de caractères attendue."
 
 msgid "Wrong type for argument #2: cell of strings expected."
 msgstr ""
-"Type incorrect pour l'argument #2 : cellule de chaînes de caractères "
-"attendue."
+"Type incorrect pour l'argument #2 : cell de chaînes de caractères attendue."
 
 #, c-format
 msgid "Wrong type for argument #%d: cell of strings expected."
 msgstr ""
-"Type incorrect pour l'argument #%d : cellule de chaînes de caractères "
-"attendue."
+"Type incorrect pour l'argument #%d : cell de chaînes de caractères attendue."
 
 msgid "Wrong type for argument #1: logical expected."
 msgstr "Type incorrect pour l'argument #1 : valeur logique attendue."
@@ -5251,11 +5244,11 @@ msgstr ""
 
 msgid "Wrong type for argument #1: string or cell expected."
 msgstr ""
-"Type incorrect pour l'argument #1 : chaîne de caractères ou cellule attendue."
+"Type incorrect pour l'argument #1 : chaîne de caractères ou cell attendue."
 
 msgid "Wrong type for argument #2: string or cell expected."
 msgstr ""
-"Type incorrect pour l'argument #2 : chaîne de caractères ou cellule attendue."
+"Type incorrect pour l'argument #2 : chaîne de caractères ou cell attendue."
 
 msgid "Wrong type for #1 argument: numeric value expected."
 msgstr "Type incorrect pour l'argument #1 : valeur numérique attendue."
@@ -5264,10 +5257,10 @@ msgid "Wrong type for #2 argument: numeric value expected."
 msgstr "Type incorrect pour l'argument #2 : valeur numérique attendue."
 
 msgid "Wrong type for argument #1. cell expected."
-msgstr "Type incorrect pour l'argument #1 : cellule attendue."
+msgstr "Type incorrect pour l'argument #1 : cell attendue."
 
 msgid "Wrong type for argument #2. cell expected."
-msgstr "Type incorrect pour l'argument #2 : cellule attendue."
+msgstr "Type incorrect pour l'argument #2 : cell attendue."
 
 msgid "Wrong type for argument #2. struct expected."
 msgstr "Type incorrect pour l'argument #2 : structure attendue."
@@ -5299,7 +5292,7 @@ msgid "class expected."
 msgstr "Classe attendue."
 
 msgid "cell of strings expected."
-msgstr "Cellule de chaînes de caractères attendue."
+msgstr "cell de chaînes de caractères attendue."
 
 msgid "type reserved."
 msgstr "Type réservé."
@@ -5570,8 +5563,8 @@ msgstr "Impossible de convertir l'élément manquant."
 
 msgid "Cell must be string scalars or character arrays."
 msgstr ""
-"La cellule doit contenir des scalaires de chaînes de caractères ou des "
-"tableaux de caractères."
+"La cell doit contenir des scalaires de chaînes de caractères ou des tableaux "
+"de caractères."
 
 msgid "Matrix 2D expected."
 msgstr "Matrice 2D attendue."
@@ -5617,8 +5610,8 @@ msgstr "Liste de builtins invalide."
 
 msgid "#2 input argument: A string or cell of strings expected."
 msgstr ""
-"Argument d'entrée #2 : une chaîne de caractères ou une cellule de chaînes "
-"est attendue."
+"Argument d'entrée #2 : une chaîne de caractères ou une cell de chaînes est "
+"attendue."
 
 msgid "At least 4 input arguments expected."
 msgstr "Au moins 4 arguments d'entrée sont attendus."
@@ -5897,7 +5890,7 @@ msgstr "Les vecteurs x et z doivent avoir la même longueur."
 
 msgid "last argument must be a string or cell of strings."
 msgstr ""
-"Le dernier argument doit être une chaîne de caractères ou une cellule de "
+"Le dernier argument doit être une chaîne de caractères ou une cell de "
 "chaînes de caractères."
 
 msgid "Invalid input argument: graphics object or text value expected."
@@ -6493,7 +6486,7 @@ msgstr "Pas de support pour le chaînage d'index."
 
 msgid "'subs' field must be a cell array or string."
 msgstr ""
-"Le champ 'subs' doit être un tableau de cellules ou une chaîne de caractères."
+"Le champ 'subs' doit être un tableau de cells ou une chaîne de caractères."
 
 msgid "The first argument must be a struct."
 msgstr "Le premier argument doit être une structure."
@@ -6675,10 +6668,10 @@ msgid "An expression after +."
 msgstr "Une expression après +."
 
 msgid "First input argument must be a cell array."
-msgstr "Le premier argument d'entrée doit être un tableau de cellules."
+msgstr "Le premier argument d'entrée doit être un tableau de cells."
 
 msgid "Cell with cells or object not supported."
-msgstr "Cellule avec des cellules ou objet non pris en charge."
+msgstr "cell avec des cells ou objet non pris en charge."
 
 msgid "Size mismatch on arguments to arithmetic operator."
 msgstr "Taille incompatible sur les arguments de l'opérateur arithmétique."
@@ -6748,7 +6741,7 @@ msgstr "Les arguments #1 et #2 doivent avoir la même longueur."
 
 msgid "String, cell of chars, or characters vector expected."
 msgstr ""
-"Chaîne, tableau de cellules de caractères ou vecteur de caractères attendu."
+"Chaîne, tableau de cells de caractères ou vecteur de caractères attendu."
 
 msgid "Weboptions must be the last argument."
 msgstr "Weboptions doit être le dernier argument."
@@ -6968,7 +6961,7 @@ msgid "All structures must have the same fieldnames"
 msgstr "Toutes les structures doivent avoir les mêmes noms de champs."
 
 msgid "Size mismatch on arguments to arithmetic operator "
-msgstr "Taille incompatible sur les arguments de l'opérateur arithmétique."
+msgstr "Taille incompatible sur les arguments de l'opérateur arithmétique "
 
 msgid "cmake not found."
 msgstr "cmake non trouvé."
@@ -6998,7 +6991,7 @@ msgstr "Le groupe ne peut être qu'un enfant d'axes ou d'un groupe hg."
 msgid "Invalid argument type: char vector, string, or cell of char expected."
 msgstr ""
 "Type d'argument non valide : un vecteur de caractères, une chaîne de "
-"caractères ou une cellule de caractères est attendu."
+"caractères ou une cell de caractères est attendu."
 
 msgid "CDataMapping scaled or direct value expected."
 msgstr "CDataMapping attend une valeur mise à l'échelle ou directe."
@@ -7024,8 +7017,8 @@ msgstr "les arguments #1 et #2 doivent avoir la même longueur."
 
 msgid "String, cell of chars or characters vector expected."
 msgstr ""
-"Une chaîne de caractères, une cellule de caractères ou un vecteur de "
-"caractères est attendu."
+"Une chaîne de caractères, une cell de caractères ou un vecteur de caractères "
+"est attendu."
 
 msgid "weboptions must be last argument."
 msgstr "weboptions doit être le dernier argument."
@@ -7154,7 +7147,7 @@ msgstr ""
 
 msgid "Invalid argument type: char vector, string or cell of char expected."
 msgstr ""
-"Type d'argument non valide : vecteur de caractères, chaîne ou cellule de "
+"Type d'argument non valide : vecteur de caractères, chaîne ou cell de "
 "caractères attendu."
 
 msgid "Unknow option."
@@ -7173,7 +7166,7 @@ msgid "Ts property must be 0, a positive scalar, or -1."
 msgstr "La propriété Ts doit être 0, un scalaire positif, ou -1."
 
 msgid "All elements of cell array must have the same type."
-msgstr "Tous les éléments du tableau de cellules doivent avoir le même type."
+msgstr "Tous les éléments du tableau de cells doivent avoir le même type."
 
 msgid "Index out of range"
 msgstr "Index hors de portée."
@@ -7202,7 +7195,7 @@ msgstr ""
 "Valeur incorrecte pour l'argument #1, 'fullpathext' ou 'fullpath' attendu."
 
 msgid "cellfun works only on cells."
-msgstr "cellfun fonctionne uniquement sur des cellules."
+msgstr "cellfun fonctionne uniquement sur des cells."
 
 msgid "Wrong type for argument #1. class expected."
 msgstr "Type incorrect pour l'argument #1. Classe attendue."
@@ -7727,7 +7720,7 @@ msgstr ""
 "'sin', 'square' ou 'pulse'."
 
 msgid "All elements of cell array must have same type."
-msgstr "Tous les éléments du tableau de cellules doivent avoir le même type."
+msgstr "Tous les éléments du tableau de cells doivent avoir le même type."
 
 msgid "All structures must have same fieldnames"
 msgstr "Toutes les structures doivent avoir les mêmes noms de champs"
@@ -8044,7 +8037,7 @@ msgid ""
 "or character array."
 msgstr ""
 "Les noms d'environnement doivent être un tableau de chaînes, un tableau de "
-"cellules de vecteurs de caractères, ou un tableau de caractères."
+"cells de vecteurs de caractères, ou un tableau de caractères."
 
 msgid "Valid Python code object expected."
 msgstr "Un objet de code Python valide est attendu."
@@ -8074,16 +8067,16 @@ msgid "Wrong value for #2 argument. struct"
 msgstr "Mauvaise valeur pour l'argument #2. struct"
 
 msgid "Wrong value for #2 argument. string"
-msgstr "Mauvaise valeur pour l'argument #2. chaîne de caractères"
+msgstr "Mauvaise valeur pour l'argument #2. string"
 
 msgid "Wrong value for #2 argument. cell"
-msgstr "Mauvaise valeur pour l'argument #2. cellule"
+msgstr "Mauvaise valeur pour l'argument #2. cell"
 
 msgid "Wrong value for #2 argument. numeric"
 msgstr "Mauvaise valeur pour l'argument #2. numérique"
 
 msgid "Cannot convert to cell"
-msgstr "Impossible de convertir en cellule"
+msgstr "Impossible de convertir en cell"
 
 msgid "Wrong value for #2 argument. int8"
 msgstr "Mauvaise valeur pour l'argument #2. int8"
@@ -8110,7 +8103,7 @@ msgid "Wrong value for #2 argument. uint64"
 msgstr "Mauvaise valeur pour l'argument #2. uint64"
 
 msgid "Wrong value for #2 argument. single"
-msgstr "Mauvaise valeur pour l'argument #2. float"
+msgstr "Mauvaise valeur pour l'argument #2. single"
 
 msgid "Wrong value for #2 argument. double"
 msgstr "Mauvaise valeur pour l'argument #2. double"
@@ -8180,8 +8173,8 @@ msgid ""
 "Wrong value for #2 arguments: struct, string, cell array of character "
 "vectors, or vector expected."
 msgstr ""
-"Mauvaise valeur pour les arguments #2 : structure, chaîne, tableau de "
-"cellules de vecteurs de caractères ou vecteur attendu."
+"Mauvaise valeur pour les arguments #2 : structure, chaîne, tableau de cell "
+"de vecteurs de caractères ou vecteur attendu."
 
 msgid ""
 "The permutation vector length must match the number of fields in the struct."
@@ -8288,19 +8281,19 @@ msgid "format option has to be a string."
 msgstr "L'option de format doit être une chaîne."
 
 msgid "Cannot concatenate keys. Use cell option."
-msgstr "Impossible de concaténer les clés. Utilisez l'option cellule."
+msgstr "Impossible de concaténer les clés. Utilisez l'option cell."
 
 msgid "format option can only be cell"
-msgstr "L'option de format ne peut être que cellule."
+msgstr "L'option de format ne peut être que cell."
 
 msgid "format option has to be a string"
 msgstr "L'option de format doit être une chaîne"
 
 msgid "cannot concatenate values. Use cell option."
-msgstr "Impossible de concaténer les valeurs. Utilisez l'option cellule."
+msgstr "Impossible de concaténer les valeurs. Utilisez l'option cell."
 
 msgid "format option can only be cell."
-msgstr "L'option de format ne peut être que cellule."
+msgstr "L'option de format ne peut être que cell."
 
 #, python-format
 msgid "function not implemented for '%s' type."
@@ -8318,12 +8311,11 @@ msgstr "le mode 'rows' ne fonctionne que pour les matrices 2D."
 msgid "'rows' option is not supported for cell array inputs."
 msgstr ""
 "l'option 'rows' n'est pas supportée pour les entrées de type tableau de "
-"cellules."
+"cells."
 
 msgid "The input must be a cell array containing character vectors."
 msgstr ""
-"L'entrée doit être un tableau de cellules contenant des vecteurs de "
-"caractères."
+"L'entrée doit être un tableau de cells contenant des vecteurs de caractères."
 
 msgid "Unsupported matrix type."
 msgstr "Type de matrice non pris en charge."
@@ -8364,7 +8356,7 @@ msgid ""
 "array containing character vector or function handle."
 msgstr ""
 "La valeur de rappel doit être un vecteur de caractères, un handle de "
-"fonction, ou un tableau de cellules contenant un vecteur de caractères ou un "
+"fonction, ou un tableau de cells contenant un vecteur de caractères ou un "
 "handle de fonction."
 
 msgid "Invalid image format: expected a 3D array with 3 color channels."
@@ -8400,7 +8392,7 @@ msgstr "Format de date invalide (champ dupliqué) :"
 
 msgid "First argument must be a cell array of row characters."
 msgstr ""
-"Le premier argument doit être un tableau de cellules de caractères de ligne."
+"Le premier argument doit être un tableau de cells de caractères de ligne."
 
 msgid "Second argument must be a scalar string or row vector of characters."
 msgstr ""
@@ -8448,8 +8440,8 @@ msgstr "Type de subsasgn non pris en charge."
 
 msgid "Value assignment must be a cell of characters or a string array."
 msgstr ""
-"L'affectation de la valeur doit être une cellule de caractères ou un tableau "
-"de chaînes."
+"L'affectation de la valeur doit être une cell de caractères ou un tableau de "
+"chaînes."
 
 msgid "Value assignment must be same size as existing value."
 msgstr ""
@@ -8573,6 +8565,10 @@ msgstr "oldNames et newNames doivent avoir la même longueur."
 #, python-format
 msgid "Name \"%s\" not found in the table."
 msgstr "Nom \"%s\" introuvable dans la table."
+
+#, python-format
+msgid "Lexical error %s"
+msgstr "Erreur lexicale %s"
 
 #, python-format
 msgid ""

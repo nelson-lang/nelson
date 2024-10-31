@@ -14,7 +14,8 @@
 %=============================================================================
 assert_checkerror('[end] = sin(3)', _('Syntax error.'));
 assert_checkerror('[1, end] = sin(3)', _('Syntax error.'));
-assert_checkerror('end = sin(3)', _('Expecting statement list or function definition'));
+msg = sprintf(_('Expecting %s'), _('statement list or function definition'));
+assert_checkerror('end = sin(3)', msg);
 %=============================================================================
 try
   eval('– = 3');

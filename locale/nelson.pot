@@ -2428,7 +2428,7 @@ msgid ""
 "\tat line %d of file %s"
 msgstr ""
 
-#, c-format
+#, c-format, python-format
 msgid "Lexical error '%s'"
 msgstr ""
 
@@ -6325,9 +6325,6 @@ msgstr ""
 msgid "Invalid name-value argument: %s."
 msgstr ""
 
-msgid "Size mismatch on arguments to arithmetic operator "
-msgstr ""
-
 msgid "cmake not found."
 msgstr ""
 
@@ -6793,18 +6790,12 @@ msgstr ""
 msgid "helpproject.qhp is missing."
 msgstr ""
 
-msgid "Expecting statement list or function definition"
-msgstr ""
-
-msgid "Lexical error unterminated character array"
+#, python-format
+msgid "Lexical error %s"
 msgstr ""
 
 #, python-format
 msgid "Function %s has already been declared within this scope."
-msgstr ""
-
-msgid ""
-"Lexical error Malformed unsigned integer constant with unary operator -."
 msgstr ""
 
 msgid "A must be a 2-D numeric or logical matrix."
@@ -6923,12 +6914,6 @@ msgstr ""
 msgid "Illegal indexing structure argument: type ., {} or () expected."
 msgstr ""
 
-msgid "Size mismatch on arguments to arithmetic operator >="
-msgstr ""
-
-msgid "Size mismatch on arguments to arithmetic operator <="
-msgstr ""
-
 msgid "Two indices expected."
 msgstr ""
 
@@ -7011,9 +6996,6 @@ msgid "Wrong value for #2 argument. string"
 msgstr ""
 
 msgid "Wrong value for #2 argument. cell"
-msgstr ""
-
-msgid "Wrong value for #2 argument. numeric"
 msgstr ""
 
 msgid "Cannot convert to cell"

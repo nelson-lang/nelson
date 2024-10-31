@@ -23,7 +23,7 @@ assert_isequal(R.uint64(), uint64(3));
 assert_isequal(R.single(), single(3));
 assert_isequal(R.double(), double(3));
 %=============================================================================
-assert_checkerror('R.cell()', _('Wrong value for #2 argument. cell'));
-assert_checkerror('R.struct()', _('Wrong value for #2 argument. struct'));
-assert_checkerror('R.numeric()', _('Wrong value for #2 argument. numeric'));
+assert_checkerror('R.cell()', [_('Wrong value for #2 argument.'), ' ', 'cell']);
+assert_checkerror('R.struct()', [_('Wrong value for #2 argument.'), ' ', 'struct']);
+assert_checkerror('R.numeric()', [_('Wrong value for #2 argument.'), ' ', 'numeric']);
 %=============================================================================

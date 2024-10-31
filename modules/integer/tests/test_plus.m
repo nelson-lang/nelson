@@ -25,5 +25,5 @@ assert_isequal(R, REF);
 %=============================================================================
 assert_checkerror('R = int16(4) + int8(4);', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
 %=============================================================================
-assert_checkerror('int32(ones(3, 3)) + int32(ones(4, 4))', [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('int32(ones(3, 3)) + int32(ones(4, 4))', [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 %=============================================================================
