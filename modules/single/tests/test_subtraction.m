@@ -90,7 +90,7 @@ assert_isequal(R2, single(REF2));
 %=============================================================================
 A = single(ones(3, 1));
 B = single(ones(4, 1));
-assert_checkerror('A - B', [_('Size mismatch on arguments to arithmetic operator '), '-']);
+assert_checkerror('A - B', [_('Size mismatch on arguments to arithmetic operator'), ' ', '-']);
 %=============================================================================
 % complex
 A = single(3);

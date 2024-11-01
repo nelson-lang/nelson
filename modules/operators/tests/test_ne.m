@@ -22,7 +22,7 @@ assert_isequal(R, REF);
 %=============================================================================
 A = ["Nel", NaN, "son"];
 B = ["Nel", "son"];
-assert_checkerror('A != B', [_('Size mismatch on arguments to arithmetic operator '), '~=']);
+assert_checkerror('A ~= B', [_('Size mismatch on arguments to arithmetic operator'), ' ~=']);
 %=============================================================================
 A = ["r", "rff", ""; "dd", "c", "mm"];
 B = ["r", "rff", ""; "dd", "c", "mm"];

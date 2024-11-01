@@ -59,11 +59,11 @@ assert_isapprox(C, REF, 1e-4);
 %=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 B = [8 7 6 5 4];
-assert_checkerror('atan2(A, B)', _(['Size mismatch on arguments to arithmetic operator ', 'atan2']))
+assert_checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
 %=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 B = [8 7 6 5];
-assert_checkerror('atan2(A, B)', _(['Size mismatch on arguments to arithmetic operator ', 'atan2']))
+assert_checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
 %=============================================================================
 R = atan2(NaN,Inf);
 REF = NaN;

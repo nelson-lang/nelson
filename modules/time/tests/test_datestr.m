@@ -21,7 +21,7 @@ assert_isequal(R, REF);
 months = {'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'};
 for k = 1:12
     R = datestr([2024 k 1 3 4 2], 'local');
-    REF = sprintf('01-%s-2024 03:04:02', months{k});
+    REF = sprintf('01-%s-2024 03:04:02', _(months{k}));
     assert_isequal(R, REF);
 end
 %=============================================================================

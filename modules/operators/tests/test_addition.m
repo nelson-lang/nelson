@@ -41,7 +41,7 @@ assert_isequal(R, REF);
 %=============================================================================
 A = ones(1,2,3);
 B = [1:3];
-assert_checkerror('R = A + B;', [_('Size mismatch on arguments to arithmetic operator '),  '+']);
+assert_checkerror('R = A + B;', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
 A = "r";
 B = "B";

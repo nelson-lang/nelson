@@ -89,7 +89,7 @@ assert_isequal(R, REF);
 %=============================================================================
 A = reshape(1:(3*4*2),3,4,2);
 B = 1:5;
-assert_checkerror('R = A + B;',  [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('R = A + B;',  [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 %=============================================================================
 R = [1;3]+[1 2 3 4; 4 5 6 7];
 REF = [2     3     4     5;7     8     9    10];
@@ -97,7 +97,7 @@ assert_isequal(R, REF);
 %=============================================================================
 A = [1,3; 2,4];
 B = [1 2 3 4; 4 5 6 7];
-assert_checkerror('R = A + B;',  [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('R = A + B;',  [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 %=============================================================================
 R = [1 2 3 4] + [1 2 3 4; 4 5 6 7];
 REF = [     2     4     6     8; 5     7     9    11];
@@ -125,11 +125,11 @@ assert_isequal(R, REF);
 %=============================================================================
 A = ones(3, 1);
 B = ones(4, 1);
-assert_checkerror('A + B', [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('A + B', [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 %=============================================================================
 % Currently not managed
 %R = reshape(1:(4*4*2),4,4,2) + [1; 2; 3; 4 ];
-assert_checkerror('reshape(1:(4*4*2),4,4,2) + [1; 2; 3; 4 ]', [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('reshape(1:(4*4*2),4,4,2) + [1; 2; 3; 4 ]', [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 REF1 =[2     6    10    14;
 4     8    12    16;
 6    10    14    18;
@@ -145,7 +145,7 @@ REF2 = [18    22    26    30;
 A = reshape(1:(3*4*2),3,4,2);
 B = 1:4;
 %R = A + B;
-assert_checkerror('A + B', [_('Size mismatch on arguments to arithmetic operator '), '+']);
+assert_checkerror('A + B', [_('Size mismatch on arguments to arithmetic operator'), ' +']);
 REF_1 = [ 2     6    10    14;
 3     7    11    15;
 4     8    12    16];

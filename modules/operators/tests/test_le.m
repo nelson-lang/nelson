@@ -22,7 +22,7 @@ assert_isequal(R, REF);
 %=============================================================================
 A = ["Nel", NaN, "son"];
 B = ["Nel", "son"];
-assert_checkerror('A <= B', [_('Size mismatch on arguments to arithmetic operator '), '<=']);
+assert_checkerror('A <= B', [_('Size mismatch on arguments to arithmetic operator'), ' <=']);
 %=============================================================================
 R = ("" <= "r");
 assert_istrue(R);
@@ -125,11 +125,11 @@ assert_istrue(R);
 %=============================================================================
 A = ones(1,2,3);
 B = [1:3];
-assert_checkerror('A <= B', _('Size mismatch on arguments to arithmetic operator <='));
+assert_checkerror('A <= B', [_('Size mismatch on arguments to arithmetic operator'), ' <=']);
 %=============================================================================
 A = [1 2 3];
 B = [1 2 3 4];
-assert_checkerror('A <= B', _('Size mismatch on arguments to arithmetic operator <='));
+assert_checkerror('A <= B', [_('Size mismatch on arguments to arithmetic operator'), ' <=']);
 %=============================================================================
 A = ["apple", "orange","tomato"];
 B = 'orange';

@@ -56,14 +56,14 @@ assert_isequal(R, REF);
 %=============================================================================
 M = [11 21 31];
 N = [11 21 31 41];
-assert_checkerror('M * N', [_('Size mismatch on arguments to arithmetic operator '), '*']);
+assert_checkerror('M * N', [_('Size mismatch on arguments to arithmetic operator'), ' *']);
 %=============================================================================
 M = ones(3, 3, 3);
 assert_checkerror('M * M', _('Wrong size for input arguments: 2D matrix expected.'));
 %=============================================================================
 A = 1:2;
 B = (1:3)';
-assert_checkerror('R = A * B', [_('Size mismatch on arguments to arithmetic operator '), '*']);
+assert_checkerror('R = A * B', [_('Size mismatch on arguments to arithmetic operator'), ' *']);
 %=============================================================================
 A = 1:2;
 B = (1:3)';

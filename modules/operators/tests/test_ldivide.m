@@ -29,11 +29,11 @@ assert_isapprox(R, REF, 1e-4);
 %=============================================================================
 B = [2, 3];
 A = [1 2 3; 4 5 6];
-assert_checkerror('R = A .\ B', [_('Size mismatch on arguments to arithmetic operator '), './']);
+assert_checkerror('R = A .\ B', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
 %=============================================================================
 B = [2, 3];
 A = [1 2 3; 4 5 6];
-assert_checkerror('R = B .\ A', [_('Size mismatch on arguments to arithmetic operator '), './']);
+assert_checkerror('R = B .\ A', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
 %=============================================================================
 A = 1:2;
 B = (1:3)';
