@@ -25,9 +25,8 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_name}
-  PRIVATE ${OpenMP_CXX_INCLUDE_DIR}
+  PRIVATE ${OpenMP_CXX_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include

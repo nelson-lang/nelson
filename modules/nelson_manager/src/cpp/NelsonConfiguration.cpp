@@ -38,6 +38,7 @@ NelsonConfiguration::NelsonConfiguration()
     lastWarningException.clear();
     currentAxesOnClick = true;
     currentFigureOnClick = true;
+    currentLocale = getDefaultLocale();
 }
 //=============================================================================
 NelsonConfiguration*
@@ -424,6 +425,24 @@ NelsonConfiguration::getBugTrackerUrl()
         bugTrackerUrl = getDefaultFromConfFile(L"issues_url");
     }
     return bugTrackerUrl;
+}
+//=============================================================================
+void
+NelsonConfiguration::setCurrentLocale(const std::wstring& locale)
+{
+    currentLocale = locale;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getCurrentLocale()
+{
+    return currentLocale;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getDefaultLocale()
+{
+    return L"en_US";
 }
 //=============================================================================
 } // namespace Nelson

@@ -9,6 +9,5 @@
 ;==============================================================================
 Source: {#RootPath}etc\startup.m; DestDir: {app}\etc\;
 Source: {#RootPath}etc\finish.m; DestDir: {app}\etc\;
-Source: {#RootPath}etc\languages.conf; DestDir: {app}\etc\;
 Source: {#RootPath}etc\defaults.conf; DestDir: {app}\etc\;
 ;==============================================================================

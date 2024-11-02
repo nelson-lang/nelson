@@ -7,7 +7,6 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}tools\gettext\bin\*.*; DestDir: {app}\tools\gettext\bin\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}tools\tests_all\*.*; DestDir: {app}\tools\tests_all\;Components: {#COMPONENT_TESTS_MANAGER};
 Source: {#RootPath}tools\benchs_all\*.*; DestDir: {app}\tools\benchs_all\;Components: {#COMPONENT_TESTS_MANAGER};
 Source: {#RootPath}tools\tests_result\*.*; DestDir: {app}\tools\tests_result\;Components: {#COMPONENT_TESTS_MANAGER};

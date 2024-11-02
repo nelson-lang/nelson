@@ -55,6 +55,7 @@ target_link_libraries(
   nlsInterpreter
   nlsLocalization
   nlsModules_manager
+  nlsNelson_manager
   ${LIBXML2_LIBRARIES})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} ${TBB_LIBRARY})

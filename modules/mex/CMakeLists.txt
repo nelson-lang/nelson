@@ -68,7 +68,7 @@ else()
     nlsStream_manager
     nlsTypes
     nlsOs_functions
-    ${BOOST_LIBRARIES})
+    ${Boost_LIBRARIES})
 endif()
 # ==============================================================================
 if(WITHOUT_MEX_MODULE)

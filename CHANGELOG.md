@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `title`: `Visible` property is inherited from the parent if not explicitly defined.
+- i18n: migration PO files to JSON.
 
 ### Fixed
 

@@ -101,30 +101,6 @@ end
 potfile = [nelsonroot(), '/locale/nelson.pot'];
 copyfile(ALL_POT, potfile, 'f');
 
-langs = getavailablelanguages();
-
-for l = langs(:)'
-  disp([_('update .po for:'), l{1}])
-  dirdest = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/'];
-  if ~isdir(dirdest)
-    mkdir(dirdest)
-  end
-  pofiledest = [dirdest, DOMAIN, '.po'];
-  
-  if isfile(pofiledest)
-    MSGCAT_OPTIONS = ' --force-po --no-location --unique --use-first';
-    CMD = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', pofiledest, ' ', potfile, ' -o ', pofiledest];
-  else
-    header_po = poheader(DOMAIN, l{1});
-    filewrite(pofiledest, header_pot)
-    CMD = [MSGMERGE, ' --update ', pofiledest, ' ', potfile];
-  end
-  [r, errmsg] = unix(CMD);
-  if r != 0
-    error(errmsg);
-  end
-end
-
 toc()
 exit('force')
 %=============================================================================

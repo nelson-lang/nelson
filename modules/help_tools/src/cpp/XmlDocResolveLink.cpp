@@ -17,6 +17,7 @@
 #include "XmlDocumentTags.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -66,8 +67,9 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                     bFound = true;
                     return bFound;
                 }
-                if (language != L"en_US") {
-                    filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
+                if (language != NelsonConfiguration::getInstance()->getDefaultLocale()) {
+                    filepath = module.modulepath + L"/" + L"help" + L"/"
+                        + NelsonConfiguration::getInstance()->getDefaultLocale() + L"/" + L"xml"
                         + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                     if (FileSystemWrapper::Path::is_regular_file(filepath)) {
                         if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {

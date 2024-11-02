@@ -51,11 +51,10 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-            ${Boost_INCLUDE_DIRS})
+            ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 
-  target_link_libraries(${module_library_name} nlsCharacters_encoding
-                        ${Boost_LIBRARIES})
+  target_link_libraries(${module_library_name} nlsCharacters_encoding nlsNelson_manager)
 endif()
 # ==============================================================================
 if(WITHOUT_I18N_MODULE)

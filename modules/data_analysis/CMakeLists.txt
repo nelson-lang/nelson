@@ -26,6 +26,7 @@ target_include_directories(
 target_include_directories(
   ${module_library_name}
   PRIVATE ${EIGEN3_INCLUDE_DIR}
+          ${OpenMP_CXX_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

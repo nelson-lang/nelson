@@ -145,7 +145,6 @@ bin/macos/*-exec
 /modules/help_tools/thirdparty/highlight.js
 /tools/gettext/bin
 .DS_Store
-*.mo
 /tools/gettext/generatepo/Release
 /tools/gettext/generatepo/Debug
 /tools/gettext/generatepo/x64
@@ -220,7 +219,8 @@ module_skeleton/*/*.manifest
 a.out
 cmake_hdf5_test.out
 ################################################################################
-locale/en_US/LC_MESSAGES/nelson.po
+locale/nelson.pot
+locale/??_??/
 ################################################################################
 modules/main/help/*/md/lgpl-3.0.md
 modules/main/help/*/md/gpl-3.0.md

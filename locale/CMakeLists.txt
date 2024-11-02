@@ -11,9 +11,10 @@
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   include(GNUInstallDirs)
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/en_US/LC_MESSAGES/nelson.mo
-          DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/en_US/LC_MESSAGES)
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/fr_FR/LC_MESSAGES/nelson.mo
-          DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr_FR/LC_MESSAGES)
+  install(FILES ${CMAKE_SOURCE_DIR}/locale/nelson-en_US.json
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/locale)
+  install(FILES ${CMAKE_SOURCE_DIR}/locale/nelson-fr_FR.json
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/locale)
 endif()
 # ==============================================================================
+
