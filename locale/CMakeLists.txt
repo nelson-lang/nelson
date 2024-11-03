@@ -12,9 +12,8 @@
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   include(GNUInstallDirs)
   install(FILES ${CMAKE_SOURCE_DIR}/locale/nelson-en_US.json
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/locale)
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/locale)
   install(FILES ${CMAKE_SOURCE_DIR}/locale/nelson-fr_FR.json
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/locale)
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/locale)
 endif()
 # ==============================================================================
-
