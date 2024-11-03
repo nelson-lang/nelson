@@ -7,37 +7,34 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/locale.hpp>
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "I18nManager.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+void
+forceRefreshLocale()
+{
+    I18nManager::getInstance()->forceToUpdateLocaleData();
+}
 //=============================================================================
 std::wstring
 gettextw(const std::wstring& S)
 {
-    if (S.empty()) {
-        return {};
-    }
-    return boost::locale::translate<wchar_t>(S.c_str());
+    return I18nManager::getInstance()->getTextW(S);
 }
 //=============================================================================
 std::wstring
 gettextw(const std::string& S)
 {
-    if (S.empty()) {
-        return {};
-    }
-    return utf8_to_wstring(boost::locale::translate(S).str());
+    return I18nManager::getInstance()->getTextW(S);
 }
 //=============================================================================
 std::string
 gettext(const std::string& S)
 {
-    if (S.empty()) {
-        return {};
-    }
-    return boost::locale::translate(S).str();
+    return I18nManager::getInstance()->getText(S);
 }
 //=============================================================================
 } // namespace Nelson

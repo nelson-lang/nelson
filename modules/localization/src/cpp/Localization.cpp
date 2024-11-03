@@ -8,14 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <nlohmann/json.hpp>
-#include <boost/function.hpp>
-#include <boost/locale.hpp>
-#include <boost/locale/generator.hpp>
 #include <clocale>
 #include <fstream>
+#include <regex>
 #include "Localization.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,19 +43,27 @@ Localization::destroy()
 void
 Localization::setLanguageEnvironment(const std::wstring& lang)
 {
+
     if (isSupportedLanguage(lang)) {
-        std::wstring localesPath
-            = NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/locale/";
-        boost::locale::generator gen;
+        NelsonConfiguration::getInstance()->setCurrentLocale(lang);
+        forceRefreshLocale();
         try {
-            gen.add_messages_path(wstring_to_utf8(localesPath));
-            gen.add_messages_domain("nelson");
-            std::string effectiveLang = wstring_to_utf8(lang);
-            const std::string langDesired = effectiveLang + std::string(".UTF-8");
-            std::locale::global(gen(langDesired));
-        } catch (const std::exception&) { //-V565
+            const std::string defaultLang
+                = wstring_to_utf8(NelsonConfiguration::getInstance()->getDefaultLocale())
+                + std::string(".UTF-8");
+
+            std::locale base = std::locale::classic();
+
+            std::locale us_locale(defaultLang);
+            std::locale mixed_locale(us_locale, base, std::locale::numeric);
+            std::locale::global(mixed_locale);
+
+            setlocale(LC_NUMERIC, "C");
+
+        } catch (const std::exception&) {
+            std::locale::global(std::locale::classic());
+            setlocale(LC_ALL, "C");
         }
-        setlocale(LC_NUMERIC, "C");
     }
 }
 //=============================================================================
@@ -64,50 +71,28 @@ void
 Localization::initLanguageSupported()
 {
     if (LanguageSupported.empty()) {
-        std::wstring langsconf
-            = NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/etc/languages.conf";
-        std::string jsonString;
-        std::string tmpline;
-#ifdef _MSC_VER
-        std::ifstream jsonFile(langsconf);
-#else
-        std::ifstream jsonFile(wstring_to_utf8(langsconf));
-#endif
-        if (!jsonFile.is_open()) {
-            LanguageSupported.push_back(std::wstring(L"en_US"));
-            return;
-        }
-        nlohmann::json data;
-        try {
-            data = nlohmann::json::parse(jsonFile);
-        } catch (const nlohmann::json::exception&) {
-            jsonFile.close();
-            LanguageSupported.push_back(std::wstring(L"en_US"));
-            return;
-        }
-
-        jsonFile.close();
-
-        nlohmann::json languages;
-        try {
-            languages = data["supported_languages"];
-        } catch (const nlohmann::json::exception&) {
-            LanguageSupported.push_back(std::wstring(L"en_US"));
-            return;
-        }
-        if (!languages.is_null() && languages.is_array()) {
+        auto config = NelsonConfiguration::getInstance();
+        std::wstring localesPath = config->getNelsonRootDirectory() + L"/locale/";
+        std::filesystem::path dir = localesPath;
+        std::filesystem::path r = dir.root_path();
+        if (std::filesystem::is_directory(dir.wstring())) {
+            std::wregex localeRegex(L"nelson-([a-z]{2}_[A-Z]{2})\\.json");
             try {
-                for (nlohmann::json::iterator it = languages.begin(); it != languages.end(); ++it) {
-                    std::string value = *it;
-                    LanguageSupported.push_back(utf8_to_wstring(value));
+                for (std::filesystem::directory_iterator p(dir.native()), end; p != end; ++p) {
+
+                    if (std::filesystem::is_regular_file(p->path())) {
+                        std::wstring filename = p->path().filename().wstring();
+                        std::wsmatch match;
+                        if (std::regex_match(filename, match, localeRegex)) {
+                            std::wstring localeCode = match[1];
+                            LanguageSupported.push_back(localeCode);
+                        }
+                    }
                 }
-            } catch (const nlohmann::json::exception&) {
+            } catch (const std::filesystem::filesystem_error&) {
                 LanguageSupported.clear();
-                LanguageSupported.push_back(std::wstring(L"en_US"));
-                return;
+                LanguageSupported.push_back(NelsonConfiguration::getInstance()->getDefaultLocale());
             }
-        } else {
-            LanguageSupported.push_back(std::wstring(L"en_US"));
         }
     }
 }
@@ -121,7 +106,7 @@ Localization::getCurrentLanguage()
 std::wstring
 Localization::getDefaultLanguage()
 {
-    return L"en_US";
+    return NelsonConfiguration::getInstance()->getDefaultLocale();
 }
 //=============================================================================
 bool
@@ -180,7 +165,7 @@ Localization::getManagedLanguages(wstringVector& langs)
 std::wstring
 Localization::initializeLocalization(const std::wstring& lang)
 {
-    std::wstring effectiveLang = L"en_US";
+    std::wstring effectiveLang = NelsonConfiguration::getInstance()->getDefaultLocale();
     std::wstring _lang(lang);
 
     initLanguageSupported();
@@ -210,7 +195,7 @@ Localization::initializeLocalization(const std::wstring& lang)
     if (isSupportedLanguage(_lang)) {
         effectiveLang.assign(_lang);
     } else {
-        effectiveLang.assign(L"en_US");
+        effectiveLang.assign(NelsonConfiguration::getInstance()->getDefaultLocale());
     }
     setLanguageEnvironment(effectiveLang);
     return effectiveLang;

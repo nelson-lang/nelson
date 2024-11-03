@@ -7,6 +7,6 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}locale\en_US\LC_MESSAGES\nelson.mo; DestDir: {app}\locale\en_US\LC_MESSAGES\;Components: {#COMPONENT_INTERNATIONALIZATION};
-Source: {#RootPath}locale\fr_FR\LC_MESSAGES\nelson.mo; DestDir: {app}\locale\fr_FR\LC_MESSAGES\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}locale\nelson-en_US.json; DestDir: {app}\locale\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}locale\nelson-fr_FR.json; DestDir: {app}\locale\;Components: {#COMPONENT_INTERNATIONALIZATION};
 ;==============================================================================

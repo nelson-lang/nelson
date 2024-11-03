@@ -13,7 +13,6 @@ Source: {#RootPath}bin\{#BinPath}\boost_chrono-{#BOOST_TARGET}.dll; DestDir: {ap
 Source: {#RootPath}bin\{#BinPath}\boost_date_time-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_filesystem-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_iostreams-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
-Source: {#RootPath}bin\{#BinPath}\boost_locale-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_program_options-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_regex-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_system-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};

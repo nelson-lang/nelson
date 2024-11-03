@@ -80,7 +80,7 @@ target_link_libraries(
   nlsI18n
   nlsInterpreter
   nlsTypes
-  ${BOOST_LIBRARIES})
+  ${Boost_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

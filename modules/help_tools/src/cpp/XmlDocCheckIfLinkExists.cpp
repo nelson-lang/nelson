@@ -15,6 +15,7 @@
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,8 +45,9 @@ XmlDocCheckIfLinkExists(
                 if (FileSystemWrapper::Path::is_regular_file(filepath)) {
                     return true;
                 }
-                if (language != L"en_US") {
-                    filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
+                if (language != NelsonConfiguration::getInstance()->getDefaultLocale()) {
+                    filepath = module.modulepath + L"/" + L"help" + L"/"
+                        + NelsonConfiguration::getInstance()->getDefaultLocale() + L"/" + L"xml"
                         + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                     if (FileSystemWrapper::Path::is_regular_file(filepath)) {
                         return true;

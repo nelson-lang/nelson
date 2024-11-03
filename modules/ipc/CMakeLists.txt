@@ -83,7 +83,7 @@ else()
     nlsStream_manager
     nlsTime
     nlsTypes
-    ${BOOST_LIBRARIES}
+    ${Boost_LIBRARIES}
     ${LIBRT})
 endif()
 # ==============================================================================

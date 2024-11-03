@@ -46,7 +46,7 @@ target_link_libraries(
   nlsI18n
   nlsTypes
   nlsHistory_manager
-  ${Boost_IOSTREAMS_LIBRARY})
+  ${Boost_LIBRARIES})
 # ==============================================================================
 file(GLOB STREAM_MANAGER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

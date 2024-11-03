@@ -26,6 +26,7 @@ target_include_directories(
 target_include_directories(
   ${module_library_name}
   PRIVATE ${EIGEN3_INCLUDE_DIR}
+          ${OpenMP_CXX_INCLUDE_DIRS}
           ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -83,7 +84,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_builtin_name}
-  PRIVATE ${OpenMP_CXX_INCLUDE_DIR}
+  PRIVATE ${OpenMP_CXX_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include

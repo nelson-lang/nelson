@@ -49,11 +49,10 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-            ${Boost_INCLUDE_DIRS})
+            ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
   target_link_libraries(${module_library_name} nlsCharacters_encoding
-                        nlsNelson_manager ${Boost_LOCALE_LIBRARY})
+                        nlsNelson_manager nlsI18n)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)

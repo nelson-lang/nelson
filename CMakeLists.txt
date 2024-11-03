@@ -239,9 +239,6 @@ list(
   regex
   date_time
   iostreams)
-if(NOT WITHOUT_LOCALIZATION_MODULE)
-  list(APPEND boost_components locale)
-endif()
 find_package(
   Boost 1.64.0
   COMPONENTS ${boost_components}
@@ -296,7 +293,6 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_OPENMP)
   find_package(OpenMP)
-  include(OpenMpConfig)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)

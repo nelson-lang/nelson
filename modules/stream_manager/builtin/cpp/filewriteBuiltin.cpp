@@ -85,7 +85,7 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         }
-        wof.close();
+        wof.flush();
     } else {
 #ifdef _MSC_VER
         std::ofstream of(filename, std::ios::trunc | std::ios::binary);
@@ -108,11 +108,12 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                of.close();
+                of.flush();
                 Error(_W("Encoding not supported."));
             }
         }
-        of.close();
+        of.flush();
+        // close made by destructor of ofstream
     }
     return retval;
 }

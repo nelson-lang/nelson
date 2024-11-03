@@ -50,18 +50,6 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
   target_link_libraries(nelson-sio-cli-exec nlsEngine)
 endif()
 # ==============================================================================
-if(NOT WITHOUT_LOCALIZATION_MODULE)
-  set(LOCALIZATION_ACTION
-      COMMAND
-      ${BIN_DIRECTORY}/nelson-cli
-      --nousermodules
-      --noipc
-      --quiet
-      --file
-      "${BIN_DIRECTORY}/../../tools/gettext/generatemo.m")
-  set(BUILD_ALL_LOCALIZATION_ACTION ${LOCALIZATION_ACTION})
-endif()
-# ==============================================================================
 if(NOT WITHOUT_WEBTOOLS_MODULE)
   set(GET_MODULE_SKELETON_ACTION
       COMMAND

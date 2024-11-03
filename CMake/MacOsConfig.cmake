@@ -27,5 +27,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if(EXISTS "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib/")
     link_directories($ENV{HOMEBREW_PREFIX}/opt/openblas/lib/)
   endif()
+
+  if(EXISTS "$ENV{HOMEBREW_PREFIX}/opt/libomp/include")
+    set(OpenMP_CXX_INCLUDE_DIRS $ENV{HOMEBREW_PREFIX}/opt/libomp/include)
+    set(OpenMP_CXX_LIBRARIES $ENV{HOMEBREW_PREFIX}/opt/libomp/lib/libomp.dylib)
+  endif()
 endif()
 # ==============================================================================
