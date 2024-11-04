@@ -101,6 +101,16 @@ end
 potfile = [nelsonroot(), '/locale/nelson.pot'];
 copyfile(ALL_POT, potfile, 'f');
 
+
+jsonUSfile = [nelsonroot(), '/locale/nelson-en_US.json'];
+jsonFRfile = [nelsonroot(), '/locale/nelson-fr_FR.json'];
+
+i18nHelpers('convert', potfile, jsonUSfile);
+i18nHelpers('merge', jsonUSfile, jsonFRfile);
+
+i18nHelpers('sort', jsonUSfile, jsonUSfile);
+i18nHelpers('sort', jsonFRfile, jsonFRfile);
+
 toc()
 exit('force')
 %=============================================================================

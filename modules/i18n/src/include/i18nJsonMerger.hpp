@@ -9,12 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <string>
+#include "nlsI18n_exports.hpp"
 //=============================================================================
-namespace Nelson::I18nGateway {
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-gettextBuiltin(int nLhs, const ArrayOfVector& argIn);
+NLSI18N_IMPEXP bool
+i18nJsonMerger(const std::wstring& jsonSource, const std::wstring& jsonDestination,
+    std::wstring& errorMessage);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================
