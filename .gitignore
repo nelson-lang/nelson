@@ -145,11 +145,11 @@ bin/macos/*-exec
 /modules/help_tools/thirdparty/highlight.js
 /tools/gettext/bin
 .DS_Store
-/tools/gettext/generatepo/Release
-/tools/gettext/generatepo/Debug
-/tools/gettext/generatepo/x64
+/tools/gettext/i18nExtractor/Release
+/tools/gettext/i18nExtractor/Debug
+/tools/gettext/i18nExtractor/x64
 /tools/gettext/generatemo/*/*/*.log
-/tools/gettext/generatepo/*/*/*.log
+/tools/gettext/i18nExtractor/*/*/*.log
 /tools/gettext/license.txt
 /tools/gettext/gettext-license.txt
 ################################################################################
@@ -160,9 +160,9 @@ bin/macos/*-exec
 *.plog
 *.i-*
 ################################################################################
-/tools/gettext/generatepo/Debug
+/tools/gettext/i18nExtractor/Debug
 /tools/gettext/generatemo/Release
-/tools/gettext/generatepo/x64/
+/tools/gettext/i18nExtractor/x64/
 /tools/gettext/generatemo/x64/
 /tools/tests_minimal/x64/
 /tools/gettext/generatemo/Debug

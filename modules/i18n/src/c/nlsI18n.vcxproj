@@ -20,13 +20,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\I18nManager.hpp" />
+    <ClInclude Include="..\include\i18nJsonMerger.hpp" />
+    <ClInclude Include="..\include\i18nJsonSort.hpp" />
     <ClInclude Include="..\include\nlsI18n_exports.hpp" />
     <ClInclude Include="..\include\i18n.hpp" />
+    <ClInclude Include="..\include\poToJson.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\i18n.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\i18nJsonMerger.cpp" />
+    <ClCompile Include="..\cpp\i18nJsonSort.cpp" />
     <ClCompile Include="..\cpp\I18nManager.cpp" />
+    <ClCompile Include="..\cpp\poToJson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">

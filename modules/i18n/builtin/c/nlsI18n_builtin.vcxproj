@@ -183,6 +183,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gettextBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\i18nHelpersBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -212,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\gettextBuiltin.hpp" />
+    <ClInclude Include="..\include\i18nHelpersBuiltin.hpp" />
     <ClInclude Include="..\include\nlsI18n_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

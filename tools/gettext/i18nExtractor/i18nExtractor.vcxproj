@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\generatepo.m" />
+    <None Include="..\i18nExtractor.m" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\modules\main\nelson_cli\NelSon-cli.vcxproj">
@@ -69,28 +69,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakeOutput>generatepo.exe</NMakeOutput>
+    <NMakeOutput>i18nExtractor.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeOutput>generatepo.exe</NMakeOutput>
+    <NMakeOutput>i18nExtractor.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <NMakeOutput>generatepo.exe</NMakeOutput>
+    <NMakeOutput>i18nExtractor.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeOutput>generatepo.exe</NMakeOutput>
+    <NMakeOutput>i18nExtractor.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/generatepo.m"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/gettext/i18nExtractor.m"</NMakeReBuildCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
