@@ -49,7 +49,7 @@ alist* a;
     b = &f__units[a->aunit];
     if (b->ufd == NULL) {
         char nbuf[10];
-        sprintf(nbuf, "fort.%ld", (long)a->aunit);
+        snprintf(nbuf, sizeof(nbuf), "fort.%ld", (long)a->aunit);
         if (tf = FOPEN(nbuf, f__w_mode[0])) {
             fclose(tf);
         }
