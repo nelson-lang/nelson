@@ -93,7 +93,7 @@ alist* a;
 {
     OFF_T loc, len;
     unit* b;
-    int rc;
+    int rc = 0;
     FILE* bf;
 #ifdef NO_TRUNCATE
     FILE* tf;
