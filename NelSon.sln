@@ -322,7 +322,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsI18n", "modules\i18n\src
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsI18n_builtin", "modules\i18n\builtin\c\nlsI18n_builtin.vcxproj", "{F6C133FC-80FF-4F59-93B8-E918A4762138}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generatepo", "tools\gettext\generatepo\generatepo.vcxproj", "{5216969B-4BD4-444C-B9F4-3C4E0D891CE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i18nExtractor", "tools\gettext\i18nExtractor\i18nExtractor.vcxproj", "{5216969B-4BD4-444C-B9F4-3C4E0D891CE5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsHelp_browser_builtin", "modules\help_browser\builtin\c\nlsHelp_browser_builtin.vcxproj", "{C4A4AE3B-B48F-4D0D-BB59-8509B449A90D}"
 EndProject

@@ -114,7 +114,7 @@ if(NOT WITHOUT_LOCALIZATION_MODULE)
     COMMAND
     ${BIN_DIRECTORY}/nelson-cli --nousermodules --noipc
       --quiet --file
-      "${BIN_DIRECTORY}/../../tools/gettext/generatepo.m"
+      "${BIN_DIRECTORY}/../../tools/gettext/i18nExtractor.m"
     DEPENDS nelson-cli-exec)
 endif()
 # ==============================================================================

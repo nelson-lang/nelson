@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\generatepo.m">
+    <None Include="..\i18nExtractor.m">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

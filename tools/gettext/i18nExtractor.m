@@ -11,11 +11,9 @@ tic();
 
 if ispc()
   XGETTEXT = ['"', nelsonroot(), '/tools/gettext/bin/xgettext.exe', '"'];
-  MSGMERGE = ['"', nelsonroot(), '/tools/gettext/bin/msgmerge.exe', '"'];
   MSGCAT = ['"', nelsonroot(), '/tools/gettext/bin/msgcat.exe', '"'];
 else
   XGETTEXT = 'xgettext';
-  MSGMERGE = 'msgmerge';
   MSGCAT = 'msgcat';
 end
 
@@ -64,7 +62,6 @@ for k = 1:length(FILESINFO_MACROS)
 end
 fclose(fw);
 
-
 SRC_POT = [TARGETDIR, '/', DOMAIN, '_src.pot'];
 MACROS_POT = [TARGETDIR, '/', DOMAIN, '_macros.pot'];
 ALL_POT = [TARGETDIR, '/', DOMAIN, '.pot'];
@@ -74,14 +71,12 @@ header_pot = poheader(DOMAIN, 'en_US');
 src_cmd = [XGETTEXT, ' ', XGETTEXT_OPTIONS, ' -d ', DOMAIN, ' -o ', SRC_POT, ' -f ', SRCLISTFILE];
 macros_cmd = [XGETTEXT, ' ', XGETTEXT_OPTIONS, ' --language=Python',  ' -d ', DOMAIN, ' -o ', MACROS_POT, ' -f ', MACROSLISTFILE];
 
-[r, errmsg] = unix(src_cmd);
-if r != 0
-  error(errmsg);
+[r, errmsg] = unix([string(src_cmd), string(macros_cmd)]);
+if r(1) != 0
+  error(errmsg(0));
 end
-
-[r, errmsg] = unix(macros_cmd);
-if r != 0
-  error(errmsg);
+if r(2) != 0
+  error(errmsg(1));
 end
 
 txt = fileread(SRC_POT, 'string');
@@ -100,6 +95,16 @@ end
 
 potfile = [nelsonroot(), '/locale/nelson.pot'];
 copyfile(ALL_POT, potfile, 'f');
+
+
+jsonUSfile = [nelsonroot(), '/locale/nelson-en_US.json'];
+jsonFRfile = [nelsonroot(), '/locale/nelson-fr_FR.json'];
+
+i18nHelpers('convert', potfile, jsonUSfile);
+i18nHelpers('merge', jsonUSfile, jsonFRfile);
+
+i18nHelpers('sort', jsonUSfile, jsonUSfile);
+i18nHelpers('sort', jsonFRfile, jsonFRfile);
 
 toc()
 exit('force')
