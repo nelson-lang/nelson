@@ -80,5 +80,6 @@ modules_list = {
 {'com_engine', true};
 {'control_system', true};
 {'python_engine', true};
+{'spreadsheet', true};
 };
 % ============================================================================

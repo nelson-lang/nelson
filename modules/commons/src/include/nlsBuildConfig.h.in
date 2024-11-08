@@ -55,6 +55,7 @@
 #define WITH_CHARACTERS_ENCODING_MODULE @WITH_CHARACTERS_ENCODING_MODULE@
 #define WITH_GEOMETRY_MODULE @WITH_GEOMETRY_MODULE@
 #define WITH_PYTHON_ENGINE_MODULE @WITH_PYTHON_ENGINE_MODULE@
+#define WITH_SPREADSHEET_MODULE @WITH_SPREADSHEET_MODULE@
 //=============================================================================
 #define WITH_FILE_WATCHER @WITH_FILE_WATCHER@
 //=============================================================================
