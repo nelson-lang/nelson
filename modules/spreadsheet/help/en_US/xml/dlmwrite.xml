@@ -75,12 +75,13 @@
     <example_item_description />
     <example_item_data
       ><![CDATA[A = [Inf, -Inf, NaN, 3];
-filename = [tempdir(), 'dlwrite_example.csv'];
+filename = [tempdir(), 'dlmwrite_example.csv'];
 dlmwrite(filename, A);
-R = fileread(filename)
+R = dlmread(filename)
 A = eye(3, 2);
 dlmwrite(filename, A, ';', 4, 5);
-R = fileread(filename)]]>
+R = fileread(filename)
+]]>
     </example_item_data>
   
   </example_item>
@@ -88,6 +89,10 @@ R = fileread(filename)]]>
 </examples>
 
   <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}dlmread">dlmread</link>
+    </see_also_item>
+
     <see_also_item>
       <link linkend="${stream_manager}fileread">fileread</link>
     </see_also_item>

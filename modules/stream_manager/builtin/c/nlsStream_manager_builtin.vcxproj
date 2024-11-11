@@ -181,7 +181,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\diaryBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dlmwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\fcloseBuiltin.cpp" />
     <ClCompile Include="..\cpp\feofBuiltin.cpp" />
     <ClCompile Include="..\cpp\ferrorBuiltin.cpp" />
@@ -236,7 +235,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\diaryBuiltin.hpp" />
-    <ClInclude Include="..\include\dlmwriteBuiltin.hpp" />
     <ClInclude Include="..\include\fcloseBuiltin.hpp" />
     <ClInclude Include="..\include\feofBuiltin.hpp" />
     <ClInclude Include="..\include\ferrorBuiltin.hpp" />

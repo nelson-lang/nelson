@@ -209,12 +209,16 @@ stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
                 if (StringHelpers::contains(STR, L"i") || StringHelpers::contains(STR, L"j")) {
                     StringHelpers::replace_all(STR, L" ", L"");
                     ParseComplexValue(STR, realPart, imagPart);
+                    res = doublecomplex(realPart, imagPart);
+                    wasConverted = true;
                 } else {
                     realPart = stringToDouble(str, wasConverted);
                     imagPart = 0;
+                    if (wasConverted) {
+                        res = doublecomplex(realPart, imagPart);
+                        wasConverted = true;
+                    }
                 }
-                res = doublecomplex(realPart, imagPart);
-                wasConverted = true;
             }
         }
     }

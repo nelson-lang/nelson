@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dlmwriteBuiltin.hpp"
-#include "DelimitedFile.hpp"
+#include "DelimitedFileWriter.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
@@ -259,7 +259,7 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
@@ -317,8 +317,8 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
-    delimitedWrite(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset, //-V614
-        opts.colsOffset, opts.fmt, opts.isPcEOL); //-V614
+    delimitedFileWriter(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,
+        opts.colsOffset, opts.fmt, opts.isPcEOL);
     return retval;
 }
 //=============================================================================

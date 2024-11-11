@@ -26,10 +26,9 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_name}
-  PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -37,12 +36,15 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 
 target_link_libraries(${module_library_name}
   nlsCharacters_encoding 
   nlsCommons
   nlsI18n 
+  nlsString
+  nlsError_manager
   nlsTypes)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} ${TBB_LIBRARY})
@@ -64,6 +66,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
@@ -73,6 +76,7 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsInterpreter
+  nlsCommons
   nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
@@ -108,6 +112,11 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.m")
+install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.csv")
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"

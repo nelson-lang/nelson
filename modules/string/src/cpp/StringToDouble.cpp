@@ -14,8 +14,11 @@
 #include <cmath>
 #include <limits>
 #include <cwctype>
+#include <fast_float/fast_float.h>
+
 #include "StringToDouble.hpp"
 #include "StringHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,57 +48,45 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
     double res = nan("");
     wasConverted = false;
     if (str.empty()) {
+        wasConverted = true;
+        return res;
+    }
+    std::wstring STR = ToUpper(str);
+    if (STR == ToUpper(NanString) || STR == ToUpper(NegNanString) || STR == ToUpper(PosNanString)) {
         res = nan("");
         wasConverted = true;
+    } else if (STR == ToUpper(NegInfString)) {
+        res = returnInfinity(false);
+        wasConverted = true;
+    } else if (STR == ToUpper(InfString) || STR == ToUpper(PosInfString)) {
+        res = returnInfinity(true);
+        wasConverted = true;
     } else {
-        std::wstring STR = ToUpper(str);
-        if (STR == ToUpper(NanString) || STR == ToUpper(NegNanString)
-            || STR == ToUpper(PosNanString)) {
-            res = nan("");
+        if (StringHelpers::contains(str, L",")) {
+            StringHelpers::replace_all(STR, L",", L"");
+        }
+        if (StringHelpers::contains(STR, L" ")) {
+            StringHelpers::trim_left(STR);
+            StringHelpers::trim_right(STR);
+        }
+        bool isnegative = false;
+        if (STR[0] == L'-') {
+            STR.erase(0, 1);
+            isnegative = true;
+        } else if (STR[0] == L'+') {
+            STR.erase(0, 1);
+        }
+
+        std::string utf8str = wstring_to_utf8(STR);
+        fast_float::parse_options options { fast_float::chars_format::fortran };
+        auto answer = fast_float::from_chars_advanced(
+            utf8str.data(), utf8str.data() + utf8str.size(), res, options);
+        size_t len = strlen(answer.ptr);
+        if (answer.ec == std::errc() && len == 0) {
+            if (isnegative) {
+                res = -res;
+            }
             wasConverted = true;
-        } else if (STR == ToUpper(NegInfString)) {
-            res = returnInfinity(false);
-            wasConverted = true;
-        } else if (STR == ToUpper(InfString) || STR == ToUpper(PosInfString)) {
-            res = returnInfinity(true);
-            wasConverted = true;
-        } else {
-            STR = str;
-            if (StringHelpers::contains(str, L",")) {
-                StringHelpers::replace_all(STR, L",", L"");
-            }
-            if (StringHelpers::contains(STR, L" ")) {
-                StringHelpers::trim_left(STR);
-                StringHelpers::trim_right(STR);
-            }
-            if (StringHelpers::contains(STR, L"d")) {
-                StringHelpers::replace_all(STR, L"d", L"e");
-            }
-            if (StringHelpers::contains(STR, L"D")) {
-                StringHelpers::replace_all(STR, L"D", L"e");
-            }
-            double v = nan("");
-            int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
-            if (err == 1) {
-                double v2;
-                wchar_t* pEnd = nullptr;
-                v2 = wcstod(STR.c_str(), &pEnd);
-                if (pEnd != nullptr) {
-                    if (wcslen(pEnd) == 0) {
-                        res = v2;
-                        wasConverted = true;
-                    } else {
-                        res = nan("");
-                        wasConverted = true;
-                    }
-                } else {
-                    wasConverted = true;
-                    res = nan("");
-                }
-            } else {
-                wasConverted = true;
-                res = nan("");
-            }
         }
     }
     return res;

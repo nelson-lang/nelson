@@ -7,23 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "readcellBuiltin.hpp"
-#include "Error.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "ReadCell.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsSpreadsheet_exports.h"
 //=============================================================================
-ArrayOfVector
-Nelson::SpreadsheetGateway::readcellBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 1);
-    std::wstring filename = argIn[0].getContentAsWideString();
-    std::wstring errorMessage;
-    retval << ReadCell(filename, errorMessage);
-
-    return retval;
-}
+namespace Nelson {
+NLSSPREADSHEET_IMPEXP ArrayOf
+ReadCell(const std::wstring& filename, std::wstring& errorMessage);
+};
 //=============================================================================

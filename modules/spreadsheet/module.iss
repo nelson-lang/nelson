@@ -7,7 +7,7 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-#define MODULE_NAME "spreadsheet""
+#define MODULE_NAME "spreadsheet"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsSpreadsheet.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SPREADSHEET};
 Source: {#RootPath}bin\{#BinPath}\libnlsSpreadsheet_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SPREADSHEET};
@@ -21,4 +21,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_SPREADSHEET} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_SPREADSHEET} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.csv; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_SPREADSHEET} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

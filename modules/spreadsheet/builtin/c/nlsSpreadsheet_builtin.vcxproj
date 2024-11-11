@@ -180,6 +180,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -209,11 +212,15 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dlmreadlBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlmwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\readcellBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\dlmreadBuiltin.hpp" />
+    <ClInclude Include="..\include\dlmwriteBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSpreadsheet_builtin_exports.h" />
     <ClInclude Include="..\include\readcellBuiltin.hpp" />
   </ItemGroup>

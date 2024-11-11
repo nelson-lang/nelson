@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <vector>
 #include "ArrayOf.hpp"
 #include "nlsSpreadsheet_exports.h"
 //=============================================================================
 namespace Nelson {
 NLSSPREADSHEET_IMPEXP ArrayOf
-readCell(const std::wstring& filename, std::wstring& errorMessage);
+delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
+    std::vector<double> range, std::wstring& errorMessage);
 };
 //=============================================================================

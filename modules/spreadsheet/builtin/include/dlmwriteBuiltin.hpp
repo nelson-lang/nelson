@@ -7,15 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "readCell.hpp"
+#pragma once
 //=============================================================================
-namespace Nelson {
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOf
-readCell(const std::wstring& filename, std::wstring& errorMessage)
-{
-    return {};
-}
+namespace Nelson::SpreadsheetGateway {
+//=============================================================================
+ArrayOfVector
+dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

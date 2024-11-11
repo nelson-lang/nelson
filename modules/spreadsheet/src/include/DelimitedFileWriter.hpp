@@ -7,27 +7,18 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "readcellBuiltin.hpp"
-#include "dlmreadBuiltin.hpp"
-#include "dlmwriteBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Types.hpp"
+#include "nlsSpreadsheet_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"spreadsheet";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "readcell", (ptrBuiltin)Nelson::SpreadsheetGateway::readcellBuiltin, 1, 1 },
-    { "dlmread", (ptrBuiltin)Nelson::SpreadsheetGateway::dlmreadBuiltin, 1, 4 },
-    { "dlmwrite", (ptrBuiltin)Nelson::SpreadsheetGateway::dlmwriteBuiltin, 0, -3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-};
+NLSSPREADSHEET_IMPEXP void
+delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool bAppend,
+    const std::wstring& delimiter, int64 rowsOffset, int64 colsOffset,
+    const std::wstring& formatPrecision, bool isNewLinePc);
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================
