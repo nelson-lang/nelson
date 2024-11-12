@@ -289,6 +289,14 @@ icontains(const std::wstring& in, const std::wstring& needle)
     return contains<std::wstring>(IN, NEEDLE, std::wstring::npos);
 }
 //=============================================================================
+bool
+icontains(const std::string& in, const std::string& needle)
+{
+    std::string IN = StringHelpers::to_upper_copy(in);
+    std::string NEEDLE = StringHelpers::to_upper_copy(needle);
+    return contains<std::string>(IN, NEEDLE, std::string::npos);
+}
+//=============================================================================
 static bool
 isSpace(wchar_t c)
 {

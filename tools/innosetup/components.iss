@@ -97,6 +97,9 @@ Name: {#COMPONENT_WEBTOOLS}; Description:{cm:WEBTOOLS_MODULE}; Types: full custo
 #define COMPONENT_JSON 'JSON'
 Name: {#COMPONENT_JSON}; Description:{cm:JSON_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_SPREADSHEET 'SPREADSHEET'
+Name: {#COMPONENT_SPREADSHEET}; Description:{cm:SPREADSHEET_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_MATIO 'MATIO'
 Name: {#COMPONENT_MATIO}; Description:{cm:MATIO_MODULE}; Types: full custom;
 ;==============================================================================

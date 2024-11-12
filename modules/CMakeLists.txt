@@ -93,7 +93,8 @@ list(
   TEXT_COMPLETION
   GEOMETRY
   CONTROL_SYSTEM
-  PYTHON_ENGINE)
+  PYTHON_ENGINE
+  SPREADSHEET)
 
   foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)

@@ -99,6 +99,9 @@ contains(const std::string& in, const std::string& needle);
 NLSCOMMONS_IMPEXP bool
 icontains(const std::wstring& in, const std::wstring& needle);
 //=============================================================================
+NLSCOMMONS_IMPEXP bool
+icontains(const std::string& in, const std::string& needle);
+//=============================================================================
 NLSCOMMONS_IMPEXP void
 trim(std::wstring& in_out);
 //=============================================================================

@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.10.0 (UNRELEASED)
 
+### Added
+
+- `dlmread`: Read ASCII-delimited file of numeric data into matrix.
+
 ### Changed
 
 - Fedora 41 CI
 - `title`: `Visible` property is inherited from the parent if not explicitly defined.
 - i18n: migration PO files to JSON.
+- `dlmwrite`: rework the function to be more fast and robust.
 
 ### Fixed
 

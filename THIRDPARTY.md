@@ -375,3 +375,11 @@ oneTBB is a flexible C++ library that simplifies the work of adding parallelism 
 > <https://github.com/oneapi-src/oneTBB>
 
 > <https://github.com/oneapi-src/oneTBB/blob/master/LICENSE.txt> Apache 2.0
+
+- rapidCSV - C++ CSV parser library
+
+Rapidcsv is an easy-to-use C++ CSV parser library.
+
+> <https://github.com/d99kris/rapidcsv>
+
+> <https://github.com/d99kris/rapidcsv/blob/master/LICENSE> MIT license

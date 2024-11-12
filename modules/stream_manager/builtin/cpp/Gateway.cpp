@@ -12,7 +12,6 @@
 #include "NelsonGateway.hpp"
 #include "NelsonConfiguration.hpp"
 #include "diaryBuiltin.hpp"
-#include "dlmwriteBuiltin.hpp"
 #include "fcloseBuiltin.hpp"
 #include "fgetlBuiltin.hpp"
 #include "fgetsBuiltin.hpp"
@@ -42,8 +41,6 @@ static const nlsGateway gateway[] = {
     { "fprintf", (ptrBuiltin)Nelson::StreamGateway::fprintfBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "frewind", (ptrBuiltin)Nelson::StreamGateway::frewindBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "dlmwrite", (ptrBuiltin)Nelson::StreamGateway::dlmwriteBuiltin, 0, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fileread", (ptrBuiltin)Nelson::StreamGateway::filereadBuiltin, 1, 1 },
     { "filewrite", (ptrBuiltin)Nelson::StreamGateway::filewriteBuiltin, 0, 2 },

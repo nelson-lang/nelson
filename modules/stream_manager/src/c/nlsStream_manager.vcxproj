@@ -189,7 +189,6 @@
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
-    <ClInclude Include="..\include\DelimitedFile.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />
     <ClInclude Include="..\include\FileClose.hpp" />
     <ClInclude Include="..\include\FileError.hpp" />
@@ -213,7 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ArrayOfSerialization.cpp" />
-    <ClCompile Include="..\cpp\DelimitedFile.cpp" />
     <ClCompile Include="..\cpp\Diary.cpp" />
     <ClCompile Include="..\cpp\Endian.cpp" />
     <ClCompile Include="..\cpp\FileClose.cpp" />

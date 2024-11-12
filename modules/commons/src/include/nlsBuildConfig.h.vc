@@ -60,6 +60,7 @@
 #define WITH_CHARACTERS_ENCODING_MODULE 1
 #define WITH_GEOMETRY_MODULE 1
 #define WITH_PYTHON_ENGINE_MODULE 1
+#define WITH_SPREADSHEET_MODULE 1
 //=============================================================================
 #define WITH_FILE_WATCHER 1
 //=============================================================================
