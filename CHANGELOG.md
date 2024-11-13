@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `csvread`: Read comma-separated value (CSV) file.
+- `csvwrite`: Write comma-separated value (CSV) file.
 - `dlmread`: Read ASCII-delimited file of numeric data into matrix.
 
 ### Changed

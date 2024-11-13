@@ -19,7 +19,7 @@ else
 end
 tab = char(9);
 %=============================================================================
-filename = [tempdir(), 'dlwrite_test.csv'];
+filename = [tempdir(), 'dlmwrite_test.csv'];
 %=============================================================================
 % dlmwrite(filename, M)
 A = [Inf, -Inf, NaN, 3];

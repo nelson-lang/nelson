@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%addpath(modulepath('spreadsheet', 'functions'), '-frozen');
+addpath(modulepath('spreadsheet', 'functions'), '-frozen');
 addgateway(modulepath('spreadsheet', 'builtin'), 'spreadsheet');
 %=============================================================================
