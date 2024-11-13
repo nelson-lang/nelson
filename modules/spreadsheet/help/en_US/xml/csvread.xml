@@ -3,27 +3,19 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>dlmread</keyword>
-  <short_description
-  >Read an numeric matrix from a text file file using a delimiter.</short_description>
+  <keyword>csvread</keyword>
+  <short_description>Read comma-separated value (CSV) file.</short_description>
 
   <syntax>
-    <syntax_item>M = dlmread(filename)</syntax_item>
-    <syntax_item>M = dlmread(filename, delimiter)</syntax_item>
-    <syntax_item>M = dlmread(filename, delimiter, R1, C1)</syntax_item>
-    <syntax_item>M = dlmread(filename, delimiter, [R1 C1 R2 C2])</syntax_item>
+    <syntax_item>M = csvread(filename)</syntax_item>
+    <syntax_item>M = csvread(filename, R1, C1)</syntax_item>
+    <syntax_item>M = csvread(filename, R1, C1, [R1 C1 R2 C2])</syntax_item>
   </syntax>
   
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description>a string: filename source.</param_description>
-    </param_input_item>
-    
-    <param_input_item>
-      <param_name>delimiter</param_name>
-      <param_description
-      >a string: ',' , '\t', ';' delimiter. default ','</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -49,24 +41,20 @@
 
   <description>
   <p><b
-      >M = dlmread(filename, delimiter, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets <b
-      >R1</b> to <b>R2</b> and column offsets <b>C1</b> to <b
-      >C2</b>. Alternatively, you can specify the range using spreadsheet notation, such as 'A1..B6' instead of <b
-      >[0 0 5 1]</b>.</p>
+      >M = csvread(filename, R1, C1, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets <b
+      >R1</b> to <b>R2</b> and column offsets <b>C1</b> to <b>C2</b>.</p>
   <p><b
-      >M = dlmread(filename, delimiter, R1, C1)</b> starts reading data at the row and column offsets specified by <b
+      >M = csvread(filename, R1, C1)</b> starts reading data at the row and column offsets specified by <b
       >R1</b> and <b
       >C1</b>. For example, R1=0, C1=0 indicates the first value in the file.</p>
   <p
     >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like <b
-      >M = dlmread(filename, '', 3, 1)</b>.</p>
+      >M = csvread(filename, 3, 1)</b>.</p>
   <p><b
-      >M = dlmread(filename, delimiter)</b> reads data from the file using the specified delimiter and treats repeated delimiter characters as separate delimiters.</p>
-  <p><b
-      >M = dlmread(filename)</b> reads a numeric data file in ASCII-delimited format into matrix <b
-      >M</b>. The dlmread function automatically detects the delimiter from the file and consolidates consecutive white spaces into a single delimiter.</p>
+      >M = csvread(filename)</b> read a comma-separated value (CSV) formatted file into matrix <b
+      >M</b>.</p>
   <p>Complex Number Importing: <b
-      >dlmread</b> reads each complex number as a single unit, storing it in a complex numeric field.</p>
+      >csvread</b> reads each complex number as a single unit, storing it in a complex numeric field.</p>
   <p>Valid forms for complex numbers are:</p>
   <p />
   <table style="width:100%">
@@ -85,7 +73,7 @@
   </table>
  
   <p><b>Note</b>: Whitespace within a complex number is not allowed; <b
-      >dlmread</b> interprets any embedded spaces as field delimiters.</p>
+      >csvread</b> interprets any embedded spaces as field delimiters.</p>
 </description>
 
   <used_function />
@@ -97,10 +85,9 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data>A = [Inf, -Inf, NaN, 3];
-filename = [tempdir(), 'dlmread_example.csv'];
-dlmwrite(filename, A);
-R = dlmread(filename)
-</example_item_data>
+filename = [tempdir(), 'csvread_example.csv'];
+csvwrite(filename, A);
+R = csvread(filename)</example_item_data>
   
   </example_item>
 
@@ -108,9 +95,11 @@ R = dlmread(filename)
 
   <see_also>
     <see_also_item>
-      <link linkend="${spreadsheet}dlmwrite">dlmwrite</link>
+      <link linkend="${spreadsheet}csvwrite">csvwrite</link>
     </see_also_item>
-
+    <see_also_item>
+      <link linkend="${spreadsheet}dlmread">dlmread</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${stream_manager}fileread">fileread</link>
     </see_also_item>
