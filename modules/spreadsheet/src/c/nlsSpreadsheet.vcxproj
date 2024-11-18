@@ -207,19 +207,28 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\CSVRangeConverter.cpp" />
     <ClCompile Include="..\cpp\CSVSeparatorDetector.cpp" />
+    <ClCompile Include="..\cpp\CSVTableWriter.cpp" />
     <ClCompile Include="..\cpp\DelimitedFileWriter.cpp" />
     <ClCompile Include="..\cpp\DelimitedFileReader.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\ReadCell.cpp" />
+    <ClCompile Include="..\cpp\TableWriter.cpp" />
+    <ClCompile Include="..\cpp\WriteTable.cpp" />
+    <ClCompile Include="..\cpp\XmlTableWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\CSVSeparatorDetector.hpp" />
+    <ClInclude Include="..\cpp\CSVTableWriter.hpp" />
+    <ClInclude Include="..\cpp\ITableWriter.hpp" />
     <ClInclude Include="..\cpp\rapidcsv.h" />
+    <ClInclude Include="..\cpp\TableWriter.hpp" />
+    <ClInclude Include="..\cpp\XmlTableWriter.hpp" />
     <ClInclude Include="..\include\CSVRangeConverter.hpp" />
     <ClInclude Include="..\include\DelimitedFileWriter.hpp" />
     <ClInclude Include="..\include\DelimiterFileReader.hpp" />
     <ClInclude Include="..\include\nlsSpreadsheet_exports.h" />
     <ClInclude Include="..\include\ReadCell.hpp" />
+    <ClInclude Include="..\include\WriteTable.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <table>
+         <row>
+             <NNN_1>M</NNN_1>
+             <NNN_12>45</NNN_12>
+             <NNN_12>45</NNN_12>
+             <NNN_13>NY</NNN_13>
+             <NNN_14>true</NNN_14>
+         </row>
+         <row>
+             <NNN_1>F</NNN_1>
+             <NNN_12>41</NNN_12>
+             <NNN_12>32</NNN_12>
+             <NNN_13>CA</NNN_13>
+             <NNN_14>false</NNN_14>
+         </row>
+         <row>
+             <NNN_1>M</NNN_1>
+             <NNN_12>40</NNN_12>
+             <NNN_12>34</NNN_12>
+             <NNN_13>MA</NNN_13>
+             <NNN_14>false</NNN_14>
+         </row>
+     </table>
+     

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <table>
+         <row Value="High">
+             <ID>1</ID>
+             <Name>A</Name>
+             <Value>10.5</Value>
+         </row>
+         <row Value="Medium">
+             <ID>2</ID>
+             <Name>B</Name>
+             <Value>20.7</Value>
+         </row>
+         <row Value="Low">
+             <ID>3</ID>
+             <Name>C</Name>
+             <Value>30.2</Value>
+         </row>
+     </table>
+     
