@@ -157,3 +157,13 @@ T = table(Age, Height, Weight, BloodPressure);
 T{2, 4} = [ 1 2];
 assert_isequal(T, T_REF);
 %=============================================================================
+InsectSpecies = {'Monarch Butterfly';'Seven-spot Ladybird';'Orchid Mantis'; 'American Bumblebee';'Blue Dasher Dragonfly'};
+InsectOrder = {'Lepidoptera';'Coleoptera';'Mantodea';'Hymenoptera';'Odonata'};
+InsectFamily = {'Nymphalidae';'Coccinellidae';'Hymenopodidae'; 'Apidae';'Libellulidae'};
+PredatoryInsect = logical([0;1;1;0;1]); 
+T = table(InsectOrder,InsectFamily,PredatoryInsect);
+T.Properties.RowNames = InsectSpecies;
+InsectSpecies = {'bug 1';'bug 2';'bug 3'; 'bug 4';'bug 5'};
+T.Properties.RowNames = InsectSpecies;
+%=============================================================================
+

@@ -53,9 +53,11 @@ function R = dotSubsasgn(T, sasgn, value)
         if (~isstring(before.RowNames) && ~iscellstr(before.RowNames))
           error(_('Value assignment must be a cell of characters or a string array.'));
         end
-        if ~isequal(size(before.RowNames), size(value.RowNames))
+        if ~isempty(before.RowNames) && ~isequal(size(before.RowNames), size(value.RowNames))
           error(_('Value assignment must be same size as existing value.'));
         end
+        st.Properties.RowNames = value.RowNames;
+        T = class(st, 'table'); 
         ce = {};
         if isstring(value.VariableNames) || iscellstr(value.VariableNames)
           if iscellstr(value.VariableNames)

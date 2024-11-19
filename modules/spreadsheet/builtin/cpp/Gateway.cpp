@@ -11,6 +11,7 @@
 #include "readcellBuiltin.hpp"
 #include "dlmreadBuiltin.hpp"
 #include "dlmwriteBuiltin.hpp"
+#include "writetableBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,6 +22,7 @@ static const nlsGateway gateway[] = {
     { "dlmread", (ptrBuiltin)Nelson::SpreadsheetGateway::dlmreadBuiltin, 1, 4 },
     { "dlmwrite", (ptrBuiltin)Nelson::SpreadsheetGateway::dlmwriteBuiltin, 0, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "writetable", (ptrBuiltin)Nelson::SpreadsheetGateway::writetableBuiltin, 0, 4 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

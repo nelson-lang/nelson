@@ -118,6 +118,11 @@ install(
     FILES_MATCHING
     PATTERN "*.csv")
 install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
+    PATTERN "*.xml")
+install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING

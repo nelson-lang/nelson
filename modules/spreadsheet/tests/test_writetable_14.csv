@@ -1,0 +1,6 @@
+Row,Age,Height,Weight,BloodPressure_1,BloodPressure_2
+Smith,38+0i,71,176+0i,0,1
+Johnson,43+0.1i,69,163+1i,1,0
+Williams,38-0.2i,64,131+2i,1,1
+Jones,40+0.3i,67,133+3i,0,0
+Brown,49+0.4i,64,119+4i,1,0

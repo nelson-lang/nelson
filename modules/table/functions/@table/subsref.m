@@ -100,7 +100,7 @@ function R = braceSubsref(T, sref)
   for i = 1:length(colSub)
     variable = st.Properties.VariableNames{colSub(i)};
     tempdata = st.data.(variable);
-    if isnumeric(tempdata) || islogical(tempdata) || isstring(tempdata)
+    if isnumeric(tempdata) || islogical(tempdata) || isstring(tempdata) || ischar(tempdata)
       nbIdx = ndims(tempdata) - 1;
       idx = repmat({':'}, 1, nbIdx);
       R = [R, tempdata(rowIdx, idx{:})];

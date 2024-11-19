@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <table>
+         <Insect Row="bug 1">
+             <InsectOrder>Lepidoptera</InsectOrder>
+             <InsectFamily>Nymphalidae</InsectFamily>
+             <PredatoryInsect>false</PredatoryInsect>
+         </Insect>
+         <Insect Row="bug 2">
+             <InsectOrder>Coleoptera</InsectOrder>
+             <InsectFamily>Coccinellidae</InsectFamily>
+             <PredatoryInsect>true</PredatoryInsect>
+         </Insect>
+         <Insect Row="bug 3">
+             <InsectOrder>Mantodea</InsectOrder>
+             <InsectFamily>Hymenopodidae</InsectFamily>
+             <PredatoryInsect>true</PredatoryInsect>
+         </Insect>
+         <Insect Row="bug 4">
+             <InsectOrder>Hymenoptera</InsectOrder>
+             <InsectFamily>Apidae</InsectFamily>
+             <PredatoryInsect>false</PredatoryInsect>
+         </Insect>
+         <Insect Row="bug 5">
+             <InsectOrder>Odonata</InsectOrder>
+             <InsectFamily>Libellulidae</InsectFamily>
+             <PredatoryInsect>true</PredatoryInsect>
+         </Insect>
+     </table>
+     
