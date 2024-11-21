@@ -15,6 +15,7 @@
 #include "TableWriter.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,12 +34,18 @@ TableWriter::doubleComplexToString(std::complex<double> value, bool ignoreImagIf
 std::string
 TableWriter::doubleToString(double value)
 {
-    if (std::floor(value) == value) {
+    if (std::isinf(value)) {
+        if (value < 0) {
+            return "-Inf";
+        } else {
+            return "Inf";
+        }
+    } else if (std::floor(value) == value) {
         // It's an integer value
         return fmt::format("{}", (long long)value);
     } else {
         // It's a floating point value
-        return fmt::format("{:.6g}", value);
+        return fmt::format("{:.15g}", value);
     }
 }
 //=============================================================================
@@ -74,8 +81,12 @@ TableWriter::handleCellColumn(ITableWriter& writer, const ArrayOf& columnData,
     ArrayOf* elements = (ArrayOf*)columnData.getDataPointer();
     std::vector<std::string> column;
     bool addQuotes = false;
-    for (size_t j = 0; j < columnData.getElementCount(); j++) {
-        if (elements[j].getDataClass() == NLS_CHAR) {
+    column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
+        if (elements[j].isRowVectorCharacterArray() || elements[j].isScalarStringArray()) {
             std::string v = elements[j].getContentAsCString();
             if (!addQuotes && options._QuoteStrings == "all") {
                 addQuotes = true;
@@ -84,14 +95,24 @@ TableWriter::handleCellColumn(ITableWriter& writer, const ArrayOf& columnData,
                     || v.find(options._Delimiter) != std::string::npos)) {
                 addQuotes = true;
             }
-            column.push_back(v);
+            column[j] = v;
+        } else if (elements[j].isNumeric() || elements[j].isLogical()) {
+            if (elements[j].isEmpty()) {
+                column[j] = "";
+            } else if (elements[j].isComplex()) {
+                column[j] = doubleComplexToString(elements[j].getContentAsDoubleComplexScalar());
+            } else {
+                column[j] = doubleToString(elements[j].getContentAsDoubleScalar());
+            }
         } else {
-            double v = elements[j].getContentAsDoubleScalar();
-            column.push_back(doubleToString(v));
+            column[j] = "";
         }
     }
     if (addQuotes) {
-        for (size_t k = 0; k < column.size(); ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
             column[k] = formatStringValueQuoteString(column[k]);
         }
     }
@@ -114,7 +135,11 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
             std::string colName
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
-            for (size_t r = 0; r < dimsColumn.getRows(); r++) {
+            column.resize(dimsColumn.getRows());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 ArrayOf value = values[r + c * dimsColumn.getRows()];
                 if (value.isRowVectorCharacterArray()) {
                     std::string str = value.getContentAsCString();
@@ -126,13 +151,16 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
                         addQuotes = true;
                     }
 
-                    column.push_back(str);
+                    column[r] = str;
                 } else {
-                    column.push_back("");
+                    column[r] = "";
                 }
             }
             if (addQuotes) {
-                for (size_t k = 0; k < column.size(); ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                     column[k] = formatStringValueQuoteString(column[k]);
                 }
             }
@@ -140,7 +168,11 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
         }
     } else {
         std::vector<std::string> column;
-        for (size_t j = 0; j < columnData.getElementCount(); j++) {
+        column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             ArrayOf value = values[j];
             if (value.isRowVectorCharacterArray()) {
                 std::string str = value.getContentAsCString();
@@ -151,13 +183,16 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
                         || str.find(options._Delimiter) != std::string::npos)) {
                     addQuotes = true;
                 }
-                column.push_back(str);
+                column[j] = str;
             } else {
-                column.push_back("");
+                column[j] = "";
             }
         }
         if (addQuotes) {
-            for (size_t k = 0; k < column.size(); ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                 column[k] = formatStringValueQuoteString(column[k]);
             }
         }
@@ -178,16 +213,23 @@ TableWriter::handleDoubleComplexColumn(ITableWriter& writer, const ArrayOf& colu
             std::string colName
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
-            for (size_t r = 0; r < dimsColumn.getRows(); r++) {
-                column.push_back(
-                    doubleComplexToString(values[r + c * dimsColumn.getRows()], isXml));
+            column.resize(dimsColumn.getRows());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
+                column[r] = doubleComplexToString(values[r + c * dimsColumn.getRows()], isXml);
             }
             writer.addColumn(formatStringValue(colName, options), column);
         }
     } else {
         std::vector<std::string> column;
-        for (size_t j = 0; j < columnData.getElementCount(); j++) {
-            column.push_back(doubleComplexToString(values[j], isXml));
+        column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
+            column[j] = doubleComplexToString(values[j], isXml);
         }
         writer.addColumn(formatStringValue(columnName, options), column);
     }
@@ -206,15 +248,23 @@ TableWriter::handleDoubleColumn(ITableWriter& writer, const ArrayOf& columnData,
             std::string colName
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
-            for (size_t r = 0; r < dimsColumn.getRows(); r++) {
-                column.push_back(doubleToString(values[r + c * dimsColumn.getRows()]));
+            column.resize(dimsColumn.getRows());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
+                column[r] = doubleToString(values[r + c * dimsColumn.getRows()]);
             }
             writer.addColumn(formatStringValue(colName, options), column);
         }
     } else {
         std::vector<std::string> column;
-        for (size_t j = 0; j < columnData.getElementCount(); j++) {
-            column.push_back(doubleToString(values[j]));
+        column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
+            column[j] = doubleToString(values[j]);
         }
         writer.addColumn(formatStringValue(columnName, options), column);
     }
@@ -234,24 +284,32 @@ TableWriter::handleLogicalColumn(ITableWriter& writer, const ArrayOf& columnData
             std::string colName
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
-            for (size_t r = 0; r < dimsColumn.getRows(); r++) {
+            column.resize(dimsColumn.getRows());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 logical value = values[r + c * dimsColumn.getRows()];
                 if (options._FileType == "xml") {
-                    column.push_back(value ? "true" : "false");
+                    column[r] = value ? "true" : "false";
                 } else {
-                    column.push_back(value ? "1" : "0");
+                    column[r] = value ? "1" : "0";
                 }
             }
             writer.addColumn(formatStringValue(colName, options), column);
         }
     } else {
         std::vector<std::string> column;
-        for (size_t j = 0; j < columnData.getElementCount(); j++) {
+        column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             logical value = values[j];
             if (options._FileType == "xml") {
-                column.push_back(value ? "true" : "false");
+                column[j] = value ? "true" : "false";
             } else {
-                column.push_back(value ? "1" : "0");
+                column[j] = value ? "1" : "0";
             }
         }
         writer.addColumn(formatStringValue(columnName, options), column);
@@ -266,7 +324,11 @@ TableWriter::handleCharacterColumn(ITableWriter& writer, const ArrayOf& columnDa
     if (columnData.isVector()) {
         charType* values = (charType*)columnData.getDataPointer();
         bool addQuotes = false;
-        for (size_t j = 0; j < columnData.getElementCount(); j++) {
+        column.resize(columnData.getElementCount());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             std::wstring str(1, values[j]);
             std::string ustr = wstring_to_utf8(str);
             if (!addQuotes && options._QuoteStrings == "all") {
@@ -276,11 +338,14 @@ TableWriter::handleCharacterColumn(ITableWriter& writer, const ArrayOf& columnDa
                     || ustr.find(options._Delimiter) != std::string::npos)) {
                 addQuotes = true;
             }
-            column.push_back(ustr);
+            column[j] = ustr;
         }
 
         if (addQuotes) {
-            for (size_t k = 0; k < column.size(); ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                 column[k] = formatStringValueQuoteString(column[k]);
             }
         }
@@ -301,14 +366,15 @@ TableWriter::processCharacterMatrix(
     std::wstring str;
     str.reserve(dims.getElementCount());
 
-    for (indexType i = 0; i < dims.getRows(); i++) {
+    column.resize(dims.getRows());
+    for (ompIndexType i = 0; i < (ompIndexType)dims.getRows(); i++) {
         for (indexType j = 0; j < len; j++) {
             size_t idx = i + j * dims.getRows();
             if (ptrChar[idx] != 0) {
                 str.push_back(ptrChar[idx]);
             }
         }
-        column.push_back(wstring_to_utf8(str));
+        column[i] = wstring_to_utf8(str);
         str.clear();
     }
     bool addQuotes = false;
@@ -326,7 +392,10 @@ TableWriter::processCharacterMatrix(
     }
 
     if (addQuotes) {
-        for (size_t k = 0; k < column.size(); ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
             column[k] = formatStringValueQuoteString(column[k]);
         }
     }
@@ -373,12 +442,42 @@ TableWriter::writeTableToFile(const ArrayOf& table, const std::wstring& filename
 
         switch (columnData.getDataClass()) {
         case NLS_CELL_ARRAY: {
+            bool isSupportedType = true;
+            ArrayOf* elements = (ArrayOf*)columnData.getDataPointer();
+            for (size_t j = 0; isSupportedType && j < columnData.getElementCount(); j++) {
+                isSupportedType
+                    = (elements[j].getDataClass() == NLS_CHAR || elements[j].isScalarStringArray()
+                          || elements[j].isNumeric() || elements[j].isLogical())
+                    && (!elements[j].isSparse());
+            }
+
+            if (!isSupportedType) {
+                delete writer;
+                errorMessage = _W("Type(s) in cell not supported.");
+                return;
+            }
+
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             handleCellColumn(*writer, columnData, columnNames[k], options);
         } break;
         case NLS_STRING_ARRAY: {
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             handleStringColumn(*writer, columnData, columnNames[k], options);
         } break;
         case NLS_LOGICAL: {
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             if (columnData.isSparse()) {
                 columnData.makeDense();
             }
@@ -386,6 +485,11 @@ TableWriter::writeTableToFile(const ArrayOf& table, const std::wstring& filename
         } break;
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX: {
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             if (columnData.isSingleClass()) {
                 columnData.promoteType(NLS_DCOMPLEX);
             }
@@ -404,6 +508,11 @@ TableWriter::writeTableToFile(const ArrayOf& table, const std::wstring& filename
         case NLS_UINT64:
         case NLS_SINGLE:
         case NLS_DOUBLE: {
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             if (!columnData.isDoubleType()) {
                 columnData.promoteType(NLS_DOUBLE);
             }
@@ -413,6 +522,11 @@ TableWriter::writeTableToFile(const ArrayOf& table, const std::wstring& filename
             handleDoubleColumn(*writer, columnData, columnNames[k], options);
         } break;
         case NLS_CHAR: {
+            if (!columnData.is2D()) {
+                delete writer;
+                errorMessage = _W("Matrix 2D expected.");
+                return;
+            }
             handleCharacterColumn(*writer, columnData, columnNames[k], options);
         } break;
         default: {

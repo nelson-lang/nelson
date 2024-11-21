@@ -202,6 +202,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\realmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\realminBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\include\flintmaxBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDouble_builtin_exports.h" />
     <ClInclude Include="..\include\realmaxBuiltin.hpp" />
+    <ClInclude Include="..\include\realminBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

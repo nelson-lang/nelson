@@ -7,28 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "doubleBuiltin.hpp"
-#include "flintmaxBuiltin.hpp"
-#include "realmaxBuiltin.hpp"
-#include "realminBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"double";
+namespace Nelson::DoubleGateway {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "double", (ptrBuiltin)Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
-    { "flintmax", (ptrBuiltin)Nelson::DoubleGateway::flintmaxBuiltin, 1, 1 },
-    { "realmax", (ptrBuiltin)Nelson::DoubleGateway::realmaxBuiltin, 1, 1 },
-    { "realmin", (ptrBuiltin)Nelson::DoubleGateway::realminBuiltin, 1, 1 },
-};
+ArrayOfVector
+realminBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,6 @@
+ID,Task,Completed,Notes,Value
+101,Task A,1,All good,3+4i
+102,Task B,0,NaN,-2-5i
+103,Task C,1,Inf,1
+104,Task D,0,-Inf,NaN
+105,Task E,0,-Inf+NaNi,NaN-Infi

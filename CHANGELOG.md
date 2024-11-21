@@ -10,9 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `writetable`: Write table to file.
+- `writecell`: write cell array to file.
+- `writematrix`: write matrix to file.
 - `csvread`: Read comma-separated value (CSV) file.
 - `csvwrite`: Write comma-separated value (CSV) file.
 - `dlmread`: Read ASCII-delimited file of numeric data into matrix.
+- `realmin`: Smallest normalized floating-point number.
 
 ### Changed
 
