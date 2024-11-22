@@ -21,8 +21,8 @@ jobs:
           brew install icu4c
           brew info open-mpi
           brew install openmpi
-          brew install pkg-config
-          brew install pkgconfig
+          brew unlink pkg-config@0.29.2
+          brew install pkgconf
           brew install gettext
           brew link gettext --force
           echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
@@ -77,7 +77,6 @@ jobs:
           cmake --build . -- benchs_all
       - name: all tests
         run: |
-          export OMP_NUM_THREADS=1
           cmake --build . -- tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
@@ -104,8 +103,8 @@ jobs:
           brew install icu4c
           brew info open-mpi
           brew install openmpi
-          brew install pkg-config
-          brew install pkgconfig
+          brew unlink pkg-config@0.29.2
+          brew install pkgconf
           brew install gettext
           brew link gettext --force
           echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
@@ -160,7 +159,6 @@ jobs:
           cmake --build . -- benchs_all
       - name: all tests
         run: |
-          export OMP_NUM_THREADS=1
           cmake --build . -- tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
@@ -242,7 +240,6 @@ jobs:
           cmake --build . -- benchs_all
       - name: all tests
         run: |
-          export OMP_NUM_THREADS=1
           cmake --build . -- tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
