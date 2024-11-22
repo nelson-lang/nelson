@@ -1,0 +1,5 @@
+ID,Task,Completed,Notes
+101,Task A,1,All good
+102,Task B,0,NaN
+103,Task C,1,Inf
+104,Task D,0,-Inf

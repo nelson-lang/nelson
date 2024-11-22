@@ -7,6 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <fstream>
 #include "CSVTableWriter.hpp"
 #include "characters_encoding.hpp"
@@ -30,41 +38,40 @@ CSVWriter::addColumn(const std::string& header, const std::vector<std::string>& 
 bool
 CSVWriter::writeToFile(std::wstring& errorMessage)
 {
-    std::ios::openmode openmode = append ? std::ios::app : std::ios::trunc;
 #ifdef _MSC_VER
-    std::ofstream file(filename, openmode);
+    FILE* file = _wfopen(filename.c_str(), append ? L"a" : L"w");
 #else
-    std::ofstream file(wstring_to_utf8(filename), openmode);
+    FILE* file = fopen(wstring_to_utf8(filename).c_str(), append ? "a" : "w");
 #endif
-    if (!file.is_open()) {
+    if (!file) {
         errorMessage = _W("Could not open file.");
         return false;
     }
 
     if (writeVariableNames) {
-        // Write headers
         for (size_t i = 0; i < headers.size(); ++i) {
-            file << headers[i];
+            fmt::fprintf(file, "%s", headers[i]);
             if (i < headers.size() - 1) {
-                file << delimiter;
+                fmt::fprintf(file, "%c", delimiter);
             }
         }
-        file << "\n";
+        fmt::fprintf(file, "\n");
     }
 
     size_t rowCount = columns.empty() ? 0 : columns[0].size();
-    for (size_t row = 0; row < rowCount; ++row) {
-        for (size_t col = 0; col < columns.size(); ++col) {
-            file << columns[col][row];
-            if (col < columns.size() - 1) {
-                file << delimiter;
-            }
+
+    for (size_t i = 0; i < rowCount * columns.size(); ++i) {
+        size_t row = i / columns.size();
+        size_t col = i % columns.size();
+        fmt::fprintf(file, "%s", columns[col][row]);
+        if (col < columns.size() - 1) {
+            fmt::fprintf(file, "%c", delimiter);
+        } else {
+            fmt::fprintf(file, "\n");
         }
-        file << "\n";
     }
-    file.close();
+    fclose(file);
     return true;
-}
-//=============================================================================
+} //=============================================================================
 }
 //=============================================================================
