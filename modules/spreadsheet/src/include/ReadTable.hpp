@@ -15,7 +15,7 @@
 //=============================================================================
 namespace Nelson {
 NLSSPREADSHEET_IMPEXP ArrayOf
-ReadCell(
+ReadTable(
     const std::wstring& filename, const detectImportOptions& options, std::string& errorMessage);
 };
 //=============================================================================

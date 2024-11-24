@@ -28,7 +28,12 @@ end
 %=============================================================================
 function R = dotSubsref(T, sref)
   st = struct(T);
-  if ischar(sref(1).subs) && strcmp(sref(1).subs, 'Row')
+  if any(contains(st.Properties.VariableNames, 'Row'))
+    rowPropertyName = 'Row_1';
+  else 
+    rowPropertyName = 'Row';
+  end
+  if ischar(sref(1).subs) && strcmp(sref(1).subs, rowPropertyName)
     R = st.Properties.RowNames;
     if isrow(R)
       R = R';

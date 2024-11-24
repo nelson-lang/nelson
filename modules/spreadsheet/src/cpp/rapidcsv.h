@@ -1062,7 +1062,11 @@ public:
         const size_t dataRowIdx = GetDataRowIndex(pRowIdx);
 
         T val;
-        pToVal(mData.at(dataRowIdx).at(dataColumnIdx), val);
+        if (dataRowIdx < mData.size() && dataColumnIdx < mData.at(dataRowIdx).size()) {
+            pToVal(mData.at(dataRowIdx).at(dataColumnIdx), val);
+        } else {
+            pToVal("<Missing>", val);
+        }
         return val;
     }
 
@@ -1544,8 +1548,12 @@ private:
                             if (!hasIJLastChar) {
                                 hasIJLastChar = LastCharIsIorJ(value);
                             }
-                            row.push_back(value);
+                            if (value.empty()) {
+                                row.push_back("<Missing>");
 
+                            } else {
+                                row.push_back(value);
+                            }
                             if (mLineReaderParams.mSkipCommentLines && !row.at(0).empty()
                                 && (row.at(0)[0] == mLineReaderParams.mCommentPrefix)) {
                                 // skip comment line

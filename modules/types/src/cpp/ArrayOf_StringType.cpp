@@ -74,6 +74,22 @@ ArrayOf::stringArrayConstructor(const std::wstring& value)
 }
 //=============================================================================
 ArrayOf
+ArrayOf::stringArrayConstructorAllMissing(Dimensions& dims)
+{
+    ArrayOf* elements = nullptr;
+    size_t nbElements = dims.getElementCount();
+    try {
+        elements = new ArrayOf[nbElements];
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    for (size_t k = 0; k < nbElements; k++) {
+        elements[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+    }
+    return ArrayOf(NLS_STRING_ARRAY, dims, elements);
+}
+//=============================================================================
+ArrayOf
 ArrayOf::stringArrayConstructor(const stringVector& values, Dimensions& dims)
 {
     ArrayOf* elements = nullptr;

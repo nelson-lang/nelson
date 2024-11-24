@@ -10,12 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsSpreadsheet_exports.h"
-#include "DetectImportOptions.hpp"
 //=============================================================================
-namespace Nelson {
-NLSSPREADSHEET_IMPEXP ArrayOf
-ReadCell(
-    const std::wstring& filename, const detectImportOptions& options, std::string& errorMessage);
-};
+namespace Nelson::SpreadsheetGateway {
+//=============================================================================
+ArrayOfVector
+detectImportOptionsBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

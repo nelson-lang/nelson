@@ -7,20 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "readcellBuiltin.hpp"
+#include "readtableBuiltin.hpp"
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "ReadCell.hpp"
+#include "ReadTable.hpp"
 #include "DetectImportOptions.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SpreadsheetGateway::readcellBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::SpreadsheetGateway::readtableBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 10);
+    nargincheck(argIn, 1);
     std::wstring filename = argIn[0].getContentAsWideString();
     std::string errorMessage;
     detectImportOptions options;
@@ -42,16 +42,12 @@ Nelson::SpreadsheetGateway::readcellBuiltin(int nLhs, const ArrayOfVector& argIn
 
     } else {
         analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
-        options.CommentStyle.clear();
-        options.DataLines.clear();
-        options.DataLines.push_back(1);
-        options.DataLines.push_back(std::numeric_limits<double>::infinity());
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
     }
 
-    retval << ReadCell(filename, options, errorMessage);
+    retval << ReadTable(filename, options, errorMessage);
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }

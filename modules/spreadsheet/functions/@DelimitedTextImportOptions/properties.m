@@ -8,31 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = properties(T)
-  st = struct(T);
-  props = fieldnames(st.data);
-  if any(contains(props, 'Row'))
-    rowPropertyName = 'Row_1';
-  else
-    rowPropertyName = 'Row';
-  end
-  props = [props; {'Properties'; rowPropertyName; 'Variable'}];
-  if (nargout == 0)
-    currentFormat = format();
-    if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
-    end
-    disp('Properties for class table:');
-    if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
-    end
-    for p = props'
-      disp(['    ', p{1}]);
-    end
-    if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
-    end
-  else
+    st = struct(T);
+    props = fieldnames(st);
     varargout{1} = props;
-  end
 end
 %=============================================================================
+  

@@ -254,6 +254,7 @@
     </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_StringType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_StructType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_TableType.cpp" />
     <ClCompile Include="..\cpp\ClassName.cpp" />
     <ClCompile Include="..\cpp\ClassToString.cpp" />
     <ClCompile Include="..\cpp\Data.cpp" />

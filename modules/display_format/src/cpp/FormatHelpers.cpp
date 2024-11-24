@@ -93,6 +93,16 @@ template <class T>
 static std::wstring
 formatIntegerReal(T val, const FormatDisplayInformation& formatInfo)
 {
+    if (std::isnan(val)) {
+        return L"NaN";
+    }
+    if (std::isinf(val)) {
+        if (val > 0) {
+            return L"Inf";
+        } else {
+            return L"-Inf";
+        }
+    }
     if (formatInfo.decimalsReal != 0) {
         return fmt::sprintf(
             formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, val);
