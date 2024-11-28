@@ -51,6 +51,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeMatrix(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
@@ -113,6 +116,12 @@ NLSVALIDATORS_IMPEXP void
 mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     const std::wstring& boundflag1, const std::wstring& boundflag2, int argPosition,
     bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 }
 //=============================================================================

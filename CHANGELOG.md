@@ -16,9 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `csvwrite`: Write comma-separated value (CSV) file.
 - `dlmread`: Read ASCII-delimited file of numeric data into matrix.
 - `realmin`: Smallest normalized floating-point number.
+- [#1288](http://github.com/nelson-lang/nelson/issues/1288) `mustBeMatrix`, `mustBeRow`, `mustBeColumn` validator functions.
 
 ### Changed
 
+- `narginchk`, `nargoutchk` support for check only minimun arguments `narginchk(3, Inf)`.
 - Fedora 41 CI
 - `title`: `Visible` property is inherited from the parent if not explicitly defined.
 - i18n: migration PO files to JSON.

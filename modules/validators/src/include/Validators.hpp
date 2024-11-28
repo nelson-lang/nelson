@@ -110,5 +110,7 @@ mustBeMember(const ArrayOfVector& args, const ArrayOf& S, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeInRange(const ArrayOfVector& args, const ArrayOf& upper, const ArrayOf& lower,
     const std::wstring& boundflag1, const std::wstring& boundflag2, int argPosition);
+//=============================================================================
+
 }
 //=============================================================================

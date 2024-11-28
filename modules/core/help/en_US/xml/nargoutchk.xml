@@ -44,6 +44,9 @@
 
 	<description>
 		<p><b>nargoutchk</b> checks the number of output arguments of an function.</p>
+		<p>To ensure a minimum number of outputs while imposing no maximum limit, set <b
+      >maxArgs</b> to <b>inf</b>. For example, <b
+      >nargoutchk(2, inf)</b> generates an error if fewer than two outputs are specified.</p>
 	</description>
 
 
@@ -68,7 +71,7 @@ nargoutchk(1, 2, 3, 'struct')]]>
 			<link linkend="${core}nargin">nargout</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${core}nargoutchk">narginchk</link>
+			<link linkend="${core}narginchk">narginchk</link>
 		</see_also_item>
 
 	</see_also>
@@ -77,6 +80,10 @@ nargoutchk(1, 2, 3, 'struct')]]>
 		<history_item>
 			<history_version>1.0.0</history_version>
 			<history_description>initial version</history_description>
+		</history_item>
+		<history_item>
+			<history_version>1.10.0</history_version>
+			<history_description>nargoutchk(3, Inf) managed</history_description>
 		</history_item>
 	</history>
 

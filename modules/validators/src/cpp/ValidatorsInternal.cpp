@@ -224,6 +224,43 @@ mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
 }
 //=============================================================================
 void
+mustBeMatrix(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = evaluateFunction(argIn, 1, "ismatrix");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a matrix.");
+        std::wstring id = L"Nelson:validators:mustBeMatrix";
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isrow");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a row vector.");
+        std::wstring id = L"Nelson:validators:mustBeRow";
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = evaluateFunction(argIn, 1, "iscolumn");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be a column vector.");
+        std::wstring id = L"Nelson:validators:mustBeColumn";
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     ArrayOfVector argIn(arg);

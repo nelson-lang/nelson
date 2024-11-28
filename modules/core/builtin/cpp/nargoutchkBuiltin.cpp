@@ -69,7 +69,12 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
 
         int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
-        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+
+        bool maxArgsIsInf = false;
+        if (argIn[1].isDoubleType(true)) {
+            double maxValue = argIn[1].getContentAsDoubleScalar();
+            maxArgsIsInf = std::isinf(maxValue);
+        }
         int numArgs = argIn[2].getContentAsInteger32Scalar(false, true);
 
         std::wstring msg = L"";
@@ -78,7 +83,9 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             msg = _W("Not enough output arguments.");
             id = L"Nelson:nargoutchk:notEnoughOutputs";
         }
-        if (numArgs > maxArgs) {
+
+        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+        if (!maxArgsIsInf && numArgs > maxArgs) {
             msg = _W("Too many output arguments.");
             id = L"Nelson:nargoutchk:tooManyOutputs";
         }
