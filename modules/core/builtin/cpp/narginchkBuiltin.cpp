@@ -31,14 +31,21 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(_("Scalar integer value required for #2 argument."));
     }
     int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
-    int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
-
+    bool maxArgsIsInf = false;
+    if (argIn[1].isDoubleType(true)) {
+        double maxValue = argIn[1].getContentAsDoubleScalar();
+        maxArgsIsInf = std::isinf(maxValue);
+    }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:notEnoughInputs", true);
     }
-    if (nargin > maxArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:tooManyInputs", true);
+    if (!maxArgsIsInf) {
+        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+
+        if (nargin > maxArgs) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:tooManyInputs", true);
+        }
     }
     return retval;
 }

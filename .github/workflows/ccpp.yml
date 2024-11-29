@@ -21,7 +21,6 @@ jobs:
           brew install icu4c
           brew info open-mpi
           brew install openmpi
-          brew unlink pkg-config@0.29.2
           brew install pkgconf
           brew install gettext
           brew link gettext --force
@@ -103,7 +102,6 @@ jobs:
           brew install icu4c
           brew info open-mpi
           brew install openmpi
-          brew unlink pkg-config@0.29.2
           brew install pkgconf
           brew install gettext
           brew link gettext --force
