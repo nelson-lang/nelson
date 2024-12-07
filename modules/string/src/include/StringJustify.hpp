@@ -9,39 +9,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsSpreadsheet_exports.h"
-#include "Types.hpp"
+#include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4251)
-#endif
-class NLSSPREADSHEET_IMPEXP detectImportOptions
+enum STRINGJUSTIFY
 {
-public:
-    std::vector<std::string> Delimiter;
-    std::vector<std::string> LineEnding;
-    std::vector<std::string> CommentStyle;
-    std::string EmptyLineRule;
-    std::string TextType;
-    int VariableNamesLine;
-    int RowNamesColumn;
-    std::vector<std::string> VariableNames;
-    std::vector<double> DataLines;
+    NLS_JUSTIFY_LEFT = 0,
+    NLS_JUSTIFY_CENTER = 1,
+    NLS_JUSTIFY_RIGHT = 2,
 };
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 //=============================================================================
-NLSSPREADSHEET_IMPEXP void
-initializeDetectImportOptions(detectImportOptions& options);
-//=============================================================================
-NLSSPREADSHEET_IMPEXP void
-analyzeFileFormatImportOptions(std::wstring filename, size_t sampleSize,
-    detectImportOptions& options, std::string& errorMessage);
+NLSSTRING_IMPEXP ArrayOf
+StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style);
 //=============================================================================
 }
 //=============================================================================

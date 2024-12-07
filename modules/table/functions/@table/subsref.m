@@ -66,43 +66,47 @@ function R = dotSubsref(T, sref)
 end
 %=============================================================================
 function R = braceSubsref(T, sref)
-  st = struct(T);
-  
-  if (length(sref(1).subs) == 2)
-    rowIdx = sref(1).subs{1};
-    colSub = sref(1).subs{2};
-    
-    if ischar(rowIdx) || isstring(rowIdx) || iscellstr(rowIdx)
-      if (isscalar(rowIdx) && rowIdx == ":")
-        rowIdx = 1:height(T);
-      else
-        rowIdx = find(ismember(st.Properties.RowNames, rowIdx));
-        if any(rowIdx == 0)
-          error(_('One or more row names not found.'));
-        end
-      end
-    elseif (isnumeric(rowIdx) || islogical(rowIdx))
-      rowIdx = rowIdx(:);
-    else
-      error(_('Invalid row subscript type.'));
-    end
-    
-    if (ischar(colSub) || isstring(colSub) || iscellstr(colSub))
-      if (isscalar(colSub) && colSub == ":")
-        colSub = 1:width(T);
-      else
-        colSub = find(contains(st.Properties.VariableNames, colSub) == true);
-      end
-    elseif (isnumeric(colSub) || islogical(colSub))
-      colSub = colSub(:);
-    else
-      error(_('Invalid column subscript type.'));
-    end
-  else
-    error(_('Unsupported subscript type. Brace indexing requires two subscripts (row and column).'));
+
+  if (length(sref(1).subs) ~= 2)
+    error('Unsupported subscript type. Brace indexing requires two subscripts (row and column).');
   end
+
+  st = struct(T);
+
+  rowIdx = sref(1).subs{1};
+  colSub = sref(1).subs{2};
+    
+  if ischar(rowIdx) || isstring(rowIdx) || iscellstr(rowIdx)
+    if (isscalar(rowIdx) && rowIdx == ":")
+      rowIdx = 1:height(T);
+    else
+      rowIdx = find(ismember(st.Properties.RowNames, rowIdx));
+      if any(rowIdx == 0)
+        error(_('One or more row names not found.'));
+      end
+    end
+  elseif (isnumeric(rowIdx) || islogical(rowIdx))
+    rowIdx = rowIdx(:);
+  else
+    error(_('Invalid row subscript type.'));
+  end
+    
+  if (ischar(colSub) || isstring(colSub) || iscellstr(colSub))
+    if (isscalar(colSub) && colSub == ":")
+      colSub = 1:width(T);
+    else
+      colSub = find(contains(st.Properties.VariableNames, colSub) == true);
+    end
+  elseif (isnumeric(colSub) || islogical(colSub))
+    colSub = colSub(:);
+  else
+    error(_('Invalid column subscript type.'));
+  end
+  numRows = length(rowIdx);
+  numCols = length(colSub);
   R = [];
-  for i = 1:length(colSub)
+
+  for i = 1:numCols
     variable = st.Properties.VariableNames{colSub(i)};
     tempdata = st.data.(variable);
     if isnumeric(tempdata) || islogical(tempdata) || isstring(tempdata) || ischar(tempdata)

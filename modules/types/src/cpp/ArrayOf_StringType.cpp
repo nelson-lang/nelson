@@ -90,7 +90,7 @@ ArrayOf::stringArrayConstructorAllMissing(Dimensions& dims)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::stringArrayConstructor(const stringVector& values, Dimensions& dims)
+ArrayOf::stringArrayConstructor(const stringVector& values, const Dimensions& dims)
 {
     ArrayOf* elements = nullptr;
     size_t nbElements = dims.getElementCount();
@@ -111,7 +111,7 @@ ArrayOf::stringArrayConstructor(const stringVector& values, Dimensions& dims)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::stringArrayConstructor(const wstringVector& values, Dimensions& dims)
+ArrayOf::stringArrayConstructor(const wstringVector& values, const Dimensions& dims)
 {
     ArrayOf* elements = nullptr;
     size_t nbElements = dims.getElementCount();

@@ -1392,7 +1392,7 @@ public:
      * @return An ArrayOf object representing the string array.
      */
     static ArrayOf
-    stringArrayConstructor(const stringVector& values, Dimensions& dims);
+    stringArrayConstructor(const stringVector& values, const Dimensions& dims);
 
     /**
      * @brief Constructs a string array from a vector of wstrings and dimensions.
@@ -1401,7 +1401,7 @@ public:
      * @return An ArrayOf object representing the string array.
      */
     static ArrayOf
-    stringArrayConstructor(const wstringVector& values, Dimensions& dims);
+    stringArrayConstructor(const wstringVector& values, const Dimensions& dims);
 
     /**
      * Converts a variable to a string array with the content

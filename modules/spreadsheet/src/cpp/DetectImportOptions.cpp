@@ -156,7 +156,7 @@ struct DelimiterStats
     size_t totalCount;
 };
 //=============================================================================
-static DelimiterStats
+DelimiterStats
 analyzeDelimiterInLine(const std::string& line, const std::string& delimiter)
 {
     DelimiterStats stats { delimiter, 0.0, 0, 0 };
@@ -254,7 +254,7 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
     if (bestDelimiter != delimiterStats.end() && bestDelimiter->totalCount > 0) {
         options.Delimiter = { bestDelimiter->delimiter };
         stringVector defaultVariableNames;
-        size_t nbElements = bestDelimiter->averageCount + 1;
+        size_t nbElements = (size_t)bestDelimiter->averageCount + 1;
         defaultVariableNames.resize(nbElements);
         for (size_t k = 0; k < nbElements; ++k) {
             defaultVariableNames[k] = "Var" + std::to_string((int)(k + 1));
@@ -437,7 +437,7 @@ detectColumnsAndRowNames(std::vector<std::string>& lines, const std::string& del
             options.VariableNamesLine = 0;
         } else {
             options.VariableNames = columnNames;
-            options.VariableNamesLine = headerLineIndex + 1;
+            options.VariableNamesLine = (int)(headerLineIndex + 1);
         }
     }
 }
@@ -473,7 +473,7 @@ detectDataLines(std::vector<std::string>& lines, detectImportOptions& options)
         }
         break;
     }
-    options.DataLines[0] = dataLineStart + 1;
+    options.DataLines[0] = (double)(dataLineStart + 1);
 }
 //=============================================================================
 // Public Interface

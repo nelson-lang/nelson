@@ -7,20 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Banner.hpp"
-#include "NelsonPrint.hpp"
+#pragma once
 //=============================================================================
-namespace Nelson {
-void
-Banner()
-{
-    NelsonPrint(L"\n");
-    NelsonPrint(L"    _   __     __\n");
-    NelsonPrint(L"   / | / /__  / /________  ____\n");
-    NelsonPrint(L"  /  |/ / _ \\/ / ___/ __ \\/ __ \\\n");
-    NelsonPrint(L" / /|  /  __/ (__  ) /_/ / / / /\n");
-    NelsonPrint(L"/_/ |_/\\___/_/____/\\____/_/ /_/\n");
-}
+#include "ArrayOf.hpp"
+//=============================================================================
+namespace Nelson::StringGateway {
+//=============================================================================
+ArrayOfVector
+joinBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

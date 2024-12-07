@@ -20,7 +20,7 @@ Nelson::SpreadsheetGateway::readtableBuiltin(int nLhs, const ArrayOfVector& argI
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1);
+    nargincheck(argIn, 1, 2);
     std::wstring filename = argIn[0].getContentAsWideString();
     std::string errorMessage;
     detectImportOptions options;
@@ -35,9 +35,10 @@ Nelson::SpreadsheetGateway::readtableBuiltin(int nLhs, const ArrayOfVector& argI
         options.CommentStyle = argIn[1].getField("CommentStyle").getContentAsCStringRowVector();
         options.EmptyLineRule = argIn[1].getField("EmptyLineRule").getContentAsCString();
         options.VariableNamesLine
-            = argIn[1].getField("VariableNamesLine").getContentAsDoubleScalar();
+            = (int)argIn[1].getField("VariableNamesLine").getContentAsDoubleScalar();
         options.VariableNames = argIn[1].getField("VariableNames").getContentAsCStringRowVector();
-        options.RowNamesColumn = argIn[1].getField("RowNamesColumn").getContentAsDoubleScalar();
+        options.RowNamesColumn
+            = (int)argIn[1].getField("RowNamesColumn").getContentAsDoubleScalar();
         options.DataLines = argIn[1].getField("DataLines").getContentAsDoubleVector();
 
     } else {

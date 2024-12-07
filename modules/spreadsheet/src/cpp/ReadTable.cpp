@@ -292,8 +292,8 @@ ReadTable(
                 columnValues[c] = ArrayOf(NLS_DOUBLE, dims, ptr);
             } break;
             case NLS_DCOMPLEX: {
-                std::complex<double>* ptr
-                    = (std::complex<double>*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows);
+                std::complex<double>* ptr = reinterpret_cast<std::complex<double>*>(
+                    ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows));
 #if WITH_OPENMP
 #pragma omp for
 #endif

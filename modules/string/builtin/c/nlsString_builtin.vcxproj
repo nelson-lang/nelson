@@ -192,6 +192,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\isletterBuiltin.cpp" />
+    <ClCompile Include="..\cpp\joinBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\matchesBuiltin.cpp" />
     <ClCompile Include="..\cpp\num2strBuiltin.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
     <ClCompile Include="..\cpp\stringBuiltin.cpp" />
     <ClCompile Include="..\cpp\stringsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\strjustBuiltin.cpp" />
     <ClCompile Include="..\cpp\strlengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
@@ -250,6 +252,7 @@
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\isletterBuiltin.hpp" />
+    <ClInclude Include="..\include\joinBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
     <ClInclude Include="..\include\matchesBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
@@ -262,6 +265,7 @@
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
     <ClInclude Include="..\include\stringBuiltin.hpp" />
     <ClInclude Include="..\include\stringsBuiltin.hpp" />
+    <ClInclude Include="..\include\strjustBuiltin.hpp" />
     <ClInclude Include="..\include\strlengthBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
     <ClInclude Include="..\include\strrepBuiltin.hpp" />

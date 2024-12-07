@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `detectImportOptions`: Generate import options from the file's content.
+- `readcell`: Read cell array from file.
+- `readtable`: Read table from file.
 - `writetable`: Write table to file.
 - `writecell`: write cell array to file.
 - `writematrix`: write matrix to file.
@@ -17,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dlmread`: Read ASCII-delimited file of numeric data into matrix.
 - `realmin`: Smallest normalized floating-point number.
 - [#1288](http://github.com/nelson-lang/nelson/issues/1288) `mustBeMatrix`, `mustBeRow`, `mustBeColumn` validator functions.
+- `join`: Combine strings.
+- [#1292](http://github.com/nelson-lang/nelson/issues/1292) Large Table Display.
 
 ### Changed
 
@@ -25,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `title`: `Visible` property is inherited from the parent if not explicitly defined.
 - i18n: migration PO files to JSON.
 - `dlmwrite`: rework the function to be more fast and robust.
+- `strjust`: rework the function to be more fast and robust.
 
 ### Fixed
 

@@ -19,7 +19,7 @@ Nelson::SpreadsheetGateway::detectImportOptionsBuiltin(int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 4);
+    nargincheck(argIn, 1, 1);
 
     std::wstring filename = argIn[0].getContentAsWideString();
 
