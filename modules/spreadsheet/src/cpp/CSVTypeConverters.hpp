@@ -31,7 +31,7 @@ void
 ConvertStringToDoubleComplex(const std::string& pStr, std::complex<double>& Val);
 //=============================================================================
 void
-ConvertStringToSingleComplex(const std::string& pStr, std::complex <single> & Val);
+ConvertStringToSingleComplex(const std::string& pStr, std::complex<single>& Val);
 //=============================================================================
 void
 ConvertStringToInt8(const std::string& pStr, int8& Val);

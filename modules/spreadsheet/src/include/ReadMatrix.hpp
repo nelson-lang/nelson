@@ -15,7 +15,7 @@
 //=============================================================================
 namespace Nelson {
 NLSSPREADSHEET_IMPEXP ArrayOf
-ReadMatrix(const std::wstring& filename, const detectImportOptions& options,
-    NelsonType OutputType, std::string& errorMessage);
+ReadMatrix(const std::wstring& filename, const detectImportOptions& options, NelsonType OutputType,
+    std::string& errorMessage);
 };
 //=============================================================================
