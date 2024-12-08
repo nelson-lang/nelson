@@ -64,7 +64,7 @@ ConvertStringToInteger(const std::string& pStr, T& Val)
     double dval;
     if (ConvertToDouble(pStr, dval)) {
         if (std::isnan(dval)) {
-            Val = std::numeric_limits<T>::min();
+            Val = static_cast<T>(0.);
             return;
         }
         if (std::isinf(dval)) {
@@ -86,7 +86,7 @@ ConvertStringToInteger(const std::string& pStr, T& Val)
         Val = static_cast<T>(dval);
         return;
     }
-    Val = std::numeric_limits<T>::min();
+    Val = static_cast<T>(0.);
 }
 //=============================================================================
 void
@@ -156,11 +156,14 @@ struct ComplexPatterns
 bool
 ConvertToDouble(const std::string& pStr, double& pVal)
 {
+    if (pStr.empty()) {
+        return false;
+    }
     fast_float::parse_options options { fast_float::chars_format::fortran };
 
     const char* first = pStr.data();
     const char* last = pStr.data() + pStr.size();
-    if (!pStr.empty() && pStr.front() == '+') {
+    if (pStr[0] == '+') {
         first += 1;
     }
 

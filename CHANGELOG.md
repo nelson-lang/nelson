@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `detectImportOptions`: Generate import options from the file's content.
-- `readcell`: Read cell array from file.
 - `readtable`: Read table from file.
 - `writetable`: Write table to file.
+- `readcell`: Read cell array from file.
 - `writecell`: write cell array to file.
+- `readmatrix`: read matrix from file.
 - `writematrix`: write matrix to file.
 - `csvread`: Read comma-separated value (CSV) file.
 - `csvwrite`: Write comma-separated value (CSV) file.

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <fstream>
+#include <algorithm>
 #include "ReadLinesFromFile.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

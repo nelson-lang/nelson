@@ -62,3 +62,60 @@ REF = [ NaN     1   NaN;
 -Inf   Inf     4];
 assert_isequal(R, REF);
 %=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_7.csv'];
+R = readmatrix(csv_filename);
+REF = [    complex(NaN,0)   0.0000 + 0.0013i      complex(NaN,0)
+complex(-Inf, 0)      complex(Inf,0)  -4.0000 + 0.0000i] * 1e3;
+assert_isequal(real(R), real(REF));
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_3.csv'];
+options = detectImportOptions(csv_filename);
+options.DataLines = [3 5];
+R = readmatrix(csv_filename, options);
+REF = [NaN    43    69   163   109    77;
+NaN    38    64   131   125    83;
+NaN    40    67   133   117    75];
+assert_isequal(R, REF);
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_3.csv'];
+options = detectImportOptions(csv_filename);
+options.DataLines = [3 5];
+R = readmatrix(csv_filename, options, 'OutputType', 'char');
+REF = {'Johnson', '43', '69', '163', '109', '77';
+'Williams', '38', '64', '131', '125', '83';
+'Jones', '40', '67', '133', '117', '75'};
+assert_isequal(R, REF);
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_3.csv'];
+options = detectImportOptions(csv_filename);
+options.DataLines = [3 5];
+R = readmatrix(csv_filename, options, 'OutputType', 'string');
+REF = ["Johnson"    "43"    "69"    "163"    "109"    "77";
+"Williams"    "38"    "64"    "131"    "125"    "83";
+"Jones"    "40"    "67"    "133"    "117"    "75"];
+assert_isequal(R, REF);
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_3.csv'];
+options = detectImportOptions(csv_filename);
+options.DataLines = [3 5];
+R = readmatrix(csv_filename, options, 'OutputType', 'int8');
+REF = [   0   43   69   127   109   77;
+0   38   64   127   125   83;
+0   40   67   127   117   75];
+REF = int8(REF);
+assert_isequal(R, REF);
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_6.csv'];
+R = readmatrix(csv_filename, 'OutputType', 'int8');
+REF =  [ 0      1      0;
+-128    127      4];
+REF = int8(REF);
+assert_isequal(R, REF);
+%=============================================================================
+csv_filename = [modulepath('spreadsheet'), '/tests/readmatrix_6.csv'];
+R = readmatrix(csv_filename, 'OutputType', 'uint8');
+REF = [0     1     0;
+0   255     4];
+REF = uint8(REF);
+assert_isequal(R, REF);
+%=============================================================================
