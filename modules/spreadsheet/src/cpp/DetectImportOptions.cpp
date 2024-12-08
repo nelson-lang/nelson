@@ -15,12 +15,13 @@
 #include "DetectImportOptions.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include <fast_float/fast_float.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 // Constants
 namespace {
-    const stringVector DELIMITERS = { ",", "\t", ";", "|" };
+    const stringVector DELIMITERS = { ",", "\t", ";", "|", " " };
     const stringVector LINE_ENDINGS = { "\r\n", "\n", "\r" };
     const stringVector COMMENT_STYLES = { "%", "#", "//", "--" };
     const size_t MIN_HEADER_SAMPLE = 5;
@@ -358,12 +359,21 @@ isNumeric(const std::string& str)
 {
     if (str.empty())
         return false;
+    fast_float::parse_options options { fast_float::chars_format::fortran };
 
-    std::istringstream iss(str);
-    double value;
-    iss >> std::noskipws >> value;
+    double val;
+    const char* first = str.data();
+    const char* last = str.data() + str.size();
+    if (!str.empty() && str.front() == '+') {
+        first += 1;
+    }
 
-    return iss.eof() && !iss.fail();
+    auto answer = fast_float::from_chars_advanced(first, last, val, options);
+
+    if (answer.ec != std::errc() || answer.ptr != last) {
+        return false;
+    }
+    return true;
 }
 //=============================================================================
 static bool

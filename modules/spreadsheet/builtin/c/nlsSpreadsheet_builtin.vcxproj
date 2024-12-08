@@ -218,6 +218,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\readcellBuiltin.cpp" />
+    <ClCompile Include="..\cpp\readmatrixBuiltin.cpp" />
     <ClCompile Include="..\cpp\readtableBuiltin.cpp" />
     <ClCompile Include="..\cpp\writetableBuiltin.cpp" />
   </ItemGroup>
@@ -227,6 +228,7 @@
     <ClInclude Include="..\include\dlmwriteBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSpreadsheet_builtin_exports.h" />
     <ClInclude Include="..\include\readcellBuiltin.hpp" />
+    <ClInclude Include="..\include\readmatrixBuiltin.hpp" />
     <ClInclude Include="..\include\readtableBuiltin.hpp" />
     <ClInclude Include="..\include\writetableBuiltin.hpp" />
   </ItemGroup>
