@@ -17,6 +17,8 @@
 #if WITH_OPENMP
 #include <omp.h>
 #endif
+#include "CSVTypeConverters.hpp"
+#include "ReadLinesFromFile.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,108 +29,6 @@ struct DoubleDoubleComplexString
     std::string asString;
     NelsonType nelsonType;
 };
-//=============================================================================
-struct ComplexPatterns
-{
-    // Regex for special values (Inf, NaN)
-    static inline const std::string special_re = R"((?:[Nn][Aa][Nn]|[Ii][Nn][Ff]))";
-
-    // Full regex patterns combining numbers and special values
-    static inline const std::regex full_complex { R"(([+-]?(?:\d*\.?\d+|)" + special_re
-            + R"())([+-](?:\d*\.?\d+|)" + special_re + R"())[ij])",
-        std::regex::optimize };
-    static inline const std::regex real_only {
-        R"(([+-]?(?:\d*\.?\d+|)" + special_re + R"())(?![ij]))", std::regex::optimize
-    };
-    static inline const std::regex imag_only { R"(([+-]?(?:\d*\.?\d+|)" + special_re + R"())[ij])",
-        std::regex::optimize };
-};
-//=============================================================================
-static bool
-ConvertToDouble(const std::string& pStr, double& pVal)
-{
-    fast_float::parse_options options { fast_float::chars_format::fortran };
-
-    const char* first = pStr.data();
-    const char* last = pStr.data() + pStr.size();
-    if (!pStr.empty() && pStr.front() == '+') {
-        first += 1;
-    }
-
-    auto answer = fast_float::from_chars_advanced(first, last, pVal, options);
-
-    if (answer.ec != std::errc() || answer.ptr != last) {
-        return false;
-    }
-    return true;
-}
-//=============================================================================
-static bool
-ConvertToDoubleComplex(const std::string& str, std::complex<double>& pVal)
-{
-    char lastChar = '\0';
-    if (!str.empty()) {
-        lastChar = str.back();
-    }
-    if ((lastChar != '\0') && lastChar == 'I' || lastChar == 'J' || lastChar == 'i'
-        || lastChar == 'j') {
-        std::smatch matches;
-        if (std::regex_match(str, matches, ComplexPatterns::full_complex)) {
-            bool isNegativeReal = false;
-            bool isNegativeImag = false;
-            std::string realStr = matches[1].str();
-            std::string imagStr = matches[2].str();
-            if (imagStr.front() == L'+' || imagStr.front() == L'-') {
-                if (imagStr.front() == L'-') {
-                    isNegativeImag = true;
-                }
-                imagStr.erase(0, 1);
-            }
-
-            double realPart, imagPart;
-
-            bool res = ConvertToDouble(realStr, realPart);
-            if (!res) {
-                return res;
-            }
-            res = ConvertToDouble(imagStr, imagPart);
-            if (!res) {
-                return res;
-            }
-            if (isNegativeReal) {
-                realPart = -realPart;
-            }
-            if (isNegativeImag) {
-                imagPart = -imagPart;
-            }
-            pVal = { realPart, imagPart };
-            return true;
-        } else if (std::regex_match(str, matches, ComplexPatterns::imag_only)) {
-            bool isNegativeImag = false;
-            std::string imagStr = matches[1].str();
-            if (imagStr.front() == L'+' || imagStr.front() == L'-') {
-                if (imagStr.front() == L'-') {
-                    isNegativeImag = true;
-                }
-                imagStr.erase(0, 1);
-            }
-
-            double imagPart;
-            bool res = ConvertToDouble(imagStr, imagPart);
-            if (!res) {
-                return false;
-            }
-            if (isNegativeImag) {
-                imagPart = -imagPart;
-            }
-            pVal = { 0., imagPart };
-            return true;
-        } else {
-            return false;
-        }
-    }
-    return false;
-}
 //=============================================================================
 static void
 ConvertToArrayOfCharacter(const std::string& pStr, struct DoubleDoubleComplexString& structValue)
@@ -151,44 +51,6 @@ ConvertToArrayOfCharacter(const std::string& pStr, struct DoubleDoubleComplexStr
     structValue.asDouble = std::nan("NaN");
     structValue.asDoubleComplex = std::complex<double>(std::nan("NaN"), std::nan("NaN"));
     structValue.nelsonType = NLS_CHAR;
-}
-//=============================================================================
-static std::stringstream
-readLinesFromFile(const std::wstring& filename, const detectImportOptions& options)
-{
-    std::ifstream file;
-#ifdef _MSC_VER
-    file.open(filename);
-#else
-    file.open(wstring_to_utf8(filename));
-#endif
-
-    std::string line;
-    int currentLine = 1;
-    std::stringstream normalizedStream;
-
-    while (currentLine < (int)options.DataLines[0] && std::getline(file, line)) {
-        currentLine++;
-    }
-
-    auto normalizeLineEnding = [](const std::string& inputLine) -> std::string {
-        std::string normalized = inputLine;
-        normalized.erase(std::remove(normalized.begin(), normalized.end(), '\r'), normalized.end());
-        return normalized;
-    };
-
-    if (std::isinf(options.DataLines[1])) {
-        while (std::getline(file, line)) {
-            normalizedStream << normalizeLineEnding(line) << '\n';
-            currentLine++;
-        }
-    } else {
-        while (currentLine <= (int)options.DataLines[1] && std::getline(file, line)) {
-            normalizedStream << normalizeLineEnding(line) << '\n';
-            currentLine++;
-        }
-    }
-    return normalizedStream;
 }
 //=============================================================================
 ArrayOf
@@ -323,4 +185,4 @@ ReadTable(
 }
 //=============================================================================
 } // namespace Nelson
-  //=============================================================================
+//=============================================================================
