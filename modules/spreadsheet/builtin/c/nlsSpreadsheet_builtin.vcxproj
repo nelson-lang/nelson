@@ -212,18 +212,22 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\detectImportOptionsBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlmreadlBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlmwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\readcellBuiltin.cpp" />
+    <ClCompile Include="..\cpp\readtableBuiltin.cpp" />
     <ClCompile Include="..\cpp\writetableBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\detectImportOptionsBuiltin.hpp" />
     <ClInclude Include="..\include\dlmreadBuiltin.hpp" />
     <ClInclude Include="..\include\dlmwriteBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSpreadsheet_builtin_exports.h" />
     <ClInclude Include="..\include\readcellBuiltin.hpp" />
+    <ClInclude Include="..\include\readtableBuiltin.hpp" />
     <ClInclude Include="..\include\writetableBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

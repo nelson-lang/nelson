@@ -189,6 +189,8 @@
     <ClCompile Include="..\cpp\StringDeblank.cpp" />
     <ClCompile Include="..\cpp\StringEndsWith.cpp" />
     <ClCompile Include="..\cpp\StringFind.cpp" />
+    <ClCompile Include="..\cpp\StringJoin.cpp" />
+    <ClCompile Include="..\cpp\StringJustify.cpp" />
     <ClCompile Include="..\cpp\StringLength.cpp" />
     <ClCompile Include="..\cpp\StringMatches.cpp" />
     <ClCompile Include="..\cpp\StringPrintf.cpp" />
@@ -218,6 +220,8 @@
     <ClInclude Include="..\include\StringDeblank.hpp" />
     <ClInclude Include="..\include\StringEndsWith.hpp" />
     <ClInclude Include="..\include\StringFind.hpp" />
+    <ClInclude Include="..\include\StringJoin.hpp" />
+    <ClInclude Include="..\include\StringJustify.hpp" />
     <ClInclude Include="..\include\StringLength.hpp" />
     <ClInclude Include="..\include\StringMatches.hpp" />
     <ClInclude Include="..\include\StringPrintf.hpp" />

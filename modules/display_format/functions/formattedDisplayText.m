@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function result = formattedDisplayText(varargin)
-  nbArgsValid = (nargin >= 1) && (mod(nargin, 2) == 1);
+  nbArgsValid = mod(nargin, 2) == 1;
   if ~nbArgsValid
     error(_('Wrong number of input arguments.'));
   end
@@ -25,23 +25,21 @@ function newFormat = setFormatWithArguments(currentFormat, args)
     validField = false;
     name = lower(args{i});
     value = args{i + 1};
-    if strcmp(name, 'numericformat')
+    switch name
+      case 'numericformat'
       validateNumericFormat(value, i + 1);
       newFormat.NumericFormat = value;
       validField = true;
-    end
-    if strcmp(name, 'linespacing')
+
+      case 'linespacing'
       validateLineSpacing(value, i + 1);
       newFormat.LineSpacing = value;
       validField = true;
-    end
-    if strcmp(name, 'suppressmarkup')
+
+      case {'suppressmarkup', 'usetruefalseforlogical'}
       % not managed -> ignored
       validField = true;
-    end
-    if strcmp(name, 'usetruefalseforlogical')
-      % not managed -> ignored
-      validField = true;
+    
     end
     if ~validField
       msg = sprintf(_('Invalid name-value argument: %s.'), args{i});

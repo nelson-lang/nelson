@@ -64,6 +64,16 @@ ArrayOf::doubleConstructor(double aval)
 }
 //=============================================================================
 ArrayOf
+ArrayOf::doubleVectorConstructor(std::vector<double> values)
+{
+    double* data
+        = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), true));
+    std::copy(values.begin(), values.end(), data);
+    return ArrayOf(NLS_DOUBLE, Dimensions(1, values.size()), data);
+}
+//=============================================================================
+
+ArrayOf
 ArrayOf::doubleVectorConstructor(indexType len)
 {
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, len, stringVector(), true));
@@ -84,6 +94,26 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
     data[0] = aval;
     data[1] = bval;
     return ArrayOf(NLS_DCOMPLEX, Dimensions(1, 1), data);
+}
+//=============================================================================
+std::vector<double>
+ArrayOf::getContentAsDoubleVector() const
+{
+    if (isComplex() || isReferenceType() || isCharacterArray() || isSparse()) {
+        Error(_W("Expected a real value."));
+    }
+    size_t elementCount = getElementCount();
+    std::vector<double> values(elementCount);
+    if (getDataClass() != NLS_DOUBLE) {
+        ArrayOf P(*this);
+        P.promoteType(NLS_DOUBLE);
+        const double* data = static_cast<const double*>(P.getDataPointer());
+        std::copy(data, data + elementCount, values.begin());
+    } else {
+        const double* data = static_cast<const double*>(dp->getData());
+        std::copy(data, data + elementCount, values.begin());
+    }
+    return values;
 }
 //=============================================================================
 double

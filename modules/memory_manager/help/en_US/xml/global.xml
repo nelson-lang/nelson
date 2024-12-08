@@ -36,7 +36,7 @@
       ><![CDATA[function myfun()
 global y;
 y = 1;
-endfunction
+end
 
 myfun()
 who

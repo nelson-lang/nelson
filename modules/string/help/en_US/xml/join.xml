@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>join</keyword>
+  <short_description>Combine strings.</short_description>
+
+  <syntax>
+    <syntax_item>res = join(str)</syntax_item>
+    <syntax_item>res = join(str, delimiter)</syntax_item>
+    <syntax_item>res = join(str, dim)</syntax_item>
+    <syntax_item>res = join(str, delimiter, dim)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
+      >a string, string array or cell of strings.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>delimiter</param_name>
+      <param_description
+      >a string, string array or cell of strings:Characters used to separate and join strings.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >positive integer: Dimension along which to join strings.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
+      >a string, string array or cell of strings.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+<p><b>res = join(str)</b> combines the elements of <b
+      >str</b> into a single text by joining them with a space character as the default delimiter.</p> 
+<p>The input, <b
+      >str</b>, can be either a string array or a cell array of character vectors. The output, <b
+      >res</b>, has the same data type as <b>str</b>.</p>
+
+<p>If <b>str</b> is a 1-by-N or N-by-1 string array or cell array, <b
+      >res</b> will be a string scalar or a cell array containing a single character vector.</p>
+<p>If <b
+      >str</b> is an M-by-N string array or cell array, res will be an M-by-1 string array or cell array.</p>
+<p
+    >For arrays of any size, join concatenates elements along the last dimension with a size greater than 1.</p>
+
+<p><b>res = join(str, delimiter)</b> joins the elements of <b
+      >str</b> using the specified delimiter instead of the default space character.</p>
+<p>If delimiter is an array of multiple delimiters, and <b
+      >str</b> has N elements along the joining dimension, delimiter must have N–1 elements along the same dimension. All other dimensions of delimiter must either have size 1 or match the size of the corresponding dimensions of <b
+      >str</b>.</p>
+<p><b>res = join(str, dim)</b> combines the elements of <b
+      >str</b> along the specified dimension <b>dim</b>.</p>
+
+<p><b>res = join(str, delimiter, dim)</b> joins the elements of <b
+      >str</b> along the specified dimension <b
+      >dim</b>, using delimiter to separate them.</p>
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[str = ["x","y","z"; "a","b","c"];
+delimiters = [" + "," = "; " - "," = "];
+R = join(str, delimiters)]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}append">append</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}strcat">strcat</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

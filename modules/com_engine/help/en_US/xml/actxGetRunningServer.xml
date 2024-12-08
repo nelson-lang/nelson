@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>actxGetRunningSrv</keyword>
+  <keyword>actxGetRunningServer</keyword>
   <short_description
   >Handle to running instance of Automation server.</short_description>
 
   <syntax>
-    <syntax_item>h = actxGetRunningSrv(progid)</syntax_item>
+    <syntax_item>h = actxGetRunningServer(progid)</syntax_item>
   </syntax>
   
   <param_input>
@@ -30,7 +30,7 @@
 
   <description>
   <p><b
-      >h = actxGetRunningSrv(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
+      >h = actxGetRunningServer(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
   <p><b
       >progid</b> is the programmatic identifier of the Automation server object and <b
       >h</b> is the handle to the default interface of the server object.</p>

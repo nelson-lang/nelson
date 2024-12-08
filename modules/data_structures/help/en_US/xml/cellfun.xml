@@ -81,7 +81,7 @@ f = str2func('size');
 		<example_item_data
       ><![CDATA[function r = fun1(x, y)
 r = x > y;
-endfunction
+end
 
 function result = errorfun(S, varargin)
 	disp(nargin())
@@ -91,7 +91,7 @@ function result = errorfun(S, varargin)
 	disp(varargin{1})
 	disp(varargin{2})
 	result = false;
-endfunction]]>
+end]]>
 		</example_item_data>
 	</example_item>
 

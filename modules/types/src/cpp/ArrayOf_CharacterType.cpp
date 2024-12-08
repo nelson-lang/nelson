@@ -379,7 +379,7 @@ wstringVector
 ArrayOf::getContentAsWideStringRowVector() const
 {
     wstringVector res;
-    if (!isCell() || !isStringArray()) {
+    if (!(isCell() || isStringArray())) {
         Error(_W("A cell or string array expected."));
     }
     if (isRowVector()) {
@@ -426,7 +426,7 @@ wstringVector
 ArrayOf::getContentAsWideStringColumnVector() const
 {
     wstringVector res;
-    if (!isCell() && !isStringArray()) {
+    if (!(isCell() || isStringArray())) {
         Error(_W("A cell or string array expected."));
     }
     if (!isEmpty()) {

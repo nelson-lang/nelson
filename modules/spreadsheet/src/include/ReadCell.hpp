@@ -11,9 +11,11 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsSpreadsheet_exports.h"
+#include "DetectImportOptions.hpp"
 //=============================================================================
 namespace Nelson {
 NLSSPREADSHEET_IMPEXP ArrayOf
-ReadCell(const std::wstring& filename, std::wstring& errorMessage);
+ReadCell(
+    const std::wstring& filename, const detectImportOptions& options, std::string& errorMessage);
 };
 //=============================================================================

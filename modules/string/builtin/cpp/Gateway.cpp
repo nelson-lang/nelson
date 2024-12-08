@@ -41,6 +41,8 @@
 #include "strcatBuiltin.hpp"
 #include "appendBuiltin.hpp"
 #include "isletterBuiltin.hpp"
+#include "joinBuiltin.hpp"
+#include "strjustBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -83,6 +85,8 @@ static const nlsGateway gateway[] = {
     { "strcat", (ptrBuiltin)Nelson::StringGateway::strcatBuiltin, 1, -1 },
     { "append", (ptrBuiltin)Nelson::StringGateway::appendBuiltin, 1, -1 },
     { "isletter", (ptrBuiltin)Nelson::StringGateway::isletterBuiltin, 1, 1 },
+    { "join", (ptrBuiltin)Nelson::StringGateway::joinBuiltin, 1, -2 },
+    { "strjust", (ptrBuiltin)Nelson::StringGateway::strjustBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

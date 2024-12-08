@@ -60,6 +60,10 @@ C = strcat(A, B)]]>
     <see_also_item>
       <link linkend="${string}append">append</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${string}join">join</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

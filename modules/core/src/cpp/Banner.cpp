@@ -15,11 +15,11 @@ void
 Banner()
 {
     NelsonPrint(L"\n");
-    NelsonPrint(L"     __     _  __\n");
-    NelsonPrint(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
-    NelsonPrint(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
-    NelsonPrint(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
-    NelsonPrint(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
+    NelsonPrint(L"    _   __     __\n");
+    NelsonPrint(L"   / | / /__  / /________  ____\n");
+    NelsonPrint(L"  /  |/ / _ \\/ / ___/ __ \\/ __ \\\n");
+    NelsonPrint(L" / /|  /  __/ (__  ) /_/ / / / /\n");
+    NelsonPrint(L"/_/ |_/\\___/_/____/\\____/_/ /_/\n");
 }
 //=============================================================================
 } // namespace Nelson

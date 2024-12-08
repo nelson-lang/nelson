@@ -716,6 +716,13 @@ public:
     doubleVectorConstructor(indexType len);
 
     /**
+     * Double vector constructor - Construct an NLS_DOUBLE object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    doubleVectorConstructor(std::vector<double> values);
+
+    /**
      * Single vector constructor - Construct an NLS_SINGLE object
      * that is a (row) vector with the given length.
      */
@@ -1052,6 +1059,15 @@ public:
     getContentAsDoubleScalar(bool arrayAsScalar = false, bool checkIsIntegerValue = false) const;
 
     /**
+     * Get our contents as a double vector.
+     * Throws an exception if cannot meaningfully
+     * be converted to a double precision value.
+     */
+
+    [[nodiscard]] std::vector<double>
+    getContentAsDoubleVector() const;
+
+    /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
@@ -1362,13 +1378,21 @@ public:
     stringArrayConstructor(const std::wstring& value);
 
     /**
+     * @brief Constructs a string array with all elements initialized to Missing.
+     * @param dims The dimensions of the string array.
+     * @return An ArrayOf object representing the string array.
+     */
+    static ArrayOf
+    stringArrayConstructorAllMissing(Dimensions& dims);
+
+    /**
      * @brief Constructs a string array from a vector of strings and dimensions.
      * @param values The vector of strings to be converted to a string array.
      * @param dims The dimensions of the string array.
      * @return An ArrayOf object representing the string array.
      */
     static ArrayOf
-    stringArrayConstructor(const stringVector& values, Dimensions& dims);
+    stringArrayConstructor(const stringVector& values, const Dimensions& dims);
 
     /**
      * @brief Constructs a string array from a vector of wstrings and dimensions.
@@ -1377,7 +1401,7 @@ public:
      * @return An ArrayOf object representing the string array.
      */
     static ArrayOf
-    stringArrayConstructor(const wstringVector& values, Dimensions& dims);
+    stringArrayConstructor(const wstringVector& values, const Dimensions& dims);
 
     /**
      * Converts a variable to a string array with the content
@@ -1402,6 +1426,39 @@ public:
      */
     [[nodiscard]] go_handle
     getContentAsGraphicsObjectScalar() const;
+
+    //=========================================================================
+    // Table class object
+    //=========================================================================
+    /*
+     * check is Table type
+     */
+    [[nodiscard]] bool
+    isTable() const;
+
+    /**
+     * @brief Constructs a table class object.
+     *
+     * This function creates and returns a table represented as an `ArrayOf` object,
+     * based on the provided column values, variable (column) names, and row names.
+     *
+     * @param columnValues A collection of vectors, where each vector represents the
+     *                     values in a single column of the table. All columns should
+     *                     have the same number of rows for consistency.
+     * @param variableNames(optional: empty)  A vector of strings representing the names of the
+     * columns in the table. The size of this vector should match the number of columns in
+     * `columnValues`.
+     * @param rowNames (optional: empty) A vector of strings representing the names of the rows in
+     * the table. The size of this vector should match the number of rows in each column of
+     * `columnValues`.
+     *
+     * @return An `ArrayOf` object representing the constructed table, with the
+     *         specified column values, variable names, and row names.
+     */
+
+    static ArrayOf
+    tableConstructor(const ArrayOfVector& columnValues, const stringVector& variableNames,
+        const stringVector& rowNames);
 };
 //=========================================================================
 bool

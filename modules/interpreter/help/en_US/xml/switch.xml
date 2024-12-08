@@ -36,7 +36,7 @@
     otherwise
       c = 'not sure';
   end
-endfunction
+end
 ]]>
     </example_item_data>
   </example_item>

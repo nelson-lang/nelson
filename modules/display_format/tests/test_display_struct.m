@@ -7,26 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = strjust(varargin)
-  narginchk(1, 2);
-  nargoutchk(0, 1);
-  
-  if nargin == 1
-    justify = 'right'; 
-  else
-    justify = lower(varargin{2});
-  end
-  mustBeMember(justify, ["left", "right", "center"], 2);
-  
-  str = varargin{1};
-  result = str;
-  for k = 1:numel(str)
-    if ischar(str{k})
-      result{k} = strjust(str{k}, justify);
-    else
-      error(_('String, cell of chars or characters vector expected.'));
-    end
-  end
-  varargout{1} = result;
-end
+% <--ENGLISH IMPOSED-->
+%=============================================================================
+st = [];
+st.A = [1 Inf];
+st.B = [2 -Inf];
+st.C = [3 NaN];
+R = evalc('st');
+REF =      '
+st =
+
+  struct with fields:
+
+    A: [1  Inf]
+    B: [2  -Inf]
+    C: [3  NaN]
+
+';
+assert_isequal(R, REF);
 %=============================================================================

@@ -10,7 +10,12 @@
 function varargout = properties(T)
   st = struct(T);
   props = fieldnames(st.data);
-  props = [props; {'Properties'; 'Row'; 'Variable'}];
+  if any(contains(props, 'Row'))
+    rowPropertyName = 'Row_1';
+  else
+    rowPropertyName = 'Row';
+  end
+  props = [props; {'Properties'; rowPropertyName; 'Variable'}];
   if (nargout == 0)
     currentFormat = format();
     if strcmp(currentFormat.LineSpacing, 'loose')

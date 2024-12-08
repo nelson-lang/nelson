@@ -4,7 +4,8 @@
 
 	<language>en_US</language>
 	<keyword>num2cell</keyword>
-	<short_description>Convert array to cell array with consistently sized cells.</short_description>
+	<short_description
+  >Convert array to cell array with consistently sized cells.</short_description>
 
 	<syntax>
 		<syntax_item>C = num2cell(A)</syntax_item>
@@ -19,7 +20,8 @@
 	
 		<param_input_item>
 			<param_name>dim</param_name>
-			<param_description>positive integer value or positive vector of integers.</param_description>
+			<param_description
+      >positive integer value or positive vector of integers.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -33,8 +35,10 @@
 	</param_output>
 
 	<description>
-		<p><b>num2cell</b> function converts a numeric array into a cell array, where each element of the numeric array is placed in its own cell in the resulting cell array.</p>
-		<p>If <b>A</b> is a character array, num2cell will convert each row of the array into a separate cell in the resulting cell array.</p>
+		<p><b
+      >num2cell</b> function converts a numeric array into a cell array, where each element of the numeric array is placed in its own cell in the resulting cell array.</p>
+		<p>If <b
+      >A</b> is a character array, num2cell will convert each row of the array into a separate cell in the resulting cell array.</p>
 	</description>
 
 
