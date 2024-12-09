@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1288](http://github.com/nelson-lang/nelson/issues/1288) `mustBeMatrix`, `mustBeRow`, `mustBeColumn` validator functions.
 - `join`: Combine strings.
 - [#1292](http://github.com/nelson-lang/nelson/issues/1292) Large Table Display.
+- [#1290](http://github.com/nelson-lang/nelson/issues/1290) `VariableTypes` property for table: Specify the data types of table in Nelson.
 
 ### Changed
 

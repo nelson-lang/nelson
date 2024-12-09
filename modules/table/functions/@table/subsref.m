@@ -23,9 +23,9 @@ function R = subsref(T, sref)
       
     otherwise
       error(_('Unsupported subsref type.'));
+    end
   end
-end
-%=============================================================================
+  %=============================================================================
 function R = dotSubsref(T, sref)
   st = struct(T);
   if any(contains(st.Properties.VariableNames, 'Row'))
@@ -66,16 +66,16 @@ function R = dotSubsref(T, sref)
 end
 %=============================================================================
 function R = braceSubsref(T, sref)
-
+  
   if (length(sref(1).subs) ~= 2)
     error('Unsupported subscript type. Brace indexing requires two subscripts (row and column).');
   end
-
+  
   st = struct(T);
-
+  
   rowIdx = sref(1).subs{1};
   colSub = sref(1).subs{2};
-    
+  
   if ischar(rowIdx) || isstring(rowIdx) || iscellstr(rowIdx)
     if (isscalar(rowIdx) && rowIdx == ":")
       rowIdx = 1:height(T);
@@ -90,7 +90,7 @@ function R = braceSubsref(T, sref)
   else
     error(_('Invalid row subscript type.'));
   end
-    
+  
   if (ischar(colSub) || isstring(colSub) || iscellstr(colSub))
     if (isscalar(colSub) && colSub == ":")
       colSub = 1:width(T);
@@ -105,7 +105,7 @@ function R = braceSubsref(T, sref)
   numRows = length(rowIdx);
   numCols = length(colSub);
   R = [];
-
+  
   for i = 1:numCols
     variable = st.Properties.VariableNames{colSub(i)};
     tempdata = st.data.(variable);
@@ -170,7 +170,7 @@ function R = parentheseSubsref(T, sref)
   else
     error(_('Invalid column indexing.'));
   end
-
+  
   selectedVarNames = st.Properties.VariableNames(colIdx);
   tableData = cell(1, length(selectedVarNames));
   for i = 1:length(selectedVarNames)

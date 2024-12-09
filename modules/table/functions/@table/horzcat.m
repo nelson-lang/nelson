@@ -28,10 +28,12 @@ function T = horzcat(varargin)
       end
       out = struct(T);
       names = [T.Properties.VariableNames, T2.Properties.VariableNames];
+      types = [T.Properties.VariableTypes, T2.Properties.VariableTypes];
       if ~isAllUnique(names)
         error(_('All names must be unique.'));
       end
       out.Properties.VariableNames = names;
+      out.Properties.VariableTypes = types;
       for k = 1:length(st1.Properties.VariableNames)
         out.data.(st1.Properties.VariableNames{k}) = st1.data.(st1.Properties.VariableNames{k});
       end
