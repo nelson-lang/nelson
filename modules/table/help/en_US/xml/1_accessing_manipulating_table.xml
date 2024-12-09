@@ -33,6 +33,11 @@
     >You can concatenate tables vertically (one below the other) using the vertcat function. This function combines tables by appending the rows of one table to the rows of another table.</p>
   <p>see examples: <b>Vertical Concatenation</b></p>
   <p />
+  <p><b>Convert variable types</b></p>
+  <p>You can convert table variables by using the <b
+      >VariableTypes</b> property.</p>
+  <p>see examples: <b>VariableTypes</b> example</p>
+  <p />
   <p><b>Summary</b></p>
   <p
     >In Nelson, tables provide a flexible way to store and manipulate heterogeneous data. You can easily insert data, extract parts of the table, and concatenate tables both horizontally and vertically using built-in functionality like dot notation and concatenation functions (horzcat, vertcat), making table manipulation intuitive and powerful for data analysis.</p>
@@ -158,6 +163,27 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
     </example_item_data>
   </example_item>
 
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>Convert variable types</example_item_description>
+    <example_item_data
+      ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T = table(Names, Age, Height, Weight);
+T.Properties.VariableTypes
+T{:,1}
+T{:,2}
+T.Properties.VariableTypes = ["string"    "int8"    "double"    "double"];
+T{:,1}
+T{:,2}
+T.Properties.VariableTypes]]>
+    </example_item_data>
+  </example_item>
+
+
+
 </examples>
 
   <see_also>
@@ -178,6 +204,11 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
       <history_version>1.8.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>VariableTypes property</history_description>
+    </history_item>
+
   </history>
 
   <authors>

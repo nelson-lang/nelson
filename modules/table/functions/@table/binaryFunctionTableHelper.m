@@ -30,7 +30,8 @@ function R = funTableTable(A, B, fun)
   end
   try
     for k = 1:size(R, 2)
-      R{:, k} = fun(A{:, k}, B{:, k}); 
+      R{:, k} = fun(A{:, k}, B{:, k});
+      R.Properties.VariableTypes(k) = class(R{:, k});      
     end
   catch
     functionName = func2str(fun);
@@ -58,6 +59,7 @@ function R = funArrayTable(A, B, fun)
       else
         R{:, k}  = fun(X, B{:, k});
       end
+      R.Properties.VariableTypes(k) = class(R{:, k});
     end
   catch
     functionName = func2str(fun);

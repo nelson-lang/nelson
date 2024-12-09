@@ -76,8 +76,17 @@ function varargout = table(varargin)
       end
     end
   end
-
+  T = updateVariableTypes(T);
   varargout{1} = class(T, 'table');
+end
+%=============================================================================
+function st = updateVariableTypes(st)
+  newVariableTypes = string([]);
+  for j = 1:length(st.Properties.VariableNames)
+    colName = st.Properties.VariableNames{j};
+    newVariableTypes(end + 1) = class(st.data.(colName));
+  end
+  st.Properties.VariableTypes = newVariableTypes;
 end
 %=============================================================================
 function tf = isDataArgument(name, nextIsRowNames, nextIsVariableNames)
@@ -204,6 +213,7 @@ function T = initializeTable()
   T.Version = 1;
   T.Properties = struct();
   T.Properties.VariableNames = {};
+  T.Properties.VariableTypes = string([]);
   T.Properties.RowNames = {};
 end
 %=============================================================================
