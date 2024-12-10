@@ -26,7 +26,7 @@ FileStream::FileStream(const std::wstring& filename, const std::wstring& accessm
     fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
     if (fp == nullptr) {
-        Error(_W("Unable to open file ") + filename);
+        Error(_W("Unable to open file: ") + filename);
     }
     autoclose = true;
 }
