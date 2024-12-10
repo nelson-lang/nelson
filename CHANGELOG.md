@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [#1276](http://github.com/nelson-lang/nelson/issues/1276) micromamba macos build.
+- [#1297](http://github.com/nelson-lang/nelson/issues/1297) some features have no help files.
 
 ## 1.9.0 (2024-10-26)
 
