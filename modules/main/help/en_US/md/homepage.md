@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 1.9.0.0
+### Nelson 1.10.0.0
 
 Nelson is a powerful, open-source numerical computational language, developed to provide a comprehensive and intuitive environment for engineers, scientists, and students. With over 1,200 built-in functions, Nelson supports a wide range of tasks, from basic algebra to advanced numerical simulations.
 
