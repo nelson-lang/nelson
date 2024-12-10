@@ -12,6 +12,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,10 +50,14 @@ ArrayOf::tableConstructor(const ArrayOfVector& columnValues, const stringVector&
     ArrayOf version = ArrayOf::doubleConstructor(NLS_TABLE_VERSION);
     tableArrayOf.setField(fieldnames[1], version);
 
+    stringVector variableTypes = ClassName(columnValues);
+    Dimensions dimsVariableTypes(1, variableTypes.size());
+
     ArrayOf properties;
-    stringVector propertyNames = { "VariableNames", "RowNames" };
+    stringVector propertyNames = { "VariableNames", "VariableTypes", "RowNames" };
     ArrayOfVector propertyValues;
     propertyValues.push_back(ArrayOf::toCellArrayOfCharacterRowVectors(variableNames));
+    propertyValues.push_back(ArrayOf::stringArrayConstructor(variableTypes, dimsVariableTypes));
     propertyValues.push_back(ArrayOf::toCellArrayOfCharacterRowVectors(rowNames));
     properties = ArrayOf::structScalarConstructor(propertyNames, propertyValues);
 
