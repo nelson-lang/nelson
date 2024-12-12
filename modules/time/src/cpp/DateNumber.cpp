@@ -302,10 +302,9 @@ getDateFormatInfoList(bool withPivot)
             } },
         { std::wregex(L"(\\d{1,2})/(\\d{1,2})/(\\d{2})"), L"dd/mm/yy",
             [withPivot, century](const std::wsmatch& m, int pivotYear) -> double {
+                int year = withPivot ? std::stoi(m[3]) + pivotYear : century + std::stoi(m[3]);
                 int first = std::stoi(m[1]);
                 int second = std::stoi(m[2]);
-                int year = withPivot ? parseYearWithPivot(std::stoi(m[3]), pivotYear)
-                                     : century + std::stoi(m[3]);
                 if (isValidDate(year, second, first)) {
                     return DateNumber(year, second, first, 0, 0, 0);
                 } else if (isValidDate(year, first, second)) {
