@@ -29,7 +29,8 @@
     
     <param_input_item>
       <param_name>format</param_name>
-      <param_description>a string: date format.</param_description>
+      <param_description
+      >a string specifying the date format, or leave it empty ('') for automatic format detection.</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -214,6 +215,12 @@ d = datenum(["04–Aug-1973 12:01:18"; "04–Aug-1974 11:01:18"])
       <history_version>1.8.0</history_version>
       <history_description>date string parsing extended.</history_description>
     </history_item>
+      <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description
+      >added: format '' means try to detect.</history_description>
+    </history_item>
+
    </history>
 
   <authors>

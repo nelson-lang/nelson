@@ -237,7 +237,7 @@ datenumTwoRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring formatIn;
     if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
         formatIn = argIn[1].getContentAsWideString();
-        withFormatIn = true;
+        withFormatIn = !formatIn.empty();
     } else if (argIn[1].isNumeric() && argIn[1].isScalar()) {
         pivotYear = (int)argIn[1].getContentAsDoubleScalar();
         withPivotYear = true;
@@ -285,6 +285,7 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         wstringVector dateString = argIn[0].getContentAsWideStringVector(false);
         if (argIn[1].isScalarStringArray() || argIn[1].isRowVectorCharacterArray()) {
             std::wstring formatIn = argIn[1].getContentAsWideString();
+            bool withFormatIn = !formatIn.empty();
             int pivotYear = (int)argIn[2].getContentAsDoubleScalar();
             withPivotYear = true;
             Dimensions dimsRes(1, dateString.size());
@@ -292,7 +293,12 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
             for (size_t k = 0; k < dimsRes.getElementCount(); ++k) {
                 bool bParsed = false;
-                pRes[k] = DateNumber(dateString[k], withPivotYear, pivotYear, bParsed);
+                if (withFormatIn) {
+                    pRes[k]
+                        = DateNumber(dateString[k], formatIn, withPivotYear, pivotYear, bParsed);
+                } else {
+                    pRes[k] = DateNumber(dateString[k], withPivotYear, pivotYear, bParsed);
+                }
                 if (!bParsed) {
                     Error(_W("Failed to convert text to date number."));
                 }
