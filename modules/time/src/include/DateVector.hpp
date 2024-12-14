@@ -14,6 +14,6 @@
 namespace Nelson {
 NLSTIME_IMPEXP void
 DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
-    double& MS, bool rf = false);
+    double& MS, bool rf);
 }
 //=============================================================================

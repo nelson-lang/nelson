@@ -42,13 +42,17 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                 double DT, Y, M, D, H, MN, S, MS;
                 DT = ptd[k];
-                DateVector(DT, Y, M, D, H, MN, S, MS);
+                DateVector(DT, Y, M, D, H, MN, S, MS, false);
                 res[k] = Y;
                 res[k + len] = M;
                 res[k + len * 2] = D;
                 res[k + len * 3] = H;
                 res[k + len * 4] = MN;
-                res[k + len * 5] = S;
+                if (MS > 1) {
+                    res[k + len * 5] = S + (MS / 1000);
+                } else {
+                    res[k + len * 5] = S;
+                }
             }
             Dimensions dim(len, 6);
             retval << ArrayOf(NLS_DOUBLE, dim, res);
@@ -87,7 +91,7 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                 double DT = ptd[k];
                 double V1, V2, V3, V4, V5, V6, V7;
-                DateVector(DT, V1, V2, V3, V4, V5, V6, V7);
+                DateVector(DT, V1, V2, V3, V4, V5, V6, V7, false);
                 Y[k] = V1;
                 M[k] = V2;
                 if (nLhs > 2) {
