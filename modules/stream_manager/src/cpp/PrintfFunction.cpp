@@ -7,11 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#pragma warning(disable : 4244)
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-//=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <cstdio>
 #include <cstring>
 #include <vector>
@@ -30,7 +29,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
     std::wstring frmt = format.getContentAsWideString();
 
     std::vector<wchar_t> buffer(frmt.length() + 1);
-    wcsncpy(&buffer[0], frmt.c_str(), frmt.length() + 1);
+    std::copy(frmt.begin(), frmt.end(), buffer.data());
 
     wchar_t* dp = &buffer[0];
 #define BUFFER_SIZE_MAX 65534
@@ -84,8 +83,8 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
         int nprn = nbuf_ind;
         result = result + nbuff;
         if (*dp == L'%' && (*(dp + 1) == L'\0' || *(dp + 1) == L'%')) {
-            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
-            nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
+            nbuff[0] = L'%';
+            nbuff[1] = L'\0';
             result = result + nbuff;
             if (*(dp + 1) == L'\0') {
                 return true;
@@ -100,8 +99,8 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
             }
             wchar_t sv = 0;
             if (*(np - 1) == L'%') {
-                nprn = swprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
-                nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
+                nbuff[0] = L'%';
+                nbuff[2] = L'\0';
                 result = result + nbuff;
                 sv = 0;
             } else if (*(np - 1) == L's') {
@@ -130,18 +129,28 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                     }
                     if (!isEmpty) {
                         if (*(np - 1) == L'u') {
-                            std::wstring f(dp);
-                            StringHelpers::replace_all(f, L"u", L"llu");
-                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
+                            std::wstring f = StringHelpers::replace_all_copy(dp, L"u", L"llu");
+                            std::wstring tmp = fmt::sprintf(f, data);
+                            std::copy(tmp.begin(), tmp.end(), nbuff);
+                            nprn = (int)tmp.size();
                         } else if (*(np - 1) == L'd') {
-                            std::wstring f(dp);
-                            StringHelpers::replace_all(f, L"d", L"lld");
-                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
+                            std::wstring f = StringHelpers::replace_all_copy(dp, L"d", L"lld");
+                            std::wstring tmp = fmt::sprintf(f, data);
+                            std::copy(tmp.begin(), tmp.end(), nbuff);
+                            nprn = (int)tmp.size();
                         } else {
-                            std::wstring fmt = std::wstring(dp);
-                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, fmt.c_str(), data);
+                            std::wstring tmp;
+                            if (*(np - 1) == L'o' && data < 0) {
+                                std::wstring f = StringHelpers::replace_all_copy(dp, L"o", L"e");
+                                tmp = fmt::sprintf(f, (double)data);
+                            } else {
+                                std::wstring f(dp);
+                                tmp = fmt::sprintf(f, data);
+                            }
+                            std::copy(tmp.begin(), tmp.end(), nbuff);
+                            nprn = (int)tmp.size();
                         }
-                        nbuff[nprn + 1] = L'\0';
+                        nbuff[nprn] = 0;
                         result = result + nbuff;
                     }
                 } break;
@@ -157,9 +166,10 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                         return false;
                     }
                     if (!isEmpty) {
-                        std::wstring fmt = std::wstring(dp);
-                        nprn = swprintf(nbuff, BUFFER_SIZE_MAX, fmt.c_str(), data);
-                        nbuff[nprn + 1] = L'\0';
+                        std::wstring tmp = fmt::sprintf(dp, data);
+                        std::copy(tmp.begin(), tmp.end(), nbuff);
+                        nprn = (int)tmp.size();
+                        nbuff[nprn] = 0;
                         result = result + nbuff;
                     }
                 } break;

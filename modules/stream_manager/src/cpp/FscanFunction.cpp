@@ -177,7 +177,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
             }
             sv = *dp;
             *dp = 0;
-            resf = fscanf(filepointer, np);
+            resf = fscanf(filepointer, np, NULL);
             if (feof(filepointer)) {
                 bContinue = false;
             }
