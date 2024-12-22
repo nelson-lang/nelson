@@ -180,6 +180,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\docrootBuitlin.cpp" />
     <ClCompile Include="..\cpp\headcommentsBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\htmltopdfBuiltin.cpp" />
@@ -224,6 +225,7 @@
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\docrootBuiltin.hpp" />
     <ClInclude Include="..\include\headcommentsBuiltin.hpp" />
     <ClInclude Include="..\include\htmltopdfBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHelp_tools_builtin_exports.h" />

@@ -17,6 +17,7 @@ function buildhelpmd(varargin)
   end
   destinationdir = varargin{1};
   if nargin() == 1
+    is_nelson_help = true;
     helpForNelsonOnly(destinationdir);
     run([nelsonroot() '/modules/' 'modules.m']);
     funcList = @(x) x{1};
@@ -29,13 +30,15 @@ function buildhelpmd(varargin)
     end
     modules = modules_help_list;
   else
+    is_nelson_help = false;
     module = varargin{2};
     module_path = modulepath(module);
     locales = buildHelpFromPath(destinationdir, module, module_path);
     modules = {module};
   end
+  locales = unique(locales);
   generatesLANGSmd(destinationdir, locales);
-  buildSummary(destinationdir, locales, modules);
+  buildSummary(destinationdir, locales, modules, is_nelson_help);
 end
 %=============================================================================
 function locales = buildHelpFromPath(destinationdir, module, module_path)
@@ -82,13 +85,39 @@ end
 %=============================================================================
 function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help)
   for l = locales(:)'
-    global_summary = {['# ', 'Summary']; ''};
+    if is_nelson_help
+      global_summary = {['# ', 'Summary']; ''; '[Overview](./README.md)'; ''};
+    else
+      global_summary = {['# ', 'Summary']; ''};
+    end
     global_summary_path = [destinationdir, '/', l{1}, '/',  'SUMMARY.md'];
+
     for m = modules_help_list(:)'
       module_summary_path = [destinationdir, '/', l{1}, '/', m{1}, '/', 'SUMMARY.md'];
       content = fileread(module_summary_path, 'cell');
       content = strrep(content, '](', ['](./', m{1}, '/']);
       global_summary = [global_summary; {''}; content];
+    end
+    if is_nelson_help
+      end_summary = {'* [Changelogs](./changelogs/CHANGELOG.md)';
+                     '';
+                     '    * [Changelog v1.x.x](changelogs/CHANGELOG.md)';
+                     '    * [Changelog v0.7.x](changelogs/CHANGELOG-0.7.x.md)';
+                     '    * [Changelog v0.6.x](changelogs/CHANGELOG-0.6.x.md)';
+                     '    * [Changelog v0.5.x](changelogs/CHANGELOG-0.5.x.md)';
+                     '    * [Changelog v0.4.x](changelogs/CHANGELOG-0.4.x.md)';
+                     '    * [Changelog v0.3.x](changelogs/CHANGELOG-0.3.x.md)';
+                     '    * [Changelog v0.2.x](changelogs/CHANGELOG-0.2.x.md)';
+                     '    * [Changelog v0.1.x](changelogs/CHANGELOG-0.1.x.md)';
+                     '';
+                     '';
+                     '* [License](./license/license.md)';
+                     '';
+                     '    * [License](./license/license.md)';
+                     '    * [LGPL v3.0](./license/lgpl-3.0.md)';
+                     '    * [GPL v3.0](./license/gpl-3.0.md)';
+                     ''};
+      global_summary = [global_summary; {''}; end_summary];
     end
     filewrite(global_summary_path, global_summary);
   end

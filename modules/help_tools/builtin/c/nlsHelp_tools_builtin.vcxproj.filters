@@ -36,6 +36,9 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\docrootBuitlin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\xmldocbuildBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\docrootBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

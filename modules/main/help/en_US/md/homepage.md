@@ -82,7 +82,9 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 ---
 
-- [Changelog](CHANGELOG.md)
+# Changelogs
+
+- [Changelog v1.x.x](CHANGELOG.md)
 - [Changelog v0.7.x](CHANGELOG-0.7.x.md)
 - [Changelog v0.6.x](CHANGELOG-0.6.x.md)
 - [Changelog v0.5.x](CHANGELOG-0.5.x.md)
@@ -90,4 +92,9 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - [Changelog v0.3.x](CHANGELOG-0.3.x.md)
 - [Changelog v0.2.x](CHANGELOG-0.2.x.md)
 - [Changelog v0.1.x](CHANGELOG-0.1.x.md)
+
+---
+
+# License
+
 - [Nelson license](license.md)
