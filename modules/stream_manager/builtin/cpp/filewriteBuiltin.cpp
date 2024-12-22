@@ -21,6 +21,64 @@ using namespace Nelson;
 //=============================================================================
 // filewrite(filename, txt [, eol, encoding])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
+//=============================================================================
+namespace {
+//=============================================================================
+static std::pair<std::wstring, std::string>
+getEol(const std::wstring& str)
+{
+    if (str == L"pc") {
+        return { L"\r\n", "\r\n" };
+    } else if (str == L"unix") {
+        return { L"\n", "\n" };
+    } else if (str == L"native") {
+#ifdef _MSC_VER
+        return { L"\r\n", "\r\n" };
+#else
+        return { L"\n", "\n" };
+#endif
+    } else {
+        Error(_W("Wrong value for #3 argument."));
+        return { L"", "" }; // This line will never be reached
+    }
+}
+//=============================================================================
+static void
+writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
+    const std::string& eol, const std::string& encoding)
+{
+#ifdef _MSC_VER
+    std::ofstream of(filename, std::ios::trunc | std::ios::binary);
+#else
+    std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
+#endif
+    if (!of.is_open()) {
+        Error(_W("Cannot open file."));
+    }
+
+    for (size_t k = 0; k < lines.size(); ++k) {
+        std::wstring line = lines[k];
+        StringHelpers::replace_all(line, L"\r\n", L"\n");
+        StringHelpers::replace_all(line, L"\n", weol);
+        std::string data;
+        if (encoding == "UTF-8") {
+            data = wstring_to_utf8(line);
+        } else {
+            std::string asUtf8 = wstring_to_utf8(line);
+            if (!utf8ToCharsetConverter(asUtf8, data, encoding)) {
+                of.flush();
+                Error(_W("Encoding not supported."));
+            }
+        }
+        of << data;
+        if (!StringHelpers::ends_with(data, eol) && k != lines.size() - 1) {
+            of << eol;
+        }
+    }
+    of.flush();
+}
+}
+//=============================================================================
 ArrayOfVector
 Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
@@ -33,30 +91,20 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring weol;
     std::string eol;
     std::string encoding = "UTF-8";
-#ifdef _MSC_VER
-    weol = L"\r\n";
-    eol = "\r\n";
-#else
-    weol = L"\n";
-    eol = "\n";
-#endif
-    if (argIn.size() == 3) {
+
+    if (argIn.size() >= 3) {
         ArrayOf param3 = argIn[2];
-        std::wstring str = param3.getContentAsWideString();
-        if (str == L"native" || str == L"pc" || str == L"unix") {
-            if (str == L"pc") {
-                weol = L"\r\n";
-                eol = "\r\n";
-            }
-            if (str == L"unix") {
-                weol = L"\n";
-                eol = "\n";
-            }
-        } else {
-            Error(_W("Wrong value for #3 argument."));
-        }
+        std::tie(weol, eol) = getEol(param3.getContentAsWideString());
+    } else {
+#ifdef _MSC_VER
+        weol = L"\r\n";
+        eol = "\r\n";
+#else
+        weol = L"\n";
+        eol = "\n";
+#endif
     }
-    wstringVector lines = param2.getContentAsWideStringVector(false);
+
     if (argIn.size() == 4) { //-V112
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
@@ -65,56 +113,9 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
 
-    if (encoding == "UTF-8") {
-#ifdef _MSC_VER
-        std::wofstream wof(filename, std::ios::trunc | std::ios::binary);
-#else
-        std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
-#endif
-        if (!wof.is_open()) {
-            Error(_W("Cannot open file."));
-        }
-        for (size_t k = 0; k < lines.size(); ++k) {
-            std::wstring line = lines[k];
-            StringHelpers::replace_all(line, L"\r\n", L"\n");
-            StringHelpers::replace_all(line, L"\n", weol);
-            wof << line;
-            if (!StringHelpers::ends_with(line, weol)) {
-                if (k != lines.size() - 1) {
-                    wof << weol;
-                }
-            }
-        }
-        wof.flush();
-    } else {
-#ifdef _MSC_VER
-        std::ofstream of(filename, std::ios::trunc | std::ios::binary);
-#else
-        std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
-#endif
-        if (!of.is_open()) {
-            Error(_W("Cannot open file."));
-        }
-        for (size_t k = 0; k < lines.size(); ++k) {
-            std::string asUtf8 = wstring_to_utf8(lines[k]);
-            StringHelpers::replace_all(asUtf8, "\r\n", "\n");
-            StringHelpers::replace_all(asUtf8, "\n", eol);
-            std::string data;
-            if (utf8ToCharsetConverter(asUtf8, data, encoding)) {
-                of << data;
-                if (!StringHelpers::ends_with(data, eol)) {
-                    if (k != lines.size() - 1) {
-                        of << eol;
-                    }
-                }
-            } else {
-                of.flush();
-                Error(_W("Encoding not supported."));
-            }
-        }
-        of.flush();
-        // close made by destructor of ofstream
-    }
+    wstringVector lines = param2.getContentAsWideStringVector(false);
+    writeFile(filename, lines, weol, eol, encoding);
+
     return retval;
 }
 //=============================================================================
