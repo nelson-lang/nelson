@@ -22,7 +22,9 @@ WhichAll(const std::string& functionname)
 {
     wstringVector result;
     PathFunctionIndexerManager::getInstance()->find(functionname, result);
-    BuiltInFunctionDefManager::getInstance()->find(functionname, result);
+    wstringVector builtinFunctions;
+    BuiltInFunctionDefManager::getInstance()->find(functionname, builtinFunctions);
+    result.insert(result.end(), builtinFunctions.begin(), builtinFunctions.end());
     return result;
 }
 //=============================================================================
