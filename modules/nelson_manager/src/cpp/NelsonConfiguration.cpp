@@ -39,8 +39,11 @@ NelsonConfiguration::NelsonConfiguration()
     currentAxesOnClick = true;
     currentFigureOnClick = true;
     currentLocale = getDefaultLocale();
+    useEmbeddedEditorFlag = true;
+    editorCommandLine = L"";
 }
 //=============================================================================
+
 NelsonConfiguration*
 NelsonConfiguration::getInstance()
 {
@@ -478,6 +481,91 @@ std::wstring
 NelsonConfiguration::getDefaultLocale()
 {
     return L"en_US";
+}
+//=============================================================================
+static void
+loadEditorUsed()
+{
+    std::wstring prefdir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
+    std::wstring editorFile = prefdir + L"/default_editor.json";
+#ifdef _MSC_VER
+    std::ifstream jsonFile(editorFile);
+#else
+    std::ifstream jsonFile(wstring_to_utf8(editorFile));
+#endif
+    if (jsonFile.is_open()) {
+        nlohmann::json data;
+        std::wstring value;
+        try {
+            data = nlohmann::json::parse(jsonFile);
+            std::string _value = data["editor"];
+            value = utf8_to_wstring(_value);
+        } catch (const nlohmann::json::exception&) {
+            value.clear();
+        }
+        jsonFile.close();
+        NelsonConfiguration::getInstance()->setCurrentEditor(value, false);
+    }
+}
+//=============================================================================
+bool
+NelsonConfiguration::useEmbeddedEditor()
+{
+    if (!embeddedEditorFlagLoaded) {
+        loadEditorUsed();
+        embeddedEditorFlagLoaded = true;
+    }
+    return useEmbeddedEditorFlag;
+}
+//=============================================================================
+static void
+saveEditorCommandLine(const std::wstring& editorCommandLine)
+{
+    std::wstring prefdir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
+    std::wstring editorFile = prefdir + L"/default_editor.json";
+    nlohmann::json jsonObject;
+    jsonObject["editor"] = wstring_to_utf8(editorCommandLine);
+#ifdef _MSC_VER
+    std::wofstream file(editorFile);
+#else
+    std::ofstream file(wstring_to_utf8(editorFile));
+#endif
+    // Serialize the JSON object to the file
+    if (file.is_open()) {
+#ifdef _MSC_VER
+        file << utf8_to_wstring(jsonObject.dump(2));
+        file << L"\n";
+#else
+        file << jsonObject.dump(2);
+        file << "\n";
+#endif
+        file.close();
+    }
+}
+//=============================================================================
+void
+NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bool save)
+{
+    if (_editorCommandLine.empty()) {
+        editorCommandLine = L"";
+        useEmbeddedEditorFlag = true;
+    } else {
+        editorCommandLine = _editorCommandLine;
+        useEmbeddedEditorFlag = false;
+    }
+    if (save) {
+        saveEditorCommandLine(editorCommandLine);
+    }
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getCurrentEditor()
+{
+    if (!embeddedEditorFlagLoaded) {
+        loadEditorUsed();
+        embeddedEditorFlagLoaded = true;
+    }
+    return editorCommandLine;
 }
 //=============================================================================
 } // namespace Nelson

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `urlencode`: Replace special characters in URLs with escape characters.
 - `docroot`: Utility to retrieve or define the root directory of Nelson Help.
 - `ismodule`: second input argument `isprotected` added.
+- `editor('editor_command', cmd)` allows to change text editor in Nelson (for example: VS Code)
 
 ### Changed
 

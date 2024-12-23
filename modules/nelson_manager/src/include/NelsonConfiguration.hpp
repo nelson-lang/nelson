@@ -222,6 +222,15 @@ public:
     std::wstring
     getDefaultLocale();
     //=============================================================================
+    bool
+    useEmbeddedEditor();
+    //=============================================================================
+    void
+    setCurrentEditor(const std::wstring& _editorCommandLine, bool save);
+    //=============================================================================
+    std::wstring
+    getCurrentEditor();
+    //=============================================================================
 private:
     NelsonConfiguration();
     //=============================================================================
@@ -276,11 +285,15 @@ private:
     //=============================================================================
     bool currentAxesOnClick = true;
     //=============================================================================
+    bool useEmbeddedEditorFlag = true;
+    bool embeddedEditorFlagLoaded = false;
+    //=============================================================================
     std::wstring websiteUrl;
     std::wstring updateUrl;
     std::wstring bugTrackerUrl;
     std::wstring docBookUrl;
     std::wstring currentLocale;
+    std::wstring editorCommandLine;
     //=============================================================================
 };
 //=============================================================================
