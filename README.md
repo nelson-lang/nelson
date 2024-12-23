@@ -121,7 +121,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 ## 📚 **Resources**
 
 - **Homepage:** <https://nelson-lang.github.io/nelson-website/>
-- **GitBook:** <https://nelson-9.gitbook.io/nelson/>
+- **GitBook:** <https://nelson-lang.github.io/nelson-gitbook/>
 - **Documentation:** <https://nelson-lang.github.io/nelson-website/help/en_US/>
 - **Source code:** <https://github.com/nelson-lang/nelson>
 - **Binaries:** <https://github.com/nelson-lang/nelson/releases>
