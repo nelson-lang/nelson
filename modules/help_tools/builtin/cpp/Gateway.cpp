@@ -13,6 +13,7 @@
 #include "markdownBuiltin.hpp"
 #include "xmldocbuildBuiltin.hpp"
 #include "xmldoccheckerBuiltin.hpp"
+#include "docrootBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +27,7 @@ static const nlsGateway gateway[] = {
     { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
     { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
     { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
-
+    { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

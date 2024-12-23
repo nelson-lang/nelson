@@ -30,4 +30,6 @@ if isfile(dest)
 end
 str = 'живете зело, земля, и иже и како люди';
 filewrite(dest, str, 'native', 'windows-1251');
+R = fileread(dest,'char','native','windows-1251');
+assert_isequal(R, str);
 %=============================================================================

@@ -32,7 +32,7 @@ else()
 endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 1)
-set(Nelson_VERSION_MINOR_DEFAULT 10)
+set(Nelson_VERSION_MINOR_DEFAULT 11)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================

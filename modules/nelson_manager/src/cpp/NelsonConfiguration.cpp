@@ -428,6 +428,41 @@ NelsonConfiguration::getBugTrackerUrl()
 }
 //=============================================================================
 void
+NelsonConfiguration::setDocBookUrl(const std::wstring& url)
+{
+    docBookUrl = url;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getDocBookUrl()
+{
+    if (docBookUrl.empty()) {
+        std::wstring prefdir = getNelsonPreferencesDirectory();
+        std::wstring docroot = prefdir + L"/docroot.json";
+#ifdef _MSC_VER
+        std::ifstream jsonFile(docroot);
+#else
+        std::ifstream jsonFile(wstring_to_utf8(docroot));
+#endif
+        std::wstring valueReturned;
+        if (jsonFile.is_open()) {
+            nlohmann::json data;
+            try {
+                data = nlohmann::json::parse(jsonFile);
+                std::string _value = data["docbook_url"];
+                docBookUrl = utf8_to_wstring(_value);
+            } catch (const nlohmann::json::exception&) {
+                docBookUrl = getDefaultFromConfFile(L"docbook_url");
+            }
+            jsonFile.close();
+        } else {
+            docBookUrl = getDefaultFromConfFile(L"docbook_url");
+        }
+    }
+    return docBookUrl;
+}
+//=============================================================================
+void
 NelsonConfiguration::setCurrentLocale(const std::wstring& locale)
 {
     currentLocale = locale;

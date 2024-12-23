@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>urlencode</keyword>
+  <short_description
+  >Replace special characters in URLs with escape characters.</short_description>
+
+  <syntax>
+    <syntax_item>new_url = webread(url)</syntax_item>
+  </syntax>
+  
+  <param_input>
+
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>a string: URL to a web service.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>new_url</param_name>
+      <param_description>a string: encoded url.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b
+      >urlencode</b> replaces special characters in URLs with escape characters.</p>
+    <p
+    >Special characters in URLs need to be replaced with escape characters. For example, spaces should be replaced with '%20'.</p>
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+      ><![CDATA[url = 'https://httpbin.org/get?query=hello world';
+res = urlencode(url)
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

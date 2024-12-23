@@ -25,13 +25,14 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
         FileSystemWrapper::Path p(folderName);
         std::string errorMessage;
         if (bSubfolder) {
-            if (!FileSystemWrapper::Path::remove_all(p, errorMessage)) {
-                res = false;
+            res = FileSystemWrapper::Path::remove_all(p, errorMessage);
+            if (!res) {
                 message = utf8_to_wstring(errorMessage);
                 return res;
             }
+        } else {
+            res = FileSystemWrapper::Path::remove(p, errorMessage);
         }
-        res = FileSystemWrapper::Path::remove(p, errorMessage);
         if (!res) {
             message = utf8_to_wstring(errorMessage);
         }

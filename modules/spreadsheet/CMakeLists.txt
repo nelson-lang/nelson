@@ -26,7 +26,8 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 target_include_directories(
   ${module_library_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  PRIVATE ${OpenMP_CXX_INCLUDE_DIRS}
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c
           ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

@@ -207,6 +207,12 @@ public:
     std::wstring
     getBugTrackerUrl();
     //=============================================================================
+    std::wstring
+    getDocBookUrl();
+    //=============================================================================
+    void
+    setDocBookUrl(const std::wstring& url);
+    //=============================================================================
     void
     setCurrentLocale(const std::wstring& locale);
     //=============================================================================
@@ -273,6 +279,7 @@ private:
     std::wstring websiteUrl;
     std::wstring updateUrl;
     std::wstring bugTrackerUrl;
+    std::wstring docBookUrl;
     std::wstring currentLocale;
     //=============================================================================
 };
