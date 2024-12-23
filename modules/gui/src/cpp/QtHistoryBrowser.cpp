@@ -78,7 +78,6 @@ QtHistoryBrowser::createContextMenu()
 
     m_toEditor = new QAction(TR("Create Script"), this);
     connect(m_toEditor, SIGNAL(triggered()), this, SLOT(toTextEditor()));
-
     m_popup->addAction(m_execute);
     m_popup->addAction(m_clearall);
     m_popup->addAction(m_copy);
@@ -94,6 +93,7 @@ QtHistoryBrowser::contextMenuEvent(QContextMenuEvent* event)
         m_toEditor->setEnabled(items.size() > 0);
         m_execute->setEnabled(items.size() > 0);
         m_copy->setEnabled(items.size() > 0);
+        m_toEditor->setVisible(NelsonConfiguration::getInstance()->useEmbeddedEditor());
         m_popup->exec(event->globalPos());
     }
 }
