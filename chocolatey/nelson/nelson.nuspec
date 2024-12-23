@@ -27,7 +27,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <iconUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/icons/hicolor/256x256/apps/nelson.png</iconUrl>
     <copyright>2016-present</copyright>
     <projectSourceUrl>https://github.com/nelson-lang/nelson</projectSourceUrl>
-    <docsUrl>https://nelson-9.gitbook.io/nelson/</docsUrl>
+    <docsUrl>https://nelson-lang.github.io/nelson-gitbook/</docsUrl>
     <!--<mailingListUrl></mailingListUrl>-->
     <bugTrackerUrl>https://github.com/nelson-lang/nelson/issues</bugTrackerUrl>
     <licenseUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/lgpl-3.0.md</licenseUrl>

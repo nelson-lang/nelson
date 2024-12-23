@@ -9,7 +9,10 @@
 %=============================================================================
 function doc(varargin)
   % replaces standard 'doc' function to open help in web browser
-  url_help = 'https://nelson-9.gitbook.io/nelson/en/';
+  ver_number = version('-number');
+  version_string = sprintf('v%d.%d.%d', ver_number(1), ver_number(2), ver_number(3));
+  language = 'en_US';
+  url_help = ['https://nelson-lang.github.io/nelson-gitbook/', language, '/', version_string, '/'];
   if nargin() > 1
     error(_('Wrong number of input arguments.'));
   end
@@ -20,12 +23,12 @@ function doc(varargin)
     end
     module = which(name,'-module');
     if isempty(module)
-      sioemit('help', [url_help , '?q=', name]);
+      sioemit('help', [url_help , '?search=', name]);
     else
       if length(module) == 1
         sioemit('help', [url_help, module{1}, '/', name, '.html']);
       else
-        sioemit('help', [url_help , '?q=', name]);
+        sioemit('help', [url_help , '?search=', name]);
       end
     end
   else
