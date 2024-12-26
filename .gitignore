@@ -9,6 +9,7 @@
 #==============================================================================
 # This .gitignore for Nelson
 
+result/
 build/
 chocolatey/nelson/*.nupkg
 nelson*.snap
