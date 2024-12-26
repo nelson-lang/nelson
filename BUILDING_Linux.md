@@ -1,14 +1,47 @@
-# Building on Linux
+# Building Nelson on Linux
 
-- You can also see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is up-to-date about how to build Nelson on each platform.
+This guide provides instructions on how to build Nelson on Linux.
+For the most up-to-date information on dependencies and build instructions, refer to the [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file.
 
-- [ArchLinux package](https://aur.archlinux.org/packages/nelson-git)
+## ArchLinux
+
+Nelson is available as an ArchLinux package. You can install it using `paru`:
 
 ```bash
 paru nelson
 ```
 
-- You can also build nelson with a micromamba environment
+## NixOS
+
+To build Nelson on NixOS, you can use the provided [default.nix](https://github.com/nelson-lang/nelson/blob/master/default.nix) file.
+
+### Using the Latest Master Version
+
+To fetch the latest master version and build Nelson:
+replace sha256 by desired/latest sha256 commit.
+
+### Building Nelson
+
+To build Nelson using the default.nix file:
+
+```bash
+nix-build
+```
+
+### Evaluate Nelson
+
+```bash
+nix-shell
+./result/bin/nelson
+```
+
+### Install in your environment:
+
+```bash
+nix-env -i ./result
+```
+
+## You can also build nelson with a micromamba environment
 
 After installing micromamba
 
