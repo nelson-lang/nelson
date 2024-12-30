@@ -18,10 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\CompleterHelper.cpp" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\module.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\CompleterHelper.hpp" />
+    <ClInclude Include="..\include\nlsText_completion_exports.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5B8F3DFD-29A2-4D0E-AE70-2BF879C8D146}</ProjectGuid>
+    <ProjectGuid>{FA92630F-0F7F-4258-BC25-362AE5FBBAC8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsHistory_manager</RootNamespace>
+    <RootNamespace>no-nlstext_completion</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,22 +87,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
     <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
     <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,11 +114,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHISTORY_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_COMPLETION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -105,8 +124,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -114,11 +139,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHISTORY_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_COMPLETION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -126,8 +149,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -137,11 +166,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHISTORY_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_COMPLETION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -151,8 +178,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -162,12 +195,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHISTORY_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_COMPLETION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OpenMPSupport>true</OpenMPSupport>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -176,38 +208,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cpp\HistoryManager.cpp" />
-    <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\NelsonHistory.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
-      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
-      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\HistoryManager.hpp" />
-    <ClInclude Include="..\include\nlsHistory_manager_exports.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\module.iss" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

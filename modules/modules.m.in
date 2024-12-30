@@ -15,7 +15,7 @@ modules_list = {
 {'interpreter', true};
 {'display_format', true};
 {'localization', @WITH_LOCALIZATION_MODULE@};
-{'i18n', true};
+{'i18n', @WITH_I18N_MODULE@};
 {'characters_encoding', @WITH_CHARACTERS_ENCODING_MODULE@};
 {'types', true};
 {'overload', true};

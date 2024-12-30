@@ -99,6 +99,15 @@ utf8_to_wstring(const std::vector<std::string>& strs)
     return wideVector;
 }
 //=============================================================================
+#ifdef _MSC_VER
+bool
+utf8_to_wstring_Windows(const std::string& str, std::wstring& wstr)
+{
+    wstr = utf8_to_wstring(str);
+    return true;
+}
+#endif
+//=============================================================================
 std::string
 wstring_to_utf8(const wchar_t* str)
 {

@@ -18,10 +18,10 @@
     <ClCompile Include="..\cpp\HistoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NelsonHistory.cpp">
+    <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\dllMain.cpp">
+    <ClCompile Include="..\cpp\NelsonHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,9 +33,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\HistoryManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\NelsonHistory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,26 +7,24 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "pwdBuiltin.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
-#include "GetCurrentDirectory.hpp"
-#include "NelsonPrint.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
+#include "MacroCompleter.hpp"
+#include "PathFunctionIndexerManager.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::FilesFoldersGateway::pwdBuiltin(int nLhs, const ArrayOfVector& argIn)
+wstringVector
+MacroCompleter(const std::wstring& prefix)
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 0, 0);
-    nargoutcheck(nLhs, 0, 1);
-    std::wstring pwd = GetCurrentDirectory();
-    if (pwd.empty()) {
-        Error(_W("Impossible to get current directory."));
+    wstringVector res;
+    wstringVector macros = PathFunctionIndexerManager::getInstance()->getMacrosList();
+    for (auto& macro : macros) {
+        if (StringHelpers::starts_with(macro, prefix)) {
+            res.push_back(macro);
+        }
     }
-    retval << ArrayOf::characterArrayConstructor(pwd);
-    return retval;
+    return res;
 }
+//=============================================================================
+} // namespace Nelson;
 //=============================================================================

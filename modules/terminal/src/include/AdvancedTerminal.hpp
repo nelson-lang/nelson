@@ -9,18 +9,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Interface.hpp"
 #include "nlsTerminal_exports.h"
-#include <string>
+#include "linse.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-class NLSTERMINAL_IMPEXP BsdTerminal : public Interface
+class NLSTERMINAL_IMPEXP AdvancedTerminal : public Interface
 {
 private:
+    linse ls;
+
 public:
-    BsdTerminal();
-    ~BsdTerminal();
+    AdvancedTerminal();
+    ~AdvancedTerminal();
     /**
      *  Get a line of input from the user with the
      *  given prompt.

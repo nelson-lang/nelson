@@ -12,12 +12,22 @@
 #include <cstring>
 #include "HistoryManager.hpp"
 #include "NelsonHistory.hpp"
-#include "NelsonHistory.h"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 static char* _line = nullptr;
+//=============================================================================
+Nelson::wstringVector
+Nelson::History::get()
+{
+    auto* hist
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
+    if (hist != nullptr) {
+        return hist->get();
+    }
+    return {};
+}
 //=============================================================================
 bool
 Nelson::History::addLine(const std::wstring& line)
@@ -64,49 +74,5 @@ Nelson::History::getPreviousLine()
         return hist->getPreviousLine();
     }
     return L"";
-}
-//=============================================================================
-void
-NelsonHistorySetToken(const char* token)
-{
-    if (token != nullptr) {
-        Nelson::History::setToken(Nelson::utf8_to_wstring(token));
-    }
-}
-//=============================================================================
-const char*
-NelsonHistoryGetNextLine(void)
-{
-    std::wstring wline = Nelson::History::getNextLine();
-    std::string line = Nelson::wstring_to_utf8(wline);
-    if (_line != nullptr) {
-        delete[] _line;
-        _line = nullptr;
-    }
-    try {
-        _line = new char[line.size() + 1];
-        strcpy(_line, line.c_str());
-    } catch (std::bad_alloc&) {
-        _line = nullptr;
-    }
-    return _line;
-}
-//=============================================================================
-const char*
-NelsonHistoryGetPreviousLine(void)
-{
-    std::wstring wline = Nelson::History::getPreviousLine();
-    std::string line = Nelson::wstring_to_utf8(wline);
-    if (_line != nullptr) {
-        delete[] _line;
-        _line = nullptr;
-    }
-    try {
-        _line = new char[line.size() + 1];
-        strcpy(_line, line.c_str());
-    } catch (std::bad_alloc&) {
-        _line = nullptr;
-    }
-    return _line;
 }
 //=============================================================================

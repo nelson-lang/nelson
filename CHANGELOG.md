@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Help Center: Access documentation in your system's web browser. Previously, the documentation was opened in the embedded Help browser.
 - CA certificate store update.
 - fmt library dependency updated.
+- Advanced terminal updated (common for all platforms without GUI, auto completion, search history).
 
 ## 1.10.0 (2024-12-14)
 

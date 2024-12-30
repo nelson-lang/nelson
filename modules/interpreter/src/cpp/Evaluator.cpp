@@ -4505,6 +4505,10 @@ Evaluator::evalCLI()
                         }
                         enoughInput = true;
                     } else {
+                        wchar_t ch = *commandLine.rbegin();
+                        if (ch != L'\n') {
+                            commandLine.push_back(L'\n');
+                        }
                         lines.append(commandLine);
                         AbstractSyntaxTree::clearReferences();
                         setLexBuffer(lines);

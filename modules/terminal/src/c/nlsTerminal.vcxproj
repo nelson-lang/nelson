@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTERMINAL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/terminal/src/cpp;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_completion/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTERMINAL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/terminal/src/cpp;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_completion/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTERMINAL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/terminal/src/cpp;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_completion/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -163,7 +163,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTERMINAL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/history_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/terminal/src/cpp;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_completion/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -181,33 +181,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\BasicTerminal.hpp" />
-    <ClInclude Include="..\..\src\include\BsdTerminal.hpp" />
-    <ClInclude Include="..\..\src\include\LineManager.hpp" />
+    <ClInclude Include="..\include\AdvancedTerminal.hpp" />
     <ClInclude Include="..\..\src\include\nlsTerminal_exports.h" />
-    <ClInclude Include="..\..\src\include\WindowsConsole.hpp" />
-    <ClInclude Include="..\cpp\linenoise.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="..\include\linse.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BasicTerminal.cpp" />
-    <ClCompile Include="..\cpp\BsdTerminal.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\cpp\LineManager.cpp" />
-    <ClCompile Include="..\cpp\linenoise.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\cpp\WindowsConsole.cpp" />
+    <ClCompile Include="..\cpp\AdvancedTerminal.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +214,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
       <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\text_completion\src\c\nlsText_completion.vcxproj">
+      <Project>{287a0a7e-6cf4-4ae8-9814-3cf0f9f8d5ab}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
