@@ -7,41 +7,57 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "i18n.hpp"
-#include "nlsText_completion_exports.h"
-#include "Types.hpp"
+#include "CompleterHelper.hpp"
 #include <string>
-//=============================================================================
-#define POSTFIX_BUILTIN _W("Builtin")
-#define POSTFIX_MACRO _W("Macro")
-#define POSTFIX_VARIABLE _W("Variable")
-#define POSTFIX_FILES _W("File or directory")
-#define POSTFIX_FIELD _W("Field")
-#define POSTFIX_METHOD _W("Method")
-#define POSTFIX_PROPERTY _W("Property")
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSTEXT_COMPLETION_IMPEXP std::wstring
+static size_t
+searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFind)
+{
+    return 0;
+}
+//=============================================================================
+std::wstring
+getPartialLine(const std::wstring& line)
+{
+    return line;
+}
+//=============================================================================
+std::wstring
+getPartialLineAsPath(const std::wstring& line)
+{
+    if (line.empty()) {
+        return {};
+    }
+
+    return line;
+}
+//=============================================================================
+std::wstring
 completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
-    const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath);
+    const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath)
+{
+    std::wstring lineModified;
+    if (currentLine.empty()) {
+        return lineModified;
+    }
+    return currentLine;
+}
 //=============================================================================
-NLSTEXT_COMPLETION_IMPEXP std::wstring
-getPartialLineAsPath(const std::wstring& line);
-//=============================================================================
-NLSTEXT_COMPLETION_IMPEXP std::wstring
-getPartialLine(const std::wstring& line);
-//=============================================================================
-NLSTEXT_COMPLETION_IMPEXP bool
+bool
 computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstringVector& files,
     wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,
-    wstringVector& properties, wstringVector& methods);
+    wstringVector& properties, wstringVector& methods)
+{
+    return false;
+}
 //=============================================================================
-NLSTEXT_COMPLETION_IMPEXP
 stringVector
-getCompletionDictionary(std::wstring& completionPrefix);
+getCompletionDictionary(std::wstring& completionPrefix)
+{
+    return {};
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

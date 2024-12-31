@@ -10,5 +10,6 @@
 #define MODULE_NAME "text_completion"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsText_completion.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libno-nlsText_completion.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 

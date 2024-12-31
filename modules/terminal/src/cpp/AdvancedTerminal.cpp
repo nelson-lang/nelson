@@ -10,12 +10,16 @@
 #include <cstring>
 #include <iostream>
 #include <csignal>
-#include "BsdTerminal.hpp"
+#include <algorithm>
+#include "nlsBuildConfig.h"
+#include "AdvancedTerminal.hpp"
 #include "StringHelpers.hpp"
 #include "NelsonHistory.hpp"
 #include "characters_encoding.hpp"
-#include "linenoise.h"
 #include "Evaluator.hpp"
+#if WITH_TEXT_COMPLETION_MODULE
+#include "CompleterHelper.hpp"
+#endif
 //=============================================================================
 static void
 intHandler(int dummy = 0)
@@ -23,30 +27,55 @@ intHandler(int dummy = 0)
     Nelson::sigInterrupt(1);
 }
 //=============================================================================
-BsdTerminal::BsdTerminal()
+AdvancedTerminal::AdvancedTerminal()
 {
-    linenoiseSetMultiLine(1);
     signal(SIGINT, intHandler);
+#ifndef _MSC_VER
     signal(SIGTSTP, intHandler);
+#endif
     atPrompt = false;
 }
 //=============================================================================
-BsdTerminal::~BsdTerminal() = default;
+AdvancedTerminal::~AdvancedTerminal() = default;
+//=============================================================================
+linse::completions
+completionHook(std::string_view prefix)
+{
+    linse::completions lc;
+#if WITH_TEXT_COMPLETION_MODULE
+    std::string str(prefix);
+    std::wstring wprefix = utf8_to_wstring(str);
+    wprefix = getPartialLine(wprefix);
+    str = wstring_to_utf8(wprefix);
+    // basic completion
+    stringVector dictionary = getCompletionDictionary(wprefix);
+
+    for (std::size_t i = 0; i < dictionary.size(); ++i) {
+        if (strncmp(str.data(), dictionary[i].c_str(), str.size()) == 0) {
+            lc.add_completion(std::string_view { dictionary[i] }.substr(str.size()));
+        }
+    }
+#endif
+    return lc;
+}
 //=============================================================================
 std::wstring
-BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
+AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     atPrompt = true;
     if (!prompt.empty()) {
         this->diary.writeMessage(prompt);
     }
-    char* line = linenoise(wstring_to_utf8(prompt).c_str());
+    wstringVector historyContent = Nelson::History::get();
+    for (auto line : historyContent) {
+        ls.history.add(wstring_to_utf8(line));
+    }
+    ls.completion_callback = linse::word_completion { &completionHook };
+    ls.install_window_change_handler();
+    auto line = ls(wstring_to_utf8(prompt).c_str());
     std::wstring retLineW = L"";
-    if (line) {
-        std::string retLine = line;
-        linenoiseFree(line);
-        line = nullptr;
-        retLineW = utf8_to_wstring(retLine);
+    if (line.has_value()) {
+        retLineW = utf8_to_wstring(line.value());
         if (retLineW.empty()) {
             retLineW = L"\n";
         }
@@ -55,6 +84,8 @@ BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
         }
         this->diary.writeMessage(retLineW);
     } else {
+        ls.clearLine();
+        ls.interruptReadLine(false);
         retLineW = L"\n";
         atPrompt = false;
         return retLineW;
@@ -70,95 +101,98 @@ BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 }
 //=============================================================================
 std::wstring
-BsdTerminal::getInput(const std::wstring& prompt)
+AdvancedTerminal::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
 std::wstring
-BsdTerminal::getLine(const std::wstring& prompt)
+AdvancedTerminal::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::string
-BsdTerminal::getLine(const std::string& prompt)
+AdvancedTerminal::getLine(const std::string& prompt)
 {
     std::wstring wline = getLine(utf8_to_wstring(prompt));
     return wstring_to_utf8(wline);
 }
 //=============================================================================
 size_t
-BsdTerminal::getTerminalWidth()
+AdvancedTerminal::getTerminalWidth()
 {
-    return getWidthLineNoise();
+    return ls.get_screen_columns();
 }
 //=============================================================================
 size_t
-BsdTerminal::getTerminalHeight()
+AdvancedTerminal::getTerminalHeight()
 {
-    return getHeightLineNoise();
+    return ls.get_screen_rows();
 }
 //=============================================================================
 void
-BsdTerminal::outputMessage(const std::wstring& msg)
+AdvancedTerminal::outputMessage(const std::wstring& msg)
 {
     std::string _msg = wstring_to_utf8(msg);
     if (atPrompt) {
-        clearLine();
+        ls.clearLine();
         atPrompt = false;
-        interruptReadLine();
+        ls.interruptReadLine();
     }
+
     outputMessage(_msg);
 }
 //=============================================================================
 void
-BsdTerminal::outputMessage(const std::string& msg)
+AdvancedTerminal::outputMessage(const std::string& msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
+    ls.writeStdout(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BsdTerminal::errorMessage(const std::wstring& msg)
+AdvancedTerminal::errorMessage(const std::wstring& msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BsdTerminal::errorMessage(const std::string& msg)
+AdvancedTerminal::errorMessage(const std::string& msg)
 {
-    fprintf(stderr, "%s\n", msg.c_str());
+    ls.writeStderr(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BsdTerminal::warningMessage(const std::wstring& msg)
+AdvancedTerminal::warningMessage(const std::wstring& msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BsdTerminal::warningMessage(const std::string& msg)
+AdvancedTerminal::warningMessage(const std::string& msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
+    ls.writeStdout(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BsdTerminal::clearTerminal()
+AdvancedTerminal::clearTerminal()
 {
-    linenoiseClearScreen();
+    ls.clear_screen();
 }
 //=============================================================================
 bool
-BsdTerminal::isAtPrompt()
+AdvancedTerminal::isAtPrompt()
 {
     return atPrompt;
 }
 //=============================================================================
 void
-BsdTerminal::interruptGetLineByEvent()
+AdvancedTerminal::interruptGetLineByEvent()
 {
+    ls.clearLine();
+    ls.interruptReadLine();
 }
 //=============================================================================

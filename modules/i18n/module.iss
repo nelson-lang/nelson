@@ -16,7 +16,7 @@ Source: {#RootPath}bin\{#BinPath}\libnlsI18n.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libnlsI18n_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libno-nlsI18n.dll; DestDir: {app}\bin\{#BinPath}\;DestName:libnlsI18n.dll;Components: not {#COMPONENT_INTERNATIONALIZATION};
-Source: {#RootPath}bin\{#BinPath}\libno-nlsI18n_builtin.dll; DestDir: {app}\bin\{#BinPath}\;DestName:libnlsI18n_builtin.dll;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\libno-nlsI18n_builtin.dll; DestDir: {app}\bin\{#BinPath}\;DestName:libnlsI18n_builtin.dll;Components: not {#COMPONENT_INTERNATIONALIZATION};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;

@@ -7,23 +7,29 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "BuiltinCompleter.hpp"
+#include "Evaluator.hpp"
+#include "NelsonConfiguration.hpp"
+#include "What.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
-#include "nlsHistory_manager_exports.h"
+namespace Nelson {
 //=============================================================================
-#ifdef __cplusplus
-extern "C"
+wstringVector
+BuiltinCompleter(const std::wstring& prefix)
 {
-#endif
-    //=============================================================================
-    NLSHISTORY_MANAGER_IMPEXP void
-    NelsonHistorySetToken(const char* token);
-    NLSHISTORY_MANAGER_IMPEXP const char*
-    NelsonHistoryGetNextLine(void);
-    NLSHISTORY_MANAGER_IMPEXP const char*
-    NelsonHistoryGetPreviousLine(void);
-//=============================================================================
-#ifdef __cplusplus
+    wstringVector res;
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (eval) {
+        wstringVector builtin = WhatListOfBuiltin(eval, true, true);
+        for (const auto& k : builtin) {
+            if (StringHelpers::starts_with(k, prefix)) {
+                res.push_back(k);
+            }
+        }
+    }
+    return res;
 }
-#endif
+//=============================================================================
+} // namespace Nelson;
 //=============================================================================

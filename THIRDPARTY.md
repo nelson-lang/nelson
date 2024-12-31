@@ -136,11 +136,11 @@ Standards compliant, fast, secure markdown processing library in C
 
 - Linenoise
 
-A small self-contained alternative to readline and libedit
+Linse is a header-only readline library for C++17.
 
-> <https://github.com/antirez/linenoise>
+> <https://github.com/wx257osn2/linse>
 
-> <https://github.com/antirez/linenoise/blob/master/LICENSE>
+> <https://github.com/wx257osn2/linse/blob/master/LICENSE>
 
 - ICU
 

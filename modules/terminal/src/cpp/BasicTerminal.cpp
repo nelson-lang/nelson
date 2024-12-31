@@ -17,6 +17,10 @@
 #include <csignal>
 #include <thread>
 #include <chrono>
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "BasicTerminal.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -131,7 +135,7 @@ BasicTerminal::outputMessage(const std::wstring& msg)
 void
 BasicTerminal::outputMessage(const std::string& msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
+    fmt::fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -149,7 +153,7 @@ BasicTerminal::errorMessage(const std::string& msg)
         _msg = "\n" + msg;
         atPrompt = false;
     }
-    fprintf(stderr, "%s", _msg.c_str());
+    fmt::fprintf(stderr, "%s", _msg.c_str());
     diary.writeMessage(_msg);
 }
 //=============================================================================
@@ -167,7 +171,7 @@ BasicTerminal::warningMessage(const std::string& msg)
         _msg = "\n" + _msg;
         atPrompt = false;
     }
-    fprintf(stdout, "%s", _msg.c_str());
+    fmt::fprintf(stdout, "%s", _msg.c_str());
     diary.writeMessage(_msg);
 }
 //=============================================================================
@@ -186,12 +190,6 @@ BasicTerminal::BasicTerminal()
     signal(SIGINT, intHandler);
     signal(SIGTSTP, intHandler);
 #endif
-    /*
-    #ifndef _MSC_VER
-         setbuf(stdout, NULL);
-         setbuf(stdin, NULL);
-    #endif
-    */
     atPrompt = false;
 }
 //=============================================================================

@@ -7,13 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#include "WindowsConsole.hpp"
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#else
-#include "BsdTerminal.hpp"
-#endif
+#include "AdvancedTerminal.hpp"
 #include "MainEvaluator.hpp"
 #include "BasicTerminal.hpp"
 #include "SioClientInterface.hpp"
@@ -84,21 +78,12 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
             } break;
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();
-#ifdef _MSC_VER
-                WindowsConsole* nlsTerm = nullptr;
+                AdvancedTerminal* nlsTerm = nullptr;
                 try {
-                    nlsTerm = new WindowsConsole();
+                    nlsTerm = new AdvancedTerminal();
                 } catch (std::bad_alloc&) {
                     nlsTerm = nullptr;
                 }
-#else
-                BsdTerminal* nlsTerm = nullptr;
-                try {
-                    nlsTerm = new BsdTerminal();
-                } catch (std::bad_alloc&) {
-                    nlsTerm = nullptr;
-                }
-#endif
                 if (nlsTerm != nullptr) {
                     mainEvaluator = new Evaluator(context, nlsTerm, true, mainEvaluatorID);
                 }
@@ -156,11 +141,7 @@ destroyMainEvaluator()
                 nlsTerm = nullptr;
             } break;
             case ADVANCED_TERMINAL: {
-#ifdef _MSC_VER
-                auto* nlsTerm = (WindowsConsole*)io;
-#else
-                BsdTerminal* nlsTerm = (BsdTerminal*)io;
-#endif
+                AdvancedTerminal* nlsTerm = (AdvancedTerminal*)io;
                 delete nlsTerm;
                 nlsTerm = nullptr;
                 DestroyMainGuiObjectDynamic(nullptr);

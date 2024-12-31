@@ -10,9 +10,14 @@
 #pragma once
 //=============================================================================
 #include "nlsHistory_manager_exports.h"
-#include <string>
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson::History {
+//=============================================================================
+NLSHISTORY_MANAGER_IMPEXP Nelson::wstringVector
+get();
+NLSHISTORY_MANAGER_IMPEXP std::string
+getFilename();
 NLSHISTORY_MANAGER_IMPEXP bool
 addLine(const std::wstring& line);
 NLSHISTORY_MANAGER_IMPEXP bool

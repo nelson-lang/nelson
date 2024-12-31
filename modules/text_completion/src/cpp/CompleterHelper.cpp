@@ -18,6 +18,7 @@
 #include "FieldCompleter.hpp"
 #include "MethodCompleter.hpp"
 #include "PropertyCompleter.hpp"
+#include "characters_encoding.hpp"
 #include <algorithm>
 #include <string>
 //=============================================================================
@@ -212,6 +213,35 @@ computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstr
         }
     }
     return showpopup;
+}
+//=============================================================================
+stringVector
+getCompletionDictionary(std::wstring& completionPrefix)
+{
+    stringVector dictionary;
+    wstringVector tempResult;
+
+    // Concatenate results from different completers
+    auto appendResults = [&](const wstringVector& results) {
+        tempResult.insert(tempResult.end(), results.begin(), results.end());
+    };
+
+    appendResults(BuiltinCompleter(completionPrefix));
+    appendResults(MacroCompleter(completionPrefix));
+    appendResults(VariableCompleter(completionPrefix));
+    appendResults(FieldCompleter(completionPrefix));
+    appendResults(PropertyCompleter(completionPrefix));
+    appendResults(MethodCompleter(completionPrefix));
+
+    // Sort and remove duplicates
+    std::sort(tempResult.begin(), tempResult.end());
+    tempResult.erase(std::unique(tempResult.begin(), tempResult.end()), tempResult.end());
+
+    // Convert wstringVector to stringVector
+    for (const auto& item : tempResult) {
+        dictionary.push_back(wstring_to_utf8(item));
+    }
+    return dictionary;
 }
 //=============================================================================
 } // namespace Nelson
