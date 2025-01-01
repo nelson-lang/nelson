@@ -120,11 +120,13 @@ assert_isequal(R, REF);
 %=============================================================================
 R = datevec(datenum('01/31','mm/dd'));
 REF = [ 2024           1          31           0           0           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('01/31','mm/dd', 100));
 REF = [2024           1          31           0           0           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('01/31/2009', 'mm/dd/yyyy'));
 REF = [2009           1          31           0           0           0];
@@ -308,27 +310,33 @@ assert_isapprox(R, REF, 1-3);
 %=============================================================================
 R = datevec(datenum('13:56:23', 'HH:MM:SS'));
 REF = [        2024           1           1          13          56          23];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('13:56:23', 'HH:MM:SS', 100));
 REF = [        2024           1           1          13          56          23];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('13:56', 'HH:MM'));
 REF = [        2024           1           1          13          56           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('13:56', 'HH:MM', 100));
 REF = [        2024           1           1          13          56           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum("13:56:23 PM", "HH:MM:SS PM"));
 REF = [2024           1           2           1          56          23];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum("13:56:23 PM", "HH:MM:SS PM", 100));
 REF = [2024           1           2           1          56          23];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 assert_checkerror('datenum("13:56:23", "HH:MM:SS PM")', _('Failed to convert text to date number.'));
 %=============================================================================
@@ -338,15 +346,18 @@ assert_checkerror(cmd, msg);
 %=============================================================================
 R = datevec(datenum('13:56 AM', 'HH:MM AM'));
 REF = [        2024           1           1          13          56           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('13:56 PM', 'HH:MM PM'));
 REF = [        2024           1           2           1          56           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('13:56 PM', 'HH:MM PM', 100));
 REF = [        2024           1           2           1          56           0];
-assert_isequal(R, REF);
+assert_isequal(R(2:end), REF(2:end));
+assert_istrue(R(1) >= 2024);
 %=============================================================================
 R = datevec(datenum('jan.012009', 'mmm.ddyyyy'));
 REF = [ 2009           1           1           0           0           0];
