@@ -3252,13 +3252,17 @@ Evaluator::functionExpression(
                         HandleGenericObject* obj = m[0].getContentAsHandleScalar();
                         if (obj) {
                             if (!obj->invokeMethod(m, narg_out, t->text, n)) {
-                                Error(utf8_to_wstring(
-                                    _("Undefined variable or function:") + " " + t->text));
+                                std::string msg = t->text.empty()
+                                    ? _("Undefined method.")
+                                    : _("Undefined method:") + " " + t->text;
+                                Error(msg);
                             }
                         }
                     } else {
-                        Error(
-                            utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
+                        std::string msg = t->text.empty()
+                            ? "Undefined variable or function."
+                            : _("Undefined variable or function:") + " " + t->text;
+                        Error(msg);
                     }
                 } else {
                     n = funcDef->evaluateFunction(this, m, narg_out);

@@ -16,6 +16,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class FutureStateGuard
+{
+private:
+    std::shared_mutex& mutex;
+
+public:
+    explicit FutureStateGuard(std::shared_mutex& m) : mutex(m) { mutex.lock_shared(); }
+    ~FutureStateGuard() { mutex.unlock_shared(); }
+};
+//=============================================================================
 NLSPARALLEL_IMPEXP
 bool
 WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_STATE expectedState,

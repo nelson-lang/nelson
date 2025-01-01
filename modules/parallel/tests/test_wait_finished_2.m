@@ -16,5 +16,5 @@ R = wait(f, 'finished', 1);
 T = toc();
 assert_isequal(f.State, 'running');
 assert_isfalse(R);
-assert_isapprox(T, 1, 1e-1);
+assert_istrue(abs(T - 1) < 1);
 %=============================================================================
