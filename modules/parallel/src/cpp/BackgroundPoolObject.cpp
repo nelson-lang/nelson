@@ -76,7 +76,8 @@ BackgroundPoolObject::getNumberOfThreads()
 BackgroundPoolObject::BackgroundPoolObject()
     : HandleGenericObject(NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR, this, false)
 {
-    threadPool = new BS::thread_pool(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
+    threadPool
+        = new BS::pause_thread_pool(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
     propertiesNames = { L"NumWorkers", L"Busy", L"FevalQueue" };
 }
 //=============================================================================
@@ -154,8 +155,8 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-
-    threadPool->push_task(&FevalFutureObject::evaluateFunction, retFuture, fptr, nLhs, argIn, true);
+    auto future = threadPool->submit_task(
+        [retFuture, fptr, nLhs, argIn]() { retFuture->evaluateFunction(fptr, nLhs, argIn, true); });
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
     nelson_handle* qp = (nelson_handle*)(result.getDataPointer());

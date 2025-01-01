@@ -140,9 +140,13 @@ static bool
 finishParallelModule(Nelson::Evaluator* eval)
 {
     if (BackgroundPoolObject::isInitialized()) {
-        BackgroundPoolObject::getInstance()->resetThreadPool();
+        size_t nbQueued = BackgroundPoolObject::getInstance()->getTasksQueued();
+        //BackgroundPoolObject::getInstance()->resetThreadPool();
+        if (nbQueued > 0) {
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+        }
+        return true;
     }
-    return true;
 }
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

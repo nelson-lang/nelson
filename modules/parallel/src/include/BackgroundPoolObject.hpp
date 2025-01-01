@@ -66,7 +66,7 @@ private:
 
     wstringVector propertiesNames;
 
-    BS::thread_pool* threadPool = nullptr;
+    BS::pause_thread_pool* threadPool = nullptr;
 };
 //=============================================================================
 } // namespace Nelson
