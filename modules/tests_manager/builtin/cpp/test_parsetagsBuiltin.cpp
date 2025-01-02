@@ -80,6 +80,8 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isFileWatcherRequired()));
     fieldnames.push_back(L"python_environment_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isPythonEnvironmentRequired()));
+    fieldnames.push_back(L"julia_environment_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isJuliaEnvironmentRequired()));
 
     retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     return retval;

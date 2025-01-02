@@ -132,6 +132,9 @@ Name: {#COMPONENT_PYTHON_ENGINE}; Description:{cm:PYTHON_ENGINE_MODULE}; Types: 
 #define COMPONENT_PYTHON_RUNTIME 'PYTHON_ENGINE/PYTHON_RUNTIME'
 Name: {#COMPONENT_PYTHON_RUNTIME}; Description:{cm:PYTHON_RUNTIME}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_JULIA_ENGINE 'JULIA_ENGINE'
+Name: {#COMPONENT_JULIA_ENGINE}; Description:{cm:JULIA_ENGINE_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_MODULE_SKELETON 'MODULE_SKELETON'
 Name: {#COMPONENT_MODULE_SKELETON}; Description:{cm:MODULE_SKELETON}; Types: full custom;
 ;==============================================================================

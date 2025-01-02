@@ -100,6 +100,7 @@ list(
   CHARACTERS_ENCODING
   GEOMETRY
   PYTHON_ENGINE
+  JULIA_ENGINE
   SPREADSHEET)
 foreach(mod ${optional_modules})
   option(WITHOUT_${mod}_MODULE "Disable ${mod} module." OFF)

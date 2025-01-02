@@ -100,7 +100,7 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             IPC_REQUIRED_TAG, FILE_WATCHER_REQUIRED_TAG, MPI_MODE_TAG, AUDIO_INPUT_REQUIRED_TAG,
             AUDIO_OUTPUT_REQUIRED_TAG, C_COMPILER_REQUIRED_TAG, INDEX_64_BIT_REQUIRED_TAG,
             NO_USER_MODULES_TAG, SEQUENTIAL_TEST_REQUIRED_TAG, NATIVE_ARCHITECTURE_REQUIRED_TAG,
-            PYTHON_ENVIRONMENT_REQUIRED_TAG };
+            PYTHON_ENVIRONMENT_REQUIRED_TAG, JULIA_ENVIRONMENT_REQUIRED_TAG };
 
         std::unordered_map<std::string, bool> firstTagOccurrences;
         std::unordered_map<std::string, bool> tagOptions;
@@ -164,6 +164,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
                         options.setFileWatcherRequired(true);
                     } else if (tag == PYTHON_ENVIRONMENT_REQUIRED_TAG) {
                         options.setPythonEnvironmentRequired(true);
+                    } else if (tag == JULIA_ENVIRONMENT_REQUIRED_TAG) {
+                        options.setJuliaEnvironmentRequired(true);
                     } else if (tag == MPI_MODE_TAG) {
                         options.setMpiMode(true);
                     } else if (tag == AUDIO_INPUT_REQUIRED_TAG) {

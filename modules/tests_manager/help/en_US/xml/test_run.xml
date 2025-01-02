@@ -133,9 +133,13 @@
 
   <p />
    <p><b
-      >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if file watcher is available.</p>
-
+      >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if python environment is available and configured.</p>
   <p />
+  <p />
+   <p><b
+      >&lt;--JULIA ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if julia environment is available and configured.</p>
+  <p />
+
   <p>Test can also skipped dynamically using <b>skip_testsuite</b> function.</p>
 
   <p
@@ -203,6 +207,11 @@
       <history_version>1.4.0</history_version>
       <history_description
       >skip_testsuite function reference</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description
+      >JULIA ENVIRONMENT REQUIRED tag added</history_description>
     </history_item>
 
   </history>

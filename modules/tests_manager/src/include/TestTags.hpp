@@ -40,6 +40,7 @@ namespace Nelson {
 #define NATIVE_ARCHITECTURE_REQUIRED_TAG "<--NATIVE ARCHITECTURE TEST REQUIRED-->"
 #define FILE_WATCHER_REQUIRED_TAG "<--FILE WATCHER REQUIRED-->"
 #define PYTHON_ENVIRONMENT_REQUIRED_TAG "<--PYTHON ENVIRONMENT REQUIRED-->"
+#define JULIA_ENVIRONMENT_REQUIRED_TAG "<--JULIA ENVIRONMENT REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -68,6 +69,7 @@ private:
     bool _nativeArchitectureRequired;
     bool _fileWatcherRequired;
     bool _pythonEnvironmentRequired;
+    bool _juliaEnvironmentRequired;
 
 public:
     TestTags()
@@ -96,6 +98,7 @@ public:
         _nativeArchitectureRequired = false;
         _fileWatcherRequired = false;
         _pythonEnvironmentRequired = false;
+        _juliaEnvironmentRequired = false;
     }
 
     bool
@@ -223,6 +226,12 @@ public:
         return _pythonEnvironmentRequired;
     }
 
+    bool
+    isJuliaEnvironmentRequired()
+    {
+        return _juliaEnvironmentRequired;
+    }
+
     void
     setWithDisplay(bool val)
     {
@@ -334,6 +343,12 @@ public:
     setPythonEnvironmentRequired(bool val)
     {
         _pythonEnvironmentRequired = val;
+    }
+
+    void
+    setJuliaEnvironmentRequired(bool val)
+    {
+        _juliaEnvironmentRequired = val;
     }
 
     void
