@@ -135,7 +135,11 @@
       >nelson-adv-cli</b>: advanced terminal, no graphical console, history, completion available (UTF-16 support)</p>
   <p><b
       >nelson-gui</b>: graphical console, history, completion available (UTF-16 support)</p>
-
+  <p />
+  <p>If you have installed Nelson on Windows, the <b
+      >NELSON_RUNTIME_PATH</b> environment variable will be defined.</p>
+  <p>It allows to call easily Nelson <b
+      >"%NELSON_RUNTIME_PATH%\nelson.bat"</b>.</p>
 </description>
 
 
@@ -181,6 +185,11 @@
     <history_item>
       <history_version>1.4.0</history_version>
       <history_description>--without_python added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description
+      >About NELSON_RUNTIME_PATH environment variable added</history_description>
     </history_item>
 
   </history>
