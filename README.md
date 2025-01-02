@@ -79,6 +79,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **Foreign Function Interface (FFI)**: Build and load C/Fortran code on the fly.
 - **MEX C API Compatibility**: Interfacing with MEX-compatible C APIs.
 - **Nelson Engine API**: Use Nelson as a backend engine within C code, compatible with the MEX Engine API.
+- **Julia Interfacing**: Call Julia scripts and functions from Nelson.
 - **Python Interfacing**: Call Python scripts and functions from Nelson.
 - **RESTful API**: Enables Nelson to interact with web services.
 

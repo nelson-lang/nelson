@@ -42,7 +42,11 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
             HandleGenericObject* obj = argsIn[0].getContentAsHandleScalar();
             if (obj) {
                 ArrayOfVector results;
-                if (obj->invokeMethod(argsIn, nLhs, functionName, results)) {
+                Interface* objInterface = nullptr;
+                if (eval) {
+                    objInterface = eval->getInterface();
+                }
+                if (obj->invokeMethod(objInterface, argsIn, nLhs, functionName, results)) {
                     wasFound = true;
                     return results;
                 }

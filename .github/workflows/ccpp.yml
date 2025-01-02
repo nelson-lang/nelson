@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           brew --version
           brew cleanup
@@ -44,6 +44,7 @@ jobs:
           brew link icu4c --force
           brew install numpy
           brew install tbb
+          brew install julia
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,24 +58,26 @@ jobs:
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
-      - name: make
+      - name: Make
         run: cmake --build . -- -j$(nproc)
-      - name: get module skeleton
+      - name: Get module skeleton
         run: cmake --build . -- get_module_skeleton
-      - name: build help
+      - name: Build help
         run: |
           cmake --build . -- buildhelp
-      - name: package
+      - name: Package
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
       - name: Setup Python environment for Nelson
-        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Set Julia Environment for Nelson
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+      - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
           cmake --build . -- benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
@@ -90,7 +93,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           brew --version
           brew cleanup
@@ -125,6 +128,7 @@ jobs:
           brew link icu4c --force
           brew install numpy
           brew install tbb
+          brew install julia
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -138,24 +142,26 @@ jobs:
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
-      - name: make
+      - name: Make
         run: cmake --build . -- -j$(nproc)
-      - name: get module skeleton
+      - name: Get module skeleton
         run: cmake --build . -- get_module_skeleton
-      - name: build help
+      - name: Build help
         run: |
           cmake --build . -- buildhelp
-      - name: package
+      - name: Package
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
       - name: Setup Python environment for Nelson
-        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Setup Julia environment for Nelson
+        run: $GITHUB_WORKSPACE/bin/macOS/nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+      - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
           cmake --build . -- benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
@@ -171,7 +177,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           brew --version
           brew cleanup
@@ -205,6 +211,7 @@ jobs:
           brew install openblas
           brew link icu4c --force
           brew install tbb
+          brew install julia
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -221,22 +228,22 @@ jobs:
       - name: CMake
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
-      - name: make
+      - name: Make
         run: cmake --build . -- -j$(nproc)
-      - name: get module skeleton
+      - name: Get module skeleton
         run: cmake --build . -- get_module_skeleton
-      - name: build help
+      - name: Build help
         run: |
           cmake --build . -- buildhelp
-      - name: package
+      - name: Package
         run: cmake --build . -- package
       - name: Install
         run: sudo make install
-      - name: all benchs
+      - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
           cmake --build . -- benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
@@ -252,7 +259,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update --fix-missing
           sudo apt upgrade;
@@ -316,26 +323,28 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
-      - name: make with Ninja
+      - name: Make with Ninja
         run: cmake --build . -- -j $(nproc)
-      - name: get module skeleton
+      - name: Get module skeleton
         run: |
           cmake --build . -- get_module_skeleton
-      - name: build help
+      - name: Build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
+      - name: Minimal tests
         run: cmake --build . -- tests_minimal
-      - name: package
+      - name: Package
         run: cmake --build . -- package
       - name: Install
         run: sudo ninja install
       - name: Setup Python environment for Nelson
-        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
+        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Set Julia Environment for Nelson
+        run: nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+      - name: All benchs
         run: |
           xvfb-run -a ninja benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
@@ -351,7 +360,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update --fix-missing
           sudo apt upgrade;
@@ -415,15 +424,15 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
-      - name: make with Ninja
+      - name: Make with Ninja
         run: cmake --build . -- -j $(nproc)
       - name: get module skeleton
         run: |
           cmake --build . -- get_module_skeleton
-      - name: build help
+      - name: Build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
+      - name: Minimal tests
         run: cmake --build . -- tests_minimal
       - name: package
         run: cmake --build . -- package
@@ -431,10 +440,10 @@ jobs:
         run: sudo ninja install
       - name: Setup Python environment for Nelson
         run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
+      - name: All benchs
         run: |
           xvfb-run -a ninja benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
@@ -450,7 +459,7 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt-mark hold grub-efi-amd64-signed
           sudo apt-get update --fix-missing
@@ -516,26 +525,28 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
-      - name: make with Ninja
+      - name: Make with Ninja
         run: cmake --build . -- -j $(nproc)
-      - name: get module skeleton
+      - name: Get module skeleton
         run: |
           cmake --build . -- get_module_skeleton
       - name: build help
         run: |
           cmake --build . -- buildhelp
-      - name: minimal tests
+      - name: Minimal tests
         run: cmake --build . -- tests_minimal
-      - name: package
+      - name: Package
         run: cmake --build . -- package
       - name: Install
         run: sudo ninja install
       - name: Setup Python environment for Nelson
-        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
-      - name: all benchs
+        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Set Default Julia Environment for Nelson
+        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+      - name: All benchs
         run: |
           xvfb-run -a ninja benchs_all
-      - name: all tests
+      - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
@@ -617,7 +628,9 @@ jobs:
       - name: Install
         run: sudo cmake --build . -- install
       - name: Setup Python environment for Nelson
-        run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Set Julia Environment for Nelson
+        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: Benchs
         run: cmake --build . -- benchs_all_no_display
       - name: Tests
@@ -712,7 +725,12 @@ jobs:
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+          nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+      - name: Set Julia Environment for Nelson
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH
+          nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: Benchs
         run: cmake --build . -- benchs_all_no_display
       - name: Tests
@@ -743,6 +761,10 @@ jobs:
       - name: Install Inno-setup
         run: |
           choco install InnoSetup
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          arch: "x86"
 
       - name: Install MS-MPI
         run: |
@@ -795,9 +817,13 @@ jobs:
           cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
-      - name: Set Default Python Environment for Nelson
+      - name: Set Python Environment for Nelson
         run: |
           %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
+
+      - name: Set Julia Environment for Nelson
+        run: |
+          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/julia_environment_CI/configureJuliaEnvironment.m
 
       - name: Copy Python in Nelson distribution
         run: |
@@ -891,6 +917,10 @@ jobs:
         run: |
           choco install InnoSetup
 
+      - uses: julia-actions/setup-julia@v2
+        with:
+          arch: "x64"
+
       - name: Install MS-MPI
         run: |
           (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
@@ -928,9 +958,13 @@ jobs:
           cd %GITHUB_WORKSPACE%
           msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
-      - name: Set Default Python Environment for Nelson
+      - name: Set Python Environment for Nelson
         run: |
           %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
+
+      - name: Set Julia Environment for Nelson
+        run: |
+          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/julia_environment_CI/configureJuliaEnvironment.m
 
       - name: Copy Python in Nelson distribution
         run: |

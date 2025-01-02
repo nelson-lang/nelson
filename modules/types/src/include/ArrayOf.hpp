@@ -1283,6 +1283,9 @@ public:
      */
     [[nodiscard]] bool
     isHandleProperty(const std::wstring& propertyName) const;
+    [[nodiscard]] bool
+    isHandleProperty(const std::string& propertyName) const;
+
     /*
      * check that scalar handle have an method name
      */

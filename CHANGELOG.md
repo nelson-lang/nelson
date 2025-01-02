@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Julia interface (part 1):
+
+  - `jlenv`: Change default environment of Julia interpreter.
+  - `jlrun`: Run Julia statements from Nelson.
+  - `jlrunfile`: Run Julia file from Nelson.
+  - Major types conversions are available.
+  - CMake: Optional Julia engine detection.
+
 - Github CI Ubuntu 24.04 arm64 (Cobalt 100 processor).
 - Github CI Snapcraft build amd64 and arm64.
 - Snapcraft arm64.

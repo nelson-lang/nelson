@@ -53,8 +53,10 @@ french.HDF5_MODULE=HDF5 module
 french.GEOMETRY_MODULE=Geometrie module
 french.PYTHON_ENGINE_MODULE=Python interface module
 french.PYTHON_RUNTIME=Python runtime 3.12
+french.JULIA_ENGINE_MODULE=Julia interface module
 french.SPREADSHEET_MODULE=Feuilles de calcul module
 ;==============================================================================
+french.MESSAGEBOX_X64_VERSION_RECOMMANDED=Utiliser la version x64 est fortement recommandée.
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.
 french.MESSAGEBOX_HELP_BROWSER_REQUIRED=Le module help_browser doit être sélectionné.

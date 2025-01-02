@@ -60,8 +60,14 @@ public:
     };
 
     virtual bool
-    invokeMethod(
-        const ArrayOfVector& args, int nLhs, const std::string& methodName, ArrayOfVector& results)
+    invokeMethod(Interface* io, const ArrayOfVector& args, int nLhs, const std::string& methodName,
+        ArrayOfVector& results)
+    {
+        return false;
+    }
+
+    virtual bool
+    invokeProperty(const std::string& methodName, ArrayOfVector& results)
     {
         return false;
     }

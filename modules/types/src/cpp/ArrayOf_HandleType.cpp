@@ -66,6 +66,12 @@ ArrayOf::getContentAsHandleScalar() const
 }
 //=============================================================================
 bool
+ArrayOf::isHandleProperty(const std::string& methodName) const
+{
+    return isHandleProperty(utf8_to_wstring(methodName));
+}
+//=============================================================================
+bool
 ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 {
     HandleGenericObject* obj = getContentAsHandleScalar();

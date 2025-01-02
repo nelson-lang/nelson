@@ -48,7 +48,8 @@ list(APPEND
   CHARACTERS_ENCODING
   GEOMETRY
   PYTHON_ENGINE
-  SPREADSHEET)
+  SPREADSHEET
+  JULIA_ENGINE)
 
 foreach(mod ${without_module})
   if (WITHOUT_${mod}_MODULE)

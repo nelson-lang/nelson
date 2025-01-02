@@ -81,5 +81,6 @@ modules_list = {
 {'control_system', @WITH_CONTROL_SYSTEM_MODULE@};
 {'python_engine', @WITH_PYTHON_ENGINE_MODULE@};
 {'spreadsheet', @WITH_SPREADSHEET_MODULE@};
+{'julia_engine', @WITH_JULIA_ENGINE_MODULE@};
 };
 % ============================================================================

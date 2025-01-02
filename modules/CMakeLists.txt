@@ -94,7 +94,8 @@ list(
   GEOMETRY
   CONTROL_SYSTEM
   PYTHON_ENGINE
-  SPREADSHEET)
+  SPREADSHEET
+  JULIA_ENGINE)
 
   foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)

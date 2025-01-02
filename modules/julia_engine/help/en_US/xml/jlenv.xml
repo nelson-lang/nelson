@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>jlenv</keyword>
+  <short_description
+  >Change default environment of Julia interpreter.</short_description>
+
+  <syntax>
+    <syntax_item>jlenv</syntax_item>
+    <syntax_item>je = jlenv('Version', julia_path)</syntax_item>
+    <syntax_item>je = jlenv(...)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>julia_path</param_name>
+      <param_description
+      >a string, or row characters array: executable file name of Julia.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>je</param_name>
+      <param_description>JuliaEnvironment object.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p>Use <b
+      >jlenv</b> to modify the default version or execution mode of the Julia interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
+  <p>The value set by <b>jlenv</b> is persistent across Nelson sessions.</p>
+  <p />
+  <p>Properties:</p>
+  <p><b>Version</b>: string: Julia version</p>
+  <p><b>Executable</b>: string: Name of Julia executable file</p>
+  <p><b>Library</b>: string: Shared library file</p>
+  <p><b>Home</b>: string: Home folder</p>
+  <p><b
+      >Status</b>: Process status: "NotLoaded" (default), "Loaded", "Terminated"</p>
+  <p><b
+      >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
+  <p />
+  <p
+    >Use environment variables to force julia environment at each startup (usefull for snapcraft or docker distribution):</p>
+  <p />
+  <p><b>__NELSON_JULIA_VERSION__</b>:  example "1.11"</p>
+  <p><b>__NELSON_JULIA_EXECUTABLE__</b>: example  "/usr/bin/julia"</p>
+  <p><b>__NELSON_JULIA_LIBRARY__</b>: example "libjulia.so"</p>
+  <p><b>__NELSON_JULIA_HOME__</b>: example "/usr"</p>
+  <p>All environment variables must exist and valid to be considered.</p>
+  <p />
+  </description>
+  <used_function />
+  <bibliography />
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data><![CDATA[je = jlenv]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${julia_engine}jlrun">jlrun</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

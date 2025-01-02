@@ -24,6 +24,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ### Modules and Extensions
 
+- Julia interface (DONE v1.12.0),
 - Compatible python interface (DONE v1.5.0),
 - Incorporate an Image Processing module,
 - Optimization of code execution using NPU/GPU arrays,
