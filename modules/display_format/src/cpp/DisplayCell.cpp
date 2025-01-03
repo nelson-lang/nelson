@@ -17,6 +17,7 @@
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "FormatHelpers.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -81,7 +82,10 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
 
     indexType v = 0;
     bool isColumnsVector = A.isColumnVector();
-    for (indexType k = 0; k < nbElements; ++k) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
         if (v >= columns) {
             v = 0;
         }
@@ -169,7 +173,12 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
         io->outputMessage(L"\n");
     }
-    while (wdims.inside(dims)) {
+    bool continueDisplay = true;
+    while (wdims.inside(dims) && continueDisplay) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+            continueDisplay = false;
+            break;
+        }
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                 io->outputMessage(L"\n");
@@ -191,7 +200,11 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         std::vector<size_t> vSize(columns, (size_t)0);
         indexType nbElements = rows * columns;
         wstringVector cellSummarize(nbElements, L"");
-        for (indexType k = 0; k < nbElements; ++k) {
+
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
             cellSummarize[k] = getAsFormattedString(
                 elements, k + offset, currentNumericFormat, termWidth, false);
             vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
@@ -218,7 +231,9 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
                 }
                 io->outputMessage(msg);
             }
-            for (indexType i = 0; i < rows; i++) {
+            for (indexType i = 0;
+                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                 i++) {
                 for (indexType j = 0; j < colsInThisPage
                      && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                      j++) {

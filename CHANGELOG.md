@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Advanced terminal updated (common for all platforms without GUI, auto completion, search history).
 - Python 3.13.1 supported.
 
+### Fixed
+
+- [#1324](http://github.com/nelson-lang/nelson/issues/1324) Cell display could not be interrupted.
+
 ## 1.10.0 (2024-12-14)
 
 ### Added
