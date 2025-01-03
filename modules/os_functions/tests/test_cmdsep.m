@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath('os_functions', 'functions'));
-removegateway(modulepath('os_functions', 'builtin'));
+if ispc()
+    assert_isequal(cmdsep(), "&&");
+else
+    assert_isequal(cmdsep(), ";");
+end
 %=============================================================================

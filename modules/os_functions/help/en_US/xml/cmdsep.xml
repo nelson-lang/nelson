@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>cmdsep</keyword>
+  <short_description
+  >Command separator for current operating system.</short_description>
+
+  <syntax>
+    <syntax_item>sep = cmdsep()</syntax_item>
+  </syntax>
+
+  <param_output>
+  	
+    <param_output_item>
+      <param_name>sep</param_name>
+      <param_description
+      >a string: on windows "&amp;&amp;", on linux ";"</param_description>
+    </param_output_item>
+  </param_output>
+
+
+  <description>
+    <p><b
+      >cmdsep</b> returns the command separator for current operating system.</p>
+    <p
+    >This function is used by Nelson to build command lines for unix and dos operating systems.</p>
+  </description>
+
+  <used_function />
+  <bibliography />
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data><![CDATA[unix("cd c:/ " + cmdsep() + " nelson")]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}unix">unix</link>
+    </see_also_item>
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
