@@ -13,6 +13,11 @@
 ;http://msdn2.microsoft.com/en-us/library/bb776883.aspx
 ;http://msdn2.microsoft.com/en-us/library/bb776820.aspx
 ;==============================================================================
+; Add a user environment variable with Nelson binaries path
+;==============================================================================
+Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "NELSON_RUNTIME_PATH"; ValueData: {app}\bin\{#BinPath}; Check: not IsAdminInstallMode; Flags: uninsclearvalue noerror
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "NELSON_RUNTIME_PATH"; ValueData: {app}\bin\{#BinPath}; Check: IsAdminInstallMode; Flags: uninsclearvalue noerror
+;==============================================================================
 #define ARGUMENT_ACTION_OPEN "-o"
 #define ARGUMENT_ACTION_LOAD "-m"
 #define ARGUMENT_ACTION_EXECUTE "-F"
