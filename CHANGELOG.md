@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CA certificate store update.
 - fmt library dependency updated.
 - Advanced terminal updated (common for all platforms without GUI, auto completion, search history).
+- Python 3.13.1 supported.
 
 ## 1.10.0 (2024-12-14)
 
