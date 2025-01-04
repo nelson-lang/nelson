@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('os_functions', 'builtin'), 'os_functions');
+addpath(modulepath('os_functions', 'functions'), '-frozen');
 %=============================================================================
