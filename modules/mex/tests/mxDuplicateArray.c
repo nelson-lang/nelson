@@ -13,7 +13,6 @@ void
 mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     mxArray* pOut = NULL;
-    ;
     if (nrhs != 1) {
         mexErrMsgTxt("Wrong number or type of input argument");
     }

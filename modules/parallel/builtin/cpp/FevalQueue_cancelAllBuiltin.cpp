@@ -26,7 +26,9 @@ Nelson::ParallelGateway::FevalQueue_cancelAllBuiltin(int nLhs, const ArrayOfVect
         Error(_W("FevalQueue handle expected."));
     }
     auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();
-    objFevalQueue->cancelAll();
+    if (objFevalQueue != nullptr) {
+        objFevalQueue->cancelAll();
+    }
     return retval;
 }
 //=============================================================================
