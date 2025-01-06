@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--GUI MODE-->
+% <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
 if semver(qt_version(), '>=6.0')
@@ -16,4 +16,6 @@ else
   qml_file = [modulepath('qml_engine'), '/examples/colors/main_qt5.qml'];
 end
 qobj = qml_loadfile(qml_file);
+%=============================================================================
+delete(qobj);
 %=============================================================================

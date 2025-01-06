@@ -71,8 +71,7 @@ PathFunctionIndexerManager::destroy()
 void
 PathFunctionIndexerManager::startFileWatcher()
 {
-    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
-        PathFunctionIndexer* pf = *it;
+    for (auto& pf : _pathWatchFuncVector) {
         pf->startFileWatcher();
     }
     if (_userPath) {
@@ -88,24 +87,19 @@ bool
 PathFunctionIndexerManager::hashOnFileWatcher()
 {
     bool result = false;
-    for (auto it = _pathWatchFuncVector.begin(); it != _pathWatchFuncVector.end(); ++it) {
-        PathFunctionIndexer* pf = *it;
+    for (auto& pf : _pathWatchFuncVector) {
         if (pf->wasModified()) {
             pf->rehash();
             result = true;
         }
     }
-    if (_userPath) {
-        if (_userPath->wasModified()) {
-            _userPath->rehash();
-            result = true;
-        };
+    if (_userPath && _userPath->wasModified()) {
+        _userPath->rehash();
+        result = true;
     }
-    if (_currentPath) {
-        if (_currentPath->wasModified()) {
-            _currentPath->rehash();
-            result = true;
-        };
+    if (_currentPath && _currentPath->wasModified()) {
+        _currentPath->rehash();
+        result = true;
     }
 
     if (result) {
@@ -118,8 +112,7 @@ void
 PathFunctionIndexerManager::refreshFunctionsMap()
 {
     _pathFuncMap.clear();
-    for (auto it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it) {
-        PathFunctionIndexer* pf = *it;
+    for (auto& pf : _pathFuncVector) {
         auto fileFunctions = pf->getAllFileFunctions();
         _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
         _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
@@ -246,24 +239,20 @@ bool
 PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
-    std::vector<PathFunctionIndexer*>::iterator it = std::find_if(
+    auto it = std::find_if(
         _pathFuncVector.begin(), _pathFuncVector.end(), [path](PathFunctionIndexer* x) {
             return FileSystemWrapper::Path::equivalent(x->getPath(), path);
         });
     if (it != _pathFuncVector.end()) {
         return false;
     }
-    PathFunctionIndexer* pf = nullptr;
+
     try {
-        pf = new PathFunctionIndexer(
+        auto pf = new PathFunctionIndexer(
             FileSystemWrapper::Path::normalize(path), frozen ? false : true);
         if (_filesWatcherStarted) {
             pf->startFileWatcher();
         }
-    } catch (const std::bad_alloc&) {
-        pf = nullptr;
-    }
-    if (pf != nullptr) {
         FunctionsInMemory::getInstance()->clearMapCache();
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), pf);
@@ -273,8 +262,10 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
         if (!frozen) {
             _pathWatchFuncVector.push_back(pf);
         }
-        res = true;
         refreshFunctionsMap();
+        res = true;
+    } catch (const std::bad_alloc&) {
+        res = false;
     }
     return res;
 }
@@ -572,61 +563,47 @@ PathFunctionIndexerManager::userpathCompute()
 {
     clearUserPath();
     std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
-    bool bSet = false;
-    if (!userpathEnv.empty()) {
-        if (FileSystemWrapper::Path::is_directory(userpathEnv)) {
-            setUserPath(userpathEnv);
-            bSet = true;
+    if (!userpathEnv.empty() && FileSystemWrapper::Path::is_directory(userpathEnv)) {
+        setUserPath(userpathEnv);
+        return;
+    }
+    std::wstring prefDir;
+    try {
+        prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
+    } catch (const Exception&) {
+        prefDir.clear();
+    }
+    std::wstring userPathFile = prefDir + L"/userpath.conf";
+    if (FileSystemWrapper::Path::is_regular_file(userPathFile)) {
+        std::wstring preferedUserPath = loadUserPathFromFile();
+        if (!preferedUserPath.empty() && FileSystemWrapper::Path::is_directory(preferedUserPath)) {
+            setUserPath(preferedUserPath);
+            return;
         }
     }
-    if (!bSet) {
-        std::wstring prefDir;
-        std::wstring userPathFile;
-        try {
-            prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-        } catch (const Exception&) {
-            prefDir.clear();
-        }
-
-        userPathFile = prefDir + L"/userpath.conf";
-        bool bIsFile = FileSystemWrapper::Path::is_regular_file(userPathFile);
-        if (bIsFile) {
-            std::wstring preferedUserPath = loadUserPathFromFile();
-            if (!preferedUserPath.empty()) {
-                if (FileSystemWrapper::Path::is_directory(preferedUserPath)) {
-                    setUserPath(preferedUserPath);
-                    bSet = true;
-                }
-            } else {
-                bSet = true;
-            }
-        }
-    }
-    if (!bSet) {
 #ifdef _MSC_VER
-        std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
-        if (!userprofileEnv.empty()) {
-            std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
-            if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
-                FileSystemWrapper::Path::create_directories(userpathDir);
-            }
-            if (FileSystemWrapper::Path::is_directory(userpathDir)) {
-                setUserPath(userpathDir);
-            }
+    std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
+    if (!userprofileEnv.empty()) {
+        std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
+        if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
+            FileSystemWrapper::Path::create_directories(userpathDir);
         }
-#else
-        std::wstring homeEnv = GetVariableEnvironment(L"HOME", L"");
-        if (homeEnv != L"") {
-            std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
-            if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
-                FileSystemWrapper::Path::create_directories(userpathDir);
-            }
-            if (FileSystemWrapper::Path::is_directory(userpathDir)) {
-                setUserPath(userpathDir);
-            }
+        if (FileSystemWrapper::Path::is_directory(userpathDir)) {
+            setUserPath(userpathDir);
         }
-#endif
     }
+#else
+    std::wstring homeEnv = GetVariableEnvironment(L"HOME", L"");
+    if (homeEnv != L"") {
+        std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
+        if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
+            FileSystemWrapper::Path::create_directories(userpathDir);
+        }
+        if (FileSystemWrapper::Path::is_directory(userpathDir)) {
+            setUserPath(userpathDir);
+        }
+    }
+#endif
 }
 //=============================================================================
 std::wstring

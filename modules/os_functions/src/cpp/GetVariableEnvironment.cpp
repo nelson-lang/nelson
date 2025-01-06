@@ -22,43 +22,30 @@ GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defau
 {
     std::wstring str(defaultValue);
 #ifdef _MSC_VER
-#define DEFAULT_SIZE_ENV 4096
-    wchar_t* buf = nullptr;
-    try {
-        buf = new wchar_t[DEFAULT_SIZE_ENV];
-    } catch (const std::bad_alloc&) {
+    const DWORD DEFAULT_SIZE_ENV = 4096;
+    std::unique_ptr<wchar_t[]> buf(new (std::nothrow) wchar_t[DEFAULT_SIZE_ENV]);
+    if (!buf) {
         return str;
     }
-    DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, DEFAULT_SIZE_ENV);
+
+    DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf.get(), DEFAULT_SIZE_ENV);
     if (dwRet == 0) {
         // error
-        if (buf != nullptr) {
-            delete[] buf;
-            buf = nullptr;
-        }
         return str;
     }
     if (dwRet > DEFAULT_SIZE_ENV) {
         // we resize the buffer
-        delete[] buf;
-        try {
-            buf = new wchar_t[dwRet + 1];
-        } catch (const std::bad_alloc&) {
+        buf.reset(new (std::nothrow) wchar_t[dwRet + 1]);
+        if (!buf) {
             return str;
         }
-        dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
-    }
-    if (dwRet == 0) {
-        // error
-        if (buf != nullptr) {
-            delete[] buf;
-            buf = nullptr;
+        dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf.get(), dwRet + 1);
+        if (dwRet == 0) {
+            // error
+            return str;
         }
-        return str;
     }
-    str = buf;
-    delete[] buf;
-
+    str.assign(buf.get(), dwRet);
 #else
     std::string s1 = wstring_to_utf8(envVarName);
     str = defaultValue;

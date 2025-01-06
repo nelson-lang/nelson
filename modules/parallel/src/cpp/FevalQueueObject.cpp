@@ -95,13 +95,8 @@ FevalQueueObject::getThreadsByState(THREAD_STATE stateDesired)
 {
     std::vector<nelson_handle> fEvalFuturHandles = searchThreadsByState(stateDesired);
     nelson_handle* nh = nullptr;
-    Dimensions dims;
     indexType len = 0;
-    if (fEvalFuturHandles.size() == 0) {
-        dims = Dimensions(0, 0);
-    } else {
-        dims = Dimensions(1, fEvalFuturHandles.size());
-    }
+    Dimensions dims(fEvalFuturHandles.empty() ? 0 : 1, fEvalFuturHandles.size());
     len = dims.getElementCount();
     nh = static_cast<nelson_handle*>(
         ArrayOf::allocateArrayOf(NLS_HANDLE, len, stringVector(), false));
@@ -129,25 +124,22 @@ FevalQueueObject::get(const std::wstring& propertyName, ArrayOf& result)
 bool
 FevalQueueObject::isMethod(const std::wstring& methodName)
 {
-    for (const auto& name : propertiesNames) {
-        if (name == methodName) {
-            return true;
-        }
-    }
-    return false;
+    return std::find(propertiesNames.begin(), propertiesNames.end(), methodName)
+        != propertiesNames.end();
 }
 //=============================================================================
 void
 FevalQueueObject::refreshQueue()
 {
-    std::vector<FevalFutureObject*> newQueue;
-    for (auto f : fEvalQueue) {
-        THREAD_STATE state = f->state;
-        if (state == THREAD_STATE::QUEUED || state == THREAD_STATE::RUNNING) {
-            newQueue.push_back(f);
-        }
+    if (fEvalQueue.empty()) {
+        return;
     }
-    fEvalQueue = newQueue;
+    fEvalQueue.erase(std::remove_if(fEvalQueue.begin(), fEvalQueue.end(),
+                         [](FevalFutureObject* f) {
+                             return f->state != THREAD_STATE::QUEUED
+                                 && f->state != THREAD_STATE::RUNNING;
+                         }),
+        fEvalQueue.end());
 }
 //=============================================================================
 void
@@ -157,6 +149,7 @@ FevalQueueObject::reset()
         k->cancel();
     }
     refreshQueue();
+    fEvalQueue.clear();
 }
 //=============================================================================
 void
