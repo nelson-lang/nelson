@@ -142,7 +142,9 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (funcDef) {
             return funcDef->evaluateFunction(eval, inputs, nargout);
         }
-        std::string msg = _("Undefined variable or function:") + functionHandleContent;
+        std::string msg = functionHandleContent.empty()
+            ? _("Undefined function.")
+            : _("Undefined variable or function:") + functionHandleContent;
         std::string id = "Nelson:UndefinedFunction";
         Error(msg, id);
     }

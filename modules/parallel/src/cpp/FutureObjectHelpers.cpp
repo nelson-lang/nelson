@@ -66,7 +66,7 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
     size_t nbElements = args1.size();
     ArrayOfVector result;
     result.resize(nbElements);
-    Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);
+    auto localEvaluator = ParallelEvaluator::create(nullptr, SIZE_MAX);
     for (size_t k = 0; k < nbElements; ++k) {
         ArrayOfVector args;
         args << args1[k];
@@ -76,14 +76,14 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
         } catch (Exception& ex) {
             e = ex;
             if (localEvaluator) {
-                deleteParallelEvaluator(localEvaluator, false);
+                ParallelEvaluator::destroy(localEvaluator, false);
                 localEvaluator = nullptr;
             }
             return result;
         }
     }
     if (localEvaluator) {
-        deleteParallelEvaluator(localEvaluator, false);
+        ParallelEvaluator::destroy(localEvaluator, false);
         localEvaluator = nullptr;
     }
     return result;

@@ -11,6 +11,7 @@
 //=============================================================================
 #include <vector>
 #include <atomic>
+#include <shared_mutex>
 #include "nlsParallel_exports.h"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
@@ -35,8 +36,11 @@ public:
     FutureObject(const std::wstring& functionName);
     ~FutureObject();
 
+    std::shared_mutex stateMutex;
+    friend class FutureStateGuard;
+
     bool
-    isMethod(const std::wstring& methodName);
+    isMethod(const std::wstring& methodName) const;
 
     void
     display(Interface* io);
@@ -47,22 +51,22 @@ public:
     displayOnOneLineEmpty(Interface* io, size_t index);
 
     size_t
-    getID();
+    getID() const;
 
     std::wstring
-    getStateAsString();
+    getStateAsString() const;
 
     uint64
-    getEpochCreateDateTime();
+    getEpochCreateDateTime() const;
 
     uint64
-    getEpochStartDateTime();
+    getEpochStartDateTime() const;
 
     uint64
-    getEpochEndDateTime();
+    getEpochEndDateTime() const;
 
     uint64
-    getRunningDuration();
+    getRunningDuration() const;
 
     std::atomic<THREAD_STATE> state;
     std::atomic<uint64> creationDateTime;
@@ -77,7 +81,7 @@ public:
     get(const std::wstring& propertyName, ArrayOf& result);
 
     std::wstring
-    getDiary();
+    getDiary() const;
 
     bool
     cancel();

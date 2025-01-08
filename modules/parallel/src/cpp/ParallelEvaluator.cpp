@@ -9,44 +9,54 @@
 //=============================================================================
 #include "ParallelEvaluator.hpp"
 #include "Error.hpp"
-#include "EvaluateInterface.hpp"
+#include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Evaluator*
-createParallelEvaluator(EvaluateInterface* evaluatorInterface, size_t ID)
+std::mutex ParallelEvaluator::evaluatorMutex;
+//=============================================================================
+std::shared_ptr<Evaluator>
+ParallelEvaluator::create(EvaluateInterface* evaluatorInterface, size_t ID)
 {
-    Context* context = nullptr;
-    Evaluator* evaluator = nullptr;
+    std::lock_guard<std::mutex> lock(evaluatorMutex);
     try {
-        context = new Context();
-        evaluator = new Evaluator(context, evaluatorInterface, false, ID);
+        auto context = std::make_shared<Context>();
+        return std::shared_ptr<Evaluator>(
+            new Evaluator(context.get(), evaluatorInterface, false, ID), [context](Evaluator* e) {
+                if (e) {
+                    e->setState(NLS_STATE_QUIT);
+                    e->resetState();
+                    delete e;
+                }
+            });
     } catch (const std::bad_alloc&) {
-        if (context) {
-            delete context;
-        }
-        if (evaluator) {
-            delete evaluator;
-        }
         Error(ERROR_MEMORY_ALLOCATION);
+        return nullptr;
+    } catch (const std::exception& e) {
+        Error(_("Failed to create evaluator: ") + e.what());
+        return nullptr;
     }
-    return evaluator;
 }
 //=============================================================================
-Evaluator*
-deleteParallelEvaluator(Evaluator* evaluator, bool evaluatorWasCanceled)
+void
+ParallelEvaluator::destroy(std::shared_ptr<Evaluator>& evaluator, bool evaluatorWasCanceled)
 {
-    if (evaluator) {
+    if (!evaluator) {
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(evaluatorMutex);
+
+    try {
         evaluator->setState(NLS_STATE_QUIT);
         evaluator->resetState();
 
         if (!evaluatorWasCanceled) {
-            delete evaluator;
-            evaluator = nullptr;
+            evaluator.reset();
         }
+    } catch (const std::exception&) {
     }
-    return evaluator;
 }
 //=============================================================================
 }

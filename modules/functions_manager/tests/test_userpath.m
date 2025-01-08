@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--SEQUENTIAL TEST REQUIRED-->
+%=============================================================================
 userpath('reset');
 up1 = userpath();
 userpath(tempdir);

@@ -22,13 +22,14 @@
 #include "FutureObjectHelpers.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "WaitFutures.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static size_t counterIDs = 0;
 //=============================================================================
 bool
-FutureObject::isMethod(const std::wstring& methodName)
+FutureObject::isMethod(const std::wstring& methodName) const
 {
     for (const auto& name : propertiesNames) {
         if (name == methodName) {
@@ -138,31 +139,31 @@ FutureObject::~FutureObject()
 }
 //=============================================================================
 size_t
-FutureObject::getID()
+FutureObject::getID() const
 {
     return this->ID;
 }
 //=============================================================================
 uint64
-FutureObject::getEpochCreateDateTime()
+FutureObject::getEpochCreateDateTime() const
 {
     return creationDateTime;
 }
 //=============================================================================
 uint64
-FutureObject::getEpochStartDateTime()
+FutureObject::getEpochStartDateTime() const
 {
     return startDateTime;
 }
 //=============================================================================
 uint64
-FutureObject::getEpochEndDateTime()
+FutureObject::getEpochEndDateTime() const
 {
     return endDateTime;
 }
 //=============================================================================
 uint64
-FutureObject::getRunningDuration()
+FutureObject::getRunningDuration() const
 {
     switch (this->state) {
     case THREAD_STATE::UNAVAILABLE:
@@ -188,7 +189,7 @@ FutureObject::getRunningDuration()
 }
 //=============================================================================
 std::wstring
-FutureObject::getStateAsString()
+FutureObject::getStateAsString() const
 {
     std::wstring result;
     switch (this->state) {
@@ -212,7 +213,7 @@ FutureObject::getStateAsString()
 }
 //=============================================================================
 std::wstring
-FutureObject::getDiary()
+FutureObject::getDiary() const
 {
     if (evaluateInterface) {
         return evaluateInterface->getOutputBuffer();
@@ -284,6 +285,7 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 bool
 FutureObject::cancel()
 {
+    FutureStateGuard guard(stateMutex);
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
     this->endDateTime = getEpoch();
     this->state = THREAD_STATE::FINISHED;
@@ -296,6 +298,7 @@ void
 FutureObject::evaluateFunction(
     FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
+    FutureStateGuard guard(stateMutex);
     _result = ArrayOfVector();
     this->_nLhs = nLhs;
     if (this->state == THREAD_STATE::FINISHED
@@ -314,7 +317,7 @@ FutureObject::evaluateFunction(
     }
     state = THREAD_STATE::RUNNING;
 
-    Evaluator* evaluator = createParallelEvaluator(evaluateInterface, ID);
+    auto evaluator = ParallelEvaluator::create(evaluateInterface, ID);
     if (evaluator == nullptr) {
         if (changeState) {
             state = THREAD_STATE::FINISHED;
@@ -325,7 +328,7 @@ FutureObject::evaluateFunction(
     }
 
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
-        deleteParallelEvaluator(evaluator, true);
+        ParallelEvaluator::destroy(evaluator, true);
         _exception = Exception("Interrupted");
         state = THREAD_STATE::FINISHED;
         endDateTime = (uint64)getEpoch();
@@ -334,7 +337,7 @@ FutureObject::evaluateFunction(
     startDateTime = getEpoch();
     endDateTime = (uint64)0;
     try {
-        _result = fptr->evaluateFunction(evaluator, argIn, nLhs);
+        _result = fptr->evaluateFunction(evaluator.get(), argIn, nLhs);
     } catch (Exception& e) {
         _exception = e;
     }
@@ -346,7 +349,7 @@ FutureObject::evaluateFunction(
         _exception = Exception(_W("Execution of the future was cancelled."),
             L"parallel:fevalqueue:ExecutionCancelled");
     }
-    evaluator = deleteParallelEvaluator(evaluator, false);
+    ParallelEvaluator::destroy(evaluator, false);
     endDateTime = (uint64)getEpoch();
 }
 //=============================================================================

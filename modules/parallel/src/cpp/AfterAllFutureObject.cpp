@@ -13,6 +13,7 @@
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
 #include "ParallelEvaluator.hpp"
+#include "WaitFutures.hpp"
 //=============================================================================
 AfterAllFutureObject::AfterAllFutureObject(
     const std::wstring& functionName, const std::vector<FutureObject*>& predecessors)
@@ -28,6 +29,7 @@ static bool
 allFinish(const std::vector<FutureObject*>& objs)
 {
     for (auto obj : objs) {
+        FutureStateGuard guard(obj->stateMutex);
         if (obj->state != THREAD_STATE::FINISHED) {
             return false;
         }
@@ -49,17 +51,17 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
         argsToConcate << fevalFuture->getResult(false)[0];
     }
     ArrayOf concated = {};
-    Evaluator* localEvaluator = createParallelEvaluator(nullptr, SIZE_MAX);
+    auto localEvaluator = ParallelEvaluator::create(nullptr, SIZE_MAX);
     try {
         if (localEvaluator) {
             concated = localEvaluator->vertcatOperator(argsToConcate);
-            localEvaluator = deleteParallelEvaluator(localEvaluator, false);
+            ParallelEvaluator::destroy(localEvaluator, false);
         }
     } catch (Exception& e) {
         this->setException(e);
         this->state = THREAD_STATE::FINISHED;
         if (localEvaluator) {
-            localEvaluator = deleteParallelEvaluator(localEvaluator, false);
+            ParallelEvaluator::destroy(localEvaluator, false);
         }
         return;
     }

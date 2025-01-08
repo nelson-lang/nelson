@@ -19,16 +19,25 @@ namespace Nelson {
 static bool
 allAreFinished(const std::vector<FutureObject*>& futures)
 {
-    return std::all_of(futures.begin(), futures.end(),
-        [](FutureObject* f) { return (f->state == THREAD_STATE::FINISHED); });
+    for (const auto& f : futures) {
+        FutureStateGuard guard(f->stateMutex);
+        if (f->state != THREAD_STATE::FINISHED) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 static bool
 allAreRunningOrFinished(const std::vector<FutureObject*>& futures)
 {
-    return std::all_of(futures.begin(), futures.end(), [](FutureObject* f) {
-        return (f->state == THREAD_STATE::RUNNING) || (f->state == THREAD_STATE::FINISHED);
-    });
+    for (const auto& f : futures) {
+        FutureStateGuard guard(f->stateMutex);
+        if (f->state != THREAD_STATE::RUNNING && f->state != THREAD_STATE::FINISHED) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 bool
@@ -39,23 +48,22 @@ WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_S
         return true;
     }
 
-    int64_t timeout_ns = std::isinf(timeoutSeconds) ? std::numeric_limits<int64_t>::max()
-                                                    : int64_t(timeoutSeconds * 1e9);
+    const auto timeout_ns = std::isinf(timeoutSeconds) ? std::numeric_limits<int64_t>::max()
+                                                       : static_cast<int64_t>(timeoutSeconds * 1e9);
 
-    auto begin_time = std::chrono::high_resolution_clock::now();
+    const auto begin_time = std::chrono::steady_clock::now();
 
     while (true) {
-        if (expectedState == THREAD_STATE::FINISHED) {
-            if (allAreFinished(futures)) {
-                return true;
-            }
-        } else {
-            if (allAreRunningOrFinished(futures)) {
-                return true;
-            }
+        bool conditionMet = (expectedState == THREAD_STATE::FINISHED)
+            ? allAreFinished(futures)
+            : allAreRunningOrFinished(futures);
+
+        if (conditionMet) {
+            return true;
         }
-        auto current_time = std::chrono::high_resolution_clock::now();
-        auto difftime_ns
+
+        const auto current_time = std::chrono::steady_clock::now();
+        const auto difftime_ns
             = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time - begin_time)
                   .count();
 
@@ -74,8 +82,6 @@ WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_S
             ProcessEventsDynamicFunctionWithoutWait();
         }
     }
-
-    return false;
 }
 //=============================================================================
 }
