@@ -55,6 +55,10 @@
       <param_description>Return Nelson version.</param_description>
     </param_input_item>
 
+    <param_input_item>
+      <param_name>--vscode</param_name>
+      <param_description>enable Visual Studio Code mode.</param_description>
+    </param_input_item>
 
     <param_input_item>
       <param_name>--open</param_name>
@@ -190,6 +194,10 @@
       <history_version>1.11.0</history_version>
       <history_description
       >About NELSON_RUNTIME_PATH environment variable added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>--vsocde argument</history_description>
     </history_item>
 
   </history>

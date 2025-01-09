@@ -10,3 +10,7 @@
 addgateway(modulepath('text_editor', 'builtin'), 'text_editor');
 addpath(modulepath('text_editor', 'functions'), '-frozen');
 %=============================================================================
+if any(strcmp(argv(),'--vscode'))
+  editor('vscode_command', 'code');
+end
+%=============================================================================

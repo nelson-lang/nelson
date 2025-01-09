@@ -65,6 +65,10 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
         } else if (option == L"editor_command") {
             std::wstring commandLine = argIn[1].getContentAsWideString();
             NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, true);
+        } else if (option == L"vscode_command") {
+            std::wstring commandLine = argIn[1].getContentAsWideString();
+            NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, false);
+            NelsonConfiguration::getInstance()->setVsCodeMode(true);
         } else {
             Error(_W("Wrong value for #1 argument."));
         }

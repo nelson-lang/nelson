@@ -511,10 +511,11 @@ loadEditorUsed()
 bool
 NelsonConfiguration::useEmbeddedEditor()
 {
-    if (!embeddedEditorFlagLoaded) {
+    if (!isVsCode && !embeddedEditorFlagLoaded) {
         loadEditorUsed();
         embeddedEditorFlagLoaded = true;
     }
+
     return useEmbeddedEditorFlag;
 }
 //=============================================================================
@@ -544,6 +545,18 @@ saveEditorCommandLine(const std::wstring& editorCommandLine)
 }
 //=============================================================================
 void
+NelsonConfiguration::setVsCodeMode(bool modeOn)
+{
+    isVsCode = modeOn;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isVsCodeMode()
+{
+    return isVsCode;
+}
+//=============================================================================
+void
 NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bool save)
 {
     if (_editorCommandLine.empty()) {
@@ -561,10 +574,6 @@ NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bo
 std::wstring
 NelsonConfiguration::getCurrentEditor()
 {
-    if (!embeddedEditorFlagLoaded) {
-        loadEditorUsed();
-        embeddedEditorFlagLoaded = true;
-    }
     return editorCommandLine;
 }
 //=============================================================================
