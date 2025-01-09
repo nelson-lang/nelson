@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#1321](http://github.com/nelson-lang/nelson/issues/1321) `mustBeSparse` validator function.
 - [#1322](http://github.com/nelson-lang/nelson/issues/1322) `cmdsep`: Command separator for current operating system.
 - `urlencode`: Replace special characters in URLs with escape characters.
 - `docroot`: Utility to retrieve or define the root directory of Nelson Help.

@@ -261,6 +261,19 @@ mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller)
 }
 //=============================================================================
 void
+mustBeSparse(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = evaluateFunction(argIn, 1, "issparse");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be a sparse matrix.");
+        std::wstring id = L"Nelson:validators:mustBeSparse";
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     ArrayOfVector argIn(arg);

@@ -48,6 +48,7 @@
 #include "mustBeMatrixBuiltin.hpp"
 #include "mustBeRowBuiltin.hpp"
 #include "mustBeColumnBuiltin.hpp"
+#include "mustBeSparseBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -97,7 +98,7 @@ static const nlsGateway gateway[] = {
     { "mustBeMatrix", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeMatrixBuiltin, 0, -1 },
     { "mustBeRow", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeRowBuiltin, 0, -1 },
     { "mustBeColumn", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeColumnBuiltin, 0, -1 },
-
+    { "mustBeSparse", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeSparseBuiltin, 0, -1 },
 };
 //=============================================================================
 static bool
