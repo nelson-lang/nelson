@@ -123,5 +123,8 @@ mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeSparse(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================
