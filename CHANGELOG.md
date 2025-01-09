@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ismodule`: second input argument `isprotected` added.
 - `editor('editor_command', cmd)` allows to change text editor in Nelson (for example: VS Code).
 - `NELSON_RUNTIME_PATH` environment variable added by installer on Windows.
+- `--vscode` command line argument added.
 - NixOS 24.11 packaging (see [BUILDING_Linux.md](https://github.com/nelson-lang/nelson/blob/master/BUILDING_Linux.md)).
 
 ### Changed
