@@ -184,6 +184,17 @@ if(NOT WITHOUT_PYTHON_ENGINE_MODULE)
   endif()
 endif()
 # ==============================================================================
+if(NOT WITHOUT_JULIA_ENGINE_MODULE)
+  find_package(Julia 1.7.0)
+  if (NOT Julia_FOUND)
+    set(WITHOUT_JULIA_ENGINE_MODULE ON)
+    message(STATUS "Julia not found.")
+  else()
+    message(STATUS "Found Julia include dirs: ${JULIA_INCLUDE_DIR}")
+    message(STATUS "Found Julia library dir: ${JULIA_LIBRARY}")
+  endif()
+endif()
+# ==============================================================================
 include(OptionsConfig)
 # ==============================================================================
 include(C17Config)
