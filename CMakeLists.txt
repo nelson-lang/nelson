@@ -253,7 +253,7 @@ list(
   iostreams)
 find_package(
   Boost 1.64.0
-  COMPONENTS ${boost_components}
+  CONFIG COMPONENTS ${boost_components}
   REQUIRED)
 # ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
