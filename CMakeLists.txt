@@ -18,7 +18,7 @@ message(
     "CMake version ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}"
 )
 # ==============================================================================
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 # ==============================================================================
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 # ==============================================================================
@@ -184,6 +184,17 @@ if(NOT WITHOUT_PYTHON_ENGINE_MODULE)
   endif()
 endif()
 # ==============================================================================
+if(NOT WITHOUT_JULIA_ENGINE_MODULE)
+  find_package(Julia 1.7.0)
+  if (NOT Julia_FOUND)
+    set(WITHOUT_JULIA_ENGINE_MODULE ON)
+    message(STATUS "Julia not found.")
+  else()
+    message(STATUS "Found Julia include dirs: ${JULIA_INCLUDE_DIR}")
+    message(STATUS "Found Julia library dir: ${JULIA_LIBRARY}")
+  endif()
+endif()
+# ==============================================================================
 include(OptionsConfig)
 # ==============================================================================
 include(C17Config)
@@ -242,7 +253,7 @@ list(
   iostreams)
 find_package(
   Boost 1.64.0
-  COMPONENTS ${boost_components}
+  CONFIG COMPONENTS ${boost_components}
   REQUIRED)
 # ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
