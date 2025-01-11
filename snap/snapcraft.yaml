@@ -9,7 +9,7 @@
 # ==============================================================================
 name: nelson
 base: core24
-icon: snap/gui/logo.png
+icon: $SNAP/gui/logo.png
 summary: Let's Nelson! matrix language for engineering and scientific applications.
 description: |
   Nelson is an- matrix/array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
@@ -61,7 +61,7 @@ parts:
     override-build: |
       craftctl default
 
-      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE -DWITHOUT_AUDIO_MODULE=TRUE . 
       cmake --build . -- -j $(nproc)
       export XDG_RUNTIME_DIR=/tmp
       cmake --build . -- -j $(nproc) buildhelp
@@ -69,7 +69,7 @@ parts:
 
       # Include the icon's path in the desktop file, not just the name.
       # This needs to happen post-build or the build versioning will show as "modified locally"
-      sed -i 's|Icon=nelson|Icon=$CRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/nelson\.png|' desktop/org.nelson.Nelson.desktop
+      sed -i 's|Icon=nelson|Icon=usr/share/icons/hicolor/128x128/apps/nelson\.png|' desktop/org.nelson.Nelson.desktop
 
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
       NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
