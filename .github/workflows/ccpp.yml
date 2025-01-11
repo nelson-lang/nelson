@@ -588,9 +588,7 @@ jobs:
           pacman -S libxml2 --noconfirm
           pacman -S gcc --noconfirm
           pacman -S make --noconfirm
-          pacman -S blas --noconfirm
-          pacman -S lapack --noconfirm
-          pacman -S lapacke --noconfirm
+          pacman -S openblas --noconfirm
           pacman -S fftw --noconfirm
           pacman -S openmpi --noconfirm
           pacman -S hdf5 --noconfirm
