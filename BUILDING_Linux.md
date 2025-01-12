@@ -8,7 +8,7 @@ For the most up-to-date information on dependencies and build instructions, refe
 Nelson is available as an ArchLinux package. You can install it using `paru`:
 
 ```bash
-paru nelson
+paru nelson-git
 ```
 
 ## NixOS
