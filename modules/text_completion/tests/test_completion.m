@@ -19,3 +19,9 @@ p<TAB>
 a = dir
 a.<TAB>
 a.n<TAB>
+%=============================================================================
+% creates two files foo1.m and foo2.m
+%=============================================================================
+foo<TAB>   foo1 and foo2 are proposed and not foo1.m and foo2.m
+d:/foo<TAB> foo1.m and foo2.m are proposed and not foo1 and foo2
+

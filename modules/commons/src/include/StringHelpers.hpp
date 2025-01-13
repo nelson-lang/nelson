@@ -36,6 +36,9 @@ ends_with(const std::string& mainStr, const std::string& toMatch);
 NLSCOMMONS_IMPEXP bool
 iends_with(const std::wstring& mainStr, const std::wstring& toMatch);
 //=============================================================================
+NLSCOMMONS_IMPEXP bool
+iends_with(const std::string& mainStr, const std::string& toMatch);
+//=============================================================================
 NLSCOMMONS_IMPEXP void
 to_upper(std::wstring& str);
 //=============================================================================
