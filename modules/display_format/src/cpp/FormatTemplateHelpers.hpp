@@ -38,9 +38,13 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max, bool& isFini
         isFinite = false;
         return false;
     }
+#if WITH_OPENMP
 #pragma omp parallel
+#endif
     {
+#if WITH_OPENMP
 #pragma omp for nowait
+#endif
         for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
             if (std::isfinite(val[idx])) {
                 maxValue = std::max(val[idx], maxValue);
@@ -49,7 +53,9 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max, bool& isFini
                 isFinite = false;
             }
         }
+#if WITH_OPENMP
 #pragma omp critical
+#endif
         {
             shared_max = std::max(shared_max, maxValue);
             shared_min = std::min(shared_min, minValue);

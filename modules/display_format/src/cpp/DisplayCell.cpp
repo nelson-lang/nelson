@@ -80,18 +80,20 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
     wstringVector cellSummarize(nbElements, std::wstring(L""));
     sizeType termWidth = io->getTerminalWidth();
 
-    indexType v = 0;
     bool isColumnsVector = A.isColumnVector();
 #if WITH_OPENMP
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
-        if (v >= columns) {
-            v = 0;
-        }
+        indexType v = (k / rows) % columns;
         cellSummarize[k]
             = getAsFormattedString(elements, k, currentNumericFormat, termWidth, isColumnsVector);
-        vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
+#if WITH_OPENMP
+#pragma omp critical
+#endif
+        {
+            vSize[v] = std::max(vSize[v], cellSummarize[k].length());
+        }
     }
 
     indexType colsPerPage = getColsPerPage(vSize, termWidth);
