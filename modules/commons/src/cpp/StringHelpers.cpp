@@ -64,6 +64,14 @@ iends_with(const std::wstring& mainStr, const std::wstring& toMatch)
 }
 //=============================================================================
 bool
+iends_with(const std::string& mainStr, const std::string& toMatch)
+{
+    std::string MAINSTR = StringHelpers::to_upper_copy(mainStr);
+    std::string TOMATCH = StringHelpers::to_upper_copy(toMatch);
+    return ends_with<std::string>(MAINSTR, TOMATCH);
+}
+//=============================================================================
+bool
 ends_with(const std::wstring& mainStr, const std::wstring& toMatch)
 {
     return ends_with<std::wstring>(mainStr, toMatch);

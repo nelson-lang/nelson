@@ -82,7 +82,7 @@ public:
     std::wstring
     getPathNameAsString();
     wstringVector
-    getMacrosList(const std::wstring& prefix = L"");
+    getMacrosList();
 
     bool
     setCurrentUserPath(const std::wstring& path);

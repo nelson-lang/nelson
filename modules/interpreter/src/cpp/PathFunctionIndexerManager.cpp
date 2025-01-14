@@ -146,7 +146,7 @@ PathFunctionIndexerManager::clear()
 }
 //=============================================================================
 wstringVector
-PathFunctionIndexerManager::getMacrosList(const std::wstring& prefix)
+PathFunctionIndexerManager::getMacrosList()
 {
     wstringVector macros;
     if (_userPath != nullptr) {
