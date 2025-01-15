@@ -38,15 +38,20 @@ getMinMax(T* val, indexType nbElements, T* min, T* max)
     T maxValue = val[0];
     T shared_max = maxValue;
     T shared_min = minValue;
-
+#if WITH_OPENMP
 #pragma omp parallel
+#endif
     {
+#if WITH_OPENMP
 #pragma omp for nowait
+#endif
         for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
             maxValue = std::max(val[idx], maxValue);
             minValue = std::max(val[idx], minValue);
         }
+#if WITH_OPENMP
 #pragma omp critical
+#endif
         {
             shared_max = std::max(shared_max, maxValue);
             shared_min = std::max(shared_min, minValue);
@@ -62,13 +67,19 @@ getMax(T* val, indexType nbElements)
 {
     T maxValue = val[0];
     T shared_max = maxValue;
+#if WITH_OPENMP
 #pragma omp parallel
+#endif
     {
+#if WITH_OPENMP
 #pragma omp for nowait
+#endif
         for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
             maxValue = std::max(val[idx], maxValue);
         }
+#if WITH_OPENMP
 #pragma omp critical
+#endif
         {
             shared_max = std::max(shared_max, maxValue);
         }
@@ -82,13 +93,19 @@ getMin(T* val, indexType nbElements)
 {
     T minValue = val[0];
     T shared_min = minValue;
+#if WITH_OPENMP
 #pragma omp parallel
+#endif
     {
+#if WITH_OPENMP
 #pragma omp for nowait
+#endif
         for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
             minValue = std::min(val[idx], minValue);
         }
+#if WITH_OPENMP
 #pragma omp critical
+#endif
         {
             shared_min = std::max(shared_min, minValue);
         }
