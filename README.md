@@ -145,18 +145,19 @@ Nelson is delivered under dual-license:
 
 Nelson is tested and supported on a wide range of platforms. **[Downloads](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are listed below:
 
-| **Operating System** | **Architecture** | **CI** | **Binaries** |
-| :------------------: | :--------------: | :----: | :----------: |
-|  **Windows 10, 11**  |   x86-64, i686   |   ✓    |      ✓       |
-|  **macOS Sequoia**   |      ARM64       |   ✓    |              |
-|   **macOS Sonoma**   |      ARM64       |   ✓    |              |
-|  **macOS Ventura**   | x86-64 (64-bit)  |   ✓    |              |
-|   **Ubuntu 24.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 22.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 20.04**   |      x86-64      |   ✓    |   ✓ (Snap)   |
-|    **Fedora 40**     |      x86-64      |   ✓    |   ✓ (Snap)   |
-|    **ArchLinux**     |      x86-64      |   ✓    |   ✓ (Snap)   |
-|     **Raspbian**     | ARM v8 (64-bit)  |        |              |
+| **Operating System** |  **Architecture**  | **CI** | **Binaries** |
+| :------------------: | :----------------: | :----: | :----------: |
+|  **Windows 10, 11**  |    x86-64, i686    |   ✓    |      ✓       |
+|  **macOS Sequoia**   |       arm64        |   ✓    |              |
+|   **macOS Sonoma**   |       arm64        |   ✓    |              |
+|  **macOS Ventura**   |  x86-64 (64-bit)   |   ✓    |              |
+|   **Ubuntu 24.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
+|   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (.deb)   |
+|   **Ubuntu 22.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
+|   **Ubuntu 20.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
+|    **Fedora 40**     |       x86-64       |   ✓    |   ✓ (Snap)   |
+|    **ArchLinux**     |       x86-64       |   ✓    |   ✓ (Snap)   |
+|     **Raspbian**     |  ARM v8 (64-bit)   |        |              |
 
 _Note: The continued support of some platforms may depend on community contributions._
 

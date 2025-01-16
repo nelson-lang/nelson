@@ -532,8 +532,11 @@ function test_case = create_test_case(filename, classname)
         cmd = [cmd, ' ', '--withoutfilewatcher'];
       end
       
-      redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-      
+      if ispc()
+        redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
+      else
+        redirect_to_file = [' 2>&1 ''' , redirect_err, ''''];
+      end
       without_audio = ~(test_case.options.audio_input_required || test_case.options.audio_output_required) && ~endsWith(test_case.classname, '.audio');
       if without_audio
         cmd = [cmd, ' ', '--noaudio'];

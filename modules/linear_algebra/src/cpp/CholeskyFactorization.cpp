@@ -78,14 +78,14 @@ doubleRealCholeskyFactorization(bool lowerTriangle, double* ptrD, int leadDim)
         return info;
     }
     if (leadDim > 1) {
-        int idx1 = 0;
-        int idx2 = 0;
 #if WITH_OPENMP
-#pragma omp parallel for private(idx2)
+#pragma omp parallel for
 #endif
-        for (idx1 = 0; idx1 < leadDim; idx1++) {
-            for (idx2 = idx1 + 1; idx2 < leadDim; idx2++) {
-                ptrD[idx2 + idx1 * leadDim] = 0;
+        for (int idx = 0; idx < leadDim * leadDim; idx++) {
+            int row = idx % leadDim;
+            int col = idx / leadDim;
+            if ((lowerTriangle && col > row) || (!lowerTriangle && row > col)) {
+                ptrD[idx] = 0;
             }
         }
     }
@@ -102,15 +102,17 @@ doubleComplexCholeskyFactorization(bool lowerTriangle, std::complex<double>* ptr
         return info;
     }
     if (leadDim > 1) {
-        int idx1 = 0;
-        int idx2 = 0;
-#if WITH_OPENMP
-#pragma omp parallel for private(idx2)
+        const std::complex<double> zero(0.0, 0.0);
+        const int totalElements = (leadDim * (leadDim - 1)) / 2;
+
+#ifdef WITH_OPENMP
+#pragma omp parallel for schedule(static)
 #endif
-        for (idx1 = 0; idx1 < leadDim; idx1++) {
-            for (idx2 = idx1 + 1; idx2 < leadDim; idx2++) {
-                ptrZ[idx2 + idx1 * leadDim].real(0);
-                ptrZ[idx2 + idx1 * leadDim].imag(0);
+        for (int k = 0; k < totalElements; ++k) {
+            int i = k / leadDim;
+            int j = k % leadDim + i + 1;
+            if (j < leadDim) {
+                ptrZ[i + j * leadDim] = zero;
             }
         }
     }
@@ -148,6 +150,9 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
             single* ptr = (single*)R.getReadWriteDataPointer();
             std::complex<single>* ptrZ = reinterpret_cast<std::complex<single>*>(ptr);
             info = singleComplexCholeskyFactorization(lowerTriangle, ptrZ, (int)dimsA.getColumns());
+        }
+        if (R.allReal()) {
+            R.promoteType(A.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
         }
     } else {
         if (A.isDoubleClass()) {
