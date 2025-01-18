@@ -12,6 +12,10 @@
 % <-- Short Description -->
 % Unsupported colon operator with char operands
 %=============================================================================
+R = 'A':1:'Z';
+REF = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+assert_isequal(R, REF);
+%=============================================================================
 R = 'Z':-1:'A';
 REF = 'ZYXWVUTSRQPONMLKJIHGFEDCBA';
 assert_isequal(R, REF);

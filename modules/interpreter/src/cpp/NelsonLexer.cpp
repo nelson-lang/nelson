@@ -110,7 +110,7 @@ LexerException(const std::string& msg)
             sprintf(buffer, "%s", _("Lexical error").c_str());
         }
     }
-    Error(buffer);
+    Error(buffer, "Nelson:Lexer");
 }
 //=============================================================================
 inline void

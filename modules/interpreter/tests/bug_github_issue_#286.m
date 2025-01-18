@@ -17,11 +17,5 @@ assert_checkerror('[1, end] = sin(3)', _('Syntax error.'));
 msg = sprintf(_('Expecting %s'), _('statement list or function definition'));
 assert_checkerror('end = sin(3)', msg);
 %=============================================================================
-try
-  eval('– = 3');
-  report = '';
-catch
-  report = getLastReport();
-end
-assert_istrue(contains(report, _('Lexical error')));
+assert_isequal(parsestring('– = 3'), 'error');
 %=============================================================================

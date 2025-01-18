@@ -63,26 +63,60 @@ char_colon(charType low, charType high, int64 step)
         res.promoteType(NLS_CHAR);
         return res;
     }
-    if ((low < high) && (step < 0)) {
+
+    if ((low < high && step < 0) || (low > high && step > 0)) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
-    if ((low > high) && (step > 0)) {
+
+    int64 range = static_cast<int64>(high) - static_cast<int64>(low);
+    int64 elementCount = (range / step) + 1;
+
+    if (elementCount <= 0) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
-    auto dn = static_cast<double>((((high - low) / step) + 1));
-    auto n = static_cast<indexType>(std::trunc(dn));
-    charType* pV = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false);
-#if WITH_OPENMP
-#pragma omp parallel for
+
+    auto n = static_cast<indexType>(elementCount);
+
+    charType* pV = nullptr;
+    try {
+        pV = static_cast<charType*>(ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false));
+        if (!pV) {
+            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            res.promoteType(NLS_CHAR);
+            return res;
+        }
+    } catch (const std::exception&) {
+        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        res.promoteType(NLS_CHAR);
+        return res;
+    }
+
+#if defined(WITH_OPENMP)
+#pragma omp parallel for schedule(static) if (n > 1000)
 #endif
-    for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
-        pV[k] = (charType)(low + (k * step));
+    for (ompIndexType k = 0; k < static_cast<ompIndexType>(n); k++) {
+        int64 offset = static_cast<int64>(k) * step;
+        int64 value = static_cast<int64>(low) + offset;
+
+        if (value >= std::numeric_limits<charType>::min()
+            && value <= std::numeric_limits<charType>::max()) {
+            pV[k] = static_cast<charType>(value);
+        } else {
+            pV[k] = 0;
+        }
     }
-    return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
+
+    try {
+        return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
+    } catch (const std::exception&) {
+        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        res.promoteType(NLS_CHAR);
+        return res;
+    }
 }
 //=============================================================================
 template <class T>
