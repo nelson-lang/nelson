@@ -10,9 +10,11 @@ Please feel free to file issues on this repository if you have questions, concer
 
 - Bug resolution and ongoing maintenance,
 - Native package development/support:
-  - ArchLinux (DONE v1.3.0)
+  - ArchLinux (DONE v1.3.0),
   - macOs,
   - Fedora,
+  - NixOS (DONE v1.11.0),
+  - Ubuntu 24.04 ARM64 (DONE v1.11.0),
   - etc ...
 - Integration of Windows ARM64 support,
 - Performance optimization for increased speed,
