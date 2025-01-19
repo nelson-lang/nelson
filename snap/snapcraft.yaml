@@ -22,6 +22,11 @@ compression: lzo
 
 platforms:
   amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
 
 plugs:
   gtk-3-themes:
@@ -47,16 +52,14 @@ environment:
   # XKB config
   XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
   XDG_RUNTIME_DIR: /tmp
-  LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio"
+  LD_LIBRARY_PATH: "$SNAP/usr/lib:$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/:$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/openblas-openmp:$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/pulseaudio"
   LANG: C.UTF-8
   LC_ALL: C.UTF-8
 
 parts:
   nelson:
     plugin: nil
-    source: https://github.com/nelson-lang/nelson
-    source-type: git
-    source-branch: master
+    source: .
 
     override-build: |
       craftctl default
@@ -82,8 +85,9 @@ parts:
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
     override-prime: |
+      SNAP_LAUNCHER_ARCH_TRIPLET=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
       craftctl default
-      rm -vf usr/lib/x86_64-linux-gnu/libc_malloc_debug.so
+      rm -vf usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/libc_malloc_debug.so
 
     build-packages:
       - build-essential
@@ -142,8 +146,6 @@ parts:
       - libtbb-dev
 
     stage-packages:
-
-
       - libc6
       - libstdc++6
       - build-essential
@@ -228,10 +230,11 @@ apps:
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
-      LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/oss4-libsalsa/:$SNAP/usr/lib/x86_64-linux-gnu/openblas-openmp:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:$SNAP/usr/lib/x86_64-linux-gnu/libproxy"
+      LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/oss4-libsalsa/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/openblas-openmp:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib"
+
       LOCPATH: "$SNAP/usr/lib/locale"
-      PATH: "$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/x86_64-linux-gnu/qt6/bin:$PATH"
-      QTDIR: "/usr/lib/x86_64-linux-gnu/qt6/"
+      PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/bin:$PATH"
+      QTDIR: "/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/"
       QTDIR_BINARIES: "$SNAP/usr/lib/qt6/bin/"
       __NELSON_PYTHON_VERSION__: "3.12"
       __NELSON_PYTHON_EXECUTABLE__: "/usr/bin/python3"
@@ -277,9 +280,8 @@ layout:
   /usr/bin/qhelpgenerator:
     bind-file: $SNAP/usr/lib/qt6/bin/qhelpgenerator
 
-
   /usr/lib/Nelson:
-    bind: $SNAP/usr/lib/x86_64-linux-gnu/Nelson
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/Nelson
 
   /usr/share/Nelson:
     bind: $SNAP/usr/share/Nelson
@@ -288,27 +290,25 @@ layout:
     symlink: $SNAP/usr/local/lib
 
   # Make staged qt plugins available in expected locations
-  /usr/lib/x86_64-linux-gnu/qt6:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/qt6
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6
 
   # Make staged dri and pulseaudio modules available in expected locations
-  /usr/lib/x86_64-linux-gnu/dri:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/dri
-  /usr/lib/x86_64-linux-gnu/pulseaudio:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio
 
   # Dynamic link (used for external modules and mex)
   /usr/include:
     bind: $SNAP/usr/include
-  /usr/lib/x86_64-linux-gnu/libc_nonshared.a:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/libc_nonshared.a
-  /usr/lib/x86_64-linux-gnu/libmvec_nonshared.a:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/libmvec_nonshared.a
-  /usr/lib/x86_64-linux-gnu/libpthread_nonshared.a:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/libpthread_nonshared.a
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libc_nonshared.a:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libc_nonshared.a
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmvec_nonshared.a:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmvec_nonshared.a
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpthread_nonshared.a:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpthread_nonshared.a
 
   #alsa
-  /usr/lib/x86_64-linux-gnu/alsa-lib:
-    symlink: $SNAP/usr/lib/x86_64-linux-gnu/alsa-lib
-  /usr/share/alsa:
-    symlink: $SNAP/usr/share/alsa
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib

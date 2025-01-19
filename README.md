@@ -152,7 +152,7 @@ Nelson is tested and supported on a wide range of platforms. **[Downloads](https
 |   **macOS Sonoma**   |       arm64        |   ✓    |              |
 |  **macOS Ventura**   |  x86-64 (64-bit)   |   ✓    |              |
 |   **Ubuntu 24.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (.deb)   |
+|   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 22.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 20.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
 |    **Fedora 40**     |       x86-64       |   ✓    |   ✓ (Snap)   |

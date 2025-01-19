@@ -1,0 +1,90 @@
+name: "Snapcraft CI"
+
+on: [push]
+
+jobs:
+  snapcraft_amd64:
+    name: Snapcraft x86_64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt upgrade;
+          sudo apt -y install build-essential;
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+          sudo apt -y install snap;
+      - name: Setup Snapcraft
+        run: |
+          sudo apt install -y snapd
+          sudo snap install core --channel=stable
+          sudo snap install snapcraft --classic
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+      - name: Update version and build
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+          NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
+          echo $NELSON_VERSION
+          sudo snapcraft --destructive-mode --verbose
+      - name: Copy artifacts
+        run: mkdir artifacts && mv ./*_amd64.snap artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-snapcraft-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+      - name: Install snap
+        run: |
+          NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
+          echo $NELSON_VERSION
+          sudo snap install ./artifacts/nelson_${NELSON_VERSION}_amd64.snap --dangerous
+      - name: Tests snap
+        run: nelson --cli -e "test_run('minimal_tests');exit"
+
+  snapcraft_arm64:
+    name: Snapcraft arm64
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt upgrade;
+          sudo apt -y install build-essential;
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+          sudo apt -y install snap;
+      - name: Setup Snapcraft
+        run: |
+          sudo apt install -y snapd
+          sudo snap install core --channel=stable
+          sudo snap install snapcraft --classic
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+      - name: Update version and build
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+          NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
+          echo $NELSON_VERSION
+          sudo snapcraft --destructive-mode --verbose
+      - name: Copy artifacts
+        run: mkdir artifacts && mv ./*_arm64.snap artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-snapcraft-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+      - name: Install snap
+        run: |
+          NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
+          echo $NELSON_VERSION
+          sudo snap install ./artifacts/nelson_${NELSON_VERSION}_arm64.snap --dangerous
+      - name: Tests snap
+        run: nelson --cli -e "test_run('minimal_tests');exit"

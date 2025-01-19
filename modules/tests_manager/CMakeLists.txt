@@ -88,6 +88,9 @@ install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
 install(
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/minimal_tests.m
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
+install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
