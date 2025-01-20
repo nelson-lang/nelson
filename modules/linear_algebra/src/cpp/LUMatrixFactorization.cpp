@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4101)
+#endif
+//=============================================================================
 #include "LUMatrixFactorization.hpp"
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"

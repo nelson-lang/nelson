@@ -1875,40 +1875,44 @@ GOAxis::updateUnits()
         unsigned width = fig->getWidth();
         unsigned height = fig->getHeight();
 
-        auto convertToPixels
-            = [&](const std::wstring& fromUnit, double x, double y) -> std::pair<double, double> {
+        auto convertToPixels = [&](const std::wstring& fromUnit, double x,
+                                   double y) -> const std::pair<double, double> {
             if (fromUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
-                return { x * width, y * height };
+                return std::pair<double, double> { x * width, y * height };
             } else if (fromUnit == GO_PROPERTY_VALUE_INCHES_STR) {
-                return { x * DEFAULT_DPI, y * DEFAULT_DPI };
+                return std::pair<double, double> { x * DEFAULT_DPI, y * DEFAULT_DPI };
             } else if (fromUnit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
-                return { x * DEFAULT_DPI / CM_PER_INCH, y * DEFAULT_DPI / CM_PER_INCH };
+                return std::pair<double, double> { x * DEFAULT_DPI / CM_PER_INCH,
+                    y * DEFAULT_DPI / CM_PER_INCH };
             } else if (fromUnit == GO_PROPERTY_VALUE_POINTS_STR) {
-                return { x * DEFAULT_DPI / POINTS_PER_INCH, y * DEFAULT_DPI / POINTS_PER_INCH };
+                return std::pair<double, double> { x * DEFAULT_DPI / POINTS_PER_INCH,
+                    y * DEFAULT_DPI / POINTS_PER_INCH };
             } else if (fromUnit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
-                return { x * CHAR_WIDTH_PIXELS, y * CHAR_HEIGHT_PIXELS };
+                return std::pair<double, double> { x * CHAR_WIDTH_PIXELS, y * CHAR_HEIGHT_PIXELS };
             } else if (fromUnit == GO_PROPERTY_VALUE_DATA_STR) {
-                return { x * DATA_UNIT_PIXELS, y * DATA_UNIT_PIXELS };
+                return std::pair<double, double> { x * DATA_UNIT_PIXELS, y * DATA_UNIT_PIXELS };
             }
-            return { x, y }; // For PIXELS or unknown units, return as-is
+            return std::pair<double, double> { x, y }; // For PIXELS or unknown units, return as-is
         };
 
         auto convertFromPixels
             = [&](const std::wstring& toUnit, double x, double y) -> std::pair<double, double> {
             if (toUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
-                return { x / width, y / height };
+                return std::pair<double, double> { x / width, y / height };
             } else if (toUnit == GO_PROPERTY_VALUE_INCHES_STR) {
-                return { x / DEFAULT_DPI, y / DEFAULT_DPI };
+                return std::pair<double, double> { x / DEFAULT_DPI, y / DEFAULT_DPI };
             } else if (toUnit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
-                return { x * CM_PER_INCH / DEFAULT_DPI, y * CM_PER_INCH / DEFAULT_DPI };
+                return std::pair<double, double> { x * CM_PER_INCH / DEFAULT_DPI,
+                    y * CM_PER_INCH / DEFAULT_DPI };
             } else if (toUnit == GO_PROPERTY_VALUE_POINTS_STR) {
-                return { x * POINTS_PER_INCH / DEFAULT_DPI, y * POINTS_PER_INCH / DEFAULT_DPI };
+                return std::pair<double, double> { x * POINTS_PER_INCH / DEFAULT_DPI,
+                    y * POINTS_PER_INCH / DEFAULT_DPI };
             } else if (toUnit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
-                return { x / CHAR_WIDTH_PIXELS, y / CHAR_HEIGHT_PIXELS };
+                return std::pair<double, double> { x / CHAR_WIDTH_PIXELS, y / CHAR_HEIGHT_PIXELS };
             } else if (toUnit == GO_PROPERTY_VALUE_DATA_STR) {
-                return { x / DATA_UNIT_PIXELS, y / DATA_UNIT_PIXELS };
+                return std::pair<double, double> { x / DATA_UNIT_PIXELS, y / DATA_UNIT_PIXELS };
             }
-            return { x, y }; // For PIXELS or unknown units, return as-is
+            return std::pair<double, double> { x, y }; // For PIXELS or unknown units, return as-is
         };
 
         auto convertPosition

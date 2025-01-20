@@ -1,3 +1,8 @@
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wformat"
+#endif
+
 #define	SEOS	1
 #define	SCOMMENT	2
 #define	SLABEL	3

@@ -20,6 +20,10 @@
 #include "AbstractSyntaxTree.hpp"
 #include "i18n.hpp"
 //=============================================================================
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wfree-nonheap-object"
+#endif
+//=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
 extern int yylex(void);

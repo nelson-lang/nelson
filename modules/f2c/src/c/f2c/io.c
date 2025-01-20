@@ -21,6 +21,10 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ >= 7)
+#pragma GCC diagnostic ignored "-Wformat-overflow"
+#endif
+
 /* Routines to generate code for I/O statements.
    Some corrections and improvements due to David Wasley, U. C. Berkeley
 */

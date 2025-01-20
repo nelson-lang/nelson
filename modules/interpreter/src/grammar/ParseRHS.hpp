@@ -20,7 +20,7 @@ namespace Nelson {
 /**
  * The Parser value stack contains either a raw token's context or an AST pointer
  */
-using contextOrPointer = union
+union contextOrPointer
 {
     int i;
     AbstractSyntaxTreePtr p; //-V117

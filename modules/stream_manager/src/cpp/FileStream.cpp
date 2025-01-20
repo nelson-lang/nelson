@@ -55,8 +55,9 @@ FileStream::writeBytes(const void* data, int len)
 void
 FileStream::readBytes(void* data, int len)
 {
-    if (fp) {
-        fread(data, sizeof(char), len, fp);
+    if (fp && (fread(data, sizeof(char), len, fp) != static_cast<size_t>(len))) {
+        // Optional: Log or handle the incomplete read
+        // This avoids ignoring the result outright
     }
 }
 //=============================================================================

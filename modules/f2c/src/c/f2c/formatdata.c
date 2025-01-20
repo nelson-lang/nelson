@@ -21,10 +21,18 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#include <inttypes.h>
 #include "defs.h"
 #include "output.h"
 #include "names.h"
 #include "format.h"
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wtrigraphs"
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+#endif
+
 
 #define MAX_INIT_LINE 100
 #define NAME_MAX 64
@@ -1149,7 +1157,7 @@ wr_equiv_init(FILE *outfile, int memno, chainp *Values, int iscomm)
         if (L < 0)
         {
             overlapping();
-            if ((int)cp->nextp->datap != TYERROR)
+            if ((long)(intptr_t)cp->nextp->datap != TYERROR)
             {
                 v1 = cp;
                 frchain(&v1);

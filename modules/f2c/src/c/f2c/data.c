@@ -21,6 +21,12 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wformat"
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+#endif
+
 #include "defs.h"
 
 /* ROUTINES CALLED DURING DATA AND PARAMETER STATEMENT PROCESSING */

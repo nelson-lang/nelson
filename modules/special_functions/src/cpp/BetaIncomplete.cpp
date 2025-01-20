@@ -7,7 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpsabi"
+#endif
 #include <boost/math/special_functions/beta.hpp>
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>

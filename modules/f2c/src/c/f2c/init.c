@@ -21,6 +21,10 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wtrigraphs"
+#endif
+
 #include "defs.h"
 #include "output.h"
 #include "iob.h"
