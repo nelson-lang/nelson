@@ -8,6 +8,11 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ >= 7)
+#pragma GCC diagnostic ignored "-Wformat-overflow"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 #ifndef ASIO_DETAIL_SOCKET_OPS_IPP
 #define ASIO_DETAIL_SOCKET_OPS_IPP
 

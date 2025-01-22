@@ -16,6 +16,7 @@
 #include <jsmn.h>
 #include "StringHelpers.hpp"
 #include <vector>
+#include <cstdlib>
 #include "MakeValidFieldname.hpp"
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
@@ -49,9 +50,16 @@ decodeCharacters(const std::string& str)
             if (k + 1 < str.size()) {
                 if (str[k + 1] == 'u') {
                     std::string part = str.substr(k + 2, str.size() - (k + 2));
-                    char buffer[64];
-                    sscanf(part.c_str(), "%4hx", buffer);
+#define JSON_SSCANF_BUFF_SIZE 64
+                    char buffer[JSON_SSCANF_BUFF_SIZE];
+                    memset(buffer, 0, JSON_SSCANF_BUFF_SIZE * sizeof(char));
+                    unsigned short usbuffer[JSON_SSCANF_BUFF_SIZE];
+                    memset(usbuffer, 0, JSON_SSCANF_BUFF_SIZE * sizeof(unsigned short));
+                    sscanf(part.c_str(), "%4hx", usbuffer);
                     k += 5;
+                    for (size_t k = 0; k < 64; k++) {
+                        buffer[k] = (char)usbuffer[k];
+                    }
                     res = res + buffer;
                 } else {
                     switch (str[k + 1]) {

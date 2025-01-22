@@ -130,8 +130,9 @@ ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data)
             ParseUnsignedIntegerColorToRGB<uint32>(arg, nbElements, 4294967295.0, data);
         } break;
         case NLS_INT64: {
-            ParseSignedIntegerColorToRGB<int64>(
-                arg, nbElements, 9223372036854775808, 18446744073709551615.0, data);
+            ParseSignedIntegerColorToRGB<int64>(arg, nbElements,
+                static_cast<double>(std::numeric_limits<int64_t>::min()),
+                static_cast<double>(std::numeric_limits<uint64_t>::max()), data);
         } break;
         case NLS_UINT64: {
             ParseUnsignedIntegerColorToRGB<uint64>(arg, nbElements, 18446744073709551615.0, data);

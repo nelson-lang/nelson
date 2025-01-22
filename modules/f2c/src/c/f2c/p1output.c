@@ -25,6 +25,11 @@ use or performance of this software.
 #pragma warning(disable : 4477)
 #endif
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wformat"
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif
+
 #include "defs.h"
 #include "p1defs.h"
 #include "output.h"

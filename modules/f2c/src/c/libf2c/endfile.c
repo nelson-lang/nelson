@@ -1,6 +1,11 @@
 #include "nelson_f2c.h"
 #include "fio.h"
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+#endif
+
+
 /* Compile this with -DNO_TRUNCATE if unistd.h does not exist or */
 /* if it does not define int truncate(const char *name, off_t). */
 
@@ -95,9 +100,6 @@ alist* a;
     unit* b;
     int rc = 0;
     FILE* bf;
-#ifdef NO_TRUNCATE
-    FILE* tf;
-#endif
     b = &f__units[a->aunit];
     if (b->url) {
         return (0); /*don't truncate direct files*/

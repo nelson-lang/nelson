@@ -26,7 +26,7 @@ textToInt64Converter(const std::string& str)
 
     try {
         if (startPos == 1) {
-            if (v > (unsigned long long int)(-std::numeric_limits<int64>::min())) {
+            if (v > static_cast<unsigned long long int>(std::numeric_limits<int64>::max()) + 1ULL) {
                 result = std::numeric_limits<int64>::min();
             } else {
                 result = -static_cast<int64>(v);

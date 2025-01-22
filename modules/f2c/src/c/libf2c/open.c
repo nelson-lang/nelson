@@ -1,6 +1,9 @@
 #ifdef _MSC_VER
 #pragma warning(disable : 4996)
 #endif
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ >= 7)
+#pragma GCC diagnostic ignored "-Wformat-overflow"
+#endif
 
 #include "nelson_f2c.h"
 #include "fio.h"

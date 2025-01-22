@@ -190,7 +190,7 @@ IsIntegerFormOrNotFiniteOpenMP(const T* t, size_t nbElements)
     if (t != nullptr && nbElements > 0) {
         bool result = true;
 #pragma omp parallel for reduction(&& : result) schedule(static)
-        for (long long k = 0; k < nbElements; k++) {
+        for (long long k = 0; k < (long long)nbElements; k++) {
             if (!IsIntegerFormOrNotFinite(t[k])) {
                 result = false;
             }

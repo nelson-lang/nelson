@@ -100,6 +100,7 @@
 #include <thread>
 
 #ifdef _WIN32
+#define ssize_t ptrdiff_t
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -282,7 +283,7 @@ private:
         conversion_result result = conversion_result::succeeded;
         const UTF16* source = sourceStart;
         UTF32* target = targetStart;
-        UTF32 ch, ch2;
+        UTF32 ch = 0, ch2 = 0;
         while (source < sourceEnd) {
             const auto oldSource
                 = source; /*  In case we have to back up because of target overflow. */
@@ -382,7 +383,7 @@ private:
         const UTF16* source = sourceStart;
         UTF8* target = targetStart;
         while (source < sourceEnd) {
-            UTF32 ch;
+            UTF32 ch = 0;
             unsigned short bytesToWrite = 0;
             const UTF32 byteMask = 0xBF;
             const UTF32 byteMark = 0x80;
@@ -1941,7 +1942,7 @@ private:
         ::FillConsoleOutputCharacterA(
             screenHandle, ' ', inf.dwSize.X * inf.dwSize.Y, coord, &count);
 #else
-        ::write(STDOUT_FILENO, "\x1b[H\x1b[2J", 7);
+        ssize_t written = ::write(STDOUT_FILENO, "\x1b[H\x1b[2J", 7);
 #endif
     }
 
@@ -3053,11 +3054,12 @@ private:
                 return 0u;
             }
 #else
-            if constexpr (enhancedDisplay)
-                ::write(
+            if constexpr (enhancedDisplay) {
+                ssize_t written = ::write(
                     STDOUT_FILENO, "\x1b[1;34m", 7); /* bright blue (visible with both B&W bg) */
-            else
-                ::write(STDOUT_FILENO, "\x1b[0m", 4); /* reset */
+            } else {
+                ssize_t written = ::write(STDOUT_FILENO, "\x1b[0m", 4); /* reset */
+            }
             return 0u;
 #endif
         }
@@ -3424,7 +3426,7 @@ private:
                     }
                     break;
 
-                case ctrlChar('C'): // ctrl-C, abort this line
+                case ctrlChar('C'): { // ctrl-C, abort this line
                     killRing.lastAction = KillRing::action::other;
                     history.recallMostRecent = false;
                     errno = EAGAIN;
@@ -3433,8 +3435,9 @@ private:
                     // so we don't display the next prompt over the previous input line
                     pos = buf32.size(); // pass len as pos for EOL
                     refreshLine(pi, ln);
-                    write(STDOUT_FILENO, "^C", 2); // Display the ^C we got
+                    ssize_t written = write(STDOUT_FILENO, "^C", 2); // Display the ^C we got
                     return -1;
+                } break;
 
                 case META + 'c': // meta-C, give word initial Cap
                 case META + 'C':

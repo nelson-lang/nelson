@@ -29,11 +29,11 @@ public:
      *  given prompt.
      */
     std::wstring
-    getLine(const std::wstring& prompt);
+    getLine(const std::wstring& prompt) override;
     std::string
-    getLine(const std::string& prompt);
+    getLine(const std::string& prompt) override;
     std::wstring
-    getInput(const std::wstring& prompt);
+    getInput(const std::wstring& prompt) override;
     /**
      *  Return the width of the current "terminal" in
      *  characters.
@@ -46,28 +46,28 @@ public:
      *  Output the following text message.
      */
     void
-    outputMessage(const std::wstring& msg);
+    outputMessage(const std::wstring& msg) override;
     void
-    outputMessage(const std::string& msg);
+    outputMessage(const std::string& msg) override;
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(const std::wstring& msg);
+    errorMessage(const std::wstring& msg) override;
     void
-    errorMessage(const std::string& msg);
+    errorMessage(const std::string& msg) override;
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(const std::wstring& msg);
+    warningMessage(const std::wstring& msg) override;
     void
-    warningMessage(const std::string& msg);
+    warningMessage(const std::string& msg) override;
 
     void
-    clearTerminal();
+    clearTerminal() override;
     bool
-    isAtPrompt();
+    isAtPrompt() override;
 
     void
     interruptGetLineByEvent() override;

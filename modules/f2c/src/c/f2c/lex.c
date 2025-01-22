@@ -21,6 +21,10 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wformat"
+#endif
+
 #include "defs.h"
 #include "tokdefs.h"
 #include "p1defs.h"

@@ -14,7 +14,8 @@
 #else
 #if not defined _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_STL_ 1
-#endif #define INTIALIZER(__TYPE__)(__TYPE__)
+#endif
+#define INTIALIZER(__TYPE__)(__TYPE__)
 #endif
 #include <websocketpp/client.hpp>
 #if _DEBUG || DEBUG
