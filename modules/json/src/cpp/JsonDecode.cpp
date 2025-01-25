@@ -57,8 +57,8 @@ decodeCharacters(const std::string& str)
                     memset(usbuffer, 0, JSON_SSCANF_BUFF_SIZE * sizeof(unsigned short));
                     sscanf(part.c_str(), "%4hx", usbuffer);
                     k += 5;
-                    for (size_t k = 0; k < 64; k++) {
-                        buffer[k] = (char)usbuffer[k];
+                    for (size_t c = 0; c < JSON_SSCANF_BUFF_SIZE; c++) {
+                        buffer[c] = (char)usbuffer[c];
                     }
                     res = res + buffer;
                 } else {
