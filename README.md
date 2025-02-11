@@ -154,7 +154,6 @@ Nelson is tested and supported on a wide range of platforms. **[Downloads](https
 |   **Ubuntu 24.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 22.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 20.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
 |    **Fedora 40**     |       x86-64       |   ✓    |   ✓ (Snap)   |
 |    **ArchLinux**     |       x86-64       |   ✓    |   ✓ (Snap)   |
 |     **Raspbian**     |  ARM v8 (64-bit)   |        |              |
