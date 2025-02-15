@@ -294,42 +294,42 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
         msg = L"{" + msg + L"}";
     } break;
     case NLS_UINT8: {
-        msg = summarizeCellRealEntry<uint8>(
+        msg = summarizeCellIntegerEntry<uint8>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_INT8: {
-        msg = summarizeCellRealEntry<int8>(
+        msg = summarizeCellIntegerEntry<int8>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_UINT16: {
-        msg = summarizeCellRealEntry<uint16>(
+        msg = summarizeCellIntegerEntry<uint16>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_INT16: {
-        msg = summarizeCellRealEntry<int16>(
+        msg = summarizeCellIntegerEntry<int16>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_UINT32: {
-        msg = summarizeCellRealEntry<uint32>(
+        msg = summarizeCellIntegerEntry<uint32>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_INT32: {
-        msg = summarizeCellRealEntry<int32>(
+        msg = summarizeCellIntegerEntry<int32>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_UINT64: {
-        msg = summarizeCellRealEntry<uint64>(
+        msg = summarizeCellIntegerEntry<uint64>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_INT64: {
-        msg = summarizeCellRealEntry<int64>(
+        msg = summarizeCellIntegerEntry<int64>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;

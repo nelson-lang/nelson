@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Completion .m files allows execution without extension.
 - [#1342](http://github.com/nelson-lang/nelson/issues/1342) Github CI - Ubuntu-20.04 hosted runner image removed.
 
+### Fixed
+
+- [#1346](http://github.com/nelson-lang/nelson/issues/1346) [display] integer in cell are displayed as double and not as integer.
+
 ## 1.11.0 (2025-01-11)
 
 ### Added
