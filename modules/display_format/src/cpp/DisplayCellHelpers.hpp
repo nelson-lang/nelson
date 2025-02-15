@@ -30,6 +30,74 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
 //=============================================================================
 template <class T>
 std::wstring
+summarizeCellIntegerEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat, bool asStructElement)
+{
+    std::wstring msg;
+    if (A.isRowVector() || A.isScalar()) {
+        const T* values = (static_cast<const T*>(A.getDataPointer()));
+        if (asStructElement) {
+            if (!A.isScalar()) {
+                msg.append(L"[");
+            }
+        } else {
+            msg.append(L"[");
+        }
+        FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+        formatInfo.trim = true;
+        for (indexType k = 0; k < A.getElementCount(); ++k) {
+            std::wstring numberAsStr;
+            switch (currentNumericFormat) {
+            case NLS_NUMERIC_FORMAT_BANK:
+            case NLS_NUMERIC_FORMAT_SHORTE:
+            case NLS_NUMERIC_FORMAT_LONGE:
+            case NLS_NUMERIC_FORMAT_SHORTG:
+            case NLS_NUMERIC_FORMAT_LONGG:
+            case NLS_NUMERIC_FORMAT_SHORTENG:
+            case NLS_NUMERIC_FORMAT_LONGENG:
+            case NLS_NUMERIC_FORMAT_LONG:
+            case NLS_NUMERIC_FORMAT_RATIONAL:
+            case NLS_NUMERIC_FORMAT_SHORT: {
+                numberAsStr = std::to_wstring((T)values[k]);
+            } break;
+            case NLS_NUMERIC_FORMAT_PLUS:
+            case NLS_NUMERIC_FORMAT_HEX: {
+                numberAsStr = formatScalarNumber((double)values[k], false, formatInfo);
+            } break;
+            default: {
+            } break;
+            }
+            msg.append(numberAsStr);
+            if (k < A.getElementCount() - 1) {
+                msg.append(L"  ");
+            }
+            if (msg.size() + 1 > termWidth) {
+                if (asStructElement) {
+                    return lightDescription(A, L"[", L"]");
+                } else {
+                    return lightDescription(A, L"", L"");
+                }
+            }
+        }
+        if (asStructElement) {
+            if (!A.isScalar()) {
+                msg.append(L"]");
+            }
+        } else {
+            msg.append(L"]");
+        }
+    } else {
+        if (asStructElement) {
+            msg = lightDescription(A, L"[", L"]");
+        } else {
+            msg = lightDescription(A, L"", L"");
+        }
+    }
+    return msg;
+}
+//=============================================================================
+template <class T>
+std::wstring
 summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {

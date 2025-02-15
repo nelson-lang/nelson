@@ -38,7 +38,7 @@ function varargout = pyenv(varargin)
       end
       if ~isfile(pythonExecutablePath)
         if ispc()
-          pythonExecutablePath = getExecutablePathFromWindowsRegistry(pythonExecutablePath)
+          pythonExecutablePath = getExecutablePathFromWindowsRegistry(pythonExecutablePath);
           if isempty(pythonExecutablePath) || ~isfile(pythonExecutablePath)
             error(_('Cannot find specified version.'));
           end

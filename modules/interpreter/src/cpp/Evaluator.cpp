@@ -3251,7 +3251,8 @@ Evaluator::functionExpression(
                         && m[0].isHandleMethod(t->text)) {
                         HandleGenericObject* obj = m[0].getContentAsHandleScalar();
                         if (obj) {
-                            if (!obj->invokeMethod(m, narg_out, t->text, n)) {
+
+                            if (!obj->invokeMethod(this->io, m, narg_out, t->text, n)) {
                                 std::string msg = t->text.empty()
                                     ? _("Undefined method.")
                                     : _("Undefined method:") + " " + t->text;

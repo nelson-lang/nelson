@@ -76,16 +76,21 @@ begin
   end;
 end;
 //=============================================================================
-function configureModule(const COMPONENT_NAME, MODULE_NAME: string) : boolean;
+function configureModuleFlag(const MODULE_NAME: string;const enableModule: boolean) : boolean;
 begin
     result := false;
-    if not WizardIsComponentSelected(COMPONENT_NAME) then
+    if not enableModule then
       begin
         FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
         '{''' + MODULE_NAME + ''', true', 
         '{''' + MODULE_NAME + ''', false');
         result := true;
-      end
+      end;
+end;
+//=============================================================================
+function configureModule(const COMPONENT_NAME, MODULE_NAME: string) : boolean;
+begin
+    result := configureModuleFlag(MODULE_NAME, WizardIsComponentSelected(COMPONENT_NAME));
 end;
 //=============================================================================
 procedure updateModulesList();
@@ -130,7 +135,11 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GEOMETRY}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_PYTHON_ENGINE}'));
-    
+   #ifdef WITH_JULIA_ENGINE
+    ModulesList.Add(ExpandConstant('{#COMPONENT_JULIA_ENGINE}'));
+   #else
+    configureModuleFlag('julia_engine', False);
+   #endif    
     for I := 0 to ModulesList.Count - 1 do
       begin;
          configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
@@ -299,6 +308,17 @@ end;
 function NextButtonClick(CurPageID: Integer): Boolean;
   begin
     Result := true;
+
+    if (CurPageID = wpWelcome) then
+      begin
+          if not Is64BitInstallMode then
+          begin
+            if IsWin64() and not IsSilentMode() then
+              begin
+                SuppressibleMsgBox(CustomMessage('MESSAGEBOX_X64_VERSION_RECOMMANDED'), mbInformation, MB_OK, MB_OK );
+              end;
+          end;
+      end;
 
     if (CurPageId = wpSelectComponents) then
       begin

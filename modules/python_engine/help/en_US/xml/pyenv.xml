@@ -71,7 +71,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data><![CDATA[if ispc()
-pe = pyenv('Version', '3.12')]]>
+pe = pyenv('Version', '3.12')
+end]]>
     </example_item_data>
   </example_item>
  

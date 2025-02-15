@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Julia interface (part 1):
+
+  - `jlenv`: Change default environment of Julia interpreter.
+  - `jlrun`: Run Julia statements from Nelson.
+  - `jlrunfile`: Run Julia file from Nelson.
+  - Major types conversions are available.
+  - CMake: Optional Julia engine detection.
+
 - `bar`, `scatter` manage color name and short colorname.
 - Github CI Ubuntu 24.04 arm64 (Cobalt 100 processor).
 - Github CI Snapcraft build amd64 and arm64.
@@ -18,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Completion .m files allows execution without extension.
 - [#1342](http://github.com/nelson-lang/nelson/issues/1342) Github CI - Ubuntu-20.04 hosted runner image removed.
+
+### Fixed
+
+- [#1346](http://github.com/nelson-lang/nelson/issues/1346) [display] integer in cell are displayed as double and not as integer.
 
 ## 1.11.0 (2025-01-11)
 

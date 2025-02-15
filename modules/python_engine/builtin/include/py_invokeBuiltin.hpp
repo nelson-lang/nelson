@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::Python_engineGateway {
 //=============================================================================
 ArrayOfVector
-py_invokeBuiltin(int nLhs, const ArrayOfVector& argIn);
+py_invokeBuiltin(Evaluator* evaluator, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -17,7 +17,8 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::Python_engineGateway::py_invokeBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::Python_engineGateway::py_invokeBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
 
@@ -35,7 +36,11 @@ Nelson::Python_engineGateway::py_invokeBuiltin(int nLhs, const ArrayOfVector& ar
     }
 
     PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
-    if (!poh->invoke(methodname, params, nLhs, retval)) {
+    Interface* io = nullptr;
+    if (eval) {
+        io = eval->getInterface();
+    }
+    if (!poh->invoke(io, methodname, params, nLhs, retval)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodname);
     }
     return retval;
