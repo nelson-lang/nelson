@@ -22,6 +22,10 @@ function d = dictionary(varargin)
       d = convertPyDictToDictionary(obj);
       return;
     end
+    if isa(obj, 'jl') && startsWith(obj.typeof, 'Dict{')
+      d = convertJlDictToDictionary(obj);
+      return;
+    end
     if ~isa(obj, 'dictionary');
       error('Nelson:dictionary:IncorrectNumberOfInputs', _('Incorrect number of input arguments. Each key must be followed by a value.'));
     end
@@ -72,6 +76,10 @@ function d = dictionary(varargin)
     end
   end
   d = createDictionary(map, allKeys, keyType, valueType);
+end
+%=============================================================================
+function d = convertJlDictToDictionary(obj)
+  error('Nelson:dictionary:notmanaged', _('Julia dictionary is not managed.'));
 end
 %=============================================================================
 function d = convertPyDictToDictionary(obj)

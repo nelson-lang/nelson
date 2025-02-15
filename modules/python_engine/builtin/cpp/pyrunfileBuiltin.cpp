@@ -26,7 +26,7 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
         Error(_W("Evaluator not available."));
     }
     ArrayOfVector retval = {};
-    nargincheck(argIn, 1, 10000);
+    nargincheck(argIn, 1);
     std::wstring command = argIn[0].getContentAsWideString();
     std::wstring filename;
     wstringVector arguments;
@@ -67,7 +67,7 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
             outputs = argIn[1].getContentAsWideStringVector(false);
             positionNameValue = 2;
         } else {
-            // outvars = pyrun(code, pyName, pyValue, pyName, pyValue)
+            // outvars = pyrunfie(file, pyName, pyValue, pyName, pyValue)
             positionNameValue = 1;
         }
     }
@@ -88,7 +88,5 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
 
     return PyRunFile(
         eval->getInterface(), eval->haveEventsLoop(), filename, arguments, outputs, names, values);
-
-    return {};
 }
 //=============================================================================

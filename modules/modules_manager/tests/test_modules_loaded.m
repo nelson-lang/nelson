@@ -43,6 +43,9 @@ end
 if ~ismodule('python_engine')
   modules_list(strcmp(modules_list, 'python_engine')) = [];
 end
+if ~ismodule('julia_engine')
+  modules_list(strcmp(modules_list, 'julia_engine')) = [];
+end
 assert_isequal(modules_loaded, cellstr(modules_list));
 %=============================================================================
 

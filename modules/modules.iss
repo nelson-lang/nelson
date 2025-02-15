@@ -88,4 +88,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "control_system/module.iss"
 #include "python_engine/module.iss"
 #include "spreadsheet/module.iss"
+#ifdef WITH_JULIA_ENGINE
+#include "julia_engine/module.iss"
+#endif
 ;==============================================================================

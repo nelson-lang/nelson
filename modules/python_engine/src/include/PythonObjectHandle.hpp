@@ -58,15 +58,15 @@ public:
     get(const std::wstring& propertyName, ArrayOf& result);
     //=============================================================================
     bool
-    invoke(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
+    invoke(Interface* io, const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
         ArrayOfVector& results);
     //=============================================================================
     bool
-    isMainPythonInterpreter();
+    invokeMethod(Interface* io, const ArrayOfVector& argIn, int nLhs, const std::string& methodName,
+        ArrayOfVector& results) override;
     //=============================================================================
     bool
-    invokeMethod(const ArrayOfVector& argIn, int nLhs, const std::string& methodName,
-        ArrayOfVector& results) override;
+    isMainPythonInterpreter();
     //=============================================================================
     bool
     invokeOperatorMethod(

@@ -492,6 +492,18 @@ function test_case = create_test_case(filename, classname)
       test_case.skip = true;
     end
   end
+  if ismodule('julia_engine')
+    je = jlenv();
+    if (test_case.options.julia_environment_required && (je.Version == ""))
+      test_case.status = 'Skip';
+      test_case.skip = true;
+    end
+  else
+    if (test_case.options.julia_environment_required)
+      test_case.status = 'Skip';
+      test_case.skip = true;
+    end
+  end
   
   test_case.command = 'echo skip';
   test_case.outputfile = '';
@@ -546,6 +558,12 @@ function test_case = create_test_case(filename, classname)
       if without_python
         cmd = [cmd, ' ', '--without_python'];
       end
+
+      without_julia = ~test_case.options.julia_environment_required;
+      if without_julia
+        cmd = [cmd, ' ', '--without_julia'];
+      end
+
       
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode

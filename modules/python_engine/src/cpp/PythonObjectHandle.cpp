@@ -18,7 +18,6 @@
 #include "characters_encoding.hpp"
 #include "PyObjectHelpers.hpp"
 #include "i18n.hpp"
-#include "PyObjectHelpers.hpp"
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
@@ -366,12 +365,12 @@ PythonObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 bool
-PythonObjectHandle::invokeMethod(
-    const ArrayOfVector& argIn, int nLhs, const std::string& methodName, ArrayOfVector& results)
+PythonObjectHandle::invokeMethod(Interface* io, const ArrayOfVector& argIn, int nLhs,
+    const std::string& methodName, ArrayOfVector& results)
 {
     ArrayOfVector params = argIn;
     params.pop_front();
-    return invoke(utf8_to_wstring(methodName), params, nLhs, results);
+    return invoke(io, utf8_to_wstring(methodName), params, nLhs, results);
 }
 //=============================================================================
 static bool

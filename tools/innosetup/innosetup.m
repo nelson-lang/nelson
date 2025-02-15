@@ -33,6 +33,7 @@ if fp ~= -1
   end
   if strcmp(compiler{3}, '64') == true
     fprintf(fp, ['#define NELSON_X64', char(10)]);
+    fprintf(fp, ['#define WITH_JULIA_ENGINE', char(10)]);
   end
   if strcmp(compiler{2}, 'debug') == true
     fprintf(fp, ['#define NELSON_DEBUG', char(10)]);

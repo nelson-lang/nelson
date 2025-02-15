@@ -379,7 +379,7 @@ QtWorkspaceBrowser::handleNumericVariable(const ArrayOf* variable) const
 {
     if (variable->isEmpty()) {
         return QString("[]");
-    } else if (variable->isScalar()) {
+    } else if (variable->isScalar() && !variable->isSparse()) {
         T* ptr = (T*)variable->getDataPointer();
         T v = ptr[0];
         return QString::fromLatin1(std::to_string(v).c_str());

@@ -11,9 +11,10 @@
 ;==============================================================================
 #ifndef GENERATED_INFO
 #define NELSON_X64
+#define WITH_JULIA_ENGINE
 #define NELSON_DEBUG
 #define CURRENT_YEAR "2024"
-#define APPLICATION_VERSION "1.6.0"
+#define APPLICATION_VERSION "1.12.0"
 #endif
 #define APPLICATION_NAME "Nelson"
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"

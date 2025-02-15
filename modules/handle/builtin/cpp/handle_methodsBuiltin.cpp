@@ -25,7 +25,7 @@ Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argI
     if (param1.isHandle()) {
         auto* obj = (HandleGenericObject*)param1.getContentAsHandleScalar();
         if (obj) {
-            retval << ArrayOf::toCellArrayOfCharacterRowVectors(obj->getMethods());
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getMethods());
         } else {
             Error(_W("Invalid handle."));
         }

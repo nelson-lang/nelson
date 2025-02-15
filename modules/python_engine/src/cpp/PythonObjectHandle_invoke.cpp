@@ -18,7 +18,6 @@
 #include "characters_encoding.hpp"
 #include "PyObjectHelpers.hpp"
 #include "i18n.hpp"
-#include "PyObjectHelpers.hpp"
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
@@ -26,10 +25,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-
 bool
-PythonObjectHandle::invoke(
-    const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results)
+PythonObjectHandle::invoke(Interface* io, const std::wstring& methodName,
+    const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results)
 {
     if (isMainPythonInterpreter() && invokeFunction(methodName, inputs, nLhs, results)) {
         return true;

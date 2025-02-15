@@ -81,5 +81,6 @@ modules_list = {
 {'control_system', true};
 {'python_engine', true};
 {'spreadsheet', true};
+{'julia_engine', true};
 };
 % ============================================================================
