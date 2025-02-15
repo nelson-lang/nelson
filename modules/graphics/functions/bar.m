@@ -41,7 +41,7 @@ function [parent, X, Y, width, color, otherProperties] = parseArguments(inputArg
   defaultWidth = 0.8;
   defaultColor = getColorAndUpdateIndex(parent);
   
-  supportedColorString = string(getColorShortNameList());
+  supportedColorString = [string(getColorShortNameList()), string(getColorNameList())];
   isString = @(x) (ischar(x) || isStringScalar(x)) && ~matches(convertCharsToStrings(x), supportedColorString);
   firstString = find (cellfun(isString, inputArguments), 1);
   if (isempty(firstString))
@@ -77,7 +77,7 @@ function [X, Y, width, color] = parseThreeArguments(inputArguments, defaultWidth
   color = defaultColor;
   X = inputArguments{1};
   X = X(:)';
-  if isscalar(inputArguments{2})
+  if isscalar(inputArguments{2}) || ischar(inputArguments{2}) || isStringScalar(inputArguments{2})
     if isnumeric(inputArguments{2})
       width = inputArguments{2};
     elseif ischar(inputArguments{2}) || isStringScalar(inputArguments{2})
@@ -92,7 +92,7 @@ function [X, Y, width, color] = parseThreeArguments(inputArguments, defaultWidth
   if isnumeric(inputArguments{3})
     width = inputArguments{3};
   elseif ischar(inputArguments{3}) || isStringScalar(inputArguments{3})
-    color = convertStringsToChars(inputArguments{3});
+    color = getColorShortName(convertStringsToChars(inputArguments{3}));
   else
     error(_('Unrecognized option for third argument.'));
   end
@@ -101,11 +101,11 @@ end
 function [X, Y, width, color] = parseTwoArguments(inputArguments, defaultWidth, defaultColor)
   width = defaultWidth;
   color = defaultColor;
-  if isscalar(inputArguments{2})
+  if isscalar(inputArguments{2}) || ischar(inputArguments{2}) || isStringScalar(inputArguments{2})
     if isnumeric(inputArguments{2})
       width = inputArguments{2};
     elseif ischar(inputArguments{2}) || isStringScalar(inputArguments{2})
-      color = convertStringsToChars(inputArguments{2})
+      color = getColorShortName(convertStringsToChars(inputArguments{2}));
     else
       error(_('Unrecognized option for second argument.'));
     end

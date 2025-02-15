@@ -51,8 +51,8 @@ function [linespec, colorspec, markerspec, msg] = colstyle (varargin)
   orig_t = style;
   while (~giveup && length(style)>0)
     giveup = 1;
-    if (matchit(style, getColorShortNameList()))
-      [colorspec, style] = parseit(style, getColorShortNameList());
+    if (matchit(getColorShortName(style), getColorShortNameList()))
+      [colorspec, style] = parseit(getColorShortName(style), getColorShortNameList());
       giveup = 0;
     end;
     if (matchit(style, getMarkerNameList()))
