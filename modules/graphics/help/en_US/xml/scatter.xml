@@ -34,7 +34,7 @@
 		<param_input_item>
 			<param_name>c</param_name>
 			<param_description
-      >Marker color: color name, RGB triplet or vector of colormap indices</param_description>
+      >Marker color: short color name, color name, RGB triplet or vector of colormap indices</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>ax</param_name>
@@ -89,13 +89,13 @@
 <p />
 
 <p>The ColorSpec specifies the marker color to use for each data series:</p>
-<p><b>'k'</b>: Color Black</p>
-<p><b>'y'</b>: Color Yellow</p>
-<p><b>'m'</b>: Color Magenta</p>
-<p><b>'c'</b>: Color Cyan</p>
-<p><b>'r'</b>: Color Red</p>
-<p><b>'b'</b>: Color Blue</p>
-<p><b>'g'</b>: Color Green</p>
+<p><b>'k'</b>, <b>'black'</b>: Color Black</p>
+<p><b>'y'</b>, <b>'yellow'</b>: Color Yellow</p>
+<p><b>'m'</b>, <b>'magenta'</b>: Color Magenta</p>
+<p><b>'c'</b>, <b>'cyan'</b>: Color Cyan</p>
+<p><b>'r'</b>, <b>'red'</b>: Color Red</p>
+<p><b>'b'</b>, <b>'blue'</b>: Color Blue</p>
+<p><b>'g'</b>, <b>'green'</b>: Color Green</p>
 <p />
 <p>see <b>line</b> for more information about properties</p>
 </description>
@@ -215,7 +215,14 @@ s = scatter(x,y, 'filled');
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item> 
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description
+      >color name and short color name managed.</history_description>
     </history_item>
+
+
   </history>
 
   <authors>

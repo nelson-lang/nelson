@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Major types conversions are available.
   - CMake: Optional Julia engine detection.
 
+- `bar`, `scatter` manage color name and short colorname.
 - Github CI Ubuntu 24.04 arm64 (Cobalt 100 processor).
 - Github CI Snapcraft build amd64 and arm64.
 - Snapcraft arm64.

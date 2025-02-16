@@ -144,7 +144,7 @@ function [parent, X, Y, filled, marker, markerSize, markerColor, otherProperties
     nbInputArguments = length(inputArguments);
   end
   
-  supportedColorString = string(getColorShortNameList());
+  supportedColorString = [string(getColorShortNameList()), string(getColorNameList())];
   isString = @(x) (ischar(x) || isStringScalar(x)) && ~matches(convertCharsToStrings(x), supportedColorString);
   firstString = find (cellfun(isString, inputArguments), 1);
   if (isempty(firstString))
@@ -156,7 +156,7 @@ function [parent, X, Y, filled, marker, markerSize, markerColor, otherProperties
     if ~isempty(inputArguments{3})
       markerSize = sqrt(inputArguments{3});
     end
-    markerColor = inputArguments{4};
+    markerColor = getColorShortName(inputArguments{4});
     inputArguments = inputArguments(5:end);
     nbInputArguments = nbInputArguments - 4;
   elseif (firstString > 3)
