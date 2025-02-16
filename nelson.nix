@@ -56,14 +56,14 @@ stdenv.mkDerivation {
   ];
 
   name = "nelson";
-  version = "v1.11.0";
+  version = "v1.12.0";
 
   # Source URL for the Nelson source code
   src = fetchFromGitHub {
     owner = "nelson-lang";
     repo = "nelson";
-    rev = "v1.11.0";
-    sha256 = "sha256-dnQ/MmwQupBgm1dEOLXEjYeiOcGVEtBTvhnAIGZK9B8="; # Replace with the actual checksum
+    rev = "v1.12.0";
+    sha256 ="sha256-zhxWWMCxqEBmzI7hotyIBsWfgmNUWJQhN4i3x+OZt34="; # Replace with the actual checksum
   };
 
   cmakeFlags = [

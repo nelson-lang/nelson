@@ -9,7 +9,6 @@
 #==============================================================================
 # This .gitignore for Nelson
 
-result/
 build/
 chocolatey/nelson/*.nupkg
 nelson*.snap
@@ -238,4 +237,6 @@ modules/mex/examples/rust-mex-builder/helloworld/target/
 parts/
 prime/
 stage/
+################################################################################
+result
 ################################################################################
