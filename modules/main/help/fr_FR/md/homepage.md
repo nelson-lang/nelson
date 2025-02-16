@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 1.11.0.0
+### Nelson 1.12.0.0
 
 **Nelson** est un langage de calcul numérique puissant et open-source, conçu pour offrir un environnement complet et intuitif aux ingénieurs, scientifiques et étudiants. Avec plus de 1 200 fonctions intégrées, Nelson prend en charge une large gamme de tâches, allant de l'algèbre de base aux simulations numériques avancées.
 
