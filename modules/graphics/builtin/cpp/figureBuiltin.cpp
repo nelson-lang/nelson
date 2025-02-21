@@ -88,7 +88,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (goCallback) {
         goCallback->executeNow(fig);
     }
-
+    fig->setRenderingStateInvalid(true);
     return retval;
 }
 //=============================================================================

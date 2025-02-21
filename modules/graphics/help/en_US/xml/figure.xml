@@ -59,6 +59,9 @@
 <p><b
       >Colormap</b>: Color map for axes content of figure: m-by-3 array of RGB triplets, parula (default).</p>
 <p><b>CurrentAxes</b>: Target axes in current figure: Axes object.</p>
+
+<p><b
+      >DevicePixelRatio</b>: ratio between physical pixels and device-independent pixels for the figure. Common values are 1.0 on normal displays and 2.0 on Apple "retina" displays.</p>
 <p><b>Name</b>: Name (default '').</p>
 <p><b>GraphicsSmoothing</b>: GraphicsSmoothing (default 'on').</p>
 <p><b>MenuBar</b>:  Figure menu bar display: 'none' or 'figure' (default).</p>
@@ -149,7 +152,11 @@ figure('Name', 'Hello')
       <history_version>1.8.0</history_version>
       <history_description>Resize property added.</history_description>
     </history_item>
-
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description
+      >DevicePixelRatio property added.</history_description>
+    </history_item>
   </history>
 
   <authors>

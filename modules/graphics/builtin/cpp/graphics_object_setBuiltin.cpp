@@ -19,6 +19,7 @@
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "GOFiguresManager.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -77,10 +78,12 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             && !fp->isType(GO_PROPERTY_VALUE_UICONTROL_STR)) {
             GOFigure* fig = fp->getParentFigure();
             if (fig) {
+                fig->setRenderingStateInvalid(true);
                 fig->repaint();
             }
         }
     }
+
     return ArrayOfVector();
 }
 //=============================================================================

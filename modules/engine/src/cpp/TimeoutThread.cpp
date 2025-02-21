@@ -49,13 +49,12 @@ public:
     start(uint64 _timeout_seconds)
     {
         _running = true;
-        std::chrono::nanoseconds begin_time
-            = std::chrono::high_resolution_clock::now().time_since_epoch();
+        std::chrono::nanoseconds begin_time = std::chrono::steady_clock::now().time_since_epoch();
         bool bContinue = true;
         do {
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             std::chrono::nanoseconds current_time
-                = std::chrono::high_resolution_clock::now().time_since_epoch();
+                = std::chrono::steady_clock::now().time_since_epoch();
             std::chrono::nanoseconds difftime = (current_time - begin_time);
             bContinue = (difftime <= std::chrono::seconds(_timeout_seconds));
         } while (bContinue && !_stop);

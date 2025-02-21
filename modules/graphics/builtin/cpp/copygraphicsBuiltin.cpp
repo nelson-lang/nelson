@@ -29,6 +29,7 @@ copygraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!f) {
         Error(_W("Invalid handle."));
     }
+    f->getGOFigure()->setRenderingStateInvalid(true);
     QClipboard* cb = QApplication::clipboard();
     cb->setPixmap(f->getMainQWigdet()->grab());
     return retval;

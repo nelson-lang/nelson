@@ -7,8 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.13.0 (UNRELEASED)
 
+### Added
+
+- Double Buffering for Plots:
+
+  - Implementation of a double buffering mechanism to improve the smoothness and responsiveness of graphical plots.
+  - Significant reduction in flickering during graphic refresh.
+
+- `getframe`: Capture axes or figure as movie frame.
+- `movie`: Play recorded movie frames.
+- `im2frame`: Convert image to movie frame.
+- `frame2im`: Return image data associated with movie frame.
+- `DevicePixelRatio`: property for figure.
+
+- Example to connect ollama with Nelson
+  `edit([modulepath('webtools'), '/examples/ollama/readme.md'])`
+
 ### Changed
 
+- `plot`: speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
 - fmtlib 11.1.3
 
 ## 1.12.0 (2025-02-16)

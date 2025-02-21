@@ -82,7 +82,7 @@ GOFigure::registerProperties()
     registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_RESIZE_PROPERTY_NAME_STR);
-
+    registerProperty(new GOScalarProperty, GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, false);
     sortProperties();
 }
 //=============================================================================
@@ -106,7 +106,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
 
     setRestrictedStringDefault(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-
+    setScalarDoubleDefault(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, 1.0);
     GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
     if (hp) {
         hp->set(ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_CLOSEREQ_STR));
@@ -360,6 +360,7 @@ GOFigure::paintMe(RenderInterface& gc)
         }
 
         _resized = false;
+        setRenderingStateInvalid(false);
     }
 }
 //=============================================================================

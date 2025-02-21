@@ -10,6 +10,7 @@
 #include "gcfBuiltin.hpp"
 #include "GOFiguresManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "GOHelpers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -27,6 +28,10 @@ gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else {
             currentFigureID = figs.back();
         }
+    }
+    GOFigure* fig = findGOFigure(currentFigureID);
+    if (fig) {
+        fig->setRenderingStateInvalid(true);
     }
     retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
     return retval;

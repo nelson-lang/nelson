@@ -174,6 +174,7 @@ closeFigure(go_handle fignum, bool forceClose)
         }
         GOFigure* fig = win->getGOFigure();
         if (fig) {
+            fig->setRenderingStateInvalid(true);
             GOGObjectsProperty* hp
                 = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
             if (hp) {

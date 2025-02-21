@@ -23,7 +23,14 @@ drawNow()
     std::vector<int64> figures = getFigureGraphicsObjects();
     for (auto f : figures) {
         GOWindow* window = getFigure(f);
+        if (!window) {
+            return;
+        }
         GOFigure* goFigure = window->getGOFigure();
+        if (!goFigure) {
+            return;
+        }
+        goFigure->setRenderingStateInvalid(true);
         GOOnOffProperty* drawLaterProperty = static_cast<GOOnOffProperty*>(
             goFigure->findProperty(GO_DRAW_LATER_PROPERTY_NAME_STR));
         std::wstring value = drawLaterProperty->data();
