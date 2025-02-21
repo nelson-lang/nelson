@@ -101,6 +101,10 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     mousePositionOrigin.setX(width() / 2);
     mousePositionOrigin.setY(height() / 2);
     zoomInRubberBand = nullptr;
+    if (goFig && qtchild) {
+        goFig->setScalarDoubleDefault(
+            GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, qtchild->devicePixelRatio());
+    }
     initialized = true;
 }
 //=============================================================================
@@ -494,6 +498,7 @@ GOWindow::mousePressEvent(QMouseEvent* e)
             mousePressEventHandleRotate(e);
         }
     }
+    this->getGOFigure()->setRenderingStateInvalid(true);
 }
 //=============================================================================
 void
@@ -531,12 +536,15 @@ GOWindow::mouseMoveEvent(QMouseEvent* e)
     e->accept();
     if (mouseMode == MOUSE_MODE::PAN && isPanRunning) {
         mouseMoveEventHandlePanMode(e);
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
     if (mouseMode == MOUSE_MODE::ZOOM_IN && isZoomInRunning) {
         zoomInRubberBand->setGeometry(QRect(mousePositionOrigin, e->pos()).normalized());
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
     if (mouseMode == MOUSE_MODE::ROTATION && isRotateRunning) {
         mouseMoveEventHandleRotate(e);
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
 }
 //=============================================================================
@@ -603,15 +611,19 @@ GOWindow::mouseReleaseEvent(QMouseEvent* e)
     if (mouseMode == MOUSE_MODE::PAN && isPanRunning) {
         setCursor(Qt::OpenHandCursor);
         isPanRunning = false;
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
     if (mouseMode == MOUSE_MODE::ZOOM_IN && isZoomInRunning) {
         mousePressEventHandleZoomInMode(e);
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
     if (mouseMode == MOUSE_MODE::ZOOM_OUT && isZoomOutRunning) {
         mousePressEventHandleZoomOutMode(e);
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
     if (mouseMode == MOUSE_MODE::ROTATION && isRotateRunning) {
         isRotateRunning = false;
+        this->getGOFigure()->setRenderingStateInvalid(true);
     }
 }
 //=============================================================================
@@ -980,6 +992,7 @@ GOWindow::wheelEvent(QWheelEvent* event)
     if (axis) {
         axis->zoom(scaleFactor);
     }
+    this->getGOFigure()->setRenderingStateInvalid(true);
 }
 //=============================================================================
 void
@@ -992,6 +1005,7 @@ GOWindow::keyReleaseEvent(QKeyEvent* event)
     lastKeyEvent = new QKeyEvent(event->type(), event->key(), event->modifiers(), event->text(),
         event->isAutoRepeat(), event->count());
 #endif
+    this->getGOFigure()->setRenderingStateInvalid(true);
     if (keyPressed) {
         return;
     }

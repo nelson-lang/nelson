@@ -90,6 +90,7 @@ function varargout = plot(varargin)
     end
   end
   axes(saveca);
+  h.Visible='on';
   if (nargout > 0)
     varargout{1} = h;
   end
@@ -120,7 +121,7 @@ function k = plotVector(go, x, y, lineProperties)
   if (~any(strcmp(lineProperties, 'LineStyle')))
     lineProperties = [lineProperties, {'LineStyle', lineStyle}];
   end  
-  k = __line__('Parent', go, 'XData', x, 'YData', y, 'Color', color, lineProperties{:});
+  k = __line__('Parent', go, 'XData', x, 'YData', y, 'Color', color, 'Visible', 'off', lineProperties{:});
 end
 %=============================================================================
 function h = plot_XY(X, Y, go, lineProperties)

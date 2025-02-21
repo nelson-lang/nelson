@@ -245,6 +245,7 @@
     <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
     <ClInclude Include="..\include\ExportGraphics.hpp" />
+    <ClInclude Include="..\include\GetFrame.hpp" />
     <ClInclude Include="..\include\GOAlignHorizProperty.hpp" />
     <ClInclude Include="..\include\GOAlignVertProperty.hpp" />
     <ClInclude Include="..\include\GOArrayOfProperty.hpp" />
@@ -334,6 +335,7 @@
     <ClCompile Include="..\cpp\DrawNow.cpp" />
     <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
     <ClCompile Include="..\cpp\ExportGraphics.cpp" />
+    <ClCompile Include="..\cpp\GetFrame.cpp" />
     <ClCompile Include="..\cpp\GOAlignHorizProperty.cpp" />
     <ClCompile Include="..\cpp\GOAlignVertProperty.cpp" />
     <ClCompile Include="..\cpp\GOArrayOfProperty.cpp" />

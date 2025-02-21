@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtGui/QTransform>
+#include "nlsBuildConfig.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOImage.hpp"
@@ -16,7 +17,6 @@
 #include "GOMappingModeProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOVectorTwoDoubleProperty.hpp"
-#include "GOGObjectsProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "MinMaxHelpers.hpp"
@@ -209,22 +209,34 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
         increment = 1;
     }
     if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
+        alphaout.resize(rows * cols);
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
         for (indexType i = 0; i < rows * cols; i++) {
-            alphaout.push_back(std::min(1.0, std::max(0.0, alphain[i * increment])));
+            alphaout[i] = std::min(1.0, std::max(0.0, alphain[i * increment]));
         }
     } else if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
+        alphaout.resize(rows * cols);
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
         for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
             ndx = std::min<indexType>(amaplen - 1, std::max<indexType>(0, ndx));
-            alphaout.push_back(amap[ndx]);
+            alphaout[i] = amap[ndx];
         }
     } else {
+        alphaout.resize(rows * cols);
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
         for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
             ndx = (indexType)((alphain[i * increment] - alim_min) / (alim_max - alim_min)
                 * (amaplen - 1));
             ndx = std::min<indexType>(amaplen - 1, std::max<indexType>(0, ndx));
-            alphaout.push_back(amap[ndx]);
+            alphaout[i] = amap[ndx];
         }
     }
     return alphaout;
@@ -247,12 +259,18 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
     size_t cmaplen(cmap.size() / 3);
     if (cmaplen < 1) {
         if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
             for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
                 ret[i + 2 * rows * cols] = 1;
             }
         } else {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
             for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
@@ -265,6 +283,9 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
         return ret;
     }
     if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
         for (int i = 0; i < rows * cols; i++) {
             int ndx = floatData ? (int)dp[i] - 1 : (int)dp[i];
             ndx = (int)std::min<indexType>(
@@ -274,6 +295,9 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
             ret[i + 2 * rows * cols] = cmap[3 * ndx + 2];
         }
     } else {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
         for (int i = 0; i < rows * cols; i++) {
             int ndx = (int)((dp[i] - clim_min) / (clim_max - clim_min) * (cmaplen - 1));
             ndx = (int)std::min<indexType>(cmaplen - 1, std::max(0, ndx));
@@ -290,18 +314,23 @@ GOImage::prepareImageRGBNoAlphaMap(const double* dp, indexType rows, indexType c
     std::vector<double>& alpha, bool isIntegerData)
 {
     img = QImage((int)cols, (int)rows, QImage::Format_ARGB32);
-    for (indexType i = 0; i < rows; i++) {
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (indexType idx = 0; idx < rows * cols; idx++) {
+        indexType i = idx % rows;
+        indexType j = idx / rows;
+
         QRgb* ibits = (QRgb*)img.scanLine((int)i);
-        for (indexType j = 0; j < cols; j++)
-            if (!isIntegerData) {
-                ibits[j] = qRgba((int)(255 * dp[(i + j * rows)]),
-                    (int)(255 * dp[(i + j * rows) + rows * cols]),
-                    (int)(255 * dp[(i + j * rows) + 2 * rows * cols]),
-                    (int)(255 * alpha[i + j * rows]));
-            } else {
-                ibits[j] = qRgba((int)(dp[(i + j * rows)]), (int)(dp[(i + j * rows) + rows * cols]),
-                    (int)(dp[(i + j * rows) + 2 * rows * cols]), (int)(255 * alpha[i + j * rows]));
-            }
+        indexType baseIndex = idx;
+        int r = isIntegerData ? (int)(dp[baseIndex]) : (int)(255 * dp[baseIndex]);
+        int g = isIntegerData ? (int)(dp[baseIndex + rows * cols])
+                              : (int)(255 * dp[baseIndex + rows * cols]);
+        int b = isIntegerData ? (int)(dp[baseIndex + 2 * rows * cols])
+                              : (int)(255 * dp[baseIndex + 2 * rows * cols]);
+        int a = (int)(255 * alpha[baseIndex]);
+
+        ibits[j] = qRgba(r, g, b, a);
     }
 }
 //=============================================================================

@@ -32,6 +32,7 @@ refreshFigure(GOFigure* fig)
                 }
             }
         }
+        fig->setRenderingStateInvalid(true);
         fig->repaint();
     }
 }
