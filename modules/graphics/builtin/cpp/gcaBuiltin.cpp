@@ -31,6 +31,7 @@ gcaBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOfVector arg2;
         axesBuiltin(0, arg2);
         current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
+        fig->setRenderingStateInvalid(true);
     }
     retval << ArrayOf::graphicsObjectConstructor(current);
     return retval;

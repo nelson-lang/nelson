@@ -21,6 +21,7 @@ class NLSGRAPHICS_IMPEXP GOFigure : public GraphicsObject
 private:
     int m_width, m_height;
     bool _resized;
+    bool renderingStateInvalid = false;
     void
     loadParulaColorMap();
     GOWindow* m_win;
@@ -88,6 +89,17 @@ public:
 
     GOWindow*
     getGOWindow();
+
+    bool
+    isRenderingStateInvalid()
+    {
+        return renderingStateInvalid;
+    };
+    void
+    setRenderingStateInvalid(bool invalid)
+    {
+        renderingStateInvalid = invalid;
+    }
 };
 //=============================================================================
 }

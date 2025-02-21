@@ -9,9 +9,11 @@
 //=============================================================================
 #include <QtGui/QWindow>
 #include <QtGui/QGuiApplication>
+#include <QtGui/QPaintEvent>
 #include <QtWidgets/QApplication>
 #include "BaseFigureQt.hpp"
 #include "RenderQt.hpp"
+#include "GOWindow.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,16 +24,70 @@ BaseFigureQt::resizeEvent(QResizeEvent* e)
     QWidget::resizeEvent(e);
 }
 //=============================================================================
+QImage
+BaseFigureQt::getFrame()
+{
+    if (isVisible()) {
+        return backStore.toImage().convertToFormat(QImage::Format_ARGB32);
+    }
+    QPixmap pxmap(grab());
+    return pxmap.toImage().convertToFormat(QImage::Format_ARGB32);
+}
+//=============================================================================
 void
 BaseFigureQt::paintEvent(QPaintEvent* e)
 {
+    // Call base class paint event first
     QWidget::paintEvent(e);
-    QPainter painter(this);
-    RenderQt gc(&painter, 0, 0, width(), height(), L"GL");
-    hfig->paintMe(gc);
+
+    // Get the device pixel ratio once
+    qreal dpr = devicePixelRatio();
+
+    // Check if buffer needs to be recreated (e.g., on resize or DPI change)
+    QSize scaledSize = size() * dpr;
+    if (backStore.isNull() || backStore.size() != scaledSize
+        || !qFuzzyCompare(backStore.devicePixelRatio(), dpr)) {
+        backStore = QPixmap(scaledSize);
+        backStore.fill(Qt::transparent); // Or your background color
+        backStore.setDevicePixelRatio(dpr);
+        hfig->setRenderingStateInvalid(true);
+    }
+
+    // Only redraw if the state is dirty
+    if (hfig->isRenderingStateInvalid()) {
+        // Create painter for the back buffer
+        QPainter bufferPainter(&backStore);
+
+        // Enable antialiasing for smoother rendering
+        bufferPainter.setRenderHint(QPainter::Antialiasing);
+        bufferPainter.setRenderHint(QPainter::TextAntialiasing);
+        bufferPainter.setRenderHint(QPainter::LosslessImageRendering);
+
+        // Clear the buffer with transparency
+        bufferPainter.setCompositionMode(QPainter::CompositionMode_Clear);
+        bufferPainter.fillRect(QRect(QPoint(0, 0), scaledSize), Qt::transparent);
+        bufferPainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        // Create rendering context and perform drawing
+        RenderQt gc(&bufferPainter, 0, 0, width(), height(), L"GL");
+        hfig->paintMe(gc);
+
+        // Explicitly end painting on the buffer
+        bufferPainter.end();
+    }
+
+    // Draw the back buffer to the widget using the clipped region
+    QPainter widgetPainter(this);
+    widgetPainter.setClipRegion(e->region());
+    widgetPainter.drawPixmap(0, 0, backStore);
 }
 //=============================================================================
-BaseFigureQt::BaseFigureQt(QWidget* parent, GOFigure* fig) : QWidget(parent) { hfig = fig; }
+BaseFigureQt::BaseFigureQt(QWidget* parent, GOFigure* fig) : QWidget(parent)
+{
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
+    setAttribute(Qt::WA_NoSystemBackground, true);
+    hfig = fig;
+}
 //=============================================================================
 QScreen*
 BaseFigureQt::getActiveScreen()

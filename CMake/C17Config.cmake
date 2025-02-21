@@ -10,6 +10,9 @@ include(Clang-cxx-dev-tools)
 # ==============================================================================
 include(CheckCXXCompilerFlag)
 # ==============================================================================
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+# ==============================================================================
 if("${CMAKE_CXX_COMPILE_FEATURES}" MATCHES "cxx_std_17")
   set(CMAKE_CXX_STANDARD 17)
 else()

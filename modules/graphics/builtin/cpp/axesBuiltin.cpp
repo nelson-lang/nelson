@@ -77,6 +77,7 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
                 GO_Z_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
         }
         ArrayOfVector retval;
+        fig->setRenderingStateInvalid(true);
         retval << ArrayOf::graphicsObjectConstructor(handle);
         return retval;
     }
@@ -99,6 +100,7 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     children.insert(children.begin(), 1, handle);
     cp->data(children);
+    fig->setRenderingStateInvalid(true);
     fig->repaint();
     return ArrayOfVector();
 }

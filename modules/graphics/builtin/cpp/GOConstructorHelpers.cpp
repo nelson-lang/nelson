@@ -51,7 +51,10 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
     }
 
     finalizeConstruction(fp);
-
+    GOFigure* fig = getCurrentGOFigure();
+    if (fig && !fig->isRenderingStateInvalid()) {
+        fig->setRenderingStateInvalid(true);
+    }
     return thisHandle;
 }
 //=============================================================================

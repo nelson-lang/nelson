@@ -20,6 +20,7 @@
 #include "__zoom__Builtin.hpp"
 #include "__pan__Builtin.hpp"
 #include "__rotate3d__Builtin.hpp"
+#include "__getframe__Builtin.hpp"
 #include "uicontrolBuiltin.hpp"
 #include "figureBuiltin.hpp"
 #include "graphics_object_displayBuiltin.hpp"
@@ -53,19 +54,31 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "__line__", (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1, 1, CPP_BUILTIN },
-    { "__text__", (ptrBuiltin)Nelson::GraphicsGateway::__text__Builtin, -1, 1, CPP_BUILTIN },
-    { "__surf__", (ptrBuiltin)Nelson::GraphicsGateway::__surf__Builtin, -1, 1, CPP_BUILTIN },
-    { "__image__", (ptrBuiltin)Nelson::GraphicsGateway::__image__Builtin, -1, 1, CPP_BUILTIN },
-    { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN },
-    { "__contour__", (ptrBuiltin)Nelson::GraphicsGateway::__contour__Builtin, -1, 1, CPP_BUILTIN },
-    { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN },
-    { "__view__", (ptrBuiltin)Nelson::GraphicsGateway::__view__Builtin, -1, 4, CPP_BUILTIN },
-    { "__zoom__", (ptrBuiltin)Nelson::GraphicsGateway::__zoom__Builtin, -1, 2, CPP_BUILTIN },
-    { "__pan__", (ptrBuiltin)Nelson::GraphicsGateway::__pan__Builtin, -1, 2, CPP_BUILTIN },
-    { "__rotate3d__", (ptrBuiltin)Nelson::GraphicsGateway::__rotate3d__Builtin, -1, 2,
-        CPP_BUILTIN },
+static const nlsGateway gateway[] = { { "__line__",
+                                          (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1,
+                                          1, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { "__text__", (ptrBuiltin)Nelson::GraphicsGateway::__text__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__surf__", (ptrBuiltin)Nelson::GraphicsGateway::__surf__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__image__", (ptrBuiltin)Nelson::GraphicsGateway::__image__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__contour__", (ptrBuiltin)Nelson::GraphicsGateway::__contour__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__view__", (ptrBuiltin)Nelson::GraphicsGateway::__view__Builtin, -1, 4, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__zoom__", (ptrBuiltin)Nelson::GraphicsGateway::__zoom__Builtin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__pan__", (ptrBuiltin)Nelson::GraphicsGateway::__pan__Builtin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__rotate3d__", (ptrBuiltin)Nelson::GraphicsGateway::__rotate3d__Builtin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__getframe__", (ptrBuiltin)Nelson::GraphicsGateway::__getframe__Builtin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_GO_HANDLE_STR, "display"),
         (ptrBuiltin)Nelson::GraphicsGateway::graphics_object_displayBuiltin, 0, 2,
@@ -123,8 +136,7 @@ static const nlsGateway gateway[] = {
     { "waitforbuttonpress", (ptrBuiltin)Nelson::GraphicsGateway::waitforbuttonpressBuiltin, -1, 0,
         CPP_BUILTIN },
     { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
-        CPP_BUILTIN_WITH_EVALUATOR }
-};
+        CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 static bool
 initializeGraphicsModule(Nelson::Evaluator* eval)
