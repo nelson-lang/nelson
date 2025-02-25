@@ -1,3 +1,70 @@
+# 11.1.3 - 2025-01-25
+
+- Fixed compilation on GCC 9.4 (https://github.com/fmtlib/fmt/issues/4313).
+
+- Worked around an internal compiler error when using C++20 modules with GCC
+  14.2 and earlier (https://github.com/fmtlib/fmt/issues/4295).
+
+- Worked around a bug in GCC 6 (https://github.com/fmtlib/fmt/issues/4318).
+
+- Fixed an issue caused by instantiating `formatter<const T>`
+  (https://github.com/fmtlib/fmt/issues/4303,
+  https://github.com/fmtlib/fmt/pull/4325). Thanks @timsong-cpp.
+
+- Fixed formatting into `std::ostreambuf_iterator` when using format string
+  compilation (https://github.com/fmtlib/fmt/issues/4309,
+  https://github.com/fmtlib/fmt/pull/4312). Thanks @phprus.
+
+- Restored a constraint on the map formatter so that it correctly reports as
+  unformattable when the element is (https://github.com/fmtlib/fmt/pull/4326).
+  Thanks @timsong-cpp.
+
+- Reduced the size of format specs (https://github.com/fmtlib/fmt/issues/4298).
+
+- Readded `args()` to `fmt::format_context`
+  (https://github.com/fmtlib/fmt/issues/4307,
+  https://github.com/fmtlib/fmt/pull/4310). Thanks @Erroneous1.
+
+- Fixed a bogus MSVC warning (https://github.com/fmtlib/fmt/issues/4314,
+  https://github.com/fmtlib/fmt/pull/4322). Thanks @ZehMatt.
+
+- Fixed a pedantic mode error in the CMake config
+  (https://github.com/fmtlib/fmt/pull/4327). Thanks @rlalik.
+
+# 11.1.2 - 2025-01-12
+
+- Fixed ABI compatibility with earlier 11.x versions
+  (https://github.com/fmtlib/fmt/issues/4292).
+
+- Added `wchar_t` support to the `std::bitset` formatter
+  (https://github.com/fmtlib/fmt/issues/4285,
+  https://github.com/fmtlib/fmt/pull/4286,
+  https://github.com/fmtlib/fmt/issues/4289,
+  https://github.com/fmtlib/fmt/pull/4290). Thanks @phprus.
+
+- Prefixed CMake components with `fmt-` to simplify usage of {fmt} via
+  `add_subdirectory` (https://github.com/fmtlib/fmt/issues/4283).
+
+- Updated docs for meson (https://github.com/fmtlib/fmt/pull/4291).
+  Thanks @trim21.
+
+- Fixed a compilation error in chrono on nvcc
+  (https://github.com/fmtlib/fmt/issues/4297,
+  https://github.com/fmtlib/fmt/pull/4301). Thanks @breyerml.
+
+- Fixed various warnings
+  (https://github.com/fmtlib/fmt/pull/4288,
+  https://github.com/fmtlib/fmt/pull/4299). Thanks @GamesTrap and @edo9300.
+
+# 11.1.1 - 2024-12-27
+
+- Fixed ABI compatibility with earlier 11.x versions
+  (https://github.com/fmtlib/fmt/issues/4278).
+
+- Defined CMake components (`core` and `doc`) to allow docs to be installed
+  separately (https://github.com/fmtlib/fmt/pull/4276).
+  Thanks @carlsmedstad.
+
 # 11.1.0 - 2024-12-25
 
 - Improved C++20 module support

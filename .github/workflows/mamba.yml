@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: install micromamba
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment-linux-dev.yml
           environment-name: nelson
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: install micromamba
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment-macos-dev.yml
           environment-name: nelson
