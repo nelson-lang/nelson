@@ -1,10 +1,15 @@
 name: nelson
 channels:
   - conda-forge
+  - defaults
+channel_priority: strict
 dependencies:
   # Build dependencies
   - cmake
   - cxx-compiler
+  - gcc=13.3.0=h9576a4e_1 # recent version of gcc is buggy
+  - gcc_impl_linux-64=13.3.0=hfea6d02_1
+  - gcc_linux-64=13.3.0=hc28eda2_7
   # Host dependencies
   - mesalib
   - qt-main
