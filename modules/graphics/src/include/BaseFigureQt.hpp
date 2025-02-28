@@ -21,6 +21,7 @@ class BaseFigureQt : public QWidget
     //=============================================================================
 private:
     GOFigure* hfig = nullptr;
+    QPixmap backStore;
     static QScreen*
     getActiveScreen();
     //=============================================================================
@@ -36,6 +37,8 @@ public:
     getCurrentScreenHeight();
     static int
     getCurrentScreenWidth();
+    QImage
+    getFrame();
 };
 //=============================================================================
 }

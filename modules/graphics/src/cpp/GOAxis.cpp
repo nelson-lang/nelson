@@ -56,6 +56,7 @@
 #include "TexToUnicode.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOBusyActionProperty.hpp"
+#include "BaseFigureQt.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -1487,7 +1488,6 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
 {
     gc.color(color);
     double dx1, dy1, dx2, dy2;
-    gc.debug();
     gc.toPixels(limmin * unitx + px1, limmin * unity + py1, limmin * unitz + pz1, dx1, dy1);
     gc.toPixels(limmin * unitx + px2, limmin * unity + py2, limmin * unitz + pz2, dx2, dy2);
     double delx = dx2 - dx1;
@@ -2084,6 +2084,7 @@ GOAxis::updateState()
     clearAllChanged();
     GOFigure* fig = getParentFigure();
     if (fig) {
+        fig->setRenderingStateInvalid(true);
         fig->repaint();
     }
 }

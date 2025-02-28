@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>frame2im</keyword>
+  <short_description>Retrieve image data from a movie frame.</short_description>
+
+  <syntax>
+    <syntax_item>RGB = frame2im(F)</syntax_item>
+    <syntax_item>[X, map] = frame2im(F)</syntax_item>
+  </syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>F</param_name>
+			<param_description
+      >a structure: Movie frame, represented as a structure with two fields:
+cdata: An array of uint8 values storing the image data.
+colormap: The colormap. This field is empty ([]) for truecolor (RGB) images.
+A movie frame structure can be created using the im2frame and getframe functions.</param_description>
+		</param_input_item>
+		</param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description
+      >m-by-n-by-3 numeric array: Truecolor image (uint8).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description
+      >m-by-n numeric matrix: Indexed image (uint8).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>map</param_name>
+      <param_description
+      >c-by-3 numeric matrix: Colormap corresponding to the indexed image X, returned as a c-by-3 numeric matrix with values in the range [0, 1]. Each row of the matrix represents an RGB triplet defining the red, green, and blue components of a colormap color.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+<description>
+<p><b
+      >RGB = frame2im(F)</b> extracts the truecolor (RGB) image from the movie frame <b
+      >F</b>.</p>
+<p><b>[X, map] = frame2im(F)</b> retrieves the indexed image <b
+      >X</b> and its corresponding colormap map from the movie frame <b
+      >F</b>.</p>
+</description>
+
+  <used_function />
+  <bibliography />
+  
+<examples>
+
+  <example_item>
+
+    <example_item_type>nelson</example_item_type>
+    <example_item_description> 
+
+    </example_item_description>
+    <example_item_data
+      ><![CDATA[f = figure();
+s = surf(peaks);
+F = getframe(f)
+RGB = frame2im(F);
+figure;
+imshow(RGB);]]>
+    </example_item_data>
+  </example_item>
+ 
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}im2frame">im2frame</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

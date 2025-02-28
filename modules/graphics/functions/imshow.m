@@ -83,8 +83,8 @@ function varargout = imshow(varargin)
           displayRange = inputArguments{2};
           inputArguments = inputArguments(3:end);
         case 'parent'
-          args(end + 1) = 'parent';
-          args(end + 1) = inputArguments{2};
+          args{end + 1} = 'parent';
+          args{end + 1} = inputArguments{2};
           inputArguments = inputArguments(3:end);
         case 'colormap'
           map = inputArguments{2};

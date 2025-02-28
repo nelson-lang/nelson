@@ -187,6 +187,7 @@
     <ClCompile Include="..\cpp\axesBuiltin.cpp" />
     <ClCompile Include="..\cpp\closeBuiltin.cpp" />
     <ClCompile Include="..\cpp\drawnowBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__getframe__Builtin.cpp" />
     <ClCompile Include="..\cpp\GOConstructorHelpers.cpp" />
     <ClCompile Include="..\cpp\copygraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="..\include\figureBuiltin.hpp" />
     <ClInclude Include="..\include\gcaBuiltin.hpp" />
     <ClInclude Include="..\include\gcfBuiltin.hpp" />
+    <ClInclude Include="..\include\__getframe__Builtin.hpp" />
     <ClInclude Include="..\include\graphics_object_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_displayBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_eqBuiltin.hpp" />

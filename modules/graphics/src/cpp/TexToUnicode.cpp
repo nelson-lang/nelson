@@ -9,6 +9,7 @@
 //=============================================================================
 #include <regex>
 #include <unordered_map>
+#include "nlsBuildConfig.h"
 #include "TexToUnicode.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -25,9 +26,12 @@ wstringVector
 texToUnicode(const wstringVector& strs)
 {
     wstringVector results;
-    results.reserve(strs.size());
-    for (std::wstring s : strs) {
-        results.push_back(texToUnicode(s));
+    results.resize(strs.size());
+#if WITH_OPENMP
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)strs.size(); ++k) {
+        results[k] = texToUnicode(strs[k]);
     }
     return results;
 }

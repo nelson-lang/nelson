@@ -79,6 +79,9 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
     if (m_properties.empty()) {
         return nullptr;
     }
+    if (m_property_names_order.empty()) {
+        return nullptr;
+    }
     std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
         = m_properties.find(name);
     GOGenericProperty* hp = (got != m_properties.end()) ? (got->second) : nullptr;

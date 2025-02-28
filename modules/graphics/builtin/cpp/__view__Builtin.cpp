@@ -119,6 +119,7 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
     GOAxis* axis = (GOAxis*)fp;
     if (argIn.size() >= 2) {
         axis->setView(azimuth, elevation);
+        axis->getParentFigure()->setRenderingStateInvalid(true);
         axis->updateState();
     }
 
