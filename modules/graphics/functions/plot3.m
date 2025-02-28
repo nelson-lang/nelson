@@ -71,6 +71,9 @@ function varargout = plot3(varargin)
     view(3);
   end
   axes(backupCurrentAxis);
+  if isempty(find(strcmp(propertiesList, 'Visible')))
+    h.Visible = 'on';
+  end
   if (nargout > 0)
     varargout{1} = h;
   end
@@ -131,6 +134,6 @@ function hl = plotVector(go, x, y, z, lineProperties)
   if (~any(strcmp(lineProperties, 'LineStyle')))
     lineProperties = [lineProperties, {'LineStyle', lineStyle}];
   end  
-  hl = __line__('Parent', go, 'XData', x, 'YData', y, 'ZData', z, 'Color', color, lineProperties{:});
+  hl = __line__('Parent', go, 'XData', x, 'YData', y, 'ZData', z, 'Color', color, 'Visible', 'off', lineProperties{:});
 end
 %=============================================================================
