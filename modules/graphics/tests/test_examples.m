@@ -14,4 +14,5 @@ run([examples_directory, 'utah-teapot/utah_teapot.m']);
 run([examples_directory, 'nefertiti-mask/nefertiti_mask.m']);
 run([examples_directory, 'stanford-bunny/stanford_bunny.m']);
 run([examples_directory, 'movie/demo_movie.m']);
+run([examples_directory, 'cube/demo_cube.m']);
 %=============================================================================
