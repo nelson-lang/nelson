@@ -19,7 +19,7 @@ findVectorMin(const std::vector<double>& v)
     double min = 0;
     bool first = true;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(min : min)
+#pragma omp parallel for reduction(min : min) if (v.size() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
         if (std::isfinite(v[i]))
@@ -39,7 +39,7 @@ findVectorMax(const std::vector<double>& v)
     double max = 0;
     bool first = true;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(max : max)
+#pragma omp parallel for reduction(max : max) if (v.size() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
         if (std::isfinite(v[i]))
@@ -66,7 +66,7 @@ ArrayOfMin(const ArrayOf& a)
     double min = 0;
     bool first = true;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(min : min)
+#pragma omp parallel for reduction(min : min) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (indexType i = 0; i < len; i++) {
         if (std::isfinite(v[i]))
@@ -93,7 +93,7 @@ ArrayOfMax(const ArrayOf& a)
     double max = 0;
     bool first = true;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(max : max)
+#pragma omp parallel for reduction(max : max) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
         if (std::isfinite(v[i]))

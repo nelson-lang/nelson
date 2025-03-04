@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Equals.hpp"
 #include "MatrixCheck.hpp"
 #include "NewWithException.hpp"
@@ -65,9 +66,7 @@ matrix_matrix_operator(const ArrayOf& A, const ArrayOf& B,
         if (Clen == 1) {
             Cp[0] = relationOperator(classA, ptrA, ptrB, 0, 0);
         } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(Clen)
             for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
                 Cp[i] = relationOperator(classA, ptrA, ptrB, i, i);
             }
@@ -120,9 +119,7 @@ scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
         break;
     }
     if (relationOperator) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(Clen)
         for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
             Cp[i] = relationOperator(classA, ptrA, ptrB, 0, i);
         }
@@ -173,9 +170,7 @@ matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
         break;
     }
     if (relationOperator) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(Clen)
         for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
             Cp[i] = relationOperator(classA, ptrA, ptrB, i, 0);
         }

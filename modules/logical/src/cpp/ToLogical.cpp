@@ -10,6 +10,7 @@
 #include "ToLogical.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -63,10 +64,9 @@ integerToLogical(const ArrayOf& A)
             ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));
         r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
         auto* ptrInt = (T*)A.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k++) {
+        ompIndexType elementCount = A.getElementCount();
+        OMP_PARALLEL_FOR_LOOP(elementCount)
+        for (ompIndexType k = 0; k < elementCount; k++) {
             pLogical[k] = static_cast<logical>(ptrInt[k] != 0);
         }
     }

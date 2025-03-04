@@ -13,6 +13,7 @@
 #include "StringTrim.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
@@ -73,9 +74,7 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
         ompIndexType elementCount = A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             if (element[k].isRowVectorCharacterArray()) {
                 std::wstring str = element[k].getContentAsWideString();

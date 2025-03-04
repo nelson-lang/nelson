@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -30,9 +31,7 @@ Nelson::DataStructuresGateway::__num2cell__Builtin(int nLhs, const ArrayOfVector
     if (param.isSparse()) {
         param.makeDense();
     }
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
         dp[k] = param.getValueAtIndex(k);
     }

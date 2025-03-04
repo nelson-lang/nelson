@@ -11,6 +11,7 @@
 #include "SwapBytes.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,9 +54,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (uint8*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -65,9 +64,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         int8* ptr = (int8*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -77,9 +74,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (uint16*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -89,9 +84,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (int16*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -101,9 +94,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (uint32*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -113,9 +104,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (int32*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -125,9 +114,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (uint64*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -137,9 +124,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (int64*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -149,9 +134,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         res.ensureSingleOwner();
         auto* ptr = (single*)res.getDataPointer();
         ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             ptr[k] = swapSingle(ptr[k]);
         }
@@ -164,9 +147,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
             res.ensureSingleOwner();
             auto* ptr = (double*)res.getDataPointer();
             ompIndexType elementCount = dimsA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptr[k] = swapDouble(ptr[k]);
             }

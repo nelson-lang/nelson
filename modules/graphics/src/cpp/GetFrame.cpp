@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GetFrame.hpp"
 #include "GOWindow.hpp"
 #include "GOAxis.hpp"
@@ -45,10 +47,9 @@ QImageToArrayOf(QImage image)
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (int index = 0; index < height * width; index++) {
+    int nbElements = height * width;
+    OMP_PARALLEL_FOR_LOOP(nbElements)
+    for (int index = 0; index < nbElements; index++) {
         int row = index % height;
         int col = index / height;
         const QRgb* scanLine = reinterpret_cast<const QRgb*>(image.constScanLine(row));

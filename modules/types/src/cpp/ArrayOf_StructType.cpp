@@ -9,6 +9,7 @@
 //=============================================================================
 #include "StringHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
@@ -319,9 +320,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     indexType fN = names.size();
     if (fN > 1) {
         ompIndexType nN = (ompIndexType)fN - 1;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nN)
         for (ompIndexType i = 0; i < nN; i++) {
             rp[i] = qp[i];
         }

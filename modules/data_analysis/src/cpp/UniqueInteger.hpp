@@ -16,6 +16,7 @@
 #include <vector>
 #include <omp.h>
 #include "ParallelSort.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -78,9 +79,7 @@ UniqueIntegerTwoLhs(const ArrayOf& input)
     ompIndexType len = input.getElementCount();
     ArrayOfVector retval;
     std::vector<UniqueIntegerEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].n = k + 1;
         values[k].value = dp[k];
@@ -92,9 +91,7 @@ UniqueIntegerTwoLhs(const ArrayOf& input)
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         op[k] = values[k].value;
         mp[k] = (double)values[k].n;
@@ -122,9 +119,7 @@ UniqueIntegerThreeLhs(const ArrayOf& input)
     const T* dp = (const T*)input.getDataPointer();
     ompIndexType len = input.getElementCount();
     std::vector<UniqueIntegerEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].n = k;
         values[k].value = dp[k];

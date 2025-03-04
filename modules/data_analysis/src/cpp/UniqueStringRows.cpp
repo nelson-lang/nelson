@@ -9,6 +9,7 @@
 //=============================================================================
 #include "UniqueStringRows.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "StringHelpers.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
@@ -91,9 +92,7 @@ UniqueStringRowsOneLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + k };
     }
@@ -109,9 +108,7 @@ UniqueStringRowsOneLhs(const ArrayOf& input)
     int tcnt = cnt;
     ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(cls, cnt * cols);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * tcnt] = sp[0].data[0 + j * rows];
     }
@@ -146,9 +143,7 @@ UniqueStringRowsTwoLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + k };
     }
@@ -165,9 +160,7 @@ UniqueStringRowsTwoLhs(const ArrayOf& input)
     int tcnt = cnt;
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(cls, cnt * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * tcnt] = sp[0].data[0 + j * rows];
     }
@@ -204,9 +197,7 @@ UniqueStringRowsThreeLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + k };
     }
@@ -222,9 +213,7 @@ UniqueStringRowsThreeLhs(const ArrayOf& input)
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(cls, cnt * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * tcnt] = sp[0].data[0 + j * rows];
     }

@@ -16,6 +16,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -82,9 +83,7 @@ TableWriter::handleCellColumn(ITableWriter& writer, const ArrayOf& columnData,
     std::vector<std::string> column;
     bool addQuotes = false;
     column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
     for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
         if (elements[j].isRowVectorCharacterArray() || elements[j].isScalarStringArray()) {
             std::string v = elements[j].getContentAsCString();
@@ -109,9 +108,7 @@ TableWriter::handleCellColumn(ITableWriter& writer, const ArrayOf& columnData,
         }
     }
     if (addQuotes) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(column.size())
         for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
             column[k] = formatStringValueQuoteString(column[k]);
         }
@@ -136,9 +133,7 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
             column.resize(dimsColumn.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(dimsColumn.getRows())
             for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 ArrayOf value = values[r + c * dimsColumn.getRows()];
                 if (value.isRowVectorCharacterArray()) {
@@ -157,9 +152,7 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
                 }
             }
             if (addQuotes) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(column.size())
                 for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                     column[k] = formatStringValueQuoteString(column[k]);
                 }
@@ -169,9 +162,7 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
     } else {
         std::vector<std::string> column;
         column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
         for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             ArrayOf value = values[j];
             if (value.isRowVectorCharacterArray()) {
@@ -189,9 +180,7 @@ TableWriter::handleStringColumn(ITableWriter& writer, const ArrayOf& columnData,
             }
         }
         if (addQuotes) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(column.size())
             for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                 column[k] = formatStringValueQuoteString(column[k]);
             }
@@ -214,9 +203,7 @@ TableWriter::handleDoubleComplexColumn(ITableWriter& writer, const ArrayOf& colu
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
             column.resize(dimsColumn.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(dimsColumn.getRows())
             for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 column[r] = doubleComplexToString(values[r + c * dimsColumn.getRows()], isXml);
             }
@@ -225,9 +212,7 @@ TableWriter::handleDoubleComplexColumn(ITableWriter& writer, const ArrayOf& colu
     } else {
         std::vector<std::string> column;
         column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
         for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             column[j] = doubleComplexToString(values[j], isXml);
         }
@@ -249,9 +234,7 @@ TableWriter::handleDoubleColumn(ITableWriter& writer, const ArrayOf& columnData,
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
             column.resize(dimsColumn.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(dimsColumn.getRows())
             for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 column[r] = doubleToString(values[r + c * dimsColumn.getRows()]);
             }
@@ -260,9 +243,7 @@ TableWriter::handleDoubleColumn(ITableWriter& writer, const ArrayOf& columnData,
     } else {
         std::vector<std::string> column;
         column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
         for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             column[j] = doubleToString(values[j]);
         }
@@ -285,9 +266,7 @@ TableWriter::handleLogicalColumn(ITableWriter& writer, const ArrayOf& columnData
                 = isXml ? columnName : columnName + "_" + std::to_string((int)c + 1);
             std::vector<std::string> column;
             column.resize(dimsColumn.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(dimsColumn.getRows())
             for (ompIndexType r = 0; r < (ompIndexType)dimsColumn.getRows(); r++) {
                 logical value = values[r + c * dimsColumn.getRows()];
                 if (options._FileType == "xml") {
@@ -301,9 +280,7 @@ TableWriter::handleLogicalColumn(ITableWriter& writer, const ArrayOf& columnData
     } else {
         std::vector<std::string> column;
         column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
         for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             logical value = values[j];
             if (options._FileType == "xml") {
@@ -325,9 +302,7 @@ TableWriter::handleCharacterColumn(ITableWriter& writer, const ArrayOf& columnDa
         charType* values = (charType*)columnData.getDataPointer();
         bool addQuotes = false;
         column.resize(columnData.getElementCount());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(columnData.getElementCount())
         for (ompIndexType j = 0; j < (ompIndexType)columnData.getElementCount(); j++) {
             std::wstring str(1, values[j]);
             std::string ustr = wstring_to_utf8(str);
@@ -342,9 +317,7 @@ TableWriter::handleCharacterColumn(ITableWriter& writer, const ArrayOf& columnDa
         }
 
         if (addQuotes) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(column.size())
             for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
                 column[k] = formatStringValueQuoteString(column[k]);
             }
@@ -392,9 +365,7 @@ TableWriter::processCharacterMatrix(
     }
 
     if (addQuotes) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(column.size())
         for (ompIndexType k = 0; k < (ompIndexType)column.size(); ++k) {
             column[k] = formatStringValueQuoteString(column[k]);
         }

@@ -12,15 +12,14 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
 boolean_not(indexType N, logical* C, const logical* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
     }

@@ -10,6 +10,7 @@
 #include "ConvertStringsToChars.hpp"
 #include "NewWithException.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,9 +41,7 @@ ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
             ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
             auto* elementsStr = (ArrayOf*)A.getDataPointer();
             ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType q = 0; q < elementCount; q++) {
                 if (elementsStr[q].getDataClass() == NLS_CHAR) {
                     elementsCell[q] = elementsStr[q];

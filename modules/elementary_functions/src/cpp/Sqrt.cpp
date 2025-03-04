@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <limits>
 #include <cmath>
@@ -75,9 +76,7 @@ SqrtReal(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matOut(ptrOut, elementCount);
     matOut = matIn.array().sqrt();
 #else
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOut[k] = SqrtRealScalar<T>(ptrIn[k]);
     }
@@ -97,9 +96,7 @@ SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     allReal = true;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         bool isReal;
         Cz[k] = SqrtComplexScalar<T>(Az[k], isReal);

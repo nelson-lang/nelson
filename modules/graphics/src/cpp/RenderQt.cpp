@@ -11,6 +11,7 @@
 #include <cmath>
 #include <algorithm>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Types.hpp"
 #include "GOPropertyValues.hpp"
 #include "RenderQt.hpp"
@@ -221,9 +222,7 @@ RenderQt::map(
 {
     QVector<QPointF> retval;
     retval.resize(xs.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(xs.size())
     for (Nelson::ompIndexType i = 0; i < (Nelson::ompIndexType)xs.size(); i++) {
         retval[i] = map(xs[i], ys[i], zs[i]);
     }

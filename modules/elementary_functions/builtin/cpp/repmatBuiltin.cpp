@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #define EIGEN_NO_DEBUG
 #include <Eigen/Dense>
 #include "repmatBuiltin.hpp"
@@ -28,9 +29,7 @@ scalarRealRepmat(const ArrayOf& x, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrA[0] = value;
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
             ptrA[k] = value;
         }
@@ -50,9 +49,7 @@ scalarComplexRepmat(const ArrayOf& x, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrDpz[0] = value;
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
             ptrDpz[k] = value;
         }

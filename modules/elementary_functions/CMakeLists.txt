@@ -30,6 +30,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
@@ -48,6 +49,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsCommons
   nlsError_manager
+  nlsNelson_manager
   nlsI18n
   nlsOperators
   nlsInterpreter
@@ -83,6 +85,7 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsNelson_manager
   nlsI18n
   nlsInterpreter
   nlsTypes)

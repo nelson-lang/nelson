@@ -12,6 +12,7 @@
 #endif
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "NewWithException.hpp"
@@ -60,9 +61,7 @@ doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d
     double* WORK = (double*)new_with_exception<double>(LWORK, false);
     LAPACK_dgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR,
         &ILO, &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORK, &LWORK, IWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (int i = 0; i < N; i++) {
         d[i].real(WR[i]);
         d[i].imag(WI[i]);
@@ -117,9 +116,7 @@ singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, 
     float* WORK = (float*)new_with_exception<float>(LWORK, true);
     LAPACK_sgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR,
         &ILO, &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORK, &LWORK, IWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (int i = 0; i < N; i++) {
         d[i].real(WR[i]);
         d[i].imag(WI[i]);

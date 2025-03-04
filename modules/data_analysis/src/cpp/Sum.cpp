@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include <algorithm>
 #include "Sum.hpp"
 #include "ClassName.hpp"

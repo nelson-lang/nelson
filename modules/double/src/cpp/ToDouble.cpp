@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ToDouble.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -23,9 +24,7 @@ ToDouble(const ArrayOf& A)
     ArrayOf r = ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, A.isSparse());
     T* ptrA = (T*)A.getDataPointer();
     ompIndexType N = (ompIndexType)A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < N; ++i) {
         pDouble[i] = (double)ptrA[i];
     }
@@ -130,9 +129,7 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         ArrayOf r = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), pDouble, false);
         auto* pSingle
             = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {
             pDouble[k] = static_cast<double>(pSingle[k]);
         }

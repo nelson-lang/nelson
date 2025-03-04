@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,9 +58,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
     case NLS_DOUBLE: {
         double* ptr = (double*)ArrayOf::allocateArrayOf(destinationClass, len);
         X = ArrayOf(destinationClass, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
             ptr[k] = (double)(k + 1);
         }
@@ -67,9 +66,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
     case NLS_SINGLE: {
         single* ptr = (single*)ArrayOf::allocateArrayOf(destinationClass, len);
         X = ArrayOf(destinationClass, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
             ptr[k] = (single)(k + 1);
         }

@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LogMatrix.hpp"
 #include "ClassName.hpp"
@@ -41,9 +42,7 @@ logmComplex(ArrayOf& A)
             solver(matA.template cast<std::complex<T>>());
         auto evects = solver.eigenvectors();
         auto evals = solver.eigenvalues();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(evals.rows())
         for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
             evals(i) = std::log(evals(i));
         }

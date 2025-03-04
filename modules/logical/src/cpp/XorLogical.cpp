@@ -12,6 +12,7 @@
 #include "Types.hpp"
 #include "NewWithException.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -28,24 +29,18 @@ boolXor(
     size_t n, logical* c, const logical* a, const int stride1, const logical* b, const int stride2)
 {
     if (stride1 == 1 && stride2 == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(n)
         for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
             c[i] = NLSXOR(a[i], b[i]);
         }
     } else {
         if (stride1 == 0 && stride2 == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(n)
             for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
                 c[i] = NLSXOR(a[0], b[i]);
             }
         } else if (stride1 == 1 && stride2 == 0) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(n)
             for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
                 c[i] = NLSXOR(a[i], b[0]);
             }

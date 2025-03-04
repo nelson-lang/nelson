@@ -11,6 +11,7 @@
 //=============================================================================
 #include "nlsBuildConfig.h"
 #include "ArrayOf.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,9 +26,7 @@ scalar_matrix_real_addition(NelsonType classDestination, const ArrayOf& A, const
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = ptrA[0] + ptrB[k];
     }
@@ -58,9 +57,7 @@ matrix_scalar_real_addition(NelsonType classDestination, const ArrayOf& A, const
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[0];
     }
@@ -78,9 +75,7 @@ matrix_matrix_real_addition(NelsonType classDestination, const ArrayOf& A, const
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[k];
     }

@@ -18,6 +18,7 @@
 #include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -152,9 +153,7 @@ imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap)
     int imageSlice = qImage.height() * qImage.width();
     for (int row = 0; row < qImage.height(); row++) {
         QRgb* p = (QRgb*)qImage.scanLine(row);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(qImage.width())
         for (int col = 0; col < qImage.width(); col++) {
             int ndx = row + col * qImage.height();
             p[col] = qRgba(
@@ -174,9 +173,7 @@ imwriteRGB32(const ArrayOf& A)
     int imageSlice = qImage.height() * qImage.width();
     for (int row = 0; row < qImage.height(); row++) {
         QRgb* p = (QRgb*)qImage.scanLine(row);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(qImage.width())
         for (int col = 0; col < qImage.width(); col++) {
             int ndx = row + col * qImage.height();
             p[col] = qRgb(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice]);
@@ -200,9 +197,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
 
     for (int row = 0; row < image.height(); row++) {
         uchar* p = image.scanLine(row);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(image.width())
         for (int col = 0; col < image.width(); col++) {
             p[col] = data[row + col * image.height()];
         }
@@ -212,9 +207,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
         QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
         for (int row = 0; row < qAlpha.height(); row++) {
             uchar* p = qAlpha.scanLine(row);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(qAlpha.width())
             for (int col = 0; col < qAlpha.width(); col++) {
                 p[col] = alpha[row + col * image.height()];
             }
@@ -225,9 +218,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     if (colors) {
         QVector<QRgb> colorVector(int(colorMapAsUint.getElementCount() / 3));
         int numcol = colorVector.size();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(numcol)
         for (int i = 0; i < numcol; i++) {
             colorVector[i]
                 = qRgb(int(colors[i]), int(colors[i + numcol]), int(colors[i + 2 * numcol]));
@@ -236,9 +227,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     } else {
         int numrow = 256;
         QVector<QRgb> colorVector(numrow);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(numrow)
         for (int i = 0; i < numrow; i++) {
             colorVector[i] = qRgb(i, i, i);
         }
@@ -253,10 +242,9 @@ static void
 toUint8(const ArrayOf& A)
 {
     T* ptrA = (T*)A.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
+    ompIndexType elementCount = A.getElementCount();
+    OMP_PARALLEL_FOR_LOOP(elementCount)
+    for (ompIndexType k = 0; k < elementCount; ++k) {
         ptrA[k] = ptrA[k] * 255;
     }
 }

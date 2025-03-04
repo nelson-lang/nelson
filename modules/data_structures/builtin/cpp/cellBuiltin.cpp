@@ -15,6 +15,7 @@
 #include "cellBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "NewWithException.hpp"
@@ -37,9 +38,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
             auto* elementsCell = new_with_exception<ArrayOf>(argIn[0].getElementCount(), false);
             auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
             ompIndexType elementCount = argIn[0].getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; k++) {
                 if (elementsStringArray[k].isCharacterArray()) {
                     elementsCell[k] = elementsStringArray[k];
@@ -79,9 +78,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     dims.simplify();
                     ompIndexType elementCount = dims.getElementCount();
                     auto* elements = new_with_exception<ArrayOf>(elementCount, false);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(elementCount)
                     for (ompIndexType k = 0; k < elementCount; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
@@ -110,9 +107,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         dims.simplify();
         auto* elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
         ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             elements[k].setValue(ArrayOf::emptyConstructor());
         }

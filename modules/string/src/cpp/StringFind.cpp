@@ -9,6 +9,7 @@
 //=============================================================================
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "StringFind.hpp"
 //=============================================================================
 namespace Nelson {
@@ -38,9 +39,7 @@ StringFind(const std::wstring& A, const std::wstring& B)
         double* Cp = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen, stringVector(), false));
         Dimensions dimC(1, Clen);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(Clen)
         for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
             Cp[k] = vectorRes[k];
         }

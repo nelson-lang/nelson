@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -42,9 +43,7 @@ scalar_matrix_real_hypothenuse(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = hypothenusRealNelson<T>(ptrA[0], ptrB[k]);
     }
@@ -75,9 +74,7 @@ matrix_scalar_real_hypothenuse(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = hypothenusRealNelson<T>(ptrA[k], ptrB[0]);
     }
@@ -95,9 +92,7 @@ matrix_matrix_real_hypothenuse(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = hypothenusRealNelson<T>(ptrA[k], ptrB[k]);
     }

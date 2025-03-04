@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "MatrixSinus.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen_config.hpp"
@@ -34,9 +35,7 @@ sinmComplex(const ArrayOf& A)
         solver(matA.template cast<std::complex<T>>());
     auto evects = solver.eigenvectors();
     auto evals = solver.eigenvalues();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(evals.rows())
     for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
         evals(i) = sin(evals(i));
     }

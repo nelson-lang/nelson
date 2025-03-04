@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ArrayOf.hpp"
 #include "IntegerOperations.hpp"
 #include "BitwiseOperators.hpp"
@@ -62,9 +63,7 @@ scalar_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const T* ptrB = static_cast<const T*>(B.getDataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = op(ptrA[0], ptrB[k]);
     }
@@ -85,9 +84,7 @@ matrix_scalar_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const T* ptrB = static_cast<const T*>(B.getDataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = op(ptrA[k], ptrB[0]);
     }
@@ -108,10 +105,7 @@ matrix_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const T* ptrB = static_cast<const T*>(B.getDataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = op(ptrA[k], ptrB[k]);
     }

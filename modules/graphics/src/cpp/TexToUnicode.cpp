@@ -10,6 +10,7 @@
 #include <regex>
 #include <unordered_map>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "TexToUnicode.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -27,9 +28,7 @@ texToUnicode(const wstringVector& strs)
 {
     wstringVector results;
     results.resize(strs.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(strs.size())
     for (ompIndexType k = 0; k < (ompIndexType)strs.size(); ++k) {
         results[k] = texToUnicode(strs[k]);
     }

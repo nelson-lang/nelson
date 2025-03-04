@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "omp_for_loop.hpp"
 #include "Inf.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,7 +41,7 @@ Inf(Dimensions& dims)
         } else {
 
 #if WITH_OPENMP
-#pragma omp parallel for
+            OMP_PARALLEL_FOR_LOOP(nbElements)
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
                 mat[k] = value;
             }

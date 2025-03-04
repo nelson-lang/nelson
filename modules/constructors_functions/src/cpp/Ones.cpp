@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
+#include "omp_for_loop.hpp"
 #include "Ones.hpp"
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -31,10 +33,7 @@ realOnes(NelsonType classOut, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrA[0] = value;
     } else {
-
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
             ptrA[k] = value;
         }
@@ -52,9 +51,7 @@ complexOnes(NelsonType classOut, void* dp, const Dimensions& outDims)
     if (nbElements == 1) {
         ptrDpz[0] = value;
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
             ptrDpz[k] = value;
         }

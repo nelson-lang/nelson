@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ImagPart.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -29,9 +30,7 @@ ImagPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = sp[2 * i + 1];
         }
@@ -42,9 +41,7 @@ ImagPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = dp[2 * i + 1];
         }

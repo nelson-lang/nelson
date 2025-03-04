@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Negate.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -17,9 +18,7 @@ template <class T>
 void
 negate(indexType N, T* C, const T* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = -A[i];
     }

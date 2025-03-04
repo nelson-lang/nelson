@@ -14,6 +14,7 @@
 #include "Exception.hpp"
 #include "Warning.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
@@ -46,9 +47,7 @@ integer_colon(NelsonType destinationClass, T low, T high, T step)
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
         pV[k] = (T)(low + (k * step));
     }
@@ -96,7 +95,7 @@ char_colon(charType low, charType high, int64 step)
     }
 
 #if defined(WITH_OPENMP)
-#pragma omp parallel for schedule(static) if (n > 1000)
+#pragma omp parallel for schedule(static) if (n > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType k = 0; k < static_cast<ompIndexType>(n); k++) {
         int64 offset = static_cast<int64>(k) * step;
@@ -195,9 +194,7 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
     }
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
         pV[k] = low + (k * step);
     }

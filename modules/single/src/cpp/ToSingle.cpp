@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ToSingle.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,9 +27,7 @@ ToSingle(const ArrayOf& A)
         return r;
     }
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType i = 0; i < nbElements; ++i) {
         pSingle[i] = static_cast<single>(ptrA[i]);
     }
@@ -83,9 +82,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, nbElements, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, false);
         auto* pDouble = (double*)A.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {
             pSingle[k] = static_cast<single>(pDouble[k]);
         }

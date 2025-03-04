@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <omp.h>
 #include "ParallelSort.hpp"
+#include "omp_for_loop.hpp"
 #include "complex_abs.hpp"
 //=============================================================================
 namespace Nelson {
@@ -56,9 +57,7 @@ UniqueComplexOneLhs(const ArrayOf& input)
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].value = ptrDpz[k];
     }
@@ -70,13 +69,12 @@ UniqueComplexOneLhs(const ArrayOf& input)
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
     auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)values.size(); k++) {
+    ompIndexType elementCount = values.size();
+    OMP_PARALLEL_FOR_LOOP(elementCount)
+    for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOpz[k] = values[k].value;
     }
-    Dimensions dimsOut = isRowVector ? Dimensions(1, values.size()) : Dimensions(values.size(), 1);
+    Dimensions dimsOut = isRowVector ? Dimensions(1, elementCount) : Dimensions(elementCount, 1);
     retval << ArrayOf(cls, dimsOut, op);
     return retval;
 }
@@ -91,9 +89,7 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].value = ptrDpz[k];
         values[k].n = (ompIndexType)k + 1;
@@ -107,15 +103,14 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
     auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)values.size(); k++) {
+    ompIndexType elementCount = values.size();
+    OMP_PARALLEL_FOR_LOOP(elementCount)
+    for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOpz[k] = values[k].value;
         mp[k] = (double)values[k].n;
     }
 
-    Dimensions dimsOut = isRowVector ? Dimensions(1, values.size()) : Dimensions(values.size(), 1);
+    Dimensions dimsOut = isRowVector ? Dimensions(1, elementCount) : Dimensions(elementCount, 1);
     retval << ArrayOf(cls, dimsOut, op);
     retval << ArrayOf(NLS_DOUBLE, dimsOut, mp);
 
@@ -136,9 +131,7 @@ UniqueComplexThreeLhs(const ArrayOf& input)
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
     ompIndexType len = input.getElementCount();
     std::vector<UniqueComplexEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].n = k;
         values[k].value = ptrDpz[k];

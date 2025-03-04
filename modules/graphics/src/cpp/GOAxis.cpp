@@ -13,6 +13,7 @@
 #include <QtWidgets/QApplication>
 #include <QtGui/QPainter>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOAxis.hpp"
@@ -2290,9 +2291,7 @@ GOAxis::reMap(std::vector<double> xs, std::vector<double> ys, std::vector<double
     ax.resize(xs.size());
     ay.resize(xs.size());
     az.resize(xs.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(xs.size())
     for (ompIndexType i = 0; i < (ompIndexType)xs.size(); i++) {
         ax[i] = mapX(xs[i]);
         ay[i] = mapY(ys[i]);

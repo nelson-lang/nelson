@@ -10,6 +10,7 @@
 #include "StringLength.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,9 +26,7 @@ StringLength(const ArrayOf& A)
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         ompIndexType elementCount = outputDims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             if (elements[k].isCharacterArray()) {
                 std::wstring wstr = elements[k].getContentAsWideString();
@@ -49,9 +48,7 @@ StringLength(const ArrayOf& A)
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         ompIndexType s = (ompIndexType)wstr.size();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(s)
         for (ompIndexType k = 0; k < s; k++) {
             ptrLength[k] = static_cast<double>(wstr[k].length());
         }

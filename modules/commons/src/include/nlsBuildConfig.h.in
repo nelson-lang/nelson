@@ -13,6 +13,8 @@
 #define NLS_LIBRARY_PATH_PREFIX L"@NLS_LIBRARY_PATH_PREFIX@"
 #define NLS_RUNTIME_PATH_PREFIX L"@NLS_RUNTIME_PATH_PREFIX@"
 //=============================================================================
+#define OMP_DEFAULT_THRESHOLD 1000
+//=============================================================================
 #define WITH_TAGLIB @WITH_TAGLIB@
 #define WITH_OPENMP @WITH_OPENMP@
 #define WITH_TBB @WITH_TBB@

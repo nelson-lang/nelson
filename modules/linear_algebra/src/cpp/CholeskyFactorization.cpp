@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "CholeskyFactorization.hpp"
@@ -32,7 +33,7 @@ singleRealCholeskyFactorization(bool lowerTriangle, single* ptrS, int leadDim)
         int idx1 = 0;
         int idx2 = 0;
 #if WITH_OPENMP
-#pragma omp parallel for private(idx2)
+#pragma omp parallel for private(idx2) if (leadDim > OMP_DEFAULT_THRESHOLD)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {
             for (idx2 = idx1 + 1; idx2 < leadDim; idx2++) {
@@ -56,7 +57,7 @@ singleComplexCholeskyFactorization(bool lowerTriangle, std::complex<single>* ptr
         int idx1 = 0;
         int idx2 = 0;
 #if WITH_OPENMP
-#pragma omp parallel for private(idx2)
+#pragma omp parallel for private(idx2) if (leadDim > OMP_DEFAULT_THRESHOLD)
 #endif
         for (idx1 = 0; idx1 < leadDim; idx1++) {
             for (idx2 = idx1 + 1; idx2 < leadDim; idx2++) {
@@ -78,9 +79,7 @@ doubleRealCholeskyFactorization(bool lowerTriangle, double* ptrD, int leadDim)
         return info;
     }
     if (leadDim > 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(leadDim * leadDim)
         for (int idx = 0; idx < leadDim * leadDim; idx++) {
             int row = idx % leadDim;
             int col = idx / leadDim;
@@ -105,9 +104,7 @@ doubleComplexCholeskyFactorization(bool lowerTriangle, std::complex<double>* ptr
         const std::complex<double> zero(0.0, 0.0);
         const int totalElements = (leadDim * (leadDim - 1)) / 2;
 
-#ifdef WITH_OPENMP
-#pragma omp parallel for schedule(static)
-#endif
+        OMP_PARALLEL_FOR_LOOP(totalElements)
         for (int k = 0; k < totalElements; ++k) {
             int i = k / leadDim;
             int j = k % leadDim + i + 1;

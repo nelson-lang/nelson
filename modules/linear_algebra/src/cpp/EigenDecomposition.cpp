@@ -12,6 +12,7 @@
 #endif
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "EigenDecomposition.hpp"
@@ -72,9 +73,7 @@ EigenDecompositionFullSymmetric(
         V = ArrayOf(NLS_SINGLE, Vdims, Vp);
         single* Dp = (single*)new_with_exception<single>(N * N, true);
         D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -87,9 +86,7 @@ EigenDecompositionFullSymmetric(
         V = ArrayOf(NLS_DOUBLE, Vdims, Vp);
         double* Dp = (double*)new_with_exception<double>(N * N, true);
         D = ArrayOf(NLS_DOUBLE, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -103,9 +100,7 @@ EigenDecompositionFullSymmetric(
         singleComplexEigenDecompositionSymmetric((int)N, Vp, eigenvals, ptrAz, true);
         single* Dp = (single*)new_with_exception<single>(N * N, true);
         D = ArrayOf(NLS_SINGLE, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -122,9 +117,7 @@ EigenDecompositionFullSymmetric(
         doubleComplexEigenDecompositionSymmetric((int)N, Vp, eigenvals, ptrAz, true);
         doublecomplex* Dp = (doublecomplex*)new_with_exception<doublecomplex>(N * N, true);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -169,9 +162,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<single>* Dp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, true);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -190,9 +181,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
             int i = 0;
             while (i < N) {
                 if ((i < N - 1) && (eigvals[2 * i + 1] != 0)) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(N)
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
                         Vpc[2 * (j + N * i)] = Vp[j + N * i];
                         Vpc[2 * (j + N * i) + 1] = Vp[j + N * (i + 1)];
@@ -201,9 +190,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
                     }
                     i += 2;
                 } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(N)
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
                         Vpc[2 * (j + N * i)] = Vp[j + N * i];
                     }
@@ -225,9 +212,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<double>* Dp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, true);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -246,9 +231,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
             int i = 0;
             while (i < N) {
                 if ((i < N - 1) && (eigvals[2 * i + 1] != 0)) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(N)
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
                         Vpc[2 * (j + N * i)] = Vp[j + N * i];
                         Vpc[2 * (j + N * i) + 1] = Vp[j + N * (i + 1)];
@@ -257,9 +240,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
                     }
                     i += 2;
                 } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(N)
                     for (ompIndexType j = 0; j < (ompIndexType)N; j++) {
                         Vpc[2 * (j + N * i)] = Vp[j + N * i];
                     }
@@ -282,9 +263,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<single>* Dp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, true);
         D = ArrayOf(NLS_SCOMPLEX, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }
@@ -303,9 +282,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<double>* Dp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, true);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             Dp[i + N * i] = eigenvals[i];
         }

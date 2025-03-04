@@ -12,6 +12,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -98,17 +99,13 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
     dims[1] = M;
     void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
     if (diagonalOrder < 0) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(length)
         for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
             indexType dstIndex = -diagonalOrder + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);
         }
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(length)
         for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
             indexType dstIndex = diagonalOrder * M + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);

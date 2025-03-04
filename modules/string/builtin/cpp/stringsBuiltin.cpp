@@ -13,6 +13,7 @@
 #include "stringsBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -68,9 +69,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     dims.simplify();
                     ompIndexType elementCount = dims.getElementCount();
                     auto* elements = new ArrayOf[elementCount];
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                    OMP_PARALLEL_FOR_LOOP(elementCount)
                     for (ompIndexType k = 0; k < elementCount; k++) {
                         elements[k] = ArrayOf::characterArrayConstructor("");
                     }
@@ -112,9 +111,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
         dims.simplify();
         ompIndexType elementCount = dims.getElementCount();
         auto* elements = new ArrayOf[elementCount];
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             elements[k] = ArrayOf::characterArrayConstructor("");
         }

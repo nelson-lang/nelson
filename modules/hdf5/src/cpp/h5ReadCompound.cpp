@@ -19,6 +19,7 @@
 #include "Exception.hpp"
 #include "NewWithException.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -38,9 +39,7 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
     }
     ArrayOf fieldvalue = ArrayOf(NLS_UINT8, dims, ptrUINT8);
     ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
     }
@@ -100,9 +99,7 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
     }
     ArrayOf fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         switch (outputClass) {
         case NLS_UINT8: {
@@ -166,18 +163,14 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
     ArrayOf fieldvalue = ArrayOf(NLS_CELL_ARRAY, dims, ptrArrayOf);
     ompIndexType elementCount = dims.getElementCount();
     if (H5Tis_variable_str(mType)) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             char** value = (char**)(data + offset + (sizeType * k));
             ptrArrayOf[k] = ArrayOf::characterArrayConstructor(std::string(value[0]));
         }
     } else {
         hsize_t lengthString = H5Tget_size(mType);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             char* value = (char*)(data + offset + (sizeType * k));
             std::string str;
@@ -219,9 +212,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
     auto* ptrDouble = static_cast<double*>(ptrVoid);
     auto* ptrSingle = static_cast<single*>(ptrVoid);
     ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         if (outputClass == NLS_SINGLE) {
             single value = ((single*)(data + offset + (sizeType * k)))[0];

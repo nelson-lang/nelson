@@ -13,6 +13,7 @@
 //=============================================================================
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "IsMember.hpp"
 #include "Error.hpp"
@@ -29,9 +30,7 @@ isMemberStringArray(const ArrayOf& A, const ArrayOf& B)
     ArrayOf* dB = (ArrayOf*)B.getDataPointer();
     bool isMissingA = false;
     ompIndexType nbElementsA = A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElementsA)
     for (ompIndexType k = 0; k < nbElementsA; ++k) {
         std::wstring strA;
         if (dA[k].getDataClass() != NLS_CHAR) {
@@ -66,9 +65,7 @@ isMemberCharacterArray(const ArrayOf& A, const ArrayOf& B)
     logical* elements = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, stringsA.size());
     res = ArrayOf(NLS_LOGICAL, dimsRes, elements);
     memset(elements, false, sizeof(logical) * stringsA.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(stringsA.size())
     for (ompIndexType k = 0; k < (ompIndexType)stringsA.size(); ++k) {
         std::wstring value = stringsA[k];
         for (auto& q : stringsB) {
@@ -91,9 +88,7 @@ isMemberReal(const ArrayOf& A, const ArrayOf& B)
     T* dA = (T*)A.getDataPointer();
     T* dB = (T*)B.getDataPointer();
     ompIndexType nbElementsA = A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElementsA)
     for (ompIndexType k = 0; k < nbElementsA; ++k) {
         T value = dA[k];
         for (indexType q = 0; q < B.getElementCount(); ++q) {
@@ -116,9 +111,7 @@ isMemberComplex(const ArrayOf& A, const ArrayOf& B)
     T* dA = (T*)A.getDataPointer();
     T* dB = (T*)B.getDataPointer();
     ompIndexType nbElementsA = A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElementsA)
     for (ompIndexType k = 0; k < nbElementsA * 2; k = k + 2) {
         std::complex<T> value(dA[k], dA[k + 1]);
         for (indexType q = 0; q < B.getElementCount() * 2; q = q + 2) {

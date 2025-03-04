@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ArrayOf.hpp"
 #include "complex_abs.hpp"
 #include "ParallelSort.hpp"
@@ -73,18 +74,15 @@ UniqueComplexRowsOneLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : cnt)
+#pragma omp parallel for reduction(+ : cnt) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
-
     for (ompIndexType i = 1; i < len; ++i) {
         if (!(sp[i] == sp[i - 1])) {
             cnt++;
@@ -95,9 +93,7 @@ UniqueComplexRowsOneLhs(const ArrayOf& input)
 
     T* op = (T*)ArrayOf::allocateArrayOf(cls, cnt * cols);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * 2 * tcnt] = sp[0].data[0 + j * 2 * rows];
         op[1 + j * 2 * tcnt] = sp[0].data[1 + j * 2 * rows];
@@ -134,16 +130,14 @@ UniqueComplexRowsTwoLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : cnt)
+#pragma omp parallel for reduction(+ : cnt) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
 
     for (int i = 1; i < len; ++i) {
@@ -156,9 +150,7 @@ UniqueComplexRowsTwoLhs(const ArrayOf& input)
 
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     T* op = (T*)ArrayOf::allocateArrayOf(cls, cnt * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * 2 * tcnt] = sp[0].data[0 + j * 2 * rows];
         op[1 + j * 2 * tcnt] = sp[0].data[1 + j * 2 * rows];
@@ -197,16 +189,14 @@ UniqueComplexRowsThreeLhs(const ArrayOf& input)
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
         sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : cnt)
+#pragma omp parallel for reduction(+ : cnt) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
 
     for (int i = 1; i < len; ++i) {
@@ -219,9 +209,7 @@ UniqueComplexRowsThreeLhs(const ArrayOf& input)
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     T* op = (T*)ArrayOf::allocateArrayOf(cls, cnt * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cols)
     for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
         op[0 + j * 2 * tcnt] = sp[0].data[0 + j * 2 * rows];
         op[1 + j * 2 * tcnt] = sp[0].data[1 + j * 2 * rows];

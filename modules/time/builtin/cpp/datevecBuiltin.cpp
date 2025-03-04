@@ -9,6 +9,7 @@
 //=============================================================================
 #include <string>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "datevecBuiltin.hpp"
 #include "Error.hpp"
 #include "DateVector.hpp"
@@ -36,9 +37,7 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
             double* res = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len, stringVector(), false));
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(len)
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                 double DT, Y, M, D, H, MN, S, MS;
                 DT = ptd[k];
@@ -85,9 +84,7 @@ Nelson::TimeGateway::datevecBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
             }
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(len)
             for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
                 double DT = ptd[k];
                 double V1, V2, V3, V4, V5, V6, V7;

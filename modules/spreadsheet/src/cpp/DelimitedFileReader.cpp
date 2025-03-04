@@ -19,6 +19,7 @@
 #include "characters_encoding.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "StringHelpers.hpp"
 #include "i18n.hpp"
 #include "CSVSeparatorDetector.hpp"
@@ -192,9 +193,7 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
             ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements));
         result = ArrayOf(NLS_DCOMPLEX, dims, values);
         hasFailed = false;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType index = 0; index < nbElements; ++index) {
             if (hasFailed) {
                 continue;
@@ -221,9 +220,7 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
         double* values = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements));
         result = ArrayOf(NLS_DOUBLE, dims, values);
         hasFailed = false;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType index = 0; index < nbElements; ++index) {
             if (hasFailed) {
                 continue;

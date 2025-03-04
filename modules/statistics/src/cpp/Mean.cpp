@@ -110,7 +110,7 @@ TMeanAllInteger(const T* spx, indexType elementCount)
 {
     double sum = 0.;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sum)
+#pragma omp parallel for reduction(+ : sum) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
         sum += (double)spx[i];
@@ -127,7 +127,7 @@ TMeanAllReal(const T* spx, bool omitNaN, indexType elementCount)
     if (omitNaN) {
         double nbNotNaN = 0.;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sum, nbNotNaN)
+#pragma omp parallel for reduction(+ : sum, nbNotNaN) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
             if (!std::isnan((double)spx[i])) {
@@ -138,7 +138,7 @@ TMeanAllReal(const T* spx, bool omitNaN, indexType elementCount)
         mean = sum / nbNotNaN;
     } else {
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sum)
+#pragma omp parallel for reduction(+ : sum) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
             sum += (double)spx[i];
@@ -158,7 +158,7 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
     if (omitNaN) {
         double nbNotNaN = 0.;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sumImag, sumReal, nbNotNaN)
+#pragma omp parallel for reduction(+ : sumImag, sumReal, nbNotNaN) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount * 2; i = i + 2) {
             if (!std::isnan((double)spx[i]) && !std::isnan((double)spx[i + 1])) {
@@ -176,7 +176,7 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
         }
     } else {
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sumImag, sumReal)
+#pragma omp parallel for reduction(+ : sumImag, sumReal) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
 
         for (ompIndexType i = 0; i < (ompIndexType)elementCount * 2; i = i + 2) {

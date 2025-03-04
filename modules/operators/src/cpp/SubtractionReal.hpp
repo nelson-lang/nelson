@@ -9,7 +9,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
+#include "omp_for_loop.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
 //=============================================================================
@@ -69,9 +71,7 @@ matrix_matrix_real_subtraction(NelsonType classDestination, const ArrayOf& A, co
     res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] - ptrB[k];
     }

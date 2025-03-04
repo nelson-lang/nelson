@@ -13,6 +13,7 @@
 #include <cstring>
 #include "Types.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include "NewWithException.hpp"
@@ -52,9 +53,7 @@ singleGeneralizedEigenDecomposition(
     float* WORK = (float*)new_with_exception<float>(LWORK, true);
     LAPACK_sggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHAR, ALPHAI, BETA, VL, &LDVL, VR, &LDVR,
         WORK, &LWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
         d[2 * i] = ALPHAR[i] / BETA[i];
         d[2 * i + 1] = ALPHAI[i] / BETA[i];
@@ -133,9 +132,7 @@ doubleGeneralizedEigenDecomposition(
     double* WORK = (double*)new_with_exception<double>(LWORK, true);
     LAPACK_dggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHAR, ALPHAI, BETA, VL, &LDVL, VR, &LDVR,
         WORK, &LWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
         d[2 * i] = ALPHAR[i] / BETA[i];
         d[2 * i + 1] = ALPHAI[i] / BETA[i];
@@ -218,9 +215,7 @@ singleComplexGeneralizedEigenDecomposition(int n, std::complex<float>* v, std::c
         = (std::complex<float>*)new_with_exception<std::complex<float>>(LWORK, true);
     LAPACK_cggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHA, BETA, VL, &LDVL, VR, &LDVR, WORK,
         &LWORK, RWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
         d[i] = ALPHA[i] / BETA[i];
     }
@@ -339,9 +334,7 @@ doubleComplexGeneralizedEigenDecomposition(int n, std::complex<double>* v, std::
         = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, true);
     LAPACK_zggev(&JOBVL, &JOBVR, &N, A, &LDA, B, &LDB, ALPHA, BETA, VL, &LDVL, VR, &LDVR, WORK,
         &LWORK, RWORK, &INFO);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
         d[i] = ALPHA[i] / BETA[i];
     }

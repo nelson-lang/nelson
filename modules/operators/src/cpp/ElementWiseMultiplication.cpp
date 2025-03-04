@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "ElementWiseMultiplication.hpp"
@@ -35,7 +36,7 @@ matrix_matrix_elementWiseMultiplication(
     if (IS_INTEGER_TYPE(classDestination)) {
         bool mustCastAsLongDouble = mustCastIntegerAsLongDouble(classDestination);
         bool mustCastAsDouble = mustCastIntegerAsDouble(classDestination);
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(Clen)
         for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
             if (mustCastAsLongDouble) {
                 ptrC[k] = static_cast<T>(
@@ -51,7 +52,7 @@ matrix_matrix_elementWiseMultiplication(
             }
         }
     } else {
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(Clen)
         for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
             ptrC[k] = ptrA[k] * ptrB[k];
         }

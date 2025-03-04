@@ -18,6 +18,7 @@
 #include "DisplayVariableHelpers.hpp"
 #include "FormatHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -81,9 +82,7 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
     sizeType termWidth = io->getTerminalWidth();
 
     bool isColumnsVector = A.isColumnVector();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
         indexType v = (k / rows) % columns;
         cellSummarize[k]
@@ -203,9 +202,7 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         indexType nbElements = rows * columns;
         wstringVector cellSummarize(nbElements, L"");
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
             cellSummarize[k] = getAsFormattedString(
                 elements, k + offset, currentNumericFormat, termWidth, false);

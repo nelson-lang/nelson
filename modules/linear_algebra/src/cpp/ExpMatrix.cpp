@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "ExpMatrix.hpp"
 #include "ClassName.hpp"
@@ -267,9 +268,7 @@ computeMatrixExponential(const ArrayOf& V, const ArrayOf& D, const ArrayOf& invV
         ptrInvV, (Eigen::Index)invV.getRows(), (Eigen::Index)invV.getColumns());
     Eigen::Map<EigenMatrixType> matD(ptrD, (Eigen::Index)D.getRows(), (Eigen::Index)D.getColumns());
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(matD.rows())
     for (ompIndexType i = 0; i < (ompIndexType)matD.rows(); ++i) {
         matD(i, i) = std::exp(matD(i, i));
     }
@@ -367,9 +366,7 @@ ExpMatrixComplex(const ArrayOf& A, NelsonType destinationType)
         matA);
     auto evects = es.eigenvectors();
     auto evals = es.eigenvalues();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(evals.rows())
     for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
         evals(i) = std::exp(evals(i));
     }

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "IsInf.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -19,9 +20,7 @@ template <class T>
 void
 boolean_isinf(indexType N, logical* C, const T* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isinf(A[i]);
     }
@@ -31,9 +30,7 @@ template <class T>
 void
 boolean_isinf_cplx(indexType N, logical* C, const T* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isinf(A[i].real()) || std::isinf(A[i].imag());
     }
@@ -89,10 +86,9 @@ IsInf(const ArrayOf& A)
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
             NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < (ompIndexType)A.getElementCount(); i++) {
+        ompIndexType elementCount = A.getElementCount();
+        OMP_PARALLEL_FOR_LOOP(elementCount)
+        for (ompIndexType i = 0; i < elementCount; i++) {
             CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);

@@ -176,6 +176,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
       <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
     </ProjectReference>

@@ -22,7 +22,7 @@ VarianceReal(const T* sp, T* dp, int planes, int planesize, int linesize)
     ompIndexType j;
     ompIndexType k;
 #if WITH_OPENMP
-#pragma omp parallel for private(j, k)
+#pragma omp parallel for private(j, k) if (planes > OMP_DEFAULT_THRESHOLD)
 #endif
     for (i = 0; i < (ompIndexType)planes; i++) {
         for (j = 0; j < (ompIndexType)planesize; j++) {
@@ -48,7 +48,7 @@ VarianceComplex(const std::complex<T>* sp, T* dp, int planes, int planesize, int
     ompIndexType j;
     ompIndexType k;
 #if WITH_OPENMP
-#pragma omp parallel for private(j, k)
+#pragma omp parallel for private(j, k) if (planes > OMP_DEFAULT_THRESHOLD)
 #endif
     for (i = 0; i < (ompIndexType)planes; i++) {
         for (j = 0; j < (ompIndexType)planesize; j++) {

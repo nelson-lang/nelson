@@ -12,6 +12,7 @@
 #include "ArrayOf.hpp"
 #include "nlsBuildConfig.h"
 #include "UniqueHelpers.hpp"
+#include "omp_for_loop.hpp"
 #include <vector>
 #include <algorithm>
 #include <omp.h>
@@ -90,9 +91,7 @@ UniqueSortedRealTwoLhs(const ArrayOf& input)
     ompIndexType len = input.getElementCount();
     ArrayOfVector retval;
     std::vector<UniqueRealEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].n = k + 1;
         values[k].value = dp[k];
@@ -104,9 +103,7 @@ UniqueSortedRealTwoLhs(const ArrayOf& input)
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), len);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         op[k] = values[k].value;
         mp[k] = (double)values[k].n;
@@ -135,9 +132,7 @@ UniqueSortedRealThreeLhs(const ArrayOf& input)
     ompIndexType len = input.getElementCount();
     ArrayOfVector retval;
     std::vector<UniqueRealEntry<T>> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].n = k;
         values[k].value = dp[k];

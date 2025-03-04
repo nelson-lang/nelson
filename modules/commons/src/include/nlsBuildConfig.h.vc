@@ -18,6 +18,8 @@
 #define NLS_RUNTIME_PATH_PREFIX L"bin/win32"
 #endif
 //=============================================================================
+#define OMP_DEFAULT_THRESHOLD 1000
+//=============================================================================
 #define WITH_TAGLIB 1
 #define WITH_OPENMP 1
 #define WITH_TBB 1

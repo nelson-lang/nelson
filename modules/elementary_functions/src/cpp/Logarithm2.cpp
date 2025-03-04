@@ -9,6 +9,7 @@
 //=============================================================================
 #include <complex>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Logarithm2.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
@@ -33,9 +34,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
         res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             std::complex<double> C(ptrA[k], 0);
             ptrCplxC[k] = std::log(C) / std::log(2);
@@ -54,9 +53,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
         res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             std::complex<single> C(ptrA[k], 0);
             ptrCplxC[k] = std::log(C) / std::log(2.f);
@@ -76,9 +73,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
         res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             ptrCplxC[k] = std::log(ptrCplxA[k]) / std::log(2);
             if (!((ptrCplxC[k].imag() == 0.)
@@ -97,9 +92,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
         res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
         bool allReal = true;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             ptrCplxC[k] = std::log(ptrCplxA[k]) / std::log(2.f);
             if (!((ptrCplxC[k].imag() == 0.)
@@ -136,9 +129,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         double* ptrE = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_DOUBLE, dimsA, ptrE);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;
             double m = frexp(ptrA[k], &e);
@@ -158,9 +149,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         single* ptrE = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_SINGLE, dimsA, ptrE);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;
             single m = frexpf(ptrA[k], &e);
@@ -182,9 +171,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_DOUBLE, dimsA, ptrE);
         Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;
             double m = frexp(ptrCplxA[k].real(), &e);
@@ -206,9 +193,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_SINGLE, dimsA, ptrE);
         Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;
             single m = frexp(ptrCplxA[k].real(), &e);

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include <limits>
 #include "GOVectorProperty.hpp"
 #include "Error.hpp"
@@ -22,9 +23,7 @@ GOVectorProperty::get()
 {
     ArrayOf ret(ArrayOf::doubleVectorConstructor(_data.size()));
     double* dp = (double*)ret.getReadWriteDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(_data.size())
     for (ompIndexType i = 0; i < (ompIndexType)_data.size(); i++) {
         dp[i] = _data[i];
     }

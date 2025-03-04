@@ -10,6 +10,7 @@
 #include "UniqueCell.hpp"
 #include "UniqueHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -76,7 +77,7 @@ UniqueCellTwoLhs(const ArrayOf& input)
     ArrayOf* sp = (ArrayOf*)input.getDataPointer();
     bool isNotCellString = false;
 #if WITH_OPENMP
-#pragma omp parallel for shared(isNotCellString)
+#pragma omp parallel for shared(isNotCellString) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < len; i++) {
         if (sp[i].isCharacterArray()) {
@@ -97,9 +98,7 @@ UniqueCellTwoLhs(const ArrayOf& input)
 
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, cnt);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(cnt)
     for (ompIndexType i = 0; i < cnt; i++) {
         op[i] = sp[cellsEntry[i].n];
         mp[i] = (double)(cellsEntry[i].n + 1);

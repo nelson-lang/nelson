@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "NaN.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,7 +40,7 @@ NaN(Dimensions& dims)
             mat[0] = value;
         } else {
 #if WITH_OPENMP
-#pragma omp parallel for
+            OMP_PARALLEL_FOR_LOOP(nbElements)
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
                 mat[k] = value;
             }
