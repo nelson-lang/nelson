@@ -90,7 +90,9 @@ function varargout = plot(varargin)
     end
   end
   axes(saveca);
-  h.Visible='on';
+  if isempty(find(strcmp(propertiesList, 'Visible')))
+    h.Visible = 'on';
+  end
   if (nargout > 0)
     varargout{1} = h;
   end

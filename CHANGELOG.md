@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `plot`: speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
+- `plot`, `plot3` : speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
 - fmtlib 11.1.3
 
 ## 1.12.0 (2025-02-16)

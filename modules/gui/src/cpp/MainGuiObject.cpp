@@ -135,7 +135,7 @@ DestroyMainGuiObject(void* term)
             delete nlsTerm;
             nlsTerm = nullptr;
         }
-        NelSonQtApp->deleteLater();
+        delete NelSonQtApp;
         NelSonQtApp = nullptr;
     }
     DestroyConsole();
