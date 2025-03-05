@@ -12,6 +12,17 @@ var
   License2AcceptedRadio: TRadioButton;
   License2NotAcceptedRadio: TRadioButton;
 //=============================================================================
+const
+  PF_AVX2_INSTRUCTIONS_AVAILABLE = 40;  // Windows constant for AVX2 support check
+//=============================================================================
+function IsProcessorFeaturePresent(feature: Integer): Boolean;
+external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
+//=============================================================================
+function IsAVX2Supported(): Boolean;
+begin
+  Result := IsProcessorFeaturePresent(PF_AVX2_INSTRUCTIONS_AVAILABLE);
+end;
+//=============================================================================
 function IsSilentMode(): Boolean;
 var
   j: Integer;
@@ -411,5 +422,16 @@ begin
   begin
     Result := ExpandConstant('{userpf}');
   end;
+end;
+//=============================================================================
+function InitializeSetup: Boolean;
+begin
+  if IsWin64() and not IsAVX2Supported then
+  begin
+    SuppressibleMsgBox(CustomMessage('MESSAGEBOX_AVX2_REQUIRED'), mbError, MB_OK, MB_OK);
+    Abort;
+    Result := False;
+  end;
+  Result := True;
 end;
 //=============================================================================

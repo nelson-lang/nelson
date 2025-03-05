@@ -11,9 +11,11 @@
 # ==============================================================================
 set(module_name main)
 # ==============================================================================
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/commons)
 # ==============================================================================
-file(GLOB MAINCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/*.cpp")
+file(GLOB MAINCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
 # ==============================================================================
 add_executable(nelson-cli-exec ${MAINCLI_SRC})
 # ==============================================================================
@@ -33,19 +35,25 @@ target_link_libraries(
   ${HELP_TOOLS_LIBRARIES})
 # ==============================================================================
 if(NOT WITHOUT_GUI_MODULE)
-  file(GLOB MAINADVCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp")
+  file(GLOB MAINADVCLI_SRC 
+    "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-adv-cli-exec ${MAINADVCLI_SRC})
   target_link_libraries(nelson-adv-cli-exec nlsEngine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_GUI_MODULE)
-  file(GLOB MAINGUI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp")
+  file(GLOB MAINGUI_SRC 
+    "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-gui-exec ${MAINGUI_SRC})
   target_link_libraries(nelson-gui-exec nlsEngine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_SIO_CLIENT_MODULE)
-  file(GLOB MAINSIOCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp")
+  file(GLOB MAINSIOCLI_SRC 
+    "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
   target_link_libraries(nelson-sio-cli-exec nlsEngine)
 endif()

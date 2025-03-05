@@ -18,9 +18,21 @@
     <ClCompile Include="main-adv-cli.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\commons\StartNelsonDynamicFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commons\NelsonRunner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commons\StartNelsonDynamicFunction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commons\NelsonRunner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

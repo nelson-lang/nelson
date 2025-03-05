@@ -56,6 +56,7 @@ french.PYTHON_RUNTIME=Python runtime 3.12
 french.JULIA_ENGINE_MODULE=Julia interface module
 french.SPREADSHEET_MODULE=Feuilles de calcul module
 ;==============================================================================
+french.MESSAGEBOX_AVX2_REQUIRED=Votre processeur ne prend pas en charge les instructions AVX2. L'installation ne peut pas continuer.
 french.MESSAGEBOX_X64_VERSION_RECOMMANDED=Utiliser la version x64 est fortement recommandée.
 french.MESSAGEBOX_GUI_REQUIRED=Le module GUI doit être sélectionné.
 french.MESSAGEBOX_TESTS_MANAGER_REQUIRED=Le module tests_manager doit être sélectionné.

@@ -148,17 +148,20 @@ Nelson is tested and supported on a wide range of platforms. **[Downloads](https
 
 | **Operating System** |  **Architecture**  | **CI** | **Binaries** |
 | :------------------: | :----------------: | :----: | :----------: |
-|  **Windows 10, 11**  |    x86-64, i686    |   ✓    |      ✓       |
+|  **Windows 10, 11**  |    x86-64 (\*1)    |   ✓    |      ✓       |
 |  **macOS Sequoia**   |       arm64        |   ✓    |              |
 |   **macOS Sonoma**   |       arm64        |   ✓    |              |
 |  **macOS Ventura**   |  x86-64 (64-bit)   |   ✓    |              |
 |   **Ubuntu 24.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (Snap)   |
 |   **Ubuntu 22.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
-|    **Fedora 40**     |       x86-64       |   ✓    |   ✓ (Snap)   |
+|    **Fedora 41**     |       x86-64       |   ✓    |   ✓ (Snap)   |
 |    **ArchLinux**     |       x86-64       |   ✓    |   ✓ (Snap)   |
-|     **Raspbian**     |  ARM v8 (64-bit)   |        |              |
 
 _Note: The continued support of some platforms may depend on community contributions._
+
+(\*1) On Windows x64, the processor must be an Intel or AMD x86-64 CPU that supports the [AVX2](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX2) instruction set.
+
+Official distribution of 32-bit Windows binary versions has been discontinued.
 
 Allan CORNET (nelson.numerical.computation@gmail.com)

@@ -178,6 +178,7 @@
       <OpenMP>GenerateParallelCode</OpenMP>
       <CCppSupport>
       </CCppSupport>
+      <AdditionalOptions>/arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
