@@ -13,6 +13,7 @@
 //=============================================================================
 #include "LUMatrixFactorization.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
@@ -45,9 +46,7 @@ updatePivotVector(int nrows, int* piv, int p)
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
         fullpivot[i] = (int)i;
     }
@@ -91,9 +90,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nrows)
     for (i = 0; i < (ompIndexType)nrows; i++) {
         pmat[i + fullpivot[i] * nrows] = 1;
     }
@@ -108,15 +105,13 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
         ompIndexType lcols = ncols;
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lcols)
         for (i = 0; i < lcols; i++) {
             ptrZl[(i + i * lrows)].real(1.0);
             ptrZl[(i + i * lrows)].imag(0.0);
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < std::min(i, lcols); j++) {
@@ -124,7 +119,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < urows; i++) {
             for (j = i; j < ucols; j++) {
@@ -138,14 +133,14 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
         auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
         auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
 #if WITH_OPENMP
-#pragma omp parallel for
+#pragma omp parallel for if (lcols > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(i + i * lrows)].real(1.0);
             ptrZl[(i + i * lrows)].imag(0.0);
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < i; j++) {
@@ -153,7 +148,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < nrows; i++) {
             for (j = i; j < ncols; j++) {
@@ -218,14 +213,14 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
         ompIndexType ucols = ncols;
 
 #if WITH_OPENMP
-#pragma omp parallel for
+#pragma omp parallel for if (lcols > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < lcols; i++) {
             ptrZl[(fullpivot[i] + i * lrows)].real(1.0);
             ptrZl[(fullpivot[i] + i * lrows)].imag(0.0);
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < std::min(i, lcols); j++) {
@@ -233,7 +228,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < urows; i++) {
             for (j = i; j < ucols; j++) {
@@ -247,15 +242,13 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lcols)
         for (i = 0; i < lcols; i++) {
             ptrZl[(fullpivot[i] + i * lrows)].real(1.0);
             ptrZl[(fullpivot[i] + i * lrows)].imag(0.0);
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < i; j++) {
@@ -263,7 +256,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < nrows; i++) {
             for (j = i; j < ncols; j++) {
@@ -306,9 +299,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
         pmat[i + fullpivot[i] * nrows] = 1;
     }
@@ -324,15 +315,13 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
         ompIndexType i = 0;
         ompIndexType j = 0;
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lcols)
         for (i = 0; i < lcols; i++) {
             l[i + i * lrows] = 1.0;
         }
 
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < std::min(i, lcols); j++) {
@@ -340,7 +329,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < urows; i++) {
             for (j = i; j < ucols; j++) {
@@ -354,14 +343,12 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
         ompIndexType i = 0;
         ompIndexType j = 0;
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lcols)
         for (i = 0; i < lcols; i++) {
             l[i + i * lrows] = 1.0;
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < i; j++) {
@@ -369,7 +356,7 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < nrows; i++) {
             for (j = i; j < ncols; j++) {
@@ -415,14 +402,12 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
         ompIndexType lcols = ncols;
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lcols)
         for (i = 0; i < lcols; i++) {
             l[fullpivot[i] + i * lrows] = 1.0;
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < std::min(i, lcols); j++) {
@@ -430,7 +415,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < urows; i++)
             for (j = i; j < ucols; j++)
@@ -443,7 +428,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
             l[fullpivot[i] + i * lrows] = 1.0;
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 1; i < lrows; i++) {
             for (j = 0; j < i; j++) {
@@ -451,7 +436,7 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
         for (i = 0; i < nrows; i++)
             for (j = i; j < ncols; j++)

@@ -33,6 +33,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
@@ -46,6 +47,7 @@ target_link_libraries(
   ${module_library_name}
   nlsElementary_mathematics
   nlsError_manager
+  nlsNelson_manager
   nlsI18n
   nlsTypes
   nlsSparse

@@ -19,6 +19,7 @@
 #include "Types.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -85,9 +86,7 @@ saturate(NelsonType classIn, NelsonType classOut, const void* pIn, void* pOut, i
             }
         }
         if (checkNaN) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(count)
             for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
                 if (std::isnan((double)sp[i])) {
                     qp[i] = (TOUT)0;
@@ -96,9 +95,7 @@ saturate(NelsonType classIn, NelsonType classOut, const void* pIn, void* pOut, i
                 }
             }
         } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(count)
             for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
                 qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
             }
@@ -142,9 +139,7 @@ TOUT*
 promoteAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         dstPtr[i] = (TOUT)ptr[i];
     }
@@ -156,9 +151,7 @@ TOUT*
 promoteAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         dstPtr[i] = (ptr[i] == 0) ? 0 : 1;
     }
@@ -170,9 +163,7 @@ TOUT*
 promoteComplexAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < count; ++i) {
         dstPtr[i] = (ptr[(i * 2)] || ptr[(i * 2) + 1]) ? 1 : 0;
     }
@@ -184,9 +175,7 @@ TOUT*
 promoteComplexAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
         dstPtr[i] = (TOUT)ptr[i * 2];
     }
@@ -198,9 +187,7 @@ TOUT*
 promoteComplexAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count * 2; i = i + 2) {
         dstPtr[i] = (TOUT)ptr[i];
         dstPtr[i + 1] = (TOUT)ptr[i + 1];
@@ -213,9 +200,7 @@ TOUT*
 promoteAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count, stringVector(), true);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
         dstPtr[i << 1] = (TOUT)ptr[i];
     }
@@ -234,9 +219,7 @@ promoteComplexAsInteger(NelsonType dstClass, const TIN* ptr, indexType count)
         }
     }
     if (checkNaN) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(count)
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
             if (std::isnan((double)ptr[i * 2])) {
                 dstPtr[i] = (TOUT)0;

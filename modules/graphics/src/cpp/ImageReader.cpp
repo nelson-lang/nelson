@@ -16,6 +16,7 @@
 #include "FileSystemWrapper.hpp"
 #include "QStringConverter.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -79,7 +80,7 @@ imageReaderRGB32(QImage image, int nLhs)
     ArrayOf A = ArrayOf(NLS_UINT8, dims, ptr);
     indexType imageCounter = (indexType)image.height() * (indexType)image.width();
 #if WITH_OPENMP
-#pragma omp parallel for private(col)
+#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (indexType row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine((int)row);
@@ -124,7 +125,7 @@ imageReaderARGB32(QImage image, int nLhs)
 
     indexType imageCounter = (indexType)image.height() * (indexType)image.width();
 #if WITH_OPENMP
-#pragma omp parallel for private(col)
+#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (indexType row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine((int)row);
@@ -159,7 +160,7 @@ imageReaderIndexed8(QImage image, int nLhs)
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
 #if WITH_OPENMP
-#pragma omp parallel for private(col)
+#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (int row = 0; row < image.height(); row++) {
         uchar* p = image.scanLine(row);
@@ -176,9 +177,7 @@ imageReaderIndexed8(QImage image, int nLhs)
         double* ptrColorTable
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsColorTable.getElementCount());
         ArrayOf colormap = ArrayOf(NLS_DOUBLE, dimsColorTable, ptrColorTable);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(numcol)
         for (int i = 0; i < numcol; i++) {
             QColor c(colorTable[i]);
             ptrColorTable[i] = (double)c.redF();
@@ -194,7 +193,7 @@ imageReaderIndexed8(QImage image, int nLhs)
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
 #if WITH_OPENMP
-#pragma omp parallel for private(col)
+#pragma omp parallel for private(col) if (alpha.height() > OMP_DEFAULT_THRESHOLD)
 #endif
         for (int row = 0; row < alpha.height(); row++) {
             uchar* p = alpha.scanLine(row);
@@ -218,7 +217,7 @@ imageReaderGrayScale16(QImage image, int nLhs)
     ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
 
 #if WITH_OPENMP
-#pragma omp parallel for private(col)
+#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (int row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine(row);

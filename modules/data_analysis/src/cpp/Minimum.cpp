@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Minimum.hpp"
 #include "complex_abs.hpp"
 #include "Error.hpp"
@@ -20,9 +20,7 @@ void
 TMinLessInteger(
     const T* spx, const T* spy, T* dp, indexType count, indexType stridex, indexType stridey)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(count)
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         T x = spx[stridex * i];
         T y = spy[stridey * i];
@@ -36,9 +34,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
     indexType stridey)
 {
     if (omitnan) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(count)
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
             T x = spx[stridex * i];
             T y = spy[stridey * i];
@@ -53,9 +49,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
             }
         }
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(count)
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
             T x = spx[stridex * i];
             T y = spy[stridey * i];
@@ -74,9 +68,7 @@ TMinLessComplex(bool omitnan, const T* spx, const T* spy, T* dp, indexType count
     indexType stridey)
 {
     if (omitnan) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(count)
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
             T xre = spx[2 * stridex * i];
             T xim = spx[2 * stridex * i + 1];
@@ -105,9 +97,7 @@ TMinLessComplex(bool omitnan, const T* spx, const T* spy, T* dp, indexType count
             }
         }
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(count)
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
             T xre = spx[2 * stridex * i];
             T xim = spx[2 * stridex * i + 1];
@@ -667,12 +657,11 @@ Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
         outDim.simplify();
         retval << A;
         if (nLhs > 1) {
-            iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+            ompIndexType elementCount = outDim.getElementCount();
+            iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-            for (ompIndexType k = 0; k < (ompIndexType)outDim.getElementCount(); ++k) {
+            OMP_PARALLEL_FOR_LOOP(elementCount)
+            for (ompIndexType k = 0; k < elementCount; ++k) {
                 iptr[k] = 1;
             }
             retval << index;

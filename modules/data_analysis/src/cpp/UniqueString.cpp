@@ -10,6 +10,7 @@
 #include "UniqueString.hpp"
 #include "UniqueHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
@@ -49,9 +50,7 @@ UniqueStringOneLhs(const ArrayOf& input)
     const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
     ompIndexType len = input.getElementCount();
     std::vector<UniqueStringEntry> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;
@@ -65,9 +64,7 @@ UniqueStringOneLhs(const ArrayOf& input)
     ompIndexType nbElements = values.size();
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
     ArrayOf NaN = ArrayOf::doubleConstructor(std::nan("NaN"));
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArrayConstructor(values[k].x);
     }
@@ -92,9 +89,7 @@ UniqueStringTwoLhs(const ArrayOf& input)
     const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
     ompIndexType len = input.getElementCount();
     std::vector<UniqueStringEntry> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;
@@ -110,10 +105,8 @@ UniqueStringTwoLhs(const ArrayOf& input)
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
     ArrayOf NaN = ArrayOf::doubleConstructor(std::nan("NaN"));
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)values.size(); ++k) {
+    OMP_PARALLEL_FOR_LOOP(nbElements)
+    for (ompIndexType k = 0; k < nbElements; ++k) {
         elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArrayConstructor(values[k].x);
         mp[k] = (double)(values[k].n + 1);
     }
@@ -139,9 +132,7 @@ UniqueStringThreeLhs(const ArrayOf& input)
     const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
     ompIndexType len = input.getElementCount();
     std::vector<UniqueStringEntry> values(len);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;

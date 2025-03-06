@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
 #include "CtransposeSparseDouble.hpp"
@@ -22,15 +23,11 @@ complexTransposeRealTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
 {
     ompIndexType nbRows = dimsA.getRows();
     ompIndexType nbColumns = dimsA.getColumns();
-    ompIndexType i = 0;
-    ompIndexType j = 0;
-#if WITH_OPENMP
-#pragma omp parallel for private(j)
-#endif
-    for (i = 0; i < nbRows; i++) {
-        for (j = 0; j < nbColumns; j++) {
-            ptrRes[i * nbColumns + j] = ptrA[j * nbRows + i];
-        }
+    OMP_PARALLEL_FOR_LOOP(nbRows * nbColumns)
+    for (ompIndexType index = 0; index < nbRows * nbColumns; index++) {
+        ompIndexType i = index / nbColumns;
+        ompIndexType j = index % nbColumns;
+        ptrRes[index] = ptrA[j * nbRows + i];
     }
 }
 //=============================================================================
@@ -42,16 +39,12 @@ complexTransposeComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
     auto* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
     ompIndexType nbRows = dimsA.getRows();
     ompIndexType nbColumns = dimsA.getColumns();
-    ompIndexType i = 0;
-    ompIndexType j = 0;
-#if WITH_OPENMP
-#pragma omp parallel for private(j)
-#endif
-    for (i = 0; i < nbRows; i++) {
-        for (j = 0; j < nbColumns; j++) {
-            matCplxRes[i * nbColumns + j].real(matCplxA[j * nbRows + i].real());
-            matCplxRes[i * nbColumns + j].imag(-matCplxA[j * nbRows + i].imag());
-        }
+    OMP_PARALLEL_FOR_LOOP(nbRows * nbColumns)
+    for (ompIndexType index = 0; index < nbRows * nbColumns; index++) {
+        ompIndexType i = index / nbColumns;
+        ompIndexType j = index % nbColumns;
+        matCplxRes[index].real(matCplxA[j * nbRows + i].real());
+        matCplxRes[index].imag(-matCplxA[j * nbRows + i].imag());
     }
 }
 //=============================================================================

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "Flip.hpp"
@@ -20,16 +21,12 @@ TFlipLR2dReal(T* ptrIn, T* ptrOut, indexType m, indexType n)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matIn(ptrIn, m, n);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOut(ptrOut, m, n);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
-            matOut(i, j) = matIn(i, n - 1 - j);
-        }
+    OMP_PARALLEL_FOR_LOOP(m * n)
+    for (ompIndexType j = 0; j < (ompIndexType)(m * n); ++j) {
+        ompIndexType row = j % m;
+        ompIndexType col = j / m;
+        ompIndexType flippedCol = n - 1 - col;
+        matOut(row, col) = matIn(row, flippedCol);
     }
 }
 //=============================================================================
@@ -41,16 +38,12 @@ TFlipLR2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
     auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
-            matOut(i, j) = matIn(i, n - 1 - j);
-        }
+    OMP_PARALLEL_FOR_LOOP(m * n)
+    for (ompIndexType j = 0; j < (ompIndexType)(m * n); ++j) {
+        ompIndexType row = j % m;
+        ompIndexType col = j / m;
+        ompIndexType flippedCol = n - 1 - col;
+        matOut(row, col) = matIn(row, flippedCol);
     }
 }
 //=============================================================================
@@ -60,16 +53,11 @@ TFlipUD2dReal(T* ptrIn, T* ptrOut, indexType m, indexType n)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matIn(ptrIn, m, n);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOut(ptrOut, m, n);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
-            matOut(i, j) = matIn(m - 1 - i, j);
-        }
+    OMP_PARALLEL_FOR_LOOP(m * n)
+    for (ompIndexType idx = 0; idx < (ompIndexType)(m * n); ++idx) {
+        ompIndexType j = idx / m;
+        ompIndexType i = idx % m;
+        matOut(i, j) = matIn(m - 1 - i, j);
     }
 }
 //=============================================================================
@@ -81,16 +69,11 @@ TFlipUD2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
     auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
-            matOut(i, j) = matIn(m - 1 - i, j);
-        }
+    OMP_PARALLEL_FOR_LOOP(m * n)
+    for (ompIndexType idx = 0; idx < (ompIndexType)(m * n); ++idx) {
+        ompIndexType j = idx / m;
+        ompIndexType i = idx % m;
+        matOut(i, j) = matIn(m - 1 - i, j);
     }
 }
 //=============================================================================

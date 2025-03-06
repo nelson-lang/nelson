@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl.h>
@@ -34,9 +35,7 @@ matrix_matrix_atan2_double(const ArrayOf& a, const ArrayOf& b)
 #if defined(_NLS_WITH_VML)
     vdAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[k], ptrB[k]);
     }
@@ -55,9 +54,7 @@ matrix_matrix_atan2_single(const ArrayOf& a, const ArrayOf& b)
 #if defined(_NLS_WITH_VML)
     vsAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[k], ptrB[k]);
     }
@@ -75,9 +72,7 @@ scalar_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[0], ptrB[k]);
     }
@@ -94,9 +89,7 @@ matrix_scalar_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[k], ptrB[0]);
     }

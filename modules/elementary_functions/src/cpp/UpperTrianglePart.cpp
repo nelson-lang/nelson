@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "UpperTrianglePart.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -28,9 +29,7 @@ UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
     auto* Sz = reinterpret_cast<std::complex<T>*>(S);
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i + 1 - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);
@@ -51,9 +50,7 @@ UpperTrianglePartReal(const ArrayOf& A, signedIndexType offset)
     T* S = (T*)A.getDataPointer();
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i + 1 - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);

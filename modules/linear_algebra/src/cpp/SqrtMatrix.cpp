@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "SqrtMatrix.hpp"
@@ -41,10 +42,9 @@ sqrtmComplex(ArrayOf& A)
             solver(matA.template cast<std::complex<T>>());
         auto evects = solver.eigenvectors();
         auto evals = solver.eigenvalues();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
+        ompIndexType elementCount = evals.rows();
+        OMP_PARALLEL_FOR_LOOP(elementCount)
+        for (ompIndexType i = 0; i < static_cast<ompIndexType>(elementCount); ++i) {
             evals(i) = std::sqrt(evals(i));
         }
         auto evalsdiag = evals.asDiagonal();

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "MatrixMultiplication.hpp"
@@ -88,7 +89,7 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
 #if WITH_OPENMP
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[0] * ptrB[k];
         }
@@ -101,7 +102,7 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if WITH_OPENMP
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[k] * ptrB[0];
         }
@@ -154,17 +155,13 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
         ompIndexType elementCountB = (ompIndexType)dimB.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCountB)
         for (ompIndexType k = 0; k < elementCountB; k++) {
             ptrC[k] = scalar_scalar_integer_times<T>(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
         ompIndexType elementCountA = (ompIndexType)dimA.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCountA)
         for (ompIndexType k = 0; k < elementCountA; k++) {
             ptrC[k] = scalar_scalar_integer_times<T>(ptrA[k], ptrB[0]);
         }
@@ -240,7 +237,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         }
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
 #if WITH_OPENMP
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             Cz[k] = Az[0] * Bz[k];
         }
@@ -264,7 +261,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         }
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if WITH_OPENMP
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             Cz[k] = Az[k] * Bz[0];
         }

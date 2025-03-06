@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "RealPart.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -29,9 +30,7 @@ RealPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = sp[2 * i];
         }
@@ -42,9 +41,7 @@ RealPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = dp[2 * i];
         }
@@ -65,9 +62,7 @@ RealPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = static_cast<double>(dp[i]);
         }
@@ -78,9 +73,7 @@ RealPart(const ArrayOf& arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }

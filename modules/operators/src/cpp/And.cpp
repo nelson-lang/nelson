@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "And.hpp"
+#include "omp_for_loop.hpp"
 #include "MatrixCheck.hpp"
 #include "nlsBuildConfig.h"
 #include <algorithm>
@@ -30,25 +31,19 @@ static void
 boolean_and(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
     if (Astride == 1 && Bstride == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = static_cast<Nelson::logical>((A[i] != 0u) && (B[i] != 0u));
         }
 
     } else if (Astride == 0 && Bstride == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = static_cast<Nelson::logical>((A[0] != 0u) && (B[i] != 0u));
         }
 
     } else if (Astride == 1 && Bstride == 0) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = static_cast<Nelson::logical>((A[i] != 0u) && (B[0] != 0u));
         }

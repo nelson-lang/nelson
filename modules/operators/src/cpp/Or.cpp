@@ -10,6 +10,7 @@
 #include "Or.hpp"
 #include "MatrixCheck.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include <algorithm>
 //=============================================================================
 namespace Nelson {
@@ -30,23 +31,17 @@ static void
 boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
     if (Astride == 1 && Bstride == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = A[i] | B[i];
         }
     } else if (Astride == 0 && Bstride == 1) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = A[0] | B[i];
         }
     } else if (Astride == 1 && Bstride == 0) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = A[i] | B[0];
         }

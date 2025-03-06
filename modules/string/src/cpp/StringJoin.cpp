@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -169,9 +170,7 @@ StringJoinStringArrayScalarDelimiter(const ArrayOf& A, const ArrayOf& delimiter,
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
         // Process each column
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -200,9 +199,7 @@ StringJoinStringArrayScalarDelimiter(const ArrayOf& A, const ArrayOf& delimiter,
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
         // Process each row
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -243,9 +240,7 @@ StringJoinStringArrayRowVectorDelimiter(
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
         // Process each column
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -274,9 +269,7 @@ StringJoinStringArrayRowVectorDelimiter(
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
         // Process each row
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -316,9 +309,7 @@ StringJoinStringArrayColumnVectorDelimiter(
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -345,9 +336,7 @@ StringJoinStringArrayColumnVectorDelimiter(
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -384,10 +373,7 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -414,9 +400,7 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -476,9 +460,7 @@ StringJoinCellCharactersScalarDelimiter(
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
         // Process each column
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -508,9 +490,7 @@ StringJoinCellCharactersScalarDelimiter(
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
         // Process each row
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -551,9 +531,7 @@ StringJoinCellCharactersRowVectorDelimiter(
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
         // Process each column
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -583,9 +561,7 @@ StringJoinCellCharactersRowVectorDelimiter(
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
         // Process each row
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -626,9 +602,7 @@ StringJoinCellCharactersColumnVectorDelimiter(
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -655,9 +629,7 @@ StringJoinCellCharactersColumnVectorDelimiter(
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
@@ -696,9 +668,7 @@ StringJoinCellCharactersMatrixDelimiter(
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
@@ -725,9 +695,7 @@ StringJoinCellCharactersMatrixDelimiter(
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-#ifdef WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;

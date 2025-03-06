@@ -28,9 +28,7 @@ scalar_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[0], ptrB[k]);
     }
@@ -49,9 +47,7 @@ matrix_scalar_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[0]);
     }
@@ -70,9 +66,7 @@ matrix_matrix_integer_addition(NelsonType classDestination, const ArrayOf& A, co
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[k]);
     }

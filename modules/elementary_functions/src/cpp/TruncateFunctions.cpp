@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cmath>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
@@ -33,9 +34,7 @@ template <class T>
 static void
 oTrunc(indexType len, const T* pIn, T* pOut)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
         if (std::isfinite((T)pIn[i])) {
             pOut[i] = std::trunc((T)pIn[i]);
@@ -49,9 +48,7 @@ template <class T>
 static void
 oRound(indexType len, const T* pIn, T* pOut)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
         if (std::isfinite((T)pIn[i])) {
             pOut[i] = std::round((T)pIn[i]);
@@ -65,9 +62,7 @@ template <class T>
 static void
 oFloor(indexType len, const T* pIn, T* pOut)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
         if (std::isfinite((T)pIn[i])) {
             pOut[i] = std::floor((T)pIn[i]);
@@ -81,9 +76,7 @@ template <class T>
 static void
 oCeil(indexType len, const T* pIn, T* pOut)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)(len); i++) {
         if (std::isfinite((T)pIn[i])) {
             pOut[i] = std::ceil((T)pIn[i]);
@@ -384,9 +377,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }
@@ -439,9 +430,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = static_cast<double>(dp[i]);
         }

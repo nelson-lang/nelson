@@ -23,12 +23,20 @@ static ArrayOf
 currentAxesOnClick();
 static ArrayOf
 currentFigureOnClick();
+static ArrayOf
+ompEnabled();
+static ArrayOf
+ompThreshold();
 //=============================================================================
 // setter
 static ArrayOf
 setCurrentAxesOnClick(const ArrayOf& value);
 static ArrayOf
 setCurrentFigureOnClick(const ArrayOf& value);
+static ArrayOf
+setOmpEnabled(const ArrayOf& value);
+static ArrayOf
+setOmpThreshold(const ArrayOf& value);
 //=============================================================================
 ArrayOfVector
 Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -43,6 +51,8 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::map<std::wstring, MethodGetPtr> methodMap;
         methodMap[L"currentAxesOnClick"] = &currentAxesOnClick;
         methodMap[L"currentFigureOnClick"] = &currentFigureOnClick;
+        methodMap[L"ompEnabled"] = &ompEnabled;
+        methodMap[L"ompThreshold"] = &ompThreshold;
 
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])();
@@ -54,6 +64,8 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::map<std::wstring, MethodSetPtr> methodMap;
         methodMap[L"currentAxesOnClick"] = &setCurrentAxesOnClick;
         methodMap[L"currentFigureOnClick"] = &setCurrentFigureOnClick;
+        methodMap[L"ompEnabled"] = &setOmpEnabled;
+        methodMap[L"ompThreshold"] = &setOmpThreshold;
 
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])(fieldvalue);
@@ -78,6 +90,20 @@ currentFigureOnClick()
         NelsonConfiguration::getInstance()->isCurrentFigureOnClick());
 }
 //=============================================================================
+ArrayOf
+ompEnabled()
+{
+    return ArrayOf::logicalConstructor(
+        NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled());
+}
+//=============================================================================
+ArrayOf
+ompThreshold()
+{
+    return ArrayOf::doubleConstructor(
+        (double)NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold());
+}
+//=============================================================================
 // setter
 ArrayOf
 setCurrentAxesOnClick(const ArrayOf& value)
@@ -90,6 +116,22 @@ ArrayOf
 setCurrentFigureOnClick(const ArrayOf& value)
 {
     NelsonConfiguration::getInstance()->setCurrentFigureOnClick(value.getContentAsLogicalScalar());
+    return ArrayOf();
+}
+//=============================================================================
+ArrayOf
+setOmpEnabled(const ArrayOf& value)
+{
+    NelsonConfiguration::getInstance()->enableOpenMPParallelization(
+        value.getContentAsLogicalScalar());
+    return ArrayOf();
+}
+//=============================================================================
+ArrayOf
+setOmpThreshold(const ArrayOf& value)
+{
+    NelsonConfiguration::getInstance()->setOpenMPParallelizationThreshold(
+        (uint64_t)value.getContentAsDoubleScalar());
     return ArrayOf();
 }
 //=============================================================================

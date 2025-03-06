@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include <complex>
 #include "Logarithm1p.hpp"
 #include "complex_abs.hpp"
@@ -22,9 +23,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, nbElements);
     std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
     if (allReal) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < nbElements; ++k) {
             outZ[k].real(log(complex_abs<T>(values[k] + 1, 0)));
             T imag = atan2((T)0, values[k] + 1);
@@ -36,9 +35,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
         }
     } else {
         std::complex<T>* inZ = reinterpret_cast<std::complex<T>*>(values);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < nbElements; ++k) {
             outZ[k].real(log(complex_abs<T>(inZ[k].real() + 1, inZ[k].imag())));
             outZ[k].imag(atan2(inZ[k].imag(), inZ[k].real() + 1));

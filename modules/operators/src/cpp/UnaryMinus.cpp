@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "UnaryMinus.hpp"
@@ -32,7 +33,7 @@ uminusReal(const ArrayOf& A)
     default: {
         T* pSrc = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
 #if WITH_OPENMP
-#pragma omp parallel for
+        OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
             pRes[k] = -pSrc[k];
         }

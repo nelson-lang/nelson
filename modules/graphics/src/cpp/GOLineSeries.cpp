@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOLineSeries.hpp"
@@ -101,18 +103,14 @@ GOLineSeries::updateState()
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         xs.clear();
         xs.resize(ys.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(ys.size())
         for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
             xs[i] = (i + 1.0);
         }
     }
     if (zs.size() == 0) {
         zs.resize(ys.size());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(ys.size())
         for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
             zs[i] = 0.0;
         }

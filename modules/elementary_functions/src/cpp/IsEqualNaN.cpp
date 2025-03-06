@@ -43,7 +43,7 @@ real_IsEqualNaN(const T* ptrA, const T* ptrB, ompIndexType nbElements)
 #if WITH_OPENMP
     bool equal = true;
 #if WITH_OPENMP
-#pragma omp parallel for shared(equal)
+#pragma omp parallel for shared(equal) if (nbElements > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType k = 0; k < nbElements; k++) {
         if (equal && !isequalornan<T>(ptrA[k], ptrB[k])) {
@@ -143,7 +143,7 @@ sparsecomplex_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 
 #if WITH_OPENMP
     bool equal = true;
-#pragma omp parallel for shared(equal)
+#pragma omp parallel for shared(equal) if (spMatA->nonZeros() > OMP_DEFAULT_THRESHOLD)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
         if (equal
             && (!isequalornan<double>(valuesA[k].real(), valuesB[k].real())
@@ -196,7 +196,7 @@ sparsereal_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 
 #if WITH_OPENMP
     bool equal = true;
-#pragma omp parallel for shared(equal)
+#pragma omp parallel for shared(equal) if (spMatA->nonZeros() > OMP_DEFAULT_THRESHOLD)
     for (ompIndexType k = 0; k < (ompIndexType)spMatA->nonZeros(); k++) {
         if (equal && !isequalornan<double>(valuesA[k], valuesB[k])) {
 #pragma omp critical

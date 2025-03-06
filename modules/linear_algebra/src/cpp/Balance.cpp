@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
@@ -34,9 +35,7 @@ permuteVector(const T* ptrScale, int N, int IHI)
 {
     ArrayOf P = ArrayOf::doubleMatrix2dConstructor(N, 1);
     double* ptrPermutingVector = (double*)P.getDataPointer();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         ptrPermutingVector[i] = (double)(i + 1);
     }
@@ -55,9 +54,7 @@ scalingVector(const T* ptrScale, int N, int ILO, int IHI)
     ArrayOf S = ArrayOf::doubleMatrix2dConstructor(N, 1);
     double* ptrScalingVector = (double*)S.getDataPointer();
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (int i = 0; i < N; ++i) {
         if (i < ILO - 1 || i >= IHI) {
             ptrScalingVector[i] = 1.0;

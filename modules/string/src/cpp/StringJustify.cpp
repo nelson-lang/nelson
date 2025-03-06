@@ -18,6 +18,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,9 +76,7 @@ StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style)
             stringArrayOf.getDataClass(), stringArrayOf.getElementCount());
         ArrayOf cell
             = ArrayOf(stringArrayOf.getDataClass(), stringArrayOf.getDimensions(), elements);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(stringArrayOf.getElementCount())
         for (ompIndexType k = 0; k < (ompIndexType)stringArrayOf.getElementCount(); ++k) {
             if (ptr[k].isRowVectorCharacterArray()) {
                 elements[k] = StringJustify(ptr[k], style);

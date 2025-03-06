@@ -14,6 +14,7 @@
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -204,9 +205,8 @@ scomplex_fft_backward(int Narg, single* dp)
     memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
     dyn_fftwf_execute(pf_backward);
     memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+
+    OMP_PARALLEL_FOR_LOOP(cN)
     for (ompIndexType i = 0; i < ompIndexType(2) * ompIndexType(cN); i++) {
         dp[i] /= ((single)Narg);
     }
@@ -228,9 +228,7 @@ dcomplex_fft_backward(int Narg, double* dp)
     memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
     dyn_fftw_execute(p_backward);
     memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(zN)
     for (ompIndexType i = 0; i < ompIndexType(2) * ompIndexType(zN); i++) {
         dp[i] /= ((double)Narg);
     }
@@ -264,9 +262,7 @@ scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
     auto* datapointer = (single*)X.getDataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(copyIn)
             for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
                 indexType idxBuffer = 2 * k;
                 indexType cplxOffset = needToConvertToComplex ? 1 : 2;
@@ -279,9 +275,7 @@ scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
             asInverse ? scomplex_fft_backward((int)n, buffer)
                       : scomplex_fft_forward((int)n, buffer);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(n)
             for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
                 indexType idxOb = 2 * (i * planesize * n + j + k * planesize);
                 ob[idxOb] = buffer[2 * k];
@@ -325,9 +319,7 @@ dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
     auto* datapointer = (double*)X.getDataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(copyIn)
             for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
                 indexType idxBuffer = 2 * k;
                 indexType cplxOffset = needToConvertToComplex ? 1 : 2;
@@ -339,9 +331,7 @@ dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
             }
             asInverse ? dcomplex_fft_backward((int)n, buffer)
                       : dcomplex_fft_forward((int)n, buffer);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(n)
             for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
                 indexType idxOb = 2 * (i * planesize * n + j + k * planesize);
                 indexType idxBuffer = 2 * k;

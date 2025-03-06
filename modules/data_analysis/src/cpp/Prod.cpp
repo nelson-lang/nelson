@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Prod.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -41,21 +43,25 @@ void
 RealProdT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            T accum = 1;
-            for (indexType k = 0; k < linesize; k++) {
-                T val = sp[i * planesize * linesize + j + k * planesize];
-                if (!withnan) {
-                    if (!std::isnan(val)) {
-                        accum *= val;
-                    }
-                } else {
+    ompIndexType totalElements = planes * planesize;
+    OMP_PARALLEL_FOR_LOOP(totalElements)
+    for (ompIndexType idx = 0; idx < totalElements; idx++) {
+        // Convert linear index back to i, j components
+        indexType i = idx / planesize;
+        indexType j = idx % planesize;
+
+        T accum = 1;
+        for (indexType k = 0; k < linesize; k++) {
+            T val = sp[i * planesize * linesize + j + k * planesize];
+            if (!withnan) {
+                if (!std::isnan(val)) {
                     accum *= val;
                 }
+            } else {
+                accum *= val;
             }
-            dp[i * planesize + j] = accum;
         }
+        dp[i * planesize + j] = accum;
     }
 }
 //=============================================================================
@@ -63,12 +69,11 @@ template <class T>
 void
 ComplexProdT(const T* sp, T* dp, indexType elementCount, bool withnan)
 {
+    // For complex numbers, use a sequential approach to avoid OpenMP reduction issues
     T accum_r = 1;
     T accum_i = 0;
-#if WITH_OPENMP
-#pragma omp parallel for reduction(* : accum_r, accum_i)
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)elementCount; k++) {
+
+    for (indexType k = 0; k < elementCount; k++) {
         T vr = sp[2 * k];
         T vi = sp[(2 * k) + 1];
         if (!withnan) {
@@ -94,30 +99,37 @@ void
 ComplexProdT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            T accum_r = 1;
-            T accum_i = 0;
-            for (indexType k = 0; k < linesize; k++) {
-                T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
-                T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
-                if (!withnan) {
-                    if (!std::isnan(vr) && !std::isnan(vi)) {
-                        T t1 = accum_r * vr - accum_i * vi;
-                        T t2 = accum_r * vi + accum_i * vr;
-                        accum_r = t1;
-                        accum_i = t2;
-                    }
-                } else {
+    ompIndexType totalElements = planes * planesize;
+    OMP_PARALLEL_FOR_LOOP(totalElements)
+    for (ompIndexType idx = 0; idx < totalElements; idx++) {
+        // Convert linear index back to i, j components
+        indexType i = idx / planesize;
+        indexType j = idx % planesize;
+
+        T accum_r = 1;
+        T accum_i = 0;
+
+        for (indexType k = 0; k < linesize; k++) {
+            T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
+            T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+
+            if (!withnan) {
+                if (!std::isnan(vr) && !std::isnan(vi)) {
                     T t1 = accum_r * vr - accum_i * vi;
                     T t2 = accum_r * vi + accum_i * vr;
                     accum_r = t1;
                     accum_i = t2;
                 }
+            } else {
+                T t1 = accum_r * vr - accum_i * vi;
+                T t2 = accum_r * vi + accum_i * vr;
+                accum_r = t1;
+                accum_i = t2;
             }
-            dp[2 * (i * planesize + j)] = accum_r;
-            dp[2 * (i * planesize + j) + 1] = accum_i;
         }
+
+        dp[2 * (i * planesize + j)] = accum_r;
+        dp[2 * (i * planesize + j) + 1] = accum_i;
     }
 }
 //=============================================================================

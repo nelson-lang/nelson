@@ -10,6 +10,7 @@
 #include <boost/integer/common_factor_ct.hpp>
 #include <boost/integer/common_factor_rt.hpp>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GCD.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -38,9 +39,7 @@ realGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& commonD
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = (T)basic_gcd((double)ptrA[k], (double)ptrB[k]);
     }
@@ -54,9 +53,7 @@ realGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDims)
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = (T)basic_gcd((double)ptrA[k], (double)b);
     }
@@ -70,9 +67,7 @@ realGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDims)
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = (T)basic_gcd((double)a, (double)ptrB[k]);
     }
@@ -86,9 +81,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& comm
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = boost::integer::gcd(ptrA[k], ptrB[k]);
     }
@@ -102,9 +95,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDi
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = boost::integer::gcd(ptrA[k], b);
     }
@@ -118,9 +109,7 @@ integerGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDi
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
         ptrRes[k] = boost::integer::gcd(a, ptrB[k]);
     }

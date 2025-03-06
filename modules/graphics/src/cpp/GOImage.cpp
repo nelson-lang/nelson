@@ -9,6 +9,7 @@
 //=============================================================================
 #include <QtGui/QTransform>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOImage.hpp"
@@ -210,17 +211,13 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
     }
     if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
         alphaout.resize(rows * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (indexType i = 0; i < rows * cols; i++) {
             alphaout[i] = std::min(1.0, std::max(0.0, alphain[i * increment]));
         }
     } else if (stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
         alphaout.resize(rows * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
             ndx = std::min<indexType>(amaplen - 1, std::max<indexType>(0, ndx));
@@ -228,9 +225,7 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
         }
     } else {
         alphaout.resize(rows * cols);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
             ndx = (indexType)((alphain[i * increment] - alim_min) / (alim_max - alim_min)
@@ -259,18 +254,14 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
     size_t cmaplen(cmap.size() / 3);
     if (cmaplen < 1) {
         if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(rows * cols)
             for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
                 ret[i + 2 * rows * cols] = 1;
             }
         } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(rows * cols)
             for (indexType i = 0; i < rows * cols; i++) {
                 ret[i] = 1;
                 ret[i + rows * cols] = 1;
@@ -283,9 +274,7 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
         return ret;
     }
     if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (int i = 0; i < rows * cols; i++) {
             int ndx = floatData ? (int)dp[i] - 1 : (int)dp[i];
             ndx = (int)std::min<indexType>(
@@ -295,9 +284,7 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
             ret[i + 2 * rows * cols] = cmap[3 * ndx + 2];
         }
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (int i = 0; i < rows * cols; i++) {
             int ndx = (int)((dp[i] - clim_min) / (clim_max - clim_min) * (cmaplen - 1));
             ndx = (int)std::min<indexType>(cmaplen - 1, std::max(0, ndx));
@@ -314,9 +301,7 @@ GOImage::prepareImageRGBNoAlphaMap(const double* dp, indexType rows, indexType c
     std::vector<double>& alpha, bool isIntegerData)
 {
     img = QImage((int)cols, (int)rows, QImage::Format_ARGB32);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(rows * cols)
     for (indexType idx = 0; idx < rows * cols; idx++) {
         indexType i = idx % rows;
         indexType j = idx / rows;

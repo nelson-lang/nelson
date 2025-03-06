@@ -17,6 +17,7 @@
 #include "Sort.hpp"
 #include "nlsBuildConfig.h"
 #include "ParallelSort.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -667,9 +668,7 @@ sortComplex(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
             ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }

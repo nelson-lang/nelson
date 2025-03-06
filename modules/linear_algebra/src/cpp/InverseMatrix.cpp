@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL_VML
 #undef EIGEN_USE_MKL
@@ -39,9 +40,7 @@ InverseDouble(const ArrayOf& A, double rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
         }
@@ -88,9 +87,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             Rz[k + (k * N)] = std::complex<double>(1, 0) / Rz[k + (k * N)];
         }
@@ -137,9 +134,7 @@ InverseSingle(const ArrayOf& A, single rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
         }
@@ -186,9 +181,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
             return res;
         }
         int N = (int)A.getColumns();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             Rz[k + (k * N)] = std::complex<single>(1, 0) / Rz[k + (k * N)];
         }

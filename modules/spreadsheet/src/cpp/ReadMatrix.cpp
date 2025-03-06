@@ -13,6 +13,7 @@
 #include "ReadMatrix.hpp"
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #if WITH_OPENMP
 #include <omp.h>
 #endif
@@ -70,9 +71,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
                 std::complex<double>* ptr = (std::complex<double>*)ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, dims.getElementCount());
                 ArrayOf matrix = ArrayOf(NLS_DCOMPLEX, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
                 for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                     size_t i = index / nbRows;
                     size_t j = index % nbRows;
@@ -83,9 +82,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
             } else {
                 double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount());
                 ArrayOf matrix = ArrayOf(NLS_DOUBLE, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
                 for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                     size_t i = index / nbRows;
                     size_t j = index % nbRows;
@@ -100,9 +97,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
                 std::complex<single>* ptr = (std::complex<single>*)ArrayOf::allocateArrayOf(
                     NLS_SCOMPLEX, dims.getElementCount());
                 ArrayOf matrix = ArrayOf(NLS_SCOMPLEX, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
                 for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                     size_t i = index / nbRows;
                     size_t j = index % nbRows;
@@ -113,9 +108,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
             } else {
                 single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount());
                 ArrayOf matrix = ArrayOf(NLS_SINGLE, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
                 for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                     size_t i = index / nbRows;
                     size_t j = index % nbRows;
@@ -128,9 +121,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
             ArrayOf* ptr
                 = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_STRING_ARRAY, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -143,9 +134,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
             ArrayOf* ptr
                 = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_CELL_ARRAY, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -156,9 +145,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_INT8: {
             int8* ptr = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_INT8, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -169,9 +156,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_INT16: {
             int16* ptr = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_INT16, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -182,9 +167,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_INT32: {
             int32* ptr = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_INT32, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -195,9 +178,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_INT64: {
             int64* ptr = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_INT64, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -208,9 +189,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_UINT8: {
             uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_UINT8, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -221,9 +200,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_UINT16: {
             uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_UINT16, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -234,9 +211,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_UINT32: {
             uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_UINT32, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
@@ -247,9 +222,7 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         case NLS_UINT64: {
             uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, dims.getElementCount());
             ArrayOf matrix = ArrayOf(NLS_UINT64, dims, ptr);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;

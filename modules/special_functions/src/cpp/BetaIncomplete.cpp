@@ -16,6 +16,7 @@
 #pragma GCC diagnostic pop
 #endif
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "BetaIncomplete.hpp"
@@ -46,9 +47,7 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
     auto* ptrY = (T*)Y.getDataPointer();
     auto* ptrZ = (T*)Z.getDataPointer();
     if (isLower) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(maxLen)
         for (ompIndexType i = 0; i < (ompIndexType)maxLen; ++i) {
             T x = (X.isScalar()) ? ptrX[0] : ptrX[i];
             T y = (Y.isScalar()) ? ptrY[0] : ptrY[i];
@@ -60,9 +59,7 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
             }
         }
     } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(maxLen)
         for (ompIndexType i = 0; i < (ompIndexType)maxLen; ++i) {
             T x = (X.isScalar()) ? ptrX[0] : ptrX[i];
             T y = (Y.isScalar()) ? ptrY[0] : ptrY[i];

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Sign.hpp"
 #include "Decomplexify.hpp"
 //=============================================================================
@@ -19,9 +20,7 @@ SignUnsignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dim
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         if (ptrA[k] == (T)0) {
             ptrB[k] = (T)(0);
@@ -38,9 +37,7 @@ SignSignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         if (ptrA[k] < (T)0) {
             ptrB[k] = (T)(-1);
@@ -60,9 +57,7 @@ SignReal(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         if (std::isnan(ptrA[k])) {
             ptrB[k] = (T)std::nan("NaN");
@@ -83,9 +78,7 @@ SignComplex(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements * 2; k = k + 2) {
         std::complex<T> x(ptrA[k], ptrA[k + 1]);
         std::complex<T> r = x / std::abs(x);

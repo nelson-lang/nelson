@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOSurface.hpp"
@@ -422,13 +423,11 @@ GOSurface::autoYMode()
     double* dp = (double*)ydata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
-        for (indexType i = 0; i < rows; i++) {
-            dp[i + j * rows] = i + 1;
-        }
+    OMP_PARALLEL_FOR_LOOP(rows * cols)
+    for (ompIndexType idx = 0; idx < (ompIndexType)(rows * cols); idx++) {
+        ompIndexType j = idx / rows;
+        indexType i = idx % rows;
+        dp[i + j * rows] = i + 1;
     }
     GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
     hp->data(ydata);
@@ -442,13 +441,11 @@ GOSurface::autoXMode()
     double* dp = (double*)xdata.getReadWriteDataPointer();
     indexType cols(zdata.getColumns());
     indexType rows(zdata.getRows());
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
-    for (ompIndexType j = 0; j < (ompIndexType)cols; j++) {
-        for (indexType i = 0; i < rows; i++) {
-            dp[i + j * rows] = j + 1;
-        }
+    OMP_PARALLEL_FOR_LOOP(rows * cols)
+    for (ompIndexType idx = 0; idx < (ompIndexType)(rows * cols); idx++) {
+        ompIndexType j = idx / rows;
+        indexType i = idx % rows;
+        dp[i + j * rows] = j + 1;
     }
     GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     hp->data(xdata);

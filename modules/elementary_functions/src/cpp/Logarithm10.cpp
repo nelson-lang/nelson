@@ -10,6 +10,7 @@
 #include <complex>
 #include "Logarithm10.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,9 +22,7 @@ log10Complex(NelsonType destinationClass, T* values, bool allReal, Dimensions& d
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, elementCount);
     std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
     if (allReal) {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             if (values[k] >= 0) {
                 outZ[k].real(std::log10(values[k]));
@@ -38,9 +37,7 @@ log10Complex(NelsonType destinationClass, T* values, bool allReal, Dimensions& d
         }
     } else {
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(values);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             outZ[k] = std::log10(Az[k]);
         }

@@ -13,6 +13,7 @@
 #include "NelsonConfiguration.hpp"
 #include "NelSon_engine_mode.h"
 #include "characters_encoding.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,6 +42,8 @@ NelsonConfiguration::NelsonConfiguration()
     currentLocale = getDefaultLocale();
     useEmbeddedEditorFlag = true;
     editorCommandLine = L"";
+    ompThreshold = OMP_DEFAULT_THRESHOLD;
+    ompEnable = true;
 }
 //=============================================================================
 
@@ -554,6 +557,30 @@ bool
 NelsonConfiguration::isVsCodeMode()
 {
     return isVsCode;
+}
+//=============================================================================
+void
+NelsonConfiguration::enableOpenMPParallelization(bool enable)
+{
+    ompEnable = enable;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isOpenMPParallelizationEnabled()
+{
+    return ompEnable;
+}
+//=============================================================================
+void
+NelsonConfiguration::setOpenMPParallelizationThreshold(uint64_t threshold)
+{
+    ompThreshold = threshold;
+}
+//=============================================================================
+uint64_t
+NelsonConfiguration::getOpenMPParallelizationThreshold()
+{
+    return ompThreshold;
 }
 //=============================================================================
 void

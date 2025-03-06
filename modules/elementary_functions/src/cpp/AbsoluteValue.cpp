@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
@@ -22,9 +23,7 @@ template <class T>
 void
 absoluteValueRealTemplate(T* ptrA, indexType N, T* ptrRes)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         ptrRes[i] = std::abs(ptrA[i]);
     }
@@ -35,9 +34,7 @@ void
 absoluteValueComplexTemplate(T* ptrA, indexType N, T* ptrRes)
 {
     auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         ptrRes[i] = std::abs(matCplxA[i]);
     }

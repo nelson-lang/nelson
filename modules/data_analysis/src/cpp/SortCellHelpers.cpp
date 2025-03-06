@@ -11,6 +11,7 @@
 #include <vector>
 #include "SortCellHelpers.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
@@ -106,9 +107,7 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
             NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
         ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
         ompIndexType elementCountOut = outDim.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCountOut; ++k) {
             ptrValue[k] = ArrayOf::characterArrayConstructor(strs[k]);
         }

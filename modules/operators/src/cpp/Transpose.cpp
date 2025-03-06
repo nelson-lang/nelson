@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Transpose.hpp"
 #include "TransposeSparseDouble.hpp"
 #include "TransposeSparseLogical.hpp"
@@ -23,15 +24,11 @@ transposeRealTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
 {
     ompIndexType nbRows = dimsA.getRows();
     ompIndexType nbColumns = dimsA.getColumns();
-    ompIndexType i = 0;
-    ompIndexType j = 0;
-#if WITH_OPENMP
-#pragma omp parallel for private(j)
-#endif
-    for (i = 0; i < nbRows; i++) {
-        for (j = 0; j < nbColumns; j++) {
-            ptrRes[i * nbColumns + j] = ptrA[j * nbRows + i];
-        }
+    OMP_PARALLEL_FOR_LOOP(nbRows * nbColumns)
+    for (ompIndexType index = 0; index < nbRows * nbColumns; index++) {
+        ompIndexType i = index % nbRows;
+        ompIndexType j = index / nbRows;
+        ptrRes[i * nbColumns + j] = ptrA[j * nbRows + i];
     }
 }
 //=============================================================================
@@ -43,15 +40,11 @@ transposeComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
     auto* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
     ompIndexType nbRows = dimsA.getRows();
     ompIndexType nbColumns = dimsA.getColumns();
-    ompIndexType i = 0;
-    ompIndexType j = 0;
-#if WITH_OPENMP
-#pragma omp parallel for private(j)
-#endif
-    for (i = 0; i < nbRows; i++) {
-        for (j = 0; j < nbColumns; j++) {
-            matCplxRes[i * nbColumns + j] = matCplxA[j * nbRows + i];
-        }
+    OMP_PARALLEL_FOR_LOOP(nbRows * nbColumns)
+    for (ompIndexType index = 0; index < nbRows * nbColumns; index++) {
+        ompIndexType i = index % nbRows;
+        ompIndexType j = index / nbRows;
+        matCplxRes[i * nbColumns + j] = matCplxA[j * nbRows + i];
     }
 }
 //=============================================================================

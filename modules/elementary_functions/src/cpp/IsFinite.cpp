@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "IsFinite.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -19,9 +20,7 @@ template <class T>
 void
 boolean_isfinite(indexType N, logical* C, const T* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isfinite(A[i]);
     }
@@ -31,9 +30,7 @@ template <class T>
 void
 boolean_isfinite_cplx(indexType N, logical* C, const T* A)
 {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isfinite(A[i].real()) && std::isfinite(A[i].imag());
     }
@@ -93,9 +90,7 @@ IsFinite(const ArrayOf& A)
             NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
         ompIndexType N = (ompIndexType)A.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < N; i++) {
             CpLogical[i] = static_cast<logical>(1);
         }

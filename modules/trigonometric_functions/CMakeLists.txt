@@ -33,11 +33,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
 target_link_libraries(${module_library_name} nlsError_manager
-                      nlsI18n nlsTypes ${NELSON_BLAS_LAPACKX_LIBRARIES})
+    nlsI18n 
+    nlsNelson_manager
+    nlsTypes ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 file(GLOB TRIGONOMETRIC_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")

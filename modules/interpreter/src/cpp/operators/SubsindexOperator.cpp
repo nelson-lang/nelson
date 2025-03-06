@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "Evaluator.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
@@ -34,9 +35,7 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
             res.promoteType(NLS_UINT32);
             uint32* dp = static_cast<uint32*>(res.getReadWriteDataPointer());
 #endif
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(len)
             for (ompIndexType k = 0; k < len; ++k) {
                 dp[k]++;
             }

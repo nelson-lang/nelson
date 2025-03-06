@@ -14,6 +14,7 @@
 #include "ReadCell.hpp"
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "CSVTypeConverters.hpp"
 #include "ReadLinesFromFile.hpp"
 //=============================================================================
@@ -108,18 +109,14 @@ ReadCell(
         ompIndexType nbAvailableElements = (ompIndexType)(nbColumns * nbRows);
 
         if (options.TextType == "char") {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;
                 elements[index] = doc.GetCell<ArrayOf>(i, j, ConvertToArrayOfCharacter);
             }
         } else {
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(nbAvailableElements)
             for (ompIndexType index = 0; index < nbAvailableElements; ++index) {
                 size_t i = index / nbRows;
                 size_t j = index % nbRows;

@@ -10,6 +10,7 @@
 #include "ConvertCharsToStrings.hpp"
 #include "NewWithException.hpp"
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
@@ -43,9 +44,7 @@ ConvertCharsToStrings(const ArrayOfVector& A)
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();
             ompIndexType elementCount = dims.getElementCount();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType q = 0; q < elementCount; q++) {
                 elementsString[q] = elementsCell[q];
             }

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "datenumBuiltin.hpp"
 #include "DateNumber.hpp"
 #include "Error.hpp"
@@ -16,6 +17,7 @@
 #include "Now.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -127,9 +129,7 @@ datenumOneNumericRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
         ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lenghResultVector)
         for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
             double year = v[lenghResultVector * k];
             double month = v[(lenghResultVector * k) + 1];
@@ -149,10 +149,7 @@ datenumOneNumericRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         Dimensions dimsRes(1, lenghResultVector);
         double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, lenghResultVector);
         ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
-
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(lenghResultVector)
         for (ompIndexType k = 0; k < (ompIndexType)lenghResultVector; ++k) {
             double year = v[lenghResultVector * k];
             double month = v[(lenghResultVector * k) + 1];
@@ -340,9 +337,7 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
         ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(dimsRes.getElementCount())
         for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {
             double year = param1IsScalar ? ptrParam1[0] : ptrParam1[k];
             double month = param2IsScalar ? ptrParam2[0] : ptrParam2[k];
@@ -404,9 +399,7 @@ datenumSixRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
     double* pRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
     ArrayOf res = ArrayOf(NLS_DOUBLE, dimsRes, pRes);
 
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(dimsRes.getElementCount())
     for (ompIndexType k = 0; k < (ompIndexType)dimsRes.getElementCount(); ++k) {
         double year = param1IsScalar ? ptrParam1[0] : ptrParam1[k];
         double month = param2IsScalar ? ptrParam2[0] : ptrParam2[k];

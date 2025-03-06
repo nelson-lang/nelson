@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "LowerTrianglePart.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -27,9 +28,7 @@ LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
     auto* Dz = reinterpret_cast<std::complex<T>*>(D);
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);
@@ -48,9 +47,7 @@ LowerTrianglePartReal(const ArrayOf& A, signedIndexType offset)
     T* D = (T*)res.getDataPointer();
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);

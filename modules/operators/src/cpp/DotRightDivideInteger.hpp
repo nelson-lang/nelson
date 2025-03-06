@@ -11,6 +11,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "IntegerOperations.hpp"
+#include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,9 +29,7 @@ scalar_matrix_integer_dotRightDivide(
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_divide(ptrA[0], ptrB[k]);
     }
@@ -50,9 +49,7 @@ matrix_scalar_integer_dotRightDivide(
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_divide(ptrA[k], ptrB[0]);
     }
@@ -72,9 +69,7 @@ matrix_matrix_integer_dotRightDivide(
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_divide<T>(ptrA[k], ptrB[k]);
     }

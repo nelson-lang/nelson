@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
@@ -48,9 +49,7 @@ ComplexConjugate(const ArrayOf& A)
             vcConj((MKL_INT)A.getElementCount(), ptrAz, ptrCz);
 #else
             auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+            OMP_PARALLEL_FOR_LOOP(N)
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 ptrC[i] = std::conj(Az[i]);
             }
@@ -69,9 +68,7 @@ ComplexConjugate(const ArrayOf& A)
         vzConj((MKL_INT)A.getElementCount(), ptrAz, ptrCz);
 #else
         auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+        OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             ptrC[i] = std::conj(Az[i]);
         }

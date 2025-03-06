@@ -15,6 +15,7 @@
 #include <cwchar>
 #include <cstring>
 #include "lapack_eigen_config.hpp"
+#include "omp_for_loop.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
@@ -1361,9 +1362,7 @@ DoCountNNZReal(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)len; i++)
         if (cp[i]) {
             accum++;
@@ -1377,9 +1376,7 @@ DoCountNNZComplex(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType i = 0; i < (ompIndexType)len; i++)
         if (cp[2 * i] || cp[2 * i + 1]) {
             accum++;

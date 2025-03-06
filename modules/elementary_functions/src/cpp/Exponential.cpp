@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <complex>
 #include <Eigen/Dense>
@@ -64,9 +65,7 @@ Exponential(const ArrayOf& A, bool& needToOverload)
                 matOut = matIn.array().exp();
 #else
                 ompIndexType elementCount = (ompIndexType)nElementsA;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(elementCount)
                 for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<double>>(matIn[k]);
                 }
@@ -104,9 +103,7 @@ Exponential(const ArrayOf& A, bool& needToOverload)
                 matOut = matIn.array().exp();
 #else
                 ompIndexType elementCount = (ompIndexType)nElementsA;
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+                OMP_PARALLEL_FOR_LOOP(elementCount)
                 for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<single>>(matIn[k]);
                 }

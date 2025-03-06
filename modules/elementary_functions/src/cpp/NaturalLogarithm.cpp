@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl.h>
@@ -63,9 +64,7 @@ NaturalLogarithmReal(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(ptrOut, elementCount);
     matRes = matEigen.array().log();
 #else
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOut[k] = NaturalLogarithmRealScalar<T>(ptrIn[k]);
     }
@@ -88,9 +87,7 @@ NaturalLogarithmComplex(NelsonType classDestination, const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(Cz, elementCount);
     matRes = matEigen.array().log();
 #else
-#if WITH_OPENMP
-#pragma omp parallel for
-#endif
+    OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         Cz[k] = NaturalLogarithmComplexScalar<T>(Az[k]);
     }
