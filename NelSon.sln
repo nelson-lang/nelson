@@ -390,6 +390,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsAudio_builtin", "modules\audio\builtin\c\nlsAudio_builtin.vcxproj", "{6AEF4600-4B33-4148-A7CD-88A57A190ACB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsNelson_manager", "modules\nelson_manager\src\c\nlsNelson_manager.vcxproj", "{E467B14F-0D56-4237-B649-EB5572B5E731}"
+	ProjectSection(ProjectDependencies) = postProject
+		{867F2F84-CC27-4BD8-B44B-5EF4F69C6E15} = {867F2F84-CC27-4BD8-B44B-5EF4F69C6E15}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsSpecial_functions", "modules\special_functions\src\c\nlsSpecial_functions.vcxproj", "{BA4BAA50-A505-4B5C-A2D8-FDE22AA1BB21}"
 EndProject
