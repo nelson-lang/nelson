@@ -5,34 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.13.0 (UNRELEASED)
+## 1.13.0 - (UNRELEASED)
+
+This release introduces performance improvements and new graphical capabilities while deprecating support for 32-bit Windows versions.
 
 ### Changed
 
-- Windows x64 version requires [AVX2](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX2) instruction set.
-- Official distribution of 32-bit Windows binary versions has been discontinued.
-- MacOs with M-series chip build use native optimization.
-- `plot`, `plot3` : speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
-- fmtlib 11.1.3
-- Internal: OpenMP multithreading macro reworked.
+- **Windows x64 Compatibility**: Now requires the [AVX2](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX2) instruction set.
+- **Windows 32-bit Support**: Official distribution of 32-bit Windows binary versions has been discontinued.
+- **macOS Optimization**: Builds for macOS with M-series chips now leverage native optimizations for improved performance.
+- **Plot Performance**: Optimized `plot` and `plot3` functions for increased speed. Example:
+  ```matlab
+  tic(); plot(rand(300,300), rand(300,300)); toc();
+  ```
+- **Dependencies Updated**:
+  - Upgraded `fmtlib` to version 11.1.3.
+  - Intel Math Kernel Library (MKL) updated to 2025.0.1 on Windows.
+- **Internal Enhancements**:
+  - OpenMP multithreading macros have been reworked for better efficiency.
 
 ### Added
 
-- Double Buffering for Plots:
+- **Double Buffering for Plots**:
 
-  - Implementation of a double buffering mechanism to improve the smoothness and responsiveness of graphical plots.
-  - Significant reduction in flickering during graphic refresh.
+  - Implemented double buffering to enhance the smoothness and responsiveness of graphical plots.
+  - Significantly reduces flickering during graphical updates.
 
-- `getframe`: Capture axes or figure as movie frame.
-- `movie`: Play recorded movie frames.
-- `im2frame`: Convert image to movie frame.
-- `frame2im`: Return image data associated with movie frame.
-- `DevicePixelRatio`: property for figure.
+- **New Graphics Functions**:
 
-- Example to connect ollama with Nelson
-  `edit([modulepath('webtools'), '/examples/ollama/readme.md'])`
+  - `getframe`: Captures an axes or figure as a movie frame.
+  - `movie`: Plays recorded movie frames.
+  - `im2frame`: Converts an image to a movie frame.
+  - `frame2im`: Returns image data associated with a movie frame.
+  - `DevicePixelRatio`: New figure property to handle display scaling.
 
-- CMake option `ENABLE_AVX2` added if cpu supports it.
+- **New Example**:
+
+  - Added an example for connecting `ollama` with Nelson:
+    ```matlab
+    edit([modulepath('webtools'), '/examples/ollama/readme.md'])
+    ```
+
+- **CMake Enhancement**:
+
+  - Introduced `ENABLE_AVX2` CMake option for systems that support AVX2.
 
 ## 1.12.0 (2025-02-16)
 
