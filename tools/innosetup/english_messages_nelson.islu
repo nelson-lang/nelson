@@ -56,6 +56,7 @@ english.PYTHON_RUNTIME=Python runtime 3.12
 english.JULIA_ENGINE_MODULE=Julia engine module
 english.SPREADSHEET_MODULE=Spreadsheet module
 ;==============================================================================
+english.MESSAGEBOX_AVX2_REQUIRED=Your CPU does not support AVX2 instructions. The installation cannot continue.
 english.MESSAGEBOX_X64_VERSION_RECOMMANDED=Using x64 version is strongly recommended.
 english.MESSAGEBOX_GUI_REQUIRED=GUI module must be selected.
 english.MESSAGEBOX_TESTS_MANAGER_REQUIRED=tests_manager module must be selected.

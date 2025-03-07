@@ -10,22 +10,29 @@
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <shellapi.h>
+#include "StartNelsonDynamicFunction.hpp"
+#else
+#include "StartNelson.h"
 #endif
-#include <stdlib.h>
 #include "NelsonRunner.h"
 //=============================================================================
-#ifdef _MSC_VER
-int WINAPI
-WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-#else
 int
-main(int argc, char* argv[])
-#endif
+runNelson(int argc, char* argv[], NELSON_ENGINE_MODE mode)
 {
 #ifdef _MSC_VER
-    return runNelson(__argc, __argv, NELSON_ENGINE_MODE::GUI);
-#else
-    return runNelson(argc, argv, NELSON_ENGINE_MODE::GUI);
+    int argCount = 0;
+    LPWSTR* szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
+#ifndef _DEBUG
+    /* Catch system error messages (release mode only) */
+    UINT LastErrorMode
+        = SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOALIGNMENTFAULTEXCEPT | SEM_NOGPFAULTERRORBOX);
 #endif
+    int ierr = Nelson::StartNelsonDynamicFunction(argCount, (wchar_t**)szArgList, mode);
+    LocalFree(szArgList);
+#else
+    int ierr = StartNelsonA(argc, argv, mode);
+#endif
+    return ierr;
 }
 //=============================================================================

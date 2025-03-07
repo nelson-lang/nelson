@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
+#include "NelSon_engine_mode.h"
 #include "NelsonRunner.h"
 //=============================================================================
 int
-main(int argc, char* argv[])
-{
-    return runNelson(argc, argv, NELSON_ENGINE_MODE::BASIC_SIO_CLIENT);
-}
+runNelson(int argc, char* argv[], NELSON_ENGINE_MODE mode);
 //=============================================================================

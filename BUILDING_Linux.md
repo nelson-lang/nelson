@@ -63,6 +63,9 @@ LGPL_ONLY:BOOL=OFF
 // Build mininal Nelson
 MINIMAL_BUILD:BOOL=ON
 
+// Enable AVX2 Instruction set (if available)
+ENABLE_AVX2=OFF
+
 // Disable ASSERT_FUNCTIONS module.
 WITHOUT_ASSERT_FUNCTIONS_MODULE:BOOL=OFF
 
@@ -192,6 +195,15 @@ cmake --build . -- -j $(nproc)
 ```
 
 Some tips:
+
+- On local build, you can build optimized version using AVX2 instruction set
+
+```bash
+cd nelson
+cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_AVX2=ON -G "Unix Makefiles" .
+cmake --build . -- -j $(nproc)
+cmake --build . -- buildhelp
+```
 
 - On Fedora distribution: replaces jack-audio-connection-kit-devel package by pipewire-jack-audio-connection-kit-devel
 

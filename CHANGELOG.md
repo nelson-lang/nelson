@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.13.0 (UNRELEASED)
 
+### Changed
+
+- Windows x64 version requires [AVX2](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX2) instruction set.
+- Official distribution of 32-bit Windows binary versions has been discontinued.
+- MacOs with M-series chip build use native optimization.
+- `plot`, `plot3` : speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
+- fmtlib 11.1.3
+- Internal: OpenMP multithreading macro reworked.
+
 ### Added
 
 - Double Buffering for Plots:
@@ -23,11 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Example to connect ollama with Nelson
   `edit([modulepath('webtools'), '/examples/ollama/readme.md'])`
 
-### Changed
-
-- `plot`, `plot3` : speed optimization: `tic();plot(rand(300,300), rand(300,300));toc()`
-- fmtlib 11.1.3
-- Internal: OpenMP multithreading macro reworked.
+- CMake option `ENABLE_AVX2` added if cpu supports it.
 
 ## 1.12.0 (2025-02-16)
 

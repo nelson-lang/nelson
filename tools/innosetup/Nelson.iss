@@ -13,7 +13,7 @@
 #define NELSON_X64
 #define WITH_JULIA_ENGINE
 #define NELSON_DEBUG
-#define CURRENT_YEAR "2024"
+#define CURRENT_YEAR "2025"
 #define APPLICATION_VERSION "1.12.0"
 #endif
 #define APPLICATION_NAME "Nelson"

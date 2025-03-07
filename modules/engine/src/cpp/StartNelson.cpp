@@ -454,7 +454,7 @@ StartNelsonInternalWithMutex(const wstringVector& args, NELSON_ENGINE_MODE _mode
 }
 //=============================================================================
 int
-StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
+StartNelsonW(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
     for (size_t l = 0; l < static_cast<size_t>(argc); l++) {
@@ -464,7 +464,7 @@ StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
 }
 //=============================================================================
 int
-StartNelson(int argc, char* argv[], NELSON_ENGINE_MODE _mode)
+StartNelsonA(int argc, char* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
     for (size_t l = 0; l < static_cast<size_t>(argc); l++) {

@@ -18,6 +18,12 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\commons\StartNelsonDynamicFunction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commons\NelsonRunner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -34,6 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main-sio-cli.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commons\StartNelsonDynamicFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commons\NelsonRunner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

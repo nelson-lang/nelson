@@ -71,5 +71,5 @@ To build this project on macOS, follow the steps below.
 
 - See [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) for an up-to-date list of dependencies and build instructions across platforms.
 - Refer to [Building with Linux](BUILDING_Linux.md) for further information on compilation options.
-
-[Previous: Building](BUILDING.md)
+- By default on Apple Silicon, build use native optimized cpu instructions set.
+  [Previous: Building](BUILDING.md)
