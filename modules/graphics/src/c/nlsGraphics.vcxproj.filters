@@ -16,6 +16,12 @@
     <Filter Include="Libraries Dependencies">
       <UniqueIdentifier>{cdda52de-f4c0-4461-94ba-d25b7b7d0b5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\QGifImage">
+      <UniqueIdentifier>{a1323783-da0b-48a7-8666-6246263aa158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QtGifImage">
+      <UniqueIdentifier>{435dcde4-d517-48c6-af08-f4d4fde49186}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -307,6 +313,15 @@
     </ClInclude>
     <ClInclude Include="..\include\GetFrame.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtGifImage\qgifglobal.h">
+      <Filter>Header Files\QtGifImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtGifImage\qgifimage.h">
+      <Filter>Header Files\QtGifImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtGifImage\qgifimage_p.h">
+      <Filter>Header Files\QtGifImage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -654,6 +669,9 @@
     </ClCompile>
     <ClCompile Include="..\cpp\GetFrame.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\QtGifImage\qgifimage.cpp">
+      <Filter>Source Files\QGifImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

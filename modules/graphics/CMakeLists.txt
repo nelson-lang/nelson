@@ -17,7 +17,9 @@ set(CMAKE_AUTOMOC ON)
 add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
-file(GLOB GRAPHICS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB GRAPHICS_SRC 
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/QtGifImage/*.cpp")
 list(FILTER GRAPHICS_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
@@ -33,6 +35,7 @@ target_include_directories(
           ${Boost_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/QtGifImage
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
@@ -51,6 +54,10 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_editor/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../help_browser/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
+
+if(GIF_FOUND)
+  target_include_directories(${module_library_name} PRIVATE ${GIF_INCLUDE_DIR})
+endif()
 
 target_link_libraries(
   ${module_library_name}
@@ -71,6 +78,10 @@ target_link_libraries(
   Qt${QT_VERSION_MAJOR}::Widgets)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+endif()
+
+if(GIF_FOUND)
+  target_link_libraries(${module_library_name} ${GIF_LIBRARIES})
 endif()
 # ==============================================================================
 file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")

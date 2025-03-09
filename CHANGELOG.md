@@ -38,6 +38,7 @@ This release introduces performance improvements and new graphical capabilities 
   - `im2frame`: Converts an image to a movie frame.
   - `frame2im`: Returns image data associated with a movie frame.
   - `DevicePixelRatio`: New figure property to handle display scaling.
+  - `imwrite`: create gif animations.
 
 - **New Example**:
 

@@ -41,6 +41,7 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew install qt
+          brew install giflib
           brew link icu4c --force
           brew install numpy
           brew install tbb
@@ -125,6 +126,7 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew install qt
+          brew install giflib
           brew link icu4c --force
           brew install numpy
           brew install tbb
@@ -210,6 +212,7 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew link icu4c --force
+          brew install giflib
           brew install tbb
           brew install julia
 
@@ -309,6 +312,7 @@ jobs:
           sudo apt -y install qml6-module-qtqml-workerscript;
           sudo apt -y install qml6-module-qtquick-layouts;
           sudo apt -y install qt6-tools-dev;
+          sudo apt -y install libgif-dev;
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
@@ -413,6 +417,7 @@ jobs:
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
+          sudo apt -y install libgif-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -514,6 +519,7 @@ jobs:
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
+          sudo apt -y install libgif-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -602,6 +608,7 @@ jobs:
           pacman -S hdf5 --noconfirm
           pacman -S libmatio --noconfirm
           pacman -S onetbb --noconfirm
+          pacman -S giflib --noconfirm
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -692,6 +699,7 @@ jobs:
           dnf install -y python3-devel
           dnf install -y python3-numpy
           dnf install -y tbb-devel
+          dnf install -y giflib-devel
 
       - name: Checkout repository
         uses: actions/checkout@v4

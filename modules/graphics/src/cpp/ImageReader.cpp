@@ -78,19 +78,18 @@ imageReaderRGB32(QImage image, int nLhs)
     Dimensions dims(d);
     uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dims, ptr);
-    indexType imageCounter = (indexType)image.height() * (indexType)image.width();
-#if WITH_OPENMP
-#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
-#endif
-    for (indexType row = 0; row < image.height(); row++) {
-        QRgb* p = (QRgb*)image.scanLine((int)row);
-        for (indexType col = 0; col < image.width(); col++) {
-            indexType ndx = row + col * image.height();
+    ompIndexType imageCounter = (ompIndexType)image.height() * (ompIndexType)image.width();
+    OMP_PARALLEL_FOR_LOOP(imageCounter)
+    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
+        indexType row = idx % image.height();
+        indexType col = idx / image.height();
 
-            ptr[ndx] = qRed(p[col]);
-            ptr[ndx + 1 * imageCounter] = qGreen(p[col]);
-            ptr[ndx + 2 * imageCounter] = qBlue(p[col]);
-        }
+        QRgb* p = (QRgb*)image.scanLine((int)row);
+        indexType ndx = row + col * image.height();
+
+        ptr[ndx] = qRed(p[col]);
+        ptr[ndx + 1 * imageCounter] = qGreen(p[col]);
+        ptr[ndx + 2 * imageCounter] = qBlue(p[col]);
     }
     results << A;
     if (nLhs > 1) {
@@ -123,20 +122,19 @@ imageReaderARGB32(QImage image, int nLhs)
         = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsTransparency.getElementCount());
     ArrayOf transparency = ArrayOf(NLS_UINT8, dimsTransparency, ptrTransparency);
 
-    indexType imageCounter = (indexType)image.height() * (indexType)image.width();
-#if WITH_OPENMP
-#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
-#endif
-    for (indexType row = 0; row < image.height(); row++) {
-        QRgb* p = (QRgb*)image.scanLine((int)row);
-        for (indexType col = 0; col < image.width(); col++) {
-            indexType ndx = row + col * image.height();
+    ompIndexType imageCounter = (ompIndexType)image.height() * (ompIndexType)image.width();
+    OMP_PARALLEL_FOR_LOOP(ompIndexType)
+    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
+        indexType row = idx % image.height();
+        indexType col = idx / image.height();
 
-            ptrA[ndx] = qRed(p[col]);
-            ptrA[ndx + 1 * imageCounter] = qGreen(p[col]);
-            ptrA[ndx + 2 * imageCounter] = qBlue(p[col]);
-            ptrTransparency[ndx] = qAlpha(p[col]);
-        }
+        QRgb* p = (QRgb*)image.scanLine((int)row);
+        indexType ndx = row + col * image.height();
+
+        ptrA[ndx] = qRed(p[col]);
+        ptrA[ndx + 1 * imageCounter] = qGreen(p[col]);
+        ptrA[ndx + 2 * imageCounter] = qBlue(p[col]);
+        ptrTransparency[ndx] = qAlpha(p[col]);
     }
     results << A;
     if (nLhs > 1) {
@@ -159,14 +157,14 @@ imageReaderIndexed8(QImage image, int nLhs)
     Dimensions dimsA(image.height(), image.width());
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
-#if WITH_OPENMP
-#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
-#endif
-    for (int row = 0; row < image.height(); row++) {
+
+    ompIndexType imageCounter = image.height() * image.width();
+    OMP_PARALLEL_FOR_LOOP(imageCounter)
+    for (int idx = 0; idx < imageCounter; idx++) {
+        int row = idx % image.height();
+        int col = idx / image.height();
         uchar* p = image.scanLine(row);
-        for (int col = 0; col < image.width(); col++) {
-            ptrA[row + col * image.height()] = p[col];
-        }
+        ptrA[row + col * image.height()] = p[col];
     }
     results << A;
     if (nLhs > 1) {
@@ -192,14 +190,14 @@ imageReaderIndexed8(QImage image, int nLhs)
         uint8* ptrTransparency
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-#if WITH_OPENMP
-#pragma omp parallel for private(col) if (alpha.height() > OMP_DEFAULT_THRESHOLD)
-#endif
-        for (int row = 0; row < alpha.height(); row++) {
+        ompIndexType imageCounter = alpha.height() * alpha.width();
+        OMP_PARALLEL_FOR_LOOP(imageCounter)
+        for (int idx = 0; idx < imageCounter; idx++) {
+            int row = idx % alpha.height();
+            int col = idx / alpha.height();
+
             uchar* p = alpha.scanLine(row);
-            for (int col = 0; col < alpha.width(); col++) {
-                ptrTransparency[row + col * image.height()] = p[col];
-            }
+            ptrTransparency[row + col * image.height()] = p[col];
         }
         results << transparency;
     }
@@ -215,16 +213,15 @@ imageReaderGrayScale16(QImage image, int nLhs)
     Dimensions dimsA(image.height(), image.width());
     uint16* ptrA = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
+    ompIndexType imageCounter = image.height() * image.width();
+    OMP_PARALLEL_FOR_LOOP(imageCounter)
+    for (int idx = 0; idx < imageCounter; idx++) {
+        int row = idx % image.height();
+        int col = idx / image.height();
 
-#if WITH_OPENMP
-#pragma omp parallel for private(col) if (image.height() > OMP_DEFAULT_THRESHOLD)
-#endif
-    for (int row = 0; row < image.height(); row++) {
         QRgb* p = (QRgb*)image.scanLine(row);
-        for (int col = 0; col < image.width(); col++) {
-            int ndx = row + col * image.height();
-            ptrA[ndx] = quint16(p[col]);
-        }
+        int ndx = row + col * image.height();
+        ptrA[ndx] = quint16(p[col]);
     }
     results << A;
     if (nLhs > 1) {
