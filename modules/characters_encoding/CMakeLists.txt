@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name characters_encoding)
@@ -37,11 +35,12 @@ else()
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
-                                   ${ICU_INCLUDE_DIRS})
-  target_link_libraries(${module_library_name} ${ICU_LIBRARIES})
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
+            ${ICU_INCLUDE_DIRS})
+  target_link_libraries(${module_library_name} 
+  PRIVATE
+    ${ICU_LIBRARIES})
 endif()
 # ==============================================================================
 if(WITHOUT_CHARACTERS_ENCODING_MODULE)
@@ -71,11 +70,8 @@ if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
   target_include_directories(
     ${module_library_builtin_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_builtin_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -84,11 +80,12 @@ if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
             )
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsI18n
-    nlsError_manager
-    nlsInterpreter
-    nlsTypes)
+    PRIVATE
+      ${module_library_name}
+      nlsI18n
+      nlsError_manager
+      nlsInterpreter
+      nlsTypes)
   # ==============================================================================
 endif()
 # ==============================================================================

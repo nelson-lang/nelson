@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 include_directories(${EIGEN_INCLUDE_DIR})
@@ -63,6 +61,11 @@ list(
   APPEND
   modules_fully_disabled
   GUI
+  TEXT_COMPLETION
+  QML_ENGINE
+  GRAPHICS
+  HELP_BROWSER
+  TEXT_EDITOR
   FFTW
   SLICOT
   VALIDATORS
@@ -71,15 +74,11 @@ list(
   AUDIO
   WEBTOOLS
   PARALLEL
-  GRAPHICS
-  QML_ENGINE
   SIGNAL_PROCESSING
   DATA_ANALYSIS
   HDF5
   MATIO
   HELP_TOOLS
-  HELP_BROWSER
-  TEXT_EDITOR
   DYNAMIC_LINK
   TESTS_MANAGER
   JSON
@@ -90,7 +89,6 @@ list(
   TRIGONOMETRIC_FUNCTIONS
   POLYNOMIAL_FUNCTIONS
   RANDOM
-  TEXT_COMPLETION
   GEOMETRY
   CONTROL_SYSTEM
   PYTHON_ENGINE

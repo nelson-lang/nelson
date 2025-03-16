@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name core)
@@ -22,13 +20,10 @@ add_library(${module_library_name} ${CORE_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
           ${OpenMP_CXX_INCLUDE_DIRS}
           ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
@@ -42,20 +37,22 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFiles_folders_functions
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsOs_functions
-  nlsStream_manager
-  nlsTypes
-  ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFiles_folders_functions
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsOs_functions
+    nlsStream_manager
+    nlsTypes
+    ${OpenMP_CXX_LIBRARIES}
+    ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
 # ==============================================================================
 file(
   GLOB
@@ -78,14 +75,12 @@ add_custom_target(invalidate_file ALL
   COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/versionBuiltin.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} ${CORE_BUILTIN})
+# ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${OpenMP_CXX_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -95,18 +90,19 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes
-  ${OpenMP_CXX_LIBRARIES})
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsTypes
+    ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

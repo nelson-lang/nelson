@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name assert_functions)
@@ -22,9 +20,7 @@ add_library(${module_library_name} ${ASSERT_FUNCTIONS_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -36,12 +32,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 target_link_libraries(
   ${module_library_name}
-  nlsCommons
-  nlsCore
-  nlsI18n
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    nlsCommons
+    nlsCore
+    nlsI18n
+    nlsError_manager
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -52,11 +49,8 @@ add_library(${module_library_builtin_name} ${ASSERT_FUNCTIONS_BUILTIN})
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -64,8 +58,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsTypes nlsInterpreter)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsTypes
+    nlsInterpreter)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

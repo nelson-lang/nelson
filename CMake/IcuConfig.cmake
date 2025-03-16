@@ -29,7 +29,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{CONDA_PREFIX})
       )
     
       foreach(PATH ${POSSIBLE_ICU_PATHS})
-        if(EXISTS "${PATH}/include" AND EXISTS "${PATH}/lib/libicuuc.dylib")
+        if(EXISTS "${PATH}/include" AND EXISTS "${PATH}/lib/libicuuc${CMAKE_SHARED_LIBRARY_SUFFIX}")
           set(CMAKE_ICU_PATH ${PATH})
           break()
         endif()
@@ -38,7 +38,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{CONDA_PREFIX})
     # Set ICU_INCLUDE_DIRS and ICU_LIBRARIES if found
     if(CMAKE_ICU_PATH)
       set(ICU_INCLUDE_DIRS "${CMAKE_ICU_PATH}/include")
-      set(ICU_LIBRARIES "${CMAKE_ICU_PATH}/lib/libicuuc.dylib;${CMAKE_ICU_PATH}/lib/libicui18n.dylib")
+      set(ICU_LIBRARIES "${CMAKE_ICU_PATH}/lib/libicuuc${CMAKE_SHARED_LIBRARY_SUFFIX};${CMAKE_ICU_PATH}/lib/libicui18n${CMAKE_SHARED_LIBRARY_SUFFIX}")
     endif()
 endif()
 # ==============================================================================

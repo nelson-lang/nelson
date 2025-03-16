@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name mex)
@@ -29,21 +27,18 @@ if(WITHOUT_MEX_MODULE)
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(${module_library_name}
-                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
-
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
+# ==============================================================================
   target_link_libraries(${module_library_name})
+# ==============================================================================
 else()
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_name}
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${EIGEN3_INCLUDE_DIR}
             ${Boost_INCLUDE_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -56,19 +51,21 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include)
-
+# ==============================================================================
   target_link_libraries(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsIpc
-    nlsSparse
-    nlsStream_manager
-    nlsTypes
-    nlsOs_functions
-    ${Boost_LIBRARIES})
+    PRIVATE
+      nlsCharacters_encoding
+      nlsError_manager
+      nlsNelson_manager
+      nlsI18n
+      nlsInterpreter
+      nlsIpc
+      nlsSparse
+      nlsStream_manager
+      nlsTypes
+      nlsOs_functions
+      ${Boost_LIBRARIES})
 endif()
 # ==============================================================================
 if(WITHOUT_MEX_MODULE)
@@ -110,12 +107,13 @@ if(NOT WITHOUT_MEX_MODULE)
 
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsTypes
-    nlsValidators)
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsTypes
+      nlsValidators)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

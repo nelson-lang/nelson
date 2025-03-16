@@ -36,8 +36,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if(NOT LIBFFI_LIBRARY)
     set(POSSIBLE_LIBFFI_LIBRARIES
-      "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/lib/libffi.dylib"
-      "${CMAKE_LIBFFI_PATH}/lib/libffi.dylib"
+      "${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/lib/libffi${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      "${CMAKE_LIBFFI_PATH}/lib/libffi${CMAKE_SHARED_LIBRARY_SUFFIX}"
       )
       foreach(PATH ${POSSIBLE_LIBFFI_LIBRARIES})
         if(EXISTS "${PATH}")

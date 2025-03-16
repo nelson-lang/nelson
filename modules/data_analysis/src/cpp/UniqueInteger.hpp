@@ -14,7 +14,9 @@
 #include "UniqueHelpers.hpp"
 #include <algorithm>
 #include <vector>
+#if WITH_OPENMP
 #include <omp.h>
+#endif
 #include "ParallelSort.hpp"
 #include "omp_for_loop.hpp"
 //=============================================================================

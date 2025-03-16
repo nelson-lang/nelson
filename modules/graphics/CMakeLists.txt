@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name graphics)
@@ -26,13 +24,10 @@ add_library(${module_library_name} ${GRAPHICS_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
           ${Boost_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
@@ -51,26 +46,28 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_editor/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../help_browser/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsGui
-  nlsI18n
-  nlsEngine
-  nlsElementary_functions
-  nlsNelson_manager
-  nlsText_editor
-  nlsHelp_browser
-  nlsInterpreter
-  nlsTypes
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Svg
-  Qt${QT_VERSION_MAJOR}::Widgets)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsGui
+    nlsI18n
+    nlsEngine
+    nlsElementary_functions
+    nlsNelson_manager
+    nlsText_editor
+    nlsHelp_browser
+    nlsInterpreter
+    nlsTypes
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Widgets)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -78,31 +75,36 @@ list(FILTER GRAPHICS_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} ${GRAPHICS_BUILTIN})
+# ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsDisplay_format
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsDisplay_format
+    nlsError_manager
+    nlsNelson_manager
+    nlsGui
+    nlsI18n
+    nlsCommons
+    nlsInterpreter
+    nlsTypes
+    Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

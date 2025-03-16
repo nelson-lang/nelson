@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name types)
@@ -22,12 +20,9 @@ add_library(${module_library_name} ${TYPES_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
           ${OpenMP_CXX_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
@@ -39,16 +34,17 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsElementary_mathematics
-  nlsError_manager
-  nlsI18n
-  nlsNelson_manager
-  ${OpenMP_CXX_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsElementary_mathematics
+    nlsError_manager
+    nlsI18n
+    nlsNelson_manager
+    ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 file(GLOB TYPES_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
@@ -63,27 +59,26 @@ list(FILTER TYPES_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} ${TYPES_BUILTIN})
+# ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter)
 # ==============================================================================
 file(GLOB TYPES_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

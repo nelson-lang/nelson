@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name matio)
@@ -22,11 +20,8 @@ add_library(${module_library_name} ${MATIO_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -40,18 +35,18 @@ target_include_directories(
           ${Boost_INCLUDE_DIRS}
           ${MATIO_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR})
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsSparse
-  nlsTypes
-  ${MATIO_LIBRARIES})
-
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsSparse
+    nlsTypes
+    ${MATIO_LIBRARIES})
 # ==============================================================================
 file(GLOB MATIO_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER MATIO_BUILTIN EXCLUDE REGEX
@@ -61,11 +56,8 @@ add_library(${module_library_builtin_name} ${MATIO_BUILTIN})
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -73,9 +65,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           )
-
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+# ==============================================================================
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE 
+  ${module_library_name}
+  nlsError_manager 
+  nlsI18n 
+  nlsInterpreter 
+  nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

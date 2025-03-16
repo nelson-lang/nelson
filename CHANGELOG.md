@@ -49,6 +49,7 @@ This release introduces performance improvements and new graphical capabilities 
 - **CMake Enhancement**:
 
   - Introduced `ENABLE_AVX2` CMake option for systems that support AVX2.
+  - CMake dependencies reworked.
 
 ## 1.12.0 (2025-02-16)
 

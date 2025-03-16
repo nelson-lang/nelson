@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name commons)
@@ -24,14 +22,18 @@ set(COMMONS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 target_include_directories(
   ${module_library_name}
   PUBLIC "$<BUILD_INTERFACE:${COMMONS_INCLUDE_DIRS}>"
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/stduuid
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
-target_link_libraries(${module_library_name} nlsCharacters_encoding ${CMAKE_DL_LIBS})
+# ==============================================================================
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsCharacters_encoding 
+    ${CMAKE_DL_LIBS})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} 
+  PRIVATE 
+    ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB COMMONS_HEADER

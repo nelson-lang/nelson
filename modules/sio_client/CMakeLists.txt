@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name sio_client)
@@ -31,23 +29,18 @@ if(WITHOUT_SIO_CLIENT_MODULE)
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include)
-
+# ==============================================================================
   target_link_libraries(${module_library_name})
+# ==============================================================================
 else()
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_name}
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${Boost_INCLUDE_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -61,15 +54,18 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/websocketpp
             ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/asio/asio/include
             ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/rapidjson/include)
-
+# ==============================================================================
   target_link_libraries(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsCommons
-    nlsInterpreter
-    nlsNelson_manager
-    nlsStream_manager
-    nlsTypes)
+    PRIVATE
+      nlsCharacters_encoding
+      nlsCommons
+      nlsInterpreter
+      nlsNelson_manager
+      nlsStream_manager
+      nlsTypes
+      ${Boost_LIBRARIES}
+      )
 endif()
 # ==============================================================================
 if(NOT WITHOUT_SIO_CLIENT_MODULE)
@@ -81,20 +77,22 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
   target_include_directories(
     ${module_library_builtin_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_builtin_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include)
-
-  target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                        nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+# ==============================================================================
+  target_link_libraries(${module_library_builtin_name} 
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsTypes)
   # ==============================================================================
 endif()
 # ==============================================================================

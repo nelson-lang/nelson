@@ -4,61 +4,65 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name debugger)
 set(module_library_name nlsDebugger)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB CONSTRUCTORS_FUNCTIONS_SRC
+file(GLOB DEBUGGER_SRC
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
-list(FILTER CONSTRUCTORS_FUNCTIONS_SRC EXCLUDE REGEX
+list(FILTER DEBUGGER_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_name} ${CONSTRUCTORS_FUNCTIONS_SRC})
+add_library(${module_library_name} ${DEBUGGER_SRC})
 # ==============================================================================
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-
-target_link_libraries(${module_library_name} nlsCommons)
 # ==============================================================================
-file(GLOB CONSTRUCTORS_FUNCTIONS_BUILTIN
+target_link_libraries(${module_library_name} 
+  PRIVATE 
+  nlsCommons
+  nlsCharacters_encoding)
+# ==============================================================================
+file(GLOB DEBUGGER_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER CONSTRUCTORS_FUNCTIONS_BUILTIN EXCLUDE REGEX
+list(FILTER DEBUGGER_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_builtin_name} ${CONSTRUCTORS_FUNCTIONS_BUILTIN})
+add_library(${module_library_builtin_name} ${DEBUGGER_BUILTIN})
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsTypes nlsInterpreter)
+# ==============================================================================
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE  
+    ${module_library_name}
+    nlsTypes
+    nlsCommons
+    nlsCharacters_encoding
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

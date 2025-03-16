@@ -4,9 +4,7 @@
 # This file is part of the Nelson.
 # =============================================================================
 # LICENCE_BLOCK_BEGIN
-#
 # SPDX-License-Identifier: LGPL-3.0-or-later
-#
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(module_name python_engine)
@@ -22,11 +20,10 @@ add_library(${module_library_name} ${PYTHON_ENGINE_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -35,14 +32,17 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${Python3_INCLUDE_DIRS})
-
+# ==============================================================================
 target_link_libraries(${module_library_name} 
-  nlsError_manager 
-  nlsI18n
-  nlsNelson_manager
-  nlsInterpreter
-  nlsOs_functions
-  nlsTypes)
+  PRIVATE
+    nlsError_manager
+    nlsCommons 
+    nlsCharacters_encoding
+    nlsI18n
+    nlsNelson_manager
+    nlsInterpreter
+    nlsOs_functions
+    nlsTypes)
 link_directories(${Python3_LIBRARY_DIRS})
 # ==============================================================================
 file(GLOB PYTHON_ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -50,14 +50,13 @@ list(FILTER PYTHON_ENGINE_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} ${PYTHON_ENGINE_BUILTIN})
+# ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_builtin_name}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -65,16 +64,17 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-
+# ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsDisplay_format
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsDisplay_format
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

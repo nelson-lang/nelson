@@ -4,8 +4,8 @@ on: [push]
 
 jobs:
   Micromamba_linux:
-    name: Micromamba (Ubuntu-22.04)
-    runs-on: ubuntu-22.04
+    name: Micromamba (Ubuntu-24.04)
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
 
     steps:
