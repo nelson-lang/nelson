@@ -19,11 +19,8 @@ add_library(${module_library_name} ${TEXT_COMPLETION_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
@@ -38,7 +35,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
-
+# ==============================================================================
 target_link_libraries(${module_library_name} nlsCharacters_encoding
   nlsCommons
   nlsTypes

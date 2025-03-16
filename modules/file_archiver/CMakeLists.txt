@@ -59,11 +59,8 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_name}
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${Boost_INCLUDE_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -75,18 +72,19 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip)
-
+# ==============================================================================
   target_link_libraries(${module_library_name} nlsCharacters_encoding
                         nlsCommons nlsError_manager nlsI18n ${ZLIB_LIBRARIES})
+# ==============================================================================
 else()
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(${module_library_name}
-                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
-
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
+# ==============================================================================
   target_link_libraries(${module_library_name})
+# ==============================================================================
 endif()
 # ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)

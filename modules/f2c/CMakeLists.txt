@@ -172,20 +172,15 @@ file(
 # ==============================================================================
 add_library(${module_library_name} ${F2C_SRC})
 # ==============================================================================
-
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-          
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
@@ -193,10 +188,10 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${Boost_INCLUDE_DIRS})
-
+# ==============================================================================
 target_link_libraries(${module_library_name} nlsElementary_mathematics
                       nlsError_manager nlsTypes nlsI18n)
-
+# ==============================================================================
 file(GLOB F2C_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c")
 # ==============================================================================
 add_executable(nelson_f2c ${F2C_SRC})

@@ -21,11 +21,10 @@ add_library(${module_library_name} ${ELEMENTARY_MATHEMATICS_SRC})
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-target_include_directories(
-  ${module_library_name}
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${OpenMP_CXX_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include)
+# ==============================================================================
 target_link_libraries(${module_library_name} ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
