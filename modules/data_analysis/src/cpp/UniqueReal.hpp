@@ -15,7 +15,9 @@
 #include "omp_for_loop.hpp"
 #include <vector>
 #include <algorithm>
+#if WITH_OPENMP
 #include <omp.h>
+#endif
 #include <unordered_map>
 #include "ParallelSort.hpp"
 //=============================================================================

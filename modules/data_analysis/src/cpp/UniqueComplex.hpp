@@ -13,7 +13,9 @@
 #include "ArrayOf.hpp"
 #include <vector>
 #include <algorithm>
+#if WITH_OPENMP
 #include <omp.h>
+#endif
 #include "ParallelSort.hpp"
 #include "omp_for_loop.hpp"
 #include "complex_abs.hpp"
