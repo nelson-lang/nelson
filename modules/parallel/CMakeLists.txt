@@ -35,14 +35,15 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsCore
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsCore
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsTypes)
 # ==============================================================================
 file(GLOB PARALLEL_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER PARALLEL_BUILTIN EXCLUDE REGEX
@@ -69,14 +70,15 @@ target_include_directories(
 
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsDisplay_format
-  nlsError_manager
-  nlsHandle
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsDisplay_format
+    nlsError_manager
+    nlsHandle
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

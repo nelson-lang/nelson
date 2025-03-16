@@ -45,22 +45,23 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsInterpreter
-  nlsTypes
-  nlsError_manager
-  nlsNelson_manager
-  nlsStream_manager
-  nlsCharacters_encoding
-  nlsCore
-  nlsHistory_manager
-  nlsI18n
-  nlsOs_functions
-  nlsCommons
-  nlsEngine
-  nlsText_completion
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Widgets
-  Qt${QT_VERSION_MAJOR}::PrintSupport)
+  PRIVATE
+    nlsInterpreter
+    nlsTypes
+    nlsError_manager
+    nlsNelson_manager
+    nlsStream_manager
+    nlsCharacters_encoding
+    nlsCore
+    nlsHistory_manager
+    nlsI18n
+    nlsOs_functions
+    nlsCommons
+    nlsEngine
+    nlsText_completion
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::PrintSupport)
 # ==============================================================================
 file(GLOB GUI_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER GUI_BUILTIN EXCLUDE REGEX

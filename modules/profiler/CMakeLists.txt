@@ -32,11 +32,12 @@ target_include_directories(
           ${Boost_INCLUDE_DIRS})
 # ==============================================================================
 target_link_libraries(${module_library_name} 
-  nlsCharacters_encoding 
-  nlsCommons
-  nlsI18n)
+  PRIVATE
+    nlsCharacters_encoding 
+    nlsCommons
+    nlsI18n)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB PROFILER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -60,13 +61,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsModules_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsModules_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

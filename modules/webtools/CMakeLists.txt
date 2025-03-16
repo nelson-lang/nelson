@@ -42,15 +42,16 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFiles_folders_functions
-  nlsI18n
-  nlsNelson_manager
-  nlsTypes
-  ${CURL_LIBRARIES}
-  ${LIBGIT2_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFiles_folders_functions
+    nlsI18n
+    nlsNelson_manager
+    nlsTypes
+    ${CURL_LIBRARIES}
+    ${LIBGIT2_LIBRARIES})
 # ==============================================================================
 file(GLOB WEBTOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER WEBTOOLS_BUILTIN EXCLUDE REGEX
@@ -71,11 +72,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

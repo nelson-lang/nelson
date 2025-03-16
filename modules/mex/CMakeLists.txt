@@ -54,16 +54,18 @@ else()
 # ==============================================================================
   target_link_libraries(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsIpc
-    nlsSparse
-    nlsStream_manager
-    nlsTypes
-    nlsOs_functions
-    ${Boost_LIBRARIES})
+    PRIVATE
+      nlsCharacters_encoding
+      nlsError_manager
+      nlsNelson_manager
+      nlsI18n
+      nlsInterpreter
+      nlsIpc
+      nlsSparse
+      nlsStream_manager
+      nlsTypes
+      nlsOs_functions
+      ${Boost_LIBRARIES})
 endif()
 # ==============================================================================
 if(WITHOUT_MEX_MODULE)
@@ -105,12 +107,13 @@ if(NOT WITHOUT_MEX_MODULE)
 
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsTypes
-    nlsValidators)
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsTypes
+      nlsValidators)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

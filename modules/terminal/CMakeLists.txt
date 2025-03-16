@@ -38,17 +38,18 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsHistory_manager
-  nlsInterpreter
-  nlsStream_manager
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsHistory_manager
+    nlsInterpreter
+    nlsStream_manager
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n)
 
 if(NOT WITHOUT_TEXT_EDITOR_MODULE)
-  target_link_libraries(${module_library_name} nlsText_completion)
+  target_link_libraries(${module_library_name} PRIVATE nlsText_completion)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

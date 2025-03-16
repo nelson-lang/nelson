@@ -35,7 +35,9 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsElementary_mathematics
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsElementary_mathematics
     nlsError_manager
     nlsNelson_manager
     nlsI18n 
@@ -61,12 +63,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

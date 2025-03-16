@@ -35,13 +35,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 target_link_libraries(${module_library_name} 
-  nlsError_manager 
-  nlsNelson_manager 
-  nlsOperators
-  nlsI18n nlsTypes 
-  ${OpenMP_CXX_LIBRARIES})
+  PRIVATE
+    nlsError_manager 
+    nlsNelson_manager 
+    nlsOperators
+    nlsI18n nlsTypes 
+    ${OpenMP_CXX_LIBRARIES})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB DATA_ANALYSIS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -66,13 +67,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCommons
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCommons
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

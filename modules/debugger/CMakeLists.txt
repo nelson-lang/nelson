@@ -30,7 +30,10 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCommons)
+target_link_libraries(${module_library_name} 
+  PRIVATE 
+  nlsCommons
+  nlsCharacters_encoding)
 # ==============================================================================
 file(GLOB DEBUGGER_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -45,12 +48,21 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsTypes nlsInterpreter)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE  
+    ${module_library_name}
+    nlsTypes
+    nlsCommons
+    nlsCharacters_encoding
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

@@ -35,17 +35,18 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCommons
-  nlsError_manager
-  nlsElementary_mathematics
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsOperators
-  nlsCharacters_encoding
-  nlsTypes)
+  PRIVATE
+    nlsCommons
+    nlsError_manager
+    nlsElementary_mathematics
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsOperators
+    nlsCharacters_encoding
+    nlsTypes)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB TIME_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -69,14 +70,15 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsStream_manager
-  nlsNelson_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsStream_manager
+    nlsNelson_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

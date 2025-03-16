@@ -34,7 +34,11 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsI18n nlsTypes)
+target_link_libraries(${module_library_name} 
+  PRIVATE 
+    nlsError_manager
+    nlsI18n 
+    nlsTypes)
 # ==============================================================================
 file(GLOB SPARSE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER SPARSE_BUILTIN EXCLUDE REGEX
@@ -55,11 +59,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

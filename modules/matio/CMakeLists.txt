@@ -38,14 +38,15 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsSparse
-  nlsTypes
-  ${MATIO_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsSparse
+    nlsTypes
+    ${MATIO_LIBRARIES})
 # ==============================================================================
 file(GLOB MATIO_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER MATIO_BUILTIN EXCLUDE REGEX
@@ -65,8 +66,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           )
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE 
+  ${module_library_name}
+  nlsError_manager 
+  nlsI18n 
+  nlsInterpreter 
+  nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

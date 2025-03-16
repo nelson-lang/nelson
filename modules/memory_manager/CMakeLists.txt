@@ -34,14 +34,15 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB MEMORY_MANAGER_BUILTIN
@@ -68,16 +69,17 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFunctions_manager
-  nlsI18n
-  nlsInterpreter
-  nlsMex
-  nlsStream_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFunctions_manager
+    nlsI18n
+    nlsInterpreter
+    nlsMex
+    nlsStream_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

@@ -37,12 +37,16 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           )
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCharacters_encoding
-    nlsCommons
-    nlsError_manager 
-    nlsNelson_manager 
-    nlsI18n 
-    nlsTypes)
+target_link_libraries(${module_library_name} 
+    PRIVATE
+      nlsCharacters_encoding
+      nlsCommons
+      nlsError_manager 
+      nlsNelson_manager 
+      nlsI18n 
+      nlsTypes
+      ${OpenMP_CXX_LIBRARIES}
+      )
 # ==============================================================================
 file(GLOB FFTW_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER FFTW_BUILTIN EXCLUDE REGEX
@@ -64,11 +68,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

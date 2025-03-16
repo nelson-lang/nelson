@@ -35,8 +35,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 target_link_libraries(
-  ${module_library_name} nlsElementary_functions nlsError_manager nlsI18n
-  nlsTypes ${NELSON_BLAS_LAPACKX_LIBRARIES})
+  ${module_library_name} 
+  PRIVATE
+    nlsElementary_functions 
+    nlsError_manager 
+    nlsI18n
+    nlsTypes 
+    ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 file(GLOB STATISTICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER STATISTICS_BUILTIN EXCLUDE REGEX
@@ -56,11 +61,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
-  nlsI18n)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsInterpreter
+    nlsTypes
+    nlsI18n)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

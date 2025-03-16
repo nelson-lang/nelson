@@ -33,7 +33,10 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsTypes nlsNelson_manager)
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsTypes 
+    nlsNelson_manager)
 # ==============================================================================
 file(GLOB SINGLE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER SINGLE_BUILTIN EXCLUDE REGEX
@@ -55,11 +58,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

@@ -33,7 +33,9 @@ if(WITHOUT_I18N_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 # ==============================================================================
-  target_link_libraries(${module_library_name} nlsCharacters_encoding)
+  target_link_libraries(${module_library_name} 
+    PRIVATE
+      nlsCharacters_encoding)
 # ==============================================================================
 else()
 # ==============================================================================
@@ -48,7 +50,10 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 # ==============================================================================
-  target_link_libraries(${module_library_name} nlsCharacters_encoding nlsNelson_manager)
+  target_link_libraries(${module_library_name} 
+    PRIVATE
+      nlsCharacters_encoding
+      nlsNelson_manager)
 # ==============================================================================
 endif()
 # ==============================================================================
@@ -81,8 +86,12 @@ if(NOT WITHOUT_I18N_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
   # ==============================================================================
-  target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                        nlsError_manager nlsInterpreter nlsTypes)
+  target_link_libraries(${module_library_builtin_name}
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsInterpreter
+      nlsTypes)
   # ==============================================================================
   file(GLOB I18N_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
        "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

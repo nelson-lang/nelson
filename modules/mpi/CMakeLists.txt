@@ -38,12 +38,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsSparse
-  nlsTypes
-  ${MPI_C_LIBRARIES})
+  PRIVATE
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsSparse
+    nlsTypes
+    ${MPI_C_LIBRARIES})
 # ==============================================================================
 file(GLOB CONSTRUCTORS_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -71,15 +72,16 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsDisplay_format
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsHandle
-  nlsI18n
-  nlsInterpreter
-  nlsTypes
-  ${MPI_C_LIBRARIES})
+  PRIVATE
+    ${module_library_name}
+    nlsDisplay_format
+    nlsCharacters_encoding
+    nlsError_manager
+    nlsHandle
+    nlsI18n
+    nlsInterpreter
+    nlsTypes
+    ${MPI_C_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

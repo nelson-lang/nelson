@@ -48,21 +48,22 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsCore
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsIpc
-  nlsLocalization
-  nlsMemory_manager
-  nlsModules_manager
-  nlsNelson_manager
-  nlsOs_functions
-  nlsSio_client
-  nlsStream_manager
-  nlsTerminal)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsCore
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsIpc
+    nlsLocalization
+    nlsMemory_manager
+    nlsModules_manager
+    nlsNelson_manager
+    nlsOs_functions
+    nlsSio_client
+    nlsStream_manager
+    nlsTerminal)
 # ==============================================================================
 file(
   GLOB
@@ -97,12 +98,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

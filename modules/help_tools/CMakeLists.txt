@@ -42,18 +42,19 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFiles_folders_functions
-  nlsI18n
-  nlsInterpreter
-  nlsLocalization
-  nlsModules_manager
-  nlsNelson_manager
-  ${LIBXML2_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFiles_folders_functions
+    nlsI18n
+    nlsInterpreter
+    nlsLocalization
+    nlsModules_manager
+    nlsNelson_manager
+    ${LIBXML2_LIBRARIES})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB HELP_TOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")

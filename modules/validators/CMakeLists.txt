@@ -38,12 +38,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCommons
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    nlsCommons
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 file(GLOB VALIDATORS_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
@@ -71,8 +72,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE 
+    ${module_library_name}
+    nlsError_manager 
+    nlsI18n 
+    nlsInterpreter 
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

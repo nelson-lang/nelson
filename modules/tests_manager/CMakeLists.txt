@@ -33,8 +33,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCharacters_encoding nlsCommons
-                      nlsFiles_folders_functions nlsI18n nlsInterpreter)
+target_link_libraries(${module_library_name} 
+  PRIVATE 
+  nlsCharacters_encoding 
+  nlsCommons
+  nlsFiles_folders_functions 
+  nlsI18n 
+  nlsInterpreter)
 # ==============================================================================
 file(GLOB TESTS_MANAGER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER TESTS_MANAGER_BUILTIN EXCLUDE REGEX
@@ -54,8 +59,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager 
+    nlsI18n 
+    nlsInterpreter 
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

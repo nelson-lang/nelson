@@ -189,8 +189,12 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${Boost_INCLUDE_DIRS})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsElementary_mathematics
-                      nlsError_manager nlsTypes nlsI18n)
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsElementary_mathematics
+    nlsError_manager
+    nlsTypes
+    nlsI18n)
 # ==============================================================================
 file(GLOB F2C_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c")
 # ==============================================================================

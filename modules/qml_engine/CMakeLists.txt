@@ -42,18 +42,19 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsNelson_manager
-  nlsCharacters_encoding
-  nlsDisplay_format
-  nlsError_manager
-  nlsGui
-  nlsI18n
-  nlsInterpreter
-  nlsTypes
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Widgets
-  Qt${QT_VERSION_MAJOR}::Qml
-  Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE
+    nlsNelson_manager
+    nlsCharacters_encoding
+    nlsDisplay_format
+    nlsError_manager
+    nlsGui
+    nlsI18n
+    nlsInterpreter
+    nlsTypes
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::Quick)
 # ==============================================================================
 file(GLOB QML_ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER QML_ENGINE_BUILTIN EXCLUDE REGEX
@@ -74,12 +75,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsHandle
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsHandle
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

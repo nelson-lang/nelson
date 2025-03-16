@@ -40,13 +40,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsCore
-  nlsError_manager
-  nlsI18n
-  nlsNelson_manager
-  nlsOs_functions)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsCore
+    nlsError_manager
+    nlsI18n
+    nlsNelson_manager
+    nlsOs_functions)
 # ==============================================================================
 file(GLOB MODULES_MANAGER_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -68,13 +69,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

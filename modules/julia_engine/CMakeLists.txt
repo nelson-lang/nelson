@@ -22,8 +22,10 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
@@ -33,12 +35,15 @@ target_include_directories(
           ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
 target_link_libraries(${module_library_name} 
-  nlsError_manager 
-  nlsI18n
-  nlsNelson_manager
-  nlsInterpreter
-  nlsOs_functions
-  nlsTypes)
+  PRIVATE
+    nlsError_manager 
+    nlsCommons
+    nlsI18n
+    nlsNelson_manager
+    nlsCharacters_encoding
+    nlsInterpreter
+    nlsOs_functions
+    nlsTypes)
 # ==============================================================================
 file(GLOB JULIA_ENGINE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER JULIA_ENGINE_BUILTIN EXCLUDE REGEX
@@ -53,6 +58,7 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
@@ -61,13 +67,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsDisplay_format
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsDisplay_format
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

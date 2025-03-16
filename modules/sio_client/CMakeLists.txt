@@ -57,12 +57,15 @@ else()
 # ==============================================================================
   target_link_libraries(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsCommons
-    nlsInterpreter
-    nlsNelson_manager
-    nlsStream_manager
-    nlsTypes)
+    PRIVATE
+      nlsCharacters_encoding
+      nlsCommons
+      nlsInterpreter
+      nlsNelson_manager
+      nlsStream_manager
+      nlsTypes
+      ${Boost_LIBRARIES}
+      )
 endif()
 # ==============================================================================
 if(NOT WITHOUT_SIO_CLIENT_MODULE)
@@ -83,8 +86,13 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include)
 # ==============================================================================
-  target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                        nlsError_manager nlsI18n nlsInterpreter nlsTypes)
+  target_link_libraries(${module_library_builtin_name} 
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsTypes)
   # ==============================================================================
 endif()
 # ==============================================================================

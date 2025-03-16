@@ -36,15 +36,16 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsCharacters_encoding
-  nlsCommons
-  nlsTypes
-  nlsCore
-  nlsFunctions_manager
-  nlsError_manager
-  nlsNelson_manager
-  nlsInterpreter)
-
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsTypes
+    nlsCore
+    nlsFunctions_manager
+    nlsError_manager
+    nlsNelson_manager
+    nlsInterpreter)
 # ==============================================================================
 file(GLOB TEXT_COMPLETION_HEADER
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"

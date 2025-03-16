@@ -65,19 +65,20 @@ if(WITHOUT_IPC_MODULE)
 # ==============================================================================
   target_link_libraries(
     ${module_library_name}
-    nlsCharacters_encoding
-    nlsCommons
-    nlsError_manager
-    nlsFile_archiver
-    nlsI18n
-    nlsInterpreter
-    nlsNelson_manager
-    nlsOs_functions
-    nlsStream_manager
-    nlsTime
-    nlsTypes
-    ${Boost_LIBRARIES}
-    ${LIBRT})
+    PRIVATE
+      nlsCharacters_encoding
+      nlsCommons
+      nlsError_manager
+      nlsFile_archiver
+      nlsI18n
+      nlsInterpreter
+      nlsNelson_manager
+      nlsOs_functions
+      nlsStream_manager
+      nlsTime
+      nlsTypes
+      ${Boost_LIBRARIES}
+      ${LIBRT})
 endif()
 # ==============================================================================
 if(NOT WITHOUT_IPC_MODULE)
@@ -99,17 +100,19 @@ if(NOT WITHOUT_IPC_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include)
+            ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+            ${Boost_INCLUDE_DIRS})
 # ==============================================================================
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsCore
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsNelson_manager
-    nlsTypes)
+    PRIVATE
+      ${module_library_name}
+      nlsCore
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsNelson_manager
+      nlsTypes)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

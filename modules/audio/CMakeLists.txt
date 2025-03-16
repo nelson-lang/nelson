@@ -46,17 +46,18 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsOperators
-  nlsTypes
-  ${PORTAUDIO_LIBRARIES}
-  ${SNDFILE_LIBRARIES}
-  ${TAGLIB_LIBRARIES}
-  ${ALSA_LIBRARIES}
-  ${JACK_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsOperators
+    nlsTypes
+    ${PORTAUDIO_LIBRARIES}
+    ${SNDFILE_LIBRARIES}
+    ${TAGLIB_LIBRARIES}
+    ${ALSA_LIBRARIES}
+    ${JACK_LIBRARIES})
 # ==============================================================================
 file(GLOB AUDIO_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER AUDIO_BUILTIN EXCLUDE REGEX
@@ -83,16 +84,17 @@ target_include_directories(
 # ==============================================================================
   target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsDisplay_format
-  nlsError_manager
-  nlsHandle
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsStream_manager
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsDisplay_format
+    nlsError_manager
+    nlsHandle
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsStream_manager
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

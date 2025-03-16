@@ -25,19 +25,22 @@ endif()
 # ==============================================================================
 target_link_libraries(
   nelson-cli-exec
-  nlsEngine
-  nlsModules_manager
-  nlsModules_manager_builtin
-  nlsMemory_manager
-  nlsMemory_manager_builtin
-  ${HELP_TOOLS_LIBRARIES})
+  PRIVATE
+    nlsEngine
+    nlsModules_manager
+    nlsModules_manager_builtin
+    nlsMemory_manager
+    nlsMemory_manager_builtin
+    ${HELP_TOOLS_LIBRARIES})
 # ==============================================================================
 if(NOT WITHOUT_GUI_MODULE)
   file(GLOB MAINADVCLI_SRC 
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-adv-cli-exec ${MAINADVCLI_SRC})
-  target_link_libraries(nelson-adv-cli-exec nlsEngine)
+  target_link_libraries(nelson-adv-cli-exec
+    PRIVATE
+      nlsEngine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_GUI_MODULE)
@@ -45,7 +48,9 @@ if(NOT WITHOUT_GUI_MODULE)
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-gui-exec ${MAINGUI_SRC})
-  target_link_libraries(nelson-gui-exec nlsEngine)
+  target_link_libraries(nelson-gui-exec
+    PRIVATE
+      nlsEngine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_SIO_CLIENT_MODULE)
@@ -53,7 +58,9 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
   add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
-  target_link_libraries(nelson-sio-cli-exec nlsEngine)
+  target_link_libraries(nelson-sio-cli-exec 
+    PRIVATE 
+    nlsEngine)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_WEBTOOLS_MODULE)

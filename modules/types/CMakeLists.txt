@@ -37,13 +37,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsElementary_mathematics
-  nlsError_manager
-  nlsI18n
-  nlsNelson_manager
-  ${OpenMP_CXX_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsElementary_mathematics
+    nlsError_manager
+    nlsI18n
+    nlsNelson_manager
+    ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 file(GLOB TYPES_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
@@ -72,11 +73,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter)
 # ==============================================================================
 file(GLOB TYPES_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

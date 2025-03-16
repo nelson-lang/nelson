@@ -36,12 +36,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsConstructors_functions
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsOperators
-  nlsTypes
+  PRIVATE
+    nlsConstructors_functions
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsOperators
+    nlsTypes
   ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 file(GLOB LINEAR_ALGEBRA_BUILTIN
@@ -63,11 +64,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

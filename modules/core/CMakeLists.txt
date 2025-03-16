@@ -40,17 +40,19 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFiles_folders_functions
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsOs_functions
-  nlsStream_manager
-  nlsTypes
-  ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFiles_folders_functions
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsOs_functions
+    nlsStream_manager
+    nlsTypes
+    ${OpenMP_CXX_LIBRARIES}
+    ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})
 # ==============================================================================
 file(
   GLOB
@@ -91,15 +93,16 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsNelson_manager
-  nlsTypes
-  ${OpenMP_CXX_LIBRARIES})
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsNelson_manager
+    nlsTypes
+    ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

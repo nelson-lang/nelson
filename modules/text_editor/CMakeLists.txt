@@ -60,19 +60,20 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsEngine
-  nlsFunctions_manager
-  nlsGui
-  nlsI18n
-  nlsInterpreter
-  nlsModules_manager
-  nlsNelson_manager
-  nlsText_completion
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Widgets
-  Qt${QT_VERSION_MAJOR}::PrintSupport)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsEngine
+    nlsFunctions_manager
+    nlsGui
+    nlsI18n
+    nlsInterpreter
+    nlsModules_manager
+    nlsNelson_manager
+    nlsText_completion
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::PrintSupport)
 endif()
 # ==============================================================================
 if(WITHOUT_TEXT_EDITOR_MODULE)
@@ -96,9 +97,15 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsInterpreter nlsTypes
-                      nlsNelson_manager nlsOs_functions)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager 
+    nlsI18n 
+    nlsInterpreter 
+    nlsTypes
+    nlsNelson_manager 
+    nlsOs_functions)
 # ==============================================================================
 endif()
 # ==============================================================================

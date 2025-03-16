@@ -36,11 +36,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes
-  nlsI18n
-  nlsCharacters_encoding)
+  PRIVATE
+    nlsError_manager
+    nlsInterpreter
+    nlsTypes
+    nlsI18n
+    nlsCharacters_encoding)
 # ==============================================================================
 file(GLOB HANDLE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER HANDLE_BUILTIN EXCLUDE REGEX
@@ -66,13 +67,14 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCharacters_encoding
-  nlsDisplay_format
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCharacters_encoding
+    nlsDisplay_format
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

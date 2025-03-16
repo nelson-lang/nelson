@@ -39,15 +39,17 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsFiles_folders_functions
-  nlsHandle
-  nlsI18n
-  nlsOs_functions
-  nlsTypes
-  ${LIBFFI_LIBRARY})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsFiles_folders_functions
+    nlsHandle
+    nlsI18n
+    nlsOs_functions
+    nlsTypes
+    ${LIBFFI_LIBRARY}
+    ${Boost_LIBRARIES})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER DYNAMIC_LINK_BUILTIN EXCLUDE REGEX
@@ -61,6 +63,7 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
@@ -69,18 +72,22 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
-          ${LIBFFI_INCLUDE_DIR})
+          ${LIBFFI_INCLUDE_DIR}
+          ${Boost_INCLUDE_DIRS})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsCommons
-  nlsDisplay_format
-  nlsError_manager
-  nlsHandle
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsCommons
+    nlsDisplay_format
+    nlsError_manager
+    nlsHandle
+    nlsI18n
+    nlsInterpreter
+    nlsTypes
+    nlsCharacters_encoding
+    )
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

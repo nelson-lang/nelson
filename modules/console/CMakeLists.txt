@@ -29,7 +29,9 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsInterpreter)
+target_link_libraries(${module_library_name} 
+  PRIVATE
+    nlsInterpreter)
 # ==============================================================================
 file(GLOB CONSOLE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER CONSOLE_BUILTIN EXCLUDE REGEX
@@ -48,7 +50,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_builtin_name} ${module_library_name})
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE
+    ${module_library_name}
+    nlsTypes
+    nlsInterpreter
+    nlsI18n
+    nlsError_manager)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

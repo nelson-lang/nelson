@@ -58,15 +58,16 @@ target_include_directories(
 
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsFiles_folders_functions
-  nlsGui
-  nlsI18n
-  nlsNelson_manager
-  ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
-  ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES}
-  Qt${QT_VERSION_MAJOR}::PrintSupport)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsFiles_folders_functions
+    nlsGui
+    nlsI18n
+    nlsNelson_manager
+    ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES}
+    Qt${QT_VERSION_MAJOR}::PrintSupport)
 endif()
 # ==============================================================================
 if(WITHOUT_HELP_BROWSER_MODULE)
@@ -93,11 +94,12 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

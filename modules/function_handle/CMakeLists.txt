@@ -34,14 +34,15 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include)
 # ==============================================================================
 target_link_libraries(${module_library_name} 
-  nlsCharacters_encoding 
-  nlsCommons
-  nlsInterpreter
-  nlsTypes 
-  nlsError_manager 
-  nlsDisplay_format
-  nlsNelson_manager
-  nlsI18n)
+  PRIVATE
+    nlsCharacters_encoding 
+    nlsCommons
+    nlsInterpreter
+    nlsTypes 
+    nlsError_manager 
+    nlsDisplay_format
+    nlsNelson_manager
+    nlsI18n)
 # ==============================================================================
 file(GLOB FUNCTION_HANDLE_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -56,6 +57,7 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
@@ -63,11 +65,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsCharacters_encoding
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

@@ -29,8 +29,12 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsI18n
-                      nlsNelson_manager nlsTypes)
+target_link_libraries(${module_library_name} 
+  PRIVATE 
+  nlsError_manager 
+  nlsI18n
+  nlsNelson_manager
+  nlsTypes)
 # ==============================================================================
 file(GLOB RANDOM_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER RANDOM_BUILTIN EXCLUDE REGEX
@@ -44,6 +48,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
@@ -51,6 +56,7 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
+  PRIVATE
   ${module_library_name}
   nlsError_manager
   nlsI18n

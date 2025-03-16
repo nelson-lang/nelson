@@ -39,15 +39,16 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsNelson_manager
-  nlsI18n
-  nlsInterpreter
-  nlsSparse
-  nlsTypes
-  ${HDF5_LIBRARIES})
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsNelson_manager
+    nlsI18n
+    nlsInterpreter
+    nlsSparse
+    nlsTypes
+    ${HDF5_LIBRARIES})
 # ==============================================================================
 file(GLOB HDF5_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER HDF5_BUILTIN EXCLUDE REGEX
@@ -70,12 +71,13 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes
-  ${Boost_LIBRARIES})
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsInterpreter
+    nlsTypes
+    ${Boost_LIBRARIES})
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

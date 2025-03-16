@@ -49,23 +49,25 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsCommons
-  nlsError_manager
-  nlsGui
-  nlsI18n
-  nlsEngine
-  nlsElementary_functions
-  nlsNelson_manager
-  nlsText_editor
-  nlsHelp_browser
-  nlsInterpreter
-  nlsTypes
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Svg
-  Qt${QT_VERSION_MAJOR}::Widgets)
+  PRIVATE
+    nlsCharacters_encoding
+    nlsCommons
+    nlsError_manager
+    nlsGui
+    nlsI18n
+    nlsEngine
+    nlsElementary_functions
+    nlsNelson_manager
+    nlsText_editor
+    nlsHelp_browser
+    nlsInterpreter
+    nlsTypes
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Widgets)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
-  target_link_libraries(${module_library_name} ${TBB_LIBRARY})
+  target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
 file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -81,6 +83,8 @@ target_include_directories(
   PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
@@ -90,12 +94,17 @@ target_include_directories(
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
-  nlsDisplay_format
-  nlsError_manager
-  nlsI18n
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    ${module_library_name}
+    nlsDisplay_format
+    nlsError_manager
+    nlsNelson_manager
+    nlsGui
+    nlsI18n
+    nlsCommons
+    nlsInterpreter
+    nlsTypes
+    Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

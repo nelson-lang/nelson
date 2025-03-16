@@ -32,12 +32,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include)
 target_link_libraries(
   ${module_library_name}
-  nlsCommons
-  nlsCore
-  nlsI18n
-  nlsError_manager
-  nlsInterpreter
-  nlsTypes)
+  PRIVATE
+    nlsCommons
+    nlsCore
+    nlsI18n
+    nlsError_manager
+    nlsInterpreter
+    nlsTypes)
 # ==============================================================================
 file(GLOB ASSERT_FUNCTIONS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
@@ -57,8 +58,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
-target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsError_manager nlsI18n nlsTypes nlsInterpreter)
+target_link_libraries(${module_library_builtin_name} 
+  PRIVATE
+    ${module_library_name}
+    nlsError_manager
+    nlsI18n
+    nlsTypes
+    nlsInterpreter)
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================

@@ -73,8 +73,13 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip)
 # ==============================================================================
-  target_link_libraries(${module_library_name} nlsCharacters_encoding
-                        nlsCommons nlsError_manager nlsI18n ${ZLIB_LIBRARIES})
+  target_link_libraries(${module_library_name} 
+    PRIVATE
+      nlsCharacters_encoding
+      nlsCommons
+      nlsError_manager
+      nlsI18n
+      ${ZLIB_LIBRARIES})
 # ==============================================================================
 else()
   target_include_directories(
@@ -111,11 +116,12 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsTypes)
+    PRIVATE
+      ${module_library_name}
+      nlsError_manager
+      nlsI18n
+      nlsInterpreter
+      nlsTypes)
 endif()
 # ==============================================================================
 include(GNUInstallDirs)

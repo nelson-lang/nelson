@@ -38,7 +38,9 @@ else()
            $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/simdutf
             ${ICU_INCLUDE_DIRS})
-  target_link_libraries(${module_library_name} ${ICU_LIBRARIES})
+  target_link_libraries(${module_library_name} 
+  PRIVATE
+    ${ICU_LIBRARIES})
 endif()
 # ==============================================================================
 if(WITHOUT_CHARACTERS_ENCODING_MODULE)
@@ -78,11 +80,12 @@ if(NOT WITHOUT_CHARACTERS_ENCODING_MODULE)
             )
   target_link_libraries(
     ${module_library_builtin_name}
-    ${module_library_name}
-    nlsI18n
-    nlsError_manager
-    nlsInterpreter
-    nlsTypes)
+    PRIVATE
+      ${module_library_name}
+      nlsI18n
+      nlsError_manager
+      nlsInterpreter
+      nlsTypes)
   # ==============================================================================
 endif()
 # ==============================================================================
