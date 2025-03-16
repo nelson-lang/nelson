@@ -12,6 +12,8 @@ set(module_library_name nlsQml_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_AUTOMOC ON)
+add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
+set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
 file(GLOB QML_ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 list(FILTER QML_ENGINE_SRC EXCLUDE REGEX
@@ -23,10 +25,9 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${EIGEN3_INCLUDE_DIR}
+  PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
           ${Boost_INCLUDE_DIRS}
-          ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
-          ${Qt${QT_VERSION_MAJOR}Qml_INCLUDE_DIRS}
+          ${EIGEN3_INCLUDE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
@@ -45,6 +46,7 @@ target_link_libraries(
   PRIVATE
     nlsNelson_manager
     nlsCharacters_encoding
+    nlsCommons
     nlsDisplay_format
     nlsError_manager
     nlsGui
@@ -61,11 +63,13 @@ list(FILTER QML_ENGINE_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
 add_library(${module_library_builtin_name} ${QML_ENGINE_BUILTIN})
+# ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
