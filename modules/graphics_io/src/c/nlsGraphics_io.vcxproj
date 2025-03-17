@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\module.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cpp\PcxFileHandler.hpp" />
+    <ClInclude Include="..\cpp\QtGifImage\qgifglobal.h" />
+    <ClInclude Include="..\cpp\QtGifImage\qgifimage.h" />
+    <ClInclude Include="..\cpp\QtGifImage\qgifimage_p.h" />
+    <ClInclude Include="..\cpp\TiffFileHandler.hpp" />
+    <ClInclude Include="..\include\ExportGraphics.hpp" />
+    <ClInclude Include="..\include\ImageFormats.hpp" />
+    <ClInclude Include="..\include\ImageReader.hpp" />
+    <ClInclude Include="..\include\ImageWriter.hpp" />
+    <ClInclude Include="..\include\nlsGraphics_io_exports.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\ExportGraphics.cpp" />
+    <ClCompile Include="..\cpp\ImageFormats.cpp" />
+    <ClCompile Include="..\cpp\ImageReader.cpp" />
+    <ClCompile Include="..\cpp\ImageWriter.cpp" />
+    <ClCompile Include="..\cpp\PcxFileHandler.cpp" />
+    <ClCompile Include="..\cpp\QtGifImage\qgifimage.cpp" />
+    <ClCompile Include="..\cpp\TiffFileHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
+      <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\graphics\src\c\nlsGraphics.vcxproj">
+      <Project>{7ecbc5f0-ce99-4738-944c-e88c3ddf12bb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\gui\src\c\nlsGui.vcxproj">
+      <Project>{075f60ad-38ba-4531-9d46-7453e3416e15}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
+      <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5A91D173-5401-481E-BDAC-A79E210009A6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>nlsgraphics_io</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_IO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics_io/src/include;$(SolutionDir)modules/graphics_io/src/cpp/QtGifImage;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_IO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics_io/src/include;$(SolutionDir)modules/graphics_io/src/cpp/QtGifImage;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_IO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics_io/src/include;$(SolutionDir)modules/graphics_io/src/cpp/QtGifImage;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_IO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics_io/src/include;$(SolutionDir)modules/graphics_io/src/cpp/QtGifImage;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/types/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions> /Zc:__cplusplus /arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/tiff/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

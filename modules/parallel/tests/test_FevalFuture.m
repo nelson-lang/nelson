@@ -27,6 +27,7 @@ pool = backgroundPool();
 f = parfeval(pool, p, 1, 1);
 wait(f);
 assert_isequal(f.State, 'finished');
+assert_isequal(func2str(f.Function), '@(x)x+1');
 %=============================================================================
 p = str2func('pause');
 b = backgroundPool();

@@ -13,6 +13,7 @@
 #include <QtGui/QPainterPath>
 #include <QtCore/QPointF>
 #include "RenderInterface.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 using point3D = struct
 {
@@ -35,7 +36,7 @@ using quad3D = struct
     double ea;
 };
 //=============================================================================
-class RenderQt : public RenderInterface
+class NLSGRAPHICS_IMPEXP RenderQt : public RenderInterface
 {
 private:
     //=============================================================================

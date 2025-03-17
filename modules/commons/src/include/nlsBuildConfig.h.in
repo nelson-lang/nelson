@@ -18,6 +18,9 @@
 #define WITH_TAGLIB @WITH_TAGLIB@
 #define WITH_OPENMP @WITH_OPENMP@
 #define WITH_TBB @WITH_TBB@
+#define WITH_GIF @WITH_GIF@
+#define WITH_TIFF @WITH_TIFF@
+//=============================================================================
 #define WITH_MEX_MODULE @WITH_MEX_MODULE@
 #define WITH_FFTW_MODULE @WITH_FFTW_MODULE@
 #define WITH_SLICOT_MODULE @WITH_SLICOT_MODULE@

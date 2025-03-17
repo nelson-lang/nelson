@@ -11,6 +11,7 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsGraphics.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\libnlsGraphics_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
+Source: {#RootPath}bin\{#BinPath}\gif.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GRAPHICS} and {#COMPONENT_GUI};

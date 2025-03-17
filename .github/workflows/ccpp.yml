@@ -41,10 +41,13 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew install qt
+          brew install giflib
+          brew link giflib --force
           brew link icu4c --force
           brew install numpy
           brew install tbb
           brew install julia
+          brew install libtiff
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -125,10 +128,14 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew install qt
+          brew unlink giflib
+          brew install giflib
+          brew link giflib --force
           brew link icu4c --force
           brew install numpy
           brew install tbb
           brew install julia
+          brew install libtiff
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -210,8 +217,12 @@ jobs:
           brew link libomp --force
           brew install openblas
           brew link icu4c --force
+          brew unlink giflib
+          brew install giflib
+          brew link giflib --force
           brew install tbb
           brew install julia
+          brew install libtiff
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -227,7 +238,7 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_GIF=ON -DWITHOUT_TIFF=ON -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j$(nproc)
       - name: Get module skeleton
@@ -309,9 +320,11 @@ jobs:
           sudo apt -y install qml6-module-qtqml-workerscript;
           sudo apt -y install qml6-module-qtquick-layouts;
           sudo apt -y install qt6-tools-dev;
+          sudo apt -y install libgif-dev;
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
+          sudo apt -y install libtiff-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -413,6 +426,8 @@ jobs:
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
+          sudo apt -y install libgif-dev;
+          sudo apt -y install libtiff-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -514,6 +529,8 @@ jobs:
           sudo apt -y install python3;
           sudo apt -y install python3-numpy;
           sudo apt -y install libtbb-dev;
+          sudo apt -y install libgif-dev;
+          sudo apt -y install libtiff-dev;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -602,6 +619,8 @@ jobs:
           pacman -S hdf5 --noconfirm
           pacman -S libmatio --noconfirm
           pacman -S onetbb --noconfirm
+          pacman -S giflib --noconfirm
+          pacman -S libtiff --noconfirm
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -692,6 +711,8 @@ jobs:
           dnf install -y python3-devel
           dnf install -y python3-numpy
           dnf install -y tbb-devel
+          dnf install -y giflib-devel
+          dnf install -y libtiff-devel
 
       - name: Checkout repository
         uses: actions/checkout@v4

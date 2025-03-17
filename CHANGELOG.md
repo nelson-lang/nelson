@@ -39,6 +39,12 @@ This release introduces performance improvements and new graphical capabilities 
   - `frame2im`: Returns image data associated with a movie frame.
   - `DevicePixelRatio`: New figure property to handle display scaling.
 
+- **Graphics IO** module:
+
+  - `imwrite`: create gif animations.
+  - `imwrite`, `imread`: pcx, tiff file formats managed.
+  - `imformats`: Manage image file format registry.
+
 - **New Example**:
 
   - Added an example for connecting `ollama` with Nelson:

@@ -13,7 +13,6 @@
 #include "NelsonInterprocess.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonPIDs.hpp"
-#include "NelsonInterprocess.hpp"
 #include "EvaluateCommand.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================

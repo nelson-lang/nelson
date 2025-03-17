@@ -62,6 +62,18 @@ endforeach(mod)
 configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
               "${CMAKE_SOURCE_DIR}/modules/modules.m")
 # ==============================================================================
+if (GIF_FOUND)
+  set(WITH_GIF 1)
+else()
+  set(WITH_GIF 0)
+endif()
+# ==============================================================================
+if (TIFF_FOUND)
+  set(WITH_TIFF 1)
+else()
+  set(WITH_TIFF 0)
+endif()
+# ==============================================================================
 if (WITHOUT_OPENMP)
   set(WITH_OPENMP 0)
 else()

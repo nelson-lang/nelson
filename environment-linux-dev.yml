@@ -30,6 +30,8 @@ dependencies:
   - libsndfile
   - libffi
   - libzlib
+  - giflib
+  - libtiff
   - eigen
   - jack
   - pkg-config
