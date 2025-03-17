@@ -17,12 +17,18 @@
 namespace Nelson {
 //=============================================================================
 #define DEFAULT_QUALITY 75
+#define DEFAULT_DELAY -1
+#define DEFAULT_LOOPCOUNT 0
 //=============================================================================
 NLSGRAPHICS_IMPEXP void
-imageWriter(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
+writeGif(const std::wstring& filename, bool append, const ArrayOf& A, const ArrayOf& colorMap,
+    const ArrayOf& alphaMap, int quality, int delayTime, int loopCount,
+    const std::map<std::wstring, wstringVector>& nameValue);
+//=============================================================================
+NLSGRAPHICS_IMPEXP void
+writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
     const std::wstring& format, const ArrayOf& alphaMap, int quality,
     const std::map<std::wstring, wstringVector>& nameValue);
-
 //=============================================================================
 }
 //=============================================================================

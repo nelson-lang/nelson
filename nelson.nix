@@ -23,6 +23,7 @@
   matio, # MATIO support
   libcxx, # C++ standard library
   qt6, # Qt for GUI support
+  giflib, # GIF support
 }:
 
 stdenv.mkDerivation {
@@ -47,6 +48,7 @@ stdenv.mkDerivation {
     libcxx # C++ standard library
     qt6.full # Qt for GUI support
     qt6.qtbase # Qt base required
+    giflib # GIF support
   ];
 
   nativeBuildInputs = [

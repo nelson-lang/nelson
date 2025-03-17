@@ -19,7 +19,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-GraphicsGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
+GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);

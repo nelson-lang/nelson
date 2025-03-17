@@ -229,7 +229,7 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         return true;
     }
     if (propertyName == L"Function") {
-        result = ArrayOf::functionHandleConstructor(this->functionName, L"");
+        result = ArrayOf::characterArrayConstructor(this->functionName);
         return true;
     }
     if (propertyName == L"CreateDateTime") {

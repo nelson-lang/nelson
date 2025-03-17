@@ -7,17 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "imreadBuiltin.hpp"
-#include "ImageReader.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+//=============================================================================
+namespace Nelson::GraphicsIoGateway {
 //=============================================================================
 ArrayOfVector
-GraphicsGateway::imreadBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 3);
-    return imageReader(argIn[0].getContentAsWideString(), nLhs);
-}
+imwriteBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

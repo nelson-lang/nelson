@@ -12,7 +12,9 @@
 #include <QtGui/QImageWriter>
 #include <QtSvg/QtSvg>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
 #include <unordered_map>
+#include "nlsBuildConfig.h"
 #include "ExportGraphics.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -22,10 +24,19 @@
 #include "StringHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOColorProperty.hpp"
+#include "FileSystemWrapper.hpp"
+#include "QtTranslation.hpp"
+#include "Nelson_VERSION.h"
+#if WITH_GIF
+#include "qgifimage.h"
+#endif
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 #define PNG_EXTENSION L"png"
+#if WITH_GIF
+#define GIF_EXTENSION L"gif"
+#endif
 #define JPG_EXTENSION L"jpg"
 #define PDF_EXTENSION L"pdf"
 #define SVG_EXTENSION L"svg"
@@ -33,6 +44,9 @@ namespace Nelson {
 static std::unordered_map<std::wstring, IMAGE_FORMAT> formats = {
     { PNG_EXTENSION, PNG_EXPORT },
     { JPG_EXTENSION, JPG_EXPORT },
+#if WITH_GIF
+    { GIF_EXTENSION, GIF_EXPORT },
+#endif
     { PDF_EXTENSION, PDF_EXPORT },
     { SVG_EXTENSION, SVG_EXPORT },
 };
@@ -124,6 +138,15 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
         hf->paintMe(gc);
         result = true;
     } break;
+#if WITH_GIF
+    case GIF_EXPORT: {
+        QPixmap pxmap(f->getMainQWigdet()->grab());
+        QImage img(pxmap.toImage());
+        QGifImage gif(QSize(img.width(), img.height()));
+        gif.addFrame(img);
+        result = gif.save(wstringToQString(filename));
+    } break;
+#endif
     case ERROR_EXPORT:
     default: {
         result = false;
@@ -134,5 +157,63 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
     return result;
 }
 //=============================================================================
+NLSGRAPHICS_IO_IMPEXP bool
+ExportGraphicsGUI(GOWindow* f)
+{
+#define PREFERED_DIRECTORY_EXPORT_IMAGE "preferedDirectoryExportImage"
+    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+
+    QString currentDir = QDir::currentPath();
+    if (settings.contains(PREFERED_DIRECTORY_EXPORT_IMAGE)) {
+        currentDir = settings.value(PREFERED_DIRECTORY_EXPORT_IMAGE).toString();
+        QFileInfo fileinfo(currentDir);
+        if (!fileinfo.isDir()) {
+            currentDir = QDir::homePath();
+        }
+    } else {
+        currentDir = QDir::homePath();
+    }
+    QString defaultFilePath = currentDir + "/image";
+    QString exportTypeMessage = TR("Export Image to ...");
+#if WITH_GIF
+    QString supportedFormats
+        = TR("PNG File (*.png);;JPG File (*.jpg);;GIF File (*.gif);;SVG File (*.svg);;PDF File "
+             "(*.pdf)");
+#else
+    QString supportedFormats
+        = TR("PNG File (*.png);;JPG File (*.jpg);;SVG File (*.svg);;PDF File (*.pdf)");
+#endif
+    QString filePath
+        = QFileDialog::getSaveFileName(f, exportTypeMessage, defaultFilePath, supportedFormats);
+
+    if (filePath.isEmpty()) {
+        return false;
+    }
+    settings.setValue(PREFERED_DIRECTORY_EXPORT_IMAGE, QFileInfo(filePath).absolutePath());
+
+    IMAGE_FORMAT formatForced = IMAGE_FORMAT::PNG_EXPORT;
+    std::wstring filename = QStringTowstring(filePath);
+    FileSystemWrapper::Path p(filename);
+    if (p.has_extension()) {
+        std::wstring pathExtension = p.extension().wstring();
+        pathExtension.erase(0, 1);
+        if (!isSupportedImageFormatExtension(pathExtension)) {
+            return false;
+        }
+        formatForced = getExportImageFormatFromString(pathExtension);
+    } else {
+        formatForced = IMAGE_FORMAT::PNG_EXPORT;
+        filename = filename + L"." + getExportImageFormatAsString(formatForced);
+        p = filename;
+    }
+    return ExportGraphics(f, filename, formatForced);
+}
+//=============================================================================
+}
+//=============================================================================
+bool
+ExportGraphicsGUI(void* f)
+{
+    return Nelson::ExportGraphicsGUI((Nelson::GOWindow*)f);
 }
 //=============================================================================

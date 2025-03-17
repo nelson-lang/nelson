@@ -383,3 +383,19 @@ Rapidcsv is an easy-to-use C++ CSV parser library.
 > <https://github.com/d99kris/rapidcsv>
 
 > <https://github.com/d99kris/rapidcsv/blob/master/LICENSE> MIT license
+
+- giflib - The GIFLIB project
+
+GIFLIB, a library for manipulating GIF files.
+
+> <https://giflib.sourceforge.net/>
+
+> <https://sourceforge.net/p/giflib/code/ci/master/tree/COPYING> MIT license
+
+- QtGifImage - QImages to/from an animated .gif file
+
+Qt Gif Image is a Qt library that can read and write Gif files.
+
+> <https://github.com/dbzhang800/QtGifImage/>
+
+> <https://github.com/dbzhang800/QtGifImage/blob/master/src/gifimage/qgifimage.h> MIT license

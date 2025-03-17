@@ -144,6 +144,7 @@ parts:
       - python3-dev
       - libproxy1-plugin-webkit
       - libtbb-dev
+      - libgif-dev
 
     stage-packages:
       - libc6
@@ -174,6 +175,7 @@ parts:
       - libicu74
       - libcurl4
       - libgit2-1.7
+      - libgif7
       - libmatio11
       - libqt6concurrent6
       - libqt6core6

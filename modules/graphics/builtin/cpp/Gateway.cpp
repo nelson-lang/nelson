@@ -31,8 +31,6 @@
 #include "graphics_object_eqBuiltin.hpp"
 #include "graphics_object_deleteBuiltin.hpp"
 #include "isgraphicsBuiltin.hpp"
-#include "saveasBuiltin.hpp"
-#include "copygraphicsBuiltin.hpp"
 #include "grootBuiltin.hpp"
 #include "isValidGraphicsPropertyBuiltin.hpp"
 #include "graphics_object_ispropBuiltin.hpp"
@@ -44,8 +42,6 @@
 #include "is2DBuiltin.hpp"
 #include "refreshBuiltin.hpp"
 #include "drawnowBuiltin.hpp"
-#include "imreadBuiltin.hpp"
-#include "imwriteBuiltin.hpp"
 #include "validatecolorBuiltin.hpp"
 #include "waitforbuttonpressBuiltin.hpp"
 #include "waitforBuiltin.hpp"
@@ -115,8 +111,6 @@ static const nlsGateway gateway[] = { { "__line__",
         NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { "isgraphics", (ptrBuiltin)Nelson::GraphicsGateway::isgraphicsBuiltin, 1, 1, CPP_BUILTIN },
-    { "saveas", (ptrBuiltin)Nelson::GraphicsGateway::saveasBuiltin, 0, 2, CPP_BUILTIN },
-    { "copygraphics", (ptrBuiltin)Nelson::GraphicsGateway::copygraphicsBuiltin, 0, 1, CPP_BUILTIN },
     { "groot", (ptrBuiltin)Nelson::GraphicsGateway::grootBuiltin, 1, 0, CPP_BUILTIN },
     { "isValidGraphicsProperty",
         (ptrBuiltin)Nelson::GraphicsGateway::isValidGraphicsPropertyBuiltin, 1, 2, CPP_BUILTIN },
@@ -127,8 +121,6 @@ static const nlsGateway gateway[] = { { "__line__",
     { "is2D", (ptrBuiltin)Nelson::GraphicsGateway::is2DBuiltin, 1, 1, CPP_BUILTIN },
     { "refresh", (ptrBuiltin)Nelson::GraphicsGateway::refreshBuiltin, 0, 1, CPP_BUILTIN },
     { "drawnow", (ptrBuiltin)Nelson::GraphicsGateway::drawnowBuiltin, 0, 0, CPP_BUILTIN },
-    { "imread", (ptrBuiltin)Nelson::GraphicsGateway::imreadBuiltin, -1, 1, CPP_BUILTIN },
-    { "imwrite", (ptrBuiltin)Nelson::GraphicsGateway::imwriteBuiltin, 0, -2, CPP_BUILTIN },
     { "validatecolor", (ptrBuiltin)Nelson::GraphicsGateway::validatecolorBuiltin, 1, 2,
         CPP_BUILTIN },
     { "figure", (ptrBuiltin)Nelson::GraphicsGateway::figureBuiltin, 1, 1, CPP_BUILTIN },
