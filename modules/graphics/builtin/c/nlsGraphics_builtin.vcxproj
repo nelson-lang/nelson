@@ -189,7 +189,6 @@
     <ClCompile Include="..\cpp\drawnowBuiltin.cpp" />
     <ClCompile Include="..\cpp\__getframe__Builtin.cpp" />
     <ClCompile Include="..\cpp\GOConstructorHelpers.cpp" />
-    <ClCompile Include="..\cpp\copygraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\figureBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -204,8 +203,6 @@
     <ClCompile Include="..\cpp\graphics_object_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphics_object_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\grootBuiltin.cpp" />
-    <ClCompile Include="..\cpp\imreadBuiltin.cpp" />
-    <ClCompile Include="..\cpp\imwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\is2DBuiltin.cpp" />
     <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
@@ -217,7 +214,6 @@
     <ClCompile Include="..\cpp\__hggroup__Builtin.cpp" />
     <ClCompile Include="..\cpp\__image__Builtin.cpp" />
     <ClCompile Include="..\cpp\__line__Builtin.cpp" />
-    <ClCompile Include="..\cpp\saveasBuiltin.cpp" />
     <ClCompile Include="..\cpp\__pan__Builtin.cpp" />
     <ClCompile Include="..\cpp\__patch__Builtin.cpp" />
     <ClCompile Include="..\cpp\__rotate3d__Builtin.cpp" />
@@ -266,7 +262,6 @@
     <ClInclude Include="..\cpp\GOConstructorHelpers.hpp" />
     <ClInclude Include="..\include\axesBuiltin.hpp" />
     <ClInclude Include="..\include\closeBuiltin.hpp" />
-    <ClInclude Include="..\include\copygraphicsBuiltin.hpp" />
     <ClInclude Include="..\include\drawnowBuiltin.hpp" />
     <ClInclude Include="..\include\figureBuiltin.hpp" />
     <ClInclude Include="..\include\gcaBuiltin.hpp" />
@@ -281,8 +276,6 @@
     <ClInclude Include="..\include\graphics_object_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\graphics_object_setBuiltin.hpp" />
     <ClInclude Include="..\include\grootBuiltin.hpp" />
-    <ClInclude Include="..\include\imreadBuiltin.hpp" />
-    <ClInclude Include="..\include\imwriteBuiltin.hpp" />
     <ClInclude Include="..\include\is2DBuiltin.hpp" />
     <ClInclude Include="..\include\isgraphicsBuiltin.hpp" />
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
@@ -295,7 +288,6 @@
     <ClInclude Include="..\include\__image__Builtin.hpp" />
     <ClInclude Include="..\include\__line__Builtin.hpp" />
     <ClInclude Include="..\include\nlsGraphics_builtin_exports.h" />
-    <ClInclude Include="..\include\saveasBuiltin.hpp" />
     <ClInclude Include="..\include\__pan__Builtin.hpp" />
     <ClInclude Include="..\include\__patch__Builtin.hpp" />
     <ClInclude Include="..\include\__rotate3d__Builtin.hpp" />

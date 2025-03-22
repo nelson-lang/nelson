@@ -43,13 +43,12 @@
 #include "GOAxis.hpp"
 #include "PostCommand.hpp"
 #include "GOColorProperty.hpp"
-#include "ExportGraphics.hpp"
-#include "FileSystemWrapper.hpp"
 #include "Nelson_VERSION.h"
 #include "HelpBrowser.hpp"
 #include "TextEditor.hpp"
 #include "MainGuiObject.hpp"
 #include "GOCallbackProperty.hpp"
+#include "CallExportGraphicsGui.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -829,45 +828,7 @@ GOWindow::onPrintAction()
 void
 GOWindow::onExportAction()
 {
-#define PREFERED_DIRECTORY_EXPORT_IMAGE "preferedDirectoryExportImage"
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
-
-    QString currentDir = QDir::currentPath();
-    if (settings.contains(PREFERED_DIRECTORY_EXPORT_IMAGE)) {
-        currentDir = settings.value(PREFERED_DIRECTORY_EXPORT_IMAGE).toString();
-        QFileInfo fileinfo(currentDir);
-        if (!fileinfo.isDir()) {
-            currentDir = QDir::homePath();
-        }
-    } else {
-        currentDir = QDir::homePath();
-    }
-    QString defaultFilePath = currentDir + "/image";
-    QString exportTypeMessage = TR("Export Image to ...");
-    QString filePath = QFileDialog::getSaveFileName(this, exportTypeMessage, defaultFilePath,
-        TR("PNG File (*.png);;JPG File (*.jpg);;SVG File (*.svg);;PDF File (*.pdf)"));
-
-    if (filePath.isEmpty()) {
-        return;
-    }
-    settings.setValue(PREFERED_DIRECTORY_EXPORT_IMAGE, QFileInfo(filePath).absolutePath());
-
-    IMAGE_FORMAT formatForced = IMAGE_FORMAT::PNG_EXPORT;
-    std::wstring filename = QStringTowstring(filePath);
-    FileSystemWrapper::Path p(filename);
-    if (p.has_extension()) {
-        std::wstring pathExtension = p.extension().wstring();
-        pathExtension.erase(0, 1);
-        if (!isSupportedImageFormatExtension(pathExtension)) {
-            return;
-        }
-        formatForced = getExportImageFormatFromString(pathExtension);
-    } else {
-        formatForced = IMAGE_FORMAT::PNG_EXPORT;
-        filename = filename + L"." + getExportImageFormatAsString(formatForced);
-        p = filename;
-    }
-    ExportGraphics(this, filename, formatForced);
+    callExportGraphicsGui(this);
 }
 //=============================================================================
 void

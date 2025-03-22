@@ -9,12 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson::GraphicsGateway {
-//=============================================================================
-ArrayOfVector
-imreadBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-}; // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSGRAPHICS_IO_EXPORTS
+#define NLSGRAPHICS_IO_IMPEXP __declspec(dllexport)
+#else
+#define NLSGRAPHICS_IO_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSGRAPHICS_IO_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

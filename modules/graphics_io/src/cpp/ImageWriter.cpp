@@ -19,6 +19,10 @@
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
+#if WITH_GIF
+#include "qgifimage.h"
+#endif
+#include "PcxFileHandler.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,70 +45,93 @@ static void
 setTextInfo(QImageWriter& qimagewriter, const std::map<std::wstring, wstringVector>& nameValue);
 //=============================================================================
 void
-imageWriter(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
+writePcx(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
+    const ArrayOf& alphaMap, int quality, const std::map<std::wstring, wstringVector>& nameValue)
+{
+    QImage qImage;
+    bool hasAlpha = !alphaMap.isEmpty(true);
+    Dimensions dimensionsA = A.getDimensions();
+
+    if (dimensionsA.getLength() == 2) {
+        qImage = imwriteIndexed8(A, colorMap, alphaMap);
+    } else if (dimensionsA.getLength() == 3) {
+        if (!hasAlpha) {
+            qImage = imwriteRGB32(A);
+        } else {
+            qImage = imwriteRGBA32(A, alphaMap);
+        }
+    } else {
+        Error(_W("Image data must be either MxN or MxNx3."));
+        return;
+    }
+
+    int result = PcxFileHandler::savePCX(wstringToQString(filename), qImage);
+    if (result != PcxFileHandler::PCX_ERROR_NONE) {
+        Error(_W("Cannot save image file: ") + filename);
+    }
+}
+//=============================================================================
+#if WITH_GIF
+void
+writeGif(const std::wstring& filename, bool append, const ArrayOf& A, const ArrayOf& colorMap,
+    const ArrayOf& alphaMap, int quality, int delayTime, int loopCount,
+    const std::map<std::wstring, wstringVector>& nameValue)
+{
+    if (!append) {
+        FileSystemWrapper::Path pathFileName(filename);
+        if (pathFileName.is_regular_file()) {
+            FileSystemWrapper::Path::remove(pathFileName);
+        }
+    }
+
+    QImage qImage;
+    bool hasAlpha = !alphaMap.isEmpty(true);
+    Dimensions dimensionsA = A.getDimensions();
+    if (dimensionsA.getLength() == 2) {
+        qImage = imwriteIndexed8(A, colorMap, alphaMap);
+    } else if (dimensionsA.getLength() == 3) {
+        if (!hasAlpha) {
+            qImage = imwriteRGB32(A);
+        } else {
+            qImage = imwriteRGBA32(A, alphaMap);
+        }
+    } else {
+        Error(_W("Image data must be either MxN or MxNx3."));
+    }
+    QGifImage gif(QSize(qImage.width(), qImage.height()));
+
+    if (append) {
+        gif.load(wstringToQString(filename));
+    } else {
+        gif.setLoopCount(loopCount);
+    }
+    gif.addFrame(qImage, delayTime);
+    if (!gif.save(wstringToQString(filename))) {
+        Error(_W("Cannot save image file: ") + filename);
+    }
+}
+#endif
+//=============================================================================
+void
+writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
     const std::wstring& format, const ArrayOf& alphaMap, int quality,
     const std::map<std::wstring, wstringVector>& nameValue)
 {
-    bool hasAlpha = !alphaMap.isEmpty(true);
-    bool hasColorMap = !colorMap.isEmpty(true);
-    if (hasColorMap) {
-        Dimensions dimensionsMap = colorMap.getDimensions();
-        bool checkDimensions
-            = (dimensionsMap.getLength() == 2) && (dimensionsMap.getColumns() == 3);
-        if (!checkDimensions) {
-            Error(_W("Colormap should have three columns."));
-        }
+    if (!isSupportedFormat(format)) {
+        Error(_W("Not supported format."));
     }
 
-    if (hasAlpha) {
-        Dimensions dimensionsAlpha = alphaMap.getDimensions();
-        indexType lenDimensionsAlpha = dimensionsAlpha.getLength();
-        bool sameMN = (A.getRows() == dimensionsAlpha.getRows())
-            && (A.getColumns() == dimensionsAlpha.getColumns());
-        bool hasWrongSize = false;
-        if (lenDimensionsAlpha == 2) {
-            hasWrongSize = false;
-        } else if (lenDimensionsAlpha == 3) {
-            if (dimensionsAlpha.getDimensionLength(3) != 3) {
-                hasWrongSize = true;
-            }
-        } else {
-            hasWrongSize = true;
-        }
-        if (hasWrongSize || !sameMN) {
-            Error(_W("Wrong size for AlphaMap."));
-        }
-    }
-
-    bool isSupportedImageType = A.isDoubleClass() || A.isSingleClass() || A.isLogical()
-        || (A.getDataClass() == NLS_UINT8);
-    if (!isSupportedImageType) {
-        Error(_W("Image must be double, single, logical or uint8 type."));
-    }
     FileSystemWrapper::Path pathFileName(filename);
     if (pathFileName.is_regular_file()) {
         FileSystemWrapper::Path::remove(pathFileName);
     }
-    std::wstring fmt = format;
-    if (format.empty()) {
-        std::wstring ext = pathFileName.extension().wstring();
-        if (ext.length() > 1) {
-            ext.erase(0, 1);
-        }
-        if (ext.empty()) {
-            Error(_W("Unable to determine the file format from the file name."));
-        }
-        fmt = ext;
-    }
-    if (!isSupportedFormat(fmt)) {
-        Error(_W("Not supported format."));
-    }
+    bool hasAlpha = !alphaMap.isEmpty(true);
 
     QImageWriter imgWriter(wstringToQString(filename));
     if (!imgWriter.canWrite()) {
         Error(_W("Cannot write ") + filename);
     }
-    imgWriter.setFormat(wstringToQString(fmt).toUtf8());
+    imgWriter.setFormat(wstringToQString(format).toUtf8());
     imgWriter.setQuality(quality);
 
     setTextInfo(imgWriter, nameValue);
@@ -126,7 +153,7 @@ imageWriter(const std::wstring& filename, const ArrayOf& A, const ArrayOf& color
     }
 
     if (!imgWriter.write(qImage)) {
-        Error(_W("Cannot save image file") + filename);
+        Error(_W("Cannot save image file: ") + filename);
     }
 }
 //=============================================================================
@@ -150,15 +177,15 @@ imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap)
     uint8* data = (uint8*)imageAsUint.getDataPointer();
     uint8* alpha = (uint8*)alphaAsUint.getDataPointer();
     QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_ARGB32);
-    int imageSlice = qImage.height() * qImage.width();
-    for (int row = 0; row < qImage.height(); row++) {
+    ompIndexType imageSlice = qImage.height() * qImage.width();
+    OMP_PARALLEL_FOR_LOOP(imageSlice)
+    for (ompIndexType idx = 0; idx < imageSlice; idx++) {
+        ompIndexType row = idx % qImage.height();
+        ompIndexType col = idx / qImage.height();
         QRgb* p = (QRgb*)qImage.scanLine(row);
-        OMP_PARALLEL_FOR_LOOP(qImage.width())
-        for (int col = 0; col < qImage.width(); col++) {
-            int ndx = row + col * qImage.height();
-            p[col] = qRgba(
-                data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice], alpha[ndx]);
-        }
+        int ndx = row + col * qImage.height();
+        p[col]
+            = qRgba(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice], alpha[ndx]);
     }
     return qImage;
 }
@@ -170,14 +197,14 @@ imwriteRGB32(const ArrayOf& A)
     uint8* data = (uint8*)imageAsUint.getDataPointer();
     QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_RGB32);
 
-    int imageSlice = qImage.height() * qImage.width();
-    for (int row = 0; row < qImage.height(); row++) {
+    ompIndexType imageSlice = qImage.height() * qImage.width();
+    OMP_PARALLEL_FOR_LOOP(imageSlice)
+    for (ompIndexType idx = 0; idx < imageSlice; idx++) {
+        ompIndexType row = idx % qImage.height();
+        ompIndexType col = idx / qImage.height();
         QRgb* p = (QRgb*)qImage.scanLine(row);
-        OMP_PARALLEL_FOR_LOOP(qImage.width())
-        for (int col = 0; col < qImage.width(); col++) {
-            int ndx = row + col * qImage.height();
-            p[col] = qRgb(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice]);
-        }
+        ompIndexType ndx = row + col * qImage.height();
+        p[col] = qRgb(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice]);
     }
     return qImage;
 }
@@ -195,22 +222,24 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     ArrayOf alphaMapAsUint = convertImageToUint(alphaMap);
     uint8* alpha = alphaMapAsUint.isEmpty() ? nullptr : (uint8*)alphaMapAsUint.getDataPointer();
 
-    for (int row = 0; row < image.height(); row++) {
+    ompIndexType imageCounter = image.height() * image.width();
+    OMP_PARALLEL_FOR_LOOP(imageCounter)
+    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
+        ompIndexType row = idx % image.height();
+        ompIndexType col = idx / image.height();
         uchar* p = image.scanLine(row);
-        OMP_PARALLEL_FOR_LOOP(image.width())
-        for (int col = 0; col < image.width(); col++) {
-            p[col] = data[row + col * image.height()];
-        }
+        p[col] = data[row + col * image.height()];
     }
 
     if (alpha) {
         QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
-        for (int row = 0; row < qAlpha.height(); row++) {
+        ompIndexType imageCounter = qAlpha.height() * qAlpha.width();
+        OMP_PARALLEL_FOR_LOOP(imageCounter)
+        for (ompIndexType i = 0; i < imageCounter; i++) {
+            ompIndexType row = i / qAlpha.width();
+            ompIndexType col = i % qAlpha.width();
             uchar* p = qAlpha.scanLine(row);
-            OMP_PARALLEL_FOR_LOOP(qAlpha.width())
-            for (int col = 0; col < qAlpha.width(); col++) {
-                p[col] = alpha[row + col * image.height()];
-            }
+            p[col] = alpha[row + col * image.height()];
         }
         image.setAlphaChannel(qAlpha);
     }
@@ -233,7 +262,6 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
         }
         image.setColorTable(colorVector);
     }
-
     return image;
 }
 //=============================================================================

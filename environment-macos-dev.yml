@@ -26,5 +26,6 @@ dependencies:
   - libsndfile
   - libffi
   - libzlib
+  - giflib
   - eigen
   - pkg-config

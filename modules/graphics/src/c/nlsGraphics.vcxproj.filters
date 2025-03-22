@@ -227,9 +227,6 @@
     <ClInclude Include="..\include\RenderInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ExportGraphics.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\GraphicsObjectDisplay.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -257,13 +254,7 @@
     <ClInclude Include="..\include\RefreshFigure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ImageReader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\GOScalarPositiveIntegerValueProperty.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ImageWriter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp">
@@ -306,6 +297,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GetFrame.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\CallExportGraphicsGui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -493,9 +487,6 @@
     <ClCompile Include="..\cpp\RenderQt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ExportGraphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -520,13 +511,7 @@
     <ClCompile Include="..\cpp\RefreshFigure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ImageReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\GOScalarPositiveIntegerValueProperty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ImageWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp">
@@ -653,6 +638,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GetFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\CallExportGraphicsGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
