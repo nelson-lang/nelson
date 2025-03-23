@@ -240,7 +240,7 @@ QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
     int error;
     GifFileType* gifFile = EGifOpen(device, writeToIODevice, &error);
     if (!gifFile) {
-        qWarning(GifErrorString(error));
+        qWarning("%s", GifErrorString(error));
         return false;
     }
 
