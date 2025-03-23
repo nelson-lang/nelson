@@ -198,9 +198,9 @@ imageReaderIndexed8(QImage image, int nLhs)
         uint8* ptrTransparency
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-        ompIndexType imageCounter = alpha.height() * alpha.width();
-        OMP_PARALLEL_FOR_LOOP(imageCounter)
-        for (int idx = 0; idx < imageCounter; idx++) {
+        ompIndexType alphaImageCounter = alpha.height() * alpha.width();
+        OMP_PARALLEL_FOR_LOOP(alphaImageCounter)
+        for (int idx = 0; idx < alphaImageCounter; idx++) {
             int row = idx % alpha.height();
             int col = idx / alpha.height();
 
