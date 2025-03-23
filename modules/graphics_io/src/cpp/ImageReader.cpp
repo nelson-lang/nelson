@@ -44,7 +44,8 @@ imageReader(const std::wstring& filename, int nLhs)
         image = PcxFileHandler::loadPCX(wstringToQString(filename));
     }
     if (image.isNull()) {
-        image = TiffFileHandler::readTiff(wstringToQString(filename));
+        QString errorMessage;
+        image = TiffFileHandler::readTiff(wstringToQString(filename), errorMessage);
     }
     if (image.isNull()) {
         Error(_W("Impossible read image file."));

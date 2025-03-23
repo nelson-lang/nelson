@@ -150,7 +150,8 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
     case TIF_EXPORT: {
         QPixmap pxmap(f->getMainQWigdet()->grab());
         QImage img(pxmap.toImage());
-        result = TiffFileHandler::writeTiff(wstringToQString(filename), img);
+        QString errorMessage;
+        result = TiffFileHandler::writeTiff(wstringToQString(filename), img, errorMessage);
     } break;
 #endif
 #if WITH_GIF

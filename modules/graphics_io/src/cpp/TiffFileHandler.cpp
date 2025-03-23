@@ -9,9 +9,10 @@
 //=============================================================================
 #include "nlsBuildConfig.h"
 #include "TiffFileHandler.hpp"
+#include "i18n.hpp"
+#include "QStringConverter.hpp"
 #if WITH_TIFF
 #include <tiffio.h>
-#include <QtCore/QDebug>
 #endif
 //=============================================================================
 #ifdef _MSC_VER
@@ -19,12 +20,14 @@
 #endif
 //=============================================================================
 QImage
-TiffFileHandler::readTiff(const QString& filePath)
+TiffFileHandler::readTiff(const QString& filePath, QString& errorMessage)
 {
+    errorMessage.clear();
 #if WITH_TIFF
     TIFF* tif = TIFFOpen(filePath.toUtf8().constData(), "r");
     if (!tif) {
-        qDebug() << "Failed to open TIFF file for reading:" << filePath;
+        std::wstring message = _W("Failed to open TIFF file for reading:");
+        errorMessage = Nelson::wstringToQString(message) + filePath;
         return QImage();
     }
 
@@ -36,7 +39,7 @@ TiffFileHandler::readTiff(const QString& filePath)
 
     uint32_t* raster = (uint32_t*)_TIFFmalloc(width * height * sizeof(uint32_t));
     if (!raster) {
-        qDebug() << "Memory allocation failed for TIFF image.";
+        errorMessage = Nelson::wstringToQString(_W("Memory allocation failed for TIFF image."));
         TIFFClose(tif);
         return QImage();
     }
@@ -51,7 +54,7 @@ TiffFileHandler::readTiff(const QString& filePath)
             }
         }
     } else {
-        qDebug() << "Failed to read TIFF image data.";
+        errorMessage = Nelson::wstringToQString(_W("Failed to read TIFF image data."));
         image = QImage(); // Return empty image on failure
     }
 
@@ -59,18 +62,21 @@ TiffFileHandler::readTiff(const QString& filePath)
     TIFFClose(tif);
     return image;
 #else
+    errorMessage = Nelson::wstringToQString(_W("TIFF format not available."));
     return QImage();
 #endif
 }
 //=============================================================================
 bool
-TiffFileHandler::writeTiff(const QString& filePath, const QImage& image)
+TiffFileHandler::writeTiff(const QString& filePath, const QImage& image, QString& errorMessage)
 {
+    errorMessage.clear();
 #if WITH_TIFF
 
     TIFF* tif = TIFFOpen(filePath.toUtf8().constData(), "w");
     if (!tif) {
-        qDebug() << "Failed to open TIFF file for writing:" << filePath;
+        errorMessage = Nelson::wstringToQString(_W("Failed to open TIFF file for writing:"));
+        errorMessage = errorMessage + filePath;
         return false;
     }
 
@@ -87,7 +93,7 @@ TiffFileHandler::writeTiff(const QString& filePath, const QImage& image)
 
     uint8_t* buf = (uint8_t*)_TIFFmalloc(width * height * 3);
     if (!buf) {
-        qDebug() << "Memory allocation failed for TIFF write.";
+        errorMessage = Nelson::wstringToQString(_W("Memory allocation failed for TIFF write."));
         TIFFClose(tif);
         return false;
     }
@@ -104,7 +110,7 @@ TiffFileHandler::writeTiff(const QString& filePath, const QImage& image)
 
     for (uint32_t row = 0; row < height; row++) {
         if (TIFFWriteScanline(tif, &buf[row * width * 3], row, 0) < 0) {
-            qDebug() << "Failed to write TIFF scanline.";
+            errorMessage = Nelson::wstringToQString(_W("Failed to write TIFF scanline."));
             _TIFFfree(buf);
             TIFFClose(tif);
             return false;
@@ -115,6 +121,7 @@ TiffFileHandler::writeTiff(const QString& filePath, const QImage& image)
     TIFFClose(tif);
     return true;
 #else
+    errorMessage = Nelson::wstringToQString(_W("TIFF format not available."));
     return false;
 #endif
 }

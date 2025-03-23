@@ -139,7 +139,8 @@ writeTiff(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMa
     } else {
         Error(_W("Image data must be either MxN or MxNx3."));
     }
-    if (!TiffFileHandler::writeTiff(wstringToQString(filename), qImage)) {
+    QString errorMessage;
+    if (!TiffFileHandler::writeTiff(wstringToQString(filename), qImage, errorMessage)) {
         Error(_W("Cannot save image file: ") + filename);
     }
 }

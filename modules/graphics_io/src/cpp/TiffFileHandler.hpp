@@ -18,10 +18,10 @@ class TiffFileHandler
 public:
     //=============================================================================
     static QImage
-    readTiff(const QString& filePath);
+    readTiff(const QString& filePath, QString& errorMessage);
     //=============================================================================
     static bool
-    writeTiff(const QString& filePath, const QImage& image);
+    writeTiff(const QString& filePath, const QImage& image, QString& errorMessage);
     //=============================================================================
 };
 //=============================================================================
