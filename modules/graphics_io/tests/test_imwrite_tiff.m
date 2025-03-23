@@ -9,21 +9,15 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-path_dest = [tempdir(), 'imwrite_tests'];
+imfmt = imformats('tiff');
+skip_testsuite(isempty(imfmt), _('No TIFF format supported.'))
+%=============================================================================
+path_dest = [tempdir(), 'imwrite_tests_tiff'];
 [res, msg] = rmdir(path_dest, 's');
 mkdir(path_dest);
 images_path = [modulepath('graphics', 'tests'), '/images/'];
 [img, map, alpha] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
 %=============================================================================
-imwrite(img, map, [path_dest, 'indexed8_1.png']);
-assert_istrue(isfile([path_dest, 'indexed8_1.png']));
-%=============================================================================
-imwrite(img, map, [path_dest, 'indexed8_2.png'], 'png');
-assert_istrue(isfile([path_dest, 'indexed8_2.png']));
-%=============================================================================
-imwrite(img, map, [path_dest, 'indexed8_3.png'], 'Comments', 'Nelson');
-assert_istrue(isfile([path_dest, 'indexed8_3.png']));
-%=============================================================================
-imwrite(img, map, [path_dest, 'indexed8_4.png'], 'png', 'Comments', 'Nelson');
-assert_istrue(isfile([path_dest, 'indexed8_4.png']));
+imwrite(img, map, [path_dest, 'image-tiff.tiff'], 'tiff');
+assert_istrue(isfile([path_dest, 'image-tiff.tiff']));
 %=============================================================================

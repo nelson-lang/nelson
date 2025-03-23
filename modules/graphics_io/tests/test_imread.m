@@ -67,15 +67,3 @@ for i = 1:length(images)
     imagesc(img);
 end
 %=============================================================================
-imfmt = imformats('tiff');
-if isempty(imfmt) 
-  warning('No TIFF format supported. Skipping TIFF tests.');
-  return
-end
-%=============================================================================
-f = figure();
-[img, map, alpha] = imread([images_path,'f14.tiff']);
-assert_isequal(size(img), [   480   640     3]);
-assert_isequal(size(alpha), [0, 0]);
-imshow(img, map);
-%=============================================================================
