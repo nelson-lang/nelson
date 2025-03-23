@@ -451,8 +451,6 @@ PcxFileHandler::savePCX(const QString& filePath, const QImage& image)
             }
         }
     }
-
     return PCX_ERROR_NONE;
-    // Additional code to write the image data to the file would go here
 }
 //=============================================================================

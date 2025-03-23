@@ -211,7 +211,7 @@ imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap)
     uint8* data = (uint8*)imageAsUint.getDataPointer();
     uint8* alpha = (uint8*)alphaAsUint.getDataPointer();
     QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_ARGB32);
-    ompIndexType imageSlice = qImage.height() * qImage.width();
+    ompIndexType imageSlice = static_cast<ompIndexType>(qImage.height()) * qImage.width();
     OMP_PARALLEL_FOR_LOOP(imageSlice)
     for (ompIndexType idx = 0; idx < imageSlice; idx++) {
         ompIndexType row = idx % qImage.height();
@@ -231,7 +231,7 @@ imwriteRGB32(const ArrayOf& A)
     uint8* data = (uint8*)imageAsUint.getDataPointer();
     QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_RGB32);
 
-    ompIndexType imageSlice = qImage.height() * qImage.width();
+    ompIndexType imageSlice = static_cast<ompIndexType>(qImage.height()) * qImage.width();
     OMP_PARALLEL_FOR_LOOP(imageSlice)
     for (ompIndexType idx = 0; idx < imageSlice; idx++) {
         ompIndexType row = idx % qImage.height();
@@ -256,7 +256,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
     ArrayOf alphaMapAsUint = convertImageToUint(alphaMap);
     uint8* alpha = alphaMapAsUint.isEmpty() ? nullptr : (uint8*)alphaMapAsUint.getDataPointer();
 
-    ompIndexType imageCounter = image.height() * image.width();
+    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
     OMP_PARALLEL_FOR_LOOP(imageCounter)
     for (ompIndexType idx = 0; idx < imageCounter; idx++) {
         ompIndexType row = idx % image.height();
@@ -267,7 +267,7 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
 
     if (alpha) {
         QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
-        ompIndexType imageCounter = qAlpha.height() * qAlpha.width();
+        ompIndexType imageCounter = (ompIndexType)qAlpha.height() * qAlpha.width();
         OMP_PARALLEL_FOR_LOOP(imageCounter)
         for (ompIndexType i = 0; i < imageCounter; i++) {
             ompIndexType row = i / qAlpha.width();

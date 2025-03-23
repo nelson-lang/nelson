@@ -187,12 +187,6 @@ ensureInitialized()
     std::call_once(initFlag, initializeImageFormats);
 }
 //=============================================================================
-static bool
-isFormatSupported(const std::string& formatLower)
-{
-    return fileExtensions.find(formatLower) != fileExtensions.end();
-}
-//=============================================================================
 static const FormatData*
 getFormatData(const std::string& formatLower)
 {

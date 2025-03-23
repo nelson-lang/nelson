@@ -167,7 +167,7 @@ imageReaderIndexed8(QImage image, int nLhs)
     uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
 
-    ompIndexType imageCounter = image.height() * image.width();
+    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
     OMP_PARALLEL_FOR_LOOP(imageCounter)
     for (int idx = 0; idx < imageCounter; idx++) {
         int row = idx % image.height();
@@ -222,7 +222,7 @@ imageReaderGrayScale16(QImage image, int nLhs)
     Dimensions dimsA(image.height(), image.width());
     uint16* ptrA = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dimsA.getElementCount());
     ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
-    ompIndexType imageCounter = image.height() * image.width();
+    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
     OMP_PARALLEL_FOR_LOOP(imageCounter)
     for (int idx = 0; idx < imageCounter; idx++) {
         int row = idx % image.height();
