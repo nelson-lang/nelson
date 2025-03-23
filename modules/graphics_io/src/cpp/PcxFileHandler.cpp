@@ -305,21 +305,27 @@ PcxFileHandler::pcxEncodeByte(QFile& file, quint8 byte, quint8 count)
 int
 PcxFileHandler::savePCX(const QString& filePath, const QImage& image)
 {
+    // Save the given QImage as a PCX file at the specified file path.
+    // Parameters:
+    // - filePath: The path where the PCX file will be saved.
+    // - image: The QImage to be saved as a PCX file.
+
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly)) {
-        return PCX_ERROR_OPENING;
+        return PCX_ERROR_OPENING; // Error opening the file for writing
     }
     if (image.isNull()) {
-        return PCX_ERROR_MEMORY;
+        return PCX_ERROR_MEMORY; // Error: the image is null
     }
 
     QDataStream stream(&file);
-    stream.setByteOrder(QDataStream::LittleEndian);
+    stream.setByteOrder(QDataStream::LittleEndian); // PCX files use little-endian byte order
 
+    // Initialize the PCX file header
     PCXHeader header = {};
-    header.Manufacturer = 10;
-    header.Version = 5;
-    header.Encoding = 1;
+    header.Manufacturer = 10; // ZSoft .PCX file identifier
+    header.Version = 5; // Version number
+    header.Encoding = 1; // 1 = RLE encoding
     header.Xmin = 0;
     header.Ymin = 0;
     header.Xmax = image.width() - 1;
@@ -447,5 +453,6 @@ PcxFileHandler::savePCX(const QString& filePath, const QImage& image)
     }
 
     return PCX_ERROR_NONE;
+    // Additional code to write the image data to the file would go here
 }
 //=============================================================================
