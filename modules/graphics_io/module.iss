@@ -12,6 +12,9 @@
 Source: {#RootPath}bin\{#BinPath}\libnlsGraphics_io.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
 Source: {#RootPath}bin\{#BinPath}\libnlsGraphics_io_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
 Source: {#RootPath}bin\{#BinPath}\gif.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
+Source: {#RootPath}bin\{#BinPath}\jpeg62.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
+Source: {#RootPath}bin\{#BinPath}\tiff.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
+Source: {#RootPath}bin\{#BinPath}\turbojpeg.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GRAPHICS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_GRAPHICS};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GRAPHICS};

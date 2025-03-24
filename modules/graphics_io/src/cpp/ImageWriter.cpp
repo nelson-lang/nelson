@@ -26,11 +26,9 @@
 #include "TiffFileHandler.hpp"
 #endif
 #include "PcxFileHandler.hpp"
+#include "ImageFormats.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static bool
-isSupportedFormat(const std::wstring& format);
 //=============================================================================
 static QImage
 imwriteRGB32(const ArrayOf& A);
@@ -151,8 +149,8 @@ writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorM
     const std::wstring& format, const ArrayOf& alphaMap, int quality,
     const std::map<std::wstring, wstringVector>& nameValue)
 {
-    if (!isSupportedFormat(format)) {
-        Error(_W("Not supported format."));
+    if (!isImageFormatWritable(format)) {
+        Error(_W("Not supported format: ") + format);
     }
 
     FileSystemWrapper::Path pathFileName(filename);
@@ -189,18 +187,6 @@ writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorM
     if (!imgWriter.write(qImage)) {
         Error(_W("Cannot save image file: ") + filename);
     }
-}
-//=============================================================================
-bool
-isSupportedFormat(const std::wstring& format)
-{
-    QList<QByteArray> supportedFormatList = QImageWriter::supportedImageFormats();
-    for (auto element : supportedFormatList) {
-        if (StringHelpers::iequals(QStringTowstring(QString(element)), format)) {
-            return true;
-        }
-    }
-    return false;
 }
 //=============================================================================
 QImage

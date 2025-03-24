@@ -19,6 +19,7 @@
 #include "omp_for_loop.hpp"
 #include "PcxFileHandler.hpp"
 #include "TiffFileHandler.hpp"
+#include "ImageFormats.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,13 +40,15 @@ imageReader(const std::wstring& filename, int nLhs)
     if (!path.is_regular_file()) {
         Error(_W("A valid filename expected."));
     }
-    QImage image(wstringToQString(filename));
+    QString qFilename = wstringToQString(filename);
+
+    QImage image(qFilename);
     if (image.isNull()) {
-        image = PcxFileHandler::loadPCX(wstringToQString(filename));
+        image = PcxFileHandler::loadPCX(qFilename);
     }
     if (image.isNull()) {
         QString errorMessage;
-        image = TiffFileHandler::readTiff(wstringToQString(filename), errorMessage);
+        image = TiffFileHandler::readTiff(qFilename, errorMessage);
     }
     if (image.isNull()) {
         Error(_W("Impossible read image file."));
@@ -199,7 +202,8 @@ imageReaderIndexed8(QImage image, int nLhs)
         uint8* ptrTransparency
             = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
         ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-        ompIndexType alphaImageCounter = static_cast<ompIndexType>(alpha.height()) * static_cast<ompIndexType>(alpha.width());
+        ompIndexType alphaImageCounter
+            = static_cast<ompIndexType>(alpha.height()) * static_cast<ompIndexType>(alpha.width());
         OMP_PARALLEL_FOR_LOOP(alphaImageCounter)
         for (int idx = 0; idx < alphaImageCounter; idx++) {
             int row = idx % alpha.height();

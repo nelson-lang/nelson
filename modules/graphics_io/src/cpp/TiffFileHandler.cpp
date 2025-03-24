@@ -8,12 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "TiffFileHandler.hpp"
 #include "i18n.hpp"
 #include "QStringConverter.hpp"
 #if WITH_TIFF
 #include <tiffio.h>
 #endif
+#include "Types.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #pragma comment(lib, "tiff.lib")
@@ -45,13 +47,13 @@ TiffFileHandler::readTiff(const QString& filePath, QString& errorMessage)
     }
 
     if (TIFFReadRGBAImage(tif, width, height, raster, 0)) {
-        for (uint32_t y = 0; y < height; y++) {
-            for (uint32_t x = 0; x < width; x++) {
-                uint32_t pixel
-                    = raster[(height - y - 1) * width + x]; // TIFF stores images bottom-up
-                image.setPixelColor(
-                    x, y, QColor(TIFFGetR(pixel), TIFFGetG(pixel), TIFFGetB(pixel)));
-            }
+        Nelson::ompIndexType imageSlice = static_cast<Nelson::ompIndexType>(width) * height;
+        OMP_PARALLEL_FOR_LOOP(imageSlice)
+        for (uint32_t i = 0; i < imageSlice; i++) {
+            uint32_t x = i % width;
+            uint32_t y = i / width;
+            uint32_t pixel = raster[(height - y - 1) * width + x]; // TIFF stores images bottom-up
+            image.setPixelColor(x, y, QColor(TIFFGetR(pixel), TIFFGetG(pixel), TIFFGetB(pixel)));
         }
     } else {
         errorMessage = Nelson::wstringToQString(_W("Failed to read TIFF image data."));
@@ -98,14 +100,19 @@ TiffFileHandler::writeTiff(const QString& filePath, const QImage& image, QString
         return false;
     }
 
-    for (uint32_t y = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++) {
-            QColor color = image.pixelColor(x, y);
-            uint32_t index = (y * width + x) * 3;
-            buf[index] = color.red();
-            buf[index + 1] = color.green();
-            buf[index + 2] = color.blue();
-        }
+    Nelson::ompIndexType imageSlice = static_cast<Nelson::ompIndexType>(width) * height;
+    OMP_PARALLEL_FOR_LOOP(imageSlice)
+
+    for (uint32_t i = 0; i < imageSlice; i++) {
+        uint32_t x = i % width;
+        uint32_t y = i / width;
+
+        QColor color = image.pixelColor(x, y);
+        uint32_t index = i * 3; // Instead of (y * width + x) * 3
+
+        buf[index] = color.red();
+        buf[index + 1] = color.green();
+        buf[index + 2] = color.blue();
     }
 
     for (uint32_t row = 0; row < height; row++) {
