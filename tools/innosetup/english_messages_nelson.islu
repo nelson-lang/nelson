@@ -14,7 +14,7 @@ english.CUSTOM_INSTALL_TYPE=Custom install
 english.MINIMAL_INSTALL_TYPE=Minimal install (no gui)
 ;==============================================================================
 english.FFTW_MODULE=Fastest Fourier Transform module(FFTW)
-english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory (GPL v2 license)
+english.SLICOT_MODULE=Subroutine Library in Systems and Control Theory
 english.CONTROL_SYSTEM_MODULE=Control System Module
 english.SIO_CLIENT_MODULE=Nelson in the cloud (server)
 english.TESTS_MANAGER_MODULE=Testing Framework

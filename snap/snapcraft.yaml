@@ -110,7 +110,6 @@ parts:
       - libsndfile1-dev
       - libtag1-dev
       - alsa-utils
-      - libslicot-dev
       - libsqlite3-dev
       - libgl1
       - hdf5-tools
@@ -168,7 +167,6 @@ parts:
       - libsndfile1
       - libtag1v5
       - alsa-utils
-      - libslicot0
       - libsqlite3-0
       - libgl1
       - hdf5-tools

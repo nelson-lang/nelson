@@ -143,7 +143,6 @@ endif()
 # ==============================================================================
 if(LGPL_ONLY)
   set(WITHOUT_FFTW_MODULE ON)
-  set(WITHOUT_SLICOT_MODULE ON)
 endif()
 # ==============================================================================
 if (WITHOUT_SLICOT_MODULE)
@@ -175,7 +174,7 @@ foreach(mod ${optional_modules})
   endif()
 endforeach(mod)
 # ==============================================================================
-if(LGPL_ONLY OR (WITHOUT_FFTW_MODULE AND WITHOUT_SLICOT_MODULE))
+if(LGPL_ONLY OR WITHOUT_FFTW_MODULE)
   message(STATUS "LGPL v3.x: enabled.")
 endif()
 # ==============================================================================

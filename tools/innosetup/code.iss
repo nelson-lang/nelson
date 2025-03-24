@@ -311,7 +311,7 @@ begin
      begin
       if PageID = SecondLicensePage.ID then
         begin
-          Result := not WizardIsComponentSelected('SLICOT');
+          Result := True;
         end;
      end;
 end;

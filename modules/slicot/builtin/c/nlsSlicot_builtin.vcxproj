@@ -199,7 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\SLICOTWrapperBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab01odBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab04mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab07ndBuiltin.cpp" />

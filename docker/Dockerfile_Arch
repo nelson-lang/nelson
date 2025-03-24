@@ -72,7 +72,7 @@ USER nelsonuser
 
 ENV AUDIODEV null
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
 RUN cmake --build . -- -j $(nproc)
 RUN cmake --build . -- -j $(nproc) get_module_skeleton
 

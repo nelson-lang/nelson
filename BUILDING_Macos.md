@@ -47,7 +47,6 @@ To build this project on macOS, follow the steps below.
    cmake .. \
        -DCMAKE_BUILD_TYPE=Release \
        -DFORCE_LIBGFORTRAN_LINK=ON \
-       -DWITHOUT_SLICOT_MODULE=ON \
        -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
        -DCMAKE_INSTALL_LIBDIR=lib

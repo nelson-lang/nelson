@@ -13,12 +13,1881 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fortran Files">
+      <UniqueIdentifier>{2d52edbe-12ca-4863-b2fc-de85d88188de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\SlicotWrapper.cpp">
+    <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\dllMain.cpp">
+    <ClCompile Include="..\f2c\AB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB05SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB07MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB07ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08MZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08NW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB08NZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB8NXZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09HX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09HY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09IX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09IY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09JV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09JW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09JX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09KX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB09ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13DX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AB13MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AG07BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AG08BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AG08BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AG08BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\AG8BYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BB01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BB02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BD01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\BD02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DE01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DE01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DELCTG.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DF01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DG01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DG01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DG01NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DG01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\DK01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FB01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\FD01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01PX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\IB03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA01DZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02AZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02CZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02ES.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02EZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02GZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02HZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02JZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02MZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02NZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02OZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02PZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MA02SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OH.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OO.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01OT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RH.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01SS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01UW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01UX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01UY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01UZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01XY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB01ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02CU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02CV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02CY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02JX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02RZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02SZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02TZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02UU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02UV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02UW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB02YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AG.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AH.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03AI.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BG.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03CZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03DZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03FZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03GZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03HZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03JP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03JZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03KA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03KB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03KC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03KE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03LF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03LP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03LZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QG.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03RZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03TS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03VW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03VY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03WA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03WX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03XP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03XS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03XU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03XZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03YA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03YT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03ZA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB03ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB3JZP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB3LZP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB3OYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB3PYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04AZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04BP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DI.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DL.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04DZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04FP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04IY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04OX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04PA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04PB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04PU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04QB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04QC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04QF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04QS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04QU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04RZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04SU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04TY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04VX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04WP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04WR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04WU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04XY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04YW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB04ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB4DBZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB4DLZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB4DPZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB05MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB05MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB05ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB05OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MB05OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01SW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01SX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01SY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC01XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC03ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC03NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MC03NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\MD03BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BQ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\NF01BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01FY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02MX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02RU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB02SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03OZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03QX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03SX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03SY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB03UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04MR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04NV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04NW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04PX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04QR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04QU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04RV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB04RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB06ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB08NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB09MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB10ZP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB16AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB16AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB16BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB16CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SB16CY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SELECT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG02CV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG02CW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG02CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG02ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SG03BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SLCT_DLATZM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\SLCT_ZLATZM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01KX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01PX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01TY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01UX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01UY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01VY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01WX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01XZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB01ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB04CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TB05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TC01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TC04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TC05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TD03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TD03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TD04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TD05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01MX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TF01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01AZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01FZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01HU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01HX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01HY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01JY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01KZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01LY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01OA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01OB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01OZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\TG01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01MZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UD01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\UE01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\f2c\zelctg.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,5 +1909,1876 @@
     <ResourceCompile Include="resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\fortran\AB01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB05SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB07MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB07ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08MZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08NW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08NX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08NZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB8NXZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09AX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09CX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09HX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09HY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09IX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09IY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09JV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09JW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09JX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09KX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB09ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13AX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13DX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB13MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG07BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG08BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG08BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG08BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG8BYZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BB01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BB02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BB03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BB04AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BD01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\BD02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DE01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DE01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DELCTG.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DF01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DG01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DG01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DG01NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DG01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\DK01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FB01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FB01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FB01SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FB01TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FB01VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\FD01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01PX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\IB03BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA01DZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02AZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02CZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02ES.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02EZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02GZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02HZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02IZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02JZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02MZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02NZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02OZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02PZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OC.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OE.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OH.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OO.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01OT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RH.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01SS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01XY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01ZD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02CU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02CV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02CX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02CY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02JX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02RZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02SZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02TZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02UU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02UV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02UW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AE.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AG.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AH.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03AI.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BC.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BE.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BG.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03CZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03DZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03FZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03GZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03HZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03IZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03JP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03JZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03KA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03KB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03KC.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03KE.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03LF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03LP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03LZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QG.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03TS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03VW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03VY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03WA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03WX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03XS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03XP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03XU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03XZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03YA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03YT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03ZA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03ZD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB3JZP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB3LZP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB3OYZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB3PYZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04AZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04BP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DI.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DL.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04DZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04FP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04IY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04IZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04PA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04PB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04PU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04QB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04QC.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04QF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04QS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04QU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04RZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04SU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04TY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04VX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04WP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04WR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04WU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04XY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04YW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04ZD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB4DBZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB4DLZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB4DPZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01SW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01SX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01SY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC03MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC03ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC03NX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC03NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MD03BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BE.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BF.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BQ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\NF01BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01FY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02CX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02RU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03QX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03SX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03SY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04NV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04NW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04NX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04OW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04PX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04RV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04RW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04RX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04RY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB06ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB08NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB09MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10ZD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10ZP.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB16AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB16AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB16BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB16CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB16CY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SELECT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02CV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02CW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02CX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03AX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BS.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG03BZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SLCT_DLATZM.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SLCT_ZLATZM.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01IZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01KX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01PX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01TY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01UD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01UX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01UY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01VY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01WX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01XD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01XZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01YD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01ZD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB03AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04BV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04BW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB04CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB05AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TC01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TC04AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TC05AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TD03AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TD03AY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TD04AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TD05AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01MX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TF01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01AZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01FD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01FZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01HU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01HX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01HY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01JY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01KD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01KZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01LD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01LY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01NX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01OA.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01OB.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01OZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TG01WD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01DD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01MZ.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UD01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\UE01MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\zelctg.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

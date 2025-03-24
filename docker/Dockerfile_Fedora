@@ -83,7 +83,7 @@ ENV AUDIODEV null
 ENV PATH="/usr/lib64/openmpi/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
 RUN cmake --build . -- -j $(nproc)
 RUN cmake --build . -- -j $(nproc) get_module_skeleton
 

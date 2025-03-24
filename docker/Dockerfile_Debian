@@ -43,7 +43,6 @@ RUN apt-get install -y alsa-utils;
 RUN apt-get install -y libhdf5-dev;
 RUN apt-get install -y hdf5-tools;
 RUN apt-get install -y libmatio-dev;
-RUN apt-get install -y libslicot0;
 RUN apt-get install -y zlib1g-dev;
 RUN apt-get install -y libcurl4-openssl-dev;
 RUN apt-get install -y libgit2-dev;

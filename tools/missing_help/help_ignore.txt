@@ -150,7 +150,6 @@ AfterEachFuture_used
 FevalFuture_used
 FevalFuture_used
 FevalQueue_used
-SLICOTWrapper
 backgroundPool_used
 webREST
 __subsref__

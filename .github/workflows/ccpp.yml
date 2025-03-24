@@ -60,7 +60,7 @@ jobs:
       - name: CMake
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j$(nproc)
       - name: Get module skeleton
@@ -148,7 +148,7 @@ jobs:
       - name: CMake
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5 
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j$(nproc)
       - name: Get module skeleton
@@ -238,7 +238,7 @@ jobs:
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_GIF=ON -DWITHOUT_TIFF=ON -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_GIF=ON -DWITHOUT_TIFF=ON -DWITHOUT_FFTW_MODULE=ON -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j$(nproc)
       - name: Get module skeleton
@@ -297,7 +297,6 @@ jobs:
           sudo apt -y install libsndfile1-dev;
           sudo apt -y install libtag1-dev;
           sudo apt -y install alsa-utils;
-          sudo apt -y install libslicot-dev;
           sudo apt -y install libsqlite3-dev;
           sudo apt -y install libgl-dev;
           sudo apt -y install hdf5-tools;
@@ -400,7 +399,6 @@ jobs:
           sudo apt -y install libsndfile1-dev;
           sudo apt -y install libtag1-dev;
           sudo apt -y install alsa-utils;
-          sudo apt -y install libslicot-dev;
           sudo apt -y install libsqlite3-dev;
           sudo apt -y install libgl-dev;
           sudo apt -y install hdf5-tools;
@@ -503,7 +501,6 @@ jobs:
           sudo apt -y install libsndfile1-dev;
           sudo apt -y install libtag1-dev;
           sudo apt -y install alsa-utils;
-          sudo apt -y install libslicot-dev;
           sudo apt -y install libsqlite3-dev;
           sudo apt -y install libgl-dev;
           sudo apt -y install hdf5-tools;
@@ -633,7 +630,7 @@ jobs:
       - name: Update version
         run: python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -G "Unix Makefiles" .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
       - name: Make
         run: cmake --build . -- -j $(nproc)
       - name: Download module skeleton
@@ -726,7 +723,7 @@ jobs:
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -DWITHOUT_MPI_MODULE=ON -G "Unix Makefiles" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_MPI_MODULE=ON -G "Unix Makefiles" .
       - name: Make
         run: |
           export QTDIR_BINARIES="/usr/lib64/qt6/bin/"
