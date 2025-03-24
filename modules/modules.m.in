@@ -58,6 +58,7 @@ modules_list = {
 {'gui', @WITH_GUI_MODULE@};
 {'qml_engine', @WITH_QML_ENGINE_MODULE@};
 {'graphics', @WITH_GRAPHICS_MODULE@};
+{'graphics_io', @WITH_GRAPHICS_MODULE@};
 {'help_browser', @WITH_HELP_BROWSER_MODULE@};
 {'text_editor', @WITH_TEXT_EDITOR_MODULE@};
 {'tests_manager', @WITH_TESTS_MANAGER_MODULE@};

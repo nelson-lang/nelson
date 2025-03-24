@@ -63,6 +63,9 @@ RUN apt-get install -y libqt5svg5-dev;
 RUN apt-get install -y python3;
 RUN apt-get install -y python3-numpy;
 RUN apt-get install -y libtbb-dev;
+RUN apt-get install -y libgif-dev;
+RUN apt-get install -y libtiff-dev;
+
 
 RUN rm -rf /var/lib/apt/lists/*
 

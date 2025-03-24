@@ -52,6 +52,8 @@ RUN pacman -S eigen --noconfirm
 RUN pacman -S hdf5 --noconfirm
 RUN pacman -S libmatio --noconfirm
 RUN pacman -S onetbb --noconfirm
+RUN pacman -S giflib --noconfirm
+RUN pacman -S libtiff --noconfirm
 
 RUN git clone https://github.com/nelson-lang/nelson.git
 WORKDIR "/nelson"

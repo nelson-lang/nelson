@@ -65,7 +65,7 @@ static const nlsGateway gateway[] = {
         NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR, "get"),
-        (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2, CPP_BUILTIN,
+        (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR,
         NLS_OVERLOAD_AUTO_OFF },
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR, "get"),
         (ptrBuiltin)Nelson::ParallelGateway::Future_getBuiltin, 1, 2, CPP_BUILTIN,

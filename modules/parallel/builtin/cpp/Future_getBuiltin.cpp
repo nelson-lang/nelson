@@ -19,7 +19,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::Future_getBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::Future_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
@@ -43,6 +43,16 @@ Nelson::ParallelGateway::Future_getBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf res;
             if (!objFevalFuture->get(propertyName, res)) {
                 Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
+            }
+            if (propertyName == L"Function") {
+                FunctionDef* funcDef = nullptr;
+                std::string str2func = "str2func";
+                if (eval->getContext()->lookupFunction(str2func, funcDef)) {
+                    ArrayOfVector argsIn;
+                    argsIn << res;
+                    ArrayOfVector resVect = funcDef->evaluateFunction(eval, argsIn, 1);
+                    res = resVect[0];
+                }
             }
             retval << res;
         }

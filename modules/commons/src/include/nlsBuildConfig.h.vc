@@ -23,6 +23,9 @@
 #define WITH_TAGLIB 1
 #define WITH_OPENMP 1
 #define WITH_TBB 1
+#define WITH_GIF 1
+#define WITH_TIFF 1
+//=============================================================================
 #define WITH_MEX_MODULE 1
 #define WITH_FFTW_MODULE 1
 #define WITH_SLICOT_MODULE 1

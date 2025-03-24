@@ -59,6 +59,10 @@ option(WITHOUT_FILEWATCHER "Disable File watcher" OFF)
 # ==============================================================================
 option(FORCE_LIBGFORTRAN_LINK "Force libgfortran link" OFF)
 # ==============================================================================
+option(WITHOUT_GIF "Disable GIF library" OFF)
+# ==============================================================================
+option(WITHOUT_TIFF "Disable TIFF library" OFF)
+# ==============================================================================
 list(
   APPEND
   optional_modules
@@ -73,6 +77,7 @@ list(
   SIO_CLIENT
   PARALLEL
   GRAPHICS
+  GRAPHICS_IO
   QML_ENGINE
   SIGNAL_PROCESSING
   VALIDATORS
@@ -124,6 +129,11 @@ if(WITHOUT_GUI_MODULE)
   set(WITHOUT_QML_ENGINE_MODULE ON)
   set(WITHOUT_HELP_BROWSER_MODULE ON)
   set(WITHOUT_TEXT_EDITOR_MODULE ON)
+endif()
+# ==============================================================================
+if(NOT WITHOUT_GRAPHICS_MODULE)
+  include(GifConfig)
+  include(TiffConfig)
 endif()
 # ==============================================================================
 if(WITHOUT_DATA_ANALYSIS_MODULE)

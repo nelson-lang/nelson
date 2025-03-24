@@ -219,9 +219,13 @@ ModulesManager::findModuleNameByPath(const std::wstring& filename)
 {
     if (!modulesMap.empty()) {
         for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-            mapElement elem = modulesMap[i];
-            if (StringHelpers::starts_with(filename, std::get<1>(elem))) {
-                return std::get<0>(elem);
+            const mapElement& elem = modulesMap[i];
+            const std::wstring& modulePath = std::get<1>(elem);
+            if (StringHelpers::starts_with(filename, modulePath)) {
+                size_t len = modulePath.length();
+                if (filename.length() == len || filename[len] == L'/' || filename[len] == L'\\') {
+                    return std::get<0>(elem);
+                }
             }
         }
     }

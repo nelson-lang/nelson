@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::ParallelGateway {
 //=============================================================================
 ArrayOfVector
-Future_getBuiltin(int nLhs, const ArrayOfVector& argIn);
+Future_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -24,6 +24,8 @@ jobs:
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DWITHOUT_SLICOT_MODULE=ON \
+            -DWITHOUT_GIF=ON \
+            -DWITHOUT_TIFF=ON \
             -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
             -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
             -DCMAKE_INSTALL_LIBDIR=lib
@@ -81,6 +83,8 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DFORCE_LIBGFORTRAN_LINK=ON \
             -DWITHOUT_SLICOT_MODULE=ON \
+            -DWITHOUT_GIF=ON \
+            -DWITHOUT_TIFF=ON \
             -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
             -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
             -DCMAKE_INSTALL_LIBDIR=lib
