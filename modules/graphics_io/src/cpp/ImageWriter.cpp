@@ -267,9 +267,9 @@ imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaM
 
     if (alpha) {
         QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
-        ompIndexType imageCounter = (ompIndexType)qAlpha.height() * qAlpha.width();
-        OMP_PARALLEL_FOR_LOOP(imageCounter)
-        for (ompIndexType i = 0; i < imageCounter; i++) {
+        ompIndexType alphaImageCounter = (ompIndexType)qAlpha.height() * qAlpha.width();
+        OMP_PARALLEL_FOR_LOOP(alphaImageCounter)
+        for (ompIndexType i = 0; i < alphaImageCounter; i++) {
             ompIndexType row = i / qAlpha.width();
             ompIndexType col = i % qAlpha.width();
             uchar* p = qAlpha.scanLine(row);
