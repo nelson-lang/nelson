@@ -9,7 +9,6 @@
 ;==============================================================================
 #define MODULE_NAME "slicot"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libslicot.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SLICOT}; Flags: skipifsourcedoesntexist
 Source: {#RootPath}bin\{#BinPath}\libnlsSlicot.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SLICOT}
 Source: {#RootPath}bin\{#BinPath}\libnlsSlicot_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SLICOT}
 ;==============================================================================

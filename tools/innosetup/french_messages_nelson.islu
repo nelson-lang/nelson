@@ -13,7 +13,7 @@ french.FULL_INSTALL_TYPE=Installation complète
 french.CUSTOM_INSTALL_TYPE=Installation personalisée
 french.MINIMAL_INSTALL_TYPE=Installation minimale (sans interface graphique)
 ;==============================================================================
-french.SLICOT_MODULE=SLICOT module (GPL v2 license)
+french.SLICOT_MODULE=SLICOT module
 french.CONTROL_SYSTEM_MODULE=Controle de systemes
 french.SIO_CLIENT_MODULE=Nelson dans le Cloud (serveur)
 french.FFTW_MODULE=Transformée de Fourier module (FFTW)

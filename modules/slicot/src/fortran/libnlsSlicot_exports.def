@@ -1,0 +1,26 @@
+LIBRARY libnlsSlicot
+
+EXPORTS
+    mb05od_
+    mb04md_
+    mb04gd_
+    mb03rd_
+    mb03pd_
+    mc01td_
+    mb02md_
+    ag08bd_
+    ab08nd_
+    ab07nd_
+    ab04md_
+    ab01od_
+    sb01bd_
+    tg01ad_
+    tb01id_
+    sg02ad_
+    sb10jd_
+    sb04qd_
+    sb04md_
+    sb03od_
+    sb03md_
+    mb03od_
+    sb02od_

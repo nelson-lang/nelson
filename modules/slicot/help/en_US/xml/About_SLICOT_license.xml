@@ -7,17 +7,7 @@
   <short_description>About SLICOT license.</short_description>
 
   <description>
-<p>Note that SLICOT is licensed under GPLv2 or higher, but the bindings
-to the library in this nelson's module, is licensed under LGPL v3.0.</p>
-<p
-    >This means that code using the SLICOT library via SLICOT bindings is subject to SLICOT's licensing terms.</p>
-<p />
-<p
-    >If you distribute a derived or combined work, i.e. a program that links to and is distributed with the SLICOT library, then that distribution falls under the terms of the GPL.</p>
-<p />
-<p
-    >if SLICOT library is available on platform, and user chooses to use it, distribution falls under the terms of the GPL.</p>
-
+    <p>Nelson uses SLICOT v5.9 under BSD-3-Clause license.</p>
   </description>
 
 
@@ -28,6 +18,11 @@ to the library in this nelson's module, is licensed under LGPL v3.0.</p>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description
+      >SLICOT BSD-3-Clause license used</history_description>
     </history_item>
   </history>
 

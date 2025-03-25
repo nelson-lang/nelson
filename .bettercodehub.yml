@@ -12,6 +12,7 @@ languages:
   - cpp
 exclude:
   - /modules/slicot/src/c/.*
+  - /modules/slicot/src/f2c/.*
   - /modules/slicot/builtin/cpp/.*
   - /modules/f2c/src/c/.*
   - /modules/types/src/include/.*

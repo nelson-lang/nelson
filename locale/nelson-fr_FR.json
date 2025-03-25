@@ -2243,7 +2243,6 @@
   "libpointer handle expected.": "Un gestionnaire libpointer est attendu.",
   "libpointer valid handle expected.": "Un gestionnaire libpointer valide est attendu.",
   "library fftw not loaded.": "bibliothèque fftw non chargée.",
-  "library slicot not loaded.": "La bibliothèque slicot n'est pas chargée.",
   "line": "ligne",
   "line ": "ligne ",
   "linear method expected.": "Une méthode linéaire est attendue.",
