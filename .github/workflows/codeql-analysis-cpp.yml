@@ -43,7 +43,7 @@ jobs:
       # Build the bit of source code that we want to see analysed
       - name: Build
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT=ON -DQTDIR="/usr/lib/qt6" -G "Ninja" .
           cmake --build . -- -j $(nproc)
 
       - name: Perform CodeQL Analysis
