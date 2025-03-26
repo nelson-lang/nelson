@@ -53,7 +53,7 @@ MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatche
     this->prevFunction = nullptr;
     this->code = nullptr;
     this->setFilename(filename);
-    updateCode(); //-V1053
+    updateCode();
     this->withWatcher = withWatcher;
 }
 //=============================================================================

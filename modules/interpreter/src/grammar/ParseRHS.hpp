@@ -23,7 +23,7 @@ namespace Nelson {
 union contextOrPointer
 {
     int i;
-    AbstractSyntaxTreePtr p; //-V117
+    AbstractSyntaxTreePtr p;
 };
 //=============================================================================
 struct ParseRHS

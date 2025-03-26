@@ -450,7 +450,6 @@ NelsonConfiguration::getDocBookUrl()
 #else
         std::ifstream jsonFile(wstring_to_utf8(docroot));
 #endif
-        std::wstring valueReturned;
         if (jsonFile.is_open()) {
             nlohmann::json data;
             try {

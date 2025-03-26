@@ -51,18 +51,18 @@ filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
     bool bSheBang = false;
     char _buffer[8192];
     fpos_t pos;
-    fgetpos(fr, &pos); //-V530 //-V575
+    fgetpos(fr, &pos);
     const char* utf8bom = "\xef\xbb\xbf";
     // UTF-8 bom
     indexType nread = fread(_buffer, sizeof(char), strlen(utf8bom), fr);
     if (nread == 0) {
         fsetpos(fr, &pos);
-        fgetpos(fr, &pos); //-V530
+        fgetpos(fr, &pos);
     } else {
         _buffer[nread] = '\0';
         bBOM = (strcmp(_buffer, utf8bom) == 0);
         if (bBOM) {
-            fgetpos(fr, &pos); //-V530
+            fgetpos(fr, &pos);
         } else {
             fsetpos(fr, &pos);
         }
@@ -71,13 +71,13 @@ filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
         const char* shebang = "#!";
         bSheBang = (strncmp(_buffer, shebang, strlen(shebang)) == 0);
         if (bSheBang) {
-            fgetpos(fr, &pos); //-V530
+            fgetpos(fr, &pos);
         } else {
             fsetpos(fr, &pos);
         }
     } else {
         fsetpos(fr, &pos);
-        fgetpos(fr, &pos); //-V530
+        fgetpos(fr, &pos);
     }
     return fr;
 }
@@ -122,7 +122,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         if (bNeedToRestoreDirectory) {
             ChangeDirectory(initialDir.generic_wstring(), false);
         }
-        throw; //-V565
+        throw;
     }
 
     Exception currentException;
@@ -134,7 +134,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);
         } catch (std::bad_alloc&) {
-        } //-V565
+        }
     } catch (const Exception& ce) {
         currentException = ce;
         needThrowException = true;

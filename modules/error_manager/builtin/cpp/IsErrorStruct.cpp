@@ -52,8 +52,6 @@ IsErrorStruct(const ArrayOf& arg, Exception& e)
     }
     std::wstring message;
     std::wstring identifier;
-    std::wstring filename;
-    std::wstring functionName;
     int line = -1;
     ArrayOf msgArray = copyArg.getField("message");
     ArrayOf idArray = copyArg.getField("identifier");

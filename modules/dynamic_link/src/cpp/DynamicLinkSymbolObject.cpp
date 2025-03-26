@@ -220,8 +220,7 @@ DynamicLinkSymbolObject::disp(Interface* io)
 #define PROTOTYPE_FIELD_STR L"  Prototype: "
 #define OUTPUT_FIELD_STR L"  Output:    "
 #define INPUT_FIELD_STR L"  Input:     "
-        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length()
-            > io->getTerminalWidth() - 4) { //-V112
+        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4) {
             buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1x")
                 + std::to_wstring(_prototype.length());
         } else {
@@ -229,7 +228,7 @@ DynamicLinkSymbolObject::disp(Interface* io)
         }
         io->outputMessage(buffer + L"\n");
         if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes)
-            > io->getTerminalWidth() - 4) { //-V112
+            > io->getTerminalWidth() - 4) {
             buffer = INPUT_FIELD_STR;
             buffer
                 = buffer + std::wstring(L"1x") + std::to_wstring(_nArgIn) + L" " + _W("cell array");
@@ -248,7 +247,7 @@ DynamicLinkSymbolObject::disp(Interface* io)
             io->outputMessage(buffer + L"\n");
         }
         if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes)
-            > io->getTerminalWidth() - 4) { //-V112
+            > io->getTerminalWidth() - 4) {
             buffer = OUTPUT_FIELD_STR;
             buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgOut) + L" "
                 + _W("cell array");

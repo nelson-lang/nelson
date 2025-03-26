@@ -117,9 +117,6 @@ PcxFileHandler::loadPCX(const QString& filePath)
             }
 
             // Skip any padding at the end of the scan line
-            if (x < width) {
-                // Warning: Incomplete scan line at row << y;
-            }
         }
     } else if (header.BitsPerPixel == 4 && header.Nplanes == 1) {
         // Handle 4-bit PCX with 16-color palette
@@ -414,7 +411,7 @@ PcxFileHandler::savePCX(const QString& filePath, const QImage& image)
             QVector<quint8> lineData;
             for (int col = 0; col < convertedImage.width(); ++col) {
                 QRgb pixel = convertedImage.pixel(col, row);
-                quint8 colorIndex = palette.indexOf(pixel);
+                int colorIndex = (int)palette.indexOf(pixel);
                 if (colorIndex == -1) {
                     // no color found in the palette
                     return PCX_ERROR_WRITING;

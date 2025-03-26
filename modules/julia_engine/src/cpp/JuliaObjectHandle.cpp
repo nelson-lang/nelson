@@ -129,7 +129,7 @@ JuliaObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
     }
     if (isProperty(propertyName)) {
         bool wasFound = false;
-        result = jl_value_tGetProperty(jlObject, wstring_to_utf8(propertyName).c_str(), wasFound);
+        result = jl_value_tGetProperty(jlObject, wstring_to_utf8(propertyName), wasFound);
         return wasFound;
     }
     return false;

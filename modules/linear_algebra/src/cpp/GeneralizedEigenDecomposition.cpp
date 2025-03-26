@@ -127,7 +127,7 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
     NelsonType Aclass = _A.getDataClass();
     switch (Aclass) {
     case NLS_SINGLE: {
-        single* eigenvals = (single*)new_with_exception<double>(N, true);
+        single* eigenvals = (single*)new_with_exception<single>(N, true);
         if (!singleGeneralizedEigenDecompositionSymmetric((int)N, nullptr, eigenvals,
                 (single*)_A.getReadWriteDataPointer(), (single*)_B.getReadWriteDataPointer(),
                 false)) {

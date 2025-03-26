@@ -181,7 +181,6 @@ HorzCatClass(const ArrayOf& A, const ArrayOf& B)
         Error(_("Same class type expected."));
     }
     stringVector fieldnamesA = A.getFieldNames();
-    stringVector fieldnamesB = B.getFieldNames();
     indexType newColumnsSize = A.getColumns() + B.getColumns();
     indexType newRowsSize = A.getRows();
     indexType newSize = newColumnsSize * newRowsSize;

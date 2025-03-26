@@ -82,7 +82,7 @@ dlmwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         StringHelpers::replace_all(paramStr, L"\\t", L"\t");
         StringHelpers::replace_all(paramStr, L"\\n", L"\n");
         StringHelpers::replace_all(paramStr, L"\\r", L"\r");
-        res.delimiter = paramStr; //-V820
+        res.delimiter = paramStr;
     }
     return res;
 }
@@ -110,7 +110,7 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
     StringHelpers::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr; //-V519 //-V820
+    res.delimiter = paramStr;
     return res;
 }
 //=============================================================================
@@ -133,11 +133,11 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
     StringHelpers::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr; //-V519 //-V820
+    res.delimiter = paramStr;
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
-    res.rowsOffset = param4.getContentAsInteger64Scalar(); //-V519
-    res.colsOffset = param5.getContentAsInteger64Scalar(); //-V519
+    res.rowsOffset = param4.getContentAsInteger64Scalar();
+    res.colsOffset = param5.getContentAsInteger64Scalar();
     return res;
 }
 //=============================================================================
@@ -171,7 +171,7 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         StringHelpers::replace_all(paramStr, L"\\t", L"\t");
         StringHelpers::replace_all(paramStr, L"\\n", L"\n");
         StringHelpers::replace_all(paramStr, L"\\r", L"\r");
-        res.delimiter = paramStr; //-V820
+        res.delimiter = paramStr;
         ArrayOf param4 = argIn[3];
         ArrayOf param5 = argIn[4];
         res.rowsOffset = param4.getContentAsInteger64Scalar();
@@ -230,17 +230,17 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr != L"-append") {
         Error(_W("'-append' expected."));
     }
-    res.isAppend = true; //-V519
+    res.isAppend = true;
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
     StringHelpers::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr; //-V519 //-V820
+    res.delimiter = paramStr;
     ArrayOf param5 = argIn[4];
     ArrayOf param6 = argIn[5];
-    res.rowsOffset = param5.getContentAsInteger64Scalar(); //-V519
-    res.colsOffset = param6.getContentAsInteger64Scalar(); //-V519
+    res.rowsOffset = param5.getContentAsInteger64Scalar();
+    res.colsOffset = param6.getContentAsInteger64Scalar();
     ArrayOf param7 = argIn[6];
     std::wstring eolStr = param7.getContentAsWideString();
     if (eolStr == L"pc" || eolStr == L"unix") {

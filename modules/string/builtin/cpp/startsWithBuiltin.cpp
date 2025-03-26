@@ -23,14 +23,14 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() != 2 && argIn.size() != 4) { //-V112
+    if (argIn.size() != 2 && argIn.size() != 4) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bCaseSensitive = true;
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors()) {
-        if (argIn.size() == 4) { //-V112
+        if (argIn.size() == 4) {
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {

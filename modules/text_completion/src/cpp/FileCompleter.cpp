@@ -99,7 +99,6 @@ FileCompleter(const std::wstring& prefix)
         }
 
         PathType dir = branch;
-        PathType r = dir.root_path();
         if (std::filesystem::is_directory(branch.wstring())) {
             try {
                 for (std::filesystem::directory_iterator p(branch), end; p != end; ++p) {

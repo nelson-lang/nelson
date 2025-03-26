@@ -29,6 +29,7 @@ void
 GORestrictedStringColorProperty::colorSpec(double r, double g, double b)
 {
     std::vector<double> data;
+    data.reserve(3);
     data.push_back(r);
     data.push_back(g);
     data.push_back(b);

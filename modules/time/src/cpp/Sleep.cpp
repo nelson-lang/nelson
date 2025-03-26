@@ -25,6 +25,9 @@ SleepSeconds(uint64 tValue)
 bool
 Sleep(Evaluator* eval, double tValue)
 {
+    if (!eval) {
+        return false;
+    }
     size_t ID = eval->getID();
     if (tValue > 0) {
         if (std::isinf(tValue)) {

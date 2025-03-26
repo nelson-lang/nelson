@@ -123,8 +123,7 @@ bool
 VariablesTable::unlockVariable(const std::string& key)
 {
     if (isLockedVariable(key)) {
-        lockedVariables.erase(
-            std::find(lockedVariables.begin(), lockedVariables.end(), key)); //-V783
+        lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));
         return true;
     }
     return false;

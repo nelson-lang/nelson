@@ -38,7 +38,7 @@ GraphicsGateway::graphics_object_ispropBuiltin(int nLhs, const ArrayOfVector& ar
     }
     std::vector<std::wstring> fieldnames = fp->getFieldnames();
     bool isValid = false;
-    for (auto name : fieldnames) {
+    for (auto& name : fieldnames) {
         if (StringHelpers::iequals(propname, name)) {
             isValid = true;
             break;

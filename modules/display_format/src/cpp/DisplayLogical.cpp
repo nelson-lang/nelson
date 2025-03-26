@@ -118,7 +118,6 @@ Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             }
         }
         if (withColumsHeader) {
-            std::wstring msg = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                 buffer.append(L"\n\n");
             } else {

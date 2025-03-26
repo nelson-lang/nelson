@@ -29,7 +29,7 @@ RunFinishScripts(Evaluator* eval)
         return false;
     }
     wstringVector listPath = PathFunctionIndexerManager::getInstance()->getPathNameVector(true);
-    for (auto elementPath : listPath) {
+    for (auto& elementPath : listPath) {
         FileSystemWrapper::Path path(elementPath);
         path += L"/finish.m";
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(path);

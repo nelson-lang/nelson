@@ -144,8 +144,6 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                     }
                 }
             } else {
-                nfs::path dir = branch;
-                nfs::path r = dir.root_path();
                 if (FileSystemWrapper::Path::is_directory(directory)) {
                     try {
                         for (nfs::directory_iterator dir_iter(directory), end; dir_iter != end;

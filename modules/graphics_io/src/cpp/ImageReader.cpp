@@ -84,6 +84,7 @@ imageReaderRGB32(QImage image, int nLhs)
     ArrayOfVector results;
     results.reserve(nLhs + 1);
     std::vector<indexType> d;
+    d.reserve(3);
     d.push_back(image.height());
     d.push_back(image.width());
     d.push_back(3);
@@ -122,6 +123,7 @@ imageReaderARGB32(QImage image, int nLhs)
     results.reserve(nLhs + 1);
 
     std::vector<indexType> d;
+    d.reserve(3);
     d.push_back(image.height());
     d.push_back(image.width());
     d.push_back(3);

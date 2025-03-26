@@ -23,7 +23,7 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 2, 4); //-V112
+    nargincheck(argIn, 2, 4);
 
     switch (argIn.size()) {
     case 2: {
@@ -48,7 +48,7 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     case 4:
     case 3: {
         bool asStruct = false;
-        if (argIn.size() == 4) { //-V112
+        if (argIn.size() == 4) {
             std::wstring param4AsString = argIn[3].getContentAsWideString();
             if (param4AsString == L"struct") {
                 asStruct = true;

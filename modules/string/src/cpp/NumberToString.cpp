@@ -80,7 +80,6 @@ NumberToStringHelperInteger(const ArrayOf& A)
     T* dp = (T*)A.getDataPointer();
     Dimensions dimsA = A.getDimensions();
     long double maxAbsValue = fabsl(static_cast<long double>(dp[0]));
-    std::string uformat;
     for (indexType i = 0; i < dimsA.getElementCount(); i++) {
         maxAbsValue = std::max(maxAbsValue, fabsl(static_cast<long double>(dp[i])));
     }

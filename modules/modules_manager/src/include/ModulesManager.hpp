@@ -28,7 +28,7 @@ namespace Nelson {
 using versionElement = std::tuple<double, double, double>;
 using mapElement = std::tuple<std::wstring, std::wstring, std::wstring, bool, versionElement>;
 //=============================================================================
-class NLSMODULES_MANAGER_IMPEXP ModulesManager //-V690
+class NLSMODULES_MANAGER_IMPEXP ModulesManager
 {
 public:
     static ModulesManager&

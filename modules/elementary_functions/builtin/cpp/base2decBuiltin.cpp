@@ -50,7 +50,7 @@ Nelson::ElementaryFunctionsGateway::hex2decBuiltin(int nLhs, const ArrayOfVector
     bool needToOverload;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = ArrayOf::doubleConstructor(16.);
-    ArrayOf res = BaseToDecimal(param1, param2, needToOverload); //-V821
+    ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
     if (needToOverload) {
         OverloadRequired("hex2dec");
     } else {
@@ -72,7 +72,7 @@ Nelson::ElementaryFunctionsGateway::base2decBuiltin(int nLhs, const ArrayOfVecto
     bool needToOverload;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    ArrayOf res = BaseToDecimal(param1, param2, needToOverload); //-V821
+    ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
     if (needToOverload) {
         OverloadRequired("base2dec");
     } else {

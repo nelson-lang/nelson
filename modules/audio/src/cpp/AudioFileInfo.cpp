@@ -239,6 +239,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     }
 #endif
     stringVector fieldnames;
+    fieldnames.reserve(10);
     ArrayOfVector fieldvalues;
     fieldnames.push_back("Filename");
     fieldvalues << ArrayOf::characterArrayConstructor(filename);

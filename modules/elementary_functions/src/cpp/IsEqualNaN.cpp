@@ -293,7 +293,7 @@ struct_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& nee
             fieldnamesA.begin(), fieldnamesA.end(), fieldnamesB.begin(), fieldnamesB.end())) {
         return false;
     }
-    for (auto name : fieldnamesA) {
+    for (auto& name : fieldnamesA) {
         ArrayOfVector fieldsA = A.getFieldAsList(name);
         ArrayOfVector fieldsB = B.getFieldAsList(name);
         for (size_t k = 0; k < fieldsA.size(); ++k) {

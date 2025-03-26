@@ -66,6 +66,7 @@ static Nelson::ArrayOf
 createMexception(Nelson::Exception& e)
 {
     Nelson::wstringVector fieldnames;
+    fieldnames.reserve(4);
     Nelson::ArrayOfVector fieldvalues;
 
     fieldnames.push_back(L"identifier");

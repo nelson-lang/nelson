@@ -210,6 +210,7 @@ public:
     color(double r, double g, double b)
     {
         std::vector<double> t;
+        t.reserve(3);
         t.push_back(r);
         t.push_back(g);
         t.push_back(b);

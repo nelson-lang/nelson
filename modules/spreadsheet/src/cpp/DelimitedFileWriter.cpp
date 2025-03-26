@@ -118,7 +118,6 @@ writeComplexData(const ArrayOf& mat, FILE* file, const std::string& formatPrecis
     const std::string& delimiter, const std::string& newline, int64 ymax, int64 colsOffset)
 {
     Dimensions dims = mat.getDimensions();
-    std::string fmt_with_delimiter = formatPrecision + delimiter;
     auto* matCplx = reinterpret_cast<doublecomplex*>((double*)mat.getDataPointer());
     for (int64 x = 0; x < static_cast<int64>(dims.getRows()); x++) {
         for (int64 x = 0; x < colsOffset; x++) {

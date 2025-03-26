@@ -544,15 +544,13 @@ QtFileBrowser::showInExplorer()
 {
     QModelIndex currentIndex = tree->currentIndex();
     if (currentIndex.isValid()) {
-        if (currentIndex.isValid()) {
-            QString filePath = model->filePath(currentIndex);
-            if (QFileInfo(filePath).isDir()) {
-                QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
-            }
-            if (QFileInfo(filePath).isFile()) {
-                QString parentPath = QFileInfo(filePath).dir().absolutePath();
-                QDesktopServices::openUrl(QUrl::fromLocalFile(parentPath));
-            }
+        QString filePath = model->filePath(currentIndex);
+        if (QFileInfo(filePath).isDir()) {
+            QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+        }
+        if (QFileInfo(filePath).isFile()) {
+            QString parentPath = QFileInfo(filePath).dir().absolutePath();
+            QDesktopServices::openUrl(QUrl::fromLocalFile(parentPath));
         }
     }
 }

@@ -70,6 +70,7 @@ static ArrayOf
 dbstackAsStruct(stackTrace positions, bool withCompleteNames)
 {
     stringVector fieldnames;
+    fieldnames.reserve(3);
     ArrayOf st;
     fieldnames.push_back("file");
     fieldnames.push_back("name");

@@ -90,6 +90,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
 
     Dimensions dims(1, sha1s.size());
     stringVector fieldnames;
+    fieldnames.reserve(4);
     fieldnames.push_back("sha1");
     fieldnames.push_back("message");
     fieldnames.push_back("author");

@@ -614,7 +614,6 @@ PathFunctionIndexerManager::loadUserPathFromFile()
     std::wstring userPathFile = prefDir + L"/userpath.conf";
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(userPathFile);
     if (bIsFile) {
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(userPathFile);
 #else

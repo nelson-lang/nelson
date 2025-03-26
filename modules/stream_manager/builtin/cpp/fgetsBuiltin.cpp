@@ -43,7 +43,7 @@ Nelson::StreamGateway::fgetsBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Problem with file manager."));
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
-        if (fm->isStdStream(iValue)) { //-V1004
+        if (fm->isStdStream(iValue)) {
             Error(_W("Not implemented for requested file identifier."));
         }
         if (fm->isOpened(iValue)) {

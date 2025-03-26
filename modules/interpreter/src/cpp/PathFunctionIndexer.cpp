@@ -253,7 +253,6 @@ PathFunctionIndexer::rehash(
                     try {
                         bool isOverload = prefix != L"" && !isPrivate;
                         if (prefix != L"") {
-                            std::wstring constructor = prefix + L"/" + prefix.substr(1);
                             if (prefix.substr(1) == name) {
                                 isOverload = false;
                             }

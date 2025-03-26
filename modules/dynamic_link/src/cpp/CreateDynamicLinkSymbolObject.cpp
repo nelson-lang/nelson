@@ -35,6 +35,7 @@ getPossibleSymbolNames(const std::string& userSymbolName)
     std::string cleanedSymbolNameUpperCase = StringHelpers::to_upper_copy(cleanedSymbolName);
     std::string cleanedSymbolNameLowerCase = StringHelpers::to_lower_copy(cleanedSymbolName);
     stringVector possibleSymbolNames;
+    possibleSymbolNames.reserve(8);
     possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase);
     possibleSymbolNames.push_back(cleanedSymbolNameLowerCase);
     possibleSymbolNames.push_back(cleanedSymbolNameLowerCase + "_");

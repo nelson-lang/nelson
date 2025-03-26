@@ -23,7 +23,6 @@ Nelson::Julia_engineGateway::jl_getBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
     HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
-    std::wstring rep;
     if (hgo && hgo->getCategory() == NLS_HANDLE_JULIA_CATEGORY_STR) {
         std::wstring methodName = argIn[1].getContentAsWideString();
         JuliaObjectHandle* jlh = (JuliaObjectHandle*)hgo;

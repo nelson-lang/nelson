@@ -2300,7 +2300,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (t == nullptr) {
         Error(_W("Syntax error."));
     }
-    if (!context->lookupVariable(t->text, lhs)) { //-V1004
+    if (!context->lookupVariable(t->text, lhs)) {
         lhs = ArrayOf::emptyConstructor();
     }
     AbstractSyntaxTreePtr s = t->down;
@@ -2462,7 +2462,7 @@ Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     ArrayOfVector n;
     n.reserve(args.size());
     for (size_t i = 1; i < args.size(); i++) {
-        n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
+        n.push_back(ArrayOf::characterArrayConstructor(args[i]));
     }
     FunctionDefPtr val;
     callstack.pushID((size_t)t->getContext());
@@ -2587,7 +2587,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         m = functionExpression(fptr, fAST, (int)lhsCount, false);
         callstack = backupCallStack;
     }
-    s = saveLHS; //-V1048
+    s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
         ArrayOf c(assignExpression(s->down, m));
         if (!context->insertVariable(s->down->text, c)) {
@@ -3126,7 +3126,7 @@ Evaluator::functionExpression(
                                 Error(utf8_to_wstring(_("out-of-order argument /") + keywords[i]
                                     + _(" is not defined in the called function!")));
                             }
-                            keywordNdx[i] = ndx; //-V522
+                            keywordNdx[i] = ndx;
                             if (ndx > maxndx) {
                                 maxndx = ndx;
                             }
@@ -3189,7 +3189,7 @@ Evaluator::functionExpression(
                     bool isVar = context->lookupVariable(t->text, r);
                     if (isVar) {
                         if (r.isClassType()) {
-                            s = t->down; //-V1048
+                            s = t->down;
                             if (s->opNum == (OP_DOT) || s->opNum == (OP_DOTDYN)) {
                                 s = s->down;
                                 return scalarArrayOfToArrayOfVector(r.getField(s->text));
@@ -4227,7 +4227,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         Exception e(_W("a valid script expected."));
         setLastErrorException(e);
         if (propogateException) {
-            throw; //-V667
+            throw;
         }
         return false;
     }

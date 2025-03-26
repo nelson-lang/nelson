@@ -389,6 +389,7 @@ std::vector<double>
 GOSurface::getLimits()
 {
     std::vector<double> limits;
+    limits.reserve(10);
     ArrayOf xdata(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
     ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     ArrayOf zdata(findArrayOfProperty(GO_Z_DATA_PROPERTY_NAME_STR));

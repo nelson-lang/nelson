@@ -92,12 +92,7 @@ ArrayOf::classConstructor(
             for (i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
-                if (rval.dp->dataClass == NLS_CELL_ARRAY
-                    || rval.dp->dataClass == NLS_STRING_ARRAY) {
-                    qp[offset] = rval;
-                } else {
-                    qp[offset] = rval;
-                }
+                qp[offset] = rval;
                 offset++;
             }
         ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dims, qp, false, fNames);

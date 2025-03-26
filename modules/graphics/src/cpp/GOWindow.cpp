@@ -442,7 +442,6 @@ void
 GOWindow::forceCurrentAxes(QMouseEvent* e)
 {
     mousePositionOrigin = e->pos();
-    QRect plot_region(qtchild->geometry());
     int x, y;
     qtGetPosition(e, x, y);
     GOAxis* h = findContainingAxis(goFig, remapX(x), remapY(y));
@@ -485,7 +484,6 @@ GOWindow::mousePressEvent(QMouseEvent* e)
     if (mouseMode == MOUSE_MODE::ZOOM_OUT) {
         if (e->button() == Qt::LeftButton) {
             mousePositionOrigin = e->pos();
-            QRect plot_region(qtchild->geometry());
             isZoomOutRunning = true;
         } else {
             isZoomOutRunning = false;
@@ -511,7 +509,6 @@ GOWindow::mousePressEventHandlePanMode(QMouseEvent* e)
 {
     setCursor(Qt::ClosedHandCursor);
     mousePositionOrigin = e->pos();
-    QRect plot_region(qtchild->geometry());
     int x, y;
     qtGetPosition(e, x, y);
     GOAxis* axis = findContainingAxis(goFig, remapX(x), remapY(y));
@@ -551,7 +548,6 @@ void
 GOWindow::mouseMoveEventHandleRotate(QMouseEvent* e)
 {
     QPoint dest(e->pos());
-    QRect plot_region(qtchild->geometry());
     GOAxis* axis = findContainingAxis(
         goFig, remapX(mousePositionOrigin.x()), remapY(mousePositionOrigin.y()));
     if (axis) {
@@ -569,7 +565,6 @@ void
 GOWindow::mouseMoveEventHandlePanMode(QMouseEvent* e)
 {
     QPoint dest(e->pos());
-    QRect plot_region(qtchild->geometry());
     GOAxis* axis = findContainingAxis(
         goFig, remapX(mousePositionOrigin.x()), remapY(mousePositionOrigin.y()));
     if (axis) {
@@ -654,7 +649,6 @@ GOWindow::mousePressEventHandleZoomInMode(QMouseEvent* e)
             h->updateState();
         }
     } else {
-        QRect plot_region(qtchild->geometry());
         GOAxis* axis = findContainingAxis(goFig, remapX(rect.x()), remapY(rect.y()));
         if (axis) {
             std::vector<double> position(axis->getClientAreaAsPixels());
@@ -1114,6 +1108,7 @@ wstringVector
 GOWindow::getModifiers(QKeyEvent* keyEvent)
 {
     wstringVector modifiersWstringVector;
+    modifiersWstringVector.reserve(4);
     Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
     if (modifiers & Qt::ShiftModifier) {
         modifiersWstringVector.push_back(L"shift");

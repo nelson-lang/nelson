@@ -149,7 +149,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
 #ifdef _MSC_VER
         Nelson::forceWindowsTitleBarToDark(view->winId());
 #endif
-        topLevel->setParent(view); //-V595
+        topLevel->setParent(view);
         view->show();
         if (topLevel != nullptr) {
             topLevel = topLevel->parent();

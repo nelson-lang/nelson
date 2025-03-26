@@ -65,6 +65,8 @@ This release introduces performance improvements and new graphical capabilities 
 
 - MacOs: Default terminal did not use monospaced font.
 
+- Some warnings detected with PVS-studio
+
 ## 1.12.0 (2025-02-16)
 
 ### Added
