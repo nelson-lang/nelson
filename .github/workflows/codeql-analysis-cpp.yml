@@ -38,12 +38,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ninja-build xvfb libopenmpi-dev autotools-dev libtool automake openmpi-bin gettext pkg-config libffi-dev libicu-dev libxml2-dev liblapack-dev liblapacke-dev fftw3 fftw3-dev libasound-dev portaudio19-dev libsndfile1-dev libtag1-dev alsa-utils libslicot-dev libsqlite3-dev libgl-dev hdf5-tools zlib1g-dev libcurl4-openssl-dev libgit2-dev libboost-all-dev libeigen3-dev libhdf5-dev libmatio-dev qt6-base-dev libqt6svg6-dev qt6-declarative-dev qt6-documentation-tools qml6-module-qtquick qml6-module-qtquick-templates qml6-module-qtquick-controls qml6-module-qtquick-window qml6-module-qtquick-dialogs qml6-module-qtqml-workerscript qml6-module-qtquick-layouts assistant-qt6 qt6-tools-dev libgif-dev
+          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ninja-build xvfb libopenmpi-dev autotools-dev libtool automake openmpi-bin gettext pkg-config libffi-dev libicu-dev libxml2-dev liblapack-dev liblapacke-dev fftw3 fftw3-dev libasound-dev portaudio19-dev libsndfile1-dev libtag1-dev alsa-utils libsqlite3-dev libgl-dev hdf5-tools zlib1g-dev libcurl4-openssl-dev libgit2-dev libboost-all-dev libeigen3-dev libhdf5-dev libmatio-dev qt6-base-dev libqt6svg6-dev qt6-declarative-dev qt6-documentation-tools qml6-module-qtquick qml6-module-qtquick-templates qml6-module-qtquick-controls qml6-module-qtquick-window qml6-module-qtquick-dialogs qml6-module-qtqml-workerscript qml6-module-qtquick-layouts assistant-qt6 qt6-tools-dev libgif-dev
 
       # Build the bit of source code that we want to see analysed
       - name: Build
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT=ON -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_SLICOT_MODULE=ON -DQTDIR="/usr/lib/qt6" -G "Ninja" .
           cmake --build . -- -j $(nproc)
 
       - name: Perform CodeQL Analysis
