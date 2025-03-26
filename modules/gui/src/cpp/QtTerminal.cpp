@@ -19,6 +19,7 @@
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtGui/QTextImageFormat>
+#include <QtGui/QFontDatabase>
 #include <QtWidgets/QFileDialog>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -71,7 +72,7 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
     QFont f(wstringToQString(Nelson::getDefaultFontName()));
-    f.setStyleHint(QFont::TypeWriter);
+    f.setStyleHint(QFont::Monospace);
     f.setPointSize(10);
     f.setFixedPitch(true);
     setFont(f);
