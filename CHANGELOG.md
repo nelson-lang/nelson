@@ -61,6 +61,10 @@ This release introduces performance improvements and new graphical capabilities 
   - Introduced `ENABLE_AVX2` CMake option for systems that support AVX2.
   - CMake dependencies reworked.
 
+### Fixed
+
+- MacOs: Default terminal did not use monospaced font.
+
 ## 1.12.0 (2025-02-16)
 
 ### Added
