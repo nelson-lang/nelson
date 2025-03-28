@@ -34,7 +34,6 @@ ComputeNelsonRootPath(std::wstring& errorMessage)
     // ../nelson/modules --> nelson modules path
     // ../nelson/bin/arch  --> nelson libraries path
 
-    std::wstring NelsonPath;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
     if (penv != L"") {

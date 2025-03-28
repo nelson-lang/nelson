@@ -245,7 +245,7 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
         } catch (...) {
             readed = false;
         }
-        if (messageQueue && readed) {
+        if (readed && messageQueue) {
             if (recvd_size != 0) {
                 serialized_compressed_string[recvd_size] = 0;
                 bool failed = false;

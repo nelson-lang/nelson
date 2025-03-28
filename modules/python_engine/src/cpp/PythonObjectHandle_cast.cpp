@@ -153,7 +153,6 @@ template <class T>
 bool
 castRealMethodComplexType(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
-    std::complex<double> value;
     Py_complex pyCplx = NLSPyComplex_AsCComplex(pyObject);
     ArrayOf res = ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
     if (nelsonType == NLS_DOUBLE) {
@@ -349,7 +348,6 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
         return true;
     } break;
     case PY_COMPLEX_TYPE: {
-        std::complex<double> value;
         Py_complex pyCplx = NLSPyComplex_AsCComplex(pyObject);
         ArrayOf res = ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
         res.promoteType(nelsonType);

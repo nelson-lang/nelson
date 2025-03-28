@@ -136,11 +136,11 @@ poToJson(
     }
 
     std::vector<std::string> lines;
-    std::wstring wline;
-    std::string line;
 #ifdef _MSC_VER
+    std::wstring wline;
     while (std::getline(inFile, wline)) {
 #else
+    std::string line;
     while (std::getline(inFile, line)) {
 #endif
 

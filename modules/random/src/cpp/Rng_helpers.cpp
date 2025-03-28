@@ -16,6 +16,7 @@ wstringVector
 getSupportedRngEngineName()
 {
     wstringVector supportedEngineName;
+    supportedEngineName.reserve(3);
     supportedEngineName.push_back(L"twister");
     supportedEngineName.push_back(L"twister64");
     supportedEngineName.push_back(L"laggedfibonacci607");

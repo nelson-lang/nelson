@@ -40,6 +40,7 @@ QImageToArrayOf(QImage image)
     int width = image.width();
     int height = image.height();
     std::vector<indexType> dimsAsVector;
+    dimsAsVector.reserve(3);
     dimsAsVector.push_back(height);
     dimsAsVector.push_back(width);
     dimsAsVector.push_back(3);

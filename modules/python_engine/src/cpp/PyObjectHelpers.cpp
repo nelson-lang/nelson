@@ -133,7 +133,7 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods)
                     NLSPy_XDECREF(method);
                     if (callable) {
                         std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind("_", 0) == 0);
+                        bool startWithUnderscore = (attributName.rfind('_', 0) == 0);
                         if (withUnderscoreMethods) {
                             methodNames.push_back(utf8_to_wstring(attributName));
                         } else {

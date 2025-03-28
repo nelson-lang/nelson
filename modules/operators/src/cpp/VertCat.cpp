@@ -186,7 +186,6 @@ VertCatClass(const ArrayOf& A, const ArrayOf& B)
         Error(_("Same class type expected."));
     }
     stringVector fieldnamesA = A.getFieldNames();
-    stringVector fieldnamesB = B.getFieldNames();
     indexType newColumnsSize = A.getColumns();
     indexType newRowsSize = A.getRows() + B.getRows();
     indexType newSize = newColumnsSize * newRowsSize;

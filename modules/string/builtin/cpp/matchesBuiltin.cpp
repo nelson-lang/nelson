@@ -21,12 +21,12 @@ Nelson::StringGateway::matchesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() != 2 && argIn.size() != 4) { //-V112
+    if (argIn.size() != 2 && argIn.size() != 4) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     bool ignoreCase = false;
-    if (argIn.size() == 4) { //-V112
+    if (argIn.size() == 4) {
         ArrayOf param3 = argIn[2];
         std::wstring fieldname = param3.getContentAsWideString();
         if (fieldname != L"IgnoreCase") {

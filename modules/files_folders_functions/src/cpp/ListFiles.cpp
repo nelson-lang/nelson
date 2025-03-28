@@ -65,7 +65,6 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 }
             } else {
                 std::filesystem::path dir = branch;
-                std::filesystem::path r = dir.root_path();
                 if (std::filesystem::is_directory(branch.wstring())) {
                     try {
                         for (std::filesystem::directory_iterator p(branch.native()), end; p != end;

@@ -69,7 +69,6 @@ bool
 createHistoryBrowser()
 {
     if (!qtHistoryBrowser) {
-        wstringVector lines;
         qtHistoryBrowser = new QtHistoryBrowser(nullptr);
         textForEditor.clear();
         qtHistoryBrowser->restorePosition();

@@ -68,6 +68,7 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     wstringVector metadata;
+    metadata.reserve(3);
     metadata.push_back(Title);
     metadata.push_back(Artist);
     metadata.push_back(Comment);

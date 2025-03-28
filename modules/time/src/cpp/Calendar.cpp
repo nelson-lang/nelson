@@ -134,6 +134,7 @@ wstringVector
 Calendar::getNameOfDays()
 {
     wstringVector names;
+    names.reserve(7);
     names.push_back(_W("Sun"));
     names.push_back(_W("M"));
     names.push_back(_W("Tu"));
@@ -148,6 +149,7 @@ std::wstring
 Calendar::getMonthName()
 {
     wstringVector month_names;
+    month_names.reserve(12);
     month_names.push_back(_W("Jan"));
     month_names.push_back(_W("Feb"));
     month_names.push_back(_W("Mar"));

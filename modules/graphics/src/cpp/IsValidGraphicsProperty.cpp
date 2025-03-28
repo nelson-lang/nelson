@@ -34,43 +34,44 @@ IsValidGraphicsProperty(const std::wstring& GOTypename, const std::wstring& GOPr
     if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_AXES_STR)) {
         fp = new GOAxis();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_LINE_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_LINE_STR)) {
         fp = new GOLineSeries();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_IMAGE_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_IMAGE_STR)) {
         fp = new GOImage();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_ROOT_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_ROOT_STR)) {
         fp = new GORoot();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_TEXT_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_TEXT_STR)) {
         fp = new GOText();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_FIGURE_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_FIGURE_STR)) {
         fp = new GOFigure(nullptr, -1);
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_PATCH_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_PATCH_STR)) {
         fp = new GOPatch();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_HGGROUP_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_HGGROUP_STR)) {
         fp = new GOGroup();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_UICONTROL_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_UICONTROL_STR)) {
         fp = new GOUIControl();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_CONTOUR_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_CONTOUR_STR)) {
         fp = new GOContour();
     }
-    if (StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_SURFACE_STR)) {
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_SURFACE_STR)) {
         fp = new GOSurface();
     }
     if (!fp) {
         Error(_W("Invalid Graphics object type name:") + GOTypename);
+        return false;
     }
 
     std::vector<std::wstring> propertyNames = fp->getFieldnames();
     bool isValidPropertyName = false;
-    for (auto name : propertyNames) {
+    for (auto& name : propertyNames) {
         if (StringHelpers::iequals(name, GOPropertyName)) {
             isValidPropertyName = true;
             break;

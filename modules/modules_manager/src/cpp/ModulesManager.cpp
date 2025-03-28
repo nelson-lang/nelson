@@ -108,7 +108,6 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
     } else {
         moduleJsonFilename = path + L"/module.json";
     }
-    std::string jsonString;
 #ifdef _MSC_VER
     std::ifstream jsonFile(moduleJsonFilename);
 #else

@@ -116,7 +116,6 @@ ClearPersistentVariable(Evaluator* eval, const std::string& variable)
 {
     bool res = false;
     FunctionDefPtr func = nullptr;
-    std::string path;
 
     if (FunctionsInMemory::getInstance()->find(variable, func)) {
         if (func->type() == NLS_MACRO_FUNCTION) {

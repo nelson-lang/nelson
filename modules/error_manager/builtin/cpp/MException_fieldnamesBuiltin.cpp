@@ -23,7 +23,6 @@ Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin(int nLhs, const ArrayO
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (argIn[0].isClassType() && ClassName(argIn[0]) == "MException") {
-        stringVector fieldnames = argIn[0].getFieldNames();
         retval << ArrayOf::toCellArrayOfCharacterColumnVectors(argIn[0].getFieldNames());
     } else {
         Error(_W("MException expected."));

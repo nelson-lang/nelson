@@ -67,7 +67,7 @@ AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
         this->diary.writeMessage(prompt);
     }
     wstringVector historyContent = Nelson::History::get();
-    for (auto line : historyContent) {
+    for (auto& line : historyContent) {
         ls.history.add(wstring_to_utf8(line));
     }
     ls.completion_callback = linse::word_completion { &completionHook };

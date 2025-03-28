@@ -487,7 +487,6 @@ Profiler::computeBasicFileStats(
 {
     double totalTime = 0;
     int nbCalls = 0;
-    std::tuple<int, double> res;
     if (findFunctionDefinitonLine(functionContent) == -1) {
         size_t nbLines = functionContent.size();
         for (size_t k = 1; k < nbLines + 1; ++k) {

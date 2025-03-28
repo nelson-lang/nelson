@@ -227,6 +227,7 @@ GOAxis::setupDefaults()
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
 
     std::vector<double> colorsOrder;
+    colorsOrder.reserve(21);
     colorsOrder.push_back(0.0000);
     colorsOrder.push_back(0.4470);
     colorsOrder.push_back(0.7410);
@@ -1950,6 +1951,7 @@ GOAxis::updateState()
 {
     updateUnits();
     std::vector<std::wstring> tset;
+    tset.reserve(11);
     if (hasChanged(GO_X_LIM_PROPERTY_NAME_STR)) {
         toManual(GO_X_LIM_MODE_PROPERTY_NAME_STR);
     }
@@ -2178,6 +2180,7 @@ std::vector<double>
 GOAxis::getAxisLimits()
 {
     std::vector<double> lims;
+    lims.reserve(6);
     double xLimMin;
     double xLimMax;
     computeAxisLimits(GO_X_LIM_PROPERTY_NAME_STR, 0, 1, xLimMin, xLimMax);

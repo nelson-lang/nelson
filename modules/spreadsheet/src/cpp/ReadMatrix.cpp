@@ -51,8 +51,6 @@ ReadMatrix(const std::wstring& filename, const detectImportOptions& options, Nel
         std::stringstream stream = readLinesFromFile(filename, options);
         rapidcsv::Document doc(
             stream, labelParams, separatorParams, converterParams, lineReaderParams);
-        stringVector columnNames = doc.GetColumnNames();
-        stringVector rowNames = doc.GetRowNames();
         size_t nbRows = doc.GetRowCount();
         size_t nbColumns = doc.GetColumnCount();
         size_t nbElements = nbRows

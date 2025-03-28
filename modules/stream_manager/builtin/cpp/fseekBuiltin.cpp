@@ -58,7 +58,7 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(_W("Problem with file manager."));
     }
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
-    if (fm->isOpened(iValue)) { //-V1004
+    if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (!FileSeek(f, iOffset, ORIGIN)) {
             retval << ArrayOf::doubleConstructor(-1);

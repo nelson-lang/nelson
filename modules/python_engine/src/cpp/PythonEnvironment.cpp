@@ -67,7 +67,6 @@ PythonEnvironment::loadPreviousState()
     std::wstring pythonFile = prefDir + L"/python.conf";
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(pythonFile);
     if (bIsFile) {
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(pythonFile);
 #else

@@ -74,7 +74,6 @@ Localization::initLanguageSupported()
         auto config = NelsonConfiguration::getInstance();
         std::wstring localesPath = config->getNelsonRootDirectory() + L"/locale/";
         std::filesystem::path dir = localesPath;
-        std::filesystem::path r = dir.root_path();
         if (std::filesystem::is_directory(dir.wstring())) {
             std::wregex localeRegex(L"nelson-([a-z]{2}_[A-Z]{2})\\.json");
             try {
@@ -120,8 +119,6 @@ Localization::setLanguage(const std::wstring& lang, bool save)
         }
         std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
         std::wstring prefFile = prefDir + L"/nelson.conf";
-        std::string jsonString;
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(prefFile);
 #else

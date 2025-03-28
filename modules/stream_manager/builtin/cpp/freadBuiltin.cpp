@@ -40,7 +40,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     int32 idFile = 0;
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1]; //-V821
+    ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
@@ -50,7 +50,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"b") || (arg == L"ieee-be")) {
         bIsLittleEndian = false;
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
-        bIsLittleEndian = true; //-V1048
+        bIsLittleEndian = true;
     } else {
         Error(_W("Wrong value for machine format."));
     }
@@ -111,7 +111,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
         }
-        if (fm->isOpened(iValue)) { //-V1004
+        if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             int sizeReallyRead = -1;
             ArrayOf toRead
@@ -167,7 +167,7 @@ freadBuiltinFourRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param4 = argIn[3];
     ArrayOf param5;
     if (param4.isRowVectorCharacterArray()) {
-        param5 = param4; //-V820
+        param5 = param4;
         param4 = ArrayOf::doubleConstructor(0);
     } else {
         param5 = ArrayOf::characterArrayConstructor(L"n");
@@ -190,8 +190,8 @@ freadBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param4;
     ArrayOf param5;
     if (param2.isRowVectorCharacterArray() && param3.isRowVectorCharacterArray()) {
-        param5 = param3; //-V820
-        param3 = param2; //-V820
+        param5 = param3;
+        param3 = param2;
         param4 = ArrayOf::doubleConstructor(0);
         param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
     } else {
@@ -214,7 +214,7 @@ freadBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param2 = argIn[1];
     ArrayOf param3;
     if (param2.isRowVectorCharacterArray()) {
-        param3 = param2; //-V820
+        param3 = param2;
         param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
     } else {
         param3 = ArrayOf::characterArrayConstructor(L"uint8");

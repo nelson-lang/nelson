@@ -674,6 +674,7 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
 #endif
     if (!fp) {
         Error(_W("sscanf internal error."));
+        return {};
     }
     ArrayOf value = FwscanF(fp, format, m, n, haveThirdArgument, count, nextIndex, errorMessage);
     if (fp) {

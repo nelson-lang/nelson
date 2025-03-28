@@ -44,7 +44,7 @@ ArrayOfVector
 Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 4); //-V112
+    nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
     std::wstring fileToRead = argIn[0].getContentAsWideString();
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(fileToRead);

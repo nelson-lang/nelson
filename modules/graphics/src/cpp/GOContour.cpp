@@ -568,7 +568,6 @@ GOContour::adjustLines(
 #define X(a, b) xp[(b) + (a)*numy]
 #define Y(a, b) yp[(b) + (a)*numy]
 
-    contourLineSet adjustedLines;
     for (int i = 0; i < bundledLines.size(); i++) {
         for (int j = 0; j < bundledLines[i].size(); j++) {
             double ndx_x = bundledLines[i][j].x;

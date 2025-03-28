@@ -3260,9 +3260,7 @@ private:
 
             // display the input line
             if (ln.write32(STDOUT_FILENO, buf32.data(), buf32.size()) == -1)
-                return
-
-                    dynamicRefreshBaseFinalize(pi, *rbfd, rm);
+                return dynamicRefreshBaseFinalize(pi, *rbfd, rm);
         }
         void
         copy_from_8(const char* p)

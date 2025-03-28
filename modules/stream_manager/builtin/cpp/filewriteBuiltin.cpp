@@ -83,7 +83,7 @@ ArrayOfVector
 Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 2, 4); //-V112
+    nargincheck(argIn, 2, 4);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -105,7 +105,7 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 #endif
     }
 
-    if (argIn.size() == 4) { //-V112
+    if (argIn.size() == 4) {
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
         if (!isSupportedEncoding(encoding)) {

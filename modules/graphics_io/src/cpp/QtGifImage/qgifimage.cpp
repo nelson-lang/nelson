@@ -279,8 +279,9 @@ QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
         else
             gifImage->ImageDesc.ColorMap = 0;
 
-        GifByteType* data
-            = (GifByteType*)malloc(image.width() * image.height() * sizeof(GifByteType));
+        GifByteType* data = (GifByteType*)malloc(
+            static_cast<size_t>(image.width()) * image.height() * sizeof(GifByteType));
+
         for (int row = 0; row < image.height(); ++row) {
             memcpy(data + row * image.width(), image.scanLine(row), image.width());
         }
@@ -290,12 +291,12 @@ QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
             uchar data8[12] = "NETSCAPE2.0";
             GifAddExtensionBlock(&gifImage->ExtensionBlockCount, &gifImage->ExtensionBlocks,
                 APPLICATION_EXT_FUNC_CODE, 11, data8);
-            uchar data[3];
-            data[0] = 0x01;
-            data[1] = loopCount & 0xFF;
-            data[2] = (loopCount >> 8) & 0xFF;
+            uchar netscapeData[3];
+            netscapeData[0] = 0x01;
+            netscapeData[1] = loopCount & 0xFF;
+            netscapeData[2] = (loopCount >> 8) & 0xFF;
             GifAddExtensionBlock(&gifImage->ExtensionBlockCount, &gifImage->ExtensionBlocks,
-                CONTINUE_EXT_FUNC_CODE, 3, data);
+                CONTINUE_EXT_FUNC_CODE, 3, netscapeData);
         }
 
         GraphicsControlBlock gcbBlock;
@@ -312,8 +313,6 @@ QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
     }
 
     EGifSpew(gifFile);
-    // EGifCloseFile(gifFile);
-
     return true;
 }
 

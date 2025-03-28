@@ -650,7 +650,6 @@ PyObjectToArrayOf(PyObject* pyObject, bool& needToDecreaseReference)
         return ArrayOf::logicalConstructor(value);
     }
     if (pyTypeObject == PyComplex_TypePtr) {
-        std::complex<double> value;
         Py_complex pyCplx = NLSPyComplex_AsCComplex(pyObject);
         return ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
     }

@@ -74,7 +74,6 @@ TextEditorLoadPreferences(
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(editorConfFile);
     if (bIsFile) {
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(editorConfFile);
 #else

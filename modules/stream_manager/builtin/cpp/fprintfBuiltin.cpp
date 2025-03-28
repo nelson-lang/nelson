@@ -62,7 +62,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(_W("Problem with file manager."));
     }
     size_t len = 0;
-    if (fm->isOpened(iValue)) { //-V1004
+    if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {
             if ((f->getFileName() == L"stdout") || (f->getFileName() == L"stderr")) {

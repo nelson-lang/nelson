@@ -15,6 +15,7 @@ wstringVector
 VersionCompilerFlags()
 {
     wstringVector options;
+    options.reserve(3);
 #if defined(__INTEL_LLVM_COMPILER) && defined(__INTEL_COMPILER)
     options.push_back(L"icx");
 #else

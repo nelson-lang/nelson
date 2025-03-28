@@ -155,6 +155,7 @@ wstringVector
 GOUIControl::getModifiers(QKeyEvent* keyEvent)
 {
     wstringVector modifiersWstringVector;
+    modifiersWstringVector.reserve(4);
     Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
     if (modifiers & Qt::ShiftModifier) {
         modifiersWstringVector.push_back(L"shift");

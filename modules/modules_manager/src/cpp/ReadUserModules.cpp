@@ -21,7 +21,6 @@ ReadUserModules(
     std::vector<std::tuple<std::wstring, std::wstring, bool>>& userModules, bool reverse)
 {
     std::wstring modulesJsonPath = GetExternalModulesPath() + std::wstring(L"modules.json");
-    std::string jsonString;
 #ifdef _MSC_VER
     std::ifstream jsonFile(modulesJsonPath);
 #else

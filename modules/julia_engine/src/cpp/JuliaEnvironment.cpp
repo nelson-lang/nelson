@@ -68,7 +68,6 @@ JuliaEnvironment::loadPreviousState()
     std::wstring juliaFile = prefDir + L"/julia.conf";
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(juliaFile);
     if (bIsFile) {
-        std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(juliaFile);
 #else
@@ -316,7 +315,6 @@ configureJuliaEnvironment(const JuliaEnvironment* juliaEnvironment)
     std::wstring pathEnv = GetVariableEnvironment(L"PATH", L"");
     std::wstring delimiter = L";";
 
-    std::vector<std::wstring> paths;
     size_t start = 0, end = 0;
     bool alreadyInPathEnv = false;
     while ((end = pathEnv.find(delimiter, start)) != std::wstring::npos) {

@@ -90,6 +90,7 @@ std::vector<double>
 GOPatch::getLimits()
 {
     std::vector<double> limits;
+    limits.reserve(10);
 
     ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
     vertices.promoteType(NLS_DOUBLE);
@@ -315,8 +316,6 @@ GOPatch::buildPolygons(FaceList& faces)
 
     indexType nbColumnsFaceVertexCdata = faceVertexCdata.getColumns();
     indexType nbRowsFaceVertexCdata = faceVertexCdata.getRows();
-
-    std::vector<coloredPoint> polygon_vert;
 
     indexType nFaces = facesData.getRows();
     indexType maxVertsPerFace = facesData.getColumns();

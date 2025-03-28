@@ -21,7 +21,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 1);
-    nargoutcheck(nLhs, 0, 4); //-V112
+    nargoutcheck(nLhs, 0, 4);
     bool bReverse = false;
     if (argIn.size() == 1) {
         std::wstring param;

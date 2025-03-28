@@ -15,7 +15,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSLOCALIZATION_IMPEXP Localization //-V690
+class NLSLOCALIZATION_IMPEXP Localization
 {
 public:
     static Localization*

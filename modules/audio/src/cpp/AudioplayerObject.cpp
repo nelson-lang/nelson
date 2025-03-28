@@ -20,6 +20,10 @@ namespace Nelson {
 AudioplayerObject::AudioplayerObject()
     : HandleGenericObject(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, this, false)
 {
+    firstSample = 0;
+    lastSample = 0;
+    outputStreamParameters.device = 0;
+
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
         L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type" };
     int defaultOutput = Pa_GetDefaultOutputDevice();

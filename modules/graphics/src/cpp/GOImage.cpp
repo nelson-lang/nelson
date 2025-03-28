@@ -90,6 +90,7 @@ GOImage::getLimits()
     std::vector<double> YP(xp->data());
 
     std::vector<double> limits;
+    limits.reserve(10);
     if (XP.size() < 2 || YP.size() < 2) {
         return limits;
     }
@@ -253,20 +254,11 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
     }
     size_t cmaplen(cmap.size() / 3);
     if (cmaplen < 1) {
-        if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
-            OMP_PARALLEL_FOR_LOOP(rows * cols)
-            for (indexType i = 0; i < rows * cols; i++) {
-                ret[i] = 1;
-                ret[i + rows * cols] = 1;
-                ret[i + 2 * rows * cols] = 1;
-            }
-        } else {
-            OMP_PARALLEL_FOR_LOOP(rows * cols)
-            for (indexType i = 0; i < rows * cols; i++) {
-                ret[i] = 1;
-                ret[i + rows * cols] = 1;
-                ret[i + 2 * rows * cols] = 1;
-            }
+        OMP_PARALLEL_FOR_LOOP(rows * cols)
+        for (indexType i = 0; i < rows * cols; i++) {
+            ret[i] = 1;
+            ret[i + rows * cols] = 1;
+            ret[i + 2 * rows * cols] = 1;
         }
         return ret;
     }

@@ -157,14 +157,6 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             curl_easy_cleanup(curlObject);
             Error(msg);
         }
-    } else if (options.getRequestMethod() == L"post") {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_POST, 1L);
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
     }
 
     if (options.getFollowLocation()) {
@@ -331,6 +323,7 @@ static CURLcode
 buildHeader(CURL* curlObject, const WebOptions& options)
 {
     stringVector lines;
+    lines.reserve(7);
     if (options.getCharacterEncoding() == L"UTF-8") {
         lines.push_back("charsets: UTF-8");
     }

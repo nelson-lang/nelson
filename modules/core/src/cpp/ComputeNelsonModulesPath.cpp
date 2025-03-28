@@ -19,7 +19,6 @@ namespace Nelson {
 bool
 ComputeNelsonModulesPath(std::wstring& errorMessage)
 {
-    std::wstring p;
 #define NELSON_MODULES_PATH_ENV L"NELSON_MODULES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_MODULES_PATH_ENV, L"");
     if (penv != L"") {

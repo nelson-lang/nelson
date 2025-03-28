@@ -172,7 +172,7 @@ testSpecialFuncs()
     // Check for hardcoded shortcuts
     static const std::wstring commands[] = { L"ls", L"cd", L"dir" };
     for (const auto& command : commands) {
-        if (isPathCommandShortCut(command.c_str(), wline)) {
+        if (isPathCommandShortCut(command, wline)) {
             return true;
         }
     }
@@ -568,7 +568,7 @@ lexNumber()
             } else {
                 return 0;
             }
-            state = 4; //-V112
+            state = 4;
             break;
         case 4:
             if (isE(datap[cp]) != 0) {
@@ -590,7 +590,7 @@ lexNumber()
                 while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
-                state = 4; //-V112
+                state = 4;
                 break;
             } else {
                 state = 7;

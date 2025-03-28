@@ -481,7 +481,7 @@ convertCellToArrayOf(jl_value_t* value, bool& wasConverted)
     bool isVector = StringHelpers::starts_with(typeOf, "Vector{");
     bool isMatrix = StringHelpers::starts_with(typeOf, "Matrix{");
 
-    if (!isTuple && !isArray && !isSet && !isArray && !isVector && !isMatrix) {
+    if (!isTuple && !isArray && !isSet && !isVector && !isMatrix) {
         wasConverted = false;
         return ArrayOf();
     }

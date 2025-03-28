@@ -135,7 +135,7 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
     // Lambda function to hash struct or class array content of the ArrayOf object
     auto hashStructOrClassArray = [&hashValue, eval](const ArrayOf& A) {
         stringVector names = A.getFieldNames();
-        for (auto name : names) {
+        for (auto& name : names) {
             size_t hashName = std::hash<std::string>()(name);
             hashValue = hash_combine(hashValue, hashName);
             ArrayOfVector fields = A.getFieldAsList(name);

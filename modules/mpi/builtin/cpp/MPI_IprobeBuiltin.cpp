@@ -43,6 +43,7 @@ Nelson::MpiGateway::MPI_IprobeBuiltin(int nLhs, const ArrayOfVector& argIn)
     int cancelled = 0;
     MPI_Test_cancelled(&stat, &cancelled);
     wstringVector fieldnames;
+    fieldnames.reserve(5);
     ArrayOfVector fieldvalues;
     fieldnames.push_back(L"MPI_SOURCE");
     fieldnames.push_back(L"MPI_TAG");

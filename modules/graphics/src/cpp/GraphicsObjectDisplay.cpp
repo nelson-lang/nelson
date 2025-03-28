@@ -55,7 +55,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                 io->outputMessage(L"\n");
             }
 
-            for (auto name : names) {
+            for (auto& name : names) {
                 GOGenericProperty* hp = fp->findProperty(name, false);
                 if (hp) {
                     io->outputMessage(L"  " + name + L": " + hp->toWideString() + L"\n");

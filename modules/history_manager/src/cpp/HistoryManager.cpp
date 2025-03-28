@@ -208,12 +208,6 @@ HistoryManager::appendLine(const std::wstring& line)
                     nbCommands++;
                 }
             }
-        } else {
-
-            for (const auto& s : strs) {
-                commands.push_back(s);
-                nbCommands++;
-            }
         }
     } else {
         for (const auto& l : lines) {
