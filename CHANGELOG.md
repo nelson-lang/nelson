@@ -26,7 +26,10 @@ This release introduces performance improvements and new graphical capabilities 
   - OpenMP multithreading macros have been reworked for better efficiency.
 
 - `SLICOT` module incorporates SLICOT library 5.9, which is distributed under the BSD-3-Clause license.
+
   - `SLICOT` module available on all platforms by default.
+
+- python 3.13.2 embedded on Windows
 
 ### Added
 
