@@ -149,7 +149,7 @@ QGifImagePrivate::load(QIODevice* device)
     int error;
     GifFileType* gifFile = DGifOpen(device, readFromIODevice, &error);
     if (!gifFile) {
-        qWarning(GifErrorString(error));
+        qWarning("%s", GifErrorString(error));
         return false;
     }
 
