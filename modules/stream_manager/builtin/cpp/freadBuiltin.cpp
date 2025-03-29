@@ -36,8 +36,6 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     bool bIsLittleEndian = true;
     size_t skipSize = 0;
     NelsonType classDest = NLS_UINT8;
-    int64 isize = 0;
-    int32 idFile = 0;
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
