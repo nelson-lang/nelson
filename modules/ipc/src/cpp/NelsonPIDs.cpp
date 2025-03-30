@@ -13,6 +13,9 @@
 //=============================================================================
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/process.hpp>
+#ifndef _MSC_VER
+#include <sys/utsname.h>
+#endif
 #include "NelsonPIDs.hpp"
 #include "GetUsername.hpp"
 #include "characters_encoding.hpp"
@@ -66,16 +69,32 @@ static std::string
 buildNelsonPIDsChannelName()
 {
     if (channelName.empty()) {
+        std::string arch; // Declare the variable here
+
 #ifdef _MSC_VER
 #ifdef _WIN64
-        std::string arch = "win64";
+        arch = "win64";
 #else
-        std::string arch = "win32";
+        arch = "win32";
 #endif
+#elif defined(__linux__)
+        // Get more specific Linux architecture information
+        struct utsname sysInfo;
+        if (uname(&sysInfo) == 0) {
+            arch = std::string("linux_") + sysInfo.machine;
+        } else {
+            arch = "linux";
+        }
 #else
-        std::string arch = "other";
+        arch = "other";
 #endif
         channelName = std::string(NELSON_PIDS) + "_" + arch + "_" + wstring_to_utf8(GetUsername());
+
+#ifndef _MSC_VER
+        // Add process owner uid to avoid permission issues (required on NixOS)
+        uid_t uid = geteuid();
+        channelName = channelName + "_" + std::to_string(uid);
+#endif
     }
     return channelName;
 }
@@ -229,6 +248,7 @@ getNelsonPIDModes()
 int
 getLatestPidInSharedMemory()
 {
+
     try {
         boost::interprocess::managed_shared_memory managed_shm {
             boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
@@ -243,6 +263,7 @@ getLatestPidInSharedMemory()
         }
     } catch (boost::interprocess::interprocess_exception&) {
     }
+
     return 0;
 }
 //=============================================================================
