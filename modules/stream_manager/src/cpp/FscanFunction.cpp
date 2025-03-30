@@ -13,50 +13,13 @@
 //=============================================================================
 #include <algorithm>
 #include <cstring>
+#include "Fscanf_helpers.hpp"
 #include "FscanFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static int
-flagChar(char c)
-{
-    return ((c == '#') || (c == '0') || (c == '-') || (c == ' ') || (c == '+'));
-}
-//=============================================================================
-static int
-convspec(char c)
-{
-    return ((c == 'd') || (c == 'i') || (c == 'o') || (c == 'u') || (c == 'x') || (c == 'X')
-        || (c == 'e') || (c == 'E') || (c == 'f') || (c == 'F') || (c == 'g') || (c == 'G')
-        || (c == 'a') || (c == 'A') || (c == 'c') || (c == 's'));
-}
-//=============================================================================
-static char*
-validateScanFormatSpec(char* cp)
-{
-    if (*cp == '%') {
-        return cp + 1;
-    }
-    while ((*cp) && flagChar(*cp)) {
-        cp++;
-    }
-    while ((*cp) && isdigit(*cp)) {
-        cp++;
-    }
-    while ((*cp) && (*cp == '.')) {
-        cp++;
-    }
-    while ((*cp) && isdigit(*cp)) {
-        cp++;
-    }
-    if ((*cp) && (convspec(*cp) || (*cp == 'l'))) {
-        return cp + 1;
-    }
-    return nullptr;
-}
 //=============================================================================
 template <class T>
 ArrayOf
@@ -141,16 +104,7 @@ ArrayOf
 FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
     double n, bool haveThirdArgument, indexType& count, bool asSscanf)
 {
-    enum OutputType
-    {
-        AS_STRING,
-        AS_DOUBLE,
-        AS_INT64,
-        AS_UINT64,
-        AS_MIXED,
-        AS_NONE
-    } outType
-        = AS_NONE;
+    enum OutputType outType = AS_NONE;
     ArrayOfVector values;
     bool bContinue = true;
     int resf = 0;

@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <cstring>
 #include <fstream>
+#include "Fscanf_helpers.hpp"
 #include "StringHelpers.hpp"
 #include "FileTell.hpp"
 #include "FileWrite.hpp"
@@ -25,43 +26,6 @@
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static int
-flagChar(wchar_t c)
-{
-    return ((c == L'#') || (c == L'0') || (c == L'-') || (c == L' ') || (c == L'+'));
-}
-//=============================================================================
-static int
-convspec(wchar_t c)
-{
-    return ((c == L'd') || (c == L'i') || (c == L'o') || (c == L'u') || (c == L'x') || (c == L'e')
-        || (c == L'f') || (c == L'g') || (c == L'c') || (c == L's'));
-}
-//=============================================================================
-static wchar_t*
-validateScanFormatSpec(wchar_t* cp)
-{
-    if (*cp == L'%') {
-        return cp + 1;
-    }
-    while ((*cp) && flagChar(*cp)) {
-        cp++;
-    }
-    while ((*cp) && iswdigit(*cp)) {
-        cp++;
-    }
-    while ((*cp) && (*cp == L'.')) {
-        cp++;
-    }
-    while ((*cp) && iswdigit(*cp)) {
-        cp++;
-    }
-    if ((*cp) && (convspec(*cp) || (*cp == L'l'))) {
-        return cp + 1;
-    }
-    return nullptr;
-}
 //=============================================================================
 template <class T>
 ArrayOf
@@ -125,16 +89,6 @@ convertToArrayOfSscanf(ArrayOfVector& values, NelsonType classDestination, bool 
     return value;
 }
 //=============================================================================
-enum OutputType
-{
-    AS_STRING,
-    AS_DOUBLE,
-    AS_INT64,
-    AS_UINT64,
-    AS_MIXED,
-    AS_NONE
-};
-//=============================================================================
 static OutputType
 getCommonOutputType(const std::vector<OutputType>& types)
 {
@@ -152,23 +106,15 @@ getCommonOutputType(const std::vector<OutputType>& types)
 }
 //=============================================================================
 static bool
-fwscanfAsInt64(FILE* filepointer, const std::wstring& fmt, int64& value, indexType& nextIndex,
-    std::wstring& errorMessage)
+fscanfAsInt64(FILE* filepointer, const std::string& fmt, int64& value, std::string& errorMessage)
 {
     int pos = 0;
     long sdumint64 = 0;
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &sdumint64, &pos);
-    indexType o2 = NLSFTELL(filepointer);
+    int resf = fscanf(filepointer, fmt.c_str(), &sdumint64, &pos);
     value = (int64)sdumint64;
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
     if (feof(filepointer) || resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -176,26 +122,19 @@ fwscanfAsInt64(FILE* filepointer, const std::wstring& fmt, int64& value, indexTy
 }
 //=============================================================================
 static bool
-fwscanfAsCharacterVector(FILE* filepointer, const std::wstring& fmt, bool asChar,
-    std::wstring& value, indexType& nextIndex, std::wstring& errorMessage)
+fscanfAsCharacterVector(FILE* filepointer, const std::string& fmt, bool asChar, std::string& value,
+    std::string& errorMessage)
 {
     int pos = 0;
-    wchar_t buffer[8192];
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), buffer, &pos);
-    indexType o2 = NLSFTELL(filepointer);
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
+    char buffer[8192];
+    int resf = fscanf(filepointer, fmt.c_str(), buffer, &pos);
     if (asChar) {
         buffer[resf] = 0;
     }
     value = buffer;
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -203,23 +142,15 @@ fwscanfAsCharacterVector(FILE* filepointer, const std::wstring& fmt, bool asChar
 }
 //=============================================================================
 static bool
-fwscanfAsUInt64(FILE* filepointer, const std::wstring& fmt, uint64& value, indexType& nextIndex,
-    std::wstring& errorMessage)
+fscanfAsUInt64(FILE* filepointer, const std::string& fmt, uint64& value, std::string& errorMessage)
 {
     int pos = 0;
     unsigned long sdumint64 = 0;
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &sdumint64, &pos);
-    indexType o2 = NLSFTELL(filepointer);
+    int resf = fscanf(filepointer, fmt.c_str(), &sdumint64, &pos);
     value = (uint64)sdumint64;
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -227,45 +158,31 @@ fwscanfAsUInt64(FILE* filepointer, const std::wstring& fmt, uint64& value, index
 }
 //=============================================================================
 static bool
-fwscanfUnsignedIntegerAsDouble(FILE* filepointer, const std::wstring& fmt, double& value,
-    indexType& nextIndex, std::wstring& errorMessage)
+fscanfUnsignedIntegerAsDouble(
+    FILE* filepointer, const std::string& fmt, double& value, std::string& errorMessage)
 {
     int pos = 0;
     unsigned int dumpUnsignedInt = 0;
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &dumpUnsignedInt, &pos);
-    indexType o2 = NLSFTELL(filepointer);
+    int resf = fscanf(filepointer, fmt.c_str(), &dumpUnsignedInt, &pos);
     value = (double)dumpUnsignedInt;
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
     if (resf == EOF || resf == 0) {
-        errorMessage = _W("Matching failure in format.");
+        errorMessage = _("Matching failure in format.");
         return false;
     }
     return true;
 }
 //=============================================================================
 static bool
-fwscanfIntegerAsDouble(FILE* filepointer, const std::wstring& fmt, double& value,
-    indexType& nextIndex, std::wstring& errorMessage)
+fscanfIntegerAsDouble(
+    FILE* filepointer, const std::string& fmt, double& value, std::string& errorMessage)
 {
     int pos = 0;
     int sdumdouble = 0;
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &sdumdouble, &pos);
-    indexType o2 = NLSFTELL(filepointer);
+    int resf = fscanf(filepointer, fmt.c_str(), &sdumdouble, &pos);
     value = (double)sdumdouble;
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -273,21 +190,13 @@ fwscanfIntegerAsDouble(FILE* filepointer, const std::wstring& fmt, double& value
 }
 //=============================================================================
 static bool
-fwscanfAsDouble(FILE* filepointer, const std::wstring& fmt, double& value, indexType& nextIndex,
-    std::wstring& errorMessage)
+fscanfAsDouble(FILE* filepointer, const std::string& fmt, double& value, std::string& errorMessage)
 {
     int pos = 0;
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &value, &pos);
-    indexType o2 = NLSFTELL(filepointer);
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
+    int resf = fscanf(filepointer, fmt.c_str(), &value, &pos);
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -295,23 +204,16 @@ fwscanfAsDouble(FILE* filepointer, const std::wstring& fmt, double& value, index
 }
 //=============================================================================
 static bool
-fwscanfSingleAsDouble(FILE* filepointer, const std::wstring& fmt, double& value,
-    indexType& nextIndex, std::wstring& errorMessage)
+fscanfSingleAsDouble(
+    FILE* filepointer, const std::string& fmt, double& value, std::string& errorMessage)
 {
     int pos = 0;
     single dumpAsFloat = single(0.);
-    indexType o1 = NLSFTELL(filepointer);
-    int resf = fwscanf(filepointer, fmt.c_str(), &dumpAsFloat, &pos);
-    indexType o2 = NLSFTELL(filepointer);
+    int resf = fscanf(filepointer, fmt.c_str(), &dumpAsFloat, &pos);
     value = (double)dumpAsFloat;
-    if (pos == 0) {
-        nextIndex += (o2 - o1);
-    } else {
-        nextIndex += pos;
-    }
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _W("Matching failure in format.");
+            errorMessage = _("Matching failure in format.");
         }
         return false;
     }
@@ -319,56 +221,48 @@ fwscanfSingleAsDouble(FILE* filepointer, const std::wstring& fmt, double& value,
 }
 //=============================================================================
 static ArrayOf
-FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool haveThirdArgument,
-    indexType& count, indexType& nextIndex, std::wstring& errorMessage)
+fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
+    bool haveThirdArgument, indexType& count, std::string& errorMessage)
 {
     OutputType outType = AS_NONE;
     ArrayOfVector values;
     bool bContinue = true;
     int resf = 0;
     std::vector<OutputType> outTypes;
-    std::wstring fmt;
+    std::string fmt;
     int pos = 0;
-    nextIndex = 1;
-    std::wstring fmtPosition = L"%n";
+    std::string fmtPosition = "%n";
     while (bContinue) {
         if (feof(filepointer)) {
             bContinue = false;
             break;
         }
-        wchar_t* buff = nullptr;
+        char* buff = nullptr;
         try {
-            buff = new wchar_t[format.size() + 1];
+            buff = new char[format.size() + 1];
         } catch (std::bad_alloc&) {
-            errorMessage = ERROR_MEMORY_ALLOCATION;
+            errorMessage = wstring_to_utf8(ERROR_MEMORY_ALLOCATION);
             return {};
         }
-        wcscpy(buff, format.c_str());
-        wchar_t* dp = buff;
-        wchar_t* np;
-        wchar_t sv;
+        strcpy(buff, format.c_str());
+        char* dp = buff;
+        char* np;
+        char sv;
         while (*dp) {
             pos = 0;
             np = dp;
-            while ((*dp) && (*dp != L'%')) {
+            while ((*dp) && (*dp != '%')) {
                 dp++;
             }
             sv = *dp;
             *dp = 0;
-            if (wcslen(np) == 0) {
+            if (strlen(np) == 0) {
                 fmt = fmtPosition;
             } else {
-                fmt = std::wstring(np);
+                fmt = std::string(np);
                 fmt += fmtPosition;
             }
-            indexType o1 = NLSFTELL(filepointer);
-            resf = fwscanf(filepointer, fmt.c_str(), &pos);
-            indexType o2 = NLSFTELL(filepointer);
-            if (pos == 0) {
-                nextIndex += (o2 - o1);
-            } else {
-                nextIndex += pos;
-            }
+            resf = fscanf(filepointer, fmt.c_str(), &pos);
             pos = 0;
             if (feof(filepointer)) {
                 bContinue = false;
@@ -378,35 +272,28 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                 np = validateScanFormatSpec(dp + 1);
                 if (!np) {
                     delete[] buff;
-                    errorMessage = _W("Invalid format.");
+                    errorMessage = _("Invalid format.");
                     goto endLoopWscanf;
                 } else {
-                    if (*(np - 1) == L'%') {
+                    if (*(np - 1) == '%') {
                         pos = 0;
-                        indexType o1 = NLSFTELL(filepointer);
-                        resf = fwscanf(filepointer, L"%%%n", &pos);
-                        indexType o2 = NLSFTELL(filepointer);
-                        if (pos == 0) {
-                            nextIndex += (o2 - o1);
-                        } else {
-                            nextIndex += pos;
-                        }
+                        resf = fscanf(filepointer, "%%%n", &pos);
                         if (resf == EOF) {
                             bContinue = false;
                         }
                         dp += 2;
                     } else {
                         bool as64bit = false;
-                        if (*(np - 1) == L'l') {
+                        if (*(np - 1) == 'l') {
                             as64bit = true;
                             np++;
                         }
                         sv = *np;
                         *np = 0;
                         switch (*(np - 1)) {
-                        case L'd':
-                        case L'i': {
-                            fmt = std::wstring(dp);
+                        case 'd':
+                        case 'i': {
+                            fmt = std::string(dp);
                             fmt += fmtPosition;
                             if (as64bit) {
                                 if (outType == AS_NONE) {
@@ -418,8 +305,7 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 }
                                 outTypes.push_back(outType);
                                 int64 value = 0;
-                                bool bOK = fwscanfAsInt64(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bool bOK = fscanfAsInt64(filepointer, fmt, value, errorMessage);
                                 if (!bOK) {
                                     bContinue = false;
                                     break;
@@ -435,8 +321,8 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 }
                                 outTypes.push_back(outType);
                                 double value = 0.;
-                                bool bOK = fwscanfIntegerAsDouble(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bool bOK
+                                    = fscanfIntegerAsDouble(filepointer, fmt, value, errorMessage);
                                 if (!bOK) {
                                     bContinue = false;
                                     break;
@@ -444,10 +330,10 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 values.push_back(ArrayOf::doubleConstructor(value));
                             }
                         } break;
-                        case L'o':
-                        case L'u':
-                        case L'x': {
-                            fmt = std::wstring(dp);
+                        case 'o':
+                        case 'u':
+                        case 'x': {
+                            fmt = std::string(dp);
                             fmt += fmtPosition;
                             if (as64bit) {
                                 if (outType == AS_NONE) {
@@ -459,8 +345,7 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 }
                                 outTypes.push_back(outType);
                                 uint64 value = (uint64)0;
-                                bool bOK = fwscanfAsUInt64(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bool bOK = fscanfAsUInt64(filepointer, fmt, value, errorMessage);
                                 if (!bOK) {
                                     bContinue = false;
                                     break;
@@ -476,19 +361,19 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 }
                                 outTypes.push_back(outType);
                                 double value = 0.;
-                                bool bOK = fwscanfUnsignedIntegerAsDouble(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bool bOK = fscanfUnsignedIntegerAsDouble(
+                                    filepointer, fmt, value, errorMessage);
                                 if (!bOK) {
-                                    errorMessage = _W("Matching failure in format.");
+                                    errorMessage = _("Matching failure in format.");
                                     bContinue = false;
                                     break;
                                 }
                                 values.push_back(ArrayOf::doubleConstructor(value));
                             }
                         } break;
-                        case L'e':
-                        case L'f':
-                        case L'g': {
+                        case 'e':
+                        case 'f':
+                        case 'g': {
                             if (outType == AS_NONE) {
                                 outType = AS_DOUBLE;
                             } else {
@@ -497,16 +382,14 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 }
                             }
                             outTypes.push_back(outType);
-                            fmt = std::wstring(dp);
+                            fmt = std::string(dp);
                             fmt += fmtPosition;
                             double value = 0;
                             bool bOK = false;
                             if (as64bit) {
-                                bOK = fwscanfAsDouble(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bOK = fscanfAsDouble(filepointer, fmt, value, errorMessage);
                             } else {
-                                bOK = fwscanfSingleAsDouble(
-                                    filepointer, fmt, value, nextIndex, errorMessage);
+                                bOK = fscanfSingleAsDouble(filepointer, fmt, value, errorMessage);
                             }
                             if (!bOK) {
                                 bContinue = false;
@@ -514,8 +397,8 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                             }
                             values.push_back(ArrayOf::doubleConstructor(value));
                         } break;
-                        case L'c':
-                        case L's': {
+                        case 'c':
+                        case 's': {
                             if (outType == AS_NONE) {
                                 outType = AS_STRING;
                             } else {
@@ -526,20 +409,15 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                             outTypes.push_back(outType);
                             if (as64bit) {
                                 delete[] buff;
-                                errorMessage = _W("Invalid format.");
+                                errorMessage = _("Invalid format.");
                                 goto endLoopWscanf;
                             }
-                            bool asChar = (*(np - 1) == L'c');
-                            fmt = std::wstring(dp);
-                            if (asChar) {
-                                StringHelpers::replace_first(fmt, L"c", L"lc");
-                            } else {
-                                StringHelpers::replace_first(fmt, L"s", L"ls");
-                            }
+                            bool asChar = (*(np - 1) == 'c');
+                            fmt = std::string(dp);
                             fmt += fmtPosition;
-                            std::wstring value;
-                            bool bOK = fwscanfAsCharacterVector(
-                                filepointer, fmt, asChar, value, nextIndex, errorMessage);
+                            std::string value;
+                            bool bOK = fscanfAsCharacterVector(
+                                filepointer, fmt, asChar, value, errorMessage);
                             if (!bOK) {
                                 bContinue = false;
                                 break;
@@ -551,7 +429,7 @@ FwscanF(FILE* filepointer, const std::wstring& format, double m, double n, bool 
                                 delete[] buff;
                                 buff = nullptr;
                             }
-                            errorMessage = _W("Unsupported sscanf format.");
+                            errorMessage = _("Unsupported sscanf format.");
                             goto endLoopWscanf;
                         } break;
                         }
@@ -654,37 +532,57 @@ endLoopWscanf:
 //=============================================================================
 ArrayOf
 SscanF(const std::wstring& content, const std::wstring& format, double m, double n,
-    bool haveThirdArgument, indexType& count, indexType& nextIndex, std::wstring& errorMessage)
+    bool haveThirdArgument, indexType& count, indexType& nextIndex, bool withNextIndex,
+    std::wstring& errorMessage)
 {
     FileSystemWrapper::Path tempFilePath = FileSystemWrapper::Path::unique_path();
 #ifdef _MSC_VER
-    const std::wstring filenameTemp = tempFilePath.wstring();
+    const std::wstring wfilenameTemp = tempFilePath.wstring();
+    const std::string filenameTemp = wstring_to_utf8(wfilenameTemp);
 #else
-    const std::wstring filenameTemp = utf8_to_wstring(tempFilePath.string());
+    const std::string filenameTemp = tempFilePath.string();
+    const std::wstring wfilenameTemp = utf8_to_wstring(filenameTemp);
 #endif
     wstringVector lines;
     lines.push_back(content);
-    if (!writeFile(filenameTemp, lines, L"\n", "\n", "UTF-8", errorMessage)) {
+    if (!writeFile(wfilenameTemp, lines, L"\n", "\n", "UTF-8", errorMessage)) {
         return {};
     }
 #ifdef _MSC_VER
-    FILE* fp = _wfopen(filenameTemp.c_str(), L"rt, ccs=UTF-8");
+    FILE* fp = _wfopen(wfilenameTemp.c_str(), L"rt");
 #else
-    FILE* fp = fopen(wstring_to_utf8(filenameTemp).c_str(), "rt");
+    FILE* fp = fopen(filenameTemp.c_str(), "rt");
 #endif
     if (!fp) {
         Error(_W("sscanf internal error."));
         return {};
     }
-    ArrayOf value = FwscanF(fp, format, m, n, haveThirdArgument, count, nextIndex, errorMessage);
+    std::string _errorMessage;
+    indexType initialFilePos = NLSFTELL(fp);
+    ArrayOf value = fscanfInternal(
+        fp, wstring_to_utf8(format), m, n, haveThirdArgument, count, _errorMessage);
+    indexType latestFilePos = NLSFTELL(fp);
+
+    if (withNextIndex) {
+        nextIndex = (latestFilePos - initialFilePos);
+        std::string contentUtf8 = wstring_to_utf8(content);
+        size_t wideLen = content.substr(0, nextIndex).length();
+        size_t utf8Len = contentUtf8.substr(0, nextIndex).length();
+        nextIndex = wideLen + 1;
+    } else {
+        nextIndex = 0;
+    }
+    if (!_errorMessage.empty()) {
+        errorMessage = utf8_to_wstring(_errorMessage);
+    }
     if (fp) {
         fclose(fp);
         fp = nullptr;
     }
 #ifdef _MSC_VER
-    _wremove(filenameTemp.c_str());
+    _wremove(wfilenameTemp.c_str());
 #else
-    remove(wstring_to_utf8(filenameTemp).c_str());
+    remove(filenameTemp.c_str());
 #endif
     return value;
 }

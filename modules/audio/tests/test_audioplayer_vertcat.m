@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 json_audio = [modulepath('audio', 'tests'), '/test_audioplayer.json'];
 st = jsondecode(fileread(json_audio));

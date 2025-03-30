@@ -29,10 +29,11 @@
 
 stdenv.mkDerivation {
   buildInputs = [
+    icu # International Components for Unicode
     zlib # Compression library
     boost # Boost libraries
     openssl # SSL support
-    mpi # MPI support
+    mpich # MPI support
     hdf5 # HDF5 support
     curl # cURL support
     libgit2 # Git support
@@ -48,7 +49,6 @@ stdenv.mkDerivation {
     matio # MATIO support
     libcxx # C++ standard library
     qt6.full # Qt for GUI support
-    qt6.qtbase # Qt base required
     giflib # GIF support
     libtiff # TIFF support
   ];

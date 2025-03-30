@@ -8,9 +8,26 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 json_audio = [modulepath('audio', 'tests'), '/test_audioplayer.json'];
 st = jsondecode(fileread(json_audio));
+%=============================================================================
+Y = [st.y, st.y];
+try
+  r = audioplayer(Y, st.fs);
+catch ex
+    skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
+%=============================================================================
+play(r);
+sleep(5);
+stop(r)
+%=============================================================================
+r = audioplayer(Y', st.fs);
+play(r);
+sleep(5);
+stop(r)
 %=============================================================================
 r = audioplayer(st.y, st.fs);
 f = fieldnames(r);
@@ -27,6 +44,10 @@ assert_isequal(r.Tag, '');
 assert_isequal(r.UserData, []);
 assert_isequal(r.Type, 'audioplayer');
 %=============================================================================
+if(~isempty(getenv('IN_NIX_SHELL')) && ~ismac())
+  return
+end
+%=============================================================================
 play(r)
 assert_istrue(isplaying(r))
 sleep(5);
@@ -42,15 +63,4 @@ resume(r)
 assert_istrue(isplaying(r))
 stop(r)
 assert_isfalse(isplaying(r))
-%=============================================================================
-Y = [st.y, st.y];
-r = audioplayer(Y, st.fs);
-play(r);
-sleep(5);
-stop(r)
-%=============================================================================
-r = audioplayer(Y', st.fs);
-play(r);
-sleep(5);
-stop(r)
 %=============================================================================

@@ -33,7 +33,6 @@ else()
             /usr/local/include/openblas-base
             /usr/local/opt/openblas/include
             /opt/OpenBLAS/include
-            $ENV{HOMEBREW_PREFIX}/opt/openblas/include
             )
 
     SET(Open_BLAS_LIB_SEARCH_PATHS
@@ -47,7 +46,6 @@ else()
             /usr/local/lib64
             /usr/local/opt/openblas/lib
             /opt/OpenBLAS/lib
-            $ENV{HOMEBREW_PREFIX}/opt/openblas/lib
             )
 
 endif()

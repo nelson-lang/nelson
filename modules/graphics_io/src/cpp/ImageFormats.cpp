@@ -90,12 +90,17 @@ detectAlphaSupport()
 {
     // Formats that are known to support alpha channels
     std::unordered_set<std::string> formatsWithAlpha = { "cur", "ico", "png" };
+    std::unordered_set<std::string> formatsWithouthAlpha = { "jpg", "jpeg", "j2k", "j2c", "jp2" };
 
     // Test reading alpha support
     for (auto& pair : fileExtensions) {
+        printf("Testing format: %s\n", pair.first.c_str());
         std::string format = pair.first;
         FormatData& formatData = pair.second;
 
+        if (formatsWithouthAlpha.find(format) != formatsWithouthAlpha.end()){
+            continue;
+        }
         // Check if this format is in our known list
         bool hasAlpha = formatsWithAlpha.find(format) != formatsWithAlpha.end();
 

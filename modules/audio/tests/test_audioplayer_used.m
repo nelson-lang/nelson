@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 assert_isequal(length(audioplayer_used()), 0);
 r1 = audioplayer(sin(1:10000), 8192);

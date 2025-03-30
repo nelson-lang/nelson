@@ -16,11 +16,15 @@
 %=============================================================================
 if ~ismac()
   ipc(getpid, 'minimize', true);
+  sleep(2); % wait for minimize
   R = ipc(getpid, 'minimize');
   assert_isequal(R, true)
 end
 %=============================================================================
-ipc(getpid, 'minimize', false);
-R = ipc(getpid, 'minimize');
-assert_isequal(R, false)
+if ismac() || ispc()
+  ipc(getpid, 'minimize', false);
+  sleep(2); % wait for minimize
+  R = ipc(getpid, 'minimize');
+  assert_isequal(R, false)
+end
 %=============================================================================

@@ -8,18 +8,31 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 assert_isequal(nargin('sound'), -1)
 assert_isequal(nargout('sound'), 0)
 wav_file = [modulepath('audio', 'tests'), '/MacBoing.wav'];
 [y, fs] = audioread(wav_file);
 %=============================================================================
-sound(y);
+try
+  sound(y);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
-sound(y, 2 * fs);
+try
+  sound(y, 2 * fs);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
 nBits = 16;
-sound(y, fs, nBits);
+try
+  sound(y, fs, nBits);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
 assert_checkerror('sound(10, 8192, 4)', _('NBITS must be 8, 16, or 24.'));
 %=============================================================================

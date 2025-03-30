@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{CONDA_PREFIX})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{CONDA_PREFIX} AND NOT DEFINED ENV{IN_NIX_SHELL})
     # Try finding ICU with Homebrew
     execute_process(
       COMMAND brew --prefix icu4c
@@ -53,7 +53,7 @@ if(ICU_INCLUDE_DIRS AND ICU_LIBRARIES)
   message(STATUS "ICU_INCLUDE_DIRS=${ICU_INCLUDE_DIRS}")
   message(STATUS "ICU_LIBRARIES=${ICU_LIBRARIES}")
 else()
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{IN_NIX_SHELL})
     message(FATAL_ERROR "Please install: brew install icu4c and brew link icu4c --force ")
   else()
     message(FATAL_ERROR "Please install icu.")

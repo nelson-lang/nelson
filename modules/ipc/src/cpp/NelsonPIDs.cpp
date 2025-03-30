@@ -89,11 +89,12 @@ buildNelsonPIDsChannelName()
         arch = "other";
 #endif
         channelName = std::string(NELSON_PIDS) + "_" + arch + "_" + wstring_to_utf8(GetUsername());
-
 #ifndef _MSC_VER
-        // Add process owner uid to avoid permission issues (required on NixOS)
+        // Add process owner uid to avoid permission issues on Linux (NixOS)
         uid_t uid = geteuid();
-        channelName = channelName + "_" + std::to_string(uid);
+        channelName += "_" + std::to_string(getCurrentPID());
+#else
+        channelName += "_" + std::to_string(getCurrentPID());
 #endif
     }
     return channelName;

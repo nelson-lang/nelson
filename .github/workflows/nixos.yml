@@ -1,0 +1,51 @@
+name: "Nix"
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  nix_build:
+    name: Nix Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: "Ubuntu latest"
+          - os: ubuntu-24.04-arm
+            label: "Ubuntu ARM64 latest"
+          - os: macos-latest
+            label: "macOS latest"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+
+      - name: Cache Nix store
+        uses: actions/cache@v4
+        with:
+          path: /nix/store
+          key: nix-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nix-${{ runner.os }}-
+
+      - name: Configure
+        run: nix develop --ignore-environment --command just config
+
+      - name: Build
+        run: nix develop --ignore-environment --command just build
+
+      - name: Build help files
+        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just build_help
+
+      - name: Run benchmarks
+        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
+
+      - name: Run tests
+        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just minimal_tests
