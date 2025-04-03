@@ -1,37 +1,47 @@
-### Windows
+# 🚀 Windows Build Instructions
 
-- You can also see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is up-to-date about how to build Nelson on each platform.
+🔗 **Dependencies:** Check the [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file for up-to-date build instructions and required dependencies.
 
-- Prerequirements:
-  Git for Windows
-  Visual studio 2022 (C++)
-  Qt 5.15 or more for Windows
+## ✅ Prerequisites
 
-- Creates Nelson main directory
+Before building Nelson on Windows, ensure you have the following installed:
+
+- 🛠 **Git for Windows**
+- 🎯 **Visual Studio 2022 (C++)**
+- 📦 **Qt 5.15 or later for Windows**
+
+## 📁 Create the Nelson Main Directory
+
+```bash
+mkdir nelson-lang
+cd nelson-lang
+```
+
+## 📥 Download Third-Party Dependencies
+
+- **For Windows 32-bit architecture** ⚠️ _(No longer officially maintained)_:
   ```bash
-  mkdir Nelson
-  cd  Nelson
+  git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
   ```
-- Get thirdparty and install dependencies:
-
-  - on Windows 32 bit architecture:
-    ```bash
-    git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
-    ```
-  - on Windows 64 bit architecture:
-    ```bash
-    git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
-    ```
-    Run install.bat
-
-- Get sources:
+- **For Windows 64-bit architecture** ✅ _(Recommended)_:
   ```bash
-  git clone https://github.com/nelson-lang/nelson.git
+  git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
   ```
-- Start the build:
-  Goto Nelson directory
-  set QTDIR, QTDIR32, QTDIR64 environment variables
-  launch win32-environment.bat (win32 build) or win64-environment.bat (win64 build)
-  start build with VS 2022
+  ➡️ Then, run `install.bat`.
 
-[Previous (Building)](BUILDING.md)
+## 🔄 Get the Source Code
+
+```bash
+git clone https://github.com/nelson-lang/nelson.git
+```
+
+## 🏗️ Start the Build Process
+
+1. 📂 Navigate to the **Nelson** directory.
+2. ⚙️ Set the `QTDIR`, `QTDIR32`, and `QTDIR64` environment variables.
+3. 🖥️ Run:
+   - `win32-environment.bat` _(for a 32-bit build)_
+   - `win64-environment.bat` _(for a 64-bit build)_
+4. 🏗️ Start the build using **Visual Studio 2022**.
+
+🔙 [Previous: Building](BUILDING.md)
