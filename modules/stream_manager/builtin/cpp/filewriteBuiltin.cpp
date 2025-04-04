@@ -7,77 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringHelpers.hpp"
-#include <fstream>
-#include <iostream>
-#include <sstream>
 #include "filewriteBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "FileWrite.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // filewrite(filename, txt [, eol, encoding])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
 //=============================================================================
-namespace {
-//=============================================================================
 static std::pair<std::wstring, std::string>
-getEol(const std::wstring& str)
-{
-    if (str == L"pc") {
-        return { L"\r\n", "\r\n" };
-    } else if (str == L"unix") {
-        return { L"\n", "\n" };
-    } else if (str == L"native") {
-#ifdef _MSC_VER
-        return { L"\r\n", "\r\n" };
-#else
-        return { L"\n", "\n" };
-#endif
-    } else {
-        Error(_W("Wrong value for #3 argument."));
-        return { L"", "" }; // This line will never be reached
-    }
-}
-//=============================================================================
-static void
-writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
-    const std::string& eol, const std::string& encoding)
-{
-#ifdef _MSC_VER
-    std::ofstream of(filename, std::ios::trunc | std::ios::binary);
-#else
-    std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
-#endif
-    if (!of.is_open()) {
-        Error(_W("Cannot open file."));
-    }
-
-    for (size_t k = 0; k < lines.size(); ++k) {
-        std::wstring line = lines[k];
-        StringHelpers::replace_all(line, L"\r\n", L"\n");
-        StringHelpers::replace_all(line, L"\n", weol);
-        std::string data;
-        if (encoding == "UTF-8") {
-            data = wstring_to_utf8(line);
-        } else {
-            std::string asUtf8 = wstring_to_utf8(line);
-            if (!utf8ToCharsetConverter(asUtf8, data, encoding)) {
-                of.flush();
-                Error(_W("Encoding not supported."));
-            }
-        }
-        of << data;
-        if (!StringHelpers::ends_with(data, eol) && k != lines.size() - 1) {
-            of << eol;
-        }
-    }
-    of.flush();
-}
-}
+getEol(const std::wstring& str);
 //=============================================================================
 ArrayOfVector
 Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -114,8 +57,29 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     wstringVector lines = param2.getContentAsWideStringVector(false);
-    writeFile(filename, lines, weol, eol, encoding);
-
+    std::wstring errorMessage;
+    if (!writeFile(filename, lines, weol, eol, encoding, errorMessage)) {
+        Error(errorMessage);
+    }
     return retval;
+}
+//=============================================================================
+static std::pair<std::wstring, std::string>
+getEol(const std::wstring& str)
+{
+    if (str == L"pc") {
+        return { L"\r\n", "\r\n" };
+    } else if (str == L"unix") {
+        return { L"\n", "\n" };
+    } else if (str == L"native") {
+#ifdef _MSC_VER
+        return { L"\r\n", "\r\n" };
+#else
+        return { L"\n", "\n" };
+#endif
+    } else {
+        Error(_W("Wrong value for #3 argument."));
+        return { L"", "" }; // This line will never be reached
+    }
 }
 //=============================================================================

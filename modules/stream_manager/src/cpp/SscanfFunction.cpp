@@ -16,6 +16,7 @@
 #include <fstream>
 #include "StringHelpers.hpp"
 #include "FileTell.hpp"
+#include "FileWrite.hpp"
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
@@ -659,18 +660,17 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
 #ifdef _MSC_VER
     const std::wstring filenameTemp = tempFilePath.wstring();
 #else
-    const std::string filenameTemp = tempFilePath.string();
+    const std::wstring filenameTemp = utf8_to_wstring(tempFilePath.string());
 #endif
-    std::wofstream wof(filenameTemp, std::ios::trunc | std::ios::binary);
-    FILE* fp = nullptr;
-    if (wof.is_open()) {
-        wof << content;
-        wof.close();
+    wstringVector lines;
+    lines.push_back(content);
+    if (!writeFile(filenameTemp, lines, L"\n", "\n", "UTF-8", errorMessage)) {
+        return {};
     }
 #ifdef _MSC_VER
-    fp = _wfopen(filenameTemp.c_str(), L"rt, ccs=UTF-8");
+    FILE* fp = _wfopen(filenameTemp.c_str(), L"rt, ccs=UTF-8");
 #else
-    fp = fopen(filenameTemp.c_str(), "rt");
+    FILE* fp = fopen(wstring_to_utf8(filenameTemp).c_str(), "rt");
 #endif
     if (!fp) {
         Error(_W("sscanf internal error."));
@@ -684,7 +684,7 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
 #ifdef _MSC_VER
     _wremove(filenameTemp.c_str());
 #else
-    remove(filenameTemp.c_str());
+    remove(wstring_to_utf8(filenameTemp).c_str());
 #endif
     return value;
 }
