@@ -19,8 +19,8 @@
 
     <param_input_item>
       <param_name>lower, upper</param_name>
-      <param_description>lower bandwidth, <b>lower</b>, and upper bandwidth, <b
-        >upper</b>, of matrix <b>A</b>.</param_description>
+      <param_description
+      >lower bandwidth: lower, and upper bandwidth: upper, of matrix A.</param_description>
     </param_input_item>
 
   </param_input>

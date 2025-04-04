@@ -10,10 +10,14 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include <cstring>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include "FileWrite.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -126,6 +130,44 @@ FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLitt
         fwrite_error = FWRITE_INVALID_FILE;
     }
     return fwrite_error;
+}
+//=============================================================================
+bool
+writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
+    const std::string& eol, const std::string& encoding, std::wstring& errorMessage)
+{
+#ifdef _MSC_VER
+    std::ofstream of(filename, std::ios::trunc | std::ios::binary);
+#else
+    std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
+#endif
+    if (!of.is_open()) {
+        errorMessage = _W("Cannot open file.");
+        return false;
+    }
+
+    for (size_t k = 0; k < lines.size(); ++k) {
+        std::wstring line = lines[k];
+        StringHelpers::replace_all(line, L"\r\n", L"\n");
+        StringHelpers::replace_all(line, L"\n", weol);
+        std::string data;
+        if (encoding == "UTF-8") {
+            data = wstring_to_utf8(line);
+        } else {
+            std::string asUtf8 = wstring_to_utf8(line);
+            if (!utf8ToCharsetConverter(asUtf8, data, encoding)) {
+                of.flush();
+                errorMessage = _W("Encoding not supported.");
+                return false;
+            }
+        }
+        of << data;
+        if (!StringHelpers::ends_with(data, eol) && k != lines.size() - 1) {
+            of << eol;
+        }
+    }
+    of.flush();
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

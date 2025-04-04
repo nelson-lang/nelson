@@ -26,7 +26,11 @@ enum FWRITE_ERROR_TYPE
     FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED,
     FWRITE_ERROR_ENCODING
 };
-
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP bool
+writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
+    const std::string& eol, const std::string& encoding, std::wstring& errorMessage);
+//=============================================================================
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
 FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian,
     int& sizeWritten);
