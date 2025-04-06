@@ -37,12 +37,13 @@ jobs:
 
       - name: Configure
         run: nix develop --command just config
-      - uses: nicknovitski/nix-develop@v1
-      - run: just build
-        shell: nix develop --command bash -e {0}
-      - run: just build_help
-        shell: nix develop --command bash -e {0}
-      - run: just minimal_tests
-        shell: nix develop --command bash -e {0}
-      - run: ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
-        shell: nix develop --command bash -e {0}
+      - name: Build
+        run: nix develop --command just build
+      - name: Build help
+        run: nix develop --command just build_help
+      - name: Minimal tests
+        run: nix develop --command just minimal_tests
+      - name: Benchmarks
+        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
+      - name: Tests
+        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just tests
