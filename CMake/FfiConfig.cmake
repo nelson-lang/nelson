@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DEFINED ENV{IN_NIX_SHELL})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{IN_NIX_SHELL})
   execute_process(
     COMMAND brew --prefix libffi
     OUTPUT_VARIABLE BREW_LIBFFI_PREFIX
