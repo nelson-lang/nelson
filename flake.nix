@@ -117,6 +117,7 @@
               export NIX_LIBTIFF_PREFIX="${pkgs.libtiff}"
               export NIX_GIFLIB_PREFIX="${pkgs.giflib}"
               export LC_ALL=C
+              export QT_XCB_GL_INTEGRATION=none
 
               
               export NIX_ENFORCE_NO_NATIVE=0
