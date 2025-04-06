@@ -79,7 +79,7 @@ RUN cmake --build . -- -j $(nproc) get_module_skeleton
 RUN cmake --build . -- -j $(nproc) buildhelp
 RUN cmake --build . -- -j $(nproc) tests_minimal
 RUN cmake --build . -- -j $(nproc) package
-RUN cmake --build . -- -j $(nproc) benchs_all_no_display
+RUN cmake --build . -- -j $(nproc) benchmark_all_no_display
 RUN cmake --build . -- -j $(nproc) tests_all_no_display
 
 

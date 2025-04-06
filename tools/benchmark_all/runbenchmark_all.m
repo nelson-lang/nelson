@@ -21,7 +21,7 @@ try
   platform_map.('maci32') = 'mac-x86-32';
   platform_map.('?') = 'unknow-platform';
   platform = platform_map.(computer('arch'));
-  filedest = ['benchs_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
+  filedest = ['benchmark_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
   r = test_run([], 'benchs', [TESTS_RESULT_DIR, '/', filedest]);
 catch
   m = lasterror();

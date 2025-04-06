@@ -46,6 +46,6 @@ jobs:
       - name: Minimal tests
         run: nix develop --command just minimal_tests
       - name: Benchmarks
-        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
+        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchmarks
       - name: Tests
         run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just tests

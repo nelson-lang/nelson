@@ -35,9 +35,9 @@ minimal_tests:
     @echo "Running minimal tests..."
     cmake --build . -- tests_minimal
 
-benchs:
+benchmarks:
     @echo "Running benchmarks..."
-    cmake --build . -- benchs_all
+    cmake --build . -- benchmark_all
 
 prettier:
     @echo "Prettier"

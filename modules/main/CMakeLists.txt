@@ -166,10 +166,10 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_TESTS_MANAGER_MODULE)
   add_custom_target(
-    benchs_all
+    benchmark_all
     COMMAND
     ${BIN_DIRECTORY}/nelson-adv-cli --quiet --noipc --file
-      "${BIN_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
+      "${BIN_DIRECTORY}/../../tools/benchmark_all/runbenchmark_all.m"
     DEPENDS nelson-cli-exec)
 endif()
 # ==============================================================================
@@ -184,10 +184,10 @@ endif()
 # ==============================================================================
 if(NOT WITHOUT_TESTS_MANAGER_MODULE)
   add_custom_target(
-    benchs_all_no_display
+    benchmark_all_no_display
     COMMAND
     ${BIN_DIRECTORY}/nelson-cli --quiet --noipc --file
-      "${BIN_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
+      "${BIN_DIRECTORY}/../../tools/benchmark_all/runbenchmark_all.m"
     DEPENDS nelson-cli-exec)
 endif()
 # ==============================================================================
