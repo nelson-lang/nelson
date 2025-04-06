@@ -98,7 +98,7 @@ detectAlphaSupport()
         std::string format = pair.first;
         FormatData& formatData = pair.second;
 
-        if (formatsWithouthAlpha.find(format) != formatsWithouthAlpha.end()){
+        if (formatsWithouthAlpha.find(format) != formatsWithouthAlpha.end()) {
             continue;
         }
         // Check if this format is in our known list

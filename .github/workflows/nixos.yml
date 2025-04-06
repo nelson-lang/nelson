@@ -35,14 +35,14 @@ jobs:
           restore-keys: |
             nix-${{ runner.os }}-
 
+      - name: Configure
+        run: nix develop --command just config
       - uses: nicknovitski/nix-develop@v1
-      - run: just config
-        shell: nix develop --command bash -e {0}
       - run: just build
         shell: nix develop --command bash -e {0}
       - run: just build_help
         shell: nix develop --command bash -e {0}
       - run: just minimal_tests
         shell: nix develop --command bash -e {0}
-      - run: just benchs
+      - run: ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
         shell: nix develop --command bash -e {0}

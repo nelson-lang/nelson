@@ -26,8 +26,8 @@ setNelsonMinimized(bool minimize)
             });
         } else {
 
-            QTimer::singleShot(0, nelsonQtMainWindow, [nelsonQtMainWindow]() { 
-                nelsonQtMainWindow->setWindowState(Qt::WindowNoState);                
+            QTimer::singleShot(0, nelsonQtMainWindow, [nelsonQtMainWindow]() {
+                nelsonQtMainWindow->setWindowState(Qt::WindowNoState);
                 // On some Ubuntu/Linux systems, we might need a second attempt
                 QTimer::singleShot(100, nelsonQtMainWindow, [nelsonQtMainWindow]() {
                     nelsonQtMainWindow->activateWindow();
@@ -48,17 +48,17 @@ getNelsonMinimized()
         && Nelson::NelsonConfiguration::getInstance()->getMainGuiObject()) {
         QtMainWindow* nelsonQtMainWindow = static_cast<QtMainWindow*>(
             Nelson::NelsonConfiguration::getInstance()->getMainGuiObject());
-        
+
         // Check multiple properties to determine if minimized
         // Use bitwise check for WindowMinimized flag
         bool isStateMinimized = (nelsonQtMainWindow->windowState() & Qt::WindowMinimized) != 0;
-        
+
         // On some Linux window managers, a minimized window might report a different state
         bool isHidden = !nelsonQtMainWindow->isActiveWindow() && nelsonQtMainWindow->isVisible();
-        
+
         // Some window managers might use iconification
         bool isIconified = nelsonQtMainWindow->isMinimized();
-        
+
         return isStateMinimized || isIconified || isHidden;
     }
     return false;
