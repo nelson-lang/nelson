@@ -39,6 +39,8 @@ jobs:
         run: nix develop --command just config
       - name: Build
         run: nix develop --command just build
+      - name: Get module skeleton
+        run: nix develop --command just get_module_skeleteton
       - name: Build help
         run: nix develop --command just build_help
       - name: Minimal tests

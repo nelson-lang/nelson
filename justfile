@@ -5,15 +5,27 @@ os := if `uname` == "Darwin" { "macOS" } else { `uname | tr '[:upper:]' '[:lower
 default:
     @just --list
 
+clean:
+    @echo "Clean all..."
+    cmake --build . --target clean
+    rm -rf CMakeFiles CMakeCache.txt Makefile cmake_install.cmake
+    rm -rf node_modules
+
 config:
+    @echo "Configure..."
     cmake -G "Unix Makefiles" .
 
 build:
+    @echo "Building..."
     cmake --build . -- -j$(nproc)
 
 build_help:
     @echo "Building helps..."
     cmake --build . -- buildhelp
+
+get_module_skeleteton: build
+    @echo "Get module skeleton"
+    cmake --build . -- get_module_skeleton
 
 tests:
     @echo "Running tests..."
@@ -26,6 +38,10 @@ minimal_tests:
 benchs:
     @echo "Running benchmarks..."
     cmake --build . -- benchs_all
+
+prettier:
+    @echo "Prettier"
+    npm run prettier
 
 start:
     ./bin/{{os}}/nelson

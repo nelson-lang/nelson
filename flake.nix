@@ -25,6 +25,7 @@
               just
               gdb
               git
+              nodejs_20 
             ] ++ lib.optionals (!isDarwin) [
               xvfb-run
             ];
@@ -106,6 +107,11 @@
                   ]
                 )
               }:$${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"
+
+              if [ -f package.json ] && [ ! -d node_modules ]; then
+                echo "📦 Installing npm dependencies..."
+                npm install
+              fi
 
               # Export prefix variables for specific libraries
               export NIX_LIBTIFF_PREFIX="${pkgs.libtiff}"
