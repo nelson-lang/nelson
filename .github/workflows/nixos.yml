@@ -27,17 +27,22 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v20
 
-      - name: Configure
-        run: nix develop --ignore-environment --command just config
+      - name: Cache Nix store
+        uses: actions/cache@v4
+        with:
+          path: /nix/store
+          key: nix-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nix-${{ runner.os }}-
 
-      - name: Build
-        run: nix develop --ignore-environment --command just build
-
-      - name: Build help files
-        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just build_help
-
-      - name: Run benchmarks
-        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchs
-
-      - name: Run tests
-        run: nix develop --ignore-environment --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just minimal_tests
+      - uses: nicknovitski/nix-develop@v1
+      - run: just config
+        shell: nix develop --command bash -e {0}
+      - run: just build
+        shell: nix develop --command bash -e {0}
+      - run: just build_help
+        shell: nix develop --command bash -e {0}
+      - run: just minimal_tests
+        shell: nix develop --command bash -e {0}
+      - run: just benchs
+        shell: nix develop --command bash -e {0}
