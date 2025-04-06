@@ -1,15 +1,37 @@
 # Building Nelson on Linux
 
 This guide provides instructions on how to build Nelson on Linux.
-For the most up-to-date information on dependencies and build instructions, refer to the [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file.
+For the most up-to-date information on dependencies and build instructions, refer to the [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file or [nix.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/nix.yml) .
 
-## ArchLinux
 
-Nelson is available as an ArchLinux package. You can install it using `paru`:
+## Nix
+
+Nelson provides a [Nix](https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop) development environment for working on the project. This is the recommended setup for Linux and macOS users.
+
+### [Install Nix](https://nixos.org/download/)
 
 ```bash
-paru nelson-git
+curl -L https://nixos.org/nix/install | sh -s -- --daemon
+mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
 ```
+
+restart your terminal
+
+### Development Workflow
+Once Nix is installed, enter the development environment with:
+
+```bash
+nix develop
+```
+
+Then, use the following commands:
+
+`just config` — Configure the build environment
+
+`just build` — Build the project
+
+`just start` — Run Nelson
 
 ## NixOS
 
@@ -41,6 +63,15 @@ nix-shell
 nix-env -i ./result
 ```
 
+## ArchLinux
+
+Nelson is available as an ArchLinux package. You can install it using `paru`:
+
+```bash
+paru nelson-git
+```
+
+
 ## You can also build nelson with a micromamba environment
 
 After installing micromamba
@@ -50,7 +81,7 @@ micromamba env create -f environment-linux-dev.yml
 micromamba activate nelson
 ```
 
-see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) with micromamba job.
+see [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/mamba.yml) with micromamba job.
 
 - CMake options:
 
