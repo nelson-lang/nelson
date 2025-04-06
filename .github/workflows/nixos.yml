@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: nix develop --command just build
       - name: Get module skeleton
-        run: nix develop --command just get_module_skeleteton
+        run: nix develop --command just get_module_skeleton
       - name: Build help
         run: nix develop --command just build_help
       - name: Minimal tests

@@ -23,7 +23,7 @@ build_help:
     @echo "Building helps..."
     cmake --build . -- buildhelp
 
-get_module_skeleteton: build
+get_module_skeleton: build
     @echo "Get module skeleton"
     cmake --build . -- get_module_skeleton
 

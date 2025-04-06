@@ -14,6 +14,8 @@ chocolatey/nelson/*.nupkg
 nelson*.snap
 tests_*.xml
 tests_*.json
+benchmark_all-*.xml
+benchmark_all-*.json
 compile_commands.json
 checks.json
 /$tf
