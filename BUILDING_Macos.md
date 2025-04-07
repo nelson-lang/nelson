@@ -21,6 +21,7 @@ curl \
 restart your terminal
 
 ### Development Workflow
+
 Once Nix is installed, enter the development environment with:
 
 ```bash
@@ -34,7 +35,6 @@ Then, use the following commands (in this order):
 `just build` — Build the project
 
 `just start` — Run Nelson
-
 
 ## 🛠️ Other Setup Instructions
 
@@ -156,7 +156,6 @@ Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/in
    ```bash
    nelson
    ```
-
 
 ## Additional Information
 

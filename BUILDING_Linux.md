@@ -3,7 +3,6 @@
 This guide provides instructions on how to build Nelson on Linux.
 For the most up-to-date information on dependencies and build instructions, refer to the [ccpp.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml) file or [nix.yml](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/nix.yml) .
 
-
 ## Nix
 
 Nelson provides a [Nix](https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop) development environment for working on the project. This is the recommended setup for Linux and macOS users.
@@ -19,6 +18,7 @@ echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
 restart your terminal
 
 ### Development Workflow
+
 Once Nix is installed, enter the development environment with:
 
 ```bash
@@ -70,7 +70,6 @@ Nelson is available as an ArchLinux package. You can install it using `paru`:
 ```bash
 paru nelson-git
 ```
-
 
 ## You can also build nelson with a micromamba environment
 
