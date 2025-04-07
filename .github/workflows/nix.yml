@@ -1,7 +1,6 @@
 name: "Nix"
 
 on:
-  pull_request:
   push:
 
 jobs:
@@ -23,18 +22,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Install Nix
         uses: cachix/install-nix-action@v20
-
-      - name: Cache Nix store
-        uses: actions/cache@v4
-        with:
-          path: /nix/store
-          key: nix-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            nix-${{ runner.os }}-
-
       - name: Configure
         run: nix develop --command just config
       - name: Build
