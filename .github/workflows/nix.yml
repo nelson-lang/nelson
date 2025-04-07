@@ -1,11 +1,11 @@
-name: "Nix"
+name: "Nix CI"
 
 on:
   push:
 
 jobs:
   nix_build:
-    name: Nix Build (${{ matrix.os }})
+    name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -13,11 +13,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            label: "Ubuntu latest"
+            label: "Ubuntu Latest"
           - os: ubuntu-24.04-arm
-            label: "Ubuntu ARM64 latest"
+            label: "Ubuntu ARM64 Latest"
           - os: macos-latest
-            label: "macOS latest"
+            label: "macOS Latest"
 
     steps:
       - name: Checkout repository
