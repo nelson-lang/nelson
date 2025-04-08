@@ -29,11 +29,13 @@
             gnumake
             ninja
             just
-            gdb
             git
             nodejs_20
           ] ++ lib.optionals (!isDarwin) [
             xvfb-run
+            gdb
+          ]++ lib.optionals (isDarwin) [
+            lldb
           ];
 
           nativeBuildInputs = [
@@ -113,17 +115,6 @@
                 ]
               )
             }:$${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"
-
-            # Set up Qt environment properly
-            . "${pkgs.qt6.qtbase.dev}/bin/qt-env.sh"
-
-            # Create a wrapped bash with Qt environment
-            bashdir=$(mktemp -d)
-            ${pkgs.makeWrapper}/bin/makeWrapper "$(type -p bash)" "$bashdir/bash" \
-              --set QT_PLUGIN_PATH "${pkgs.qt6.qtbase}/lib/qt-6/plugins" \
-              --set QML2_IMPORT_PATH "${pkgs.qt6.qtbase}/lib/qt-6/qml" \
-              --prefix PATH : "${pkgs.qt6.qtbase.dev}/bin" \
-              --prefix PKG_CONFIG_PATH : "${pkgs.qt6.qtbase.dev}/lib/pkgconfig"
 
             if [ -f package.json ] && [ ! -d node_modules ]; then
               echo "📦 Installing npm dependencies..."
