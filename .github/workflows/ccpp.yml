@@ -79,12 +79,12 @@ jobs:
       - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
-          cmake --build . -- benchs_all
+          cmake --build . -- benchmark_all
       - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-Sequoia-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
@@ -167,12 +167,12 @@ jobs:
       - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
-          cmake --build . -- benchs_all
+          cmake --build . -- benchmark_all
       - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-sonoma-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
@@ -253,12 +253,12 @@ jobs:
       - name: All benchs
         run: |
           export OMP_NUM_THREADS=1
-          cmake --build . -- benchs_all
+          cmake --build . -- benchmark_all
       - name: All tests
         run: |
           cmake --build . -- tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.gz artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv Nelson-*.tar.gz artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-macOS-ventura-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
@@ -355,12 +355,12 @@ jobs:
         run: nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: All benchs
         run: |
-          xvfb-run -a ninja benchs_all
+          xvfb-run -a ninja benchmark_all
       - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson-*.deb artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
@@ -455,12 +455,12 @@ jobs:
         run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: All benchs
         run: |
-          xvfb-run -a ninja benchs_all
+          xvfb-run -a ninja benchmark_all
       - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson-*.deb artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-24-04-arm64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
@@ -559,12 +559,12 @@ jobs:
         run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: All benchs
         run: |
-          xvfb-run -a ninja benchs_all
+          xvfb-run -a ninja benchmark_all
       - name: All tests
         run: |
           xvfb-run -a ninja tests_all
       - name: Copy artifacts
-        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv nelson-*.deb artifacts
+        run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.run_number }}
@@ -648,7 +648,7 @@ jobs:
       - name: Set Julia Environment for Nelson
         run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: Benchs
-        run: cmake --build . -- benchs_all_no_display
+        run: cmake --build . -- benchmark_all_no_display
       - name: Tests
         run: |
           export OMPI_ALLOW_RUN_AS_ROOT=1
@@ -750,7 +750,7 @@ jobs:
           export PATH=/usr/lib64/openmpi/bin:$PATH
           nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: Benchs
-        run: cmake --build . -- benchs_all_no_display
+        run: cmake --build . -- benchmark_all_no_display
       - name: Tests
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
@@ -884,7 +884,7 @@ jobs:
           set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchmark_all/runbenchmark_all.m"
 
       - name: Tests
         run: |
@@ -1029,7 +1029,7 @@ jobs:
           set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchmark_all/runbenchmark_all.m"
 
       - name: Tests
         run: |

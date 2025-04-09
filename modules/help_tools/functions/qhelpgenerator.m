@@ -27,7 +27,10 @@ function qhelpgenerator(varargin)
     end
   end
   
-  qhelpgenerator_filename = get_help_generator_filename();
+  persistent qhelpgenerator_filename;
+  if isempty(qhelpgenerator_filename)
+    qhelpgenerator_filename = get_help_generator_filename();
+  end 
   
   cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
   [res, msg] = unix(cmd);
@@ -116,7 +119,29 @@ function qhelpgenerator_filename = get_help_generator_filename_by_hardcoded_path
   qhelpgenerator_filename = '';
 end
 %=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_nix()
+  qhelpgenerator_filename = '';
+  nix_store = getenv('NIX_STORE');
+  if ~isempty(nix_store)
+    [status, output ] = unix('find $NIX_STORE -name qhelpgenerator');
+    if status == 0
+      idx = [0, strfind(output, char(10)), length(output)];
+      if (isempty(idx))
+        if (strlen(output) > 0)
+          qhelpgenerator_filename = output;
+        end
+      else
+        qhelpgenerator_filename = output(1:idx(2)-1);
+      end
+    end
+  end
+end
+%=============================================================================
 function qhelpgenerator_filename = get_help_generator_filename_macos_linux()
+  qhelpgenerator_filename = get_help_generator_filename_nix();
+  if ~isempty(qhelpgenerator_filename)
+    return
+  end
   qhelpgenerator_filename = get_help_generator_filename_by_hardcoded_path();
   if ~isempty(qhelpgenerator_filename)
     return

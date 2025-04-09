@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{IN_NIX_SHELL})
   execute_process(
     COMMAND brew --prefix libffi
     OUTPUT_VARIABLE BREW_LIBFFI_PREFIX
@@ -19,7 +19,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   # If not found via Homebrew, try default paths
-  if(NOT LIBFFI_INCLUDE_DIR)
+  if(NOT LIBFFI_INCLUDE_DIR AND NOT DEFINED ENV{IN_NIX_SHELL})
     set(POSSIBLE_LIBFFI_PATHS
       "$ENV{HOMEBREW_PREFIX}/opt/libffi/include"
       "$ENV{HOMEBREW_CELLAR}/opt/libffi/include"

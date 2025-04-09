@@ -8,22 +8,39 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 assert_isequal(nargin('soundsc'), -1)
 assert_isequal(nargout('soundsc'), 0)
 wav_file = [modulepath('audio', 'tests'), '/MacBoing.wav'];
 [y, fs] = audioread(wav_file);
 %=============================================================================
-soundsc(y);
+try
+  soundsc(y);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
-soundsc(y, 2 * fs);
+try
+  soundsc(y, 2 * fs);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
 nBits = 16;
-soundsc(y, fs, nBits);
+try
+  soundsc(y, fs, nBits);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
 nBits = 16;
 yRange = [-0.7,0.7];
-soundsc(y, fs, nBits, yRange);
+try
+  soundsc(y, fs, nBits, yRange);
+catch ex
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+end
 %=============================================================================
 assert_checkerror('soundsc(10, 8192, 16, [10 20 30])', _('RANGE must be a 2-element [YMIN, YMAX] vector.'));
 %=============================================================================

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.14.0 - UNRELEASED
+
+### Added
+
+- Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
+  Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
+- Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
+
 ## 1.13.0 - (2025-03-29)
 
 This release introduces performance improvements and new graphical capabilities while deprecating support for 32-bit Windows versions.

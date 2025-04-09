@@ -188,6 +188,7 @@
     <ClInclude Include="..\..\src\include\Diary.hpp" />
     <ClInclude Include="..\..\src\include\Interface.hpp" />
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
+    <ClInclude Include="..\cpp\Fscanf_helpers.hpp" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />

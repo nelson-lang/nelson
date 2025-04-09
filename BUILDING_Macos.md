@@ -2,44 +2,102 @@
 
 To build this project on macOS, follow the steps below.
 
-## Prerequisites
+## Nix
 
-1. **Install Xcode**  
-   Xcode is required for compiling code on macOS.
+Nelson provides a [Nix](https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop) development environment for working on the project. This is the recommended setup for Linux and macOS users.
 
-2. **Install Homebrew**  
-   Homebrew is a package manager for macOS that simplifies the installation of software.
+### [Install Nix](https://nixos.org/download/)
+
+```bash
+curl \
+  --proto '=https' \
+  --tlsv1.2 \
+  -sSf \
+  -L https://install.determinate.systems/nix \
+  | sh -s -- install
+
+```
+
+restart your terminal
+
+### Development Workflow
+
+Once Nix is installed, enter the development environment with:
+
+```bash
+nix develop
+```
+
+Then, use the following commands (in this order):
+
+`just config` — Configure the build environment
+
+`just build` — Build the project
+
+`just start` — Run Nelson
+
+## 🛠️ Other Setup Instructions
+
+### 📋 Prerequisites
+
+1. **Install Xcode** 🧰  
+   Required for compiling code on macOS.  
+   Install it via terminal:
 
    ```bash
-   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-   brew doctor
+   xcode-select --install
    ```
 
-3. **Install Micromamba**  
-   Micromamba is used to manage environments for this project. Follow the [Micromamba installation guide](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) for detailed instructions on macOS.
+---
 
-   Alternatively, install it with Homebrew:
+### 🍺 Install Homebrew
 
-   ```bash
-   brew install micromamba
-   ```
+[Homebrew](https://brew.sh) is a package manager for macOS that simplifies software installation.
 
-## Building the Project with micromamba
+To install Homebrew:
 
-1. Navigate to the root directory of the project:
+```bash
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew doctor
+```
+
+---
+
+### 🐍 Install Micromamba
+
+[Micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) is a fast and lightweight environment manager.
+
+You have two options to install it:
+
+🔹 **Via Homebrew** (recommended):
+
+```bash
+brew install micromamba
+```
+
+🔹 **Manual Installation**:  
+Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) for advanced options.
+
+---
+
+## 🧱 Building the Project
+
+### 🐍 Using Micromamba
+
+1. **Navigate to the project root directory** 📁
 
    ```bash
    cd /path/to/nelson/
    ```
 
-2. Create and activate the environment:
+2. **Create and activate the environment** 🌱
 
    ```bash
    micromamba env create -f environment-macos-dev.yml
    micromamba activate nelson
    ```
 
-3. Create a build directory and run CMake with the following options:
+3. **Configure CMake and build** 🏗️
 
    ```bash
    mkdir -p build
@@ -50,17 +108,50 @@ To build this project on macOS, follow the steps below.
        -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
        -DCMAKE_INSTALL_LIBDIR=lib
-   ```
-
-4. Build the project:
-
-   ```bash
    cmake --build .
    cmake --build . --target buildhelp
    cmake --build . --target install
    ```
 
-5. Run the application:
+4. **Run the application** 🚀
+
+   ```bash
+   nelson
+   ```
+
+---
+
+### 🍺 Using Homebrew Only
+
+1. **Install required dependencies** 🧱
+
+   ```bash
+   brew install cmake gcc libomp openblas qt5
+   ```
+
+2. **Navigate to the project root directory** 📁
+
+   ```bash
+   cd /path/to/nelson/
+   ```
+
+3. **Configure and build the project** 🛠️
+
+   ```bash
+
+   mkdir -p build
+   cd build
+   cmake .. \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) \
+       -DCMAKE_INSTALL_PREFIX=/usr/local \
+       -DCMAKE_INSTALL_LIBDIR=lib
+   cmake --build .
+   cmake --build . --target buildhelp
+   cmake --build . --target install
+   ```
+
+4. **Run the application** 🚀
 
    ```bash
    nelson

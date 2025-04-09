@@ -12,7 +12,15 @@
 if (WITHOUT_TIFF)
     set(TIFF_FOUND FALSE CACHE BOOL "TIFF library found" FORCE)
 else()
-    if (DEFINED ENV{CONDA_PREFIX})
+    if (DEFINED ENV{IN_NIX_SHELL})
+        if (NOT NIX_EXIT_CODE AND EXISTS "$ENV{NIX_TIFFLIB_PREFIX}/include/tiffio.h")
+            set(TIFF_INCLUDE_DIR "$ENV{NIX_TIFFLIB_PREFIX}/include" CACHE STRING "Path to libtiff include directory" FORCE)
+        endif()
+        if (NOT NIX_EXIT_CODE AND EXISTS "$ENV{NIX_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}")
+            set(TIFF_LIBRARIES "$ENV{NIX_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}" CACHE STRING "Path to libtiff library" FORCE)
+        endif()
+
+    elseif (DEFINED ENV{CONDA_PREFIX})
         set(CONDA_INC_DIR "$ENV{CONDA_PREFIX}/include")
         set(CONDA_LIB_DIR "$ENV{CONDA_PREFIX}/lib")
 

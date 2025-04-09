@@ -18,7 +18,8 @@ namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP ArrayOf
 SscanF(const std::wstring& content, const std::wstring& format, double m, double n,
-    bool haveThirdArgument, indexType& count, indexType& nextIndex, std::wstring& errorMessage);
+    bool haveThirdArgument, indexType& count, indexType& nextIndex, bool withNextIndex,
+    std::wstring& errorMessage);
 //=============================================================================
 }
 //=============================================================================

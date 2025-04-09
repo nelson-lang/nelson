@@ -1,0 +1,40 @@
+name: "Nix CI"
+
+on:
+  push:
+
+jobs:
+  nix_build:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: "Ubuntu Latest"
+          - os: ubuntu-24.04-arm
+            label: "Ubuntu ARM64 Latest"
+          - os: macos-latest
+            label: "macOS Latest"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+      - name: Configure
+        run: nix develop --command just config
+      - name: Build
+        run: nix develop --command just build
+      - name: Get module skeleton
+        run: nix develop --command just get_module_skeleton
+      - name: Build help
+        run: nix develop --command just build_help
+      - name: Minimal tests
+        run: nix develop --command just minimal_tests
+      - name: Benchmarks
+        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchmarks
+      - name: Tests
+        run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just tests

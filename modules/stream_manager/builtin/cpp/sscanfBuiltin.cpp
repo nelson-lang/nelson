@@ -75,7 +75,8 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
     indexType nextIndex = 0;
     std::wstring errorMessage;
 
-    ArrayOf value = SscanF(wstr, format, m, n, haveThirdArgument, count, nextIndex, errorMessage);
+    ArrayOf value
+        = SscanF(wstr, format, m, n, haveThirdArgument, count, nextIndex, nLhs > 3, errorMessage);
     retval << value;
     if (nLhs > 1) {
         retval << ArrayOf::doubleConstructor((double)count);

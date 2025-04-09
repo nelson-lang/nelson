@@ -33,8 +33,11 @@ else()
             /usr/local/include/openblas-base
             /usr/local/opt/openblas/include
             /opt/OpenBLAS/include
-            $ENV{HOMEBREW_PREFIX}/opt/openblas/include
             )
+
+    if(NOT DEFINED ENV{IN_NIX_SHELL} AND NOT DEFINED ENV{CONDA_PREFIX} AND DEFINED ENV{HOMEBREW_PREFIX})
+      list(APPEND Open_BLAS_INCLUDE_SEARCH_PATHS "$ENV{HOMEBREW_PREFIX}/opt/openblas/include")
+    endif()
 
     SET(Open_BLAS_LIB_SEARCH_PATHS
             /lib/
@@ -47,9 +50,10 @@ else()
             /usr/local/lib64
             /usr/local/opt/openblas/lib
             /opt/OpenBLAS/lib
-            $ENV{HOMEBREW_PREFIX}/opt/openblas/lib
             )
-
+    if(NOT DEFINED ENV{IN_NIX_SHELL} AND NOT DEFINED ENV{CONDA_PREFIX} AND DEFINED ENV{HOMEBREW_PREFIX})
+      list(APPEND Open_BLAS_LIB_SEARCH_PATHS "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib")
+    endif()
 endif()
 
 FIND_PATH(OpenBLAS_INCLUDE_DIR NAMES cblas.h PATHS ${Open_BLAS_INCLUDE_SEARCH_PATHS})

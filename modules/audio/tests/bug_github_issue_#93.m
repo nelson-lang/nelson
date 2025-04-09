@@ -13,6 +13,7 @@
 % playblocking updated to manage range.
 %=============================================================================
 % <--AUDIO OUTPUT REQUIRED-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 flac_audio = [modulepath('audio'), '/examples/kaneda.flac'];
 [y, fs] = audioread(flac_audio);
