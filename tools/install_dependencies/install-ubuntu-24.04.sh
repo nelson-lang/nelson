@@ -18,6 +18,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+print_status "Nelson - Installation script for Ubuntu 24.04 dependencies"
+
 print_status "Updating package lists"
 apt-get update --fix-missing -y
 

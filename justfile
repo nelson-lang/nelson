@@ -10,14 +10,14 @@ clean:
     cmake --build . --target clean
     rm -rf CMakeFiles CMakeCache.txt Makefile cmake_install.cmake
     rm -rf node_modules
+    rm -rf .qt
+    rm -rf build.ninja .ninja_log CPackageConfig.cmake CPackageSource.cmake
+    rm -rf NelsonConfigVersion.cmake
 
-config *args:
+config *args='cmake -G "Unix Makefiles" .':
     @echo "Configure..."
-    if [ "$#" -eq 0 ]; then \
-        cmake -G "Unix Makefiles" .; \
-    else \
-        cmake "$@"; \
-    fi
+    echo "Configure with args: {{args}}"
+    cmake {{args}}
 
 build:
     @echo "Building..."
@@ -46,6 +46,14 @@ benchmarks:
 prettier:
     @echo "Prettier"
     npm run prettier
+
+package:
+    @echo "Packaging..."
+    cmake --build . -- package
+
+update_version:
+    @echo "Updating version..."
+    python ./tools/update_version/update_version.py
 
 start:
     ./bin/{{os}}/nelson
