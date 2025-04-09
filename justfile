@@ -10,10 +10,18 @@ clean:
     cmake --build . --target clean
     rm -rf CMakeFiles CMakeCache.txt Makefile cmake_install.cmake
     rm -rf node_modules
+    rm -rf .qt
+    rm -rf build.ninja .ninja_log CPackageConfig.cmake CPackageSource.cmake
+    rm -rf NelsonConfigVersion.cmake
 
-config:
+config *args='cmake -G "Unix Makefiles" .':
     @echo "Configure..."
-    cmake -G "Unix Makefiles" .
+    echo "Configure with args: {{args}}"
+    cmake {{args}}
+
+install:
+    @echo "Installing..."
+    cmake --install .
 
 build:
     @echo "Building..."
@@ -39,9 +47,33 @@ benchmarks:
     @echo "Running benchmarks..."
     cmake --build . -- benchmark_all
 
+benchmarks_no_display:
+    @echo "Running benchmarks without display..."
+    cmake --build . -- -j $(nproc) benchmark_all_no_display
+
+tests_no_display:
+    @echo "Running tests without display..."
+    cmake --build . -- -j $(nproc) tests_all_no_display    
+
 prettier:
     @echo "Prettier"
     npm run prettier
+
+package:
+    @echo "Packaging..."
+    cmake --build . -- package
+
+update_version:
+    @echo "Updating version..."
+    python ./tools/update_version/update_version.py
+
+setup_python_env:
+    @echo "Setup python environment..."
+    ./bin/{{os}}/nelson --cli --noipc --quiet -f ./tools/python_environment_CI/configurePythonEnvironment.m
+
+setup_julia_env:
+    @echo "Setup julia environment..."
+    ./bin/{{os}}/nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
 
 start:
     ./bin/{{os}}/nelson

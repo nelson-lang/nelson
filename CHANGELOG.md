@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
 - Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
 
+### Technical Improvements
+
+- Updated GitHub CI to use Windows 2025 for Windows builds.
+- Significant rework of the GitHub CI workflow for improved reliability and maintainability.
+
 ## 1.13.0 - (2025-03-29)
 
 This release introduces performance improvements and new graphical capabilities while deprecating support for 32-bit Windows versions.

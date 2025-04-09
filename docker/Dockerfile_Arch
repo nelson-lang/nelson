@@ -14,55 +14,20 @@ LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
 
-
 RUN pacman -Syu --noconfirm
 RUN pacman -S base-devel --noconfirm
-RUN pacman -S git --noconfirm       
-RUN pacman -S gcc binutils glibc --noconfirm
-RUN pacman -S inetutils --noconfirm
-RUN pacman -S gawk --noconfirm
-RUN pacman -S m4 --noconfirm
-RUN pacman -S pkg-config --noconfirm
-RUN pacman -S boost-libs boost --noconfirm
-RUN pacman -S cmake --noconfirm
-RUN pacman -S libffi --noconfirm
-RUN pacman -S icu --noconfirm
-RUN pacman -S qt5-base --noconfirm
-RUN pacman -S qt5-svg --noconfirm
-RUN pacman -S qt5-tools --noconfirm
-RUN pacman -S qt5-quickcontrols --noconfirm
-RUN pacman -S libxml2 --noconfirm
-RUN pacman -S gcc --noconfirm
-RUN pacman -S make --noconfirm
-RUN pacman -S blas --noconfirm
-RUN pacman -S lapack --noconfirm
-RUN pacman -S lapacke --noconfirm
-RUN pacman -S fftw --noconfirm
-RUN pacman -S openmpi --noconfirm
-RUN pacman -S hdf5 --noconfirm
-RUN pacman -S taglib --noconfirm
-RUN pacman -S portaudio --noconfirm
-RUN pacman -S libsndfile --noconfirm
-RUN pacman -S zlib --noconfirm
-RUN pacman -S curl --noconfirm
-RUN pacman -S libgit2 --noconfirm
-RUN pacman -S python3 --noconfirm
-RUN pacman -S python-numpy --noconfirm
-RUN pacman -S eigen --noconfirm
-RUN pacman -S hdf5 --noconfirm
-RUN pacman -S libmatio --noconfirm
-RUN pacman -S onetbb --noconfirm
-RUN pacman -S giflib --noconfirm
-RUN pacman -S libtiff --noconfirm
+RUN pacman -S git --noconfirm
 
 RUN git clone https://github.com/nelson-lang/nelson.git
 WORKDIR "/nelson"
 RUN cd "/nelson" && git checkout ${BRANCH_NAME}
 
+RUN ./tools/install_dependencies/install-archLinux.sh
+
 RUN mkdir /home/nelsonuser
 
-RUN groupadd -g 1001 nelsonuser && \
-    useradd -r -u 1001 -g nelsonuser nelsonuser
+RUN groupadd -f -g 999 nelsonuser && \
+    useradd -r -u 999 -g nelsonuser nelsonuser
 
 RUN chown -R nelsonuser:nelsonuser /home/nelsonuser
 
@@ -72,15 +37,13 @@ USER nelsonuser
 
 ENV AUDIODEV null
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
-RUN cmake --build . -- -j $(nproc)
-RUN cmake --build . -- -j $(nproc) get_module_skeleton
-
-RUN cmake --build . -- -j $(nproc) buildhelp
-RUN cmake --build . -- -j $(nproc) tests_minimal
-RUN cmake --build . -- -j $(nproc) package
-RUN cmake --build . -- -j $(nproc) benchmark_all_no_display
-RUN cmake --build . -- -j $(nproc) tests_all_no_display
-
+RUN just config -DCMAKE_BUILD_TYPE=Release .
+RUN just build
+RUN just get_module_skeleton
+RUN just build_help
+RUN just minimal_tests
+RUN just package
+RUN just benchmarks_no_display
+RUN just tests_no_display
 
 ENTRYPOINT ["/nelson/bin/linux/nelson-cli"]

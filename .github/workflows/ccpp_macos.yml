@@ -1,0 +1,99 @@
+name: "macOS Build"
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Sequoia (15)
+            runner: macos-15
+            qt: false
+            script: install-macOS.sh
+            extra_config: ""
+            arch: arm64
+          - name: Sonoma (14)
+            runner: macos-14
+            qt: false
+            script: install-macOS.sh
+            extra_config: ""
+            arch: arm64
+          - name: Ventura (13)
+            runner: macos-13
+            qt: true
+            script: install-macOS-ventura.sh
+            extra_config: "-DWITHOUT_GIF=ON -DWITHOUT_TIFF=ON -DWITHOUT_FFTW_MODULE=ON"
+            arch: amd64
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: $GITHUB_WORKSPACE/tools/install_dependencies/${{ matrix.config.script }}
+
+      - name: Install Qt
+        if: ${{ matrix.config.qt }}
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.4.2"
+
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      - name: Configure
+        run: |
+          export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5
+          just config "-DCMAKE_BUILD_TYPE=Release ${{ matrix.config.extra_config }} -G \"Unix Makefiles\" ."
+
+      - name: Build
+        run: just build
+
+      - name: Get module skeleton
+        run: just get_module_skeleton
+
+      - name: Build help
+        run: just build_help
+
+      - name: Package
+        run: just package
+
+      - name: Install
+        run: sudo just install
+
+      - name: Setup Python environment for Nelson
+        if: ${{ matrix.config.arch == 'arm64' }}
+        run: just setup_python_env
+
+      - name: Setup Julia environment for Nelson
+        if: ${{ matrix.config.arch == 'arm64' }}
+        run: just setup_julia_env
+
+      - name: Benchmarks
+        run: just benchmarks
+
+      - name: Tests
+        run: just tests
+
+      - name: Copy artifacts
+        run: |
+          mkdir artifacts
+          mv tests_all*.* artifacts
+          mv benchmark_all*.* artifacts
+          mv Nelson-*.tar.gz artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/

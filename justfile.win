@@ -1,0 +1,56 @@
+set shell := ["cmd.exe", "/c"]
+
+# Function to check if msbuild is available
+check_msbuild := "@where msbuild >nul 2>nul || (echo Error: msbuild not found. Ensure Visual Studio is installed and 'msbuild' is in PATH. & exit /b 1)"
+
+default:
+    @just -f justfile.win --list
+
+# Function to validate target (ensures only x64 or win32 is used)
+validate target:
+    @if /I not "{{target}}" == "x64" if /I not "{{target}}" == "win32" echo Error: Invalid target '{{target}}'. Use 'x64' or 'win32'. & exit /b 1
+
+# Parameterized build (defaults to x64)
+build target="x64":
+    @just -f justfile.win validate {{target}}
+    {{check_msbuild}}
+    @msbuild nelson.sln /p:Configuration=Release /p:Platform={{target}} /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
+
+# Parameterized start (defaults to x64)
+start target="x64":
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson.bat
+
+update_version:
+    @echo "Updating version..."
+    python ./tools/update_version/update_version.py
+
+# Run benchmarks
+benchs target="x64":
+    @echo Running benchmarks...
+    @.\bin\{{target}}\nelson -adv-cli  --noipc --quiet -f .\tools\benchmark_all\runbenchmark_all.m
+
+tests target="x64":
+    @echo Running tests...
+    @just -f justfile.win validate {{target}}    
+    @.\bin\{{target}}\nelson -adv-cli -noipc --quiet -f .\tools\tests_all\runtests_all.m
+
+build_help target="x64":
+    @echo Building helps...
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\buildhelp\buildhelp.m    
+
+get_module_skeleton target="x64":
+    @echo Get module skeleton
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\clone_module_skeleton\clone.m
+
+setup_python_env target="x64":
+    @echo "Setup python environment..."
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\python_environment_CI\configurePythonEnvironment.m
+
+setup_julia_env target="x64":
+    @echo "Setup julia environment..."
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli  --noipc --quiet -f .\tools\julia_environment_CI\configureJuliaEnvironment.m

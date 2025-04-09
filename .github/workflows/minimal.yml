@@ -6,44 +6,35 @@ jobs:
   Jammy:
     name: Ubuntu 24.04
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 60
 
     steps:
-      - name: install dependencies
-        run: |
-          #sudo apt update;
-          #sudo apt upgrade;
-          sudo apt -y install build-essential;
-          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
-          sudo apt -y install ninja-build;
-          sudo apt -y install autotools-dev;
-          sudo apt -y install libtool;
-          sudo apt -y install automake;
-          sudo apt -y install pkg-config;          
-          sudo apt -y install libeigen3-dev;
-          sudo apt -y install liblapack-dev;
-          sudo apt -y install liblapacke-dev;
-          sudo apt -y install libboost-all-dev;
-
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04-minimal.sh
 
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
 
       - name: Update version
-        run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-      - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Ninja" .
-      - name: make with Ninja
-        run: cmake --build . -- -j $(nproc)
-      - name: package
-        run: cmake --build . -- package
+        run: just update_version
+
+      - name: Configure
+        run: just config cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Ninja" .
+
+      - name: Build
+        run: just build
+
+      - name: Package
+        run: just package
+
       - name: Copy artifacts
         run: mkdir artifacts && mv nelson-*.deb artifacts
+
       - uses: actions/upload-artifact@v4
         with:
-          name: nelson-github-action-artifacts-minimal-linux-ubuntu-22-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.sha }}
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.sha }}
           path: artifacts/
