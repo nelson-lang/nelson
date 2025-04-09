@@ -11,9 +11,13 @@ clean:
     rm -rf CMakeFiles CMakeCache.txt Makefile cmake_install.cmake
     rm -rf node_modules
 
-config:
+config *args:
     @echo "Configure..."
-    cmake -G "Unix Makefiles" .
+    if [ "$#" -eq 0 ]; then \
+        cmake -G "Unix Makefiles" .; \
+    else \
+        cmake "$@"; \
+    fi
 
 build:
     @echo "Building..."

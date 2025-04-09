@@ -26,7 +26,7 @@ apt-get upgrade -y
 
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \
-                   pkg-config gettext
+                   pkg-config gettext just
 
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \

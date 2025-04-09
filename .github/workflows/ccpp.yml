@@ -284,15 +284,15 @@ jobs:
       - name: CMake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
       - name: Make with Ninja
-        run: cmake --build . -- -j $(nproc)
+        run: just build
       - name: Get module skeleton
         run: |
-          cmake --build . -- get_module_skeleton
+          just get_module_skeleton
       - name: Build help
         run: |
-          cmake --build . -- buildhelp
+          just build_help
       - name: Minimal tests
-        run: cmake --build . -- tests_minimal
+        run: just minimal_tests
       - name: Package
         run: cmake --build . -- package
       - name: Install
@@ -303,10 +303,10 @@ jobs:
         run: nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: All benchs
         run: |
-          xvfb-run -a ninja benchmark_all
+          xvfb-run -a just benchmarks
       - name: All tests
         run: |
-          xvfb-run -a ninja tests_all
+          xvfb-run -a just tests
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
@@ -332,7 +332,7 @@ jobs:
         run: |
           python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+        run: just config -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
       - name: Make with Ninja
         run: cmake --build . -- -j $(nproc)
       - name: get module skeleton
