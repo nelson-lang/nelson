@@ -270,63 +270,11 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update --fix-missing
-          sudo apt upgrade;
-          sudo apt -y install build-essential;
-          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
-          sudo apt -y install ninja-build;
-          sudo apt -y install xvfb;
-          sudo apt -y install libopenmpi-dev;
-          sudo apt -y install autotools-dev;
-          sudo apt -y install libtool;
-          sudo apt -y install automake;
-          sudo apt -y install openmpi-bin;
-          sudo apt -y install gettext;
-          sudo apt -y install pkg-config;
-          sudo apt -y install libffi-dev;
-          sudo apt -y install libicu-dev;
-          sudo apt -y install libxml2-dev;
-          sudo apt -y install libopenblas-openmp-dev;
-          sudo apt -y install liblapack-dev;
-          sudo apt -y install liblapacke-dev;
-          sudo apt -y install libfftw3-dev;
-          sudo apt -y install libasound-dev;
-          sudo apt -y install portaudio19-dev;
-          sudo apt -y install libsndfile1-dev;
-          sudo apt -y install libtag1-dev;
-          sudo apt -y install alsa-utils;
-          sudo apt -y install libsqlite3-dev;
-          sudo apt -y install libgl-dev;
-          sudo apt -y install hdf5-tools;
-          sudo apt -y install zlib1g-dev;
-          sudo apt -y install libcurl4-openssl-dev;
-          sudo apt -y install libgit2-dev;
-          sudo apt -y install libboost-all-dev;
-          sudo apt -y install libeigen3-dev;
-          sudo apt -y install libhdf5-dev;
-          sudo apt -y install libmatio-dev;
-          sudo apt -y install qt6-base-dev;
-          sudo apt -y install libqt6svg6-dev;
-          sudo apt -y install qt6-declarative-dev;
-          sudo apt -y install qt6-documentation-tools;
-          sudo apt -y install qml6-module-qtquick;
-          sudo apt -y install qml6-module-qtquick-templates;
-          sudo apt -y install qml6-module-qtquick-controls;
-          sudo apt -y install qml6-module-qtquick-window;
-          sudo apt -y install qml6-module-qtquick-dialogs;
-          sudo apt -y install qml6-module-qtqml-workerscript;
-          sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install qt6-tools-dev;
-          sudo apt -y install libgif-dev;
-          sudo apt -y install python3;
-          sudo apt -y install python3-numpy;
-          sudo apt -y install libtbb-dev;
-          sudo apt -y install libtiff-dev;
-
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
@@ -372,63 +320,11 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update --fix-missing
-          sudo apt upgrade;
-          sudo apt -y install build-essential;
-          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
-          sudo apt -y install ninja-build;
-          sudo apt -y install xvfb;
-          sudo apt -y install libopenmpi-dev;
-          sudo apt -y install autotools-dev;
-          sudo apt -y install libtool;
-          sudo apt -y install automake;
-          sudo apt -y install openmpi-bin;
-          sudo apt -y install gettext;
-          sudo apt -y install pkg-config;
-          sudo apt -y install libffi-dev;
-          sudo apt -y install libicu-dev;
-          sudo apt -y install libxml2-dev;
-          sudo apt -y install libopenblas-openmp-dev;
-          sudo apt -y install liblapack-dev;
-          sudo apt -y install liblapacke-dev;
-          sudo apt -y install libfftw3-dev;
-          sudo apt -y install libasound-dev;
-          sudo apt -y install portaudio19-dev;
-          sudo apt -y install libsndfile1-dev;
-          sudo apt -y install libtag1-dev;
-          sudo apt -y install alsa-utils;
-          sudo apt -y install libsqlite3-dev;
-          sudo apt -y install libgl-dev;
-          sudo apt -y install hdf5-tools;
-          sudo apt -y install zlib1g-dev;
-          sudo apt -y install libcurl4-openssl-dev;
-          sudo apt -y install libgit2-dev;
-          sudo apt -y install libboost-all-dev;
-          sudo apt -y install libeigen3-dev;
-          sudo apt -y install libhdf5-dev;
-          sudo apt -y install libmatio-dev;
-          sudo apt -y install qt6-base-dev;
-          sudo apt -y install libqt6svg6-dev;
-          sudo apt -y install qt6-declarative-dev;
-          sudo apt -y install qt6-documentation-tools;
-          sudo apt -y install qml6-module-qtquick;
-          sudo apt -y install qml6-module-qtquick-templates;
-          sudo apt -y install qml6-module-qtquick-controls;
-          sudo apt -y install qml6-module-qtquick-window;
-          sudo apt -y install qml6-module-qtquick-dialogs;
-          sudo apt -y install qml6-module-qtqml-workerscript;
-          sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install qt6-tools-dev;
-          sudo apt -y install python3;
-          sudo apt -y install python3-numpy;
-          sudo apt -y install libtbb-dev;
-          sudo apt -y install libgif-dev;
-          sudo apt -y install libtiff-dev;
-
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
