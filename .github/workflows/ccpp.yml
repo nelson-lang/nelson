@@ -294,7 +294,7 @@ jobs:
       - name: Package
         run: just package
       - name: Install
-        run: sudo ninja install
+        run: just install
       - name: Setup Python environment for Nelson
         run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: Set Julia Environment for Nelson
@@ -338,7 +338,7 @@ jobs:
       - name: package
         run: just package
       - name: Install
-        run: sudo ninja install
+        run: just install
       - name: Setup Python environment for Nelson
         run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: All benchs
@@ -506,58 +506,10 @@ jobs:
     timeout-minutes: 120
 
     steps:
-      - name: Install dependencies
-        run: |
-          dnf update -y
-          dnf upgrade -y
-          dnf install -y which
-          dnf install -y hostname
-          dnf install -y git
-          dnf install -y make
-          dnf install -y libtool
-          dnf install -y gcc
-          dnf install -y gcc-c++
-          dnf install -y autoconf
-          dnf install -y automake
-          dnf install -y openmpi-devel
-          dnf install -y gettext
-          dnf install -y pkg-config
-          dnf install -y cmake
-          dnf install -y libffi-devel
-          dnf install -y libicu-devel
-          dnf install -y libxml2-devel
-          dnf install -y lapack-devel
-          dnf install -y fftw3-devel
-          dnf install -y portaudio-devel
-          dnf install -y libsndfile-devel
-          dnf install -y jack-audio-connection-kit-devel
-          dnf install -y taglib-devel
-          dnf install -y qt6-qtbase-devel
-          dnf install -y qt6-qtdeclarative-devel
-          dnf install -y qt6-qtbase-mysql
-          dnf install -y qt6-qtbase-odbc
-          dnf install -y qt6-qtbase-postgresql
-          dnf install -y qt6-doctools
-          dnf install -y qt6-qtsvg-devel
-          dnf install -y qt6-qtquickcontrols2
-          dnf install -y qt6-qttools
-          dnf install -y qt6-qttools-libs-help
-          dnf install -y qt6-qttools-devel
-          dnf install -y boost-devel
-          dnf install -y zlib-devel
-          dnf install -y curl-devel
-          dnf install -y libgit2-devel
-          dnf install -y matio-devel
-          dnf install -y hdf5-devel
-          dnf install -y eigen3-devel
-          dnf install -y python3-devel
-          dnf install -y python3-numpy
-          dnf install -y tbb-devel
-          dnf install -y giflib-devel
-          dnf install -y libtiff-devel
-
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-fedora-41.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version

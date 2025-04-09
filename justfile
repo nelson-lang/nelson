@@ -19,6 +19,10 @@ config *args='cmake -G "Unix Makefiles" .':
     echo "Configure with args: {{args}}"
     cmake {{args}}
 
+install:
+    @echo "Installing..."
+    cmake --install .
+
 build:
     @echo "Building..."
     cmake --build . -- -j$(nproc)
