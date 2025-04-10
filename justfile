@@ -59,5 +59,13 @@ update_version:
     @echo "Updating version..."
     python ./tools/update_version/update_version.py
 
+setup_python_env:
+    @echo "Setup python environment..."
+    nelson --cli --noipc --quiet -f ./tools/python_environment_CI/configurePythonEnvironment.m
+
+setup_julia_env:
+    @echo "Setup julia environment..."
+    nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+
 start:
     ./bin/{{os}}/nelson

@@ -6,7 +6,7 @@ jobs:
   Sequoia:
     name: macOS Sequoia
     runs-on: macos-15
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Install dependencies
@@ -93,7 +93,7 @@ jobs:
   Sonoma:
     name: macOS Sonoma
     runs-on: macos-14
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Install dependencies
@@ -181,7 +181,7 @@ jobs:
   Ventura:
     name: macOS X Ventura
     runs-on: macos-13
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Install dependencies
@@ -267,23 +267,21 @@ jobs:
   Noble_Numbat:
     name: Ubuntu-24.04 Noble Numbat (OpenBLAS)
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install dependencies
-        run: |
-          sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04.sh
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
-        run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
-      - name: CMake
-        run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
-      - name: Make with Ninja
+        run: just update_version
+      - name: Configure
+        run: just config -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+      - name: Build
         run: just build
       - name: Get module skeleton
         run: just get_module_skeleton
@@ -294,14 +292,14 @@ jobs:
       - name: Package
         run: just package
       - name: Install
-        run: just install
+        run: sudo just install
       - name: Setup Python environment for Nelson
-        run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+        run: just setup_python_env
       - name: Set Julia Environment for Nelson
-        run: nelson --cli  --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
-      - name: All benchs
+        run: just setup_julia_env
+      - name: Benchmarks
         run: xvfb-run -a just benchmarks
-      - name: All tests
+      - name: Tests
         run: xvfb-run -a just tests
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
@@ -313,7 +311,7 @@ jobs:
   Noble_Numbat_arm:
     name: Ubuntu-24.04 arm64
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
@@ -338,7 +336,7 @@ jobs:
       - name: package
         run: just package
       - name: Install
-        run: just install
+        run: sudo just install
       - name: Setup Python environment for Nelson
         run: nelson --cli -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
       - name: All benchs
@@ -355,7 +353,7 @@ jobs:
   Jammy:
     name: Ubuntu-22.04 Jammy (OpenBLAS)
     runs-on: ubuntu-22.04
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Install dependencies
@@ -459,7 +457,7 @@ jobs:
   ArchLinux:
     runs-on: ubuntu-latest
     container: archlinux:latest
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
@@ -503,7 +501,7 @@ jobs:
   Fedora:
     runs-on: ubuntu-latest
     container: fedora:41
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Checkout repository
@@ -562,7 +560,7 @@ jobs:
     defaults:
       run:
         shell: cmd
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Add msbuild to PATH
@@ -574,8 +572,10 @@ jobs:
           architecture: "x86"
 
       - name: Install Inno-setup
-        run: |
-          choco install InnoSetup
+        run: choco install InnoSetup
+
+      - name: Install Just
+        run: choco install just
 
       - uses: julia-actions/setup-julia@v2
         with:
@@ -616,12 +616,7 @@ jobs:
         run: |
           set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
           set QTDIR=%QTDIR32%
-          cd ..
-          git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
-          cd nelson-thirdparty-win32
-          install.bat
-          remove_debug.bat
-          cd ..
+          %GITHUB_WORKSPACE%\tools\install_dependencies\install-windows-32.bat remove-debug
 
       - name: Build Nelson
         run: |
@@ -705,7 +700,7 @@ jobs:
     defaults:
       run:
         shell: cmd
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       - name: Add msbuild to PATH
@@ -729,8 +724,10 @@ jobs:
           python-version: "3.13.2"
 
       - name: Install Inno-setup
-        run: |
-          choco install InnoSetup
+        run: choco install InnoSetup
+
+      - name: Install Just
+        run: choco install just
 
       - uses: julia-actions/setup-julia@v2
         with:
@@ -757,12 +754,7 @@ jobs:
         run: |
           set QTDIR64=C:\install\QT6\Qt\6.8.1\msvc2022_64
           set QTDIR=%QTDIR64%
-          cd ..
-          git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
-          cd nelson-thirdparty-x64
-          install.bat
-          remove_debug.bat
-          cd ..
+          %GITHUB_WORKSPACE%\tools\install_dependencies\install-windows-64.bat remove-debug
 
       - name: Build Nelson
         run: |
