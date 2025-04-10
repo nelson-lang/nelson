@@ -16,14 +16,14 @@ build target="x64":
     {{check_msbuild}}
     @msbuild nelson.sln /p:Configuration=Release /p:Platform={{target}} /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
-build_help target="x64":
-    @just -f justfile.win validate {{target}}
-    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\buildhelp\buildhelp.m    
-
 # Parameterized start (defaults to x64)
 start target="x64":
     @just -f justfile.win validate {{target}}
     @.\bin\{{target}}\nelson.bat
+
+update_version:
+    @echo "Updating version..."
+    python ./tools/update_version/update_version.py
 
 # Run benchmarks
 benchs:
@@ -33,3 +33,14 @@ tests target="x64":
     @echo Running tests...
     @just -f justfile.win validate {{target}}    
     @.\bin\{{target}}\nelson -adv-cli -noipc --quiet -f .\tools\tests_all\runtests_all.m
+
+
+build_help target="x64":
+    @echo Building helps...
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\buildhelp\buildhelp.m    
+
+get_module_skeleton target="x64":
+    @echo Get module skeleton
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\clone_module_skeleton\clone.m
