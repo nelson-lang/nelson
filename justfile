@@ -47,6 +47,14 @@ benchmarks:
     @echo "Running benchmarks..."
     cmake --build . -- benchmark_all
 
+benchmarks_no_display:
+    @echo "Running benchmarks without display..."
+    cmake --build . -- -j $(nproc) benchmark_all_no_display
+
+tests_no_display:
+    @echo "Running tests without display..."
+    cmake --build . -- -j $(nproc) tests_all_no_display    
+
 prettier:
     @echo "Prettier"
     npm run prettier

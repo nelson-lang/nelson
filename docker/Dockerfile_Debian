@@ -23,7 +23,6 @@ RUN git clone https://github.com/nelson-lang/nelson.git
 WORKDIR "/nelson"
 RUN cd "/nelson" && git checkout ${BRANCH_NAME}
 
-RUN echo $(pwd)
 RUN ./tools/install_dependencies/install-debian-trixie.sh
 
 RUN mkdir /home/nelsonuser
@@ -42,10 +41,10 @@ ENV AUDIODEV null
 RUN just config -DCMAKE_BUILD_TYPE=Release .
 RUN just build
 RUN just get_module_skeleton
-RUN just buildhelp
-RUN just tests_minimal
+RUN just build_help
+RUN just minimal_tests
 RUN just package
-RUN cmake --build . -- -j $(nproc) benchmark_all_no_display
-RUN cmake --build . -- -j $(nproc) tests_all_no_display
+RUN just benchmarks_no_display
+RUN just tests_no_display
 
 ENTRYPOINT ["/nelson/bin/linux/nelson-cli"]
