@@ -9,6 +9,8 @@ jobs:
     timeout-minutes: 90
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           brew --version
@@ -49,8 +51,6 @@ jobs:
           brew install julia
           brew install libtiff
 
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
@@ -96,6 +96,9 @@ jobs:
     timeout-minutes: 90
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install dependencies
         run: |
           brew --version
@@ -137,8 +140,6 @@ jobs:
           brew install julia
           brew install libtiff
 
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
@@ -184,6 +185,9 @@ jobs:
     timeout-minutes: 90
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install dependencies
         run: |
           brew --version
@@ -228,8 +232,6 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: "6.4.2"
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
@@ -356,81 +358,23 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-mark hold grub-efi-amd64-signed
-          sudo apt-get update --fix-missing
-          sudo apt upgrade;
-          sudo apt -y install build-essential;
-          sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
-          sudo apt -y install ninja-build;
-          sudo apt -y install xvfb;
-          sudo apt -y install libopenmpi-dev;
-          sudo apt -y install autotools-dev;
-          sudo apt -y install libtool;
-          sudo apt -y install automake;
-          sudo apt -y install openmpi-bin;
-          sudo apt -y install gettext;
-          sudo apt -y install pkg-config;
-          sudo apt -y install libffi-dev;
-          sudo apt -y install libicu-dev;
-          sudo apt -y install libxml2-dev;
-          sudo apt -y install libopenblas-openmp-dev;
-          sudo apt -y install liblapack-dev;
-          sudo apt -y install liblapacke-dev;
-          sudo apt -y install fftw3;
-          sudo apt -y install fftw3-dev;
-          sudo apt -y install libasound-dev;
-          sudo apt -y install portaudio19-dev;
-          sudo apt -y install libsndfile1-dev;
-          sudo apt -y install libtag1-dev;
-          sudo apt -y install alsa-utils;
-          sudo apt -y install libsqlite3-dev;
-          sudo apt -y install libgl-dev;
-          sudo apt -y install hdf5-tools;
-          sudo apt -y install zlib1g-dev;
-          sudo apt -y install libcurl4-openssl-dev;
-          sudo apt -y install libgit2-dev;
-          sudo apt -y install libboost-all-dev;
-          sudo apt -y install libeigen3-dev;
-          sudo apt -y install libhdf5-dev;
-          sudo apt -y install libmatio-dev;
-          sudo apt -y install qt6-base-dev;
-          sudo apt -y install libqt6svg6-dev;
-          sudo apt -y install qt6-declarative-dev;
-          sudo apt -y install qt6-documentation-tools;
-          sudo apt -y install qml6-module-qtquick;
-          sudo apt -y install qml6-module-qtquick-templates;
-          sudo apt -y install qml6-module-qtquick-controls;
-          sudo apt -y install qml6-module-qtquick-window;
-          sudo apt -y install qml6-module-qtquick-dialogs;
-          sudo apt -y install qml6-module-qtqml-workerscript;
-          sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install qt6-tools-dev;
-          sudo apt -y install python3;
-          sudo apt -y install python3-numpy;
-          sudo apt -y install libtbb-dev;
-          sudo apt -y install libgif-dev;
-          sudo apt -y install libtiff-dev;
-
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-22.04.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
-        run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+        run: python $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
       - name: Make with Ninja
         run: cmake --build . -- -j $(nproc)
       - name: Get module skeleton
-        run: |
-          cmake --build . -- get_module_skeleton
+        run: cmake --build . -- get_module_skeleton
       - name: build help
-        run: |
-          cmake --build . -- buildhelp
+        run: cmake --build . -- buildhelp
       - name: Minimal tests
         run: cmake --build . -- tests_minimal
       - name: Package
@@ -442,11 +386,9 @@ jobs:
       - name: Set Default Julia Environment for Nelson
         run: nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
       - name: All benchs
-        run: |
-          xvfb-run -a ninja benchmark_all
+        run: xvfb-run -a ninja benchmark_all
       - name: All tests
-        run: |
-          xvfb-run -a ninja tests_all
+        run: xvfb-run -a ninja tests_all
       - name: Copy artifacts
         run: mkdir artifacts && mv tests_all*.* artifacts && mv benchmark_all*.* artifacts && mv nelson-*.deb artifacts
       - uses: actions/upload-artifact@v4
@@ -512,47 +454,37 @@ jobs:
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
-        run: |
-          python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
-      - name: CMake
-        run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH
-          cmake -DCMAKE_BUILD_TYPE=Release -DWITHOUT_MPI_MODULE=ON -G "Unix Makefiles" .
-      - name: Make
+        run: just update_version
+      - name: Configure
+        run: just config -DCMAKE_BUILD_TYPE=Release -DWITHOUT_MPI_MODULE=ON -G "Unix Makefiles" .
+      - name: Build
         run: |
           export QTDIR_BINARIES="/usr/lib64/qt6/bin/"
-          cmake --build . -- -j $(nproc)
+          just build
       - name: Download module skeleton
-        run: cmake --build . -- get_module_skeleton
+        run: just get_module_skeleton
       - name: Build help
-        run: cmake --build . -- buildhelp
+        run: just build_help
       - name: Minimal tests
-        run: |
-          cmake --build . -- tests_minimal
+        run: just tests_minimal
       - name: Make package
-        run: cmake --build . -- package
+        run: just package
       - name: Install
-        run: sudo cmake --build . -- install
+        run: sudo just install
       - name: Setup Python environment for Nelson
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/python_environment_CI/configurePythonEnvironment.m
+          just setup_python_env
       - name: Set Julia Environment for Nelson
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          nelson --cli --noipc --quiet -f $GITHUB_WORKSPACE/tools/julia_environment_CI/configureJuliaEnvironment.m
+          just setup_julia_env
       - name: Benchs
-        run: cmake --build . -- benchmark_all_no_display
+        run: just benchmarks_no_display
       - name: Tests
-        run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH
-          export OMPI_ALLOW_RUN_AS_ROOT=1
-          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-          cmake --build . -- tests_all_no_display
+        run: just tests_no_display
 
   Windows_win32:
     name: Windows 32 bits
@@ -607,7 +539,7 @@ jobs:
           arch: "win32_msvc2019"
           dir: "C:/install/QT5/"
           install-deps: "true"
-          #          modules: "qtwebengine"
+          #modules: "qtwebengine"
           cache: "false"
           setup-python: "false"
 
@@ -627,12 +559,10 @@ jobs:
           just -f justfile.win build win32
 
       - name: Set Python Environment for Nelson
-        run: |
-          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
+        run: just -f justfile.win setup_python_env win32
 
       - name: Set Julia Environment for Nelson
-        run: |
-          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/julia_environment_CI/configureJuliaEnvironment.m
+        run: just -f justfile.win setup_julia_env win32
 
       - name: Copy Python in Nelson distribution
         run: |
@@ -682,8 +612,7 @@ jobs:
           "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
 
       - name: Copy installer in artifacts directory
-        run: |
-          mv Nelson-*.exe artifacts
+        run: mv Nelson-*.exe artifacts
 
       - uses: actions/upload-artifact@v4
         with:
@@ -711,7 +640,7 @@ jobs:
           arch: "win64_msvc2022_64"
           dir: "C:/install/QT6/"
           install-deps: "true"
-          #          modules: "qtwebengine"
+          #modules: "qtwebengine"
           cache: "false"
           setup-python: "false"
 
@@ -761,12 +690,10 @@ jobs:
           just -f justfile.win build x64
 
       - name: Set Python Environment for Nelson
-        run: |
-          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/python_environment_CI/configurePythonEnvironment.m
+        run: just -f justfile.win setup_python_env x64
 
       - name: Set Julia Environment for Nelson
-        run: |
-          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/julia_environment_CI/configureJuliaEnvironment.m
+        run: just -f justfile.win setup_julia_env x64
 
       - name: Copy Python in Nelson distribution
         run: |
@@ -821,8 +748,7 @@ jobs:
           "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
 
       - name: Copy installer in artifacts directory
-        run: |
-          mv Nelson-*.exe artifacts
+        run: mv Nelson-*.exe artifacts
 
       - uses: actions/upload-artifact@v4
         with:

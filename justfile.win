@@ -44,3 +44,14 @@ get_module_skeleton target="x64":
     @echo Get module skeleton
     @just -f justfile.win validate {{target}}
     @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\clone_module_skeleton\clone.m
+
+
+setup_python_env target="x64":
+    @echo "Setup python environment..."
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli --noipc --quiet -f .\tools\python_environment_CI\configurePythonEnvironment.m
+
+setup_julia_env target="x64":
+    @echo "Setup julia environment..."
+    @just -f justfile.win validate {{target}}
+    @.\bin\{{target}}\nelson-cli  --noipc --quiet -f .\tools\julia_environment_CI\configureJuliaEnvironment.m
