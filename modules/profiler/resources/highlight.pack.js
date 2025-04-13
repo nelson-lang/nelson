@@ -170,7 +170,7 @@
                 n.cached_variants || (n.eW && [l(n)]) || [n]
               );
               var n;
-            })
+            }),
           )),
           t.c.forEach(function (e) {
             n(e, t);
@@ -211,7 +211,7 @@
                 }
                 return a;
               })(i, "|"),
-              !0
+              !0,
             )
           : {
               exec: function () {
@@ -274,7 +274,7 @@
                   ((a = n.c[t].bR.exec(e)[0]),
                   new RegExp(
                     a.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"),
-                    "m"
+                    "m",
                   ))),
               n.c[t]
             );
@@ -310,7 +310,7 @@
       }
       if (((r = n), (a = E), !o && v(a.iR, r)))
         throw new Error(
-          'Illegal lexeme "' + n + '" for mode "' + (E.cN || "<unnamed>") + '"'
+          'Illegal lexeme "' + n + '" for mode "' + (E.cN || "<unnamed>") + '"',
         );
       return (R += n), n.length || 1;
     }
@@ -359,8 +359,8 @@
           return h.useBR && "\n" === e
             ? "<br>"
             : h.tabReplace
-            ? n.replace(/\t/g, h.tabReplace)
-            : "";
+              ? n.replace(/\t/g, h.tabReplace)
+              : "";
         })
       : e;
   }
@@ -392,7 +392,7 @@
       (h.useBR
         ? ((n = document.createElementNS(
             "http://www.w3.org/1999/xhtml",
-            "div"
+            "div",
           )).innerHTML = e.innerHTML
             .replace(/\n/g, "")
             .replace(/<br[ \/]*>/g, "\n"))
@@ -402,7 +402,7 @@
       (t = M(n)).length &&
         (((a = document.createElementNS(
           "http://www.w3.org/1999/xhtml",
-          "div"
+          "div",
         )).innerHTML = r.value),
         (r.value = (function (e, n, t) {
           var r = 0,
@@ -415,11 +415,11 @@
                   ? e
                   : n
                 : "start" === n[0].event
-                ? e
-                : n
+                  ? e
+                  : n
               : e.length
-              ? e
-              : n;
+                ? e
+                : n;
           }
           function o(e) {
             a +=

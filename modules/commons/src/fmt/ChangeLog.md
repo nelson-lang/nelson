@@ -2614,7 +2614,7 @@
 
 - Removed the deprecated `format_to_n_context`, `format_to_n_args` and
   `make_format_to_n_args`. They have been replaced with
-  `format_context`, `` format_args` and ``make_format_args\`\`
+  `format_context`, ``format_args` and``make_format_args\`\`
   respectively.
 
 - Moved `wchar_t`-specific functions and types to `fmt/xchar.h`. You

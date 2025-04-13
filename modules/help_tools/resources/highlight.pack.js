@@ -269,7 +269,7 @@ var hljs = (function () {
         "on",
         /[A-Za-z]+['](d|ve|re|ll|t|s|n)/,
         /[A-Za-z]+[-][a-z]+/,
-        /[A-Za-z][a-z]{2,}/
+        /[A-Za-z][a-z]{2,}/,
       );
       return (
         i.contains.push({
@@ -305,7 +305,7 @@ var hljs = (function () {
               0 !== e.index && t.ignoreMatch();
             },
           },
-          e
+          e,
         )
       );
     },
@@ -418,10 +418,10 @@ var hljs = (function () {
       "string" == typeof e
         ? r(n, e.split(" "))
         : Array.isArray(e)
-        ? r(n, e)
-        : Object.keys(e).forEach((n) => {
-            Object.assign(i, $(e[n], t, n));
-          }),
+          ? r(n, e)
+          : Object.keys(e).forEach((n) => {
+              Object.assign(i, $(e[n], t, n));
+            }),
       i
     );
     function r(e, n) {
@@ -473,7 +473,7 @@ var hljs = (function () {
           if (e.skip || e.excludeBegin || e.returnBegin)
             throw (
               (K(
-                "skip, excludeBegin, returnBegin not compatible with beginScope: {}"
+                "skip, excludeBegin, returnBegin not compatible with beginScope: {}",
               ),
               G)
             );
@@ -488,7 +488,7 @@ var hljs = (function () {
           if (e.skip || e.excludeEnd || e.returnEnd)
             throw (
               (K(
-                "skip, excludeEnd, returnEnd not compatible with endScope: {}"
+                "skip, excludeEnd, returnEnd not compatible with endScope: {}",
               ),
               G)
             );
@@ -506,7 +506,7 @@ var hljs = (function () {
         "m" +
           (e.case_insensitive ? "i" : "") +
           (e.unicodeRegex ? "u" : "") +
-          (n ? "g" : "")
+          (n ? "g" : ""),
       );
     }
     class n {
@@ -586,7 +586,7 @@ var hljs = (function () {
       e.contains && e.contains.includes("self"))
     )
       throw Error(
-        "ERR: contains `self` is not supported at the top-level of a language.  See documentation."
+        "ERR: contains `self` is not supported at the top-level of a language.  See documentation.",
       );
     return (
       (e.classNameAliases = s(e.classNameAliases || {})),
@@ -630,20 +630,20 @@ var hljs = (function () {
                       {
                         variants: null,
                       },
-                      t
-                    )
+                      t,
+                    ),
                   )),
                 e.cachedVariants
                   ? e.cachedVariants
                   : q(e)
-                  ? s(e, {
-                      starts: e.starts ? s(e.starts) : null,
-                    })
-                  : Object.isFrozen(e)
-                  ? s(e)
-                  : e
-              ))("self" === e ? r : e)
-            )
+                    ? s(e, {
+                        starts: e.starts ? s(e.starts) : null,
+                      })
+                    : Object.isFrozen(e)
+                      ? s(e)
+                      : e
+              ))("self" === e ? r : e),
+            ),
           )),
           r.contains.forEach((e) => {
             n(e, a);
@@ -653,7 +653,7 @@ var hljs = (function () {
             const t = new i();
             return (
               e.contains.forEach((e) =>
-                t.addRule(e.begin, { rule: e, type: "begin" })
+                t.addRule(e.begin, { rule: e, type: "begin" }),
               ),
               e.terminatorEnd && t.addRule(e.terminatorEnd, { type: "end" }),
               e.illegal && t.addRule(e.illegal, { type: "illegal" }),
@@ -709,7 +709,7 @@ var hljs = (function () {
         : (X("10.7.0", "highlight(lang, code, ...args) has been deprecated."),
           X(
             "10.7.0",
-            "Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277"
+            "Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277",
           ),
           (r = e),
           (i = t)),
@@ -789,7 +789,7 @@ var hljs = (function () {
             (e.beginScope._wrap
               ? (M.addKeyword(
                   S,
-                  y.classNameAliases[e.beginScope._wrap] || e.beginScope._wrap
+                  y.classNameAliases[e.beginScope._wrap] || e.beginScope._wrap,
                 ),
                 (S = ""))
               : e.beginScope._multi && (u(e.beginScope, t), (S = ""))),
@@ -830,12 +830,12 @@ var hljs = (function () {
         O.endScope && O.endScope._wrap
           ? (d(), M.addKeyword(t, O.endScope._wrap))
           : O.endScope && O.endScope._multi
-          ? (d(), u(O.endScope, e))
-          : s.skip
-          ? (S += t)
-          : (s.returnEnd || s.excludeEnd || (S += t),
-            d(),
-            s.excludeEnd && (S = t));
+            ? (d(), u(O.endScope, e))
+            : s.skip
+              ? (S += t)
+              : (s.returnEnd || s.excludeEnd || (S += t),
+                d(),
+                s.excludeEnd && (S = t));
         do {
           O.scope && M.closeNode(),
             O.skip || O.subLanguage || (R += O.relevance),
@@ -883,7 +883,7 @@ var hljs = (function () {
               a +
               '" for mode "' +
               (O.scope || "<unnamed>") +
-              '"'
+              '"',
           );
           throw ((e.mode = O), e);
         }
@@ -894,7 +894,7 @@ var hljs = (function () {
         if ("illegal" === s.type && "" === a) return 1;
         if (A > 1e5 && A > 3 * s.index)
           throw Error(
-            "potential infinite loop, way more iterations than matches"
+            "potential infinite loop, way more iterations than matches",
           );
         return (S += a), a.length;
       }
@@ -1021,10 +1021,10 @@ var hljs = (function () {
         e.children.length > 0 &&
           (g.ignoreUnescapedHTML ||
             (console.warn(
-              "One of your code blocks includes unescaped HTML. This is a potentially serious security risk."
+              "One of your code blocks includes unescaped HTML. This is a potentially serious security risk.",
             ),
             console.warn(
-              "https://github.com/highlightjs/highlight.js/wiki/security"
+              "https://github.com/highlightjs/highlight.js/wiki/security",
             ),
             console.warn("The element with unescaped HTML:"),
             console.warn(e)),
@@ -1032,7 +1032,7 @@ var hljs = (function () {
       )
         throw new J(
           "One of your code blocks includes unescaped HTML.",
-          e.innerHTML
+          e.innerHTML,
         );
       t = e;
       const i = t.textContent,
@@ -1086,7 +1086,7 @@ var hljs = (function () {
         () => {
           y && _();
         },
-        !1
+        !1,
       ),
       Object.assign(e, {
         highlight: m,
@@ -1105,14 +1105,14 @@ var hljs = (function () {
           _(),
             X(
               "10.6.0",
-              "initHighlighting() deprecated.  Use highlightAll() now."
+              "initHighlighting() deprecated.  Use highlightAll() now.",
             );
         },
         initHighlightingOnLoad: () => {
           _(),
             X(
               "10.6.0",
-              "initHighlightingOnLoad() deprecated.  Use highlightAll() now."
+              "initHighlightingOnLoad() deprecated.  Use highlightAll() now.",
             );
         },
         registerLanguage: (n, i) => {
@@ -1124,8 +1124,8 @@ var hljs = (function () {
               (K(
                 "Language definition for '{}' could not be registered.".replace(
                   "{}",
-                  n
-                )
+                  n,
+                ),
               ),
               !o)
             )

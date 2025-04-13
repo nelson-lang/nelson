@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated GitHub CI to use Windows 2025 for Windows builds.
 - Significant rework of the GitHub CI workflow for improved reliability and maintainability.
+- Updated Prettier to the latest version.
 
 ## 1.13.0 - (2025-03-29)
 

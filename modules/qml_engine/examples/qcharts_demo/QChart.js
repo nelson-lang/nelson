@@ -277,7 +277,7 @@ var Chart = function (canvas, context) {
           valueBounds.minSteps,
           valueBounds.maxValue,
           valueBounds.minValue,
-          labelTemplateString
+          labelTemplateString,
         );
       } else {
         calculatedScale = {
@@ -291,7 +291,7 @@ var Chart = function (canvas, context) {
           calculatedScale.labels,
           calculatedScale.steps,
           config.scaleStartValue,
-          config.scaleStepWidth
+          config.scaleStepWidth,
         );
       }
 
@@ -341,7 +341,7 @@ var Chart = function (canvas, context) {
             scaleHop * (i + 1),
             0,
             Math.PI * 2,
-            true
+            true,
           );
           ctx.strokeStyle = config.scaleLineColor;
           ctx.lineWidth = config.scaleLineWidth;
@@ -365,18 +365,18 @@ var Chart = function (canvas, context) {
             ctx.beginPath();
             ctx.rect(
               Math.round(
-                width / 2 - textWidth / 2 - config.scaleBackdropPaddingX
+                width / 2 - textWidth / 2 - config.scaleBackdropPaddingX,
               ),
               Math.round(
                 height / 2 -
                   scaleHop * (i + 1) -
                   config.scaleFontSize * 0.5 -
-                  config.scaleBackdropPaddingY
+                  config.scaleBackdropPaddingY,
               ),
               Math.round(textWidth + config.scaleBackdropPaddingX * 2),
               Math.round(
-                config.scaleFontSize + config.scaleBackdropPaddingY * 2
-              )
+                config.scaleFontSize + config.scaleBackdropPaddingY * 2,
+              ),
             );
             ctx.fill();
           }
@@ -411,7 +411,7 @@ var Chart = function (canvas, context) {
             calculateOffset(data[i].value, calculatedScale, scaleHop),
           startAngle,
           startAngle + rotateAnimation * angleStep,
-          false
+          false,
         );
         ctx.lineTo(width / 2, height / 2);
         ctx.closePath();
@@ -485,7 +485,7 @@ var Chart = function (canvas, context) {
           valueBounds.minSteps,
           valueBounds.maxValue,
           valueBounds.minValue,
-          labelTemplateString
+          labelTemplateString,
         );
       } else {
         calculatedScale = {
@@ -499,7 +499,7 @@ var Chart = function (canvas, context) {
           calculatedScale.labels,
           calculatedScale.steps,
           config.scaleStartValue,
-          config.scaleStepWidth
+          config.scaleStepWidth,
         );
       }
 
@@ -539,8 +539,8 @@ var Chart = function (canvas, context) {
               calculateOffset(
                 data.datasets[i].data[0],
                 calculatedScale,
-                scaleHop
-              ))
+                scaleHop,
+              )),
         );
         for (var j = 1; j < data.datasets[i].data.length; j++) {
           ctx.rotate(rotationDegree);
@@ -551,8 +551,8 @@ var Chart = function (canvas, context) {
                 calculateOffset(
                   data.datasets[i].data[j],
                   calculatedScale,
-                  scaleHop
-                ))
+                  scaleHop,
+                )),
           );
         }
         ctx.closePath();
@@ -577,11 +577,11 @@ var Chart = function (canvas, context) {
                   calculateOffset(
                     data.datasets[i].data[k],
                     calculatedScale,
-                    scaleHop
+                    scaleHop,
                   )),
               config.pointDotRadius,
               2 * Math.PI,
-              false
+              false,
             );
             ctx.fill();
             ctx.stroke();
@@ -642,12 +642,12 @@ var Chart = function (canvas, context) {
               Math.round(
                 -scaleHop * (i + 1) -
                   config.scaleFontSize * 0.5 -
-                  config.scaleBackdropPaddingY
+                  config.scaleBackdropPaddingY,
               ), //Y
               Math.round(textWidth + config.scaleBackdropPaddingX * 2), //Width
               Math.round(
-                config.scaleFontSize + config.scaleBackdropPaddingY * 2
-              ) //Height
+                config.scaleFontSize + config.scaleBackdropPaddingY * 2,
+              ), //Height
             );
             ctx.fill();
           }
@@ -788,7 +788,7 @@ var Chart = function (canvas, context) {
           height / 2,
           scaleAnimation * pieRadius,
           cumulativeAngle,
-          cumulativeAngle + segmentAngle
+          cumulativeAngle + segmentAngle,
         );
         ctx.lineTo(width / 2, height / 2);
         ctx.closePath();
@@ -860,7 +860,7 @@ var Chart = function (canvas, context) {
           scaleAnimation * doughnutRadius,
           cumulativeAngle,
           cumulativeAngle + segmentAngle,
-          false
+          false,
         );
         ctx.arc(
           width / 2,
@@ -868,7 +868,7 @@ var Chart = function (canvas, context) {
           scaleAnimation * cutoutRadius,
           cumulativeAngle + segmentAngle,
           cumulativeAngle,
-          true
+          true,
         );
         ctx.closePath();
         ctx.fillStyle = data[i].color;
@@ -920,7 +920,7 @@ var Chart = function (canvas, context) {
           valueBounds.minSteps,
           valueBounds.maxValue,
           valueBounds.minValue,
-          labelTemplateString
+          labelTemplateString,
         );
       } else {
         calculatedScale = {
@@ -934,7 +934,7 @@ var Chart = function (canvas, context) {
           calculatedScale.labels,
           calculatedScale.steps,
           config.scaleStartValue,
-          config.scaleStepWidth
+          config.scaleStepWidth,
         );
       }
 
@@ -974,8 +974,8 @@ var Chart = function (canvas, context) {
               calculateOffset(
                 data.datasets[i].data[0],
                 calculatedScale,
-                scaleHop
-              )
+                scaleHop,
+              ),
         );
 
         for (var j = 1; j < data.datasets[i].data.length; j++) {
@@ -986,7 +986,7 @@ var Chart = function (canvas, context) {
               xPos(j - 0.5),
               yPos(i, j),
               xPos(j),
-              yPos(i, j)
+              yPos(i, j),
             );
           } else {
             ctx.lineTo(xPos(j), yPos(i, j));
@@ -998,7 +998,7 @@ var Chart = function (canvas, context) {
         if (config.datasetFill) {
           ctx.lineTo(
             yAxisPosX + valueHop * (data.datasets[i].data.length - 1),
-            xAxisPosY
+            xAxisPosY,
           );
           ctx.lineTo(yAxisPosX, xAxisPosY);
           ctx.closePath();
@@ -1021,12 +1021,12 @@ var Chart = function (canvas, context) {
                   calculateOffset(
                     data.datasets[i].data[k],
                     calculatedScale,
-                    scaleHop
+                    scaleHop,
                   ),
               config.pointDotRadius,
               0,
               Math.PI * 2,
-              true
+              true,
             );
             ctx.fill();
             ctx.stroke();
@@ -1041,7 +1041,7 @@ var Chart = function (canvas, context) {
             calculateOffset(
               data.datasets[dataSet].data[iteration],
               calculatedScale,
-              scaleHop
+              scaleHop,
             )
         );
       }
@@ -1073,7 +1073,7 @@ var Chart = function (canvas, context) {
         if (rotateLabels > 0) {
           ctx.translate(
             yAxisPosX + i * valueHop,
-            xAxisPosY + config.scaleFontSize
+            xAxisPosY + config.scaleFontSize,
           );
           ctx.rotate(-(rotateLabels * (Math.PI / 180)));
           ctx.fillText(data.labels[i], 0, 0);
@@ -1082,7 +1082,7 @@ var Chart = function (canvas, context) {
           ctx.fillText(
             data.labels[i],
             yAxisPosX + i * valueHop,
-            xAxisPosY + config.scaleFontSize + 3
+            xAxisPosY + config.scaleFontSize + 3,
           );
         }
 
@@ -1116,7 +1116,7 @@ var Chart = function (canvas, context) {
           ctx.strokeStyle = config.scaleGridLineColor;
           ctx.lineTo(
             yAxisPosX + xAxisLength + 5,
-            xAxisPosY - (j + 1) * scaleHop
+            xAxisPosY - (j + 1) * scaleHop,
           );
         } else {
           ctx.lineTo(yAxisPosX - 0.5, xAxisPosY - (j + 1) * scaleHop);
@@ -1126,7 +1126,7 @@ var Chart = function (canvas, context) {
           ctx.fillText(
             calculatedScale.labels[j],
             yAxisPosX - 8,
-            xAxisPosY - (j + 1) * scaleHop
+            xAxisPosY - (j + 1) * scaleHop,
           );
         }
       }
@@ -1263,7 +1263,7 @@ var Chart = function (canvas, context) {
           valueBounds.minSteps,
           valueBounds.maxValue,
           valueBounds.minValue,
-          labelTemplateString
+          labelTemplateString,
         );
       } else {
         calculatedScale = {
@@ -1277,7 +1277,7 @@ var Chart = function (canvas, context) {
           calculatedScale.labels,
           calculatedScale.steps,
           config.scaleStartValue,
-          config.scaleStepWidth
+          config.scaleStepWidth,
         );
       }
 
@@ -1328,9 +1328,9 @@ var Chart = function (canvas, context) {
                 calculateOffset(
                   data.datasets[i].data[j],
                   calculatedScale,
-                  scaleHop
+                  scaleHop,
                 ) +
-              config.barStrokeWidth / 2
+              config.barStrokeWidth / 2,
           );
           ctx.lineTo(
             barOffset + barWidth,
@@ -1339,9 +1339,9 @@ var Chart = function (canvas, context) {
                 calculateOffset(
                   data.datasets[i].data[j],
                   calculatedScale,
-                  scaleHop
+                  scaleHop,
                 ) +
-              config.barStrokeWidth / 2
+              config.barStrokeWidth / 2,
           );
           ctx.lineTo(barOffset + barWidth, xAxisPosY);
           if (config.barShowStroke) {
@@ -1375,7 +1375,7 @@ var Chart = function (canvas, context) {
         if (rotateLabels > 0) {
           ctx.translate(
             yAxisPosX + i * valueHop,
-            xAxisPosY + config.scaleFontSize
+            xAxisPosY + config.scaleFontSize,
           );
           ctx.rotate(-(rotateLabels * (Math.PI / 180)));
           ctx.fillText(data.labels[i], 0, 0);
@@ -1384,7 +1384,7 @@ var Chart = function (canvas, context) {
           ctx.fillText(
             data.labels[i],
             yAxisPosX + i * valueHop + valueHop / 2,
-            xAxisPosY + config.scaleFontSize + 3
+            xAxisPosY + config.scaleFontSize + 3,
           );
         }
 
@@ -1413,7 +1413,7 @@ var Chart = function (canvas, context) {
           ctx.strokeStyle = config.scaleGridLineColor;
           ctx.lineTo(
             yAxisPosX + xAxisLength + 5,
-            xAxisPosY - (j + 1) * scaleHop
+            xAxisPosY - (j + 1) * scaleHop,
           );
         } else {
           ctx.lineTo(yAxisPosX - 0.5, xAxisPosY - (j + 1) * scaleHop);
@@ -1423,7 +1423,7 @@ var Chart = function (canvas, context) {
           ctx.fillText(
             calculatedScale.labels[j],
             yAxisPosX - 8,
-            xAxisPosY - (j + 1) * scaleHop
+            xAxisPosY - (j + 1) * scaleHop,
           );
         }
       }
@@ -1551,7 +1551,7 @@ var Chart = function (canvas, context) {
     minSteps,
     maxValue,
     minValue,
-    labelTemplateString
+    labelTemplateString,
   ) {
     var graphMin,
       graphMax,
@@ -1591,7 +1591,7 @@ var Chart = function (canvas, context) {
       labels,
       numberOfSteps,
       graphMin,
-      stepValue
+      stepValue,
     );
 
     return {
@@ -1611,16 +1611,16 @@ var Chart = function (canvas, context) {
     labels,
     numberOfSteps,
     graphMin,
-    stepValue
+    stepValue,
   ) {
     if (labelTemplateString) {
       for (var i = 1; i < numberOfSteps + 1; i++) {
         labels.push(
           tmpl(labelTemplateString, {
             value: (graphMin + stepValue * i).toFixed(
-              getDecimalPlaces(stepValue)
+              getDecimalPlaces(stepValue),
             ),
-          })
+          }),
         );
       }
     }
@@ -1702,7 +1702,7 @@ var Chart = function (canvas, context) {
               .join("p.push('")
               .split("\r")
               .join("\\'") +
-            "');}return p.join('');"
+            "');}return p.join('');",
         );
 
     return data ? fn(data) : fn;
