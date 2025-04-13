@@ -22,7 +22,7 @@ fi
 print_status "Updating package lists"
 apt-get update --fix-missing
 
-# Remove existing Firefox installation
+# Remove existing Firefox installation (temporary workaround, CI issue)
 print_status "Removing existing Firefox installation"
 snap remove firefox || true  # Ignore errors if Firefox is not installed via snap
 apt-get remove --purge -y firefox || true
