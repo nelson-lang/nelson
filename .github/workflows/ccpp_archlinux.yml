@@ -1,0 +1,50 @@
+name: "ArchLinux Build"
+
+on:
+  workflow_call:
+
+jobs:
+  ArchLinux:
+    name: ArchLinux latest
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: $GITHUB_WORKSPACE/tools/install_dependencies/install-archLinux.sh
+      - name: Trust repo directory
+        run: |
+          git config --global --add safe.directory /__w/nelson/nelson
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+      - name: Update version
+        run: python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: Configure
+        run: just config "-DCMAKE_BUILD_TYPE=Release -G \"Unix Makefiles\" ."
+      - name: Build
+        run: just build
+      - name: Download module skeleton
+        run: just get_module_skeleton
+      - name: Build help
+        run: just build_help
+      - name: Minimal tests
+        run: just minimal_tests
+      - name: Package
+        run: just package
+      - name: Install
+        run: sudo just install
+      - name: Setup Python environment for Nelson
+        run: just setup_python_env
+      - name: Set Julia Environment for Nelson
+        run: just setup_julia_env
+      - name: Benchs
+        run: just benchmarks_no_display
+      - name: Tests
+        run: |
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+          just tests_no_display

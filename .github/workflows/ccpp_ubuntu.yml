@@ -1,0 +1,82 @@
+name: "Ubuntu Build"
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        arch: [amd64, arm64]
+        exclude:
+          - os: ubuntu-22.04
+            arch: arm64 # skip unsupported combo
+    name: ${{ matrix.os }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}${{ matrix.arch == 'arm64' && '-arm' || '' }}
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
+            sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-22.04.sh
+          else
+            sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04.sh
+          fi
+
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      - name: Configure
+        run: just config -DCMAKE_BUILD_TYPE=Release -DQTDIR="/usr/lib/qt6" -G "Ninja" .
+
+      - name: Build
+        run: just build
+
+      - name: Get module skeleton
+        run: just get_module_skeleton
+
+      - name: Build help
+        run: just build_help
+
+      - name: Minimal tests
+        run: just minimal_tests
+
+      - name: Package
+        run: just package
+
+      - name: Install
+        run: sudo just install
+
+      - name: Setup Python environment for Nelson
+        run: just setup_python_env
+
+      - name: Setup Julia environment for Nelson
+        run: just setup_julia_env
+
+      - name: Benchmarks
+        run: xvfb-run -a just benchmarks
+
+      - name: Tests
+        run: xvfb-run -a just tests
+
+      - name: Copy artifacts
+        run: |
+          mkdir artifacts
+          mv tests_all*.* artifacts
+          mv benchmark_all*.* artifacts
+          mv nelson-*.deb artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-linux-${{ matrix.os }}-${{ matrix.arch }}-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/

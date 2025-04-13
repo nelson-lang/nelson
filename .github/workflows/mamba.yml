@@ -3,10 +3,25 @@ name: Micromamba CI
 on: [push]
 
 jobs:
-  Micromamba_linux:
-    name: Micromamba (Ubuntu-24.04)
-    runs-on: ubuntu-24.04
+  Micromamba:
+    name: Micromamba (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 120
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            env_file: environment-linux-dev.yml
+            extra_cmake_flags: ""
+            make_args: "-- -j $(nproc)"
+            extra_test_env: "xvfb-run "
+          - os: macos-14
+            env_file: environment-macos-dev.yml
+            extra_cmake_flags: "-DFORCE_LIBGFORTRAN_LINK=ON"
+            make_args: ""
+            extra_test_env: ""
 
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +29,7 @@ jobs:
       - name: install micromamba
         uses: mamba-org/setup-micromamba@v2
         with:
-          environment-file: environment-linux-dev.yml
+          environment-file: ${{ matrix.env_file }}
           environment-name: nelson
 
       - name: cmake configure
@@ -27,13 +42,13 @@ jobs:
             -DWITHOUT_TIFF=ON \
             -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
             -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-            -DCMAKE_INSTALL_LIBDIR=lib
+            -DCMAKE_INSTALL_LIBDIR=lib ${{ matrix.extra_cmake_flags }}
         shell: micromamba-shell {0}
 
       - name: make
         run: |
           cd build
-          cmake --build . -- -j $(nproc)
+          cmake --build . ${{ matrix.make_args }}
         shell: micromamba-shell {0}
 
       - name: get module skeleton
@@ -57,64 +72,5 @@ jobs:
       - name: all tests
         run: |
           cd build
-          xvfb-run cmake --build . -- tests_all
-        shell: micromamba-shell {0}
-
-  Micromamba_macos:
-    name: Micromamba (macOS 14)
-    runs-on: macos-14
-    timeout-minutes: 120
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: install micromamba
-        uses: mamba-org/setup-micromamba@v2
-        with:
-          environment-file: environment-macos-dev.yml
-          environment-name: nelson
-
-      - name: cmake configure
-        run: |
-          mkdir -p build
-          cd build
-          cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DFORCE_LIBGFORTRAN_LINK=ON \
-            -DWITHOUT_GIF=ON \
-            -DWITHOUT_TIFF=ON \
-            -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
-            -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-            -DCMAKE_INSTALL_LIBDIR=lib
-        shell: micromamba-shell {0}
-
-      - name: make
-        run: |
-          cd build
-          cmake --build .
-        shell: micromamba-shell {0}
-
-      - name: get module skeleton
-        run: |
-          cd build
-          cmake --build . -- get_module_skeleton
-        shell: micromamba-shell {0}
-
-      - name: build help
-        run: |
-          cd build
-          cmake --build . -- buildhelp
-        shell: micromamba-shell {0}
-
-      - name: install
-        run: |
-          cd build
-          cmake --build . -- install
-        shell: micromamba-shell {0}
-
-      - name: all tests
-        run: |
-          cd build
-          export OMP_NUM_THREADS=1
-          cmake --build . -- tests_all
+          ${{ matrix.extra_test_env }} cmake --build . -- tests_all
         shell: micromamba-shell {0}

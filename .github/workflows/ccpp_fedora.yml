@@ -1,0 +1,52 @@
+name: "Fedora Build"
+
+on:
+  workflow_call:
+
+jobs:
+  Fedora:
+    name: Fedora 41
+    runs-on: ubuntu-latest
+    container: fedora:41
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-fedora-41.sh
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+      - name: Update version
+        run: just update_version
+      - name: Configure
+        run: just config "-G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DWITHOUT_MPI_MODULE=ON ."
+      - name: Build
+        run: |
+          export QTDIR_BINARIES="/usr/lib64/qt6/bin/"
+          just build
+      - name: Download module skeleton
+        run: just get_module_skeleton
+      - name: Build help
+        run: just build_help
+      - name: Minimal tests
+        run: just minimal_tests
+      - name: Make package
+        run: just package
+      - name: Install
+        run: sudo just install
+      - name: Setup Python environment for Nelson
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH
+          just setup_python_env
+      - name: Set Julia Environment for Nelson
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH
+          just setup_julia_env
+      - name: Benchs
+        run: just benchmarks_no_display
+      - name: Tests
+        run: just tests_no_display

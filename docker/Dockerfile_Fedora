@@ -8,70 +8,24 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 
-FROM fedora:37
+FROM fedora:41
 LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
 
-RUN dnf update -y
-RUN dnf upgrade -y
-RUN dnf install -y which
-RUN dnf install -y hostname
 RUN dnf install -y git
-RUN dnf install -y make
-RUN dnf install -y libtool
-RUN dnf install -y gcc
-RUN dnf install -y gcc-c++
-RUN dnf install -y autoconf
-RUN dnf install -y automake
-RUN dnf install -y openmpi-devel
-RUN dnf install -y gettext
-RUN dnf install -y pkg-config
-RUN dnf install -y cmake
-RUN dnf install -y libffi-devel
-RUN dnf install -y libicu-devel
-RUN dnf install -y libxml2-devel
-RUN dnf install -y lapack-devel
-RUN dnf install -y fftw3-devel
-RUN dnf install -y portaudio-devel
-RUN dnf install -y libsndfile-devel
-RUN dnf install -y jack-audio-connection-kit-devel
-# RUN dnf install -y pipewire-jack-audio-connection-kit-devel 
-RUN dnf install -y taglib-devel
-RUN dnf install -y qt6-qtbase-devel
-RUN dnf install -y qt6-qtdeclarative-devel
-RUN dnf install -y qt6-qtbase-mysql
-RUN dnf install -y qt6-qtbase-odbc
-RUN dnf install -y qt6-qtbase-postgresql
-RUN dnf install -y qt6-doctools
-RUN dnf install -y qt6-qtquickcontrols2
-RUN dnf install -y qt6-qtsvg-devel
-RUN dnf install -y qt6-qttools
-RUN dnf install -y qt6-qttools-libs-help
-RUN dnf install -y qt6-qttools-devel
-RUN dnf install -y boost-devel
-RUN dnf install -y zlib-devel
-RUN dnf install -y curl-devel
-RUN dnf install -y libgit2-devel
-RUN dnf install -y matio-devel
-RUN dnf install -y hdf5-devel
-RUN dnf install -y eigen3-devel
-RUN dnf install -y python3-devel
-RUN dnf install -y python3-numpy
-RUN dnf install -y tbb-devel
-RUN dnf install -y giflib-devel
-RUN dnf install -y libtiff-devel
-
 
 RUN git clone https://github.com/nelson-lang/nelson.git
 WORKDIR "/nelson"
 RUN cd "/nelson" && git checkout ${BRANCH_NAME}
 
+RUN ./tools/install_dependencies/install-fedora-41.sh
+
 RUN mkdir /home/nelsonuser
 
-RUN groupadd -g 1001 nelsonuser && \
-    useradd -r -u 1001 -g nelsonuser nelsonuser
+RUN groupadd -f -g 999 nelsonuser || groupadd -f nelsonuser && \
+    useradd -r -u 999 -g nelsonuser nelsonuser || useradd -r -g nelsonuser nelsonuser
 
 RUN chown -R nelsonuser:nelsonuser /home/nelsonuser
 
@@ -80,18 +34,17 @@ RUN chown -R nelsonuser:nelsonuser /nelson
 USER nelsonuser
 
 ENV AUDIODEV null
+
 ENV PATH="/usr/lib64/openmpi/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
-RUN cmake --build . -- -j $(nproc)
-RUN cmake --build . -- -j $(nproc) get_module_skeleton
-
-RUN cmake --build . -- -j $(nproc) buildhelp
-RUN cmake --build . -- -j $(nproc) tests_minimal
-RUN cmake --build . -- -j $(nproc) package
-RUN cmake --build . -- -j $(nproc) benchmark_all_no_display
-RUN cmake --build . -- -j $(nproc) tests_all_no_display
-
+RUN just config -DCMAKE_BUILD_TYPE=Release .
+RUN just build
+RUN just get_module_skeleton
+RUN just build_help
+RUN just minimal_tests
+RUN just package
+RUN just benchmarks_no_display
+RUN just tests_no_display
 
 ENTRYPOINT ["/nelson/bin/linux/nelson-cli"]

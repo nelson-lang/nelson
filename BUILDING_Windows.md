@@ -17,23 +17,23 @@ mkdir nelson-lang
 cd nelson-lang
 ```
 
-## 📥 Download Third-Party Dependencies
-
-- **For Windows 32-bit architecture** ⚠️ _(No longer officially maintained)_:
-  ```bash
-  git clone https://github.com/nelson-lang/nelson-thirdparty-win32.git
-  ```
-- **For Windows 64-bit architecture** ✅ _(Recommended)_:
-  ```bash
-  git clone https://github.com/nelson-lang/nelson-thirdparty-x64.git
-  ```
-  ➡️ Then, run `install.bat`.
-
 ## 🔄 Get the Source Code
 
 ```bash
 git clone https://github.com/nelson-lang/nelson.git
+cd nelson
 ```
+
+## 📥 Download and Install Third-Party Dependencies
+
+- **For Windows 64-bit architecture** ✅ _(Recommended)_:
+  ```bash
+  .\tools\install_dependencies\install-windows-32.bat
+  ```
+- **For Windows 32-bit architecture** ⚠️ _(No longer officially maintained)_:
+  ```bash
+  .\tools\install_dependencies\install-windows-32.bat
+  ```
 
 ## 🏗️ Start the Build Process
 
