@@ -6,16 +6,16 @@
   "scripts": {
     "prettier": "run-s prettier:standard prettier:xmldoc prettier:clang-format",
     "prettier:standard": "prettier --write **/*.{js,json,yml,md}",
-    "prettier:xmldoc": "prettier --write modules/*/help/*/xml/*.xml",
+    "prettier:xmldoc": "prettier --plugin=@prettier/plugin-xml --write modules/*/help/*/xml/*.xml",
     "prettier:clang-format": "clang-format-launcher  --verbose",
     "prettier:check": "run-s prettier:check:standard prettier:check:xmldoc prettier:check:clang-format",
     "prettier:check:standard": "prettier --check **/*.{js,json,yml,md}",
-    "prettier:check:xmldoc": "prettier --check modules/*/help/*/xml/*.xml",
+    "prettier:check:xmldoc": "prettier --plugin=@prettier/plugin-xml --check modules/*/help/*/xml/*.xml",
     "prettier:check:clang-format": "clang-format-launcher -verify --verbose"
   },
   "devDependencies": {
-    "@prettier/plugin-xml": "2.2.0",
-    "prettier": "2.7.1",
+    "@prettier/plugin-xml": "3.4.1",
+    "prettier": "3.5.3",
     "npm-run-all": "4.1.5",
     "clang-format": "1.8.0",
     "clang-format-launcher": "0.1.4"
