@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
 - Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
 
+### Changed
+
+- [#1378](http://github.com/nelson-lang/nelson/issues/1378) Boost 1.88 support.
+
 ### Technical Improvements
 
 - Updated GitHub CI to use Windows 2025 for Windows builds.

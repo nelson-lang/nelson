@@ -262,7 +262,7 @@ list(
   date_time
   iostreams)
 find_package(
-  Boost 1.64.0
+  Boost 1.74.0
   CONFIG COMPONENTS ${boost_components}
   REQUIRED)
 # ==============================================================================

@@ -15,9 +15,16 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 108800
+#include <boost/process/v1/child.hpp>
+#include <boost/process/v1/search_path.hpp>
+#include <boost/process/v1/io.hpp>
+#else
 #include <boost/process.hpp>
-#include <boost/thread/thread.hpp>
 #include <boost/process/async.hpp>
+#endif
+#include <boost/thread/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <algorithm>
 #include <map>
@@ -30,6 +37,16 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "SystemCommand.hpp"
 //=============================================================================
+#if BOOST_VERSION >= 108800
+#define BOOST_PROCESS boost::process::v1
+#define PROCESS_PID_T boost::process::v1::pid_t
+#define PROCESS_CHILD boost::process::v1::child
+#else
+#define BOOST_PROCESS boost::process
+#define PROCESS_PID_T boost::process::pid_t
+#define PROCESS_CHILD boost::process::child
+#endif
+//=============================================================================
 #define NELSON_EXECUTABLE L"nelson-gui"
 #define TIMEOUT_SECONDS 20
 //=============================================================================
@@ -38,28 +55,28 @@ static std::map<int, int> mapoutputBufferLength;
 //=============================================================================
 static int countEngine = 0;
 //=============================================================================
-static boost::process::child*
+static PROCESS_CHILD*
 attach_child(int pid)
 {
-    boost::process::child* child = nullptr;
+    PROCESS_CHILD* child = nullptr;
     try {
-        boost::process::pid_t _pid = (boost::process::pid_t)pid;
-        child = new boost::process::child(_pid);
+        PROCESS_PID_T _pid = (PROCESS_PID_T)pid;
+        child = new PROCESS_CHILD(_pid);
     } catch (const std::bad_alloc&) {
         child = nullptr;
     }
     return child;
 }
 //=============================================================================
-static boost::process::child*
+static PROCESS_CHILD*
 start_child(const std::wstring& executable_name, const std::wstring& arguments)
 {
-    boost::process::child* child = nullptr;
+    PROCESS_CHILD* child = nullptr;
 #ifdef _MSC_VER
     try {
-        child = new boost::process::child(boost::process::search_path(executable_name), arguments,
-            boost::process::std_out > stdout, boost::process::std_err > stderr,
-            boost::process::std_in < stdin);
+        child = new PROCESS_CHILD(BOOST_PROCESS::search_path(executable_name), arguments,
+            BOOST_PROCESS::std_out > stdout, BOOST_PROCESS::std_err > stderr,
+            BOOST_PROCESS::std_in < stdin);
         child->detach();
     } catch (const std::bad_alloc&) {
         child = nullptr;
@@ -67,11 +84,11 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
 #else
 #if defined(__APPLE__) || defined(__MACH__)
     std::wstring command = L"open -a \""
-        + boost::process::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
+        + BOOST_PROCESS::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
         + arguments;
 #else
     std::wstring command
-        = boost::process::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
+        = BOOST_PROCESS::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
 #endif
     size_t mainEvaluatorID = 0;
     std::tuple<int, std::wstring, Nelson::uint64> res
@@ -152,11 +169,10 @@ engOpen(const char* startcmd)
     if (!waitUntilIpcReceiverIsReady(parentPID, TIMEOUT_SECONDS)) {
         return nullptr;
     }
-    boost::process::pid_t latestNelsonPID
-        = (boost::process::pid_t)Nelson::getLatestPidWithModeInSharedMemory(
-            NELSON_ENGINE_MODE::GUI);
+    PROCESS_PID_T latestNelsonPID
+        = (PROCESS_PID_T)Nelson::getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE::GUI);
 
-    boost::process::child* child = nullptr;
+    PROCESS_CHILD* child = nullptr;
     bool createChild = false;
     if (latestNelsonPID < 1) {
         std::wstring args(L"--minimize");
@@ -197,6 +213,7 @@ engOpen(const char* startcmd)
     } catch (std::bad_alloc&) {
         engine = nullptr;
     }
+
     if (engine != nullptr) {
         engine->child = (void*)child;
         engine->isSingleUse = createChild;
@@ -220,7 +237,7 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
         return nullptr;
     }
     std::wstring args;
-    boost::process::child* child = start_child(NELSON_EXECUTABLE, args);
+    PROCESS_CHILD* child = start_child(NELSON_EXECUTABLE, args);
     if (child == nullptr) {
         return nullptr;
     }
@@ -270,7 +287,7 @@ engEvalString(Engine* ep, const char* string)
     if (ep == nullptr) {
         return 1;
     }
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         return 1;
@@ -303,7 +320,7 @@ engSetVisible(Engine* ep, bool newVal)
     if (ep == nullptr) {
         return 1;
     }
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         return 1;
@@ -322,7 +339,7 @@ engGetVisible(Engine* ep, bool* bVal)
         *bVal = false;
         return 1;
     }
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         *bVal = false;
@@ -346,7 +363,7 @@ engClose(Engine* ep)
         return 1;
     }
     if (ep->isSingleUse) {
-        boost::process::child* child = (boost::process::child*)ep->child;
+        PROCESS_CHILD* child = (PROCESS_CHILD*)ep->child;
         int res = engEvalString(ep, "quit;");
 #ifndef _MSC_VER
         if (res) {
@@ -375,7 +392,7 @@ engGetVariableCommon(Engine* ep, const char* name, bool interleavedComplex)
         return nullptr;
     }
     std::wstring wname = Nelson::utf8_to_wstring(name);
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         return nullptr;
@@ -410,7 +427,7 @@ engPutVariable(Engine* ep, const char* var_name, const mxArray* ap)
     }
     Nelson::ArrayOf var = Nelson::MxArrayToArrayOf(ap);
     std::wstring name = Nelson::utf8_to_wstring(var_name);
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         return 1;
@@ -429,7 +446,7 @@ engOutputBuffer(Engine* ep, char* buffer, int buflen)
     if (ep == nullptr) {
         return 1;
     }
-    boost::process::child* child = (boost::process::child*)(ep->child);
+    PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
     int childPID = child->id();
     if (!child->valid()) {
         return 1;
