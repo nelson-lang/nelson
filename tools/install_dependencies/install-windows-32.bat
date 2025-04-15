@@ -16,13 +16,6 @@ set BAT_PATH=%~dp0
 rem Remove trailing backslash if present
 set BAT_PATH=%BAT_PATH:~0,-1%
 rem =============================================================================
-set QTDIR=%QTDIR32%
-if not defined QTDIR (
-    echo QTDIR32 not defined.
-    cd "%ORIGINAL_DIR%"
-    exit /b 1
-)
-rem =============================================================================
 rem Check if git is available
 git --version >nul 2>&1
 if errorlevel 1 (
@@ -86,6 +79,8 @@ if exist "%BAT_PATH%\..\..\..\qt_windows_x86\" (
         exit /b 1
     )
 )
+rem =============================================================================
+set QTDIR32="%BAT_PATH%\..\..\..\qt_windows_x86\5.15.2\msvc2019"
 rem =============================================================================
 rem Check and execute the install.bat script
 set INSTALL_SCRIPT=%BAT_PATH%\..\..\..\nelson-thirdparty-win32\install.bat

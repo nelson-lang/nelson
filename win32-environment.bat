@@ -8,10 +8,21 @@ rem # LICENCE_BLOCK_BEGIN
 rem # SPDX-License-Identifier: LGPL-3.0-or-later
 rem # LICENCE_BLOCK_END
 rem =============================================================================
-set QTDIR=%QTDIR32%
-if not defined QTDIR (
-    echo QTDIR32 not defined.
+rem Save the current directory
+set ORIGINAL_DIR=%CD%
+rem =============================================================================
+rem Set the script's directory as the root path
+set BAT_PATH=%~dp0
+rem Remove trailing backslash if present
+set BAT_PATH=%BAT_PATH:~0,-1%
+rem =============================================================================
+if not defined QTDIR32 (
+  set QTDIR32=%BAT_PATH%\..\qt_windows_x86\5.15.2\msvc2019
+)
+if not exist %QTDIR32% (
+    echo %QTDIR32% not found.
     exit /b 1
 )
+set QTDIR=%QTDIR32%
 rem =============================================================================
 start NelSon.sln
