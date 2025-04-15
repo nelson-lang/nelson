@@ -59,6 +59,34 @@ if exist "%BAT_PATH%\..\..\..\nelson-thirdparty-win32\" (
     )
 )
 rem =============================================================================
+rem Clone or update the qt5
+if exist "%BAT_PATH%\..\..\..\qt_windows_x86\" (
+    if exist "%BAT_PATH%\..\..\..\qt_windows_x86\.git" (
+        echo Repository Qt already exists. Pulling latest changes...
+        cd "%BAT_PATH%\..\..\..\qt_windows_x86"
+        git pull
+        if errorlevel 1 (
+            echo Failed to pull the latest changes. Please check your internet connection or repository state.
+            cd "%ORIGINAL_DIR%"
+            exit /b 1
+        )
+        cd "%BAT_PATH%"
+    ) else (
+        echo The directory qt_windows_x86 exists but is not a valid git repository.
+        echo Please remove the directory and try again.
+        cd "%ORIGINAL_DIR%"
+        exit /b 1
+    )
+) else (
+    echo Cloning the repository...
+    git clone https://github.com/nelson-lang/qt_windows_x86.git %BAT_PATH%\..\..\..\qt_windows_x86
+    if errorlevel 1 (
+        echo Failed to clone the repository. Please check your internet connection or SSH configuration.
+        cd "%ORIGINAL_DIR%"
+        exit /b 1
+    )
+)
+rem =============================================================================
 rem Check and execute the install.bat script
 set INSTALL_SCRIPT=%BAT_PATH%\..\..\..\nelson-thirdparty-win32\install.bat
 if exist "%INSTALL_SCRIPT%" (

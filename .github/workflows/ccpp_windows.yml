@@ -47,29 +47,16 @@ jobs:
 
       - name: Update version
         run: just -f justfile.win update_version
-
-      - name: Install Qt 5.15.2
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: "5.15.2"
-          host: "windows"
-          target: "desktop"
-          arch: "win32_msvc2019"
-          dir: "C:/install/QT5/"
-          install-deps: "true"
-          #modules: "qtwebengine"
-          cache: "false"
-          setup-python: "false"
-
+      
       - name: Install dependencies
         run: |
-          set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
+          set QTDIR32=%GITHUB_WORKSPACE%..\qt_windows_x86\5.15.2\msvc2019
           set QTDIR=%QTDIR32%
           %GITHUB_WORKSPACE%\tools\install_dependencies\install-windows-32.bat remove-debug
 
       - name: Build Nelson
         run: |
-          set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
+          set QTDIR32=%GITHUB_WORKSPACE%..\qt_windows_x86\5.15.2\msvc2019
           set QTDIR=%QTDIR32%
           SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
