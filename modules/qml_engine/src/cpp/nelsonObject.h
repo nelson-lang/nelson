@@ -31,6 +31,8 @@ public:
     Q_INVOKABLE QVariant
     call(const QString& functionName);
     Q_INVOKABLE QVariant
+    call(const QString& functionName, const QString& argString);
+    Q_INVOKABLE QVariant
     call(const QString& functionName, const QVariant& arg1);
     Q_INVOKABLE QVariant
     call(const QString& functionName, const QVariant& arg1, const QVariant& arg2);

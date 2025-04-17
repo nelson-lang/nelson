@@ -113,6 +113,12 @@ nelsonObject::call(const QString& functionName)
 }
 //=============================================================================
 QVariant
+nelsonObject::call(const QString& functionName, const QString& argString)
+{
+    return call(functionName, QVariant(argString));
+}
+//=============================================================================
+QVariant
 nelsonObject::call(const QString& functionName, const QVariantList& args)
 {
     QVariant res;
@@ -127,12 +133,7 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
                 || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                 ArrayOfVector argIn;
                 for (const auto& arg : args) {
-                    try {
-                        argIn.push_back(QVariantToArrayOf(arg));
-                    } catch (const Exception&) {
-                        qCritical() << "error function.";
-                        return {};
-                    }
+                    argIn.push_back(QVariantToArrayOf(arg));
                 }
                 int nLhs = funcDef->outputArgCount();
                 ArrayOfVector resVector;
