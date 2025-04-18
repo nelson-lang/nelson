@@ -173,12 +173,16 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WindowTransparentForInput"] = Qt::WindowTransparentForInput;
     mapConstants[L"Qt.WindowOverridesSystemGestures"] = Qt::WindowOverridesSystemGestures;
     mapConstants[L"Qt.WindowDoesNotAcceptFocus"] = Qt::WindowDoesNotAcceptFocus;
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
     mapConstants[L"Qt.MaximizeUsingFullscreenGeometryHint"]
         = Qt::MaximizeUsingFullscreenGeometryHint;
+#endif
     mapConstants[L"Qt.CustomizeWindowHint"] = Qt::CustomizeWindowHint;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     mapConstants[L"Qt.WindowStaysOnBottomHint"] = Qt::WindowStaysOnBottomHint;
-    mapConstants[L"Qt.WindowCloseButtonHint"] = Qt::WindowCloseButtonHint;
     mapConstants[L"Qt.MacWindowToolBarButtonHint"] = Qt::MacWindowToolBarButtonHint;
+#endif
+    mapConstants[L"Qt.WindowCloseButtonHint"] = Qt::WindowCloseButtonHint;
     mapConstants[L"Qt.BypassGraphicsProxyWidget"] = Qt::BypassGraphicsProxyWidget;
     mapConstants[L"Qt.NoDropShadowWindowHint"] = Qt::NoDropShadowWindowHint;
     mapConstants[L"Qt.WindowFullscreenButtonHint"] = Qt::WindowFullscreenButtonHint;

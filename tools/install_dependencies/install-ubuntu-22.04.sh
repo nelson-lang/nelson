@@ -22,14 +22,15 @@ fi
 print_status "Updating package lists"
 apt-get update --fix-missing
 
-# Remove existing Firefox installation (temporary workaround, CI issue)
-print_status "Removing existing Firefox installation"
-snap remove firefox || true  # Ignore errors if Firefox is not installed via snap
-apt-get remove --purge -y firefox || true
-
-# Hold grub-efi-amd64-signed to prevent accidental upgrades
-print_status "Holding grub-efi-amd64-signed package"
-apt-mark hold grub-efi-amd64-signed
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+    # Remove existing Firefox installation (temporary workaround, CI issue)
+    print_status "Removing existing Firefox installation"
+    snap remove firefox || true  # Ignore errors if Firefox is not installed via snap
+    apt-get remove --purge -y firefox || true
+    # Hold grub-efi-amd64-signed to prevent accidental upgrades
+    print_status "Holding grub-efi-amd64-signed package"
+    apt-mark hold grub-efi-amd64-signed
+fi
 
 # Upgrade existing packages
 print_status "Upgrading existing packages"

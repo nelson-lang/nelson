@@ -12,9 +12,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
 #endif
+#include "SystemCommandTask.hpp"
+#if BOOST_VERSION >= 108800
+#include <boost/process/v1/io.hpp>
+#endif
 #include <thread>
 #include <fstream>
-#include "SystemCommandTask.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -104,14 +107,13 @@ std::wstring
 SystemCommandTask::buildCommandString(const std::wstring& _command)
 {
     std::wstring argsShell = getPlatformSpecificShellArgs();
-    return L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command
-        + L"\"";
+    return L"\"" + BOOST_PROCESS::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
 }
 //=============================================================================
 void
 SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
 {
-    boost::process::child childProcess(cmd);
+    PROCESS_CHILD childProcess(cmd);
     childProcess.detach();
     _exitCode = 0;
 }
@@ -121,10 +123,10 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     const FileSystemWrapper::Path& tempOutputFile, const FileSystemWrapper::Path& tempErrorFile,
     uint64 timeout)
 {
-    boost::process::child childProcess(cmd,
-        boost::process::std_out > tempOutputFile.generic_string().c_str(),
-        boost::process::std_err > tempErrorFile.generic_string().c_str(),
-        boost::process::std_in < boost::process::null);
+    PROCESS_CHILD childProcess(cmd,
+        BOOST_PROCESS::std_out > tempOutputFile.generic_string().c_str(),
+        BOOST_PROCESS::std_err > tempErrorFile.generic_string().c_str(),
+        BOOST_PROCESS::std_in < BOOST_PROCESS::null);
 
     monitorChildProcess(childProcess, timeout);
 
@@ -135,7 +137,7 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
 }
 //=============================================================================
 void
-SystemCommandTask::monitorChildProcess(boost::process::child& childProcess, uint64 timeout)
+SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeout)
 {
     while (childProcess.running() && !_terminate) {
         auto _currentTimePoint = std::chrono::steady_clock::now();

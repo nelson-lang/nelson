@@ -13,15 +13,24 @@
 #include <string>
 #include <atomic>
 #include <tuple>
+#include <boost/version.hpp>
 #include <boost/asio.hpp>
-#include <boost/process.hpp>
-#if _MSC_VER
-#include <boost/process/v1/shell.hpp>
+#if BOOST_VERSION >= 108800
+#include <boost/process/v1/child.hpp>
 #else
+#include <boost/process.hpp>
 #include <boost/process/shell.hpp>
 #endif
 #include "Types.hpp"
 #include "FileSystemWrapper.hpp"
+//=============================================================================
+#if BOOST_VERSION >= 108800
+#define BOOST_PROCESS boost::process::v1
+#define PROCESS_CHILD BOOST_PROCESS::child
+#else
+#define BOOST_PROCESS boost::process
+#define PROCESS_CHILD boost::process::child
+#endif
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -64,7 +73,7 @@ private:
         const FileSystemWrapper::Path& tempErrorFile, uint64 timeout);
     //=============================================================================
     void
-    monitorChildProcess(boost::process::child& childProcess, uint64 timeout);
+    monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeout);
     //=============================================================================
     std::wstring
     readProcessOutput(const FileSystemWrapper::Path& tempOutputFile,

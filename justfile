@@ -14,7 +14,7 @@ clean:
     rm -rf build.ninja .ninja_log CPackageConfig.cmake CPackageSource.cmake
     rm -rf NelsonConfigVersion.cmake
 
-config *args='cmake -G "Unix Makefiles" .':
+config *args=' -G "Unix Makefiles" .':
     @echo "Configure..."
     echo "Configure with args: {{args}}"
     cmake {{args}}

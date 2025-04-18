@@ -11,14 +11,27 @@
 #define _WIN32_WINNT 0x0550
 #endif
 //=============================================================================
+#include <boost/version.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
+#if BOOST_VERSION >= 108800
+#include <boost/process/v1/child.hpp>
+#else
 #include <boost/process.hpp>
+#endif
 #ifndef _MSC_VER
 #include <sys/utsname.h>
 #endif
 #include "NelsonPIDs.hpp"
 #include "GetUsername.hpp"
 #include "characters_encoding.hpp"
+//=============================================================================
+#if BOOST_VERSION >= 108800
+#define PROCESS_PID_T boost::process::v1::pid_t
+#define PROCESS_CHILD boost::process::v1::child
+#else
+#define PROCESS_PID_T boost::process::pid_t
+#define PROCESS_CHILD boost::process::child
+#endif
 //=============================================================================
 #define MAX_NB_PIDS 256
 #define NELSON_PIDS "NELSON_PIDS"
@@ -36,9 +49,8 @@ isPIDRunning(int pID)
         return false;
     }
     try {
-
-        boost::process::pid_t _pid = (boost::process::pid_t)pID;
-        boost::process::child child(_pid);
+        PROCESS_PID_T _pid = (PROCESS_PID_T)pID;
+        PROCESS_CHILD child(_pid);
         return child.valid();
     } catch (const std::runtime_error&) {
         return false;
@@ -249,7 +261,6 @@ getNelsonPIDModes()
 int
 getLatestPidInSharedMemory()
 {
-
     try {
         boost::interprocess::managed_shared_memory managed_shm {
             boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
@@ -264,7 +275,6 @@ getLatestPidInSharedMemory()
         }
     } catch (boost::interprocess::interprocess_exception&) {
     }
-
     return 0;
 }
 //=============================================================================
