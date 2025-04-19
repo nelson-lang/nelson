@@ -40,12 +40,12 @@ jobs:
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          just setup_python_env
+          just setup_python
       - name: Set Julia Environment for Nelson
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH
-          just setup_julia_env
+          just setup_julia
       - name: Benchs
         run: just benchmarks_no_display
       - name: Tests

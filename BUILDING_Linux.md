@@ -206,22 +206,22 @@ WITHOUT_WEBTOOLS_MODULE:BOOL=OFF
 
 ```
 
-Standard build:
+Standard build using Just (>= 1.33):
 
 ```bash
 cd nelson
-cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .
-cmake --build . -- -j $(nproc)
-cmake --build . -- buildhelp
-cmake --build . -- tests_minimal
+just config
+just build
+just build_help
+just minimal_tests
 ```
 
 Minimal build:
 
 ```bash
 cd nelson
-cmake -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Unix Makefiles" .
-cmake --build . -- -j $(nproc)
+just config -DCMAKE_BUILD_TYPE=Release -DMINIMAL_BUILD=ON -G "Unix Makefiles" .
+just build
 ```
 
 Some tips:
@@ -230,9 +230,9 @@ Some tips:
 
 ```bash
 cd nelson
-cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_AVX2=ON -G "Unix Makefiles" .
-cmake --build . -- -j $(nproc)
-cmake --build . -- buildhelp
+just config -DCMAKE_BUILD_TYPE=Release -DENABLE_AVX2=ON -G "Unix Makefiles" .
+just build
+just build_help
 ```
 
 - On Fedora distribution: replaces jack-audio-connection-kit-devel package by pipewire-jack-audio-connection-kit-devel
@@ -241,27 +241,21 @@ cmake --build . -- buildhelp
 
 ```bash
   cd nelson
-  cmake -DENABLE_CLANG_TIDY_FIX=ON -G "Unix Makefiles" .
+  just config -DENABLE_CLANG_TIDY_FIX=ON -G "Unix Makefiles" .
+  just build
 ```
 
 - Update localization files if you modify it (optional, only for dev):
 
 ```bash
-make updatelocalization
+just update-localization
 ```
 
 - launch Nelson:
 
 ```bash
 cd nelson
-./bin/linux/nelson.sh
-```
-
-or
-
-```bash
-cd nelson
-./bin/macOs/nelson.sh
+just start
 ```
 
 [Previous (Building)](BUILDING.md)

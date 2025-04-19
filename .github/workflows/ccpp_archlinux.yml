@@ -38,9 +38,9 @@ jobs:
       - name: Install
         run: sudo just install
       - name: Setup Python environment for Nelson
-        run: just setup_python_env
+        run: just setup_python
       - name: Set Julia Environment for Nelson
-        run: just setup_julia_env
+        run: just setup_julia
       - name: Benchs
         run: just benchmarks_no_display
       - name: Tests
