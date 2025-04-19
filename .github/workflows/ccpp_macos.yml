@@ -74,11 +74,11 @@ jobs:
 
       - name: Setup Python environment for Nelson
         if: ${{ matrix.config.arch == 'arm64' }}
-        run: just setup_python_env
+        run: just setup_python
 
       - name: Setup Julia environment for Nelson
         if: ${{ matrix.config.arch == 'arm64' }}
-        run: just setup_julia_env
+        run: just setup_julia
 
       - name: Benchmarks
         run: just benchmarks

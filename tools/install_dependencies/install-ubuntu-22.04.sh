@@ -95,9 +95,9 @@ apt-get install -y \
     libgif-dev \
     libtiff-dev
 
-# Install 'just' build tool
-print_status "Installing 'just' build tool"
-snap install just --classic
+# Just 1.33 or higher is required
+print_status "Installing Just"
+snap install --classic just
 
 # Clean up
 print_status "Cleaning up"
