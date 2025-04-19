@@ -4,6 +4,121 @@ on:
   workflow_call:
 
 jobs:
+  Windows_win64:
+    name: Windows 64 bits
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: cmd
+    timeout-minutes: 90
+
+    steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.2"
+
+      - name: Install Inno-setup
+        run: choco install InnoSetup
+
+      - name: Install Just
+        run: choco install just
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          arch: "x64"
+
+      - name: Install MS-MPI
+        run: |
+          $null = mkdir c:/install
+          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
+          C:/install/MSMpiSetup.exe -unattend -minimal
+        shell: powershell
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+
+      - name: Update version
+        run: just -f justfile.win update_version
+
+      - name: Install dependencies
+        run: just -f justfile.win install_dependencies::win64 remove-debug
+
+      - name: Build Nelson
+        run: just -f justfile.win build::win64
+
+      - name: Set Python Environment for Nelson
+        run: just -f justfile.win setup_python::win64
+
+      - name: Set Julia Environment for Nelson
+        run: just -f justfile.win setup_julia::win64
+
+      - name: Copy Python in Nelson distribution
+        run: |
+          xcopy %Python_ROOT_DIR% %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python /E /I /Y
+          del %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python\python-3*-amd64.exe
+
+      - name: Download module skeleton
+        run: just -f justfile.win get_module_skeleton::win64
+
+      - name: Build help
+        run: just -f justfile.win build_help::win64
+
+      - name: Minimal tests
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          just -f justfile.win minimal_tests::win64
+
+      - name: Package Nelson
+        run: just -f justfile.win package::win64
+
+      - name: Install Nelson with installer
+        run: |
+          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /VERYSILENT /ALLUSERS /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+
+      - name: creates artifacts directory
+        run: |
+          $null = mkdir %GITHUB_WORKSPACE%/artifacts
+        shell: powershell
+
+      - name: Zip Nelson install directory
+        run: |
+          "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%
+
+      - name: Tests moved in an long path name with space on windows
+        run: |
+          mv "c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%" "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+
+      - name: Benchs
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchmark_all/runbenchmark_all.m"
+
+      - name: Tests
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
+
+      - name: Copy installer in artifacts directory
+        run: mv Nelson-*.exe artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-windows-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+
+  # This job is for 32 bits Windows (officially not supported)
+  # It is kept for historical reasons and to be able to build the 32 bits version
   Windows_win32:
     name: Windows 32 bits
     runs-on: windows-2025
@@ -49,25 +164,16 @@ jobs:
         run: just -f justfile.win update_version
 
       - name: Install dependencies
-        run: |
-          set QTDIR32=%GITHUB_WORKSPACE%\..\qt_windows_x86\5.15.2\msvc2019
-          set QTDIR=%QTDIR32%
-          %GITHUB_WORKSPACE%\tools\install_dependencies\install-windows-32.bat remove-debug
+        run: just -f justfile.win install_dependencies::win32 remove-debug
 
       - name: Build Nelson
-        run: |
-          set QTDIR32=%GITHUB_WORKSPACE%\..\qt_windows_x86\5.15.2\msvc2019
-          set QTDIR=%QTDIR32%
-          SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-          cd %GITHUB_WORKSPACE%
-          just -f justfile.win build win32
+        run: just -f justfile.win build::win32
 
       - name: Set Python Environment for Nelson
-        run: just -f justfile.win setup_python_env win32
+        run: just -f justfile.win setup_python::win32
 
       - name: Set Julia Environment for Nelson
-        run: just -f justfile.win setup_julia_env win32
+        run: just -f justfile.win setup_julia::win32
 
       - name: Copy Python in Nelson distribution
         run: |
@@ -75,15 +181,13 @@ jobs:
           del %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python\python-3*.exe
 
       - name: Download module skeleton
-        run: just -f justfile.win get_module_skeleton win32
+        run: just -f justfile.win get_module_skeleton::win32
 
       - name: Build help
-        run: just -f justfile.win build_help win32
+        run: just -f justfile.win build_help::win32
 
-      - name: Inno setup
-        run: |
-          %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.m');exit"
-          iscc "%GITHUB_WORKSPACE%/tools/innosetup/Nelson.iss"
+      - name: Package Nelson
+        run: just -f justfile.win package::win32
 
       - name: Install Nelson with installer
         run: |
@@ -122,128 +226,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: nelson-github-action-artifacts-windows-win32-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
-          path: artifacts/
-
-  Windows_win64:
-    name: Windows 64 bits
-    runs-on: windows-2025
-    defaults:
-      run:
-        shell: cmd
-    timeout-minutes: 90
-
-    steps:
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13.2"
-
-      - name: Install Inno-setup
-        run: choco install InnoSetup
-
-      - name: Install Just
-        run: choco install just
-
-      - uses: julia-actions/setup-julia@v2
-        with:
-          arch: "x64"
-
-      - name: Install MS-MPI
-        run: |
-          $null = mkdir c:/install
-          (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/a/5/2/a5207ca5-1203-491a-8fb8-906fd68ae623/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
-          C:/install/MSMpiSetup.exe -unattend -minimal
-        shell: powershell
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.1
-        id: json_version
-
-      - name: Update version
-        run: just -f justfile.win update_version
-
-      - name: Install dependencies
-        run: |
-          set QTDIR64=%GITHUB_WORKSPACE%\..\qt_windows_x64\6.9.0\msvc2022_64
-          set QTDIR=%QTDIR64%
-          %GITHUB_WORKSPACE%\tools\install_dependencies\install-windows-64.bat remove-debug
-
-      - name: Build Nelson
-        run: |
-          set QTDIR64=%GITHUB_WORKSPACE%\..\qt_windows_x64\6.9.0\msvc2022_64
-          set QTDIR=%QTDIR64%
-          SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cd %GITHUB_WORKSPACE%
-          just -f justfile.win build x64
-
-      - name: Set Python Environment for Nelson
-        run: just -f justfile.win setup_python_env x64
-
-      - name: Set Julia Environment for Nelson
-        run: just -f justfile.win setup_julia_env x64
-
-      - name: Copy Python in Nelson distribution
-        run: |
-          xcopy %Python_ROOT_DIR% %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python /E /I /Y
-          del %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python\python-3*-amd64.exe
-
-      - name: Download module skeleton
-        run: just -f justfile.win get_module_skeleton x64
-
-      - name: Build help
-        run: just -f justfile.win build_help x64
-
-      - name: Minimal tests
-        run: |
-          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
-          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
-
-      - name: Inno setup
-        run: |
-          %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.m');exit"
-          iscc "%GITHUB_WORKSPACE%/tools/innosetup/Nelson.iss"
-
-      - name: Install Nelson with installer
-        run: |
-          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /VERYSILENT /ALLUSERS /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
-
-      - name: creates artifacts directory
-        run: |
-          $null = mkdir %GITHUB_WORKSPACE%/artifacts
-        shell: powershell
-
-      - name: Zip Nelson install directory
-        run: |
-          "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%
-
-      - name: Tests moved in an long path name with space on windows
-        run: |
-          mv "c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%" "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
-
-      - name: Benchs
-        run: |
-          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
-          set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
-          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchmark_all/runbenchmark_all.m"
-
-      - name: Tests
-        run: |
-          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
-          set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
-          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
-
-      - name: Copy installer in artifacts directory
-        run: mv Nelson-*.exe artifacts
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nelson-github-action-artifacts-windows-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/

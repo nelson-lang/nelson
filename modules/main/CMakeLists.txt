@@ -116,14 +116,7 @@ add_custom_target(
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   add_custom_target(
-    localization
-    COMMAND ${LOCALIZATION_ACTION}
-    DEPENDS nelson-cli-exec)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_LOCALIZATION_MODULE)
-  add_custom_target(
-    updatelocalization
+    update_localization
     COMMAND
     ${BIN_DIRECTORY}/nelson-cli --nousermodules --noipc
       --quiet --file

@@ -100,23 +100,15 @@ Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/in
 3. **Configure CMake and build** 🏗️
 
    ```bash
-   mkdir -p build
-   cd build
-   cmake .. \
-       -DCMAKE_BUILD_TYPE=Release \
-       -DFORCE_LIBGFORTRAN_LINK=ON \
-       -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
-       -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-       -DCMAKE_INSTALL_LIBDIR=lib
-   cmake --build .
-   cmake --build . --target buildhelp
-   cmake --build . --target install
+   just config
+   just build
+   just build_help
    ```
 
 4. **Run the application** 🚀
 
    ```bash
-   nelson
+   just start
    ```
 
 ---
@@ -126,35 +118,22 @@ Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/in
 1. **Install required dependencies** 🧱
 
    ```bash
-   brew install cmake gcc libomp openblas qt5
+   cd nelson
+   ./tools/install_dependencies/install-macOS.sh
    ```
 
-2. **Navigate to the project root directory** 📁
+2. **Configure and build the project** 🛠️
 
    ```bash
-   cd /path/to/nelson/
+   just config
+   just build
+   just build_help
    ```
 
-3. **Configure and build the project** 🛠️
+3. **Run the application** 🚀
 
    ```bash
-
-   mkdir -p build
-   cd build
-   cmake .. \
-       -DCMAKE_BUILD_TYPE=Release \
-       -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) \
-       -DCMAKE_INSTALL_PREFIX=/usr/local \
-       -DCMAKE_INSTALL_LIBDIR=lib
-   cmake --build .
-   cmake --build . --target buildhelp
-   cmake --build . --target install
-   ```
-
-4. **Run the application** 🚀
-
-   ```bash
-   nelson
+   just start
    ```
 
 ## Additional Information
