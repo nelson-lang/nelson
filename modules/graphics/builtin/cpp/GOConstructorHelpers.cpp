@@ -77,7 +77,7 @@ processProperties(GraphicsObject* fp, ArrayOfVector& t, bool& isAutoParent, bool
                     GraphicsObject* hp = findGraphicsObject(hparent);
                     hasGroupAsParent = hp->isType(GO_PROPERTY_VALUE_HGGROUP_STR);
                 }
-                if (!fp->isWritable(propname)) {
+                if (!fp->isWritable(propname) && fp->haveProperty(propname)) {
                     Error(_W("Property is readable only: ") + propname);
                 }
                 fp->findProperty(propname)->set(propvalue);

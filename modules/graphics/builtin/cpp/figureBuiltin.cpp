@@ -70,7 +70,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((argIn[k].isStringArray() && argIn[k].isScalar())
                 || argIn[k].isRowVectorCharacterArray()) {
                 const std::wstring propertyName = argIn[k].getContentAsWideString();
-                if (!go->isWritable(propertyName)) {
+                if (!go->isWritable(propertyName) && go->haveProperty(propertyName)) {
                     Error(_W("Property is readable only: ") + propertyName);
                 }
                 GOGenericProperty* propertyValue = go->findProperty(propertyName);
