@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Significant rework of the GitHub CI workflow for improved reliability and maintainability.
 - Updated Prettier to the latest version.
 - Use shared library suffix CMAKE macro.
+- Include the CPU target name in the package (on linux).
 
 ## 1.13.0 - (2025-03-29)
 
