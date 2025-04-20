@@ -25,4 +25,15 @@ if not exist %QTDIR32% (
 )
 set QTDIR=%QTDIR32%
 rem =============================================================================
-start NelSon.sln
+if "%~1"=="" (
+    echo Starting NelSon.sln...
+    start NelSon.sln
+    exit /b 0
+)
+rem =============================================================================
+rem Check for the "env-only" parameter
+if /i "%~1"=="env-only" (
+    echo Environment initialized only (QTDIR=%QTDIR%)
+    exit /b 0
+)
+rem =============================================================================

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1378](http://github.com/nelson-lang/nelson/issues/1378) Boost 1.88 support.
 - Qt 6.9.0 used on Windows x64.
+- Minimum boost version was fixed to 1.71.
 
 ### Technical Improvements
 

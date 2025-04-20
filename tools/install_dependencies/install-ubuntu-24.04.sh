@@ -33,9 +33,13 @@ apt-get update --fix-missing -y
 print_status "Upgrading existing packages"
 apt-get upgrade -y
 
+# Just 1.33 or higher is required
+print_status "Installing Just"
+snap install --classic just
+
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \
-                   pkg-config gettext just
+                   pkg-config gettext
 
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \
