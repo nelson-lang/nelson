@@ -17,6 +17,7 @@
 #include "DynamicLibrary.hpp"
 #include "characters_encoding.hpp"
 #include "FileSystemWrapper.hpp"
+#include "nlsBuildConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -93,29 +94,13 @@ close_dynamic_library(library_handle handle)
 std::string
 get_dynamic_library_extension()
 {
-#ifdef _MSC_VER
-    return std::string(".dll");
-#else
-#ifdef __APPLE__
-    return std::string(".dylib");
-#else
-    return std::string(".so");
-#endif
-#endif
+    return std::string(SHARED_LIBRARY_SUFFIX);
 }
 //=============================================================================
 std::wstring
 get_dynamic_library_extensionW()
 {
-#ifdef _MSC_VER
-    return std::wstring(L".dll");
-#else
-#ifdef __APPLE__
-    return std::wstring(L".dylib");
-#else
-    return std::wstring(L".so");
-#endif
-#endif
+    return utf8_to_wstring(get_dynamic_library_extension());
 }
 //=============================================================================
 std::string
