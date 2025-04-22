@@ -91,7 +91,7 @@ jobs:
           mkdir artifacts
           mv tests_all*.* artifacts
           mv benchmark_all*.* artifacts
-          mv Nelson-*.tar.gz artifacts
+          mv nelson-*.tar.gz artifacts
 
       - uses: actions/upload-artifact@v4
         with:
