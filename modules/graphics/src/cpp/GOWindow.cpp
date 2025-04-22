@@ -49,6 +49,7 @@
 #include "MainGuiObject.hpp"
 #include "GOCallbackProperty.hpp"
 #include "CallExportGraphicsGui.hpp"
+#include "GOWindowStateProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -241,6 +242,29 @@ GOWindow::updateState(bool forceUpdate)
         }
         goFig->clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     }
+
+    if (goFig->hasChanged(GO_WINDOW_STATE_PROPERTY_NAME_STR) || forceUpdate) {
+        GOWindowStateProperty* wsp
+            = (GOWindowStateProperty*)goFig->findProperty(GO_WINDOW_STATE_PROPERTY_NAME_STR);
+        const std::wstring& stateValue = wsp ? wsp->data() : L"";
+        const bool wasFullScreen = isFullScreen();
+        if (wasFullScreen
+            && (stateValue == GO_PROPERTY_VALUE_NORMAL_STR
+                || stateValue == GO_PROPERTY_VALUE_MINIMIZED_STR
+                || stateValue == GO_PROPERTY_VALUE_MAXIMIZED_STR)) {
+            setWindowState(Qt::WindowActive);
+        }
+
+        if (stateValue == GO_PROPERTY_VALUE_NORMAL_STR) {
+            showNormal();
+        } else if (stateValue == GO_PROPERTY_VALUE_FULLSCREEN_STR) {
+            showFullScreen();
+        } else if (stateValue == GO_PROPERTY_VALUE_MINIMIZED_STR) {
+            showMinimized();
+        } else if (stateValue == GO_PROPERTY_VALUE_MAXIMIZED_STR) {
+            showMaximized();
+        }
+    }
 }
 //=============================================================================
 void
@@ -250,6 +274,32 @@ GOWindow::updateState()
         return;
     }
     updateState(false);
+}
+//=============================================================================
+void
+GOWindow::changeEvent(QEvent* event)
+{
+    if (event->type() == QEvent::WindowStateChange) {
+        GOWindowStateProperty* hp
+            = (GOWindowStateProperty*)goFig->findProperty(GO_WINDOW_STATE_PROPERTY_NAME_STR);
+        if (!hp) {
+            QMainWindow::changeEvent(event);
+            return;
+        }
+        auto* stateEvent = static_cast<QWindowStateChangeEvent*>(event);
+        Qt::WindowStates newState = windowState();
+        if (newState.testFlag(Qt::WindowMinimized)) {
+            hp->data(GO_PROPERTY_VALUE_MINIMIZED_STR);
+        } else if (newState.testFlag(Qt::WindowMaximized)) {
+            hp->data(GO_PROPERTY_VALUE_MAXIMIZED_STR);
+        } else if (newState.testFlag(Qt::WindowFullScreen)) {
+            hp->data(GO_PROPERTY_VALUE_FULLSCREEN_STR);
+        } else if (newState.testFlag(Qt::WindowNoState)) {
+            hp->data(GO_PROPERTY_VALUE_NORMAL_STR);
+        }
+    }
+
+    QMainWindow::changeEvent(event);
 }
 //=============================================================================
 void

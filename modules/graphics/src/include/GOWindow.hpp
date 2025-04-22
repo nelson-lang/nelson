@@ -110,6 +110,9 @@ private:
     bool isRotateRunning = false;
     //=============================================================================
     void
+    changeEvent(QEvent* event) override;
+    //=============================================================================
+    void
     mouseMoveEventHandlePanMode(QMouseEvent* e);
     void
     mousePressEventHandlePanMode(QMouseEvent* e);

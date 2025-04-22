@@ -74,13 +74,23 @@ REF = {'AlphaMap';
 'ToolBar';          
 'Type';          
 'UserData';         
-'Visible'};
+'Visible';
+'WindowState'};
 assert_isequal(p, REF);
 %=============================================================================
 f = figure('Resize', 'off');
 assert_isequal(f.Resize, 'off');
 f.Resize = 'on';
 assert_isequal(f.Resize, 'on');
+%=============================================================================
+f.WindowState = 'normal';
+assert_isequal(f.WindowState, 'normal');
+f.WindowState = 'maximized';
+assert_isequal(f.WindowState, 'maximized');
+f.WindowState = 'minimized';
+assert_isequal(f.WindowState, 'minimized');
+f.WindowState = 'normal';
+assert_isequal(f.WindowState, 'normal');
 %=============================================================================
 close all
 %=============================================================================

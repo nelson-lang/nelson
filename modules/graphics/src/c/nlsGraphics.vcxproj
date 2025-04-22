@@ -309,6 +309,7 @@
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
     <ClInclude Include="..\include\GOToolBarProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
+    <ClInclude Include="..\include\GOWindowStateProperty.hpp" />
     <ClInclude Include="..\include\IsValidGraphicsProperty.hpp" />
     <ClInclude Include="..\include\UIControlBuilder.hpp" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
@@ -407,6 +408,7 @@
     <ClCompile Include="..\cpp\GOVectorThreeDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorTwoDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOWindow.cpp" />
+    <ClCompile Include="..\cpp\GOWindowStateProperty.cpp" />
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
