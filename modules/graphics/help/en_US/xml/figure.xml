@@ -99,6 +99,9 @@ Set this property on an existing component has no effect.</p>
 <p><b
       >ButtonDownFcn</b> Callback (function handle, string or cell) called when a mouse button is pressed while the figure has the focus.</p>
 <p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
+<p><b
+      >WindowState</b> Flag indicating that the Window state: 'normal', 'minimized', 'maximized', 'fullscreen'.</p>
+
 </description>
 
   <used_function />
@@ -157,6 +160,11 @@ figure('Name', 'Hello')
       <history_description
       >DevicePixelRatio property added.</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>WindowState property added.</history_description>
+    </history_item>
+  
   </history>
 
   <authors>

@@ -24,6 +24,7 @@
 #include "ProcessEvents.hpp"
 #include "CallbackQueue.hpp"
 #include "GOBusyActionProperty.hpp"
+#include "GOWindowStateProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -83,6 +84,7 @@ GOFigure::registerProperties()
     registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_RESIZE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, false);
+    registerProperty(new GOWindowStateProperty, GO_WINDOW_STATE_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
@@ -104,7 +106,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FIGURE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
-
+    setRestrictedStringDefault(GO_WINDOW_STATE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setRestrictedStringDefault(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setScalarDoubleDefault(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, 1.0);
     GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
