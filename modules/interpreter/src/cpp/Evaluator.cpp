@@ -12,12 +12,17 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
+#if defined(__clang__) && (__clang_major__ >= 17)
+#pragma clang diagnostic ignored "-Wmissing-template-arg-list-after-template-kw"
+#endif
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <algorithm>
 #include <cstdio>
 #include <cerrno>
 #include <iostream>
 #include <cmath>
+#define FMT_HEADER_ONLY
+#include <fmt/core.h>
 #include "StringHelpers.hpp"
 #include "Evaluator.hpp"
 #include "Exception.hpp"
@@ -1736,10 +1741,9 @@ Evaluator::handleDebug(int fullcontext)
             if ((stepTrap.cname == callstack.getLastContext()) && (stepTrap.tokid == linenumber)) {
                 // Finished stepping...
                 inStepMode = false;
-                char buffer[2048];
-                sprintf(buffer, _("Finished stepping to %s, line %d\n").c_str(),
-                    stepTrap.cname.c_str(), linenumber);
-                io->outputMessage(buffer);
+                std::string message = fmt::format(
+                    _("Finished stepping to {}, line {}\n"), stepTrap.cname, linenumber);
+                io->outputMessage(message);
                 debugCLI();
             }
         } else {
@@ -1769,10 +1773,9 @@ Evaluator::handleDebug(int fullcontext)
             }
             if (found) {
                 stepTrap = bpStack[j];
-                char buffer[2048];
-                sprintf(buffer, _("Encountered breakpoint at %s, line %d\n").c_str(),
-                    bpStack[j].cname.c_str(), linenumber);
-                io->outputMessage(buffer);
+                std::string message = fmt::format(
+                    _("Encountered breakpoint at {}, line {}\n"), bpStack[j].cname, linenumber);
+                io->outputMessage(message);
                 debugCLI();
             }
         }
@@ -1941,10 +1944,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 if (printIt && (state < NLS_STATE_QUIT)) {
                     for (size_t j = 0; j < m.size(); j++) {
                         if (m.size() > 1) {
-                            char buffer[1000];
-                            sprintf(
-                                buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
-                            io->outputMessage(buffer);
+                            std::string message = fmt::format(_("\n{} of {}:\n"),
+                                static_cast<int>(j) + 1, static_cast<int>(m.size()));
+                            io->outputMessage(message);
                         }
                         display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
                     }
@@ -3406,10 +3408,9 @@ void
 Evaluator::listBreakpoints()
 {
     for (size_t i = 0; i < bpStack.size(); i++) {
-        char buffer[2048];
-        sprintf(buffer, _("%d   %s line %d\n").c_str(), i + 1, bpStack[i].cname.c_str(),
-            bpStack[i].tokid & 0xffff);
-        io->outputMessage(buffer);
+        std::string message = fmt::format(
+            _("{}   {} line {}\n"), i + 1, bpStack[i].cname, bpStack[i].tokid & 0xffff);
+        io->outputMessage(message);
     }
 }
 //=============================================================================
@@ -3419,9 +3420,8 @@ Evaluator::deleteBreakpoint(int number)
     if ((number >= 1) && (number <= (int)bpStack.size())) {
         bpStack.erase(bpStack.begin() + number - 1);
     } else {
-        char buffer[2048];
-        sprintf(buffer, _("Unable to delete breakpoint %d").c_str(), number);
-        Error(utf8_to_wstring(buffer));
+        std::string message = fmt::format(_("Unable to delete breakpoint {}"), number);
+        Error(message);
     }
 }
 //=============================================================================
@@ -3446,19 +3446,17 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
             mptr = mptr->nextFunction;
         }
         if (clinenum == 10000) {
-            char buffer[2048];
+            std::string message;
             if (dbstep) {
-                sprintf(buffer, "%s",
-                    _("Unable to step the specified number of lines, execution will continue\n")
-                        .c_str());
+                message = fmt::format("{}",
+                    _("Unable to step the specified number of lines, execution will continue\n"));
                 inStepMode = false;
             } else {
-                sprintf(buffer,
-                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n")
-                        .c_str(),
-                    cname.c_str(), bp.tokid & 0xffff);
+                message = fmt::format(
+                    _("Failed to set breakpoint in {} at line {} - breakpoint is disabled\n"),
+                    cname, bp.tokid & 0xffff);
             }
-            Warning(std::string(buffer));
+            Warning(message);
             return false;
         }
         if (clinenum != 0) {

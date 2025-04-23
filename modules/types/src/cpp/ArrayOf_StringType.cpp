@@ -10,6 +10,8 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
+#define FMT_HEADER_ONLY
+#include <fmt/core.h>
 #include <cwchar>
 #include <cstdio>
 #include <limits>
@@ -256,26 +258,22 @@ complexToStringArray(const ArrayOf& m)
                     realStr = "-Inf";
                 }
             } else {
-                char buffer[1024];
                 if (std::abs(trunc(realPart) - realPart) < std::numeric_limits<double>::epsilon()) {
-                    sprintf(buffer, "%d", (int)realPart);
+                    realStr = fmt::format("{}", static_cast<int>(realPart));
                 } else {
-                    sprintf(buffer, "%.4f", realPart);
+                    realStr = fmt::format("{:.4f}", realPart);
                 }
-                realStr = std::string(buffer);
             }
             T absImagPart = std::abs(imagPart);
             if (std::isinf(absImagPart)) {
                 imagStr = "Inf";
             } else {
-                char buffer[1024];
                 if (std::abs(trunc(absImagPart) - absImagPart)
                     < std::numeric_limits<double>::epsilon()) {
-                    sprintf(buffer, "%d", (int)absImagPart);
+                    imagStr = fmt::format("{}", static_cast<int>(absImagPart));
                 } else {
-                    sprintf(buffer, "%.4f", absImagPart);
+                    imagStr = fmt::format("{:.4f}", absImagPart);
                 }
-                imagStr = std::string(buffer);
             }
             if (imagPart > 0) {
                 str = realStr + std::string("+") + imagStr + std::string("i");
@@ -314,13 +312,11 @@ realToStringArray(const ArrayOf& m)
                     str = "-Inf";
                 }
             } else {
-                char buffer[1024];
                 if (std::abs(trunc(val) - val) < std::numeric_limits<double>::epsilon()) {
-                    sprintf(buffer, "%d", (int)val);
+                    str = fmt::format("{}", static_cast<int>(val));
                 } else {
-                    sprintf(buffer, "%.4f", val);
+                    str = fmt::format("{:.4f}", val);
                 }
-                str = std::string(buffer);
             }
             elements[k] = ArrayOf::characterArrayConstructor(str);
         }
