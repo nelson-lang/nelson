@@ -13,6 +13,8 @@
 #endif
 //=============================================================================
 #include <cstdio>
+#define FMT_HEADER_ONLY
+#include <fmt/core.h>
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #include "IsHermitian.hpp"
@@ -115,10 +117,10 @@ IsHermitian(const ArrayOf& A, bool skew, const std::string& functionName)
     bool needToOverload;
     bool res = IsHermitianInternal(A, skew, needToOverload);
     if (needToOverload) {
-        char errorBuffer[1024];
-        std::string fmt = _("Undefined function '%s' for input arguments of type '%s'");
-        sprintf(errorBuffer, fmt.c_str(), functionName.c_str(), ClassName(A).c_str());
-        Error(errorBuffer);
+        std::string errorMessage
+            = fmt::format(_("Undefined function '{}' for input arguments of type '{}'"),
+                functionName, ClassName(A));
+        Error(errorMessage);
     }
     return res;
 }

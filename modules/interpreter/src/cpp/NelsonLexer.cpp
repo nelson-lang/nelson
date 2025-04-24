@@ -11,6 +11,8 @@
 #pragma warning(disable : 4996)
 #endif
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/core.h>
 #include "StringHelpers.hpp"
 #include <cwctype>
 #include <cctype>
@@ -99,18 +101,20 @@ NextLine()
 static void
 LexerException(const std::string& msg)
 {
-    char buffer[4906];
-    if ((!getParserFilenameU().empty()) && !msg.empty()) {
-        sprintf(buffer, _("Lexical error '%s'\n\tat line %d of file %s").c_str(), msg.c_str(),
-            lineNumber + 1, getParserFilenameU().c_str());
+    std::string error_message;
+
+    if (!getParserFilenameU().empty() && !msg.empty()) {
+        error_message = fmt::format(_("Lexical error '{}' at line {} of file {}"), msg,
+            lineNumber + 1, getParserFilenameU());
     } else {
         if (!msg.empty()) {
-            sprintf(buffer, _("Lexical error '%s'").c_str(), msg.c_str());
+            error_message = fmt::format(_("Lexical error '{}'"), msg);
         } else {
-            sprintf(buffer, "%s", _("Lexical error").c_str());
+            error_message = _("Lexical error");
         }
     }
-    Error(buffer, "Nelson:Lexer");
+
+    Error(error_message, "Nelson:Lexer");
 }
 //=============================================================================
 inline void
@@ -405,9 +409,9 @@ lexIdentifier()
     while (testAlphaNumChar() != 0) {
         ident[i++] = currentChar();
         if (i > IDENTIFIER_LENGTH_MAX) {
-            char msg[DEFAULT_BUFFER_SIZE_LEXER];
-            sprintf(msg, _("exceeds the Nelson maximum name length of %d characters.").c_str(),
-                IDENTIFIER_LENGTH_MAX);
+            std::string msg
+                = fmt::format(_("exceeds the Nelson maximum name length of {} characters."),
+                    IDENTIFIER_LENGTH_MAX);
             LexerException(msg);
         }
         discardChar();
