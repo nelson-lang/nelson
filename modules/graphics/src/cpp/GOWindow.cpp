@@ -286,7 +286,6 @@ GOWindow::changeEvent(QEvent* event)
             QMainWindow::changeEvent(event);
             return;
         }
-        auto* stateEvent = static_cast<QWindowStateChangeEvent*>(event);
         Qt::WindowStates newState = windowState();
         if (newState.testFlag(Qt::WindowMinimized)) {
             hp->data(GO_PROPERTY_VALUE_MINIMIZED_STR);
