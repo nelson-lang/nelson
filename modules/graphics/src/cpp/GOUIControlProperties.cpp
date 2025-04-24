@@ -87,7 +87,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOScalarProperty, GO_MAX_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty(0., (double)std::numeric_limits<int>::max()),
         GO_VALUE_PROPERTY_NAME_STR);
-    registerProperty(new GOFixedVectorProperty(2), GO_SLIDER_STEP_NAME_STR);
+    registerProperty(new GOFixedVectorProperty(2), GO_SLIDER_STEP_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LISTBOX_TOP_PROPERTY_NAME_STR);
 
     sortProperties();
@@ -119,7 +119,7 @@ GOUIControl::setupDefaults()
     setScalarDoubleDefault(GO_MIN_PROPERTY_NAME_STR, 0);
     setScalarDoubleDefault(GO_MAX_PROPERTY_NAME_STR, 1);
     setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 0);
-    setTwoVectorDefault(GO_SLIDER_STEP_NAME_STR, 0.0100, 0.1000);
+    setTwoVectorDefault(GO_SLIDER_STEP_PROPERTY_NAME_STR, 0.0100, 0.1000);
     setScalarDoubleDefault(GO_LISTBOX_TOP_PROPERTY_NAME_STR, 1);
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
@@ -359,10 +359,10 @@ GOUIControl::onSliderChanged(bool newWidget)
 {
     if (stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SLIDER_STR)
         && (hasChanged(GO_MIN_PROPERTY_NAME_STR) || hasChanged(GO_MAX_PROPERTY_NAME_STR)
-            || hasChanged(GO_SLIDER_STEP_NAME_STR) || newWidget)) {
+            || hasChanged(GO_SLIDER_STEP_PROPERTY_NAME_STR) || newWidget)) {
         double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
         double max(findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR));
-        std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_NAME_STR));
+        std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_PROPERTY_NAME_STR));
         ((QSlider*)widget)->setMinimum(0);
         ((QSlider*)widget)->setMaximum((int)((max - min) / steps[0]));
         ((QSlider*)widget)->setSingleStep(1);
@@ -382,7 +382,7 @@ GOUIControl::onSliderChanged(bool newWidget)
         }
         clearChanged(GO_MIN_PROPERTY_NAME_STR);
         clearChanged(GO_MAX_PROPERTY_NAME_STR);
-        clearChanged(GO_SLIDER_STEP_NAME_STR);
+        clearChanged(GO_SLIDER_STEP_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================
@@ -819,7 +819,7 @@ GOUIControl::onValueChanged(bool newWidget)
     if (hasChanged(GO_VALUE_PROPERTY_NAME_STR) || newWidget) {
         if (widget->objectName() == "QSliderWidget") {
             double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
-            std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_NAME_STR));
+            std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_PROPERTY_NAME_STR));
             double value(findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR));
             ((QSlider*)widget)->setValue((int)((value - min) / steps[0]));
         }

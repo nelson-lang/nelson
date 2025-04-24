@@ -80,7 +80,7 @@ RenderQt::triLine(double x1, double y1, double z1, double x2, double y2, double 
 }
 //=============================================================================
 void
-RenderQt::color(std::vector<double> col)
+RenderQt::color(const std::vector<double> col)
 {
     QPen pen(pnt->pen());
     QBrush brush(pnt->brush());
@@ -570,21 +570,28 @@ RenderQt::quadline(double x1, double y1, double z1, double x2, double y2, double
 }
 //=============================================================================
 void
-RenderQt::toPixels(double x, double y, double z, double& a, double& b, double& c, bool& clipped)
+RenderQt::toPixelsImpl(
+    double x, double y, double z, double& xclip, double& yclip, double& zclip, bool& clipped)
 {
     double xprime = 0;
     double yprime = 0;
     double zprime = 0;
     mapPoint(x, y, z, xprime, yprime, zprime);
-    double xclip = proj[0] * xprime + proj[4] * yprime + proj[8] * zprime + proj[12];
-    double yclip = proj[1] * xprime + proj[5] * yprime + proj[9] * zprime + proj[13];
-    double zclip = proj[2] * xprime + proj[6] * yprime + proj[10] * zprime + proj[14];
+
     double wclip = proj[3] * xprime + proj[7] * yprime + proj[11] * zprime + proj[15];
-    xclip /= wclip;
-    yclip /= wclip;
-    zclip /= wclip;
+    xclip = (proj[0] * xprime + proj[4] * yprime + proj[8] * zprime + proj[12]) / wclip;
+    yclip = (proj[1] * xprime + proj[5] * yprime + proj[9] * zprime + proj[13]) / wclip;
+    zclip = (proj[2] * xprime + proj[6] * yprime + proj[10] * zprime + proj[14]) / wclip;
+
     clipped
-        = ((xclip < -1) | (xclip > 1) | (yclip < -1) | (yclip > 1) | (zclip < -1) | (zclip > 1));
+        = (xclip < -1) || (xclip > 1) || (yclip < -1) || (yclip > 1) || (zclip < -1) || (zclip > 1);
+}
+//=============================================================================
+void
+RenderQt::toPixels(double x, double y, double z, double& a, double& b, double& c, bool& clipped)
+{
+    double xclip, yclip, zclip;
+    toPixelsImpl(x, y, z, xclip, yclip, zclip, clipped);
     a = viewp[0] + (1 + xclip) / 2.0 * viewp[2];
     b = viewp[1] + (1 + yclip) / 2.0 * viewp[3];
     c = zclip;
@@ -593,19 +600,8 @@ RenderQt::toPixels(double x, double y, double z, double& a, double& b, double& c
 void
 RenderQt::toPixels(double x, double y, double z, double& a, double& b, bool& clipped)
 {
-    double xprime = 0;
-    double yprime = 0;
-    double zprime = 0;
-    mapPoint(x, y, z, xprime, yprime, zprime);
-    double xclip = proj[0] * xprime + proj[4] * yprime + proj[8] * zprime + proj[12];
-    double yclip = proj[1] * xprime + proj[5] * yprime + proj[9] * zprime + proj[13];
-    double zclip = proj[2] * xprime + proj[6] * yprime + proj[10] * zprime + proj[14];
-    double wclip = proj[3] * xprime + proj[7] * yprime + proj[11] * zprime + proj[15];
-    xclip /= wclip;
-    yclip /= wclip;
-    zclip /= wclip;
-    clipped
-        = ((xclip < -1) | (xclip > 1) | (yclip < -1) | (yclip > 1) | (zclip < -1) | (zclip > 1));
+    double xclip, yclip, zclip;
+    toPixelsImpl(x, y, z, xclip, yclip, zclip, clipped);
     a = viewp[0] + (1 + xclip) / 2.0 * viewp[2];
     b = viewp[1] + (1 + yclip) / 2.0 * viewp[3];
 }
@@ -623,8 +619,8 @@ RenderQt::toPixels(double x, double y, double z, int& a, int& b)
     double aval, bval;
     bool clipped;
     toPixels(x, y, z, aval, bval, clipped);
-    a = (int)aval;
-    b = (int)bval;
+    a = static_cast<int>(aval);
+    b = static_cast<int>(bval);
 }
 //=============================================================================
 static void
@@ -751,7 +747,6 @@ RenderQt::boundingRectMultiLine(const std::wstring& text, QFont fnt, size_t& nbL
     QFontMetrics fm(fnt);
     std::vector<std::wstring> lines = splitEoLText(text);
     QRect sze;
-
     nbLines = lines.size();
     // if (nbLines > 1) {
     //     size_t idxMax = 0;
@@ -843,15 +838,13 @@ RenderQt::putText(double x, double y, std::wstring txt, std::vector<double> colo
 void
 RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring& lineStyle)
 {
-    FaceList::const_iterator it = faces.begin();
-
-    while (it != faces.end()) {
-        const Face face = *it;
-        std::vector<point>::const_iterator vert_it = face.vertices.begin();
-
-        QPolygonF poly;
-        poly.reserve(face.vertices.size());
-
+    QPolygonF poly;
+    if (faces.size() == 0) {
+        return;
+    }
+    poly.reserve(std::max(faces[0].vertices.size(), faces[faces.size() - 1].vertices.size()));
+    for (const auto& face : faces) {
+        poly.resize(0);
         if (face.FaceColorMode == ColorMode::ColorSpec) {
             pnt->setBrush(QColor((int)(face.FaceColor.r * 255), (int)(face.FaceColor.g * 255),
                 (int)(face.FaceColor.b * 255), (int)(face.FaceColor.a * 255)));
@@ -869,21 +862,18 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
             pnt->setPen(pen);
         }
         if (face.EdgeColorMode == ColorMode::Flat || face.EdgeColorMode == ColorMode::Interp) {
-
             QPen pen(QColor((int)(face.edgecolors[0].r * 255), (int)(face.edgecolors[0].g * 255),
                 (int)(face.edgecolors[0].b * 255), (int)(face.edgecolors[0].a * 255)));
             pen.setWidthF(lineWidth);
             setLineStyle(pen, lineStyle);
             pnt->setPen(pen);
         }
-
-        while (vert_it != face.vertices.end()) {
-            point v = *vert_it;
+        // Map vertices
+        for (const auto& v : face.vertices) {
             poly.push_back(map(v.x, v.y, v.z));
-            ++vert_it;
         }
+        // Draw the polygon
         pnt->drawPolygon(poly);
-        ++it;
     }
 }
 //=============================================================================

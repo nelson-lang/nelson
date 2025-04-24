@@ -120,7 +120,7 @@ GOWindow::closeEvent(QCloseEvent* e)
     }
 
     GOCallbackProperty* goCallback
-        = (GOCallbackProperty*)goFig->findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+        = (GOCallbackProperty*)goFig->findProperty(GO_CLOSE_REQUEST_FCN_PROPERTY_NAME_STR);
     if (goCallback) {
         ArrayOf cgo = goCallback->data();
         if (cgo.isRowVectorCharacterArray() || cgo.isScalarStringArray()) {

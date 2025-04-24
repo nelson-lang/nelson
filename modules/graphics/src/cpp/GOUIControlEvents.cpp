@@ -108,7 +108,7 @@ GOUIControl::sliderClicked()
         return;
     }
     double min(findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
-    std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_NAME_STR));
+    std::vector<double> steps(findVectorDoubleProperty(GO_SLIDER_STEP_PROPERTY_NAME_STR));
     findProperty(GO_VALUE_PROPERTY_NAME_STR)
         ->set(ArrayOf::doubleConstructor(min + steps[0] * ((QSlider*)widget)->value()));
     clearChanged(GO_VALUE_PROPERTY_NAME_STR);

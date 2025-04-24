@@ -217,6 +217,7 @@
     <ClCompile Include="..\cpp\__pan__Builtin.cpp" />
     <ClCompile Include="..\cpp\__patch__Builtin.cpp" />
     <ClCompile Include="..\cpp\__rotate3d__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__scatter__Builtin.cpp" />
     <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
     <ClCompile Include="..\cpp\__text__Builtin.cpp" />
     <ClCompile Include="..\cpp\uicontrolBuiltin.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="..\include\__pan__Builtin.hpp" />
     <ClInclude Include="..\include\__patch__Builtin.hpp" />
     <ClInclude Include="..\include\__rotate3d__Builtin.hpp" />
+    <ClInclude Include="..\include\__scatter__Builtin.hpp" />
     <ClInclude Include="..\include\__surf__Builtin.hpp" />
     <ClInclude Include="..\include\__text__Builtin.hpp" />
     <ClInclude Include="..\include\uicontrolBuiltin.hpp" />

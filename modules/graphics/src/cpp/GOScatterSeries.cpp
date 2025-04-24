@@ -11,7 +11,7 @@
 #include "omp_for_loop.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
-#include "GOLineSeries.hpp"
+#include "GOScatterSeries.hpp"
 #include "GOList.hpp"
 #include "GraphicsObject.hpp"
 #include "GOAxis.hpp"
@@ -20,6 +20,7 @@
 #include "GOScalarDoubleProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOColorProperty.hpp"
+#include "GOAutoFlatColorProperty.hpp"
 #include "GOStringAutoManualProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
@@ -27,41 +28,40 @@
 #include "RenderHelpers.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOBusyActionProperty.hpp"
+#include "GOColorVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-GOLineSeries::getType()
+GOScatterSeries::getType()
 {
-    return GO_PROPERTY_VALUE_LINE_STR;
+    return GO_PROPERTY_VALUE_SCATTER_STR;
 }
 //=============================================================================
-GOLineSeries::GOLineSeries()
+GOScatterSeries::GOScatterSeries()
 {
     constructProperties();
     setupDefaults();
 }
 //=============================================================================
-GOLineSeries::~GOLineSeries() { }
+GOScatterSeries::~GOScatterSeries() { }
 //=============================================================================
 void
-GOLineSeries::constructProperties()
+GOScatterSeries::constructProperties()
 {
     registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
     registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
-
-    registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
+    registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoManualProperty, GO_C_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
-    registerProperty(new GOLineStyleProperty, GO_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOSymbolProperty, GO_MARKER_PROPERTY_NAME_STR);
-    registerProperty(new GOColorProperty, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOColorProperty, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty, GO_MARKER_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoFlatColorProperty, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoFlatColorProperty, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
@@ -70,21 +70,28 @@ GOLineSeries::constructProperties()
     registerProperty(new GOVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Y_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Z_DATA_PROPERTY_NAME_STR);
+    registerProperty(new GOVectorProperty, GO_SIZE_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     sortProperties();
 }
 //=============================================================================
 void
-GOLineSeries::setupDefaults()
+GOScatterSeries::setupDefaults()
 {
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
-    setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 0, 0.4470, 0.7410);
-    setRestrictedStringDefault(GO_LINE_STYLE_PROPERTY_NAME_STR, L"-");
+    std::vector<double> defaultColor = { 0, 0.4470, 0.7410 };
+    ArrayOf cdata = ArrayOf::doubleVectorConstructor(defaultColor);
+    GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(GO_C_DATA_PROPERTY_NAME_STR);
+    hp->data(cdata);
+    setRestrictedStringDefault(GO_C_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setScalarDoubleDefault(GO_LINE_WIDTH_PROPERTY_NAME_STR, 0.5);
-    setRestrictedStringDefault(GO_MARKER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
-    setThreeVectorDefault(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR, 0, 0, 0);
-    setThreeVectorDefault(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR, -1, -1, -1);
-    setScalarDoubleDefault(GO_MARKER_SIZE_PROPERTY_NAME_STR, 6);
+    setRestrictedStringDefault(GO_MARKER_PROPERTY_NAME_STR, L"o");
+
+    setRestrictedStringColorDefault(
+        GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR, -1, -1, -1);
+    setRestrictedStringColorDefault(
+        GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR, -1, -1, -1);
+
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
@@ -92,18 +99,26 @@ GOLineSeries::setupDefaults()
     setTwoVectorDefault(GO_Y_DATA_PROPERTY_NAME_STR, 0, 1);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+
+    std::vector<double> sizeDataDefault = { 36 };
+    setVectorDoubleDefault(GO_SIZE_DATA_PROPERTY_NAME_STR, sizeDataDefault);
 }
 //=============================================================================
 void
-GOLineSeries::updateState()
+GOScatterSeries::updateState()
 {
+    if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
+        toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
+        clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
+        cDataDirty = true;
+    }
+
     if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR) || hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)
         || hasChanged(GO_Z_DATA_PROPERTY_NAME_STR)) {
         limitsDirty = true;
     }
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
-    std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
         xs.clear();
         xs.resize(ys.size());
@@ -112,31 +127,29 @@ GOLineSeries::updateState()
             xs[i] = (i + 1.0);
         }
     }
-    if (zs.size() == 0) {
-        zs.resize(ys.size());
-        OMP_PARALLEL_FOR_LOOP(ys.size())
-        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
-            zs[i] = 0.0;
-        }
-    }
     GOVectorProperty* sp
         = static_cast<GOVectorProperty*>(findProperty(GO_X_DATA_PROPERTY_NAME_STR));
     sp->data(xs);
-    sp = static_cast<GOVectorProperty*>(findProperty(GO_Z_DATA_PROPERTY_NAME_STR));
-    sp->data(zs);
 }
 //=============================================================================
 void
-GOLineSeries::paintMe(RenderInterface& gc)
+GOScatterSeries::paintMe(RenderInterface& gc)
 {
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
         return;
     double width(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
     gc.lineWidth(width);
-    GOColorProperty* lc = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
+
+    ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
+    cdata.promoteType(NLS_DOUBLE);
+    double* ptrCData = (double*)cdata.getDataPointer();
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    if (zs.empty()) {
+        std::vector<double> vec(xs.size(), 0.0);
+        zs = vec;
+    }
     if (!((xs.size() == ys.size()) && (ys.size() == zs.size()))) {
         return;
     }
@@ -145,39 +158,16 @@ GOLineSeries::paintMe(RenderInterface& gc)
     if (parent) {
         parent->reMap(xs, ys, zs, mxs, mys, mzs);
     }
-    if (!lc->isNone()) {
-        gc.color(lc->data());
-        gc.setLineStyle(findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR));
-        int n = 0;
-        while (n < mxs.size()) {
-            std::vector<double> local_mxs;
-            std::vector<double> local_mys;
-            std::vector<double> local_mzs;
-            local_mxs.reserve(mxs.size());
-            local_mys.reserve(mxs.size());
-            local_mzs.reserve(mxs.size());
-
-            while ((n < mxs.size()) && std::isfinite(mxs[n]) && std::isfinite(mys[n])
-                && (std::isfinite(mzs[n]))) {
-                local_mxs.push_back(mxs[n]);
-                local_mys.push_back(mys[n]);
-                local_mzs.push_back(mzs[n]);
-                n++;
-            }
-            gc.lineSeries(local_mxs, local_mys, local_mzs);
-            while ((n < mxs.size())
-                && !(std::isfinite(mxs[n]) && std::isfinite(mys[n]) && (std::isfinite(mzs[n]))))
-                n++;
-        }
-    }
-    GOColorProperty* ec
-        = static_cast<GOColorProperty*>(findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR));
-    GOColorProperty* fc
-        = static_cast<GOColorProperty*>(findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR));
+    GOAutoFlatColorProperty* ec = static_cast<GOAutoFlatColorProperty*>(
+        findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR));
+    GOAutoFlatColorProperty* fc = static_cast<GOAutoFlatColorProperty*>(
+        findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR));
     RenderInterface::SymbolType typ
         = StringToSymbol(findStringProperty(GO_MARKER_PROPERTY_NAME_STR));
-    double sze = findScalarDoubleProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR) / 2.0;
-    if ((typ != RenderInterface::None) || ec->isNone() || fc->isNone()) {
+
+    std::vector<double> sizeData(findVectorDoubleProperty(GO_SIZE_DATA_PROPERTY_NAME_STR));
+    if ((typ != RenderInterface::None) || ec->isEqual(GO_PROPERTY_VALUE_NONE_STR)
+        || fc->isEqual(GO_PROPERTY_VALUE_NONE_STR)) {
         std::vector<double> uc;
         std::vector<double> vc;
         uc.reserve(mxs.size());
@@ -192,15 +182,69 @@ GOLineSeries::paintMe(RenderInterface& gc)
             }
         }
         gc.setupDirectDraw();
+
         for (int i = 0; i < uc.size(); i++) {
-            DrawSymbol(gc, typ, uc[i], vc[i], 0, sze, ec->data(), fc->data(), width);
+            double sze;
+            if (sizeData.size() == 1) {
+                sze = sizeData[0];
+            } else if (sizeData.size() >= uc.size()) {
+                sze = sizeData[i];
+            } else {
+                sze = 36;
+            }
+            std::vector<double> edgeColor = ec->colorSpec();
+            std::vector<double> faceColor = fc->colorSpec();
+
+            std::vector<double> CdataVector;
+            if (cdata.isEmpty()) {
+                CdataVector = { 0, 0.4470, 0.7410 };
+            } else if (cdata.getElementCount() == 3) {
+                CdataVector = { ptrCData[0], ptrCData[1], ptrCData[2] };
+            } else {
+                GOAxis* parent = static_cast<GOAxis*>(getParentAxis());
+                if (parent) {
+                    GOColorVectorProperty* colorMap = static_cast<GOColorVectorProperty*>(
+                        parent->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
+                    if (colorMap) {
+                        if (cDataDirty) {
+                            cachedMinC
+                                = *std::min_element(ptrCData, ptrCData + cdata.getElementCount());
+                            cachedMaxC
+                                = *std::max_element(ptrCData, ptrCData + cdata.getElementCount());
+                            cDataDirty = false;
+                        }
+                        double minC = cachedMinC;
+                        double maxC = cachedMaxC;
+
+                        int colormapSize = (int)(colorMap->data().size() / 3);
+
+                        int index = static_cast<int>(
+                            std::round((ptrCData[i] - minC) / (maxC - minC) * (colormapSize - 1)));
+                        index = std::clamp(index, 0, colormapSize - 1);
+
+                        CdataVector = { colorMap->data()[index * 3],
+                            colorMap->data()[index * 3 + 1], colorMap->data()[index * 3 + 2] };
+                    }
+                } else {
+                    CdataVector
+                        = { ptrCData[(i * 3)], ptrCData[(i * 3) + 1], ptrCData[(i * 3) + 2] };
+                }
+            }
+
+            if (ec->isEqual(GO_PROPERTY_VALUE_FLAT_STR)) {
+                edgeColor = CdataVector;
+            }
+            if (fc->isEqual(GO_PROPERTY_VALUE_FLAT_STR)) {
+                faceColor = CdataVector;
+            }
+            DrawSymbol(gc, typ, uc[i], vc[i], 0, std::sqrt(sze), edgeColor, faceColor, width);
         }
         gc.releaseDirectDraw();
     }
 }
 //=============================================================================
 std::vector<double>
-GOLineSeries::getLimits()
+GOScatterSeries::getLimits()
 {
     if (!limitsDirty) {
         return limits;
@@ -214,8 +258,13 @@ GOLineSeries::getLimits()
     limits.push_back(findVectorMax(xs));
     limits.push_back(findVectorMin(ys));
     limits.push_back(findVectorMax(ys));
-    limits.push_back(findVectorMin(zs));
-    limits.push_back(findVectorMax(zs));
+    if (zs.empty()) {
+        limits.push_back(0);
+        limits.push_back(0);
+    } else {
+        limits.push_back(findVectorMin(zs));
+        limits.push_back(findVectorMax(zs));
+    }
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);

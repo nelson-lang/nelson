@@ -9,34 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGraphics_exports.h"
-#include "GraphicsObject.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOLineSeries : public GraphicsObject
-{
-public:
-    virtual std::wstring
-    getType() override;
-
-    GOLineSeries();
-    ~GOLineSeries() override;
-    virtual void
-    constructProperties();
-    virtual void
-    setupDefaults();
-    void
-    updateState() override;
-    void
-    paintMe(RenderInterface& gc) override;
-    std::vector<double>
-    getLimits() override;
-
-private:
-    std::vector<double> limits;
-    mutable bool limitsDirty = true;
-};
+ArrayOfVector
+__scatter__Builtin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }
 //=============================================================================

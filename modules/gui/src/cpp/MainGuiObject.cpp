@@ -123,7 +123,7 @@ void
 DestroyMainGuiObject(void* term)
 {
     if (NelSonQtApp) {
-        if (NelSonQtMainWindow) {
+        if (NelSonQtMainWindow && !NelSonQtMainWindow->isClose()) {
             NelSonQtMainWindow->declareAsClosed();
             QApplication::sendEvent(NelSonQtMainWindow, new QCloseEvent());
 
@@ -135,9 +135,7 @@ DestroyMainGuiObject(void* term)
             delete nlsTerm;
             nlsTerm = nullptr;
         }
-#ifndef _DEBUG
         delete NelSonQtApp;
-#endif
         NelSonQtApp = nullptr;
     }
     DestroyConsole();

@@ -84,12 +84,16 @@ GOImage::~GOImage() { }
 std::vector<double>
 GOImage::getLimits()
 {
+    if (!limitsDirty) {
+        return limits;
+    }
+    limitsDirty = false;
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yp = (GOTwoVectorProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
     std::vector<double> XP(xp->data());
     std::vector<double> YP(xp->data());
 
-    std::vector<double> limits;
+    limits.resize(0);
     limits.reserve(10);
     if (XP.size() < 2 || YP.size() < 2) {
         return limits;

@@ -20,8 +20,21 @@ namespace Nelson {
 void
 BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
-    hfig->resizeGL(width(), height());
     QWidget::resizeEvent(e);
+    if (!resizing) {
+        resizing = true;
+    }
+    resizeTimer.start(30, this);
+}
+//=============================================================================
+void
+BaseFigureQt::timerEvent(QTimerEvent* event)
+{
+    if (event->timerId() == resizeTimer.timerId()) {
+        resizeTimer.stop();
+        resizing = false;
+        hfig->resizeGL(width(), height());
+    }
 }
 //=============================================================================
 QImage

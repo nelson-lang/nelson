@@ -10,9 +10,11 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QWidget>
+#include <QtGui/QResizeEvent>
 #include <QtGui/QScreen>
-#include <QtCore/QTimer>
 #include "GOFigure.hpp"
+#include <QtCore/QBasicTimer>
+#include <QtCore/QTimerEvent>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,6 +26,11 @@ private:
     QPixmap backStore;
     static QScreen*
     getActiveScreen();
+    //=============================================================================
+    QBasicTimer resizeTimer;
+    bool resizing = false;
+    void
+    timerEvent(QTimerEvent* event);
     //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);

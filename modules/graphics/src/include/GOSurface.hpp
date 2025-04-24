@@ -33,6 +33,10 @@ class NLSGRAPHICS_IMPEXP GOSurface : public GOImage
     void
     setupDefaults() override;
 
+private:
+    std::vector<double> limits;
+    mutable bool limitsDirty = true;
+
 public:
     GOSurface();
     ~GOSurface() override;

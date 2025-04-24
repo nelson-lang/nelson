@@ -10,6 +10,7 @@
 #include "NelsonGateway.hpp"
 #include "OverloadName.hpp"
 #include "__line__Builtin.hpp"
+#include "__scatter__Builtin.hpp"
 #include "__text__Builtin.hpp"
 #include "__surf__Builtin.hpp"
 #include "__image__Builtin.hpp"
@@ -50,9 +51,11 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
-static const nlsGateway gateway[] = { { "__line__",
-                                          (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1,
-                                          1, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+static const nlsGateway gateway[] = { { "__scatter__",
+                                          (ptrBuiltin)Nelson::GraphicsGateway::__scatter__Builtin,
+                                          -1, 1, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { "__line__", (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
     { "__text__", (ptrBuiltin)Nelson::GraphicsGateway::__text__Builtin, -1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__surf__", (ptrBuiltin)Nelson::GraphicsGateway::__surf__Builtin, -1, 1, CPP_BUILTIN,

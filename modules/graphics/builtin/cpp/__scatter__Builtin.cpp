@@ -7,36 +7,22 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "__scatter__Builtin.hpp"
+#include "GOConstructorHelpers.hpp"
+#include "GOScatterSeries.hpp"
 //=============================================================================
-#include "nlsGraphics_exports.h"
-#include "GraphicsObject.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
+namespace Nelson::GraphicsGateway {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOLineSeries : public GraphicsObject
+ArrayOfVector
+__scatter__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
-public:
-    virtual std::wstring
-    getType() override;
-
-    GOLineSeries();
-    ~GOLineSeries() override;
-    virtual void
-    constructProperties();
-    virtual void
-    setupDefaults();
-    void
-    updateState() override;
-    void
-    paintMe(RenderInterface& gc) override;
-    std::vector<double>
-    getLimits() override;
-
-private:
-    std::vector<double> limits;
-    mutable bool limitsDirty = true;
-};
+    ArrayOfVector retval;
+    retval << ArrayOf::graphicsObjectConstructor(
+        GOCommonConstructorHelper(new GOScatterSeries, argIn));
+    return retval;
+}
 //=============================================================================
 }
 //=============================================================================

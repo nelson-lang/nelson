@@ -302,14 +302,20 @@ void
 GOSurface::updateState()
 {
     if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
         toManual(GO_X_DATA_MODE_PROPERTY_NAME_STR);
         clearChanged(GO_X_DATA_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
         toManual(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
         clearChanged(GO_Y_DATA_PROPERTY_NAME_STR);
     }
+    if (hasChanged(GO_Z_DATA_PROPERTY_NAME_STR) || hasChanged(GO_ALPHA_DATA_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
+    }
     if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
         clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
     }
@@ -388,7 +394,11 @@ GOSurface::paintMe(RenderInterface& gc)
 std::vector<double>
 GOSurface::getLimits()
 {
-    std::vector<double> limits;
+    if (!limitsDirty) {
+        return limits;
+    }
+    limitsDirty = false;
+    limits.resize(0);
     limits.reserve(10);
     ArrayOf xdata(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
     ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));

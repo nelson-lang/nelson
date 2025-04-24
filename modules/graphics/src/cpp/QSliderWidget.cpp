@@ -33,7 +33,8 @@ QSliderWidget::keyPressEvent(QKeyEvent* event)
     bool isIncreaseKey = (event->key() == Qt::Key_Up || event->key() == Qt::Key_Right);
     bool isDecreaseKey = (event->key() == Qt::Key_Down || event->key() == Qt::Key_Left);
     if (isIncreaseKey || isDecreaseKey) {
-        std::vector<double> steps = goParent->findVectorDoubleProperty(GO_SLIDER_STEP_NAME_STR);
+        std::vector<double> steps
+            = goParent->findVectorDoubleProperty(GO_SLIDER_STEP_PROPERTY_NAME_STR);
         double min(goParent->findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR));
         double max(goParent->findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR));
         double value(goParent->findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR));

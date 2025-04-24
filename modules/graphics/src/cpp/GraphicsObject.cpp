@@ -313,6 +313,13 @@ GraphicsObject::setFourVectorDefault(
 }
 //=============================================================================
 void
+GraphicsObject::setVectorDoubleDefault(const std::wstring& name, std::vector<double> defaultValues)
+{
+    GOVectorProperty* hp = static_cast<GOVectorProperty*>(findProperty(name));
+    hp->data(defaultValues);
+}
+//=============================================================================
+void
 GraphicsObject::setTwoVectorDefault(const std::wstring& name, double x, double y)
 {
     GOTwoVectorProperty* hp = static_cast<GOTwoVectorProperty*>(findProperty(name));

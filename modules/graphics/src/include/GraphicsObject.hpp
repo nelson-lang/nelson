@@ -116,6 +116,8 @@ public:
     setRestrictedStringColorDefault(
         const std::wstring& name, const std::wstring& value, double r, double g, double b);
     void
+    setVectorDoubleDefault(const std::wstring& name, std::vector<double> defaultValues);
+    void
     setTwoVectorDefault(const std::wstring& name, double x, double y);
     void
     setThreeVectorDefault(const std::wstring& name, double x, double y, double z);

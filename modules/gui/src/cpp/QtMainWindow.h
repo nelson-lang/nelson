@@ -35,6 +35,12 @@ public:
     void
     createDockWigdets(Context* context);
 
+    bool
+    isClose() const
+    {
+        return bClosed;
+    }
+
 private slots:
     void
     about();

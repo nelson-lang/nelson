@@ -92,7 +92,7 @@ GOText::constructProperties()
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_NAME_STR);
+    registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
 
     sortProperties();
@@ -122,7 +122,7 @@ GOText::setupDefaults()
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 0, 0, 0);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
-    setStringDefault(GO_INTERPRETER_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
+    setStringDefault(GO_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
     setRestrictedStringDefault(GO_FONT_SMOOTHING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     fnt.setStyleStrategy(QFont::PreferAntialias);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
@@ -244,7 +244,7 @@ GOText::updateState()
     GOStringProperty* txt
         = static_cast<GOStringProperty*>(findProperty(GO_STRING_PROPERTY_NAME_STR));
     GOTextInterpreterProperty* textInterpreter
-        = static_cast<GOTextInterpreterProperty*>(findProperty(GO_INTERPRETER_NAME_STR));
+        = static_cast<GOTextInterpreterProperty*>(findProperty(GO_INTERPRETER_PROPERTY_NAME_STR));
     if (textInterpreter->getAsEnum() == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
         text = texToUnicode(txt->data());
     } else {

@@ -122,10 +122,10 @@ function nyquistplot(H, i, j)
   plot(ax, real(H), -imag(H), '-', 'Color', c);
   [X, Y] = computesArrowsPositions(H);
   if ~isnan(X)
-    scatter(ax, X, Y, '<', 'Color', c, 'MarkerFaceColor', c);
-    scatter(ax, X, -Y , '>', 'Color', c, 'MarkerFaceColor', c);
+    scatter(ax, X, Y, '<', 'CData', c, 'MarkerFaceColor', c, 'LineWidth', .5);
+    scatter(ax, X, -Y , '>', 'CData', c, 'MarkerFaceColor', c, 'LineWidth', .5);
   end
-  plot(ax, -1, 0 , 'r+');
+  scatter(ax, -1, 0 , 'Marker', '+', 'MarkerEdgeColor', 'r', 'LineWidth', 1.5);
   if (min(real(H)) > - 1)
     ax.XLim = [min(real(H) - 2 ), ax.XLim(2)];
   end

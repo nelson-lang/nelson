@@ -299,6 +299,7 @@
     <ClInclude Include="..\include\GORowColumnProperty.hpp" />
     <ClInclude Include="..\include\GOScalarDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOScalarPositiveIntegerValueProperty.hpp" />
+    <ClInclude Include="..\include\GOScatterSeries.hpp" />
     <ClInclude Include="..\include\GOStringAutoManualProperty.hpp" />
     <ClInclude Include="..\include\GOStringOnOffProperty.hpp" />
     <ClInclude Include="..\include\GOStringProperty.hpp" />
@@ -385,6 +386,7 @@
     <ClCompile Include="..\cpp\GORowColumnProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarPositiveIntegerValueProperty.cpp" />
+    <ClCompile Include="..\cpp\GOScatterSeries.cpp" />
     <ClCompile Include="..\cpp\GOStringAutoManualProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringOnOffProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringProperty.cpp" />
