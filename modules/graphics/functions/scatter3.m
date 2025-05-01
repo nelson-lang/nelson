@@ -7,33 +7,33 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = scatter(varargin)
-  % scatter(x,y)
-  % scatter(x,y,sz)
-  % scatter(x,y,sz,c)
+function varargout = scatter3(varargin)
+  % scatter(x,y,z)
+  % scatter(x,y,z, sz)
+  % scatter(x,y,z, sz,c)
   % scatter(...,"filled")
   % scatter(...,mkr)
   % scatter(ax,...)
   % scatter(..., Name, Value)
   % s = scatter(...)
   
-  narginchk(2, 100);
+  narginchk(3, 100);
   nargoutchk(0, 1);
   
-  [parent, X, Y, scatterProperties] = parseArguments(varargin);
+  [parent, X, Y, Z, scatterProperties] = parseArguments(varargin);
   if isvector(X)
     if ~isfield(scatterProperties, 'CData')
       scatterProperties.CData = getColorAndUpdateIndex(parent);
     end
     scatterProperties = reshape([fieldnames(scatterProperties)'; struct2cell(scatterProperties)'], 1, []);
-    h = __scatter__('Parent', parent, 'XData', X, 'YData', Y, scatterProperties{:});
+    h = __scatter__('Parent', parent, 'XData', X, 'YData', Y, 'ZData', Z, scatterProperties{:});
   else
     % X and Y are matrices
-    if (size(X, 1) ~= size(Y, 1))
-      error(_('X and Y must have the same number of rows.'));
+    if (size(X, 1) ~= size(Y, 1) && size(X, 1) ~= size(Z, 1))
+      error(_('X, Y and Z must have the same number of rows.'));
     end
-    if (size(X, 2) ~= size(Y, 2))
-      error(_('X and Y must have the same number of columns.'));
+    if (size(X, 2) ~= size(Y, 2) && size(X, 2) ~= size(Z, 2))
+      error(_('X, Y and Z must have the same number of columns.'));
     end
     h = [];
     
@@ -55,18 +55,36 @@ function varargout = scatter(varargin)
       scatterProperties.CData = color; 
       
       scatterPropertiesC = reshape([fieldnames(scatterProperties)'; struct2cell(scatterProperties)'], 1, []);
-      he = __scatter__('Parent', parent, 'XData', X(:, i), 'YData', Y(:, i), scatterPropertiesC{:});
+      he = __scatter__('Parent', parent, 'XData', X(:, i), 'YData', Y(:, i), 'ZData', Z(:, i), scatterPropertiesC{:});
       scatterProperties = scatterPropertiesBackup;
       h = [h, he];
     end
   end
   
+  if isscalar(h)
+    H = h;
+  else
+    H = h(1);
+  end
+  ax = ancestor(H, 'axes');
+  try
+    if ~isempty(ax)
+        switch ax.NextPlot
+            case {'replaceall','replace'}
+                view(ax, 3);
+                grid(ax, 'on');
+            case {'replacechildren'}
+                view(ax, 3);
+        end
+    end
+  end
+
   if nargout == 1
     varargout{1} = h;
   end
 end
 %=============================================================================
-function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
+function [parent, X, Y, Z, scatterProperties] = parseArguments(inputArguments)
   % Parse arguments for scatter function
   % Returns parent axes, X data, Y data, and scatter properties
   
@@ -89,6 +107,7 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
   % Extract X and Y data
   X = inputArguments{1};
   Y = inputArguments{2};
+  Z = inputArguments{3};
   
   % Validate X and Y dimensions
   if (numel(X) ~= numel(Y))
@@ -96,7 +115,7 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
   end
   
   % Remove X and Y from arguments
-  inputArguments = inputArguments(3:end);
+  inputArguments = inputArguments(4:end);
   
   % Create parent axes if not already set and no more arguments
   if isempty(inputArguments)
@@ -146,6 +165,7 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
     scatterProperties.CData = colorArg;
     inputArguments = inputArguments(2:end);
   end
+  
   
   % Extract marker symbol
   supportedMarkers = string(getMarkerNameList());

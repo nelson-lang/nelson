@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `scatter3`: 3-D scatter plot.
 - `WindowState` property to Figure objects.
 - Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
