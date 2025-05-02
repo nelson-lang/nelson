@@ -135,17 +135,25 @@ GOScatterSeries::updateState()
 void
 GOScatterSeries::paintMe(RenderInterface& gc)
 {
+    // Check if the scatter series is visible. If not, exit early.
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
         return;
+
+    // Set the line width for rendering based on the corresponding property.
     double width(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
     gc.lineWidth(width);
 
+    // Retrieve and process the color data array (cdata).
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
-    cdata.promoteType(NLS_DOUBLE);
+    cdata.promoteType(NLS_DOUBLE); // Ensure the data type is double.
     double* ptrCData = (double*)cdata.getDataPointer();
+
+    // Retrieve the X, Y, and Z coordinate data for the scatter series.
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+
+    // If Z data is empty, initialize it to a vector of zeros with the same size as X data.
     if (zs.empty()) {
         std::vector<double> vec(xs.size(), 0.0);
         zs = vec;
