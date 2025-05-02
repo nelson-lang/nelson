@@ -209,7 +209,6 @@ GOScatterSeries::paintMe(RenderInterface& gc)
             } else if (cdata.getElementCount() == 3) {
                 CdataVector = { ptrCData[0], ptrCData[1], ptrCData[2] };
             } else {
-                GOAxis* parent = static_cast<GOAxis*>(getParentAxis());
                 if (parent) {
                     GOColorVectorProperty* colorMap = static_cast<GOColorVectorProperty*>(
                         parent->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
