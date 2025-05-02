@@ -12,6 +12,9 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 //=============================================================================
+#if defined(__clang__) && (__clang_major__ >= 17)
+#pragma clang diagnostic ignored "-Wmissing-template-arg-list-after-template-kw"
+#endif
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
