@@ -21,6 +21,11 @@ void
 BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
     QWidget::resizeEvent(e);
+    if (firstTime) {
+
+        firstTime = false;
+        hfig->resizeGL(width(), height());
+    }
     if (!resizing) {
         resizing = true;
     }

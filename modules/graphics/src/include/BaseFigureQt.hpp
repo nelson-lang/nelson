@@ -22,6 +22,8 @@ class BaseFigureQt : public QWidget
 {
     //=============================================================================
 private:
+    //=============================================================================
+    bool firstTime = true;
     GOFigure* hfig = nullptr;
     QPixmap backStore;
     static QScreen*
