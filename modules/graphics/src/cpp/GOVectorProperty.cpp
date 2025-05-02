@@ -97,19 +97,48 @@ GOVectorProperty::data(const std::vector<double>& m)
 std::wstring
 GOVectorProperty::toWideString()
 {
-    std::wstring msg = L"[";
-    for (size_t k = 0; k < _data.size(); k++) {
-        if (std::fabs((double)(int)(_data[k]) - _data[k])
-            < std::numeric_limits<double>::epsilon()) {
-            msg = msg + std::to_wstring((int)_data[k]);
-        } else {
-            msg = msg + std::to_wstring(_data[k]);
-        }
-        if (k < _data.size() - 1) {
-            msg = msg + L" ";
-        }
+    if (_data.size() == 0) {
+        return L"[]";
     }
-    return msg + L"]";
+    if (_data.size() == 1) {
+        if (std::fabs((double)(int)(_data[0]) - _data[0])
+            < std::numeric_limits<double>::epsilon()) {
+            return std::to_wstring((int)_data[0]);
+        }
+        return std::to_wstring(_data[0]);
+    }
+    std::wstring msg;
+    if (_data.size() > 5) {
+        msg = L"[";
+        for (size_t k = 0; k < 5; k++) {
+            if (std::fabs((double)(int)(_data[k]) - _data[k])
+                < std::numeric_limits<double>::epsilon()) {
+                msg = msg + std::to_wstring((int)_data[k]);
+            } else {
+                msg = msg + std::to_wstring(_data[k]);
+            }
+            if (k < _data.size() - 1) {
+                msg = msg + L" ";
+            }
+        }
+        msg = msg + L"... ]";
+        msg = msg + L" (1\u00D7" + std::to_wstring(_data.size()) + L" double)";
+    } else {
+        msg = L"[";
+        for (size_t k = 0; k < _data.size(); k++) {
+            if (std::fabs((double)(int)(_data[k]) - _data[k])
+                < std::numeric_limits<double>::epsilon()) {
+                msg = msg + std::to_wstring((int)_data[k]);
+            } else {
+                msg = msg + std::to_wstring(_data[k]);
+            }
+            if (k < _data.size() - 1) {
+                msg = msg + L" ";
+            }
+        }
+        msg = msg + L"]";
+    }
+    return msg;
 }
 //=============================================================================
 }

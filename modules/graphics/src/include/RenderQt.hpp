@@ -79,6 +79,10 @@ private:
     void
     setLineStyle(QPen& _pen, const std::wstring& style);
     //=============================================================================
+    void
+    toPixelsImpl(
+        double x, double y, double z, double& xclip, double& yclip, double& zclip, bool& clipped);
+    //=============================================================================
 public:
     //=============================================================================
     virtual bool
@@ -156,7 +160,8 @@ public:
     triLine(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3,
         double z3) override;
     //=============================================================================
-    void color(std::vector<double>) override;
+    void
+    color(const std::vector<double>) override;
     //=============================================================================
     void
     setLineStyle(const std::wstring& style) override;

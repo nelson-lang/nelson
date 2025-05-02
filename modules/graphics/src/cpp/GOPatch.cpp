@@ -34,7 +34,6 @@
 #include "GORowColumnProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "RGBAColorData.hpp"
-#include "RenderInterface.hpp"
 #include "RenderHelpers.hpp"
 #include "GOColorProperty.hpp"
 #include "GOCallbackProperty.hpp"
@@ -64,6 +63,7 @@ GOPatch::updateState()
         || hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)
         || hasChanged(GO_FACE_COLOR_PROPERTY_NAME_STR)
         || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
         m_faces.clear();
         buildPolygons(m_faces);
         clearChanged(GO_FACES_PROPERTY_NAME_STR);
@@ -89,7 +89,10 @@ GOPatch::paintMe(RenderInterface& gc)
 std::vector<double>
 GOPatch::getLimits()
 {
-    std::vector<double> limits;
+    if (!limitsDirty) {
+        return limits;
+    }
+    limits.resize(0);
     limits.reserve(10);
 
     ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
@@ -151,6 +154,7 @@ GOPatch::getLimits()
     limits.push_back(CLimMax);
     limits.push_back(1.);
     limits.push_back(1.);
+    limitsDirty = false;
     return limits;
 }
 //=============================================================================

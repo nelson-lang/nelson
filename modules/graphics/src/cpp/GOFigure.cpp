@@ -80,8 +80,8 @@ GOFigure::registerProperties()
     registerProperty(new GOOnOffProperty, GO_GRAPHICS_SMOOTHING_PROPERTY_NAME_STR);
     registerProperty(new GOToolBarProperty, GO_TOOL_BAR_PROPERTY_NAME_STR);
     registerProperty(new GOMenuBarProperty, GO_MENU_BAR_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_PROPERTY_NAME_STR);
+    registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_RESIZE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, false);
     registerProperty(new GOWindowStateProperty, GO_WINDOW_STATE_PROPERTY_NAME_STR);
@@ -109,11 +109,11 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_WINDOW_STATE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setRestrictedStringDefault(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setScalarDoubleDefault(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, 1.0);
-    GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_NAME_STR);
+    GOGenericProperty* hp = findProperty(GO_CLOSE_REQUEST_FCN_PROPERTY_NAME_STR);
     if (hp) {
         hp->set(ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_CLOSEREQ_STR));
     }
-    hp = findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+    hp = findProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR);
     if (hp) {
         hp->set(ArrayOf::characterArrayConstructor(L""));
     }
@@ -399,7 +399,7 @@ GOFigure::resizeGL(int width, int height)
         }
     }
     GOCallbackProperty* goCallback
-        = (GOCallbackProperty*)findProperty(GO_SIZE_CHANGED_FCN_NAME_STR);
+        = (GOCallbackProperty*)findProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR);
     if (goCallback) {
         goCallback->pushEvent(this, L"SizeChangedData", L"SizeChanged");
     }

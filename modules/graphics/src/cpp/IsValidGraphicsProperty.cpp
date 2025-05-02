@@ -15,6 +15,7 @@
 #include "GOImage.hpp"
 #include "GOPatch.hpp"
 #include "GOLineSeries.hpp"
+#include "GOScatterSeries.hpp"
 #include "GOUIControl.h"
 #include "GOText.hpp"
 #include "GOGroup.hpp"
@@ -36,6 +37,9 @@ IsValidGraphicsProperty(const std::wstring& GOTypename, const std::wstring& GOPr
     }
     if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_LINE_STR)) {
         fp = new GOLineSeries();
+    }
+    if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_SCATTER_STR)) {
+        fp = new GOScatterSeries();
     }
     if (!fp && StringHelpers::iequals(GOTypename, GO_PROPERTY_VALUE_IMAGE_STR)) {
         fp = new GOImage();

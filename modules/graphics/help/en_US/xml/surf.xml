@@ -115,8 +115,7 @@
       >VertexNormals</b> Normal vectors for each surface vertex: m-by-n-by-3 array or [] (default).</p>         
 <p><b>Visible</b> State of visibility: 'off' or 'on' (default).</p>
 <p><b>XData</b> x-coordinate data: vector or matrix.</p>          
-<p><b
-      >XDataMode</b> Selection mode for XData: 'manual' or 'auto'.</p>            
+<p><b>XDataMode</b> Selection mode for XData: 'manual' or 'auto'.</p>
 <p><b>YData</b> y-coordinate data: vector or matrix.</p>        
 <p><b
       >YDataMode</b> Selection mode for YData: 'manual' or 'auto'.</p>            

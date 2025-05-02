@@ -104,7 +104,7 @@ buildNelsonPIDsChannelName()
 #ifndef _MSC_VER
         // Add process owner uid to avoid permission issues on Linux (NixOS)
         uid_t uid = geteuid();
-        channelName += "_" + std::to_string(getCurrentPID());
+        channelName += "_" + std::to_string(getCurrentPID()) + "_" + std::to_string(uid);
 #else
         channelName += "_" + std::to_string(getCurrentPID());
 #endif

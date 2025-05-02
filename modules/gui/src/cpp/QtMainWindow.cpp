@@ -649,19 +649,24 @@ QtMainWindow::createMenus()
 void
 QtMainWindow::closeEvent(QCloseEvent* event)
 {
-    if (!qtTerminal->isAtPrompt()) {
-        if (!bClosed) {
-            QMessageBox::StandardButton reply
-                = QMessageBox::question(this, _("Close confirmation").c_str(),
-                    _("Are you sure to quit?").c_str(), QMessageBox::Yes | QMessageBox::No);
-            if (reply == QMessageBox::No) {
-                event->ignore();
-                return;
+    if (!bClosed) {
+        if (!qtTerminal->isAtPrompt()) {
+            if (!bClosed) {
+                QMessageBox::StandardButton reply
+                    = QMessageBox::question(this, _("Close confirmation").c_str(),
+                        _("Are you sure to quit?").c_str(), QMessageBox::Yes | QMessageBox::No);
+                if (reply == QMessageBox::No) {
+                    event->ignore();
+                    return;
+                }
             }
         }
+        bClosed = true;
+
+        destroyDockWigdets();
+        postCommand(L"exit");
     }
-    event->ignore();
-    postCommand(L"exit");
+    event->accept();
 }
 //=============================================================================
 QtTerminal*

@@ -3,18 +3,18 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>scatter</keyword>
-  <short_description>Scatter plot.</short_description>
+  <keyword>scatter3</keyword>
+  <short_description>3D Scatter plot.</short_description>
 
   <syntax>
-      <syntax_item>scatter(x, y)</syntax_item>
-      <syntax_item>scatter(x, y, sz)</syntax_item>
-      <syntax_item>scatter(x, y, sz, c)</syntax_item>
-      <syntax_item>scatter(..., 'filled')</syntax_item>
-      <syntax_item>scatter(..., marker)</syntax_item>
-      <syntax_item>scatter(ax, ...)</syntax_item>
-      <syntax_item>scatter(..., propertyName, propertyValue)</syntax_item>
-      <syntax_item>s = scatter(...)</syntax_item>
+      <syntax_item>scatter3(x, y, z)</syntax_item>
+      <syntax_item>scatter3(x, y, z, sz)</syntax_item>
+      <syntax_item>scatter3(x, y, z, sz, c)</syntax_item>
+      <syntax_item>scatter3(..., 'filled')</syntax_item>
+      <syntax_item>scatter3(..., marker)</syntax_item>
+      <syntax_item>scatter3(ax, ...)</syntax_item>
+      <syntax_item>scatter3(..., propertyName, propertyValue)</syntax_item>
+      <syntax_item>s = scatter3(...)</syntax_item>
   </syntax>
 	
 	<param_input>
@@ -25,6 +25,10 @@
 		<param_input_item>
 			<param_name>Y</param_name>
 			<param_description>y-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Z</param_name>
+			<param_description>z-coordinates: vector or matrix.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>sz</param_name>
@@ -64,13 +68,13 @@
 <description>
 
 <p><b
-      >scatter(x, y)</b> generates a scatter plot by placing circular markers at the coordinates defined by the vectors <b
-      >x</b> and <b>y</b>.</p>
-<p>If you intend to display a single dataset, ensure that both <b>x</b> and <b
-      >y</b> are vectors of the same length.</p>
+      >scatter(x, y, z)</b> generates a scatter plot by placing circular markers at the coordinates defined by the vectors <b
+      >x</b>, <b>y</b> and <b>z</b>.</p>
+<p>If you intend to display a single dataset, ensure that both <b>x</b>, <b
+      >y</b> and <b>z</b> are vectors of the same length.</p>
 <p
     >To visualize multiple datasets on a shared set of axes, you can achieve this by using a matrix for either <b
-      >x</b> or <b>y</b>, while keeping the other as a vector.</p>
+      >x</b>, <b>y</b> or <b>z</b>, while keeping the other as a vector.</p>
 <p
     >This allows you to overlay or compare multiple datasets within the same plot.</p>
 <p />
@@ -137,167 +141,42 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data
-      ><![CDATA[
-f = figure();
-theta = linspace(0,1,600);
-x = exp(theta).*sin(110*theta);
-y = exp(theta).*cos(110*theta);
-s = scatter(x,y ,'filled');]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_1.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure();
-x = linspace(0,3*pi,255);
-y = cos(x) + rand(1,255);
-sz = 1:255;
-c = 1:length(x);
-scatter(x, y, sz, c, 'd', 'filled')
-]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_2.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure();
-x = linspace(0, 3*pi, 255);
-y = cos(x) + rand(1, 255);
-c = linspace(1,10,length(x));
-scatter(x, y, [], c, 'filled')
-]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_3.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure();
-theta = linspace(0,2*pi,244);
-x = sin(theta) + 0.75*rand(1,244);
-y = cos(theta) + 0.75*rand(1,244);  
-sz = 45;
-scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineWidth',3.5)
-]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_4.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure(),
-x = linspace(0,3*pi,200);
-y = cos(x) + rand(1,200);
-% Top plot
-ax1 = subplot(2,1, 1);
-scatter(ax1,x,y)
-% Bottom plot
-ax2 = subplot(2,1, 2);
-scatter(ax2,x,y,'filled','d')
-]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_5.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure();
-x = rand(500,5);
-y = randn(500,5) + (5:5:25);
-s = scatter(x,y, 'filled');
-]]>
-    </example_item_data>
-    <example_item_img src="../images/scatter_6.svg" align="middle" />
-  </example_item>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
-      ><![CDATA[
-f = figure();
-% Create figure
-hold on;
-% Settings
-nPoints = 10; % Number of points per marker type
-markers = {'o', '+', '*', 's', 'd', '^', 'v', '>', '<', 'p', 'h'};
-sizesMin = 20; % Minimum size
-sizesMax = 100; % Maximum size
-% X positions
-x = linspace(1, 10, nPoints);
-% Fixed color
-fixedColor = [0 0 0]; % black
-% Plot each marker type
-for m = 1:numel(markers)
-    y = m * ones(size(x)); % Constant Y for each marker type
-    sizes = linspace(sizesMin, sizesMax, nPoints); % Increasing sizes
-    % Scatter points
-    scatter(x, y, sizes, ...
-        'Marker', markers{m}, ...
-        'MarkerEdgeColor', fixedColor, ...
-        'MarkerFaceColor', 'none', ...
-        'LineWidth', 1.5);
-end
-title('Scatter Only - One Line per Marker Type with Increasing Size');
+      ><![CDATA[f = figure();
+n = 100;
+x = randn(n,1);
+y = randn(n,1);
+z = randn(n,1);
+c = z;
+sz = 20 + 50 * sqrt(x.^2 + y.^2 + z.^2);
+scatter3(x, y, z, sz, c, 'filled');
+% Add labels and title
 xlabel('X Axis');
-ylabel('Marker Type Line');
-ylim([0 numel(markers)+1]);
-hold off;
-]]>
+ylabel('Y Axis');
+zlabel('Z Axis');
+title('3D Scatter Plot Demo');
+grid on;
+axis equal;
+view(-66.5, 12);]]>
     </example_item_data>
-    <example_item_img src="../images/scatter_7.svg" align="middle" />
+    <example_item_img src="../images/scatter3_1.svg" align="middle" />
   </example_item>
 
-   
 </examples>
 
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}line">line</link>
+      <link linkend="${graphics}scatter">scatter</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics}plot">plot</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}scatter3">scatter3</link>
     </see_also_item>
   </see_also>
 
   <history>
     <history_item>
-      <history_version>1.0.0</history_version>
+      <history_version>1.14.0</history_version>
       <history_description>initial version</history_description>
     </history_item> 
-    <history_item>
-      <history_version>1.12.0</history_version>
-      <history_description
-      >color name and short color name managed.</history_description>
-    </history_item>
-    <history_item>
-      <history_version>1.14.0</history_version>
-      <history_description
-      >Scatter is a graphics object with Properties.</history_description>
-    </history_item>
-
-
   </history>
 
   <authors>

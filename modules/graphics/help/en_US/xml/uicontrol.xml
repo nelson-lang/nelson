@@ -61,7 +61,7 @@
       >BackgroundColor</b>: Background color, specified as an RGB triplet, a hexadecimal color code, or a valid color name.</p>
 <p><b>BeingDeleted</b>: Deletion status. on/off logical value.</p>
 <p><b
-      >BusyAction</b>: Callback queuing specified as 'queue' (default) or 'cancel'. The property determines how Nelso handles the execution of interrupting callbacks.</p>
+      >BusyAction</b>: Callback queuing specified as 'queue' (default) or 'cancel'. The property determines how Nelson handles the execution of interrupting callbacks.</p>
 <p><b>ButtonDownFcn</b>: Button-press callback function</p>
 <p><b
       >CData</b>:An optional icon can be specified as a 3-D array of truecolor RGB values. The array values can be either:

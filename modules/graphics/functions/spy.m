@@ -20,7 +20,7 @@ function spy(varargin)
   linestyle = 'none';
   
   if nargin >= 3
-    arg3 = varargin{3}
+    arg3 = varargin{3};
     if ischar(arg3) || isStringScalar(arg3)
       [void, color, marker, msg] = colstyle(arg3, 'plot'); 
       if ~isempty(msg)
@@ -69,7 +69,7 @@ function spy(varargin)
     pos(2) = pos(2) * 315;
     pos(3) = pos(3) * 420; 
     pos(4) = pos(4) * 315;
-    markersize = max(4, min(14, round(6 * min(pos(3:4)) / max(m+1, n+1))));
+    markersize = max(4, min(14, round(6 * min(pos(3:4)) / max(m+1, n+1)))); 
     ax.Units = units;
   end
   
@@ -86,12 +86,9 @@ function spy(varargin)
   if isempty(S)
     marker = 'none';
   end
-  p = plot(j, i); 
-  p.Marker = marker;
-  p.MarkerSize = markersize;
-  p.LineStyle = linestyle;
-  p.Color = color;
-  p.MarkerEdgeColor = color;
+  
+  % Use scatter instead of plot
+  scatter(j, i, markersize, color, 'filled');
   
   xlabel(['nz = ', int2str(nnz(S))]);
   ax = gca();
