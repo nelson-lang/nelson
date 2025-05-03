@@ -151,6 +151,10 @@ GOImage::updateState()
         || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
         || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR)) {
         updateCAlphadata();
+        limitsDirty = true;
+    }
+    if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR) || hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
+        limitsDirty = true;
     }
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
