@@ -86,14 +86,14 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
             }
             std::string content;
             if (code) {
-                content = code->toString();
+                content = code->toString(true);
             }
             createFunctionHandleAnonymous(content, arguments, eval, functionHandle);
         } else {
             AbstractSyntaxTreePtr code = t;
             std::string content;
             if (code) {
-                content = code->toString();
+                content = code->toString(true);
             }
             if (content.empty()) {
                 Error(_("A valid function handle expected."),

@@ -195,7 +195,7 @@ public:
     toStringList();
 
     std::string
-    toString();
+    toString(bool firstLevel);
 
     /** Test for an empty tree
      * Returns true if the current node is unallocated or is not a reserved node

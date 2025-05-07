@@ -52,7 +52,7 @@ Evaluator::functionHandleAnonymousOperator(AbstractSyntaxTreePtr t)
         arguments = t->down->toStringList();
         code = t->down->right;
     }
-    std::string content = code->toString();
+    std::string content = code->toString(true);
 
     stringVector variableNames;
     std::vector<ArrayOf> variables;

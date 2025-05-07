@@ -55,7 +55,7 @@ assert_isequal(B, 33)
 str = '@(x)7*x-13';
 fh = str2func(str);
 R = func2str(fh);
-REF = '@(x)(7*x)-13'
+REF = '@(x)7*x-13';
 assert_isequal(R, REF)
 assert_isequal(fh(3), 8)
 %=============================================================================
