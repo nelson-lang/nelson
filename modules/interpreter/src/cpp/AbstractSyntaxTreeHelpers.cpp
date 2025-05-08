@@ -26,15 +26,12 @@ static const std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BRE
     { NLS_KEYWORD_ENDFUNCTION, "endfunction" } };
 //=============================================================================
 // Map of binary operators to their string representations
-static const std::unordered_map<int, std::pair<std::string, bool>> binaryOperators
-    = { { OP_ASSIGN, { "=", true } }, { OP_PLUS, { "+", true } }, { OP_SUBTRACT, { "-", true } },
-          { OP_TIMES, { "*", true } }, { OP_RDIV, { "/", true } }, { OP_LDIV, { "\\", false } },
-          { OP_POWER, { ".^", false } }, { OP_MPOWER, { "^", false } },
-          { OP_DOT_TIMES, { ".*", false } }, { OP_DOT_RDIV, { "./", false } },
-          { OP_DOT_LDIV, { ".\\", false } }, { OP_AND, { "&", false } }, { OP_OR, { "|", false } },
-          { OP_SAND, { "&&", false } }, { OP_SOR, { "||", false } }, { OP_LT, { "<", false } },
-          { OP_LEQ, { "<=", false } }, { OP_GT, { ">", false } }, { OP_GEQ, { ">=", false } },
-          { OP_EQ, { "==", false } }, { OP_NEQ, { "~=", false } } };
+static const std::unordered_map<int, std::string> binaryOperators
+    = { { OP_ASSIGN, "=" }, { OP_PLUS, "+" }, { OP_SUBTRACT, "-" }, { OP_TIMES, "*" },
+          { OP_RDIV, "/" }, { OP_LDIV, "\\" }, { OP_POWER, ".^" }, { OP_MPOWER, "^" },
+          { OP_DOT_TIMES, ".*" }, { OP_DOT_RDIV, "./" }, { OP_DOT_LDIV, ".\\" }, { OP_AND, "&" },
+          { OP_OR, "|" }, { OP_SAND, "&&" }, { OP_SOR, "||" }, { OP_LT, "<" }, { OP_LEQ, "<=" },
+          { OP_GT, ">" }, { OP_GEQ, ">=" }, { OP_EQ, "==" }, { OP_NEQ, "~=" } };
 //=============================================================================
 // Map of unary operators to their string representations and position (left or right)
 struct UnaryOpInfo
@@ -69,7 +66,7 @@ AbstractSyntaxTree::toString(bool firstLevel)
     // Check if this is a binary operator that can be handled by the map
     auto binaryOpIt = binaryOperators.find(opNum);
     if (binaryOpIt != binaryOperators.end()) {
-        return formatBinaryOperator(down, binaryOpIt->second.first, binaryOpIt->second.second);
+        return formatBinaryOperator(down, binaryOpIt->second, firstLevel);
     }
 
     // Check if this is a unary operator that can be handled by the map
@@ -101,9 +98,9 @@ AbstractSyntaxTree::toString(bool firstLevel)
     case id_node: {
         result = text;
         if (down) {
-            result += down->toString(firstLevel);
+            result += down->toString(false);
         } else if (right) {
-            result += right->toString(firstLevel);
+            result += right->toString(false);
         }
         return result;
     }
@@ -115,7 +112,7 @@ AbstractSyntaxTree::toString(bool firstLevel)
             // Block of statements separated by newlines
             AbstractSyntaxTreePtr current = down;
             while (current != nullptr) {
-                result += current->toString(firstLevel);
+                result += current->toString(false);
                 if (current->right != nullptr) {
                     result += "\n";
                 }
@@ -124,22 +121,22 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         case OP_COLON: {
-            result = formatRange(down, firstLevel);
+            result = formatRange(down, false);
         } break;
 
         case OP_PARENS: {
             result = "(";
             if (down) {
-                result += down->toString(firstLevel);
+                result += down->toString(false);
                 AbstractSyntaxTreePtr c = down->right;
                 while (c) {
-                    result += "," + c->toString(firstLevel);
+                    result += "," + c->toString(false);
                     c = c->right;
                 }
             }
             result += ")";
             if (right) {
-                result += right->toString(firstLevel);
+                result += right->toString(false);
             }
         } break;
 
@@ -161,17 +158,17 @@ AbstractSyntaxTree::toString(bool firstLevel)
 
         case OP_DOT: {
             // Structure field access: expr.field
-            result = "." + (down ? down->toString(firstLevel) : "");
+            result = "." + (down ? down->toString(false) : "");
             if (right) {
-                result += right->toString(firstLevel);
+                result += right->toString(false);
             }
         } break;
 
         case OP_DOTDYN: {
             // Dynamic field access: expr.(expr)
-            result = ".(" + (down ? down->toString(firstLevel) : "");
+            result = ".(" + (down ? down->toString(false) : "");
             if (right) {
-                result += right->toString(firstLevel);
+                result += right->toString(false);
             }
             result += ")";
         } break;
@@ -187,9 +184,9 @@ AbstractSyntaxTree::toString(bool firstLevel)
                         result += ",";
                     }
                 }
-                result += ")";
+                result += ") ";
                 if (down->right) {
-                    result += down->right->toString(firstLevel);
+                    result += down->right->toString(true);
                 }
             }
         } break;
@@ -197,12 +194,12 @@ AbstractSyntaxTree::toString(bool firstLevel)
         case OP_FUNCTION_HANDLE_NAMED: {
             // Named function handle: @function_name
             if (down) {
-                result = "@" + down->toString(firstLevel);
+                result = "@" + down->toString(false);
             }
         } break;
 
         case OP_SCALL: {
-            result = formatFunctionCall(down, firstLevel);
+            result = formatFunctionCall(down, false);
         } break;
 
         case OP_MULTICALL: {
@@ -215,11 +212,11 @@ AbstractSyntaxTree::toString(bool firstLevel)
                     if (!first) {
                         result += ", ";
                     }
-                    result += outputs->toString(firstLevel);
+                    result += outputs->toString(false);
                     outputs = outputs->right;
                     first = false;
                 }
-                result += "] = " + down->right->toString(firstLevel);
+                result += "] = " + down->right->toString(false);
             }
         } break;
 
@@ -230,7 +227,7 @@ AbstractSyntaxTree::toString(bool firstLevel)
             } else if (down) {
                 AbstractSyntaxTreePtr current = down;
                 while (current != nullptr) {
-                    result += current->toString(firstLevel);
+                    result += current->toString(false);
                     current = current->right;
                 }
             } else {
@@ -268,9 +265,8 @@ formatBinaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool fir
 {
     if (node && node->right) {
         // For second-level operations, add parentheses around child expressions
-        std::string leftStr = firstLevel ? node->toString(firstLevel) : node->toString(false);
-        std::string rightStr
-            = firstLevel ? node->right->toString(firstLevel) : node->right->toString(false);
+        std::string leftStr = node->toString(false);
+        std::string rightStr = node->right->toString(false);
 
         std::string result = leftStr + op + rightStr;
         return firstLevel ? result : "(" + result + ")";

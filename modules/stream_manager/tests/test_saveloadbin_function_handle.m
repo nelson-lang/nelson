@@ -16,5 +16,5 @@ savebin([tempdir(), 'test_saveload_fh.bin'], 'A');
 REF = A;
 clear A;
 loadbin([tempdir(), 'test_saveload_fh.bin']);
-assert_isequal(func2str(A), '@(x)x+1');
+assert_isequal(func2str(A), '@(x) x+1');
 %=============================================================================
