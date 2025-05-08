@@ -476,14 +476,21 @@ expr:
   | parenExpr
   ;
 
+anonymousFunction:
+  '@' IDENT {$$.v.p =  AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_NAMED, $2.v.p, $2.v.i);}
+  | '@' '(' argumentList ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$3.v.p,$5.v.p, $3.v.p->getContext());}
+  | '@' '(' ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$4.v.p, $4.v.p->getContext());}
+  | '@' error {yyxpt(_("function name or parameter list after '@'"), $1);}
+  | '@' '(' error {yyxpt(_("argument list or closing parenthesis after '('"), $2);}
+  | '@' '(' argumentList ')' error {yyxpt(_("expression for anonymous function body after ')'"), $4);}
+  | '@' '(' ')' error {yyxpt(_("expression for anonymous function body after ')'"), $3);}
+
 terminal:
 	NUMERIC
   | CHARACTER
   | STRING
   | MAGICEND
-  | '@' IDENT {$$.v.p =  AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_NAMED, $2.v.p, $2.v.i);}
-  | '@' '(' argumentList ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$3.v.p,$5.v.p, $3.v.p->getContext());}
-  | '@' '(' ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$4.v.p, $4.v.p->getContext());}
+  | anonymousFunction
   | symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_RHS,$1.v.p,$1.v.p->getContext());}
   | '[' matrixDef ']' {$$.v.p = $2.v.p;}
   | '[' error {yyxpt(_("a matrix definition followed by a right bracket"),$1);}

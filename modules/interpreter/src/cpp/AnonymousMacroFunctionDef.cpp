@@ -82,7 +82,7 @@ AnonymousMacroFunctionDef::getDefinition()
             content = content + ",";
         }
     }
-    content = content + ")";
+    content = content + ") ";
     content = content + anonymousContent;
     return content;
 }

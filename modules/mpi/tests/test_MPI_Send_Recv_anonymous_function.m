@@ -25,7 +25,7 @@ else
   for source = 1:num_ranks - 1
     receive = MPI_Recv (source, TAG);
     assert_istrue(isa(receive, 'function_handle'));
-    assert_isequal(func2str(receive), '@(x)(a+b)+x');
+    assert_isequal(func2str(receive), '@(x) (a+b)+x');
     assert_isequal(receive(1), 111);
   end
 end

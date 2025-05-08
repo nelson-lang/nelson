@@ -20,7 +20,7 @@ for v = matver
   loadmat(test_file_mat);
   assert_istrue(isstruct(f));
   assert_isequal(size(f), [1 1]);
-  assert_isequal(f.function_handle, '@(x)x+1');
+  assert_isequal(f.function_handle, '@(x) x+1');
   assert_isequal(f.a, 1);
   assert_isequal(f.b, 2);
 end

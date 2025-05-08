@@ -68,7 +68,7 @@ assert_isequal(I, I_REF);
 % function_handle
 assert_isequal(func2str(J), 'sin');
 %=============================================================================
-assert_isequal(func2str(JJ), '@(x)x+1');
+assert_isequal(func2str(JJ), '@(x) x+1');
 %=============================================================================
 % sparse double
 K_REF = sparse(eye(3,3));
