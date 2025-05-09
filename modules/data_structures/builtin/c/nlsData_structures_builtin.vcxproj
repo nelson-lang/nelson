@@ -181,6 +181,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\arrayfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\cell2structBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp" />
@@ -224,6 +225,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\arrayfunBuiltin.hpp" />
     <ClInclude Include="..\include\cell2structBuiltin.hpp" />
     <ClInclude Include="..\include\cellBuiltin.hpp" />
     <ClInclude Include="..\include\cellfunBuiltin.hpp" />
