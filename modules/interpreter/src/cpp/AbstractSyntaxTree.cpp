@@ -13,25 +13,76 @@
 #include <cstring>
 #include <algorithm>
 #include "AbstractSyntaxTree.hpp"
+#include <mutex>
+#include <shared_mutex>
 //=============================================================================
 namespace Nelson {
-AbstractSyntaxTreePtrVector AbstractSyntaxTree::astUsedAsVector;
+//=============================================================================
+// Thread-safe storage for AST nodes
+class ASTThreadSafeStorage
+{
+    //=============================================================================
+private:
+    AbstractSyntaxTreePtrVector storage;
+    mutable std::shared_mutex mutex;
+    //=============================================================================
+public:
+    //=============================================================================
+    void
+    clear()
+    {
+        std::unique_lock<std::shared_mutex> lock(mutex);
+        storage.clear();
+    }
+    //=============================================================================
+    void
+    add(AbstractSyntaxTreePtr ptr)
+    {
+        std::unique_lock<std::shared_mutex> lock(mutex);
+        storage.push_back(ptr);
+    }
+    //=============================================================================
+    void
+    deleteAll()
+    {
+        std::unique_lock<std::shared_mutex> lock(mutex);
+        for (auto& a : storage) {
+            if (a != nullptr) {
+                delete a;
+                a = nullptr;
+            }
+        }
+        storage.clear();
+    }
+    //=============================================================================
+    AbstractSyntaxTreePtrVector
+    getCopy() const
+    {
+        std::shared_lock<std::shared_mutex> lock(mutex);
+        return storage;
+    }
+    //=============================================================================
+};
+//=============================================================================
+// Global storage instance with static lifetime
+static ASTThreadSafeStorage g_astStorage;
 //=============================================================================
 void
 AbstractSyntaxTree::clearReferences()
 {
-    astUsedAsVector.clear();
+    g_astStorage.clear();
 }
 //=============================================================================
 void
 AbstractSyntaxTree::deleteReferences()
 {
-    deleteReferences(astUsedAsVector);
+    g_astStorage.deleteAll();
 }
 //=============================================================================
 void
 AbstractSyntaxTree::deleteReferences(AbstractSyntaxTreePtrVector& astAsVector)
 {
+    // This method doesn't need to be protected by mutex as it operates on a local copy
     for (auto& a : astAsVector) {
         if (a != nullptr) {
             delete a;
@@ -44,7 +95,7 @@ AbstractSyntaxTree::deleteReferences(AbstractSyntaxTreePtrVector& astAsVector)
 AbstractSyntaxTreePtrVector
 AbstractSyntaxTree::getReferences()
 {
-    return astUsedAsVector;
+    return g_astStorage.getCopy();
 }
 //=============================================================================
 
@@ -54,7 +105,7 @@ AbstractSyntaxTree::createNode(NODE_TYPE ntype, const std::string& name, int con
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(ntype, name, context);
-        astUsedAsVector.push_back(p);
+        g_astStorage.add(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -67,7 +118,7 @@ AbstractSyntaxTree::createNode(NODE_TYPE ntype, int token, int context)
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(ntype, token, context);
-        astUsedAsVector.push_back(p);
+        g_astStorage.add(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -81,7 +132,7 @@ AbstractSyntaxTree::createNode(
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, lt, rt, context);
-        astUsedAsVector.push_back(p);
+        g_astStorage.add(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -95,7 +146,7 @@ AbstractSyntaxTree::createNode(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyn
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, lt, md, rt, context);
-        astUsedAsVector.push_back(p);
+        g_astStorage.add(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -108,7 +159,7 @@ AbstractSyntaxTree::createNode(OP_TYPE op, AbstractSyntaxTreePtr arg, int contex
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, arg, context);
-        astUsedAsVector.push_back(p);
+        g_astStorage.add(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
