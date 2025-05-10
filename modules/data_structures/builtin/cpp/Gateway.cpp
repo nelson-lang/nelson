@@ -22,6 +22,7 @@
 #include "struct2cellBuiltin.hpp"
 #include "cell2structBuiltin.hpp"
 #include "cellfunBuiltin.hpp"
+#include "arrayfunBuiltin.hpp"
 #include "isfieldBuiltin.hpp"
 #include "namedargs2cellBuiltin.hpp"
 #include "getfieldBuiltin.hpp"
@@ -39,6 +40,8 @@ static const nlsGateway gateway[] = {
     { "isfield", (ptrBuiltin)Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
     { "fieldnames", (ptrBuiltin)Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1 },
     { "cellfun", (ptrBuiltin)Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "arrayfun", (ptrBuiltin)Nelson::DataStructuresGateway::arrayfunBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "namedargs2cell", (ptrBuiltin)Nelson::DataStructuresGateway::namedargs2cellBuiltin, 1, 1 },
     { "getfield", (ptrBuiltin)Nelson::DataStructuresGateway::getfieldBuiltin, 1, 2 },
