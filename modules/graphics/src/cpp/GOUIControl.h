@@ -162,6 +162,9 @@ private:
     onPositionPropertyChanged(bool newWidget);
     //=============================================================================
     void
+    onUnitsChanged(bool newWidget);
+    //=============================================================================
+    void
     onParentPositionChanged(bool newWidget);
     //=============================================================================
     void

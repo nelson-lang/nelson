@@ -100,6 +100,8 @@ Double-precision numbers ranging from 0.0 to 1.0, or uint8 numbers ranging from 
       >Style</b>: 'pushbutton' (default), 'togglebutton', 'checkbox', 'radiobutton', 'edit', 'text', 'slider'.</p>
 <p><b>Tooltip</b>: Tooltip: character vector or string scalar.</p>
 <p><b>Type</b>: 'uicontrol'</p>
+<p><b
+      >Units</b>: Units of measurement: 'pixels' (default), 'normalized', 'centimeters', 'inches' or 'points'.</p>
 <p><b>UserData</b>: User data array or [] (default).</p>
 <p><b>Value</b>: Current value: number</p>
 <p><b>Visible</b>: State of visibility: 'on' (default).</p>
@@ -217,6 +219,11 @@ uicontrol_demo_interruptible
       <history_version>1.7.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>Units property added</history_description>
+    </history_item>
+
   </history>
 
   <authors>
