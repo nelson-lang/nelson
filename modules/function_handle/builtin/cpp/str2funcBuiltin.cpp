@@ -24,7 +24,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     std::string functionname;
-    if (argIn[0].isRowVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         functionname = argIn[0].getContentAsCString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
