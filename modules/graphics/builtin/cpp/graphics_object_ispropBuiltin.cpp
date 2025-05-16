@@ -36,7 +36,7 @@ GraphicsGateway::graphics_object_ispropBuiltin(int nLhs, const ArrayOfVector& ar
     if (!fp) {
         Error(_W("Invalid handle."));
     }
-    std::vector<std::wstring> fieldnames = fp->getFieldnames();
+    std::vector<std::wstring> fieldnames = fp->getVisibleFieldnames();
     bool isValid = false;
     for (auto& name : fieldnames) {
         if (StringHelpers::iequals(propname, name)) {

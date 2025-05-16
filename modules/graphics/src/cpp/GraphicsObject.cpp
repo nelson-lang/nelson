@@ -73,6 +73,15 @@ GraphicsObject::isWritable(const std::wstring& name)
     return m_properties_writable[name];
 }
 //=============================================================================
+bool
+GraphicsObject::isVisible(const std::wstring& name)
+{
+    if (m_properties_visible.count(name) == 0) {
+        return false;
+    }
+    return m_properties_visible[name];
+}
+//=============================================================================
 GOGenericProperty*
 GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 {
@@ -222,14 +231,19 @@ GraphicsObject::findGoProperty(const std::wstring& name)
 }
 //=============================================================================
 void
-GraphicsObject::registerProperty(GOGenericProperty* hp, const std::wstring& name, bool iwritable)
+GraphicsObject::registerProperty(
+    GOGenericProperty* hp, const std::wstring& name, bool iwritable, bool visible)
 {
     std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
         = m_properties.find(name);
 
     if (got == m_properties.end()) {
         m_property_names_order.push_back(name);
+        if (visible) {
+            m_visible_property_names_order.push_back(name);
+        }
         m_properties_writable[name] = iwritable;
+        m_properties_visible[name] = visible;
     }
     m_properties[name] = hp;
 }
@@ -237,6 +251,7 @@ GraphicsObject::registerProperty(GOGenericProperty* hp, const std::wstring& name
 void
 GraphicsObject::sortProperties()
 {
+    parallelSort(m_visible_property_names_order);
     parallelSort(m_property_names_order);
 }
 //=============================================================================
@@ -251,6 +266,12 @@ wstringVector
 GraphicsObject::getFieldnames()
 {
     return m_property_names_order;
+}
+//=============================================================================
+wstringVector
+GraphicsObject::getVisibleFieldnames()
+{
+    return m_visible_property_names_order;
 }
 //=============================================================================
 void

@@ -11,8 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `scatter3`: 3-D scatter plot.
 - `WindowState` property to Figure objects.
-- `nebula` colormap.
+- `nebula`, `flag`, `prism` colormap.
 - `colormaplist` List available colormaps.
+- `DefaultFigureAlphamap`, `DefaultFigureColormap` root properties.
+- Some graphical properties can be not visible. example with `DefaultFigureAlphamap`, `DefaultFigureColormap`.
 - `arrayfun` apply function to each element of array.
 - Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
@@ -24,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `scatter` now returns a scatter graphic object instead of a line graphic object.
 - `scatter` performance has been improved.
 - `spy` uses scatter function and no more plot.
+- colormaps reworked to use new root `DefaultFigureColormap` propertie.
 - Improved error message for parsing invalid anonymous functions.
 - [#1378](http://github.com/nelson-lang/nelson/issues/1378) Boost 1.88 support.
 - Qt 6.9.0 used on Windows x64.

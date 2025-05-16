@@ -7,14 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function map = hot(m)
+function map = hot(varargin)
+  narginchk(0, 1);
   if nargin < 1
-    f = get(groot(), 'CurrentFigure');
+    R = groot();
+    f = R.CurrentFigure;
     if isempty(f)
-      m = 256;
+      m = size(R.DefaultFigureColormap, 1);
     else
-      m = size(f.Colormap,1);
+      m = size(f.Colormap, 1);
     end
+  else
+    m = varargin{1};
   end
   n = fix(3 /8 * m);
   r = [(1:n)' / n; ones(m - n, 1)];

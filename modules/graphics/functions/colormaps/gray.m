@@ -10,11 +10,12 @@
 function varargout = gray(varargin)
   narginchk(0, 1);
   nargoutchk(0, 1);    
-  if nargin ==  0
-    gr  = groot();
-    f = gr.CurrentFigure; 
+  narginchk(0, 1);
+  if nargin < 1
+    R = groot();
+    f = R.CurrentFigure;
     if isempty(f)
-      n = 64;
+      n = size(R.DefaultFigureColormap, 1);
     else
       n = size(f.Colormap, 1);
     end

@@ -11,13 +11,13 @@ function varargout = nebula(varargin)
   narginchk(0, 1);
   nargoutchk(0, 1);
   
-  % Handle default input
   if nargin < 1
-    fig = get(groot, 'CurrentFigure');
-    if isempty(fig)
-      m = 256;
+    R = groot();
+    f = R.CurrentFigure;
+    if isempty(f)
+      m = size(R.DefaultFigureColormap, 1);
     else
-      m = size(colormap(fig), 1);
+      m = size(f.Colormap, 1);
     end
   else
     m = varargin{1};
