@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `colormaplist` List available colormaps.
 - `DefaultFigureAlphamap`, `DefaultFigureColormap` root properties.
 - Some graphical properties can be not visible. example with `DefaultFigureAlphamap`, `DefaultFigureColormap`.
+- `Units` property to UIControls objects.
 - `arrayfun` apply function to each element of array.
 - Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.

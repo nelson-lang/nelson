@@ -98,6 +98,7 @@ GOUIControl::updateState()
     onPopupMenuChanged(createWidget);
 
     onValueChanged(createWidget);
+    onUnitsChanged(createWidget);
     onPositionPropertyChanged(createWidget);
 
     if (widget) {

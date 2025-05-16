@@ -47,6 +47,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "QPushButtonWidget.h"
+#include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,6 +69,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOStringVectorProperty, GO_STRING_PROPERTY_NAME_STR);
     registerProperty(new GOControlStyleProperty, GO_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
+    registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
@@ -98,6 +100,7 @@ GOUIControl::setupDefaults()
 {
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 20, 20, 60, 20);
+    setStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setThreeVectorDefault(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR, 0.9400, 0.9400, 0.9400);
@@ -127,6 +130,34 @@ GOUIControl::setupDefaults()
 }
 //=============================================================================
 void
+GOUIControl::onUnitsChanged(bool newWidget)
+{
+    bool needContinue = hasChanged(GO_UNITS_PROPERTY_NAME_STR) || newWidget;
+    if (!needContinue) {
+        return;
+    }
+
+    if (!hasChanged(GO_POSITION_PROPERTY_NAME_STR)) {
+        GOUnitsProperty* unitsProperty = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
+        std::wstring previousUnits = unitsProperty->getPreviousUnits();
+        std::wstring currentUnits = unitsProperty->data();
+
+        GOFourVectorProperty* hp
+            = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
+        std::vector<double> position = hp->data();
+
+        double width = this->parentGoWindow->width();
+        double height = this->parentGoWindow->height();
+
+        convertPosition(previousUnits, currentUnits, position, width, height);
+        hp->value(position[0], position[1], position[2], position[3]);
+        clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    }
+
+    clearChanged(GO_UNITS_PROPERTY_NAME_STR);
+}
+//=============================================================================
+void
 GOUIControl::onPositionPropertyChanged(bool newWidget)
 {
     bool needContinue = hasChanged(GO_POSITION_PROPERTY_NAME_STR) || newWidget;
@@ -134,6 +165,23 @@ GOUIControl::onPositionPropertyChanged(bool newWidget)
         return;
     }
     std::vector<double> sizevec(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
+    GOUnitsProperty* unitsProperty = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
+    std::wstring currentUnits = unitsProperty->data();
+    if (currentUnits != GO_PROPERTY_VALUE_PIXELS_STR) {
+        double width = this->parentGoWindow->width();
+        double height = this->parentGoWindow->height();
+
+        auto [pixelX, pixelY]
+            = convertToPixels(currentUnits, sizevec[0], sizevec[1], width, height);
+        auto [pixelW, pixelH]
+            = convertToPixels(currentUnits, sizevec[2], sizevec[3], width, height);
+
+        sizevec[0] = pixelX;
+        sizevec[1] = pixelY;
+        sizevec[2] = pixelW;
+        sizevec[3] = pixelH;
+    }
+
     QPoint pt((int)sizevec[0], (int)sizevec[1]);
     pt = convertToBottomLeft(pt);
     widget->setGeometry(pt.x(), pt.y(), (int)sizevec[2], (int)sizevec[3]);
