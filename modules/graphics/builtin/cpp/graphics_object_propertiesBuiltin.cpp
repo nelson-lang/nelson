@@ -37,7 +37,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
     if (!fp) {
         Error(_W("Invalid handle."));
     }
-    std::vector<std::wstring> propertyNames = fp->getFieldnames();
+    std::vector<std::wstring> propertyNames = fp->getVisibleFieldnames();
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
         if (io) {

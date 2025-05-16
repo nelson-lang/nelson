@@ -23,7 +23,9 @@ private:
     bool _resized;
     bool renderingStateInvalid = false;
     void
-    loadParulaColorMap();
+    loadDefaultAlphaMap();
+    void
+    loadDefaultColorMap();
     GOWindow* m_win;
     bool lockResize = false;
     void

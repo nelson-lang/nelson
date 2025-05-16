@@ -7,22 +7,46 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function map = abyss(varargin)
+function varargout = prism(varargin)
   narginchk(0, 1);
-  if nargin < 1
+  nargoutchk(0, 1);   
+  nargs =  nargin + nargout; 
+  if (nargs == 0)
+    ax = gca();
+    h = ax.Children;
+    m = length(h);
+  elseif (nargin == 0)
     R = groot();
     f = R.CurrentFigure;
     if isempty(f)
       m = size(R.DefaultFigureColormap, 1);
     else
-      m = size(f.Colormap, 1);
+      m = size(f.Colormap,1);
     end
   else
     m = varargin{1};
   end
+  R = [1 0 0;
+  1 .5 0;
+  1 1 0;
+  0 1 0;
+  0 0 1;
+  2/3 0 1];
   
-  firstColor = [0.1490, 0.5490, 0.8667];
-  vector = linspace(0.25, 1, m)';
-  map = firstColor .* vector;
+  e = ones(ceil(m / 6), 1);
+  R = kron(e, R);
+  R = R(1:m, :);
+  
+  if (nargs) == 0
+    for k = 1:m
+      H = h(k);
+      if strcmp(H.Type, 'line')
+        H.Color = R(k,:);
+      end
+    end
+  else
+    map = R;
+  end
+  varargout{1} = map;
 end
 %=============================================================================

@@ -40,6 +40,10 @@ public:
     void
     setupDefaults();
     void
+    loadDefaultColorMap();
+    void
+    loadDefaultAlphaMap();
+    void
     paintMe(RenderInterface& gc) override;
 };
 //=============================================================================

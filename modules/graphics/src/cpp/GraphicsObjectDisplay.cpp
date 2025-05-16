@@ -41,7 +41,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
             if (!fp) {
                 Error(_W("Invalid handle."));
             }
-            wstringVector names = fp->getFieldnames();
+            wstringVector names = fp->getVisibleFieldnames();
             io->outputMessage(L"\n");
             GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
             GOGenericProperty* hpNumber = fp->findProperty(GO_NUMBER_PROPERTY_NAME_STR, false);

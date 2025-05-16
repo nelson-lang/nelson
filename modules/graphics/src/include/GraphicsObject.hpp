@@ -25,8 +25,10 @@ class NLSGRAPHICS_IMPEXP GraphicsObject
 {
 private:
     std::unordered_map<std::wstring, bool> m_properties_writable;
+    std::unordered_map<std::wstring, bool> m_properties_visible;
     std::unordered_map<std::wstring, GOGenericProperty*> m_properties;
     wstringVector m_property_names_order;
+    wstringVector m_visible_property_names_order;
     unsigned ref_count;
 
 public:
@@ -80,15 +82,20 @@ public:
     void
     clearAllChanged();
     void
-    registerProperty(GOGenericProperty* prop, const std::wstring& name, bool writable = true);
+    registerProperty(GOGenericProperty* prop, const std::wstring& name, bool writable = true,
+        bool visible = true);
     void
     sortProperties();
     GOGenericProperty*
     findProperty(const std::wstring& name, bool raiseError = true);
     bool
     isWritable(const std::wstring& name);
+    bool
+    isVisible(const std::wstring& name);
     wstringVector
     getFieldnames();
+    wstringVector
+    getVisibleFieldnames();
     bool
     haveProperty(const std::wstring& name);
     double
