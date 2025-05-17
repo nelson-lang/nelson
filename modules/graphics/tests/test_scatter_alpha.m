@@ -9,10 +9,12 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-examples_directory = [modulepath('graphics', 'root'), '/', 'examples/'];
-run([examples_directory, 'utah-teapot/utah_teapot.m']);
-run([examples_directory, 'nefertiti-mask/nefertiti_mask.m']);
-run([examples_directory, 'stanford-bunny/stanford_bunny.m']);
-run([examples_directory, 'movie/demo_movie.m']);
-run([examples_directory, 'cube/demo_cube.m']);
+f = figure();
+x = [3.6 3.5 5 6.2 4 2];
+y = [14 5.5 12 6 8 9];
+sz = 100*[6 101 20 3 15 20];
+c = [1 2 3 4 5 7];
+s = scatter(x,y,sz,c,'filled','MarkerEdgeColor','k','MarkerFaceAlpha',.5);
+xlim([1 7]);
+ylim([1 16]);
 %=============================================================================

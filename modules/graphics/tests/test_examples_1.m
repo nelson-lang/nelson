@@ -9,35 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
-s = scatter(1, 1);
-assert_isequal(s.Type, 'scatter');
-R = properties(s);
-REF = { 'AlphaData';	
-'BeingDeleted';
-'BusyAction';
-'CData';
-'CDataMode';
-'Children';
-'CreateFcn';
-'DeleteFcn';
-'DisplayName';
-'Interruptible';
-'LineWidth';
-'Marker';
-'MarkerEdgeAlpha';
-'MarkerEdgeColor';
-'MarkerFaceAlpha';
-'MarkerFaceColor';
-'Parent';
-'SizeData';
-'Tag';
-'Type';
-'UserData';
-'Visible';
-'XData';
-'XDataMode';
-'YData';
-'ZData'};
-assert_isequal(R, REF);
+examples_directory = [modulepath('graphics', 'root'), '/', 'examples/'];
+run([examples_directory, 'utah-teapot/utah_teapot.m']);
+run([examples_directory, 'nefertiti-mask/nefertiti_mask.m']);
+run([examples_directory, 'stanford-bunny/stanford_bunny.m']);
 %=============================================================================

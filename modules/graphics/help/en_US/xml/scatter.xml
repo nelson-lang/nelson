@@ -77,7 +77,12 @@
 <p />
 <p>Scatter Properties:</p>
 <p />
-<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
+<p>Scatter Properties:</p>
+<p />
+<p><b
+      >AlphaData</b>: Marker face transparency, 1 (default) or array the same size as <b
+      >XData</b></p>
+<p><b>BeingDeleted</b>: Flag indicating that the object is being deleted.</p>
 <p><b
       >BusyAction</b>: Callback queuing specified as 'queue' (default) or 'cancel'. The property determines how Nelson handles the execution of interrupting callbacks.</p>
 <p><b
@@ -114,7 +119,19 @@
 <p><b>'&#60;'</b>: Right-pointing triangle symbol</p>
 <p />
 <p><b>MarkerEdgeColor</b> Marker outline color: RGB triplet.</p>
+<p><b
+      >MarkerEdgeAlpha</b> Marker edge transparency: scalar in range [0,1], 'flat or 1 (default).</p>
+<p
+    >To assign distinct transparency values to the edges of each point in a plot, set the AlphaData property to a vector matching the size of the <b
+      >XData</b> property and set the <b>MarkerEdgeAlpha</b> property to <b
+      >'flat'</b>.</p>
 <p><b>MarkerFaceColor</b> Marker fill color: RGB triplet.</p>
+<p><b
+      >MarkerFaceAlpha</b> Marker face transparency: scalar in range [0,1], 'flat or 1 (default).</p>
+<p
+    >To assign distinct transparency values to the faces of each point in a plot, set the AlphaData property to a vector matching the size of the <b
+      >XData</b> property and set the <b>MarkerFaceAlpha</b> property to <b
+      >'flat'</b>.</p>
 <p><b>Parent</b> Parent container: Figure graphics object.</p>
 <p><b>SizeData</b>: Marker sizes:[] (default), scalar or vector.</p>
 <p><b
