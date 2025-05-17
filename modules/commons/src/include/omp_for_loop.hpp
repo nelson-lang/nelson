@@ -16,9 +16,20 @@
 //=============================================================================
 #if WITH_OPENMP
 #define STRINGIFY(x) #x
-#define OMP_PARALLEL_FOR_LOOP(elementCount)                                                        \
-  _Pragma(STRINGIFY(omp parallel for if(NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled() && (uint64_t)elementCount > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())))
+#define EXPAND(x) x
+
+#define GET_MACRO(_1, _2, NAME, ...) NAME
+
+#define OMP_PARALLEL_FOR_LOOP_1(elementCount)                                                                   \
+  _Pragma(STRINGIFY(omp parallel for if(NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled() && \
+                                        (uint64_t)(elementCount) > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())))
+
+#define OMP_PARALLEL_FOR_LOOP_2(elementCount, numThreads)                                                                               \
+  _Pragma(STRINGIFY(omp parallel for num_threads(numThreads) if(NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled() && \
+                                        (uint64_t)(elementCount) > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())))
+#define OMP_PARALLEL_FOR_LOOP(...)                                                                 \
+    EXPAND(GET_MACRO(__VA_ARGS__, OMP_PARALLEL_FOR_LOOP_2, OMP_PARALLEL_FOR_LOOP_1)(__VA_ARGS__))
+
 #else
-#define OMP_PARALLEL_FOR_LOOP(elementCount)
+#define OMP_PARALLEL_FOR_LOOP(...)
 #endif
-//=============================================================================
