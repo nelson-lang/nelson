@@ -118,6 +118,12 @@ public:
     wname() const;
 
     /**
+     * clone array
+     */
+    ArrayOf
+    clone() const;
+
+    /**
      * Allocate an array.
      */
     static void*

@@ -46,14 +46,15 @@
 #include "validatecolorBuiltin.hpp"
 #include "waitforbuttonpressBuiltin.hpp"
 #include "waitforBuiltin.hpp"
+#include "imrotateBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
-static const nlsGateway gateway[] = { { "__scatter__",
-                                          (ptrBuiltin)Nelson::GraphicsGateway::__scatter__Builtin,
-                                          -1, 1, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+static const nlsGateway gateway[] = {
+    { "__scatter__", (ptrBuiltin)Nelson::GraphicsGateway::__scatter__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
     { "__line__", (ptrBuiltin)Nelson::GraphicsGateway::__line__Builtin, -1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__text__", (ptrBuiltin)Nelson::GraphicsGateway::__text__Builtin, -1, 1, CPP_BUILTIN,
@@ -131,7 +132,9 @@ static const nlsGateway gateway[] = { { "__scatter__",
     { "waitforbuttonpress", (ptrBuiltin)Nelson::GraphicsGateway::waitforbuttonpressBuiltin, -1, 0,
         CPP_BUILTIN },
     { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
-        CPP_BUILTIN_WITH_EVALUATOR } };
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "imrotate", (ptrBuiltin)Nelson::GraphicsGateway::imrotateBuiltin, 1, 2, CPP_BUILTIN },
+};
 //=============================================================================
 static bool
 initializeGraphicsModule(Nelson::Evaluator* eval)
