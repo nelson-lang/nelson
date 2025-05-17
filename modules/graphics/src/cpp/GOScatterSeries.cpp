@@ -29,6 +29,7 @@
 #include "GOCallbackProperty.hpp"
 #include "GOBusyActionProperty.hpp"
 #include "GOColorVectorProperty.hpp"
+#include "GOScalarAlphaProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,6 +50,7 @@ GOScatterSeries::~GOScatterSeries() { }
 void
 GOScatterSeries::constructProperties()
 {
+    registerProperty(new GOVectorProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
     registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
@@ -61,7 +63,9 @@ GOScatterSeries::constructProperties()
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOSymbolProperty, GO_MARKER_PROPERTY_NAME_STR);
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarAlphaProperty, GO_MARKER_EDGE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarAlphaProperty, GO_MARKER_FACE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
@@ -102,6 +106,13 @@ GOScatterSeries::setupDefaults()
 
     std::vector<double> sizeDataDefault = { 36 };
     setVectorDoubleDefault(GO_SIZE_DATA_PROPERTY_NAME_STR, sizeDataDefault);
+
+    GOScalarAlphaProperty* ea
+        = static_cast<GOScalarAlphaProperty*>(findProperty(GO_MARKER_EDGE_ALPHA_PROPERTY_NAME_STR));
+    ea->data(1.);
+    GOScalarAlphaProperty* fa
+        = static_cast<GOScalarAlphaProperty*>(findProperty(GO_MARKER_FACE_ALPHA_PROPERTY_NAME_STR));
+    fa->data(1.);
 }
 //=============================================================================
 void
@@ -166,10 +177,17 @@ GOScatterSeries::paintMe(RenderInterface& gc)
     if (parent) {
         parent->reMap(xs, ys, zs, mxs, mys, mzs);
     }
+    GOScalarAlphaProperty* ea
+        = static_cast<GOScalarAlphaProperty*>(findProperty(GO_MARKER_EDGE_ALPHA_PROPERTY_NAME_STR));
+    GOScalarAlphaProperty* fa
+        = static_cast<GOScalarAlphaProperty*>(findProperty(GO_MARKER_FACE_ALPHA_PROPERTY_NAME_STR));
+    bool isEdgeAlphaFlat = ea->isFlat();
+    bool isFaceAlphaFlat = fa->isFlat();
     GOAutoFlatColorProperty* ec = static_cast<GOAutoFlatColorProperty*>(
         findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR));
     GOAutoFlatColorProperty* fc = static_cast<GOAutoFlatColorProperty*>(
         findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR));
+    std::vector<double> alphaData(findVectorDoubleProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR));
     RenderInterface::SymbolType typ
         = StringToSymbol(findStringProperty(GO_MARKER_PROPERTY_NAME_STR));
 
@@ -243,6 +261,28 @@ GOScatterSeries::paintMe(RenderInterface& gc)
             }
             if (fc->isEqual(GO_PROPERTY_VALUE_FLAT_STR)) {
                 faceColor = CdataVector;
+            }
+            if (isEdgeAlphaFlat) {
+                if (alphaData.empty()) {
+                    edgeColor.push_back(1.0);
+                } else if (alphaData.size() == 1) {
+                    edgeColor.push_back(alphaData[0]);
+                } else if (alphaData.size() == uc.size()) {
+                    edgeColor.push_back(alphaData[i]);
+                }
+            } else {
+                edgeColor.push_back(ea->data());
+            }
+            if (isFaceAlphaFlat) {
+                if (alphaData.empty()) {
+                    faceColor.push_back(1.0);
+                } else if (alphaData.size() == 1) {
+                    faceColor.push_back(alphaData[0]);
+                } else if (alphaData.size() == uc.size()) {
+                    faceColor.push_back(alphaData[i]);
+                }
+            } else {
+                faceColor.push_back(fa->data());
             }
             DrawSymbol(gc, typ, uc[i], vc[i], 0, std::sqrt(sze), edgeColor, faceColor, width);
         }

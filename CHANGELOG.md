@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scatter symbols have been refined for greater pixel-perfect accuracy.
 - `scatter` now returns a scatter graphic object instead of a line graphic object.
 - `scatter` performance has been improved.
+- `scatter` and `scatter3` supports alpha channel.
 - `spy` uses scatter function and no more plot.
 - colormaps reworked to use new root `DefaultFigureColormap` propertie.
 - Improved error message for parsing invalid anonymous functions.
@@ -41,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Prettier to the latest version.
 - Use shared library suffix CMAKE macro.
 - Include the CPU target name in the package (on linux).
-- Minimal dependencies on SLICOT used .
+- Minimal dependencies on SLICOT used.
 
 ## 1.13.0 - (2025-03-29)
 

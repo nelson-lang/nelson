@@ -311,6 +311,9 @@
     <ClInclude Include="..\cpp\UnitsConversionHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOScalarAlphaProperty.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -658,7 +661,11 @@
     <ClCompile Include="..\cpp\GOScatterSeries.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\cpp\UnitsConversionHelpers.cpp">
+=======
+    <ClCompile Include="..\cpp\GOScalarAlphaProperty.cpp">
+>>>>>>> cf4d1c00d (feat(scatter): alpha channel)
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
