@@ -235,8 +235,6 @@ just build
 just build_help
 ```
 
-- On Fedora distribution: replaces jack-audio-connection-kit-devel package by pipewire-jack-audio-connection-kit-devel
-
 - Build Nelson with clang-tidy fix
 
 ```bash

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
 - Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
+- Fedora 42 support.
 
 ### Changed
 

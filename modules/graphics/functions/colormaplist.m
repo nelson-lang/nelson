@@ -11,7 +11,8 @@ function varargout = colormaplist(varargin)
   % List available colormaps
   narginchk(0, 0);
   nargoutchk(0, 1);
-  maps = string(ls([modulepath('graphics', 'functions'), '/colormaps/*.m']));
+  mapFiles =  dir([modulepath('graphics', 'functions'), '/colormaps/*.m']);
+  maps = string(char(mapFiles.name));
   maps = replace(maps,".m", "");
   maps = deblank(maps);
   varargout{1} = sort(maps);

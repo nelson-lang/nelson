@@ -10,4 +10,10 @@
 ls(nelsonroot())
 l = ls(nelsonroot());
 assert_istrue(ischar(l));
+if ispc()
+  assert_istrue(size(l, 1) > 5);
+else
+  R = find(l == char(10));
+  assert_istrue(numel(R) > 5);
+end
 %=============================================================================

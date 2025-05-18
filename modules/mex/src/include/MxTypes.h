@@ -11,6 +11,9 @@
 //=============================================================================
 #include <stdint.h>
 #include <stddef.h>
+#if !defined(__cplusplus)
+#include <stdbool.h>
+#endif
 //=============================================================================
 #ifdef __cplusplus
 extern "C"
@@ -55,8 +58,7 @@ typedef int mwSignedIndex;
 #endif
     } mxClassID;
     //=============================================================================
-#if !defined(__cplusplus) && !defined(bool)
-    typedef int8_t bool;
+#if !defined(__cplusplus)
 #ifndef false
 #define false 0
 #endif
