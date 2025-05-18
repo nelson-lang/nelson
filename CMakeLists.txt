@@ -32,7 +32,7 @@ endif()
 option(ENABLE_AVX2 "Enable AVX2 Instruction set (if available)" OFF)
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 1)
-set(Nelson_VERSION_MINOR_DEFAULT 13)
+set(Nelson_VERSION_MINOR_DEFAULT 14)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================
