@@ -55,6 +55,10 @@ option(WITHOUT_OPENMP "Disable OpenMP" OFF)
 # ==============================================================================
 option(WITHOUT_TBB "Disable TBB" OFF)
 # ==============================================================================
+option(WITHOUT_LIBGIT2 "Disable libgit2" OFF)
+# ==============================================================================
+option(WITHOUT_LIBCURL "Disable libcurl" OFF)
+# ==============================================================================
 option(WITHOUT_FILEWATCHER "Disable File watcher" OFF)
 # ==============================================================================
 option(FORCE_LIBGFORTRAN_LINK "Force libgfortran link" OFF)
@@ -147,6 +151,10 @@ endif()
 # ==============================================================================
 if (WITHOUT_SLICOT_MODULE)
   set(WITHOUT_CONTROL_SYSTEM_MODULE ON)
+endif()
+# ==============================================================================
+if (WITHOUT_LIBGIT2 AND WITHOUT_LIBCURL)
+  set(WITHOUT_WEBTOOLS_MODULE ON)
 endif()
 # ==============================================================================
 option(FORCE_QT5 "Force to use Qt5." OFF)
