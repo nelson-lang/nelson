@@ -52,15 +52,37 @@ end
 % ======================================================
 function varargout = unixLs(nOut, opts)
   nOpts = numel(opts);
-  lsPath = './';    
-  if numel(opts) == 0
-    args = {};
-  else
-    if (isfolder(opts{1}) || isfile(opts{1}))
-      lsPath = opts{1};
-      args = opts(2:end);
+  lsPath = './';
+  args = {};
+  
+  if numel(opts) > 0
+    pathStr = opts{1};
+    
+    % Check if the path contains wildcards
+    if contains(pathStr, '*') || contains(pathStr, '?')
+      lsPath = fileparts(pathStr);
+      % If lsPath is empty (just a filename pattern), use current directory
+      if isempty(lsPath)
+        lsPath = './';
+        args = {pathStr};
+      else
+        % Extract the filename pattern
+        [path, name, ext] = fileparts(pathStr);
+        if ~isempty(ext)
+          pattern = [name, ext];
+        else
+          pattern = name;
+        end
+        args = {pattern};
+      end
+    elseif isdir(pathStr)
+      lsPath = pathStr;
     else
-      args = opts(1:end);
+      args = {pathStr};
+    end
+    % Add any additional arguments
+    if nOpts > 1
+      args = [args, opts(2:end)];
     end
   end
   cmd = ['cd "', lsPath, '" < /dev/null && ls'];

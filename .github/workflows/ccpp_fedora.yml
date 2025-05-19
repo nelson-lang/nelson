@@ -5,16 +5,16 @@ on:
 
 jobs:
   Fedora:
-    name: Fedora 41
+    name: Fedora 42
     runs-on: ubuntu-latest
-    container: fedora:41
+    container: fedora:42
     timeout-minutes: 90
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-fedora-41.sh
+        run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-fedora.sh
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version

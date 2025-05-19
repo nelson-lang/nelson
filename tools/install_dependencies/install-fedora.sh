@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Nelson - Installation script for Fedora 41 dependencies
+# Nelson - Installation script for Fedora 41-42 dependencies
 # This script installs all required dependencies to build Nelson from source
 #
 
@@ -17,7 +17,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-print_status "Nelson - Installation script for Fedora 41 dependencies"
+print_status "Nelson - Installation script for Fedora 41-42 dependencies"
 
 print_status "Updating system packages"
 

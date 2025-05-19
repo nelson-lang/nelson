@@ -273,6 +273,7 @@ Find(const ArrayOfVector& argIn, int nLhs, bool& needToOverload)
         }
     }
     switch (nLhs) {
+    case 0:
     case 1: {
         return FindTrim(SingleFindModeFull(x), k, first_flag);
     } break;
