@@ -330,8 +330,12 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_WEBTOOLS_MODULE)
+if(NOT WITHOUT_LIBCURL)
   find_package(CURL REQUIRED)
+endif()
+if (NOT WITHOUT_LIBGIT2)
   find_package(libgit2 REQUIRED)
+endif()
 endif()
 # ==============================================================================
 if(NOT WITHOUT_AUDIO_MODULE)
