@@ -86,6 +86,18 @@ else()
   set(WITH_TBB 1)
 endif()
 # ==============================================================================
+if (WITHOUT_LIBGIT2)
+  set(WITH_LIBGIT2 0)
+else()
+  set(WITH_LIBGIT2 1)
+endif()
+# ==============================================================================
+if (WITHOUT_LIBCURL)
+  set(WITH_LIBCURL 0)
+else()
+  set(WITH_LIBCURL 1)
+endif()
+# ==============================================================================
 if (WITHOUT_FILEWATCHER)
   set(WITH_FILE_WATCHER 0)
 else()

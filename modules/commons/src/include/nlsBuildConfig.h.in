@@ -17,6 +17,8 @@
 //=============================================================================
 #define SHARED_LIBRARY_SUFFIX  "@CMAKE_SHARED_LIBRARY_SUFFIX@"
 //=============================================================================
+#define WITH_LIBCURL @WITH_LIBCURL@
+#define WITH_LIBGIT2 @WITH_LIBGIT2@
 #define WITH_TAGLIB @WITH_TAGLIB@
 #define WITH_OPENMP @WITH_OPENMP@
 #define WITH_TBB @WITH_TBB@

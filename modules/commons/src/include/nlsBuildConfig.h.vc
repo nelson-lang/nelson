@@ -22,6 +22,8 @@
 //=============================================================================
 #define SHARED_LIBRARY_SUFFIX ".dll"
 //=============================================================================
+#define WITH_LIBCURL 1
+#define WITH_LIBGIT2 1
 #define WITH_TAGLIB 1
 #define WITH_OPENMP 1
 #define WITH_TBB 1
