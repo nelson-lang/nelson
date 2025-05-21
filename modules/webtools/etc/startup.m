@@ -10,3 +10,12 @@
 addgateway(modulepath('webtools', 'builtin'), 'webtools');
 addpath(modulepath('webtools', 'functions'), '-frozen');
 %=============================================================================
+if (isempty(getenv('GIT_SSL_CAINFO')))
+  % Set the SSL CAINFO environment variable for Git
+  % This is required to avoid SSL certificate issues when using Git
+  % with HTTPS URLs.
+  % The path to the cacert.pem file is set to the resources directory
+  % of the webtools module.
+  setenv('GIT_SSL_CAINFO', [modulepath('webtools', 'root'), '/resources/cacert.pem']);
+end
+%=============================================================================
