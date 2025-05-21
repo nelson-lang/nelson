@@ -24,7 +24,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <title>nelson</title>
     <authors>Nelson numerical software</authors>
     <projectUrl>https://nelson-lang.github.io/nelson-website/</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/icons/hicolor/256x256/apps/nelson.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/icons/hicolor/256x256/apps/org.nelson.Nelson.png</iconUrl>
     <copyright>2016-present</copyright>
     <projectSourceUrl>https://github.com/nelson-lang/nelson</projectSourceUrl>
     <docsUrl>https://nelson-lang.github.io/nelson-gitbook/</docsUrl>
