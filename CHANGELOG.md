@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Qt 6.9.0 used on Windows x64.
 - Minimum boost version was fixed to 1.71.
 - JSON for Modern C++ version 3.12.0
+- Mozilla CA certificate updated (Tue May 20 03:12:02 2025 GMT).
 
 ### Technical Improvements
 
