@@ -10,6 +10,9 @@
 #pragma once
 //=============================================================================
 #define NELSON_PROJECT_NAME L"@PROJECT_NAME@"
+#define NELSON_DOMAIN L"@NELSON_DOMAIN@"
+#define NELSON_APP_ID L"@NELSON_APP_ID@"
+//=============================================================================
 #define NLS_LIBRARY_PATH_PREFIX L"@NLS_LIBRARY_PATH_PREFIX@"
 #define NLS_RUNTIME_PATH_PREFIX L"@NLS_RUNTIME_PATH_PREFIX@"
 //=============================================================================

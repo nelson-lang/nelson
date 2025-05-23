@@ -21,6 +21,9 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 # ==============================================================================
 project(Nelson)
+set(DOMAIN_NAME "io.github.nelson-lang")
+set(NELSON_APP_ID "${DOMAIN_NAME}.${PROJECT_NAME}")
+set(PROJECT_DESCRIPTION "Nelson programming language")
 # ==============================================================================
 option(DEBUG_BUILD "Disable Release build" OFF)
 if(DEBUG_BUILD)

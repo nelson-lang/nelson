@@ -59,9 +59,9 @@ end
 %=============================================================================
 function r = reindexhelp(pref_help)
   helpbrowser('-clearcache');
-  homepage = string([nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch']);
+  homepage = string([nelsonroot(), '/modules/main/help/', getlanguage(), '/', nelsonappid(), '.help.qch']);
   if ~isfile(homepage)
-    homepage = string([nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch']);
+    homepage = string([nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', nelsonappid(), '.help.qch']);
   end
   filesToRegister = string([]);
   filesToRegister = [filesToRegister; homepage];
@@ -81,7 +81,7 @@ function r = reindexhelp(pref_help)
   dispPercentLevel(100, lastDisplayedPercent);    
   fprintf(stdout, char(13));
   helpbrowser();
-  helpbrowser('-setsource', 'qthelp://org.nelson.help/help/homepage.html')
+  helpbrowser('-setsource', ['qthelp://', nelsonappid(), '.help/help/homepage.html'])
   version_help = version('-number');
   save(pref_help, 'version_help');
   r = true;
@@ -103,10 +103,10 @@ function help_file = getHelpFile(module_name)
   module_path = [nelsonroot() , '/modules/', module_name];
   if ismodule(module_name)
     module_path = modulepath(module_name);
-    help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+    help_file = [module_path, '/help/', getlanguage(), '/', nelsonappid(), '.modules.', module_name, '.help.qch'];
   end
   if ~isfile(help_file)
-    help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+    help_file = [module_path, '/help/', getdefaultlanguage(), '/', nelsonappid(), '.modules.', module_name, '.help.qch'];
   end
 end
 %=============================================================================

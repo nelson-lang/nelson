@@ -207,6 +207,7 @@
     <ClCompile Include="..\cpp\narginchkBuiltin.cpp" />
     <ClCompile Include="..\cpp\nargoutBuiltin.cpp" />
     <ClCompile Include="..\cpp\nargoutchkBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nelsonappidBuiltin.cpp" />
     <ClCompile Include="..\cpp\nelsonrootBuiltin.cpp" />
     <ClCompile Include="..\cpp\nfilenameBuiltin.cpp" />
     <ClCompile Include="..\cpp\pauseBuiltin.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="..\include\narginchkBuiltin.hpp" />
     <ClInclude Include="..\include\nargoutBuiltin.hpp" />
     <ClInclude Include="..\include\nargoutchkBuiltin.hpp" />
+    <ClInclude Include="..\include\nelsonappidBuiltin.hpp" />
     <ClInclude Include="..\include\nelsonrootBuiltin.hpp" />
     <ClInclude Include="..\include\nfilenameBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCore_builtin_exports.h" />

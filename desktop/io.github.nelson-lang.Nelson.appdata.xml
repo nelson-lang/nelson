@@ -11,7 +11,7 @@
 # ==============================================================================
 -->
 <component type="desktop-application">
-  <id>org.nelson.Nelson.desktop</id>
+  <id>io.github.nelson-lang.Nelson.desktop</id>
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0</project_license>
   <name>Nelson</name>
@@ -41,7 +41,7 @@
     </screenshot>
   </screenshots>
 
-  <launchable type="desktop-id">org.nelson.Nelson.desktop</launchable>
+  <launchable type="desktop-id">io.github.nelson-lang.Nelson.desktop</launchable>
   <provides>
     <binary>nelson</binary>
   </provides>

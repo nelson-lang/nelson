@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Some graphical properties can be not visible. example with `DefaultFigureAlphamap`, `DefaultFigureColormap`.
 - `Units` property to UIControls objects.
 - `arrayfun` apply function to each element of array.
+- `nelsonappid` returns nelson application ID.
 - Support for `nix develop`, enabling a reproducible Bash shell preconfigured with Nelson’s build environment.
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
 - Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
@@ -39,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Technical Improvements
 
+- Application ID changed to `io.github.nelson-lang.Nelson`.
 - Updated GitHub CI to use Windows 2025 for Windows builds.
 - Significant rework of the GitHub CI workflow for improved reliability and maintainability.
 - Updated Prettier to the latest version.

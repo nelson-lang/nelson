@@ -144,7 +144,7 @@ function helpForNelsonOnly()
           end
         end
       end
-      qhelpgenerator(dir_dst, [nelsonroot(), '/modules/main/help/', k{1} , '/'], 'org.nelson.help.qch')
+      qhelpgenerator(dir_dst, [nelsonroot(), '/modules/main/help/', k{1} , '/'], [nelsonappid(), '.help.qch'])
       disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
     end
   end
