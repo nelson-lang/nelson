@@ -33,6 +33,7 @@
 #include "sha256Builtin.hpp"
 #include "inputnameBuiltin.hpp"
 #include "featureBuiltin.hpp"
+#include "nelsonappidBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -69,6 +70,8 @@ static const nlsGateway gateway[] = {
     { "inputname", (ptrBuiltin)Nelson::CoreGateway::inputnameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "feature", (ptrBuiltin)Nelson::CoreGateway::featureBuiltin, 1, 2, CPP_BUILTIN },
+    { "nelsonappid", (ptrBuiltin)Nelson::CoreGateway::nelsonappidBuiltin, 1, 0, CPP_BUILTIN },
+
 };
 //=============================================================================
 NLSGATEWAYNAME()

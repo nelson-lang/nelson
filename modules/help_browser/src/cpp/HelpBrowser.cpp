@@ -17,6 +17,7 @@
 #include "HelpViewerWindow.h"
 #include "i18n.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,8 +47,9 @@ HelpBrowser::destroy()
 void
 HelpBrowser::showDocByModuleName(const std::wstring& name)
 {
-    std::wstring moduleIndex
-        = L"qthelp://org.nelson.modules." + name + std::wstring(L".help/help/") + L"index.html";
+    std::wstring moduleIndex = std::wstring(L"qthelp://")
+        + NelsonConfiguration::getInstance()->getNelsonApplicationId() + std::wstring(L".modules.")
+        + name + std::wstring(L".help/help/") + L"index.html";
     if (helpWindow) {
         helpWindow->setSource(moduleIndex);
     }
@@ -118,7 +120,9 @@ HelpBrowser::startBrowser(std::wstring& msg)
             msg = _W("help collection file not found.");
             return false;
         }
-        std::wstring mainUrl = L"qthelp://org.nelson.help/help/homepage.html";
+        std::wstring mainUrl = L"qthelp://"
+            + NelsonConfiguration::getInstance()->getNelsonApplicationId()
+            + L".help/help/homepage.html";
         try {
             helpWindow = new HelpViewerWindow(cachedCollectionFile, mainUrl);
         } catch (std::bad_alloc& e) {

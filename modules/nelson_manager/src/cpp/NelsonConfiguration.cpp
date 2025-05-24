@@ -582,6 +582,18 @@ NelsonConfiguration::getOpenMPParallelizationThreshold()
     return ompThreshold;
 }
 //=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonDomainName()
+{
+    return NELSON_DOMAIN;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonApplicationId()
+{
+    return NELSON_APP_ID;
+}
+//=============================================================================
 void
 NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bool save)
 {

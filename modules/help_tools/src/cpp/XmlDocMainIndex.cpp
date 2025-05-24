@@ -12,6 +12,7 @@
 #include "HtmlTags.hpp"
 #include "RelativePath.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 XmlDocMainIndex::XmlDocMainIndex(const std::wstring& destdir, const std::wstring& _mainTitle,
@@ -35,8 +36,8 @@ XmlDocMainIndex::XmlDocMainIndex(const std::wstring& destdir, const std::wstring
         this->htmlOpenTags();
     }
     if (outputTarget == DOCUMENT_OUTPUT::QT_HELP) {
-        std::wstring name_space
-            = std::wstring(L"org.nelson.modules.") + mainModuleShortName + std::wstring(L".help");
+        std::wstring name_space = NelsonConfiguration::getInstance()->getNelsonApplicationId()
+            + std::wstring(L".modules.") + mainModuleShortName + std::wstring(L".help");
         this->qtproject = new QtHelpProject(this->directoryDestination, mainTitle, name_space);
     } else {
         this->qtproject = nullptr;

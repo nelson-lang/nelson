@@ -28,9 +28,9 @@ function file_generated = xmldoctohelp(varargin)
   module_name = xmldocbuild(dirs_input, dir_output_tmp, main_title, 'help', overwrite);
   destination_file = '';
   if strcmp(module_name, '')
-    destination_file = ['org.nelson.modules.', 'manual', '.help', '.qch'];
+    destination_file = [nelsonappid(), '.modules.', 'manual', '.help', '.qch'];
   else
-    destination_file = ['org.nelson.modules.', module_name, '.help', '.qch'];
+    destination_file = [nelsonappid(), '.modules.', module_name, '.help', '.qch'];
   end
   file_generated =  [dir_output, destination_file];
   

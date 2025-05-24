@@ -47,8 +47,10 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                 std::wstring name = linkname;
                 StringHelpers::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
                 if (outputTarget == DOCUMENT_OUTPUT::QT_HELP) {
-                    resolvedlink = L"qthelp://org.nelson.modules." + modulename
-                        + std::wstring(L".help/help/") + name + L".html";
+                    resolvedlink = L"qthelp://"
+                        + NelsonConfiguration::getInstance()->getNelsonApplicationId()
+                        + L".modules." + modulename + std::wstring(L".help/help/") + name
+                        + L".html";
                     bFound = true;
                     return bFound;
                 }

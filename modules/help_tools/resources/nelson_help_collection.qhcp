@@ -3,7 +3,7 @@
   <assistant>
     <title language="fr">Aide Nelson</title>
     <title language="en">Nelson help</title>
-    <homePage>qthelp://org.nelson.help/help/homepage.html</homePage>
+    <homePage>qthelp://io.github.nelson-lang.Nelson.help/help/homepage.html</homePage>
     <applicationIcon>../../../resources/fibonacci.ico</applicationIcon>
     <enableFilterFunctionality>false</enableFilterFunctionality>
     <enableDocumentationManager>false</enableDocumentationManager>
