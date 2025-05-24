@@ -10,8 +10,8 @@
 #pragma once
 //=============================================================================
 #define NELSON_PROJECT_NAME L"Nelson"
-#define NELSON_DOMAIN L"io.github.nelson-lang"
-#define NELSON_APP_ID L"io.github.nelson-lang.Nelson"
+#define NELSON_DOMAIN L"io.github.nelson_lang"
+#define NELSON_APP_ID L"io.github.nelson_lang.Nelson"
 //=============================================================================
 #ifdef _WIN64
 #define NLS_LIBRARY_PATH_PREFIX L"bin/x64"

@@ -72,7 +72,7 @@ parts:
 
       # Include the icon's path in the desktop file, not just the name.
       # This needs to happen post-build or the build versioning will show as "modified locally"
-      sed -i 's|Icon=nelson|Icon=usr/share/icons/hicolor/128x128/apps/nelson\.png|' desktop/io.github.nelson-lang.Nelson.desktop
+      sed -i 's|Icon=nelson|Icon=usr/share/icons/hicolor/128x128/apps/nelson\.png|' desktop/io.github.nelson_lang.Nelson.desktop
 
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
       NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
@@ -230,7 +230,7 @@ parts:
 apps:
   nelson:
     command: usr/bin/nelson
-    desktop: usr/share/applications/io.github.nelson-lang.Nelson.desktop
+    desktop: usr/share/applications/io.github.nelson_lang.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
       LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/oss4-libsalsa/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/openblas-openmp:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib"

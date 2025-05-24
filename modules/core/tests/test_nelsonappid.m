@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nelsonappid(), 'io.github.nelson-lang.Nelson');
+assert_isequal(nelsonappid(), 'io.github.nelson_lang.Nelson');
 %=============================================================================
