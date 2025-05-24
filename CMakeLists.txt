@@ -52,6 +52,8 @@ message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 # ==============================================================================
 option(LGPL_ONLY "Build Nelson under LGPL v3.x only" OFF)
 # ==============================================================================
+option(BUILD_HELP "Build help files" OFF)
+# ==============================================================================
 option(MINIMAL_BUILD "Build mininal Nelson " OFF)
 # ==============================================================================
 option(WITHOUT_OPENMP "Disable OpenMP" OFF)

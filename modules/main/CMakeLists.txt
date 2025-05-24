@@ -135,7 +135,16 @@ if(NOT WITHOUT_HELP_TOOLS_MODULE)
   add_custom_target(
     buildhelp
     COMMAND ${BUILDHELP_ACTION}
-    DEPENDS nelson-cli-exec)
+    DEPENDS nelson-cli-exec
+    COMMENT "Building help documentation"
+  )
+
+  if(BUILD_HELP)
+    add_custom_target(build_with_help ALL
+      DEPENDS buildhelp
+      COMMENT "Triggering help build as part of the default build"
+    )
+  endif()   
 endif()
 # ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
