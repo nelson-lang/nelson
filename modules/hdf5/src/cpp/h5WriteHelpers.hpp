@@ -10,7 +10,9 @@
 #pragma once
 //=============================================================================
 #include <string>
+#ifndef H5_BUILT_AS_DYNAMIC_LIB
 #define H5_BUILT_AS_DYNAMIC_LIB
+#endif
 #include <hdf5.h>
 #include "ArrayOf.hpp"
 //=============================================================================

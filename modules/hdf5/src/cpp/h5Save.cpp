@@ -12,7 +12,9 @@
 #endif
 //=============================================================================
 #include <ctime>
+#ifndef H5_BUILT_AS_DYNAMIC_LIB
 #define H5_BUILT_AS_DYNAMIC_LIB
+#endif
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
