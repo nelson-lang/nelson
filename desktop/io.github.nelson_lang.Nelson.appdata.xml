@@ -11,14 +11,17 @@
 # ==============================================================================
 -->
 <component type="desktop-application">
-  <id>io.github.nelson_lang.Nelson.desktop</id>
+  <id>io.github.nelson_lang.Nelson</id>
   <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-3.0</project_license>
+  <project_license>LGPL-3.0-or-later</project_license>
   <name>Nelson</name>
-  <summary>Expendable and Modern numerical computing environment</summary>
+  <summary>Extensible and Modern numerical computing environment</summary>
   <summary
     xml:lang="fr"
   >Environnement informatique numérique extensible et moderne</summary>
+  <developer id="io.github.nelson_lang.Nelson">
+    <name>Allan CORNET and others</name>
+  </developer> 
   <description>
     <p>
       Nelson is a matrix and array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
@@ -36,10 +39,19 @@
 
   <screenshots>
     <screenshot type="default">
-      <image
-      >https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/images/screenshot-linux.png</image>
+      <caption>Nelson main window</caption>
+      <image width="1600" height="900">https://raw.githubusercontent.com/nelson-lang/nelson/master/desktop/images/screenshot-linux.png</image>
     </screenshot>
   </screenshots>
+
+  <releases>
+    <release version="1.13.0" date="2023-08-07">
+      <url type="details">https://github.com/nelson-lang/nelson/blob/master/CHANGELOG.md#1130---2025-03-29</url>
+    </release>
+    <release version="1.12.0" date="2025-02-16">
+      <url type="details">https://github.com/nelson-lang/nelson/blob/master/CHANGELOG.md#1120-2025-02-16</url>
+    </release>
+  </releases>
 
   <launchable type="desktop-id">io.github.nelson_lang.Nelson.desktop</launchable>
   <provides>
