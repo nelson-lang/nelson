@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Refer to [BUILDING.md](./BUILDING.md) for detailed usage instructions.
 - Introduced a [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across all supported platforms.
 - Fedora 42 support.
+- [Flatpak](https://flathub.org/apps/io.github.nelson_lang.Nelson) package.
 
 ### Changed
 
