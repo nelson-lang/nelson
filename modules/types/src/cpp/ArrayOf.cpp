@@ -565,6 +565,12 @@ ArrayOf::getDataPointer() const
     return nullptr;
 }
 //=============================================================================
+ArrayOf
+ArrayOf::clone() const
+{
+    return ArrayOf(*this);
+}
+//=============================================================================
 void
 ArrayOf::ensureSingleOwner()
 {

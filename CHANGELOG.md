@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `imrotate`: Rotate image.
 - `scatter3`: 3-D scatter plot.
 - `WindowState` property to Figure objects.
 - `nebula`, `flag`, `prism` colormap.
