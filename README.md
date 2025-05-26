@@ -113,6 +113,10 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/nelson)
 
+<a href='https://flathub.org/apps/io.github.nelson_lang.Nelson'>
+<img width='240' alt='Get it on Flathub' src='https://flathub.org/api/badge?locale=en'/>
+</a>
+
 [Latest Windows Installer](https://github.com/nelson-lang/nelson/releases)
 
 [Get it from the Windows Package Manager](https://winstall.app/apps/NelsonNumericalSoftware.Nelson)
@@ -146,17 +150,17 @@ Nelson is delivered under dual-license:
 
 Nelson is tested and supported on a wide range of platforms. **[Downloads](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are listed below:
 
-| **Operating System** |  **Architecture**  | **CI** | **Binaries** |
-| :------------------: | :----------------: | :----: | :----------: |
-|  **Windows 10, 11**  |    x86-64 (\*1)    |   ✓    |      ✓       |
-|  **macOS Sequoia**   |       arm64        |   ✓    |              |
-|   **macOS Sonoma**   |       arm64        |   ✓    |              |
-|  **macOS Ventura**   |  x86-64 (64-bit)   |   ✓    |              |
-|   **Ubuntu 24.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    |   ✓ (Snap)   |
-|   **Ubuntu 22.04**   |       x86-64       |   ✓    |   ✓ (Snap)   |
-|    **Fedora 42**     |       x86-64       |   ✓    |   ✓ (Snap)   |
-|    **ArchLinux**     |       x86-64       |   ✓    |   ✓ (Snap)   |
+| **Operating System** |  **Architecture**  | **CI** |   **Binaries**    |
+| :------------------: | :----------------: | :----: | :---------------: |
+|  **Windows 10, 11**  |    x86-64 (\*1)    |   ✓    |         ✓         |
+|  **macOS Sequoia**   |       arm64        |   ✓    |                   |
+|   **macOS Sonoma**   |       arm64        |   ✓    |                   |
+|  **macOS Ventura**   |  x86-64 (64-bit)   |   ✓    |                   |
+|   **Ubuntu 24.04**   |       x86-64       |   ✓    | ✓ (Snap, Flatpak) |
+|   **Ubuntu 24.04**   | arm64 (cobalt 100) |   ✓    | ✓ (Snap, Flatpak) |
+|   **Ubuntu 22.04**   |       x86-64       |   ✓    | ✓ (Snap, Flatpak) |
+|    **Fedora 42**     |       x86-64       |   ✓    | ✓ (Snap, Flatpak) |
+|    **ArchLinux**     |       x86-64       |   ✓    | ✓ (Snap, Flatpak) |
 
 _Note: The continued support of some platforms may depend on community contributions._
 
