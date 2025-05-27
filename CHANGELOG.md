@@ -40,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JSON for Modern C++ version 3.12.0
 - Mozilla CA certificate updated (Tue May 20 03:12:02 2025 GMT).
 
+### Fixed
+
+- [#1413](http://github.com/nelson-lang/nelson/issues/1413) axes function did not manage figure object.
+
 ### Technical Improvements
 
 - Application ID changed to `io.github.nelson_lang.Nelson`.
