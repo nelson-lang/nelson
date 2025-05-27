@@ -317,92 +317,57 @@ ImageRotation(
     // Direct pixel manipulation based on data type
     switch (dataClass) {
     case NLS_DOUBLE: {
-        double* inputData = (double*)(image.getDataPointer());
-        double* outputData = (double*)(outputImage.getDataPointer());
-
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<double>((const double*)image.getDataPointer(),
             (double*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0.0);
     } break;
     case NLS_SINGLE: {
-        single* inputData = (single*)(image.getDataPointer());
-        single* outputData = (single*)(outputImage.getDataPointer());
-
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<single>((const single*)image.getDataPointer(),
             (single*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0.0);
     } break;
     case NLS_INT8: {
-        int8* inputData = (int8*)(image.getDataPointer());
-        int8* outputData = (int8*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<int8>((const int8*)image.getDataPointer(),
             (int8*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
 
     } break;
     case NLS_INT16: {
-        int16* inputData = (int16*)(image.getDataPointer());
-        int16* outputData = (int16*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<int16>((const int16*)image.getDataPointer(),
             (int16*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_INT32: {
-        int32* inputData = (int32*)(image.getDataPointer());
-        int32* outputData = (int32*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<int32>((const int32*)image.getDataPointer(),
             (int32*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_INT64: {
-        int64* inputData = (int64*)(image.getDataPointer());
-        int64* outputData = (int64*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<int64>((const int64*)image.getDataPointer(),
             (int64*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_UINT8: {
-        uint8* inputData = (uint8*)(image.getDataPointer());
-        uint8* outputData = (uint8*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<uint8>((const uint8*)image.getDataPointer(),
             (uint8*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_UINT16: {
-        uint16* inputData = (uint16*)(image.getDataPointer());
-        uint16* outputData = (uint16*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<uint16>((const uint16*)image.getDataPointer(),
             (uint16*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_UINT32: {
-        uint32* inputData = (uint32*)(image.getDataPointer());
-        uint32* outputData = (uint32*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<uint32>((const uint32*)image.getDataPointer(),
             (uint32*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_UINT64: {
-        uint64* inputData = (uint64*)(image.getDataPointer());
-        uint64* outputData = (uint64*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<uint64>((const uint64*)image.getDataPointer(),
             (uint64*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     case NLS_LOGICAL: {
-        logical* inputData = (logical*)(image.getDataPointer());
-        logical* outputData = (logical*)(outputImage.getDataPointer());
-        size_t totalPixels = new_height * new_width;
         interpolateAndRotate<logical>((const logical*)image.getDataPointer(),
             (logical*)outputImage.getDataPointer(), width, height, channels, new_width, new_height,
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
@@ -417,7 +382,7 @@ ImageRotation(
 //=============================================================================
 template <typename T>
 ArrayOf
-flip180(NelsonType nelsonType, Dimensions dims, size_t channels, size_t planeSize, T* data)
+flip180(NelsonType nelsonType, const Dimensions& dims, size_t channels, size_t planeSize, T* data)
 {
     size_t total = planeSize * channels;
     T* ptr = (T*)ArrayOf::allocateArrayOf(nelsonType, total);

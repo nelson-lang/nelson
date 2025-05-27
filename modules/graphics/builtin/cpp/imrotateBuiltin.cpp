@@ -32,10 +32,6 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     // Extract dimensions
     Dimensions dims = inputImage.getDimensions();
-    size_t height = dims.getRows();
-    size_t width = dims.getColumns();
-    size_t channels = (dims.getLength() > 2) ? dims.getDimensionLength(2) : 1;
-
     if (inputImage.isSparse() || dims.getLength() > 3) {
         Error(_("Input image must be 2-D."));
     }
