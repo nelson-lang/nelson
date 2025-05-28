@@ -206,7 +206,11 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
         int64 currentAxes = hp->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
         if (currentAxes == 0 || isDeletedGraphicsObject(currentAxes)) {
             // Create new axes for this figure
-            GOFigure* fig = (GOFigure*)hp;
+            GOFigure* fig = dynamic_cast<GOFigure*>(hp);
+            if (!fig) {
+                Error(_("Failed to cast GraphicsObject to GOFigure."));
+                return ArrayOfVector(); // Return an empty result or handle the error appropriately.
+            }
             ArrayOfVector t = setupVector2DProperties();
             int64 newHandle = createNewAxes(fig, handle, t, true);
             return buildReturnValue(nLhs, newHandle);
