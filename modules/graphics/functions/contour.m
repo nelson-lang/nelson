@@ -20,7 +20,7 @@ function varargout = contour(varargin)
     error(_('Wrong number of input arguments.'));
   end
   ax = [];
-  if ((length(inputArguments{1})==1) && ishandle(inputArguments{1},'axes'))
+  if ((length(inputArguments{1})==1) && isgraphics(inputArguments{1},'axes'))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else

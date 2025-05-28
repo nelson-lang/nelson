@@ -141,3 +141,21 @@ y = sin(x);
 plot(x,y)
 assert_isequal(f.CurrentAxes, ax1);
 %=============================================================================
+f1 = figure();
+f2 = figure();
+ax1 = axes(f1, 'Position', [0.1 0.1 0.7 0.7]);
+ax2 = axes(f2, 'Position', [0.65 0.65 0.28 0.28]);
+ax3 = axes(f1, 'Position', [0.2 0.2 0.5 0.5]);
+ax4 = axes(f2, 'Position', [0.3 0.3 0.4 0.4]);
+assert_isequal(ax4.Parent, f2);
+%=============================================================================
+axes(ax1);
+assert_isequal(ax1.Parent, f1);
+%=============================================================================
+f1 = figure();
+f2 = figure();
+ax = axes(f1);
+assert_isequal(ax.Parent, f1);
+cf = gcf();
+assert_isequal(cf, f2);
+%=============================================================================
