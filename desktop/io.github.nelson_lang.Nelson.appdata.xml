@@ -45,6 +45,9 @@
   </screenshots>
 
   <releases>
+    <release version="1.14.0" date="2025-05-30">
+      <url type="details">https://github.com/nelson-lang/nelson/blob/master/CHANGELOG.md#1130---2025-05-30</url>
+    </release>
     <release version="1.13.0" date="2025-03-29">
       <url type="details">https://github.com/nelson-lang/nelson/blob/master/CHANGELOG.md#1130---2025-03-29</url>
     </release>
