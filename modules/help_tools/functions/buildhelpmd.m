@@ -113,9 +113,9 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
                      '';
                      '* [License](./license/license.md)';
                      '';
-                     '    * [License](./license/license.md)';
-                     '    * [LGPL v3.0](./license/lgpl-3.0.md)';
-                     '    * [GPL v3.0](./license/gpl-3.0.md)';
+                     '    * [License](license/license.md)';
+                     '    * [LGPL v3.0](license/lgpl-3.0.md)';
+                     '    * [GPL v3.0](license/gpl-3.0.md)';
                      ''};
       global_summary = [global_summary; {''}; end_summary];
     end
