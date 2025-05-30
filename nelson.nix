@@ -29,11 +29,10 @@
 
 stdenv.mkDerivation {
   buildInputs = [
-    icu # International Components for Unicode
     zlib # Compression library
     boost # Boost libraries
     openssl # SSL support
-    mpich # MPI support
+    mpi # MPI support
     hdf5 # HDF5 support
     curl # cURL support
     libgit2 # Git support
@@ -49,6 +48,7 @@ stdenv.mkDerivation {
     matio # MATIO support
     libcxx # C++ standard library
     qt6.full # Qt for GUI support
+    qt6.qtbase # Qt base required
     giflib # GIF support
     libtiff # TIFF support
   ];
@@ -60,14 +60,14 @@ stdenv.mkDerivation {
   ];
 
   name = "nelson";
-  version = "v1.13.0";
+  version = "v1.14.0";
 
   # Source URL for the Nelson source code
   src = fetchFromGitHub {
     owner = "nelson-lang";
     repo = "nelson";
-    rev = "master";
-    sha256 ="sha256-WQKcaogC+2GGq6S7rxys4/2Kk6WY8SIRQgygBwq0pL0="; # Replace with the actual checksum
+    rev = "v1.14.0";
+    sha256 ="sha256-XT9wxLfbctPI3Gu0URynvKpUjHyoeybHWo2QS4wz9sU="; # Replace with the actual checksum
   };
 
   cmakeFlags = [
