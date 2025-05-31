@@ -10,7 +10,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 imfmt = imformats('gif');
-skip_testsuite(isempty(imfmt) || (~imfmt.multipage), _('No GIF format supported.'))
+msg = _('Test imwrite with GIF format');
+skip_testsuite(isempty(imfmt) || (~imfmt.multipage), msg);
 %=============================================================================
 movie_directory = [modulepath('graphics'), '/examples/', 'movie/'];
 sequences = {'dance', 8; 'leap', 9};
