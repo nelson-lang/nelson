@@ -24,88 +24,52 @@
 #define YYSTYPE Nelson::ParseRHS
 //=============================================================================
 #include "AbstractSyntaxTree.hpp"
-#include "ParseRHS.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
-#include "i18n.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
 #include "LexerInterface.hpp"
 #include "NelSonParser.h"
-#include "LexerInterface.hpp"
+#include "LexerContext.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static char* textbuffer = nullptr;
-static char* datap = nullptr;
-static char* linestart = nullptr;
-static int lineNumber = 0;
-static int continuationCount = 0;
-static int inBlock = 0;
-static int inStatement = 0;
-static bool inFunction = false;
-static int countEndFunction = 0;
-//=============================================================================
-enum LexingStates
-{
-    Initial,
-    Scanning,
-    SpecScan
-};
-//=============================================================================
-#define DEFAULT_BUFFER_SIZE_LEXER 256
-//=============================================================================
-LexingStates lexState;
-int bracketStack[DEFAULT_BUFFER_SIZE_LEXER];
-int bracketStackSize;
-int vcStack[DEFAULT_BUFFER_SIZE_LEXER];
-int vcStackSize;
-int vcFlag;
-//=============================================================================
-/*
- * These variables capture the token information
- */
-int tokenActive;
-int tokenType;
-ParseRHS tokenValue;
-//=============================================================================
-keywordStruct tSearch, *pSearch;
-//=============================================================================
 void
-clearTextBufferLexer()
+clearTextBufferLexer(Nelson::LexerContext& lexerContext)
 {
-    if (textbuffer != nullptr) {
-        free(textbuffer);
-        textbuffer = nullptr;
+    if (lexerContext.textbuffer != nullptr) {
+        free(lexerContext.textbuffer);
+        lexerContext.textbuffer = nullptr;
     }
 }
 //=============================================================================
 indexType
-ContextInt()
+ContextInt(LexerContext& lexerContext)
 {
-    if (datap == linestart) {
-        return (1 << 16 | lineNumber);
+    if (lexerContext.datap == lexerContext.linestart) {
+        return (1 << 16 | lexerContext.lineNumber);
     }
-    return ((datap - linestart + 1) << 16) | (lineNumber + 1);
+    return ((lexerContext.datap - lexerContext.linestart + 1) << 16)
+        | (lexerContext.lineNumber + 1);
 }
 //=============================================================================
 void
-NextLine()
+NextLine(LexerContext& lexerContext)
 {
-    lineNumber++;
-    linestart = datap;
+    lexerContext.lineNumber++;
+    lexerContext.linestart = lexerContext.datap;
 }
 //=============================================================================
 static void
-LexerException(const std::string& msg)
+LexerException(LexerContext& lexerContext, const std::string& msg)
 {
     std::string error_message;
 
     if (!getParserFilenameU().empty() && !msg.empty()) {
         error_message = fmt::format(_("Lexical error '{}' at line {} of file {}"), msg,
-            lineNumber + 1, getParserFilenameU());
+            lexerContext.lineNumber + 1, getParserFilenameU());
     } else {
         if (!msg.empty()) {
             error_message = fmt::format(_("Lexical error '{}'"), msg);
@@ -118,32 +82,32 @@ LexerException(const std::string& msg)
 }
 //=============================================================================
 inline void
-pushBracket(char t)
+pushBracket(LexerContext& lexerContext, char t)
 {
-    bracketStack[bracketStackSize++] = t;
+    lexerContext.bracketStack[lexerContext.bracketStackSize++] = t;
 }
 //=============================================================================
 inline void
-popBracket(char t)
+popBracket(LexerContext& lexerContext, char t)
 {
-    if (bracketStackSize <= 0) {
-        LexerException(_("mismatched parenthesis"));
+    if (lexerContext.bracketStackSize <= 0) {
+        LexerException(lexerContext, _("mismatched parenthesis"));
     }
-    if (bracketStack[--bracketStackSize] != t) {
-        LexerException(_("mismatched parenthesis"));
+    if (lexerContext.bracketStack[--lexerContext.bracketStackSize] != t) {
+        LexerException(lexerContext, _("mismatched parenthesis"));
     }
 }
 //=============================================================================
 inline void
-pushVCState()
+pushVCState(LexerContext& lexerContext)
 {
-    vcStack[vcStackSize++] = vcFlag;
+    lexerContext.vcStack[lexerContext.vcStackSize++] = lexerContext.vcFlag;
 }
 //=============================================================================
 inline void
-popVCState()
+popVCState(LexerContext& lexerContext)
 {
-    vcFlag = vcStack[--vcStackSize];
+    lexerContext.vcFlag = lexerContext.vcStack[--lexerContext.vcStackSize];
 }
 //=============================================================================
 inline bool
@@ -164,9 +128,9 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
 }
 //=============================================================================
 inline bool
-testSpecialFuncs()
+testSpecialFuncs(LexerContext& lexerContext)
 {
-    const std::wstring wline = utf8_to_wstring(std::string(datap));
+    const std::wstring wline = utf8_to_wstring(std::string(lexerContext.datap));
 
     // Early return if the first character is not alphabetic
     if (wline.empty() || !iswalpha(wline[0])) {
@@ -201,19 +165,19 @@ testSpecialFuncs()
 }
 //=============================================================================
 inline void
-setTokenType(int type)
+setTokenType(LexerContext& lexerContext, int type)
 {
-    tokenType = type;
-    tokenActive = 1;
-    tokenValue.isToken = true;
-    tokenValue.v.p = nullptr;
+    lexerContext.tokenType = type;
+    lexerContext.tokenActive = 1;
+    lexerContext.tokenValue.isToken = true;
+    lexerContext.tokenValue.v.p = nullptr;
 }
 //=============================================================================
 inline int
-match(const char* str)
+match(LexerContext& lexerContext, const char* str)
 {
-    if (strncmp(str, datap, strlen(str)) == 0) {
-        datap += strlen(str);
+    if (strncmp(str, lexerContext.datap, strlen(str)) == 0) {
+        lexerContext.datap += strlen(str);
         return 1;
     }
     return 0;
@@ -226,21 +190,21 @@ isE(char p)
 }
 //=============================================================================
 inline int
-isWhitespace()
+isWhitespace(LexerContext& lexerContext)
 {
-    return static_cast<int>((match(" ") != 0) || (match("\t") != 0));
+    return static_cast<int>((match(lexerContext, " ") != 0) || (match(lexerContext, "\t") != 0));
 }
 //=============================================================================
 inline int
-isNewline()
+isNewline(LexerContext& lexerContext)
 {
-    return static_cast<int>((match("\n") != 0) || (match("\r\n") != 0));
+    return static_cast<int>((match(lexerContext, "\n") != 0) || (match(lexerContext, "\r\n") != 0));
 }
 //=============================================================================
 inline int
-testAlphaChar()
+testAlphaChar(LexerContext& lexerContext)
 {
-    int c = static_cast<int>(datap[0]);
+    int c = static_cast<int>(lexerContext.datap[0]);
     if (c < 0) {
         return 0;
     }
@@ -248,9 +212,9 @@ testAlphaChar()
 }
 //=============================================================================
 inline int
-testAlphaNumChar()
+testAlphaNumChar(LexerContext& lexerContext)
 {
-    int c = static_cast<int>(datap[0]);
+    int c = static_cast<int>(lexerContext.datap[0]);
     if (c < 0) {
         return 0;
     }
@@ -264,258 +228,263 @@ _isDigit(char c)
 }
 //=============================================================================
 inline int
-testDigit()
+testDigit(LexerContext& lexerContext)
 {
-    int c = static_cast<int>(datap[0]);
+    int c = static_cast<int>(lexerContext.datap[0]);
     return (_isDigit(c));
 }
 //=============================================================================
 inline int
-testNewline()
+testNewline(LexerContext& lexerContext)
 {
-    return static_cast<int>(
-        (datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
+    return static_cast<int>((lexerContext.datap[0] == 0) || (lexerContext.datap[0] == '\n')
+        || ((lexerContext.datap[0] == '\r') && (lexerContext.datap[1] == '\n')));
 }
 //=============================================================================
 inline int
-previousChar()
+previousChar(LexerContext& lexerContext)
 {
-    if (datap == textbuffer) {
+    if (lexerContext.datap == lexerContext.textbuffer) {
         return 0;
     }
-    return datap[-1];
+    return lexerContext.datap[-1];
 }
 //=============================================================================
 inline int
-currentChar()
+currentChar(LexerContext& lexerContext)
 {
-    return datap[0];
+    return lexerContext.datap[0];
 }
 //=============================================================================
 inline void
-discardChar()
+discardChar(LexerContext& lexerContext)
 {
-    datap++;
+    lexerContext.datap++;
 }
 //=============================================================================
 inline int
-testCharacterArrayTerm()
+testCharacterArrayTerm(LexerContext& lexerContext)
 {
-    return static_cast<int>((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';')
-        || (datap[0] == ',') || (datap[0] == ' '));
+    return static_cast<int>((lexerContext.datap[0] == '\n') || (lexerContext.datap[0] == '\r')
+        || (lexerContext.datap[0] == ';') || (lexerContext.datap[0] == ',')
+        || (lexerContext.datap[0] == ' '));
 }
 //=============================================================================
 void
-lexUntermCharacterArray()
+lexUntermCharacterArray(LexerContext& lexerContext)
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     char* strptr;
     strptr = stringval;
-    while (isWhitespace() != 0) {
+    while (isWhitespace(lexerContext) != 0) {
         ;
     }
-    if (testNewline() != 0) {
-        lexState = Scanning;
+    if (testNewline(lexerContext) != 0) {
+        lexerContext.lexState = Scanning;
         return;
     }
-    while (testCharacterArrayTerm() == 0) {
-        *strptr++ = currentChar();
-        discardChar();
+    while (testCharacterArrayTerm(lexerContext) == 0) {
+        *strptr++ = currentChar(lexerContext);
+        discardChar(lexerContext);
     }
     *strptr++ = '\0';
-    setTokenType(CHARACTER);
-    tokenValue.isToken = false;
-    tokenValue.v.p = AbstractSyntaxTree::createNode(
-        const_character_array_node, stringval, static_cast<int>(ContextInt()));
+    setTokenType(lexerContext, CHARACTER);
+    lexerContext.tokenValue.isToken = false;
+    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+        const_character_array_node, stringval, static_cast<int>(ContextInt(lexerContext)));
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
 #endif
-    //   if ((datap[0] == ';') || (datap[0] == '\r') || (datap[0] == ',') || (datap[0] == '\n'))
-    //     lexState = Scanning;
-    lexState = Scanning;
+    lexerContext.lexState = Scanning;
 }
 //=============================================================================
 void
-lexString()
+lexString(LexerContext& lexerContext)
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
     char* strptr = stringval;
-    discardChar();
-    int curchar = currentChar();
-    char ch = datap[1];
-    while ((curchar != '"') || ((curchar == '"') && (ch == '"')) && (testNewline() == 0)) {
-        if ((currentChar() == '"') && (ch == '"')) {
-            discardChar();
+    discardChar(lexerContext);
+    int curchar = currentChar(lexerContext);
+    char ch = lexerContext.datap[1];
+    while (
+        (curchar != '"') || ((curchar == '"') && (ch == '"')) && (testNewline(lexerContext) == 0)) {
+        if ((currentChar(lexerContext) == '"') && (ch == '"')) {
+            discardChar(lexerContext);
         }
         *strptr++ = curchar;
-        discardChar();
-        curchar = currentChar();
-        if (strlen(datap) > 1) {
-            ch = datap[1];
+        discardChar(lexerContext);
+        curchar = currentChar(lexerContext);
+        if (strlen(lexerContext.datap) > 1) {
+            ch = lexerContext.datap[1];
         } else {
             break;
         }
     }
-    if (testNewline() != 0) {
-        LexerException(_("unterminated string"));
+    if (testNewline(lexerContext) != 0) {
+        LexerException(lexerContext, _("unterminated string"));
     }
-    discardChar();
+    discardChar(lexerContext);
     *strptr++ = '\0';
-    setTokenType(STRING);
-    tokenValue.isToken = false;
-    tokenValue.v.p = AbstractSyntaxTree::createNode(
-        const_string_node, stringval, static_cast<int>(ContextInt()));
+    setTokenType(lexerContext, STRING);
+    lexerContext.tokenValue.isToken = false;
+    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+        const_string_node, stringval, static_cast<int>(ContextInt(lexerContext)));
 }
 //=============================================================================
 void
-lexCharacterArray()
+lexCharacterArray(LexerContext& lexerContext)
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
     char* strptr = stringval;
-    discardChar();
-    int curchar = currentChar();
-    char ch = datap[1];
-    while ((curchar != '\'') || ((curchar == '\'') && (ch == '\'')) && (testNewline() == 0)) {
-        if ((currentChar() == '\'') && (ch == '\'')) {
-            discardChar();
+    discardChar(lexerContext);
+    int curchar = currentChar(lexerContext);
+    char ch = lexerContext.datap[1];
+    while ((curchar != '\'')
+        || ((curchar == '\'') && (ch == '\'')) && (testNewline(lexerContext) == 0)) {
+        if ((currentChar(lexerContext) == '\'') && (ch == '\'')) {
+            discardChar(lexerContext);
         }
         *strptr++ = curchar;
-        discardChar();
-        curchar = currentChar();
-        if (strlen(datap) > 1) {
-            ch = datap[1];
+        discardChar(lexerContext);
+        curchar = currentChar(lexerContext);
+        if (strlen(lexerContext.datap) > 1) {
+            ch = lexerContext.datap[1];
         } else {
             break;
         }
     }
-    if (testNewline() != 0) {
-        LexerException(_("unterminated character array"));
+    if (testNewline(lexerContext) != 0) {
+        LexerException(lexerContext, _("unterminated character array"));
     }
-    discardChar();
+    discardChar(lexerContext);
     *strptr++ = '\0';
-    setTokenType(CHARACTER);
-    tokenValue.isToken = false;
-    tokenValue.v.p = AbstractSyntaxTree::createNode(
-        const_character_array_node, stringval, static_cast<int>(ContextInt()));
+    setTokenType(lexerContext, CHARACTER);
+    lexerContext.tokenValue.isToken = false;
+    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+        const_character_array_node, stringval, static_cast<int>(ContextInt(lexerContext)));
 }
 //=============================================================================
 void
-lexIdentifier()
+lexIdentifier(LexerContext& lexerContext)
 {
     int i = 0;
     char ident[IDENTIFIER_LENGTH_MAX + 1];
-    while (testAlphaNumChar() != 0) {
-        ident[i++] = currentChar();
+    while (testAlphaNumChar(lexerContext) != 0) {
+        ident[i++] = currentChar(lexerContext);
         if (i > IDENTIFIER_LENGTH_MAX) {
             std::string msg
                 = fmt::format(_("exceeds the Nelson maximum name length of {} characters."),
                     IDENTIFIER_LENGTH_MAX);
-            LexerException(msg);
+            LexerException(lexerContext, msg);
         }
-        discardChar();
+        discardChar(lexerContext);
     }
     ident[i] = '\0';
-    tSearch.word = ident;
-    pSearch = static_cast<keywordStruct*>(
-        bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
-    if (pSearch == nullptr) {
-        setTokenType(IDENT);
-        tokenValue.isToken = false;
-        tokenValue.v.p
-            = AbstractSyntaxTree::createNode(id_node, ident, static_cast<int>(ContextInt()));
+    strncpy(lexerContext.tSearch.word, ident, IDENTIFIER_LENGTH_MAX);
+    lexerContext.tSearch.word[IDENTIFIER_LENGTH_MAX] = '\0';
+    lexerContext.pSearch = static_cast<keywordStruct*>(bsearch(
+        &lexerContext.tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
+    if (lexerContext.pSearch == nullptr) {
+        setTokenType(lexerContext, IDENT);
+        lexerContext.tokenValue.isToken = false;
+        lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+            id_node, ident, static_cast<int>(ContextInt(lexerContext)));
         return;
     }
-    switch (pSearch->token) {
+    switch (lexerContext.pSearch->token) {
     case FUNCTION: {
-        countEndFunction = 0;
-        inFunction = true;
-        setTokenType(pSearch->token);
+        lexerContext.countEndFunction = 0;
+        lexerContext.inFunction = true;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
     case ENDFUNCTION: {
-        if (countEndFunction == 0) {
-            inFunction = false;
-            setTokenType(pSearch->token);
-            countEndFunction++;
+        if (lexerContext.countEndFunction == 0) {
+            lexerContext.inFunction = false;
+            setTokenType(lexerContext, lexerContext.pSearch->token);
+            lexerContext.countEndFunction++;
         } else {
-            LexerException(_("This statement is not inside any function."));
+            LexerException(lexerContext, _("This statement is not inside any function."));
         }
     } break;
     case END: {
-        if (bracketStackSize == 0) {
+        if (lexerContext.bracketStackSize == 0) {
             bool asEndfunction = false;
-            if (inFunction && inStatement == 0) {
+            if (lexerContext.inFunction && lexerContext.inStatement == 0) {
                 asEndfunction = true;
             }
             if (asEndfunction) {
-                if (countEndFunction == 0) {
-                    strcpy(ident, "endfunction");
-                    tSearch.word = ident;
-                    pSearch = static_cast<keywordStruct*>(bsearch(
-                        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
-                    setTokenType(ENDFUNCTION);
-                    countEndFunction++;
+                if (lexerContext.countEndFunction == 0) {
+                    strncpy(ident, "endfunction", IDENTIFIER_LENGTH_MAX);
+                    ident[IDENTIFIER_LENGTH_MAX] = '\0';
+                    strncpy(lexerContext.tSearch.word, ident, IDENTIFIER_LENGTH_MAX);
+                    lexerContext.tSearch.word[IDENTIFIER_LENGTH_MAX] = '\0';
+                    lexerContext.pSearch
+                        = static_cast<keywordStruct*>(bsearch(&lexerContext.tSearch, keyWord,
+                            KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
+                    setTokenType(lexerContext, ENDFUNCTION);
+                    lexerContext.countEndFunction++;
                 } else {
-                    LexerException(_("This statement is not inside any function."));
+                    LexerException(lexerContext, _("This statement is not inside any function."));
                 }
             } else {
-                setTokenType(END);
-                inBlock--;
-                inStatement--;
+                setTokenType(lexerContext, END);
+                lexerContext.inBlock--;
+                lexerContext.inStatement--;
             }
         } else {
-            setTokenType(MAGICEND);
+            setTokenType(lexerContext, MAGICEND);
         }
     } break;
     case TRY: {
-        setTokenType(pSearch->token);
-        inStatement++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
+        lexerContext.inStatement++;
     } break;
     case SWITCH: {
-        setTokenType(pSearch->token);
-        inStatement++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
+        lexerContext.inStatement++;
     } break;
     default: {
-        setTokenType(pSearch->token);
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
         // The lexer no longer _has_ to keep track of the "end" keywords
         // to match them up.  But we need this information to determine
         // if more text is needed...
     case FOR: {
-        vcFlag = 1;
-        inBlock++;
-        inStatement++;
-        setTokenType(pSearch->token);
+        lexerContext.vcFlag = 1;
+        lexerContext.inBlock++;
+        lexerContext.inStatement++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
     case WHILE: {
-        vcFlag = 1;
-        inBlock++;
-        inStatement++;
-        setTokenType(pSearch->token);
+        lexerContext.vcFlag = 1;
+        lexerContext.inBlock++;
+        lexerContext.inStatement++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
     case IF: {
-        vcFlag = 1;
-        inBlock++;
-        inStatement++;
-        setTokenType(pSearch->token);
+        lexerContext.vcFlag = 1;
+        lexerContext.inBlock++;
+        lexerContext.inStatement++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
     case ELSEIF:
     case CASE: {
-        vcFlag = 1;
-        inBlock++;
-        setTokenType(pSearch->token);
+        lexerContext.vcFlag = 1;
+        lexerContext.inBlock++;
+        setTokenType(lexerContext, lexerContext.pSearch->token);
     } break;
     }
-    tokenValue.isToken = false;
-    tokenValue.v.p = AbstractSyntaxTree::createNode(
-        reserved_node, pSearch->ordinal, static_cast<int>(ContextInt()));
+    lexerContext.tokenValue.isToken = false;
+    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+        reserved_node, lexerContext.pSearch->ordinal, static_cast<int>(ContextInt(lexerContext)));
 }
 //=============================================================================
 int
-lexNumber()
+lexNumber(LexerContext& lexerContext)
 {
-    bool isNegative = (tokenType == '-');
+    bool isNegative = (lexerContext.tokenType == '-');
     int state = 0;
     indexType cp = 0;
     char buffer[DEFAULT_BUFFER_SIZE_LEXER];
@@ -525,12 +494,12 @@ lexNumber()
     while (state != 7) {
         switch (state) {
         case 0:
-            if (datap[cp] == '.') {
+            if (lexerContext.datap[cp] == '.') {
                 cp++;
                 state = 3;
                 intonly = 0;
-            } else if (_isDigit(datap[cp]) != 0) {
-                while (_isDigit(datap[cp]) != 0) {
+            } else if (_isDigit(lexerContext.datap[cp]) != 0) {
+                while (_isDigit(lexerContext.datap[cp]) != 0) {
                     cp++;
                 }
                 state = 1;
@@ -540,12 +509,12 @@ lexNumber()
             }
             break;
         case 1:
-            if (datap[cp] == '.') {
+            if (lexerContext.datap[cp] == '.') {
                 intonly = 0;
                 cp++;
                 state = 5;
                 break;
-            } else if (isE(datap[cp]) != 0) {
+            } else if (isE(lexerContext.datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
@@ -555,18 +524,18 @@ lexNumber()
             }
             break;
         case 2:
-            if ((datap[cp] == '+') || (datap[cp] == '-')) {
+            if ((lexerContext.datap[cp] == '+') || (lexerContext.datap[cp] == '-')) {
                 cp++;
                 state = 6;
-            } else if (_isDigit(datap[cp]) != 0) {
+            } else if (_isDigit(lexerContext.datap[cp]) != 0) {
                 state = 6;
             } else {
-                LexerException(_("malformed floating point constant"));
+                LexerException(lexerContext, _("malformed floating point constant"));
             }
             break;
         case 3:
-            if (_isDigit(datap[cp]) != 0) {
-                while (_isDigit(datap[cp]) != 0) {
+            if (_isDigit(lexerContext.datap[cp]) != 0) {
+                while (_isDigit(lexerContext.datap[cp]) != 0) {
                     cp++;
                 }
             } else {
@@ -575,7 +544,7 @@ lexNumber()
             state = 4;
             break;
         case 4:
-            if (isE(datap[cp]) != 0) {
+            if (isE(lexerContext.datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
@@ -585,13 +554,13 @@ lexNumber()
             }
             break;
         case 5:
-            if (isE(datap[cp]) != 0) {
+            if (isE(lexerContext.datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
                 break;
-            } else if (_isDigit(datap[cp]) != 0) {
-                while (_isDigit(datap[cp]) != 0) {
+            } else if (_isDigit(lexerContext.datap[cp]) != 0) {
+                while (_isDigit(lexerContext.datap[cp]) != 0) {
                     cp++;
                 }
                 state = 4;
@@ -601,77 +570,77 @@ lexNumber()
             }
             break;
         case 6:
-            if (_isDigit(datap[cp]) != 0) {
-                while (_isDigit(datap[cp]) != 0) {
+            if (_isDigit(lexerContext.datap[cp]) != 0) {
+                while (_isDigit(lexerContext.datap[cp]) != 0) {
                     cp++;
                 }
                 state = 7;
             } else {
-                LexerException(_("malformed floating point constant"));
+                LexerException(lexerContext, _("malformed floating point constant"));
             }
         }
     }
 
     NODE_TYPE nodeType = null_node;
-    if (datap[cp] == 'f') {
+    if (lexerContext.datap[cp] == 'f') {
         // f32 --> single
-        if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+        if ((lexerContext.datap[cp + 1] == '3') && (lexerContext.datap[cp + 2] == '2')) {
             cp = cp + 3;
             nodeType = const_float_node;
         }
         // f64 --> double
-        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+        else if ((lexerContext.datap[cp + 1] == '6') && (lexerContext.datap[cp + 2] == '4')) {
             cp = cp + 3;
             nodeType = const_double_node;
         } else {
-            LexerException(_("Malformed floating point constant."));
+            LexerException(lexerContext, _("Malformed floating point constant."));
         }
-    } else if (datap[cp] == 'i') {
+    } else if (lexerContext.datap[cp] == 'i') {
         // i8 --> int8
-        if (datap[cp + 1] == '8') {
+        if (lexerContext.datap[cp + 1] == '8') {
             cp = cp + 2;
             nodeType = const_int8_node;
         }
         // i16 --> int16
-        else if ((datap[cp + 1] == '1') && (datap[cp + 2] == '6')) {
+        else if ((lexerContext.datap[cp + 1] == '1') && (lexerContext.datap[cp + 2] == '6')) {
             cp = cp + 3;
             nodeType = const_int16_node;
         }
         // i32 --> int32
-        else if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+        else if ((lexerContext.datap[cp + 1] == '3') && (lexerContext.datap[cp + 2] == '2')) {
             cp = cp + 3;
             nodeType = const_int32_node;
         }
         // i64 --> int32
-        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+        else if ((lexerContext.datap[cp + 1] == '6') && (lexerContext.datap[cp + 2] == '4')) {
             cp = cp + 3;
             nodeType = const_int64_node;
         }
-    } else if (datap[cp] == 'u') {
+    } else if (lexerContext.datap[cp] == 'u') {
         if (intonly == 0) {
-            LexerException(_("Malformed unsigned integer constant."));
+            LexerException(lexerContext, _("Malformed unsigned integer constant."));
         }
         // u8 --> uint8
-        if (datap[cp + 1] == '8') {
+        if (lexerContext.datap[cp + 1] == '8') {
             cp = cp + 2;
             nodeType = const_uint8_node;
         }
         // u16 --> uint16
-        else if ((datap[cp + 1] == '1') && (datap[cp + 2] == '6')) {
+        else if ((lexerContext.datap[cp + 1] == '1') && (lexerContext.datap[cp + 2] == '6')) {
             cp = cp + 3;
             nodeType = const_uint16_node;
         }
         // u32 --> uint32
-        else if ((datap[cp + 1] == '3') && (datap[cp + 2] == '2')) {
+        else if ((lexerContext.datap[cp + 1] == '3') && (lexerContext.datap[cp + 2] == '2')) {
             cp = cp + 3;
             nodeType = const_uint32_node;
         }
         // u64 --> uint64
-        else if ((datap[cp + 1] == '6') && (datap[cp + 2] == '4')) {
+        else if ((lexerContext.datap[cp + 1] == '6') && (lexerContext.datap[cp + 2] == '4')) {
             cp = cp + 3;
             nodeType = const_uint64_node;
         } else {
-            LexerException(_("Malformed unsigned integer constant."));
+            LexerException(lexerContext, _("Malformed unsigned integer constant."));
         }
     } else if (intonly) {
         nodeType = const_int_node;
@@ -680,59 +649,59 @@ lexNumber()
     }
 
     for (indexType i = 0; i < cp; i++) {
-        buffer[i] = datap[i];
+        buffer[i] = lexerContext.datap[i];
     }
     for (indexType i = 0; i < cp; i++) {
-        discardChar();
+        discardChar(lexerContext);
     }
     buffer[cp] = '\0';
     std::string content = std::string(buffer);
-    setTokenType(NUMERIC);
+    setTokenType(lexerContext, NUMERIC);
 
     switch (nodeType) {
     case const_int_node: {
-        tokenValue.isToken = false;
-        if (currentChar() == 'i' || currentChar() == 'j') {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, content, static_cast<int>(ContextInt()));
-            discardChar();
+        lexerContext.tokenValue.isToken = false;
+        if (currentChar(lexerContext) == 'i' || currentChar(lexerContext) == 'j') {
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_dcomplex_node, content, static_cast<int>(ContextInt(lexerContext)));
+            discardChar(lexerContext);
         } else {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_double_node, content, static_cast<int>(ContextInt()));
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_double_node, content, static_cast<int>(ContextInt(lexerContext)));
         }
     } break;
     case const_double_node: {
-        tokenValue.isToken = false;
-        if (currentChar() == 'i' || currentChar() == 'j') {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, content, static_cast<int>(ContextInt()));
-            discardChar();
+        lexerContext.tokenValue.isToken = false;
+        if (currentChar(lexerContext) == 'i' || currentChar(lexerContext) == 'j') {
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_dcomplex_node, content, static_cast<int>(ContextInt(lexerContext)));
+            discardChar(lexerContext);
         } else {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_double_node, content, static_cast<int>(ContextInt()));
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_double_node, content, static_cast<int>(ContextInt(lexerContext)));
         }
     } break;
     case const_float_node: {
-        tokenValue.isToken = false;
-        if (currentChar() == 'i' || currentChar() == 'j') {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_complex_node, content, static_cast<int>(ContextInt()));
-            discardChar();
+        lexerContext.tokenValue.isToken = false;
+        if (currentChar(lexerContext) == 'i' || currentChar(lexerContext) == 'j') {
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_complex_node, content, static_cast<int>(ContextInt(lexerContext)));
+            discardChar(lexerContext);
         } else {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_float_node, content, static_cast<int>(ContextInt()));
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_float_node, content, static_cast<int>(ContextInt(lexerContext)));
         }
     } break;
     case const_int8_node:
     case const_int16_node:
     case const_int32_node:
     case const_int64_node: {
-        tokenValue.isToken = false;
+        lexerContext.tokenValue.isToken = false;
         if (isNegative) {
             content = "-" + content;
         }
-        tokenValue.v.p
-            = AbstractSyntaxTree::createNode(nodeType, content, static_cast<int>(ContextInt()));
+        lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+            nodeType, content, static_cast<int>(ContextInt(lexerContext)));
 
     } break;
     case const_uint8_node:
@@ -740,21 +709,22 @@ lexNumber()
     case const_uint32_node:
     case const_uint64_node: {
         if (isNegative) {
-            LexerException(_("Malformed unsigned integer constant with unary operator '-'."));
+            LexerException(
+                lexerContext, _("Malformed unsigned integer constant with unary operator '-'."));
         }
-        tokenValue.isToken = false;
-        tokenValue.v.p
-            = AbstractSyntaxTree::createNode(nodeType, content, static_cast<int>(ContextInt()));
+        lexerContext.tokenValue.isToken = false;
+        lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+            nodeType, content, static_cast<int>(ContextInt(lexerContext)));
     } break;
     default: {
-        tokenValue.isToken = false;
-        if (currentChar() == 'i' || currentChar() == 'j') {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_dcomplex_node, content, static_cast<int>(ContextInt()));
-            discardChar();
+        lexerContext.tokenValue.isToken = false;
+        if (currentChar(lexerContext) == 'i' || currentChar(lexerContext) == 'j') {
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_dcomplex_node, content, static_cast<int>(ContextInt(lexerContext)));
+            discardChar(lexerContext);
         } else {
-            tokenValue.v.p = AbstractSyntaxTree::createNode(
-                const_double_node, content, static_cast<int>(ContextInt()));
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                const_double_node, content, static_cast<int>(ContextInt(lexerContext)));
         }
     } break;
     }
@@ -762,12 +732,46 @@ lexNumber()
 }
 //=============================================================================
 static void
-fetchComment()
+fetchComment(LexerContext& lexerContext)
 {
-    while (isNewline() == 0) {
-        discardChar();
+    while (isNewline(lexerContext) == 0) {
+        discardChar(lexerContext);
     }
-    NextLine();
+    NextLine(lexerContext);
+}
+//=============================================================================
+inline void
+completeContinuation(LexerContext& lexerContext)
+{
+    if (lexerContext.continuationCount > 0) {
+        lexerContext.continuationCount--;
+    }
+}
+//=============================================================================
+struct OperatorMatch
+{
+    const char* pattern;
+    int tokenType;
+};
+//=============================================================================
+// Static array of operators to match
+static const OperatorMatch operators[] = { { ".*", DOTTIMES }, { "./", DOTRDIV },
+    { ".\\", DOTLDIV }, { ".^", DOTPOWER }, { ".'", DOTTRANSPOSE }, { "!=", NE }, { "<>", NE },
+    { "~=", NE }, { "<=", LE }, { ">=", GE }, { "==", EQ }, { "||", SOR }, { "&&", SAND } };
+//=============================================================================
+// Helper function to check for multi-character operators
+inline bool
+checkMultiCharOperators(LexerContext& lexerContext)
+{
+    constexpr size_t numOperators = sizeof(operators) / sizeof(operators[0]);
+    // Check each operator pattern against the current lexer context
+    for (size_t i = 0; i < numOperators; ++i) {
+        if (match(lexerContext, operators[i].pattern) != 0) {
+            setTokenType(lexerContext, operators[i].tokenType);
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 /*
@@ -777,311 +781,271 @@ fetchComment()
  * a string.  This means that we need to look at the _previous_ token.
  */
 void
-lexScanningState()
+lexScanningState(LexerContext& lexerContext)
 {
-    if (match("...") != 0) {
-        while (isNewline() == 0) {
-            discardChar();
+    if (match(lexerContext, "...") != 0) {
+        while (isNewline(lexerContext) == 0) {
+            discardChar(lexerContext);
         }
-        setTokenType(WS);
-        NextLine();
-        continuationCount++;
+        setTokenType(lexerContext, WS);
+        NextLine(lexerContext);
+        lexerContext.continuationCount++;
         return;
     }
     // comments suppported
-    if (currentChar() == '%') {
-        fetchComment();
-        setTokenType(ENDSTMNT);
+    if (currentChar(lexerContext) == '%') {
+        fetchComment(lexerContext);
+        setTokenType(lexerContext, ENDSTMNT);
         return;
     }
-    if (currentChar() == '\"') {
-        lexString();
+    if (currentChar(lexerContext) == '\"') {
+        lexString(lexerContext);
         return;
     }
-    if (currentChar() == '\'') {
-        if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
-            || (previousChar() == '.') || ((isalnum(previousChar())) != 0)) {
+    if (currentChar(lexerContext) == '\'') {
+        if ((previousChar(lexerContext) == ')') || (previousChar(lexerContext) == ']')
+            || (previousChar(lexerContext) == '}') || (previousChar(lexerContext) == '.')
+            || ((isalnum(previousChar(lexerContext))) != 0)) {
             /* Not a string... */
-            setTokenType(static_cast<int>('\''));
-            discardChar();
+            setTokenType(lexerContext, static_cast<int>('\''));
+            discardChar(lexerContext);
             return;
         }
-        lexCharacterArray();
+        lexCharacterArray(lexerContext);
         return;
     }
-    if (isWhitespace() != 0) {
-        while (isWhitespace() != 0) {
+    if (isWhitespace(lexerContext) != 0) {
+        while (isWhitespace(lexerContext) != 0) {
             ;
         }
-        setTokenType(WS);
+        setTokenType(lexerContext, WS);
         return;
     }
-    if ((match(";\n") != 0) || (match(";\r\n") != 0)) {
-        setTokenType(ENDQSTMNT);
-        tokenValue.isToken = true;
-        tokenValue.v.i = static_cast<int>(ContextInt());
-        NextLine();
-        lexState = Initial;
-        if (bracketStackSize == 0) {
-            vcFlag = 0;
+    if ((match(lexerContext, ";\n") != 0) || (match(lexerContext, ";\r\n") != 0)) {
+        setTokenType(lexerContext, ENDQSTMNT);
+        lexerContext.tokenValue.isToken = true;
+        lexerContext.tokenValue.v.i = static_cast<int>(ContextInt(lexerContext));
+        NextLine(lexerContext);
+        lexerContext.lexState = Initial;
+        if (lexerContext.bracketStackSize == 0) {
+            lexerContext.vcFlag = 0;
         }
+        completeContinuation(lexerContext);
         return;
     }
-    if (match(";") != 0) {
-        setTokenType(ENDQSTMNT);
-        if (bracketStackSize == 0) {
-            vcFlag = 0;
+    if (match(lexerContext, ";") != 0) {
+        setTokenType(lexerContext, ENDQSTMNT);
+        if (lexerContext.bracketStackSize == 0) {
+            lexerContext.vcFlag = 0;
         }
-        lexState = Initial;
+        lexerContext.lexState = Initial;
         return;
     }
-    if ((match("\r\n") != 0) || (match("\n") != 0)) {
-        NextLine();
-        setTokenType(ENDSTMNT);
-        lexState = Initial;
-        if (bracketStackSize == 0) {
-            vcFlag = 0;
+    if ((match(lexerContext, "\r\n") != 0) || (match(lexerContext, "\n") != 0)) {
+        NextLine(lexerContext);
+        setTokenType(lexerContext, ENDSTMNT);
+        lexerContext.lexState = Initial;
+        if (lexerContext.bracketStackSize == 0) {
+            lexerContext.vcFlag = 0;
         }
+        completeContinuation(lexerContext);
         return;
     }
-    if (match(".*") != 0) {
-        setTokenType(DOTTIMES);
+
+    if (checkMultiCharOperators(lexerContext)) {
         return;
     }
-    if (match("./") != 0) {
-        setTokenType(DOTRDIV);
-        return;
-    }
-    if (match(".\\") != 0) {
-        setTokenType(DOTLDIV);
-        return;
-    }
-    if (match(".^") != 0) {
-        setTokenType(DOTPOWER);
-        return;
-    }
-    if (match(".'") != 0) {
-        setTokenType(DOTTRANSPOSE);
-        return;
-    }
-    if (match("!=") != 0) {
-        setTokenType(NE);
-        return;
-    }
-    if (match("<>") != 0) {
-        setTokenType(NE);
-        return;
-    }
-    if (match("~=") != 0) {
-        setTokenType(NE);
-        return;
-    }
-    if (match("<=") != 0) {
-        setTokenType(LE);
-        return;
-    }
-    if (match(">=") != 0) {
-        setTokenType(GE);
-        return;
-    }
-    if (match("==") != 0) {
-        setTokenType(EQ);
-        return;
-    }
-    if (match("||") != 0) {
-        setTokenType(SOR);
-        return;
-    }
-    if (match("&&") != 0) {
-        setTokenType(SAND);
-        return;
-    }
-    if ((testAlphaChar() != 0) || currentChar() == '_') {
-        lexIdentifier();
+
+    if ((testAlphaChar(lexerContext) != 0) || currentChar(lexerContext) == '_') {
+        lexIdentifier(lexerContext);
         // Are we inside a bracket? If so, leave well enough alone
-        if ((tokenType != IDENT) || (bracketStackSize != 0)) {
+        if ((lexerContext.tokenType != IDENT) || (lexerContext.bracketStackSize != 0)) {
             return;
         }
         // No, so... munch the whitespace
-        while (isWhitespace() != 0) {
+        while (isWhitespace(lexerContext) != 0) {
             ;
         }
         // How do you know ident /ident is not ident/ident and is ident('/ident')?
-        if (testAlphaChar() != 0) {
-            lexState = SpecScan;
+        if (testAlphaChar(lexerContext) != 0) {
+            lexerContext.lexState = SpecScan;
         }
         return;
     }
-    if ((testDigit() != 0) || currentChar() == '.') {
-        if (lexNumber() != 0) {
+    if ((testDigit(lexerContext) != 0) || currentChar(lexerContext) == '.') {
+        if (lexNumber(lexerContext) != 0) {
             return;
         }
     }
-    if ((currentChar() == '[') || (currentChar() == '{')) {
-        pushBracket(currentChar());
-        pushVCState();
-        vcFlag = 1;
+    if ((currentChar(lexerContext) == '[') || (currentChar(lexerContext) == '{')) {
+        pushBracket(lexerContext, currentChar(lexerContext));
+        pushVCState(lexerContext);
+        lexerContext.vcFlag = 1;
     }
-    if (currentChar() == '(') {
-        pushBracket(currentChar());
-        pushVCState();
-        vcFlag = 0;
+    if (currentChar(lexerContext) == '(') {
+        pushBracket(lexerContext, currentChar(lexerContext));
+        pushVCState(lexerContext);
+        lexerContext.vcFlag = 0;
     }
-    if (currentChar() == ')') {
-        popVCState();
-        popBracket('(');
+    if (currentChar(lexerContext) == ')') {
+        popVCState(lexerContext);
+        popBracket(lexerContext, '(');
     }
-    if (currentChar() == ']') {
-        popVCState();
-        popBracket('[');
+    if (currentChar(lexerContext) == ']') {
+        popVCState(lexerContext);
+        popBracket(lexerContext, '[');
     }
-    if (currentChar() == '}') {
-        popVCState();
-        popBracket('{');
+    if (currentChar(lexerContext) == '}') {
+        popVCState(lexerContext);
+        popBracket(lexerContext, '{');
     }
-    if (currentChar() == ',') {
-        if (bracketStackSize == 0) {
-            vcFlag = 0;
+    if (currentChar(lexerContext) == ',') {
+        if (lexerContext.bracketStackSize == 0) {
+            lexerContext.vcFlag = 0;
         }
     }
-    if (currentChar() < 0) {
-        LexerException(datap);
+    if (currentChar(lexerContext) < 0) {
+        LexerException(lexerContext, lexerContext.datap);
     }
-    setTokenType(currentChar());
-    discardChar();
+    setTokenType(lexerContext, currentChar(lexerContext));
+    discardChar(lexerContext);
 }
 //=============================================================================
 void
-lexInitialState()
+lexInitialState(LexerContext& lexerContext)
 {
-    if (isNewline() != 0) {
-        NextLine();
-    } else if (isWhitespace() != 0) { // nothing
-    } else if (match(";") != 0) {
+    if (isNewline(lexerContext) != 0) {
+        NextLine(lexerContext);
+    } else if (isWhitespace(lexerContext) != 0) { // nothing
+    } else if (match(lexerContext, ";") != 0) {
         // nothing
-    } else if (currentChar() == '%') {
-        fetchComment();
-    } else if (testSpecialFuncs()) {
-        lexIdentifier();
-        lexState = SpecScan;
+    } else if (currentChar(lexerContext) == '%') {
+        fetchComment(lexerContext);
+    } else if (testSpecialFuncs(lexerContext)) {
+        lexIdentifier(lexerContext);
+        lexerContext.lexState = SpecScan;
     } else {
-        lexState = Scanning;
+        lexerContext.lexState = Scanning;
     }
 }
 //=============================================================================
 void
-yylexDoLex()
+yylexDoLex(LexerContext& lexerContext)
 {
-    switch (lexState) {
+    switch (lexerContext.lexState) {
     case Initial:
-        lexInitialState();
+        lexInitialState(lexerContext);
         break;
     case Scanning:
-        lexScanningState();
+        lexScanningState(lexerContext);
         break;
     case SpecScan:
-        lexUntermCharacterArray();
+        lexUntermCharacterArray(lexerContext);
         break;
     }
 }
 //=============================================================================
-int
-yylexScreen()
+static int
+yylexScreen(LexerContext& lexerContext)
 {
-    static int previousToken = 0;
-    tokenActive = 0;
-    while (tokenActive == 0) {
-        yylexDoLex();
+    lexerContext.tokenActive = 0;
+    while (lexerContext.tokenActive == 0) {
+        yylexDoLex(lexerContext);
     }
-    if ((tokenType == WS) && (vcFlag != 0)) {
+    if ((lexerContext.tokenType == WS) && (lexerContext.vcFlag != 0)) {
         /* Check for virtual commas... */
-        if ((previousToken == ')') || (previousToken == '\'') || (previousToken == NUMERIC)
-            || (previousToken == CHARACTER) || (previousToken == STRING) || (previousToken == ']')
-            || (previousToken == '}') || (previousToken == IDENT) || (previousToken == MAGICEND)) {
+        if ((lexerContext.previousToken == ')') || (lexerContext.previousToken == '\'')
+            || (lexerContext.previousToken == NUMERIC) || (lexerContext.previousToken == CHARACTER)
+            || (lexerContext.previousToken == STRING) || (lexerContext.previousToken == ']')
+            || (lexerContext.previousToken == '}') || (lexerContext.previousToken == IDENT)
+            || (lexerContext.previousToken == MAGICEND)) {
             /* Test if next character indicates the start of an expression */
-            if ((currentChar() == '(') || (currentChar() == '+') || (currentChar() == '-')
-                || (currentChar() == '~') || (currentChar() == '[') || (currentChar() == '{')
-                || (currentChar() == '\'') || ((isalnum(currentChar())) != 0)
-                || ((currentChar() == '.') && ((_isDigit(datap[1])) != 0))
-                || (strncmp(datap, "...", 3) == 0)) {
+            if ((currentChar(lexerContext) == '(') || (currentChar(lexerContext) == '+')
+                || (currentChar(lexerContext) == '-') || (currentChar(lexerContext) == '~')
+                || (currentChar(lexerContext) == '[') || (currentChar(lexerContext) == '{')
+                || (currentChar(lexerContext) == '\'')
+                || ((isalnum(currentChar(lexerContext))) != 0)
+                || ((currentChar(lexerContext) == '.') && ((_isDigit(lexerContext.datap[1])) != 0))
+                || (strncmp(lexerContext.datap, "...", 3) == 0)) {
                 /*
                    OK - now we have to decide if the "+/-" are infix or prefix operators...
                    In fact, this decision alone is the reason for this whole lexer.
                 */
-                if ((currentChar() == '+') || (currentChar() == '-')) {
+                if ((currentChar(lexerContext) == '+') || (currentChar(lexerContext) == '-')) {
                     /* If we are inside a parenthetical, we never insert virtual commas */
-                    if ((bracketStackSize == 0) || (bracketStack[bracketStackSize - 1] != '(')) {
+                    if ((lexerContext.bracketStackSize == 0)
+                        || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1] != '(')) {
                         /*
                           OK - we are not inside a parenthetical.  Insert a virtual comma
                           if the next character is anything other than a whitespace
                         */
-                        if ((datap[1] != ' ') && (datap[1] != '\t')) {
-                            tokenType = ',';
+                        if ((lexerContext.datap[1] != ' ') && (lexerContext.datap[1] != '\t')) {
+                            lexerContext.tokenType = ',';
                         }
                     }
                 } else {
-                    tokenType = ',';
+                    lexerContext.tokenType = ',';
                 }
             }
-            if (currentChar() == '"' && previousToken == STRING) {
-                tokenType = ',';
+            if (currentChar(lexerContext) == '"' && lexerContext.previousToken == STRING) {
+                lexerContext.tokenType = ',';
             }
         }
     }
-    yylval = tokenValue;
-    previousToken = tokenType;
-    return tokenType;
+    yylval = lexerContext.tokenValue;
+    lexerContext.previousToken = lexerContext.tokenType;
+    return lexerContext.tokenType;
 }
 //=============================================================================
 int
-yylex()
+yylex(LexerContext& lexerContext)
 {
     int retval;
     yylval.v.i = 0;
-    retval = yylexScreen();
+    retval = yylexScreen(lexerContext);
     while (retval == WS) {
-        retval = yylexScreen();
+        retval = yylexScreen(lexerContext);
     }
     if (yylval.v.i == 0) {
         yylval.isToken = true;
-        yylval.v.i = static_cast<int>(ContextInt());
+        yylval.v.i = static_cast<int>(ContextInt(lexerContext));
     }
     return retval;
 }
 //=============================================================================
 namespace Nelson {
 void
-setLexBuffer(const std::string& buffer)
+setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
 {
-    continuationCount = 0;
-    bracketStackSize = 0;
-    inBlock = 0;
-    inStatement = 0;
-    inFunction = false;
-    lexState = Initial;
-    vcStackSize = 0;
-    clearTextBufferLexer();
-    textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
-    datap = textbuffer;
-    if (textbuffer != nullptr) {
-        strcpy(textbuffer, buffer.c_str());
+    lexerContext.continuationCount = 0;
+    lexerContext.bracketStackSize = 0;
+    lexerContext.inBlock = 0;
+    lexerContext.inStatement = 0;
+    lexerContext.inFunction = false;
+    lexerContext.lexState = Initial;
+    lexerContext.vcStackSize = 0;
+    clearTextBufferLexer(lexerContext);
+    lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
+    lexerContext.datap = lexerContext.textbuffer;
+    if (lexerContext.textbuffer != nullptr) {
+        strcpy(lexerContext.textbuffer, buffer.c_str());
     }
-    linestart = datap;
-    lineNumber = 0;
+    lexerContext.linestart = lexerContext.datap;
+    lexerContext.lineNumber = 0;
 }
 //=============================================================================
 void
-setLexBuffer(const std::wstring& buffer)
+setLexBuffer(LexerContext& lexerContext, const std::wstring& buffer)
 {
-    setLexBuffer(wstring_to_utf8(buffer));
+    setLexBuffer(lexerContext, wstring_to_utf8(buffer));
 }
 //=============================================================================
 void
-setLexFile(FILE* fp)
+setLexFile(LexerContext& lexerContext, FILE* fp)
 {
-    inBlock = 0;
-    inStatement = 0;
-    inFunction = false;
+    lexerContext.inBlock = 0;
+    lexerContext.inStatement = 0;
+    lexerContext.inFunction = false;
     struct stat st;
     clearerr(fp);
 #ifdef _MSC_VER
@@ -1089,45 +1053,45 @@ setLexFile(FILE* fp)
 #else
     fstat(fileno(fp), &st);
 #endif
-    bracketStackSize = 0;
-    lexState = Initial;
-    vcStackSize = 0;
-    lineNumber = 0;
+    lexerContext.bracketStackSize = 0;
+    lexerContext.lexState = Initial;
+    lexerContext.vcStackSize = 0;
+    lexerContext.lineNumber = 0;
     size_t cpos = (size_t)st.st_size;
-    clearTextBufferLexer();
+    clearTextBufferLexer(lexerContext);
     // Allocate enough for the text, an extra newline, and null
-    textbuffer = static_cast<char*>(calloc((size_t)(cpos + 2), sizeof(char)));
-    if (textbuffer != nullptr) {
-        datap = textbuffer;
-        size_t n = fread(textbuffer, sizeof(char), cpos, fp);
-        textbuffer[n] = '\n';
-        textbuffer[n + 1] = 0;
-        linestart = datap;
+    lexerContext.textbuffer = static_cast<char*>(calloc((size_t)(cpos + 2), sizeof(char)));
+    if (lexerContext.textbuffer != nullptr) {
+        lexerContext.datap = lexerContext.textbuffer;
+        size_t n = fread(lexerContext.textbuffer, sizeof(char), cpos, fp);
+        lexerContext.textbuffer[n] = '\n';
+        lexerContext.textbuffer[n + 1] = 0;
+        lexerContext.linestart = lexerContext.datap;
     }
 }
 //=============================================================================
 bool
-lexCheckForMoreInput(int ccount)
+lexCheckForMoreInput(LexerContext& lexerContext, int ccount)
 {
     try {
-        while (yylex() > 0) {
+        while (yylex(lexerContext) > 0) {
             ;
         }
-        return ((continuationCount > ccount)
-            || ((bracketStackSize > 0)
-                && ((bracketStack[bracketStackSize - 1] == '[')
-                    || (bracketStack[bracketStackSize - 1] == '{')))
-            || (inBlock != 0));
+        return ((lexerContext.continuationCount > ccount)
+            || ((lexerContext.bracketStackSize > 0)
+                && ((lexerContext.bracketStack[lexerContext.bracketStackSize - 1] == '[')
+                    || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1] == '{')))
+            || (lexerContext.inBlock != 0));
     } catch (Exception&) {
-        continuationCount = 0;
+        lexerContext.continuationCount = 0;
         return false;
     }
 }
 //=============================================================================
 int
-getContinuationCount()
+getContinuationCount(LexerContext& lexerContext)
 {
-    return continuationCount;
+    return lexerContext.continuationCount;
 }
 //=============================================================================
 } // namespace Nelson

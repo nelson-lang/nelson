@@ -146,22 +146,22 @@ parseState()
 }
 //=============================================================================
 ParserState
-parseString(const std::string& txt)
+parseString(LexerContext& lexerContext, const std::string& txt)
 {
     resetParser();
     setParserFilename("");
-    setLexBuffer(txt);
-    callyyparse();
+    setLexBuffer(lexerContext, txt);
+    callyyparse(lexerContext);
     return parseState();
 }
 //=============================================================================
 ParserState
-parseFile(FILE* fp, const std::string& fname)
+parseFile(LexerContext& lexerContext, FILE* fp, const std::string& fname)
 {
     resetParser();
     setParserFilename(fname);
-    setLexFile(fp);
-    callyyparse();
+    setLexFile(lexerContext, fp);
+    callyyparse(lexerContext);
     setParserFilename("");
     return parseState();
 }

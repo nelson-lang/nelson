@@ -23,6 +23,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -335,8 +336,14 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
     ParserState pstate = ParserState::ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     try {
-        pstate = parseString(convertToStandardFunction(nLhs));
+        if (eval) {
+            pstate = parseString(eval->lexerContext, convertToStandardFunction(nLhs));
+        } else {
+            LexerContext lexerContext;
+            pstate = parseString(lexerContext, convertToStandardFunction(nLhs));
+        }
         ptAstCode = AbstractSyntaxTree::getReferences();
     } catch (const Exception&) {
         AbstractSyntaxTree::deleteReferences();

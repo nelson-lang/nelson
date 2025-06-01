@@ -21,6 +21,7 @@
 #include "StackEntry.hpp"
 #include "Exception.hpp"
 #include "CallStack.hpp"
+#include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
 
@@ -90,6 +91,8 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool bQuietMode = false;
 
 public:
+    LexerContext lexerContext;
+
     size_t
     getID();
 
@@ -864,6 +867,9 @@ private:
     needToOverloadOperator(const ArrayOf& a);
 
     bool _haveEventsLoop;
+
+    bool
+    isSafeToAutoTerminateCLI();
 
     size_t ID;
 

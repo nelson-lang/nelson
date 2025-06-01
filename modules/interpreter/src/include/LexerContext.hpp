@@ -9,30 +9,64 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <cstdio>
 #include <string>
-#include "MacroFunctionDef.hpp"
+#include "Keywords.hpp"
 #include "AbstractSyntaxTree.hpp"
-#include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rhsRhs,
-    const ParseRHS& codeRhs);
+union contextOrPointer
+{
+    int i;
+    AbstractSyntaxTreePtr p;
+};
 //=============================================================================
-std::string
-decodeline(const ParseRHS& val);
+struct ParseRHS
+{
+    bool isToken;
+    contextOrPointer v;
+};
 //=============================================================================
-int
-yyxpt(const std::string& xStr, const ParseRHS& val);
+
+enum LexingStates
+{
+    Initial,
+    Scanning,
+    SpecScan
+};
 //=============================================================================
-void
-callyyparse(LexerContext& lexerContext);
+#define DEFAULT_BUFFER_SIZE_LEXER 256
 //=============================================================================
-void
-setParsedScriptBlock(AbstractSyntaxTreePtr ast);
+struct LexerContext
+{
+    char* textbuffer = nullptr;
+    char* datap = nullptr;
+    char* linestart = nullptr;
+    int lineNumber = 0;
+    int continuationCount = 0;
+    int inBlock = 0;
+    int inStatement = 0;
+    bool inFunction = false;
+    int countEndFunction = 0;
+    LexingStates lexState;
+    int bracketStack[DEFAULT_BUFFER_SIZE_LEXER];
+    int bracketStackSize;
+    int vcStack[DEFAULT_BUFFER_SIZE_LEXER];
+    int vcStackSize;
+    int vcFlag;
+    //=============================================================================
+    /*
+     * These variables capture the token information
+     */
+    int tokenActive;
+    int tokenType;
+    ParseRHS tokenValue;
+    int previousToken = 0;
+    //=============================================================================
+    keywordStruct tSearch, *pSearch;
+    //=============================================================================
+};
 //=============================================================================
-void
-setParsedFunctionDef(MacroFunctionDef* r);
 }
 //=============================================================================

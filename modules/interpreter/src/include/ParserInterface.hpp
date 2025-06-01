@@ -15,6 +15,7 @@
 #include "MacroFunctionDef.hpp"
 #include "ParserState.hpp"
 #include "nlsInterpreter_exports.h"
+#include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
 /**
@@ -41,11 +42,11 @@ parseState();
  * Parse the given string.
  */
 NLSINTERPRETER_IMPEXP ParserState
-parseString(const std::string& txt);
+parseString(LexerContext& lexerContext, const std::string& txt);
 /**
  * Parse the given file (with the given filename).
  */
 NLSINTERPRETER_IMPEXP ParserState
-parseFile(FILE* /*fp*/, const std::string& /*fname*/);
+parseFile(LexerContext& lexerContext, FILE* /*fp*/, const std::string& /*fname*/);
 } // namespace Nelson
 //=============================================================================

@@ -40,7 +40,7 @@ ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
     }
     Exception previousException(eval->getLastErrorException());
     try {
-        ps = parseFile(fr, wstring_to_utf8(filename));
+        ps = parseFile(eval->lexerContext, fr, wstring_to_utf8(filename));
     } catch (const Exception&) {
         if (bIgnoreException) {
             eval->setLastErrorException(previousException);

@@ -31,6 +31,7 @@
 #include "PredefinedErrorMessages.hpp"
 #include "OverloadHelpers.hpp"
 #include "StringHelpers.hpp"
+#include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -424,6 +425,7 @@ MacroFunctionDef::updateCode()
     ParserState pstate = ParserState::ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
+    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
 
     if (this->isOverload() && StringHelpers::ends_with(this->getFilename(), L"/end.m")) {
 
@@ -437,9 +439,13 @@ MacroFunctionDef::updateCode()
 
         std::regex pattern(R"(\s*=\s*end\s*\()");
         fileContent = std::regex_replace(fileContent, pattern, " = endmagic(");
-
         try {
-            pstate = parseString(fileContent);
+            if (eval) {
+                pstate = parseString(eval->lexerContext, fileContent);
+            } else {
+                LexerContext lexerContext;
+                pstate = parseString(lexerContext, fileContent);
+            }
             ptAstCode = AbstractSyntaxTree::getReferences();
         } catch (const Exception&) {
             AbstractSyntaxTree::deleteReferences();
@@ -447,7 +453,12 @@ MacroFunctionDef::updateCode()
         }
     } else {
         try {
-            pstate = parseFile(fr, wstring_to_utf8(this->getFilename()));
+            if (eval) {
+                pstate = parseFile(eval->lexerContext, fr, wstring_to_utf8(this->getFilename()));
+            } else {
+                LexerContext lexerContext;
+                pstate = parseFile(lexerContext, fr, wstring_to_utf8(this->getFilename()));
+            }
             ptAstCode = AbstractSyntaxTree::getReferences();
         } catch (const Exception&) {
             AbstractSyntaxTree::deleteReferences();

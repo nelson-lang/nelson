@@ -50,7 +50,7 @@ const unsigned int NLS_KEYWORD_ENDFUNCTION = 17;
  */
 struct keywordStruct
 {
-    const char* word;
+    char word[IDENTIFIER_LENGTH_MAX];
     int token;
     int ordinal;
 };

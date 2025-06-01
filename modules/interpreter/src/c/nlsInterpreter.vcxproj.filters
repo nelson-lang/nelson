@@ -373,9 +373,6 @@
     <ClInclude Include="..\include\FunctionsInMemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\grammar\ParseRHS.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -389,6 +386,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GraphicCallback.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LexerContext.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

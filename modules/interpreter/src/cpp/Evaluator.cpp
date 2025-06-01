@@ -21,6 +21,7 @@
 #include <cerrno>
 #include <iostream>
 #include <cmath>
+#include <regex>
 #define FMT_HEADER_ONLY
 #include <fmt/core.h>
 #include "StringHelpers.hpp"
@@ -4208,7 +4209,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     }
     AbstractSyntaxTree::clearReferences();
     try {
-        parserState = parseString(command);
+        parserState = parseString(lexerContext, command);
     } catch (Exception& e) {
         AbstractSyntaxTree::deleteReferences();
         resetParser();
@@ -4489,38 +4490,82 @@ Evaluator::evalCLI()
                 commandLine.push_back(L'\n');
             }
         }
-        // scan the line and tokenize it
+        // Scan the line and tokenize it
         AbstractSyntaxTree::clearReferences();
-        setLexBuffer(commandLine);
+        setLexBuffer(lexerContext, commandLine);
         try {
-            bool bContinueLine = lexCheckForMoreInput(0);
+            bool bContinueLine = lexCheckForMoreInput(lexerContext, 0);
             AbstractSyntaxTree::deleteReferences();
             if (bContinueLine) {
-                int lastCount = getContinuationCount();
+                int lastCount = getContinuationCount(lexerContext);
                 std::wstring lines = commandLine;
                 bool enoughInput = false;
+                int emptyLineCount = 0; // Track consecutive empty lines
+
+                if (lexerContext.lineNumber > 2) {
+                    enoughInput = true;
+                }
+
                 while (!enoughInput) {
-                    commandLine = io->getLine(L"");
+                    std::wstring prompt = L""; // Default continuation prompt
+
+                    // Show helpful continuation prompt based on context
+                    if (lexerContext.bracketStackSize > 0) {
+                        switch (lexerContext.bracketStack[lexerContext.bracketStackSize - 1]) {
+                        case '[':
+                            prompt = L"[> ";
+                            break;
+                        case '{':
+                            prompt = L"{> ";
+                            break;
+                        case '(':
+                            prompt = L"(> ";
+                            break;
+                        }
+                    } else if (lexerContext.inFunction) {
+                        prompt = L"f> "; // Function continuation
+                    } else if (lexerContext.inStatement > 0) {
+                        prompt = L"s> "; // Statement continuation
+                    }
+
+                    commandLine = io->getLine(prompt);
+
+                    // Handle empty lines - allow double empty line to force evaluation
                     if (commandLine == L"\n" || commandLine.empty()) {
+                        emptyLineCount++;
+
                         if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                             commandLine.clear();
                             return;
                         }
-                        enoughInput = true;
+
+                        // Double empty line forces evaluation (user override)
+                        if (emptyLineCount >= 2) {
+                            enoughInput = true;
+                            break;
+                        }
+
+                        // Single empty line - check if we can safely terminate
+                        if (isSafeToAutoTerminateCLI()) {
+                            enoughInput = true;
+                            break;
+                        }
+                        continue;
                     } else {
-                        wchar_t ch = *commandLine.rbegin();
-                        if (ch != L'\n') {
-                            commandLine.push_back(L'\n');
-                        }
-                        lines.append(commandLine);
-                        AbstractSyntaxTree::clearReferences();
-                        setLexBuffer(lines);
-                        enoughInput = !lexCheckForMoreInput(lastCount);
-                        AbstractSyntaxTree::deleteReferences();
-                        lastCount = getContinuationCount();
-                        if (enoughInput) {
-                            lines.append(L"\n");
-                        }
+                        emptyLineCount = 0; // Reset counter on non-empty input
+                    }
+                    wchar_t ch = *commandLine.rbegin();
+                    if (ch != L'\n') {
+                        commandLine.push_back(L'\n');
+                    }
+                    lines.append(commandLine);
+                    AbstractSyntaxTree::clearReferences();
+                    setLexBuffer(lexerContext, lines);
+                    enoughInput = !lexCheckForMoreInput(lexerContext, lastCount);
+                    AbstractSyntaxTree::deleteReferences();
+                    lastCount = getContinuationCount(lexerContext);
+                    if (enoughInput) {
+                        lines.append(L"\n");
                     }
                 }
                 commandLine = std::move(lines);
@@ -4532,6 +4577,13 @@ Evaluator::evalCLI()
         InCLI = true;
         if (!commandLine.empty()) {
             size_t stackdepth = callstack.size();
+            if (lexerContext.lineNumber > 1) {
+                auto normalize_newlines = [](const std::wstring& input) -> std::wstring {
+                    static const std::wregex newline_re(L"\n+");
+                    return std::regex_replace(input, newline_re, L"\n");
+                };
+                commandLine = normalize_newlines(commandLine);
+            }
             bool evalResult = evaluateString(commandLine, false);
             while (callstack.size() > stackdepth) {
                 callstack.pop_back();
@@ -4542,6 +4594,20 @@ Evaluator::evalCLI()
             }
         }
     }
+}
+//=============================================================================
+bool
+Evaluator::isSafeToAutoTerminateCLI()
+{
+    // Only allow termination if we're just missing simple end statements
+    // but not if we have unbalanced brackets
+    if (lexerContext.bracketStackSize > 0) {
+        return false; // Never terminate with unbalanced brackets
+    }
+
+    // Allow termination if we're only missing 'end' keywords
+    // This handles cases like incomplete if/for/while blocks
+    return (lexerContext.inStatement >= 0 && !lexerContext.inFunction);
 }
 //=============================================================================
 bool
