@@ -354,7 +354,6 @@
     <ClInclude Include="..\cpp\operators\RelationOperatorsHelpers.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
-    <ClInclude Include="..\grammar\ParseRHS.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AbstractSyntaxTree.hpp" />
     <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp" />
@@ -377,6 +376,7 @@
     <ClInclude Include="..\include\GenericTable.hpp" />
     <ClInclude Include="..\include\GraphicCallback.hpp" />
     <ClInclude Include="..\include\Keywords.hpp" />
+    <ClInclude Include="..\include\LexerContext.hpp" />
     <ClInclude Include="..\include\LexerInterface.hpp" />
     <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
     <ClInclude Include="..\include\MacroFunctionDef.hpp" />

@@ -13,6 +13,7 @@
 #include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
+#include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

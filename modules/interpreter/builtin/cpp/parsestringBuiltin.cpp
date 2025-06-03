@@ -30,7 +30,7 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     ParserState parserState = ParseError;
     Exception previousException(eval->getLastErrorException());
     try {
-        parserState = parseString(command + "\n");
+        parserState = parseString(eval->lexerContext, command + "\n");
     } catch (const Exception&) {
         parserState = ParseError;
         eval->setLastErrorException(previousException);

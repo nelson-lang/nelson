@@ -43,7 +43,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
     ParserState parserState = ParseError;
     Exception previousException(eval->getLastErrorException());
     try {
-        parserState = parseString(functionNameReworked + "\n");
+        parserState = parseString(eval->lexerContext, functionNameReworked + "\n");
     } catch (const Exception&) {
         parserState = ParseError;
     }

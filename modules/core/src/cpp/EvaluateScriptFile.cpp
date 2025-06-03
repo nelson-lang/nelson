@@ -113,7 +113,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     AbstractSyntaxTreePtrVector pt;
 
     try {
-        pstate = parseFile(fr, absolutePath.generic_string());
+        pstate = parseFile(eval->lexerContext, fr, absolutePath.generic_string());
         pt = AbstractSyntaxTree::getReferences();
     } catch (const Exception&) {
         eval->popEvaluateFilenameList();

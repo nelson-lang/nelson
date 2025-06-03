@@ -1,3 +1,5 @@
+%parse-param { LexerContext &lexerContext }
+%lex-param { LexerContext &lexerContext }
 %{
 // clang-format off
 //=============================================================================
@@ -19,6 +21,7 @@
 #include "NelsonParserHelpers.hpp"
 #include "AbstractSyntaxTree.hpp"
 #include "i18n.hpp"
+#include "LexerContext.hpp"
 //=============================================================================
 #if defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wfree-nonheap-object"
@@ -26,13 +29,13 @@
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
-extern int yylex(void);
+extern int yylex(Nelson::LexerContext &lexerContext);
 extern int yydebug;
 //=============================================================================
 static std::mutex parseMutex;
 //=============================================================================
 namespace Nelson {
-  void yyerror(const char *s) {
+  void yyerror(Nelson::LexerContext &lexerContext, const char *s) {
      return;
   }
 }
@@ -568,9 +571,9 @@ parenExpr:
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-  void callyyparse() {
+  void callyyparse(LexerContext &lexerContext) {
     std::scoped_lock<std::mutex> lock{parseMutex};
-    yyparse();
+    yyparse(lexerContext);
   }
 //=============================================================================
 }
