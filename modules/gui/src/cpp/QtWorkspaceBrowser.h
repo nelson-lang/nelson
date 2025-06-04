@@ -18,16 +18,20 @@
 #include <QtWidgets/QAction>
 #endif
 #include <QtGui/QContextMenuEvent>
-#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QSizeGrip>
+#include <QtGui/QStandardItemModel>
+#include <QtCore/QSortFilterProxyModel>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 class QtWorkspaceBrowser : public QDockWidget
 {
     Q_OBJECT
-    QTableWidget* m_tableWidget;
+    QTableView* m_tableView;
+    QStandardItemModel* m_model;
+    QSortFilterProxyModel* m_proxyModel;
     Context* m_context;
 
 private:
@@ -56,7 +60,23 @@ private:
     QString
     getCurrentVariableNameSelected();
 
+    void
+    setupModel();
+    void
+    setupHeaders();
+
     QSizeGrip* sizeGrip;
+
+    // Column indices
+    enum ColumnIndex
+    {
+        NAME_COLUMN = 0,
+        VALUE_COLUMN = 1,
+        CLASS_COLUMN = 2,
+        SIZE_COLUMN = 3,
+        SCOPE_COLUMN = 4,
+        COLUMN_COUNT = 5
+    };
 
 protected:
     void
@@ -92,6 +112,7 @@ public slots:
 
 public:
     QtWorkspaceBrowser(QWidget* parent);
+    ~QtWorkspaceBrowser();
 
     void
     restorePosition();
