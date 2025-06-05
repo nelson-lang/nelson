@@ -25,6 +25,7 @@
 #include <QtWidgets/QSizeGrip>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
+#include <QtGui/QStandardItem>
 //=============================================================================
 const QString SETTING_WORKSPACE_BROWSER_VISIBILITY = "wb_Visibility";
 const QString SETTING_WORKSPACE_BROWSER_GEOMETRY = "wb_Geometry";
@@ -43,24 +44,22 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
 #endif
     QVBoxLayout* mainLayout = new QVBoxLayout;
 
-    m_tableWidget = new QTableWidget;
-    m_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_tableWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_tableWidget->setSortingEnabled(true);
-    m_tableWidget->verticalHeader()->setVisible(false);
-    m_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_tableWidget->setColumnCount(5);
-    m_tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem(TR("Name")));
-    m_tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem(TR("Value")));
-    m_tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem(TR("Class")));
-    m_tableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem(TR("Size")));
-    m_tableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem(TR("Scope")));
+    setupModel();
 
-    mainLayout->addWidget(m_tableWidget);
-    setLayout(mainLayout);
+    m_tableView = new QTableView;
+    m_tableView->setModel(m_proxyModel);
+    m_tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_tableView->setSortingEnabled(true);
+    m_tableView->verticalHeader()->setVisible(false);
+    m_tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    QHeaderView* header = m_tableWidget->horizontalHeader();
-    header->resizeSection(0, 64);
+    setupHeaders();
+
+    mainLayout->addWidget(m_tableView);
+
+    QHeaderView* header = m_tableView->horizontalHeader();
+    header->resizeSection(NAME_COLUMN, 64);
 
     // Set the context menu for the header
     header->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -68,6 +67,9 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
 
     connect(header, SIGNAL(customContextMenuRequested(const QPoint&)), this,
         SLOT(showHeaderContextMenu(const QPoint&)));
+
+    // Connect double-click signal
+    connect(m_tableView, &QTableView::doubleClicked, this, &QtWorkspaceBrowser::doubleClicked);
 
     setFocusPolicy(Qt::StrongFocus);
     sizeGrip = new QSizeGrip(this);
@@ -81,6 +83,32 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
     setMinimumSize(50, 50);
     connect(this, &QDockWidget::dockLocationChanged, this,
         &QtWorkspaceBrowser::handleDockLocationChanged);
+}
+//=============================================================================
+QtWorkspaceBrowser::~QtWorkspaceBrowser()
+{
+    delete m_model;
+    delete m_proxyModel;
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::setupModel()
+{
+    m_model = new QStandardItemModel(this);
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_model);
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::setupHeaders()
+{
+    m_model->setColumnCount(COLUMN_COUNT);
+    m_model->setHorizontalHeaderItem(NAME_COLUMN, new QStandardItem(TR("Name")));
+    m_model->setHorizontalHeaderItem(VALUE_COLUMN, new QStandardItem(TR("Value")));
+    m_model->setHorizontalHeaderItem(CLASS_COLUMN, new QStandardItem(TR("Class")));
+    m_model->setHorizontalHeaderItem(SIZE_COLUMN, new QStandardItem(TR("Size")));
+    m_model->setHorizontalHeaderItem(SCOPE_COLUMN, new QStandardItem(TR("Scope")));
 }
 //=============================================================================
 void
@@ -97,7 +125,8 @@ QtWorkspaceBrowser::restorePosition()
 
     QByteArray headerOrderData
         = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_ORDER).toByteArray();
-    m_tableWidget->horizontalHeader()->restoreState(headerOrderData);
+    m_tableView->horizontalHeader()->restoreState(headerOrderData);
+
     int sortColumn = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_SORT, 0).toInt();
     Qt::SortOrder sortOrder
         = static_cast<Qt::SortOrder>(settings
@@ -105,10 +134,11 @@ QtWorkspaceBrowser::restorePosition()
                                              static_cast<int>(Qt::AscendingOrder))
                                          .toInt());
 
-    m_tableWidget->sortByColumn(sortColumn, sortOrder);
+    m_tableView->sortByColumn(sortColumn, sortOrder);
+
     QByteArray headerSizesData
         = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_SIZES).toByteArray();
-    m_tableWidget->horizontalHeader()->restoreState(headerSizesData);
+    m_tableView->horizontalHeader()->restoreState(headerSizesData);
 }
 //=============================================================================
 void
@@ -127,18 +157,19 @@ QtWorkspaceBrowser::savePositionAndVisibility()
     settings.setValue(SETTING_WORKSPACE_BROWSER_GEOMETRY, saveGeometry());
 
     settings.setValue(
-        SETTING_WORKSPACE_BROWSER_HEADER_ORDER, m_tableWidget->horizontalHeader()->saveState());
+        SETTING_WORKSPACE_BROWSER_HEADER_ORDER, m_tableView->horizontalHeader()->saveState());
     settings.setValue(SETTING_WORKSPACE_BROWSER_HEADER_SORT,
-        m_tableWidget->horizontalHeader()->sortIndicatorSection());
+        m_tableView->horizontalHeader()->sortIndicatorSection());
     settings.setValue(SETTING_WORKSPACE_BROWSER_HEADER_SORT_ORDER,
-        static_cast<int>(m_tableWidget->horizontalHeader()->sortIndicatorOrder()));
+        static_cast<int>(m_tableView->horizontalHeader()->sortIndicatorOrder()));
     settings.setValue(
-        SETTING_WORKSPACE_BROWSER_HEADER_SIZES, m_tableWidget->horizontalHeader()->saveState());
+        SETTING_WORKSPACE_BROWSER_HEADER_SIZES, m_tableView->horizontalHeader()->saveState());
 }
 //=============================================================================
 void
 QtWorkspaceBrowser::doubleClicked(const QModelIndex& index)
 {
+    // Handle double-click on variable - you can implement variable editing here
 }
 //=============================================================================
 void
@@ -233,6 +264,10 @@ QtWorkspaceBrowser::updateVariables()
     if (!m_context) {
         return;
     }
+
+    // Clear existing data
+    m_model->removeRows(0, m_model->rowCount());
+
     wstringVector variablesList;
     m_context->getCurrentScope()->getVariablesList(false, variablesList);
     wstringVector globalVariablesList;
@@ -242,7 +277,6 @@ QtWorkspaceBrowser::updateVariables()
     std::sort(variablesList.begin(), variablesList.end());
     auto last = std::unique(variablesList.begin(), variablesList.end());
     variablesList.erase(last, variablesList.end());
-    m_tableWidget->setRowCount((int)variablesList.size());
 
     for (int i = 0; i < variablesList.size(); i++) {
         bool isGlobal = m_context->isVariableGlobal(wstring_to_utf8(variablesList[i]));
@@ -273,11 +307,20 @@ QtWorkspaceBrowser::updateVariables()
             QString flags = isGlobal ? TR("global") : "";
             QString size(wstringToQString(variable->getDimensions().toWideString()));
 
-            m_tableWidget->setItem(i, 0, new QTableWidgetItem(variableName));
-            m_tableWidget->setItem(i, 1, new QTableWidgetItem(value));
-            m_tableWidget->setItem(i, 2, new QTableWidgetItem(type));
-            m_tableWidget->setItem(i, 3, new QTableWidgetItem(size));
-            m_tableWidget->setItem(i, 4, new QTableWidgetItem(flags));
+            // Create row items
+            QList<QStandardItem*> rowItems;
+            rowItems << new QStandardItem(variableName);
+            rowItems << new QStandardItem(value);
+            rowItems << new QStandardItem(type);
+            rowItems << new QStandardItem(size);
+            rowItems << new QStandardItem(flags);
+
+            // Set items as non-editable
+            for (auto item : rowItems) {
+                item->setEditable(false);
+            }
+
+            m_model->appendRow(rowItems);
         }
     }
 }
@@ -285,7 +328,7 @@ QtWorkspaceBrowser::updateVariables()
 void
 QtWorkspaceBrowser::showHeaderContextMenu(const QPoint& pos)
 {
-    QHeaderView* header = m_tableWidget->horizontalHeader();
+    QHeaderView* header = m_tableView->horizontalHeader();
 
     QMenu contextMenu(this);
 
@@ -485,19 +528,13 @@ QString
 QtWorkspaceBrowser::getCurrentVariableNameSelected()
 {
     QString name;
-    QModelIndexList selectedIndexes = m_tableWidget->selectionModel()->selectedIndexes();
+    QModelIndexList selectedIndexes = m_tableView->selectionModel()->selectedIndexes();
 
     if (!selectedIndexes.isEmpty()) {
-        int nameColumn = -1;
-        for (int i = 0; i < m_tableWidget->columnCount(); ++i) {
-            QString headerText = m_tableWidget->horizontalHeaderItem(i)->text();
-            if (headerText == TR("Name")) {
-                nameColumn = i;
-                break;
-            }
-        }
-        int selectedRow = selectedIndexes.first().row();
-        QTableWidgetItem* nameItem = m_tableWidget->item(selectedRow, nameColumn);
+        // Get the source index from proxy model
+        QModelIndex sourceIndex = m_proxyModel->mapToSource(selectedIndexes.first());
+        int selectedRow = sourceIndex.row();
+        QStandardItem* nameItem = m_model->item(selectedRow, NAME_COLUMN);
         if (nameItem) {
             name = nameItem->text();
         }
