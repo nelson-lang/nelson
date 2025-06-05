@@ -1,0 +1,41 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#include "variableseditorBuiltin.hpp"
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
+#include "VariablesEditor.hpp"
+#include "NelsonConfiguration.hpp"
+#include "NelSon_engine_mode.h"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::GuiGateway::variableseditorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 0);
+    auto engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+    if (engineMode != GUI) {
+        return {};
+    }
+    switch (argIn.size()) {
+    case 1: {
+        std::wstring variableName = argIn[0].getContentAsWideString();
+        if (!VariablesEditor::getVariablesEditor()) {
+            VariablesEditor::createVariablesEditor(eval->getContext());
+        }
+        VariablesEditor::openVariable(variableName);
+        VariablesEditor::showVariablesEditor();
+    } break;
+    }
+    return {};
+}
+//=============================================================================
