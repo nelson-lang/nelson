@@ -317,6 +317,9 @@
     <ClInclude Include="..\cpp\UnitsConversionHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ImageResize.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BaseFigureQt.cpp">
@@ -677,6 +680,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOScalarAlphaProperty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ImageResize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
