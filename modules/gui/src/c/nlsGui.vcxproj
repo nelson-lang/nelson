@@ -26,6 +26,7 @@
     <ClCompile Include="..\cpp\HistoryBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtHistoryBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_QtVariablesEditor.cpp" />
     <ClCompile Include="..\cpp\moc_QtWorkspaceBrowser.cpp" />
     <ClCompile Include="..\cpp\QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\QtHistoryBrowser.cpp" />
@@ -44,18 +45,35 @@
     <ClCompile Include="..\cpp\QtTerminal.cpp" />
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
+    <ClCompile Include="..\cpp\QtVariablesEditor.cpp" />
     <ClCompile Include="..\cpp\QtWorkspaceBrowser.cpp" />
     <ClCompile Include="..\cpp\QuestionBox.cpp" />
     <ClCompile Include="..\cpp\ForceWindowsTitleBarToDark.cpp" />
     <ClCompile Include="..\cpp\UiGetDirectory.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\VariablesEditor.cpp" />
     <ClCompile Include="..\cpp\WorkspaceBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="..\cpp\QtVariablesEditor.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="..\include\Console.hpp" />
     <ClInclude Include="..\include\DefaultFont.hpp" />
     <ClInclude Include="..\include\FileBrowser.hpp" />
     <ClInclude Include="..\include\GetQtPath.hpp" />
+    <ClInclude Include="..\include\VariablesEditor.hpp" />
     <ClInclude Include="..\include\WorkspaceBrowser.hpp" />
     <CustomBuild Include="..\cpp\QtWorkspaceBrowser.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
