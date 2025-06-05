@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imresize</keyword>
+  <short_description>Resize image by scale or output size</short_description>
+  <syntax>
+    <syntax_item>img2 = imresize(img, scale)</syntax_item>
+    <syntax_item>img2 = imresize(img, [numrows numcols])</syntax_item>
+    <syntax_item>[Y, newmap] = imresize(X, map, ...)</syntax_item>
+    <syntax_item>... = imresize(..., method)</syntax_item>
+    <syntax_item>... = imresize(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>img</param_name>
+      <param_description
+      >Image to be resized, specified as a numeric array, logical array of any dimension. Input must be nonsparse, and numeric input must be real.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description
+      >Resize factor, specified as a positive number or two-element vector. If scale is between 0 and 1, output is smaller; if greater than 1, output is larger. imresize applies the same scale factor to row and column dimensions unless a vector is specified.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[numrows numcols]</param_name>
+      <param_description
+      >Row and column dimensions of output image, specified as a two-element vector of positive numbers. NaN can be used for either dimension to preserve aspect ratio.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >Indexed image to be resized, specified as a real, nonsparse numeric array of positive integers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description
+      >Colormap associated with indexed image X, specified as a c-by-3 numeric matrix with values in [0, 1].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >Interpolation method (optional, default: 'bicubic'): must be always at last position parameter.
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Optional name-value arguments.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description
+      >Resized image, returned as a numeric, logical array of the same data type as the input image, A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
+      >Resized indexed image, returned as a numeric array of the same data type as the input indexed image, X.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>newmap</param_name>
+      <param_description
+      >Colormap of the resized indexed image Y, returned as an m-by-3 numeric matrix. By default, imresize returns a new, optimized colormap with the resized image. To return the original colormap, use the Colormap name-value argument.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The <b
+      >imresize</b> function resizes an image by a specified scale factor or to a specified output size. It supports grayscale, RGB, binary images, as well as indexed images with colormaps.</p>
+    <p
+    >For numeric and logical images, the default interpolation method is 'bicubic'.</p>
+    <p
+    >When resizing, imresize applies the scale factor to both row and column dimensions unless a two-element vector is specified. If the output size is not an integer, imresize rounds up using the ceil function.</p>
+    <p
+    >For indexed images, imresize returns the resized image and an optimized colormap by default. The original colormap can be returned using the 'Colormap' name-value argument.</p>
+    <p>Supported interpolation methods include</p>
+    <ul>
+      <li>'nearest': Nearest neighbor interpolation</li>
+      <li>'bilinear': Bilinear interpolation</li>
+      <li>'bicubic': Bicubic interpolation</li>
+      <li>'box': Box-shaped kernel</li>
+      <li>'lanczos2': Lanczos-2 kernel</li>
+      <li>'lanczos3': Lanczos-3 kernel</li>
+    </ul>
+    <p>Supported Pairs Name, Value:</p>
+    <ul>
+      <li>'Antialiasing': true/false (default: true)</li>
+      <li
+      >'Colormap': 'optimized' (default) or 'original' (indexed image only)</li>
+      <li>'Dither': true (default) or false (indexed image only)</li>
+    </ul>
+    <p>Limitations:</p>
+    <ul>
+      <li>Input must be nonsparse and real for numeric images.</li>
+      <li
+      >For large scale factors, output image size may be significantly larger than input.</li>
+      <li
+      >Bicubic interpolation can produce pixel values outside the original range.</li>
+    </ul>
+
+  </description>
+  <used_function />
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>imresize example</example_item_description>
+      <example_item_data>
+        <![CDATA[filename = [tempdir, 'apollo_8_earthrise_1968_as08-14-2383.jpg'];
+websave(filename, 'https://www.nasa.gov/wp-content/uploads/2025/05/3dmodels-casa-2025-astro.jpg');
+
+im = imread(filename);
+size(im)
+
+im1 = imresize(im, 0.05, 'bicubic');
+size(im1)
+
+figure;
+
+subplot(1,2,1);          % 1 row, 2 columns, first subplot
+image(im);
+title('Original Image');
+
+subplot(1,2,2);          % second subplot
+image(im1);
+title('Resized Image');]]>
+      </example_item_data>
+    <example_item_img src="../images/imresize_1.png" align="middle" />
+     </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}imrotate">imrotate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}imshow">imshow</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

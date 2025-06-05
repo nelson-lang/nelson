@@ -9,35 +9,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Variable Editor
+- `imresize`: Added a function to resize images by scale or to a specified output size, supporting both upscaling and downscaling for flexible image processing workflows.
 
-  - Introduced a completely redesigned Variable Editor accessible via `openvar` or from the GUI.
-  - Supports structured variables, tables, and arrays with a dynamic table view.
-  - Allows editing of numeric arrays, cell arrays, and structs, including nested data.
-  - Integrated copy-paste compatibility with Excel, LibreOffice, and OpenOffice (both directions).
-  - Features real-time updates from the execution context.
-  - Improved performance for large datasets.
+- Variable Editor: Major redesign, now accessible via `openvar` or the GUI. Supports structured variables, tables, arrays, and nested data. Features a dynamic table view, real-time updates from the execution context, and improved performance for large datasets. Copy-paste compatibility with Excel, LibreOffice, and OpenOffice in both directions.
 
-- continuation prompt based on context.
-- missing type support for increase compatibility.
-- `missing` function: Create missing values.
-- `renameStructField`: Rename field in a structure.
-- `jsondecode(filename, '-file')`: '-file' argument to read file directly.
+- Continuation prompt: Introduced context-aware continuation prompts to enhance interactive command workflows.
+
+- Type support: Expanded support for missing types, increasing compatibility across functions and data structures.
+
+- `missing` function: Added to create missing values for arrays and tables, improving data handling and interoperability.
+
+- `renameStructField`: New function to rename fields in structures, simplifying data manipulation and refactoring.
+
+- `jsondecode(filename, '-file')`: Added '-file' argument to allow direct reading and decoding of JSON files from disk.
 
 ### Changed
 
-- `jsondecode`: speed boost using [simdjson](https://simdjson.org/).
-- `fileread`: performance boost when reading large files.
-- i18nExtractor reworked (faster and modernized).
-- Browser variable reworked.
-- thirdparty on windows (hdf5, zlib, matio).
-- Qt 6.9.1 on Windows x64.
-- bench_jsonencode.json updated with bigger data.
+- `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
+
+- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed for file operations.
+
+- i18nExtractor: Reworked for greater speed and modernized codebase, improving internationalization extraction reliability.
+
+- Browser variable: Refactored for improved usability, reliability, and consistency in variable inspection.
+
+- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability for Windows users.
+
+- Qt: Upgraded to version 6.9.1 on Windows x64, providing better UI performance and compatibility with modern systems.
+
+- Benchmarks: `bench_jsonencode.json` updated to include larger datasets for more robust and realistic performance testing.
 
 ### Fixed
 
-- ensure 'ans' is correctly created only for expressions.
-- `jsondecode` now correctly parses arrays of empty arrays.
+- `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.
+
+- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness of JSON decoding.
 
 ## 1.14.0 - (2025-05-30)
 
