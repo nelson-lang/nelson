@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "variableseditorBuiltin.hpp"
+#include "openvarBuiltin.hpp"
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -18,7 +18,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::variableseditorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GuiGateway::openvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
@@ -30,7 +30,7 @@ Nelson::GuiGateway::variableseditorBuiltin(Evaluator* eval, int nLhs, const Arra
     case 1: {
         std::wstring variableName = argIn[0].getContentAsWideString();
         if (!VariablesEditor::getVariablesEditor()) {
-            VariablesEditor::createVariablesEditor(eval->getContext());
+            VariablesEditor::createVariablesEditor(eval);
         }
         VariablesEditor::openVariable(variableName);
         VariablesEditor::showVariablesEditor();

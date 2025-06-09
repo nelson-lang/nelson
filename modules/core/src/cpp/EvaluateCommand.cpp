@@ -65,6 +65,7 @@ retrieveVariablesReturned(Evaluator* eval, int nLhs)
         if (!eval->getContext()->lookupVariableLocally(wstring_to_utf8(varname), var)) {
             var = ArrayOf::emptyConstructor();
         } else {
+            var.name("");
             variables.push_back(var);
         }
         eval->getContext()->deleteVariable(wstring_to_utf8(varname));

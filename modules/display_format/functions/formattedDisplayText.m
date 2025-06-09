@@ -51,7 +51,7 @@ end
 function r = formatVariable(variable, usedFormat)
   format(usedFormat);
   c = evalc('disp(variable)');
-  if strcmp(usedFormat.LineSpacing, 'loose')  
+  if (strcmp(usedFormat.LineSpacing, 'loose')  && ~isempty(c))
     c(end) = [];
   end
   r = string(c);
