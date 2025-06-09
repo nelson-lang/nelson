@@ -238,7 +238,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
 
                 for (indexType i = 0; i < _names.size(); ++i) {
                     nameArray.push_back(ArrayOf::characterArrayConstructor(_names[i]));
-                    ArrayOf s = ArrayOf::doubleVectorConstructor(_size[i].getLength());
+                    ArrayOf s = ArrayOf::doubleRowVectorConstructor(_size[i].getLength());
                     double* ptrDouble = (double*)s.getDataPointer();
                     for (indexType k = 0; k < _size[i].getLength(); ++k) {
                         ptrDouble[k] = (double)_size[i][k];

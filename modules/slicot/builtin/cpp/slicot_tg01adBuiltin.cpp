@@ -71,28 +71,28 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
     C_output.ensureSingleOwner();
     double* C_output_ptr = (double*)C_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf L = ArrayOf::int32VectorConstructor(1);
+    ArrayOf L = ArrayOf::int32RowVectorConstructor(1);
     int* L_ptr = (int*)L.getDataPointer();
     L_ptr[0] = (int)A.getRows();
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
     M_ptr[0] = (int)B.getColumns();
-    ArrayOf P = ArrayOf::int32VectorConstructor(1);
+    ArrayOf P = ArrayOf::int32RowVectorConstructor(1);
     int* P_ptr = (int*)P.getDataPointer();
     P_ptr[0] = (int)C.getRows();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)L.getContentAsInteger32Scalar());
-    ArrayOf LDE = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDE = ArrayOf::int32RowVectorConstructor(1);
     int* LDE_ptr = (int*)LDE.getDataPointer();
     LDE_ptr[0] = std::max(1, (int)L.getContentAsInteger32Scalar());
-    ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDB = ArrayOf::int32RowVectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
     LDB_ptr[0] = std::max(1, (int)L.getContentAsInteger32Scalar());
-    ArrayOf LDC = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDC = ArrayOf::int32RowVectorConstructor(1);
     int* LDC_ptr = (int*)LDC.getDataPointer();
     LDC_ptr[0] = std::max(1, (int)P.getContentAsInteger32Scalar());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
@@ -105,7 +105,7 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf RSCALE_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)1, (indexType)(int)N.getContentAsInteger32Scalar());
     double* RSCALE_output_ptr = (double*)RSCALE_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {

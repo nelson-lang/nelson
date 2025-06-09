@@ -66,28 +66,28 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     E_output.ensureSingleOwner();
     double* E_output_ptr = (double*)E_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
     M_ptr[0] = (int)B.getRows();
-    ArrayOf NP = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NP = ArrayOf::int32RowVectorConstructor(1);
     int* NP_ptr = (int*)NP.getDataPointer();
     NP_ptr[0] = (int)C.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDB = ArrayOf::int32RowVectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
     LDB_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf LDC = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDC = ArrayOf::int32RowVectorConstructor(1);
     int* LDC_ptr = (int*)LDC.getDataPointer();
     LDC_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf LDD = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDD = ArrayOf::int32RowVectorConstructor(1);
     int* LDD_ptr = (int*)LDD.getDataPointer();
     LDD_ptr[0] = std::max(1, (int)C.getColumns());
-    ArrayOf LDE = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDE = ArrayOf::int32RowVectorConstructor(1);
     int* LDE_ptr = (int*)LDE.getDataPointer();
     LDE_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
@@ -97,16 +97,16 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
                     * std::max(5, (int)A.getColumns() + (int)B.getRows() + (int)C.getColumns())),
         1);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
-    ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDWORK = ArrayOf::int32RowVectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = std::max(1,
         2 * (int)A.getColumns() * (int)A.getColumns() + 2 * (int)A.getColumns()
             + (int)A.getColumns()
                 * std::max(5, (int)A.getColumns() + (int)B.getRows() + (int)C.getColumns()));
     // OUTPUT VARIABLES
-    ArrayOf NSYS_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NSYS_output = ArrayOf::int32RowVectorConstructor(1);
     int* NSYS_output_ptr = (int*)NSYS_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());

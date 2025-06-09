@@ -56,7 +56,7 @@ GORestrictedStringColorProperty::get()
     if (!isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR)) {
         return GORestrictedStringProperty::get();
     }
-    ArrayOf ret(ArrayOf::doubleVectorConstructor(3));
+    ArrayOf ret(ArrayOf::doubleRowVectorConstructor(3));
     double* dp = (double*)ret.getReadWriteDataPointer();
     dp[0] = colorspec[0];
     dp[1] = colorspec[1];

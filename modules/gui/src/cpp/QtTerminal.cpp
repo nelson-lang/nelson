@@ -59,6 +59,7 @@
 #include "WorkspaceBrowser.hpp"
 #include "QtWorkspaceBrowser.h"
 #include "CallbackQueue.hpp"
+#include "VariablesEditor.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -244,6 +245,7 @@ std::wstring
 QtTerminal::getLine(const std::wstring& prompt)
 {
     printPrompt(Nelson::wstringToQString(prompt));
+    VariablesEditor::updateVariablesEditor();
     FileBrowser::updateFileBrowser();
     promptBlock = document()->lastBlock();
 
@@ -312,7 +314,6 @@ QtTerminal::getLine(const std::wstring& prompt)
 
     // Change icon cursor to wait (computation)
     QApplication::setOverrideCursor(Qt::WaitCursor);
-
     return line;
 }
 

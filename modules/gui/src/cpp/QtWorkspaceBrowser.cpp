@@ -170,13 +170,12 @@ QtWorkspaceBrowser::savePositionAndVisibility()
 void
 QtWorkspaceBrowser::doubleClicked(const QModelIndex& index)
 {
-    int selectedRow = index.row();
+    QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
+    int selectedRow = sourceIndex.row();
+
     QStandardItem* nameItem = m_model->item(selectedRow, NAME_COLUMN);
     if (nameItem) {
         QString name = nameItem->text();
-        if (!VariablesEditor::getVariablesEditor()) {
-            VariablesEditor::createVariablesEditor(m_context);
-        }
         VariablesEditor::openVariable(name.toStdWString());
         VariablesEditor::showVariablesEditor();
     }

@@ -44,7 +44,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - History browser (DONE v1.1),
 - File browser (DONE v1.1),
 - Workspace browser (DONE v1.1),
-- Variable browser,
+- Variable browser (DONE v1.15),
 - RSS viewer,
 - Demo viewer,
 - Include a Webview for enhanced web interaction.

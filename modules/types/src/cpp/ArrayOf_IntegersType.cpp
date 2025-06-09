@@ -18,219 +18,226 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <typename T>
 ArrayOf
-ArrayOf::uint8Constructor(uint8 aval)
+scalarConstructor(NelsonType type, T value)
 {
     Dimensions dim;
     dim.makeScalar();
-    uint8* data = static_cast<uint8*>(allocateArrayOf(NLS_UINT8, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_UINT8, dim, data);
+    T* data = static_cast<T*>(ArrayOf::allocateArrayOf(type, 1, stringVector(), false));
+    *data = value;
+    return ArrayOf(type, dim, data);
+}
+//=============================================================================
+template <typename T>
+ArrayOf
+rowVectorConstructor(NelsonType type, indexType len)
+{
+    Dimensions dim(1, len);
+    T* data = static_cast<T*>(ArrayOf::allocateArrayOf(type, len, stringVector(), true));
+    return ArrayOf(type, dim, data);
+}
+//=============================================================================
+template <typename T>
+ArrayOf
+rowVectorConstructor(NelsonType type, const std::vector<T>& values)
+{
+    ArrayOf vector = rowVectorConstructor<T>(type, values.size());
+    std::memcpy((T*)vector.getDataPointer(), values.data(), values.size() * sizeof(T));
+    return vector;
+}
+//=============================================================================
+// Scalar Constructors
+//=============================================================================
+ArrayOf
+ArrayOf::uint8Constructor(uint8 v)
+{
+    return scalarConstructor<uint8>(NLS_UINT8, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int8Constructor(int8 aval)
+ArrayOf::int8Constructor(int8 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    int8* data = static_cast<int8*>(allocateArrayOf(NLS_INT8, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_INT8, dim, data);
+    return scalarConstructor<int8>(NLS_INT8, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint16Constructor(uint16 aval)
+ArrayOf::uint16Constructor(uint16 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    uint16* data = static_cast<uint16*>(allocateArrayOf(NLS_UINT16, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_UINT16, dim, data);
+    return scalarConstructor<uint16>(NLS_UINT16, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int16Constructor(int16 aval)
+ArrayOf::int16Constructor(int16 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    int16* data = static_cast<int16*>(allocateArrayOf(NLS_INT16, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_INT16, dim, data);
+    return scalarConstructor<int16>(NLS_INT16, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint32Constructor(uint32 aval)
+ArrayOf::uint32Constructor(uint32 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    uint32* data = static_cast<uint32*>(allocateArrayOf(NLS_UINT32, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_UINT32, dim, data);
+    return scalarConstructor<uint32>(NLS_UINT32, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int32Constructor(int32 aval)
+ArrayOf::int32Constructor(int32 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    int32* data = static_cast<int32*>(allocateArrayOf(NLS_INT32, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_INT32, dim, data);
+    return scalarConstructor<int32>(NLS_INT32, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint64Constructor(uint64 aval)
+ArrayOf::uint64Constructor(uint64 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    uint64* data = static_cast<uint64*>(allocateArrayOf(NLS_UINT64, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_UINT64, dim, data);
+    return scalarConstructor<uint64>(NLS_UINT64, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int64Constructor(int64 aval)
+ArrayOf::int64Constructor(int64 v)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    int64* data = static_cast<int64*>(allocateArrayOf(NLS_INT64, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_INT64, dim, data);
+    return scalarConstructor<int64>(NLS_INT64, v);
 }
 //=============================================================================
-template <class T>
+// Vector Constructors (length)
 ArrayOf
-integerVectorConstructor(NelsonType nlsType, indexType len)
+ArrayOf::uint8RowVectorConstructor(indexType len)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    dim[1] = len;
-    T* data = static_cast<T*>(ArrayOf::allocateArrayOf(nlsType, len, stringVector(), true));
-    return ArrayOf(nlsType, dim, data);
+    return rowVectorConstructor<uint8>(NLS_UINT8, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint8VectorConstructor(indexType len)
+ArrayOf::int8RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<uint8>(NLS_UINT8, len);
+    return rowVectorConstructor<int8>(NLS_INT8, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int8VectorConstructor(indexType len)
+ArrayOf::uint16RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<int8>(NLS_INT8, len);
+    return rowVectorConstructor<uint16>(NLS_UINT16, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint16VectorConstructor(indexType len)
+ArrayOf::int16RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<uint16>(NLS_UINT16, len);
+    return rowVectorConstructor<int16>(NLS_INT16, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int16VectorConstructor(indexType len)
+ArrayOf::uint32RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<int16>(NLS_INT16, len);
+    return rowVectorConstructor<uint32>(NLS_UINT32, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint32VectorConstructor(indexType len)
+ArrayOf::int32RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<uint32>(NLS_UINT32, len);
+    return rowVectorConstructor<int32>(NLS_INT32, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int32VectorConstructor(indexType len)
+ArrayOf::uint64RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<int32>(NLS_INT32, len);
+    return rowVectorConstructor<uint64>(NLS_UINT64, len);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::uint64VectorConstructor(indexType len)
+ArrayOf::int64RowVectorConstructor(indexType len)
 {
-    return integerVectorConstructor<uint64>(NLS_UINT64, len);
+    return rowVectorConstructor<int64>(NLS_INT64, len);
+}
+//=============================================================================
+// Vector Constructors (from std::vector)
+ArrayOf
+ArrayOf::uint8RowVectorConstructor(const std::vector<uint8>& v)
+{
+    return rowVectorConstructor<uint8>(NLS_UINT8, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int64VectorConstructor(indexType len)
+ArrayOf::int8RowVectorConstructor(const std::vector<int8>& v)
 {
-    return integerVectorConstructor<int64>(NLS_INT64, len);
+    return rowVectorConstructor<int8>(NLS_INT8, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
+ArrayOf::uint16RowVectorConstructor(const std::vector<uint16>& v)
 {
-    Dimensions dim(m, n);
-    int32* data = static_cast<int32*>(
-        allocateArrayOf(NLS_INT32, dim.getElementCount(), stringVector(), true));
-    return ArrayOf(NLS_INT32, dim, data);
+    return rowVectorConstructor<uint16>(NLS_UINT16, v);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vert)
+ArrayOf::int16RowVectorConstructor(const std::vector<int16>& v)
 {
-    Dimensions Cdim;
-    NelsonType classC;
-#ifdef NLS_INDEX_TYPE_64
-    classC = NLS_INT64;
-#else
-    classC = NLS_INT32;
-#endif
-    if (stepsize == 0) {
-        Cdim[0] = 1;
-        Cdim[1] = 0;
-        return ArrayOf(classC, Cdim, nullptr, false);
+    return rowVectorConstructor<int16>(NLS_INT16, v);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint32RowVectorConstructor(const std::vector<uint32>& v)
+{
+    return rowVectorConstructor<uint32>(NLS_UINT32, v);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int32RowVectorConstructor(const std::vector<int32>& v)
+{
+    return rowVectorConstructor<int32>(NLS_INT32, v);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint64RowVectorConstructor(const std::vector<uint64>& v)
+{
+    return rowVectorConstructor<uint64>(NLS_UINT64, v);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int64RowVectorConstructor(const std::vector<int64>& v)
+{
+    return rowVectorConstructor<int64>(NLS_INT64, v);
+}
+//=============================================================================
+bool
+ArrayOf::isIntegerType() const
+{
+    if (dp) {
+        return IS_INTEGER_TYPE(dp->dataClass);
     }
-    if (minval < maxval) {
-        if (stepsize < 0) {
-            Cdim[0] = 1;
-            Cdim[1] = 0;
-            return ArrayOf(classC, Cdim, nullptr, false);
-        }
+    return false;
+}
+//=============================================================================
+bool
+ArrayOf::isIntegerValue() const
+{
+    if (!dp) {
+        return false;
     }
-    if (minval > maxval) {
-        Cdim[0] = 0;
-        Cdim[1] = 1;
-        return ArrayOf(classC, Cdim, nullptr, false);
+    if (IS_INTEGER_TYPE(dp->dataClass)) {
+        return true;
     }
-    auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
-#ifdef NLS_INDEX_TYPE_64
-    auto n = static_cast<int64>(floor(static_cast<double>(dn)));
-#else
-    auto n = static_cast<int32>(floor((dn)));
-#endif
-    if (vert) {
-        Cdim[0] = n;
-        Cdim[1] = 1;
-    } else {
-        Cdim[0] = 1;
-        Cdim[1] = n;
+    if (dp->dataClass == NLS_DOUBLE) {
+        return IsIntegerFormOrNotFinite((double*)getDataPointer(), getElementCount());
     }
-#ifdef NLS_INDEX_TYPE_64
-    int64* rp = static_cast<int64*>(allocateArrayOf(NLS_INT64, n, stringVector(), false));
-#else
-    int32* rp = static_cast<int32*>(allocateArrayOf(NLS_INT32, n, stringVector(), false));
-#endif
-    if (dn == (double(n))) {
-#ifdef NLS_INDEX_TYPE_64
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, 1>> Range(rp, n);
-        Range = Eigen::Matrix<int64, Eigen::Dynamic, 1>::LinSpaced(n, minval, maxval);
-#else
-        Eigen::Map<Eigen::VectorXi> Range(rp, n);
-        Range = Eigen::VectorXi::LinSpaced(n, minval, maxval);
-#endif
-    } else {
-        // We must use another algo. in this case
-        // 1:2:10
-        indexType i = 0;
-        indexType v = minval;
-        while ((minval < maxval && v <= maxval) || (minval > maxval && v >= maxval)) {
-            rp[i] = v;
-            v = v + stepsize;
-            i++;
-        }
+    if (dp->dataClass == NLS_SINGLE) {
+        return IsIntegerFormOrNotFinite((single*)dp->getData(), getElementCount());
     }
-    return ArrayOf(classC, Cdim, rp);
+    return false;
+}
+//=============================================================================
+bool
+ArrayOf::isNdArrayIntegerType() const
+{
+    return (isIntegerType() && !isSparse() && !is2D());
+}
+//=============================================================================
+bool
+ArrayOf::isUnsignedIntegerType() const
+{
+    return IS_UNSIGNED_INTEGER_TYPE(getDataClass());
+}
+//=============================================================================
+bool
+ArrayOf::isSignedIntegerType() const
+{
+    return IS_SIGNED_INTEGER_TYPE(getDataClass());
 }
 //=============================================================================
 template <class T>
@@ -309,49 +316,80 @@ ArrayOf::getContentAsUnsignedInteger64Scalar(bool arrayAsScalar, bool checkIsInt
     return getContentAsScalar<uint64>(*this, NLS_UINT64, arrayAsScalar, checkIsIntegerValue);
 }
 //=============================================================================
-bool
-ArrayOf::isIntegerType() const
+ArrayOf
+ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vert)
 {
-    if (dp) {
-        return IS_INTEGER_TYPE(dp->dataClass);
+    Dimensions Cdim;
+    NelsonType classC;
+#ifdef NLS_INDEX_TYPE_64
+    classC = NLS_INT64;
+#else
+    classC = NLS_INT32;
+#endif
+    if (stepsize == 0) {
+        Cdim[0] = 1;
+        Cdim[1] = 0;
+        return ArrayOf(classC, Cdim, nullptr, false);
     }
-    return false;
+    if (minval < maxval) {
+        if (stepsize < 0) {
+            Cdim[0] = 1;
+            Cdim[1] = 0;
+            return ArrayOf(classC, Cdim, nullptr, false);
+        }
+    }
+    if (minval > maxval) {
+        Cdim[0] = 0;
+        Cdim[1] = 1;
+        return ArrayOf(classC, Cdim, nullptr, false);
+    }
+    auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
+#ifdef NLS_INDEX_TYPE_64
+    auto n = static_cast<int64>(floor(static_cast<double>(dn)));
+#else
+    auto n = static_cast<int32>(floor((dn)));
+#endif
+    if (vert) {
+        Cdim[0] = n;
+        Cdim[1] = 1;
+    } else {
+        Cdim[0] = 1;
+        Cdim[1] = n;
+    }
+#ifdef NLS_INDEX_TYPE_64
+    int64* rp = static_cast<int64*>(allocateArrayOf(NLS_INT64, n, stringVector(), false));
+#else
+    int32* rp = static_cast<int32*>(allocateArrayOf(NLS_INT32, n, stringVector(), false));
+#endif
+    if (dn == (double(n))) {
+#ifdef NLS_INDEX_TYPE_64
+        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, 1>> Range(rp, n);
+        Range = Eigen::Matrix<int64, Eigen::Dynamic, 1>::LinSpaced(n, minval, maxval);
+#else
+        Eigen::Map<Eigen::VectorXi> Range(rp, n);
+        Range = Eigen::VectorXi::LinSpaced(n, minval, maxval);
+#endif
+    } else {
+        // We must use another algo. in this case
+        // 1:2:10
+        indexType i = 0;
+        indexType v = minval;
+        while ((minval < maxval && v <= maxval) || (minval > maxval && v >= maxval)) {
+            rp[i] = v;
+            v = v + stepsize;
+            i++;
+        }
+    }
+    return ArrayOf(classC, Cdim, rp);
 }
 //=============================================================================
-bool
-ArrayOf::isIntegerValue() const
+ArrayOf
+ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
 {
-    if (!dp) {
-        return false;
-    }
-    if (IS_INTEGER_TYPE(dp->dataClass)) {
-        return true;
-    }
-    if (dp->dataClass == NLS_DOUBLE) {
-        return IsIntegerFormOrNotFinite((double*)getDataPointer(), getElementCount());
-    }
-    if (dp->dataClass == NLS_SINGLE) {
-        return IsIntegerFormOrNotFinite((single*)dp->getData(), getElementCount());
-    }
-    return false;
-}
-//=============================================================================
-bool
-ArrayOf::isNdArrayIntegerType() const
-{
-    return (isIntegerType() && !isSparse() && !is2D());
-}
-//=============================================================================
-bool
-ArrayOf::isUnsignedIntegerType() const
-{
-    return IS_UNSIGNED_INTEGER_TYPE(getDataClass());
-}
-//=============================================================================
-bool
-ArrayOf::isSignedIntegerType() const
-{
-    return IS_SIGNED_INTEGER_TYPE(getDataClass());
+    Dimensions dim(m, n);
+    int32* data = static_cast<int32*>(
+        allocateArrayOf(NLS_INT32, dim.getElementCount(), stringVector(), true));
+    return ArrayOf(NLS_INT32, dim, data);
 }
 //=============================================================================
 } // namespace Nelson

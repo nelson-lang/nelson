@@ -15,7 +15,7 @@
 namespace Nelson::GuiGateway {
 //=============================================================================
 ArrayOfVector
-variableseditorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+openvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

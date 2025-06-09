@@ -9,34 +9,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
-#include "Context.hpp"
-#include "ArrayOf.hpp"
 #include <QtCore/QtGlobal>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
 #else
 #include <QtWidgets/QAction>
 #endif
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpinBox>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QSplitter>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolBar>
-#include <QtCore/QTimer>
-#include <QtGui/QCloseEvent>
 #include <QtWidgets/QDockWidget>
-
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QSizeGrip>
 #include <QtCore/QMap>
+#include <QtGui/QCloseEvent>
+#include "nlsGui_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,38 +35,122 @@ class QtVariablesEditor : public QDockWidget
 {
     Q_OBJECT
 
-    Context* m_context;
-
 public:
-    QtVariablesEditor(QWidget* parent);
-    ~QtVariablesEditor();
+    explicit QtVariablesEditor(QWidget* parent = nullptr);
+    ~QtVariablesEditor() override;
 
     void
-    setContext(Context* context);
+    setEvaluator(Evaluator* eval);
+    bool
+    openVariable(const QString& variableName);
+    void
+    updateVariables();
+    void
+    refreshAllVariables();
     void
     restorePosition();
     void
-    restoreVisibility();
-    void
-    savePositionAndVisibility();
+    savePosition();
 
+signals:
     void
-    updateVariables();
+    closeVariablesEditor();
+
+protected:
+    void
+    closeEvent(QCloseEvent* event) override;
 
     bool
-    openVariable(const QString& variableName);
+    eventFilter(QObject* obj, QEvent* event) override;
 
-private:
-    QTabWidget* m_tabWidget;
-    QMap<QString, QWidget*> m_openedVariables;
-
+private slots:
     void
-    setupUI();
-
+    refreshCurrentVariable();
+    void
+    createVariableFromSelection();
+    void
+    copySelectedCells();
+    void
+    pasteDataFromClipboard();
+    void
+    pasteExcelDataFromClipboard();
     void
     closeTab(int index);
+    void
+    handleDockLocationChanged(Qt::DockWidgetArea area);
 
     void
-    closeEvent(QCloseEvent* event);
+    insertRowAbove();
+    void
+    insertRowBelow();
+    void
+    insertColumnLeft();
+    void
+    insertColumnRight();
+    void
+    deleteRow();
+    void
+    deleteColumn();
+
+    void
+    onModelSelectionCreated(const QString& suggestedName, const ArrayOf& newArray);
+    void
+    onModelError(const QString& message);
+
+    void
+    replaceByEmpty();
+
+    void
+    undo();
+    void
+    redo();
+
+private:
+    void
+    setupUI();
+    void
+    createTableContextMenu(QTableView* tableView);
+    void
+    createTextEditContextMenu(QTextEdit* textEdit);
+
+    void
+    closeVariableTab(const QString& variableName);
+    void
+    updateTabTitle(const QString& variableName);
+    void
+    refreshVariable(const QString& variableName);
+    QString
+    getVariableContentAsString(const ArrayOf& variable);
+    bool
+    shouldDisplayAsText(const ArrayOf& value);
+    bool
+    shouldDisplayAsTable(const ArrayOf& value);
+
+    QString
+    preprocessExcelData(const QString& rawData);
+
+    QTabWidget* m_tabWidget = nullptr;
+    QToolBar* m_toolBar = nullptr;
+    QSizeGrip* m_sizeGrip = nullptr;
+
+    QAction* m_undoAction = nullptr;
+    QAction* m_redoAction = nullptr;
+
+    QAction* m_refreshAction = nullptr;
+    QAction* m_createVariableAction = nullptr;
+    QAction* m_copyAction = nullptr;
+    QAction* m_pasteAction = nullptr;
+    QAction* m_pasteExcelDataAction = nullptr;
+    QAction* m_insertRowAboveAction = nullptr;
+    QAction* m_insertRowBelowAction = nullptr;
+    QAction* m_insertColLeftAction = nullptr;
+    QAction* m_insertColRightAction = nullptr;
+    QAction* m_deleteRowAction = nullptr;
+    QAction* m_deleteColAction = nullptr;
+    QAction* m_replaceByEmptyAction = nullptr;
+
+    // Data
+    Evaluator* m_evaluator = nullptr;
+    QHash<QString, QWidget*> m_openedVariables;
 };
 //=============================================================================

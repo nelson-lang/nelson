@@ -54,13 +54,13 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 2 * (int)P.getElementCount() + 2);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
-    ArrayOf STABLE_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf STABLE_output = ArrayOf::int32RowVectorConstructor(1);
     int* STABLE_output_ptr = (int*)STABLE_output.getDataPointer();
-    ArrayOf NZ_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NZ_output = ArrayOf::int32RowVectorConstructor(1);
     int* NZ_output_ptr = (int*)NZ_output.getDataPointer();
-    ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf IWARN_output = ArrayOf::int32RowVectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {

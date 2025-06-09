@@ -15,7 +15,7 @@ function varargout = properties(T)
   else
     rowPropertyName = 'Row';
   end
-  props = [props; {'Properties'; rowPropertyName; 'Variable'}];
+  props = [props; {'Properties'; rowPropertyName; 'Variables'}];
   if (nargout == 0)
     currentFormat = format();
     if strcmp(currentFormat.LineSpacing, 'loose')

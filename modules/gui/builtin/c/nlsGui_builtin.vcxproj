@@ -185,7 +185,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\bannerBuiltin.cpp" />
-    <ClCompile Include="..\cpp\variableseditorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\openvarBuiltin.cpp" />
     <ClCompile Include="..\cpp\filebrowserBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\historybrowserBuiltin.cpp" />
@@ -226,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\bannerBuiltin.hpp" />
-    <ClInclude Include="..\include\variableseditorBuiltin.hpp" />
+    <ClInclude Include="..\include\openvarBuiltin.hpp" />
     <ClInclude Include="..\include\filebrowserBuiltin.hpp" />
     <ClInclude Include="..\include\historybrowserBuiltin.hpp" />
     <ClInclude Include="..\include\inserthtmlBuiltin.hpp" />

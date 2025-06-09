@@ -11,125 +11,74 @@
 #include "QtVariablesEditor.h"
 #include "QStringConverter.hpp"
 #include "NelsonConfiguration.hpp"
-#include <mutex>
 //=============================================================================
 namespace Nelson::VariablesEditor {
 //=============================================================================
-class VariablesEditorSingleton
-{
-private:
-    static std::mutex mutex_;
-    static QtVariablesEditor* instance_;
-
-public:
-    static QtVariablesEditor*
-    instance(Context* context = nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (!instance_ && context) {
-            instance_ = new QtVariablesEditor(nullptr);
-            instance_->setContext(context);
-            instance_->restorePosition();
-        }
-        return instance_;
-    }
-
-    static bool
-    destroy()
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (instance_) {
-            instance_->savePositionAndVisibility();
-            instance_->deleteLater();
-            instance_ = nullptr;
-            return true;
-        }
-        return false;
-    }
-
-    static QtVariablesEditor*
-    getRef()
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return instance_;
-    }
-};
-
-// Static member definitions
-std::mutex VariablesEditorSingleton::mutex_;
-QtVariablesEditor* VariablesEditorSingleton::instance_ = nullptr;
-
+static QtVariablesEditor* qtVariablesEditor = nullptr;
 //=============================================================================
 void*
 getVariablesEditor()
 {
-    return VariablesEditorSingleton::getRef();
+    return qtVariablesEditor;
 }
 //=============================================================================
 bool
 isVariablesEditorVisible()
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    return editor ? editor->isVisible() : false;
+    if (qtVariablesEditor) {
+        return qtVariablesEditor->isVisible();
+    }
+    return false;
 }
 //=============================================================================
 void
 showVariablesEditor()
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        editor->show();
-        editor->activateWindow();
-        editor->raise();
+    if (qtVariablesEditor) {
+        qtVariablesEditor->show();
+        qtVariablesEditor->activateWindow();
+        qtVariablesEditor->raise();
     }
 }
 //=============================================================================
 void
 hideVariablesEditor()
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        editor->hide();
+    if (qtVariablesEditor) {
+        qtVariablesEditor->hide();
     }
 }
 //=============================================================================
 void
 toggleVisibilityVariablesEditor()
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        if (editor->isVisible()) {
-            editor->hide();
+    if (qtVariablesEditor) {
+        if (qtVariablesEditor->isVisible()) {
+            qtVariablesEditor->hide();
         } else {
-            editor->show();
-            editor->activateWindow();
-            editor->raise();
+            qtVariablesEditor->show();
         }
     }
 }
 //=============================================================================
 bool
-createVariablesEditor(Context* context)
+createVariablesEditor(Evaluator* eval)
 {
-    return (VariablesEditorSingleton::instance(context) != nullptr);
+    if (!qtVariablesEditor) {
+        qtVariablesEditor = new QtVariablesEditor(nullptr);
+        qtVariablesEditor->setEvaluator(eval);
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 bool
 destroyVariablesEditor()
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        return VariablesEditorSingleton::destroy();
-    }
-    return true;
-}
-//=============================================================================
-bool
-updateVariablesEditor()
-{
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        editor->updateVariables();
+    if (qtVariablesEditor) {
+        qtVariablesEditor->savePosition();
+        qtVariablesEditor->deleteLater();
+        qtVariablesEditor = nullptr;
         return true;
     }
     return false;
@@ -138,13 +87,25 @@ updateVariablesEditor()
 bool
 openVariable(const std::wstring& variableName)
 {
-    auto* editor = VariablesEditorSingleton::getRef();
-    if (editor) {
-        return editor->openVariable(wstringToQString(variableName));
+    if (qtVariablesEditor) {
+        bool res = qtVariablesEditor->openVariable(wstringToQString(variableName));
+        if (res) {
+            qtVariablesEditor->show();
+        }
+        return res;
     }
-
     return false;
 }
 //=============================================================================
-} // namespace Nelson::VariablesEditor
+bool
+updateVariablesEditor()
+{
+    if (qtVariablesEditor) {
+        qtVariablesEditor->updateVariables();
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+}
 //=============================================================================

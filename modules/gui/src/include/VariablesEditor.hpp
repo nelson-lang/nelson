@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsGui_exports.h"
-#include "Context.hpp"
+#include "Evaluator.hpp"
 #include <string>
 //=============================================================================
 namespace Nelson::VariablesEditor {
@@ -19,7 +19,7 @@ NLSGUI_IMPEXP void*
 getVariablesEditor();
 //=============================================================================
 NLSGUI_IMPEXP bool
-createVariablesEditor(Context* context);
+createVariablesEditor(Evaluator* eval);
 //=============================================================================
 NLSGUI_IMPEXP bool
 destroyVariablesEditor();
@@ -40,7 +40,7 @@ NLSGUI_IMPEXP bool
 updateVariablesEditor();
 //=============================================================================
 NLSGUI_IMPEXP bool
-openVariable(const std::wstring &variableName);
+openVariable(const std::wstring& variableName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

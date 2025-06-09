@@ -18,7 +18,7 @@
 #include "historybrowserBuiltin.hpp"
 #include "filebrowserBuiltin.hpp"
 #include "workspacebrowserBuiltin.hpp"
-#include "variableseditorBuiltin.hpp"
+#include "openvarBuiltin.hpp"
 //=============================================================================
 #include "NelsonConfiguration.hpp"
 #include "NelSon_engine_mode.h"
@@ -41,8 +41,7 @@ static const nlsGateway gateway[] = {
     { "filebrowser", (ptrBuiltin)Nelson::GuiGateway::filebrowserBuiltin, 0, 2 },
     { "workspace", (ptrBuiltin)Nelson::GuiGateway::workspacebrowserBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "editvar", (ptrBuiltin)Nelson::GuiGateway::variableseditorBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "openvar", (ptrBuiltin)Nelson::GuiGateway::openvarBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
 
 };
 //=============================================================================

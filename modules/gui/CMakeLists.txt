@@ -41,6 +41,8 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../qml_engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../dictionary/src/include
+
           )
 # ==============================================================================
 target_link_libraries(
@@ -59,6 +61,7 @@ target_link_libraries(
     nlsCommons
     nlsEngine
     nlsText_completion
+    nlsDictionary
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::PrintSupport)

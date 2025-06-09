@@ -181,7 +181,7 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(
                 _W("Valid color string expected."), L"Nelson:graphics:validatecolor:InvalidColor");
         } else {
-            ArrayOf res = ArrayOf::doubleVectorConstructor(3);
+            ArrayOf res = ArrayOf::doubleRowVectorConstructor(3);
             double* dp = (double*)(res.getDataPointer());
             if (dp) {
                 dp[0] = rgb[0];

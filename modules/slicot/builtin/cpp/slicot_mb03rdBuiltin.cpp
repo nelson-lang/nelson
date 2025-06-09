@@ -66,19 +66,19 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     X_output.ensureSingleOwner();
     double* X_output_ptr = (double*)X_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf LDX = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDX = ArrayOf::int32RowVectorConstructor(1);
     int* LDX_ptr = (int*)LDX.getDataPointer();
     LDX_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, (int)A.getColumns());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
-    ArrayOf NBLCKS_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NBLCKS_output = ArrayOf::int32RowVectorConstructor(1);
     int* NBLCKS_output_ptr = (int*)NBLCKS_output.getDataPointer();
     ArrayOf BLSIZE_output
         = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
@@ -89,7 +89,7 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf WI_output
         = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOBX.isScalar()) {

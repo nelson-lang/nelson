@@ -55,10 +55,10 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(int nLhs, const ArrayOfVector& argIn
     A_output.ensureSingleOwner();
     double* A_output_ptr = (double*)A_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)N.getContentAsInteger32Scalar());
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, (int)N.getContentAsInteger32Scalar());
@@ -69,20 +69,20 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(int nLhs, const ArrayOfVector& argIn
                     + (int)NDIAG.getContentAsInteger32Scalar() + 1)
             + (int)NDIAG.getContentAsInteger32Scalar());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
-    ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDWORK = ArrayOf::int32RowVectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = (int)N.getContentAsInteger32Scalar()
             * (2 * (int)N.getContentAsInteger32Scalar() + (int)NDIAG.getContentAsInteger32Scalar()
                 + 1)
         + (int)NDIAG.getContentAsInteger32Scalar();
     // OUTPUT VARIABLES
-    ArrayOf MDIG_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf MDIG_output = ArrayOf::int32RowVectorConstructor(1);
     int* MDIG_output_ptr = (int*)MDIG_output.getDataPointer();
-    ArrayOf IDIG_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf IDIG_output = ArrayOf::int32RowVectorConstructor(1);
     int* IDIG_output_ptr = (int*)IDIG_output.getDataPointer();
-    ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf IWARN_output = ArrayOf::int32RowVectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsBALANC.isScalar()) {

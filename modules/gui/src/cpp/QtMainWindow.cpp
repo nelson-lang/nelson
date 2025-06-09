@@ -42,9 +42,11 @@
 #include "QtWorkspaceBrowser.h"
 #include "QtHistoryBrowser.h"
 #include "QtFileBrowser.h"
+#include "QtVariablesEditor.h"
 #include "HistoryBrowser.hpp"
 #include "FileBrowser.hpp"
 #include "WorkspaceBrowser.hpp"
+#include "VariablesEditor.hpp"
 #include "nlsBuildConfig.h"
 //=============================================================================
 using namespace Nelson;
@@ -377,17 +379,21 @@ QtMainWindow::workspaceBrowserToggle()
 }
 //=============================================================================
 void
-QtMainWindow::createDockWigdets(Context* context)
+QtMainWindow::createDockWigdets(Evaluator* eval)
 {
     FileBrowser::createFileBrowser();
     HistoryBrowser::createHistoryBrowser();
-    WorkspaceBrowser::createWorkspaceBrowser(context);
+    WorkspaceBrowser::createWorkspaceBrowser(eval->getContext());
+    VariablesEditor::createVariablesEditor(eval);
 
     QtWorkspaceBrowser* qtWorkspaceBrowser
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
     QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
     QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+    QtVariablesEditor* qtVariablesEditor
+        = (QtVariablesEditor*)VariablesEditor::getVariablesEditor();
 
+    addDockWidget(Qt::TopDockWidgetArea, (QDockWidget*)qtVariablesEditor);
     addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
     addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
     addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtHistoryBrowser);
@@ -396,12 +402,15 @@ QtMainWindow::createDockWigdets(Context* context)
         qtWorkspaceBrowser, SIGNAL(closeWorkspaceBrowser()), this, SLOT(onCloseWorkspaceBrowser()));
     connect(qtFileBrowser, SIGNAL(closeFileBrowser()), this, SLOT(onCloseFileBrowser()));
     connect(qtHistoryBrowser, SIGNAL(closeHistoryBrowser()), this, SLOT(onCloseHistoryBrowser()));
+    connect(
+        qtVariablesEditor, SIGNAL(closeVariablesEditor()), this, SLOT(onCloseVariablesEditor()));
 
     restoreDockWidgetPositions();
 
     qtWorkspaceBrowser->restoreVisibility();
     qtHistoryBrowser->restoreVisibility();
     qtFileBrowser->restoreVisibility();
+    qtVariablesEditor->hide();
 
     workspaceBrowserAction->setChecked(WorkspaceBrowser::isWorkspaceBrowserVisible());
     historyBrowserAction->setChecked(HistoryBrowser::isHistoryBrowserVisible());
@@ -415,6 +424,7 @@ QtMainWindow::destroyDockWigdets()
     FileBrowser::destroyFileBrowser();
     HistoryBrowser::destroyHistoryBrowser();
     WorkspaceBrowser::destroyWorkspaceBrowser();
+    VariablesEditor::destroyVariablesEditor();
 }
 //=============================================================================
 void
@@ -738,12 +748,19 @@ QtMainWindow::onCloseFileBrowser()
 }
 //=============================================================================
 void
+QtMainWindow::onCloseVariablesEditor()
+{
+}
+//=============================================================================
+void
 QtMainWindow::onLayoutTerminalOnly()
 {
     QtWorkspaceBrowser* qtWorkspaceBrowser
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
     QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
     QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+    QtVariablesEditor* qtVariablesEditor
+        = (QtVariablesEditor*)VariablesEditor::getVariablesEditor();
 
     qtWorkspaceBrowser->hide();
     qtWorkspaceBrowser->setFloating(false);
@@ -751,6 +768,8 @@ QtMainWindow::onLayoutTerminalOnly()
     qtFileBrowser->setFloating(false);
     qtHistoryBrowser->hide();
     qtHistoryBrowser->setFloating(false);
+    qtVariablesEditor->hide();
+    qtVariablesEditor->setFloating(false);
 
     historyBrowserAction->setChecked(false);
     fileBrowserAction->setChecked(false);
@@ -766,6 +785,8 @@ QtMainWindow::onLayoutDefaultAction()
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
     QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
     QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+    QtVariablesEditor* qtVariablesEditor
+        = (QtVariablesEditor*)VariablesEditor::getVariablesEditor();
 
     qtWorkspaceBrowser->hide();
     qtWorkspaceBrowser->setFloating(false);
@@ -773,6 +794,8 @@ QtMainWindow::onLayoutDefaultAction()
     qtFileBrowser->setFloating(false);
     qtHistoryBrowser->hide();
     qtHistoryBrowser->setFloating(false);
+    qtVariablesEditor->hide();
+    qtVariablesEditor->setFloating(false);
 
     addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
     addDockWidget(Qt::RightDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);
@@ -796,6 +819,8 @@ QtMainWindow::onLayoutTwoColumnsAction()
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
     QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
     QtFileBrowser* qtFileBrowser = (QtFileBrowser*)FileBrowser::getFileBrowser();
+    QtVariablesEditor* qtVariablesEditor
+        = (QtVariablesEditor*)VariablesEditor::getVariablesEditor();
 
     qtWorkspaceBrowser->hide();
     qtWorkspaceBrowser->setFloating(false);
@@ -803,6 +828,8 @@ QtMainWindow::onLayoutTwoColumnsAction()
     qtFileBrowser->setFloating(false);
     qtHistoryBrowser->hide();
     qtHistoryBrowser->setFloating(false);
+    qtVariablesEditor->hide();
+    qtVariablesEditor->setFloating(false);
 
     addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtFileBrowser);
     addDockWidget(Qt::LeftDockWidgetArea, (QDockWidget*)qtWorkspaceBrowser);

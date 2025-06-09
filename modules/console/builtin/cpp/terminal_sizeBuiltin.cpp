@@ -22,7 +22,7 @@ Nelson::ConsoleGateway::terminal_sizeBuiltin(Evaluator* eval, int nLhs, const Ar
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            ArrayOf v = ArrayOf::doubleVectorConstructor(2);
+            ArrayOf v = ArrayOf::doubleRowVectorConstructor(2);
             double* ptrDouble = (double*)v.getDataPointer();
             ptrDouble[0] = (double)io->getTerminalHeight();
             ptrDouble[1] = (double)io->getTerminalWidth();

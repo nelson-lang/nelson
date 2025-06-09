@@ -43,7 +43,7 @@ Nelson::SpreadsheetGateway::detectImportOptionsBuiltin(int nLhs, const ArrayOfVe
     fieldvalues << ArrayOf::doubleConstructor(options.VariableNamesLine);
     fieldvalues << ArrayOf::toCellArrayOfCharacterRowVectors(options.VariableNames);
     fieldvalues << ArrayOf::doubleConstructor(options.RowNamesColumn);
-    fieldvalues << ArrayOf::doubleVectorConstructor(options.DataLines);
+    fieldvalues << ArrayOf::doubleRowVectorConstructor(options.DataLines);
 
     ArrayOf importOptions
         = ArrayOf::classConstructor("DelimitedTextImportOptions", fieldnames, fieldvalues);

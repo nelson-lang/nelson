@@ -89,16 +89,6 @@ private:
     void
     deleteContents();
 
-    /** Get the internal index corresponding to a given field name.
-     * Get the internal index corresponding to a given field name.  This
-     * is the index into the fieldname array of the argument.  If the
-     * argument is not found, a value of -1 is returned.
-     */
-    [[nodiscard]] int64
-    getFieldIndex(const std::string& fieldName) const;
-    [[nodiscard]] int64
-    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
-
     /* Check all fieldnames are valid */
     static bool
     haveValidFieldNames(const stringVector& fieldnames);
@@ -663,77 +653,154 @@ public:
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    uint8VectorConstructor(indexType len);
+    uint8RowVectorConstructor(indexType len);
 
     /**
      * int8 vector constructor - Construct an NLS_INT8 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int8VectorConstructor(indexType len);
+    int8RowVectorConstructor(indexType len);
 
     /**
      * uint16 vector constructor - Construct an NLS_UINT16 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    uint16VectorConstructor(indexType len);
+    uint16RowVectorConstructor(indexType len);
 
     /**
      * int16 vector constructor - Construct an NLS_INT16 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int16VectorConstructor(indexType len);
+    int16RowVectorConstructor(indexType len);
 
     /**
      * uint32 vector constructor - Construct an NLS_UINT32 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    uint32VectorConstructor(indexType len);
+    uint32RowVectorConstructor(indexType len);
 
     /**
      * int32 vector constructor - Construct an NLS_INT32 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int32VectorConstructor(indexType len);
+    int32RowVectorConstructor(indexType len);
 
     /**
      * uint64 vector constructor - Construct an NLS_UINT64 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    uint64VectorConstructor(indexType len);
+    uint64RowVectorConstructor(indexType len);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int64VectorConstructor(indexType len);
+    int64RowVectorConstructor(indexType len);
+
+    /**
+     * uint8 vector constructor - Construct an NLS_UINT8 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    uint8RowVectorConstructor(const std::vector<uint8>& values);
+
+    /**
+     * uint16 vector constructor - Construct an NLS_UINT16 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    uint16RowVectorConstructor(const std::vector<uint16>& values);
+
+    /**
+     * uint32 vector constructor - Construct an NLS_UINT32 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    uint32RowVectorConstructor(const std::vector<uint32>& values);
+
+    /**
+     * uint64 vector constructor - Construct an NLS_UINT64 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    uint64RowVectorConstructor(const std::vector<uint64>& values);
+
+    /**
+     * int8 vector constructor - Construct an NLS_INT8 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    int8RowVectorConstructor(const std::vector<int8>& values);
+
+    /**
+     * int16 vector constructor - Construct an NLS_INT16 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    int16RowVectorConstructor(const std::vector<int16>& values);
+
+    /**
+     * int32 vector constructor - Construct an NLS_INT32 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    int32RowVectorConstructor(const std::vector<int32>& values);
+
+    /**
+     * int64 vector constructor - Construct an NLS_INT64 object
+     * that is a (row) vector with the given values.
+     */
+    static ArrayOf
+    int64RowVectorConstructor(const std::vector<int64>& values);
 
     /**
      * Double vector constructor - Construct an NLS_DOUBLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleVectorConstructor(indexType len);
+    doubleRowVectorConstructor(indexType len);
 
     /**
      * Double vector constructor - Construct an NLS_DOUBLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleVectorConstructor(std::vector<double> values);
+    doubleRowVectorConstructor(std::vector<double>& values);
+
+    /**
+     * Double complex vector constructor - Construct an NLS_DCOMPLEX object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    doubleComplexRowVectorConstructor(std::vector<std::complex<double>>& values);
 
     /**
      * Single vector constructor - Construct an NLS_SINGLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    singleVectorConstructor(indexType len);
+    singleRowVectorConstructor(indexType len);
+
+    /**
+     * single complex vector constructor - Construct an NLS_SCOMPLEX object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    singleComplexRowVectorConstructor(std::vector<std::complex<single>>& values);
+
+    /**
+     * single vector constructor - Construct an NLS_SINGLE object
+     * that is a (row) vector with the given length.
+     */
+    static ArrayOf
+    singleRowVectorConstructor(std::vector<single>& values);
 
     /**
      * int32 matrix constructor - Construct an NLS_INT32 object
@@ -1214,6 +1281,16 @@ public:
     ArrayOfVector
     getFieldAsList(const std::string& fieldName) const;
 
+    /** Get the internal index corresponding to a given field name.
+     * Get the internal index corresponding to a given field name.  This
+     * is the index into the fieldname array of the argument.  If the
+     * argument is not found, a value of -1 is returned.
+     */
+    [[nodiscard]] int64
+    getFieldIndex(const std::string& fieldName) const;
+    [[nodiscard]] int64
+    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
+
     //=========================================================================
     // struct array
     //=========================================================================
@@ -1253,6 +1330,8 @@ public:
     [[nodiscard]] bool
     isStruct() const;
 
+    bool
+    renameFieldnames(const stringVector& newFieldnames);
     //=========================================================================
     // function_handle array
     //=========================================================================
@@ -1436,9 +1515,11 @@ public:
     [[nodiscard]] go_handle
     getContentAsGraphicsObjectScalar() const;
 
-    //=========================================================================
-    // Table class object
-    //=========================================================================
+//=========================================================================
+// Table class object
+//=========================================================================
+#define NLS_TABLE_TYPE "table"
+
     /*
      * check is Table type
      */
@@ -1454,7 +1535,7 @@ public:
      * @param columnValues A collection of vectors, where each vector represents the
      *                     values in a single column of the table. All columns should
      *                     have the same number of rows for consistency.
-     * @param variableNames(optional: empty)  A vector of strings representing the names of the
+     * @param variableNames (optional: empty) A vector of strings representing the names of the
      * columns in the table. The size of this vector should match the number of columns in
      * `columnValues`.
      * @param rowNames (optional: empty) A vector of strings representing the names of the rows in
@@ -1464,10 +1545,156 @@ public:
      * @return An `ArrayOf` object representing the constructed table, with the
      *         specified column values, variable names, and row names.
      */
-
     static ArrayOf
     tableConstructor(const ArrayOfVector& columnValues, const stringVector& variableNames,
         const stringVector& rowNames);
+
+    /**
+     * @brief Gets the raw data from the table.
+     *
+     * This function returns the underlying data structure of the table,
+     * typically containing all the column values without metadata.
+     *
+     * @return An `ArrayOf` object containing the table's raw data.
+     */
+    ArrayOf
+    getTableData() const;
+
+    /**
+     * @brief Gets the properties of the table.
+     *
+     * This function returns metadata and properties associated with the table,
+     * such as column types, dimensions, and other table characteristics.
+     *
+     * @return An `ArrayOf` object containing the table's properties and metadata.
+     */
+    ArrayOf
+    getTableProperties() const;
+
+    /**
+     * @brief Gets the variable (column) names of the table.
+     *
+     * This function returns a vector of strings containing the names of all
+     * columns in the table.
+     *
+     * @return A vector of strings representing the column names.
+     */
+    stringVector
+    getTableVariableNames() const;
+
+    /**
+     * @brief Gets the variable (column) types of the table.
+     *
+     * This function returns a vector of strings containing the data types
+     * of all columns in the table (e.g., "double", "string", "logical").
+     *
+     * @return A vector of strings representing the column data types.
+     */
+    stringVector
+    getTableVariableTypes() const;
+
+    /**
+     * @brief Gets the row names of the table.
+     *
+     * This function returns a vector of strings containing the names of all
+     * rows in the table, if row names were specified during construction.
+     *
+     * @return A vector of strings representing the row names.
+     */
+    stringVector
+    getTableRowNames() const;
+
+    /**
+     * @brief Gets the width (number of columns) of the table.
+     *
+     * This function returns the total number of columns in the table.
+     *
+     * @return The number of columns as an `indexType`.
+     */
+    indexType
+    getTableWidth() const;
+
+    /**
+     * @brief Gets the height (number of rows) of the table.
+     *
+     * This function returns the total number of rows in the table.
+     *
+     * @return The number of rows as an `indexType`.
+     */
+    indexType
+    getTableHeight() const;
+
+    /**
+     * @brief Gets the dimensions of the table.
+     *
+     * This function returns a `Dimensions` object containing both the width
+     * (number of columns) and height (number of rows) of the table.
+     *
+     * @return A `Dimensions` object representing the table's dimensions.
+     */
+    Dimensions
+    getTableDimensions() const;
+
+    /**
+     * @brief Checks if the table is empty.
+     *
+     * This function determines whether the table contains any data or if it
+     * has zero rows and/or zero columns.
+     *
+     * @return `true` if the table is empty, `false` otherwise.
+     */
+    bool
+    isTableEmpty() const;
+
+    /**
+     * @brief Gets a specific column from the table by name.
+     *
+     * This function retrieves a column from the table using the column's name.
+     * If the specified column name does not exist, an appropriate error should be handled.
+     *
+     * @param columnName The name of the column to retrieve.
+     * @return An `ArrayOf` object containing the data from the specified column.
+     */
+    ArrayOf
+    getTableColumn(const std::string& columnName) const;
+
+    /**
+     * @brief Gets a specific column from the table by index.
+     *
+     * This function retrieves a column from the table using the column's zero-based index.
+     * If the specified index is out of bounds, an appropriate error should be handled.
+     *
+     * @param columnIndex The zero-based index of the column to retrieve.
+     * @return An `ArrayOf` object containing the data from the specified column.
+     */
+    ArrayOf
+    getTableColumn(indexType columnIndex) const;
+
+    /**
+     * @brief Sets the data for a specific column in the table by name.
+     *
+     * This function replaces the data in an existing column with new data.
+     * The column must already exist in the table, and the new data should have
+     * the same number of rows as the existing table.
+     *
+     * @param columnName The name of the column to update.
+     * @param columnData The new data for the column as an `ArrayOf` object.
+     */
+    void
+    setTableColumn(const std::string& columnName, const ArrayOf& columnData);
+
+    /**
+     * @brief Adds a new column to the table.
+     *
+     * This function adds a new column with the specified name and data to the table.
+     * The column name should be unique, and the column data should have the same
+     * number of rows as the existing table (if the table is not empty).
+     *
+     * @param columnName The name of the new column to add.
+     * @param columnData The data for the new column as an `ArrayOf` object.
+     */
+    void
+    addTableColumn(const std::string& columnName, const ArrayOf& columnData);
 
     //=========================================================================
     // Missing object
