@@ -15,6 +15,7 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "HistoryBrowser.hpp"
+#include "VariablesEditor.hpp"
 //=============================================================================
 static QtTerminal* qtterm = nullptr;
 static QtMainWindow* qtMainWindow = nullptr;
@@ -42,6 +43,7 @@ std::wstring
 GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     std::wstring line;
+    Nelson::VariablesEditor::updateVariablesEditor();
     if (qtterm) {
         this->diary.writeMessage(L"\n");
         this->diary.writeMessage(prompt);
