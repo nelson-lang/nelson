@@ -174,9 +174,6 @@ QtWorkspaceBrowser::doubleClicked(const QModelIndex& index)
     QStandardItem* nameItem = m_model->item(selectedRow, NAME_COLUMN);
     if (nameItem) {
         QString name = nameItem->text();
-        if (!VariablesEditor::getVariablesEditor()) {
-            VariablesEditor::createVariablesEditor(m_context);
-        }
         VariablesEditor::openVariable(name.toStdWString());
         VariablesEditor::showVariablesEditor();
     }

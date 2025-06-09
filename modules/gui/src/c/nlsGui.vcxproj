@@ -27,7 +27,12 @@
     <ClCompile Include="..\cpp\moc_QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtHistoryBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtVariablesEditor.cpp" />
+    <ClCompile Include="..\cpp\moc_QtVariableTextEdit.cpp" />
     <ClCompile Include="..\cpp\moc_QtWorkspaceBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_VariableAbstractTableModel.cpp" />
+    <ClCompile Include="..\cpp\moc_VariableDefaultModel.cpp" />
+    <ClCompile Include="..\cpp\moc_VariableDoubleTableModel.cpp" />
+    <ClCompile Include="..\cpp\moc_VariableStringTableModel.cpp" />
     <ClCompile Include="..\cpp\QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\QtHistoryBrowser.cpp" />
     <ClCompile Include="..\cpp\HtmlToPdf.cpp" />
@@ -46,16 +51,90 @@
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
     <ClCompile Include="..\cpp\QtVariablesEditor.cpp" />
+    <ClCompile Include="..\cpp\QtVariableTextEdit.cpp" />
     <ClCompile Include="..\cpp\QtWorkspaceBrowser.cpp" />
     <ClCompile Include="..\cpp\QuestionBox.cpp" />
     <ClCompile Include="..\cpp\ForceWindowsTitleBarToDark.cpp" />
     <ClCompile Include="..\cpp\UiGetDirectory.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\VariablesEditor.cpp" />
+    <ClCompile Include="..\cpp\VariableDoubleTableModel.cpp" />
+    <ClCompile Include="..\cpp\VariableDefaultModel.cpp" />
+    <ClCompile Include="..\cpp\VariableStringTableModel.cpp" />
     <ClCompile Include="..\cpp\WorkspaceBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\cpp\QtVariablesEditor.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\VariableDoubleTableModel.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\VariableDefaultModel.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\VariableAbstractTableModel.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\QtVariableTextEdit.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\VariableStringTableModel.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>

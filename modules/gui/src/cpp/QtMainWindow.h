@@ -33,7 +33,7 @@ public:
     declareAsClosed();
 
     void
-    createDockWigdets(Context* context);
+    createDockWigdets(Evaluator* eval);
 
     bool
     isClose() const
@@ -169,5 +169,7 @@ public Q_SLOTS:
     onCloseHistoryBrowser();
     void
     onCloseFileBrowser();
+    void
+    onCloseVariablesEditor();
 };
 //=============================================================================
