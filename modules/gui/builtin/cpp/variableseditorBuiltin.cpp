@@ -30,7 +30,7 @@ Nelson::GuiGateway::variableseditorBuiltin(Evaluator* eval, int nLhs, const Arra
     case 1: {
         std::wstring variableName = argIn[0].getContentAsWideString();
         if (!VariablesEditor::getVariablesEditor()) {
-            VariablesEditor::createVariablesEditor(eval->getContext());
+            VariablesEditor::createVariablesEditor(eval);
         }
         VariablesEditor::openVariable(variableName);
         VariablesEditor::showVariablesEditor();
