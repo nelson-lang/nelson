@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - i18nExtractor reworked (faster and modernized).
 - Browser variable reworked.
 
+### Fixed
+
+- ensure 'ans' is correctly created only for expressions.
+
 ## 1.14.0 - (2025-05-30)
 
 ### Added
