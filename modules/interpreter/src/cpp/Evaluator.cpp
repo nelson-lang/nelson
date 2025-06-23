@@ -1926,6 +1926,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
                 m = rhsExpression(t->down, 0);
             } else {
+                bUpdateAns = false;
                 if (b.isCell()) {
                     try {
                         m = rhsExpression(t->down);
