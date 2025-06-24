@@ -1468,6 +1468,22 @@ public:
     static ArrayOf
     tableConstructor(const ArrayOfVector& columnValues, const stringVector& variableNames,
         const stringVector& rowNames);
+
+    //=========================================================================
+    // Missing object
+    //=========================================================================
+
+    /**
+     * missing scalar constructor
+     */
+    static ArrayOf
+    missingScalarConstructor();
+
+    bool
+    isMissing() const;
+
+    bool
+    isNdArrayMissing() const;
 };
 //=========================================================================
 bool

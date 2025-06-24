@@ -211,6 +211,11 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
 {
     if (type1 == type2) {
         return type1;
+    } else if (type1 == NLS_MISSING_ARRAY || type2 == NLS_MISSING_ARRAY) {
+        if (type1 == NLS_MISSING_ARRAY) {
+            return type2;
+        }
+        return type1;
     } else if (type1 == NLS_HANDLE || type2 == NLS_HANDLE) {
         return NLS_HANDLE;
     } else if (type1 == NLS_GO_HANDLE || type2 == NLS_GO_HANDLE) {

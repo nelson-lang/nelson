@@ -134,6 +134,10 @@ Data::freeDataBlock()
 {
     if (cp) {
         switch (dataClass) {
+        case NLS_MISSING_ARRAY: {
+            auto* rp = static_cast<double*>(cp);
+            delete[] rp;
+        } break;
         case NLS_CELL_ARRAY: {
             auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;

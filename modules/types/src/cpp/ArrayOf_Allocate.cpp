@@ -109,6 +109,9 @@ ArrayOf::allocateArrayOf(
     case NLS_CHAR: {
         return (void*)new_with_exception<charType>(length, initializeValues);
     } break;
+    case NLS_MISSING_ARRAY: {
+        return (void*)new_with_exception<double>(length, initializeValues);
+    } break;
     default: {
     } break;
     }
@@ -122,6 +125,10 @@ ArrayOf::deleteArrayOf(void* dp, NelsonType dataclass)
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         auto* rp = static_cast<nelson_handle*>(dp);
+        delete[] rp;
+    } break;
+    case NLS_MISSING_ARRAY: {
+        auto* rp = static_cast<double*>(dp);
         delete[] rp;
     } break;
     case NLS_STRING_ARRAY: {

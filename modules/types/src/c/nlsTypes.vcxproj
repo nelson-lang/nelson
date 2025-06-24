@@ -247,6 +247,7 @@
     <ClCompile Include="..\cpp\ArrayOf_HandleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_IntegersType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_LogicalType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_MissingType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_PromoteType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SingleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SparseType.cpp" />

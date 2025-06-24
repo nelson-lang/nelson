@@ -22,6 +22,7 @@
 #include "DisplaySingleComplex.hpp"
 #include "DisplaySparseDouble.hpp"
 #include "DisplaySparseDoubleComplex.hpp"
+#include "DisplayMissing.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -107,6 +108,10 @@ DisplayVariable(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     } break;
     case NLS_SCOMPLEX: {
         DisplaySingleComplex(evaluatorID, io, A, wname, asDisp);
+        needToOverload = false;
+    } break;
+    case NLS_MISSING_ARRAY: {
+        DisplayMissing(evaluatorID, io, A, wname, asDisp);
         needToOverload = false;
     } break;
 

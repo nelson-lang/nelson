@@ -222,6 +222,11 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
         return NLS_CELL_ARRAY;
     } else if (type1 == NLS_STRUCT_ARRAY || type2 == NLS_STRUCT_ARRAY) {
         return NLS_STRUCT_ARRAY;
+    } else if (type1 == NLS_MISSING_ARRAY || type2 == NLS_MISSING_ARRAY) {
+        if (type1 == NLS_MISSING_ARRAY) {
+            return type2;
+        }
+        return type1;
     } else {
         bool type1IsInteger = IS_INTEGER_TYPE(type1);
         bool type2IsInteger = IS_INTEGER_TYPE(type2);

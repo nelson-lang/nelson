@@ -22,6 +22,15 @@ isMissing(const ArrayOf& A, bool& needToOverload)
     logical* resultAslogical = nullptr;
 
     switch (A.getDataClass()) {
+    case NLS_MISSING_ARRAY: {
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        ompIndexType elementCount = dimsA.getElementCount();
+        OMP_PARALLEL_FOR_LOOP(elementCount)
+        for (ompIndexType k = 0; k < elementCount; k++) {
+            resultAslogical[k] = true;
+        }
+    } break;
     case NLS_STRING_ARRAY: {
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));

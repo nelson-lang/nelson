@@ -39,6 +39,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(int nLhs, const ArrayOfVector& 
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY:
     case NLS_FUNCTION_HANDLE:
+    case NLS_MISSING_ARRAY:
     case NLS_STRUCT_ARRAY: {
         double ndims = static_cast<double>(param1.nDims());
         if (ndims < 2) {

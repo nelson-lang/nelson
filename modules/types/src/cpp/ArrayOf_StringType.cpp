@@ -463,6 +463,9 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
             return characterNdArrayTotoStringArray(m);
         }
     } break;
+    case NLS_MISSING_ARRAY: {
+        return realToStringArray<double>(m);
+    } break;
     default: {
         needToOverload = true;
     } break;

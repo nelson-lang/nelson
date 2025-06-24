@@ -245,6 +245,10 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
+    case NLS_MISSING_ARRAY: {
+        typeAsText = L"missing";
+        break;
+    } break;
     default: {
     } break;
     }
@@ -350,6 +354,9 @@ buildHeader(const ArrayOf& A)
         case NLS_CELL_ARRAY:
         case NLS_STRING_ARRAY:
         case NLS_CHAR: {
+            dimensionsForHuman = _W("array");
+        } break;
+        case NLS_MISSING_ARRAY: {
             dimensionsForHuman = _W("array");
         } break;
         default: {
@@ -519,6 +526,10 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         return lightDescription(A, L"{", L"}");
     }
     switch (A.getDataClass()) {
+    case NLS_MISSING_ARRAY: {
+        msg = summarizeCellMissingEntry(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
+    } break;
     case NLS_CELL_ARRAY: {
         if (A.isScalar()) {
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();

@@ -21,6 +21,10 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
+summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat, bool asStructElement);
+//=============================================================================
+std::wstring
 summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement);
 //=============================================================================

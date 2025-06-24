@@ -192,6 +192,9 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
 
     // Switch statement to handle hashing based on data class of the ArrayOf object
     switch (A.getDataClass()) {
+    case NLS_MISSING_ARRAY:
+        handleData<double>(nullptr, hashValue, A);
+        break;
     case NLS_LOGICAL:
         hashNumeric(A);
         break;
