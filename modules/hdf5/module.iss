@@ -12,7 +12,9 @@
 Source: {#RootPath}bin\{#BinPath}\libnlsHdf5.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\libnlsHdf5_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\hdf5.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
+Source: {#RootPath}bin\{#BinPath}\aec.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\zlib1.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
+Source: {#RootPath}bin\{#BinPath}\szip.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\h5dump.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\h5ls.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 ;==============================================================================

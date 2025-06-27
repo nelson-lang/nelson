@@ -17,9 +17,10 @@ rem Remove trailing backslash if present
 set BAT_PATH=%BAT_PATH:~0,-1%
 rem =============================================================================
 if not defined QTDIR64 (
-  set QTDIR64=%BAT_PATH%\..\qt_windows_x64\6.9.0\msvc2022_64
+  for %%i in ("%BAT_PATH%\..\qt_windows_x64\6.9.0\msvc2022_64") do set QTDIR64=%%~fi
 )
-if not exist %QTDIR64% (
+rem =============================================================================
+if not exist "%QTDIR64%" (
     echo %QTDIR64% not found.
     exit /b 1
 )

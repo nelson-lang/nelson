@@ -81,6 +81,16 @@ if exist "%BAT_PATH%\..\..\..\qt_windows_x86\" (
 )
 rem =============================================================================
 set QTDIR32="%BAT_PATH%\..\..\..\qt_windows_x86\5.15.2\msvc2019"
+rem Resolve QTDIR32 to absolute path by temporarily changing directory
+pushd "%BAT_PATH%\..\..\..\qt_windows_x86\5.15.2\msvc2019" 2>nul
+if errorlevel 1 (
+    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_windows_x86\5.15.2\msvc2019"
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+set QTDIR32=%CD%
+popd
+echo QTDIR32 resolved to: %QTDIR32%
 rem =============================================================================
 rem Check and execute the install.bat script
 set INSTALL_SCRIPT=%BAT_PATH%\..\..\..\nelson-thirdparty-win32\install.bat

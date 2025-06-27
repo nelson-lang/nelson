@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - i18nExtractor reworked (faster and modernized).
 - Browser variable reworked.
+- thirdparty on windows (hdf5, zlib, matio).
 
 ### Fixed
 

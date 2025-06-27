@@ -80,7 +80,16 @@ if exist "%BAT_PATH%\..\..\..\qt_windows_x64\" (
     )
 )
 rem =============================================================================
-set QTDIR64="%BAT_PATH%\..\..\..\qt_windows_x64\6.9.0\msvc2022_64"
+rem Resolve QTDIR64 to absolute path by temporarily changing directory
+pushd "%BAT_PATH%\..\..\..\qt_windows_x64\6.9.0\msvc2022_64" 2>nul
+if errorlevel 1 (
+    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_windows_x64\6.9.0\msvc2022_64"
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+set QTDIR64=%CD%
+popd
+echo QTDIR64 resolved to: %QTDIR64%
 rem =============================================================================
 rem Check and execute the install.bat script
 set INSTALL_SCRIPT=%BAT_PATH%\..\..\..\nelson-thirdparty-x64\install.bat
