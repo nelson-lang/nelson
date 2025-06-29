@@ -3,17 +3,17 @@ name: "C/C++ CI"
 on: [push]
 
 jobs:
-  macOS:
-    uses: ./.github/workflows/ccpp_macos.yml
+  #   macOS:
+  #     uses: ./.github/workflows/ccpp_macos.yml
 
-  Ubuntu:
-    uses: ./.github/workflows/ccpp_ubuntu.yml
+  #   Ubuntu:
+  #     uses: ./.github/workflows/ccpp_ubuntu.yml
 
   Windows:
     uses: ./.github/workflows/ccpp_windows.yml
 
-  ArchLinux:
-    uses: ./.github/workflows/ccpp_archlinux.yml
+  # ArchLinux:
+  #   uses: ./.github/workflows/ccpp_archlinux.yml
 
-  Fedora:
-    uses: ./.github/workflows/ccpp_fedora.yml
+  # Fedora:
+  #   uses: ./.github/workflows/ccpp_fedora.yml

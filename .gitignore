@@ -72,12 +72,15 @@ checks.json
 /modules/*/builtin/c/Intel_SSA
 /modules/*/builtin/c/r000sc
 /modules/*/no-src/c/x64
+/modules/*/no-src/c/ARM
 /modules/*/no-src/c/Debug
 /modules/*/no-src/c/Release
 /modules/*/no-builtin/c/x64
+/modules/*/no-builtin/c/ARM
 /modules/*/no-builtin/c/Debug
 /modules/*/no-builtin/c/Release
 /modules/*/src/c/x64
+/modules/*/src/c/ARM
 /modules/*/src/c/Debug
 /modules/*/src/c/Release
 /modules/*/src/c/Intel_SSA
@@ -89,9 +92,11 @@ checks.json
 /modules/gui/nlsGui_automoc.dir
 /modules/*/help/en_US/md/*.html
 /modules/main/nelson_sio_cli/x64
+/modules/main/nelson_sio_cli/ARM
 /modules/main/nelson_sio_cli/Debug
 /modules/main/nelson_sio_cli/Release
 /modules/main/nelson_cli/x64
+/modules/main/nelson_cli/ARM
 /modules/main/nelson_cli/Debug
 /modules/main/nelson_cli/Release
 /modules/main/nelson_cli/Intel_SSA
@@ -99,12 +104,14 @@ checks.json
 /modules/main/nelson_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_adv_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_adv_cli/x64
+/modules/main/nelson_adv_cli/ARM
 /modules/main/nelson_adv_cli/Debug
 /modules/main/nelson_adv_cli/Release
 /modules/main/nelson_adv_cli/Intel_SSA
 /modules/main/nelson_adv_cli/*/r000sc
 /modules/main/nelson_adv_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_gui/x64
+/modules/main/nelson_gui/ARM
 /modules/main/nelson_gui/Debug
 /modules/main/nelson_gui/Release
 /modules/main/nelson_gui/Intel_SSA
@@ -150,6 +157,7 @@ bin/macos/*-exec
 /tools/gettext/i18nExtractor/Release
 /tools/gettext/i18nExtractor/Debug
 /tools/gettext/i18nExtractor/x64
+/tools/gettext/i18nExtractor/ARM
 /tools/gettext/generatemo/*/*/*.log
 /tools/gettext/i18nExtractor/*/*/*.log
 /tools/gettext/license.txt
@@ -165,18 +173,18 @@ bin/macos/*-exec
 /tools/gettext/i18nExtractor/Debug
 /tools/gettext/generatemo/Release
 /tools/gettext/i18nExtractor/x64/
+/tools/gettext/i18nExtractor/ARM/
 /tools/gettext/generatemo/x64/
 /tools/tests_minimal/x64/
 /tools/gettext/generatemo/Debug
 /tools/gettext/generatemo/Debug/generatemo.log
 /tools/gettext/readme.txt
 /tools/innosetup/generated.iss
-/tools/tests/x64/Release
-/tools/tests/x64/Debug
-/tools/buildhelp/x64/Release
-/tools/buildhelp/x64/Debug
-/tools/buildhelp/win32/Release
-/tools/buildhelp/win32/Debug
+/tools/tests/x64/
+/tools/tests/ARM/
+/tools/buildhelp/x64/
+/tools/buildhelp/ARM/
+/tools/buildhelp/win32/
 /tools/buildhelp/Release
 /tools/buildhelp/Debug
 /tools/doxygen/nelson_doxygen
@@ -188,6 +196,7 @@ bin/macos/*-exec
 /modules/commons/src/include/Nelson_VERSION.h
 /modules/commons/src/include/nlsBuildConfig.h
 /modules/*/src/c/*/x64
+/modules/*/src/c/*/ARM
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
 ################################################################################
