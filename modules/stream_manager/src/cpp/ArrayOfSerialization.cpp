@@ -239,6 +239,13 @@ ArrayOfSerialization::set(const ArrayOf& data)
         }
         fullySerialized = true;
     } break;
+    case NLS_MISSING_ARRAY: {
+        double* ptrDouble = (double*)data.getDataPointer();
+        asDouble.reserve(dimsData.getElementCount());
+        asDouble.assign(ptrDouble, ptrDouble + dimsData.getElementCount());
+        fullySerialized = true;
+    } break;
+
     case NLS_CHAR: {
         charType* ptrCharacter = (charType*)data.getDataPointer();
         asCharacter.reserve(dimsData.getElementCount());
@@ -394,6 +401,13 @@ ArrayOfSerialization::get(bool& success)
                     I, J, V, destinationDims.getRows(), destinationDims.getColumns(), nzmax),
                 isSparse);
         }
+        success = true;
+    } break;
+    case NLS_MISSING_ARRAY: {
+        double* ptrDouble = (double*)ArrayOf::allocateArrayOf(
+            NLS_MISSING_ARRAY, destinationDims.getElementCount());
+        res = ArrayOf(NLS_MISSING_ARRAY, destinationDims, ptrDouble);
+        memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size());
         success = true;
     } break;
     case NLS_CHAR: {

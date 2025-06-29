@@ -66,6 +66,7 @@ isSupportedType(const ArrayOf& ValueToEncode)
     case NLS_SINGLE:
     case NLS_DOUBLE:
     case NLS_CHAR:
+    case NLS_MISSING_ARRAY:
         return true;
     case NLS_SCOMPLEX:
         return false;
@@ -359,6 +360,44 @@ jsonEncodeCharacters(const ArrayOf& ValueToEncode)
 }
 //=============================================================================
 static void
+jsonEncodeMissing(const ArrayOf& ValueToEncode)
+{
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        ompIndexType elementCount = ValueToEncode.getElementCount();
+        for (ompIndexType i = 0; i < elementCount; i++) {
+            json_append_string(L"null,");
+        }
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
+        for (indexType i = 0; i < rows; ++i) {
+            json_append_char('[');
+            for (indexType j = 0; j < cols; ++j) {
+                json_append_string(L"null,");
+            }
+            if (StringHelpers::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string(L"],");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (indexType i = 0; i < ymax; ++i) {
+            json_append_char('[');
+            for (indexType j = 0; j < lastdimlen; ++j) {
+                json_append_string(L"null,");
+            }
+            if (StringHelpers::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string(L"],");
+        }
+    }
+}
+//=============================================================================
+static void
 jsonEncodeLogical(const ArrayOf& ValueToEncode)
 {
     auto* ptr = (logical*)ValueToEncode.getDataPointer();
@@ -431,6 +470,9 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         case NLS_HANDLE: {
             errorMessage = _W("Unsupported type to convert as JSON.");
             return {};
+        } break;
+        case NLS_MISSING_ARRAY: {
+            jsonEncodeMissing(ValueToEncode);
         } break;
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {

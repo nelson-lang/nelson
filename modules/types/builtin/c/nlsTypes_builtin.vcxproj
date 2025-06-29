@@ -210,6 +210,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isvarnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\missingBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -259,6 +260,7 @@
     <ClInclude Include="..\include\isuint32Builtin.hpp" />
     <ClInclude Include="..\include\isuint64Builtin.hpp" />
     <ClInclude Include="..\include\isuint8Builtin.hpp" />
+    <ClInclude Include="..\include\missingBuiltin.hpp" />
     <ClInclude Include="..\include\nlsTypes_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

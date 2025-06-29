@@ -73,6 +73,12 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         return Res;
     }
     switch (classA) {
+    case NLS_MISSING_ARRAY: {
+        Res = A;
+        Res.ensureSingleOwner();
+        Res.reshape(dimsRes);
+        return Res;
+    } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             return CtransposeSparseLogical(A);

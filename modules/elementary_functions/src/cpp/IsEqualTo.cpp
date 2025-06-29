@@ -310,6 +310,9 @@ isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverl
         return false;
     }
     switch (A.getDataClass()) {
+    case NLS_MISSING_ARRAY: {
+        return true;
+    } break;
     case NLS_DOUBLE: {
         if (A.isSparse()) {
             return sparsereal_IsEqualTo(A, B);

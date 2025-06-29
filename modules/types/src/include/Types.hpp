@@ -95,6 +95,7 @@ enum NelsonType
     NLS_UINT32,
     NLS_UINT64,
     NLS_LOGICAL,
+    NLS_MISSING_ARRAY,
     NLS_CHAR,
     NLS_STRUCT_ARRAY,
     NLS_CELL_ARRAY,
@@ -139,6 +140,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
+#define NLS_MISSING_ARRAY_STR "missing"
 #define NLS_UNKNOWN_STR "unknown"
 //=============================================================================
 #define NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR "audioplayer"

@@ -17,6 +17,7 @@
 #include "h5SaveLogical.hpp"
 #include "h5SaveHandle.hpp"
 #include "h5SaveFunctionHandle.hpp"
+#include "h5SaveMissing.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,6 +70,9 @@ h5SaveVariable(hid_t fid, const std::string& location, const std::string& variab
     } break;
     case NLS_CHAR: {
         bSuccess = h5SaveCharacterArray(fid, location, variableName, VariableValue, useCompression);
+    } break;
+    case NLS_MISSING_ARRAY: {
+        bSuccess = h5SaveMissing(fid, location, variableName, VariableValue, useCompression);
     } break;
     default: {
         bSuccess = false;

@@ -19,6 +19,7 @@
 #include "h5LoadCell.hpp"
 #include "h5LoadStruct.hpp"
 #include "h5LoadFunctionHandle.hpp"
+#include "h5LoadMissing.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -97,6 +98,9 @@ h5LoadVariable(
     } break;
     case NLS_CHAR: {
         bSuccess = h5LoadCharacterArray(fid, location, variableName, isEmpty, dims, VariableValue);
+    } break;
+    case NLS_MISSING_ARRAY: {
+        bSuccess = h5LoadMissing(fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
     default: {
         return false;

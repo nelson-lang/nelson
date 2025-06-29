@@ -226,6 +226,7 @@
     <ClInclude Include="..\cpp\h5LoadHandle.hpp" />
     <ClInclude Include="..\cpp\h5LoadInteger.hpp" />
     <ClInclude Include="..\cpp\h5LoadLogical.hpp" />
+    <ClInclude Include="..\cpp\h5LoadMissing.hpp" />
     <ClInclude Include="..\cpp\h5LoadSingle.hpp" />
     <ClInclude Include="..\cpp\h5LoadString.hpp" />
     <ClInclude Include="..\cpp\h5LoadStruct.hpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\cpp\h5SaveInteger.hpp" />
     <ClInclude Include="..\cpp\h5SaveLoadHelpers.hpp" />
     <ClInclude Include="..\cpp\h5SaveLogical.hpp" />
+    <ClInclude Include="..\cpp\h5SaveMissing.hpp" />
     <ClInclude Include="..\cpp\h5SaveSingle.hpp" />
     <ClInclude Include="..\cpp\h5SaveString.hpp" />
     <ClInclude Include="..\cpp\h5SaveStruct.hpp" />
@@ -277,6 +279,7 @@
     <ClCompile Include="..\cpp\h5LoadHandle.cpp" />
     <ClCompile Include="..\cpp\h5LoadInteger.cpp" />
     <ClCompile Include="..\cpp\h5LoadLogical.cpp" />
+    <ClCompile Include="..\cpp\h5LoadMissing.cpp" />
     <ClCompile Include="..\cpp\h5LoadSingle.cpp" />
     <ClCompile Include="..\cpp\h5LoadString.cpp" />
     <ClCompile Include="..\cpp\h5LoadStruct.cpp" />
@@ -303,6 +306,7 @@
     <ClCompile Include="..\cpp\h5SaveInteger.cpp" />
     <ClCompile Include="..\cpp\h5SaveLoadHelpers.cpp" />
     <ClCompile Include="..\cpp\h5SaveLogical.cpp" />
+    <ClCompile Include="..\cpp\h5SaveMissing.cpp" />
     <ClCompile Include="..\cpp\h5SaveSingle.cpp" />
     <ClCompile Include="..\cpp\h5SaveString.cpp" />
     <ClCompile Include="..\cpp\h5SaveStruct.cpp" />

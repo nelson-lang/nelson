@@ -201,6 +201,10 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_FLOAT,
             buffer, bufsize, packpos, comm);
         break;
+    case NLS_MISSING_ARRAY: {
+        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_DOUBLE,
+            buffer, bufsize, packpos, comm);
+    } break;
     case NLS_DOUBLE:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
@@ -410,6 +414,11 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         cp = ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_FLOAT, comm);
         break;
+    case NLS_MISSING_ARRAY: {
+        cp = ArrayOf::allocateArrayOf(
+            NLS_MISSING_ARRAY, outDim.getElementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_DOUBLE, comm);
+    } break;
     case NLS_DOUBLE:
         if (issparse) {
             ArrayOf I = unpackMPI(buffer, bufsize, packpos, comm);

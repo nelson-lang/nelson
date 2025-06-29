@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - continuation prompt based on context.
+- missing type support for increase compatibility.
+- `missing` function: Create missing values.
 
 ### Changed
 

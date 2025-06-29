@@ -1149,6 +1149,38 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
         } break;
         }
     } break;
+    case NLS_MISSING_ARRAY: {
+        switch (dstClass) {
+        case NLS_SINGLE: {
+            single* sptr = (single*)ArrayOf::allocateArrayOf(dstClass, count);
+            sptr[0] = std::nanf("NaN");
+            dstPtr = sptr;
+        } break;
+        case NLS_DOUBLE: {
+            double* sptr = (double*)ArrayOf::allocateArrayOf(dstClass, count);
+            sptr[0] = std::nan("NaN");
+            dstPtr = sptr;
+        } break;
+        case NLS_SCOMPLEX: {
+            single* sptr = (single*)ArrayOf::allocateArrayOf(dstClass, count);
+            sptr[0] = std::nanf("NaN");
+            sptr[1] = 0;
+            dstPtr = sptr;
+        } break;
+        case NLS_DCOMPLEX: {
+            double* sptr = (double*)ArrayOf::allocateArrayOf(dstClass, count);
+            sptr[0] = std::nan("NaN");
+            sptr[1] = 0;
+            dstPtr = sptr;
+        } break;
+        case NLS_MISSING_ARRAY: {
+            return;
+        } break;
+        default: {
+            Error(_("Type not managed."));
+        } break;
+        }
+    } break;
     default: {
         Error(_W("Type not managed."));
     } break;

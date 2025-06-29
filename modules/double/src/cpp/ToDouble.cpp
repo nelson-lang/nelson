@@ -36,6 +36,17 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     switch (A.getDataClass()) {
+    case NLS_MISSING_ARRAY: {
+        Dimensions dimsA = A.getDimensions();
+        indexType nbElements = dimsA.getElementCount();
+        double* ptr
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false);
+        ArrayOf R = ArrayOf(NLS_DOUBLE, dimsA, ptr);
+        for (indexType k = 0; k < nbElements; k = k + 1) {
+            ptr[k] = std::nan("NaN");
+        }
+        return R;
+    } break;
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         needToOverload = true;

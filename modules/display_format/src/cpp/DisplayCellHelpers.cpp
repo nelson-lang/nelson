@@ -82,6 +82,49 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
 }
 //=============================================================================
 std::wstring
+summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat, bool asStructElement)
+{
+    std::wstring msg;
+    if (A.isRowVector() || A.isScalar()) {
+        if (asStructElement) {
+            if (!A.isScalar()) {
+                msg.append(L"[");
+            }
+        } else {
+            msg.append(L"[");
+        }
+        for (indexType k = 0; k < A.getElementCount(); ++k) {
+            msg.append(L"<missing>");
+            if (k < A.getElementCount() - 1) {
+                msg.append(L"    ");
+            }
+        }
+        if (asStructElement) {
+            if (!A.isScalar()) {
+                msg.append(L"]");
+            }
+        } else {
+            msg.append(L"]");
+        }
+        if (msg.length() >= termWidth - beginingLineLength) {
+            if (asStructElement) {
+                msg = lightDescription(A, L"[", L"]");
+            } else {
+                msg = lightDescription(A, L"", L"");
+            }
+        }
+    } else {
+        if (asStructElement) {
+            msg = lightDescription(A, L"[", L"]");
+        } else {
+            msg = lightDescription(A, L"", L"");
+        }
+    }
+    return msg;
+}
+//=============================================================================
+std::wstring
 summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
