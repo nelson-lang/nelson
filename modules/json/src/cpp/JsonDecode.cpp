@@ -663,6 +663,9 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
             } break;
             }
             switch (commonType) {
+            case JSON_TO_NELSON_EMPTY_MATRIX: {
+                return true;
+            } break;
             case JSON_TO_NELSON_DOUBLE: {
                 return transformDoubleArray(jsVar, totaldims);
             } break;

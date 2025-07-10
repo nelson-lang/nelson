@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - ensure 'ans' is correctly created only for expressions.
+- `jsondecode` now correctly parses arrays of empty arrays.
 
 ## 1.14.0 - (2025-05-30)
 
