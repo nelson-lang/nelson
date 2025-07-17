@@ -135,6 +135,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
 - **LinkedIn:** <https://www.linkedin.com/groups/13576150>
+- **DeepWiki** [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nelson-lang/nelson)
 
 ## 📜 **License**
 
