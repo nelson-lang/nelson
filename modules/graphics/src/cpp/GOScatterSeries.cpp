@@ -84,7 +84,7 @@ GOScatterSeries::setupDefaults()
 {
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     std::vector<double> defaultColor = { 0, 0.4470, 0.7410 };
-    ArrayOf cdata = ArrayOf::doubleVectorConstructor(defaultColor);
+    ArrayOf cdata = ArrayOf::doubleRowVectorConstructor(defaultColor);
     GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(GO_C_DATA_PROPERTY_NAME_STR);
     hp->data(cdata);
     setRestrictedStringDefault(GO_C_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);

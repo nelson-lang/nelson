@@ -21,7 +21,7 @@ GOVectorProperty::GOVectorProperty(bool finiteOnly) { _finiteOnly = finiteOnly; 
 ArrayOf
 GOVectorProperty::get()
 {
-    ArrayOf ret(ArrayOf::doubleVectorConstructor(_data.size()));
+    ArrayOf ret(ArrayOf::doubleRowVectorConstructor(_data.size()));
     double* dp = (double*)ret.getReadWriteDataPointer();
     OMP_PARALLEL_FOR_LOOP(_data.size())
     for (ompIndexType i = 0; i < (ompIndexType)_data.size(); i++) {

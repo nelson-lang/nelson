@@ -53,7 +53,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (option == L"-commit_hash") {
             retval << ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH);
         } else if (option == L"-number") {
-            ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
+            ArrayOf vectRes = ArrayOf::doubleRowVectorConstructor(4);
             auto* vectAsDouble = static_cast<double*>(vectRes.getReadWriteDataPointer());
             if (vectAsDouble != nullptr) {
                 vectAsDouble[0] = NELSON_VERSION_MAJOR;

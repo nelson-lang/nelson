@@ -48,17 +48,17 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     A_output.ensureSingleOwner();
     double* A_output_ptr = (double*)A_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getColumns());
     // OUTPUT VARIABLES
     ArrayOf SCALE_output
         = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsMAXRED.isScalar()) {

@@ -11,6 +11,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include <cstring>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -65,13 +66,32 @@ ArrayOf::singleConstructor(float aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleVectorConstructor(indexType len)
+ArrayOf::singleRowVectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
     single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, len, stringVector(), true));
     return ArrayOf(NLS_SINGLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::singleComplexRowVectorConstructor(std::vector<std::complex<single>>& values)
+{
+    const size_t count = values.size();
+    single* data
+        = static_cast<single*>(allocateArrayOf(NLS_SCOMPLEX, count, stringVector(), false));
+    std::memcpy(data, values.data(), count * sizeof(std::complex<single>));
+    return ArrayOf(NLS_SCOMPLEX, Dimensions(1, count), data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::singleRowVectorConstructor(std::vector<single>& values)
+{
+    const size_t count = values.size();
+    single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, count, stringVector(), false));
+    std::memcpy(data, values.data(), count * sizeof(single));
+    return ArrayOf(NLS_SINGLE, Dimensions(1, count), data);
 }
 //=============================================================================
 ArrayOf

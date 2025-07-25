@@ -61,21 +61,21 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
       end
       if strcmp(k.TYPE, 'double')
         if isfield(k, 'VALUE') && ~isempty(k.VALUE)
-          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleVectorConstructor(1);'];
+          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleRowVectorConstructor(1);'];
           txt{end + 1} = ['    double*',  k.NAME, '_ptr', ' = (double*)', k.NAME, '.getDataPointer();'];
           txt{end + 1} = ['    ', k.NAME, '_ptr[0] = ', k.VALUE, ';'];
         else
-          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleVectorConstructor(1);'];
+          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleRowVectorConstructor(1);'];
           txt{end + 1} = ['    double*',  k.NAME, '_ptr', ' = (double*)', k.NAME, '.getDataPointer();'];
         end
       end
       if strcmp(k.TYPE, 'integer')
         if isfield(k, 'VALUE') && ~isempty(k.VALUE)
-          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32VectorConstructor(1);'];
+          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32RowVectorConstructor(1);'];
           txt{end + 1} = ['    int* ', k.NAME, '_ptr', ' = (int*)', k.NAME, '.getDataPointer();'];
           txt{end + 1} = ['    ', k.NAME, '_ptr[0] = ', k.VALUE, ';'];
         else
-          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32VectorConstructor(1);'];
+          txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32RowVectorConstructor(1);'];
           txt{end + 1} = ['    int* ', k.NAME, '_ptr', ' = (int*)', k.NAME, '.getDataPointer();'];
         end
       end

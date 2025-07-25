@@ -17,6 +17,7 @@
 #include "characters_encoding.hpp"
 #include "ClassToString.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "VariablesEditor.hpp"
 
 #include <QtCore/QSettings>
 #include <QtWidgets/QVBoxLayout>
@@ -169,7 +170,15 @@ QtWorkspaceBrowser::savePositionAndVisibility()
 void
 QtWorkspaceBrowser::doubleClicked(const QModelIndex& index)
 {
-    // Handle double-click on variable - you can implement variable editing here
+    QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
+    int selectedRow = sourceIndex.row();
+
+    QStandardItem* nameItem = m_model->item(selectedRow, NAME_COLUMN);
+    if (nameItem) {
+        QString name = nameItem->text();
+        VariablesEditor::openVariable(name.toStdWString());
+        VariablesEditor::showVariablesEditor();
+    }
 }
 //=============================================================================
 void

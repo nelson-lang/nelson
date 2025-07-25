@@ -74,41 +74,41 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     WI_output.ensureSingleOwner();
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getRows();
-    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
     M_ptr[0] = (int)B.getColumns();
-    ArrayOf NP = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NP = ArrayOf::int32RowVectorConstructor(1);
     int* NP_ptr = (int*)NP.getDataPointer();
     NP_ptr[0] = (int)WR.getRows();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDB = ArrayOf::int32RowVectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
     LDB_ptr[0] = std::max(1, (int)B.getRows());
-    ArrayOf LDF = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDF = ArrayOf::int32RowVectorConstructor(1);
     int* LDF_ptr = (int*)LDF.getDataPointer();
     LDF_ptr[0] = std::max(1, (int)B.getRows());
-    ArrayOf LDZ = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDZ = ArrayOf::int32RowVectorConstructor(1);
     int* LDZ_ptr = (int*)LDZ.getDataPointer();
     LDZ_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
         std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
             2 * (int)A.getRows() + 4 * (int)B.getColumns()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
-    ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDWORK = ArrayOf::int32RowVectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
         2 * (int)A.getRows() + 4 * (int)B.getColumns());
     // OUTPUT VARIABLES
-    ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NFP_output = ArrayOf::int32RowVectorConstructor(1);
     int* NFP_output_ptr = (int*)NFP_output.getDataPointer();
-    ArrayOf NAP_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NAP_output = ArrayOf::int32RowVectorConstructor(1);
     int* NAP_output_ptr = (int*)NAP_output.getDataPointer();
-    ArrayOf NUP_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf NUP_output = ArrayOf::int32RowVectorConstructor(1);
     int* NUP_output_ptr = (int*)NUP_output.getDataPointer();
     ArrayOf F_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::max(1, (int)B.getRows()), (indexType)(int)A.getRows());
@@ -116,9 +116,9 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf Z_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::max(1, (int)A.getRows()), (indexType)(int)A.getRows());
     double* Z_output_ptr = (double*)Z_output.getDataPointer();
-    ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf IWARN_output = ArrayOf::int32RowVectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {

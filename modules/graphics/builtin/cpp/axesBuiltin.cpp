@@ -99,7 +99,7 @@ ArrayOfVector
 setupVector2DProperties()
 {
     ArrayOfVector t;
-    ArrayOf vector2D = ArrayOf::doubleVectorConstructor(2);
+    ArrayOf vector2D = ArrayOf::doubleRowVectorConstructor(2);
     double* ptr = (double*)vector2D.getDataPointer();
     ptr[0] = 0;
     ptr[1] = 1;

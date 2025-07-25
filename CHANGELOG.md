@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Variable Editor
+
+  - Introduced a completely redesigned Variable Editor accessible via `openvar` or from the GUI.
+  - Supports structured variables, tables, and arrays with a dynamic table view.
+  - Allows editing of numeric arrays, cell arrays, and structs, including nested data.
+  - Integrated copy-paste compatibility with Excel, LibreOffice, and OpenOffice (both directions).
+  - Features real-time updates from the execution context.
+  - Improved performance for large datasets.
+
 - continuation prompt based on context.
 - missing type support for increase compatibility.
 - `missing` function: Create missing values.

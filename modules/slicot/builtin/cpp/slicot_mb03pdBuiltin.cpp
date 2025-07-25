@@ -61,13 +61,13 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
     JPVT_output.ensureSingleOwner();
     int* JPVT_output_ptr = (int*)JPVT_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
     M_ptr[0] = (int)A.getRows();
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getRows());
@@ -76,11 +76,11 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
     double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
-    ArrayOf RANK_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf RANK_output = ArrayOf::int32RowVectorConstructor(1);
     int* RANK_output_ptr = (int*)RANK_output.getDataPointer();
     ArrayOf SVAL_output = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)3);
     double* SVAL_output_ptr = (double*)SVAL_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOBRQ.isScalar()) {

@@ -91,22 +91,22 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     KSTAIR_output.ensureSingleOwner();
     int* KSTAIR_output_ptr = (int*)KSTAIR_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getRows();
-    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
     M_ptr[0] = (int)B.getColumns();
-    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDB = ArrayOf::int32RowVectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
     LDB_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDU = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDU = ArrayOf::int32RowVectorConstructor(1);
     int* LDU_ptr = (int*)LDU.getDataPointer();
     LDU_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDV = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDV = ArrayOf::int32RowVectorConstructor(1);
     int* LDV_ptr = (int*)LDV.getDataPointer();
     LDV_ptr[0] = STAGES.getContentAsCString().compare("F") != 0
             && JOBV.getContentAsCString().compare("I") == 0
@@ -119,7 +119,7 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
             std::max((int)A.getRows(), (int)B.getColumns())
                 + std::max((int)A.getRows(), 3 * (int)B.getColumns())));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
-    ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
+    ArrayOf LDWORK = ArrayOf::int32RowVectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = STAGES.getContentAsCString().compare("B") != 0
         ? std::max(1,
@@ -132,7 +132,7 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::max(1, (int)B.getColumns()), (indexType)(int)B.getColumns());
     double* V_output_ptr = (double*)V_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsSTAGES.isScalar()) {

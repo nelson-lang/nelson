@@ -425,5 +425,15 @@ ArrayOf::haveUniqueFieldNames(const stringVector& fieldnames)
     return true;
 }
 //=============================================================================
+bool
+ArrayOf::renameFieldnames(const stringVector& newFieldnames)
+{
+    if (dp->fieldNames.size() != newFieldnames.size()) {
+        return false;
+    }
+    dp->fieldNames = newFieldnames;
+    return true;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

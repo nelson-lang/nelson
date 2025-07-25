@@ -11,6 +11,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include <cstring>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -64,17 +65,26 @@ ArrayOf::doubleConstructor(double aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleVectorConstructor(std::vector<double> values)
+ArrayOf::doubleComplexRowVectorConstructor(std::vector<std::complex<double>>& values)
+{
+    const size_t count = values.size();
+    double* data
+        = static_cast<double*>(allocateArrayOf(NLS_DCOMPLEX, count, stringVector(), false));
+    std::memcpy(data, values.data(), count * sizeof(std::complex<double>));
+    return ArrayOf(NLS_DCOMPLEX, Dimensions(1, count), data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::doubleRowVectorConstructor(std::vector<double>& values)
 {
     double* data
-        = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), true));
+        = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), false));
     std::copy(values.begin(), values.end(), data);
     return ArrayOf(NLS_DOUBLE, Dimensions(1, values.size()), data);
 }
 //=============================================================================
-
 ArrayOf
-ArrayOf::doubleVectorConstructor(indexType len)
+ArrayOf::doubleRowVectorConstructor(indexType len)
 {
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, len, stringVector(), true));
     return ArrayOf(NLS_DOUBLE, Dimensions(1, len), data);

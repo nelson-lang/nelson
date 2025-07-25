@@ -110,7 +110,7 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow
                 mainEvaluator = nullptr;
             }
             if (mainEvaluator) {
-                NelSonQtMainWindow->createDockWigdets(mainEvaluator->getContext());
+                NelSonQtMainWindow->createDockWigdets(mainEvaluator);
                 NelsonConfiguration::getInstance()->setMainGuiObject((void*)NelSonQtMainWindow);
             }
             return (void*)mainEvaluator;

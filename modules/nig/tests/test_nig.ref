@@ -109,7 +109,7 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
 
     // OUTPUT VARIABLES
 
-    ArrayOf OUTPUT_output = ArrayOf::int32VectorConstructor(1);
+    ArrayOf OUTPUT_output = ArrayOf::int32RowVectorConstructor(1);
     int *OUTPUT_output_ptr = (int*)OUTPUT_output.getDataPointer();
 
     // CHECK INPUT VARIABLES DIMENSIONS
