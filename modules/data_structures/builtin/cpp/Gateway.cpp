@@ -28,6 +28,7 @@
 #include "getfieldBuiltin.hpp"
 #include "rmfieldBuiltin.hpp"
 #include "__num2cell__Builtin.hpp"
+#include "renameStructFieldBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,6 +53,9 @@ static const nlsGateway gateway[] = {
     { "cell", (ptrBuiltin)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
     { "struct2cell", (ptrBuiltin)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
     { "cell2struct", (ptrBuiltin)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
+    { "renameStructField", (ptrBuiltin)Nelson::DataStructuresGateway::renameStructFieldBuiltin, 1,
+        3, CPP_BUILTIN },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

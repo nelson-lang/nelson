@@ -1291,6 +1291,12 @@ public:
     [[nodiscard]] int64
     getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
 
+    /**
+     * Check if the field name is a valid field in the structure array.
+     */
+    [[nodiscard]] bool
+    isField(const std::string& fieldName) const;
+
     //=========================================================================
     // struct array
     //=========================================================================

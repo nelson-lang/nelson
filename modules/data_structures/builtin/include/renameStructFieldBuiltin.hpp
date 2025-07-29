@@ -14,7 +14,7 @@
 namespace Nelson::DataStructuresGateway {
 //=============================================================================
 ArrayOfVector
-structBuiltin(int nLhs, const ArrayOfVector& argIn);
+renameStructFieldBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

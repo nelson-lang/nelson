@@ -176,6 +176,16 @@ ArrayOf::structConstructor(const wstringVector& fNames, const ArrayOfVector& val
     return ArrayOf::structConstructor(fNamesUtf8, values);
 }
 //=============================================================================
+bool
+ArrayOf::isField(const std::string& fieldName) const
+{
+    if (!this->isStruct() && !this->isClassType()) {
+        return false;
+    }
+    const auto& fieldnames = getFieldNames();
+    return std::find(fieldnames.begin(), fieldnames.end(), fieldName) != fieldnames.end();
+}
+//=============================================================================
 ArrayOf
 ArrayOf::getField(const std::string& fieldName) const
 {

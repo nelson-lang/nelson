@@ -192,6 +192,7 @@
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\namedargs2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\class_subsagnBuiltin.cpp" />
+    <ClCompile Include="..\cpp\renameStructFieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\__num2cell__Builtin.cpp" />
     <ClCompile Include="..\cpp\rmfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="..\include\namedargs2cellBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_structures_builtin_exports.h" />
     <ClInclude Include="..\include\class_subsagnBuiltin.hpp" />
+    <ClInclude Include="..\include\renameStructFieldBuiltin.hpp" />
     <ClInclude Include="..\include\__num2cell__Builtin.hpp" />
     <ClInclude Include="..\include\rmfieldBuiltin.hpp" />
     <ClInclude Include="..\include\struct2cellBuiltin.hpp" />
