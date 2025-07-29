@@ -182,13 +182,8 @@ ArrayOf::isField(const std::string& fieldName) const
     if (!this->isStruct() && !this->isClassType()) {
         return false;
     }
-    stringVector fieldnames = getFieldNames();
-    for (const auto& name : fieldnames) {
-        if (name == fieldName) {
-            return true;
-        }
-    }
-    return false;
+    const auto& fieldnames = getFieldNames();
+    return std::find(fieldnames.begin(), fieldnames.end(), fieldName) != fieldnames.end();
 }
 //=============================================================================
 ArrayOf
