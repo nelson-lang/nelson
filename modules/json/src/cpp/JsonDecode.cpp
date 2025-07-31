@@ -14,6 +14,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define JSMN_STRICT
 #include <jsmn.h>
+#include <fast_float/fast_float.h>
 #include "StringHelpers.hpp"
 #include <vector>
 #include <cstdlib>
@@ -26,9 +27,6 @@
 #include "ParallelTransform.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static int tokens_offset = 0;
-static std::string jsonString = "";
 //=============================================================================
 static double
 returnInfinity(bool bPositive)
@@ -46,53 +44,64 @@ decodeCharacters(const std::string& str)
     std::string res;
     res.reserve(str.size());
     for (size_t k = 0; k < str.size(); ++k) {
-        if (str[k] == '\\') {
-            if (k + 1 < str.size()) {
-                if (str[k + 1] == 'u') {
-                    std::string part = str.substr(k + 2, str.size() - (k + 2));
-#define JSON_SSCANF_BUFF_SIZE 64
-                    char buffer[JSON_SSCANF_BUFF_SIZE];
-                    memset(buffer, 0, JSON_SSCANF_BUFF_SIZE * sizeof(char));
-                    unsigned short usbuffer[JSON_SSCANF_BUFF_SIZE];
-                    memset(usbuffer, 0, JSON_SSCANF_BUFF_SIZE * sizeof(unsigned short));
-                    sscanf(part.c_str(), "%4hx", usbuffer);
-                    k += 5;
-                    for (size_t c = 0; c < JSON_SSCANF_BUFF_SIZE; c++) {
-                        buffer[c] = (char)usbuffer[c];
-                    }
-                    res = res + buffer;
-                } else {
-                    switch (str[k + 1]) {
-                    case '"':
-                    case '\\':
-                    case '/':
-                        res.push_back(str[k + 1]);
-                        k++;
+        if (str[k] == '\\' && k + 1 < str.size()) {
+            if (str[k + 1] == 'u' && k + 5 <= str.size()) {
+                unsigned int codepoint = 0;
+                for (int i = 0; i < 4; ++i) {
+                    char c = str[k + 2 + i];
+                    codepoint <<= 4;
+                    if (c >= '0' && c <= '9')
+                        codepoint += c - '0';
+                    else if (c >= 'A' && c <= 'F')
+                        codepoint += c - 'A' + 10;
+                    else if (c >= 'a' && c <= 'f')
+                        codepoint += c - 'a' + 10;
+                    else
                         break;
-                    case 'b':
-                        res.push_back('\b');
-                        k++;
-                        break;
-                    case 'f':
-                        res.push_back('\f');
-                        k++;
-                        break;
-                    case 'n':
-                        res.push_back('\n');
-                        k++;
-                        break;
-                    case 'r':
-                        res.push_back('\r');
-                        k++;
-                        break;
-                    case 't':
-                        res.push_back('\t');
-                        k++;
-                        break;
-                    }
                 }
+                if (codepoint < 0x80)
+                    res.push_back(static_cast<char>(codepoint));
+                else if (codepoint < 0x800) {
+                    res.push_back(static_cast<char>(0xC0 | (codepoint >> 6)));
+                    res.push_back(static_cast<char>(0x80 | (codepoint & 0x3F)));
+                } else {
+                    res.push_back(static_cast<char>(0xE0 | (codepoint >> 12)));
+                    res.push_back(static_cast<char>(0x80 | ((codepoint >> 6) & 0x3F)));
+                    res.push_back(static_cast<char>(0x80 | (codepoint & 0x3F)));
+                }
+                k += 5;
             } else {
-                res.push_back(str[k]);
+                switch (str[k + 1]) {
+                case '"':
+                case '\\':
+                case '/':
+                    res.push_back(str[k + 1]);
+                    k++;
+                    break;
+                case 'b':
+                    res.push_back('\b');
+                    k++;
+                    break;
+                case 'f':
+                    res.push_back('\f');
+                    k++;
+                    break;
+                case 'n':
+                    res.push_back('\n');
+                    k++;
+                    break;
+                case 'r':
+                    res.push_back('\r');
+                    k++;
+                    break;
+                case 't':
+                    res.push_back('\t');
+                    k++;
+                    break;
+                default:
+                    res.push_back(str[k]);
+                    break;
+                }
             }
         } else {
             res.push_back(str[k]);
@@ -102,13 +111,18 @@ decodeCharacters(const std::string& str)
 }
 //=============================================================================
 static bool
-convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
+convertToJsonVariable(const std::string& jsonString, const jsmntok_t& token, JsonVariable& jsVar)
 {
     bool res = false;
     std::string strValue(jsonString.substr(token.start, token.end - token.start));
+    if (strValue == "null") {
+        jsVar.jsonVariableType = JSON_TO_NELSON_EMPTY_MATRIX;
+        jsVar.scalarDouble = std::nan("NaN");
+        return true;
+    }
     if (strValue == "NaN") {
         jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
-        jsVar.scalarDouble = std::nan("");
+        jsVar.scalarDouble = std::nan("NaN");
         return true;
     }
     if (strValue == "-Inf") {
@@ -119,11 +133,6 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
     if (strValue == "Inf") {
         jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
         jsVar.scalarDouble = returnInfinity(true);
-        return true;
-    }
-    if (strValue == "null") {
-        jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
-        jsVar.scalarDouble = std::nan("");
         return true;
     }
     if (token.type == JSMN_STRING) {
@@ -142,14 +151,16 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
             jsVar.scalarLogical = true;
             return true;
         }
-        try {
-            double val = std::stod(strValue);
+        double val;
+        fast_float::parse_options options { fast_float::chars_format::json_or_infnan };
+        auto answer = fast_float::from_chars_advanced(
+            strValue.data(), strValue.data() + strValue.size(), val, options);
+        if (answer.ec == std::errc()) {
             jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
             jsVar.scalarDouble = val;
             return true;
-        } catch (const std::invalid_argument&) {
-        } catch (const std::out_of_range&) {
         }
+        // If parsing failed, treat as string
         jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
         jsVar.scalarString = decodeCharacters(strValue);
         return true;
@@ -380,16 +391,54 @@ jsonVariableToNelson(JsonVariable& jsVar)
 static JSON_TO_NELSON_Type
 findCommonJsonVariableType(JsonVariable& jsVar)
 {
-    JSON_TO_NELSON_Type commonType = JSON_TO_NELSON_UNDEFINED;
-    if (jsVar.vectorJsonVariable.size() > 0) {
-        commonType = jsVar.vectorJsonVariable[0].jsonVariableType;
-        for (const auto& element : jsVar.vectorJsonVariable) {
-            if (element.jsonVariableType != commonType) {
-                return JSON_TO_NELSON_UNDEFINED;
-            }
-        }
+    if (jsVar.vectorJsonVariable.empty()) {
+        return JSON_TO_NELSON_UNDEFINED;
     }
-    return commonType;
+
+    int countDouble = 0, countLogical = 0, countEmpty = 0, countStruct = 0, countOther = 0;
+    for (const auto& element : jsVar.vectorJsonVariable) {
+        switch (element.jsonVariableType) {
+        case JSON_TO_NELSON_DOUBLE:
+            ++countDouble;
+            break;
+        case JSON_TO_NELSON_LOGICAL:
+            ++countLogical;
+            break;
+        case JSON_TO_NELSON_EMPTY_MATRIX:
+            ++countEmpty;
+            break;
+        case JSON_TO_NELSON_STRUCT:
+            ++countStruct;
+            break;
+        default:
+            ++countOther;
+            break;
+        }
+        if (countOther > 0)
+            break; // early exit
+    }
+
+    const size_t total = jsVar.vectorJsonVariable.size();
+    if (countOther > 0) {
+        return JSON_TO_NELSON_UNDEFINED;
+    }
+    if (countLogical == total) {
+        return JSON_TO_NELSON_LOGICAL;
+    }
+    if (countStruct == total) {
+        return JSON_TO_NELSON_STRUCT;
+    }
+    if (countDouble + countEmpty == total) {
+        // Only DOUBLE and/or EMPTY_MATRIX
+        return countDouble ? JSON_TO_NELSON_DOUBLE : JSON_TO_NELSON_EMPTY_MATRIX;
+    }
+    if (countEmpty == total) {
+        return JSON_TO_NELSON_EMPTY_MATRIX;
+    }
+    if (countDouble == total) {
+        return JSON_TO_NELSON_DOUBLE;
+    }
+    return JSON_TO_NELSON_UNDEFINED;
 }
 //=============================================================================
 static bool
@@ -405,11 +454,11 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
         size_t rows = jsVar.dims[0];
         size_t cols = jsVar.dims[1];
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < cols; ++j) {
-                std::string val = jsVar.vectorJsonVariable[i].vectorString[j];
-                jsVar.vectorString[j * rows + i] = val;
-            }
+        for (size_t idx = 0; idx < rows * cols; ++idx) {
+            size_t i = idx % rows;
+            size_t j = idx / rows;
+            std::string val = jsVar.vectorJsonVariable[i].vectorString[j];
+            jsVar.vectorString[j * rows + i] = val;
         }
     } break;
     default: {
@@ -425,12 +474,11 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
             elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
-        size_t k = 0;
         jsVar.vectorString.reserve(elementCount);
-        for (size_t i = 0; i < ymax; ++i) {
-            for (size_t j = 0; j < lastdimlen; ++j) {
-                jsVar.vectorString.insert(jsVar.vectorString.end(), vectTemp[j * ymax + i]);
-            }
+        for (size_t idx = 0; idx < elementCount; ++idx) {
+            size_t i = idx % ymax;
+            size_t j = idx / ymax;
+            jsVar.vectorString.insert(jsVar.vectorString.end(), vectTemp[j * ymax + i]);
         }
     } break;
     }
@@ -453,11 +501,12 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
         size_t rows = jsVar.dims[0];
         size_t cols = jsVar.dims[1];
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < cols; ++j) {
-                logical val = jsVar.vectorJsonVariable[i].vectorLogical[j];
-                jsVar.vectorLogical[j * rows + i] = val;
-            }
+        size_t total = rows * cols;
+        for (size_t idx = 0; idx < total; ++idx) {
+            size_t i = idx % rows;
+            size_t j = idx / rows;
+            logical val = jsVar.vectorJsonVariable[i].vectorLogical[j];
+            jsVar.vectorLogical[j * rows + i] = val;
         }
     } break;
     default: {
@@ -473,7 +522,6 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
             elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
-        size_t k = 0;
         jsVar.vectorLogical.reserve(elementCount);
         for (size_t i = 0; i < ymax; ++i) {
             for (size_t j = 0; j < lastdimlen; ++j) {
@@ -501,11 +549,12 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
         size_t rows = jsVar.dims[0];
         size_t cols = jsVar.dims[1];
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < cols; ++j) {
-                double val = jsVar.vectorJsonVariable[i].vectorDouble[j];
-                jsVar.vectorDouble[j * rows + i] = val;
-            }
+        size_t total = rows * cols;
+        for (size_t idx = 0; idx < total; ++idx) {
+            size_t i = idx % rows;
+            size_t j = idx / rows;
+            double val = jsVar.vectorJsonVariable[i].vectorDouble[j];
+            jsVar.vectorDouble[j * rows + i] = val;
         }
     } break;
     default: {
@@ -569,14 +618,17 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
     } break;
     case 2: {
         for (const auto& name : fieldnamesRef) {
-            for (size_t j = 0; j < jsVar.dims[1]; ++j) {
-                for (size_t i = 0; i < jsVar.dims[0]; ++i) {
-                    auto var = jsVar.vectorJsonVariable[i];
-                    if (var.dims.size() != 0) {
-                        jsVar.map[name].push_back(var.map[name][j]);
-                    } else {
-                        jsVar.map[name].push_back(var.scalarMap[name]);
-                    }
+            size_t rows = jsVar.dims[0];
+            size_t cols = jsVar.dims[1];
+            jsVar.map[name].reserve(rows * cols);
+            for (size_t idx = 0; idx < rows * cols; ++idx) {
+                size_t i = idx % rows;
+                size_t j = idx / rows;
+                auto& var = jsVar.vectorJsonVariable[i];
+                if (var.dims.size() != 0) {
+                    jsVar.map[name].push_back(var.map[name][j]);
+                } else {
+                    jsVar.map[name].push_back(var.scalarMap[name]);
                 }
             }
         }
@@ -602,7 +654,8 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
 }
 //=============================================================================
 static bool
-importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
+importTokens(
+    const std::string& jsonString, int& tokens_offset, const jsmntok_t* tokens, JsonVariable& jsVar)
 {
     bool res = false;
     switch (tokens[tokens_offset].type) {
@@ -620,9 +673,8 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
         jsVar.vectorJsonVariable.reserve(size);
         for (int i = 0; i < size; ++i) {
             JsonVariable jsElement;
-            bool ok = importTokens(tokens, jsElement);
-            if (!ok) {
-                return ok;
+            if (!importTokens(jsonString, tokens_offset, tokens, jsElement)) {
+                return false;
             }
             jsVar.vectorJsonVariable.push_back(jsElement);
         }
@@ -634,7 +686,7 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
                 totaldims *= i;
             }
             for (const auto& element : jsVar.vectorJsonVariable) {
-                std::vector<size_t> dims = element.dims;
+                const std::vector<size_t>& dims = element.dims;
                 if (refVar.size() != dims.size()) {
                     jsVar.reduced = true;
                     jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
@@ -690,18 +742,15 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
         int size = tokens[tokens_offset++].size;
         jsVar.jsonVariableType = JSON_TO_NELSON_STRUCT;
         jsVar.scalarMap.reserve(size);
-        int j = 0;
         for (int i = 0; i < size; ++i) {
             JsonVariable jsKey;
-            bool ok = importTokens(tokens, jsKey);
-            if (!ok) {
-                return ok;
+            if (!importTokens(jsonString, tokens_offset, tokens, jsKey)) {
+                return false;
             }
             std::string key = MakeValidFieldname(jsKey.scalarString);
             JsonVariable jsValue;
-            ok = importTokens(tokens, jsValue);
-            if (!ok) {
-                return ok;
+            if (!importTokens(jsonString, tokens_offset, tokens, jsValue)) {
+                return false;
             }
             auto it = jsVar.scalarMap.find(key);
             if (it == jsVar.scalarMap.end()) {
@@ -726,7 +775,7 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
     } break;
     case JSMN_STRING:
     case JSMN_PRIMITIVE: {
-        return convertToJsonVariable(tokens[tokens_offset++], jsVar);
+        return convertToJsonVariable(jsonString, tokens[tokens_offset++], jsVar);
     } break;
     }
     return res;
@@ -753,13 +802,17 @@ getErrorMessage(int errorCode)
     return errorMessage;
 }
 //=============================================================================
-static ArrayOf
-jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessage)
+ArrayOf
+jsonDecode(const std::wstring& stringToDecode, std::wstring& errorMessage)
 {
+    int tokens_offset = 0;
     std::wstring _stringToDecode(stringToDecode);
-    StringHelpers::trim_left(_stringToDecode);
-    StringHelpers::trim_right(_stringToDecode);
-    jsonString = wstring_to_utf8(_stringToDecode);
+    StringHelpers::trim(_stringToDecode);
+    std::string jsonString = wstring_to_utf8(_stringToDecode);
+    if (jsonString.empty()) {
+        errorMessage = _W("valid JSON Object expected.");
+        return {};
+    }
     jsmn_parser parserJson;
     jsmn_init(&parserJson);
     int nbTokensOrError
@@ -784,7 +837,7 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
         }
         tokens_offset = 0;
         JsonVariable jsVar;
-        bool converted = importTokens(tokens, jsVar);
+        bool converted = importTokens(jsonString, tokens_offset, tokens, jsVar);
         delete[] tokens;
         if (!converted) {
             errorMessage = _W("valid JSON Object expected.");
@@ -795,17 +848,6 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
     errorMessage = getErrorMessage(nbTokensOrError);
 
     return ArrayOf::emptyConstructor();
-}
-//=============================================================================
-ArrayOf
-jsonDecode(const std::wstring& stringToDecode, std::wstring& errorMessage)
-{
-    tokens_offset = 0;
-    jsonString.clear();
-    ArrayOf res = jsonDecodeInternal(stringToDecode, errorMessage);
-    tokens_offset = 0;
-    jsonString.clear();
-    return res;
 }
 //=============================================================================
 } // namespace Nelson

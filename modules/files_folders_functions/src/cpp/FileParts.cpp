@@ -30,7 +30,8 @@ FilePartsFilename(const std::wstring& fullpath)
     std::wstring extension = L"";
     FileParts(fullpath, path, filename, extension);
     return filename;
-} //=============================================================================
+}
+//=============================================================================
 std::wstring
 FilePartsExtension(const std::wstring& fullpath)
 {
