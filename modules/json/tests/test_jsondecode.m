@@ -7,9 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-r = jsondecode('');
-ref = [];
-assert_isequal(r, ref);
+msg = _('valid JSON Object expected.')
+assert_checkerror("r = jsondecode('');", msg);
 %=============================================================================
 r = jsondecode('NaN');
 ref = NaN;
@@ -28,7 +27,7 @@ ref = -Inf;
 assert_isequal(r, ref);
 %=============================================================================
 r = jsondecode('null');
-ref = NaN;
+ref = [];
 assert_isequal(r, ref);
 %=============================================================================
 r = jsondecode('true');
@@ -167,4 +166,23 @@ assert_isequal(r.names, {[]; []});
 %=============================================================================
 r = jsondecode('{"names": [[], [2]]}');
 assert_isequal(r.names, {[]; [2]});
+%=============================================================================
+r = jsondecode("[1, null]");
+ref = [1; NaN];
+assert_isequal(r, ref);
+%=============================================================================
+ref = struct();
+r = jsondecode("[true, null]");
+ref = {true; []};
+assert_isequal(r, ref);
+%=============================================================================
+ref = struct();;
+r = jsondecode('{"a":null}');
+ref.a = [];
+assert_isequal(r, ref);
+%=============================================================================
+ref = struct();
+r = jsondecode('{"a":[1,null]}');
+ref.a = [1; NaN];
+assert_isequal(r, ref);
 %=============================================================================
