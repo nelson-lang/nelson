@@ -34,7 +34,8 @@ ModulesManager::ModulesManager()
 {
 #define MODULETAB 128
     modulesMap.reserve(MODULETAB);
-} //=============================================================================
+}
+//=============================================================================
 size_t
 ModulesManager::getNumberOfModules()
 {
