@@ -2135,166 +2135,269 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOf& value)
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::simpleClassAssign(
-    const std::string& subtype, const ArrayOf& r, const ArrayOfVector& m, ArrayOfVector& value)
+Evaluator::simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, const ArrayOfVector& values)
 {
-
-    if (value.size() != 1) {
+    // Validate input parameters
+    if (values.size() != 1) {
         Error(_W("Right hand values must satisfy left hand side expression."));
     }
-    std::string currentClass;
-    ClassName(r, currentClass);
-    std::string functionNamesimpleAssignClass
-        = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
-    Context* _context = this->getContext();
+
+    if (subtypes.size() != subsindices.size()) {
+        Error(_W("Subtypes and subsindices must have the same size."));
+    }
+
+    // Get current class and context
+    const std::string currentClass = ClassName(r);
+    Context* context = this->getContext();
+
+    // Look up assignment function - try class-specific first, then default
     FunctionDef* funcDef = nullptr;
-    _context->lookupFunction(functionNamesimpleAssignClass, funcDef);
-    if (!funcDef) {
-        std::string functionNamesimpleAssignDefault
+    const std::string classSpecificFunction
+        = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
+
+    if (!context->lookupFunction(classSpecificFunction, funcDef)) {
+        const std::string defaultFunction
             = getOverloadFunctionName(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR);
-        _context->lookupFunction(functionNamesimpleAssignDefault, funcDef);
+        if (!context->lookupFunction(defaultFunction, funcDef)) {
+            Error(_("Function not found:") + " " + classSpecificFunction);
+            return {};
+        }
     }
-    if (!funcDef) {
-        Error(_("Function not found:") + " " + functionNamesimpleAssignClass);
-    }
-    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+
+    // Validate function type
+    if (!(funcDef->type() == NLS_BUILT_IN_FUNCTION || funcDef->type() == NLS_MACRO_FUNCTION)) {
         Error(_W("Type function not valid."));
     }
-    int nLhs = 0;
+
+    // Build function arguments
     ArrayOfVector argIn;
+    argIn.reserve(3); // We know we'll have exactly 3 arguments
     argIn.push_back(r);
 
-    stringVector fieldnames = { "type", "subs" };
-    ArrayOfVector fieldvalues;
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(subtype));
-    if (subtype == ".") {
-        fieldvalues.push_back(m[0]);
-    } else {
-        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size());
-        ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-        for (size_t k = 0; k < m.size(); k++) {
-            elements[k] = m[k];
+    // Create substruct for type and subs information
+    const stringVector fieldnames = { "type", "subs" };
+    const Dimensions dims(1, subtypes.size());
+    auto* elements = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+    ArrayOf substruct(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
+
+    // Build type and subs vectors more efficiently
+    if (!subtypes.empty()) {
+        ArrayOfVector typesVector;
+        typesVector.reserve(subtypes.size());
+
+        for (const auto& type : subtypes) {
+            typesVector.push_back(ArrayOf::characterArrayConstructor(type));
         }
-        fieldvalues.push_back(cell);
+
+        ArrayOfVector subsVector = subsindices;
+
+        substruct.setFieldAsList("type", typesVector);
+        substruct.setFieldAsList("subs", subsVector);
     }
-    ArrayOf substruct = ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
+
     argIn.push_back(substruct);
-    argIn.push_back(value[0]);
-    CallStack backupCallStack = callstack;
-    ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
-    callstack = backupCallStack;
-    return res;
+    argIn.push_back(values[0]);
+
+    // Execute function with proper call stack management
+    const CallStack backupCallStack = callstack;
+    try {
+        const int nLhs = 1;
+        ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+
+        if (!rv.empty()) {
+            rv[0].name(""); // Clear the name of the result
+        }
+
+        callstack = backupCallStack;
+        return rv;
+    } catch (...) {
+        // Ensure call stack is restored even on exception
+        callstack = backupCallStack;
+        throw;
+    }
 }
 //=============================================================================
 void
 Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& value)
 {
-    Dimensions rhsDimensions;
-    ArrayOfVector m;
-    callstack.pushID((size_t)t->getContext());
-    if (!r.isEmpty()) {
-        rhsDimensions = r.getDimensions();
-    } else if (t->opNum != OP_BRACES) {
-        rhsDimensions = value[0].getDimensions();
-    } else {
-        rhsDimensions.makeScalar();
-    }
-    if (t->opNum == (OP_PARENS)) {
-        m = expressionList(t->down, r);
-        if (r.isClassType()) {
-            ArrayOfVector res = simpleClassAssign("()", r, m, value);
-            r = res[0];
-            callstack.popID();
-            return;
-        }
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            r.setVectorSubset(m[0], value[0]);
-            callstack.popID();
-            return;
-        } else {
-            if (r.isClassType()) {
-                ArrayOfVector res = simpleClassAssign("()", r, m, value);
-                r = res[0];
-            } else {
-                r.setNDimSubset(m, value[0]);
-            }
-            callstack.popID();
-            return;
-        }
-    }
-    if (t->opNum == (OP_BRACES)) {
-        m = expressionList(t->down, r);
-        if (r.isClassType()) {
-            ArrayOfVector res = simpleClassAssign("{}", r, m, value);
-            r = res[0];
-            callstack.popID();
-            return;
-        }
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            r.setVectorContentsAsList(m[0], value);
-            callstack.popID();
-            return;
-        } else {
-            r.setNDimContentsAsList(m, value);
-            callstack.popID();
-            return;
-        }
-    }
-    if (t->opNum == (OP_DOT)) {
-        if (r.isClassType()) {
-            std::string fieldname = t->down->text;
-            ArrayOfVector m;
-            m.push_back(ArrayOf::characterArrayConstructor(fieldname));
-            ArrayOfVector res = simpleClassAssign(".", r, m, value);
-            if (res.size() != 1) {
-                Error(_("Invalid LHS."));
-            }
-            r = res[0];
-            callstack.popID();
-            return;
-        }
-        std::string fieldname = t->down->text;
-        if (r.isHandle() || r.isGraphicsObject()) {
-            setHandle(r, fieldname, value);
-        } else if (r.isClassType()) {
-            r.setFieldAsList(fieldname, value);
-        } else if (r.isStruct() || r.isEmpty()) {
-            r.setFieldAsList(fieldname, value);
-        } else {
-            Error(ERROR_ASSIGN_TO_NON_STRUCT);
-        }
-        callstack.popID();
-        return;
-    }
-    if (t->opNum == (OP_DOTDYN)) {
-        std::string field;
+    auto callStackGuard = [&](auto&& func) {
+        callstack.pushID(static_cast<size_t>(t->getContext()));
         try {
-            ArrayOf fname(expression(t->down));
-            field = fname.getContentAsCString();
-        } catch (const Exception&) {
-            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-        }
-        if (r.isClassType()) {
-            ArrayOfVector m;
-            m.push_back(ArrayOf::characterArrayConstructor(field));
-            ArrayOfVector res = simpleClassAssign(".", r, m, value);
-            if (res.size() != 1) {
-                Error(_("Invalid LHS."));
-            }
-            r = res[0];
-        } else if (r.isHandle()) {
-            setHandle(r, field, value);
-        } else {
-            r.setFieldAsList(field, value);
+            func();
+        } catch (...) {
+            callstack.popID();
+            throw;
         }
         callstack.popID();
-        return;
-    }
-    callstack.popID();
+    };
+
+    callStackGuard([&]() {
+        // Initialize dimensions based on context
+        auto calculateRhsDimensions = [&]() -> Dimensions {
+            if (!r.isEmpty()) {
+                return r.getDimensions();
+            } else if (t->opNum != OP_BRACES) {
+                return value[0].getDimensions();
+            } else {
+                Dimensions dims;
+                dims.makeScalar();
+                return dims;
+            }
+        };
+
+        Dimensions rhsDimensions = calculateRhsDimensions();
+
+        // Helper lambda to create cell array from expressions
+        auto createCellArrayFromExpressions = [&](const ArrayOfVector& expressions) -> ArrayOf {
+            if (expressions.empty()) {
+                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            }
+
+            ArrayOf* elements = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, expressions.size()));
+            ArrayOf cell(NLS_CELL_ARRAY, Dimensions(1, expressions.size()), elements);
+
+            for (size_t k = 0; k < expressions.size(); k++) {
+                elements[k] = expressions[k];
+            }
+
+            return cell;
+        };
+
+        // Helper lambda for class type assignment
+        auto handleClassTypeAssignment
+            = [&](const std::string& subtype, const ArrayOfVector& expressions) {
+                  stringVector subtypes = { subtype };
+                  ArrayOfVector subsindices;
+
+                  ArrayOf cell = createCellArrayFromExpressions(expressions);
+                  subsindices.push_back(cell);
+
+                  ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+                  if (res.empty()) {
+                      Error(_("Assignment operation failed."));
+                  }
+                  r = res[0];
+              };
+
+        // Handler lambdas for each operation type
+        auto handleParensAssignment = [&]() {
+            ArrayOfVector expressions = expressionList(t->down, r);
+
+            if (r.isClassType()) {
+                handleClassTypeAssignment("()", expressions);
+                return;
+            }
+
+            if (expressions.empty()) {
+                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            } else if (expressions.size() == 1) {
+                r.setVectorSubset(expressions[0], value[0]);
+            } else {
+                r.setNDimSubset(expressions, value[0]);
+            }
+        };
+
+        auto handleBracesAssignment = [&]() {
+            ArrayOfVector expressions = expressionList(t->down, r);
+
+            if (r.isClassType()) {
+                handleClassTypeAssignment("{}", expressions);
+                return;
+            }
+
+            if (expressions.empty()) {
+                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            } else if (expressions.size() == 1) {
+                r.setVectorContentsAsList(expressions[0], value);
+            } else {
+                r.setNDimContentsAsList(expressions, value);
+            }
+        };
+
+        auto handleDotAssignment = [&]() {
+            const std::string fieldname = t->down->text;
+
+            if (r.isClassType()) {
+                stringVector subtypes = { "." };
+                ArrayOfVector subsindices;
+                subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
+
+                ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+                if (res.size() != 1) {
+                    Error(_("Invalid LHS."));
+                }
+                r = res[0];
+                return;
+            }
+
+            if (r.isHandle() || r.isGraphicsObject()) {
+                setHandle(r, fieldname, value);
+            } else if (r.isStruct() || r.isEmpty()) {
+                r.setFieldAsList(fieldname, value);
+            } else {
+                Error(ERROR_ASSIGN_TO_NON_STRUCT);
+            }
+        };
+
+        auto handleDynamicDotAssignment = [&]() {
+            std::string fieldname;
+            try {
+                ArrayOf fname = expression(t->down);
+                fieldname = fname.getContentAsCString();
+            } catch (const Exception&) {
+                Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+            }
+
+            if (r.isClassType()) {
+                stringVector subtypes = { "." };
+                ArrayOfVector subsindices;
+                subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
+
+                ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+                if (res.size() != 1) {
+                    Error(_("Invalid LHS."));
+                }
+                r = res[0];
+            } else if (r.isHandle()) {
+                setHandle(r, fieldname, value);
+            } else {
+                r.setFieldAsList(fieldname, value);
+            }
+        };
+
+        // Operation dispatch using lambdas in a map-like structure
+        static const std::unordered_map<int, std::function<void()>> operationHandlers
+            = { { OP_PARENS, [=]() { handleParensAssignment(); } },
+                  { OP_BRACES, [=]() { handleBracesAssignment(); } },
+                  { OP_DOT, [=]() { handleDotAssignment(); } },
+                  { OP_DOTDYN, [=]() { handleDynamicDotAssignment(); } } };
+
+        // Execute the appropriate handler
+        auto it = operationHandlers.find(t->opNum);
+        if (it != operationHandlers.end()) {
+            // Create new lambda to capture current context
+            switch (t->opNum) {
+            case OP_PARENS:
+                handleParensAssignment();
+                break;
+            case OP_BRACES:
+                handleBracesAssignment();
+                break;
+            case OP_DOT:
+                handleDotAssignment();
+                break;
+            case OP_DOTDYN:
+                handleDynamicDotAssignment();
+                break;
+            default:
+                // No operation needed for other cases
+                break;
+            }
+        }
+    });
 }
 //=============================================================================
 indexType
@@ -3902,8 +4005,8 @@ Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
     } else if (m.size() == 1) {
         if (r.isClassType()) {
             stringVector substype;
-            ArrayOfVector subsindices;
             substype.push_back("()");
+            ArrayOfVector subsindices;
             ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
             ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
             for (size_t k = 0; k < m.size(); k++) {
@@ -4661,9 +4764,9 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
     std::string currentClass = ClassName(r);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string functionNamesimpleExtractClass
+    std::string functionNameSimpleExtractClass
         = getOverloadFunctionName(currentClass, SUBSREF_OPERATOR_STR);
-    if (_context->lookupFunction(functionNamesimpleExtractClass, funcDef)) {
+    if (_context->lookupFunction(functionNameSimpleExtractClass, funcDef)) {
         haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {

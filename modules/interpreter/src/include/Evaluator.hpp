@@ -744,8 +744,8 @@ public:
 
 private:
     ArrayOfVector
-    simpleClassAssign(
-        const std::string& subtype, const ArrayOf& r, const ArrayOfVector& m, ArrayOfVector& value);
+    simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
+        const ArrayOfVector& subsindices, const ArrayOfVector& values);
 
     ArrayOfVector
     extractClass(const ArrayOf& r, const stringVector& subtypes, const ArrayOfVector& subsindices,
