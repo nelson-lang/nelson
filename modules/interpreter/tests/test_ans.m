@@ -8,12 +8,19 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 clear ans
-assert_isfalse(isvar('ans'))
+assert_isfalse(isvar('ans'));
 B = 33;
 B
-assert_isfalse(isvar('ans'))
+assert_isfalse(isvar('ans'));
 B = {33};
 B
-assert_isfalse(isvar('ans'))
+assert_isfalse(isvar('ans'));
 33
-assert_istrue(isvar('ans'))
+assert_istrue(isvar('ans'));
+clear ans
+st.a=1;
+st
+assert_isfalse(isvar('ans'));
+st.a
+assert_istrue(isvar('ans'));
+assert_isequal(st.a,ans);
