@@ -1821,37 +1821,60 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
+    // Process pending events if an event loop is active
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
     }
-    ArrayOfVector m;
 
+    // Execute any queued command before processing the statement
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
         evaluateString(cmd);
     }
-    FunctionDef* fdef = nullptr;
+
     if (t == nullptr) {
         return;
     }
+
     callstack.pushID((size_t)t->getContext());
-    // check the debug flag
-    int fullcontext = t->getContext();
-    handleDebug(fullcontext);
+
+    // Handle debugging (breakpoints, step mode, etc.)
+    handleDebug(t->getContext());
+
+    // Handle empty statement
     if (t->isEmpty()) {
-        /* Empty statement */
-    } else if (t->opNum == (OP_ASSIGN)) {
+        callstack.popID();
+        return;
+    }
+
+    // Handle assignment statement
+    if (t->opNum == OP_ASSIGN) {
         assignStatement(t->down, printIt);
-    } else if (t->opNum == (OP_MULTICALL)) {
+        callstack.popID();
+        return;
+    }
+
+    // Handle multi-function assignment (e.g. [a, b] = func(...))
+    if (t->opNum == OP_MULTICALL) {
         multiFunctionCall(t->down, printIt);
-    } else if (t->opNum == (OP_SCALL)) {
+        callstack.popID();
+        return;
+    }
+
+    // Handle special function call syntax
+    if (t->opNum == OP_SCALL) {
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
-        if (m.size() > 0) {
+        if (!m.empty()) {
             context->insertVariable("ans", m[0]);
             display(m[0], "ans", false, true);
         }
-    } else if (t->type == reserved_node) {
+        callstack.popID();
+        return;
+    }
+
+    // Handle reserved statements (for, while, if, break, continue, etc.)
+    if (t->type == reserved_node) {
         switch (t->tokenNumber) {
         case NLS_KEYWORD_FOR:
             forStatement(t->down);
@@ -1863,14 +1886,12 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             ifStatement(t->down);
             break;
         case NLS_KEYWORD_BREAK:
-            if (context->inLoop()) {
+            if (context->inLoop())
                 state = NLS_STATE_BREAK;
-            }
             break;
         case NLS_KEYWORD_CONTINUE:
-            if (context->inLoop()) {
+            if (context->inLoop())
                 state = NLS_STATE_CONTINUE;
-            }
             break;
         case NLS_KEYWORD_RETURN:
             state = NLS_STATE_RETURN;
@@ -1883,20 +1904,17 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             break;
         case NLS_KEYWORD_ABORT:
             state = NLS_STATE_ABORT;
-            if (depth != 0) {
-                depth = 0;
-            }
+            depth = 0;
             break;
         case NLS_KEYWORD_KEYBOARD:
             depth++;
             evalCLI();
-            if (state < NLS_STATE_QUIT) {
+            if (state < NLS_STATE_QUIT)
                 resetState();
-            }
             depth--;
             break;
         case NLS_KEYWORD_ENDFUNCTION:
-            /* a workaround to have a endfunction keyword */
+            // Only allowed inside a function scope
             if (context->getCurrentScope()->getName() == "base") {
                 Error(ERROR_ENDFUNCTION_WRONG_USE);
             }
@@ -1905,68 +1923,81 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         default:
             Error(ERROR_UNRECOGNIZED_STATEMENT);
         }
-    } else {
-        // There is a special case to consider here - when a
-        // function call is made as a statement, we do not require
-        // that the function have an output.
-        ArrayOf b;
-        bool bUpdateAns = true;
-        if (t->opNum == (OP_RHS) && !context->lookupVariable(t->down->text, b)
-            && lookupFunction(t->down->text, fdef)) {
-            m = functionExpression(fdef, t->down, 0, true);
-            if (m.size() > 0) {
-                b = m[0];
-            } else {
-                bUpdateAns = false;
-            }
-            if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                display(b, "ans", false, true);
-            }
-        } else if (t->opNum == OP_RHS) {
-            if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
-                m = rhsExpression(t->down, 0);
-            } else {
-                bUpdateAns = false;
-                if (b.isCell()) {
-                    try {
-                        m = rhsExpression(t->down);
-                    } catch (Exception& e) {
-                        if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
-                            throw;
-                        }
-                    }
-                } else {
-                    m = rhsExpression(t->down);
-                }
-            }
-            if (m.size() == 0) {
-                b = ArrayOf::emptyConstructor();
-            } else {
-                b = m[0];
-                if (printIt && (state < NLS_STATE_QUIT)) {
-                    for (size_t j = 0; j < m.size(); j++) {
-                        if (m.size() > 1) {
-                            std::string message = fmt::format(_("\n{} of {}:\n"),
-                                static_cast<int>(j) + 1, static_cast<int>(m.size()));
-                            io->outputMessage(message);
-                        }
-                        display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
-                    }
-                }
-            }
+        callstack.popID();
+        return;
+    }
+
+    // Handle function call or expression statement
+    ArrayOf b;
+    ArrayOfVector m;
+    bool bUpdateAns = true;
+    FunctionDef* fdef = nullptr;
+
+    // Function call as statement (no output required)
+    if (t->opNum == OP_RHS && !context->lookupVariable(t->down->text, b)
+        && lookupFunction(t->down->text, fdef)) {
+        m = functionExpression(fdef, t->down, 0, true);
+        if (!m.empty()) {
+            b = m[0];
         } else {
-            b = expression(t);
-            if (printIt && (state < NLS_STATE_QUIT)) {
-                display(b, "ans", false, true);
+
+            bUpdateAns = false;
+        }
+        if (printIt && !m.empty() && state < NLS_STATE_QUIT) {
+            display(b, "ans", false, true);
+        }
+    }
+    // Variable or function handle call
+    else if (t->opNum == OP_RHS) {
+        bUpdateAns = false;
+        if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
+            m = rhsExpression(t->down, 0);
+        } else {
+            if (b.isCell()) {
+                try {
+                    m = rhsExpression(t->down);
+                } catch (Exception& e) {
+                    if (!e.matches(ERROR_EMPTY_EXPRESSION))
+                        throw;
+                }
+            } else {
+                m = rhsExpression(t->down);
             }
         }
-        if (isQuitOrForceQuitState() || state == NLS_STATE_ABORT) {
-            callstack.popID();
-            return;
+        if (m.empty()) {
+            b = ArrayOf::emptyConstructor();
+        } else {
+            b = m[0];
+            if (printIt && state < NLS_STATE_QUIT) {
+                if (b.name().empty()) {
+                    bUpdateAns = true;
+                }
+                for (size_t j = 0; j < m.size(); j++) {
+                    if (m.size() > 1) {
+                        std::string message = fmt::format(_("\n{} of {}:\n"),
+                            static_cast<int>(j) + 1, static_cast<int>(m.size()));
+                        io->outputMessage(message);
+                    }
+                    display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
+                }
+            }
         }
-        if (bUpdateAns) {
-            context->insertVariable("ans", b);
+    }
+    // General expression statement
+    else {
+        b = expression(t);
+        if (printIt && state < NLS_STATE_QUIT) {
+            display(b, "ans", false, true);
         }
+    }
+
+    if (isQuitOrForceQuitState() || state == NLS_STATE_ABORT) {
+        callstack.popID();
+        return;
+    }
+    // Update "ans" variable if required
+    if (bUpdateAns) {
+        context->insertVariable("ans", b);
     }
     callstack.popID();
 }
