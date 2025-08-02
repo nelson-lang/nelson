@@ -1,7 +1,7 @@
 //=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
-// This file is part of the Nelson.
+// This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later
@@ -217,7 +217,7 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
         }
         double mean = static_cast<double>(total) / counts.size();
 
-        // Count lines with consistent delimiter count (within ±1 of mean)
+        // Count lines with consistent delimiter count (within ï¿½1 of mean)
         size_t consistentLines = 0;
         for (size_t count : counts) {
             if (std::abs(count - mean) <= 1.0) {

@@ -217,7 +217,7 @@
   "ASSUMEDTYPE must be an integer type name.": "ASSUMEDTYPE doit être un nom de type entier.",
   "AST - syntax error!": "AST - erreur de syntaxe !",
   "About": "À propos de",
-  "About Nelson...": "À propos de Nelson...",
+  "About Nelson.": "À propos de Nelson.",
   "Add to Path": "Ajouter au chemin d'accès",
   "All Python elements must be convertible as scalar to the requested type.": "Tous les éléments Python doivent être convertibles en tant que scalaire vers le type demandé.",
   "All elements of cell array must have same type.": "Tous les éléments du tableau de cells doivent avoir le même type.",

@@ -2,7 +2,7 @@
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 // Copyright (c) 2002, 2003 Samit Basu
 //=============================================================================
-// This file is part of the Nelson.
+// This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later

@@ -1,5 +1,5 @@
 //=============================================================================
-// This file is part of the Nelson.
+// This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later
