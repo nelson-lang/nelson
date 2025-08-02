@@ -1,7 +1,7 @@
 //=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
-// This file is part of the Nelson.
+// This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later
@@ -422,7 +422,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
     NelsonType dataClass = image.getDataClass();
     size_t planeSize = width * height;
 
-    // Handle 180° rotation
+    // Handle 180ï¿½ rotation
     if (multiple_of_ninety == 2) {
         switch (dataClass) {
         case NLS_DOUBLE:
@@ -465,7 +465,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
         }
     }
 
-    // Determine new dimensions for 90° or 270°
+    // Determine new dimensions for 90ï¿½ or 270ï¿½
     size_t new_width = (boundingBox == BoundingBox::Crop && height != width) ? width : height;
     size_t new_height = (boundingBox == BoundingBox::Crop && height != width) ? height : width;
 
@@ -490,10 +490,10 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
 
             size_t new_x = 0, new_y = 0;
 
-            if (multiple_of_ninety == 1) { // 90°
+            if (multiple_of_ninety == 1) { // 90ï¿½
                 new_x = height - 1 - y;
                 new_y = x;
-            } else if (multiple_of_ninety == 3) { // 270°
+            } else if (multiple_of_ninety == 3) { // 270ï¿½
                 new_x = y;
                 new_y = width - 1 - x;
             }
