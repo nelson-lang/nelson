@@ -92,11 +92,8 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
         Error(_W("Argument to diagonal constructor must by a vector!"));
     }
     indexType length = src.getElementCount();
-    indexType M = 0;
-    M = length + abs(diagonalOrder);
-    Dimensions dims;
-    dims[0] = M;
-    dims[1] = M;
+    indexType M = length + abs(diagonalOrder);
+    Dimensions dims(M, M);
     void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
     if (diagonalOrder < 0) {
         OMP_PARALLEL_FOR_LOOP(length)

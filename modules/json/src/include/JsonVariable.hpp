@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <vector>
+#include <memory>
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 enum JSON_TO_NELSON_Type
 {
     JSON_TO_NELSON_UNDEFINED, // unknow
@@ -29,7 +31,7 @@ enum JSON_TO_NELSON_Type
     JSON_TO_NELSON_CELL // cell
 };
 //=============================================================================
-class JsonVariable
+struct JsonVariable
 {
 public:
     JSON_TO_NELSON_Type jsonVariableType;
@@ -38,30 +40,31 @@ public:
     std::string scalarString;
     double scalarDouble;
     logical scalarLogical;
-    boost::unordered_map<std::string, JsonVariable> scalarMap;
+    std::unordered_map<std::string, JsonVariable*> scalarMap;
 
     std::vector<std::string> vectorString;
     std::vector<double> vectorDouble;
     std::vector<logical> vectorLogical;
 
-    std::vector<JsonVariable> vectorJsonVariable;
-    boost::unordered_map<std::string, std::vector<JsonVariable>> map;
+    std::vector<JsonVariable*> vectorJsonVariable;
+    std::unordered_map<std::string, std::vector<JsonVariable*>> map;
     std::vector<std::string> fieldnames;
 
     bool reduced = false;
 
     JsonVariable();
     ~JsonVariable();
+
+    JsonVariable(const JsonVariable& other);
+    JsonVariable&
+    operator=(const JsonVariable& other);
+
+private:
+    void
+    clear();
+    void
+    deepCopyFrom(const JsonVariable& other);
 };
-//=============================================================================
-JsonVariable::JsonVariable()
-{
-    jsonVariableType = JSON_TO_NELSON_UNDEFINED;
-    scalarDouble = std::nan("NaN");
-    scalarLogical = false;
-};
-//=============================================================================
-JsonVariable::~JsonVariable() {};
 //=============================================================================
 }
 //=============================================================================

@@ -412,13 +412,10 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t)
 {
     ArrayOfVector m;
     ArrayOfVector n;
-    indexType tmp = 0;
-    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
     callstack.pushID(t->getContext());
-    AbstractSyntaxTreePtr root = t;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
@@ -457,7 +454,6 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
     AbstractSyntaxTreePtr root;
     indexType index = 0;
     indexType tmp = 0;
-    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }

@@ -18,28 +18,19 @@ namespace Nelson {
 bool
 ArrayOf::isLogical() const
 {
-    if (dp) {
-        return (dp->dataClass == NLS_LOGICAL);
-    }
-    return false;
+    return dp && dp->dataClass == NLS_LOGICAL;
 }
 //=============================================================================
 bool
 ArrayOf::isNdArrayLogical() const
 {
-    if (dp) {
-        return (dp->dataClass == NLS_LOGICAL) && !is2D();
-    }
-    return false;
+    return dp && dp->dataClass == NLS_LOGICAL && !is2D();
 }
 //=============================================================================
 bool
 ArrayOf::isSparseLogicalType() const
 {
-    if (dp) {
-        return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
-    }
-    return false;
+    return dp && dp->dataClass == NLS_LOGICAL && dp->sparse && is2D();
 }
 //=============================================================================
 ArrayOf

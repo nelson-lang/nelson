@@ -30,10 +30,8 @@ setNDimSubsetNoColonReal(T* sp, const T* destp, const indexType outDims[maxDims]
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -69,14 +67,12 @@ setNDimSubsetNoColonBurst(T* sp, const T* destp, const indexType outDims[maxDims
     indexType advance)
 {
     // Calculate the number of output elements
+    // Initialize the ndxpointer to zero
     indexType outCount = 1;
+    indexType ndxptr[maxDims];
     for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
-    }
-    // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
+        ndxptr[i] = 0;
     }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
@@ -119,10 +115,8 @@ setNDimSubsetFirstColonReal(T* sp, const T* destp, const indexType outDims[maxDi
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -166,10 +160,8 @@ setNDimSubsetFirstColonBurst(T* sp, const T* destp, const indexType outDims[maxD
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -212,10 +204,8 @@ setNDimSubsetAnyColonReal(T* sp, const T* destp, const indexType outDims[maxDims
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -227,12 +217,7 @@ setNDimSubsetAnyColonReal(T* sp, const T* destp, const indexType outDims[maxDims
         // Retrieve the index values based on ndxptr
         // Use these to calculate the source address
         for (indexType j = 0; j < numDims; j++) {
-            indexType ndxval;
-            if (j == colonIndex) {
-                ndxval = ndxptr[j];
-            } else {
-                ndxval = ndx[j][ndxptr[j]] - 1;
-            }
+            indexType ndxval = (j == colonIndex) ? ndxptr[j] : ndx[j][ndxptr[j]] - 1;
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
@@ -261,10 +246,8 @@ setNDimSubsetAnyColonBurst(T* sp, const T* destp, const indexType outDims[maxDim
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -276,12 +259,7 @@ setNDimSubsetAnyColonBurst(T* sp, const T* destp, const indexType outDims[maxDim
         // Retrieve the index values based on ndxptr
         // Use these to calculate the source address
         for (indexType j = 0; j < numDims; j++) {
-            indexType ndxval;
-            if (j == colonIndex) {
-                ndxval = ndxptr[j];
-            } else {
-                ndxval = ndx[j][ndxptr[j]] - 1;
-            }
+            indexType ndxval = (j == colonIndex) ? ndxptr[j] : ndx[j][ndxptr[j]] - 1;
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
@@ -311,37 +289,22 @@ setNDimSubsetSliceReal(T* sp, const T* destp, const indexType outDims[maxDims],
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
     }
     // Calculate the start element
-    indexType start = 0;
-    for (indexType j = 0; j < numDims; j++) {
-        indexType ndxval;
-        if (j == colonIndex) {
-            ndxval = 0;
-        } else {
-            ndxval = ndx[j][0] - 1;
-        }
-        start += ndxval * srcfact[j];
-    }
     // Next, calculate the stride distance
     // we do this by setting the colon component to 1
+    indexType start = 0;
     indexType stride = 0;
     for (indexType j = 0; j < numDims; j++) {
-        indexType ndxval;
-        if (j == colonIndex) {
-            ndxval = 1;
-        } else {
-            ndxval = ndx[j][0] - 1;
-        }
-        stride += ndxval * srcfact[j];
+        indexType ndxval = ndx[j][0] - 1;
+        start += (j == colonIndex ? 0 : ndxval) * srcfact[j];
+        stride += (j == colonIndex ? 1 : ndxval) * srcfact[j];
     }
     stride -= start;
     indexType srcadd = start;
@@ -365,10 +328,8 @@ setNDimSubsetSliceBurst(T* sp, const T* destp, const indexType outDims[maxDims],
         outCount *= outDims[i];
     }
     // Initialize the ndxpointer to zero
-    indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++) {
-        ndxptr[j] = 0;
-    }
+    indexType ndxptr[maxDims] = { 0 };
+
     indexType srcfact[maxDims];
     srcfact[0] = 1;
     for (indexType j = 1; j < numDims; j++) {
@@ -651,9 +612,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const indexType*>(indx[0]), outDims[0],
                 static_cast<const indexType*>(indx[1]), outDims[1], rightData.getDataPointer(),
                 static_cast<int>(advance));
-            Dimensions newdim;
-            newdim[0] = rows;
-            newdim[1] = cols;
+            Dimensions newdim(rows, cols);
             dp = dp->putData(dp->dataClass, newdim, qp, true);
             return;
         }
@@ -805,15 +764,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         if (index.getDataClass() == NLS_LOGICAL) {
             indexType nbIndex = index.getElementCount();
             logical* mat = (logical*)index.getDataPointer();
-            isIndexAllFalse = true;
-            if (mat[0] == false) {
-                for (indexType k = 1; k < nbIndex; k++) {
-                    if (mat[0] != mat[k]) {
-                        isIndexAllFalse = false;
-                        break;
-                    }
-                }
-            }
+            isIndexAllFalse = std::all_of(mat, mat + nbIndex, [](logical v) { return v == false; });
         }
         bool lhsAndRhsEmpty = isEmpty() && rightData.isEmpty();
         if (!rightData.isEmpty(true) && !lhsAndRhsEmpty && !isIndexAllFalse) {
@@ -975,6 +926,9 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
 void
 ArrayOf::setValue(const ArrayOf& value)
 {
+    if (this == &value) {
+        return;
+    }
     if (dp && (dp->deleteCopy() <= 1)) {
         dp->freeDataBlock();
     }

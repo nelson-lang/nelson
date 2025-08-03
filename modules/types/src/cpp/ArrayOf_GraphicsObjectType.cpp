@@ -17,10 +17,7 @@ namespace Nelson {
 bool
 ArrayOf::isGraphicsObject() const
 {
-    if (dp) {
-        return (dp->dataClass == NLS_GO_HANDLE);
-    }
-    return false;
+    return dp && dp->dataClass == NLS_GO_HANDLE;
 }
 //=============================================================================
 ArrayOf

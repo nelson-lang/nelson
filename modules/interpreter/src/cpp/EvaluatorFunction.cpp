@@ -194,16 +194,16 @@ Evaluator::functionExpression(
                             argTypeMap[keywordNdx[i]] = (int)i;
                         }
                         // Fill out the rest of the values from m
-                        size_t n = 0;
-                        int p = 0;
-                        while (n < m.size()) {
-                            if (!filled[p]) {
-                                toFill[p] = m[n];
-                                filled[p] = true;
-                                argTypeMap[p] = -2;
-                                n++;
+                        size_t nidx = 0;
+                        int pidx = 0;
+                        while (nidx < m.size()) {
+                            if (!filled[pidx]) {
+                                toFill[pidx] = m[nidx];
+                                filled[pidx] = true;
+                                argTypeMap[pidx] = -2;
+                                nidx++;
                             }
-                            p++;
+                            pidx++;
                         }
                         // Finally, fill in empty matrices for the
                         // remaining arguments
@@ -391,15 +391,6 @@ Evaluator::functionExpression(
                 }
             }
         }
-        // Some routines (e.g., min and max) will return more outputs
-        // than were actually requested... so here we have to trim
-        // any elements received that we didn't ask for.
-        //	  narg_out = (int)n.size();
-        /*
-        while ((int)n.size() > narg_out)	n.pop_back();
-        popID();
-        return n;
-        */
     } catch (const Exception&) {
         InCLI = CLIFlagsave;
         throw;
@@ -425,7 +416,6 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     AbstractSyntaxTreePtr saveLHS;
     AbstractSyntaxTreePtr cAST;
     ArrayOf c;
-    // int lhsSize;
     FunctionDef* fptr;
     cAST = t;
     fAST = t->right;
@@ -514,15 +504,15 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     }
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
-        ArrayOf c(assignExpression(s->down, m));
-        if (!context->insertVariable(s->down->text, c)) {
+        ArrayOf cLocal(assignExpression(s->down, m));
+        if (!context->insertVariable(s->down->text, cLocal)) {
             if (IsValidVariableName(s->down->text, true)) {
                 Error(_W("Redefining permanent variable."));
             }
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            display(c, s->down->text, false, true);
+            display(cLocal, s->down->text, false, true);
         }
         s = s->right;
     }
