@@ -291,7 +291,7 @@ public:
     /**
      * Special case the single assignment statement 'A = B' for speed.
      */
-    inline ArrayOf
+    ArrayOf
     rhsExpressionSimple(AbstractSyntaxTreePtr t);
 
     void

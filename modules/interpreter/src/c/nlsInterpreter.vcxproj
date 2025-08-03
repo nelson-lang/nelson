@@ -223,6 +223,13 @@
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\CallbackQueue.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorAssignment.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorControlFlow.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorDebug.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorFunction.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorError.cpp" />
+    <ClCompile Include="..\cpp\EvaluatorIndexing.cpp" />
     <ClCompile Include="..\cpp\GraphicCallback.cpp" />
     <ClCompile Include="..\cpp\TextToNumber.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
