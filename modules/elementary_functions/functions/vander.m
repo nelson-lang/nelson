@@ -17,7 +17,6 @@ function A = vander(V)
   if N > 0
     A = zeros(length(V), N, class(V));
     D = 1;
-    V = V(:);
     for i = N:-1:1
       A(:, i) = D;
       D = D .* V;

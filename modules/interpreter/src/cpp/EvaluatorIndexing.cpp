@@ -302,7 +302,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
         if (tt->opNum == OP_PARENS && tt->down == nullptr && tt->right != nullptr) {
             tt = tt->right;
             if (tt->opNum == OP_DOT) {
-                ArrayOfVector rv(r.getField(tt->down->text));
+                rv = ArrayOfVector(r.getField(tt->down->text));
                 callstack.popID();
                 return rv;
             }

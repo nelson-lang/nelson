@@ -213,7 +213,6 @@ void
 ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
     ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexVarName)) {
@@ -287,9 +286,10 @@ ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& inde
     indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf indexVar;
+    Context* context = eval->getContext();
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
         indexVar = indexSet.getValueAtIndex(elementNumber);
-        if (!eval->getContext()->insertVariable(indexVarName, indexVar)) {
+        if (!context->insertVariable(indexVarName, indexVar)) {
             Error(_W("Valid variable name expected."));
         }
         eval->block(codeBlock);
@@ -342,7 +342,6 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
 void
 Evaluator::forStatement(AbstractSyntaxTreePtr t)
 {
-    indexType elementCount = 0;
     if (t == nullptr) {
         resetState();
         context->exitLoop();
@@ -363,6 +362,7 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     /* Get the code block */
     AbstractSyntaxTreePtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();
+    indexType elementCount = 0;
     if (isRowVector) {
         elementCount = indexSet.getElementCount();
     } else if (indexSet.isColumnVector()) {

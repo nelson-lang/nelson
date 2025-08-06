@@ -64,17 +64,6 @@ public:
         return vector.empty();
     }
     //=============================================================================
-    inline ListVector&
-    operator=(const ListVector& copy)
-    {
-        if (&copy == this) {
-            return *this;
-        }
-        vector.reserve(copy.vector.size());
-        vector = copy.vector;
-        return *this;
-    }
-    //=============================================================================
     inline void
     push_back(const T& el)
     {
@@ -149,12 +138,34 @@ public:
     }
     //=============================================================================
     inline ListVector&
+    operator=(const ListVector& copy)
+    {
+        if (&copy == this) {
+            return *this;
+        }
+        if (vector.capacity() < copy.vector.size()) {
+            vector.reserve(copy.vector.size());
+        }
+        vector = copy.vector;
+        return *this;
+    }
+    //=============================================================================
+    inline ListVector&
+    operator=(ListVector&& other) noexcept
+    {
+        if (this != &other) {
+            vector = std::move(other.vector);
+        }
+        return *this;
+    }
+    //=============================================================================
+    inline ListVector&
     operator+=(const ListVector<T>& other)
     {
-        vector.reserve(other.size() + vector.size());
-        for (size_t i = 0; i < other.size(); i++) {
-            push_back(other.at(i));
+        if (vector.capacity() < other.size() + vector.size()) {
+            vector.reserve(other.size() + vector.size());
         }
+        std::copy(other.begin(), other.end(), std::back_inserter(vector));
         return *this;
     }
     //=============================================================================

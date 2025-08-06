@@ -15,13 +15,13 @@
 #define JSMN_STRICT
 #include <jsmn.h>
 #include <fast_float/fast_float.h>
-#include "StringHelpers.hpp"
 #include <vector>
 #include <cstdlib>
+#include "JsonVariable.hpp"
+#include "StringHelpers.hpp"
 #include "MakeValidFieldname.hpp"
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
-#include "JsonVariable.hpp"
 #include "nlsBuildConfig.h"
 #include "i18n.hpp"
 #include "ParallelTransform.hpp"
@@ -297,7 +297,7 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
     for (indexType j = 0; j < elementCount; j++) {
         size_t s = jsVar.fieldnames.size();
         for (size_t i = 0; i < s; i++) {
-            ArrayOf rval = jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[i])[j]);
+            ArrayOf rval = jsonVariableToNelson(*jsVar.map.at(jsVar.fieldnames[i])[j]);
             ptrStruct[offset] = rval;
             offset++;
         }
@@ -317,7 +317,7 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar)
         ArrayOfVector fieldvalues;
         for (size_t k = 0; k < jsVar.fieldnames.size(); k++) {
             fieldnames.push_back(jsVar.fieldnames[k]);
-            JsonVariable jsv = jsVar.scalarMap[jsVar.fieldnames[k]];
+            JsonVariable jsv = *jsVar.scalarMap[jsVar.fieldnames[k]];
             ArrayOf fieldvalue = jsonVariableToNelson(jsv);
             fieldvalues.push_back(fieldvalue);
         }
@@ -330,7 +330,7 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar)
             ArrayOfVector fieldvalues;
             for (size_t k = 0; k < jsVar.fieldnames.size(); k++) {
                 fieldnames.push_back(jsVar.fieldnames[k]);
-                fieldvalues.push_back(jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[k])[0]));
+                fieldvalues.push_back(jsonVariableToNelson(*jsVar.map.at(jsVar.fieldnames[k])[0]));
             }
             return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
         }
@@ -355,7 +355,7 @@ jsonVariableToNelsonCellType(JsonVariable& jsVar)
         NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     ompIndexType elementCount = dims.getElementCount();
     for (ompIndexType k = 0; k < elementCount; k++) {
-        dptr[k] = jsonVariableToNelson(jsVar.vectorJsonVariable[k]);
+        dptr[k] = jsonVariableToNelson(*jsVar.vectorJsonVariable[k]);
     }
     return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
 }
@@ -397,7 +397,7 @@ findCommonJsonVariableType(JsonVariable& jsVar)
 
     int countDouble = 0, countLogical = 0, countEmpty = 0, countStruct = 0, countOther = 0;
     for (const auto& element : jsVar.vectorJsonVariable) {
-        switch (element.jsonVariableType) {
+        switch (element->jsonVariableType) {
         case JSON_TO_NELSON_DOUBLE:
             ++countDouble;
             break;
@@ -448,7 +448,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
         parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorString.begin(), [](JsonVariable& val) { return val.scalarString; });
+            jsVar.vectorString.begin(), [](JsonVariable* val) { return val->scalarString; });
     } break;
     case 2: {
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -457,7 +457,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         for (size_t idx = 0; idx < rows * cols; ++idx) {
             size_t i = idx % rows;
             size_t j = idx / rows;
-            std::string val = jsVar.vectorJsonVariable[i].vectorString[j];
+            std::string val = jsVar.vectorJsonVariable[i]->vectorString[j];
             jsVar.vectorString[j * rows + i] = val;
         }
     } break;
@@ -466,7 +466,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(
-                vectTemp.end(), element.vectorString.begin(), element.vectorString.end());
+                vectTemp.end(), element->vectorString.begin(), element->vectorString.end());
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
@@ -495,7 +495,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
         parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorLogical.begin(), [](JsonVariable& val) { return val.scalarLogical; });
+            jsVar.vectorLogical.begin(), [](JsonVariable* val) { return val->scalarLogical; });
     } break;
     case 2: {
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -505,7 +505,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         for (size_t idx = 0; idx < total; ++idx) {
             size_t i = idx % rows;
             size_t j = idx / rows;
-            logical val = jsVar.vectorJsonVariable[i].vectorLogical[j];
+            logical val = jsVar.vectorJsonVariable[i]->vectorLogical[j];
             jsVar.vectorLogical[j * rows + i] = val;
         }
     } break;
@@ -514,7 +514,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(
-                vectTemp.end(), element.vectorLogical.begin(), element.vectorLogical.end());
+                vectTemp.end(), element->vectorLogical.begin(), element->vectorLogical.end());
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
@@ -543,7 +543,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
         parallelTransform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorDouble.begin(), [](JsonVariable& val) { return val.scalarDouble; });
+            jsVar.vectorDouble.begin(), [](JsonVariable* val) { return val->scalarDouble; });
     } break;
     case 2: {
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -553,7 +553,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         for (size_t idx = 0; idx < total; ++idx) {
             size_t i = idx % rows;
             size_t j = idx / rows;
-            double val = jsVar.vectorJsonVariable[i].vectorDouble[j];
+            double val = jsVar.vectorJsonVariable[i]->vectorDouble[j];
             jsVar.vectorDouble[j * rows + i] = val;
         }
     } break;
@@ -562,7 +562,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         vectTemp.reserve(totaldims * jsVar.vectorJsonVariable.size());
         for (auto element : jsVar.vectorJsonVariable) {
             vectTemp.insert(
-                vectTemp.end(), element.vectorDouble.begin(), element.vectorDouble.end());
+                vectTemp.end(), element->vectorDouble.begin(), element->vectorDouble.end());
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
@@ -589,16 +589,17 @@ static bool
 transformStructArray(JsonVariable& jsVar, size_t totaldims)
 {
     std::vector<std::string> fieldnamesRef;
-    for (const auto& elements : jsVar.vectorJsonVariable[0].fieldnames) {
+    for (const auto& elements : jsVar.vectorJsonVariable[0]->fieldnames) {
+
         fieldnamesRef.push_back(elements);
     }
     for (size_t i = 1; i < jsVar.vectorJsonVariable.size(); ++i) {
-        if (jsVar.vectorJsonVariable[i].fieldnames.size() != fieldnamesRef.size()) {
+        if (jsVar.vectorJsonVariable[i]->fieldnames.size() != fieldnamesRef.size()) {
             jsVar.reduced = true;
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
             return true;
         }
-        for (const auto& element : jsVar.vectorJsonVariable[i].fieldnames) {
+        for (const auto& element : jsVar.vectorJsonVariable[i]->fieldnames) {
             if (std::find(fieldnamesRef.begin(), fieldnamesRef.end(), element)
                 == fieldnamesRef.end()) {
                 jsVar.reduced = true;
@@ -612,7 +613,7 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         for (const auto& name : fieldnamesRef) {
             for (auto var : jsVar.vectorJsonVariable) {
-                jsVar.map[name].push_back(var.scalarMap[name]);
+                jsVar.map[name].push_back(var->scalarMap[name]);
             }
         }
     } break;
@@ -625,22 +626,23 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
                 size_t i = idx % rows;
                 size_t j = idx / rows;
                 auto& var = jsVar.vectorJsonVariable[i];
-                if (var.dims.size() != 0) {
-                    jsVar.map[name].push_back(var.map[name][j]);
+                if (var->dims.size() != 0) {
+                    jsVar.map[name].push_back(var->map[name][j]);
                 } else {
-                    jsVar.map[name].push_back(var.scalarMap[name]);
+                    jsVar.map[name].push_back(var->scalarMap[name]);
                 }
             }
         }
     } break;
     default: {
         for (const auto& name : fieldnamesRef) {
+            jsVar.map[name].reserve(jsVar.vectorJsonVariable.size());
             for (auto var : jsVar.vectorJsonVariable) {
-                if (var.dims.size() != 0) {
+                if (var->dims.size() != 0) {
                     jsVar.map[name].insert(
-                        jsVar.map[name].end(), var.map[name].begin(), var.map[name].end());
+                        jsVar.map[name].end(), var->map[name].begin(), var->map[name].end());
                 } else {
-                    jsVar.map[name].push_back(var.vectorJsonVariable[0].scalarMap[name]);
+                    jsVar.map[name].push_back(var->vectorJsonVariable[0]->scalarMap[name]);
                 }
             }
         }
@@ -676,17 +678,17 @@ importTokens(
             if (!importTokens(jsonString, tokens_offset, tokens, jsElement)) {
                 return false;
             }
-            jsVar.vectorJsonVariable.push_back(jsElement);
+            jsVar.vectorJsonVariable.push_back(new JsonVariable(jsElement));
         }
         JSON_TO_NELSON_Type commonType = findCommonJsonVariableType(jsVar);
         if (commonType != JSON_TO_NELSON_UNDEFINED) {
-            std::vector<size_t> refVar = jsVar.vectorJsonVariable[0].dims;
+            std::vector<size_t> refVar = jsVar.vectorJsonVariable[0]->dims;
             size_t totaldims = 1;
             for (auto i : refVar) {
                 totaldims *= i;
             }
             for (const auto& element : jsVar.vectorJsonVariable) {
-                const std::vector<size_t>& dims = element.dims;
+                const std::vector<size_t>& dims = element->dims;
                 if (refVar.size() != dims.size()) {
                     jsVar.reduced = true;
                     jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
@@ -754,7 +756,7 @@ importTokens(
             }
             auto it = jsVar.scalarMap.find(key);
             if (it == jsVar.scalarMap.end()) {
-                jsVar.scalarMap[key] = jsValue;
+                jsVar.scalarMap[key] = new JsonVariable(jsValue);
                 jsVar.fieldnames.push_back(key);
             } else {
                 size_t idx = 1;
@@ -767,7 +769,7 @@ importTokens(
                     found = (it != jsVar.fieldnames.end());
                     idx++;
                 } while (found);
-                jsVar.scalarMap[modifiedKey] = jsValue;
+                jsVar.scalarMap[modifiedKey] = new JsonVariable(jsValue);
                 jsVar.fieldnames.push_back(modifiedKey);
             }
         }

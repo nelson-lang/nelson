@@ -31,29 +31,22 @@ ArrayOf::isDoubleClass() const
 bool
 ArrayOf::isDoubleType(bool realOnly) const
 {
-    bool res = false;
-    if (dp) {
-        if (realOnly) {
-            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
-        } else {
-            res = (isDoubleClass() && (!dp->sparse) && is2D());
-        }
+    if (!dp) {
+        return false;
     }
-    return res;
+    if (dp->sparse || !is2D()) {
+        return false;
+    }
+    return realOnly ? (dp->dataClass == NLS_DOUBLE) : isDoubleClass();
 }
 //=============================================================================
 bool
 ArrayOf::isNdArrayDoubleType(bool realOnly) const
 {
-    bool res = false;
-    if (dp) {
-        if (realOnly) {
-            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
-        } else {
-            res = (isDoubleClass() && (!dp->sparse) && !is2D());
-        }
+    if (!dp || dp->sparse || is2D()) {
+        return false;
     }
-    return res;
+    return realOnly ? (dp->dataClass == NLS_DOUBLE) : isDoubleClass();
 }
 //=============================================================================
 ArrayOf
@@ -80,6 +73,7 @@ ArrayOf::doubleRowVectorConstructor(std::vector<double>& values)
     double* data
         = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), false));
     std::copy(values.begin(), values.end(), data);
+
     return ArrayOf(NLS_DOUBLE, Dimensions(1, values.size()), data);
 }
 //=============================================================================
@@ -114,15 +108,17 @@ ArrayOf::getContentAsDoubleVector() const
     }
     size_t elementCount = getElementCount();
     std::vector<double> values(elementCount);
+
+    const double* data = nullptr;
     if (getDataClass() != NLS_DOUBLE) {
         ArrayOf P(*this);
         P.promoteType(NLS_DOUBLE);
-        const double* data = static_cast<const double*>(P.getDataPointer());
-        std::copy(data, data + elementCount, values.begin());
+        data = static_cast<const double*>(P.getDataPointer());
     } else {
-        const double* data = static_cast<const double*>(dp->getData());
-        std::copy(data, data + elementCount, values.begin());
+        data = static_cast<const double*>(dp->getData());
     }
+
+    std::copy(data, data + elementCount, values.begin());
     return values;
 }
 //=============================================================================
@@ -134,14 +130,14 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
         Error(_W("Expected a real value scalar."));
     }
     double value = 0;
-    if (getDataClass() != NLS_DOUBLE) {
+    if (getDataClass() == NLS_DOUBLE) {
+        double* qp = (double*)dp->getData();
+        value = qp[0];
+    } else {
         ArrayOf P(*this);
         P.promoteType(NLS_DOUBLE);
-        auto* qp = (double*)P.getDataPointer();
-        value = *qp;
-    } else {
-        auto* qp = (double*)dp->getData();
-        value = *qp;
+        double* qp = (double*)P.getDataPointer();
+        value = qp[0];
     }
     if (checkIsIntegerValue) {
         double f = std::floor(value);
@@ -159,16 +155,16 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real valued scalar"));
     }
+    const double* qp = nullptr;
     if (getDataClass() != NLS_DCOMPLEX) {
         ArrayOf P(*this);
         P.promoteType(NLS_DCOMPLEX);
-        double* qp = (double*)P.getDataPointer();
-        doublecomplex cx(qp[0], qp[1]);
-        return cx;
+        qp = static_cast<const double*>(P.getDataPointer());
+    } else {
+        qp = static_cast<const double*>(dp->getData());
     }
-    double* qp = (double*)dp->getData();
-    doublecomplex cx(qp[0], qp[1]);
-    return cx;
+
+    return doublecomplex { qp[0], qp[1] };
 }
 //=============================================================================
 } // namespace Nelson

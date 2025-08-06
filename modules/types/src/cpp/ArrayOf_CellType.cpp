@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <memory>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
@@ -25,53 +26,62 @@ ArrayOf::isCell() const
 static ArrayOf
 toCellArrayOfCharacterVectors(const stringVector& vectorStr, bool bAsColumn)
 {
-    ArrayOf* elements = nullptr;
-    size_t nbElements = vectorStr.size();
-    if (nbElements > 0) {
-        try {
-            elements = new ArrayOf[nbElements];
-        } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        }
-        for (size_t k = 0; k < nbElements; k++) {
-            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
-        }
+    const size_t nbElements = vectorStr.size();
+    if (nbElements == 0) {
+        Dimensions dims = bAsColumn ? Dimensions(0, 1) : Dimensions(1, 0);
+        return ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
     }
-    ArrayOf c;
-    if (bAsColumn) {
-        Dimensions dims(nbElements, 1);
-        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    } else {
-        Dimensions dims(1, nbElements);
-        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+
+    std::unique_ptr<ArrayOf[]> elements;
+    try {
+        elements = std::make_unique<ArrayOf[]>(nbElements);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
     }
-    return c;
+    for (size_t k = 0; k < nbElements; ++k) {
+        elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
+    }
+
+    Dimensions dims = bAsColumn ? Dimensions(nbElements, 1) : Dimensions(1, nbElements);
+    // Create the cell array with the allocated elements
+    try {
+        ArrayOf result(NLS_CELL_ARRAY, dims, elements.get());
+        elements.release(); // Only release ownership after successful construction
+        return result;
+    } catch (...) {
+        // If construction fails, elements will be deleted by unique_ptr
+        throw;
+    }
 }
 //=============================================================================
 static ArrayOf
 toCellArrayOfCharacterVectors(const wstringVector& vectorStr, bool bAsColumn)
 {
-    ArrayOf* elements = nullptr;
-    size_t nbElements = vectorStr.size();
-    if (nbElements > 0) {
-        try {
-            elements = new ArrayOf[nbElements];
-        } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        }
-        for (size_t k = 0; k < nbElements; k++) {
-            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
-        }
+    const size_t nbElements = vectorStr.size();
+    if (nbElements == 0) {
+        Dimensions dims = bAsColumn ? Dimensions(0, 1) : Dimensions(1, 0);
+        return ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
     }
-    ArrayOf c;
-    if (bAsColumn) {
-        Dimensions dims(nbElements, 1);
-        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    } else {
-        Dimensions dims(1, nbElements);
-        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+
+    std::unique_ptr<ArrayOf[]> elements;
+    try {
+        elements = std::make_unique<ArrayOf[]>(nbElements);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
     }
-    return c;
+    for (size_t k = 0; k < nbElements; ++k) {
+        elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
+    }
+
+    Dimensions dims = bAsColumn ? Dimensions(nbElements, 1) : Dimensions(1, nbElements);
+    try {
+        ArrayOf result(NLS_CELL_ARRAY, dims, elements.get());
+        elements.release(); // Only release ownership after successful construction
+        return result;
+    } catch (...) {
+        // If construction fails, elements will be deleted by unique_ptr
+        throw;
+    }
 }
 //=============================================================================
 ArrayOf
