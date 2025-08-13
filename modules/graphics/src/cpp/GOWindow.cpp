@@ -126,7 +126,8 @@ GOWindow::closeEvent(QCloseEvent* e)
         if (cgo.isRowVectorCharacterArray() || cgo.isScalarStringArray()) {
             std::wstring callbackString = cgo.getContentAsWideCharactersPointer();
             if (callbackString == GO_PROPERTY_VALUE_CLOSEREQ_STR) {
-                closeFigure(handle, false);
+
+                closeFigure(handle, true);
                 e->accept();
                 return;
             }

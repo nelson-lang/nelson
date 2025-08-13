@@ -10,29 +10,37 @@
 #include "ProcessEventsDynamic.hpp"
 #include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
-//=============================================================================
+#include <string>
+#include <mutex>
+//===================================================================================
 namespace Nelson {
-//=============================================================================
-static library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
-//=============================================================================
+//===================================================================================
+namespace {
+    library_handle nlsGuiHandleDynamicLibrary = nullptr;
+    std::once_flag guiLibraryInitFlag;
+
+    template <typename FuncPtr>
+    FuncPtr
+    getFunctionPointer(const char* functionName)
+    {
+        return reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
+    }
+}
+//===================================================================================
 static void
 initGuiDynamicLibrary()
 {
-    if (bFirstDynamicLibraryCall) {
-        std::wstring fullpathGuiSharedLibrary
-            = L"libnlsGui" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonLibrariesDirectory
-            = Nelson::NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        fullpathGuiSharedLibrary
-            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathGuiSharedLibrary;
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_libraryW(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
+    std::call_once(guiLibraryInitFlag, []() {
+        const std::wstring fullpathGuiSharedLibrary
+            = L"libnlsGui" + get_dynamic_library_extensionW();
+        const std::wstring nelsonLibrariesDirectory
+            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
+        const std::wstring libraryPath = nelsonLibrariesDirectory + L"/" + fullpathGuiSharedLibrary;
+
+        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(libraryPath);
+    });
 }
-//=============================================================================
+//===================================================================================
 void
 ProcessEventsDynamicFunction(bool bWait)
 {
@@ -40,13 +48,12 @@ ProcessEventsDynamicFunction(bool bWait)
     static PROC_ProcessEvents ProcessEventsPtr = nullptr;
     initGuiDynamicLibrary();
     if (ProcessEventsPtr == nullptr) {
-        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
-            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
+        ProcessEventsPtr = getFunctionPointer<PROC_ProcessEvents>("NelSonProcessEvents");
     }
     if (ProcessEventsPtr != nullptr) {
         ProcessEventsPtr(bWait);
     }
 }
-//=============================================================================
-}
-//=============================================================================
+//===================================================================================
+} // namespace Nelson
+//===================================================================================

@@ -26,22 +26,81 @@
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Error.hpp"
-#include "Warning.hpp"
 //===================================================================================
-static QApplication* NelSonQtApp = nullptr;
-static QtMainWindow* NelSonQtMainWindow = nullptr;
-static bool messageVerbose = false;
+class MainGuiObjectSingleton
+{
+private:
+    QApplication* nelSonQtApp = nullptr;
+    QtMainWindow* nelSonQtMainWindow = nullptr;
+    bool messageVerbose = false;
+
+    MainGuiObjectSingleton() = default;
+
+public:
+    MainGuiObjectSingleton(const MainGuiObjectSingleton&) = delete;
+    MainGuiObjectSingleton&
+    operator=(const MainGuiObjectSingleton&)
+        = delete;
+
+    static MainGuiObjectSingleton&
+    getInstance()
+    {
+        static MainGuiObjectSingleton instance;
+        return instance;
+    }
+
+    QApplication*
+    getQtApp() const
+    {
+        return nelSonQtApp;
+    }
+    void
+    setQtApp(QApplication* app)
+    {
+        nelSonQtApp = app;
+    }
+
+    QtMainWindow*
+    getMainWindow() const
+    {
+        return nelSonQtMainWindow;
+    }
+    void
+    setMainWindow(QtMainWindow* window)
+    {
+        nelSonQtMainWindow = window;
+    }
+
+    bool
+    isMessageVerbose() const
+    {
+        return messageVerbose;
+    }
+    void
+    setMessageVerbose(bool verbose)
+    {
+        messageVerbose = verbose;
+    }
+
+    void
+    reset()
+    {
+        nelSonQtApp = nullptr;
+        nelSonQtMainWindow = nullptr;
+        messageVerbose = false;
+    }
+};
 //===================================================================================
 void
 QtMessageVerbose(bool bVerbose)
 {
-    messageVerbose = bVerbose;
+    MainGuiObjectSingleton::getInstance().setMessageVerbose(bVerbose);
 }
 //===================================================================================
 bool
 IsQtMessageVerbose()
 {
-    return messageVerbose;
+    return MainGuiObjectSingleton::getInstance().isMessageVerbose();
 }
 //===================================================================================
 static void
@@ -49,7 +108,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
 {
     QByteArray localMsg = msg.toLocal8Bit();
     std::string str(localMsg);
-    if (!messageVerbose) {
+    if (!MainGuiObjectSingleton::getInstance().isMessageVerbose()) {
         return;
     }
     switch (type) {
@@ -74,31 +133,50 @@ static int argc = 1;
 void
 InitGuiObjects(void)
 {
-    qInstallMessageHandler(QtMessageOutput);
-    if (NelSonQtApp == nullptr) {
-        NelSonQtApp = new QApplication(argc, argv);
-        createNelsonPalette();
-        QCoreApplication::setApplicationName("Nelson");
-        QCoreApplication::setOrganizationDomain("https://nelson-lang.github.io/nelson-website/");
-        AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
-        configureDefaultFont();
+    auto& manager = MainGuiObjectSingleton::getInstance();
+    if (manager.getQtApp() != nullptr) {
+        return;
     }
+    qInstallMessageHandler(QtMessageOutput);
+
+    QApplication* qtApp = nullptr;
+    try {
+        qtApp = new QApplication(argc, argv);
+    } catch (const std::exception&) {
+        qtApp = nullptr;
+        return;
+    } catch (...) {
+        qtApp = nullptr;
+        return;
+    }
+    if (!qtApp) {
+        return;
+    }
+    manager.setQtApp(qtApp);
+    createNelsonPalette();
+    QCoreApplication::setApplicationName("Nelson");
+    QCoreApplication::setOrganizationDomain("https://nelson-lang.github.io/nelson-website/");
+    AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
+    configureDefaultFont();
 }
 //===================================================================================
 void*
 CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow, size_t ID)
 {
+    auto& manager = MainGuiObjectSingleton::getInstance();
     CreateConsole();
+    QtMainWindow* mainWindow = nullptr;
     try {
-        NelSonQtMainWindow = new QtMainWindow(minimizeWindow);
+        mainWindow = new QtMainWindow(minimizeWindow);
     } catch (std::bad_alloc&) {
-        NelSonQtMainWindow = nullptr;
+        mainWindow = nullptr;
     }
 
-    if (NelSonQtMainWindow) {
+    if (mainWindow) {
+        manager.setMainWindow(mainWindow);
         GuiTerminal* nlsTerm = nullptr;
         try {
-            nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+            nlsTerm = new GuiTerminal((void*)mainWindow);
         } catch (std::bad_alloc&) {
             nlsTerm = nullptr;
         }
@@ -110,8 +188,8 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow
                 mainEvaluator = nullptr;
             }
             if (mainEvaluator) {
-                NelSonQtMainWindow->createDockWigdets(mainEvaluator);
-                NelsonConfiguration::getInstance()->setMainGuiObject((void*)NelSonQtMainWindow);
+                mainWindow->createDockWigdets(mainEvaluator);
+                NelsonConfiguration::getInstance()->setMainGuiObject((void*)mainWindow);
             }
             return (void*)mainEvaluator;
         }
@@ -122,21 +200,18 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow
 void
 DestroyMainGuiObject(void* term)
 {
-    if (NelSonQtApp) {
-        if (NelSonQtMainWindow && !NelSonQtMainWindow->isClose()) {
-            NelSonQtMainWindow->declareAsClosed();
-            QApplication::sendEvent(NelSonQtMainWindow, new QCloseEvent());
+    if (!NelsonConfiguration::getInstance()->isClosing()) {
+        NelsonConfiguration::getInstance()->setAsClosing(true);
 
-            NelSonQtMainWindow->deleteLater();
-            NelSonQtMainWindow = nullptr;
-        }
+        auto& manager = MainGuiObjectSingleton::getInstance();
+        QApplication::closeAllWindows();
         if (term) {
             auto* nlsTerm = static_cast<GuiTerminal*>(term);
             delete nlsTerm;
             nlsTerm = nullptr;
         }
-        delete NelSonQtApp;
-        NelSonQtApp = nullptr;
+        delete manager.getQtApp();
+        manager.reset();
     }
     DestroyConsole();
 }
@@ -144,7 +219,7 @@ DestroyMainGuiObject(void* term)
 void*
 GetMainGuiObject(void)
 {
-    return (void*)NelSonQtMainWindow;
+    return (void*)MainGuiObjectSingleton::getInstance().getMainWindow();
 }
 //===================================================================================
 bool
@@ -153,10 +228,11 @@ QtSetLookAndFeel(const std::wstring& lf)
     bool res = false;
     QStyle* qStyle = QStyleFactory::create(wstringToQString(lf));
     if (qStyle) {
-        if (NelSonQtApp) {
-            NelSonQtApp->setStyleSheet("");
-            NelSonQtApp->setStyle(qStyle);
-            NelSonQtApp->setPalette(getNelsonPalette());
+        QApplication* qtApp = MainGuiObjectSingleton::getInstance().getQtApp();
+        if (qtApp) {
+            qtApp->setStyleSheet("");
+            qtApp->setStyle(qStyle);
+            qtApp->setPalette(getNelsonPalette());
             res = true;
         }
     }
@@ -167,8 +243,9 @@ std::wstring
 QtGetLookAndFeel()
 {
     std::wstring lf;
-    if (NelSonQtApp) {
-        QStyle* qtStyle = NelSonQtApp->style();
+    QApplication* qtApp = MainGuiObjectSingleton::getInstance().getQtApp();
+    if (qtApp) {
+        QStyle* qtStyle = qtApp->style();
         if (qtStyle) {
             lf = QStringTowstring(qtStyle->objectName());
         }
@@ -180,8 +257,9 @@ std::wstring
 QtGetStyleSheet()
 {
     std::wstring styleSheet;
-    if (NelSonQtApp) {
-        styleSheet = QStringTowstring(NelSonQtApp->styleSheet());
+    QApplication* qtApp = MainGuiObjectSingleton::getInstance().getQtApp();
+    if (qtApp) {
+        styleSheet = QStringTowstring(qtApp->styleSheet());
     }
     return styleSheet;
 }
@@ -189,8 +267,9 @@ QtGetStyleSheet()
 void
 QtSetStyleSheet(const std::wstring& styleSheet)
 {
-    if (NelSonQtApp) {
-        NelSonQtApp->setStyleSheet(wstringToQString(styleSheet));
+    QApplication* qtApp = MainGuiObjectSingleton::getInstance().getQtApp();
+    if (qtApp) {
+        qtApp->setStyleSheet(wstringToQString(styleSheet));
     }
 }
 //===================================================================================

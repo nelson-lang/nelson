@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <memory>
 #include "AdvancedTerminal.hpp"
 #include "MainEvaluator.hpp"
 #include "BasicTerminal.hpp"
@@ -28,94 +29,102 @@ namespace Nelson {
 Evaluator*
 createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow)
 {
-    Evaluator* mainEvaluator = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    auto& config = *NelsonConfiguration::getInstance();
+    std::unique_ptr<Evaluator> mainEvaluator;
     size_t mainEvaluatorID = 0;
     setDefaultMaxNumCompThreads();
-    if (mainEvaluator == nullptr) {
-        Context* context = nullptr;
+    if (config.getMainEvaluator() == nullptr) {
+        std::unique_ptr<Context> context;
         try {
-            context = new Context;
-        } catch (std::bad_alloc&) {
+            context = std::make_unique<Context>();
+        } catch (const std::bad_alloc&) {
             context = nullptr;
         }
         std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-        NelsonConfiguration::getInstance()->setMainGuiObject(nullptr);
+        config.setMainGuiObject(nullptr);
 
-        if (context != nullptr) {
-            std::string msg = _("This mode is not yet implemented.\n");
+        if (context) {
+            const std::string msg = _("This mode is not yet implemented.\n");
             switch (_mode) {
             case ADVANCED_SIO_CLIENT:
-            case BASIC_ENGINE: {
+            case BASIC_ENGINE:
                 fprintf(stderr, "%s", msg.c_str());
                 exit(1);
-            } break;
-            case ADVANCED_ENGINE: {
+                break;
+            case ADVANCED_ENGINE:
                 InitGuiObjectsDynamic();
                 fprintf(stderr, "%s", msg.c_str());
                 exit(1);
-            } break;
+                break;
             case BASIC_SIO_CLIENT: {
-                SioClientInterface* nlsTerm = nullptr;
+                std::unique_ptr<SioClientInterface> nlsTerm;
                 try {
-                    nlsTerm = new SioClientInterface();
-                } catch (std::bad_alloc&) {
-                    nlsTerm = nullptr;
+                    nlsTerm = std::make_unique<SioClientInterface>();
+                } catch (const std::bad_alloc&) {
                 }
-                if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, false, mainEvaluatorID);
+                if (nlsTerm) {
+                    mainEvaluator = std::make_unique<Evaluator>(
+                        context.release(), nlsTerm.release(), false, mainEvaluatorID);
                 }
-            } break;
+                break;
+            }
             case BASIC_TERMINAL: {
-                BasicTerminal* nlsTerm = nullptr;
+                std::unique_ptr<BasicTerminal> nlsTerm;
                 try {
-                    nlsTerm = new BasicTerminal();
-                } catch (std::bad_alloc&) {
-                    nlsTerm = nullptr;
+                    nlsTerm = std::make_unique<BasicTerminal>();
+                } catch (const std::bad_alloc&) {
                 }
-                if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, false, mainEvaluatorID);
+                if (nlsTerm) {
+                    mainEvaluator = std::make_unique<Evaluator>(
+                        context.release(), nlsTerm.release(), false, mainEvaluatorID);
                 }
-            } break;
+                break;
+            }
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();
-                AdvancedTerminal* nlsTerm = nullptr;
+                std::unique_ptr<AdvancedTerminal> nlsTerm;
                 try {
-                    nlsTerm = new AdvancedTerminal();
-                } catch (std::bad_alloc&) {
-                    nlsTerm = nullptr;
+                    nlsTerm = std::make_unique<AdvancedTerminal>();
+                } catch (const std::bad_alloc&) {
                 }
-                if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, true, mainEvaluatorID);
+                if (nlsTerm) {
+                    mainEvaluator = std::make_unique<Evaluator>(
+                        context.release(), nlsTerm.release(), true, mainEvaluatorID);
                 }
-            } break;
-            case GUI: {
+                break;
+            }
+            case GUI:
                 InitGuiObjectsDynamic();
-                mainEvaluator = static_cast<Evaluator*>(CreateGuiEvaluatorDynamic(
-                    (void*)context, _mode, minimizeWindow, mainEvaluatorID));
-            } break;
+                mainEvaluator = std::unique_ptr<Evaluator>(static_cast<Evaluator*>(
+                    CreateGuiEvaluatorDynamic(static_cast<void*>(context.release()), _mode,
+                        minimizeWindow, mainEvaluatorID)));
+                break;
             default: {
-                std::string _msg = _("unknow engine.\n");
+                const std::string _msg = _("unknow engine.\n");
                 fprintf(stderr, "%s", _msg.c_str());
                 exit(1);
-            } break;
+                break;
+            }
             }
         }
-        NelsonConfiguration::getInstance()->setMainEvaluator((void*)mainEvaluator);
+        config.setMainEvaluator(static_cast<void*>(mainEvaluator.get()));
         Localization::Instance()->setLanguage(effectiveLang, false);
+    } else {
+        mainEvaluator.reset(static_cast<Evaluator*>(config.getMainEvaluator()));
     }
-    return mainEvaluator;
+    return mainEvaluator.release();
 }
 //=============================================================================
 bool
 destroyMainEvaluator()
 {
-    Evaluator* mainEvaluator = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
-    if (mainEvaluator != nullptr) {
+    auto& config = *NelsonConfiguration::getInstance();
+    std::unique_ptr<Evaluator> mainEvaluator(static_cast<Evaluator*>(config.getMainEvaluator()));
+    if (mainEvaluator) {
         Context* ctxt = mainEvaluator->getContext();
         if (ctxt != nullptr) {
-            // delete all functions (builtin, macros, variables)
-            ClearAllVariables(mainEvaluator);
-            ClearAllGlobalVariables(mainEvaluator);
+            ClearAllVariables(mainEvaluator.get());
+            ClearAllGlobalVariables(mainEvaluator.get());
             ModulesManager::Instance().deleteAllModules();
             delete ctxt;
             ctxt = nullptr;
@@ -123,38 +132,38 @@ destroyMainEvaluator()
         PathFunctionIndexerManager::getInstance()->destroy();
         Interface* io = mainEvaluator->getInterface();
         if (io != nullptr) {
-            int engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+            int engineMode = config.getNelsonEngineMode();
             switch (engineMode) {
             case ADVANCED_SIO_CLIENT:
             case BASIC_SIO_CLIENT:
-            case BASIC_ENGINE: {
-            } break;
-            case ADVANCED_ENGINE: {
+            case BASIC_ENGINE:
+                break;
+            case ADVANCED_ENGINE:
                 DestroyMainGuiObjectDynamic(nullptr);
-            } break;
-            case GUI: {
-                DestroyMainGuiObjectDynamic((void*)io);
-            } break;
+                break;
+            case GUI:
+                DestroyMainGuiObjectDynamic(static_cast<void*>(io));
+                break;
             case BASIC_TERMINAL: {
-                auto* nlsTerm = (BasicTerminal*)io;
+                auto* nlsTerm = static_cast<BasicTerminal*>(io);
                 delete nlsTerm;
                 nlsTerm = nullptr;
-            } break;
+                break;
+            }
             case ADVANCED_TERMINAL: {
-                AdvancedTerminal* nlsTerm = (AdvancedTerminal*)io;
+                auto* nlsTerm = static_cast<AdvancedTerminal*>(io);
                 delete nlsTerm;
                 nlsTerm = nullptr;
                 DestroyMainGuiObjectDynamic(nullptr);
-            } break;
-            default: {
-            } break;
+                break;
+            }
+            default:
+                break;
             }
         }
         BuiltInFunctionDefManager::getInstance()->destroy();
         Localization::Instance()->destroy();
-        delete mainEvaluator;
-        mainEvaluator = nullptr;
-        NelsonConfiguration::getInstance()->setMainEvaluator(nullptr);
+        config.setMainEvaluator(nullptr);
         return true;
     }
     return false;

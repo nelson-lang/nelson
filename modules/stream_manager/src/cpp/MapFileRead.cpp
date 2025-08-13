@@ -184,10 +184,6 @@ MapFileReadInternal(const std::wstring& filename, const std::wstring& eol,
             data.reserve(fileSize);
             data.assign(
                 std::istreambuf_iterator<char>(fileStream), std::istreambuf_iterator<char>());
-            if (data.size() != fileSize) {
-                errorMessage = _W("Error reading file.");
-                return false;
-            }
         } else {
             // Large files: read in adaptive blocks
             constexpr std::size_t ADAPTIVE_BLOCK_SIZE_DIVISOR = 100;
