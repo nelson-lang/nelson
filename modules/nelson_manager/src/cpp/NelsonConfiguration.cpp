@@ -44,6 +44,7 @@ NelsonConfiguration::NelsonConfiguration()
     editorCommandLine = L"";
     ompThreshold = OMP_DEFAULT_THRESHOLD;
     ompEnable = true;
+    m_isClosing = false;
 }
 //=============================================================================
 

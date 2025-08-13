@@ -15,33 +15,43 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "HistoryBrowser.hpp"
+#include "MainGuiObject.hpp"
 //=============================================================================
-static QtTerminal* qtterm = nullptr;
-static QtMainWindow* qtMainWindow = nullptr;
+QtTerminal*
+getQtTerminalInstance()
+{
+    QtMainWindow* mainWindow = static_cast<QtMainWindow*>(GetMainGuiObject());
+    return mainWindow ? mainWindow->getQtTerminal() : nullptr;
+}
+//=============================================================================
+QtMainWindow*
+getQtMainWindowInstance()
+{
+    return static_cast<QtMainWindow*>(GetMainGuiObject());
+}
 //=============================================================================
 GuiTerminal::GuiTerminal(void* qtMainW)
 {
-    qtMainWindow = reinterpret_cast<QtMainWindow*>(qtMainW);
-    qtterm = qtMainWindow->getQtTerminal();
-    qtterm->setMaxBlockCount(DEFAULT_CONSOLE_MAX_LINE_VISIBLE);
+    QtMainWindow* qtMainWindow = reinterpret_cast<QtMainWindow*>(qtMainW);
+    QtTerminal* qtterm = qtMainWindow ? qtMainWindow->getQtTerminal() : nullptr;
+    if (qtterm) {
+        qtterm->setMaxBlockCount(DEFAULT_CONSOLE_MAX_LINE_VISIBLE);
+    }
 }
 //=============================================================================
-GuiTerminal::~GuiTerminal()
-{
-    qtterm = nullptr;
-    qtMainWindow = nullptr;
-}
+GuiTerminal::~GuiTerminal() { }
 //=============================================================================
 void*
 GuiTerminal::getQtPointer()
 {
-    return (void*)qtterm;
+    return (void*)getQtTerminalInstance();
 }
 //=============================================================================
 std::wstring
 GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     std::wstring line;
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         this->diary.writeMessage(L"\n");
         this->diary.writeMessage(prompt);
@@ -90,6 +100,7 @@ size_t
 GuiTerminal::getTerminalWidth()
 {
     size_t width = DEFAULT_CONSOLE_WIDTH;
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         width = qtterm->getTerminalWidth();
     }
@@ -100,16 +111,17 @@ size_t
 GuiTerminal::getTerminalHeight()
 {
     size_t width = DEFAULT_CONSOLE_HEIGHT;
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         width = qtterm->getTerminalHeight();
     }
     return width;
 }
 //=============================================================================
-
 void
 GuiTerminal::outputMessage(const std::string& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
         this->outputMessage(wmsg);
@@ -119,6 +131,7 @@ GuiTerminal::outputMessage(const std::string& msg)
 void
 GuiTerminal::outputMessage(const std::wstring& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring _msg = msg;
         if (qtterm->isAtPrompt()) {
@@ -133,6 +146,7 @@ GuiTerminal::outputMessage(const std::wstring& msg)
 void
 GuiTerminal::errorMessage(const std::string& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
         this->errorMessage(wmsg);
@@ -142,6 +156,7 @@ GuiTerminal::errorMessage(const std::string& msg)
 void
 GuiTerminal::errorMessage(const std::wstring& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring _msg = msg + L"\n";
         if (qtterm->isAtPrompt()) {
@@ -156,6 +171,7 @@ GuiTerminal::errorMessage(const std::wstring& msg)
 void
 GuiTerminal::warningMessage(const std::string& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
         this->warningMessage(wmsg);
@@ -165,6 +181,7 @@ GuiTerminal::warningMessage(const std::string& msg)
 void
 GuiTerminal::warningMessage(const std::wstring& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         std::wstring _msg = msg + L"\n";
         if (qtterm->isAtPrompt()) {
@@ -179,6 +196,7 @@ GuiTerminal::warningMessage(const std::wstring& msg)
 void
 GuiTerminal::clearTerminal()
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         qtterm->clearTerminal();
     }
@@ -187,6 +205,7 @@ GuiTerminal::clearTerminal()
 void
 GuiTerminal::banner()
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         qtterm->banner();
     }
@@ -195,6 +214,7 @@ GuiTerminal::banner()
 void
 GuiTerminal::insertHtml(const std::wstring& msg)
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         qtterm->insertHtml(msg);
         this->diary.writeMessage(msg);
@@ -204,6 +224,7 @@ GuiTerminal::insertHtml(const std::wstring& msg)
 int
 GuiTerminal::getBufferScreenLine()
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         return qtterm->getMaxBlockCount();
     }
@@ -218,6 +239,7 @@ GuiTerminal::setBufferScreenLine(int newMax)
 bool
 GuiTerminal::isAtPrompt()
 {
+    QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
         return qtterm->isAtPrompt();
     }
@@ -227,6 +249,7 @@ GuiTerminal::isAtPrompt()
 void
 GuiTerminal::interruptGetLineByEvent()
 {
+    QtMainWindow* qtMainWindow = getQtMainWindowInstance();
     QEvent* qEvent = nullptr;
     try {
         qEvent = new QEvent(QEvent::None);

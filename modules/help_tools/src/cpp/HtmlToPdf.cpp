@@ -7,64 +7,90 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/function.hpp>
 #include "HtmlToPdf.hpp"
+#include "DynamicLibrary.hpp"
+#include <cstdio>
+#include <string>
+#include <mutex>
+#include <stdexcept>
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
-//=============================================================================
+//===================================================================================
 namespace Nelson {
-static library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
-//=============================================================================
+//===================================================================================
+namespace {
+    library_handle nlsGuiHandleDynamicLibrary = nullptr;
+    std::once_flag guiLibraryInitFlag;
+
+    void
+    logErrorAndThrow(const std::string& message)
+    {
+        const std::string msg = _(message.c_str());
+        const std::string error_msg = get_dynamic_library_error();
+        if (!error_msg.empty()) {
+            Error(msg + "\n" + error_msg);
+        } else {
+            Error(msg);
+        }
+    }
+
+    template <typename FuncPtr>
+    FuncPtr
+    getFunctionPointer(const char* functionName)
+    {
+        auto funcPtr
+            = reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
+        if (funcPtr == nullptr) {
+            logErrorAndThrow("Gui Function not loaded.");
+        }
+        return funcPtr;
+    }
+}
+//===================================================================================
 static void
 initGuiDynamicLibrary()
 {
-    if (bFirstDynamicLibraryCall) {
-        std::wstring fullpathGuiSharedLibrary = L"libnlsGui" + get_dynamic_library_extensionW();
-        std::wstring nelsonLibrariesDirectory
+    std::call_once(guiLibraryInitFlag, []() {
+        const std::wstring fullpathGuiSharedLibrary
+            = L"libnlsGui" + get_dynamic_library_extensionW();
+        const std::wstring nelsonLibrariesDirectory
             = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        fullpathGuiSharedLibrary
-            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathGuiSharedLibrary;
-        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary) {
-            bFirstDynamicLibraryCall = false;
+        const std::wstring libraryPath = nelsonLibrariesDirectory + L"/" + fullpathGuiSharedLibrary;
+
+        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(libraryPath);
+        if (nlsGuiHandleDynamicLibrary == nullptr) {
+            logErrorAndThrow("Gui module not loaded.");
         }
-    }
+    });
 }
-//=============================================================================
+//===================================================================================
 bool
 HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename)
 {
     using PROC_HtmlFileToPdfFile = bool (*)(std::wstring, std::wstring);
     static PROC_HtmlFileToPdfFile HtmlFileToPdfFilePtr = nullptr;
+
     initGuiDynamicLibrary();
-    if (!HtmlFileToPdfFilePtr) {
-        HtmlFileToPdfFilePtr = reinterpret_cast<PROC_HtmlFileToPdfFile>(
-            get_function(nlsGuiHandleDynamicLibrary, "HtmlFileToPdfFile"));
-        if (!HtmlFileToPdfFilePtr) {
-            Error(_W("HtmlFileToPdfFile not loaded."));
-        }
+    if (HtmlFileToPdfFilePtr == nullptr) {
+        HtmlFileToPdfFilePtr = getFunctionPointer<PROC_HtmlFileToPdfFile>("HtmlFileToPdfFile");
     }
     return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
 }
-//=============================================================================
+//===================================================================================
 bool
 HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename)
 {
     using PROC_HtmlStreamToPdfFile = bool (*)(std::wstring, std::wstring);
     static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;
+
     initGuiDynamicLibrary();
-    if (!HtmlStreamToPdfFilePtr) {
-        HtmlStreamToPdfFilePtr = reinterpret_cast<PROC_HtmlStreamToPdfFile>(
-            get_function(nlsGuiHandleDynamicLibrary, "HtmlStreamToPdfFile"));
-        if (!HtmlStreamToPdfFilePtr) {
-            Error(_W("HtmlStreamToPdfFile not loaded."));
-        }
+    if (HtmlStreamToPdfFilePtr == nullptr) {
+        HtmlStreamToPdfFilePtr
+            = getFunctionPointer<PROC_HtmlStreamToPdfFile>("HtmlStreamToPdfFile");
     }
     return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);
 }
-//=============================================================================
-}
-//=============================================================================
+//===================================================================================
+} // namespace Nelson
+//===================================================================================

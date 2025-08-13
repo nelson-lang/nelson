@@ -15,6 +15,9 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+class QtTerminal;
+class QtMainWindow;
+//=============================================================================
 class NLSGUI_IMPEXP GuiTerminal : public Interface
 {
 public:
@@ -83,5 +86,8 @@ public:
 private:
     std::wstring
     getTextLine(const std::wstring& prompt, bool bIsInput = false);
+
+    QtTerminal* qtterm;
+    QtMainWindow* qtMainWindow;
 };
 //=============================================================================

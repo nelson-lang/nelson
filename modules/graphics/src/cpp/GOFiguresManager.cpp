@@ -18,35 +18,95 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::map<int64, GOWindow*> hFigures;
-static int64 GOCurrentFig = NO_FIGURE;
-static QWidget* _currentFocus = nullptr;
-// static NonClosableWidget* wid = nullptr;
-// static bool NonGUIModeHack = false;
+class GOFiguresManagerSingleton
+{
+private:
+    std::map<int64, GOWindow*> hFigures;
+    int64 GOCurrentFig = NO_FIGURE;
+    QWidget* _currentFocus = nullptr;
+
+    GOFiguresManagerSingleton() = default;
+
+public:
+    GOFiguresManagerSingleton(const GOFiguresManagerSingleton&) = delete;
+    GOFiguresManagerSingleton&
+    operator=(const GOFiguresManagerSingleton&)
+        = delete;
+
+    static GOFiguresManagerSingleton&
+    getInstance()
+    {
+        static GOFiguresManagerSingleton instance;
+        return instance;
+    }
+
+    std::map<int64, GOWindow*>&
+    getFigures()
+    {
+        return hFigures;
+    }
+    const std::map<int64, GOWindow*>&
+    getFigures() const
+    {
+        return hFigures;
+    }
+
+    int64
+    getCurrentFig() const
+    {
+        return GOCurrentFig;
+    }
+    void
+    setCurrentFig(int64 fig)
+    {
+        GOCurrentFig = fig;
+    }
+
+    QWidget*
+    getCurrentFocus() const
+    {
+        return _currentFocus;
+    }
+    void
+    setCurrentFocus(QWidget* focus)
+    {
+        _currentFocus = focus;
+    }
+
+    void
+    clear()
+    {
+        hFigures.clear();
+        GOCurrentFig = NO_FIGURE;
+        _currentFocus = nullptr;
+    }
+};
 //=============================================================================
 void
 saveFocus()
 {
-    _currentFocus = qApp->focusWidget();
+    GOFiguresManagerSingleton::getInstance().setCurrentFocus(qApp->focusWidget());
 }
 //=============================================================================
 void
 restoreFocus()
 {
-    if (_currentFocus) {
-        _currentFocus->setFocus();
+    QWidget* currentFocus = GOFiguresManagerSingleton::getInstance().getCurrentFocus();
+    if (currentFocus) {
+        currentFocus->setFocus();
     }
 }
 //=============================================================================
 std::map<int64, GOWindow*>
 getFigureList()
 {
-    return hFigures;
+    return GOFiguresManagerSingleton::getInstance().getFigures();
 }
 //=============================================================================
 int64
 findAvailableFigureId()
 {
+    auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
     int64 figureNumber = 0;
     bool figureAvailable = false;
     while ((figureNumber < MAX_FIGS) && !figureAvailable) {
@@ -64,6 +124,9 @@ findAvailableFigureId()
 int64
 createNewFigure(bool show)
 {
+    auto& manager = GOFiguresManagerSingleton::getInstance();
+    auto& hFigures = manager.getFigures();
+
     int64 figNum = findAvailableFigureId();
     checkIdValidity(figNum);
     hFigures[figNum] = new GOWindow(figNum);
@@ -72,42 +135,49 @@ createNewFigure(bool show)
         hFigures[figNum]->show();
         restoreFocus();
     }
-    GOCurrentFig = figNum;
-    return GOCurrentFig;
+    manager.setCurrentFig(figNum);
+    return manager.getCurrentFig();
 }
 //=============================================================================
 int64
 selectFigure(int64 fignum, bool show)
 {
+    auto& manager = GOFiguresManagerSingleton::getInstance();
+    auto& hFigures = manager.getFigures();
+
     checkIdValidity(fignum);
     if (hFigures.count(fignum) == 0
         || ((hFigures.count(fignum) == 1) && getFigure(fignum) == nullptr)) {
         hFigures[fignum] = new GOWindow(fignum);
     }
-    GOCurrentFig = fignum;
+    manager.setCurrentFig(fignum);
     if (show) {
         saveFocus();
         hFigures[fignum]->show();
         hFigures[fignum]->raise();
         restoreFocus();
     }
-    return GOCurrentFig;
+    return manager.getCurrentFig();
 }
 //=============================================================================
 GOFigure*
 getCurrentGOFigure()
 {
-    if (GOCurrentFig == NO_FIGURE) {
+    auto& manager = GOFiguresManagerSingleton::getInstance();
+    auto& hFigures = manager.getFigures();
+
+    if (manager.getCurrentFig() == NO_FIGURE) {
         createNewFigure();
     }
-    return hFigures[GOCurrentFig]->getGOFigure();
+    return hFigures[manager.getCurrentFig()]->getGOFigure();
 }
 //=============================================================================
 GOWindow*
 getFigure(int64 id)
 {
-    if (hFigures.count(id) == 1 && hFigures[id] != nullptr) {
-        return hFigures[id];
+    const auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
+    if (hFigures.count(id) == 1 && hFigures.at(id) != nullptr) {
+        return hFigures.at(id);
     }
     return nullptr;
 }
@@ -115,11 +185,11 @@ getFigure(int64 id)
 std::vector<int64>
 getFigureGraphicsObjects()
 {
-    std::map<int64, GOWindow*>::iterator it;
+    const auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
     std::vector<int64> gos;
-    for (it = hFigures.begin(); it != hFigures.end(); ++it) {
-        if (it->second) {
-            gos.push_back(it->first);
+    for (const auto& it : hFigures) {
+        if (it.second) {
+            gos.push_back(it.first);
         }
     }
     return gos;
@@ -128,20 +198,21 @@ getFigureGraphicsObjects()
 int64
 getCurrentFigure()
 {
-    return GOCurrentFig;
+    return GOFiguresManagerSingleton::getInstance().getCurrentFig();
 }
 //=============================================================================
 void
 notifyCurrentFigureChanged(int64 figNum)
 {
-    GOCurrentFig = figNum;
+    GOFiguresManagerSingleton::getInstance().setCurrentFig(figNum);
 }
 //=============================================================================
 GOWindow*
 getHandleWindow(int64 fignum)
 {
+    const auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
     if (hFigures.count(fignum) == 1) {
-        return hFigures[fignum];
+        return hFigures.at(fignum);
     }
     return nullptr;
 }
@@ -149,17 +220,16 @@ getHandleWindow(int64 fignum)
 void
 initializeGraphic()
 {
-    hFigures.clear();
-    GOCurrentFig = NO_FIGURE;
+    GOFiguresManagerSingleton::getInstance().clear();
 }
 //=============================================================================
 void
 shutdownGraphic()
 {
-    std::map<int64, GOWindow*>::iterator it;
-    for (it = hFigures.begin(); it != hFigures.end(); ++it) {
-        if (it->second) {
-            closeFigure(it->first);
+    const auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
+    for (const auto& it : hFigures) {
+        if (it.second) {
+            closeFigure(it.first);
         }
     }
 }
@@ -167,6 +237,9 @@ shutdownGraphic()
 bool
 closeFigure(go_handle fignum, bool forceClose)
 {
+    auto& manager = GOFiguresManagerSingleton::getInstance();
+    auto& hFigures = manager.getFigures();
+
     GOWindow* win = getFigure(fignum);
     if (win) {
         if (forceClose) {
@@ -193,12 +266,12 @@ closeFigure(go_handle fignum, bool forceClose)
         }
         win = nullptr;
         hFigures[fignum] = nullptr;
-        if (GOCurrentFig == fignum) {
+        if (manager.getCurrentFig() == fignum) {
             std::vector<int64> nums = getFigureGraphicsObjects();
             if (nums.empty()) {
-                GOCurrentFig = NO_FIGURE;
+                manager.setCurrentFig(NO_FIGURE);
             } else {
-                GOCurrentFig = nums.back();
+                manager.setCurrentFig(nums.back());
             }
         }
         return true;

@@ -17,11 +17,6 @@
 #include <fcntl.h>
 #include <csignal>
 #endif
-#include <ctime>
-#include <thread>
-#include <chrono>
-#include <algorithm>
-#include <cstdio>
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
@@ -33,83 +28,124 @@
 #include "PredefinedErrorMessages.hpp"
 #include "SystemCommandTask.hpp"
 #include "nlsBuildConfig.h"
-//=============================================================================
+#include <ctime>
+#include <thread>
+#include <chrono>
+#include <algorithm>
+#include <cstdio>
+#include <memory>
+#include <mutex>
+//===================================================================================
 namespace Nelson {
-//=============================================================================
-static library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
-//=============================================================================
+//===================================================================================
+namespace {
+    library_handle nlsGuiHandleDynamicLibrary = nullptr;
+    std::once_flag guiLibraryInitFlag;
+
+    template <typename FuncPtr>
+    FuncPtr
+    getFunctionPointer(const char* functionName)
+    {
+        return reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
+    }
+}
+//===================================================================================
 static void
-ProcessEventsDynamicFunction();
-//=============================================================================
+initGuiDynamicLibrary()
+{
+    std::call_once(guiLibraryInitFlag, []() {
+        const std::wstring fullpathGuiSharedLibrary
+            = L"libnlsGui" + get_dynamic_library_extensionW();
+        const std::wstring nelsonLibrariesDirectory
+            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
+        const std::wstring libraryPath = nelsonLibrariesDirectory + L"/" + fullpathGuiSharedLibrary;
+
+        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(libraryPath);
+    });
+}
+//===================================================================================
 static void
-initGuiDynamicLibrary();
-//=============================================================================
+ProcessEventsDynamicFunction(bool bWait = false)
+{
+    using PROC_ProcessEvents = void (*)(bool);
+    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
+
+    initGuiDynamicLibrary();
+    if (ProcessEventsPtr == nullptr) {
+        ProcessEventsPtr = getFunctionPointer<PROC_ProcessEvents>("NelSonProcessEvents");
+    }
+    if (ProcessEventsPtr != nullptr) {
+        ProcessEventsPtr(bWait);
+    }
+}
+//===================================================================================
 std::tuple<int, std::wstring, uint64>
 SystemCommand(const std::wstring& command, uint64 timeout, bool withEventsLoop, size_t evaluatorID)
 {
-    std::vector<std::tuple<int, std::wstring, uint64>> results;
-    wstringVector commands;
-    commands.push_back(command);
-    std::vector<uint64> timeouts;
-    timeouts.push_back(timeout);
+    const wstringVector commands = { command };
+    const std::vector<uint64> timeouts = { timeout };
 
-    results = ParallelSystemCommand(commands, timeouts, withEventsLoop, evaluatorID);
+    auto results = ParallelSystemCommand(commands, timeouts, withEventsLoop, evaluatorID);
     if (results.size() != 1) {
         Error(_W("system does not return result."));
     }
     return results[0];
 }
-//=============================================================================
+//===================================================================================
 std::vector<std::tuple<int, std::wstring, uint64>>
 ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& timeouts,
     bool withEventsLoop, size_t evaluatorID)
 {
-    std::vector<std::tuple<int, std::wstring, uint64>> results;
-    size_t nbCommands = commands.size();
-    results.resize(nbCommands);
-    std::vector<SystemCommandTask*> taskList;
+    const size_t nbCommands = commands.size();
+    std::vector<std::tuple<int, std::wstring, uint64>> results(nbCommands);
+    std::vector<std::unique_ptr<SystemCommandTask>> taskList;
+    taskList.reserve(nbCommands);
+
 #if defined(__APPLE__) or (defined(_WIN32) && not defined(_WIN64))
-    for (ompIndexType k = 0; k < (ompIndexType)nbCommands; k++) {
-        SystemCommandTask* task = new SystemCommandTask();
-        taskList.push_back(task);
+
+    for (size_t k = 0; k < nbCommands; k++) {
+        taskList.emplace_back(std::make_unique<SystemCommandTask>());
     }
+
 #if not defined(__APPLE__)
 #if WITH_OPENMP
 #pragma omp parallel for
 #endif
 #endif
-    for (ompIndexType k = 0; k < (ompIndexType)nbCommands; k++) {
+    for (ompIndexType k = 0; k < static_cast<ompIndexType>(nbCommands); k++) {
         taskList[k]->evaluateCommand(commands[k], timeouts[k]);
     }
 #else
     std::vector<std::thread> threadList;
+    threadList.reserve(nbCommands);
     for (size_t k = 0; k < nbCommands; k++) {
         try {
-            SystemCommandTask* task = new SystemCommandTask();
-            taskList.push_back(task);
-            threadList.emplace_back([task, commands, timeouts, k]() {
-                task->evaluateCommand(commands[k], timeouts[k]);
+            taskList.emplace_back(std::make_unique<SystemCommandTask>());
+            threadList.emplace_back([&taskList, &commands, &timeouts, k]() {
+                taskList[k]->evaluateCommand(commands[k], timeouts[k]);
             });
-        } catch (std::bad_alloc&) {
+        } catch (const std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         }
     }
+
     bool allTasksFinished = false;
     do {
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
-            for (size_t k = 0; k < nbCommands; k++) {
-                taskList[k]->terminate();
+            for (auto& task : taskList) {
+                task->terminate();
             }
             for (auto& thread : threadList) {
-                thread.join();
+                if (thread.joinable()) {
+                    thread.join();
+                }
             }
             break;
         }
         if (withEventsLoop) {
             ProcessEventsDynamicFunction();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         allTasksFinished = std::all_of(threadList.begin(), threadList.end(),
             [](const auto& thread) { return thread.joinable(); });
@@ -120,65 +156,21 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
 
         if (allTasksFinished) {
             for (auto& thread : threadList) {
-                thread.join();
+                if (thread.joinable()) {
+                    thread.join();
+                }
             }
             break;
         }
     } while (!allTasksFinished);
-    threadList.clear();
 #endif
     for (size_t k = 0; k < nbCommands; k++) {
         if (taskList[k]) {
             results[k] = taskList[k]->getResult();
         }
     }
-    for (SystemCommandTask* task : taskList) {
-        if (task) {
-            delete task;
-            task = nullptr;
-        }
-    }
-    taskList.clear();
     return results;
 }
-//=============================================================================
-static void
-initGuiDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::wstring fullpathGuiSharedLibrary
-            = L"libnlsGui" + Nelson::get_dynamic_library_extensionW();
-        std::wstring nelsonLibrariesDirectory
-            = Nelson::NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        fullpathGuiSharedLibrary
-            = nelsonLibrariesDirectory + std::wstring(L"/") + fullpathGuiSharedLibrary;
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_libraryW(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
-}
-//=============================================================================
-static void
-ProcessEventsDynamicFunction(bool bWait)
-{
-    using PROC_ProcessEvents = void (*)(bool);
-    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
-    initGuiDynamicLibrary();
-    if (ProcessEventsPtr == nullptr) {
-        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
-            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
-    }
-    if (ProcessEventsPtr != nullptr) {
-        ProcessEventsPtr(bWait);
-    }
-}
-//=============================================================================
-void
-ProcessEventsDynamicFunction()
-{
-    ProcessEventsDynamicFunction(false);
-}
-//=============================================================================
+//===================================================================================
 } // namespace Nelson
-//=============================================================================
+//===================================================================================
